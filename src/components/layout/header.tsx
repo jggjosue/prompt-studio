@@ -3,11 +3,12 @@ import {
   ChevronDown,
   Wand2,
   Folder,
-  Home as HomeIcon,
   Compass,
   Star,
   Clapperboard,
   ImageIcon,
+  Tag,
+  Video,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -22,13 +23,16 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center">
-        <Link href="/" className="mr-auto flex items-center gap-2">
+        <Link
+          href="/"
+          className="mr-6 flex items-center gap-2"
+        >
           <Logo />
           <span className="hidden font-bold sm:inline-block font-headline">
             Prompt Studio
           </span>
         </Link>
-        <nav className="hidden items-center gap-4 text-sm font-medium md:flex">
+        <nav className="hidden items-center gap-4 text-sm font-medium md:flex flex-1 justify-center">
           <Link
             href="/"
             className="flex items-center gap-2 hover:text-foreground/80 transition-colors"
@@ -40,23 +44,60 @@ export default function Header() {
               Explore
               <ChevronDown className="h-4 w-4" />
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
+            <DropdownMenuContent
+              className="w-64"
+              align="start"
+            >
               <DropdownMenuItem asChild>
-                <Link href="/#gallery" className="flex items-center gap-2">
-                  <Compass className="h-4 w-4" />
-                  Community Gallery
+                <Link href="#" className="flex items-start gap-3">
+                  <div className="bg-primary/10 text-primary p-2 rounded-md">
+                    <Video className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="font-semibold">Video Prompts</p>
+                    <p className="text-xs text-muted-foreground">
+                      Browse AI video prompts
+                    </p>
+                  </div>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href="/#video-examples" className="flex items-center gap-2">
-                  <Clapperboard className="h-4 w-4" />
-                  Video Examples
+                <Link href="#" className="flex items-start gap-3">
+                  <div className="bg-primary/10 text-primary p-2 rounded-md">
+                    <Tag className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="font-semibold">Video Tags</p>
+                    <p className="text-xs text-muted-foreground">
+                      Browse AI video tags
+                    </p>
+                  </div>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href="/#image-examples" className="flex items-center gap-2">
-                  <ImageIcon className="h-4 w-4" />
-                  Image Examples
+                <Link href="#" className="flex items-start gap-3">
+                  <div className="bg-primary/10 text-primary p-2 rounded-md">
+                    <ImageIcon className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="font-semibold">Image Prompts</p>
+                    <p className="text-xs text-muted-foreground">
+                      Browse AI image prompts
+                    </p>
+                  </div>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="#" className="flex items-start gap-3">
+                  <div className="bg-primary/10 text-primary p-2 rounded-md">
+                    <Tag className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="font-semibold">Image Tags</p>
+                    <p className="text-xs text-muted-foreground">
+                      Browse AI image tags
+                    </p>
+                  </div>
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -74,7 +115,7 @@ export default function Header() {
               <ChevronDown className="h-4 w-4" />
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-               <DropdownMenuItem asChild>
+              <DropdownMenuItem asChild>
                 <Link href="/prompt/edit" className="flex items-center gap-2">
                   <ImageIcon className="h-4 w-4" />
                   AI Image
@@ -94,19 +135,19 @@ export default function Header() {
               My Library
               <ChevronDown className="h-4 w-4" />
             </DropdownMenuTrigger>
-             <DropdownMenuContent>
+            <DropdownMenuContent>
               <DropdownMenuItem asChild>
-                 <Link href="/login" className="flex items-center gap-2">
+                <Link href="/login" className="flex items-center gap-2">
                   My Creations
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                 <Link href="/login" className="flex items-center gap-2">
+                <Link href="/login" className="flex items-center gap-2">
                   My Collections
                 </Link>
               </DropdownMenuItem>
-               <DropdownMenuItem asChild>
-                 <Link href="/login" className="flex items-center gap-2">
+              <DropdownMenuItem asChild>
+                <Link href="/login" className="flex items-center gap-2">
                   Favorites
                 </Link>
               </DropdownMenuItem>
