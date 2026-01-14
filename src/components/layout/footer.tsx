@@ -31,14 +31,14 @@ export default function Footer() {
               className="flex items-center gap-2 text-foreground font-bold text-lg font-headline"
             >
               <Logo />
-              <span>Visionary Vault</span>
+              <span>Prompt Studio</span>
             </Link>
             <p className="text-sm">
               Your ultimate collection of AI video prompts. Gather inspiration,
               explore examples, and create stunning videos with AI.
             </p>
             <p className="text-xs pt-4">
-              © {new Date().getFullYear()} Visionary Vault. All rights reserved.
+              © {new Date().getFullYear()} Prompt Studio. All rights reserved.
             </p>
           </div>
           <div className="md:col-span-3 grid grid-cols-2 md:grid-cols-3 gap-8">
@@ -83,11 +83,11 @@ export default function Footer() {
               <ul className="space-y-3">
                 <li>
                   <a
-                    href="mailto:hi@visionaryvault.io"
+                    href="mailto:hi@promptstudio.io"
                     className="flex items-center gap-2 text-sm hover:text-foreground transition-colors"
                   >
                     <Mail className="h-4 w-4" />
-                    hi@visionaryvault.io
+                    hi@promptstudio.io
                   </a>
                 </li>
               </ul>

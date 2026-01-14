@@ -22,7 +22,7 @@ export default function RegisterPage() {
           >
             <Logo />
             <span className="font-bold text-lg font-headline">
-              Visionary Vault
+              Prompt Studio
             </span>
           </Link>
           <CardTitle className="text-2xl font-headline">Sign Up</CardTitle>
