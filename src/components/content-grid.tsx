@@ -10,15 +10,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Card, CardContent } from '@/components/ui/card';
-import { Heart, PlayCircle } from 'lucide-react';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Heart, PlayCircle, Tag, Wand2 } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
 
 export default function ContentGrid() {
   const [filter, setFilter] = useState('all');
   const [sort, setSort] = useState('popular');
-  const router = useRouter();
 
   const filteredContent = useMemo(() => {
     let content = [...PlaceHolderImages];
@@ -65,44 +64,63 @@ export default function ContentGrid() {
           </Select>
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredContent.map(item => (
-          <Link key={item.id} href={`/gallery/${item.id}`}>
-            <Card className="overflow-hidden group h-full">
-              <CardContent className="p-0">
-                <div className="relative">
-                  <Image
-                    src={item.imageUrl}
-                    alt={item.description}
-                    width={600}
-                    height={400}
-                    className="w-full h-auto object-cover aspect-[3/2] transition-transform duration-300 group-hover:scale-105"
-                    data-ai-hint={item.imageHint}
-                  />
-                  {item.type === 'video' && (
-                    <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+          <Card key={item.id} className="overflow-hidden group h-full flex flex-col">
+             <CardHeader>
+               <CardTitle className="font-headline text-xl">{item.title}</CardTitle>
+               <CardDescription className="line-clamp-2">{item.description}</CardDescription>
+             </CardHeader>
+            <CardContent className="p-6 pt-0 space-y-4 flex-grow">
+               <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                 <Tag className="w-4 h-4" />
+                 <span>{item.tags.join(', ')}</span>
+               </div>
+              <div className="relative aspect-video rounded-md overflow-hidden">
+                {item.type === 'video' ? (
+                  <>
+                    <Image
+                      src={item.imageUrl}
+                      alt={item.description}
+                      fill
+                      className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
+                      data-ai-hint={item.imageHint}
+                    />
+                     <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
                       <PlayCircle className="w-12 h-12 text-white/80" />
                     </div>
-                  )}
-                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                    <p className="text-white text-sm line-clamp-2">
-                      {item.description}
-                    </p>
-                    <button
-                      onClick={e => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        router.push('/login');
-                      }}
-                      className="absolute top-2 right-2 p-1.5 bg-white/20 rounded-full text-white hover:bg-white/30 hover:text-red-500 transition-colors"
-                    >
-                      <Heart className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
+                  </>
+                ) : (
+                   <Image
+                    src={item.imageUrl}
+                    alt={item.description}
+                    fill
+                    className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
+                    data-ai-hint={item.imageHint}
+                  />
+                )}
+              </div>
+              {item.type === 'video' && <p className="text-sm text-muted-foreground">Duration: 5 seconds</p>}
+            </CardContent>
+            <CardFooter className="bg-muted/50 p-4 border-t gap-2">
+                <Button variant="outline" size="sm" asChild>
+                   <Link href="/login">
+                    <Heart className="w-4 h-4" />
+                   </Link>
+                </Button>
+                <Button size="sm" asChild>
+                   <Link href="/login">
+                    <Wand2 className="w-4 h-4 mr-2" />
+                    Use this prompt
+                   </Link>
+                </Button>
+                <Button variant="secondary" size="sm" asChild className="ml-auto">
+                   <Link href={`/gallery/${item.id}`}>
+                    View
+                   </Link>
+                </Button>
+            </CardFooter>
+          </Card>
         ))}
       </div>
     </div>
