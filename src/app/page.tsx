@@ -7,6 +7,8 @@ import Header from '@/components/layout/header';
 import Link from 'next/link';
 import ModelCarousel from '@/components/model-carousel';
 import VideoExamples from '@/components/video-examples';
+import ImageExamples from '@/components/image-examples';
+import Faq from '@/components/faq';
 
 export default function Home() {
   const examplePrompts = [
@@ -93,6 +95,22 @@ export default function Home() {
             <VideoExamples />
           </div>
         </section>
+
+        <section id="image-examples" className="w-full py-12 md:py-24 lg:py-28">
+          <div className="container">
+             <div className="flex flex-col items-center space-y-2 text-center mb-12">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
+                    Image Examples
+                </h2>
+                <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg">
+                    Explore stunning AI-generated images and the prompts that created them.
+                </p>
+            </div>
+            <ImageExamples />
+          </div>
+        </section>
+        
+        <Faq />
 
 
         <Separator className="my-8" />
