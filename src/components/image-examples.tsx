@@ -11,7 +11,7 @@ import Image from 'next/image';
 export default function ImageExamples() {
 
   const imageContent = useMemo(() => {
-    return PlaceHolderImages.filter(item => item.type === 'image').slice(0,3);
+    return PlaceHolderImages.filter(item => item.type === 'image').slice(0,9);
   }, []);
 
   return (
@@ -60,3 +60,5 @@ export default function ImageExamples() {
     </div>
   );
 }
+
+    
