@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Lightbulb, Clapperboard, Bot } from 'lucide-react';
 import Header from '@/components/layout/header';
 import Link from 'next/link';
+import ModelCarousel from '@/components/model-carousel';
 
 export default function Home() {
   const examplePrompts = [
@@ -50,6 +51,22 @@ export default function Home() {
             <div className="mx-auto w-full max-w-2xl pt-12">
               <PromptGenerator />
             </div>
+          </div>
+        </section>
+
+        <section className="w-full py-12 md:py-24 lg:py-28">
+          <div className="container">
+            <div className="flex flex-col items-center space-y-4 text-center mb-12">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
+                Powerful AI Models at Your Fingertips
+              </h2>
+              <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
+                Choose from industry-leading AI models for image and video
+                generation. Each model offers unique capabilities to bring your
+                creative vision to life.
+              </p>
+            </div>
+            <ModelCarousel />
           </div>
         </section>
 
