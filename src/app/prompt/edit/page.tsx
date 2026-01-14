@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Clapperboard, Image as ImageIcon, Sparkles, Wand2 } from 'lucide-react';
+import { Clapperboard, Image as ImageIcon, Sparkles, Wand2, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
 function PromptEditorContent() {
@@ -27,6 +27,14 @@ function PromptEditorContent() {
     <div className="flex min-h-screen w-full flex-col bg-background">
       <main className="flex-1 py-12 md:py-16">
         <div className="container max-w-5xl">
+          <div className="mb-8">
+            <Button variant="ghost" asChild size="sm">
+              <Link href="/">
+                <ArrowLeft className="mr-2" />
+                Back to Home
+              </Link>
+            </Button>
+          </div>
           <div className="flex flex-col items-center space-y-4 text-center mb-12">
             <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
               Create & Discover Stunning AI Videos & Images
