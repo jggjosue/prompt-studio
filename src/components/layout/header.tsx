@@ -138,17 +138,14 @@ export default function Header() {
             <DropdownMenuContent>
               <DropdownMenuItem asChild>
                 <Link href="/login" className="flex items-center gap-2">
-                  My Creations
+                  <Video className="h-4 w-4" />
+                  My Videos
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <Link href="/login" className="flex items-center gap-2">
-                  My Collections
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href="/login" className="flex items-center gap-2">
-                  Favorites
+                  <ImageIcon className="h-4 w-4" />
+                  My Images
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
