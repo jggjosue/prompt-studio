@@ -13,10 +13,12 @@ import {
 import { Card, CardContent } from '@/components/ui/card';
 import { Heart, PlayCircle } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function ContentGrid() {
   const [filter, setFilter] = useState('all');
   const [sort, setSort] = useState('popular');
+  const router = useRouter();
 
   const filteredContent = useMemo(() => {
     let content = [...PlaceHolderImages];
@@ -90,6 +92,7 @@ export default function ContentGrid() {
                       onClick={e => {
                         e.preventDefault();
                         e.stopPropagation();
+                        router.push('/login');
                       }}
                       className="absolute top-2 right-2 p-1.5 bg-white/20 rounded-full text-white hover:bg-white/30 hover:text-red-500 transition-colors"
                     >
