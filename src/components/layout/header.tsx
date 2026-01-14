@@ -22,7 +22,7 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center">
-        <Link href="/" className="mr-6 flex items-center gap-2">
+        <Link href="/" className="mr-auto flex items-center gap-2">
           <Logo />
           <span className="hidden font-bold sm:inline-block font-headline">
             Prompt Studio
@@ -113,8 +113,7 @@ export default function Header() {
             </DropdownMenuContent>
           </DropdownMenu>
         </nav>
-        <div className="flex-1"></div>
-        <div className="flex items-center gap-2">
+        <div className="ml-auto flex items-center gap-2">
           <Button variant="ghost" asChild>
             <Link href="/login">Login</Link>
           </Button>
