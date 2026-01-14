@@ -13,7 +13,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, PlayCircle, Heart, Download } from 'lucide-react';
+import { ArrowLeft, PlayCircle, Heart, Download, Wand2 } from 'lucide-react';
 import Link from 'next/link';
 import Header from '@/components/layout/header';
 import { Badge } from '@/components/ui/badge';
@@ -95,8 +95,12 @@ export default function GalleryDetailPage({
                     </Link>
                   </Button>
                   <Button size="sm" variant="secondary" asChild>
-                    <Link href="/login">
-                      <Download className="mr-2" />
+                    <Link
+                      href={`/prompt/edit?prompt=${encodeURIComponent(
+                        item.description
+                      )}`}
+                    >
+                      <Wand2 className="mr-2" />
                       Use this prompt
                     </Link>
                   </Button>
@@ -207,4 +211,3 @@ export default function GalleryDetailPage({
     </div>
   );
 }
-    
