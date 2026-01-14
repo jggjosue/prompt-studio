@@ -88,13 +88,17 @@ export default function GalleryDetailPage({
                   />
                 )}
                 <div className="absolute bottom-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Button size="sm">
-                    <Heart className="mr-2" />
-                    Like
+                  <Button size="sm" asChild>
+                    <Link href="/login">
+                      <Heart className="mr-2" />
+                      Like
+                    </Link>
                   </Button>
-                  <Button size="sm" variant="secondary">
-                    <Download className="mr-2" />
-                    Use this prompt
+                  <Button size="sm" variant="secondary" asChild>
+                    <Link href="/login">
+                      <Download className="mr-2" />
+                      Use this prompt
+                    </Link>
                   </Button>
                 </div>
               </div>
