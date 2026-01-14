@@ -1,3 +1,76 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "1",
+      "description": "A futuristic cityscape at night with flying vehicles and neon-lit skyscrapers.",
+      "imageUrl": "https://images.unsplash.com/photo-1536768139911-e290a59011e4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8ZnV0dXJpc3RpYyUyMGNpdHl8ZW58MHx8fHwxNzY4MzM1ODMyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "futuristic city"
+    },
+    {
+      "id": "2",
+      "description": "An astronaut contemplating a swirling galaxy from the edge of a crystalline planet.",
+      "imageUrl": "https://images.unsplash.com/photo-1454789548928-9efd52dc4031?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxzcGFjZSUyMGFzdHJvbmF1dHxlbnwwfHx8fDE3Njg0Mjc0MTB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "space astronaut"
+    },
+    {
+      "id": "3",
+      "description": "A bioluminescent forest where the trees and plants glow with an ethereal light.",
+      "imageUrl": "https://images.unsplash.com/photo-1624593995409-f5ed8fd830da?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxnbG93aW5nJTIwZm9yZXN0fGVufDB8fHx8MTc2ODQyNzQxMHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "glowing forest"
+    },
+    {
+      "id": "4",
+      "description": "A detailed close-up of a dragon's eye, reflecting a fiery landscape.",
+      "imageUrl": "https://images.unsplash.com/photo-1698227427736-e92e77a07a21?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxkcmFnb24lMjBleWV8ZW58MHx8fHwxNzY4NDE4OTI5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "dragon eye"
+    },
+    {
+      "id": "5",
+      "description": "A cyberpunk street market bustling with people and droids under the rain.",
+      "imageUrl": "https://images.unsplash.com/photo-1698663067543-a13d30e8203d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjeWJlcnB1bmslMjBtYXJrZXR8ZW58MHx8fHwxNzY4NDI3NDEwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cyberpunk market"
+    },
+    {
+      "id": "6",
+      "description": "An ancient, moss-covered library with books floating in mid-air.",
+      "imageUrl": "https://images.unsplash.com/photo-1621864066335-e9b8c491dee2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxtYWdpYyUyMGxpYnJhcnl8ZW58MHx8fHwxNzY4NDI3NDA5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "magic library"
+    },
+    {
+      "id": "7",
+      "description": "Portrait of a warrior queen with intricate, futuristic armor and a determined gaze.",
+      "imageUrl": "https://images.unsplash.com/photo-1686747517277-67f2ece2481b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHx3YXJyaW9yJTIwcXVlZW58ZW58MHx8fHwxNzY4NDI3NDA5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "warrior queen"
+    },
+    {
+      "id": "8",
+      "description": "A serene Japanese garden with a cherry blossom tree and a tranquil koi pond, but in a synthwave style.",
+      "imageUrl": "https://images.unsplash.com/photo-1687724733281-17ad9a0dcd8d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxzeW50aHdhdmUlMjBnYXJkZW58ZW58MHx8fHwxNzY4NDI3NDEwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "synthwave garden"
+    },
+    {
+      "id": "9",
+      "description": "A giant mechanical whale swimming through clouds above a mountain range.",
+      "imageUrl": "https://images.unsplash.com/photo-1746310126132-09574e392312?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxtZWNoYW5pY2FsJTIwd2hhbGV8ZW58MHx8fHwxNzY4NDI3NDEwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "mechanical whale"
+    },
+    {
+      "id": "10",
+      "description": "A hidden waterfall cascading into a crystal-clear grotto.",
+      "imageUrl": "https://images.unsplash.com/photo-1618113350234-67d625b0c68b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8aGlkZGVuJTIwd2F0ZXJmYWxsfGVufDB8fHx8MTc2ODQxNzU4Mnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "hidden waterfall"
+    },
+    {
+      "id": "11",
+      "description": "An abandoned spaceship reclaimed by nature, with vines and flowers growing over its hull.",
+      "imageUrl": "https://images.unsplash.com/photo-1625213141482-a6ba2e2a974b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxhYmFuZG9uZWQlMjBzcGFjZXNoaXB8ZW58MHx8fHwxNzY4NDI3NDA5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "abandoned spaceship"
+    },
+    {
+      "id": "12",
+      "description": "A minimalistic abstract composition of geometric shapes in pastel colors.",
+      "imageUrl": "https://images.unsplash.com/photo-1482053450283-3e0b78b09a70?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxhYnN0cmFjdCUyMGdlb21ldHJpY3xlbnwwfHx8fDE3NjgzNDcwMTB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "abstract geometric"
+    }
+  ]
 }
