@@ -14,16 +14,7 @@ export default function Header() {
             Prompt Studio
           </span>
         </Link>
-        <div className="flex-1">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Search for images & videos..."
-              className="pl-10 w-full max-w-sm"
-            />
-          </div>
-        </div>
+        <div className="flex-1"></div>
         <nav className="flex items-center gap-2">
           <Button variant="ghost" asChild>
             <Link href="/login">Login</Link>
