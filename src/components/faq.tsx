@@ -9,34 +9,34 @@ import {
 
 const faqs = [
   {
-    question: 'What is Visionary Vault?',
+    question: 'What is Prompt Studio?',
     answer:
-      'Visionary Vault is your comprehensive AI prompt library featuring thousands of quality AI video prompts and AI image prompts. We help creators discover high-quality examples, get inspired, and generate professional AI-generated videos and images using expertly crafted prompts for various AI models.',
+      'Prompt Studio is your comprehensive AI prompt library featuring thousands of quality AI video prompts and AI image prompts. We help creators discover high-quality examples, get inspired, and generate professional AI-generated videos and images using expertly crafted prompts for various AI models.',
   },
   {
-    question: 'How does Visionary Vault work?',
+    question: 'How does Prompt Studio work?',
     answer:
       'You can browse our gallery for inspiration, use our prompt generator to create new ideas, and explore different AI models. Once you find or create a prompt you like, you can use it with your favorite AI image or video generator.',
   },
   {
-    question: 'Is Visionary Vault free to use?',
+    question: 'Is Prompt Studio free to use?',
     answer:
       'Yes, browsing our gallery and generating prompts is completely free. Some advanced features may require an account.',
   },
   {
-    question: 'What AI models does Visionary Vault support?',
+    question: 'What AI models does Prompt Studio support?',
     answer:
       'We support a wide range of popular AI models for both image and video generation. Our platform is designed to be compatible with the latest and most powerful tools available.',
   },
   {
-    question: 'Can I use Visionary Vault prompts with any AI generator?',
+    question: 'Can I use Prompt Studio prompts with any AI generator?',
     answer:
       'Absolutely! Our prompts are designed to be versatile and can be used with any AI image or video generation tool that accepts text-based prompts.',
   },
   {
     question: 'How do I contact support?',
     answer:
-      'You can contact our support team by emailing support@visionaryvault.com. We are always happy to help!',
+      'You can contact our support team by emailing support@promptstudio.com. We are always happy to help!',
   },
 ];
 

@@ -3,7 +3,7 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'Visionary Vault',
+  title: 'Prompt Studio',
   description: 'AI-powered image and video generation platform',
 };
 

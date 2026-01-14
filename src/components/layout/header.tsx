@@ -11,7 +11,7 @@ export default function Header() {
         <Link href="/" className="mr-6 flex items-center gap-2">
           <Logo />
           <span className="hidden font-bold sm:inline-block font-headline">
-            Visionary Vault
+            Prompt Studio
           </span>
         </Link>
         <div className="flex-1">
