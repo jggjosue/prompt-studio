@@ -6,6 +6,7 @@ import { Lightbulb, Clapperboard, Bot } from 'lucide-react';
 import Header from '@/components/layout/header';
 import Link from 'next/link';
 import ModelCarousel from '@/components/model-carousel';
+import VideoExamples from '@/components/video-examples';
 
 export default function Home() {
   const examplePrompts = [
@@ -78,6 +79,21 @@ export default function Home() {
             <ContentGrid />
           </div>
         </section>
+
+        <section id="video-examples" className="w-full py-12 md:py-24 lg:py-28 bg-muted/30">
+          <div className="container">
+             <div className="flex flex-col items-center space-y-2 text-center mb-12">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
+                    Video Examples
+                </h2>
+                <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg">
+                    Discover high-quality AI video examples created with expertly crafted AI video prompts.
+                </p>
+            </div>
+            <VideoExamples />
+          </div>
+        </section>
+
 
         <Separator className="my-8" />
 
