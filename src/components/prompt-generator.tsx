@@ -8,18 +8,15 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Wand2, Loader2, Clipboard } from 'lucide-react';
 import { useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
+import Link from 'next/link';
 
-function SubmitButton() {
-  const { pending } = useFormStatus();
-
+function GenerateButton() {
   return (
-    <Button type="submit" disabled={pending} className="w-full md:w-auto">
-      {pending ? (
-        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-      ) : (
+    <Button asChild className="w-full md:w-auto">
+      <Link href="/login">
         <Wand2 className="mr-2 h-4 w-4" />
-      )}
-      Generate Prompt
+        Generate Prompt
+      </Link>
     </Button>
   );
 }
@@ -71,7 +68,7 @@ export default function PromptGenerator() {
             )}
           </div>
           <div className="flex flex-col md:flex-row gap-4 justify-end">
-            <SubmitButton />
+            <GenerateButton />
           </div>
         </form>
 
