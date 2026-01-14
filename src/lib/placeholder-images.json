@@ -233,6 +233,84 @@
         "Creature",
         "Forest"
       ]
+    },
+    {
+      "id": "19",
+      "title": "Crystalline Caverns",
+      "description": "A glowing crystal cave with a river running through it.",
+      "imageUrl": "https://images.unsplash.com/photo-1664045385275-6a6686403459?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxjcnlzdGFsJTIwY2F2ZXxlbnwwfHx8fDE3NjgzNTMzNjh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "crystal cave",
+      "type": "image",
+      "tags": [
+        "Fantasy",
+        "Cave",
+        "Crystal"
+      ]
+    },
+    {
+      "id": "20",
+      "title": "Steampunk Aviator",
+      "description": "A portrait of a steampunk aviator with goggles and a leather helmet.",
+      "imageUrl": "https://images.unsplash.com/photo-1724285522519-9b847e910d70?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxzdGVhbXB1bmslMjBhdmlhdG9yfGVufDB8fHx8MTc2ODQyOTkyOHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "steampunk aviator",
+      "type": "image",
+      "tags": [
+        "Steampunk",
+        "Portrait",
+        "Aviator"
+      ]
+    },
+    {
+      "id": "21",
+      "title": "Sunken City",
+      "description": "The ruins of an ancient city at the bottom of the ocean.",
+      "imageUrl": "https://images.unsplash.com/photo-1758970442148-55673b672053?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxzdW5rZW4lMjBjaXR5fGVufDB8fHx8MTc2ODM1MzM2OHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "sunken city",
+      "type": "image",
+      "tags": [
+        "Underwater",
+        "Ruins",
+        "Ancient"
+      ]
+    },
+    {
+      "id": "22",
+      "title": "Robot Companion",
+      "description": "A friendly robot helping a child with their homework.",
+      "imageUrl": "https://images.unsplash.com/photo-1762500824959-ad78b31b4161?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8cm9ib3QlMjBjaGlsZHxlbnwwfHx8fDE3Njg0Mjk5Mjh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "robot child",
+      "type": "image",
+      "tags": [
+        "Sci-Fi",
+        "Robot",
+        "Futuristic"
+      ]
+    },
+    {
+      "id": "23",
+      "title": "Haunted Mansion",
+      "description": "A spooky haunted mansion on a hill during a thunderstorm.",
+      "imageUrl": "https://images.unsplash.com/photo-1648159616824-6194c1263156?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxoYXVudGVkJTIwbWFuc2lvbnxlbnwwfHx8fDE3NjgzODk1NTJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "haunted mansion",
+      "type": "image",
+      "tags": [
+        "Horror",
+        "Mansion",
+        "Spooky"
+      ]
+    },
+    {
+      "id": "24",
+      "title": "Abstract Waves",
+      "description": "An abstract painting of ocean waves in vibrant colors.",
+      "imageUrl": "https://images.unsplash.com/photo-1585854467604-cf2080ccef31?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxhYnN0cmFjdCUyMHdhdmVzfGVufDB8fHx8MTc2ODQyOTkyOHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "abstract waves",
+      "type": "image",
+      "tags": [
+        "Abstract",
+        "Ocean",
+        "Painting"
+      ]
     }
   ]
 }
