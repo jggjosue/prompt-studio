@@ -2,7 +2,7 @@ import PromptGenerator from '@/components/prompt-generator';
 import ContentGrid from '@/components/content-grid';
 import { Separator } from '@/components/ui/separator';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Lightbulb, Clapperboard, Bot } from 'lucide-react';
+import { Lightbulb, Clapperboard, Bot, Search } from 'lucide-react';
 import Header from '@/components/layout/header';
 import Link from 'next/link';
 import ModelCarousel from '@/components/model-carousel';
@@ -10,6 +10,7 @@ import VideoExamples from '@/components/video-examples';
 import ImageExamples from '@/components/image-examples';
 import Faq from '@/components/faq';
 import Footer from '@/components/layout/footer';
+import { Input } from '@/components/ui/input';
 
 export default function Home() {
   const examplePrompts = [
@@ -43,6 +44,16 @@ export default function Home() {
       <main className="flex-1">
         <section className="w-full py-12 md:py-24 lg:py-32 bg-muted/30">
           <div className="container px-4 md:px-6">
+            <div className="mx-auto w-full max-w-2xl mb-8">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                <Input
+                  type="search"
+                  placeholder="Search for images, videos, and prompts..."
+                  className="pl-10 w-full text-base h-12"
+                />
+              </div>
+            </div>
             <div className="flex flex-col items-center space-y-4 text-center">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none font-headline">
                 Generate Your Next Vision
