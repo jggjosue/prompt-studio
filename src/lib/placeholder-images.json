@@ -155,6 +155,84 @@
         "Geometric",
         "Pastel"
       ]
+    },
+    {
+      "id": "13",
+      "title": "Desert Drive",
+      "description": "A vintage car driving through a vast desert at sunset.",
+      "imageUrl": "https://images.unsplash.com/photo-1635761008540-6f1e733c8466?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxkZXNlcnQlMjBjYXJ8ZW58MHx8fHwxNzY4NDI5ODQxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "desert car",
+      "type": "video",
+      "tags": [
+        "Retro",
+        "Car",
+        "Desert"
+      ]
+    },
+    {
+      "id": "14",
+      "title": "Underwater Ballet",
+      "description": "A school of colorful fish moving in perfect synchronization.",
+      "imageUrl": "https://images.unsplash.com/photo-1624891513741-073701527f28?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8ZmlzaCUyMHNjaG9vbHxlbnwwfHx8fDE3NjgzOTEwNDd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "fish school",
+      "type": "video",
+      "tags": [
+        "Nature",
+        "Underwater",
+        "Fish"
+      ]
+    },
+    {
+      "id": "15",
+      "title": "City in Motion",
+      "description": "A hyperlapse of a bustling metropolis from dusk till dawn.",
+      "imageUrl": "https://images.unsplash.com/photo-1575649212509-466ae91f0572?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjaXR5JTIwaHlwZXJsYXBzZXxlbnwwfHx8fDE3Njg0Mjk4NDF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "city hyperlapse",
+      "type": "video",
+      "tags": [
+        "City",
+        "Timelapse",
+        "Urban"
+      ]
+    },
+    {
+      "id": "16",
+      "title": "Galactic Dance",
+      "description": "Two galaxies colliding in a slow, cosmic dance of stars and dust.",
+      "imageUrl": "https://images.unsplash.com/photo-1710675791959-3a21bd5bbbde?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxnYWxheHklMjBjb2xsaXNpb258ZW58MHx8fHwxNzY4NDI5ODQxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "galaxy collision",
+      "type": "video",
+      "tags": [
+        "Space",
+        "Galaxy",
+        "Cosmic"
+      ]
+    },
+    {
+      "id": "17",
+      "title": "Mechanical Heart",
+      "description": "A complex clockwork heart with gears and cogs turning rhythmically.",
+      "imageUrl": "https://images.unsplash.com/photo-1715111965684-e2cdde4a1f5c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjbG9ja3dvcmslMjBoZWFydHxlbnwwfHx8fDE3Njg0Mjk4NDF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "clockwork heart",
+      "type": "video",
+      "tags": [
+        "Steampunk",
+        "Mechanical",
+        "Abstract"
+      ]
+    },
+    {
+      "id": "18",
+      "title": "Forest Spirit",
+      "description": "A mystical creature made of leaves and branches moving through an ancient forest.",
+      "imageUrl": "https://images.unsplash.com/photo-1604352537692-af7fe27a4f4f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxmb3Jlc3QlMjBzcGlyaXR8ZW58MHx8fHwxNzY4MzY5NzMwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "forest spirit",
+      "type": "video",
+      "tags": [
+        "Fantasy",
+        "Creature",
+        "Forest"
+      ]
     }
   ]
 }

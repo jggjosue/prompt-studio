@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 export default function VideoExamples() {
 
   const videoContent = useMemo(() => {
-    return PlaceHolderImages.filter(item => item.type === 'video').slice(0,3);
+    return PlaceHolderImages.filter(item => item.type === 'video').slice(0,6);
   }, []);
 
   return (
