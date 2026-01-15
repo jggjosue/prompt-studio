@@ -43,6 +43,62 @@ export default function ImagePromptsPage() {
     }
   };
 
+  const renderPaginationLinks = () => {
+    const pageNumbers = [];
+    const maxPagesToShow = 5;
+    const halfMaxPages = Math.floor(maxPagesToShow / 2);
+
+    if (totalPages <= maxPagesToShow) {
+      for (let i = 1; i <= totalPages; i++) {
+        pageNumbers.push(i);
+      }
+    } else {
+      pageNumbers.push(1);
+      if (currentPage > halfMaxPages + 2) {
+        pageNumbers.push('ellipsis-start');
+      }
+
+      let startPage = Math.max(2, currentPage - halfMaxPages);
+      let endPage = Math.min(totalPages - 1, currentPage + halfMaxPages);
+      
+      if (currentPage < halfMaxPages + 2) {
+        endPage = maxPagesToShow - 1;
+      }
+      if (currentPage > totalPages - (halfMaxPages + 1)) {
+        startPage = totalPages - (maxPagesToShow - 2);
+      }
+
+      for (let i = startPage; i <= endPage; i++) {
+        pageNumbers.push(i);
+      }
+
+      if (currentPage < totalPages - (halfMaxPages + 1)) {
+        pageNumbers.push('ellipsis-end');
+      }
+      pageNumbers.push(totalPages);
+    }
+
+    return pageNumbers.map((page, index) => {
+      if (typeof page === 'string') {
+        return <PaginationEllipsis key={page + index} />;
+      }
+      return (
+        <PaginationItem key={page}>
+          <PaginationLink
+            href="#"
+            isActive={currentPage === page}
+            onClick={e => {
+              e.preventDefault();
+              handlePageChange(page);
+            }}
+          >
+            {page}
+          </PaginationLink>
+        </PaginationItem>
+      );
+    });
+  };
+
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
       <Header />
@@ -134,7 +190,7 @@ export default function ImagePromptsPage() {
             ))}
           </div>
 
-          <div className="mt-12">
+          <div className="mt-12 flex justify-center">
             <Pagination>
               <PaginationContent>
                 <PaginationItem>
@@ -147,21 +203,7 @@ export default function ImagePromptsPage() {
                     aria-disabled={currentPage === 1}
                   />
                 </PaginationItem>
-                {[...Array(totalPages)].map((_, i) => (
-                  <PaginationItem key={i}>
-                    <PaginationLink
-                      href="#"
-                      isActive={currentPage === i + 1}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handlePageChange(i + 1);
-                      }}
-                    >
-                      {i + 1}
-                    </PaginationLink>
-                  </PaginationItem>
-                ))}
-                {totalPages > 5 && <PaginationEllipsis />}
+                {renderPaginationLinks()}
                 <PaginationItem>
                   <PaginationNext
                     href="#"
