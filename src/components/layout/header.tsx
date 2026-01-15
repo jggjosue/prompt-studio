@@ -49,7 +49,7 @@ export default function Header() {
               align="start"
             >
               <DropdownMenuItem asChild>
-                <Link href="#" className="flex items-start gap-3">
+                <Link href="/video-prompts" className="flex items-start gap-3">
                   <div className="bg-primary/10 text-primary p-2 rounded-md">
                     <Video className="h-5 w-5" />
                   </div>
