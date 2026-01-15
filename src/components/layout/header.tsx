@@ -20,10 +20,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import Logo from './logo';
-import {
-  RegisterLink,
-  LoginLink,
-} from '@kinde-oss/kinde-auth-nextjs/components';
+import { RegisterLink } from '@kinde-oss/kinde-auth-nextjs/components';
 
 export default function Header() {
   return (
@@ -153,7 +150,7 @@ export default function Header() {
         </nav>
         <div className="ml-auto flex items-center gap-2">
           <Button variant="ghost" asChild>
-            <LoginLink>Login</LoginLink>
+            <Link href="/login">Login</Link>
           </Button>
           <Button asChild>
             <RegisterLink>Sign Up</RegisterLink>

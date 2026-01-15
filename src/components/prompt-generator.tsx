@@ -8,8 +8,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Wand2, Loader2, Clipboard } from 'lucide-react';
 import { useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
-import { LoginLink } from '@kinde-oss/kinde-auth-nextjs/components';
 import { useUser } from '@/firebase';
+import Link from 'next/link';
 
 function GenerateButton() {
   const { user, isUserLoading } = useUser();
@@ -27,10 +27,10 @@ function GenerateButton() {
   if (!user) {
     return (
       <Button asChild className="w-full md:w-auto">
-        <LoginLink>
+        <Link href="/login">
           <Wand2 className="mr-2 h-4 w-4" />
           Generate Prompt
-        </LoginLink>
+        </Link>
       </Button>
     );
   }
