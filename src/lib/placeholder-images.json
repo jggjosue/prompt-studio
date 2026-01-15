@@ -1384,6 +1384,149 @@
         "Neon Lighting",
         "Urban Style"
       ]
+    },
+    {
+      "id": "105",
+      "title": "Galactic Hourglass: A Surreal Dreamscape",
+      "description": "En un vasto cosmos, un reloj de arena desafía el tiempo mientras galaxias caen como arena. Astronautas atraviesan una Tierra fracturada reflejando maravillas estelares.",
+      "imageUrl": "https://images.unsplash.com/photo-1763969500746-04abb57b3212?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxzdXJyZWFsJTIwZHJlYW1zY2FwZXxlbnwwfHx8fDE3Njg0NTIzNTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "surreal dreamscape",
+      "type": "video",
+      "tags": [
+        "Surreal Realism",
+        "Void Black"
+      ]
+    },
+    {
+      "id": "106",
+      "title": "Celestial Train: A Fiery Journey Through the Stars",
+      "description": "Un tren recorre un campo estrellado revelando explosiones de fuego y energía en un espectáculo cósmico.",
+      "imageUrl": "https://images.unsplash.com/photo-1764497394680-d37b6a364046?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjZWxlc3RpYWwlMjB0cmFpbnxlbnwwfHx8fDE3Njg0NTIzNTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "celestial train",
+      "type": "video",
+      "tags": [
+        "Surreal Realism",
+        "Slow Motion"
+      ]
+    },
+    {
+      "id": "107",
+      "title": "Fleeting Moments: Dandelions and a Vanishing Figure",
+      "description": "Un hombre se apresura fuera de escena mientras los dientes de león bailan suavemente en el viento, capturando la esencia de lo efímero.",
+      "imageUrl": "https://images.unsplash.com/photo-1729548986550-6200fad4fa4a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxmbGVldGluZyUyMG1vbWVudHN8ZW58MHx8fHwxNzY4NDUyMzU5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "fleeting moments",
+      "type": "video",
+      "tags": [
+        "Documentary Style",
+        "Nature Outdoor"
+      ]
+    },
+    {
+      "id": "108",
+      "title": "Melancholy Melodies: A Parisian Violinist's Rainy Serenade",
+      "description": "Bajo una farola parpadeante, una violinista joven evoca emociones profundas en una calle lluviosa de París.",
+      "imageUrl": "https://images.unsplash.com/photo-1666269194337-f1c16d264234?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxtZWxhbmNob2x5JTIwbWVsb2RpZXN8ZW58MHx8fHwxNzY4NDUyMzU5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "melancholy melodies",
+      "type": "video",
+      "tags": [
+        "Urban Landscape",
+        "Smooth Transitions"
+      ]
+    },
+    {
+      "id": "109",
+      "title": "Serene Heights: Aerial Symphony at Dawn",
+      "description": "Vista aérea de colinas brumosas bañadas por el amanecer dorado, acompañadas por susurros de la naturaleza.",
+      "imageUrl": "https://images.unsplash.com/photo-1696628027594-80f371aed300?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzZXJlbmUlMjBoZWlnaHRzfGVufDB8fHx8MTc2ODQ1MjM1OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "serene heights",
+      "type": "video",
+      "tags": [
+        "Documentary Style",
+        "Nature Outdoor",
+        "Smooth Transitions"
+      ]
+    },
+    {
+      "id": "110",
+      "title": "Snowmobile Thrill: A High-Speed Forest Adventure",
+      "description": "La adrenalina de conducir una moto de nieve a través de un bosque, esquivando árboles y levantando nieve.",
+      "imageUrl": "https://images.unsplash.com/photo-1709881628099-8b4574ca3709?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxzbm93bW9iaWxlJTIwdGhyaWxsfGVufDB8fHx8MTc2ODQ1MjM1OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "snowmobile thrill",
+      "type": "video",
+      "tags": [
+        "Cinematic"
+      ]
+    },
+    {
+      "id": "111",
+      "title": "Cyclist's Thrilling Descent: Foggy Mountain Adventure",
+      "description": "Plano bajo de un ciclista descendiendo por una carretera montañosa envuelta en niebla y luz solar.",
+      "imageUrl": "https://images.unsplash.com/photo-1758300620054-f42cf6e5458f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y3ljbGlzdCUyMHRocmlsbGluZ3xlbnwwfHx8fDE3Njg0NTIzNTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cyclist thrilling",
+      "type": "video",
+      "tags": [
+        "Cinematic"
+      ]
+    },
+    {
+      "id": "112",
+      "title": "Dancers in a Strobe-Lit Club: A Dynamic Visual Journey",
+      "description": "La energía electrizante de un club con transiciones visuales dinámicas y movimientos rítmicos.",
+      "imageUrl": "https://images.unsplash.com/photo-1700063078660-dc0835440c26?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxkYW5jZXJzJTIwc3Ryb2JlfGVufDB8fHx8MTc2ODQ1MjM1OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "dancers strobe",
+      "type": "video",
+      "tags": [
+        "Cinematic"
+      ]
+    },
+    {
+      "id": "113",
+      "title": "Enchanting Sleigh Ride Through a Romanian Winter Wonderland",
+      "description": "Un paseo en trineo por un pueblo nevado al atardecer, acompañado por el sonido de campanas.",
+      "imageUrl": "https://images.unsplash.com/photo-1669123309443-c9c40c596133?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxlbmNoYW50aW5nJTIwc2xlaWdofGVufDB8fHx8MTc2ODQ1MjM1OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "enchanting sleigh",
+      "type": "video",
+      "tags": [
+        "Cinematic",
+        "Nature Outdoor",
+        "Smooth Transitions"
+      ]
+    },
+    {
+      "id": "114",
+      "title": "Echoes of a Haunting Carnival",
+      "description": "Un carnaval lluvioso donde las sombras se mueven y el miedo acecha en silencio.",
+      "imageUrl": "https://images.unsplash.com/photo-1725022821340-818f7d01f1c3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8aGF1bnRpbmclMjBjYXJuaXZhbHxlbnwwfHx8fDE3Njg0NTIzNTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "haunting carnival",
+      "type": "video",
+      "tags": [
+        "Surreal Realism",
+        "Slow Motion"
+      ]
+    },
+    {
+      "id": "115",
+      "title": "Cinematic Flight Through a Luxe Penthouse Escape",
+      "description": "Recorrido por habitaciones lujosas y piscina en azotea al atardecer, mostrando diseño elegante.",
+      "imageUrl": "https://images.unsplash.com/photo-1760611656071-a8bef0578874?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxsdXhlJTIwcGVudGhvdXNlfGVufDB8fHx8MTc2ODQ1MjM1OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "luxe penthouse",
+      "type": "video",
+      "tags": [
+        "Cinematic",
+        "Interior Space"
+      ]
+    },
+    {
+      "id": "116",
+      "title": "From Ape to Astronaut: The Evolution Saga",
+      "description": "Un mono se transforma en Elon Musk y viaja a Marte, explorando la evolución hacia las estrellas.",
+      "imageUrl": "https://images.unsplash.com/photo-1576157874247-eb9f6c9c2d30?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxhcGUlMjBhc3Ryb25hdXR8ZW58MHx8fHwxNzY4NDUyMzU5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "ape astronaut",
+      "type": "video",
+      "tags": [
+        "Surreal Realism",
+        "Morphing Effects"
+      ]
     }
   ]
 }
