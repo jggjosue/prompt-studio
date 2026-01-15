@@ -14,10 +14,14 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription }
 import { Heart, PlayCircle, Tag, Wand2 } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious, PaginationEllipsis } from '@/components/ui/pagination';
+
 
 export default function ContentGrid() {
   const [filter, setFilter] = useState('all');
   const [sort, setSort] = useState('popular');
+  const [itemsPerPage, setItemsPerPage] = useState(9);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const filteredContent = useMemo(() => {
     let content = [...PlaceHolderImages];
@@ -34,6 +38,77 @@ export default function ContentGrid() {
 
     return content;
   }, [filter, sort]);
+  
+  const totalPages = Math.ceil(filteredContent.length / itemsPerPage);
+
+  const paginatedContent = useMemo(() => {
+     return filteredContent.slice(
+      (currentPage - 1) * itemsPerPage,
+      currentPage * itemsPerPage
+    );
+  }, [filteredContent, currentPage, itemsPerPage]);
+
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+  
+    const renderPaginationLinks = () => {
+    const pageNumbers = [];
+    const maxPagesToShow = 5;
+    const halfMaxPages = Math.floor(maxPagesToShow / 2);
+
+    if (totalPages <= maxPagesToShow) {
+      for (let i = 1; i <= totalPages; i++) {
+        pageNumbers.push(i);
+      }
+    } else {
+      pageNumbers.push(1);
+      if (currentPage > halfMaxPages + 2) {
+        pageNumbers.push('ellipsis-start');
+      }
+
+      let startPage = Math.max(2, currentPage - halfMaxPages);
+      let endPage = Math.min(totalPages - 1, currentPage + halfMaxPages);
+      
+      if (currentPage < halfMaxPages + 2) {
+        endPage = maxPagesToShow - 1;
+      }
+      if (currentPage > totalPages - (halfMaxPages + 1)) {
+        startPage = totalPages - (maxPagesToShow - 2);
+      }
+
+      for (let i = startPage; i <= endPage; i++) {
+        pageNumbers.push(i);
+      }
+
+      if (currentPage < totalPages - (halfMaxPages + 1)) {
+        pageNumbers.push('ellipsis-end');
+      }
+      pageNumbers.push(totalPages);
+    }
+
+    return pageNumbers.map((page, index) => {
+      if (typeof page === 'string') {
+        return <PaginationEllipsis key={page + index} />;
+      }
+      return (
+        <PaginationItem key={page}>
+          <PaginationLink
+            href="#"
+            isActive={currentPage === page}
+            onClick={e => {
+              e.preventDefault();
+              handlePageChange(page);
+            }}
+          >
+            {page}
+          </PaginationLink>
+        </PaginationItem>
+      );
+    });
+  };
 
   return (
     <div className="space-y-8">
@@ -43,7 +118,7 @@ export default function ContentGrid() {
         </h3>
         <div className="flex gap-4">
           <Select value={filter} onValueChange={setFilter}>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-[120px]">
               <SelectValue placeholder="Filter by" />
             </SelectTrigger>
             <SelectContent>
@@ -53,7 +128,7 @@ export default function ContentGrid() {
             </SelectContent>
           </Select>
           <Select value={sort} onValueChange={setSort}>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-[120px]">
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
             <SelectContent>
@@ -62,10 +137,21 @@ export default function ContentGrid() {
               <SelectItem value="oldest">Oldest</SelectItem>
             </SelectContent>
           </Select>
+          <Select value={String(itemsPerPage)} onValueChange={(value) => setItemsPerPage(Number(value))}>
+            <SelectTrigger className="w-[120px]">
+              <SelectValue placeholder="Per Page" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="9">9 per page</SelectItem>
+              <SelectItem value="18">18 per page</SelectItem>
+              <SelectItem value="27">27 per page</SelectItem>
+              <SelectItem value="36">36 per page</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredContent.map(item => (
+        {paginatedContent.map(item => (
           <Card key={item.id} className="overflow-hidden group h-full flex flex-col">
              <CardHeader>
                <CardTitle className="font-headline text-xl">{item.title}</CardTitle>
@@ -126,6 +212,33 @@ export default function ContentGrid() {
             </CardFooter>
           </Card>
         ))}
+      </div>
+      <div className="mt-12 flex justify-center">
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handlePageChange(currentPage - 1);
+                }}
+                aria-disabled={currentPage === 1}
+              />
+            </PaginationItem>
+            {renderPaginationLinks()}
+            <PaginationItem>
+              <PaginationNext
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handlePageChange(currentPage + 1);
+                }}
+                aria-disabled={currentPage === totalPages}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       </div>
     </div>
   );
