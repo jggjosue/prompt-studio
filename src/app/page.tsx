@@ -69,7 +69,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="w-full py-12 md:py-24 lg:py-28">
+        {/* <section className="w-full py-12 md:py-24 lg:py-28">
           <div className="container">
             <div className="flex flex-col items-center space-y-4 text-center mb-12">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
@@ -83,7 +83,7 @@ export default function Home() {
             </div>
             <ModelCarousel />
           </div>
-        </section>
+        </section> */}
 
         <section id="gallery" className="w-full py-12 md:py-24 lg:py-28">
           <div className="container">
