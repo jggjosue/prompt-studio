@@ -16,7 +16,16 @@ npm install
 
 ### Update Environment Variables
 
-Create a `.env.local` file in the root of your project. You can copy the contents of the existing `.env` file to start.
+Create a `.env.local` file in the root of your project. You can copy the contents of the existing `.env` file to start. These variables are for Kinde authentication.
+
+```
+KINDE_CLIENT_ID=e2d1ff2d40c54b10b2ab450a8f38240d
+KINDE_CLIENT_SECRET=iFxOnyvKA84Z9MeJyvKp0uE1N22BErauQkF3HPqHAd5dWkn1ggnu
+KINDE_ISSUER_URL=https://promptstudio.kinde.com
+KINDE_SITE_URL=http://localhost:3000
+KINDE_POST_LOGOUT_REDIRECT_URL=http://localhost:3000
+KINDE_POST_LOGIN_REDIRECT_URL=http://localhost:3000/dashboard
+```
 
 ### Run the Development Server
 
