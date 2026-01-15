@@ -75,7 +75,7 @@ export default function Header() {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href="#" className="flex items-start gap-3">
+                <Link href="/image-prompts" className="flex items-start gap-3">
                   <div className="bg-primary/10 text-primary p-2 rounded-md">
                     <ImageIcon className="h-5 w-5" />
                   </div>
