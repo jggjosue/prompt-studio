@@ -393,7 +393,7 @@
       "id": "31",
       "title": "Cinematic Elegance: A Vintage Soul in Modern Style",
       "description": "A portrait blending modern fashion with vintage charm, showcasing cinematic realism and natural light.",
-      "imageUrl": "https://images.unsplash.com/photo-1643888056839-f86c616c1557?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHx2aW50YWdlJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzY4NDAxNzcxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1646208715779-f059c105ca53?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHx3b21hbiUyMHJlZCUyMGNhcnBldHxlbnwwfHx8fDE3Njg0NTAzNjl8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "vintage portrait",
       "type": "image",
       "tags": [
@@ -462,13 +462,168 @@
       "id": "36",
       "title": "Glamour Unleashed: Lili Reinhart on the Red Carpet",
       "description": "A stunning portrait of Lili Reinhart in a high-fashion gown, captured from below with dramatic lighting.",
-      "imageUrl": "https://images.unsplash.com/photo-1646208715779-f059c105ca53?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHx3b21hbiUyMHJlZCUyMGNhcnBldHxlbnwwfHx8fDE3Njg0NTAzNjl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1604551318957-78638ef372e9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHx3b21hbiUyMHJlZCUyMGNhcnBldHxlbnwwfHx8fDE3Njg0NTAzNjl8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "woman red carpet",
       "type": "image",
       "tags": [
         "High Fashion",
         "Human Portrait",
         "Dramatic Lighting"
+      ]
+    },
+    {
+      "id": "37",
+      "title": "Reflections of Relaxation: A Smartphone Selfie",
+      "description": "A young woman captures a serene moment in a cozy off-shoulder top, her dreamy gaze and soft lighting create an intimate, inviting atmosphere.",
+      "imageUrl": "https://images.unsplash.com/photo-1601660413127-7314a0453953?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHx3b21hbiUyMHNlbGZpZXxlbnwwfHx8fDE3Njg0MDgwNjZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "woman selfie",
+      "type": "image",
+      "tags": [
+        "Photorealistic",
+        "Human Portrait",
+        "Close Up",
+        "Soft Light"
+      ]
+    },
+    {
+      "id": "38",
+      "title": "Convergence of Fear: Human and Machine",
+      "description": "In a stark hospital room, a young woman lies terrified, her reality blurred with electric sparks, embodying the haunting merger of biology and technology.",
+      "imageUrl": "https://images.unsplash.com/photo-1550792436-181701c71f63?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHx3b21hbiUyMGhvc3BpdGFsfGVufDB8fHx8MTc2ODQ1MDQ4MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "woman hospital",
+      "type": "image",
+      "tags": [
+        "Cinematic",
+        "Human Portrait",
+        "Ambient Light"
+      ]
+    },
+    {
+      "id": "39",
+      "title": "Whimsical Slide: A Surreal Playground in Elegance",
+      "description": "A stunning 3D art piece transforms a woman’s profile into a glossy slide, inviting joy and wonder with its futuristic elegance and playful detail.",
+      "imageUrl": "https://images.unsplash.com/photo-1649247832189-f0a60a11b744?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxzdXJyZWFsJTIwcGxheWdyb3VuZHxlbnwwfHx8fDE3Njg0NTA0ODF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "surreal playground",
+      "type": "image",
+      "tags": [
+        "Surreal Realism",
+        "Human Portrait"
+      ]
+    },
+    {
+      "id": "40",
+      "title": "Celestial Guardian: The Anime Princess Awakens",
+      "description": "A powerful anime princess reborn in shimmering golden armor, brandishing a glowing sword amidst mystical ruins, radiating strength and magic in every detail.",
+      "imageUrl": "https://images.unsplash.com/photo-1663035308922-319bea2b569d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxhbmltZSUyMHByaW5jZXNzfGVufDB8fHx8MTc2ODQ1MDQ4MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "anime princess",
+      "type": "image",
+      "tags": [
+        "Human Portrait",
+        "Soft Light"
+      ]
+    },
+    {
+      "id": "41",
+      "title": "Bold Energy Awaits: A Splash of Flavor",
+      "description": "Vividly captured energy drink cans emerge from dynamic splashes, showcasing bold flavors and sleek designs against vibrant backdrops.",
+      "imageUrl": "https://images.unsplash.com/photo-1560689189-65b6ed6228e7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxlbmVyZ3klMjBkcmlua3xlbnwwfHx8fDE3Njg0NTA0ODF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "energy drink",
+      "type": "image",
+      "tags": [
+        "Hyper Realistic",
+        "Product Showcase"
+      ]
+    },
+    {
+      "id": "42",
+      "title": "Chill in the Night: A Snowy Selfie",
+      "description": "Frigid beauty captured in a close-up selfie, where flushed cheeks and snow-dusted lashes reflect the serene chaos of a heavy snowfall under cold, cinematic lighting.",
+      "imageUrl": "https://images.unsplash.com/photo-1579156233096-c0d34017a305?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxzbm93eSUyMHNlbGZpZXxlbnwwfHx8fDE3Njg0NTA0ODF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "snowy selfie",
+      "type": "image",
+      "tags": [
+        "Cinematic",
+        "Human Portrait",
+        "Close Up"
+      ]
+    },
+    {
+      "id": "43",
+      "title": "Charming Duality: Real and Rendered",
+      "description": "A stunning portrait blending reality and whimsy, featuring a warm smile and a joyful chibi version of herself, all bathed in soft, golden light.",
+      "imageUrl": "https://images.unsplash.com/photo-1751730740172-dacbef4e1353?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxjaGliaSUyMHBvcnRyYWl0fGVufDB8fHx8MTc2ODQ1MDQ4MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "chibi portrait",
+      "type": "image",
+      "tags": [
+        "Cinematic",
+        "Human Portrait",
+        "Close Up",
+        "Soft Light"
+      ]
+    },
+    {
+      "id": "44",
+      "title": "A Fleeting Moment in Tokyo’s Night",
+      "description": "Captured in a rush, a shy smile flickers as she glances back. This ultra-realistic scene embodies spontaneity, blending motion blur with nighttime mystery.",
+      "imageUrl": "https://images.unsplash.com/photo-1573455494060-c5595004fb6c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx0b2t5byUyMG5pZ2h0fGVufDB8fHx8MTc2ODM2MDkyNXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "tokyo night",
+      "type": "image",
+      "tags": [
+        "Ultra Realistic",
+        "Human Portrait"
+      ]
+    },
+    {
+      "id": "45",
+      "title": "Serene Self-Portrait: A Monochrome Moment",
+      "description": "A captivating close-up of a young woman in soft, natural light, showcasing her freckles and effortless chic style in intimate black and white photography.",
+      "imageUrl": "https://images.unsplash.com/photo-1615965763777-785b2b0e9162?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxtb25vY2hyb21lJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzY4MzM5MzYzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "monochrome portrait",
+      "type": "image",
+      "tags": [
+        "Human Portrait",
+        "Close Up",
+        "Soft Light"
+      ]
+    },
+    {
+      "id": "46",
+      "title": "Chic Reflections: A Cozy Mirror Moment",
+      "description": "Capturing soft glam and effortless style, this modern portrait reveals a young woman in vibrant fashion, exuding relaxed confidence with intricate details.",
+      "imageUrl": "https://images.unsplash.com/photo-1624381595220-1174f30c88d9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxtaXJyb3IlMjBmYXNoaW9ufGVufDB8fHx8MTc2ODQ1MDQ4MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "mirror fashion",
+      "type": "image",
+      "tags": [
+        "High Fashion",
+        "Human Portrait",
+        "Centered",
+        "Soft Light"
+      ]
+    },
+    {
+      "id": "47",
+      "title": "Mystique in Motion: A Vintage Charm",
+      "description": "A captivating young woman in a sleek black dress graces a faded newsstand, surrounded by withered flowers, exuding an enchanting blend of beauty and allure.",
+      "imageUrl": "https://images.unsplash.com/photo-1598625464241-8309f99b369a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHx2aW50YWdlJTIwY2hhcm18ZW58MHx8fHwxNzY4NDUwNDgxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "vintage charm",
+      "type": "image",
+      "tags": [
+        "Human Portrait",
+        "Backlight"
+      ]
+    },
+    {
+      "id": "48",
+      "title": "Cinematic Romance in a Gallery",
+      "description": "A couple’s passionate dip-kiss in a museum, framed by an ornate landscape painting. Old-master warmth and intimate elegance create a timeless scene.",
+      "imageUrl": "https://images.unsplash.com/photo-1699215088150-1f8cb24468b7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxtdXNldW0lMjBraXNzfGVufDB8fHx8MTc2ODQ1MDQ4MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "museum kiss",
+      "type": "image",
+      "tags": [
+        "Cinematic",
+        "Human Portrait",
+        "Symmetrical",
+        "Natural Light"
       ]
     }
   ]
