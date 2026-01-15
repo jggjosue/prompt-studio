@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import {
   ChevronDown,
@@ -18,15 +20,16 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import Logo from './logo';
+import {
+  RegisterLink,
+  LoginLink,
+} from '@kinde-oss/kinde-auth-nextjs/components';
 
 export default function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center">
-        <Link
-          href="/"
-          className="mr-6 flex items-center gap-2"
-        >
+        <Link href="/" className="mr-6 flex items-center gap-2">
           <Logo />
           <span className="hidden font-bold sm:inline-block font-headline">
             Prompt Studio
@@ -44,10 +47,7 @@ export default function Header() {
               Explore
               <ChevronDown className="h-4 w-4" />
             </DropdownMenuTrigger>
-            <DropdownMenuContent
-              className="w-64"
-              align="start"
-            >
+            <DropdownMenuContent className="w-64" align="start">
               <DropdownMenuItem asChild>
                 <Link href="/video-prompts" className="flex items-start gap-3">
                   <div className="bg-primary/10 text-primary p-2 rounded-md">
@@ -153,10 +153,10 @@ export default function Header() {
         </nav>
         <div className="ml-auto flex items-center gap-2">
           <Button variant="ghost" asChild>
-            <Link href="/login">Login</Link>
+            <LoginLink>Login</LoginLink>
           </Button>
           <Button asChild>
-            <Link href="/register">Sign Up</Link>
+            <RegisterLink>Sign Up</RegisterLink>
           </Button>
         </div>
       </div>
