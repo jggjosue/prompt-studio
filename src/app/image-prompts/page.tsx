@@ -24,7 +24,7 @@ import Image from 'next/image';
 
 export default function ImagePromptsPage() {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9;
+  const itemsPerPage = 18;
 
   const imageContent: ImagePlaceholder[] = PlaceHolderImages.filter(
     item => item.type === 'image'
