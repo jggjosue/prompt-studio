@@ -1746,6 +1746,84 @@
         "Cinematic",
         "Nature Outdoor"
       ]
+    },
+    {
+      "id": "135",
+      "title": "Celestial Eclipse: A Dance of Shadows",
+      "description": "Un eclipse solar transforma el cielo en un espectáculo surrealista con sombras en movimiento.",
+      "imageUrl": "https://images.unsplash.com/photo-1506443432602-ac2fcd6f54e0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxzb2xhciUyMGVjbGlwc2V8ZW58MHx8fHwxNzY4NDUzODI2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "solar eclipse",
+      "type": "video",
+      "tags": [
+        "Surreal Realism",
+        "Space",
+        "Cinematic"
+      ]
+    },
+    {
+      "id": "136",
+      "title": "Urban Pulse: A Night in Motion",
+      "description": "Luces de neón reflejadas en calles mojadas mientras la ciudad vibra con energía nocturna.",
+      "imageUrl": "https://images.unsplash.com/photo-1586766193036-6d93c6c6c703?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxuZW9uJTIwY2l0eXxlbnwwfHx8fDE3NjgzOTgyNTJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "neon city",
+      "type": "video",
+      "tags": [
+        "Cinematic",
+        "Urban Landscape",
+        "Night Scene"
+      ]
+    },
+    {
+      "id": "137",
+      "title": "Mechanical Heartbeat: Factory in Sync",
+      "description": "Engranajes y pistones se mueven al unísono en una fábrica futurista, mostrando ritmo industrial.",
+      "imageUrl": "https://images.unsplash.com/photo-1715434049839-f79443f0dc88?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxmdXR1cmlzdGljJTIwZmFjdG9yeXxlbnwwfHx8fDE3Njg0NTM4MjZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "futuristic factory",
+      "type": "video",
+      "tags": [
+        "Industrial",
+        "Slow Motion",
+        "Cinematic"
+      ]
+    },
+    {
+      "id": "138",
+      "title": "Ocean Symphony: Waves in Harmony",
+      "description": "Olas gigantes se mueven como una coreografía natural, con luz dorada del atardecer.",
+      "imageUrl": "https://images.unsplash.com/photo-1498330177096-689e3fb901ca?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxvY2VhbiUyMHdhdmVzfGVufDB8fHx8MTc2ODM4OTU2N3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "ocean waves",
+      "type": "video",
+      "tags": [
+        "Documentary Style",
+        "Nature Outdoor",
+        "Slow Motion"
+      ]
+    },
+    {
+      "id": "139",
+      "title": "Festival Sparks: Fireworks in the Sky",
+      "description": "Un festival cultural ilumina el cielo con fuegos artificiales y faroles flotantes.",
+      "imageUrl": "https://images.unsplash.com/photo-1722183334565-80a36cdac41b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmaXJld29ya3MlMjBmZXN0aXZhbHxlbnwwfHx8fDE3Njg0NTM4MjZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "fireworks festival",
+      "type": "video",
+      "tags": [
+        "Cultural",
+        "Cinematic",
+        "Urban Landscape"
+      ]
+    },
+    {
+      "id": "140",
+      "title": "Cosmic Voyage: A Ship Among Stars",
+      "description": "Un barco navega en un océano estelar rodeado de planetas y constelaciones brillantes.",
+      "imageUrl": "https://images.unsplash.com/photo-1638437447613-68773485f997?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxzdGFyJTIwc2hpcHxlbnwwfHx8fDE3Njg0NTM4MjZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "star ship",
+      "type": "video",
+      "tags": [
+        "Surreal Realism",
+        "Space",
+        "Fantasy"
+      ]
     }
   ]
 }
