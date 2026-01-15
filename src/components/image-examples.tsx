@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import {
   Card,
@@ -14,99 +14,16 @@ import { Heart, Tag, Wand2 } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/components/ui/pagination';
 
 export default function ImageExamples() {
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9;
-
   const imageContent = useMemo(() => {
-    return PlaceHolderImages.filter(item => item.type === 'image');
+    return PlaceHolderImages.filter(item => item.type === 'image').slice(0, 9);
   }, []);
-
-  const totalPages = Math.ceil(imageContent.length / itemsPerPage);
-
-  const paginatedContent = useMemo(() => {
-    return imageContent.slice(
-      (currentPage - 1) * itemsPerPage,
-      currentPage * itemsPerPage
-    );
-  }, [imageContent, currentPage, itemsPerPage]);
-
-  const handlePageChange = (page: number) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
-  };
-
-  const renderPaginationLinks = () => {
-    const pageNumbers = [];
-    const maxPagesToShow = 5;
-    const halfMaxPages = Math.floor(maxPagesToShow / 2);
-
-    if (totalPages <= maxPagesToShow) {
-      for (let i = 1; i <= totalPages; i++) {
-        pageNumbers.push(i);
-      }
-    } else {
-      pageNumbers.push(1);
-      if (currentPage > halfMaxPages + 2) {
-        pageNumbers.push('ellipsis-start');
-      }
-
-      let startPage = Math.max(2, currentPage - halfMaxPages);
-      let endPage = Math.min(totalPages - 1, currentPage + halfMaxPages);
-
-      if (currentPage < halfMaxPages + 2) {
-        endPage = maxPagesToShow - 1;
-      }
-      if (currentPage > totalPages - (halfMaxPages + 1)) {
-        startPage = totalPages - (maxPagesToShow - 2);
-      }
-
-      for (let i = startPage; i <= endPage; i++) {
-        pageNumbers.push(i);
-      }
-
-      if (currentPage < totalPages - (halfMaxPages + 1)) {
-        pageNumbers.push('ellipsis-end');
-      }
-      pageNumbers.push(totalPages);
-    }
-
-    return pageNumbers.map((page, index) => {
-      if (typeof page === 'string') {
-        return <PaginationEllipsis key={page + index} />;
-      }
-      return (
-        <PaginationItem key={page}>
-          <PaginationLink
-            href="#"
-            isActive={currentPage === page}
-            onClick={e => {
-              e.preventDefault();
-              handlePageChange(page);
-            }}
-          >
-            {page}
-          </PaginationLink>
-        </PaginationItem>
-      );
-    });
-  };
 
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {paginatedContent.map(item => (
+        {imageContent.map(item => (
           <Card
             key={item.id}
             className="overflow-hidden group h-full flex flex-col bg-card"
@@ -162,35 +79,6 @@ export default function ImageExamples() {
           </Card>
         ))}
       </div>
-      {totalPages > 1 && (
-        <div className="mt-12 flex justify-center">
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious
-                  href="#"
-                  onClick={e => {
-                    e.preventDefault();
-                    handlePageChange(currentPage - 1);
-                  }}
-                  aria-disabled={currentPage === 1}
-                />
-              </PaginationItem>
-              {renderPaginationLinks()}
-              <PaginationItem>
-                <PaginationNext
-                  href="#"
-                  onClick={e => {
-                    e.preventDefault();
-                    handlePageChange(currentPage + 1);
-                  }}
-                  aria-disabled={currentPage === totalPages}
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        </div>
-      )}
     </>
   );
 }
