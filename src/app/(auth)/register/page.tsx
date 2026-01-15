@@ -15,6 +15,7 @@ import { useAuth } from '@/firebase';
 import { initiateEmailSignUp } from '@/firebase/non-blocking-login';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { RegisterLink } from '@kinde-oss/kinde-auth-nextjs/components';
 
 export default function RegisterPage() {
   const auth = useAuth();
@@ -80,8 +81,8 @@ export default function RegisterPage() {
                   onChange={e => setPassword(e.target.value)}
                 />
               </div>
-              <Button type="submit" className="w-full">
-                Create an account
+              <Button type="submit" className="w-full" asChild>
+                <RegisterLink>Create an account</RegisterLink>
               </Button>
             </div>
           </form>
