@@ -1,6 +1,6 @@
 'use client';
 
-import { useFormState, useFormStatus } from 'react-dom';
+import { useActionState } from 'react';
 import { handlePromptGeneration, type FormState } from '@/app/actions';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -23,7 +23,7 @@ function GenerateButton() {
 
 export default function PromptGenerator() {
   const initialState: FormState = { message: '' };
-  const [state, formAction] = useFormState(handlePromptGeneration, initialState);
+  const [state, formAction] = useActionState(handlePromptGeneration, initialState);
   const { toast } = useToast();
 
   const handleCopyToClipboard = () => {
