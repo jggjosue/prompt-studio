@@ -23,7 +23,7 @@ import Link from 'next/link';
 
 export default function VideoPromptsPage() {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9;
+  const itemsPerPage = 18;
 
   const videoContent: ImagePlaceholder[] = PlaceHolderImages.filter(
     item => item.type === 'video'
