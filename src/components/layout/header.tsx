@@ -103,7 +103,7 @@ export default function Header() {
             </DropdownMenuContent>
           </DropdownMenu>
           <Link
-            href="#"
+            href="/pricing"
             className="flex items-center gap-2 hover:text-foreground/80 transition-colors"
           >
             Pricing
