@@ -1824,6 +1824,84 @@
         "Space",
         "Fantasy"
       ]
+    },
+    {
+      "id": "141",
+      "title": "Mystical Aurora: A Dance of Lights",
+      "description": "Auroras boreales iluminan el cielo nocturno mientras figuras etéreas parecen bailar entre las luces.",
+      "imageUrl": "https://images.unsplash.com/photo-1715520355950-4768cb0d2c33?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxteXN0aWNhbCUyMGF1cm9yYXxlbnwwfHx8fDE3Njg0NTQyMjh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "mystical aurora",
+      "type": "video",
+      "tags": [
+        "Surreal Realism",
+        "Nature Outdoor",
+        "Cinematic"
+      ]
+    },
+    {
+      "id": "142",
+      "title": "Urban Rush: A City in Motion",
+      "description": "Tráfico y peatones se mueven rápidamente en una metrópolis iluminada por neón, transmitiendo energía urbana.",
+      "imageUrl": "https://images.unsplash.com/photo-1686080609044-f581b545770b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHx1cmJhbiUyMHJ1c2h8ZW58MHx8fHwxNzY4NDU0MjI4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "urban rush",
+      "type": "video",
+      "tags": [
+        "Cinematic",
+        "Urban Landscape",
+        "Fast Motion"
+      ]
+    },
+    {
+      "id": "143",
+      "title": "Mechanical Elegance: Clockwork in Sync",
+      "description": "Relojes y engranajes giran en perfecta armonía, mostrando la belleza de la mecánica detallada.",
+      "imageUrl": "https://images.unsplash.com/photo-1768062251804-92344088e223?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxtZWNoYW5pY2FsJTIwZWxlZ2FuY2V8ZW58MHx8fHwxNzY4NDU0MjI4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "mechanical elegance",
+      "type": "video",
+      "tags": [
+        "Industrial",
+        "Slow Motion",
+        "Cinematic"
+      ]
+    },
+    {
+      "id": "144",
+      "title": "Ocean Majesty: A Whale’s Leap",
+      "description": "Un majestuoso ballenato emerge del océano al amanecer, con agua brillante y atmósfera épica.",
+      "imageUrl": "https://images.unsplash.com/photo-1661805691126-87d6e8a4cb3a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxvY2VhbiUyMG1hamVzdHl8ZW58MHx8fHwxNzY4NDU0MjI4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "ocean majesty",
+      "type": "video",
+      "tags": [
+        "Documentary Style",
+        "Nature Outdoor",
+        "Slow Motion"
+      ]
+    },
+    {
+      "id": "145",
+      "title": "Festival Radiance: Lanterns Ascend",
+      "description": "Miles de faroles flotan en el aire durante un festival nocturno, creando un ambiente mágico.",
+      "imageUrl": "https://images.unsplash.com/photo-1759906760564-f9b2966e1c82?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxmZXN0aXZhbCUyMHJhZGlhbmNlfGVufDB8fHx8MTc2ODQ1NDIyOHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "festival radiance",
+      "type": "video",
+      "tags": [
+        "Cultural",
+        "Cinematic",
+        "Urban Landscape"
+      ]
+    },
+    {
+      "id": "146",
+      "title": "Cosmic Voyage: A Journey Among Stars",
+      "description": "Una nave atraviesa un océano estelar rodeada de planetas y constelaciones brillantes.",
+      "imageUrl": "https://images.unsplash.com/photo-1762361160283-73cf9ce6e06c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxjb3NtaWMlMjB2b3lhZ2V8ZW58MHx8fHwxNzY4NDU0MjI4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cosmic voyage",
+      "type": "video",
+      "tags": [
+        "Surreal Realism",
+        "Space",
+        "Fantasy"
+      ]
     }
   ]
 }
