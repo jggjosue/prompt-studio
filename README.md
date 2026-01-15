@@ -15,6 +15,13 @@ Follow these steps to get your development environment running.
 
 Before running the app, make sure you have set up a back-end web application in your Kinde dashboard. This will provide you with the necessary client ID and secret.
 
+Within your Kinde back-end web application, update the following settings:
+
+- **Allowed callback URLs**: Add `http://localhost:3000/api/auth/kinde_callback`
+- **Allowed logout redirect URLs**: Add `http://localhost:3000`
+
+**Note:** When you deploy your application, you will need to update these URLs with your production domain.
+
 ### 2. Set up your local environment
 
 First, if you're working with a forked repository, clone it to your local machine.
@@ -54,7 +61,7 @@ Once the dependencies are installed and your environment variables are set, you 
 npm run dev
 ```
 
-Open [http://localhost:9002](http://localhost:9002) with your browser to see your application.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see your application.
 
 ## Learn More
 
