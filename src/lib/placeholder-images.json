@@ -1527,6 +1527,81 @@
         "Surreal Realism",
         "Morphing Effects"
       ]
+    },
+    {
+      "id": "117",
+      "title": "Urban Serenity: A Baker's Winter Walk",
+      "description": "Un panadero camina por calles nevadas con calma, transmitiendo serenidad en un entorno urbano invernal.",
+      "imageUrl": "https://images.unsplash.com/photo-1517686469429-8bdb88b9f907?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx3aW50ZXIlMjB3YWxrfGVufDB8fHx8MTc2ODQ1MjM1OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "winter walk",
+      "type": "video",
+      "tags": [
+        "Cinematic",
+        "Urban Landscape",
+        "Winter Theme"
+      ]
+    },
+    {
+      "id": "118",
+      "title": "Transcendent Transformation: From Light to Life",
+      "description": "Una figura emerge de un haz de luz, transformándose en un ser vivo en un entorno surrealista.",
+      "imageUrl": "https://images.unsplash.com/photo-1507525428034-b723a996f329?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxiZWFtJTIwb2YlMjBsaWdodHxlbnwwfHx8fDE3Njg0NTIzNTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "beam light",
+      "type": "video",
+      "tags": [
+        "Surreal Realism",
+        "Morphing Effects"
+      ]
+    },
+    {
+      "id": "119",
+      "title": "Plush Bloom to Luxury Fashion Elegance",
+      "description": "Un peluche florece y se convierte en un vestido de alta costura, mostrando creatividad y glamour.",
+      "imageUrl": "https://images.unsplash.com/photo-1587302913429-0335043641dd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwbHVzaCUyMGJsb29tfGVufDB8fHx8MTc2ODQ1MjM1OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "plush bloom",
+      "type": "video",
+      "tags": [
+        "High Fashion",
+        "Morphing Effects"
+      ]
+    },
+    {
+      "id": "120",
+      "title": "Secrets Unveiled: A Tense Confrontation",
+      "description": "Dos personajes se enfrentan en un espacio oscuro, con tensión dramática y atmósfera cinematográfica.",
+      "imageUrl": "https://images.unsplash.com/photo-1531326498762-11803a62d744?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx0ZW5zZSUyMGNvbmZyb250YXRpb258ZW58MHx8fHwxNzY4NDUyMzU5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "tense confrontation",
+      "type": "video",
+      "tags": [
+        "Cinematic",
+        "Dramatic Lighting"
+      ]
+    },
+    {
+      "id": "121",
+      "title": "Chasing Shadows: A Nighttime Drift on Mountain Roads",
+      "description": "Un coche derrapa en carreteras montañosas bajo la noche, con luces y sombras intensas.",
+      "imageUrl": "https://images.unsplash.com/photo-1542282088-fe8426682b8f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjaGFzaW5nJTIwc2hhZG93c3xlbnwwfHx8fDE3Njg0NTIzNTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "chasing shadows",
+      "type": "video",
+      "tags": [
+        "Cinematic",
+        "Automotive",
+        "Night Scene"
+      ]
+    },
+    {
+      "id": "122",
+      "title": "Echoes of Tomorrow: A Soldier's Remembrance",
+      "description": "Un soldado reflexiona en un campo vacío, con atmósfera melancólica y tonos cinematográficos.",
+      "imageUrl": "https://images.unsplash.com/photo-1518084470305-4b53b8b0b5f1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxlY2hvZXMlMjBvZiUyMHRvbW9ycm93fGVufDB8fHx8MTc2ODQ1MjM1OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "echoes tomorrow",
+      "type": "video",
+      "tags": [
+        "Cinematic",
+        "War Theme",
+        "Melancholic"
+      ]
     }
   ]
 }
