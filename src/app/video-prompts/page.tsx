@@ -1,0 +1,176 @@
+'use client';
+
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
+import { Sparkles, Tag, Wand2 } from 'lucide-react';
+import Header from '@/components/layout/header';
+import Footer from '@/components/layout/footer';
+import {
+  PlaceHolderImages,
+  type ImagePlaceholder,
+} from '@/lib/placeholder-images';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import Link from 'next/link';
+
+export default function VideoPromptsPage() {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9;
+
+  const videoContent: ImagePlaceholder[] = PlaceHolderImages.filter(
+    item => item.type === 'video'
+  );
+
+  const totalPages = Math.ceil(videoContent.length / itemsPerPage);
+
+  const paginatedContent = videoContent.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
+  return (
+    <div className="flex min-h-screen w-full flex-col bg-background">
+      <Header />
+      <main className="flex-1 py-12 md:py-16">
+        <div className="container max-w-7xl">
+          <div className="flex flex-col items-center space-y-4 text-center mb-12">
+            <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
+              Explore AI Video Prompts
+            </h1>
+            <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
+              Discover thousands of AI video prompts and examples. Get inspired
+              and create your own AI generated videos.
+            </p>
+            <div className="flex gap-4">
+              <Button variant="outline">
+                <Tag className="mr-2" />
+                Browse by Tags
+              </Button>
+              <Button variant="secondary" asChild>
+                <Link href="/login">
+                  <Sparkles className="mr-2" />
+                  Nano Banana Pro
+                </Link>
+              </Button>
+              <Button asChild>
+                <Link href="/prompt/edit">
+                  <Wand2 className="mr-2" />
+                  Generate a Video
+                </Link>
+              </Button>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {paginatedContent.map(item => (
+              <Card
+                key={item.id}
+                className="overflow-hidden group h-full flex flex-col bg-card"
+              >
+                <CardHeader>
+                  <CardTitle className="font-headline text-xl">
+                    {item.title}
+                  </CardTitle>
+                  <CardDescription className="line-clamp-3 h-[60px]">
+                    {item.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="p-6 pt-0 space-y-4 flex-grow">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Tag className="w-4 h-4" />
+                    <span className="truncate">{item.tags.join(', ')}</span>
+                  </div>
+                  <div className="relative aspect-video rounded-md overflow-hidden">
+                    <video
+                      src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
+                      playsInline
+                      controls
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </CardContent>
+                <CardFooter className="bg-muted/50 p-4 border-t gap-2">
+                  <Button size="sm" asChild>
+                    <Link
+                      href={`/prompt/edit?prompt=${encodeURIComponent(
+                        item.description
+                      )}`}
+                    >
+                      <Wand2 className="w-4 h-4 mr-2" />
+                      Use this prompt
+                    </Link>
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    asChild
+                    className="ml-auto"
+                  >
+                    <Link href={`/gallery/${item.id}`}>View</Link>
+                  </Button>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+
+          <div className="mt-12">
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handlePageChange(currentPage - 1);
+                    }}
+                    aria-disabled={currentPage === 1}
+                  />
+                </PaginationItem>
+                {[...Array(totalPages)].map((_, i) => (
+                  <PaginationItem key={i}>
+                    <PaginationLink
+                      href="#"
+                      isActive={currentPage === i + 1}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handlePageChange(i + 1);
+                      }}
+                    >
+                      {i + 1}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
+                {totalPages > 5 && <PaginationEllipsis />}
+                <PaginationItem>
+                  <PaginationNext
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handlePageChange(currentPage + 1);
+                    }}
+                    aria-disabled={currentPage === totalPages}
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </div>
+        </div>
+      </main>
+      <Footer />
+    </div>
+  );
+}
