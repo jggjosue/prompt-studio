@@ -19,10 +19,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import Logo from './logo';
-import {
-  RegisterLink,
-  LoginLink,
-} from '@kinde-oss/kinde-auth-nextjs/components';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { useState } from 'react';
 import {
@@ -202,10 +198,10 @@ export default function HeaderClient() {
         <div className="flex items-center gap-2 ml-auto">
           <div className="hidden md:flex items-center gap-2">
             <Button variant="ghost" asChild>
-              <LoginLink>Login</LoginLink>
+              <Link href="/login">Login</Link>
             </Button>
             <Button asChild>
-              <RegisterLink>Sign Up</RegisterLink>
+              <Link href="/register">Sign Up</Link>
             </Button>
           </div>
           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
@@ -228,10 +224,10 @@ export default function HeaderClient() {
                 </nav>
                 <div className="mt-8 flex flex-col gap-4">
                   <Button variant="ghost" asChild size="lg">
-                    <LoginLink onClick={closeSheet}>Login</LoginLink>
+                    <Link href="/login" onClick={closeSheet}>Login</Link>
                   </Button>
                   <Button asChild size="lg">
-                    <RegisterLink onClick={closeSheet}>Sign Up</RegisterLink>
+                    <Link href="/register" onClick={closeSheet}>Sign Up</Link>
                   </Button>
                 </div>
               </div>
