@@ -16,7 +16,6 @@ import { useAuth } from '@/firebase';
 import { initiateEmailSignIn } from '@/firebase/non-blocking-login';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { LoginLink } from '@kinde-oss/kinde-auth-nextjs/components';
 
 export default function LoginPage() {
   const auth = useAuth();
@@ -80,8 +79,8 @@ export default function LoginPage() {
                   onChange={e => setPassword(e.target.value)}
                 />
               </div>
-              <Button type="submit" className="w-full" asChild>
-                <LoginLink>Login</LoginLink>
+              <Button type="submit" className="w-full">
+                Login
               </Button>
             </div>
           </form>
