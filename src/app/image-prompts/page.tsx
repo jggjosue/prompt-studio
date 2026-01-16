@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Pagination,
@@ -18,17 +18,36 @@ import {
   PlaceHolderImages,
   type ImagePlaceholder,
 } from '@/lib/placeholder-images';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function ImagePromptsPage() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [filter, setFilter] = useState('all');
   const itemsPerPage = 18;
 
-  const imageContent: ImagePlaceholder[] = PlaceHolderImages.filter(
-    item => item.type === 'image'
-  );
+  const imageContent: ImagePlaceholder[] = useMemo(() => {
+    return PlaceHolderImages.filter(item => {
+      if (item.type !== 'image') return false;
+      if (filter === 'nano-banana') {
+        return item.title.toLowerCase().includes('nano banana');
+      }
+      return true;
+    });
+  }, [filter]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filter]);
 
   const totalPages = Math.ceil(imageContent.length / itemsPerPage);
 
@@ -60,7 +79,7 @@ export default function ImagePromptsPage() {
 
       let startPage = Math.max(2, currentPage - halfMaxPages);
       let endPage = Math.min(totalPages - 1, currentPage + halfMaxPages);
-      
+
       if (currentPage < halfMaxPages + 2) {
         endPage = maxPagesToShow - 1;
       }
@@ -112,16 +131,23 @@ export default function ImagePromptsPage() {
               Discover thousands of AI image prompts and examples. Get inspired
               and create your own AI generated images.
             </p>
-            <div className="flex gap-4">
+            <Tabs
+              defaultValue="all"
+              className="w-full max-w-md pt-4"
+              onValueChange={value => setFilter(value)}
+            >
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="all">All Prompts</TabsTrigger>
+                <TabsTrigger value="nano-banana">
+                  <Sparkles className="mr-2 h-4 w-4" />
+                  Nano Banana Pro
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+            <div className="flex gap-4 pt-4">
               <Button variant="outline">
                 <Tag className="mr-2" />
                 Browse by Tags
-              </Button>
-              <Button variant="secondary" asChild>
-                <Link href="/login">
-                  <Sparkles className="mr-2" />
-                  Nano Banana Pro
-                </Link>
               </Button>
               <Button asChild>
                 <Link href="/prompt/edit">
@@ -152,20 +178,20 @@ export default function ImagePromptsPage() {
                     <span className="truncate">{item.tags.join(', ')}</span>
                   </div>
                   <div className="relative aspect-[4/5] rounded-md overflow-hidden">
-                     <Image
-                        src={item.imageUrl}
-                        alt={item.description}
-                        fill
-                        className="object-cover"
-                        data-ai-hint={item.imageHint}
-                      />
+                    <Image
+                      src={item.imageUrl}
+                      alt={item.description}
+                      fill
+                      className="object-cover"
+                      data-ai-hint={item.imageHint}
+                    />
                   </div>
                 </CardContent>
                 <CardFooter className="bg-muted/50 p-4 border-t gap-2">
-                   <Button variant="outline" size="icon" asChild>
-                     <Link href="/login">
+                  <Button variant="outline" size="icon" asChild>
+                    <Link href="/login">
                       <Heart className="w-4 h-4" />
-                     </Link>
+                    </Link>
                   </Button>
                   <Button size="sm" asChild>
                     <Link
@@ -196,7 +222,7 @@ export default function ImagePromptsPage() {
                 <PaginationItem>
                   <PaginationPrevious
                     href="#"
-                    onClick={(e) => {
+                    onClick={e => {
                       e.preventDefault();
                       handlePageChange(currentPage - 1);
                     }}
@@ -207,7 +233,7 @@ export default function ImagePromptsPage() {
                 <PaginationItem>
                   <PaginationNext
                     href="#"
-                    onClick={(e) => {
+                    onClick={e => {
                       e.preventDefault();
                       handlePageChange(currentPage + 1);
                     }}
