@@ -1069,7 +1069,7 @@
     },
     {
       "id": "82",
-      "title": "Morning Elegance in Amsterdam",
+      "title": "Elegant Morning in Amsterdam",
       "description": "Mujer confiada con estilo deportivo chic en calle tranquila de Ámsterdam, con bicicleta vintage y molino entre niebla.",
       "imageUrl": "https://images.unsplash.com/photo-1762829213112-b676c5dd5e63?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxlbGVnYW50JTIwYW1zdGVyZGFtfGVufDB8fHx8MTc2ODQ1MDU5OXww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "elegant amsterdam",
@@ -1914,6 +1914,17 @@
         "Dramatic",
         "Black and White",
         "Cinematic"
+      ]
+    },
+    {
+      "id": "148",
+      "title": "Nano Banana: Retrato editorial masculino premium",
+      "description": "Studio portrait of a confident man sitting on a modern beige armchair with wooden legs, leaning slightly forward with his hands together. He wears a dark navy blue dress shirt with the top buttons open, light beige slim-fit pants, and black loafers with tan soles. He has short dark brown hair styled with a texture, a trimmed full beard, tanned skin, and an intense confident gaze directed at the camera. The background is minimalist light gray with a smooth gradient, evenly lit with soft natural studio lighting. The mood is cinematic and fashion editorial, with high realism and fine details. Shot with a 50mm lens at f/2.8, vertical framing, full-body composition. the subject from the uploaded image, maintaining the exact real face, hairstyle, skin tone, and body identity unchanged.",
+      "imageUrl": "https://images.unsplash.com/photo-1597573783009-4b9c914107da?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxmYXNoaW9uJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzY4MzY2NjQ3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "fashion portrait",
+      "type": "image",
+      "tags": [
+        "FashionPortrait"
       ]
     }
   ]
