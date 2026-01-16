@@ -602,7 +602,7 @@
     },
     {
       "id": "47",
-      "title": "Mystique in Motion: A Vintage Charm",
+      "title": "Mystique in Motion: A Floral Encounter",
       "description": "A captivating young woman in a sleek black dress graces a faded newsstand, surrounded by withered flowers, exuding an enchanting blend of beauty and allure.",
       "imageUrl": "https://images.unsplash.com/photo-1598625464241-8309f99b369a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHx2aW50YWdlJTIwY2hhcm18ZW58MHx8fHwxNzY4NDUwNDgxfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "vintage charm",
@@ -735,7 +735,7 @@
       "id": "57",
       "title": "Serenity in Style: A Day with Billie Eilish",
       "description": "Cuatro viñetas ultra-fotorrealistas de Billie Eilish en un retiro de bienestar lujoso, irradiando tranquilidad y sofisticación.",
-      "imageUrl": "https://images.unsplash.com/photo-1628924312192-a8a87b8fe991?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YmlsbGllJTIwZWlsaXNofGVufDB8fHx8MTc2ODQ1MDU5OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1628924312192-aabf3ac691da?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YmlsbGllJTIwZWlsaXNofGVufDB8fHx8MTc2ODQ1MDU5OXww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "billie eilish",
       "type": "image",
       "tags": [
@@ -1901,6 +1901,19 @@
         "Surreal Realism",
         "Space",
         "Fantasy"
+      ]
+    },
+    {
+      "id": "147",
+      "title": "Urban Reflection in Dramatic Light",
+      "description": "Dramatic, ultra-realistic close-up in black and white with high-contrast cinematic lighting from the side, highlighting the contours of his face.",
+      "imageUrl": "https://images.unsplash.com/photo-1655037467987-f064e624db1c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8dXJiYW4lMjByZWZsZWN0aW9ufGVufDB8fHx8MTc2ODUzMDQyM3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "urban reflection",
+      "type": "image",
+      "tags": [
+        "Dramatic",
+        "Black and White",
+        "Cinematic"
       ]
     }
   ]
