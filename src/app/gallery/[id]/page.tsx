@@ -29,12 +29,12 @@ export default function GalleryDetailPage({
     p => p.id === params.id
   );
 
-  if (!item) {
+  if (!item || !item.imageUrl) {
     notFound();
   }
 
   const otherItems = PlaceHolderImages.filter(
-    p => p.id !== params.id
+    p => p.id !== params.id && p.imageUrl
   ).slice(0, 3);
 
   return (
