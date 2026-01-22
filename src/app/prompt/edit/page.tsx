@@ -16,9 +16,10 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Clapperboard, Image as ImageIcon, Sparkles, Wand2, ArrowLeft } from 'lucide-react';
+import { Clapperboard, Image as ImageIcon, Sparkles, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import Header from '@/components/layout/header';
+import Footer from '@/components/layout/footer';
 
 function PromptEditorContent() {
   const searchParams = useSearchParams();
@@ -158,6 +159,7 @@ function PromptEditorContent() {
           </Card>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
