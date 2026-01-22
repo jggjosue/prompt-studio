@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { handlePromptGeneration, type FormState } from '@/app/actions';
+import { handlePromptGeneration, type PromptGenerationFormState as FormState } from '@/app/actions';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent } from '@/components/ui/card';
