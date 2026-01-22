@@ -1926,6 +1926,347 @@
       "tags": [
         "FashionPortrait"
       ]
+    },
+    {
+      "id": "149",
+      "title": "Retrato editorial masculino premium",
+      "description": "Studio portrait of a confident man sitting on a modern beige armchair with wooden legs, leaning slightly forward with his hands together. He wears a dark navy blue dress shirt with the top buttons open, light beige slim-fit pants, and black loafers with tan soles. He has short dark brown hair styled with texture, a trimmed full beard, tanned skin, and an intense confident gaze directed at the camera. The background is minimalist light gray with a smooth gradient, evenly lit with soft natural studio lighting. The mood is cinematic and fashion editorial, with high realism and fine details. Shot with a 50mm lens at f/2.8, vertical framing, full-body composition. The subject from the uploaded image, maintaining the exact real face, hairstyle, skin tone, and body identity unchanged. MODEL OR TOOL: bananas. STORY OR TECHNICAL NOTES: Aspect ratio: 2:3 (vertical). Steps: 30–40. CFG Scale: 7.5–8.0. Sampler: DPM++ 2M Karras / Euler a. Style tags opcionais: fashion editorial, studio lighting, cinematic portrait, neutral background, realistic detail, male model.",
+      "imageUrl": "",
+      "imageHint": "fashion portrait",
+      "type": "image",
+      "tags": [
+        "FashionPortrait",
+        "fashion editorial",
+        "studio lighting",
+        "cinematic portrait",
+        "neutral background",
+        "realistic detail",
+        "male model"
+      ]
+    },
+    {
+      "id": "149",
+      "title": "Submerged",
+      "description": "Hyper-realistic, ultra-detailed close-up portrait showing only the left half of my face submerged in water, one eye in sharp focus, positioned on the far left of the frame, light rays creating caustic patterns on the skin, suspended water droplets and bubbles adding depth, cinematic lighting with soft shadows and sharp highlights, photorealistic textures including skin pores, wet lips, eyelashes, and subtle subsurface scattering, surreal and dreamlike atmosphere, shallow depth of field, underwater macro perspective. MODEL OR TOOL: Gemini. STORY OR TECHNICAL NOTES: Aspect ratio: 3:4.",
+      "imageUrl": "",
+      "imageHint": "underwater half-face",
+      "type": "image",
+      "tags": [
+        "RealisticModern"
+      ]
+    },
+    {
+      "id": "150",
+      "title": "Gini",
+      "description": "Maintain the same face and person (use attached photo for accurate face). Hyper-realistic cinematic. Create an 8k photorealistic image using the attached photo. A close-up portrait of a woman with long, jet-black, slightly wind-swept hair falling across her face. Her striking, light-colored eyes gaze upwards and to the right, catching a sharp, diagonal beam of natural light that illuminates the high points of her cheekbone, nose, and plump, glossy, mauve-toned lips; a slightly light weight silk. MODEL OR TOOL: Gemini.",
+      "imageUrl": "",
+      "imageHint": "8k cinematic close-up",
+      "type": "image",
+      "tags": [
+        "RealisticPortrait",
+        "Photography",
+        "Fashion",
+        "Minimalist",
+        "Elegant"
+      ]
+    },
+    {
+      "id": "151",
+      "title": "A cinematic urban portrait",
+      "description": "A cinematic urban portrait of me, keeping my real face unchanged. I am sitting casually on outdoor stone steps in front of a building entrance, leaning slightly forward with a confident and contemplative posture. My left elbow rests on my knee, with my hand raised to my temple in a thoughtful gesture, while my right arm hangs more loosely, with my hand extended downward in a relaxed position. My legs are bent naturally, spreading apart for a grounded and strong presence. My gaze is directed toward the camera, steady and intense, with a calm yet powerful expression. I am wearing a black outfit: a fitted turtleneck sweater layered under a black coat with a wide collar and subtle texture. The coat has a tailored yet modern look, with a slightly matte fabric that absorbs the light, creating depth. My trousers are also black, slim-fitted, completing the clean, monochromatic style. No visible accessories, emphasizing minimalism and sophistication. The background shows part of an urban building with glass doors and warm interior lights softly glowing, adding contrast to the darker tones of my outfit. The lighting is warm and diffused, highlighting my face and upper body while creating soft shadows that add cinematic depth. The camera captures me slightly from below (low angle), emphasizing strength and presence, framed from the knees up. The focal length resembles a portrait lens around 50-85mm, producing natural proportions with a shallow depth of field that keeps me sharp against the softly blurred background. Style: cinematic, moody urban portrait, editorial fashion photography, minimalistic monochrome outfit, professional model vibe. MODEL OR TOOL: Nano Banana.",
+      "imageUrl": "",
+      "imageHint": "urban cinematic portrait",
+      "type": "image",
+      "tags": [
+        "Photography",
+        "Portrait"
+      ]
+    },
+    {
+      "id": "152",
+      "title": "Moto esportiva",
+      "description": "Crie uma imagem minha [foto enviada em anexo] um retrato ultra-realista. Eu estou sentado em uma Moto esportiva preta brilhante em uma área ao ar livre contra o fundo de árvores verdes. Eu uso uma camiseta preta solta, jeans escuros soltos com dobras na parte inferior e tênis Nike preto e branco. Os acessórios usados incluem um relógio preto. Minha mão esquerda descansou casualmente em sua coxa, enquanto sua mão direita descansou na moto enquanto segurava um capacete preto brilhante com uma viseira transparente. A moto parece detalhada com um motor grande, quadro forte e detalhes cromados brilhantes, acentuando a impressão moderna e poderosa. O fundo mostra árvores altas com luz natural suave, criando uma mistura equilibrada de sombra e luz. A expressão é calma e confiante, olhando diretamente para a câmera. O estilo geral é cinematográfico e moderno, combinando a sensação de streetwear jovem com a presença de uma motocicleta arrojada. Alta resolução, estilo editorial fotorrealista. MODEL OR TOOL: Model. TAGS: RealisticPhotography.",
+      "imageUrl": "",
+      "imageHint": "moto deportiva",
+      "type": "image",
+      "tags": [
+        "RealisticPhotography"
+      ]
+    },
+    {
+      "id": "153",
+      "title": "Foto black tie",
+      "description": "Uma foto realista com todos os traços e linhas idênticos ao da foto com um semblante imponente, em preto em branco, no traje de terno preto e gravata slim. MODEL OR TOOL: Gemini. STORY OR TECHNICAL NOTES: Se quiser com óculos, acrescenta e peça com armação em preto ou em metal.",
+      "imageUrl": "",
+      "imageHint": "foto en blanco y negro, traje",
+      "type": "image",
+      "tags": [
+        "RealisticCinematicPortrait",
+        "Minimalist",
+        "Elegant"
+      ]
+    },
+    {
+      "id": "154",
+      "title": "Untamed Spirit",
+      "description": "A cinematic, mid-length portrait, capturing a female figure with a strong and elegant presence, standing next to a horse. The subject faces the camera, with a direct and confident gaze. One hand gently holds the horse's halter or head, conveying a calm and powerful connection with the animal. She wears a long-sleeved shirt in a neutral tone (beige, khaki, or light gray), with the top buttons undone to create a V-neckline. The bottoms are earthy-colored pants (brown or khaki), complemented by a brown leather belt with a large, prominent gold buckle (possibly with the letter 'V'). A gold chain hangs from the belt loops, adding a touch of glamour. The look is adorned with multiple bracelets on both wrists, combining metals and natural materials. Her hair is long, with voluminous waves and a natural look, as if gently blown by the wind, framing her face. The makeup is natural yet defined, enhancing the beauty of her features. Beside her, a brown horse with a white marking on its face looks forward, in harmony with the figure. The background is an open field, such as a prairie or a valley, with a cloudy sky and the landscape in the background gently blurred, creating a sense of vastness. The lighting is natural and diffuse, typical of an overcast day, resulting in soft shadows and light that flatters the face and body. Camera Settings: Captured with a prime portrait lens (e.g., 85mm f/1.8 or 105mm f/1.4) on a full-frame camera for optimal compression and creamy bokeh. Aperture set between f/2.0 and f/2.8 to perfectly isolate the subject and horse from the background. ISO 100-200 for maximum image quality with abundant natural light. Shutter speeds of 1/400s to 1/800s ensure absolute sharpness and freeze any subtle movement of the hair or horse. The lighting is exclusively natural, taking advantage of the soft light of an overcast sky. Instructions for the \"nano banana\": \"Please use the user's reference image to capture and apply all of their facial features, facial structure, eye color, skin tone, hair style, and color with maximum fidelity. The goal is to create a version of the user in this cinematic portrait. The clothing, accessories, the pose next to the horse, the confident expression, the diffuse natural lighting, and the open field setting should be rendered as described, creating a perfect fusion between the user's identity and the aesthetics of the image.\" MODEL OR TOOL: Nano Banana.",
+      "imageUrl": "",
+      "imageHint": "retrato con caballo",
+      "type": "image",
+      "tags": [
+        "RealisticCinematic",
+        "Fashion",
+        "Photography",
+        "Portrait"
+      ]
+    },
+    {
+      "id": "155",
+      "title": "Instinct and Spirit",
+      "description": "Create a realistic and emotional scene showing a man (use the provided image for accurate facial features) and a lion face to face in a moment of connection and respect. The man's eyes are closed, with a serene expression, while the lion gently rests its forehead and muzzle against his, conveying trust and a spiritual bond. Both are standing on ground covered in light snow, with snowflakes gently falling. The man wears a dark coat and hair slightly tousled by the wind, and the lion displays a thick, majestic mane. In the background, a cold, misty natural landscape with blurred mountains and gray tones reinforces the calm and powerful atmosphere. The lighting is soft and diffuse, highlighting the textures of the skin, fur, and coat, creating a cinematic and poetic atmosphere. The composition should convey friendship, courage, and harmony between man and nature. Suggested settings: Style: Ultra-realistic, cinematic, 8K Lighting: Soft, diffuse, natural winter light Camera: Medium close-up, focus on expressions Emotion: Connection, respect, tranquility Setting: Falling snow, blurred background with mountains. MODEL OR TOOL: nanobanana. TAGS: SurrealRealisticFantasy.",
+      "imageUrl": "",
+      "imageHint": "hombre y león en nieve",
+      "type": "image",
+      "tags": [
+        "Surreal",
+        "Realistic",
+        "Fantasy"
+      ]
+    },
+    {
+      "id": "156",
+      "title": "Studio Photography",
+      "description": "Studio photography of a me in a black suit, black turtleneck and round sunglasses with translucent yellow lenses. Vibrant orange background. Unique poses from the front. MODEL OR TOOL: Gemini.",
+      "imageUrl": "",
+      "imageHint": "estudio fondo naranja",
+      "type": "image",
+      "tags": [
+        "Realistic",
+        "Cinematic",
+        "Business",
+        "Minimalist",
+        "Vibrant / Colorful"
+      ]
+    },
+    {
+      "id": "157",
+      "title": "Monochromatic minimal elegant",
+      "description": "Recreate this scene using my submitted photo as a reference, maintaining the same framing, pose, lighting, and style as the example image. The composition should show a half-length male portrait, with the model sitting and leaning slightly forward. The right arm should cross the body, with the left hand resting gently on the opposite arm, conveying elegance and confidence. The facial expression should be serene, confident, and slightly enigmatic. The gaze should be directed toward the camera, with lips softly closed and a firm posture. The outfit consists of a dark, sophisticated ensemble—a structured black blazer worn over a fitted black shirt (or T-shirt/sweater). The hair should be neatly groomed and styled appropriately for a man (e.g., short, slicked back, or a modern cut and wearing Sunglasses). The lighting should be studio-style, with soft, contrasting directional light (Rembrandt-style or sidelight), highlighting the contours of the face, creating elegant shadows and a subtle gradient in the background. The background should be smooth and neutral, in dark gray tones, with slight depth and no distracting elements. The final style should be black and white, with refined contrast, smooth skin texture, and a realistic editorial portrait look. Vertical format (1080x1920), portrait aspect ratio, professional studio photo quality, and a cinematic, realistic finish. MODEL OR TOOL: Nano banana.",
+      "imageUrl": "",
+      "imageHint": "retratro masculino b/n",
+      "type": "image",
+      "tags": [
+        "Portrait",
+        "Realistic",
+        "Modern",
+        "Minimalist",
+        "Concept art",
+        "Dark / Moody",
+        "Elegant"
+      ]
+    },
+    {
+      "id": "158",
+      "title": "Vintage Car Pro",
+      "description": "Create a hyper-realistic portrait of a man (man of the uploaded photo) sitting in the driver's seat of a car, wearing a black shirt, combined with a faded light gray jacket and light gray wide-leg pants. White shoes should be visible, complementing the casual look. Round sunglasses with dark lenses should be positioned on the nose, highlighting a confident and slightly ironic facial expression. Relaxed posture: one arm on the sports steering wheel, the other supporting the head, conveying a relaxed look. The interior of the car should include side windows showing urban scenery (trees, buildings and part of another vehicle), and a black textured seat. Soft natural lighting, simulating daylight coming through the windows, creating a contrast between the warm colors of the clothing and the neutral environment of the car. Vintage style, with desaturated tones and slightly grainy textures, evoking a nostalgic atmosphere. Dominant tones of gray, white and black, with a balance between external light and internal shadows. Slightly elevated perspective, framing that includes the top of the knees to the head, with the steering wheel partially visible on the right. MODEL OR TOOL: GEMINI.",
+      "imageUrl": "",
+      "imageHint": "hombre en coche vintage",
+      "type": "image",
+      "tags": [
+        "Fashion",
+        "Cinematic"
+      ]
+    },
+    {
+      "id": "159",
+      "title": "Reflections in style",
+      "description": "Use the uploaded photo to create an Ultra-realistic mirror selfie of a stylish man with glasses. He is wearing a loose white sweater layered over a crisp white T-shirt, paired with dark blue denim jeans. He holds a new modern iPhone 17 smartphone orange colour in one hand, partially covering his face, while his other hand rests casually in his pocket. The scene is set in warm indoor lighting, creating a cinematic, moody atmosphere with soft shadow. MODEL OR TOOL: gemini.",
+      "imageUrl": "",
+      "imageHint": "selfie espejo cinematográfico",
+      "type": "image",
+      "tags": [
+        "Realistic",
+        "Photography",
+        "Portrait",
+        "Minimalist",
+        "Retro / Vintage",
+        "Vibrant / Colorful"
+      ]
+    },
+    {
+      "id": "160",
+      "title": "Mulher Elegante",
+      "description": "Recrie essa cena usando minha foto enviada como referência, mantendo o mesmo enquadramento, pose, iluminação e estilo da imagem de exemplo. A composição deve mostrar um retrato feminino de meio corpo, com a modelo sentada e levemente inclinada para a frente. O braço direito deve cruzar o corpo, com a mão esquerda apoiada suavemente no braço oposto, transmitindo elegância e confiança. A expressão facial deve ser serena, confiante e levemente enigmática. O olhar deve estar direcionado à câmera, com os lábios suavemente fechados e postura firme. A roupa é composta por um conjunto escuro e sofisticado — blazer preto estruturado, usado sobre uma blusa preta justa. O cabelo deve estar solto, liso e bem alinhado, caindo sobre um dos ombros de forma natural. A iluminação deve ser de estúdio, com luz direcional suave e contrastada (estilo Rembrandt ou luz lateral), destacando o contorno do rosto, criando sombras elegantes e um degradê sutil no fundo. O fundo deve ser liso e neutro, em tons de cinza escuro, com profundidade leve e sem elementos de distração. O estilo final deve ser preto e branco, com contraste refinado, textura suave da pele e aparência realista de retrato editorial. Formato vertical (1080x1920), proporção retrato, qualidade fotográfica de estúdio profissional, acabamento cinematográfico e realista. MODEL OR TOOL: nano banana.",
+      "imageUrl": "",
+      "imageHint": "retrato femenino editorial",
+      "type": "image",
+      "tags": [
+        "RealisticCinematic",
+        "Fashion",
+        "Photography",
+        "Corporate",
+        "Business",
+        "Modern",
+        "Elegant"
+      ]
+    },
+    {
+      "id": "161",
+      "title": "Couple Polaroid",
+      "description": "Take a photo taken with a Polaroid camera. The photo should look like an ordinary photograph, without an explicit subject or property. The photo should have a slight blur and a consistent light source, like a flash from a dark room, scattered throughout the photo. Don't change the face. Change the background behind those two people with white curtains. With that boy and me make a cute poses. Make the boy holding a red coca cola can and girl a burger. MODEL OR TOOL: Nano Banana.",
+      "imageUrl": "",
+      "imageHint": "polaroid pareja retro",
+      "type": "image",
+      "tags": [
+        "Realistic",
+        "Portrait",
+        "Photography",
+        "Minimalist",
+        "Retro / Vintage",
+        "Vibrant / Colorful"
+      ]
+    },
+    {
+      "id": "162",
+      "title": "Beard dual-colored lighting",
+      "description": "A man with a beard and short dark hair is captured in a striking portrait, illuminated by dramatic dual-colored lighting. His face is split, with one side bathed in a cool blue light and the other in a vibrant pink/red hue, creating a high-contrast and neon-like effect. He gazes directly at the viewer with a thoughtful or pensive expression, his left hand resting on his chin. He is wearing a dark t-shirt and a watch on his left wrist. The background is dark and indistinct, further emphasizing the colorful illumination on his face and upper body. DO NOT CHANGE THE FACE. TAGS: RealisticPhotographyPortrait.",
+      "imageUrl": "",
+      "imageHint": "iluminación bicolor neón",
+      "type": "image",
+      "tags": [
+        "Realistic",
+        "Photography",
+        "Portrait"
+      ]
+    },
+    {
+      "id": "163",
+      "title": "Empresário e seu Reflexo",
+      "description": "A cinematic close-up portrait of a stylish individual standing by a large glass window, gazing thoughtfully at their reflection. The person wears a black turtleneck sweater layered under a fitted dark blazer, creating a sleek and elegant look. The lighting is soft and natural, coming from the window, gently illuminating one side of the face while casting subtle shadows on the other, emphasizing depth and texture. The background is softly blurred, highlighting the calm and introspective mood of the scene. The reflection in the glass adds a sense of duality and contemplation. The overall atmosphere is moody, sophisticated, and cinematic, with a color palette dominated by neutral tones and soft daylight. MODEL OR TOOL: Gemini, Freepik, Midjourney etc.",
+      "imageUrl": "",
+      "imageHint": "reflejo en ventana",
+      "type": "image",
+      "tags": [
+        "Cinematic",
+        "Realistic",
+        "Corporate",
+        "Minimalist",
+        "Elegant"
+      ]
+    },
+    {
+      "id": "164",
+      "title": "Low-key portrait photography",
+      "description": "professional studio portrait of a person, confident and determined expression, head slightly tilted down, wearing a black V-neck t-shirt. Using a low-key photography setup with butterfly lighting (key light from front above), a hair rim light from behind, and a faint background light. The atmosphere is filled with a subtle haze or smoke. Shot on a medium format camera, high contrast, cinematic, sharp focus, soft shadows. The atmosphere has a subtle haze. Hyper-realistic, shot on a 85mm lens, sharp focus on eyes, detailed facial features. --ar 4:5 --style raw. MODEL OR TOOL: Gimini.",
+      "imageUrl": "",
+      "imageHint": "low-key estudio",
+      "type": "image",
+      "tags": [
+        "RealisticPortrait",
+        "Photography",
+        "Cinematic",
+        "Dark / Moody",
+        "Elegant",
+        "Fashion"
+      ]
+    },
+    {
+      "id": "165",
+      "title": "Foto estilosa jaqueta turquesa",
+      "description": "Crie uma imagem hiper-realista baseada na minha imagem de referência (Imagem 1), preservando meus traços e aparência originais, mas recriando fielmente o estilo, roupa, pose, iluminação e cenário da imagem modelo. O personagem (baseado na minha foto) aparece em plano médio, voltado levemente para a direita, com o rosto inclinado e olhar firme em direção à câmera. A expressão é confiante e neutra, transmitindo presença e estilo. Ele veste uma jaqueta de couro turquesa, moderna e ajustada, com textura realista e brilho suave típico do couro tratado. O zíper e os botões metálicos devem refletir a luz com realismo e sutileza, mantendo o aspecto de fotografia de moda profissional. Nos olhos, óculos escuros espelhados azul-petróleo, com reflexos sutis do ambiente — realçando a estética urbana. O fundo é monocromático, em tom turquesa idêntico à jaqueta, criando um visual harmonioso e de alto contraste com a pele. Iluminação de estúdio profissional: Luz principal (key light) suave e frontal, vinda levemente da esquerda, com difusor grande (softbox 120 cm). Luz secundária de preenchimento (fill light) neutra do lado direito, reduzindo sombras e mantendo textura facial. Luz de recorte (rim light) sutil no ombro e cabelo, criando separação do fundo. Temperatura de cor balanceada (5500K). Sombras limpas e controladas, mantendo foco no rosto e na jaqueta. Câmera e Lente: Sony A7R IV, lente 85mm f/1.8, ISO 100, obturador 1/160s, abertura f/2. Foco absoluto no rosto, fundo suavemente desfocado (bokeh leve). Color grading: Cinematic Cool HDR. Palavras-chave visuais: --ultra realistic --studio lighting --8k --HDR contrast --photo realism --vibrant tones --depth of field --sharp focus --fashion editorial --turquoise tones --clean background --modern portrait --soft shadows --bokeh background --studio quality --skin texture detail --leather jacket. MODEL OR TOOL: gemini.",
+      "imageUrl": "",
+      "imageHint": "jaqueta turquesa editorial",
+      "type": "image",
+      "tags": [
+        "Cinematic",
+        "Realistic",
+        "Surreal",
+        "Photography",
+        "Portrait",
+        "Modern",
+        "Concept art",
+        "Fantasy",
+        "Retro / Vintage",
+        "Vibrant / Colorful"
+      ]
+    },
+    {
+      "id": "166",
+      "title": "90s Mirror Selfie",
+      "description": "A young woman taking a mirror selfie with choppy layered hair and curtain bangs, slightly messy look. Preserve original face. Outfit: faded black oversized band tee tied at the waist with a vintage rock band logo (distressed print). Accessories: small silver stud earrings, thin black choker, holding a flip phone with a worn sticker on the back. Makeup minimal with smudged eyeliner and matte lips. Photography: 1990s point-and-shoot film look with soft window light and slight underexposure, waist-up mirror selfie composition, film grain, light color fade and soft contrast. Background: small urban bedroom with posters and thrifted decor, muted gray walls, elements like a stack of cassette tapes, plaid blanket, string lights and a worn wooden bookshelf; authentic 90s grunge mood with natural warm highlights.",
+      "imageUrl": "",
+      "imageHint": "90s mirror selfie, grunge bedroom",
+      "type": "image",
+      "tags": [
+        "1990s",
+        "MirrorSelfie",
+        "Grunge",
+        "Vintage",
+        "Film",
+        "Portrait",
+        "Streetwear"
+      ]
+    },
+    {
+      "id": "167",
+      "title": "Creativity and development",
+      "description": "A beautiful, confident woman wearing a black suit sits elegantly on a luxurious white chair that highlights her slim, graceful figure. Her right hand rests gently beneath her chin, with her chin slightly raised in a pose of self-assurance. Her head tilts subtly to the right, eyes steady and looking forward with confidence. Her facial features glow under high-quality cinematic lighting, enhancing her natural beauty. The background is pure white, featuring a rare art painting and soft, cinematic illumination. Beside the chair stands a unique white table topped with a black coffee cup and a stylish lamp decor, creating a refined and elegant atmosphere. MODEL OR TOOL: Sura, mid-journey, and runway. TAGS: Anime, Cinematic, Realistic, Architecture, Cartoon, 3D Render, Vector, Sketch / Line Art, Watercolor, Oil Painting, Abstract, Surreal, Photography, Fashion, Portrait, Minimalist, Business, Corporate, Modern, Product / Poster, Logo, Concept art, Infographic, Cyberpunk, Sci-Fi, Fantasy, Grunge, Retro / Vintage, Dark / Moody, Vibrant / Colorful, Elegant, Flat Design, Neon, Glitch.",
+      "imageUrl": "",
+      "imageHint": "woman black suit on white chair",
+      "type": "image",
+      "tags": [
+        "Anime",
+        "Cinematic",
+        "Realistic",
+        "Architecture",
+        "Cartoon",
+        "3D Render",
+        "Vector",
+        "Sketch / Line Art",
+        "Watercolor",
+        "Oil Painting",
+        "Abstract",
+        "Surreal",
+        "Photography",
+        "Fashion",
+        "Portrait",
+        "Minimalist",
+        "Business",
+        "Corporate",
+        "Modern",
+        "Product / Poster",
+        "Logo",
+        "Concept art",
+        "Infographic",
+        "Cyberpunk",
+        "Sci-Fi",
+        "Fantasy",
+        "Grunge",
+        "Retro / Vintage",
+        "Dark / Moody",
+        "Vibrant / Colorful",
+        "Elegant",
+        "Flat Design",
+        "Neon",
+        "Glitch"
+      ]
+    },
+    {
+      "id": "168",
+      "title": "A hyper-realistic portrait",
+      "description": "A hyper-realistic portrait of the uploaded young man inside a giant Instagram post frame that dominates the scene. His face remains same, sharp and untouched, wearing dark sunglasses and sleek shoes, exuding bold charisma. His relaxed pose shows his right elbow resting on his knee, left arm casual, and one leg stepping out of the Instagram frame in a 3D illusion. The Instagram frame is highly realistic with username \"GoogleGeminiPrompts\", verified checkmark, display name \"Al Generation\", caption: \"Too real to stay inside frame #AlCreation #GoogleGeminiPrompts\", and authentic icons. The background is designed for masculine boldness: deep cobalt blue blending into cyan, with subtle light streaks adding energy. Clean, cinematic lighting highlights his clothing textures and the 3D illusion, making him the viral centerpiece. MODEL OR TOOL: Gemini. TAGS: Realistic, Portrait, Photography, Modern, Fantasy, Vibrant / Colorful, Flat Design.",
+      "imageUrl": "",
+      "imageHint": "Instagram frame portrait",
+      "type": "image",
+      "tags": [
+        "Realistic",
+        "Portrait",
+        "Photography",
+        "Modern",
+        "Fantasy",
+        "Vibrant / Colorful",
+        "Flat Design"
+      ]
     }
   ]
 }
