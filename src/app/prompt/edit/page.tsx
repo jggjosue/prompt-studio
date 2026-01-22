@@ -91,10 +91,6 @@ function PromptEditorContent() {
                          <div className="absolute bottom-4 right-4 text-xs text-muted-foreground">
                           {prompt.length} / 10000
                         </div>
-                        <Button variant="outline" size="sm" className="absolute top-4 left-4">
-                            <Wand2 className="mr-2" />
-                            Generate with AI
-                        </Button>
                       </div>
                       <div className="mt-4 flex flex-wrap items-center gap-4">
                         <Select defaultValue="nano-banana-pro">
