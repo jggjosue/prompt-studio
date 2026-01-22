@@ -18,6 +18,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Clapperboard, Image as ImageIcon, Sparkles, Wand2, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import Header from '@/components/layout/header';
 
 function PromptEditorContent() {
   const searchParams = useSearchParams();
@@ -25,6 +26,7 @@ function PromptEditorContent() {
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
+      <Header />
       <main className="flex-1 py-12 md:py-16">
         <div className="container max-w-5xl">
           <div className="mb-8">
