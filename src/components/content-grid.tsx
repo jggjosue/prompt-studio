@@ -17,7 +17,7 @@ import { Button } from '@/components/ui/button';
 
 export default function ContentGrid() {
   const content = useMemo(() => {
-    return PlaceHolderImages.slice(0, 9);
+    return PlaceHolderImages.filter(item => item.imageUrl).slice(0, 9);
   }, []);
 
   return (

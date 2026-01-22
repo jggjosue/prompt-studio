@@ -37,7 +37,7 @@ export default function ImagePromptsPage() {
 
   const imageContent: ImagePlaceholder[] = useMemo(() => {
     return PlaceHolderImages.filter(item => {
-      if (item.type !== 'image') return false;
+      if (item.type !== 'image' || !item.imageUrl) return false;
       if (filter === 'nano-banana') {
         return item.title.toLowerCase().includes('nano banana');
       }
