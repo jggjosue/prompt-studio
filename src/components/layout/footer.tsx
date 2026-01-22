@@ -83,11 +83,11 @@ export default function Footer() {
               <ul className="space-y-3">
                 <li>
                   <a
-                    href="mailto:hi@promptstudio.io"
+                    href="mailto:hi@prompstudio.com"
                     className="flex items-center gap-2 text-sm hover:text-foreground transition-colors"
                   >
                     <Mail className="h-4 w-4" />
-                    hi@promptstudio.io
+                    hi@prompstudio.com
                   </a>
                 </li>
               </ul>
