@@ -964,7 +964,7 @@
       "id": "74",
       "title": "Bold Elegance in Monochrome",
       "description": "Retrato en blanco y negro que captura emoción cruda y alta moda. Mirada intensa, pose dramática y luz natural.",
-      "imageUrl": "https://images.unsplash.com/photo-1751399566425-024997c9acff?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxib2xkJTIwZWxlZ2FuY2V8ZW58MHx8fHwxNzY4NDUwOTQyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1751399566425-024997c9acff?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxia2xkJTIwZWxlZ2FuY2V8ZW58MHx8fHwxNzY4NDUwOTQyfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "bold elegance",
       "type": "image",
       "tags": [
@@ -1929,23 +1929,6 @@
     },
     {
       "id": "149",
-      "title": "Retrato editorial masculino premium",
-      "description": "Studio portrait of a confident man sitting on a modern beige armchair with wooden legs, leaning slightly forward with his hands together. He wears a dark navy blue dress shirt with the top buttons open, light beige slim-fit pants, and black loafers with tan soles. He has short dark brown hair styled with texture, a trimmed full beard, tanned skin, and an intense confident gaze directed at the camera. The background is minimalist light gray with a smooth gradient, evenly lit with soft natural studio lighting. The mood is cinematic and fashion editorial, with high realism and fine details. Shot with a 50mm lens at f/2.8, vertical framing, full-body composition. The subject from the uploaded image, maintaining the exact real face, hairstyle, skin tone, and body identity unchanged. MODEL OR TOOL: bananas. STORY OR TECHNICAL NOTES: Aspect ratio: 2:3 (vertical). Steps: 30–40. CFG Scale: 7.5–8.0. Sampler: DPM++ 2M Karras / Euler a. Style tags opcionais: fashion editorial, studio lighting, cinematic portrait, neutral background, realistic detail, male model.",
-      "imageUrl": "",
-      "imageHint": "fashion portrait",
-      "type": "image",
-      "tags": [
-        "FashionPortrait",
-        "fashion editorial",
-        "studio lighting",
-        "cinematic portrait",
-        "neutral background",
-        "realistic detail",
-        "male model"
-      ]
-    },
-    {
-      "id": "149",
       "title": "Submerged",
       "description": "Hyper-realistic, ultra-detailed close-up portrait showing only the left half of my face submerged in water, one eye in sharp focus, positioned on the far left of the frame, light rays creating caustic patterns on the skin, suspended water droplets and bubbles adding depth, cinematic lighting with soft shadows and sharp highlights, photorealistic textures including skin pores, wet lips, eyelashes, and subtle subsurface scattering, surreal and dreamlike atmosphere, shallow depth of field, underwater macro perspective. MODEL OR TOOL: Gemini. STORY OR TECHNICAL NOTES: Aspect ratio: 3:4.",
       "imageUrl": "",
@@ -2211,7 +2194,7 @@
       "id": "167",
       "title": "Creativity and development",
       "description": "A beautiful, confident woman wearing a black suit sits elegantly on a luxurious white chair that highlights her slim, graceful figure. Her right hand rests gently beneath her chin, with her chin slightly raised in a pose of self-assurance. Her head tilts subtly to the right, eyes steady and looking forward with confidence. Her facial features glow under high-quality cinematic lighting, enhancing her natural beauty. The background is pure white, featuring a rare art painting and soft, cinematic illumination. Beside the chair stands a unique white table topped with a black coffee cup and a stylish lamp decor, creating a refined and elegant atmosphere. MODEL OR TOOL: Sura, mid-journey, and runway. TAGS: Anime, Cinematic, Realistic, Architecture, Cartoon, 3D Render, Vector, Sketch / Line Art, Watercolor, Oil Painting, Abstract, Surreal, Photography, Fashion, Portrait, Minimalist, Business, Corporate, Modern, Product / Poster, Logo, Concept art, Infographic, Cyberpunk, Sci-Fi, Fantasy, Grunge, Retro / Vintage, Dark / Moody, Vibrant / Colorful, Elegant, Flat Design, Neon, Glitch.",
-      "imageUrl": "",
+      "imageUrl": "https://images.unsplash.com/photo-1674882630578-52ac5abe8874?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHx3b21hbiUyMGJsYWNrJTIwc3VpdCUyMG9uJTIwd2hpdGUlMjBjaGFpcnxlbnwwfHx8fDE3NjkwNjc2OTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "woman black suit on white chair",
       "type": "image",
       "tags": [
@@ -2255,7 +2238,7 @@
       "id": "168",
       "title": "A hyper-realistic portrait",
       "description": "A hyper-realistic portrait of the uploaded young man inside a giant Instagram post frame that dominates the scene. His face remains same, sharp and untouched, wearing dark sunglasses and sleek shoes, exuding bold charisma. His relaxed pose shows his right elbow resting on his knee, left arm casual, and one leg stepping out of the Instagram frame in a 3D illusion. The Instagram frame is highly realistic with username \"GoogleGeminiPrompts\", verified checkmark, display name \"Al Generation\", caption: \"Too real to stay inside frame #AlCreation #GoogleGeminiPrompts\", and authentic icons. The background is designed for masculine boldness: deep cobalt blue blending into cyan, with subtle light streaks adding energy. Clean, cinematic lighting highlights his clothing textures and the 3D illusion, making him the viral centerpiece. MODEL OR TOOL: Gemini. TAGS: Realistic, Portrait, Photography, Modern, Fantasy, Vibrant / Colorful, Flat Design.",
-      "imageUrl": "https://images.unsplash.com/photo-1542374487103-ce17360b2b4c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8SW5zdGFncmFtJTIwZnJhbWUlMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjkwNjY4MDd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1601765581793-3dd67b8cb8bb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxJbnN0YWdyYW0lMjBmcmFtZSUyMHBvcnRyYWl0fGVufDB8fHx8MTc2OTA2NjgwN3ww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "Instagram frame portrait",
       "type": "image",
       "tags": [
