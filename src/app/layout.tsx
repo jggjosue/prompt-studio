@@ -31,7 +31,12 @@ export const metadata: Metadata = {
     'grok ai',
     'banana pro',
     'nano banana pro',
-    'promps',
+    'prompts',
+    'chat gpt prompts for christmas pictures',
+    'voice mail prompts',
+    'christmas ai photo prompts',
+    'darlink ai',
+    'voicemail prompts crossword',
   ],
 };
 
