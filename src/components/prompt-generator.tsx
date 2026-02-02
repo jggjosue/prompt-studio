@@ -13,7 +13,6 @@ import Link from 'next/link';
 
 function GenerateButton() {
   const { user, isUserLoading } = useUser();
-  const [pending, setPending] = useState(false);
 
   if (isUserLoading) {
     return (
@@ -24,29 +23,9 @@ function GenerateButton() {
     );
   }
 
-  if (!user) {
-    return (
-      <Button asChild className="w-full md:w-auto">
-        <Link href="/login">
-          <Wand2 className="mr-2 h-4 w-4" />
-          Generate Prompt
-        </Link>
-      </Button>
-    );
-  }
-
   return (
-    <Button
-      type="submit"
-      disabled={pending}
-      className="w-full md:w-auto"
-      onClick={() => setPending(true)}
-    >
-      {pending ? (
-        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-      ) : (
-        <Wand2 className="mr-2 h-4 w-4" />
-      )}
+    <Button disabled className="w-full md:w-auto">
+      <Wand2 className="mr-2 h-4 w-4" />
       Generate Prompt
     </Button>
   );
