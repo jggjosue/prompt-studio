@@ -19,6 +19,10 @@ export const metadata: Metadata = {
     'Image Prompts',
     'AI Video Generator',
     'AI Image Generator',
+    'chatgpt 5.2',
+    'chatgpt christmas photo',
+    'chatgpt 5.1',
+    'chatgpt wrapped',
   ],
 };
 
