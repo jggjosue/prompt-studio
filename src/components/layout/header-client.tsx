@@ -197,9 +197,9 @@ export default function HeaderClient() {
 
         <div className="flex items-center gap-2 ml-auto">
           <div className="hidden md:flex items-center gap-2">
-            <Button variant="ghost" asChild>
+            {/* <Button variant="ghost" asChild>
               <Link href="/login">Login</Link>
-            </Button>
+            </Button> */}
             {/* <Button asChild>
               <Link href="/register">Sign Up</Link>
             </Button> */}
@@ -223,9 +223,9 @@ export default function HeaderClient() {
                   {navLinks}
                 </nav>
                 <div className="mt-8 flex flex-col gap-4">
-                  <Button variant="ghost" asChild size="lg">
+                  {/* <Button variant="ghost" asChild size="lg">
                     <Link href="/login" onClick={closeSheet}>Login</Link>
-                  </Button>
+                  </Button> */}
                   {/* <Button asChild size="lg">
                     <Link href="/register" onClick={closeSheet}>Sign Up</Link>
                   </Button> */}
