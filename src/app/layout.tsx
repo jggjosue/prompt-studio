@@ -7,6 +7,19 @@ import './globals.css';
 export const metadata: Metadata = {
   title: 'Prompt Studio',
   description: 'AI-powered image and video generation platform',
+  keywords: [
+    'Chatgpt',
+    'chatgpt go bbva',
+    'how to use chatgpt effectively',
+    'chatgpt health',
+    'chatgpt search',
+    'chatgpt go',
+    'AI Prompts',
+    'Video Prompts',
+    'Image Prompts',
+    'AI Video Generator',
+    'AI Image Generator',
+  ],
 };
 
 export default function RootLayout({
