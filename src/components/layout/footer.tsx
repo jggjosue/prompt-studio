@@ -59,7 +59,7 @@ export default function Footer() {
                 ))}
               </ul>
             </div>
-            <div>
+            {/* <div>
               <h4 className="font-semibold text-foreground mb-4 font-headline">
                 Legal
               </h4>
@@ -75,7 +75,7 @@ export default function Footer() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </div> */}
             <div>
               <h4 className="font-semibold text-foreground mb-4 font-headline">
                 Contact
