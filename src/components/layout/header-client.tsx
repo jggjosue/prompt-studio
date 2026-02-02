@@ -43,9 +43,9 @@ export default function HeaderClient() {
         Home
       </Link>
       <Accordion type="single" collapsible className="w-full md:w-auto">
-        <AccordionItem value="explore" className="border-b-0">
+        <AccordionItem value="video" className="border-b-0">
           <AccordionTrigger className="hover:no-underline hover:text-foreground/80 transition-colors py-2 md:py-0 md:[&[data-state=open]>svg]:-rotate-180">
-            <span className="flex items-center gap-1">Explore</span>
+            <span className="flex items-center gap-1">Video</span>
           </AccordionTrigger>
           <AccordionContent className="md:absolute md:w-64 md:mt-2 md:bg-popover md:border md:rounded-md md:shadow-lg md:p-1 md:z-10">
             <div className="grid grid-cols-1 gap-2 p-2 md:p-0">
@@ -79,6 +79,17 @@ export default function HeaderClient() {
                   </p>
                 </div>
               </Link>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+      <Accordion type="single" collapsible className="w-full md:w-auto">
+        <AccordionItem value="image" className="border-b-0">
+          <AccordionTrigger className="hover:no-underline hover:text-foreground/80 transition-colors py-2 md:py-0 md:[&[data-state=open]>svg]:-rotate-180">
+            <span className="flex items-center gap-1">Image</span>
+          </AccordionTrigger>
+          <AccordionContent className="md:absolute md:w-64 md:mt-2 md:bg-popover md:border md:rounded-md md:shadow-lg md:p-1 md:z-10">
+            <div className="grid grid-cols-1 gap-2 p-2 md:p-0">
               <Link
                 href="/image-prompts"
                 className="flex items-start gap-3 p-2 rounded-md hover:bg-accent"
@@ -114,13 +125,13 @@ export default function HeaderClient() {
         </AccordionItem>
       </Accordion>
 
-      {/* <Link
+      {/*<Link
         href="/pricing"
         className="flex items-center gap-2 hover:text-foreground/80 transition-colors py-2 md:py-0"
         onClick={closeSheet}
       >
         Pricing
-      </Link> */}
+      </Link>*/}
       {/* <Accordion type="single" collapsible className="w-full md:w-auto">
         <AccordionItem value="generate" className="border-b-0">
           <AccordionTrigger className="hover:no-underline hover:text-foreground/80 transition-colors py-2 md:py-0 md:[&[data-state=open]>svg]:-rotate-180">
@@ -196,14 +207,14 @@ export default function HeaderClient() {
         </nav>
 
         <div className="flex items-center gap-2 ml-auto">
-          <div className="hidden md:flex items-center gap-2">
-            {/* <Button variant="ghost" asChild>
+          {/*<div className="hidden md:flex items-center gap-2">
+            <Button variant="ghost" asChild>
               <Link href="/login">Login</Link>
-            </Button> */}
-            {/* <Button asChild>
+            </Button>
+            <Button asChild>
               <Link href="/register">Sign Up</Link>
-            </Button> */}
-          </div>
+            </Button>
+          </div>*/}
           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="md:hidden">
