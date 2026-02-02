@@ -25,6 +25,8 @@ export const metadata: Metadata = {
     'chatgpt wrapped',
     'chatgpt adult mode',
     'how to cancel chatgpt plus subscription',
+    'challenges cloudflare chatgpt',
+    'chatgpt news',
   ],
 };
 
