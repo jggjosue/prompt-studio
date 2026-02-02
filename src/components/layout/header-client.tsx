@@ -114,13 +114,13 @@ export default function HeaderClient() {
         </AccordionItem>
       </Accordion>
 
-      <Link
+      {/* <Link
         href="/pricing"
         className="flex items-center gap-2 hover:text-foreground/80 transition-colors py-2 md:py-0"
         onClick={closeSheet}
       >
         Pricing
-      </Link>
+      </Link> */}
       <Accordion type="single" collapsible className="w-full md:w-auto">
         <AccordionItem value="generate" className="border-b-0">
           <AccordionTrigger className="hover:no-underline hover:text-foreground/80 transition-colors py-2 md:py-0 md:[&[data-state=open]>svg]:-rotate-180">
