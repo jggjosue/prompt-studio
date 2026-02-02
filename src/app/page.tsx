@@ -53,9 +53,9 @@ export default function Home() {
                 in your ideas and watch them come to life.
               </p>
             </div>
-            <div className="mx-auto w-full max-w-2xl pt-12">
+            {/* <div className="mx-auto w-full max-w-2xl pt-12">
               <PromptGenerator />
-            </div>
+            </div> */}
           </div>
         </section>
 
