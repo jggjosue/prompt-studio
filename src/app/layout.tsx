@@ -27,6 +27,11 @@ export const metadata: Metadata = {
     'how to cancel chatgpt plus subscription',
     'challenges cloudflare chatgpt',
     'chatgpt news',
+    'notebooklm',
+    'grok ai',
+    'banana pro',
+    'nano banana pro',
+    'promps',
   ],
 };
 
