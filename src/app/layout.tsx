@@ -23,6 +23,8 @@ export const metadata: Metadata = {
     'chatgpt christmas photo',
     'chatgpt 5.1',
     'chatgpt wrapped',
+    'chatgpt adult mode',
+    'how to cancel chatgpt plus subscription',
   ],
 };
 
