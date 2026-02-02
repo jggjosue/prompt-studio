@@ -37,6 +37,10 @@ export const metadata: Metadata = {
     'christmas ai photo prompts',
     'darlink ai',
     'voicemail prompts crossword',
+    'best grok spicy prompts',
+    'grok prompts for images',
+    'daily writing prompts',
+    'awesome chatgpt prompts',
   ],
 };
 
