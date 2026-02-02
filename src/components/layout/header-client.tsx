@@ -150,7 +150,7 @@ export default function HeaderClient() {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
-      <Accordion type="single" collapsible className="w-full md:w-auto">
+      {/* <Accordion type="single" collapsible className="w-full md:w-auto">
         <AccordionItem value="library" className="border-b-0">
           <AccordionTrigger className="hover:no-underline hover:text-foreground/80 transition-colors py-2 md:py-0 md:[&[data-state=open]>svg]:-rotate-180">
             <span className="flex items-center gap-1">
@@ -178,7 +178,7 @@ export default function HeaderClient() {
             </div>
           </AccordionContent>
         </AccordionItem>
-      </Accordion>
+      </Accordion> */}
     </>
   );
 
