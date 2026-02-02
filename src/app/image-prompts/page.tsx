@@ -1,5 +1,6 @@
 'use client';
 
+import type { Metadata } from 'next';
 import { useState, useMemo, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import {
@@ -29,6 +30,11 @@ import {
 import Link from 'next/link';
 import Image from 'next/image';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
+export const metadata: Metadata = {
+  title: 'AI Image Prompts | Prompt Studio',
+  description: 'Discover thousands of AI image prompts and examples. Get inspired and create your own AI generated images.',
+};
 
 export default function ImagePromptsPage() {
   const [currentPage, setCurrentPage] = useState(1);

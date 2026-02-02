@@ -1,5 +1,6 @@
 'use client';
 
+import type { Metadata } from 'next';
 import { Suspense, useState, useEffect, useActionState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useFormStatus } from 'react-dom';
@@ -24,6 +25,11 @@ import Footer from '@/components/layout/footer';
 import { handleImageGeneration, type ImageGenerationFormState } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
+
+export const metadata: Metadata = {
+  title: 'Create AI Images & Videos | Prompt Studio',
+  description: 'Create and discover stunning AI videos & images. Explore thousands of prompts, get inspired, and generate professional-quality content.',
+};
 
 function GenerateButton() {
   const { pending } = useFormStatus();
