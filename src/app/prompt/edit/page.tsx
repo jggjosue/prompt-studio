@@ -1,8 +1,8 @@
 'use client';
 
-import { Suspense, useState, useEffect } from 'react';
+import { Suspense, useState, useEffect, useActionState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { useFormState, useFormStatus } from 'react-dom';
+import { useFormStatus } from 'react-dom';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -46,7 +46,7 @@ function PromptEditorContent() {
   const [prompt, setPrompt] = useState(initialPrompt);
 
   const initialState: ImageGenerationFormState = { message: '', imageUrl: '' };
-  const [state, formAction] = useFormState(handleImageGeneration, initialState);
+  const [state, formAction] = useActionState(handleImageGeneration, initialState);
 
   const { toast } = useToast();
 
