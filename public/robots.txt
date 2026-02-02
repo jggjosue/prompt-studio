@@ -1,5 +1,4 @@
-User-agent: Mediapartners-Google
-Allow: /
-
 User-agent: *
 Allow: /
+
+Sitemap: https://www.prompt-studio.com/sitemap.xml

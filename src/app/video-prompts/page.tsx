@@ -1,5 +1,6 @@
 'use client';
 
+import type { Metadata } from 'next';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
@@ -20,6 +21,11 @@ import {
 } from '@/lib/placeholder-images';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: 'AI Video Prompts | Prompt Studio',
+  description: 'Discover thousands of AI video prompts and examples. Get inspired and create your own AI generated videos.',
+};
 
 export default function VideoPromptsPage() {
   const [currentPage, setCurrentPage] = useState(1);
