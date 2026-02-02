@@ -1,16 +1,13 @@
-import PromptGenerator from '@/components/prompt-generator';
 import ContentGrid from '@/components/content-grid';
-import { Separator } from '@/components/ui/separator';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Lightbulb, Clapperboard, Bot, Search } from 'lucide-react';
-import Header from '@/components/layout/header';
-import Link from 'next/link';
-import ModelCarousel from '@/components/model-carousel';
-import VideoExamples from '@/components/video-examples';
-import ImageExamples from '@/components/image-examples';
 import Faq from '@/components/faq';
+import ImageExamples from '@/components/image-examples';
 import Footer from '@/components/layout/footer';
-import { Input } from '@/components/ui/input';
+import Header from '@/components/layout/header';
+import PromptGenerator from '@/components/prompt-generator';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import VideoExamples from '@/components/video-examples';
+import { Bot, Clapperboard, Lightbulb } from 'lucide-react';
 
 export default function Home() {
   const examplePrompts = [
