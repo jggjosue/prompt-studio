@@ -91,7 +91,7 @@ export default function Footer() {
                   </a>
                 </li>
               </ul>
-              <div className="flex gap-4 mt-4">
+              {/* <div className="flex gap-4 mt-4">
                 <Link href="#" className="hover:text-foreground">
                   <Twitter className="h-5 w-5" />
                 </Link>
@@ -101,7 +101,7 @@ export default function Footer() {
                 <Link href="#" className="hover:text-foreground">
                   <Instagram className="h-5 w-5" />
                 </Link>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
