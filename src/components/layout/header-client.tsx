@@ -64,21 +64,6 @@ export default function HeaderClient() {
                   </p>
                 </div>
               </Link>
-              <Link
-                href="#"
-                className="flex items-start gap-3 p-2 rounded-md hover:bg-accent"
-                onClick={closeSheet}
-              >
-                <div className="bg-primary/10 text-primary p-2 rounded-md">
-                  <Tag className="h-5 w-5" />
-                </div>
-                <div>
-                  <p className="font-semibold">Video Tags</p>
-                  <p className="text-xs text-muted-foreground">
-                    Browse AI video tags
-                  </p>
-                </div>
-              </Link>
             </div>
           </AccordionContent>
         </AccordionItem>
@@ -102,6 +87,32 @@ export default function HeaderClient() {
                   <p className="font-semibold">Image Prompts</p>
                   <p className="text-xs text-muted-foreground">
                     Browse AI image prompts
+                  </p>
+                </div>
+              </Link>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+      <Accordion type="single" collapsible className="w-full md:w-auto">
+        <AccordionItem value="tag" className="border-b-0">
+          <AccordionTrigger className="hover:no-underline hover:text-foreground/80 transition-colors py-2 md:py-0 md:[&[data-state=open]>svg]:-rotate-180">
+            <span className="flex items-center gap-1">Tag</span>
+          </AccordionTrigger>
+          <AccordionContent className="md:absolute md:w-64 md:mt-2 md:bg-popover md:border md:rounded-md md:shadow-lg md:p-1 md:z-10">
+            <div className="grid grid-cols-1 gap-2 p-2 md:p-0">
+              <Link
+                href="#"
+                className="flex items-start gap-3 p-2 rounded-md hover:bg-accent"
+                onClick={closeSheet}
+              >
+                <div className="bg-primary/10 text-primary p-2 rounded-md">
+                  <Tag className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="font-semibold">Video Tags</p>
+                  <p className="text-xs text-muted-foreground">
+                    Browse AI video tags
                   </p>
                 </div>
               </Link>
