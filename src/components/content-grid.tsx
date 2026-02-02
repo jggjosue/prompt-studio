@@ -98,7 +98,7 @@ export default function ContentGrid() {
                 asChild
                 className="ml-auto"
               >
-                <Link href={`/gallery/${item.id}`}>View</Link>
+                <Link href={`/gallery/${item.id}`}>View Details</Link>
               </Button>
             </CardFooter>
           </Card>
