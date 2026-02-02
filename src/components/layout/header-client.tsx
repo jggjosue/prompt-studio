@@ -200,9 +200,9 @@ export default function HeaderClient() {
             <Button variant="ghost" asChild>
               <Link href="/login">Login</Link>
             </Button>
-            <Button asChild>
+            {/* <Button asChild>
               <Link href="/register">Sign Up</Link>
-            </Button>
+            </Button> */}
           </div>
           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <SheetTrigger asChild>
@@ -226,9 +226,9 @@ export default function HeaderClient() {
                   <Button variant="ghost" asChild size="lg">
                     <Link href="/login" onClick={closeSheet}>Login</Link>
                   </Button>
-                  <Button asChild size="lg">
+                  {/* <Button asChild size="lg">
                     <Link href="/register" onClick={closeSheet}>Sign Up</Link>
-                  </Button>
+                  </Button> */}
                 </div>
               </div>
             </SheetContent>
