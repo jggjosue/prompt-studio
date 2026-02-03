@@ -39,7 +39,7 @@ export default function Home() {
     <div className="flex min-h-screen w-full flex-col bg-background">
       <Header />
       <main className="flex-1">
-        <section className="w-full py-8 md:py-20 bg-muted/30">
+        <section className="w-full py-8 md:py-16 bg-muted/30">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center space-y-4 text-center">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none font-headline">
@@ -72,7 +72,7 @@ export default function Home() {
           </div>
         </section> */}
 
-        <section id="gallery" className="w-full py-8 md:py-20">
+        <section id="gallery" className="w-full py-8 md:py-16">
           <div className="container">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline mb-8 text-center">
               Featured Creations
@@ -81,7 +81,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="video-examples" className="w-full py-8 md:py-20 bg-muted/30">
+        <section id="video-examples" className="w-full py-8 md:py-16 bg-muted/30">
           <div className="container">
              <div className="flex flex-col items-center space-y-2 text-center mb-12">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
@@ -95,7 +95,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="image-examples" className="w-full py-8 md:py-20">
+        <section id="image-examples" className="w-full py-8 md:py-16">
           <div className="container">
              <div className="flex flex-col items-center space-y-2 text-center mb-12">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
@@ -128,7 +128,7 @@ export default function Home() {
           </div>
           <Card className="hover:shadow-lg transition-shadow">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 font-headline">
+              <CardTitle className="flex items-center gap-2 font-headline text-xl md:text-2xl">
                 <Bot className="h-6 w-6" /> AI Model Showcase
               </CardTitle>
             </CardHeader>
@@ -152,7 +152,7 @@ export default function Home() {
           </Card>
           <Card className="hover:shadow-lg transition-shadow">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 font-headline">
+              <CardTitle className="flex items-center gap-2 font-headline text-xl md:text-2xl">
                 <Lightbulb className="h-6 w-6" /> Example Prompts
               </CardTitle>
             </CardHeader>
