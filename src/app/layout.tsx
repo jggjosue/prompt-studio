@@ -3,6 +3,7 @@ import { FirebaseClientProvider } from '@/firebase';
 import type { Metadata } from 'next';
 import Script from 'next/script';
 import './globals.css';
+import { ThemeProvider } from '@/components/theme-provider';
 
 export const metadata: Metadata = {
   title: 'Prompt Studio',
@@ -50,7 +51,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <meta name="google-adsense-account" content="ca-pub-7333662372662914" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -83,10 +84,17 @@ export default function RootLayout({
             gtag('config', 'G-8S22HHJK76');
           `}
         </Script>
-        <FirebaseClientProvider>
-          {children}
-          <Toaster />
-        </FirebaseClientProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <FirebaseClientProvider>
+            {children}
+            <Toaster />
+          </FirebaseClientProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
