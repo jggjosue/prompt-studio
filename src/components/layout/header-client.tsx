@@ -27,6 +27,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { ThemeToggle } from '../theme-toggle';
 
 export default function HeaderClient() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
@@ -218,6 +219,7 @@ export default function HeaderClient() {
         </nav>
 
         <div className="flex items-center gap-2 ml-auto">
+          <ThemeToggle />
           {/*<div className="hidden md:flex items-center gap-2">
             <Button variant="ghost" asChild>
               <Link href="/login">Login</Link>
