@@ -109,11 +109,11 @@ export default function VideoPromptsClient() {
             <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
               Explore AI Video Prompts
             </h1>
-            <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
+            <p className="mx-auto max-w-[700px] text-muted-foreground text-lg md:text-xl">
               Discover thousands of AI video prompts and examples. Get inspired
               and create your own AI generated videos.
             </p>
-            <div className="flex gap-4">
+            <div className="flex flex-wrap justify-center gap-4">
               <Button variant="outline">
                 <Tag className="mr-2" />
                 Browse by Tags
