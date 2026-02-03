@@ -122,11 +122,9 @@ export default function VideoPromptsClient() {
                 <Sparkles className="mr-2" />
                 Nano Banana Pro
               </Button>
-              <Button asChild disabled={true}>
-                <Link href="/prompt/edit">
-                  <Wand2 className="mr-2" />
-                  Generate a Video
-                </Link>
+              <Button disabled={true}>
+                <Wand2 className="mr-2" />
+                Generate a Video
               </Button>
             </div>
           </div>
@@ -159,11 +157,11 @@ export default function VideoPromptsClient() {
                     />
                   </div>
                 </CardContent>
-                <CardFooter className="bg-muted/50 p-4 border-t flex-wrap gap-2 md:gap-4">
+                <CardFooter className="bg-muted/50 p-4 border-t flex-wrap gap-2">
                   <Button variant="outline" size="icon" disabled={true}>
                     <Heart className="w-4 h-4" />
                   </Button>
-                  <Button size="sm" disabled={true}>
+                  <Button as="div" size="sm" disabled={true}>
                     <Wand2 className="w-4 h-4 mr-2" />
                     Use this prompt
                   </Button>
