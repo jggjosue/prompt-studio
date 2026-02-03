@@ -24,21 +24,21 @@ export default function ImageExamples() {
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
         {imageContent.map(item => (
           <Card
             key={item.id}
             className="overflow-hidden group h-full flex flex-col bg-card"
           >
-            <CardHeader>
-              <CardTitle className="font-headline text-xl">
+            <CardHeader className="p-4 md:p-6">
+              <CardTitle className="font-headline text-lg md:text-xl">
                 {item.title}
               </CardTitle>
-              <CardDescription className="line-clamp-3 h-[60px]">
+              <CardDescription className="line-clamp-3">
                 {item.description}
               </CardDescription>
             </CardHeader>
-            <CardContent className="p-6 pt-0 space-y-4 flex-grow">
+            <CardContent className="p-4 md:p-6 pt-0 space-y-4 flex-grow">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Tag className="w-4 h-4" />
                 <span className="truncate">{item.tags.join(', ')}</span>
@@ -53,7 +53,7 @@ export default function ImageExamples() {
                 />
               </div>
             </CardContent>
-            <CardFooter className="bg-muted/50 p-4 border-t gap-2">
+            <CardFooter className="bg-muted/50 p-4 border-t gap-2 flex-wrap">
               <Button variant="outline" size="icon" disabled>
                 <Heart className="w-4 h-4" />
               </Button>
