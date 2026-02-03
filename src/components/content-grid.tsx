@@ -77,7 +77,7 @@ export default function ContentGrid() {
               )}
             </CardContent>
             <CardFooter className="bg-muted/50 p-4 border-t gap-2">
-              <Button variant="outline" size="sm" asChild>
+              <Button variant="outline" size="sm" asChild disabled>
                 <Link href="/login">
                   <Heart className="w-4 h-4" />
                 </Link>
