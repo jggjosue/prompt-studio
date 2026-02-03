@@ -29,7 +29,7 @@ function GenerateButton() {
   const { pending } = useFormStatus();
 
   return (
-    <Button type="submit" disabled>
+    <Button type="submit" disabled={pending}>
       {pending ? (
         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
       ) : (
@@ -86,7 +86,7 @@ export default function PromptEditorClient() {
                         View Examples
                     </Link>
                 </Button>
-                <Button variant="secondary" disabled>
+                <Button variant="secondary">
                     <Sparkles className="mr-2" />
                     Nano Banana Pro
                 </Button>

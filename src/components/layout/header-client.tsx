@@ -143,14 +143,14 @@ export default function HeaderClient() {
         </AccordionItem>
       </Accordion>
 
-      {/*<Link
+      <Link
         href="/pricing"
         className="flex items-center gap-2 hover:text-foreground/80 transition-colors py-2 md:py-0"
         onClick={closeSheet}
       >
         Pricing
-      </Link>*/}
-      {/* <Accordion type="single" collapsible className="w-full md:w-auto">
+      </Link>
+      <Accordion type="single" collapsible className="w-full md:w-auto">
         <AccordionItem value="generate" className="border-b-0">
           <AccordionTrigger className="hover:no-underline hover:text-foreground/80 transition-colors py-2 md:py-0 md:[&[data-state=open]>svg]:-rotate-180">
             <span className="flex items-center gap-1">
@@ -178,8 +178,8 @@ export default function HeaderClient() {
             </div>
           </AccordionContent>
         </AccordionItem>
-      </Accordion> */}
-      {/* <Accordion type="single" collapsible className="w-full md:w-auto">
+      </Accordion>
+      <Accordion type="single" collapsible className="w-full md:w-auto">
         <AccordionItem value="library" className="border-b-0">
           <AccordionTrigger className="hover:no-underline hover:text-foreground/80 transition-colors py-2 md:py-0 md:[&[data-state=open]>svg]:-rotate-180">
             <span className="flex items-center gap-1">
@@ -207,7 +207,7 @@ export default function HeaderClient() {
             </div>
           </AccordionContent>
         </AccordionItem>
-      </Accordion> */}
+      </Accordion>
     </>
   );
 
@@ -226,14 +226,14 @@ export default function HeaderClient() {
 
         <div className="flex items-center gap-2 ml-auto">
           <ThemeToggle />
-          {/*<div className="hidden md:flex items-center gap-2">
+          <div className="hidden md:flex items-center gap-2">
             <Button variant="ghost" asChild>
               <Link href="/login">Login</Link>
             </Button>
             <Button asChild>
               <Link href="/register">Sign Up</Link>
             </Button>
-          </div>*/}
+          </div>
           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="md:hidden">
@@ -241,13 +241,13 @@ export default function HeaderClient() {
                 <span className="sr-only">Toggle Menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-full max-w-sm">
-              <SheetHeader>
+            <SheetContent side="left" className="w-full max-w-sm p-0">
+              <SheetHeader className="p-6 pb-0">
                 <SheetTitle className="sr-only">Menu</SheetTitle>
               </SheetHeader>
               <Link
                 href="/"
-                className="flex items-center gap-2 mb-8"
+                className="flex items-center gap-2 mb-8 px-6"
                 onClick={closeSheet}
               >
                 <Logo />
@@ -255,16 +255,16 @@ export default function HeaderClient() {
                   Prompt Studio
                 </span>
               </Link>
-              <nav className="flex flex-col gap-4 text-lg font-medium">
+              <nav className="flex flex-col gap-4 text-lg font-medium px-6">
                 {navLinks}
               </nav>
-              <div className="mt-8 flex flex-col gap-4">
-                {/* <Button variant="ghost" asChild size="lg">
-                    <Link href="/login" onClick={closeSheet}>Login</Link>
-                  </Button> */}
-                {/* <Button asChild size="lg">
-                    <Link href="/register" onClick={closeSheet}>Sign Up</Link>
-                  </Button> */}
+              <div className="mt-8 flex flex-col gap-4 px-6">
+                <Button variant="ghost" asChild size="lg">
+                  <Link href="/login" onClick={closeSheet}>Login</Link>
+                </Button>
+                <Button asChild size="lg">
+                  <Link href="/register" onClick={closeSheet}>Sign Up</Link>
+                </Button>
               </div>
             </SheetContent>
           </Sheet>

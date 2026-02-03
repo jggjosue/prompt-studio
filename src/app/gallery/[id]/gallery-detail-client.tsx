@@ -75,13 +75,15 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder }
                   />
                 )}
                 <div className="absolute bottom-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Button size="sm" disabled>
+                  <Button size="sm">
                     <Heart className="mr-2" />
                     Like
                   </Button>
-                  <Button size="sm" variant="secondary" disabled>
-                    <Wand2 className="mr-2" />
-                    Use this prompt
+                  <Button size="sm" variant="secondary" asChild>
+                    <Link href={`/prompt/edit?prompt=${encodeURIComponent(item.description)}`}>
+                        <Wand2 className="mr-2" />
+                        Use this prompt
+                    </Link>
                   </Button>
                 </div>
               </div>

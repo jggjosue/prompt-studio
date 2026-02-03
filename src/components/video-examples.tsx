@@ -27,15 +27,15 @@ export default function VideoExamples() {
             key={item.id}
             className="overflow-hidden group h-full flex flex-col bg-card"
           >
-            <CardHeader className="p-4 md:p-6">
-              <CardTitle className="font-headline text-lg md:text-xl">
+            <CardHeader className="p-4">
+              <CardTitle className="font-headline text-lg">
                 {item.title}
               </CardTitle>
               <CardDescription className="line-clamp-3">
                 {item.description}
               </CardDescription>
             </CardHeader>
-            <CardContent className="p-4 md:p-6 pt-0 space-y-4 flex-grow">
+            <CardContent className="p-4 pt-0 space-y-4 flex-grow">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Tag className="w-4 h-4" />
                 <span className="truncate">{item.tags.join(', ')}</span>
@@ -51,12 +51,14 @@ export default function VideoExamples() {
               <p className="text-sm text-muted-foreground">Duration: 5 seconds</p>
             </CardContent>
             <CardFooter className="bg-muted/50 p-4 border-t gap-2 flex-wrap">
-              <Button variant="outline" size="icon" disabled>
+              <Button variant="outline" size="icon">
                 <Heart className="w-4 h-4" />
               </Button>
-              <Button size="sm" disabled>
-                <Wand2 className="w-4 h-4 mr-2" />
-                Use this prompt
+              <Button size="sm" asChild>
+                <Link href={`/prompt/edit?prompt=${encodeURIComponent(item.description)}`}>
+                    <Wand2 className="w-4 h-4 mr-2" />
+                    Use this prompt
+                </Link>
               </Button>
               <Button
                 variant="secondary"
