@@ -152,11 +152,9 @@ export default function ImagePromptsClient() {
                 <Tag className="mr-2" />
                 Browse by Tags
               </Button>
-              <Button asChild disabled={true}>
-                <Link href="/prompt/edit">
-                  <Wand2 className="mr-2" />
-                  Generate an Image
-                </Link>
+              <Button disabled={true}>
+                <Wand2 className="mr-2" />
+                Generate an Image
               </Button>
             </div>
           </div>
