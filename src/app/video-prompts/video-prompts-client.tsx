@@ -141,7 +141,7 @@ export default function VideoPromptsClient() {
                   <CardTitle className="font-headline text-xl">
                     {item.title}
                   </CardTitle>
-                  <CardDescription className="line-clamp-3">
+                  <CardDescription className="line-clamp-3 h-auto">
                     {item.description}
                   </CardDescription>
                 </CardHeader>
@@ -159,15 +159,13 @@ export default function VideoPromptsClient() {
                     />
                   </div>
                 </CardContent>
-                <CardFooter className="bg-muted/50 p-4 border-t gap-2 flex-wrap">
+                <CardFooter className="bg-muted/50 p-4 border-t flex-wrap gap-2 md:gap-4">
                   <Button variant="outline" size="icon" disabled={true}>
                     <Heart className="w-4 h-4" />
                   </Button>
-                  <Button size="sm" asChild disabled={true}>
-                    <Link href={`/prompt/edit?prompt=${encodeURIComponent(item.description)}`}>
-                        <Wand2 className="w-4 h-4 mr-2" />
-                        Use this prompt
-                    </Link>
+                  <Button size="sm" disabled={true}>
+                    <Wand2 className="w-4 h-4 mr-2" />
+                    Use this prompt
                   </Button>
                   <Button
                     variant="secondary"
