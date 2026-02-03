@@ -42,7 +42,7 @@ const faqs = [
 
 export default function Faq() {
   return (
-    <section className="w-full py-12 md:py-24 lg:py-28">
+    <section className="w-full py-8 md:py-20">
       <div className="container max-w-4xl">
         <div className="flex flex-col items-center space-y-4 text-center mb-12">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
