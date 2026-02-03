@@ -172,7 +172,7 @@ export default function PromptEditorClient() {
                                 <SelectItem value="jpeg">JPEG</SelectItem>
                               </SelectContent>
                             </Select>
-                            <div className="ml-auto flex items-center gap-4">
+                            <div className="w-full md:w-auto md:ml-auto flex justify-end items-center gap-4">
                                 <span className="text-sm text-muted-foreground">12 Credits</span>
                                 <GenerateButton />
                             </div>

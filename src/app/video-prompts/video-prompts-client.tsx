@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Pagination,
@@ -20,14 +20,16 @@ import {
 } from '@/lib/placeholder-images';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export default function VideoPromptsClient() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 18;
+  const isMobile = useIsMobile();
 
-  const videoContent: ImagePlaceholder[] = PlaceHolderImages.filter(
+  const videoContent: ImagePlaceholder[] = useMemo(() => PlaceHolderImages.filter(
     item => item.type === 'video'
-  );
+  ), []);
 
   const totalPages = Math.ceil(videoContent.length / itemsPerPage);
 
@@ -44,7 +46,7 @@ export default function VideoPromptsClient() {
 
   const renderPaginationLinks = () => {
     const pageNumbers = [];
-    const maxPagesToShow = 5;
+    const maxPagesToShow = isMobile ? 3 : 5;
     const halfMaxPages = Math.floor(maxPagesToShow / 2);
 
     if (totalPages <= maxPagesToShow) {
