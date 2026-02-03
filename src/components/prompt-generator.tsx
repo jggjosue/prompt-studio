@@ -56,7 +56,7 @@ export default function PromptGenerator() {
 
   return (
     <Card>
-      <CardContent className="p-6">
+      <CardContent className="p-4 md:p-6">
         <form action={formAction} className="space-y-4">
           <div className="grid w-full gap-2">
             <Textarea
