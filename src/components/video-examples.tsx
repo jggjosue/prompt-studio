@@ -51,7 +51,7 @@ export default function VideoExamples() {
               <p className="text-sm text-muted-foreground">Duration: 5 seconds</p>
             </CardContent>
             <CardFooter className="bg-muted/50 p-4 border-t gap-2">
-              <Button variant="outline" size="icon" asChild>
+              <Button variant="outline" size="icon" asChild disabled>
                 <Link href="/login">
                   <Heart className="w-4 h-4" />
                 </Link>
