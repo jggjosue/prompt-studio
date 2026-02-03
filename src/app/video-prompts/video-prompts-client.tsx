@@ -11,7 +11,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
-import { Sparkles, Tag, Wand2 } from 'lucide-react';
+import { Sparkles, Tag, Wand2, Heart } from 'lucide-react';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import {
@@ -158,6 +158,9 @@ export default function VideoPromptsClient() {
                   </div>
                 </CardContent>
                 <CardFooter className="bg-muted/50 p-4 border-t gap-2 flex-wrap">
+                  <Button variant="outline" size="icon" disabled>
+                    <Heart className="w-4 h-4" />
+                  </Button>
                   <Button size="sm" disabled>
                     <Wand2 className="w-4 h-4 mr-2" />
                     Use this prompt
