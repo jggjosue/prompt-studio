@@ -80,15 +80,9 @@ export default function ContentGrid() {
               <Button variant="outline" size="sm" disabled>
                 <Heart className="w-4 h-4" />
               </Button>
-              <Button size="sm" asChild>
-                <Link
-                  href={`/prompt/edit?prompt=${encodeURIComponent(
-                    item.description
-                  )}`}
-                >
-                  <Wand2 className="w-4 h-4 mr-2" />
-                  Use this prompt
-                </Link>
+              <Button size="sm" disabled>
+                <Wand2 className="w-4 h-4 mr-2" />
+                Use this prompt
               </Button>
               <Button
                 variant="secondary"
