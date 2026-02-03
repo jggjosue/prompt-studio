@@ -13,7 +13,7 @@ function GenerateButton() {
   const { pending } = useFormStatus();
 
   return (
-    <Button type="submit" disabled={pending} className="w-full md:w-auto">
+    <Button type="submit" disabled={true} className="w-full md:w-auto">
       {pending ? (
         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
       ) : (
