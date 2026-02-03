@@ -130,7 +130,7 @@ export default function ImagePromptsClient() {
             <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
               Explore AI Image Prompts
             </h1>
-            <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
+            <p className="mx-auto max-w-[700px] text-muted-foreground text-lg md:text-xl">
               Discover thousands of AI image prompts and examples. Get inspired
               and create your own AI generated images.
             </p>
@@ -147,7 +147,7 @@ export default function ImagePromptsClient() {
                 </TabsTrigger>
               </TabsList>
             </Tabs>
-            <div className="flex gap-4 pt-4">
+            <div className="flex flex-wrap justify-center gap-4 pt-4">
               <Button variant="outline">
                 <Tag className="mr-2" />
                 Browse by Tags
