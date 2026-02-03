@@ -142,72 +142,6 @@ export default function HeaderClient() {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
-
-      <Link
-        href="/pricing"
-        className="flex items-center gap-2 hover:text-foreground/80 transition-colors py-2 md:py-0"
-        onClick={closeSheet}
-      >
-        Pricing
-      </Link>
-      <Accordion type="single" collapsible className="w-full md:w-auto">
-        <AccordionItem value="generate" className="border-b-0">
-          <AccordionTrigger className="hover:no-underline hover:text-foreground/80 transition-colors py-2 md:py-0 md:[&[data-state=open]>svg]:-rotate-180">
-            <span className="flex items-center gap-1">
-              <Wand2 className="h-4 w-4" /> Generate
-            </span>
-          </AccordionTrigger>
-          <AccordionContent className="md:absolute md:w-auto md:mt-2 md:bg-popover md:border md:rounded-md md:shadow-lg md:p-1 md:z-10">
-            <div className="grid grid-cols-1 gap-1 p-2 md:p-0">
-              <Link
-                href="/prompt/edit"
-                className="flex items-center gap-2 p-2 rounded-md hover:bg-accent"
-                onClick={closeSheet}
-              >
-                <ImageIcon className="h-4 w-4" />
-                AI Image
-              </Link>
-              <Link
-                href="/prompt/edit"
-                className="flex items-center gap-2 p-2 rounded-md hover:bg-accent"
-                onClick={closeSheet}
-              >
-                <Clapperboard className="h-4 w-4" />
-                AI Video
-              </Link>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
-      <Accordion type="single" collapsible className="w-full md:w-auto">
-        <AccordionItem value="library" className="border-b-0">
-          <AccordionTrigger className="hover:no-underline hover:text-foreground/80 transition-colors py-2 md:py-0 md:[&[data-state=open]>svg]:-rotate-180">
-            <span className="flex items-center gap-1">
-              <Folder className="h-4 w-4" /> My Library
-            </span>
-          </AccordionTrigger>
-          <AccordionContent className="md:absolute md:w-auto md:mt-2 md:bg-popover md:border md:rounded-md md:shadow-lg md:p-1 md:z-10">
-            <div className="grid grid-cols-1 gap-1 p-2 md:p-0">
-              <Link
-                href="/login"
-                className="flex items-center gap-2 p-2 rounded-md hover:bg-accent"
-                onClick={closeSheet}
-              >
-                <Video className="h-4 w-4" />
-                My Videos
-              </Link>
-              <Link
-                href="/login"
-                className="flex items-center gap-2 p-2 rounded-md hover:bg-accent"
-                onClick={closeSheet}
-              >
-                <ImageIcon className="h-4 w-4" />
-                My Images
-              </Link>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
     </>
   );
 
@@ -226,14 +160,6 @@ export default function HeaderClient() {
 
         <div className="flex items-center gap-2 ml-auto">
           <ThemeToggle />
-          <div className="hidden md:flex items-center gap-2">
-            <Button variant="ghost" asChild>
-              <Link href="/login">Login</Link>
-            </Button>
-            <Button asChild>
-              <Link href="/register">Sign Up</Link>
-            </Button>
-          </div>
           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="md:hidden">
@@ -241,13 +167,13 @@ export default function HeaderClient() {
                 <span className="sr-only">Toggle Menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-full max-w-sm p-0">
-              <SheetHeader className="p-6 pb-0">
+            <SheetContent side="left" className="w-full max-w-sm">
+              <SheetHeader>
                 <SheetTitle className="sr-only">Menu</SheetTitle>
               </SheetHeader>
               <Link
                 href="/"
-                className="flex items-center gap-2 mb-8 px-6"
+                className="flex items-center gap-2 mb-8 px-6 pt-6"
                 onClick={closeSheet}
               >
                 <Logo />
@@ -258,14 +184,6 @@ export default function HeaderClient() {
               <nav className="flex flex-col gap-4 text-lg font-medium px-6">
                 {navLinks}
               </nav>
-              <div className="mt-8 flex flex-col gap-4 px-6">
-                <Button variant="ghost" asChild size="lg">
-                  <Link href="/login" onClick={closeSheet}>Login</Link>
-                </Button>
-                <Button asChild size="lg">
-                  <Link href="/register" onClick={closeSheet}>Sign Up</Link>
-                </Button>
-              </div>
             </SheetContent>
           </Sheet>
         </div>
