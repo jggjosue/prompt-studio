@@ -141,7 +141,7 @@ export default function ImagePromptsClient() {
             >
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="all">All Prompts</TabsTrigger>
-                <TabsTrigger value="nano-banana" disabled>
+                <TabsTrigger value="nano-banana">
                   <Sparkles className="mr-2 h-4 w-4" />
                   Nano Banana Pro
                 </TabsTrigger>
@@ -152,9 +152,11 @@ export default function ImagePromptsClient() {
                 <Tag className="mr-2" />
                 Browse by Tags
               </Button>
-              <Button disabled>
-                <Wand2 className="mr-2" />
-                Generate an Image
+              <Button asChild>
+                <Link href="/prompt/edit">
+                  <Wand2 className="mr-2" />
+                  Generate an Image
+                </Link>
               </Button>
             </div>
           </div>
@@ -169,7 +171,7 @@ export default function ImagePromptsClient() {
                   <CardTitle className="font-headline text-xl">
                     {item.title}
                   </CardTitle>
-                  <CardDescription className="line-clamp-3 h-[60px]">
+                  <CardDescription className="line-clamp-3 md:min-h-0">
                     {item.description}
                   </CardDescription>
                 </CardHeader>
@@ -188,13 +190,15 @@ export default function ImagePromptsClient() {
                     />
                   </div>
                 </CardContent>
-                <CardFooter className="bg-muted/50 p-4 border-t gap-2">
-                  <Button variant="outline" size="icon" disabled>
+                <CardFooter className="bg-muted/50 p-4 border-t gap-2 flex-wrap">
+                  <Button variant="outline" size="icon">
                     <Heart className="w-4 h-4" />
                   </Button>
-                  <Button size="sm" disabled>
-                    <Wand2 className="w-4 h-4 mr-2" />
-                    Use this prompt
+                  <Button size="sm" asChild>
+                     <Link href={`/prompt/edit?prompt=${encodeURIComponent(item.description)}`}>
+                        <Wand2 className="w-4 h-4 mr-2" />
+                        Use this prompt
+                    </Link>
                   </Button>
                   <Button
                     variant="secondary"

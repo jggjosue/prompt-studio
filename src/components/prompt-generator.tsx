@@ -1,31 +1,24 @@
 'use client';
 
-import { useState } from 'react';
+import { useActionState, useEffect } from 'react';
+import { useFormStatus } from 'react-dom';
 import { handlePromptGeneration, type PromptGenerationFormState as FormState } from '@/app/actions';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent } from '@/components/ui/card';
 import { Wand2, Loader2, Clipboard } from 'lucide-react';
-import { useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
-import { useUser } from '@/firebase';
-import Link from 'next/link';
 
 function GenerateButton() {
-  const { user, isUserLoading } = useUser();
-
-  if (isUserLoading) {
-    return (
-      <Button disabled className="w-full md:w-auto">
-        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-        Loading...
-      </Button>
-    );
-  }
+  const { pending } = useFormStatus();
 
   return (
-    <Button disabled className="w-full md:w-auto">
-      <Wand2 className="mr-2 h-4 w-4" />
+    <Button type="submit" disabled={pending} className="w-full md:w-auto">
+      {pending ? (
+        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+      ) : (
+        <Wand2 className="mr-2 h-4 w-4" />
+      )}
       Generate Prompt
     </Button>
   );
@@ -33,17 +26,8 @@ function GenerateButton() {
 
 export default function PromptGenerator() {
   const { toast } = useToast();
-  const [state, setState] = useState<FormState>({ message: '' });
-  const [keywords, setKeywords] = useState('');
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('keywords', keywords);
-    const result = await handlePromptGeneration(state, formData);
-    setState(result);
-  };
-
+  const initialState: FormState = { message: '' };
+  const [state, formAction] = useActionState(handlePromptGeneration, initialState);
 
   const handleCopyToClipboard = () => {
     if (state.prompt) {
@@ -73,15 +57,13 @@ export default function PromptGenerator() {
   return (
     <Card>
       <CardContent className="p-6">
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form action={formAction} className="space-y-4">
           <div className="grid w-full gap-2">
             <Textarea
               name="keywords"
               placeholder="Enter keywords to inspire the AI, e.g., 'mystical forest, ancient runes, glowing mushrooms'"
               rows={3}
               className="text-base"
-              value={keywords}
-              onChange={e => setKeywords(e.target.value)}
             />
             {state.issues && (
               <p className="text-sm text-destructive">{state.issues.join(', ')}</p>
