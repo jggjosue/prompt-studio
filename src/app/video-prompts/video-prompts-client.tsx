@@ -116,17 +116,13 @@ export default function VideoPromptsClient() {
                 <Tag className="mr-2" />
                 Browse by Tags
               </Button>
-              <Button variant="secondary" asChild>
-                <Link href="/login">
-                  <Sparkles className="mr-2" />
-                  Nano Banana Pro
-                </Link>
+              <Button variant="secondary" disabled>
+                <Sparkles className="mr-2" />
+                Nano Banana Pro
               </Button>
-              <Button asChild>
-                <Link href="/prompt/edit">
-                  <Wand2 className="mr-2" />
-                  Generate a Video
-                </Link>
+              <Button disabled>
+                <Wand2 className="mr-2" />
+                Generate a Video
               </Button>
             </div>
           </div>

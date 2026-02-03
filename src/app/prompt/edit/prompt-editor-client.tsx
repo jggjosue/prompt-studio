@@ -86,11 +86,9 @@ export default function PromptEditorClient() {
                         View Examples
                     </Link>
                 </Button>
-                <Button variant="secondary" asChild>
-                    <Link href="/login">
-                        <Sparkles className="mr-2" />
-                        Nano Banana Pro
-                    </Link>
+                <Button variant="secondary" disabled>
+                    <Sparkles className="mr-2" />
+                    Nano Banana Pro
                 </Button>
             </div>
           </div>

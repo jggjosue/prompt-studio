@@ -139,7 +139,7 @@ export default function ImagePromptsClient() {
             >
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="all">All Prompts</TabsTrigger>
-                <TabsTrigger value="nano-banana">
+                <TabsTrigger value="nano-banana" disabled>
                   <Sparkles className="mr-2 h-4 w-4" />
                   Nano Banana Pro
                 </TabsTrigger>
