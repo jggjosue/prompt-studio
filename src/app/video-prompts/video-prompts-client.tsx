@@ -139,11 +139,11 @@ export default function VideoPromptsClient() {
                   <CardTitle className="font-headline text-xl">
                     {item.title}
                   </CardTitle>
-                  <CardDescription className="line-clamp-3 h-[60px]">
+                  <CardDescription className="line-clamp-3">
                     {item.description}
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="p-6 pt-0 space-y-4 flex-grow">
+                <CardContent className="p-4 md:p-6 pt-0 space-y-4 flex-grow">
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Tag className="w-4 h-4" />
                     <span className="truncate">{item.tags.join(', ')}</span>
@@ -157,7 +157,7 @@ export default function VideoPromptsClient() {
                     />
                   </div>
                 </CardContent>
-                <CardFooter className="bg-muted/50 p-4 border-t gap-2">
+                <CardFooter className="bg-muted/50 p-4 border-t gap-2 flex-wrap">
                   <Button size="sm" disabled>
                     <Wand2 className="w-4 h-4 mr-2" />
                     Use this prompt
