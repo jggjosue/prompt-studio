@@ -19,7 +19,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import Logo from './logo';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
 import { useState } from 'react';
 import {
   Accordion,
@@ -236,24 +242,29 @@ export default function HeaderClient() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-full max-w-sm">
-              <div className="p-6">
-                <Link href="/" className="flex items-center gap-2 mb-8">
-                  <Logo />
-                  <span className="font-bold font-headline text-lg">
-                    Prompt Studio
-                  </span>
-                </Link>
-                <nav className="flex flex-col gap-4 text-lg font-medium">
-                  {navLinks}
-                </nav>
-                <div className="mt-8 flex flex-col gap-4">
-                  {/* <Button variant="ghost" asChild size="lg">
+              <SheetHeader>
+                <SheetTitle className="sr-only">Menu</SheetTitle>
+              </SheetHeader>
+              <Link
+                href="/"
+                className="flex items-center gap-2 mb-8"
+                onClick={closeSheet}
+              >
+                <Logo />
+                <span className="font-bold font-headline text-lg">
+                  Prompt Studio
+                </span>
+              </Link>
+              <nav className="flex flex-col gap-4 text-lg font-medium">
+                {navLinks}
+              </nav>
+              <div className="mt-8 flex flex-col gap-4">
+                {/* <Button variant="ghost" asChild size="lg">
                     <Link href="/login" onClick={closeSheet}>Login</Link>
                   </Button> */}
-                  {/* <Button asChild size="lg">
+                {/* <Button asChild size="lg">
                     <Link href="/register" onClick={closeSheet}>Sign Up</Link>
                   </Button> */}
-                </div>
               </div>
             </SheetContent>
           </Sheet>
