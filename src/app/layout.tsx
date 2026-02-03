@@ -6,8 +6,8 @@ import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 
 export const metadata: Metadata = {
-  title: 'Prompt Studio',
-  description: 'AI-powered image and video generation platform',
+  title: 'Prompt Studio - AI-Powered Image and Video Generation Platform',
+  description: 'Create stunning images and videos with AI prompts. Explore our gallery of AI-generated content, edit prompts, and unleash your creativity with Prompt Studio.',
   keywords: [
     'Chatgpt',
     'chatgpt go bbva',
