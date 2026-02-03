@@ -29,12 +29,14 @@ import {
 import Link from 'next/link';
 import Image from 'next/image';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 
 export default function ImagePromptsClient() {
   const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState('all');
   const itemsPerPage = 18;
+  const isMobile = useIsMobile();
 
   const imageContent: ImagePlaceholder[] = useMemo(() => {
     return PlaceHolderImages.filter(item => {
@@ -65,7 +67,7 @@ export default function ImagePromptsClient() {
 
   const renderPaginationLinks = () => {
     const pageNumbers = [];
-    const maxPagesToShow = 5;
+    const maxPagesToShow = isMobile ? 3 : 5;
     const halfMaxPages = Math.floor(maxPagesToShow / 2);
 
     if (totalPages <= maxPagesToShow) {
