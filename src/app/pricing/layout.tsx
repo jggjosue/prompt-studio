@@ -1,10 +1,8 @@
 import type { Metadata } from 'next';
-import { Suspense } from 'react';
-import PromptEditorClient from './prompt-editor-client';
 
 export const metadata: Metadata = {
-  title: 'Create AI Images & Videos | Prompt Studio',
-  description: 'Create and discover stunning AI videos & images. Explore thousands of prompts, get inspired, and generate professional-quality content.',
+  title: 'Pricing | Prompt Studio',
+  description: 'Choose your plan or buy credits to start creating videos and images.',
   keywords: [
     'Chatgpt',
     'chatgpt go bbva',
@@ -42,10 +40,10 @@ export const metadata: Metadata = {
   ],
 };
 
-export default function PromptEditorPage() {
-    return (
-        <Suspense fallback={<div>Loading...</div>}>
-            <PromptEditorClient />
-        </Suspense>
-    )
+export default function PricingLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return children;
 }
