@@ -40,7 +40,7 @@ export default function HeaderClient() {
 
   const closeSheet = () => setIsSheetOpen(false);
 
-  const navLinks = (
+  const mobileNavLinks = (
     <>
       <Link
         href="/"
@@ -54,8 +54,8 @@ export default function HeaderClient() {
           <AccordionTrigger className="hover:no-underline hover:text-foreground/80 transition-colors py-2 md:py-0 md:[&[data-state=open]>svg]:-rotate-180">
             <span className="flex items-center gap-1">Video</span>
           </AccordionTrigger>
-          <AccordionContent className="md:absolute md:w-64 md:mt-2 md:bg-popover md:border md:rounded-md md:shadow-lg md:p-1 md:z-10">
-            <div className="grid grid-cols-1 gap-2 p-2 md:p-0">
+          <AccordionContent className="pl-4">
+            <div className="grid grid-cols-1 gap-2 py-2">
               <Link
                 href="/video-prompts"
                 className="flex items-start gap-3 p-2 rounded-md hover:bg-accent"
@@ -80,8 +80,8 @@ export default function HeaderClient() {
           <AccordionTrigger className="hover:no-underline hover:text-foreground/80 transition-colors py-2 md:py-0 md:[&[data-state=open]>svg]:-rotate-180">
             <span className="flex items-center gap-1">Image</span>
           </AccordionTrigger>
-          <AccordionContent className="md:absolute md:w-64 md:mt-2 md:bg-popover md:border md:rounded-md md:shadow-lg md:p-1 md:z-10">
-            <div className="grid grid-cols-1 gap-2 p-2 md:p-0">
+          <AccordionContent className="pl-4">
+            <div className="grid grid-cols-1 gap-2 py-2">
               <Link
                 href="/image-prompts"
                 className="flex items-start gap-3 p-2 rounded-md hover:bg-accent"
@@ -106,8 +106,8 @@ export default function HeaderClient() {
           <AccordionTrigger className="hover:no-underline hover:text-foreground/80 transition-colors py-2 md:py-0 md:[&[data-state=open]>svg]:-rotate-180">
             <span className="flex items-center gap-1">Tag</span>
           </AccordionTrigger>
-          <AccordionContent className="md:absolute md:w-64 md:mt-2 md:bg-popover md:border md:rounded-md md:shadow-lg md:p-1 md:z-10">
-            <div className="grid grid-cols-1 gap-2 p-2 md:p-0">
+          <AccordionContent className="pl-4">
+            <div className="grid grid-cols-1 gap-2 py-2">
               <Link
                 href="#"
                 className="flex items-start gap-3 p-2 rounded-md hover:bg-accent"
@@ -145,6 +145,103 @@ export default function HeaderClient() {
     </>
   );
 
+  const desktopNavLinks = (
+    <>
+      <Link
+        href="/"
+        className="flex items-center gap-2 hover:text-foreground/80 transition-colors py-2 md:py-0"
+      >
+        Home
+      </Link>
+      <div className="group relative">
+        <span className="flex items-center gap-1 hover:text-foreground/80 transition-colors py-2 md:py-0 cursor-pointer">
+          Video{' '}
+          <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200 group-hover:rotate-180" />
+        </span>
+        <div className="hidden group-hover:block absolute w-64 mt-2 bg-popover border rounded-md shadow-lg p-1 z-10">
+          <div className="grid grid-cols-1 gap-2 p-1">
+            <Link
+              href="/video-prompts"
+              className="flex items-start gap-3 p-2 rounded-md hover:bg-accent"
+            >
+              <div className="bg-primary/10 text-primary p-2 rounded-md">
+                <Video className="h-5 w-5" />
+              </div>
+              <div>
+                <p className="font-semibold">Video Prompts</p>
+                <p className="text-xs text-muted-foreground">
+                  Browse AI video prompts
+                </p>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </div>
+      <div className="group relative">
+        <span className="flex items-center gap-1 hover:text-foreground/80 transition-colors py-2 md:py-0 cursor-pointer">
+          Image{' '}
+          <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200 group-hover:rotate-180" />
+        </span>
+        <div className="hidden group-hover:block absolute w-64 mt-2 bg-popover border rounded-md shadow-lg p-1 z-10">
+          <div className="grid grid-cols-1 gap-2 p-1">
+            <Link
+              href="/image-prompts"
+              className="flex items-start gap-3 p-2 rounded-md hover:bg-accent"
+            >
+              <div className="bg-primary/10 text-primary p-2 rounded-md">
+                <ImageIcon className="h-5 w-5" />
+              </div>
+              <div>
+                <p className="font-semibold">Image Prompts</p>
+                <p className="text-xs text-muted-foreground">
+                  Browse AI image prompts
+                </p>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </div>
+      <div className="group relative">
+        <span className="flex items-center gap-1 hover:text-foreground/80 transition-colors py-2 md:py-0 cursor-pointer">
+          Tag{' '}
+          <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200 group-hover:rotate-180" />
+        </span>
+        <div className="hidden group-hover:block absolute w-64 mt-2 bg-popover border rounded-md shadow-lg p-1 z-10">
+          <div className="grid grid-cols-1 gap-2 p-1">
+            <Link
+              href="#"
+              className="flex items-start gap-3 p-2 rounded-md hover:bg-accent"
+            >
+              <div className="bg-primary/10 text-primary p-2 rounded-md">
+                <Tag className="h-5 w-5" />
+              </div>
+              <div>
+                <p className="font-semibold">Video Tags</p>
+                <p className="text-xs text-muted-foreground">
+                  Browse AI video tags
+                </p>
+              </div>
+            </Link>
+            <Link
+              href="#"
+              className="flex items-start gap-3 p-2 rounded-md hover:bg-accent"
+            >
+              <div className="bg-primary/10 text-primary p-2 rounded-md">
+                <Tag className="h-5 w-5" />
+              </div>
+              <div>
+                <p className="font-semibold">Image Tags</p>
+                <p className="text-xs text-muted-foreground">
+                  Browse AI image tags
+                </p>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center">
@@ -155,7 +252,7 @@ export default function HeaderClient() {
           </span>
         </Link>
         <nav className="hidden items-center justify-center gap-4 text-sm font-medium md:flex flex-1">
-          {navLinks}
+          {desktopNavLinks}
         </nav>
 
         <div className="flex items-center gap-2 ml-auto">
@@ -167,9 +264,9 @@ export default function HeaderClient() {
                 <span className="sr-only">Toggle Menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-full max-w-sm">
-              <SheetHeader>
-                <SheetTitle className="sr-only">Menu</SheetTitle>
+            <SheetContent side="left" className="w-full max-w-sm p-0">
+              <SheetHeader className="p-6 pb-0">
+                <SheetTitle>Menu</SheetTitle>
               </SheetHeader>
               <Link
                 href="/"
@@ -182,7 +279,7 @@ export default function HeaderClient() {
                 </span>
               </Link>
               <nav className="flex flex-col gap-4 text-lg font-medium px-6">
-                {navLinks}
+                {mobileNavLinks}
               </nav>
             </SheetContent>
           </Sheet>
