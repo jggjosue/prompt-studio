@@ -1,6 +1,5 @@
 'use client';
 
-import type { Metadata } from 'next';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Slider } from '@/components/ui/slider';
@@ -17,11 +16,6 @@ import Footer from '@/components/layout/footer';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Label } from '@/components/ui/label';
-
-export const metadata: Metadata = {
-  title: 'Pricing | Prompt Studio',
-  description: 'Choose your plan or buy credits to start creating videos and images.',
-};
 
 const faqs = [
   {
