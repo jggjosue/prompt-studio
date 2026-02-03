@@ -39,7 +39,7 @@ export default function Home() {
     <div className="flex min-h-screen w-full flex-col bg-background">
       <Header />
       <main className="flex-1">
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-muted/30">
+        <section className="w-full py-8 md:py-20 bg-muted/30">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center space-y-4 text-center">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none font-headline">
@@ -50,7 +50,7 @@ export default function Home() {
                 in your ideas and watch them come to life.
               </p>
             </div>
-            <div className="mx-auto w-full max-w-2xl pt-12">
+            <div className="mx-auto w-full max-w-2xl pt-8 md:pt-12">
               <PromptGenerator />
             </div>
           </div>
@@ -72,7 +72,7 @@ export default function Home() {
           </div>
         </section> */}
 
-        <section id="gallery" className="w-full py-12 md:py-24 lg:py-28">
+        <section id="gallery" className="w-full py-8 md:py-20">
           <div className="container">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline mb-8 text-center">
               Featured Creations
@@ -81,7 +81,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="video-examples" className="w-full py-12 md:py-24 lg:py-28 bg-muted/30">
+        <section id="video-examples" className="w-full py-8 md:py-20 bg-muted/30">
           <div className="container">
              <div className="flex flex-col items-center space-y-2 text-center mb-12">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
@@ -95,7 +95,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="image-examples" className="w-full py-12 md:py-24 lg:py-28">
+        <section id="image-examples" className="w-full py-8 md:py-20">
           <div className="container">
              <div className="flex flex-col items-center space-y-2 text-center mb-12">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
@@ -116,7 +116,7 @@ export default function Home() {
 
         <section
           id="features"
-          className="container grid gap-8 px-4 md:px-6 py-12 md:grid-cols-2 lg:grid-cols-3"
+          className="container grid gap-4 md:gap-8 px-4 md:px-6 py-8 md:py-16 md:grid-cols-2 lg:grid-cols-3"
         >
           <div className="flex flex-col justify-center">
             <h2 className="text-3xl font-bold tracking-tighter font-headline mb-4">
