@@ -75,7 +75,7 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder }
                   />
                 )}
                 <div className="absolute bottom-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Button size="sm" asChild>
+                  <Button size="sm" asChild disabled>
                     <Link href="/login">
                       <Heart className="mr-2" />
                       Like
