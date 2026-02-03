@@ -118,11 +118,11 @@ export default function VideoPromptsClient() {
                 <Tag className="mr-2" />
                 Browse by Tags
               </Button>
-              <Button variant="secondary" disabled>
+              <Button variant="secondary" disabled={true}>
                 <Sparkles className="mr-2" />
                 Nano Banana Pro
               </Button>
-              <Button asChild disabled>
+              <Button asChild disabled={true}>
                 <Link href="/prompt/edit">
                   <Wand2 className="mr-2" />
                   Generate a Video
@@ -160,10 +160,10 @@ export default function VideoPromptsClient() {
                   </div>
                 </CardContent>
                 <CardFooter className="bg-muted/50 p-4 border-t gap-2 flex-wrap">
-                  <Button variant="outline" size="icon" disabled>
+                  <Button variant="outline" size="icon" disabled={true}>
                     <Heart className="w-4 h-4" />
                   </Button>
-                  <Button size="sm" asChild disabled>
+                  <Button size="sm" asChild disabled={true}>
                     <Link href={`/prompt/edit?prompt=${encodeURIComponent(item.description)}`}>
                         <Wand2 className="w-4 h-4 mr-2" />
                         Use this prompt
