@@ -27,24 +27,24 @@ export default function ContentGrid() {
           Community Gallery
         </h3>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
         {content.map(item => (
           <Card
             key={item.id}
             className="overflow-hidden group h-full flex flex-col"
           >
-            <CardHeader className="p-4">
-              <CardTitle className="font-headline text-lg">
+            <CardHeader className="p-4 sm:p-6">
+              <CardTitle className="font-headline text-lg sm:text-xl">
                 {item.title}
               </CardTitle>
               <CardDescription className="line-clamp-2 h-auto">
                 {item.description}
               </CardDescription>
             </CardHeader>
-            <CardContent className="p-4 pt-0 space-y-4 flex-grow">
+            <CardContent className="p-4 sm:p-6 pt-0 space-y-4 flex-grow">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Tag className="w-4 h-4" />
-                <span>{item.tags.join(', ')}</span>
+                <span className="truncate">{item.tags.join(', ')}</span>
               </div>
               <div className="relative aspect-video rounded-md overflow-hidden">
                 {item.type === 'video' ? (
@@ -53,12 +53,8 @@ export default function ContentGrid() {
                       src={item.imageUrl}
                       alt={item.description}
                       fill
-<<<<<<< HEAD
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-=======
                       unoptimized={item.imageUrl?.includes('meta.ai')}
                       className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
->>>>>>> refs/remotes/origin/main
                       data-ai-hint={item.imageHint}
                     />
                     <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
@@ -70,12 +66,8 @@ export default function ContentGrid() {
                     src={item.imageUrl}
                     alt={item.description}
                     fill
-<<<<<<< HEAD
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-=======
                     unoptimized={item.imageUrl?.includes('meta.ai')}
                     className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
->>>>>>> refs/remotes/origin/main
                     data-ai-hint={item.imageHint}
                   />
                 )}
