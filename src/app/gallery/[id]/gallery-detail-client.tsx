@@ -26,7 +26,6 @@ import { useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 
 export default function GalleryDetailClient({ item }: { item: ImagePlaceholder | VideoProp }) {
-  const { isAuthenticated } = useKindeBrowserClient();
   const otherItems = [
     ...PlaceHolderImages.filter(p => p.id !== item.id && p.imageUrl),
     ...PlaceHolderVideos.filter(p => p.id !== item.id && p.imageUrl),
@@ -43,7 +42,7 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
           }
       });
       setLikes(initialLikes);
-  }, [item]);
+  }, [item, otherItems]);
 
   const handleLike = (itemId: string) => {
     setLikes(prev => {
@@ -104,7 +103,7 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                       className="object-cover"
                       data-ai-hint={item.imageHint}
                     />
-                    <div className="absolute bottom-4 right-4 flex items-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="absolute bottom-4 right-4 flex items-start gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
                       <div className="flex flex-col items-center gap-1 text-white">
                           <Button size="icon" variant="ghost" className="text-white bg-black/20 hover:text-white hover:bg-black/40" onClick={() => handleLike(item.id)}>
                               <Heart fill={likes[item.id]?.isLiked ? 'currentColor' : 'none'} className={likes[item.id]?.isLiked ? 'text-red-500' : ''} />
