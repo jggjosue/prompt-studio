@@ -39,7 +39,7 @@ export default function ImagePromptsClient() {
     return PlaceHolderImages.filter(item => {
       if (item.type !== 'image' || !item.imageUrl) return false;
       if (filter === 'nano-banana') {
-        return item.title.toLowerCase().includes('nano banana');
+        return item.tags.map(t => t.toLowerCase()).includes('nano banana');
       }
       return true;
     });
@@ -174,9 +174,11 @@ export default function ImagePromptsClient() {
                 <Tag className="mr-2" />
                 Browse by Tags
               </Button>
-              <Button disabled={true}>
+              <Button asChild>
+                <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
                     <Wand2 className="mr-2" />
                     Generate an Image
+                </Link>
               </Button>
             </div>
           </div>
