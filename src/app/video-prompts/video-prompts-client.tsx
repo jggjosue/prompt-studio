@@ -118,11 +118,9 @@ export default function VideoPromptsClient() {
                 <Sparkles className="mr-2" />
                 Nano Banana Pro
               </Button>
-              <Button asChild className='disabled:pointer-events-none disabled:opacity-50'>
-                  <Link href="/prompt/edit" aria-disabled={true} tabIndex={-1}>
+              <Button disabled={true}>
                     <Wand2 className="mr-2" />
                     Generate a Video
-                  </Link>
               </Button>
             </div>
           </div>
@@ -146,7 +144,7 @@ export default function VideoPromptsClient() {
                     <Tag className="w-4 h-4" />
                     <span className="truncate">{item.tags.join(', ')}</span>
                   </div>
-                  <div className="relative aspect-[3/4] rounded-md overflow-hidden">
+                  <div className="relative aspect-[9/16] rounded-md overflow-hidden">
                     <video
                       src={item.imageUrl}
                       playsInline
@@ -159,11 +157,9 @@ export default function VideoPromptsClient() {
                   <Button variant="outline" size="icon" disabled>
                     <Heart className="w-4 h-4" />
                   </Button>
-                  <Button asChild size="sm" className='disabled:pointer-events-none disabled:opacity-50'>
-                    <Link href={`/prompt/edit?prompt=${encodeURIComponent(item.description)}`} aria-disabled={true} tabIndex={-1}>
+                  <Button size="sm" disabled={true}>
                         <Wand2 className="w-4 h-4 mr-2" />
                         Use this prompt
-                    </Link>
                   </Button>
                   <Button
                     variant="secondary"

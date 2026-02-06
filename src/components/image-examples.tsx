@@ -58,11 +58,9 @@ export default function ImageExamples() {
               <Button variant="outline" size="icon" disabled={true}>
                 <Heart className="w-4 h-4" />
               </Button>
-              <Button asChild size="sm" className='disabled:pointer-events-none disabled:opacity-50'>
-                <Link href={`/prompt/edit?prompt=${encodeURIComponent(item.description)}`} aria-disabled={true} tabIndex={-1}>
-                    <Wand2 className="w-4 h-4 mr-2" />
-                    Use this prompt
-                </Link>
+              <Button size="sm" disabled={true}>
+                <Wand2 className="w-4 h-4 mr-2" />
+                Use this prompt
               </Button>
               <Button
                 variant="secondary"
