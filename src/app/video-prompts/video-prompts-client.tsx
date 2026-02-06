@@ -1,4 +1,3 @@
-
 'use client';
 
 import Footer from '@/components/layout/footer';
@@ -30,15 +29,15 @@ export default function VideoPromptsClient() {
   const [likes, setLikes] = useState<Record<string, { count: number; isLiked: boolean }>>({});
 
   useEffect(() => {
-      const initialLikes: Record<string, { count: number; isLiked: boolean }> = {};
-      PlaceHolderVideos.forEach(i => {
-          if (i.imageUrl) {
-            const deterministicCount = (parseInt(i.id.replace(/\D/g, '') || "0", 10) % 2400) + 100;
-            initialLikes[i.id] = { count: deterministicCount, isLiked: false };
-          }
-      });
-      setLikes(initialLikes);
-  }, []);
+    const initialLikes: Record<string, { count: number; isLiked: boolean }> = {};
+    videoContent.forEach(i => {
+        if (i.imageUrl) {
+          const deterministicCount = (parseInt(i.id.replace(/\D/g, '') || "0", 10) % 2400) + 100;
+          initialLikes[i.id] = { count: deterministicCount, isLiked: false };
+        }
+    });
+    setLikes(initialLikes);
+  }, [videoContent]);
 
   const handleLike = (itemId: string) => {
     setLikes(prev => {
@@ -178,32 +177,28 @@ export default function VideoPromptsClient() {
                     />
                   </div>
                 </CardContent>
-                <CardFooter className="bg-muted/50 p-4 border-t flex flex-col gap-2 items-start">
-                  <div className="w-full flex items-center justify-between">
-                    <div className="flex items-start gap-2">
-                      <div className="flex flex-col items-center">
-                        <Button variant="outline" size="icon" onClick={() => handleLike(item.id)}>
-                            <Heart className="w-4 h-4" fill={likes[item.id]?.isLiked ? 'currentColor' : 'none'} />
-                        </Button>
-                        <span className="text-xs text-muted-foreground mt-1">{likes[item.id]?.count}</span>
-                      </div>
-                      <Button size="sm" asChild>
-                        <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
-                            <Wand2 className="w-4 h-4 mr-2" />
-                            Use this prompt
-                        </Link>
+                <CardFooter className="bg-muted/50 p-4 border-t flex items-center justify-between gap-2">
+                  <div className="flex items-start gap-2">
+                    <div className="flex flex-col items-center">
+                      <Button variant="outline" size="icon" onClick={() => handleLike(item.id)}>
+                          <Heart className="w-4 h-4" fill={likes[item.id]?.isLiked ? 'currentColor' : 'none'} />
                       </Button>
+                      <span className="text-xs text-muted-foreground mt-1">{likes[item.id]?.count}</span>
                     </div>
-                  </div>
-                  <div className="w-full flex justify-end">
-                    <Button
-                      variant="secondary"
-                      size="sm"
-                      asChild
-                    >
-                      <Link href={`/gallery-videos/${item.id}`}>View Details</Link>
+                    <Button size="sm" asChild>
+                      <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
+                          <Wand2 className="w-4 h-4 mr-2" />
+                          Use this prompt
+                      </Link>
                     </Button>
                   </div>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    asChild
+                  >
+                    <Link href={`/gallery-videos/${item.id}`}>View</Link>
+                  </Button>
                 </CardFooter>
               </Card>
             ))}
