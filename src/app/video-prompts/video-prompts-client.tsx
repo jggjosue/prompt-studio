@@ -157,9 +157,11 @@ export default function VideoPromptsClient() {
                   <Button variant="outline" size="icon" disabled>
                     <Heart className="w-4 h-4" />
                   </Button>
-                  <Button size="sm" disabled={true}>
+                  <Button size="sm" asChild>
+                    <Link href={`/prompt/edit?prompt=${encodeURIComponent(item.description)}`}>
                         <Wand2 className="w-4 h-4 mr-2" />
                         Use this prompt
+                    </Link>
                   </Button>
                   <Button
                     variant="secondary"
