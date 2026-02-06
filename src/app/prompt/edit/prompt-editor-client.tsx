@@ -86,9 +86,11 @@ export default function PromptEditorClient() {
                         View Examples
                     </Link>
                 </Button>
-                <Button variant="secondary" disabled>
+                <Button variant="secondary" asChild>
+                  <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
                     <Sparkles className="mr-2" />
                     Nano Banana Pro
+                  </Link>
                 </Button>
             </div>
           </div>
