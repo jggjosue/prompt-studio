@@ -29,11 +29,17 @@ import { Heart, Sparkles, Tag, Wand2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function ImagePromptsClient() {
+  const [hasMounted, setHasMounted] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState('all');
   const itemsPerPage = 18;
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   const imageContent: ImagePlaceholder[] = useMemo(() => {
     return PlaceHolderImages.filter(item => {
@@ -142,6 +148,49 @@ export default function ImagePromptsClient() {
       );
     });
   };
+  
+  if (!hasMounted) {
+    return (
+      <div className="flex min-h-screen w-full flex-col bg-background">
+        <Header />
+        <main className="flex-1 py-12 md:py-16">
+          <div className="container max-w-7xl">
+            <div className="flex flex-col items-center space-y-4 text-center mb-12">
+              <Skeleton className="h-12 w-3/4" />
+              <Skeleton className="h-6 w-1/2" />
+              <Skeleton className="h-10 w-64" />
+              <div className="flex gap-4 pt-4">
+                <Skeleton className="h-10 w-32" />
+                <Skeleton className="h-10 w-40" />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+              {Array.from({ length: 9 }).map((_, index) => (
+                <Card key={index} className="overflow-hidden group h-full flex flex-col bg-card">
+                  <CardHeader>
+                    <Skeleton className="h-6 w-3/4" />
+                    <Skeleton className="h-4 w-full mt-2" />
+                    <Skeleton className="h-4 w-2/3 mt-1" />
+                  </CardHeader>
+                  <CardContent className="p-6 pt-0 space-y-4 flex-grow">
+                    <Skeleton className="h-4 w-1/2" />
+                    <Skeleton className="aspect-[3/4] w-full rounded-md" />
+                  </CardContent>
+                  <CardFooter className="bg-muted/50 p-4 border-t">
+                    <div className="flex justify-between w-full">
+                       <Skeleton className="h-8 w-24" />
+                       <Skeleton className="h-8 w-16" />
+                    </div>
+                  </CardFooter>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
