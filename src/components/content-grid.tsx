@@ -26,7 +26,8 @@ export default function ContentGrid() {
       const initialLikes: Record<string, { count: number; isLiked: boolean }> = {};
       PlaceHolderImages.forEach(i => {
           if (i.imageUrl) {
-              initialLikes[i.id] = { count: Math.floor(Math.random() * 2500) + 100, isLiked: false };
+            const deterministicCount = (parseInt(i.id.replace(/\D/g, '') || "0", 10) % 2400) + 100;
+            initialLikes[i.id] = { count: deterministicCount, isLiked: false };
           }
       });
       setLikes(initialLikes);

@@ -22,15 +22,15 @@ import { ArrowLeft, Heart, PlayCircle, Wand2, Copy } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import Footer from '@/components/layout/footer';
 
 export default function GalleryDetailClient({ item }: { item: ImagePlaceholder | VideoProp }) {
-  const otherItems = [
+  const otherItems = useMemo(() => [
     ...PlaceHolderImages.filter(p => p.id !== item.id && p.imageUrl),
     ...PlaceHolderVideos.filter(p => p.id !== item.id && p.imageUrl),
-  ].slice(0, 3);
+  ].slice(0, 3), [item.id]);
   
   const [likes, setLikes] = useState<Record<string, { count: number; isLiked: boolean }>>({});
   const { toast } = useToast();
@@ -39,7 +39,8 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
       const initialLikes: Record<string, { count: number; isLiked: boolean }> = {};
       [item, ...otherItems].forEach(i => {
           if (i.imageUrl) {
-              initialLikes[i.id] = { count: Math.floor(Math.random() * 2500) + 100, isLiked: false };
+              const deterministicCount = (parseInt(i.id.replace(/\D/g, '') || "0", 10) % 2400) + 100;
+              initialLikes[i.id] = { count: deterministicCount, isLiked: false };
           }
       });
       setLikes(initialLikes);
@@ -196,7 +197,6 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                             <video
                               src={other.imageUrl}
                               playsInline
-                              autoPlay
                               muted
                               className="object-cover transition-transform group-hover:scale-105 w-full h-full"
                             />
