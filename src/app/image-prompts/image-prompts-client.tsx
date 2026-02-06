@@ -163,11 +163,9 @@ export default function ImagePromptsClient() {
             >
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="all">All Prompts</TabsTrigger>
-                <TabsTrigger value="nano-banana" asChild>
-                  <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
+                <TabsTrigger value="nano-banana">
                     <Sparkles className="mr-2 h-4 w-4" />
                     Nano Banana Pro
-                  </Link>
                 </TabsTrigger>
               </TabsList>
             </Tabs>
