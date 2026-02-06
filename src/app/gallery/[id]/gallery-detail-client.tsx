@@ -77,6 +77,13 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
               </div>
               <div className="relative aspect-[3/4] rounded-lg overflow-hidden border group">
                 {item.type === 'video' ? (
+                  <video
+                    src={item.imageUrl}
+                    playsInline
+                    controls
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
                   <>
                     <Image
                       src={item.imageUrl}
@@ -84,35 +91,24 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                       fill
                       unoptimized={item.imageUrl?.includes('meta.ai')}
                       className="object-cover"
+                      data-ai-hint={item.imageHint}
                     />
-                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                      <PlayCircle className="w-20 h-20 text-white/80" />
+                    <div className="absolute bottom-4 right-4 flex items-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="flex flex-col items-center gap-1 text-white">
+                          <Button size="icon" variant="ghost" className="text-white bg-black/20 hover:text-white hover:bg-black/40" onClick={() => handleLike(item.id)}>
+                              <Heart fill={likes[item.id]?.isLiked ? 'currentColor' : 'none'} className={likes[item.id]?.isLiked ? 'text-red-500' : ''} />
+                          </Button>
+                          <span className="text-xs font-semibold">{likes[item.id]?.count.toLocaleString()}</span>
+                      </div>
+                      <Button size="sm" variant="secondary" asChild>
+                        <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
+                            <Wand2 className="mr-2" />
+                            Use this prompt
+                        </Link>
+                      </Button>
                     </div>
                   </>
-                ) : (
-                  <Image
-                    src={item.imageUrl}
-                    alt={item.description}
-                    fill
-                    unoptimized={item.imageUrl?.includes('meta.ai')}
-                    className="object-cover"
-                    data-ai-hint={item.imageHint}
-                  />
                 )}
-                <div className="absolute bottom-4 right-4 flex items-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <div className="flex flex-col items-center gap-1 text-white">
-                      <Button size="icon" variant="ghost" className="text-white bg-black/20 hover:text-white hover:bg-black/40" onClick={() => handleLike(item.id)}>
-                          <Heart fill={likes[item.id]?.isLiked ? 'currentColor' : 'none'} className={likes[item.id]?.isLiked ? 'text-red-500' : ''} />
-                      </Button>
-                      <span className="text-xs font-semibold">{likes[item.id]?.count.toLocaleString()}</span>
-                  </div>
-                  <Button size="sm" variant="secondary" asChild>
-                    <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
-                        <Wand2 className="mr-2" />
-                        Use this prompt
-                    </Link>
-                  </Button>
-                </div>
               </div>
 
               <Accordion type="single" collapsible defaultValue="item-1">
@@ -181,17 +177,23 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                     <Card className="overflow-hidden">
                       <CardContent className="p-0">
                         <div className="relative aspect-[3/4]">
-                          <Image
-                            src={other.imageUrl}
-                            alt={other.description}
-                            fill
-                            unoptimized={other.imageUrl?.includes('meta.ai')}
-                            className="object-cover transition-transform group-hover:scale-105"
-                          />
-                          {other.type === 'video' && (
-                            <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                              <PlayCircle className="w-10 h-10 text-white/80" />
-                            </div>
+                          {other.type === 'video' ? (
+                            <video
+                              src={other.imageUrl}
+                              playsInline
+                              autoPlay
+                              muted
+                              loop
+                              className="object-cover transition-transform group-hover:scale-105 w-full h-full"
+                            />
+                          ) : (
+                            <Image
+                              src={other.imageUrl}
+                              alt={other.description}
+                              fill
+                              unoptimized={other.imageUrl?.includes('meta.ai')}
+                              className="object-cover transition-transform group-hover:scale-105"
+                            />
                           )}
                         </div>
                         <div className="p-4">
