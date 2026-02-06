@@ -22,6 +22,7 @@ import { ArrowLeft, Heart, PlayCircle, Wand2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs';
+import { useState, useEffect } from 'react';
 
 export default function GalleryDetailClient({ item }: { item: ImagePlaceholder | VideoProp }) {
   const { isAuthenticated } = useKindeBrowserClient();
@@ -29,6 +30,31 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
     ...PlaceHolderImages.filter(p => p.id !== item.id && p.imageUrl),
     ...PlaceHolderVideos.filter(p => p.id !== item.id && p.imageUrl),
   ].slice(0, 3);
+  
+  const [likes, setLikes] = useState<Record<string, { count: number; isLiked: boolean }>>({});
+
+  useEffect(() => {
+      const initialLikes: Record<string, { count: number; isLiked: boolean }> = {};
+      [item, ...otherItems].forEach(i => {
+          if (i.imageUrl) {
+              initialLikes[i.id] = { count: Math.floor(Math.random() * 2500) + 100, isLiked: false };
+          }
+      });
+      setLikes(initialLikes);
+  }, [item]);
+
+  const handleLike = (itemId: string) => {
+    if (!isAuthenticated) return;
+    setLikes(prev => {
+        const currentItem = prev[itemId];
+        const newIsLiked = !currentItem.isLiked;
+        const newCount = newIsLiked ? currentItem.count + 1 : currentItem.count - 1;
+        return {
+            ...prev,
+            [itemId]: { count: newCount, isLiked: newIsLiked }
+        };
+    });
+  };
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
@@ -74,11 +100,13 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                     data-ai-hint={item.imageHint}
                   />
                 )}
-                <div className="absolute bottom-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Button size="sm" disabled={!isAuthenticated}>
-                    <Heart className="mr-2" />
-                    Like
-                  </Button>
+                <div className="absolute bottom-4 right-4 flex items-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="flex flex-col items-center gap-1 text-white">
+                      <Button size="icon" variant="ghost" className="text-white bg-black/20 hover:text-white hover:bg-black/40" disabled={!isAuthenticated} onClick={() => handleLike(item.id)}>
+                          <Heart fill={likes[item.id]?.isLiked ? 'currentColor' : 'none'} className={likes[item.id]?.isLiked ? 'text-red-500' : ''} />
+                      </Button>
+                      <span className="text-xs font-semibold">{likes[item.id]?.count.toLocaleString()}</span>
+                  </div>
                   <Button size="sm" variant="secondary" asChild>
                     <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
                         <Wand2 className="mr-2" />
@@ -176,8 +204,10 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                               By AI Artist
                             </span>
                             <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                              <Heart className="w-4 h-4" />
-                              <span>1.2k</span>
+                               <Button variant="ghost" size="icon" className="w-6 h-6" disabled={!isAuthenticated} onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleLike(other.id); }}>
+                                <Heart className="w-4 h-4" fill={likes[other.id]?.isLiked ? 'currentColor' : 'none'} />
+                              </Button>
+                              <span>{likes[other.id]?.count.toLocaleString()}</span>
                             </div>
                           </div>
                         </div>
