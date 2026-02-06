@@ -13,12 +13,39 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Heart, PlayCircle, Tag, Wand2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
+import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs';
 
 export default function ContentGrid() {
   const content = useMemo(() => {
     return PlaceHolderImages.filter(item => item.imageUrl).slice(0, 9);
   }, []);
+  
+  const { isAuthenticated } = useKindeBrowserClient();
+  const [likes, setLikes] = useState<Record<string, { count: number; isLiked: boolean }>>({});
+
+  useEffect(() => {
+      const initialLikes: Record<string, { count: number; isLiked: boolean }> = {};
+      PlaceHolderImages.forEach(i => {
+          if (i.imageUrl) {
+              initialLikes[i.id] = { count: Math.floor(Math.random() * 2500) + 100, isLiked: false };
+          }
+      });
+      setLikes(initialLikes);
+  }, []);
+
+  const handleLike = (itemId: string) => {
+    if (!isAuthenticated) return;
+    setLikes(prev => {
+        const currentItem = prev[itemId];
+        const newIsLiked = !currentItem.isLiked;
+        const newCount = newIsLiked ? currentItem.count + 1 : currentItem.count - 1;
+        return {
+            ...prev,
+            [itemId]: { count: newCount, isLiked: newIsLiked }
+        };
+    });
+  };
 
   return (
     <div className="space-y-4 md:space-y-8">
@@ -78,10 +105,13 @@ export default function ContentGrid() {
                 </p>
               )}
             </CardContent>
-            <CardFooter className="bg-muted/50 p-4 border-t flex-wrap gap-2">
-              <Button variant="outline" size="icon" disabled={true}>
-                <Heart className="w-4 h-4" />
-              </Button>
+            <CardFooter className="bg-muted/50 p-4 border-t flex-wrap gap-2 items-start">
+               <div className="flex flex-col items-center">
+                <Button variant="outline" size="icon" disabled={!isAuthenticated} onClick={() => handleLike(item.id)}>
+                    <Heart className="w-4 h-4" fill={likes[item.id]?.isLiked ? 'currentColor' : 'none'} />
+                </Button>
+                <span className="text-xs text-muted-foreground mt-1">{likes[item.id]?.count.toLocaleString()}</span>
+              </div>
               <Button size="sm" asChild>
                 <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
                     <Wand2 className="w-4 h-4 mr-2" />
