@@ -142,9 +142,11 @@ export default function VideoPromptsClient() {
                 <Sparkles className="mr-2" />
                 Nano Banana Pro
               </Button>
-              <Button disabled={true}>
-                    <Wand2 className="mr-2" />
-                    Generate a Video
+              <Button asChild>
+                <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
+                  <Wand2 className="mr-2" />
+                  Generate a Video
+                </Link>
               </Button>
             </div>
           </div>
@@ -178,12 +180,12 @@ export default function VideoPromptsClient() {
                   </div>
                 </CardContent>
                 <CardFooter className="bg-muted/50 p-4 border-t flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-2">
+                   <div className="flex items-center gap-2">
                     <div className="flex items-center gap-1">
-                      <Button variant="outline" size="icon" onClick={() => handleLike(item.id)}>
+                      <span className="text-xs text-muted-foreground">{likes[item.id]?.count}</span>
+                      <Button variant="outline" size="icon" className="w-8 h-8" onClick={() => handleLike(item.id)}>
                           <Heart className="w-4 h-4" fill={likes[item.id]?.isLiked ? 'currentColor' : 'none'} />
                       </Button>
-                      <span className="text-xs text-muted-foreground">{likes[item.id]?.count}</span>
                     </div>
                     <Button size="sm" asChild>
                         <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
