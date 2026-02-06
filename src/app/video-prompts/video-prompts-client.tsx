@@ -17,15 +17,25 @@ import {
   PlaceHolderVideos,
   type VideoProp,
 } from '@/lib/placeholder-videos';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Heart, Sparkles, Tag, Wand2 } from 'lucide-react';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 export default function VideoPromptsClient() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [filter, setFilter] = useState('all');
   const itemsPerPage = 18;
 
-  const videoContent: VideoProp[] = PlaceHolderVideos;
+  const videoContent: VideoProp[] = useMemo(() => {
+    return PlaceHolderVideos.filter(item => {
+      if (filter === 'nano-banana') {
+        return item.tags.map(t => t.toLowerCase()).includes('nano banana');
+      }
+      return true;
+    });
+  }, [filter]);
+
   const [likes, setLikes] = useState<Record<string, { count: number; isLiked: boolean }>>({});
 
   useEffect(() => {
@@ -38,18 +48,11 @@ export default function VideoPromptsClient() {
     });
     setLikes(initialLikes);
   }, [videoContent]);
+  
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filter]);
 
-  const handleLike = (itemId: string) => {
-    setLikes(prev => {
-        const currentItem = prev[itemId];
-        const newIsLiked = !currentItem.isLiked;
-        const newCount = newIsLiked ? currentItem.count + 1 : currentItem.count - 1;
-        return {
-            ...prev,
-            [itemId]: { count: newCount, isLiked: newIsLiked }
-        };
-    });
-  };
 
   const totalPages = Math.ceil(videoContent.length / itemsPerPage);
 
@@ -133,16 +136,23 @@ export default function VideoPromptsClient() {
               Discover thousands of AI video prompts and examples. Get inspired
               and create your own AI generated videos.
             </p>
-            <div className="flex gap-4">
+            <Tabs
+              defaultValue="all"
+              className="w-full max-w-md pt-4"
+              onValueChange={value => setFilter(value)}
+            >
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="all">All Prompts</TabsTrigger>
+                <TabsTrigger value="nano-banana">
+                    <Sparkles className="mr-2 h-4 w-4" />
+                    Nano Banana Pro
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+            <div className="flex gap-4 pt-4">
               <Button variant="outline">
                 <Tag className="mr-2" />
                 Browse by Tags
-              </Button>
-              <Button variant="secondary" asChild>
-                <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
-                  <Sparkles className="mr-2" />
-                  Nano Banana Pro
-                </Link>
               </Button>
               <Button asChild>
                 <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
@@ -184,10 +194,10 @@ export default function VideoPromptsClient() {
                 <CardFooter className="bg-muted/50 p-4 border-t flex items-center justify-between gap-2">
                    <div className="flex items-center gap-2">
                     <div className="flex items-center gap-1">
+                      <span className="text-xs text-muted-foreground">{likes[item.id]?.count}</span>
                       <Button variant="outline" size="icon" className="w-8 h-8" onClick={() => handleLike(item.id)}>
                           <Heart className="w-4 h-4" fill={likes[item.id]?.isLiked ? 'currentColor' : 'none'} />
                       </Button>
-                      <span className="text-xs text-muted-foreground">{likes[item.id]?.count}</span>
                     </div>
                     <Button size="sm" asChild>
                         <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
