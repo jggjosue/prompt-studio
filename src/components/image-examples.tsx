@@ -37,7 +37,6 @@ export default function ImageExamples() {
   }, []);
 
   const handleLike = (itemId: string) => {
-    if (!isAuthenticated) return;
     setLikes(prev => {
         const currentItem = prev[itemId];
         const newIsLiked = !currentItem.isLiked;
@@ -83,7 +82,7 @@ export default function ImageExamples() {
             </CardContent>
             <CardFooter className="bg-muted/50 p-4 border-t flex-wrap gap-2 items-start">
                <div className="flex flex-col items-center">
-                <Button variant="outline" size="icon" disabled={!isAuthenticated} onClick={() => handleLike(item.id)}>
+                <Button variant="outline" size="icon" onClick={() => handleLike(item.id)}>
                     <Heart className="w-4 h-4" fill={likes[item.id]?.isLiked ? 'currentColor' : 'none'} />
                 </Button>
                 <span className="text-xs text-muted-foreground mt-1">{likes[item.id]?.count.toLocaleString()}</span>
