@@ -25,15 +25,15 @@ export default function ImageExamples() {
   const [likes, setLikes] = useState<Record<string, { count: number; isLiked: boolean }>>({});
 
   useEffect(() => {
-      const initialLikes: Record<string, { count: number; isLiked: boolean }> = {};
-      PlaceHolderImages.forEach(i => {
-          if (i.imageUrl) {
-            const deterministicCount = (parseInt(i.id.replace(/\D/g, '') || "0", 10) % 2400) + 100;
-            initialLikes[i.id] = { count: deterministicCount, isLiked: false };
-          }
-      });
-      setLikes(initialLikes);
-  }, []);
+    const initialLikes: Record<string, { count: number; isLiked: boolean }> = {};
+    imageContent.forEach(i => {
+        if (i.imageUrl) {
+          const deterministicCount = (parseInt(i.id.replace(/\D/g, '') || "0", 10) % 2400) + 100;
+          initialLikes[i.id] = { count: deterministicCount, isLiked: false };
+        }
+    });
+    setLikes(initialLikes);
+  }, [imageContent]);
 
   const handleLike = (itemId: string) => {
     setLikes(prev => {
@@ -99,7 +99,7 @@ export default function ImageExamples() {
                 size="sm"
                 asChild
               >
-                <Link href={`/gallery/${item.id}`}>View Details</Link>
+                <Link href={`/gallery/${item.id}`}>View</Link>
               </Button>
             </CardFooter>
           </Card>
