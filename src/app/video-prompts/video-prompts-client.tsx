@@ -1,3 +1,4 @@
+
 'use client';
 
 import Footer from '@/components/layout/footer';
@@ -196,7 +197,7 @@ export default function VideoPromptsClient() {
                     size="sm"
                     asChild
                   >
-                    <Link href={`/gallery/${item.id}`}>View Details</Link>
+                    <Link href={`/gallery-videos/${item.id}`}>View Details</Link>
                   </Button>
                 </CardFooter>
               </Card>

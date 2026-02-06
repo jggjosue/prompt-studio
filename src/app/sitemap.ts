@@ -1,3 +1,4 @@
+
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { PlaceHolderVideos } from '@/lib/placeholder-videos';
 import { MetadataRoute } from 'next';
@@ -38,20 +39,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  const galleryPages: MetadataRoute.Sitemap = [
-    ...PlaceHolderImages.map(item => ({
-      url: `${BASE_URL}/gallery/${item.id}`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.6,
-    })),
-    ...PlaceHolderVideos.map(item => ({
-      url: `${BASE_URL}/gallery/${item.id}`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.6,
-    })),
-  ];
+  const galleryImagePages: MetadataRoute.Sitemap = PlaceHolderImages.map(item => ({
+    url: `${BASE_URL}/gallery/${item.id}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.6,
+  }));
 
-  return [...staticPages, ...galleryPages];
+  const galleryVideoPages: MetadataRoute.Sitemap = PlaceHolderVideos.map(item => ({
+    url: `${BASE_URL}/gallery-videos/${item.id}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.6,
+  }));
+
+  return [...staticPages, ...galleryImagePages, ...galleryVideoPages];
 }
