@@ -87,7 +87,7 @@ export default function HeaderClient() {
         },
       ],
     },
-    { href: '/pricing', label: 'Pricing' },
+    // { href: '/pricing', label: 'Pricing' },
   ];
 
   return (
