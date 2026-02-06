@@ -56,7 +56,7 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                   ))}
                 </div>
               </div>
-              <div className="relative aspect-video rounded-lg overflow-hidden border group">
+              <div className="relative aspect-[4/3] rounded-lg overflow-hidden border group">
                 {item.type === 'video' ? (
                   <>
                     <Image
@@ -157,7 +157,7 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                   >
                     <Card className="overflow-hidden">
                       <CardContent className="p-0">
-                        <div className="relative aspect-video">
+                        <div className="relative aspect-[4/3]">
                           <Image
                             src={other.imageUrl}
                             alt={other.description}
