@@ -218,9 +218,9 @@ export default function HeaderClient() {
           )}
           {!isLoading && !isAuthenticated && (
             <div className="flex items-center gap-2">
-              <Button variant="ghost" asChild>
+              {/* <Button variant="ghost" asChild>
                 <LoginLink>Sign in</LoginLink>
-              </Button>
+              </Button> */}
               <Button asChild>
                 <RegisterLink>Sign up</RegisterLink>
               </Button>
