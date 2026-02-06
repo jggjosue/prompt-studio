@@ -87,11 +87,9 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                     <Heart className="mr-2" />
                     Like
                   </Button>
-                  <Button size="sm" variant="secondary" asChild>
-                    <Link href={`/prompt/edit?prompt=${encodeURIComponent(item.description)}`}>
+                  <Button size="sm" variant="secondary" disabled={true}>
                         <Wand2 className="mr-2" />
                         Use this prompt
-                    </Link>
                   </Button>
                 </div>
               </div>
