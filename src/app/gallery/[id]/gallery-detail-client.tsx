@@ -24,6 +24,7 @@ import Link from 'next/link';
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs';
 import { useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
+import Footer from '@/components/layout/footer';
 
 export default function GalleryDetailClient({ item }: { item: ImagePlaceholder | VideoProp }) {
   const otherItems = [
@@ -243,6 +244,7 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
           </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
