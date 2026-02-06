@@ -177,28 +177,32 @@ export default function VideoPromptsClient() {
                     />
                   </div>
                 </CardContent>
-                <CardFooter className="bg-muted/50 p-4 border-t flex items-center justify-between gap-2">
-                  <div className="flex items-start gap-2">
-                    <div className="flex flex-col items-center">
-                      <Button variant="outline" size="icon" onClick={() => handleLike(item.id)}>
-                          <Heart className="w-4 h-4" fill={likes[item.id]?.isLiked ? 'currentColor' : 'none'} />
-                      </Button>
-                      <span className="text-xs text-muted-foreground mt-1">{likes[item.id]?.count}</span>
+                <CardFooter className="bg-muted/50 p-4 border-t flex flex-col items-start gap-2">
+                    <div className="flex w-full justify-between">
+                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1">
+                            <span className="text-xs text-muted-foreground">{likes[item.id]?.count.toLocaleString()}</span>
+                            <Button variant="outline" size="icon" onClick={() => handleLike(item.id)}>
+                                <Heart className="w-4 h-4" fill={likes[item.id]?.isLiked ? 'currentColor' : 'none'} />
+                            </Button>
+                        </div>
+                        <Button size="sm" asChild>
+                            <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
+                                <Wand2 className="w-4 h-4 mr-2" />
+                                Use this prompt
+                            </Link>
+                        </Button>
+                        </div>
                     </div>
-                    <Button size="sm" asChild>
-                      <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
-                          <Wand2 className="w-4 h-4 mr-2" />
-                          Use this prompt
-                      </Link>
-                    </Button>
-                  </div>
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    asChild
-                  >
-                    <Link href={`/gallery-videos/${item.id}`}>View</Link>
-                  </Button>
+                    <div className="flex w-full justify-end">
+                        <Button
+                        variant="secondary"
+                        size="sm"
+                        asChild
+                        >
+                        <Link href={`/gallery-videos/${item.id}`}>View</Link>
+                        </Button>
+                    </div>
                 </CardFooter>
               </Card>
             ))}

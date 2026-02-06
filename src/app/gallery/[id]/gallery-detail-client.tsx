@@ -106,11 +106,11 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                       data-ai-hint={item.imageHint}
                     />
                     <div className="absolute bottom-4 right-4 flex items-start gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <div className="flex flex-col items-center gap-1 text-white">
-                          <Button size="icon" variant="ghost" className="text-white bg-black/20 hover:text-white hover:bg-black/40" onClick={() => handleLike(item.id)}>
-                              <Heart fill={likes[item.id]?.isLiked ? 'currentColor' : 'none'} className={likes[item.id]?.isLiked ? 'text-red-500' : ''} />
-                          </Button>
-                          <span className="text-xs font-semibold">{likes[item.id]?.count}</span>
+                      <div className="flex items-center gap-1 text-white">
+                        <span className="text-xs font-semibold">{likes[item.id]?.count.toLocaleString()}</span>
+                        <Button size="icon" variant="ghost" className="text-white bg-black/20 hover:text-white hover:bg-black/40" onClick={() => handleLike(item.id)}>
+                            <Heart fill={likes[item.id]?.isLiked ? 'currentColor' : 'none'} className={likes[item.id]?.isLiked ? 'text-red-500' : ''} />
+                        </Button>
                       </div>
                       <Button size="sm" variant="secondary" asChild>
                         <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
@@ -219,10 +219,10 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                               By AI Artist
                             </span>
                             <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                               <span>{likes[other.id]?.count.toLocaleString()}</span>
                                <Button variant="ghost" size="icon" className="w-6 h-6" onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleLike(other.id); }}>
                                 <Heart className="w-4 h-4" fill={likes[other.id]?.isLiked ? 'currentColor' : 'none'} />
                               </Button>
-                              <span>{likes[other.id]?.count}</span>
                             </div>
                           </div>
                         </div>
