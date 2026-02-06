@@ -35,14 +35,6 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
       <Header />
       <main className="flex-1 py-8 md:py-12">
         <div className="container">
-          <div className="mb-8">
-            <Button variant="ghost" asChild size="sm">
-              <Link href="/#gallery">
-                <ArrowLeft className="mr-2" />
-                Back to Gallery
-              </Link>
-            </Button>
-          </div>
           <div className="grid lg:grid-cols-2 gap-12">
             <div className="space-y-6">
               <div>
@@ -195,6 +187,14 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                 ))}
               </div>
             </aside>
+          </div>
+          <div className="mt-12 flex justify-center">
+            <Button variant="ghost" asChild size="sm">
+              <Link href="/#gallery">
+                <ArrowLeft className="mr-2" />
+                Back to Gallery
+              </Link>
+            </Button>
           </div>
         </div>
       </main>
