@@ -27,24 +27,14 @@ import {
 } from '@/lib/placeholder-images';
 import { Heart, Sparkles, Tag, Wand2 } from 'lucide-react';
 import Image from 'next/image';
-<<<<<<< HEAD
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useIsMobile } from '@/hooks/use-mobile';
-=======
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
->>>>>>> refs/remotes/origin/main
 
 
 export default function ImagePromptsClient() {
   const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState('all');
-<<<<<<< HEAD
   const itemsPerPage = 18;
-  const isMobile = useIsMobile();
-=======
-  const itemsPerPage = 30;
->>>>>>> refs/remotes/origin/main
 
   const imageContent: ImagePlaceholder[] = useMemo(() => {
     return PlaceHolderImages.filter(item => {
@@ -75,7 +65,7 @@ export default function ImagePromptsClient() {
 
   const renderPaginationLinks = () => {
     const pageNumbers = [];
-    const maxPagesToShow = isMobile ? 3 : 5;
+    const maxPagesToShow = 5;
     const halfMaxPages = Math.floor(maxPagesToShow / 2);
 
     if (totalPages <= maxPagesToShow) {
@@ -138,7 +128,7 @@ export default function ImagePromptsClient() {
             <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
               Explore AI Image Prompts
             </h1>
-            <p className="mx-auto max-w-[700px] text-muted-foreground text-lg md:text-xl">
+            <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
               Discover thousands of AI image prompts and examples. Get inspired
               and create your own AI generated images.
             </p>
@@ -149,25 +139,25 @@ export default function ImagePromptsClient() {
             >
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="all">All Prompts</TabsTrigger>
-                <TabsTrigger value="nano-banana">
+                <TabsTrigger value="nano-banana" disabled>
                   <Sparkles className="mr-2 h-4 w-4" />
                   Nano Banana Pro
                 </TabsTrigger>
               </TabsList>
             </Tabs>
-            <div className="flex flex-wrap justify-center gap-4 pt-4">
+            <div className="flex gap-4 pt-4">
               <Button variant="outline">
                 <Tag className="mr-2" />
                 Browse by Tags
               </Button>
-              <Button disabled={true}>
+              <Button disabled>
                 <Wand2 className="mr-2" />
                 Generate an Image
               </Button>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
             {paginatedContent.map(item => (
               <Card
                 key={item.id}
@@ -177,7 +167,7 @@ export default function ImagePromptsClient() {
                   <CardTitle className="font-headline text-xl">
                     {item.title}
                   </CardTitle>
-                  <CardDescription className="line-clamp-3 md:min-h-0">
+                  <CardDescription className="line-clamp-3 h-[60px]">
                     {item.description}
                   </CardDescription>
                 </CardHeader>
@@ -197,11 +187,11 @@ export default function ImagePromptsClient() {
                     />
                   </div>
                 </CardContent>
-                <CardFooter className="bg-muted/50 p-4 border-t flex-wrap gap-2 md:gap-4">
-                  <Button variant="outline" size="icon" disabled={true}>
+                <CardFooter className="bg-muted/50 p-4 border-t gap-2">
+                  <Button variant="outline" size="icon" disabled>
                     <Heart className="w-4 h-4" />
                   </Button>
-                  <Button size="sm" disabled={true}>
+                  <Button size="sm" disabled>
                     <Wand2 className="w-4 h-4 mr-2" />
                     Use this prompt
                   </Button>

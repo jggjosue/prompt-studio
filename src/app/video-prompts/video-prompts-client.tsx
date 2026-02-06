@@ -1,11 +1,7 @@
 'use client';
 
-<<<<<<< HEAD
-import { useState, useMemo } from 'react';
-=======
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
->>>>>>> refs/remotes/origin/main
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -17,38 +13,19 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
-<<<<<<< HEAD
-import { Sparkles, Tag, Wand2, Heart } from 'lucide-react';
-import Header from '@/components/layout/header';
-import Footer from '@/components/layout/footer';
-=======
->>>>>>> refs/remotes/origin/main
 import {
   PlaceHolderVideos,
   type VideoProp,
 } from '@/lib/placeholder-videos';
-import { Sparkles, Tag, Wand2 } from 'lucide-react';
+import { Heart, Sparkles, Tag, Wand2 } from 'lucide-react';
 import Link from 'next/link';
-<<<<<<< HEAD
-import { useIsMobile } from '@/hooks/use-mobile';
-
-export default function VideoPromptsClient() {
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 18;
-  const isMobile = useIsMobile();
-
-  const videoContent: ImagePlaceholder[] = useMemo(() => PlaceHolderImages.filter(
-    item => item.type === 'video'
-  ), []);
-=======
 import { useState } from 'react';
 
 export default function VideoPromptsClient() {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 30;
+  const itemsPerPage = 18;
 
   const videoContent: VideoProp[] = PlaceHolderVideos;
->>>>>>> refs/remotes/origin/main
 
   const totalPages = Math.ceil(videoContent.length / itemsPerPage);
 
@@ -65,7 +42,7 @@ export default function VideoPromptsClient() {
 
   const renderPaginationLinks = () => {
     const pageNumbers = [];
-    const maxPagesToShow = isMobile ? 3 : 5;
+    const maxPagesToShow = 5;
     const halfMaxPages = Math.floor(maxPagesToShow / 2);
 
     if (totalPages <= maxPagesToShow) {
@@ -128,27 +105,27 @@ export default function VideoPromptsClient() {
             <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
               Explore AI Video Prompts
             </h1>
-            <p className="mx-auto max-w-[700px] text-muted-foreground text-lg md:text-xl">
+            <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
               Discover thousands of AI video prompts and examples. Get inspired
               and create your own AI generated videos.
             </p>
-            <div className="flex flex-wrap justify-center gap-4">
+            <div className="flex gap-4">
               <Button variant="outline">
                 <Tag className="mr-2" />
                 Browse by Tags
               </Button>
-              <Button variant="secondary" disabled={true}>
+              <Button variant="secondary" disabled>
                 <Sparkles className="mr-2" />
                 Nano Banana Pro
               </Button>
-              <Button disabled={true}>
+              <Button disabled>
                 <Wand2 className="mr-2" />
                 Generate a Video
               </Button>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
             {paginatedContent.map(item => (
               <Card
                 key={item.id}
@@ -162,7 +139,7 @@ export default function VideoPromptsClient() {
                     {item.description}
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="p-4 md:p-6 pt-0 space-y-4 flex-grow">
+                <CardContent className="p-6 pt-0 space-y-4 flex-grow">
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Tag className="w-4 h-4" />
                     <span className="truncate">{item.tags.join(', ')}</span>
@@ -176,11 +153,11 @@ export default function VideoPromptsClient() {
                     />
                   </div>
                 </CardContent>
-                <CardFooter className="bg-muted/50 p-4 border-t flex-wrap gap-2">
-                  <Button variant="outline" size="icon" disabled={true}>
+                <CardFooter className="bg-muted/50 p-4 border-t gap-2 flex-wrap">
+                  <Button variant="outline" size="icon" disabled>
                     <Heart className="w-4 h-4" />
                   </Button>
-                  <Button as="div" size="sm" disabled={true}>
+                  <Button size="sm" disabled>
                     <Wand2 className="w-4 h-4 mr-2" />
                     Use this prompt
                   </Button>
