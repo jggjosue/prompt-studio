@@ -163,9 +163,11 @@ export default function ImagePromptsClient() {
             >
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="all">All Prompts</TabsTrigger>
-                <TabsTrigger value="nano-banana" disabled>
-                  <Sparkles className="mr-2 h-4 w-4" />
-                  Nano Banana Pro
+                <TabsTrigger value="nano-banana" asChild>
+                  <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
+                    <Sparkles className="mr-2 h-4 w-4" />
+                    Nano Banana Pro
+                  </Link>
                 </TabsTrigger>
               </TabsList>
             </Tabs>
@@ -214,10 +216,10 @@ export default function ImagePromptsClient() {
                 <CardFooter className="bg-muted/50 p-4 border-t flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
                     <div className="flex items-center gap-1">
-                      <span className="text-xs text-muted-foreground">{likes[item.id]?.count.toLocaleString()}</span>
-                      <Button variant="outline" size="icon" onClick={() => handleLike(item.id)}>
+                      <Button variant="outline" size="icon" className="w-8 h-8" onClick={() => handleLike(item.id)}>
                           <Heart className="w-4 h-4" fill={likes[item.id]?.isLiked ? 'currentColor' : 'none'} />
                       </Button>
+                      <span className="text-xs text-muted-foreground">{likes[item.id]?.count}</span>
                     </div>
                     <Button size="sm" asChild>
                       <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
