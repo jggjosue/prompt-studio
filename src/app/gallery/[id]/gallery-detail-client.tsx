@@ -18,11 +18,12 @@ import {
     PlaceHolderVideos,
     type VideoProp,
 } from '@/lib/placeholder-videos';
-import { ArrowLeft, Heart, PlayCircle, Wand2 } from 'lucide-react';
+import { ArrowLeft, Heart, PlayCircle, Wand2, Copy } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs';
 import { useState, useEffect } from 'react';
+import { useToast } from '@/hooks/use-toast';
 
 export default function GalleryDetailClient({ item }: { item: ImagePlaceholder | VideoProp }) {
   const { isAuthenticated } = useKindeBrowserClient();
@@ -32,6 +33,7 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
   ].slice(0, 3);
   
   const [likes, setLikes] = useState<Record<string, { count: number; isLiked: boolean }>>({});
+  const { toast } = useToast();
 
   useEffect(() => {
       const initialLikes: Record<string, { count: number; isLiked: boolean }> = {};
@@ -52,6 +54,15 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
             ...prev,
             [itemId]: { count: newCount, isLiked: newIsLiked }
         };
+    });
+  };
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(item.description).then(() => {
+        toast({
+            title: "Copied!",
+            description: "Prompt copied to clipboard.",
+        });
     });
   };
 
@@ -116,8 +127,12 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                   <AccordionTrigger className="text-lg font-semibold font-headline">
                     View Prompt
                   </AccordionTrigger>
-                  <AccordionContent className="text-base text-muted-foreground bg-muted/50 p-4 rounded-md">
+                  <AccordionContent className="relative text-base text-muted-foreground bg-muted/50 p-4 pr-12 rounded-md">
                     {item.description}
+                    <Button variant="ghost" size="icon" className="absolute top-2 right-2" onClick={handleCopy}>
+                      <Copy className="h-4 w-4" />
+                      <span className="sr-only">Copy prompt</span>
+                    </Button>
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
