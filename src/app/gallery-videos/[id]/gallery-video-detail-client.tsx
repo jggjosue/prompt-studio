@@ -17,12 +17,12 @@ import {
 } from '@/lib/placeholder-videos';
 import { ArrowLeft, Heart, Wand2, Copy } from 'lucide-react';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import Footer from '@/components/layout/footer';
 
 export default function GalleryVideoDetailClient({ item }: { item: VideoProp }) {
-  const otherItems = PlaceHolderVideos.filter(p => p.id !== item.id).slice(0, 3);
+  const otherItems = useMemo(() => PlaceHolderVideos.filter(p => p.id !== item.id).slice(0, 3), [item.id]);
   
   const [likes, setLikes] = useState<Record<string, { count: number; isLiked: boolean }>>({});
   const { toast } = useToast();
@@ -30,7 +30,10 @@ export default function GalleryVideoDetailClient({ item }: { item: VideoProp }) 
   useEffect(() => {
       const initialLikes: Record<string, { count: number; isLiked: boolean }> = {};
       [item, ...otherItems].forEach(i => {
-          initialLikes[i.id] = { count: Math.floor(Math.random() * 2500) + 100, isLiked: false };
+          if (i.imageUrl) {
+            const deterministicCount = (parseInt(i.id.replace(/\D/g, '') || "0", 10) % 2400) + 100;
+            initialLikes[i.id] = { count: deterministicCount, isLiked: false };
+          }
       });
       setLikes(initialLikes);
   }, [item, otherItems]);
@@ -172,7 +175,6 @@ export default function GalleryVideoDetailClient({ item }: { item: VideoProp }) 
                            <video
                               src={other.imageUrl}
                               playsInline
-                              autoPlay
                               muted
                               className="object-cover transition-transform group-hover:scale-105 w-full h-full"
                             />
