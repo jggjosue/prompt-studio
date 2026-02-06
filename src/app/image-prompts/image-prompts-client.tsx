@@ -169,7 +169,7 @@ export default function ImagePromptsClient() {
                   <CardTitle className="font-headline text-xl">
                     {item.title}
                   </CardTitle>
-                  <CardDescription className="line-clamp-3 h-[60px]">
+                  <CardDescription className="line-clamp-3 h-auto">
                     {item.description}
                   </CardDescription>
                 </CardHeader>
@@ -178,7 +178,7 @@ export default function ImagePromptsClient() {
                     <Tag className="w-4 h-4" />
                     <span className="truncate">{item.tags.join(', ')}</span>
                   </div>
-                    <div className="relative aspect-[4/5] rounded-md overflow-hidden">
+                    <div className="relative aspect-[4/3] rounded-md overflow-hidden">
                     <Image
                       src={item.imageUrl}
                       alt={item.description}
@@ -189,7 +189,7 @@ export default function ImagePromptsClient() {
                     />
                   </div>
                 </CardContent>
-                <CardFooter className="bg-muted/50 p-4 border-t gap-2">
+                <CardFooter className="bg-muted/50 p-4 border-t gap-2 flex-wrap">
                   <Button variant="outline" size="icon" disabled>
                     <Heart className="w-4 h-4" />
                   </Button>

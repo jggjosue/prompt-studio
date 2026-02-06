@@ -40,7 +40,7 @@ export default function VideoExamples() {
                 <Tag className="w-4 h-4" />
                 <span className="truncate">{item.tags.join(', ')}</span>
               </div>
-              <div className="relative aspect-[4/5] rounded-md overflow-hidden">
+              <div className="relative aspect-[4/3] rounded-md overflow-hidden">
                 <video
                   src={item.imageUrl}
                   playsInline
