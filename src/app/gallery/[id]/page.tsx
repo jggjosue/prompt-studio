@@ -1,4 +1,5 @@
-import { PlaceHolderImages, type ImagePlaceholder } from '@/lib/placeholder-images';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { PlaceHolderVideos } from '@/lib/placeholder-videos';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import GalleryDetailClient from './gallery-detail-client';
@@ -12,7 +13,9 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const id = params.id;
-  const item = PlaceHolderImages.find(p => p.id === id);
+  const imageItem = PlaceHolderImages.find(p => p.id === id);
+  const videoItem = PlaceHolderVideos.find(p => p.id === id);
+  const item = imageItem || videoItem;
 
   if (!item) {
     return {
@@ -70,9 +73,9 @@ export async function generateMetadata(
 }
 
 export default function GalleryDetailPage({ params }: Props) {
-    const item: ImagePlaceholder | undefined = PlaceHolderImages.find(
-        p => p.id === params.id
-    );
+    const imageItem = PlaceHolderImages.find(p => p.id === params.id);
+    const videoItem = PlaceHolderVideos.find(p => p.id === params.id);
+    const item: ImagePlaceholder | VideoProp | undefined = imageItem || videoItem;
 
     if (!item) {
         notFound();

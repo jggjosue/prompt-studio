@@ -1,19 +1,19 @@
 'use client';
 
-import { useMemo } from 'react';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-  CardDescription,
 } from '@/components/ui/card';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Heart, Tag, Wand2 } from 'lucide-react';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import Link from 'next/link';
+import { useMemo } from 'react';
 
 export default function ImageExamples() {
   const imageContent = useMemo(() => {
@@ -48,6 +48,7 @@ export default function ImageExamples() {
                   src={item.imageUrl}
                   alt={item.description}
                   fill
+                  unoptimized={item.imageUrl?.includes('meta.ai')}
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   data-ai-hint={item.imageHint}
                 />

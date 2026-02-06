@@ -1,28 +1,32 @@
 'use client';
 
-import {
-  PlaceHolderImages,
-  type ImagePlaceholder,
-} from '@/lib/placeholder-images';
-import Image from 'next/image';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
-import { Button } from '@/components/ui/button';
-import { ArrowLeft, PlayCircle, Heart, Download, Wand2 } from 'lucide-react';
-import Link from 'next/link';
 import Header from '@/components/layout/header';
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import {
+    PlaceHolderImages,
+    type ImagePlaceholder,
+} from '@/lib/placeholder-images';
+import {
+    PlaceHolderVideos,
+    type VideoProp,
+} from '@/lib/placeholder-videos';
+import { ArrowLeft, Heart, PlayCircle, Wand2 } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
 
-export default function GalleryDetailClient({ item }: { item: ImagePlaceholder }) {
-  const otherItems = PlaceHolderImages.filter(
-    p => p.id !== item.id && p.imageUrl
-  ).slice(0, 3);
+export default function GalleryDetailClient({ item }: { item: ImagePlaceholder | VideoProp }) {
+  const otherItems = [
+    ...PlaceHolderImages.filter(p => p.id !== item.id && p.imageUrl),
+    ...PlaceHolderVideos.filter(p => p.id !== item.id && p.imageUrl),
+  ].slice(0, 3);
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
@@ -59,6 +63,7 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder }
                       src={item.imageUrl}
                       alt={item.description}
                       fill
+                      unoptimized={item.imageUrl?.includes('meta.ai')}
                       className="object-cover"
                     />
                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
@@ -70,6 +75,7 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder }
                     src={item.imageUrl}
                     alt={item.description}
                     fill
+                    unoptimized={item.imageUrl?.includes('meta.ai')}
                     className="object-cover"
                     data-ai-hint={item.imageHint}
                   />
@@ -156,6 +162,7 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder }
                             src={other.imageUrl}
                             alt={other.description}
                             fill
+                            unoptimized={other.imageUrl?.includes('meta.ai')}
                             className="object-cover transition-transform group-hover:scale-105"
                           />
                           {other.type === 'video' && (
