@@ -150,14 +150,16 @@ export default function ImagePromptsClient() {
                 <Tag className="mr-2" />
                 Browse by Tags
               </Button>
-              <Button disabled>
-                <Wand2 className="mr-2" />
-                Generate an Image
+              <Button asChild className='disabled:pointer-events-none disabled:opacity-50'>
+                  <Link href="/prompt/edit" aria-disabled={true} tabIndex={-1}>
+                    <Wand2 className="mr-2" />
+                    Generate an Image
+                  </Link>
               </Button>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {paginatedContent.map(item => (
               <Card
                 key={item.id}
@@ -191,9 +193,11 @@ export default function ImagePromptsClient() {
                   <Button variant="outline" size="icon" disabled>
                     <Heart className="w-4 h-4" />
                   </Button>
-                  <Button size="sm" disabled>
-                    <Wand2 className="w-4 h-4 mr-2" />
-                    Use this prompt
+                  <Button asChild size="sm" className='disabled:pointer-events-none disabled:opacity-50'>
+                    <Link href={`/prompt/edit?prompt=${encodeURIComponent(item.description)}`} aria-disabled={true} tabIndex={-1}>
+                        <Wand2 className="w-4 h-4 mr-2" />
+                        Use this prompt
+                    </Link>
                   </Button>
                   <Button
                     variant="secondary"
