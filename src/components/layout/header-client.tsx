@@ -221,9 +221,9 @@ export default function HeaderClient() {
               {/* <Button variant="ghost" asChild>
                 <LoginLink>Sign in</LoginLink>
               </Button> */}
-              <Button asChild>
+              {/* <Button asChild>
                 <RegisterLink>Sign up</RegisterLink>
-              </Button>
+              </Button> */}
             </div>
           )}
           {!isLoading && isAuthenticated && (
