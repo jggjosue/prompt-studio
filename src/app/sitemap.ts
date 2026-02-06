@@ -1,5 +1,6 @@
-import { MetadataRoute } from 'next';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { PlaceHolderVideos } from '@/lib/placeholder-videos';
+import { MetadataRoute } from 'next';
 
 const BASE_URL = 'https://www.prompt-studio.com';
 
@@ -37,12 +38,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  const galleryPages: MetadataRoute.Sitemap = PlaceHolderImages.map(item => ({
-    url: `${BASE_URL}/gallery/${item.id}`,
-    lastModified: new Date(),
-    changeFrequency: 'weekly',
-    priority: 0.6,
-  }));
+  const galleryPages: MetadataRoute.Sitemap = [
+    ...PlaceHolderImages.map(item => ({
+      url: `${BASE_URL}/gallery/${item.id}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.6,
+    })),
+    ...PlaceHolderVideos.map(item => ({
+      url: `${BASE_URL}/gallery/${item.id}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.6,
+    })),
+  ];
 
   return [...staticPages, ...galleryPages];
 }

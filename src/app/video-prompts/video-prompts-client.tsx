@@ -1,7 +1,13 @@
 'use client';
 
+<<<<<<< HEAD
 import { useState, useMemo } from 'react';
+=======
+import Footer from '@/components/layout/footer';
+import Header from '@/components/layout/header';
+>>>>>>> refs/remotes/origin/main
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Pagination,
   PaginationContent,
@@ -11,15 +17,19 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
+<<<<<<< HEAD
 import { Sparkles, Tag, Wand2, Heart } from 'lucide-react';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
+=======
+>>>>>>> refs/remotes/origin/main
 import {
-  PlaceHolderImages,
-  type ImagePlaceholder,
-} from '@/lib/placeholder-images';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+  PlaceHolderVideos,
+  type VideoProp,
+} from '@/lib/placeholder-videos';
+import { Sparkles, Tag, Wand2 } from 'lucide-react';
 import Link from 'next/link';
+<<<<<<< HEAD
 import { useIsMobile } from '@/hooks/use-mobile';
 
 export default function VideoPromptsClient() {
@@ -30,6 +40,15 @@ export default function VideoPromptsClient() {
   const videoContent: ImagePlaceholder[] = useMemo(() => PlaceHolderImages.filter(
     item => item.type === 'video'
   ), []);
+=======
+import { useState } from 'react';
+
+export default function VideoPromptsClient() {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 30;
+
+  const videoContent: VideoProp[] = PlaceHolderVideos;
+>>>>>>> refs/remotes/origin/main
 
   const totalPages = Math.ceil(videoContent.length / itemsPerPage);
 
@@ -150,7 +169,7 @@ export default function VideoPromptsClient() {
                   </div>
                   <div className="relative aspect-video rounded-md overflow-hidden">
                     <video
-                      src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
+                      src={item.imageUrl}
                       playsInline
                       controls
                       className="w-full h-full object-cover"

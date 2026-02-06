@@ -1,16 +1,16 @@
 'use client';
 
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@/components/ui/carousel';
-import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import Image from 'next/image';
+import { Card, CardContent } from '@/components/ui/card';
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
+} from '@/components/ui/carousel';
 import { AiModels } from '@/lib/models-data';
+import Image from 'next/image';
 
 export default function ModelCarousel() {
   return (
@@ -31,6 +31,7 @@ export default function ModelCarousel() {
                   alt={model.name}
                   width={600}
                   height={400}
+                  unoptimized={model.imageUrl?.includes('meta.ai')}
                   className="w-full h-auto object-cover aspect-[3/2] transition-transform duration-300 group-hover:scale-105"
                   data-ai-hint={model.imageHint}
                 />

@@ -3,13 +3,14 @@
 import Link from 'next/link';
 import {
   ChevronDown,
-  Wand2,
-  Folder,
-  Clapperboard,
+  Menu,
+  Video,
   ImageIcon,
   Tag,
-  Video,
-  Menu,
+  LayoutGrid,
+  DollarSign,
+  Settings,
+  LogOut,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -17,16 +18,15 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 import Logo from './logo';
 import {
   Sheet,
   SheetContent,
-  SheetHeader,
-  SheetTitle,
   SheetTrigger,
+  SheetClose,
 } from '@/components/ui/sheet';
-import { useState } from 'react';
 import {
   Accordion,
   AccordionContent,
@@ -34,255 +34,243 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { ThemeToggle } from '../theme-toggle';
+import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs';
+import {
+  LoginLink,
+  RegisterLink,
+  LogoutLink,
+} from '@kinde-oss/kinde-auth-nextjs/components';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function HeaderClient() {
-  const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const { user, isAuthenticated, isLoading } = useKindeBrowserClient();
 
-  const closeSheet = () => setIsSheetOpen(false);
-
-  const mobileNavLinks = (
-    <>
-      <Link
-        href="/"
-        className="flex items-center gap-2 hover:text-foreground/80 transition-colors py-2 md:py-0"
-        onClick={closeSheet}
-      >
-        Home
-      </Link>
-      <Accordion type="single" collapsible className="w-full md:w-auto">
-        <AccordionItem value="video" className="border-b-0">
-          <AccordionTrigger className="hover:no-underline hover:text-foreground/80 transition-colors py-2 md:py-0 md:[&[data-state=open]>svg]:-rotate-180">
-            <span className="flex items-center gap-1">Video</span>
-          </AccordionTrigger>
-          <AccordionContent className="pl-4">
-            <div className="grid grid-cols-1 gap-2 py-2">
-              <Link
-                href="/video-prompts"
-                className="flex items-start gap-3 p-2 rounded-md hover:bg-accent"
-                onClick={closeSheet}
-              >
-                <div className="bg-primary/10 text-primary p-2 rounded-md">
-                  <Video className="h-5 w-5" />
-                </div>
-                <div>
-                  <p className="font-semibold">Video Prompts</p>
-                  <p className="text-xs text-muted-foreground">
-                    Browse AI video prompts
-                  </p>
-                </div>
-              </Link>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
-      <Accordion type="single" collapsible className="w-full md:w-auto">
-        <AccordionItem value="image" className="border-b-0">
-          <AccordionTrigger className="hover:no-underline hover:text-foreground/80 transition-colors py-2 md:py-0 md:[&[data-state=open]>svg]:-rotate-180">
-            <span className="flex items-center gap-1">Image</span>
-          </AccordionTrigger>
-          <AccordionContent className="pl-4">
-            <div className="grid grid-cols-1 gap-2 py-2">
-              <Link
-                href="/image-prompts"
-                className="flex items-start gap-3 p-2 rounded-md hover:bg-accent"
-                onClick={closeSheet}
-              >
-                <div className="bg-primary/10 text-primary p-2 rounded-md">
-                  <ImageIcon className="h-5 w-5" />
-                </div>
-                <div>
-                  <p className="font-semibold">Image Prompts</p>
-                  <p className="text-xs text-muted-foreground">
-                    Browse AI image prompts
-                  </p>
-                </div>
-              </Link>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
-      <Accordion type="single" collapsible className="w-full md:w-auto">
-        <AccordionItem value="tag" className="border-b-0">
-          <AccordionTrigger className="hover:no-underline hover:text-foreground/80 transition-colors py-2 md:py-0 md:[&[data-state=open]>svg]:-rotate-180">
-            <span className="flex items-center gap-1">Tag</span>
-          </AccordionTrigger>
-          <AccordionContent className="pl-4">
-            <div className="grid grid-cols-1 gap-2 py-2">
-              <Link
-                href="#"
-                className="flex items-start gap-3 p-2 rounded-md hover:bg-accent"
-                onClick={closeSheet}
-              >
-                <div className="bg-primary/10 text-primary p-2 rounded-md">
-                  <Tag className="h-5 w-5" />
-                </div>
-                <div>
-                  <p className="font-semibold">Video Tags</p>
-                  <p className="text-xs text-muted-foreground">
-                    Browse AI video tags
-                  </p>
-                </div>
-              </Link>
-              <Link
-                href="#"
-                className="flex items-start gap-3 p-2 rounded-md hover:bg-accent"
-                onClick={closeSheet}
-              >
-                <div className="bg-primary/10 text-primary p-2 rounded-md">
-                  <Tag className="h-5 w-5" />
-                </div>
-                <div>
-                  <p className="font-semibold">Image Tags</p>
-                  <p className="text-xs text-muted-foreground">
-                    Browse AI image tags
-                  </p>
-                </div>
-              </Link>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
-    </>
-  );
-
-  const desktopNavLinks = (
-    <>
-      <Link
-        href="/"
-        className="flex items-center gap-2 hover:text-foreground/80 transition-colors py-2 md:py-0"
-      >
-        Home
-      </Link>
-      <div className="group relative">
-        <span className="flex items-center gap-1 hover:text-foreground/80 transition-colors py-2 md:py-0 cursor-pointer">
-          Video{' '}
-          <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200 group-hover:rotate-180" />
-        </span>
-        <div className="hidden group-hover:block absolute w-64 mt-2 bg-popover border rounded-md shadow-lg p-1 z-10">
-          <div className="grid grid-cols-1 gap-2 p-1">
-            <Link
-              href="/video-prompts"
-              className="flex items-start gap-3 p-2 rounded-md hover:bg-accent"
-            >
-              <div className="bg-primary/10 text-primary p-2 rounded-md">
-                <Video className="h-5 w-5" />
-              </div>
-              <div>
-                <p className="font-semibold">Video Prompts</p>
-                <p className="text-xs text-muted-foreground">
-                  Browse AI video prompts
-                </p>
-              </div>
-            </Link>
-          </div>
-        </div>
-      </div>
-      <div className="group relative">
-        <span className="flex items-center gap-1 hover:text-foreground/80 transition-colors py-2 md:py-0 cursor-pointer">
-          Image{' '}
-          <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200 group-hover:rotate-180" />
-        </span>
-        <div className="hidden group-hover:block absolute w-64 mt-2 bg-popover border rounded-md shadow-lg p-1 z-10">
-          <div className="grid grid-cols-1 gap-2 p-1">
-            <Link
-              href="/image-prompts"
-              className="flex items-start gap-3 p-2 rounded-md hover:bg-accent"
-            >
-              <div className="bg-primary/10 text-primary p-2 rounded-md">
-                <ImageIcon className="h-5 w-5" />
-              </div>
-              <div>
-                <p className="font-semibold">Image Prompts</p>
-                <p className="text-xs text-muted-foreground">
-                  Browse AI image prompts
-                </p>
-              </div>
-            </Link>
-          </div>
-        </div>
-      </div>
-      <div className="group relative">
-        <span className="flex items-center gap-1 hover:text-foreground/80 transition-colors py-2 md:py-0 cursor-pointer">
-          Tag{' '}
-          <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200 group-hover:rotate-180" />
-        </span>
-        <div className="hidden group-hover:block absolute w-64 mt-2 bg-popover border rounded-md shadow-lg p-1 z-10">
-          <div className="grid grid-cols-1 gap-2 p-1">
-            <Link
-              href="#"
-              className="flex items-start gap-3 p-2 rounded-md hover:bg-accent"
-            >
-              <div className="bg-primary/10 text-primary p-2 rounded-md">
-                <Tag className="h-5 w-5" />
-              </div>
-              <div>
-                <p className="font-semibold">Video Tags</p>
-                <p className="text-xs text-muted-foreground">
-                  Browse AI video tags
-                </p>
-              </div>
-            </Link>
-            <Link
-              href="#"
-              className="flex items-start gap-3 p-2 rounded-md hover:bg-accent"
-            >
-              <div className="bg-primary/10 text-primary p-2 rounded-md">
-                <Tag className="h-5 w-5" />
-              </div>
-              <div>
-                <p className="font-semibold">Image Tags</p>
-                <p className="text-xs text-muted-foreground">
-                  Browse AI image tags
-                </p>
-              </div>
-            </Link>
-          </div>
-        </div>
-      </div>
-    </>
-  );
+  const navLinks = [
+    { href: '/', label: 'Home' },
+    {
+      label: 'Video',
+      dropdown: [
+        {
+          href: '/video-prompts',
+          label: 'Video Prompts',
+          description: 'Browse AI video prompts',
+          icon: <Video className="h-5 w-5" />,
+        },
+      ],
+    },
+    {
+      label: 'Image',
+      dropdown: [
+        {
+          href: '/image-prompts',
+          label: 'Image Prompts',
+          description: 'Browse AI image prompts',
+          icon: <ImageIcon className="h-5 w-5" />,
+        },
+      ],
+    },
+    {
+      label: 'Tag',
+      dropdown: [
+        {
+          href: '#',
+          label: 'Video Tags',
+          description: 'Browse AI video tags',
+          icon: <Tag className="h-5 w-5" />,
+        },
+        {
+          href: '#',
+          label: 'Image Tags',
+          description: 'Browse AI image tags',
+          icon: <Tag className="h-5 w-5" />,
+        },
+      ],
+    },
+    { href: '/pricing', label: 'Pricing' },
+  ];
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center">
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button variant="ghost" size="icon" className="md:hidden mr-2">
+              <Menu className="h-6 w-6" />
+              <span className="sr-only">Toggle Menu</span>
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="w-full max-w-sm p-6">
+            <Link href="/" className="mr-6 flex items-center gap-2 mb-8">
+              <Logo />
+              <span className="font-bold sm:inline-block font-headline">
+                Prompt Studio
+              </span>
+            </Link>
+            <div className="flex flex-col gap-4">
+              {navLinks.map(link =>
+                link.href ? (
+                  <SheetClose asChild key={link.label}>
+                    <Link
+                      href={link.href}
+                      className="text-lg font-medium hover:text-foreground/80 transition-colors"
+                    >
+                      {link.label}
+                    </Link>
+                  </SheetClose>
+                ) : (
+                  <Accordion
+                    type="single"
+                    collapsible
+                    className="w-full"
+                    key={link.label}
+                  >
+                    <AccordionItem value={link.label} className="border-b-0">
+                      <AccordionTrigger className="text-lg font-medium hover:no-underline">
+                        {link.label}
+                      </AccordionTrigger>
+                      <AccordionContent>
+                        <div className="grid grid-cols-1 gap-2 py-2 pl-4">
+                          {link.dropdown?.map(item => (
+                            <SheetClose asChild key={item.label}>
+                              <Link
+                                href={item.href}
+                                className="flex items-start gap-3 p-2 rounded-md hover:bg-accent"
+                              >
+                                <div className="bg-primary/10 text-primary p-2 rounded-md">
+                                  {item.icon}
+                                </div>
+                                <div>
+                                  <p className="font-semibold">{item.label}</p>
+                                  <p className="text-xs text-muted-foreground">
+                                    {item.description}
+                                  </p>
+                                </div>
+                              </Link>
+                            </SheetClose>
+                          ))}
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+                )
+              )}
+            </div>
+          </SheetContent>
+        </Sheet>
+
         <Link href="/" className="mr-6 flex items-center gap-2">
           <Logo />
           <span className="hidden font-bold sm:inline-block font-headline">
             Prompt Studio
           </span>
         </Link>
-        <nav className="hidden items-center justify-center gap-4 text-sm font-medium md:flex flex-1">
-          {desktopNavLinks}
+        <nav className="hidden items-center justify-start gap-6 text-sm font-medium md:flex flex-1">
+          {navLinks.map(link =>
+            link.href ? (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="hover:text-foreground/80 transition-colors"
+              >
+                {link.label}
+              </Link>
+            ) : (
+              <DropdownMenu key={link.label}>
+                <DropdownMenuTrigger className="flex items-center gap-1 hover:text-foreground/80 transition-colors outline-none">
+                  {link.label}{' '}
+                  <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-64">
+                  <div className="grid grid-cols-1 gap-2 p-1">
+                    {link.dropdown?.map(item => (
+                      <DropdownMenuItem key={item.label} asChild>
+                        <Link
+                          href={item.href}
+                          className="flex items-start gap-3 p-2 rounded-md hover:bg-accent"
+                        >
+                          <div className="bg-primary/10 text-primary p-2 rounded-md">
+                            {item.icon}
+                          </div>
+                          <div>
+                            <p className="font-semibold">{item.label}</p>
+                            <p className="text-xs text-muted-foreground">
+                              {item.description}
+                            </p>
+                          </div>
+                        </Link>
+                      </DropdownMenuItem>
+                    ))}
+                  </div>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )
+          )}
         </nav>
 
         <div className="flex items-center gap-2 ml-auto">
           <ThemeToggle />
-          <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden">
-                <Menu className="h-6 w-6" />
-                <span className="sr-only">Toggle Menu</span>
+          {isLoading && (
+            <div className="flex items-center gap-2">
+              <Skeleton className="h-8 w-20" />
+              <Skeleton className="h-8 w-8 rounded-full" />
+            </div>
+          )}
+          {!isLoading && !isAuthenticated && (
+            <div className="flex items-center gap-2">
+              <Button variant="ghost" asChild>
+                <LoginLink>Sign in</LoginLink>
               </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="w-full max-w-sm p-0">
-              <SheetHeader className="p-6 pb-0">
-                <SheetTitle>Menu</SheetTitle>
-              </SheetHeader>
-              <Link
-                href="/"
-                className="flex items-center gap-2 mb-8 px-6 pt-6"
-                onClick={closeSheet}
-              >
-                <Logo />
-                <span className="font-bold font-headline text-lg">
-                  Prompt Studio
-                </span>
-              </Link>
-              <nav className="flex flex-col gap-4 text-lg font-medium px-6">
-                {mobileNavLinks}
-              </nav>
-            </SheetContent>
-          </Sheet>
+              <Button asChild>
+                <RegisterLink>Sign up</RegisterLink>
+              </Button>
+            </div>
+          )}
+          {!isLoading && isAuthenticated && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage
+                      src={user?.picture ?? undefined}
+                      alt={user?.given_name ?? 'user'}
+                    />
+                    <AvatarFallback>
+                      {user?.given_name?.[0]}
+                      {user?.family_name?.[0]}
+                    </AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56" align="end" forceMount>
+                <DropdownMenuItem>
+                  <Link href="/dashboard" className="flex items-center w-full">
+                    <LayoutGrid className="mr-2" />
+                    Dashboard
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link href="/dashboard/billing" className="flex items-center w-full">
+                    <DollarSign className="mr-2" />
+                    Billing
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link href="/dashboard/settings" className="flex items-center w-full">
+                    <Settings className="mr-2" />
+                    Settings
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <LogoutLink className="flex items-center w-full">
+                    <LogOut className="mr-2" />
+                    Sign out
+                  </LogoutLink>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </div>
       </div>
     </header>

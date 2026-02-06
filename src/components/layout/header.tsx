@@ -1,8 +1,4 @@
-'use client';
-
-import dynamic from 'next/dynamic';
-
-const HeaderClient = dynamic(() => import('./header-client'), { ssr: false });
+import HeaderClient from './header-client';
 
 export default function Header() {
   return <HeaderClient />;
