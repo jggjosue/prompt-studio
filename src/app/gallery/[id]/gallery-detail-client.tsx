@@ -198,7 +198,6 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                               playsInline
                               autoPlay
                               muted
-                              loop
                               className="object-cover transition-transform group-hover:scale-105 w-full h-full"
                             />
                           ) : (
