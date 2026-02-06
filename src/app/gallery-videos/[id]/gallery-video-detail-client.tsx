@@ -19,6 +19,7 @@ import { ArrowLeft, Heart, Wand2, Copy } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
+import Footer from '@/components/layout/footer';
 
 export default function GalleryVideoDetailClient({ item }: { item: VideoProp }) {
   const otherItems = PlaceHolderVideos.filter(p => p.id !== item.id).slice(0, 3);
@@ -210,6 +211,7 @@ export default function GalleryVideoDetailClient({ item }: { item: VideoProp }) 
           </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
