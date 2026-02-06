@@ -24,7 +24,7 @@ export default function ImageExamples() {
 
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
         {imageContent.map(item => (
           <Card
             key={item.id}
@@ -58,9 +58,11 @@ export default function ImageExamples() {
               <Button variant="outline" size="icon" disabled={true}>
                 <Heart className="w-4 h-4" />
               </Button>
-              <Button size="sm" disabled={true}>
-                <Wand2 className="w-4 h-4 mr-2" />
-                Use this prompt
+              <Button asChild size="sm" className='disabled:pointer-events-none disabled:opacity-50'>
+                <Link href={`/prompt/edit?prompt=${encodeURIComponent(item.description)}`} aria-disabled={true} tabIndex={-1}>
+                    <Wand2 className="w-4 h-4 mr-2" />
+                    Use this prompt
+                </Link>
               </Button>
               <Button
                 variant="secondary"
