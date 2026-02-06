@@ -23,7 +23,7 @@ import { useState } from 'react';
 
 export default function VideoPromptsClient() {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 18;
+  const itemsPerPage = 21;
 
   const videoContent: VideoProp[] = PlaceHolderVideos;
 

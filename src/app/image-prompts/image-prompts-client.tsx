@@ -34,7 +34,7 @@ import { useEffect, useMemo, useState } from 'react';
 export default function ImagePromptsClient() {
   const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState('all');
-  const itemsPerPage = 18;
+  const itemsPerPage = 21;
 
   const imageContent: ImagePlaceholder[] = useMemo(() => {
     return PlaceHolderImages.filter(item => {
