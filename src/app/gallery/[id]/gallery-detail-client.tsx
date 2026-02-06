@@ -43,7 +43,7 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
               </Link>
             </Button>
           </div>
-          <div className="grid lg:grid-cols-[1fr_340px] gap-12">
+          <div className="grid lg:grid-cols-2 gap-12">
             <div className="space-y-6">
               <div>
                 <h1 className="text-3xl md:text-4xl font-bold font-headline mb-2">
@@ -58,7 +58,7 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                   ))}
                 </div>
               </div>
-              <div className="relative aspect-[3/4] rounded-lg overflow-hidden border group">
+              <div className="relative aspect-[4/3] rounded-lg overflow-hidden border group">
                 {item.type === 'video' ? (
                   <>
                     <Image
@@ -87,9 +87,11 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                     <Heart className="mr-2" />
                     Like
                   </Button>
-                  <Button size="sm" variant="secondary" disabled={true}>
+                  <Button size="sm" variant="secondary" asChild>
+                    <Link href={`/prompt/edit?prompt=${encodeURIComponent(item.description)}`}>
                         <Wand2 className="mr-2" />
                         Use this prompt
+                    </Link>
                   </Button>
                 </div>
               </div>
@@ -159,7 +161,7 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                   >
                     <Card className="overflow-hidden">
                       <CardContent className="p-0">
-                        <div className="relative aspect-[3/4]">
+                        <div className="relative aspect-[4/3]">
                           <Image
                             src={other.imageUrl}
                             alt={other.description}

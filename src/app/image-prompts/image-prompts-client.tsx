@@ -176,7 +176,7 @@ export default function ImagePromptsClient() {
                     <Tag className="w-4 h-4" />
                     <span className="truncate">{item.tags.join(', ')}</span>
                   </div>
-                    <div className="relative aspect-[3/4] rounded-md overflow-hidden">
+                    <div className="relative aspect-[4/3] rounded-md overflow-hidden">
                     <Image
                       src={item.imageUrl}
                       alt={item.description}
@@ -191,9 +191,11 @@ export default function ImagePromptsClient() {
                   <Button variant="outline" size="icon" disabled>
                     <Heart className="w-4 h-4" />
                   </Button>
-                  <Button size="sm" disabled={true}>
+                  <Button size="sm" asChild>
+                    <Link href={`/prompt/edit?prompt=${encodeURIComponent(item.description)}`}>
                         <Wand2 className="w-4 h-4 mr-2" />
                         Use this prompt
+                    </Link>
                   </Button>
                   <Button
                     variant="secondary"
