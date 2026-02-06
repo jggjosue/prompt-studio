@@ -1,19 +1,19 @@
 'use client';
 
-import { useMemo } from 'react';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
-import Image from 'next/image';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from '@/components/ui/card';
-import { Heart, PlayCircle, Tag, Wand2 } from 'lucide-react';
-import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { Heart, PlayCircle, Tag, Wand2 } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useMemo } from 'react';
 
 export default function ContentGrid() {
   const content = useMemo(() => {
@@ -53,7 +53,12 @@ export default function ContentGrid() {
                       src={item.imageUrl}
                       alt={item.description}
                       fill
+<<<<<<< HEAD
                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+=======
+                      unoptimized={item.imageUrl?.includes('meta.ai')}
+                      className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
+>>>>>>> refs/remotes/origin/main
                       data-ai-hint={item.imageHint}
                     />
                     <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
@@ -65,7 +70,12 @@ export default function ContentGrid() {
                     src={item.imageUrl}
                     alt={item.description}
                     fill
+<<<<<<< HEAD
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+=======
+                    unoptimized={item.imageUrl?.includes('meta.ai')}
+                    className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
+>>>>>>> refs/remotes/origin/main
                     data-ai-hint={item.imageHint}
                   />
                 )}

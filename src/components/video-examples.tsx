@@ -1,22 +1,22 @@
 'use client';
 
-import { useMemo } from 'react';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-  CardDescription,
 } from '@/components/ui/card';
+import { PlaceHolderVideos } from '@/lib/placeholder-videos';
 import { Heart, Tag, Wand2 } from 'lucide-react';
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
+import { useMemo } from 'react';
 
 export default function VideoExamples() {
   const videoContent = useMemo(() => {
-    return PlaceHolderImages.filter(item => item.type === 'video').slice(0, 9);
+    return PlaceHolderVideos.slice(0, 9);
   }, []);
 
   return (
@@ -42,7 +42,7 @@ export default function VideoExamples() {
               </div>
               <div className="relative aspect-video rounded-md overflow-hidden">
                 <video
-                  src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
+                  src={item.imageUrl}
                   playsInline
                   controls
                   className="w-full h-full object-cover"
