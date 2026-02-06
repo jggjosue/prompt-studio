@@ -88,7 +88,7 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                     Like
                   </Button>
                   <Button size="sm" variant="secondary" asChild>
-                    <Link href={`/prompt/edit?prompt=${encodeURIComponent(item.description)}`}>
+                    <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
                         <Wand2 className="mr-2" />
                         Use this prompt
                     </Link>

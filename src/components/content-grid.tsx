@@ -83,7 +83,7 @@ export default function ContentGrid() {
                 <Heart className="w-4 h-4" />
               </Button>
               <Button size="sm" asChild>
-                <Link href={`/prompt/edit?prompt=${encodeURIComponent(item.description)}`}>
+                <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
                     <Wand2 className="w-4 h-4 mr-2" />
                     Use this prompt
                 </Link>
