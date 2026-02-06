@@ -1,7 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import Footer from '@/components/layout/footer';
+import Header from '@/components/layout/header';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Pagination,
   PaginationContent,
@@ -11,23 +13,19 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
-import { Sparkles, Tag, Wand2 } from 'lucide-react';
-import Header from '@/components/layout/header';
-import Footer from '@/components/layout/footer';
 import {
-  PlaceHolderImages,
-  type ImagePlaceholder,
-} from '@/lib/placeholder-images';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+  PlaceHolderVideos,
+  type VideoProp,
+} from '@/lib/placeholder-videos';
+import { Sparkles, Tag, Wand2 } from 'lucide-react';
 import Link from 'next/link';
+import { useState } from 'react';
 
 export default function VideoPromptsClient() {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 18;
+  const itemsPerPage = 30;
 
-  const videoContent: ImagePlaceholder[] = PlaceHolderImages.filter(
-    item => item.type === 'video'
-  );
+  const videoContent: VideoProp[] = PlaceHolderVideos;
 
   const totalPages = Math.ceil(videoContent.length / itemsPerPage);
 
@@ -148,7 +146,7 @@ export default function VideoPromptsClient() {
                   </div>
                   <div className="relative aspect-video rounded-md overflow-hidden">
                     <video
-                      src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
+                      src={item.imageUrl}
                       playsInline
                       controls
                       className="w-full h-full object-cover"
