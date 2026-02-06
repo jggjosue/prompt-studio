@@ -174,7 +174,6 @@ export default function GalleryVideoDetailClient({ item }: { item: VideoProp }) 
                               playsInline
                               autoPlay
                               muted
-                              loop
                               className="object-cover transition-transform group-hover:scale-105 w-full h-full"
                             />
                         </div>
