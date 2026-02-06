@@ -165,7 +165,7 @@ export default function HeaderClient() {
             Prompt Studio
           </span>
         </Link>
-        <nav className="hidden items-center justify-start gap-6 text-sm font-medium md:flex flex-1">
+        <nav className="hidden items-center justify-center gap-6 text-sm font-medium md:flex flex-1">
           {navLinks.map(link =>
             link.href ? (
               <Link
