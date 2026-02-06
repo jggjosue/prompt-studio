@@ -32,7 +32,7 @@ export default function GalleryVideoDetailClient({ item }: { item: VideoProp }) 
           initialLikes[i.id] = { count: Math.floor(Math.random() * 2500) + 100, isLiked: false };
       });
       setLikes(initialLikes);
-  }, [item]);
+  }, [item, otherItems]);
 
   const handleLike = (itemId: string) => {
     setLikes(prev => {
@@ -82,7 +82,7 @@ export default function GalleryVideoDetailClient({ item }: { item: VideoProp }) 
                     controls
                     className="w-full h-full object-cover"
                   />
-                 <div className="absolute bottom-4 right-4 flex items-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                 <div className="absolute bottom-4 right-4 flex items-start gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
                     <div className="flex flex-col items-center gap-1 text-white">
                         <Button size="icon" variant="ghost" className="text-white bg-black/20 hover:text-white hover:bg-black/40" onClick={() => handleLike(item.id)}>
                             <Heart fill={likes[item.id]?.isLiked ? 'currentColor' : 'none'} className={likes[item.id]?.isLiked ? 'text-red-500' : ''} />

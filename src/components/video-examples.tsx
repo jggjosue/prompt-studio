@@ -74,8 +74,8 @@ export default function VideoExamples() {
               </div>
               <p className="text-sm text-muted-foreground">Duration: 5 seconds</p>
             </CardContent>
-            <CardFooter className="bg-muted/50 p-4 border-t flex flex-wrap items-center justify-between gap-2">
-              <div className="flex items-center gap-2">
+            <CardFooter className="bg-muted/50 p-4 border-t flex items-center justify-between gap-2">
+              <div className="flex items-start gap-2">
                 <div className="flex flex-col items-center">
                   <Button variant="outline" size="icon" onClick={() => handleLike(item.id)}>
                       <Heart className="w-4 h-4" fill={likes[item.id]?.isLiked ? 'currentColor' : 'none'} />
@@ -94,7 +94,7 @@ export default function VideoExamples() {
                 size="sm"
                 asChild
               >
-                <Link href={`/gallery/${item.id}`}>View Details</Link>
+                <Link href={`/gallery-videos/${item.id}`}>View Details</Link>
               </Button>
             </CardFooter>
           </Card>
