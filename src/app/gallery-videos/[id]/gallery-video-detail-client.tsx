@@ -88,7 +88,7 @@ export default function GalleryVideoDetailClient({ item }: { item: VideoProp }) 
                         <Button size="icon" variant="ghost" className="text-white bg-black/20 hover:text-white hover:bg-black/40" onClick={() => handleLike(item.id)}>
                             <Heart fill={likes[item.id]?.isLiked ? 'currentColor' : 'none'} className={likes[item.id]?.isLiked ? 'text-red-500' : ''} />
                         </Button>
-                        <span className="text-xs font-semibold">{likes[item.id]?.count.toLocaleString()}</span>
+                        <span className="text-xs font-semibold">{likes[item.id]?.count}</span>
                     </div>
                     <Button size="sm" variant="secondary" asChild>
                       <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
@@ -190,7 +190,7 @@ export default function GalleryVideoDetailClient({ item }: { item: VideoProp }) 
                                <Button variant="ghost" size="icon" className="w-6 h-6" onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleLike(other.id); }}>
                                 <Heart className="w-4 h-4" fill={likes[other.id]?.isLiked ? 'currentColor' : 'none'} />
                               </Button>
-                              <span>{likes[other.id]?.count.toLocaleString()}</span>
+                              <span>{likes[other.id]?.count}</span>
                             </div>
                           </div>
                         </div>

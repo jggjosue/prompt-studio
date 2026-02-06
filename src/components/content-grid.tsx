@@ -108,7 +108,7 @@ export default function ContentGrid() {
                   <Button variant="outline" size="icon" onClick={() => handleLike(item.id)}>
                       <Heart className="w-4 h-4" fill={likes[item.id]?.isLiked ? 'currentColor' : 'none'} />
                   </Button>
-                  <span className="text-xs text-muted-foreground mt-1">{likes[item.id]?.count.toLocaleString()}</span>
+                  <span className="text-xs text-muted-foreground mt-1">{likes[item.id]?.count}</span>
                 </div>
                 <Button size="sm" asChild>
                   <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
