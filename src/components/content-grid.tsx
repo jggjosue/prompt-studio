@@ -13,7 +13,7 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Heart, PlayCircle, Tag, Wand2, Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useMemo, useState, useEffect, useCallback } from 'react';
+import { useMemo, useState, useEffect, useCallback, Suspense } from 'react';
 import { doc, getDoc, runTransaction, serverTimestamp, onSnapshot } from 'firebase/firestore';
 import { useFirebase } from '@/firebase';
 import { useToast } from '@/hooks/use-toast';
@@ -135,7 +135,7 @@ function LikeButton({ contentId, contentType }: { contentId: string; contentType
 }
 
 
-export default function ContentGrid() {
+function ContentGridContent() {
   const content = useMemo(() => {
     return PlaceHolderImages.filter(item => item.imageUrl).slice(0, 9);
   }, []);
@@ -222,6 +222,14 @@ export default function ContentGrid() {
         ))}
       </div>
     </div>
+  );
+}
+
+export default function ContentGrid() {
+  return (
+    <Suspense fallback={<div className="flex w-full justify-center py-10"><Loader2 className="h-8 w-8 animate-spin text-muted-foreground" /></div>}>
+      <ContentGridContent />
+    </Suspense>
   );
 }
 
