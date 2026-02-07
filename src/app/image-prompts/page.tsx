@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import ImagePromptsClient from './image-prompts-client';
+import { Suspense } from 'react';
+import { Loader2 } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'AI Image Prompts | Prompt Studio',
@@ -42,5 +44,9 @@ export const metadata: Metadata = {
 };
 
 export default function ImagePromptsPage() {
-  return <ImagePromptsClient />;
+  return (
+    <Suspense fallback={<div className="flex h-screen w-full items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-muted-foreground" /></div>}>
+      <ImagePromptsClient />
+    </Suspense>
+  );
 }
