@@ -74,7 +74,7 @@ export default function HeaderClient() {
       label: 'Tag',
       dropdown: [
         {
-          href: '#',
+          href: '/video-tags',
           label: 'Video Tags',
           description: 'Browse AI video tags',
           icon: <Tag className="h-5 w-5" />,
