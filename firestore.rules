@@ -150,7 +150,7 @@ service cloud.firestore {
      */
     match /placeholderImages/{imageId} {
       allow read: if true;
-      allow write: if true; // DANGEROUS: Secure this after seeding!
+      allow create, update: if true; // DANGEROUS: Secure this after seeding!
     }
   }
 }
