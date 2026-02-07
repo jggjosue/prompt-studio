@@ -14,7 +14,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import {
-  videoTagsData,
+  videoTagsData as staticVideoTagsData,
   type TagCategory,
 } from '@/lib/video-tags-data';
 import {
@@ -44,6 +44,43 @@ const icons = {
 
 export default function VideoTagsClient() {
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
+
+  const { videoTagsData, totalVideos, totalUniqueTags } = useMemo(() => {
+    const allVideos = PlaceHolderVideos.filter(
+      item => item.type === 'video' && item.imageUrl
+    );
+    const tagCounts: Record<string, number> = {};
+
+    allVideos.forEach(video => {
+      (video.tags || []).forEach(tag => {
+        tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+      });
+    });
+
+    const allTags = new Set<string>();
+    const dynamicVideoTagsData = staticVideoTagsData.map(category => {
+      const tagsWithCounts = category.tags
+        .map(tag => {
+          allTags.add(tag.name);
+          return {
+            ...tag,
+            count: tagCounts[tag.name] || 0,
+          };
+        })
+        .sort((a, b) => b.count - a.count);
+
+      return {
+        ...category,
+        tags: tagsWithCounts,
+      };
+    });
+
+    return {
+      videoTagsData: dynamicVideoTagsData,
+      totalVideos: allVideos.length,
+      totalUniqueTags: allTags.size,
+    };
+  }, []);
 
   const filteredVideos = useMemo(() => {
     if (!selectedTag) return [];
@@ -96,8 +133,8 @@ export default function VideoTagsClient() {
               Explore Video Prompts by Tags
             </h1>
             <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-              Discover <strong>42</strong> AI-generated videos organized by{' '}
-              <strong>25</strong> unique tags across visual styles, settings, subjects,
+              Discover <strong>{totalVideos}</strong> AI-generated videos organized by{' '}
+              <strong>{totalUniqueTags}</strong> unique tags across visual styles, settings, subjects,
               brands & products, and effects & techniques. Find the perfect inspiration for your next creation!
             </p>
             <div className="flex flex-col sm:flex-row items-center gap-4 pt-4">
