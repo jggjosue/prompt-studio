@@ -199,9 +199,11 @@ export default function VideoPromptsClient() {
               </TabsList>
             </Tabs>
             <div className="flex gap-4 pt-4">
-              <Button variant="outline">
-                <Tag className="mr-2" />
-                Browse by Tags
+              <Button variant="outline" asChild>
+                <Link href="/video-tags">
+                  <Tag className="mr-2" />
+                  Browse by Tags
+                </Link>
               </Button>
               <Button asChild>
                 <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
