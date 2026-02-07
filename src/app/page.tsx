@@ -7,7 +7,10 @@ import PromptGenerator from '@/components/prompt-generator';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import VideoExamples from '@/components/video-examples';
-import { Bot, Clapperboard, Lightbulb } from 'lucide-react';
+import { Bot, Clapperboard, Lightbulb, Loader2 } from 'lucide-react';
+import { Suspense } from 'react';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export default function Home() {
   const examplePrompts = [
@@ -37,7 +40,9 @@ export default function Home() {
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
-      <Header />
+      <Suspense fallback={<div className="w-full h-16 border-b" />}>
+        <Header />
+      </Suspense>
       <main className="flex-1">
         <section className="w-full py-8 md:py-16 bg-muted/30">
           <div className="container px-4 md:px-6">
@@ -51,7 +56,9 @@ export default function Home() {
               </p>
             </div>
             <div className="mx-auto w-full max-w-2xl pt-8 md:pt-12">
-              <PromptGenerator />
+              <Suspense fallback={<div className="flex w-full justify-center py-10"><Loader2 className="h-8 w-8 animate-spin text-muted-foreground" /></div>}>
+                <PromptGenerator />
+              </Suspense>
             </div>
           </div>
         </section>
@@ -91,7 +98,9 @@ export default function Home() {
                     Discover high-quality AI video examples created with expertly crafted AI video prompts.
                 </p>
             </div>
-            <VideoExamples />
+            <Suspense fallback={<div className="flex w-full justify-center py-10"><Loader2 className="h-8 w-8 animate-spin text-muted-foreground" /></div>}>
+              <VideoExamples />
+            </Suspense>
           </div>
         </section>
 
@@ -167,6 +176,8 @@ export default function Home() {
         </section>
       </main>
       <Footer />
+      <Analytics mode="production" />
+      <SpeedInsights />
     </div>
   );
 }
