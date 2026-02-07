@@ -13,12 +13,18 @@ import {
   Wand2,
   Banana,
   CheckCircle2,
+  Frame,
+  Store,
+  Lightbulb,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const icons = {
   Palette: <Palette className="h-6 w-6" />,
   Image: <ImageIcon className="h-6 w-6" />,
+  Frame: <Frame className="h-6 w-6" />,
+  Store: <Store className="h-6 w-6" />,
+  Lightbulb: <Lightbulb className="h-6 w-6" />,
 };
 
 export default function ImageTagsClient() {
@@ -33,7 +39,7 @@ export default function ImageTagsClient() {
             </h1>
             <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
               Discover <strong>6959</strong> AI-generated images organized by{' '}
-              <strong>87</strong> unique tags across visual styles, subjects,
+              <strong>83</strong> unique tags across visual styles, subjects,
               compositions, brands & products, and lighting. Find the perfect
               inspiration for your next creation!
             </p>
@@ -76,18 +82,22 @@ export default function ImageTagsClient() {
                 key={category.name}
                 className={cn(
                   'p-6 md:p-8',
-                  index === 0
-                    ? 'bg-purple-50/20 dark:bg-purple-950/20 border-purple-200/50 dark:border-purple-800/50'
-                    : 'bg-green-50/20 dark:bg-green-950/20 border-green-200/50 dark:border-green-800/50'
+                  index === 0 && 'bg-purple-50/20 dark:bg-purple-950/20 border-purple-200/50 dark:border-purple-800/50',
+                  index === 1 && 'bg-green-50/20 dark:bg-green-950/20 border-green-200/50 dark:border-green-800/50',
+                  index === 2 && 'bg-blue-50/20 dark:bg-blue-950/20 border-blue-200/50 dark:border-blue-800/50',
+                  index === 3 && 'bg-red-50/20 dark:bg-red-950/20 border-red-200/50 dark:border-red-800/50',
+                  index === 4 && 'bg-yellow-50/20 dark:bg-yellow-950/20 border-yellow-200/50 dark:border-yellow-800/50'
                 )}
               >
                 <div className="flex items-center gap-3 mb-2">
                   <div
                     className={cn(
                       'p-2 rounded-full',
-                      index === 0
-                        ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/50 dark:text-purple-300'
-                        : 'bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300'
+                      index === 0 && 'bg-purple-100 text-purple-700 dark:bg-purple-900/50 dark:text-purple-300',
+                      index === 1 && 'bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300',
+                      index === 2 && 'bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300',
+                      index === 3 && 'bg-red-100 text-red-700 dark:bg-red-900/50 dark:text-red-300',
+                      index === 4 && 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/50 dark:text-yellow-300'
                     )}
                   >
                     {icons[category.icon as keyof typeof icons]}
@@ -121,6 +131,11 @@ export default function ImageTagsClient() {
                     </Button>
                   ))}
                 </div>
+                {category.name === 'Composition' && (
+                  <div className="text-center mt-6">
+                    <Button variant="link">View all 24 composition tags</Button>
+                  </div>
+                )}
               </Card>
             ))}
           </div>
