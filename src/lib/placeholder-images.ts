@@ -10,5 +10,5 @@ export type ImagePlaceholder = {
   tags: string[];
 };
 
-export const PlaceHolderImages: ImagePlaceholder[] = data.placeholderImages;
+export const PlaceHolderImages: ImagePlaceholder[] = data.placeholderImages as ImagePlaceholder[];
     

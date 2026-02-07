@@ -1,27 +1,27 @@
 
 'use client';
 
+import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
 import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
 } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import {
-    PlaceHolderVideos,
-    type VideoProp,
-} from '@/lib/placeholder-videos';
-import { ArrowLeft, Heart, Wand2, Copy, Loader2 } from 'lucide-react';
-import Link from 'next/link';
-import { useState, useEffect, useMemo, useCallback } from 'react';
-import { useToast } from '@/hooks/use-toast';
-import Footer from '@/components/layout/footer';
 import { useFirebase } from '@/firebase';
-import { doc, getDoc, runTransaction, increment, serverTimestamp, onSnapshot } from 'firebase/firestore';
+import { useToast } from '@/hooks/use-toast';
+import {
+  PlaceHolderVideos,
+  type VideoProp,
+} from '@/lib/placeholder-videos';
+import { doc, getDoc, onSnapshot, runTransaction, serverTimestamp } from 'firebase/firestore';
+import { ArrowLeft, Copy, Heart, Loader2, Wand2 } from 'lucide-react';
+import Link from 'next/link';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 
 function LikeButton({ contentId, className }: { contentId: string, className?: string }) {
@@ -34,9 +34,15 @@ function LikeButton({ contentId, className }: { contentId: string, className?: s
   
     useEffect(() => {
       if (!firestore) return;
-      const countDocRef = doc(firestore, 'count-likes', contentId);
-      const unsubscribe = onSnapshot(countDocRef, (snapshot) => {
-        setLikeCount(snapshot.exists() ? snapshot.data().count : 0);
+      const docRef = doc(firestore, 'placeholderVideos', contentId);
+      const unsubscribe = onSnapshot(docRef, (snapshot) => {
+        if (snapshot.exists()) {
+            const data = snapshot.data();
+            const likes = data.metadata?.likes ?? data.count ?? 0;
+            setLikeCount(likes);
+        } else {
+            setLikeCount(0);
+        }
       });
       return () => unsubscribe();
     }, [firestore, contentId]);
@@ -65,7 +71,7 @@ function LikeButton({ contentId, className }: { contentId: string, className?: s
       e?.preventDefault();
       e?.stopPropagation();
   
-      if (!firestore || !user) {
+      if (!user) {
         toast({
           title: 'Authentication required',
           description: 'Please sign in to like content.',
@@ -76,22 +82,37 @@ function LikeButton({ contentId, className }: { contentId: string, className?: s
       if (isLiking) return;
       setIsLiking(true);
   
-      const countDocRef = doc(firestore, 'count-likes', contentId);
-      const userLikeRef = doc(firestore, `user-likes/${user.uid}/items/${contentId}`);
-  
       try {
-          await runTransaction(firestore, async (transaction) => {
-              const userLikeDoc = await transaction.get(userLikeRef);
-  
-              if (userLikeDoc.exists()) {
-                  transaction.delete(userLikeRef);
-                  transaction.set(countDocRef, { count: increment(-1) }, { merge: true });
-              } else {
-                  transaction.set(userLikeRef, { likedAt: serverTimestamp() });
-                  transaction.set(countDocRef, { count: increment(1) }, { merge: true });
-              }
+        await runTransaction(firestore, async (transaction) => {
+            const docRef = doc(firestore, 'placeholderVideos', contentId);
+            const userLikeRef = doc(firestore, `user-likes/${user.uid}/items/${contentId}`);
+    
+            const docSnap = await transaction.get(docRef);
+            const userLikeSnap = await transaction.get(userLikeRef);
+    
+            if (!docSnap.exists()) {
+                transaction.set(userLikeRef, { likedAt: serverTimestamp() });
+                transaction.set(docRef, { metadata: { likes: 1 } }, { merge: true });
+                return;
+            }
+    
+            const docData = docSnap.data();
+            const currentLikes = docData.metadata?.likes ?? docData.count ?? docData.likes ?? 0;
+            
+            if (userLikeSnap.exists()) {
+                // Unlike
+                transaction.delete(userLikeRef);
+                const newLikes = Math.max(0, currentLikes - 1);
+                transaction.set(docRef, { metadata: { likes: newLikes } }, { merge: true });
+            } else {
+                // Like
+                transaction.set(userLikeRef, { likedAt: serverTimestamp() });
+                const newLikes = currentLikes + 1;
+                transaction.set(docRef, { metadata: { likes: newLikes } }, { merge: true });
+            }
           });
-      } catch (error) {
+
+      } catch (error: any) {
           console.error("Like transaction failed: ", error);
           toast({
               title: 'Error',
@@ -101,7 +122,7 @@ function LikeButton({ contentId, className }: { contentId: string, className?: s
       } finally {
           setIsLiking(false);
       }
-    }, [firestore, user, contentId, isLiking, toast]);
+    }, [user, contentId, isLiking, toast, firestore]);
   
     return (
       <div className="flex items-center gap-1">
@@ -274,5 +295,3 @@ export default function GalleryVideoDetailClient({ item }: { item: VideoProp }) 
     </div>
   );
 }
-
-    

@@ -12,7 +12,7 @@ import {
 import { useFirebase } from '@/firebase';
 import { useToast } from '@/hooks/use-toast';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { doc, getDoc, increment, onSnapshot, runTransaction, serverTimestamp } from 'firebase/firestore';
+import { doc, getDoc, onSnapshot, runTransaction, serverTimestamp } from 'firebase/firestore';
 import { Heart, Loader2, Tag, Wand2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -26,18 +26,31 @@ function LikeButton({ contentId }: { contentId: string }) {
   const [likeCount, setLikeCount] = useState<number | null>(null);
   const [isLiked, setIsLiked] = useState(false);
   const [isLiking, setIsLiking] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    if (!firestore) return;
-    const countDocRef = doc(firestore, 'count-likes', contentId);
-    const unsubscribe = onSnapshot(countDocRef, (snapshot) => {
-      setLikeCount(snapshot.exists() ? snapshot.data().count : 0);
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!firestore || !mounted) return;
+    // Assuming this component is for images, collection is 'placeholderImages'
+    const docRef = doc(firestore, 'placeholderImages', contentId);
+    const unsubscribe = onSnapshot(docRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.data();
+        // Support both old structure (likes) and new structure (metadata.likes)
+        const likes = data.metadata?.likes ?? data.likes ?? 0;
+        setLikeCount(likes);
+      } else {
+        setLikeCount(0);
+      }
     });
     return () => unsubscribe();
-  }, [firestore, contentId]);
+  }, [firestore, contentId, mounted]);
 
   useEffect(() => {
-    if (!firestore || !user) {
+    if (!firestore || !user || !mounted) {
         setIsLiked(false);
         return;
     };
@@ -54,10 +67,11 @@ function LikeButton({ contentId }: { contentId: string }) {
     });
 
     return () => unsubscribe();
-  }, [firestore, user, contentId]);
+  }, [firestore, user, contentId, mounted]);
 
   const handleLike = useCallback(async () => {
-    if (!firestore || !user) {
+    if (isLiking) return;
+    if (!user) {
       toast({
         title: 'Authentication required',
         description: 'Please sign in to like content.',
@@ -65,35 +79,59 @@ function LikeButton({ contentId }: { contentId: string }) {
       });
       return;
     }
-    if (isLiking) return;
     setIsLiking(true);
 
-    const countDocRef = doc(firestore, 'count-likes', contentId);
-    const userLikeRef = doc(firestore, `user-likes/${user.uid}/items/${contentId}`);
-
     try {
-        await runTransaction(firestore, async (transaction) => {
-            const userLikeDoc = await transaction.get(userLikeRef);
+      await runTransaction(firestore, async (transaction) => {
+        const docRef = doc(firestore, 'placeholderImages', contentId);
+        const userLikeRef = doc(firestore, `user-likes/${user.uid}/items/${contentId}`);
 
-            if (userLikeDoc.exists()) {
-                transaction.delete(userLikeRef);
-                transaction.set(countDocRef, { count: increment(-1) }, { merge: true });
-            } else {
-                transaction.set(userLikeRef, { likedAt: serverTimestamp() });
-                transaction.set(countDocRef, { count: increment(1) }, { merge: true });
-            }
-        });
-    } catch (error) {
-        console.error("Like transaction failed: ", error);
-        toast({
-            title: 'Error',
-            description: 'Could not update like status. Please try again.',
-            variant: 'destructive',
-        });
+        const docSnap = await transaction.get(docRef);
+        const userLikeSnap = await transaction.get(userLikeRef);
+
+        if (!docSnap.exists()) {
+            transaction.set(userLikeRef, { likedAt: serverTimestamp() });
+            transaction.set(docRef, { metadata: { likes: 1 } }, { merge: true });
+            return;
+        }
+
+        const docData = docSnap.data();
+        const currentLikes = docData.metadata?.likes ?? docData.count ?? docData.likes ?? 0;
+        
+        if (userLikeSnap.exists()) {
+            // Unlike
+            transaction.delete(userLikeRef);
+            const newLikes = Math.max(0, currentLikes - 1);
+            transaction.set(docRef, { metadata: { likes: newLikes } }, { merge: true });
+        } else {
+            // Like
+            transaction.set(userLikeRef, { likedAt: serverTimestamp() });
+            const newLikes = currentLikes + 1;
+            transaction.set(docRef, { metadata: { likes: newLikes } }, { merge: true });
+        }
+      });
+    } catch (error: any) {
+      console.error("Like transaction failed: ", error);
+      toast({
+        title: 'Error',
+        description: 'Could not update like status. Please try again.',
+        variant: 'destructive',
+      });
     } finally {
-        setIsLiking(false);
+      setIsLiking(false);
     }
-  }, [firestore, user, contentId, isLiking, toast]);
+  }, [isLiking, user, contentId, toast, firestore]);
+
+  if (!mounted) {
+    return (
+      <div className="flex items-center gap-1 text-muted-foreground">
+        <span className="text-xs">-</span>
+        <Button variant="outline" size="icon" className="w-8 h-8" disabled>
+          <Heart className="w-4 h-4" />
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <div className="flex items-center gap-1 text-muted-foreground">
@@ -170,5 +208,3 @@ export default function ImageExamples() {
     </>
   );
 }
-
-    

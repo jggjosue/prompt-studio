@@ -186,13 +186,13 @@
       "type": "object",
       "description": "Represents the total number of likes for a piece of content.",
       "properties": {
-        "count": {
+        "likes": {
           "type": "number",
           "description": "The total number of likes."
         }
       },
       "required": [
-        "count"
+        "likes"
       ]
     },
     "UserLike": {
@@ -339,42 +339,6 @@
             {
               "name": "collectionId",
               "description": "The unique identifier of the collection."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/count-likes/{contentId}",
-        "definition": {
-          "entityName": "LikeCount",
-          "schema": {
-            "$ref": "#/backend/entities/LikeCount"
-          },
-          "description": "Stores the like count for each piece of content. Document ID is the content ID.",
-          "params": [
-            {
-              "name": "contentId",
-              "description": "The unique identifier of the content."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/user-likes/{userId}/items/{contentId}",
-        "definition": {
-          "entityName": "UserLike",
-          "schema": {
-            "$ref": "#/backend/entities/UserLike"
-          },
-          "description": "Tracks which content a user has liked. Path-based ownership is enforced.",
-          "params": [
-            {
-              "name": "userId",
-              "description": "The unique ID of the user."
-            },
-            {
-              "name": "contentId",
-              "description": "The unique ID of the liked content."
             }
           ]
         }

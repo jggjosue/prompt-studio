@@ -14,11 +14,11 @@ import { Heart, PlayCircle, Tag, Wand2, Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useMemo, useState, useEffect, useCallback } from 'react';
-import { doc, getDoc, runTransaction, increment, serverTimestamp, onSnapshot } from 'firebase/firestore';
+import { doc, getDoc, runTransaction, serverTimestamp, onSnapshot } from 'firebase/firestore';
 import { useFirebase } from '@/firebase';
 import { useToast } from '@/hooks/use-toast';
 
-function LikeButton({ contentId }: { contentId: string }) {
+function LikeButton({ contentId, contentType }: { contentId: string; contentType: string }) {
   const { firestore, user, isUserLoading } = useFirebase();
   const { toast } = useToast();
 
@@ -26,14 +26,22 @@ function LikeButton({ contentId }: { contentId: string }) {
   const [isLiked, setIsLiked] = useState(false);
   const [isLiking, setIsLiking] = useState(false);
 
+  const collection = contentType === 'video' ? 'placeholderVideos' : 'placeholderImages';
+
   useEffect(() => {
     if (!firestore) return;
-    const countDocRef = doc(firestore, 'count-likes', contentId);
+    const countDocRef = doc(firestore, collection, contentId);
     const unsubscribe = onSnapshot(countDocRef, (snapshot) => {
-      setLikeCount(snapshot.exists() ? snapshot.data().count : 0);
+      if (snapshot.exists()) {
+        const data = snapshot.data();
+        const likes = data.metadata?.likes ?? data.count ?? data.likes ?? 0;
+        setLikeCount(likes);
+      } else {
+        setLikeCount(0);
+      }
     });
     return () => unsubscribe();
-  }, [firestore, contentId]);
+  }, [firestore, contentId, collection]);
 
   useEffect(() => {
     if (!firestore || !user) {
@@ -41,20 +49,20 @@ function LikeButton({ contentId }: { contentId: string }) {
         return;
     };
     const checkLikeStatus = async () => {
-        const userLikeRef = doc(firestore, `user-likes/${user.uid}/items/${contentId}`);
+        const userLikeRef = doc(firestore, `${collection}/${user.uid}/items/${contentId}`);
         const docSnap = await getDoc(userLikeRef);
         setIsLiked(docSnap.exists());
     }
     checkLikeStatus();
 
-    const userLikeRef = doc(firestore, `user-likes/${user.uid}/items/${contentId}`);
+    const userLikeRef = doc(firestore, `${collection}/${user.uid}/items/${contentId}`);
     const unsubscribe = onSnapshot(userLikeRef, (docSnap) => {
         setIsLiked(docSnap.exists());
     });
 
     return () => unsubscribe();
 
-  }, [firestore, user, contentId]);
+  }, [firestore, user, contentId, collection]);
 
   const handleLike = useCallback(async () => {
     if (!firestore || !user) {
@@ -68,19 +76,24 @@ function LikeButton({ contentId }: { contentId: string }) {
     if (isLiking) return;
     setIsLiking(true);
 
-    const countDocRef = doc(firestore, 'count-likes', contentId);
-    const userLikeRef = doc(firestore, `user-likes/${user.uid}/items/${contentId}`);
-
     try {
         await runTransaction(firestore, async (transaction) => {
+            const countDocRef = doc(firestore, collection, contentId);
+            const userLikeRef = doc(firestore, `${collection}/${user.uid}/items/${contentId}`);
+
+            const docSnap = await transaction.get(countDocRef);
             const userLikeDoc = await transaction.get(userLikeRef);
+            const docData = docSnap.exists() ? docSnap.data() : {};
+            const currentLikes = docData.metadata?.likes ?? docData.count ?? docData.likes ?? 0;
 
             if (userLikeDoc.exists()) {
                 transaction.delete(userLikeRef);
-                transaction.set(countDocRef, { count: increment(-1) }, { merge: true });
+                const newLikes = Math.max(0, currentLikes - 1);
+                transaction.set(countDocRef, { metadata: { likes: newLikes } }, { merge: true });
             } else {
                 transaction.set(userLikeRef, { likedAt: serverTimestamp() });
-                transaction.set(countDocRef, { count: increment(1) }, { merge: true });
+                const newLikes = currentLikes + 1;
+                transaction.set(countDocRef, { metadata: { likes: newLikes } }, { merge: true });
             }
         });
     } catch (error) {
@@ -93,7 +106,7 @@ function LikeButton({ contentId }: { contentId: string }) {
     } finally {
         setIsLiking(false);
     }
-  }, [firestore, user, contentId, isLiking, toast]);
+  }, [firestore, user, contentId, isLiking, toast, collection]);
 
   return (
     <div className="flex items-center gap-1 text-muted-foreground">
@@ -186,7 +199,7 @@ export default function ContentGrid() {
                   </Button>
                 </div>
                 <div className="flex items-center gap-1">
-                  <LikeButton contentId={item.id} />
+                  <LikeButton contentId={String(item.id)} contentType={item.type} />
                 </div>
             </CardFooter>
           </Card>

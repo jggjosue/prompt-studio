@@ -73,3 +73,7 @@ To learn more about the technologies used in this project, take a look at the fo
 - [ShadCN UI Documentation](https://ui.shadcn.com/) - learn about the UI components used.
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs) - learn about Tailwind CSS for styling.
 - [Kinde Documentation](https://kinde.com/docs) - learn about Kinde authentication.
+
+## Deployment
+node update-ids-random.js
+node update-video-ids-random.js

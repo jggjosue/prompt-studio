@@ -14,15 +14,15 @@ export async function GET() {
     // Seed Images
     const placeholderImagesCollection = collection(db, 'placeholderImages');
     PlaceHolderImages.forEach((image) => {
-      const docRef = doc(placeholderImagesCollection, image.id);
-      batch.set(docRef, { title: image.title, likes: 0 });
+      const docRef = doc(placeholderImagesCollection);
+      batch.set(docRef, { id: image.id, title: image.title, likes: 0 });
     });
 
     // Seed Videos
     const placeholderVideosCollection = collection(db, 'placeholderVideos');
     PlaceHolderVideos.forEach((video) => {
-      const docRef = doc(placeholderVideosCollection, video.id);
-      batch.set(docRef, { title: video.title, likes: 0 });
+      const docRef = doc(placeholderVideosCollection);
+      batch.set(docRef, { id: video.id, title: video.title, likes: 0 });
     });
 
     await batch.commit();

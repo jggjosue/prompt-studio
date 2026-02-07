@@ -6,9 +6,9 @@
  *
  * Data Structure: The data is organized into two main categories:
  * 1. User-Private Data: Nested under `/users/{userId}`, this includes collections for
- *    `generatedContent`, `collections`, and `user-likes`. Access is strictly limited
+ *    `generatedContent`, `collections`, and `placeholderVideos` and `placeholderImages`. Access is strictly limited
  *    to the authenticated owner of the parent user document.
- * 2. Public Data: Collections like `/aiModels`, `/promptExamples`, and `/count-likes`
+ * 2. Public Data: Collections like `/aiModels`, `/promptExamples`, and `placeholderVideos` and `placeholderImages`
  *    contain application-wide data that is readable by anyone but has restricted write access.
  *
  * Key Security Decisions:
@@ -95,33 +95,6 @@ service cloud.firestore {
       allow delete: if isExistingOwner(userId);
     }
 
-    // --------------------------------
-    // Public and Semi-Public Data Rules
-    // --------------------------------
-
-    /**
-     * @description Publicly readable like counts for content.
-     * @path /count-likes/{contentId}
-     */
-    match /count-likes/{contentId} {
-      allow get, list: if true;
-      allow create: if isSignedIn() && request.resource.data.count == 1;
-      // This rule ensures atomic increments/decrements and nothing else.
-      allow update: if isSignedIn()
-                    && request.resource.data.keys().hasOnly(['count'])
-                    && (request.resource.data.count == resource.data.count + 1 ||
-                        request.resource.data.count == resource.data.count - 1);
-      allow delete: if false;
-    }
-
-    /**
-     * @description Tracks which items a user has liked.
-     * @path /user-likes/{userId}/items/{contentId}
-     */
-    match /user-likes/{userId}/items/{contentId} {
-      allow read, write: if isOwner(userId);
-    }
-
     /**
      * @description Controls access to the list of available AI models.
      * @path /aiModels/{aiModelId}
@@ -144,26 +117,94 @@ service cloud.firestore {
      * @description Stores placeholder image titles, seeded from a script.
      * @path /placeholderImages/{imageId}
      *
-     * WARNING: The write rule is temporarily open to allow for initial data seeding
-     * via the /api/seed endpoint. It is highly recommended to secure this after
-     * seeding by changing `allow write` to `if false;`.
+     * Read: Public access
+     * Create: Allowed only during seeding (via server)
+     * Update: Authenticated users can only update metadata.likes atomically
      */
     match /placeholderImages/{imageId} {
       allow read: if true;
-      allow create, update: if true; // DANGEROUS: Secure this after seeding!
+      allow create: if true; // Server-side seeding
+      allow update: if isSignedIn() && onlyLikesChanged();
     }
 
     /**
      * @description Stores placeholder video titles, seeded from a script.
      * @path /placeholderVideos/{videoId}
      *
-     * WARNING: The write rule is temporarily open to allow for initial data seeding
-     * via the /api/seed endpoint. It is highly recommended to secure this after
-     * seeding by changing `allow write` to `if false;`.
+     * Read: Public access
+     * Create: Allowed only during seeding (via server)
+     * Update: Authenticated users can only update metadata.likes atomically
      */
     match /placeholderVideos/{videoId} {
       allow read: if true;
-      allow create, update: if true; // DANGEROUS: Secure this after seeding!
+      allow create: if true; // Server-side seeding
+      allow update: if isSignedIn() && onlyLikesChanged();
+    }
+
+    /**
+     * @description Controls access to image prompts.
+     * @path /image-prompts/{promptId}
+     * 
+     * Allow authenticated users to update metadata.likes atomically.
+     */
+    match /image-prompts/{promptId} {
+      allow read: if true;
+      allow create: if false; // Read-only for clients
+      allow update: if isSignedIn() && onlyLikesChanged();
+    }
+
+    /**
+     * @description Controls access to video prompts.
+     * @path /video-prompts/{promptId}
+     * 
+     * Allow authenticated users to update metadata.likes atomically.
+     */
+    match /video-prompts/{promptId} {
+      allow read: if true;
+      allow create: if false; // Read-only for clients
+      allow update: if isSignedIn() && onlyLikesChanged();
+    }
+
+    /**
+     * @description Controls access to image tags.
+     * @path /image-tags/{tagId}
+     * 
+     * Allow authenticated users to update metadata.likes atomically.
+     */
+    match /image-tags/{tagId} {
+      allow read: if true;
+      allow create: if false; // Read-only for clients
+      allow update: if isSignedIn() && onlyLikesChanged();
+    }
+
+    /**
+     * @description Controls access to video tags.
+     * @path /video-tags/{tagId}
+     * 
+     * Allow authenticated users to update metadata.likes atomically.
+     */
+    match /video-tags/{tagId} {
+      allow read: if true;
+      allow create: if false; // Read-only for clients
+      allow update: if isSignedIn() && onlyLikesChanged();
     }
   }
-}
+
+  /**
+   * Helper function to validate that only metadata.likes is being updated.
+   * Ensures atomic increments/decrements by checking that only the likes field changes.
+   * Handles both new document creation and updates.
+   */
+  function onlyLikesChanged() {
+    // For new documents (resource doesn't exist), allow initial creation
+    if (resource == null) {
+      return true; // Allow creation; server will set metadata.likes: 1
+    }
+    
+    // For existing documents, validate that only metadata.likes changed
+    let changedKeys = request.resource.data.diff(resource.data).affectedKeys();
+    return changedKeys.hasOnly(['metadata']) 
+           && request.resource.data.metadata.diff(resource.data.metadata).affectedKeys().hasOnly(['likes'])
+           && (request.resource.data.metadata.likes == resource.data.metadata.likes + 1 ||
+               request.resource.data.metadata.likes == resource.data.metadata.likes - 1);
+  }
