@@ -35,12 +35,17 @@ function LikeButton({ contentId, className }: { contentId: string, className?: s
   const [likeCount, setLikeCount] = useState<number | null>(null);
   const [isLiked, setIsLiked] = useState(false);
   const [isLiking, setIsLiking] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   const isVideo = useMemo(() => PlaceHolderVideos.some(v => v.id === contentId), [contentId]);
   const collectionName = isVideo ? 'placeholderVideos' : 'placeholderImages';
 
   useEffect(() => {
-    if (!firestore) return;
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!firestore || !mounted) return;
 
     const docRef = doc(firestore, collectionName, contentId);
     const unsubscribe = onSnapshot(docRef, (snapshot) => {
@@ -53,10 +58,10 @@ function LikeButton({ contentId, className }: { contentId: string, className?: s
       }
     });
     return () => unsubscribe();
-  }, [firestore, contentId, collectionName]);
+  }, [firestore, contentId, collectionName, mounted]);
 
   useEffect(() => {
-    if (!firestore || !user) {
+    if (!firestore || !user || !mounted) {
         setIsLiked(false);
         return;
     };
@@ -75,7 +80,7 @@ function LikeButton({ contentId, className }: { contentId: string, className?: s
 
     return () => unsubscribe();
 
-  }, [firestore, user, contentId, collectionName]);
+  }, [firestore, user, contentId, collectionName, mounted]);
 
   const handleLike = useCallback(async (e?: React.MouseEvent) => {
     e?.preventDefault();
@@ -132,6 +137,17 @@ function LikeButton({ contentId, className }: { contentId: string, className?: s
         setIsLiking(false);
     }
   }, [firestore, user, contentId, isLiking, toast, collectionName]);
+
+  if (!mounted) {
+    return (
+      <div className="flex items-center gap-1">
+        <Loader2 className="h-4 w-4 animate-spin" />
+        <Button size="icon" variant="ghost" className={className} disabled>
+          <Heart className="w-4 h-4" />
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <div className="flex items-center gap-1">
