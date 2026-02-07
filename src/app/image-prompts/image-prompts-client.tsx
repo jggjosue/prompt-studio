@@ -293,7 +293,7 @@ export default function ImagePromptsClient() {
                       <Link href={`/gallery/${item.id}`}>View</Link>
                     </Button>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1">
                     <span className="text-xs text-muted-foreground">{likes[item.id]?.count.toLocaleString()}</span>
                     <Button variant="outline" size="icon" className="w-8 h-8" onClick={() => handleLike(item.id)}>
                         <Heart className="w-4 h-4" fill={likes[item.id]?.isLiked ? 'currentColor' : 'none'} />
