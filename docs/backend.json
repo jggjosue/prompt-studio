@@ -8,60 +8,28 @@
       "properties": {
         "id": {
           "type": "string",
-          "description": "Unique identifier for the user.",
-          "format": "uuid"
-        },
-        "username": {
-          "type": "string",
-          "description": "The username of the user."
+          "description": "Unique identifier for the User entity."
         },
         "email": {
           "type": "string",
-          "description": "The email address of the user.",
+          "description": "Email address of the user.",
           "format": "email"
+        },
+        "username": {
+          "type": "string",
+          "description": "Username of the user."
         },
         "registrationDate": {
           "type": "string",
-          "description": "The date and time the user registered.",
+          "description": "Date and time the user registered.",
           "format": "date-time"
         }
       },
       "required": [
         "id",
-        "username",
         "email",
+        "username",
         "registrationDate"
-      ]
-    },
-    "AIModel": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "AIModel",
-      "type": "object",
-      "description": "Represents an AI model used for image or video generation.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the AI model.",
-          "format": "uuid"
-        },
-        "name": {
-          "type": "string",
-          "description": "The name of the AI model."
-        },
-        "description": {
-          "type": "string",
-          "description": "A description of the AI model and its capabilities."
-        },
-        "capabilities": {
-          "type": "string",
-          "description": "The capabilities of the AI Model"
-        }
-      },
-      "required": [
-        "id",
-        "name",
-        "description",
-        "capabilities"
       ]
     },
     "GeneratedContent": {
@@ -72,63 +40,99 @@
       "properties": {
         "id": {
           "type": "string",
-          "description": "Unique identifier for the generated content.",
-          "format": "uuid"
-        },
-        "aiModelId": {
-          "type": "string",
-          "description": "Reference to AIModel. (Relationship: AIModel 1:N GeneratedContent)"
+          "description": "Unique identifier for the GeneratedContent entity."
         },
         "userId": {
           "type": "string",
           "description": "Reference to User. (Relationship: User 1:N GeneratedContent)"
         },
-        "prompt": {
+        "contentType": {
           "type": "string",
-          "description": "The prompt used to generate the content."
+          "description": "Type of content (image or video)."
         },
-        "url": {
+        "contentUrl": {
           "type": "string",
           "description": "URL of the generated content.",
           "format": "uri"
         },
         "generationDate": {
           "type": "string",
-          "description": "The date and time the content was generated.",
+          "description": "Date and time the content was generated.",
           "format": "date-time"
+        },
+        "aiModelUsed": {
+          "type": "string",
+          "description": "The name of the AI model used to generate the content."
+        },
+        "prompt": {
+          "type": "string",
+          "description": "The prompt used to generate the content."
         }
       },
       "required": [
         "id",
-        "aiModelId",
         "userId",
-        "prompt",
-        "url",
-        "generationDate"
+        "contentType",
+        "contentUrl",
+        "generationDate",
+        "aiModelUsed",
+        "prompt"
       ]
     },
-    "ExamplePrompt": {
+    "AiModel": {
       "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "ExamplePrompt",
+      "title": "AiModel",
+      "type": "object",
+      "description": "Represents an AI model used for image or video generation.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the AI Model entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the AI model."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the AI model's capabilities."
+        },
+        "supportedMediaTypes": {
+          "type": "array",
+          "description": "An array of media types supported by this model (e.g., image, video).",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "supportedMediaTypes"
+      ]
+    },
+    "PromptExample": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "PromptExample",
       "type": "object",
       "description": "Represents an example prompt to inspire users.",
       "properties": {
         "id": {
           "type": "string",
-          "description": "Unique identifier for the example prompt.",
-          "format": "uuid"
+          "description": "Unique identifier for the PromptExample entity."
         },
         "promptText": {
           "type": "string",
-          "description": "The text of the example prompt."
+          "description": "The example prompt text."
         },
         "description": {
           "type": "string",
-          "description": "A description of what the prompt generates."
+          "description": "Description of what the prompt generates."
         },
         "aiModelId": {
           "type": "string",
-          "description": "Reference to AIModel. (Relationship: AIModel 1:N ExamplePrompt).  The AI model this prompt is designed for."
+          "description": "Reference to AiModel. The AI model that can be used with this prompt. (Relationship: AiModel 1:N PromptExample)"
         }
       },
       "required": [
@@ -136,6 +140,69 @@
         "promptText",
         "description",
         "aiModelId"
+      ]
+    },
+    "Collection": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Collection",
+      "type": "object",
+      "description": "Represents a collection of saved generated content for a user.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Collection entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to User. (Relationship: User 1:N Collection)"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the collection."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the collection."
+        },
+        "generatedContentIds": {
+          "type": "array",
+          "description": "References to GeneratedContent. (Relationship: Collection N:N GeneratedContent)",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "name",
+        "description",
+        "generatedContentIds"
+      ]
+    },
+    "CountLike": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "CountLike",
+      "type": "object",
+      "description": "Represents the likes for a given content.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the CountLike entity."
+        },
+        "generatedContentId": {
+          "type": "string",
+          "description": "Reference to GeneratedContent. (Relationship: GeneratedContent 1:N CountLike)"
+        },
+        "likes": {
+          "type": "number",
+          "description": "The number of likes of the GeneratedContent."
+        }
+      },
+      "required": [
+        "id",
+        "generatedContentId",
+        "likes"
       ]
     }
   },
@@ -154,72 +221,112 @@
           "schema": {
             "$ref": "#/backend/entities/User"
           },
-          "description": "Stores user data. Path-based ownership for private user data.",
+          "description": "Stores user profiles. Path-based ownership enforced by security rules.",
           "params": [
             {
               "name": "userId",
-              "description": "The unique identifier for the user."
+              "description": "The unique identifier of the user."
             }
           ]
         }
       },
       {
-        "path": "/ai_models/{aiModelId}",
-        "definition": {
-          "entityName": "AIModel",
-          "schema": {
-            "$ref": "#/backend/entities/AIModel"
-          },
-          "description": "Stores AI model information.  Globally accessible, but creation/modification should be restricted to admins.",
-          "params": [
-            {
-              "name": "aiModelId",
-              "description": "The unique identifier for the AI model."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/users/{userId}/generated_content/{contentId}",
+        "path": "/users/{userId}/generatedContent/{generatedContentId}",
         "definition": {
           "entityName": "GeneratedContent",
           "schema": {
             "$ref": "#/backend/entities/GeneratedContent"
           },
-          "description": "Stores AI-generated content associated with a specific user. Includes denormalized 'userId' for authorization independence.",
+          "description": "Stores AI-generated content created by users. Path-based ownership is enforced through the /users/{userId} path, making security rules simple. Each content belongs to one user.",
           "params": [
             {
               "name": "userId",
-              "description": "The unique identifier for the user."
+              "description": "The unique identifier of the user who generated the content."
             },
             {
-              "name": "contentId",
-              "description": "The unique identifier for the generated content."
+              "name": "generatedContentId",
+              "description": "The unique identifier of the generated content."
             }
           ]
         }
       },
       {
-        "path": "/ai_models/{aiModelId}/example_prompts/{promptId}",
+        "path": "/aiModels/{aiModelId}",
         "definition": {
-          "entityName": "ExamplePrompt",
+          "entityName": "AiModel",
           "schema": {
-            "$ref": "#/backend/entities/ExamplePrompt"
+            "$ref": "#/backend/entities/AiModel"
           },
-          "description": "Stores example prompts associated with a specific AI model. Includes denormalized 'aiModelId' for authorization independence.",
+          "description": "Stores information about available AI models.",
           "params": [
             {
               "name": "aiModelId",
-              "description": "The unique identifier for the AI model."
+              "description": "The unique identifier of the AI model."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/promptExamples/{promptExampleId}",
+        "definition": {
+          "entityName": "PromptExample",
+          "schema": {
+            "$ref": "#/backend/entities/PromptExample"
+          },
+          "description": "Stores example prompts for AI models.",
+          "params": [
+            {
+              "name": "promptExampleId",
+              "description": "The unique identifier of the prompt example."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/collections/{collectionId}",
+        "definition": {
+          "entityName": "Collection",
+          "schema": {
+            "$ref": "#/backend/entities/Collection"
+          },
+          "description": "Stores collections of saved generated content for each user. Path-based ownership enforced by security rules.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user."
             },
             {
-              "name": "promptId",
-              "description": "The unique identifier for the example prompt."
+              "name": "collectionId",
+              "description": "The unique identifier of the collection."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/generatedContent/{generatedContentId}/count-likes/{countLikeId}",
+        "definition": {
+          "entityName": "CountLike",
+          "schema": {
+            "$ref": "#/backend/entities/CountLike"
+          },
+          "description": "Stores the likes for a generated content. Subcollection of generated content to easily query and manage. Path-based ownership enforced by security rules.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user who generated the content."
+            },
+            {
+              "name": "generatedContentId",
+              "description": "The unique identifier of the generated content."
+            },
+            {
+              "name": "countLikeId",
+              "description": "The unique identifier of the count like."
             }
           ]
         }
       }
     ],
-    "reasoning": "The Firestore structure is designed to ensure authorization independence, clarity, and scalability, following the defined principles. User data is stored under `/users/{userId}` to establish clear ownership. AI models are stored in a global collection `/ai_models` as they are centrally managed. Generated content is nested under users (`/users/{userId}/generated_content/{contentId}`) for ownership and isolation. Example prompts are stored under `/ai_models/{aiModelId}/example_prompts` to link them to specific models.\n\n*   **Authorization Independence:** The `GeneratedContent` includes the `userId` to avoid authorization lookups. The `ExamplePrompt` includes `aiModelId` for the same reason.\n*   **QAPs:** Secure `list` operations are achieved through structural segregation: user-generated content is isolated under each user's path (`/users/{userId}/generated_content`). Public AI Models are in a separate collection `/ai_models` with independent rules. Example Prompts are nested under their AI Model to restrict listing to relevant prompts only."
+    "reasoning": "The Firestore data structure is designed to support the Visionary Vault application, emphasizing secure and scalable data management. Key considerations include user-generated content, AI models, prompt examples, and collections of user-saved content. The structure prioritizes authorization independence and clear access control. User-owned data is organized under `/users/{userId}`. The `CountLike` documents, representing the likes for GeneratedContent, are stored as subcollections under each GeneratedContent document, promoting easier querying and security rule definition.\n\n**Authorization Independence:** For collections requiring authorization based on user roles or ownership, the structure denormalizes relevant data. The `GeneratedContent` documents are stored under the user's ID (`/users/{userId}/generatedContent/{generatedContentId}`), implicitly granting the user ownership and simplifying security rules.\n\n**QAPs (Rules are not Filters):** The structure supports secure list operations by segregating data with different access needs. User-generated content is stored under user-specific paths, ensuring that only the content owner can list or modify their content. The use of explicit paths for user-owned data like `/users/{userId}/generatedContent` supports simple and efficient security rules based on the `request.auth.uid` variable, preventing the need for complex filtering in the rules."
   }
 }
