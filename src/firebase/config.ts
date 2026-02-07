@@ -1,3 +1,6 @@
+import { initializeApp, getApp, getApps } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+
 export const firebaseConfig = {
   apiKey: "AIzaSyBjQULaRfWqFzVsmGVhmiEedyFo9X2Mrts",
   authDomain: "prompt-studio-dev.firebaseapp.com",
@@ -7,3 +10,9 @@ export const firebaseConfig = {
   appId: "1:270633349599:web:1850f1f1530af84170146a",
   measurementId: "G-8S22HHJK76"
 };
+
+// Initialize Firebase
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+export { db };
