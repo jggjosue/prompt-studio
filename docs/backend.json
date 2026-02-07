@@ -180,29 +180,35 @@
         "generatedContentIds"
       ]
     },
-    "CountLike": {
+    "LikeCount": {
       "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "CountLike",
+      "title": "LikeCount",
       "type": "object",
-      "description": "Represents the likes for a given content.",
+      "description": "Represents the total number of likes for a piece of content.",
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the CountLike entity."
-        },
-        "generatedContentId": {
-          "type": "string",
-          "description": "Reference to GeneratedContent. (Relationship: GeneratedContent 1:N CountLike)"
-        },
-        "likes": {
+        "count": {
           "type": "number",
-          "description": "The number of likes of the GeneratedContent."
+          "description": "The total number of likes."
         }
       },
       "required": [
-        "id",
-        "generatedContentId",
-        "likes"
+        "count"
+      ]
+    },
+    "UserLike": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "UserLike",
+      "type": "object",
+      "description": "A marker to indicate that a user has liked a specific piece of content.",
+      "properties": {
+        "likedAt": {
+          "type": "string",
+          "description": "The ISO 8601 timestamp when the like was created.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "likedAt"
       ]
     }
   },
@@ -303,30 +309,44 @@
         }
       },
       {
-        "path": "/users/{userId}/generatedContent/{generatedContentId}/count-likes/{countLikeId}",
+        "path": "/count-likes/{contentId}",
         "definition": {
-          "entityName": "CountLike",
+          "entityName": "LikeCount",
           "schema": {
-            "$ref": "#/backend/entities/CountLike"
+            "$ref": "#/backend/entities/LikeCount"
           },
-          "description": "Stores the likes for a generated content. Subcollection of generated content to easily query and manage. Path-based ownership enforced by security rules.",
+          "description": "Stores the like count for each piece of content. Document ID is the content ID.",
+          "params": [
+            {
+              "name": "contentId",
+              "description": "The unique identifier of the content."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/user-likes/{userId}/items/{contentId}",
+        "definition": {
+          "entityName": "UserLike",
+          "schema": {
+            "$ref": "#/backend/entities/UserLike"
+          },
+          "description": "Tracks which content a user has liked. Path-based ownership is enforced.",
           "params": [
             {
               "name": "userId",
-              "description": "The unique identifier of the user who generated the content."
+              "description": "The unique ID of the user."
             },
             {
-              "name": "generatedContentId",
-              "description": "The unique identifier of the generated content."
-            },
-            {
-              "name": "countLikeId",
-              "description": "The unique identifier of the count like."
+              "name": "contentId",
+              "description": "The unique ID of the liked content."
             }
           ]
         }
       }
     ],
-    "reasoning": "The Firestore data structure is designed to support the Visionary Vault application, emphasizing secure and scalable data management. Key considerations include user-generated content, AI models, prompt examples, and collections of user-saved content. The structure prioritizes authorization independence and clear access control. User-owned data is organized under `/users/{userId}`. The `CountLike` documents, representing the likes for GeneratedContent, are stored as subcollections under each GeneratedContent document, promoting easier querying and security rule definition.\n\n**Authorization Independence:** For collections requiring authorization based on user roles or ownership, the structure denormalizes relevant data. The `GeneratedContent` documents are stored under the user's ID (`/users/{userId}/generatedContent/{generatedContentId}`), implicitly granting the user ownership and simplifying security rules.\n\n**QAPs (Rules are not Filters):** The structure supports secure list operations by segregating data with different access needs. User-generated content is stored under user-specific paths, ensuring that only the content owner can list or modify their content. The use of explicit paths for user-owned data like `/users/{userId}/generatedContent` supports simple and efficient security rules based on the `request.auth.uid` variable, preventing the need for complex filtering in the rules."
+    "reasoning": "The Firestore data structure is designed to support the Visionary Vault application, emphasizing secure and scalable data management. Key considerations include user-generated content, AI models, prompt examples, and collections of user-saved content. The structure prioritizes authorization independence and clear access control. User-owned data is organized under `/users/{userId}`. The `LikeCount` documents, representing the likes for GeneratedContent, are stored in a top-level collection for easy public access, while `UserLike` documents are stored in a user-specific subcollection to track individual likes securely.\n\n**Authorization Independence:** For collections requiring authorization based on user roles or ownership, the structure denormalizes relevant data. The `GeneratedContent` documents are stored under the user's ID (`/users/{userId}/generatedContent/{generatedContentId}`), implicitly granting the user ownership and simplifying security rules.\n\n**QAPs (Rules are not Filters):** The structure supports secure list operations by segregating data with different access needs. User-generated content is stored under user-specific paths, ensuring that only the content owner can list or modify their content. The use of explicit paths for user-owned data like `/users/{userId}/generatedContent` supports simple and efficient security rules based on the `request.auth.uid` variable, preventing the need for complex filtering in the rules."
   }
 }
+
+    

@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
+import { FirebaseClientProvider } from '@/firebase';
 
 export const metadata: Metadata = {
   title: 'Prompt Studio',
@@ -89,10 +90,14 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
-          <Toaster />
+          <FirebaseClientProvider>
+            {children}
+            <Toaster />
+          </FirebaseClientProvider>
         </ThemeProvider>
       </body>
     </html>
   );
 }
+
+    
