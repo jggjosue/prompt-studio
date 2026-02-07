@@ -9,15 +9,14 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Heart, Tag, Wand2 } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useMemo, useState, useEffect, useCallback } from 'react';
-import { doc, getDoc, runTransaction, increment, serverTimestamp, onSnapshot } from 'firebase/firestore';
 import { useFirebase } from '@/firebase';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2 } from 'lucide-react';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { doc, getDoc, increment, onSnapshot, runTransaction, serverTimestamp } from 'firebase/firestore';
+import { Heart, Loader2, Tag, Wand2 } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 
 function LikeButton({ contentId }: { contentId: string }) {
