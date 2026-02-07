@@ -30,26 +30,39 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useSearchParams } from 'next/navigation';
 
 export default function ImagePromptsClient() {
   const [hasMounted, setHasMounted] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState('all');
   const itemsPerPage = 18;
+  const searchParams = useSearchParams();
+  const tagFromUrl = searchParams.get('tag');
 
   useEffect(() => {
     setHasMounted(true);
   }, []);
 
   const imageContent: ImagePlaceholder[] = useMemo(() => {
-    return PlaceHolderImages.filter(item => {
-      if (item.type !== 'image' || !item.imageUrl) return false;
-      if (filter === 'nano-banana') {
-        return item.tags.map(t => t.toLowerCase()).includes('nano banana');
-      }
-      return true;
-    });
-  }, [filter]);
+    let filteredImages = PlaceHolderImages.filter(
+      item => item.type === 'image' && item.imageUrl
+    );
+
+    if (filter === 'nano-banana') {
+      filteredImages = filteredImages.filter(item =>
+        item.tags.map(t => t.toLowerCase()).includes('nano banana')
+      );
+    }
+
+    if (tagFromUrl) {
+      filteredImages = filteredImages.filter(item =>
+        item.tags.map(t => t.toLowerCase()).includes(tagFromUrl.toLowerCase())
+      );
+    }
+    
+    return filteredImages;
+  }, [filter, tagFromUrl]);
 
   const [likes, setLikes] = useState<Record<string, { count: number; isLiked: boolean }>>({});
 
@@ -78,7 +91,7 @@ export default function ImagePromptsClient() {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [filter]);
+  }, [filter, tagFromUrl]);
 
   const totalPages = Math.ceil(imageContent.length / itemsPerPage);
 
@@ -219,9 +232,11 @@ export default function ImagePromptsClient() {
               </TabsList>
             </Tabs>
             <div className="flex gap-4 pt-4">
-              <Button variant="outline">
-                <Tag className="mr-2" />
-                Browse by Tags
+              <Button variant="outline" asChild>
+                <Link href="/image-tags">
+                  <Tag className="mr-2" />
+                  Browse by Tags
+                </Link>
               </Button>
               <Button asChild>
                 <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
@@ -264,26 +279,26 @@ export default function ImagePromptsClient() {
                 </CardContent>
                 <CardFooter className="bg-muted/50 p-4 border-t flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
-                    <div className="flex items-center gap-1">
-                      <Button variant="outline" size="icon" className="w-8 h-8" onClick={() => handleLike(item.id)}>
-                          <Heart className="w-4 h-4" fill={likes[item.id]?.isLiked ? 'currentColor' : 'none'} />
-                      </Button>
-                      <span className="text-xs text-muted-foreground">{likes[item.id]?.count}</span>
-                    </div>
                     <Button size="sm" asChild>
                       <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
                           <Wand2 className="w-4 h-4 mr-2" />
                           Use this prompt
                       </Link>
                     </Button>
+                     <Button
+                      variant="secondary"
+                      size="sm"
+                      asChild
+                    >
+                      <Link href={`/gallery/${item.id}`}>View</Link>
+                    </Button>
                   </div>
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    asChild
-                  >
-                    <Link href={`/gallery/${item.id}`}>View</Link>
-                  </Button>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-muted-foreground">{likes[item.id]?.count.toLocaleString()}</span>
+                    <Button variant="outline" size="icon" className="w-8 h-8" onClick={() => handleLike(item.id)}>
+                        <Heart className="w-4 h-4" fill={likes[item.id]?.isLiked ? 'currentColor' : 'none'} />
+                    </Button>
+                  </div>
                 </CardFooter>
               </Card>
             ))}
