@@ -27,6 +27,15 @@ import {
   Palette,
   Store,
 } from 'lucide-react';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
 import { cn } from '@/lib/utils';
 import { useState, useMemo, useEffect } from 'react';
 import {
@@ -44,6 +53,8 @@ const icons = {
 
 export default function VideoTagsClient() {
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 18;
 
   const { videoTagsData, totalVideos, totalUniqueTags } = useMemo(() => {
     const allVideos = PlaceHolderVideos.filter(
@@ -97,8 +108,80 @@ export default function VideoTagsClient() {
         item.imageUrl
     );
   }, [selectedTag]);
-  
-    const [likes, setLikes] = useState<
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedTag]);
+
+  const totalPages = Math.ceil(filteredVideos.length / itemsPerPage);
+  const paginatedVideos = filteredVideos.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
+  const renderPaginationLinks = () => {
+    const pageNumbers = [];
+    const maxPagesToShow = 5;
+    const halfMaxPages = Math.floor(maxPagesToShow / 2);
+
+    if (totalPages <= maxPagesToShow) {
+      for (let i = 1; i <= totalPages; i++) {
+        pageNumbers.push(i);
+      }
+    } else {
+      pageNumbers.push(1);
+      if (currentPage > halfMaxPages + 2) {
+        pageNumbers.push('ellipsis-start');
+      }
+
+      let startPage = Math.max(2, currentPage - halfMaxPages);
+      let endPage = Math.min(totalPages - 1, currentPage + halfMaxPages);
+
+      if (currentPage < halfMaxPages + 2) {
+        endPage = maxPagesToShow - 1;
+      }
+      if (currentPage > totalPages - (halfMaxPages + 1)) {
+        startPage = totalPages - (maxPagesToShow - 2);
+      }
+
+      for (let i = startPage; i <= endPage; i++) {
+        pageNumbers.push(i);
+      }
+
+      if (currentPage < totalPages - (halfMaxPages + 1)) {
+        pageNumbers.push('ellipsis-end');
+      }
+      pageNumbers.push(totalPages);
+    }
+
+    return pageNumbers.map((page, index) => {
+      if (typeof page === 'string') {
+        return <PaginationEllipsis key={page + index} />;
+      }
+      return (
+        <PaginationItem key={page}>
+          <PaginationLink
+            href="#"
+            isActive={currentPage === page}
+            onClick={e => {
+              e.preventDefault();
+              handlePageChange(page);
+            }}
+          >
+            {page}
+          </PaginationLink>
+        </PaginationItem>
+      );
+    });
+  };
+
+  const [likes, setLikes] = useState<
     Record<string, { count: number; isLiked: boolean }>
   >({});
 
@@ -238,38 +321,39 @@ export default function VideoTagsClient() {
               </Card>
             ))}
           </div>
-          
+
           {selectedTag && (
             <div className="mt-12">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline mb-8 text-center">
                 Videos tagged with &quot;{selectedTag}&quot;
               </h2>
               {filteredVideos.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                  {filteredVideos.map(item => (
-                    <Card
-                      key={item.id}
-                      className="overflow-hidden group h-full flex flex-col bg-card"
-                    >
-                      <CardHeader>
-                        <CardTitle className="font-headline text-xl">
-                          {item.title}
-                        </CardTitle>
-                        <CardDescription className="line-clamp-3 h-auto">
-                          {item.description}
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent className="p-6 pt-0 space-y-4 flex-grow">
-                        <div className="relative aspect-[9/16] rounded-md overflow-hidden">
-                          <video
-                            src={item.imageUrl}
-                            playsInline
-                            controls
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                      </CardContent>
-                       <CardFooter className="bg-muted/50 p-4 border-t flex items-center justify-between gap-2">
+                <>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                    {paginatedVideos.map(item => (
+                      <Card
+                        key={item.id}
+                        className="overflow-hidden group h-full flex flex-col bg-card"
+                      >
+                        <CardHeader>
+                          <CardTitle className="font-headline text-xl">
+                            {item.title}
+                          </CardTitle>
+                          <CardDescription className="line-clamp-3 h-auto">
+                            {item.description}
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent className="p-6 pt-0 space-y-4 flex-grow">
+                          <div className="relative aspect-[9/16] rounded-md overflow-hidden">
+                            <video
+                              src={item.imageUrl}
+                              playsInline
+                              controls
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                        </CardContent>
+                        <CardFooter className="bg-muted/50 p-4 border-t flex items-center justify-between gap-2">
                           <div className="flex items-center gap-2">
                             <Button size="sm" asChild>
                               <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
@@ -277,7 +361,7 @@ export default function VideoTagsClient() {
                                   Use this prompt
                               </Link>
                             </Button>
-                            <Button
+                             <Button
                               variant="secondary"
                               size="sm"
                               asChild
@@ -292,9 +376,39 @@ export default function VideoTagsClient() {
                             </Button>
                           </div>
                         </CardFooter>
-                    </Card>
-                  ))}
-                </div>
+                      </Card>
+                    ))}
+                  </div>
+                   {totalPages > 1 && (
+                    <div className="mt-12 flex justify-center">
+                      <Pagination>
+                        <PaginationContent>
+                          <PaginationItem>
+                            <PaginationPrevious
+                              href="#"
+                              onClick={e => {
+                                e.preventDefault();
+                                handlePageChange(currentPage - 1);
+                              }}
+                              aria-disabled={currentPage === 1}
+                            />
+                          </PaginationItem>
+                          {renderPaginationLinks()}
+                          <PaginationItem>
+                            <PaginationNext
+                              href="#"
+                              onClick={e => {
+                                e.preventDefault();
+                                handlePageChange(currentPage + 1);
+                              }}
+                              aria-disabled={currentPage === totalPages}
+                            />
+                          </PaginationItem>
+                        </PaginationContent>
+                      </Pagination>
+                    </div>
+                  )}
+                </>
               ) : (
                 <p className="text-center text-muted-foreground">No videos found for this tag.</p>
               )}
