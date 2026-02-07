@@ -215,7 +215,7 @@ export default function ImageTagsClient() {
               Explore Image Prompts by Tags
             </h1>
             <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-              Discover <strong>{totalImages}</strong> AI-generated images organized by{' '}
+              Discover AI-generated images organized by{' '}
               <strong>{totalUniqueTags}</strong> unique tags across visual styles, subjects,
               compositions, brands & products, and lighting. Find the perfect
               inspiration for your next creation!
