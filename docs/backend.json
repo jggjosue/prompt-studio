@@ -210,6 +210,21 @@
       "required": [
         "likedAt"
       ]
+    },
+    "PlaceholderImage": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "PlaceholderImage",
+      "type": "object",
+      "description": "Represents a placeholder image title seeded from a local JSON file.",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "The title of the placeholder image."
+        }
+      },
+      "required": [
+        "title"
+      ]
     }
   },
   "auth": {
@@ -343,10 +358,24 @@
             }
           ]
         }
+      },
+      {
+        "path": "/placeholderImages/{imageId}",
+        "definition": {
+          "entityName": "PlaceholderImage",
+          "schema": {
+            "$ref": "#/backend/entities/PlaceholderImage"
+          },
+          "description": "Stores placeholder image titles seeded from a script. Publicly readable.",
+          "params": [
+            {
+              "name": "imageId",
+              "description": "The unique identifier of the image."
+            }
+          ]
+        }
       }
     ],
     "reasoning": "The Firestore data structure is designed to support the Visionary Vault application, emphasizing secure and scalable data management. Key considerations include user-generated content, AI models, prompt examples, and collections of user-saved content. The structure prioritizes authorization independence and clear access control. User-owned data is organized under `/users/{userId}`. The `LikeCount` documents, representing the likes for GeneratedContent, are stored in a top-level collection for easy public access, while `UserLike` documents are stored in a user-specific subcollection to track individual likes securely.\n\n**Authorization Independence:** For collections requiring authorization based on user roles or ownership, the structure denormalizes relevant data. The `GeneratedContent` documents are stored under the user's ID (`/users/{userId}/generatedContent/{generatedContentId}`), implicitly granting the user ownership and simplifying security rules.\n\n**QAPs (Rules are not Filters):** The structure supports secure list operations by segregating data with different access needs. User-generated content is stored under user-specific paths, ensuring that only the content owner can list or modify their content. The use of explicit paths for user-owned data like `/users/{userId}/generatedContent` supports simple and efficient security rules based on the `request.auth.uid` variable, preventing the need for complex filtering in the rules."
   }
 }
-
-    
