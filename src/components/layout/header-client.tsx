@@ -80,7 +80,7 @@ export default function HeaderClient() {
           icon: <Tag className="h-5 w-5" />,
         },
         {
-          href: '#',
+          href: '/image-tags',
           label: 'Image Tags',
           description: 'Browse AI image tags',
           icon: <Tag className="h-5 w-5" />,
