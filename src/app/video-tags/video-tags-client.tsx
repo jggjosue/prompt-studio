@@ -282,7 +282,7 @@ export default function VideoTagsClient() {
                               size="sm"
                               asChild
                             >
-                              <Link href={\`/gallery-videos/${item.id}\`}>View</Link>
+                              <Link href={`/gallery-videos/${item.id}`}>View</Link>
                             </Button>
                           </div>
                           <div className="flex items-center gap-2">
