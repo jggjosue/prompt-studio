@@ -46,34 +46,35 @@ export default function VideoTagsClient() {
       item => item.type === 'video' && item.imageUrl
     );
     const tagCounts: Record<string, number> = {};
+    const allTagsFromData = new Set<string>();
 
     allVideos.forEach(video => {
       video.tags.forEach(tag => {
         tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+        allTagsFromData.add(tag);
       });
     });
 
-    const allTags = new Set<string>();
-    staticVideoTagsData.forEach(category => {
-      category.tags.forEach(tag => {
-        allTags.add(tag.name);
-      });
-    });
-
-    const dynamicVideoTagsData = staticVideoTagsData.map(category => ({
-      ...category,
-      tags: category.tags
+    const dynamicVideoTagsData = staticVideoTagsData.map(category => {
+      const tagsWithCounts = category.tags
         .map(tag => ({
           ...tag,
           count: tagCounts[tag.name] || 0,
         }))
-        .sort((a, b) => b.count - a.count),
-    }));
+        .filter(tag => tag.count > 0)
+        .sort((a, b) => b.count - a.count);
+
+      return {
+        ...category,
+        tags: tagsWithCounts,
+        count: tagsWithCounts.length,
+      };
+    });
 
     return {
       videoTagsData: dynamicVideoTagsData,
       totalVideos: allVideos.length,
-      totalUniqueTags: allTags.size,
+      totalUniqueTags: allTagsFromData.size,
     };
   }, []);
 
@@ -196,7 +197,7 @@ export default function VideoTagsClient() {
                   <h2 className="text-2xl font-bold font-headline">
                     {category.name}
                   </h2>
-                  <Badge variant="secondary">{category.tags.length}</Badge>
+                  <Badge variant="secondary">{category.count}</Badge>
                 </div>
                 <p className="text-muted-foreground mb-6">
                   {category.description}
