@@ -7,7 +7,7 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { PlaceHolderVideos } from '@/lib/placeholder-videos';
 
 export async function GET() {
-  console.log('Seeding database...');
+  console.log('Seeeding database...');
   try {
     const batch = writeBatch(db);
 
