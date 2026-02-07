@@ -11,7 +11,7 @@ export type TagCategory = {
 
 const visualStyles: TagCategory = {
   name: 'Visual Styles',
-  count: 11,
+  count: 1997,
   description: 'Overall visual aesthetic and style approaches',
   icon: 'Palette',
   tags: [
