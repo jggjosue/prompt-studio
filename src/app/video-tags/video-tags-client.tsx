@@ -222,7 +222,7 @@ export default function VideoTagsClient() {
               Explore Video Prompts by Tags
             </h1>
             <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-              Discover <strong>{totalVideos}</strong> AI-generated videos organized by{' '}
+              Discover AI-generated videos organized by{' '}
               <strong>{totalUniqueTags}</strong> unique tags across visual styles, settings, subjects,
               brands & products, and effects & techniques. Find the perfect inspiration for your next creation!
             </p>
