@@ -6,28 +6,23 @@
  *
  * Data Structure: The data is organized into two main categories:
  * 1. User-Private Data: Nested under `/users/{userId}`, this includes collections for
- *    `generatedContent`, `collections`, and `count-likes`. Access is strictly limited
+ *    `generatedContent`, `collections`, and `user-likes`. Access is strictly limited
  *    to the authenticated owner of the parent user document.
- * 2. Public Read-Only Data: Top-level collections like `/aiModels` and `/promptExamples`
- *    contain application-wide data that is readable by anyone but cannot be modified
- *    by client applications.
+ * 2. Public Data: Collections like `/aiModels`, `/promptExamples`, and `/count-likes`
+ *    contain application-wide data that is readable by anyone but has restricted write access.
  *
  * Key Security Decisions:
  * - User Enumeration is disallowed by preventing `list` operations on the top-level `/users` collection.
- * - All write operations (create, update, delete) require user authentication.
+ * - All write operations (create, update, delete) require user authentication unless specified.
  * - Public data collections (`aiModels`, `promptExamples`) are strictly read-only from the client-side
  *   to prevent unauthorized modification.
- * - Relational integrity is enforced on creation by ensuring document fields like `userId`
- *   match the user ID in the document path. These fields are immutable on update.
+ * - Like counts can be updated atomically by any authenticated user.
+ * - A user's own likes are private and can only be managed by them.
  *
  * Denormalization for Authorization: The entire structure is built on this principle. By placing
  * all of a user's data within their own document tree (e.g., `/users/{userId}/...`), we avoid
  * complex and slow `get()` calls. Authorization checks are fast and simple, based directly on
  * the `userId` wildcard in the path.
- *
- * Structural Segregation: The design clearly separates private user data (under `/users`)
- * from public application data (`/aiModels`, `/promptExamples`), which is a secure and performant
- * pattern for managing access control.
  */
 rules_version = '2';
 service cloud.firestore {
@@ -67,9 +62,6 @@ service cloud.firestore {
     /**
      * @description Controls access to user profile documents.
      * @path /users/{userId}
-     * @allow (create) An authenticated user can create their own profile document.
-     * @deny (create) An authenticated user cannot create a profile for another user's ID.
-     * @principle A user can create their own root document, and then has full control over it.
      */
     match /users/{userId} {
       allow get: if isOwner(userId);
@@ -82,9 +74,6 @@ service cloud.firestore {
     /**
      * @description Controls access to a user's generated content.
      * @path /users/{userId}/generatedContent/{generatedContentId}
-     * @allow (create) The owner can create new content under their own user path.
-     * @deny (list) A different user cannot list another user's content.
-     * @principle Restricts access to a user's own data tree.
      */
     match /users/{userId}/generatedContent/{generatedContentId} {
       allow get: if isOwner(userId);
@@ -97,9 +86,6 @@ service cloud.firestore {
     /**
      * @description Controls access to a user's personal collections of content.
      * @path /users/{userId}/collections/{collectionId}
-     * @allow (update) The owner can update a collection they created.
-     * @deny (get) A different user cannot read another user's collection document.
-     * @principle Restricts access to a user's own data tree.
      */
     match /users/{userId}/collections/{collectionId} {
       allow get: if isOwner(userId);
@@ -109,53 +95,50 @@ service cloud.firestore {
       allow delete: if isExistingOwner(userId);
     }
 
+    // --------------------------------
+    // Public and Semi-Public Data Rules
+    // --------------------------------
+
     /**
-     * @description Controls access to the likes count for a piece of generated content.
-     * @path /users/{userId}/generatedContent/{generatedContentId}/count-likes/{countLikeId}
-     * @allow (create) The content owner can create a like-counter document for their content.
-     * @deny (update) An unauthenticated user cannot update the like count.
-     * @principle Enforces strict ownership based on the hierarchical path. Only the content owner can manage associated data.
+     * @description Publicly readable like counts for content.
+     * @path /count-likes/{contentId}
      */
-    match /users/{userId}/generatedContent/{generatedContentId}/count-likes/{countLikeId} {
-      allow get: if isOwner(userId);
-      allow list: if isOwner(userId);
-      allow create: if isOwner(userId) && request.resource.data.generatedContentId == generatedContentId;
-      allow update: if isExistingOwner(userId) && request.resource.data.generatedContentId == resource.data.generatedContentId;
-      allow delete: if isExistingOwner(userId);
+    match /count-likes/{contentId} {
+      allow get, list: if true;
+      allow create: if isSignedIn() && request.resource.data.count == 1;
+      // This rule ensures atomic increments/decrements and nothing else.
+      allow update: if isSignedIn()
+                    && request.resource.data.keys().hasOnly(['count'])
+                    && (request.resource.data.count == resource.data.count + 1 ||
+                        request.resource.data.count == resource.data.count - 1);
+      allow delete: if false;
     }
 
-    // --------------------------------
-    // Public Data Rules
-    // --------------------------------
+    /**
+     * @description Tracks which items a user has liked.
+     * @path /user-likes/{userId}/items/{contentId}
+     */
+    match /user-likes/{userId}/items/{contentId} {
+      allow read, write: if isOwner(userId);
+    }
 
     /**
      * @description Controls access to the list of available AI models.
      * @path /aiModels/{aiModelId}
-     * @allow (get, list) Any user, including unauthenticated ones, can read model information.
-     * @deny (create, update, delete) No client can modify the list of AI models.
-     * @principle Provides public read-only access to application configuration data.
      */
     match /aiModels/{aiModelId} {
-      allow get: if true;
-      allow list: if true;
-      allow create: if false;
-      allow update: if false;
-      allow delete: if false;
+      allow get, list: if true;
+      allow write: if false;
     }
 
     /**
      * @description Controls access to example prompts for users.
      * @path /promptExamples/{promptExampleId}
-     * @allow (get, list) Any user, including unauthenticated ones, can read example prompts.
-     * @deny (create, update, delete) No client can modify the list of prompts.
-     * @principle Provides public read-only access to application configuration data.
      */
     match /promptExamples/{promptExampleId} {
-      allow get: if true;
-      allow list: if true;
-      allow create: if false;
-      allow update: if false;
-      allow delete: if false;
+      allow get, list: if true;
+      allow write: if false;
     }
   }
 }
+    

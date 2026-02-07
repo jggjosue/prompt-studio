@@ -18,13 +18,107 @@ import {
     PlaceHolderVideos,
     type VideoProp,
 } from '@/lib/placeholder-videos';
-import { ArrowLeft, Heart, PlayCircle, Wand2, Copy } from 'lucide-react';
+import { ArrowLeft, Heart, PlayCircle, Wand2, Copy, Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import Footer from '@/components/layout/footer';
+import { useFirebase } from '@/firebase';
+import { doc, getDoc, runTransaction, increment, serverTimestamp, onSnapshot } from 'firebase/firestore';
+
+
+function LikeButton({ contentId, className }: { contentId: string, className?: string }) {
+  const { firestore, user, isUserLoading } = useFirebase();
+  const { toast } = useToast();
+
+  const [likeCount, setLikeCount] = useState<number | null>(null);
+  const [isLiked, setIsLiked] = useState(false);
+  const [isLiking, setIsLiking] = useState(false);
+
+  useEffect(() => {
+    if (!firestore) return;
+    const countDocRef = doc(firestore, 'count-likes', contentId);
+    const unsubscribe = onSnapshot(countDocRef, (snapshot) => {
+      setLikeCount(snapshot.exists() ? snapshot.data().count : 0);
+    });
+    return () => unsubscribe();
+  }, [firestore, contentId]);
+
+  useEffect(() => {
+    if (!firestore || !user) {
+        setIsLiked(false);
+        return;
+    };
+    const checkLikeStatus = async () => {
+        const userLikeRef = doc(firestore, `user-likes/${user.uid}/items/${contentId}`);
+        const docSnap = await getDoc(userLikeRef);
+        setIsLiked(docSnap.exists());
+    }
+    checkLikeStatus();
+    
+    // Also listen for realtime changes in case it's updated elsewhere
+    const userLikeRef = doc(firestore, `user-likes/${user.uid}/items/${contentId}`);
+    const unsubscribe = onSnapshot(userLikeRef, (docSnap) => {
+        setIsLiked(docSnap.exists());
+    });
+
+    return () => unsubscribe();
+
+  }, [firestore, user, contentId]);
+
+  const handleLike = useCallback(async (e?: React.MouseEvent) => {
+    e?.preventDefault();
+    e?.stopPropagation();
+
+    if (!firestore || !user) {
+      toast({
+        title: 'Authentication required',
+        description: 'Please sign in to like content.',
+        variant: 'destructive',
+      });
+      return;
+    }
+    if (isLiking) return;
+    setIsLiking(true);
+
+    const countDocRef = doc(firestore, 'count-likes', contentId);
+    const userLikeRef = doc(firestore, `user-likes/${user.uid}/items/${contentId}`);
+
+    try {
+        await runTransaction(firestore, async (transaction) => {
+            const userLikeDoc = await transaction.get(userLikeRef);
+
+            if (userLikeDoc.exists()) {
+                transaction.delete(userLikeRef);
+                transaction.set(countDocRef, { count: increment(-1) }, { merge: true });
+            } else {
+                transaction.set(userLikeRef, { likedAt: serverTimestamp() });
+                transaction.set(countDocRef, { count: increment(1) }, { merge: true });
+            }
+        });
+    } catch (error) {
+        console.error("Like transaction failed: ", error);
+        toast({
+            title: 'Error',
+            description: 'Could not update like status. Please try again.',
+            variant: 'destructive',
+        });
+    } finally {
+        setIsLiking(false);
+    }
+  }, [firestore, user, contentId, isLiking, toast]);
+
+  return (
+    <div className="flex items-center gap-1">
+      {likeCount !== null ? <span className="text-xs font-semibold">{likeCount.toLocaleString()}</span> : <Loader2 className="h-4 w-4 animate-spin" />}
+      <Button size="icon" variant="ghost" className={className} onClick={handleLike} disabled={isLiking || isUserLoading}>
+        <Heart fill={isLiked ? 'currentColor' : 'none'} className={isLiked ? 'text-red-500' : ''} />
+      </Button>
+    </div>
+  );
+}
+
 
 export default function GalleryDetailClient({ item }: { item: ImagePlaceholder | VideoProp }) {
   const otherItems = useMemo(() => [
@@ -32,31 +126,7 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
     ...PlaceHolderVideos.filter(p => p.id !== item.id && p.imageUrl),
   ].slice(0, 3), [item.id]);
   
-  const [likes, setLikes] = useState<Record<string, { count: number; isLiked: boolean }>>({});
   const { toast } = useToast();
-
-  useEffect(() => {
-      const initialLikes: Record<string, { count: number; isLiked: boolean }> = {};
-      [item, ...otherItems].forEach(i => {
-          if (i.imageUrl) {
-              const deterministicCount = (parseInt(i.id.replace(/\D/g, '') || "0", 10) % 2400) + 100;
-              initialLikes[i.id] = { count: deterministicCount, isLiked: false };
-          }
-      });
-      setLikes(initialLikes);
-  }, [item, otherItems]);
-
-  const handleLike = (itemId: string) => {
-    setLikes(prev => {
-        const currentItem = prev[itemId];
-        const newIsLiked = !currentItem.isLiked;
-        const newCount = newIsLiked ? currentItem.count + 1 : currentItem.count - 1;
-        return {
-            ...prev,
-            [itemId]: { count: newCount, isLiked: newIsLiked }
-        };
-    });
-  };
 
   const handleCopy = () => {
     navigator.clipboard.writeText(item.description).then(() => {
@@ -106,12 +176,7 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                       data-ai-hint={item.imageHint}
                     />
                     <div className="absolute bottom-4 right-4 flex items-start gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <div className="flex items-center gap-1 text-white">
-                        <span className="text-xs font-semibold">{likes[item.id]?.count.toLocaleString()}</span>
-                        <Button size="icon" variant="ghost" className="text-white bg-black/20 hover:text-white hover:bg-black/40" onClick={() => handleLike(item.id)}>
-                            <Heart fill={likes[item.id]?.isLiked ? 'currentColor' : 'none'} className={likes[item.id]?.isLiked ? 'text-red-500' : ''} />
-                        </Button>
-                      </div>
+                      <LikeButton contentId={item.id} className="text-white bg-black/20 hover:text-white hover:bg-black/40" />
                       <Button size="sm" variant="secondary" asChild>
                         <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
                             <Wand2 className="mr-2" />
@@ -218,12 +283,7 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                             <span className="text-sm text-muted-foreground">
                               By AI Artist
                             </span>
-                            <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                               <span>{likes[other.id]?.count.toLocaleString()}</span>
-                               <Button variant="ghost" size="icon" className="w-6 h-6" onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleLike(other.id); }}>
-                                <Heart className="w-4 h-4" fill={likes[other.id]?.isLiked ? 'currentColor' : 'none'} />
-                              </Button>
-                            </div>
+                            <LikeButton contentId={other.id} className="w-6 h-6" />
                           </div>
                         </div>
                       </CardContent>
@@ -247,3 +307,5 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
     </div>
   );
 }
+
+    

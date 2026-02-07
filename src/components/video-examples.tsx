@@ -10,39 +10,104 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { PlaceHolderVideos } from '@/lib/placeholder-videos';
-import { Heart, Tag, Wand2 } from 'lucide-react';
+import { Heart, Tag, Wand2, Loader2 } from 'lucide-react';
 import Link from 'next/link';
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useEffect, useCallback } from 'react';
+import { doc, getDoc, runTransaction, increment, serverTimestamp, onSnapshot } from 'firebase/firestore';
+import { useFirebase } from '@/firebase';
+import { useToast } from '@/hooks/use-toast';
+
+function LikeButton({ contentId }: { contentId: string }) {
+  const { firestore, user, isUserLoading } = useFirebase();
+  const { toast } = useToast();
+
+  const [likeCount, setLikeCount] = useState<number | null>(null);
+  const [isLiked, setIsLiked] = useState(false);
+  const [isLiking, setIsLiking] = useState(false);
+
+  useEffect(() => {
+    if (!firestore) return;
+    const countDocRef = doc(firestore, 'count-likes', contentId);
+    const unsubscribe = onSnapshot(countDocRef, (snapshot) => {
+      setLikeCount(snapshot.exists() ? snapshot.data().count : 0);
+    });
+    return () => unsubscribe();
+  }, [firestore, contentId]);
+
+  useEffect(() => {
+    if (!firestore || !user) {
+        setIsLiked(false);
+        return;
+    };
+    const checkLikeStatus = async () => {
+        const userLikeRef = doc(firestore, `user-likes/${user.uid}/items/${contentId}`);
+        const docSnap = await getDoc(userLikeRef);
+        setIsLiked(docSnap.exists());
+    }
+    checkLikeStatus();
+
+    const userLikeRef = doc(firestore, `user-likes/${user.uid}/items/${contentId}`);
+    const unsubscribe = onSnapshot(userLikeRef, (docSnap) => {
+        setIsLiked(docSnap.exists());
+    });
+
+    return () => unsubscribe();
+
+  }, [firestore, user, contentId]);
+
+  const handleLike = useCallback(async () => {
+    if (!firestore || !user) {
+      toast({
+        title: 'Authentication required',
+        description: 'Please sign in to like content.',
+        variant: 'destructive',
+      });
+      return;
+    }
+    if (isLiking) return;
+    setIsLiking(true);
+
+    const countDocRef = doc(firestore, 'count-likes', contentId);
+    const userLikeRef = doc(firestore, `user-likes/${user.uid}/items/${contentId}`);
+
+    try {
+        await runTransaction(firestore, async (transaction) => {
+            const userLikeDoc = await transaction.get(userLikeRef);
+
+            if (userLikeDoc.exists()) {
+                transaction.delete(userLikeRef);
+                transaction.set(countDocRef, { count: increment(-1) }, { merge: true });
+            } else {
+                transaction.set(userLikeRef, { likedAt: serverTimestamp() });
+                transaction.set(countDocRef, { count: increment(1) }, { merge: true });
+            }
+        });
+    } catch (error) {
+        console.error("Like transaction failed: ", error);
+        toast({
+            title: 'Error',
+            description: 'Could not update like status. Please try again.',
+            variant: 'destructive',
+        });
+    } finally {
+        setIsLiking(false);
+    }
+  }, [firestore, user, contentId, isLiking, toast]);
+
+  return (
+    <div className="flex items-center gap-1 text-muted-foreground">
+        {likeCount !== null ? <span>{likeCount.toLocaleString()}</span> : <Loader2 className="h-4 w-4 animate-spin" />}
+       <Button variant="outline" size="icon" className="w-8 h-8" onClick={handleLike} disabled={isLiking || isUserLoading}>
+        <Heart className="w-4 h-4" fill={isLiked ? 'currentColor' : 'none'} />
+      </Button>
+    </div>
+  );
+}
 
 export default function VideoExamples() {
   const videoContent = useMemo(() => {
     return PlaceHolderVideos.slice(0, 9);
   }, []);
-
-  const [likes, setLikes] = useState<Record<string, { count: number; isLiked: boolean }>>({});
-
-  useEffect(() => {
-    const initialLikes: Record<string, { count: number; isLiked: boolean }> = {};
-    videoContent.forEach(i => {
-        if (i.imageUrl) {
-          const deterministicCount = (parseInt(i.id.replace(/\D/g, '') || "0", 10) % 2400) + 100;
-          initialLikes[i.id] = { count: deterministicCount, isLiked: false };
-        }
-    });
-    setLikes(initialLikes);
-  }, [videoContent]);
-
-  const handleLike = (itemId: string) => {
-    setLikes(prev => {
-        const currentItem = prev[itemId];
-        const newIsLiked = !currentItem.isLiked;
-        const newCount = newIsLiked ? currentItem.count + 1 : currentItem.count - 1;
-        return {
-            ...prev,
-            [itemId]: { count: newCount, isLiked: newIsLiked }
-        };
-    });
-  };
 
   return (
     <>
@@ -92,10 +157,7 @@ export default function VideoExamples() {
                   </Button>
                 </div>
                 <div className="flex items-center gap-1">
-                  <span className="text-xs text-muted-foreground">{likes[item.id]?.count.toLocaleString()}</span>
-                  <Button variant="outline" size="icon" className="w-8 h-8" onClick={() => handleLike(item.id)}>
-                      <Heart className="w-4 h-4" fill={likes[item.id]?.isLiked ? 'currentColor' : 'none'} />
-                  </Button>
+                  <LikeButton contentId={item.id} />
                 </div>
             </CardFooter>
           </Card>
@@ -104,3 +166,5 @@ export default function VideoExamples() {
     </>
   );
 }
+
+    
