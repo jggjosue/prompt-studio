@@ -16,10 +16,10 @@ import { doc, getDoc, onSnapshot, runTransaction, serverTimestamp } from 'fireba
 import { Heart, Loader2, Tag, Wand2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Suspense, useCallback, useEffect, useMemo, useState } from 'react';
 
 
-function LikeButton({ contentId }: { contentId: string }) {
+function LikeButtonContent({ contentId }: { contentId: string }) {
   const { firestore, user, isUserLoading } = useFirebase();
   const { toast } = useToast();
 
@@ -143,7 +143,28 @@ function LikeButton({ contentId }: { contentId: string }) {
   );
 }
 
-export default function ImageExamples() {
+function LikeButton({ contentId }: { contentId: string }) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div className="flex items-center gap-1 text-muted-foreground">
+        <span className="text-xs">-</span>
+        <Button variant="outline" size="icon" className="w-8 h-8" disabled>
+          <Heart className="w-4 h-4" />
+        </Button>
+      </div>
+    );
+  }
+
+  return <LikeButtonContent contentId={contentId} />;
+}
+
+function ImageExamplesContent() {
   const imageContent = useMemo(() => {
     return PlaceHolderImages.filter(
       item => item.type === 'image' && item.imageUrl
@@ -206,5 +227,13 @@ export default function ImageExamples() {
         ))}
       </div>
     </>
+  );
+}
+
+export default function ImageExamples() {
+  return (
+    <Suspense fallback={<div className="flex w-full justify-center py-10"><Loader2 className="h-8 w-8 animate-spin text-muted-foreground" /></div>}>
+      <ImageExamplesContent />
+    </Suspense>
   );
 }
