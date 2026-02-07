@@ -15,7 +15,7 @@ export async function GET() {
     const placeholderImagesCollection = collection(db, 'placeholderImages');
     PlaceHolderImages.forEach((image) => {
       const docRef = doc(placeholderImagesCollection, image.id);
-      batch.set(docRef, { title: image.title });
+      batch.set(docRef, { title: image.title, likes: 0 });
     });
 
     // Seed Videos
