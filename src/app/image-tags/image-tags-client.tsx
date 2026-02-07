@@ -72,9 +72,8 @@ export default function ImageTagsClient() {
     });
 
     const allTags = new Set<string>();
-    const dynamicImageTagsData = staticImageTagsData.map(category => ({
-      ...category,
-      tags: category.tags
+    const dynamicImageTagsData = staticImageTagsData.map(category => {
+      const tagsWithCounts = category.tags
         .map(tag => {
           allTags.add(tag.name);
           return {
@@ -82,8 +81,19 @@ export default function ImageTagsClient() {
             count: tagCounts[tag.name] || 0,
           };
         })
-        .sort((a, b) => b.count - a.count),
-    }));
+        .sort((a, b) => b.count - a.count);
+
+      const categoryCount = tagsWithCounts.reduce(
+        (sum, tag) => sum + tag.count,
+        0
+      );
+
+      return {
+        ...category,
+        tags: tagsWithCounts,
+        count: categoryCount,
+      };
+    });
 
     return {
       imageTagsData: dynamicImageTagsData,
