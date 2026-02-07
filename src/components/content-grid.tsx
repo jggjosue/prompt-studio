@@ -25,11 +25,16 @@ function LikeButton({ contentId, contentType }: { contentId: string; contentType
   const [likeCount, setLikeCount] = useState<number | null>(null);
   const [isLiked, setIsLiked] = useState(false);
   const [isLiking, setIsLiking] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   const collection = contentType === 'video' ? 'placeholderVideos' : 'placeholderImages';
 
   useEffect(() => {
-    if (!firestore) return;
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!firestore || !mounted) return;
     const countDocRef = doc(firestore, collection, contentId);
     const unsubscribe = onSnapshot(countDocRef, (snapshot) => {
       if (snapshot.exists()) {
@@ -41,10 +46,10 @@ function LikeButton({ contentId, contentType }: { contentId: string; contentType
       }
     });
     return () => unsubscribe();
-  }, [firestore, contentId, collection]);
+  }, [firestore, contentId, collection, mounted]);
 
   useEffect(() => {
-    if (!firestore || !user) {
+    if (!firestore || !user || !mounted) {
         setIsLiked(false);
         return;
     };
@@ -62,7 +67,7 @@ function LikeButton({ contentId, contentType }: { contentId: string; contentType
 
     return () => unsubscribe();
 
-  }, [firestore, user, contentId, collection]);
+  }, [firestore, user, contentId, collection, mounted]);
 
   const handleLike = useCallback(async () => {
     if (!firestore || !user) {
@@ -107,6 +112,17 @@ function LikeButton({ contentId, contentType }: { contentId: string; contentType
         setIsLiking(false);
     }
   }, [firestore, user, contentId, isLiking, toast, collection]);
+
+  if (!mounted) {
+    return (
+      <div className="flex items-center gap-1 text-muted-foreground">
+        <Loader2 className="h-4 w-4 animate-spin" />
+        <Button variant="ghost" size="icon" className="w-8 h-8" disabled>
+          <Heart className="w-4 h-4" />
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <div className="flex items-center gap-1 text-muted-foreground">
