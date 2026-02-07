@@ -1,5 +1,5 @@
-import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { PlaceHolderVideos } from '@/lib/placeholder-videos';
+import { PlaceHolderImages, type ImagePlaceholder } from '@/lib/placeholder-images';
+import { PlaceHolderVideos, type VideoProp } from '@/lib/placeholder-videos';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import GalleryDetailClient from './gallery-detail-client';

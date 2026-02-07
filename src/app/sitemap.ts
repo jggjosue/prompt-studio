@@ -3,7 +3,7 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { PlaceHolderVideos } from '@/lib/placeholder-videos';
 import { MetadataRoute } from 'next';
 
-const BASE_URL = 'https://www.prompt-studio.com';
+const BASE_URL = 'https://www.prompstudio.com';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = [
