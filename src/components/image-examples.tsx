@@ -19,7 +19,7 @@ import Link from 'next/link';
 import { Suspense, useCallback, useEffect, useMemo, useState } from 'react';
 
 
-function LikeButtonContent({ contentId }: { contentId: string }) {
+function LikeButtonContent({ contentId, contentType }: { contentId: string; contentType: string }) {
   const { firestore, user, isUserLoading } = useFirebase();
   const { toast } = useToast();
 
@@ -27,6 +27,7 @@ function LikeButtonContent({ contentId }: { contentId: string }) {
   const [isLiked, setIsLiked] = useState(false);
   const [isLiking, setIsLiking] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const collection = contentType === 'video' ? 'placeholderVideos' : 'placeholderImages';
 
   useEffect(() => {
     setMounted(true);
@@ -34,8 +35,7 @@ function LikeButtonContent({ contentId }: { contentId: string }) {
 
   useEffect(() => {
     if (!firestore || !mounted) return;
-    // Assuming this component is for images, collection is 'placeholderImages'
-    const docRef = doc(firestore, 'placeholderImages', contentId);
+    const docRef = doc(firestore, collection, contentId);
     const unsubscribe = onSnapshot(docRef, (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.data();
@@ -47,7 +47,7 @@ function LikeButtonContent({ contentId }: { contentId: string }) {
       }
     });
     return () => unsubscribe();
-  }, [firestore, contentId, mounted]);
+  }, [firestore, contentId, mounted, collection]);
 
   useEffect(() => {
     if (!firestore || !user || !mounted) {
@@ -55,19 +55,19 @@ function LikeButtonContent({ contentId }: { contentId: string }) {
         return;
     };
     const checkLikeStatus = async () => {
-        const userLikeRef = doc(firestore, `user-likes/${user.uid}/items/${contentId}`);
+        const userLikeRef = doc(firestore, `${collection}/${user.uid}/items/${contentId}`);
         const docSnap = await getDoc(userLikeRef);
         setIsLiked(docSnap.exists());
     }
     checkLikeStatus();
 
-    const userLikeRef = doc(firestore, `user-likes/${user.uid}/items/${contentId}`);
+    const userLikeRef = doc(firestore, `${collection}/${user.uid}/items/${contentId}`);
     const unsubscribe = onSnapshot(userLikeRef, (docSnap) => {
         setIsLiked(docSnap.exists());
     });
 
     return () => unsubscribe();
-  }, [firestore, user, contentId, mounted]);
+  }, [firestore, user, contentId, mounted, collection]);
 
   const handleLike = useCallback(async () => {
     if (isLiking) return;
@@ -83,8 +83,8 @@ function LikeButtonContent({ contentId }: { contentId: string }) {
 
     try {
       await runTransaction(firestore, async (transaction) => {
-        const docRef = doc(firestore, 'placeholderImages', contentId);
-        const userLikeRef = doc(firestore, `user-likes/${user.uid}/items/${contentId}`);
+        const docRef = doc(firestore, collection, contentId);
+        const userLikeRef = doc(firestore, `${collection}/${user.uid}/items/${contentId}`);
 
         const docSnap = await transaction.get(docRef);
         const userLikeSnap = await transaction.get(userLikeRef);
@@ -120,7 +120,7 @@ function LikeButtonContent({ contentId }: { contentId: string }) {
     } finally {
       setIsLiking(false);
     }
-  }, [isLiking, user, contentId, toast, firestore]);
+  }, [isLiking, user, contentId, toast, firestore, collection]);
 
   if (!mounted) {
     return (
@@ -143,7 +143,7 @@ function LikeButtonContent({ contentId }: { contentId: string }) {
   );
 }
 
-function LikeButton({ contentId }: { contentId: string }) {
+function LikeButton({ contentId, contentType }: { contentId: string; contentType: string }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -161,7 +161,7 @@ function LikeButton({ contentId }: { contentId: string }) {
     );
   }
 
-  return <LikeButtonContent contentId={contentId} />;
+  return <LikeButtonContent contentId={contentId} contentType={contentType} />;
 }
 
 function ImageExamplesContent() {
@@ -220,7 +220,7 @@ function ImageExamplesContent() {
                   </Button>
                 </div>
                 <div className="flex items-center gap-1">
-                  <LikeButton contentId={item.id} />
+                  <LikeButton contentId={item.id} contentType={item.type} />
                 </div>
             </CardFooter>
           </Card>
