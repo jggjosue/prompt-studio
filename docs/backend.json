@@ -225,6 +225,26 @@
       "required": [
         "title"
       ]
+    },
+    "PlaceholderVideo": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "PlaceholderVideo",
+      "type": "object",
+      "description": "Represents a placeholder video title seeded from a local JSON file.",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "The title of the placeholder video."
+        },
+        "likes": {
+            "type": "number",
+            "description": "The number of likes for the video."
+        }
+      },
+      "required": [
+        "title",
+        "likes"
+      ]
     }
   },
   "auth": {
@@ -371,6 +391,22 @@
             {
               "name": "imageId",
               "description": "The unique identifier of the image."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/placeholderVideos/{videoId}",
+        "definition": {
+          "entityName": "PlaceholderVideo",
+          "schema": {
+            "$ref": "#/backend/entities/PlaceholderVideo"
+          },
+          "description": "Stores placeholder video titles and likes seeded from a script. Publicly readable.",
+          "params": [
+            {
+              "name": "videoId",
+              "description": "The unique identifier of the video."
             }
           ]
         }

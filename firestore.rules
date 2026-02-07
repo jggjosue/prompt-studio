@@ -152,5 +152,18 @@ service cloud.firestore {
       allow read: if true;
       allow create, update: if true; // DANGEROUS: Secure this after seeding!
     }
+
+    /**
+     * @description Stores placeholder video titles, seeded from a script.
+     * @path /placeholderVideos/{videoId}
+     *
+     * WARNING: The write rule is temporarily open to allow for initial data seeding
+     * via the /api/seed endpoint. It is highly recommended to secure this after
+     * seeding by changing `allow write` to `if false;`.
+     */
+    match /placeholderVideos/{videoId} {
+      allow read: if true;
+      allow create, update: if true; // DANGEROUS: Secure this after seeding!
+    }
   }
 }
