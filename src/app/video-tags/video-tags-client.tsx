@@ -69,9 +69,15 @@ export default function VideoTagsClient() {
         })
         .sort((a, b) => b.count - a.count);
 
+      const categoryCount = tagsWithCounts.reduce(
+        (sum, tag) => sum + tag.count,
+        0
+      );
+
       return {
         ...category,
         tags: tagsWithCounts,
+        count: categoryCount,
       };
     });
 
