@@ -13,7 +13,10 @@ import {
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
-import { imageTagsData } from '@/lib/image-tags-data';
+import {
+  imageTagsData as staticImageTagsData,
+  type TagCategory,
+} from '@/lib/image-tags-data';
 import {
   Palette,
   Image as ImageIcon,
@@ -44,6 +47,42 @@ const icons = {
 
 export default function ImageTagsClient() {
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
+
+  const { imageTagsData, totalImages, totalUniqueTags } = useMemo(() => {
+    const allImages = PlaceHolderImages.filter(
+      item => item.type === 'image' && item.imageUrl
+    );
+    const tagCounts: Record<string, number> = {};
+
+    allImages.forEach(image => {
+      image.tags.forEach(tag => {
+        tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+      });
+    });
+
+    const allTags = new Set<string>();
+    staticImageTagsData.forEach(category => {
+      category.tags.forEach(tag => {
+        allTags.add(tag.name);
+      });
+    });
+
+    const dynamicImageTagsData = staticImageTagsData.map(category => ({
+      ...category,
+      tags: category.tags
+        .map(tag => ({
+          ...tag,
+          count: tagCounts[tag.name] || 0,
+        }))
+        .sort((a, b) => b.count - a.count),
+    }));
+
+    return {
+      imageTagsData: dynamicImageTagsData,
+      totalImages: allImages.length,
+      totalUniqueTags: allTags.size,
+    };
+  }, []);
 
   const filteredImages = useMemo(() => {
     if (!selectedTag) return [];
@@ -96,8 +135,8 @@ export default function ImageTagsClient() {
               Explore Image Prompts by Tags
             </h1>
             <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-              Discover <strong>6959</strong> AI-generated images organized by{' '}
-              <strong>83</strong> unique tags across visual styles, subjects,
+              Discover <strong>{totalImages}</strong> AI-generated images organized by{' '}
+              <strong>{totalUniqueTags}</strong> unique tags across visual styles, subjects,
               compositions, brands & products, and lighting. Find the perfect
               inspiration for your next creation!
             </p>
