@@ -1411,10 +1411,7 @@
       "imageUrl": "https://i.imgur.com/sszksHM.mp4",
       "imageHint": "steam train",
       "type": "video",
-<<<<<<< HEAD
       "tags": ["Retro", "Train", "Winter"]
-=======
-      "tags": ["Sci-Fi", "Robot", "Industrial"]
     },
     {
       "id": "169",
@@ -1649,7 +1646,213 @@
       "imageHint": "futuristic portal space",
       "type": "video",
       "tags": ["Sci-Fi", "Space", "Portal"]
->>>>>>> 5cbc16c (agrega estas url al placeholder-videos.json en este formato, {)
+    },
+    {
+      "id": "195",
+      "title": "Steampunk Airship Flight",
+      "description": "A massive steampunk airship navigating through high-altitude clouds at sunset.",
+      "imageUrl": "https://i.imgur.com/WKqfAHp.mp4",
+      "imageHint": "steampunk airship flight",
+      "type": "video",
+      "tags": ["Steampunk", "Sci-Fi", "Sky"]
+    },
+    {
+      "id": "196",
+      "title": "Floating Island Sunset",
+      "description": "A serene floating island with waterfalls cascading into the void during a golden sunset.",
+      "imageUrl": "https://i.imgur.com/dAXyaEp.mp4",
+      "imageHint": "floating island sunset",
+      "type": "video",
+      "tags": ["Fantasy", "Landscape", "Sunset"]
+    },
+    {
+      "id": "197",
+      "title": "Cybernetic Brain Pulse",
+      "description": "A highly detailed cybernetic brain with glowing neural pathways pulsing with data.",
+      "imageUrl": "https://i.imgur.com/Dj9H8yu.mp4",
+      "imageHint": "cybernetic brain pulse",
+      "type": "video",
+      "tags": ["Sci-Fi", "Technology", "Cyber"]
+    },
+    {
+      "id": "198",
+      "title": "Emerald Forest Stream",
+      "description": "A crystal-clear stream flowing through a vibrant emerald green forest with soft sunlight.",
+      "imageUrl": "https://i.imgur.com/a2LsyKK.mp4",
+      "imageHint": "emerald forest stream",
+      "type": "video",
+      "tags": ["Nature", "Forest", "Serene"]
+    },
+    {
+      "id": "199",
+      "title": "Cosmic Portal Activation",
+      "description": "A swirling cosmic portal opening in the middle of a starfield with intense light effects.",
+      "imageUrl": "https://i.imgur.com/Mm2dVQa.mp4",
+      "imageHint": "cosmic portal activation",
+      "type": "video",
+      "tags": ["Sci-Fi", "Space", "Portal"]
+    },
+    {
+      "id": "200",
+      "title": "Neon City Night Walk",
+      "description": "A first-person view walk through a vibrant neon-lit cyberpunk city at night.",
+      "imageUrl": "https://i.imgur.com/IHYVnOR.mp4",
+      "imageHint": "neon city walk",
+      "type": "video",
+      "tags": ["Cyberpunk", "City", "Neon"]
+    },
+    {
+      "id": "201",
+      "title": "Crystal Dragon Awakening",
+      "description": "A dragon made of glowing crystals slowly awakening inside a dark crystalline cave.",
+      "imageUrl": "https://i.imgur.com/SaLnAW9.mp4",
+      "imageHint": "crystal dragon awakening",
+      "type": "video",
+      "tags": ["Fantasy", "Dragon", "Crystal"]
+    },
+    {
+      "id": "202",
+      "title": "Underwater Bioluminescence",
+      "description": "Glowing deep-sea plants and fish creating a bioluminescent symphony under the waves.",
+      "imageUrl": "https://i.imgur.com/JNA6LEW.mp4",
+      "imageHint": "underwater bioluminescence",
+      "type": "video",
+      "tags": ["Underwater", "Nature", "Magic"]
+    },
+    {
+      "id": "203",
+      "title": "Mechanical Butterfly Flight",
+      "description": "A delicate mechanical butterfly with intricate gear wings flying through a garden.",
+      "imageUrl": "https://i.imgur.com/CtCToPN.mp4",
+      "imageHint": "mechanical butterfly flight",
+      "type": "video",
+      "tags": ["Steampunk", "Nature", "Mechanical"]
+    },
+    {
+      "id": "204",
+      "title": "Stellar Galaxy Collision",
+      "description": "A cinematic slow-motion visualization of two massive galaxies colliding in space.",
+      "imageUrl": "https://i.imgur.com/v73snMg.mp4",
+      "imageHint": "galaxy collision space",
+      "type": "video",
+      "tags": ["Space", "Galaxy", "Epic"]
+    },
+    {
+      "id": "205",
+      "title": "Volcanic Lava Flow",
+      "description": "Extreme close-up of molten lava flowing steadily down a volcanic slope at night.",
+      "imageUrl": "https://i.imgur.com/rqWiHVM.mp4",
+      "imageHint": "volcanic lava flow",
+      "type": "video",
+      "tags": ["Nature", "Volcano", "Lava"]
+    },
+    {
+      "id": "206",
+      "title": "Futuristic Lab Simulation",
+      "description": "High-tech lab equipment performing a complex digital simulation with holograms.",
+      "imageUrl": "https://i.imgur.com/j3FALTX.mp4",
+      "imageHint": "futuristic lab simulation",
+      "type": "video",
+      "tags": ["Sci-Fi", "Lab", "Simulation"]
+    },
+    {
+      "id": "207",
+      "title": "Deep Space Expedition",
+      "description": "A fleet of exploration starships cruising through a colorful and distant nebula.",
+      "imageUrl": "https://i.imgur.com/El9mOn2.mp4",
+      "imageHint": "space expedition nebula",
+      "type": "video",
+      "tags": ["Space", "Sci-Fi", "Expedition"]
+    },
+    {
+      "id": "208",
+      "title": "Cyberpunk Alley Rain",
+      "description": "A rainy night in a narrow cyberpunk alleyway with flickering neon signs.",
+      "imageUrl": "https://i.imgur.com/1ZXaiPy.mp4",
+      "imageHint": "cyberpunk alley rain",
+      "type": "video",
+      "tags": ["Cyberpunk", "Rain", "Neon"]
+    },
+    {
+      "id": "209",
+      "title": "Mystical Fog Mountain",
+      "description": "Ancient stone pillars emerging from a thick mystical fog on a high mountain peak.",
+      "imageUrl": "https://i.imgur.com/RyUEBe9.mp4",
+      "imageHint": "mystical fog mountain",
+      "type": "video",
+      "tags": ["Fantasy", "Mountain", "Fog"]
+    },
+    {
+      "id": "210",
+      "title": "Abstract Liquid Prism",
+      "description": "Multicolor liquid metal morphing into complex geometric and prismatic shapes.",
+      "imageUrl": "https://i.imgur.com/sN2LdZJ.mp4",
+      "imageHint": "abstract liquid prism",
+      "type": "video",
+      "tags": ["Abstract", "Art", "Prism"]
+    },
+    {
+      "id": "211",
+      "title": "Ancient Ruins Drone View",
+      "description": "A cinematic drone sweep over the overgrown ruins of a lost ancient civilization.",
+      "imageUrl": "https://i.imgur.com/UA731Iv.mp4",
+      "imageHint": "ancient ruins drone",
+      "type": "video",
+      "tags": ["History", "Nature", "Drone"]
+    },
+    {
+      "id": "212",
+      "title": "Robot City Traffic",
+      "description": "Orderly flow of automated robotic vehicles through a high-tech futuristic city.",
+      "imageUrl": "https://i.imgur.com/eaE51SC.mp4",
+      "imageHint": "robot city traffic",
+      "type": "video",
+      "tags": ["Sci-Fi", "Robot", "City"]
+    },
+    {
+      "id": "213",
+      "title": "Golden Desert Horizon",
+      "description": "The sun rising over endless golden sand dunes in a vast and quiet desert.",
+      "imageUrl": "https://i.imgur.com/75Yllng.mp4",
+      "imageHint": "golden desert horizon",
+      "type": "video",
+      "tags": ["Nature", "Desert", "Sunrise"]
+    },
+    {
+      "id": "214",
+      "title": "Arctic Aurora Borealis",
+      "description": "Spectacular time-lapse of the aurora borealis shimmering over an arctic lake.",
+      "imageUrl": "https://i.imgur.com/PFIE57U.mp4",
+      "imageHint": "arctic aurora borealis",
+      "type": "video",
+      "tags": ["Nature", "Aurora", "Arctic"]
+    },
+    {
+      "id": "215",
+      "title": "Techno City Pulse",
+      "description": "Visual heartbeat of a futuristic city with data streams flowing through buildings.",
+      "imageUrl": "https://i.imgur.com/K3W4rLq.mp4",
+      "imageHint": "techno city pulse",
+      "type": "video",
+      "tags": ["Cyberpunk", "Technology", "Pulse"]
+    },
+    {
+      "id": "216",
+      "title": "Magic Potion Brewing",
+      "description": "Close-up of a bubbling cauldron with colorful glowing liquids and mystical sparks.",
+      "imageUrl": "https://i.imgur.com/vX6HZik.mp4",
+      "imageHint": "magic potion brewing",
+      "type": "video",
+      "tags": ["Fantasy", "Magic", "Brewing"]
+    },
+    {
+      "id": "217",
+      "title": "Sci-Fi Command Center",
+      "description": "The bustling activity inside a high-tech starship command center with multiple screens.",
+      "imageUrl": "https://i.imgur.com/pzgHMMS.mp4",
+      "imageHint": "sci-fi command center",
+      "type": "video",
+      "tags": ["Sci-Fi", "Starship", "Tech"]
     }
   ]
 }
