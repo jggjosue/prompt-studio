@@ -2060,6 +2060,87 @@
       "imageHint": "crystal rain garden",
       "type": "video",
       "tags": ["Fantasy", "Nature", "Crystal"]
+    },
+    {
+      "id": "241",
+      "title": "Cybernetic Oasis",
+      "description": "A lush, glowing garden integrated with advanced holographic technology.",
+      "imageUrl": "https://i.imgur.com/cS6aQQU.mp4",
+      "imageHint": "cybernetic oasis garden",
+      "type": "video",
+      "tags": ["Sci-Fi", "Nature", "Holographic"]
+    },
+    {
+      "id": "242",
+      "title": "Deep Sea Geyser",
+      "description": "Underwater thermal vents releasing bubbles and minerals in the deep ocean.",
+      "imageUrl": "https://i.imgur.com/CgLZReU.mp4",
+      "imageHint": "deep sea geyser",
+      "type": "video",
+      "tags": ["Underwater", "Nature", "Science"]
+    },
+    {
+      "id": "243",
+      "title": "Futuristic Megacity",
+      "description": "A bird's eye view of a sprawling megacity with interconnected sky-bridges.",
+      "imageUrl": "https://i.imgur.com/udsPtS7.mp4",
+      "imageHint": "futuristic megacity aerial",
+      "type": "video",
+      "tags": ["City", "Sci-Fi", "Architecture"]
+    },
+    {
+      "id": "244",
+      "title": "Molten Core Pulse",
+      "description": "Energy waves pulsing through a crystalline core deep within a planet.",
+      "imageUrl": "https://i.imgur.com/cpfb9Ke.mp4",
+      "imageHint": "molten energy core",
+      "type": "video",
+      "tags": ["Sci-Fi", "Abstract", "Energy"]
+    },
+    {
+      "id": "245",
+      "title": "Arctic Ice Cave",
+      "description": "Sunlight reflecting through the blue ice walls of a magnificent arctic cave.",
+      "imageUrl": "https://i.imgur.com/QBI1a1Q.mp4",
+      "imageHint": "arctic ice cave",
+      "type": "video",
+      "tags": ["Nature", "Arctic", "Cave"]
+    },
+    {
+      "id": "246",
+      "title": "Synthwave Sunset Drive",
+      "description": "A digital grid landscape with a vintage car driving towards a giant neon sun.",
+      "imageUrl": "https://i.imgur.com/GRomVpg.mp4",
+      "imageHint": "synthwave sunset grid",
+      "type": "video",
+      "tags": ["Synthwave", "Retro", "80s"]
+    },
+    {
+      "id": "247",
+      "title": "Microscopic Life",
+      "description": "Abstract visualization of cellular organisms moving in a nutrient-rich fluid.",
+      "imageUrl": "https://i.imgur.com/yfT4kXa.mp4",
+      "imageHint": "microscopic cellular life",
+      "type": "video",
+      "tags": ["Science", "Macro", "Abstract"]
+    },
+    {
+      "id": "248",
+      "title": "Starry Night Tundra",
+      "description": "The Milky Way rotating over a quiet, snow-covered tundra landscape.",
+      "imageUrl": "https://i.imgur.com/Pih2JMR.mp4",
+      "imageHint": "starry night tundra",
+      "type": "video",
+      "tags": ["Space", "Nature", "Time-lapse"]
+    },
+    {
+      "id": "249",
+      "title": "Mechanical Gear Flow",
+      "description": "A complex array of interlocking clockwork gears rotating in smooth unison.",
+      "imageUrl": "https://i.imgur.com/e8nA9oC.mp4",
+      "imageHint": "mechanical gears clockwork",
+      "type": "video",
+      "tags": ["Steampunk", "Mechanical", "Abstract"]
     }
   ]
 }
