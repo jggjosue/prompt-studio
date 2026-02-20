@@ -1853,6 +1853,123 @@
       "imageHint": "sci-fi command center",
       "type": "video",
       "tags": ["Sci-Fi", "Starship", "Tech"]
+    },
+    {
+      "id": "218",
+      "title": "Galactic Core Pulsar",
+      "description": "A vibrant visualization of a spinning pulsar at the center of a distant galaxy.",
+      "imageUrl": "https://i.imgur.com/ii3KNfD.mp4",
+      "imageHint": "space pulsar galactic",
+      "type": "video",
+      "tags": ["Space", "Sci-Fi", "Cosmic"]
+    },
+    {
+      "id": "219",
+      "title": "Cybernetic Neural Network",
+      "description": "Intricate glowing pathways representing data flowing through a synthetic brain.",
+      "imageUrl": "https://i.imgur.com/yo0RSZe.mp4",
+      "imageHint": "neural network tech",
+      "type": "video",
+      "tags": ["Tech", "Cyberpunk", "Science"]
+    },
+    {
+      "id": "220",
+      "title": "Emerald Rainforest Mist",
+      "description": "Slow-motion sweep through a dense, foggy tropical rainforest at dawn.",
+      "imageUrl": "https://i.imgur.com/nlvfqVg.mp4",
+      "imageHint": "rainforest mist nature",
+      "type": "video",
+      "tags": ["Nature", "Jungle", "Atmospheric"]
+    },
+    {
+      "id": "221",
+      "title": "Molten Iron Flow",
+      "description": "Close-up of glowing molten metal being poured in a futuristic foundry.",
+      "imageUrl": "https://i.imgur.com/kM1CKYc.mp4",
+      "imageHint": "molten iron industrial",
+      "type": "video",
+      "tags": ["Industrial", "Hot", "Tech"]
+    },
+    {
+      "id": "222",
+      "title": "Ancient Temple Entrance",
+      "description": "Majestic stone doors opening to reveal a golden idol in a forgotten temple.",
+      "imageUrl": "https://i.imgur.com/r8QJOPJ.mp4",
+      "imageHint": "ancient temple mystery",
+      "type": "video",
+      "tags": ["History", "Mystery", "Fantasy"]
+    },
+    {
+      "id": "223",
+      "title": "Bioluminescent Deep Sea Fish",
+      "description": "A school of rare, glowing fish navigating the pitch-black abyss.",
+      "imageUrl": "https://i.imgur.com/KW0V8Fu.mp4",
+      "imageHint": "glowing deep sea fish",
+      "type": "video",
+      "tags": ["Underwater", "Nature", "Mystery"]
+    },
+    {
+      "id": "224",
+      "title": "Floating Steampunk Gears",
+      "description": "Large, ornate brass gears rotating against a backdrop of clouds and airships.",
+      "imageUrl": "https://i.imgur.com/BxUu8A6.mp4",
+      "imageHint": "steampunk gears floating",
+      "type": "video",
+      "tags": ["Steampunk", "Mechanical", "Fantasy"]
+    },
+    {
+      "id": "225",
+      "title": "Digital Rain Matrix",
+      "description": "Green cascading code symbols falling down a black screen in a cyberpunk style.",
+      "imageUrl": "https://i.imgur.com/s6afJ7a.mp4",
+      "imageHint": "matrix digital rain",
+      "type": "video",
+      "tags": ["Tech", "Matrix", "Cyberpunk"]
+    },
+    {
+      "id": "226",
+      "title": "Volcanic Island Eruption",
+      "description": "Aerial view of a volcano erupting in the middle of a vast, stormy ocean.",
+      "imageUrl": "https://i.imgur.com/sl8CjP1.mp4",
+      "imageHint": "volcano island eruption",
+      "type": "video",
+      "tags": ["Nature", "Volcano", "Epic"]
+    },
+    {
+      "id": "227",
+      "title": "Crystal Butterfly Flutter",
+      "description": "A delicate butterfly made of shimmering crystals landing on a glowing flower.",
+      "imageUrl": "https://i.imgur.com/YLQgM2c.mp4",
+      "imageHint": "crystal butterfly nature",
+      "type": "video",
+      "tags": ["Fantasy", "Macro", "Nature"]
+    },
+    {
+      "id": "228",
+      "title": "Futuristic City Flyover",
+      "description": "High-speed drone flight between towering, neon-lit skyscrapers of a megacity.",
+      "imageUrl": "https://i.imgur.com/QP0EjaV.mp4",
+      "imageHint": "city flyover cyberpunk",
+      "type": "video",
+      "tags": ["City", "Cyberpunk", "Action"]
+    },
+    {
+      "id": "229",
+      "title": "Polar Bear Tundra Walk",
+      "description": "A majestic polar bear traversing a vast, windswept arctic tundra under the moonlight.",
+      "imageUrl": "https://i.imgur.com/Lwts7zu.mp4",
+      "imageHint": "polar bear arctic",
+      "type": "video",
+      "tags": ["Nature", "Arctic", "Wildlife"]
+    },
+    {
+      "id": "230",
+      "title": "Abstract Light Prisms",
+      "description": "Shifting geometric patterns of light refracting through spinning crystal prisms.",
+      "imageUrl": "https://i.imgur.com/sUyv6Yz.mp4",
+      "imageHint": "light prism abstract",
+      "type": "video",
+      "tags": ["Abstract", "Art", "Light"]
     }
   ]
 }
