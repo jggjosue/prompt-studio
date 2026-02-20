@@ -1411,7 +1411,245 @@
       "imageUrl": "https://i.imgur.com/sszksHM.mp4",
       "imageHint": "steam train",
       "type": "video",
+<<<<<<< HEAD
       "tags": ["Retro", "Train", "Winter"]
+=======
+      "tags": ["Sci-Fi", "Robot", "Industrial"]
+    },
+    {
+      "id": "169",
+      "title": "Medieval Castle",
+      "description": "A majestic and fortified medieval castle perched high on a rocky cliffside.",
+      "imageUrl": "https://i.imgur.com/OSsYKQj.mp4",
+      "imageHint": "medieval castle",
+      "type": "video",
+      "tags": ["History", "Architecture", "Epic"]
+    },
+    {
+      "id": "170",
+      "title": "Desert Dust Storm",
+      "description": "A massive and intimidating sandstorm approaching a lonely desert outpost.",
+      "imageUrl": "https://i.imgur.com/lokFqhZ.mp4",
+      "imageHint": "sandstorm desert",
+      "type": "video",
+      "tags": ["Nature", "Desert", "Storm"]
+    },
+    {
+      "id": "171",
+      "title": "Crystal Cave Glow",
+      "description": "Exploring deep inside a cave filled with glowing and multifaceted crystals.",
+      "imageUrl": "https://i.imgur.com/UeaFzx5.mp4",
+      "imageHint": "crystal cave",
+      "type": "video",
+      "tags": ["Nature", "Crystal", "Cave"]
+    },
+    {
+      "id": "172",
+      "title": "Underwater Ruins",
+      "description": "Ancient sunken ruins being reclaimed by vibrant coral and tropical sea life.",
+      "imageUrl": "https://i.imgur.com/cE8Kooy.mp4",
+      "imageHint": "sunken city",
+      "type": "video",
+      "tags": ["Underwater", "History", "Ancient"]
+    },
+    {
+      "id": "173",
+      "title": "Space Battle",
+      "description": "An epic and fast-paced dogfight between starships in a dense asteroid field.",
+      "imageUrl": "https://i.imgur.com/xGxbsdj.mp4",
+      "imageHint": "space battle",
+      "type": "video",
+      "tags": ["Sci-Fi", "Space", "Action"]
+    },
+    {
+      "id": "174",
+      "title": "Bioluminescent Whale",
+      "description": "A giant and majestic whale breaching from glowing ocean water under the moonlight.",
+      "imageUrl": "https://i.imgur.com/xOeXTHf.mp4",
+      "imageHint": "glowing whale",
+      "type": "video",
+      "tags": ["Nature", "Ocean", "Fantasy"]
+    },
+    {
+      "id": "175",
+      "title": "Volcanic Ash Cloud",
+      "description": "Dramatic view of a rising ash cloud from an active volcano.",
+      "imageUrl": "https://i.imgur.com/7fk7tek.mp4",
+      "imageHint": "volcano ash cloud",
+      "type": "video",
+      "tags": ["Nature", "Volcano", "Epic"]
+    },
+    {
+      "id": "176",
+      "title": "Autumn Leaves Wind",
+      "description": "Colorful autumn leaves dancing in a gentle breeze in a quiet park.",
+      "imageUrl": "https://i.imgur.com/jn81Tcs.mp4",
+      "imageHint": "autumn leaves breeze",
+      "type": "video",
+      "tags": ["Nature", "Autumn", "Serene"]
+    },
+    {
+      "id": "177",
+      "title": "Space Station View",
+      "description": "The Earth seen from the window of a space station orbiting the planet.",
+      "imageUrl": "https://i.imgur.com/LTUQwBu.mp4",
+      "imageHint": "earth from space",
+      "type": "video",
+      "tags": ["Space", "Earth", "Cinematic"]
+    },
+    {
+      "id": "178",
+      "title": "Rainy Glass Macro",
+      "description": "Macro shot of raindrops sliding down a window pane with city lights.",
+      "imageUrl": "https://i.imgur.com/cUJmHWU.mp4",
+      "imageHint": "rain drops window",
+      "type": "video",
+      "tags": ["Macro", "Rain", "Urban"]
+    },
+    {
+      "id": "179",
+      "title": "Electric Sparks Tech",
+      "description": "Slow motion capture of electric sparks jumping between circuit components.",
+      "imageUrl": "https://i.imgur.com/5gLGXA5.mp4",
+      "imageHint": "electric sparks technology",
+      "type": "video",
+      "tags": ["Tech", "Electricity", "Science"]
+    },
+    {
+      "id": "180",
+      "title": "Cyberpunk Girl Glitch",
+      "description": "A stylish cyberpunk character with digital glitch effects and neon hair.",
+      "imageUrl": "https://i.imgur.com/ILEYuzW.mp4",
+      "imageHint": "cyberpunk girl glitch",
+      "type": "video",
+      "tags": ["Cyberpunk", "Portrait", "Glitch"]
+    },
+    {
+      "id": "181",
+      "title": "Neon Tokyo Rain",
+      "description": "Vibrant night life in Tokyo with rain-slicked streets and neon signs.",
+      "imageUrl": "https://i.imgur.com/s92e74R.mp4",
+      "imageHint": "tokyo neon rain",
+      "type": "video",
+      "tags": ["City", "Tokyo", "Neon"]
+    },
+    {
+      "id": "182",
+      "title": "Abstract Gold Flow",
+      "description": "Liquid gold flowing and swirling in an elegant and luxurious dance.",
+      "imageUrl": "https://i.imgur.com/g8WVXB5.mp4",
+      "imageHint": "liquid gold flow",
+      "type": "video",
+      "tags": ["Abstract", "Gold", "Luxury"]
+    },
+    {
+      "id": "183",
+      "title": "Forest Waterfall Drone",
+      "description": "Aerial drone footage sweeping over a hidden waterfall deep in the forest.",
+      "imageUrl": "https://i.imgur.com/mDyYvfD.mp4",
+      "imageHint": "drone forest waterfall",
+      "type": "video",
+      "tags": ["Nature", "Drone", "Waterfall"]
+    },
+    {
+      "id": "184",
+      "title": "Vintage Vinyl Record",
+      "description": "Close-up of a vintage vinyl record spinning on a classic turntable.",
+      "imageUrl": "https://i.imgur.com/ZPiHDYd.mp4",
+      "imageHint": "vinyl record player",
+      "type": "video",
+      "tags": ["Retro", "Music", "Vintage"]
+    },
+    {
+      "id": "185",
+      "title": "Abstract Smoke Colors",
+      "description": "Vibrant colored smoke plumes swirling and mixing against a dark void.",
+      "imageUrl": "https://i.imgur.com/ereYGRD.mp4",
+      "imageHint": "colored smoke abstract",
+      "type": "video",
+      "tags": ["Abstract", "Color", "Smoke"]
+    },
+    {
+      "id": "186",
+      "title": "Cyberpunk Bridge Fog",
+      "description": "A massive futuristic bridge emerging from a thick, neon-tinted fog.",
+      "imageUrl": "https://i.imgur.com/r9vQlPm.mp4",
+      "imageHint": "cyberpunk bridge fog",
+      "type": "video",
+      "tags": ["Cyberpunk", "Architecture", "Atmospheric"]
+    },
+    {
+      "id": "187",
+      "title": "Liquid Chrome 3D",
+      "description": "Shiny liquid chrome morphing into various 3D geometric shapes.",
+      "imageUrl": "https://i.imgur.com/5u5Wlav.mp4",
+      "imageHint": "liquid chrome shapes",
+      "type": "video",
+      "tags": ["Abstract", "3D", "Chrome"]
+    },
+    {
+      "id": "188",
+      "title": "Synthwave City Car",
+      "description": "A retro-futuristic car cruising through a 1980s inspired neon city grid.",
+      "imageUrl": "https://i.imgur.com/xWJ7EQ9.mp4",
+      "imageHint": "synthwave city car",
+      "type": "video",
+      "tags": ["Synthwave", "Retro", "City"]
+    },
+    {
+      "id": "189",
+      "title": "Medusa Gorgon Magic",
+      "description": "A cinematic portrayal of Medusa with snakes for hair and a mystical gaze.",
+      "imageUrl": "https://i.imgur.com/7DKNLX7.mp4",
+      "imageHint": "medusa gorgon mythology",
+      "type": "video",
+      "tags": ["Mythology", "Fantasy", "Character"]
+    },
+    {
+      "id": "190",
+      "title": "Dragon Fire Breathe",
+      "description": "A close-up of a dragon breathing intense fire into the darkness.",
+      "imageUrl": "https://i.imgur.com/XxaLyOP.mp4",
+      "imageHint": "dragon breathing fire",
+      "type": "video",
+      "tags": ["Fantasy", "Dragon", "Fire"]
+    },
+    {
+      "id": "191",
+      "title": "Samurai Duel Mist",
+      "description": "Two samurai facing off in a misty bamboo forest at dawn.",
+      "imageUrl": "https://i.imgur.com/F8Bl0r4.mp4",
+      "imageHint": "samurai duel forest",
+      "type": "video",
+      "tags": ["Action", "History", "Cinematic"]
+    },
+    {
+      "id": "192",
+      "title": "Robot Repair Lab",
+      "description": "An advanced robotic arm repairing a damaged android in a high-tech lab.",
+      "imageUrl": "https://i.imgur.com/mKRpL32.mp4",
+      "imageHint": "robot repair laboratory",
+      "type": "video",
+      "tags": ["Sci-Fi", "Robot", "Technology"]
+    },
+    {
+      "id": "193",
+      "title": "Bioluminescent Jellyfish",
+      "description": "Graceful jellyfish glowing with ethereal light in the deep ocean.",
+      "imageUrl": "https://i.imgur.com/siL9g9v.mp4",
+      "imageHint": "glowing jellyfish ocean",
+      "type": "video",
+      "tags": ["Nature", "Underwater", "Fantasy"]
+    },
+    {
+      "id": "194",
+      "title": "Futuristic Portal Open",
+      "description": "A shimmering energy portal opening into another dimension in a desert.",
+      "imageUrl": "https://i.imgur.com/mrB5y7c.mp4",
+      "imageHint": "futuristic portal space",
+      "type": "video",
+      "tags": ["Sci-Fi", "Space", "Portal"]
+>>>>>>> 5cbc16c (agrega estas url al placeholder-videos.json en este formato, {)
     }
   ]
 }
