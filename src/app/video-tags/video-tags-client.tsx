@@ -93,7 +93,7 @@ export default function VideoTagsClient() {
     });
 
     return {
-      videoTagsData: dynamicVideoVideoTagsData,
+      videoTagsData: dynamicVideoTagsData,
       totalVideos: allVideos.length,
       totalUniqueTags: allTags.size,
     };
@@ -201,6 +201,7 @@ export default function VideoTagsClient() {
   const handleLike = (itemId: string) => {
     setLikes(prev => {
       const currentItem = prev[itemId];
+      if (!currentItem) return prev;
       const newIsLiked = !currentItem.isLiked;
       const newCount = newIsLiked
         ? currentItem.count + 1
