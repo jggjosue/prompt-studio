@@ -10,7 +10,7 @@ import {
     CardTitle,
 } from '@/components/ui/card';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Heart, PlayCircle, Tag, Wand2, Loader2 } from 'lucide-react';
+import { Heart, Tag, Wand2, Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useMemo, useState, useEffect, useCallback, Suspense } from 'react';
@@ -54,13 +54,13 @@ function LikeButton({ contentId, contentType }: { contentId: string; contentType
         return;
     };
     const checkLikeStatus = async () => {
-        const userLikeRef = doc(firestore, `${collection}/${user.uid}/items/${contentId}`);
+        const userLikeRef = doc(firestore, `user-likes/${user.uid}/items/${contentId}`);
         const docSnap = await getDoc(userLikeRef);
         setIsLiked(docSnap.exists());
     }
     checkLikeStatus();
 
-    const userLikeRef = doc(firestore, `${collection}/${user.uid}/items/${contentId}`);
+    const userLikeRef = doc(firestore, `user-likes/${user.uid}/items/${contentId}`);
     const unsubscribe = onSnapshot(userLikeRef, (docSnap) => {
         setIsLiked(docSnap.exists());
     });
@@ -84,7 +84,7 @@ function LikeButton({ contentId, contentType }: { contentId: string; contentType
     try {
         await runTransaction(firestore, async (transaction) => {
             const countDocRef = doc(firestore, collection, contentId);
-            const userLikeRef = doc(firestore, `${collection}/${user.uid}/items/${contentId}`);
+            const userLikeRef = doc(firestore, `user-likes/${user.uid}/items/${contentId}`);
 
             const docSnap = await transaction.get(countDocRef);
             const userLikeDoc = await transaction.get(userLikeRef);
@@ -164,30 +164,14 @@ function ContentGridContent() {
                 <span className="truncate">{item.tags.join(', ')}</span>
               </div>
               <div className="relative aspect-[3/4] rounded-md overflow-hidden">
-                {item.type === 'video' ? (
-                  <>
-                    <Image
-                      src={item.imageUrl}
-                      alt={item.title}
-                      fill
-                      unoptimized={item.imageUrl?.includes('meta.ai')}
-                      className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
-                      data-ai-hint={item.imageHint}
-                    />
-                    <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                      <PlayCircle className="w-12 h-12 text-white/80" />
-                    </div>
-                  </>
-                ) : (
-                  <Image
-                    src={item.imageUrl}
-                    alt={item.title}
-                    fill
-                    unoptimized={item.imageUrl?.includes('meta.ai')}
-                    className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
-                    data-ai-hint={item.imageHint}
-                  />
-                )}
+                <Image
+                  src={item.imageUrl}
+                  alt={item.title}
+                  fill
+                  unoptimized={item.imageUrl?.includes('meta.ai')}
+                  className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
+                  data-ai-hint={item.imageHint}
+                />
               </div>
               {item.type === 'video' && (
                 <p className="text-sm text-muted-foreground">
