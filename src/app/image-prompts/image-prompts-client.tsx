@@ -1,3 +1,4 @@
+
 'use client';
 
 import Footer from '@/components/layout/footer';
@@ -6,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -49,8 +49,6 @@ function ImagePromptsSkeleton() {
           <Card key={index} className="overflow-hidden group h-full flex flex-col bg-card">
             <CardHeader>
               <Skeleton className="h-6 w-3/4" />
-              <Skeleton className="h-4 w-full mt-2" />
-              <Skeleton className="h-4 w-2/3 mt-1" />
             </CardHeader>
             <CardContent className="p-6 pt-0 space-y-4 flex-grow">
               <Skeleton className="h-4 w-1/2" />
@@ -243,9 +241,6 @@ function ImagePromptsContent() {
                   <CardTitle className="font-headline text-xl">
                     {item.title}
                   </CardTitle>
-                  <CardDescription className="line-clamp-3 h-auto">
-                    {item.description}
-                  </CardDescription>
                 </CardHeader>
                 <CardContent className="p-6 pt-0 space-y-4 flex-grow">
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -255,7 +250,7 @@ function ImagePromptsContent() {
                     <div className="relative aspect-[3/4] rounded-md overflow-hidden">
                     <Image
                       src={item.imageUrl}
-                      alt={item.description}
+                      alt={item.title}
                       fill
                       unoptimized={item.imageUrl?.includes('meta.ai')}
                       className="object-cover"

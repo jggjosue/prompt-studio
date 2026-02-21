@@ -12,14 +12,14 @@ export type VideoProp = {
 };
 
 export const PlaceHolderVideos: VideoProp[] = (data.placeholderVideos as any[]).map((video, index) => {
-  // Exclude imageUrl from the description JSON as requested
-  const { imageUrl, ...rest } = video;
+  // Excluimos imageUrl y la propia descripción vacía para el prompt limpio
+  const { imageUrl, description, ...rest } = video;
   
   return {
     ...video,
-    // Generate unique ID based on index to avoid Console errors with duplicate keys
+    // Generamos ID único basado en el índice
     id: `v-${index + 1}`,
-    // Set description as a pretty-printed JSON of metadatos (excluding imageUrl)
+    // La descripción ahora es un JSON stringificado (sin la URL de imagen)
     description: JSON.stringify(rest, null, 2),
     type: 'video' as const
   };
