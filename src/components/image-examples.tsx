@@ -1,10 +1,10 @@
+
 'use client';
 
 import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -39,7 +39,6 @@ function LikeButtonContent({ contentId, contentType }: { contentId: string; cont
     const unsubscribe = onSnapshot(docRef, (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.data();
-        // Support both old structure (likes) and new structure (metadata.likes)
         const likes = data.metadata?.likes ?? data.likes ?? 0;
         setLikeCount(likes);
       } else {
@@ -183,9 +182,6 @@ function ImageExamplesContent() {
               <CardTitle className="font-headline text-lg">
                 {item.title}
               </CardTitle>
-              <CardDescription className="line-clamp-3 h-auto">
-                {item.description}
-              </CardDescription>
             </CardHeader>
             <CardContent className="p-4 pt-0 space-y-4 flex-grow">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -195,7 +191,7 @@ function ImageExamplesContent() {
               <div className="relative aspect-[3/4] rounded-md overflow-hidden">
                 <Image
                   src={item.imageUrl}
-                  alt={item.description}
+                  alt={item.title}
                   fill
                   unoptimized={item.imageUrl?.includes('meta.ai')}
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"

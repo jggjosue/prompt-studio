@@ -1,10 +1,10 @@
+
 'use client';
 
 import { Button } from '@/components/ui/button';
 import {
     Card,
     CardContent,
-    CardDescription,
     CardFooter,
     CardHeader,
     CardTitle,
@@ -157,9 +157,6 @@ function ContentGridContent() {
               <CardTitle className="font-headline text-lg sm:text-xl">
                 {item.title}
               </CardTitle>
-              <CardDescription className="line-clamp-2 h-auto">
-                {item.description}
-              </CardDescription>
             </CardHeader>
             <CardContent className="p-4 sm:p-6 pt-0 space-y-4 flex-grow">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -171,7 +168,7 @@ function ContentGridContent() {
                   <>
                     <Image
                       src={item.imageUrl}
-                      alt={item.description}
+                      alt={item.title}
                       fill
                       unoptimized={item.imageUrl?.includes('meta.ai')}
                       className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
@@ -184,7 +181,7 @@ function ContentGridContent() {
                 ) : (
                   <Image
                     src={item.imageUrl}
-                    alt={item.description}
+                    alt={item.title}
                     fill
                     unoptimized={item.imageUrl?.includes('meta.ai')}
                     className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
@@ -232,5 +229,3 @@ export default function ContentGrid() {
     </Suspense>
   );
 }
-
-    

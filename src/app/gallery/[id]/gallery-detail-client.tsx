@@ -1,3 +1,4 @@
+
 'use client';
 
 import Footer from '@/components/layout/footer';
@@ -188,7 +189,6 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                 <h1 className="text-3xl md:text-4xl font-bold font-headline mb-2">
                   {item.title}
                 </h1>
-                <p className="text-muted-foreground">{item.description}</p>
                 <div className="flex flex-wrap gap-2 mt-4">
                   {item.tags?.map(tag => (
                     <Badge key={tag} variant="secondary">
@@ -209,7 +209,7 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                   <>
                     <Image
                       src={item.imageUrl}
-                      alt={item.description}
+                      alt={item.title}
                       fill
                       unoptimized={item.imageUrl?.includes('meta.ai')}
                       className="object-cover"
@@ -234,7 +234,9 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                     View Prompt
                   </AccordionTrigger>
                   <AccordionContent className="relative text-base text-muted-foreground bg-muted/50 p-4 pr-12 rounded-md">
-                    {item.description}
+                    <pre className="whitespace-pre-wrap font-mono text-xs overflow-x-auto">
+                      {item.description}
+                    </pre>
                     <Button variant="ghost" size="icon" className="absolute top-2 right-2" onClick={handleCopy}>
                       <Copy className="h-4 w-4" />
                       <span className="sr-only">Copy prompt</span>
@@ -308,7 +310,7 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                           ) : (
                             <Image
                               src={other.imageUrl}
-                              alt={other.description}
+                              alt={other.title}
                               fill
                               unoptimized={other.imageUrl?.includes('meta.ai')}
                               className="object-cover transition-transform group-hover:scale-105"
