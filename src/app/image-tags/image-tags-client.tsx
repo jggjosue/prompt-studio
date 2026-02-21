@@ -1,3 +1,4 @@
+
 'use client';
 
 import Header from '@/components/layout/header';
@@ -343,13 +344,10 @@ export default function ImageTagsClient() {
                         key={item.id}
                         className="overflow-hidden group h-full flex flex-col bg-card"
                       >
-                        <CardHeader>
+                        <CardHeader className="p-4">
                           <CardTitle className="font-headline text-xl">
                             {item.title}
                           </CardTitle>
-                          <CardDescription className="line-clamp-3 h-auto">
-                            {item.description}
-                          </CardDescription>
                         </CardHeader>
                         <CardContent className="p-6 pt-0 space-y-4 flex-grow">
                           <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -359,7 +357,7 @@ export default function ImageTagsClient() {
                             <div className="relative aspect-[3/4] rounded-md overflow-hidden">
                             <Image
                               src={item.imageUrl}
-                              alt={item.description}
+                              alt={item.title}
                               fill
                               unoptimized={item.imageUrl?.includes('meta.ai')}
                               className="object-cover"
