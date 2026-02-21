@@ -15,13 +15,14 @@ export const PlaceHolderVideos: VideoProp[] = (data.placeholderVideos as any[]).
   // Generamos un ID único y determinista basado en el índice para evitar duplicados
   const generatedId = `v-${index + 1}`;
   
-  // Excluimos imageUrl para el bloque de descripción JSON (el prompt)
-  const { imageUrl, description, id, ...cleanMetadata } = video;
+  // Excluimos imageUrl e id para el bloque de descripción JSON (el prompt)
+  // Incluimos description a petición del usuario
+  const { imageUrl, id, likes, ...cleanMetadata } = video;
   
   return {
     ...video,
     id: generatedId,
-    // La descripción es ahora el JSON stringificado de los metadatos creativos
+    // La descripción es ahora el JSON stringificado de los metadatos creativos incluyendo el campo description
     description: JSON.stringify(cleanMetadata, null, 2),
     type: 'video' as const
   };
