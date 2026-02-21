@@ -12,16 +12,16 @@ export type VideoProp = {
 };
 
 export const PlaceHolderVideos: VideoProp[] = (data.placeholderVideos as any[]).map((video, index) => {
-  // Generamos un ID único y determinista para evitar errores de claves duplicadas
+  // Generamos un ID único y determinista basado en el índice para evitar duplicados
   const generatedId = `v-${index + 1}`;
   
-  // Excluimos imageUrl y el campo original de descripción para generar el prompt limpio
+  // Excluimos imageUrl para el bloque de descripción JSON (el prompt)
   const { imageUrl, description, id, ...cleanMetadata } = video;
   
   return {
     ...video,
     id: generatedId,
-    // La descripción ahora es un JSON stringificado estrictamente (sin la URL de imagen)
+    // La descripción es ahora el JSON stringificado de los metadatos creativos
     description: JSON.stringify(cleanMetadata, null, 2),
     type: 'video' as const
   };
