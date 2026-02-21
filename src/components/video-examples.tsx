@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -159,9 +160,6 @@ export default function VideoExamples() {
               <CardTitle className="font-headline text-lg">
                 {item.title}
               </CardTitle>
-              <CardDescription className="line-clamp-3 h-auto">
-                {item.description}
-              </CardDescription>
             </CardHeader>
             <CardContent className="p-4 pt-0 space-y-4 flex-grow">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
