@@ -1,4 +1,3 @@
-
 'use client';
 
 import Header from '@/components/layout/header';
@@ -336,7 +335,7 @@ export default function VideoTagsClient() {
                         key={item.id}
                         className="overflow-hidden group h-full flex flex-col bg-card"
                       >
-                        <CardHeader>
+                        <CardHeader className="p-4">
                           <CardTitle className="font-headline text-xl">
                             {item.title}
                           </CardTitle>
