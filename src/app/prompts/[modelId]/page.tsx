@@ -2,6 +2,8 @@ import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import ModelDetailClient from './model-detail-client';
 import { promptModels } from '@/lib/models-list';
+import fs from 'fs';
+import path from 'path';
 
 type Props = {
   params: { modelId: string }
@@ -36,5 +38,15 @@ export default function ModelDetailPage({ params }: Props) {
         notFound();
     }
 
-    return <ModelDetailClient modelName={modelName} />;
+    let specialPrompt = '';
+    if (params.modelId === 'amp') {
+      try {
+        const filePath = path.join(process.cwd(), 'src/lib/amp.yaml');
+        specialPrompt = fs.readFileSync(filePath, 'utf8');
+      } catch (error) {
+        console.error('Error reading amp.yaml:', error);
+      }
+    }
+
+    return <ModelDetailClient modelName={modelName} specialPrompt={specialPrompt} />;
 }
