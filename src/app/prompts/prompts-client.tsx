@@ -17,12 +17,14 @@ import { Input } from '@/components/ui/input';
 const promptModels = [
   "Amp",
   "Anthropic",
+  "Assets",
   "Augment Code",
   "Cluely",
   "CodeBuddy Prompts",
   "Comet Assistant",
   "Cursor Prompts",
   "Devin AI",
+  "Dia",
   "Emergent",
   "Google",
   "Junie",
@@ -40,9 +42,12 @@ const promptModels = [
   "Same.dev",
   "Trae",
   "Traycer AI",
+  "v0 Prompts and Tools",
   "VSCode Agent",
   "Warp.dev",
-  "Windsurf"
+  "Windsurf",
+  "Xcode",
+  "Z.ai Code"
 ].sort();
 
 function PromptsContent() {
