@@ -13,7 +13,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { PlaceHolderVideos } from '@/lib/placeholder-videos';
-import { ArrowLeft, Sparkles, Wand2, Box, Info, FileText, Copy, Terminal, User, Bot, CheckCircle2, BookOpen, Lightbulb } from 'lucide-react';
+import { ArrowLeft, Sparkles, Wand2, Box, Info, FileText, Copy, Terminal, Bot, CheckCircle2, BookOpen, Lightbulb } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useMemo } from 'react';
@@ -37,60 +37,60 @@ function SectionCard({ section }: { section: ParsedSection }) {
   const handleCopy = () => {
     navigator.clipboard.writeText(section.content).then(() => {
       toast({
-        title: "Section Copied!",
-        description: `The "${section.title}" instructions are in your clipboard.`,
+        title: "Prompt Copied!",
+        description: `Protocol for "${section.title}" is ready to use.`,
       });
     });
   };
 
   return (
-    <Card className="border-primary/10 overflow-hidden flex flex-col h-full bg-card/50 backdrop-blur-sm hover:shadow-md transition-all">
-      <CardHeader className="bg-muted/30 pb-4">
+    <Card className="border-primary/10 overflow-hidden flex flex-col h-full bg-card/50 backdrop-blur-sm hover:shadow-md transition-all group">
+      <CardHeader className="bg-muted/30 pb-3">
         <div className="flex justify-between items-start">
           <div className="space-y-1">
-            <Badge variant="outline" className="mb-2 bg-primary/5 text-primary border-primary/20 uppercase text-[10px] tracking-widest">
-              Core Protocol
+            <Badge variant="outline" className="mb-1 bg-primary/5 text-primary border-primary/20 uppercase text-[9px] tracking-widest">
+              Protocol Block
             </Badge>
-            <CardTitle className="text-xl font-headline flex items-center gap-2">
-              <BookOpen className="h-5 w-5 text-primary" />
+            <CardTitle className="text-lg font-headline flex items-center gap-2 line-clamp-1">
+              <BookOpen className="h-4 w-4 text-primary" />
               {section.title}
             </CardTitle>
           </div>
-          <Button variant="ghost" size="icon" onClick={handleCopy} title="Copy Section Content">
-            <Copy className="h-4 w-4" />
+          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleCopy}>
+            <Copy className="h-3.5 w-3.5" />
           </Button>
         </div>
       </CardHeader>
-      <CardContent className="p-6 space-y-6 flex-grow">
-        <div className="space-y-4">
-          <div className="flex gap-3">
-            <div className="bg-purple-500/10 p-2 rounded-lg h-fit mt-1">
-              <Bot className="h-4 w-4 text-purple-500" />
+      <CardContent className="p-5 space-y-4 flex-grow">
+        <div className="space-y-3">
+          <div className="flex gap-2">
+            <div className="bg-purple-500/10 p-1.5 rounded-md h-fit mt-0.5">
+              <Bot className="h-3.5 w-3.5 text-purple-500" />
             </div>
             <div className="flex-1">
-              <p className="text-xs font-semibold text-muted-foreground uppercase mb-2">System Instructions</p>
-              <div className="bg-muted/20 p-4 rounded-md text-xs font-mono border whitespace-pre-wrap leading-relaxed max-h-[300px] overflow-y-auto">
+              <p className="text-[10px] font-bold text-muted-foreground uppercase mb-1.5 tracking-tight">Technical Spec</p>
+              <div className="bg-muted/20 p-3 rounded-md text-[11px] font-mono border whitespace-pre-wrap leading-relaxed max-h-[200px] overflow-y-auto scrollbar-thin scrollbar-thumb-primary/10">
                 {section.content}
               </div>
             </div>
           </div>
         </div>
 
-        <div className="pt-4 border-t border-dashed">
-          <div className="flex items-center gap-2 mb-2 text-amber-600 dark:text-amber-400">
-            <Lightbulb className="h-4 w-4" />
-            <h4 className="text-sm font-bold uppercase tracking-tight">How to apply this</h4>
+        <div className="pt-3 border-t border-dashed">
+          <div className="flex items-center gap-1.5 mb-1.5 text-amber-600 dark:text-amber-400">
+            <Lightbulb className="h-3.5 w-3.5" />
+            <h4 className="text-[11px] font-bold uppercase tracking-tight">Usage Strategy</h4>
           </div>
-          <p className="text-sm text-muted-foreground leading-relaxed italic">
+          <p className="text-xs text-muted-foreground leading-relaxed italic line-clamp-3">
             {section.usageInstructions}
           </p>
         </div>
       </CardContent>
-      <CardFooter className="bg-muted/10 p-4 border-t">
-        <Button variant="secondary" size="sm" className="w-full" asChild>
+      <CardFooter className="bg-muted/10 p-3 border-t">
+        <Button variant="secondary" size="sm" className="w-full text-xs h-8" asChild>
           <Link href="/prompt/edit">
-            <Wand2 className="h-4 w-4 mr-2" />
-            Try in Editor
+            <Wand2 className="h-3.5 w-3.5 mr-2" />
+            Test Prompt
           </Link>
         </Button>
       </CardFooter>
@@ -110,28 +110,50 @@ export default function ModelDetailClient({
   const parsedSections: ParsedSection[] = useMemo(() => {
     if (!specialPrompt || modelName.toLowerCase() !== 'amp') return [];
 
-    // Buscamos el bloque de texto del sistema dentro del YAML
-    const systemTextMatch = specialPrompt.match(/text: >\+?\s+([\s\S]*?)(?=tools:|$)/);
-    const textContent = systemTextMatch ? systemTextMatch[1] : specialPrompt;
-
-    // Dividimos por "# " para separar las secciones
-    const rawParts = textContent.split(/\n#\s+/);
+    // Dividimos por # o ## seguidos de espacio
+    // Usamos una expresión regular que capture 1 o 2 almohadillas
+    const rawParts = specialPrompt.split(/\n#{1,2}\s+/);
     
-    return rawParts.filter(part => part.trim().length > 0).map(part => {
-      const lines = part.split('\n');
-      const title = lines[0].trim();
-      const content = lines.slice(1).join('\n').trim();
-      
-      // Generamos una instrucción de uso basada en el título
-      let usage = "Follow these guidelines when prompting the agent to ensure consistent and high-quality outputs.";
-      if (title.toLowerCase().includes('agency')) usage = "Use these rules to define how the agent should take initiative and handle your requests without over-explaining.";
-      if (title.toLowerCase().includes('oracle')) usage = "Invoke 'The Oracle' when you need architectural advice, complex debugging, or multi-file analysis.";
-      if (title.toLowerCase().includes('task')) usage = "Ask the agent to 'plan and execute' to trigger the TODO system for transparent progress tracking.";
-      if (title.toLowerCase().includes('conventions')) usage = "Ensure the agent follows specific project styles, security practices, and file handling rules.";
-      if (title.toLowerCase().includes('communication')) usage = "Enforce concise, direct, and token-efficient responses from the agent.";
+    const generateUsage = (title: string) => {
+      const lowerTitle = title.toLowerCase();
+      if (lowerTitle.includes('agency')) return "Define how the agent takes initiative. Use this to set the balance between autonomy and consultation.";
+      if (lowerTitle.includes('oracle')) return "Protocol for deep reasoning. Invoke the Oracle for architectural reviews or complex debugging sessions.";
+      if (lowerTitle.includes('task')) return "Management of work states. Use these rules to ensure the agent tracks progress via TODO lists correctly.";
+      if (lowerTitle.includes('conventions')) return "Enforce code style and security. Crucial for keeping the codebase idiomatic and safe.";
+      if (lowerTitle.includes('communication')) return "Rules for token-efficient responses. Ensures the agent remains professional and direct.";
+      if (lowerTitle.includes('git')) return "Specific instructions for version control. Tells the agent how to stage and commit changes safely.";
+      if (lowerTitle.includes('bash')) return "Shell execution safety rules. Always verify parent directories before destructive commands.";
+      if (lowerTitle.includes('example')) return "Practical patterns. Copy these into your context to show the agent the expected output format.";
+      if (lowerTitle.includes('notes')) return "Safety constraints. Critical limitations the agent must respect when using specific tools.";
+      if (lowerTitle.includes('search')) return "Navigation protocols. Use these to help the agent find information without getting lost in large directories.";
+      if (lowerTitle.includes('citations')) return "Verification rules. Ensures every claim made by the agent is backed by a source link.";
+      return "General protocol block. Apply these guidelines to maintain consistency in AI-assisted development workflows.";
+    };
 
-      return { title, content, usageInstructions: usage };
-    });
+    return rawParts
+      .filter((part, idx) => idx > 0 && part.trim().length > 0)
+      .map(part => {
+        const lines = part.split('\n');
+        let title = lines[0].trim();
+        
+        // Limpiamos el título de residuos de YAML
+        title = title.replace(/['">|]+$/, '').replace(/\\n/g, '').trim();
+        
+        // Limpiamos el contenido de nombres de propiedades YAML
+        let content = lines.slice(1).join('\n').trim();
+        content = content
+          .replace(/^(description|name|input_schema|required|properties|type|tools|system|parameters):\s*(>|\+|[a-z]+)?\s*/gmi, '')
+          .replace(/\n\s*(description|name|input_schema|required|properties|type|tools|system|parameters):\s*(>|\+|[a-z]+)?\s*$/gmi, '')
+          .trim();
+
+        return { 
+          title, 
+          content, 
+          usageInstructions: generateUsage(title) 
+        };
+      })
+      .filter(section => section.content.length > 20) // Evitar bloques vacíos o muy cortos
+      .slice(0, 30); // Limitar a los primeros 30 como pidió el usuario
   }, [specialPrompt, modelName]);
 
   const relatedContent = useMemo(() => {
@@ -160,7 +182,7 @@ export default function ModelDetailClient({
       <Header />
       <main className="flex-1 py-12 md:py-16">
         <div className="container max-w-7xl">
-          <div className="mb-8">
+          <div className="mb-12">
             <Button variant="ghost" asChild size="sm" className="mb-4">
               <Link href="/prompts">
                 <ArrowLeft className="mr-2 h-4 w-4" />
@@ -174,15 +196,15 @@ export default function ModelDetailClient({
                   <div className="bg-primary p-3 rounded-xl text-white shadow-lg shadow-primary/20">
                     <Box className="h-8 w-8" />
                   </div>
-                  <h1 className="text-4xl font-bold font-headline">{modelName}</h1>
+                  <h1 className="text-4xl font-bold font-headline">{modelName} Protocol</h1>
                 </div>
                 <p className="text-muted-foreground text-lg max-w-2xl">
-                  Explore the system instructions for the {modelName} agent. 
-                  Master the protocol patterns to build better coding assistants.
+                  A library of 30 specialized prompts extracted from the {modelName} core system. 
+                  Master the architecture behind high-performance coding agents.
                 </p>
                 <div className="flex flex-wrap gap-2 pt-2">
-                  <Badge variant="secondary" className="px-3 py-1 bg-green-500/10 text-green-600 border-green-500/20">System Protocol</Badge>
-                  <Badge variant="secondary" className="px-3 py-1 bg-blue-500/10 text-blue-600 border-blue-500/20">Pattern Library</Badge>
+                  <Badge variant="secondary" className="px-3 py-1 bg-green-500/10 text-green-600 border-green-500/20">30 Prompt Blocks</Badge>
+                  <Badge variant="secondary" className="px-3 py-1 bg-blue-500/10 text-blue-600 border-blue-500/20">System YAML</Badge>
                   <Badge variant="secondary" className="px-3 py-1 bg-purple-500/10 text-purple-600 border-purple-500/20">Sourcegraph Amp</Badge>
                 </div>
               </div>
@@ -206,7 +228,7 @@ export default function ModelDetailClient({
                   </div>
                   <div>
                     <h2 className="text-3xl font-bold font-headline">Prompt Architecture</h2>
-                    <p className="text-muted-foreground">Each section defines a specific behavior of the {modelName} system prompt.</p>
+                    <p className="text-muted-foreground">Browse the {parsedSections.length} core rules and tool instructions that power this agent.</p>
                   </div>
                 </div>
                 
@@ -222,7 +244,7 @@ export default function ModelDetailClient({
               <section className="space-y-6">
                 <div className="flex items-center gap-2">
                   <FileText className="h-5 w-5 text-primary" />
-                  <h2 className="text-2xl font-bold font-headline">Source Definition</h2>
+                  <h2 className="text-2xl font-bold font-headline">Raw YAML Definition</h2>
                 </div>
                 <Card className="border-primary/10 bg-muted/20">
                   <CardHeader className="pb-2 border-b">
@@ -233,7 +255,7 @@ export default function ModelDetailClient({
                       </CardTitle>
                       <Button variant="ghost" size="sm" onClick={() => handleCopyRaw(specialPrompt)}>
                         <Copy className="h-4 w-4 mr-2" />
-                        Copy Raw
+                        Copy Full YAML
                       </Button>
                     </div>
                   </CardHeader>
@@ -241,11 +263,11 @@ export default function ModelDetailClient({
                     <Accordion type="single" collapsible className="w-full">
                       <AccordionItem value="prompt-view" className="border-none px-6">
                         <AccordionTrigger className="hover:no-underline py-4">
-                          <span className="text-lg font-semibold">View Full System YAML</span>
+                          <span className="text-lg font-semibold">Inspect Complete System File</span>
                         </AccordionTrigger>
                         <AccordionContent>
                           <div className="relative pb-6">
-                            <pre className="p-6 rounded-xl bg-black/90 text-white font-mono text-xs leading-relaxed overflow-x-auto max-h-[600px] border shadow-inner">
+                            <pre className="p-6 rounded-xl bg-black/90 text-white font-mono text-xs leading-relaxed overflow-x-auto max-h-[600px] border shadow-inner scrollbar-thin scrollbar-thumb-white/10">
                               {specialPrompt}
                             </pre>
                           </div>
@@ -260,7 +282,7 @@ export default function ModelDetailClient({
             <section>
               <div className="flex items-center gap-2 mb-6">
                 <Sparkles className="h-5 w-5 text-primary" />
-                <h2 className="text-2xl font-bold font-headline">Related Visual Assets</h2>
+                <h2 className="text-2xl font-bold font-headline">Visual Context Examples</h2>
               </div>
               
               {relatedContent.length > 0 ? (
@@ -294,7 +316,7 @@ export default function ModelDetailClient({
                       <CardFooter className="bg-muted/50 p-4 border-t">
                         <Button variant="secondary" size="sm" className="w-full" asChild>
                           <Link href={item.type === 'video' ? `/gallery-videos/${item.id}` : `/gallery/${item.id}`}>
-                            View Details
+                            View Prompt JSON
                           </Link>
                         </Button>
                       </CardFooter>
@@ -304,13 +326,13 @@ export default function ModelDetailClient({
               ) : (
                 <div className="text-center py-20 bg-muted/20 rounded-xl border border-dashed">
                   <Info className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold">Explore more prompts</h3>
+                  <h3 className="text-xl font-semibold">Explore the global gallery</h3>
                   <p className="text-muted-foreground mt-2 max-w-sm mx-auto">
-                    Check out our global gallery for more inspiration across all AI models.
+                    No direct visual matches found for this model yet. Browse our full collection for inspiration.
                   </p>
                   <Button variant="outline" className="mt-6" asChild>
                     <Link href="/image-prompts">
-                      Go to Gallery
+                      Browse Gallery
                     </Link>
                   </Button>
                 </div>
@@ -323,34 +345,34 @@ export default function ModelDetailClient({
               </div>
               <h2 className="text-2xl font-bold font-headline mb-6 flex items-center gap-2">
                 <CheckCircle2 className="text-primary h-6 w-6" />
-                Amp Agent Mastery
+                Engineering Masterclass
               </h2>
               <div className="grid md:grid-cols-3 gap-8 relative z-10">
                 <div className="space-y-2">
-                  <h3 className="font-bold flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-xs">1</div>
-                    Context First
+                  <h3 className="font-bold flex items-center gap-2 text-sm">
+                    <div className="w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center text-[10px]">1</div>
+                    Tool-Specific Logic
                   </h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    Amp is designed to search your codebase. Always provide specific file paths or ask it to scan relevant directories before starting.
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    Amp uses tool descriptions as sub-prompts. Splitting them by # helps you understand how the agent reasons about its environment.
                   </p>
                 </div>
                 <div className="space-y-2">
-                  <h3 className="font-bold flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-xs">2</div>
-                    Reasoning Loop
+                  <h3 className="font-bold flex items-center gap-2 text-sm">
+                    <div className="w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center text-[10px]">2</div>
+                    Instruction Hierarchy
                   </h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    For complex logic errors, ask Amp to "think out loud" or consult its internal reasoning model to avoid shallow fixes.
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    Headers with # represent primary goals, while ## represent specific constraints or examples. Both are essential for accuracy.
                   </p>
                 </div>
                 <div className="space-y-2">
-                  <h3 className="font-bold flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-xs">3</div>
-                    Iterative Edits
+                  <h3 className="font-bold flex items-center gap-2 text-sm">
+                    <div className="w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center text-[10px]">3</div>
+                    Iterative Testing
                   </h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    Instead of one massive prompt, break tasks into smaller logical steps. Amp handles atomic changes with much higher precision.
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    Don't use all 30 blocks at once. Extract relevant sections and test them individually in our prompt generator for best results.
                   </p>
                 </div>
               </div>
