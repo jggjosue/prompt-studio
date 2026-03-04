@@ -13,7 +13,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { PlaceHolderVideos } from '@/lib/placeholder-videos';
-import { ArrowLeft, Sparkles, Wand2, Box, Info, FileText, Copy, Terminal, Bot, CheckCircle2, BookOpen, Lightbulb, MessageSquare } from 'lucide-react';
+import { ArrowLeft, Sparkles, Wand2, Box, FileText, Copy, Terminal, Bot, CheckCircle2, BookOpen, Lightbulb, MessageSquare, ListChecks } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useMemo } from 'react';
@@ -26,22 +26,25 @@ import {
 } from '@/components/ui/accordion';
 
 interface Example {
-  user: string;
-  response: string;
+  user?: string;
+  response?: string;
+  step?: number;
+  action?: string;
 }
 
-interface ParsedSection {
+interface PromptBlock {
   title: string;
-  content: string;
-  usageInstructions: string;
-  examples: Example[];
+  description: string;
+  how_to_use_prompt?: string;
+  examples?: Example[];
 }
 
-function SectionCard({ section }: { section: ParsedSection }) {
+function SectionCard({ section }: { section: PromptBlock }) {
   const { toast } = useToast();
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(section.content).then(() => {
+    const contentToCopy = `${section.description}\n\n${section.how_to_use_prompt || ''}`;
+    navigator.clipboard.writeText(contentToCopy).then(() => {
       toast({
         title: "Prompt Copied!",
         description: `Protocol for "${section.title}" is ready to use.`,
@@ -76,39 +79,51 @@ function SectionCard({ section }: { section: ParsedSection }) {
             <div className="flex-1">
               <p className="text-[10px] font-bold text-muted-foreground uppercase mb-1.5 tracking-tight">Technical Spec</p>
               <div className="bg-muted/20 p-3 rounded-md text-[11px] font-mono border whitespace-pre-wrap leading-relaxed max-h-[200px] overflow-y-auto scrollbar-thin scrollbar-thumb-primary/10">
-                {section.content}
+                {section.description}
               </div>
             </div>
           </div>
         </div>
 
-        {section.examples.length > 0 && (
+        {section.examples && section.examples.length > 0 && (
           <div className="space-y-3 pt-2">
-            <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-tight">Interaction Examples</p>
-            {section.examples.map((ex, i) => (
-              <div key={i} className="text-[10px] bg-primary/5 p-2 rounded border border-primary/10 space-y-1">
-                <p className="text-primary font-bold flex items-center gap-1">
-                  <MessageSquare className="h-3 w-3" /> User: {ex.user}
-                </p>
-                <p className="text-muted-foreground italic">Agent: {ex.response}</p>
-              </div>
-            ))}
+            <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-tight">Examples</p>
+            <div className="space-y-2">
+              {section.examples.map((ex, i) => (
+                <div key={i} className="text-[10px] bg-primary/5 p-2 rounded border border-primary/10 space-y-1">
+                  {ex.user && (
+                    <p className="text-primary font-bold flex items-center gap-1">
+                      <MessageSquare className="h-3 w-3" /> {ex.user}
+                    </p>
+                  )}
+                  {ex.response && <p className="text-muted-foreground italic">Agent: {ex.response}</p>}
+                  {ex.step && (
+                    <p className="text-primary font-bold flex items-center gap-1">
+                      <ListChecks className="h-3 w-3" /> Step {ex.step}
+                    </p>
+                  )}
+                  {ex.action && <p className="text-muted-foreground">{ex.action}</p>}
+                </div>
+              ))}
+            </div>
           </div>
         )}
 
-        <div className="pt-3 border-t border-dashed">
-          <div className="flex items-center gap-1.5 mb-1.5 text-amber-600 dark:text-amber-400">
-            <Lightbulb className="h-3.5 w-3.5" />
-            <h4 className="text-[11px] font-bold uppercase tracking-tight">Usage Strategy</h4>
+        {section.how_to_use_prompt && (
+          <div className="pt-3 border-t border-dashed">
+            <div className="flex items-center gap-1.5 mb-1.5 text-amber-600 dark:text-amber-400">
+              <Lightbulb className="h-3.5 w-3.5" />
+              <h4 className="text-[11px] font-bold uppercase tracking-tight">Usage Strategy</h4>
+            </div>
+            <p className="text-xs text-muted-foreground leading-relaxed italic line-clamp-4">
+              {section.how_to_use_prompt}
+            </p>
           </div>
-          <p className="text-xs text-muted-foreground leading-relaxed italic line-clamp-3">
-            {section.usageInstructions}
-          </p>
-        </div>
+        )}
       </CardContent>
       <CardFooter className="bg-muted/10 p-3 border-t">
         <Button variant="secondary" size="sm" className="w-full text-xs h-8" asChild>
-          <Link href={`/prompt/edit?prompt=${encodeURIComponent(section.content)}`}>
+          <Link href={`/prompt/edit?prompt=${encodeURIComponent(section.description)}`}>
             <Wand2 className="h-3.5 w-3.5 mr-2" />
             Test Prompt
           </Link>
@@ -120,72 +135,15 @@ function SectionCard({ section }: { section: ParsedSection }) {
 
 export default function ModelDetailClient({ 
   modelName, 
-  specialPrompt 
+  specialPrompt,
+  jsonPrompts = []
 }: { 
   modelName: string;
   specialPrompt?: string;
+  jsonPrompts?: PromptBlock[];
 }) {
   const { toast } = useToast();
   
-  const parsedSections: ParsedSection[] = useMemo(() => {
-    if (!specialPrompt || modelName.toLowerCase() !== 'amp') return [];
-
-    const rawParts = specialPrompt.split(/\n#{1,2}\s+/);
-    
-    const generateUsage = (title: string) => {
-      const lowerTitle = title.toLowerCase();
-      if (lowerTitle.includes('agency')) return "Set the balance between autonomy and consultation. Ensure the agent takes initiative without surprising the user.";
-      if (lowerTitle.includes('oracle')) return "Protocol for deep reasoning. Use this when facing architectural challenges or complex multi-file bugs.";
-      if (lowerTitle.includes('task')) return "Progress tracking rules. Ensure the agent uses TODO lists to maintain state clarity during long sessions.";
-      if (lowerTitle.includes('conventions')) return "Enforce code style. Crucial for keeping the codebase idiomatic and maintainable.";
-      if (lowerTitle.includes('git')) return "Safe version control. Instructions for staging, committing, and verifying repository state.";
-      if (lowerTitle.includes('bash')) return "Shell safety. Crucial rules to prevent destructive commands and ensure directory awareness.";
-      if (lowerTitle.includes('search')) return "Navigation logic. Helps the agent find symbols and relationships without getting lost.";
-      if (lowerTitle.includes('diagnostics')) return "Verification rules. Always run lint and typecheck after edits to guarantee correctness.";
-      if (lowerTitle.includes('testing')) return "Validation strategy. Rules for identifying and running the correct test suites.";
-      return "General protocol block. Apply these guidelines to maintain consistency in AI-assisted development workflows.";
-    };
-
-    const extractExamples = (text: string): Example[] => {
-      const examples: Example[] = [];
-      const regex = /<example>([\s\S]*?)<\/example>/g;
-      let match;
-      while ((match = regex.exec(text)) !== null) {
-        const inner = match[1];
-        const userMatch = inner.match(/<user>([\s\S]*?)<\/user>/);
-        const respMatch = inner.match(/<response>([\s\S]*?)<\/response>/);
-        if (userMatch && respMatch) {
-          examples.push({
-            user: userMatch[1].trim(),
-            response: respMatch[1].trim()
-          });
-        }
-      }
-      return examples;
-    };
-
-    return rawParts
-      .filter((part, idx) => idx > 0 && part.trim().length > 0)
-      .map(part => {
-        const lines = part.split('\n');
-        const title = lines[0].trim().replace(/['">|]+$/, '').replace(/\\n/g, '').trim();
-        let fullContent = lines.slice(1).join('\n').trim();
-        
-        const examples = extractExamples(fullContent);
-        // Remove examples from content for cleaner technical display
-        const content = fullContent.replace(/<example>[\s\S]*?<\/example>/g, '').trim();
-
-        return { 
-          title, 
-          content, 
-          usageInstructions: generateUsage(title),
-          examples
-        };
-      })
-      .filter(section => section.content.length > 10)
-      .slice(0, 30);
-  }, [specialPrompt, modelName]);
-
   const relatedContent = useMemo(() => {
     const images = PlaceHolderImages.filter(item => 
       item.tags.some(tag => tag.toLowerCase() === modelName.toLowerCase()) ||
@@ -229,13 +187,13 @@ export default function ModelDetailClient({
                   <h1 className="text-4xl font-bold font-headline">{modelName} Protocol</h1>
                 </div>
                 <p className="text-muted-foreground text-lg max-w-2xl">
-                  A library of 30 specialized prompts extracted from the {modelName} core system. 
-                  Master the architecture behind high-performance coding agents.
+                  Expertly crafted prompts and instructions extracted from the {modelName} system. 
+                  Master the patterns that power professional AI interactions.
                 </p>
                 <div className="flex flex-wrap gap-2 pt-2">
-                  <Badge variant="secondary" className="px-3 py-1 bg-green-500/10 text-green-600 border-green-500/20">30 Prompt Blocks</Badge>
+                  <Badge variant="secondary" className="px-3 py-1 bg-green-500/10 text-green-600 border-green-500/20">{jsonPrompts.length || '30+'} Prompt Blocks</Badge>
                   <Badge variant="secondary" className="px-3 py-1 bg-blue-500/10 text-blue-600 border-blue-500/20">System Protocol</Badge>
-                  <Badge variant="secondary" className="px-3 py-1 bg-purple-500/10 text-purple-600 border-purple-500/20">Sourcegraph Amp</Badge>
+                  <Badge variant="secondary" className="px-3 py-1 bg-purple-500/10 text-purple-600 border-purple-500/20">Optimized for Agents</Badge>
                 </div>
               </div>
               <div className="flex flex-col gap-3">
@@ -250,7 +208,7 @@ export default function ModelDetailClient({
           </div>
 
           <div className="grid gap-16">
-            {parsedSections.length > 0 && (
+            {jsonPrompts.length > 0 && (
               <section className="space-y-8">
                 <div className="flex items-center gap-3">
                   <div className="bg-primary/10 p-2 rounded-lg">
@@ -258,12 +216,12 @@ export default function ModelDetailClient({
                   </div>
                   <div>
                     <h2 className="text-3xl font-bold font-headline">Prompt Architecture</h2>
-                    <p className="text-muted-foreground">Browse the {parsedSections.length} core rules and tool instructions that power this agent.</p>
+                    <p className="text-muted-foreground">Browse the {jsonPrompts.length} structured rules and examples for this system.</p>
                   </div>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {parsedSections.map((section, idx) => (
+                  {jsonPrompts.map((section, idx) => (
                     <SectionCard key={idx} section={section} />
                   ))}
                 </div>
@@ -281,7 +239,7 @@ export default function ModelDetailClient({
                     <div className="flex justify-between items-center">
                       <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider flex items-center gap-2">
                         <Terminal className="h-4 w-4" />
-                        amp.yaml
+                        {modelName.toLowerCase()}.yaml
                       </CardTitle>
                       <Button variant="ghost" size="sm" onClick={() => handleCopyRaw(specialPrompt)}>
                         <Copy className="h-4 w-4 mr-2" />
@@ -355,7 +313,7 @@ export default function ModelDetailClient({
                 </div>
               ) : (
                 <div className="text-center py-20 bg-muted/20 rounded-xl border border-dashed">
-                  <Info className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                  <Bot className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
                   <h3 className="text-xl font-semibold">Explore the global gallery</h3>
                   <p className="text-muted-foreground mt-2 max-w-sm mx-auto">
                     No direct visual matches found for this model yet. Browse our full collection for inspiration.
@@ -381,28 +339,28 @@ export default function ModelDetailClient({
                 <div className="space-y-2">
                   <h3 className="font-bold flex items-center gap-2 text-sm">
                     <div className="w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center text-[10px]">1</div>
-                    Context-Aware Initiative
+                    Context-Aware Strategy
                   </h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">
-                    The Agency protocol defines how an agent should react to ambiguity. It balances autonomous action with user consultation.
+                    The protocols define how an agent should react to ambiguity. Always provide the "Strategy" to set the right technical boundaries.
                   </p>
                 </div>
                 <div className="space-y-2">
                   <h3 className="font-bold flex items-center gap-2 text-sm">
                     <div className="w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center text-[10px]">2</div>
-                    Instruction Hierarchy
+                    Iterative Validation
                   </h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">
-                    Headers with # represent primary goals, while ## represent specific constraints. Both are essential for accuracy.
+                    Don't apply all protocols at once. Start with the "Agency" or "Task Management" blocks and scale up as the task grows in complexity.
                   </p>
                 </div>
                 <div className="space-y-2">
                   <h3 className="font-bold flex items-center gap-2 text-sm">
                     <div className="w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center text-[10px]">3</div>
-                    Iterative Testing
+                    Actionable Examples
                   </h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">
-                    Don't use all 30 blocks at once. Extract relevant sections like "Git Workflow" and test them individually for best results.
+                    Each example shows the expected input and output. Use them to train your own models or calibrate existing coding assistants.
                   </p>
                 </div>
               </div>

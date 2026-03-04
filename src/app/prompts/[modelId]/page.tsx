@@ -39,14 +39,31 @@ export default function ModelDetailPage({ params }: Props) {
     }
 
     let specialPrompt = '';
-    if (params.modelId === 'amp') {
-      try {
-        const filePath = path.join(process.cwd(), 'src/lib/amp.yaml');
-        specialPrompt = fs.readFileSync(filePath, 'utf8');
-      } catch (error) {
-        console.error('Error reading amp.yaml:', error);
+    try {
+      const yamlPath = path.join(process.cwd(), 'src/lib/amp.yaml');
+      if (fs.existsSync(yamlPath)) {
+        specialPrompt = fs.readFileSync(yamlPath, 'utf8');
       }
+    } catch (error) {
+      console.error('Error reading amp.yaml:', error);
     }
 
-    return <ModelDetailClient modelName={modelName} specialPrompt={specialPrompt} />;
+    let jsonPrompts = [];
+    try {
+      const jsonPath = path.join(process.cwd(), `src/lib/prompts/${params.modelId}.json`);
+      if (fs.existsSync(jsonPath)) {
+        const jsonData = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
+        jsonPrompts = jsonData[params.modelId] || [];
+      }
+    } catch (error) {
+      console.error(`Error reading ${params.modelId}.json:`, error);
+    }
+
+    return (
+      <ModelDetailClient 
+        modelName={modelName} 
+        specialPrompt={specialPrompt} 
+        jsonPrompts={jsonPrompts}
+      />
+    );
 }
