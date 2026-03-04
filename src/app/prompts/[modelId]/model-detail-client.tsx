@@ -13,17 +13,11 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { PlaceHolderVideos } from '@/lib/placeholder-videos';
-import { ArrowLeft, Sparkles, Wand2, Box, FileText, Copy, Terminal, Bot, CheckCircle2, BookOpen, Lightbulb, MessageSquare, ListChecks } from 'lucide-react';
+import { ArrowLeft, Sparkles, Wand2, Box, Copy, Bot, CheckCircle2, BookOpen, Lightbulb, MessageSquare, ListChecks } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useMemo } from 'react';
 import { useToast } from '@/hooks/use-toast';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
 
 interface Example {
   user?: string;
@@ -135,15 +129,12 @@ function SectionCard({ section }: { section: PromptBlock }) {
 
 export default function ModelDetailClient({ 
   modelName, 
-  specialPrompt,
   jsonPrompts = []
 }: { 
   modelName: string;
   specialPrompt?: string;
   jsonPrompts?: PromptBlock[];
 }) {
-  const { toast } = useToast();
-  
   const relatedContent = useMemo(() => {
     const images = PlaceHolderImages.filter(item => 
       item.tags.some(tag => tag.toLowerCase() === modelName.toLowerCase()) ||
@@ -155,15 +146,6 @@ export default function ModelDetailClient({
     );
     return [...images, ...videos].slice(0, 6);
   }, [modelName]);
-
-  const handleCopyRaw = (text: string) => {
-    navigator.clipboard.writeText(text).then(() => {
-      toast({
-        title: "Copied!",
-        description: "Raw protocol content copied to clipboard.",
-      });
-    });
-  };
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
@@ -225,45 +207,6 @@ export default function ModelDetailClient({
                     <SectionCard key={idx} section={section} />
                   ))}
                 </div>
-              </section>
-            )}
-
-            {specialPrompt && (
-              <section className="space-y-4 sm:space-y-6">
-                <div className="flex items-center gap-2">
-                  <FileText className="h-5 w-5 text-primary" />
-                  <h2 className="text-lg sm:text-2xl font-bold font-headline">Raw Protocol Definition</h2>
-                </div>
-                <Card className="border-primary/10 bg-muted/20">
-                  <CardHeader className="p-4 border-b">
-                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                      <CardTitle className="text-[10px] sm:text-sm font-medium text-muted-foreground uppercase tracking-wider flex items-center gap-2">
-                        <Terminal className="h-4 w-4" />
-                        {modelName.toLowerCase()}.yaml
-                      </CardTitle>
-                      <Button variant="ghost" size="sm" onClick={() => handleCopyRaw(specialPrompt)} className="w-full sm:w-auto">
-                        <Copy className="h-4 w-4 mr-2" />
-                        Copy Full Text
-                      </Button>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="p-0">
-                    <Accordion type="single" collapsible className="w-full">
-                      <AccordionItem value="prompt-view" className="border-none px-4 sm:px-6">
-                        <AccordionTrigger className="hover:no-underline py-4">
-                          <span className="text-base sm:text-lg font-semibold">Inspect Complete System File</span>
-                        </AccordionTrigger>
-                        <AccordionContent>
-                          <div className="relative pb-6">
-                            <pre className="p-4 sm:p-6 rounded-xl bg-black/90 text-white font-mono text-[10px] sm:text-xs leading-relaxed overflow-x-auto max-h-[400px] sm:max-h-[600px] border shadow-inner scrollbar-thin scrollbar-thumb-white/10">
-                              {specialPrompt}
-                            </pre>
-                          </div>
-                        </AccordionContent>
-                      </AccordionItem>
-                    </Accordion>
-                  </CardContent>
-                </Card>
               </section>
             )}
 
