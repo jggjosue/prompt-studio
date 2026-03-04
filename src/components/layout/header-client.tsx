@@ -11,6 +11,7 @@ import {
   DollarSign,
   Settings,
   LogOut,
+  Sparkles,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -36,8 +37,6 @@ import {
 import { ThemeToggle } from '../theme-toggle';
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs';
 import {
-  LoginLink,
-  RegisterLink,
   LogoutLink,
 } from '@kinde-oss/kinde-auth-nextjs/components';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -49,45 +48,45 @@ export default function HeaderClient() {
   const navLinks = [
     { href: '/', label: 'Home' },
     {
-      label: 'Video',
+      label: 'Prompts',
       dropdown: [
+        {
+          href: '/prompts',
+          label: 'Library',
+          description: 'All AI Prompts',
+          icon: <LayoutGrid className="h-5 w-5" />,
+        },
+        {
+          href: '/image-prompts',
+          label: 'Image Prompts',
+          description: 'Visual inspirations',
+          icon: <ImageIcon className="h-5 w-5" />,
+        },
         {
           href: '/video-prompts',
           label: 'Video Prompts',
-          description: 'Browse AI video prompts',
+          description: 'Motion inspirations',
           icon: <Video className="h-5 w-5" />,
         },
       ],
     },
     {
-      label: 'Image',
-      dropdown: [
-        {
-          href: '/image-prompts',
-          label: 'Image Prompts',
-          description: 'Browse AI image prompts',
-          icon: <ImageIcon className="h-5 w-5" />,
-        },
-      ],
-    },
-    {
-      label: 'Tag',
+      label: 'Tags',
       dropdown: [
         {
           href: '/video-tags',
           label: 'Video Tags',
-          description: 'Browse AI video tags',
+          description: 'Browse by motion style',
           icon: <Tag className="h-5 w-5" />,
         },
         {
           href: '/image-tags',
           label: 'Image Tags',
-          description: 'Browse AI image tags',
+          description: 'Browse by visual style',
           icon: <Tag className="h-5 w-5" />,
         },
       ],
     },
-    // { href: '/pricing', label: 'Pricing' },
   ];
 
   return (
@@ -216,16 +215,6 @@ export default function HeaderClient() {
               <Skeleton className="h-8 w-8 rounded-full" />
             </div>
           )}
-          {!isLoading && !isAuthenticated && (
-            <div className="flex items-center gap-2">
-              {/* <Button variant="ghost" asChild>
-                <LoginLink>Sign in</LoginLink>
-              </Button> */}
-              {/* <Button asChild>
-                <RegisterLink>Sign up</RegisterLink>
-              </Button> */}
-            </div>
-          )}
           {!isLoading && isAuthenticated && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -245,26 +234,26 @@ export default function HeaderClient() {
               <DropdownMenuContent className="w-56" align="end" forceMount>
                 <DropdownMenuItem>
                   <Link href="/dashboard" className="flex items-center w-full">
-                    <LayoutGrid className="mr-2" />
+                    <LayoutGrid className="mr-2 h-4 w-4" />
                     Dashboard
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Link href="/dashboard/billing" className="flex items-center w-full">
-                    <DollarSign className="mr-2" />
+                    <DollarSign className="mr-2 h-4 w-4" />
                     Billing
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Link href="/dashboard/settings" className="flex items-center w-full">
-                    <Settings className="mr-2" />
+                    <Settings className="mr-2 h-4 w-4" />
                     Settings
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
                   <LogoutLink className="flex items-center w-full">
-                    <LogOut className="mr-2" />
+                    <LogOut className="mr-2 h-4 w-4" />
                     Sign out
                   </LogoutLink>
                 </DropdownMenuItem>
