@@ -1,3 +1,4 @@
+
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import ModelDetailClient from './model-detail-client';
@@ -38,14 +39,17 @@ export default function ModelDetailPage({ params }: Props) {
         notFound();
     }
 
+    // El archivo YAML solo es para el modelo Amp por ahora
     let specialPrompt = '';
-    try {
-      const yamlPath = path.join(process.cwd(), 'src/lib/amp.yaml');
-      if (fs.existsSync(yamlPath)) {
-        specialPrompt = fs.readFileSync(yamlPath, 'utf8');
+    if (params.modelId === 'amp') {
+      try {
+        const yamlPath = path.join(process.cwd(), 'src/lib/amp.yaml');
+        if (fs.existsSync(yamlPath)) {
+          specialPrompt = fs.readFileSync(yamlPath, 'utf8');
+        }
+      } catch (error) {
+        console.error('Error reading amp.yaml:', error);
       }
-    } catch (error) {
-      console.error('Error reading amp.yaml:', error);
     }
 
     let jsonPrompts = [];

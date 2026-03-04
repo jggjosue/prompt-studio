@@ -1,0 +1,86 @@
+
+{
+  "anthropic": [
+    {
+      "title": "Task Agent",
+      "description": "Lanza un nuevo agente para manejar tareas complejas y de múltiples pasos de forma autónoma. Soporta agentes de propósito general, configuración de línea de estado y estilos de salida.",
+      "how_to_use_prompt": "Utiliza este protocolo cuando necesites realizar investigaciones profundas o búsquedas en el código que requieran autonomía. Es ideal para tareas que no puedes resolver en un solo intento. Recuerda que cada invocación es independiente, por lo que debes proporcionar instrucciones detalladas.",
+      "examples": [
+        {
+          "user": "Escribe una función para verificar números primos.",
+          "response": "Escribiré la función y luego usaré el agente 'code-reviewer' para validar la implementación."
+        },
+        {
+          "action": "Lanza el agente con el prompt: 'Analiza la seguridad de este endpoint y sugiere mejoras'."
+        }
+      ]
+    },
+    {
+      "title": "Bash Persistence",
+      "description": "Ejecuta comandos bash en una sesión persistente. Incluye verificación de directorios, manejo de espacios en rutas y seguridad en la ejecución.",
+      "how_to_use_prompt": "Usa este bloque para interactuar con el sistema operativo. Siempre verifica que el directorio padre existe antes de crear archivos. Evita comandos de búsqueda genéricos (como find) y prefiere las herramientas optimizadas de búsqueda de Anthropic.",
+      "examples": [
+        {
+          "step": 1,
+          "action": "ls -> Lista archivos en el directorio actual."
+        },
+        {
+          "step": 2,
+          "action": "npm install -> Instala dependencias del proyecto."
+        }
+      ]
+    },
+    {
+      "title": "Precise Editing",
+      "description": "Realiza reemplazos de strings exactos en archivos. Requiere lectura previa del archivo para asegurar la precisión del contexto y la indentación.",
+      "how_to_use_prompt": "Para editar código, primero lee el archivo. Asegúrate de capturar suficiente contexto en 'old_string' para que sea único. Este protocolo garantiza que no se rompa la estructura del archivo por reemplazos ambiguos.",
+      "examples": [
+        {
+          "action": "Lee main.js -> Identifica la función a cambiar -> Usa Edit para actualizar la lógica preservando el estilo original."
+        }
+      ]
+    },
+    {
+      "title": "Code Search (Grep)",
+      "description": "Herramienta de búsqueda potente basada en ripgrep. Soporta expresiones regulares, filtrado por tipo de archivo y búsqueda multilínea.",
+      "how_to_use_prompt": "Usa este protocolo para encontrar patrones en todo el código. Es mucho más rápido que buscar manualmente. Puedes filtrar por extensión (e.g., .tsx) o por lenguaje para reducir el ruido en los resultados.",
+      "examples": [
+        {
+          "user": "Busca dónde se manejan los errores de API.",
+          "response": "[Usa Grep con el patrón 'Error.*API']"
+        }
+      ]
+    },
+    {
+      "title": "Todo & Progress",
+      "description": "Gestiona una lista de tareas estructurada para la sesión actual. Ayuda a organizar tareas complejas y proporciona visibilidad al usuario sobre el progreso.",
+      "how_to_use_prompt": "Proactivamente crea una lista de tareas cuando enfrentes un problema de más de 3 pasos. Marca cada tarea como 'in_progress' antes de empezar y 'completed' inmediatamente al terminar. Solo debe haber una tarea en progreso a la vez.",
+      "examples": [
+        {
+          "action": "Crea lista: 1. Investigar bug, 2. Arreglar lógica, 3. Ejecutar tests."
+        }
+      ]
+    },
+    {
+      "title": "Web Fetch & Search",
+      "description": "Obtiene contenido de URLs y procesa la información usando modelos de IA. Convierte HTML a Markdown para un análisis técnico más limpio.",
+      "how_to_use_prompt": "Usa este bloque cuando necesites consultar documentación externa actualizada o investigar librerías nuevas en la web. El sistema filtrará la publicidad y el ruido para entregarte solo la información técnica relevante.",
+      "examples": [
+        {
+          "user": "Busca la última versión de Next.js y sus cambios principales.",
+          "response": "[Usa WebSearch para encontrar el blog oficial y WebFetch para leer el contenido]"
+        }
+      ]
+    },
+    {
+      "title": "Git Workflow",
+      "description": "Protocolo para gestionar commits y pull requests. Incluye análisis de diffs, redacción de mensajes concisos y cumplimiento de estándares del repositorio.",
+      "how_to_use_prompt": "Cuando termines una tarea, usa este protocolo para confirmar los cambios. El asistente analizará el log para seguir el estilo de commits del proyecto y generará una descripción basada en el 'por qué' del cambio.",
+      "examples": [
+        {
+          "action": "git status -> git diff -> git commit con mensaje descriptivo y co-autoría."
+        }
+      ]
+    }
+  ]
+}
