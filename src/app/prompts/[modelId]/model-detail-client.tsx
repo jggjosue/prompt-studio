@@ -54,7 +54,7 @@ function SectionCard({ section }: { section: PromptBlock }) {
 
   return (
     <Card className="border-primary/10 overflow-hidden flex flex-col h-full bg-card/50 backdrop-blur-sm hover:shadow-md transition-all group">
-      <CardHeader className="bg-muted/30 pb-3">
+      <CardHeader className="bg-muted/30 pb-3 p-4 sm:p-6">
         <div className="flex justify-between items-start">
           <div className="space-y-1">
             <Badge variant="outline" className="mb-1 bg-primary/5 text-primary border-primary/20 uppercase text-[9px] tracking-widest">
@@ -65,12 +65,12 @@ function SectionCard({ section }: { section: PromptBlock }) {
               {section.title}
             </CardTitle>
           </div>
-          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleCopy}>
+          <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" onClick={handleCopy}>
             <Copy className="h-3.5 w-3.5" />
           </Button>
         </div>
       </CardHeader>
-      <CardContent className="p-5 space-y-4 flex-grow">
+      <CardContent className="p-4 sm:p-5 space-y-4 flex-grow">
         <div className="space-y-3">
           <div className="flex gap-2">
             <div className="bg-purple-500/10 p-1.5 rounded-md h-fit mt-0.5">
@@ -168,9 +168,9 @@ export default function ModelDetailClient({
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
       <Header />
-      <main className="flex-1 py-12 md:py-16">
-        <div className="container max-w-7xl">
-          <div className="mb-12">
+      <main className="flex-1 py-8 md:py-16">
+        <div className="container max-w-7xl px-4 sm:px-6">
+          <div className="mb-8 md:mb-12">
             <Button variant="ghost" asChild size="sm" className="mb-4">
               <Link href="/prompts">
                 <ArrowLeft className="mr-2 h-4 w-4" />
@@ -178,28 +178,28 @@ export default function ModelDetailClient({
               </Link>
             </Button>
             
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-muted/30 p-8 rounded-2xl border border-primary/5">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-muted/30 p-6 sm:p-8 rounded-2xl border border-primary/5">
               <div className="space-y-2">
                 <div className="flex items-center gap-3">
-                  <div className="bg-primary p-3 rounded-xl text-white shadow-lg shadow-primary/20">
-                    <Box className="h-8 w-8" />
+                  <div className="bg-primary p-2 sm:p-3 rounded-xl text-white shadow-lg shadow-primary/20">
+                    <Box className="h-6 w-6 sm:h-8 sm:w-8" />
                   </div>
-                  <h1 className="text-4xl font-bold font-headline">{modelName} Protocol</h1>
+                  <h1 className="text-2xl sm:text-4xl font-bold font-headline">{modelName} Protocol</h1>
                 </div>
-                <p className="text-muted-foreground text-lg max-w-2xl">
+                <p className="text-muted-foreground text-sm sm:text-lg max-w-2xl">
                   Expertly crafted prompts and instructions extracted from the {modelName} system. 
                   Master the patterns that power professional AI interactions.
                 </p>
                 <div className="flex flex-wrap gap-2 pt-2">
-                  <Badge variant="secondary" className="px-3 py-1 bg-green-500/10 text-green-600 border-green-500/20">{jsonPrompts.length || '30+'} Prompt Blocks</Badge>
-                  <Badge variant="secondary" className="px-3 py-1 bg-blue-500/10 text-blue-600 border-blue-500/20">System Protocol</Badge>
-                  <Badge variant="secondary" className="px-3 py-1 bg-purple-500/10 text-purple-600 border-purple-500/20">Optimized for Agents</Badge>
+                  <Badge variant="secondary" className="px-2 sm:px-3 py-0.5 sm:py-1 bg-green-500/10 text-green-600 border-green-500/20 text-[10px] sm:text-xs">{jsonPrompts.length || '30+'} Blocks</Badge>
+                  <Badge variant="secondary" className="px-2 sm:px-3 py-0.5 sm:py-1 bg-blue-500/10 text-blue-600 border-blue-500/20 text-[10px] sm:text-xs">System Protocol</Badge>
+                  <Badge variant="secondary" className="px-2 sm:px-3 py-0.5 sm:py-1 bg-purple-500/10 text-purple-600 border-purple-500/20 text-[10px] sm:text-xs">Optimized</Badge>
                 </div>
               </div>
               <div className="flex flex-col gap-3">
-                <Button size="lg" className="w-full md:w-auto shadow-md" asChild>
+                <Button size="lg" className="w-full md:w-auto shadow-md text-sm sm:text-base" asChild>
                   <Link href={`/prompt/edit?model=${encodeURIComponent(modelName)}`}>
-                    <Wand2 className="mr-2 h-5 w-5" />
+                    <Wand2 className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                     Open Generator
                   </Link>
                 </Button>
@@ -207,20 +207,20 @@ export default function ModelDetailClient({
             </div>
           </div>
 
-          <div className="grid gap-16">
+          <div className="grid gap-12 md:gap-16">
             {jsonPrompts.length > 0 && (
-              <section className="space-y-8">
+              <section className="space-y-6 sm:space-y-8">
                 <div className="flex items-center gap-3">
                   <div className="bg-primary/10 p-2 rounded-lg">
-                    <Sparkles className="h-6 w-6 text-primary" />
+                    <Sparkles className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
                   </div>
                   <div>
-                    <h2 className="text-3xl font-bold font-headline">Prompt Architecture</h2>
-                    <p className="text-muted-foreground">Browse the {jsonPrompts.length} structured rules and examples for this system.</p>
+                    <h2 className="text-xl sm:text-3xl font-bold font-headline">Prompt Architecture</h2>
+                    <p className="text-xs sm:text-muted-foreground">Browse structured rules and examples for this system.</p>
                   </div>
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                   {jsonPrompts.map((section, idx) => (
                     <SectionCard key={idx} section={section} />
                   ))}
@@ -229,19 +229,19 @@ export default function ModelDetailClient({
             )}
 
             {specialPrompt && (
-              <section className="space-y-6">
+              <section className="space-y-4 sm:space-y-6">
                 <div className="flex items-center gap-2">
                   <FileText className="h-5 w-5 text-primary" />
-                  <h2 className="text-2xl font-bold font-headline">Raw Protocol Definition</h2>
+                  <h2 className="text-lg sm:text-2xl font-bold font-headline">Raw Protocol Definition</h2>
                 </div>
                 <Card className="border-primary/10 bg-muted/20">
-                  <CardHeader className="pb-2 border-b">
-                    <div className="flex justify-between items-center">
-                      <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider flex items-center gap-2">
+                  <CardHeader className="p-4 border-b">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                      <CardTitle className="text-[10px] sm:text-sm font-medium text-muted-foreground uppercase tracking-wider flex items-center gap-2">
                         <Terminal className="h-4 w-4" />
                         {modelName.toLowerCase()}.yaml
                       </CardTitle>
-                      <Button variant="ghost" size="sm" onClick={() => handleCopyRaw(specialPrompt)}>
+                      <Button variant="ghost" size="sm" onClick={() => handleCopyRaw(specialPrompt)} className="w-full sm:w-auto">
                         <Copy className="h-4 w-4 mr-2" />
                         Copy Full Text
                       </Button>
@@ -249,13 +249,13 @@ export default function ModelDetailClient({
                   </CardHeader>
                   <CardContent className="p-0">
                     <Accordion type="single" collapsible className="w-full">
-                      <AccordionItem value="prompt-view" className="border-none px-6">
+                      <AccordionItem value="prompt-view" className="border-none px-4 sm:px-6">
                         <AccordionTrigger className="hover:no-underline py-4">
-                          <span className="text-lg font-semibold">Inspect Complete System File</span>
+                          <span className="text-base sm:text-lg font-semibold">Inspect Complete System File</span>
                         </AccordionTrigger>
                         <AccordionContent>
                           <div className="relative pb-6">
-                            <pre className="p-6 rounded-xl bg-black/90 text-white font-mono text-xs leading-relaxed overflow-x-auto max-h-[600px] border shadow-inner scrollbar-thin scrollbar-thumb-white/10">
+                            <pre className="p-4 sm:p-6 rounded-xl bg-black/90 text-white font-mono text-[10px] sm:text-xs leading-relaxed overflow-x-auto max-h-[400px] sm:max-h-[600px] border shadow-inner scrollbar-thin scrollbar-thumb-white/10">
                               {specialPrompt}
                             </pre>
                           </div>
@@ -270,15 +270,15 @@ export default function ModelDetailClient({
             <section>
               <div className="flex items-center gap-2 mb-6">
                 <Sparkles className="h-5 w-5 text-primary" />
-                <h2 className="text-2xl font-bold font-headline">Visual Context Examples</h2>
+                <h2 className="text-lg sm:text-2xl font-bold font-headline">Visual Context Examples</h2>
               </div>
               
               {relatedContent.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                   {relatedContent.map(item => (
                     <Card key={item.id} className="overflow-hidden group h-full flex flex-col hover:shadow-lg transition-all border-primary/5">
                       <CardHeader className="p-4">
-                        <CardTitle className="font-headline text-lg line-clamp-1">
+                        <CardTitle className="font-headline text-base sm:text-lg line-clamp-1">
                           {item.title}
                         </CardTitle>
                       </CardHeader>
@@ -301,8 +301,8 @@ export default function ModelDetailClient({
                           )}
                         </div>
                       </CardContent>
-                      <CardFooter className="bg-muted/50 p-4 border-t">
-                        <Button variant="secondary" size="sm" className="w-full" asChild>
+                      <CardFooter className="bg-muted/50 p-3 sm:p-4 border-t">
+                        <Button variant="secondary" size="sm" className="w-full text-xs" asChild>
                           <Link href={item.type === 'video' ? `/gallery-videos/${item.id}` : `/gallery/${item.id}`}>
                             View Prompt JSON
                           </Link>
@@ -312,13 +312,13 @@ export default function ModelDetailClient({
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-20 bg-muted/20 rounded-xl border border-dashed">
-                  <Bot className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold">Explore the global gallery</h3>
-                  <p className="text-muted-foreground mt-2 max-w-sm mx-auto">
+                <div className="text-center py-12 sm:py-20 bg-muted/20 rounded-xl border border-dashed px-4">
+                  <Bot className="h-10 w-10 sm:h-12 sm:w-12 text-muted-foreground mx-auto mb-4" />
+                  <h3 className="text-lg sm:text-xl font-semibold">Explore the global gallery</h3>
+                  <p className="text-xs sm:text-muted-foreground mt-2 max-w-sm mx-auto">
                     No direct visual matches found for this model yet. Browse our full collection for inspiration.
                   </p>
-                  <Button variant="outline" className="mt-6" asChild>
+                  <Button variant="outline" className="mt-6 w-full sm:w-auto" asChild>
                     <Link href="/image-prompts">
                       Browse Gallery
                     </Link>
@@ -327,18 +327,18 @@ export default function ModelDetailClient({
               )}
             </section>
 
-            <section className="bg-primary/5 p-8 rounded-3xl border border-primary/10 relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-8 opacity-10">
-                <Box className="h-32 w-32" />
+            <section className="bg-primary/5 p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-primary/10 relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-4 sm:p-8 opacity-5 sm:opacity-10 pointer-events-none">
+                <Box className="h-24 w-24 sm:h-32 sm:w-32" />
               </div>
-              <h2 className="text-2xl font-bold font-headline mb-6 flex items-center gap-2">
-                <CheckCircle2 className="text-primary h-6 w-6" />
+              <h2 className="text-xl sm:text-2xl font-bold font-headline mb-6 flex items-center gap-2">
+                <CheckCircle2 className="text-primary h-5 w-5 sm:h-6 sm:w-6" />
                 Engineering Masterclass
               </h2>
-              <div className="grid md:grid-cols-3 gap-8 relative z-10">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 relative z-10">
                 <div className="space-y-2">
                   <h3 className="font-bold flex items-center gap-2 text-sm">
-                    <div className="w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center text-[10px]">1</div>
+                    <div className="w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center text-[10px] shrink-0">1</div>
                     Context-Aware Strategy
                   </h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">
@@ -347,7 +347,7 @@ export default function ModelDetailClient({
                 </div>
                 <div className="space-y-2">
                   <h3 className="font-bold flex items-center gap-2 text-sm">
-                    <div className="w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center text-[10px]">2</div>
+                    <div className="w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center text-[10px] shrink-0">2</div>
                     Iterative Validation
                   </h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">
@@ -356,7 +356,7 @@ export default function ModelDetailClient({
                 </div>
                 <div className="space-y-2">
                   <h3 className="font-bold flex items-center gap-2 text-sm">
-                    <div className="w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center text-[10px]">3</div>
+                    <div className="w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center text-[10px] shrink-0">3</div>
                     Actionable Examples
                   </h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">
