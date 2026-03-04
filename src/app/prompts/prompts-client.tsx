@@ -27,8 +27,23 @@ const promptModels = [
   "Google",
   "Junie",
   "Kiro",
-  "Leap.new"
-];
+  "Leap.new",
+  "Lovable",
+  "Manus Agent Tools & Prompts",
+  "NotionAi",
+  "Open Source prompts",
+  "Orchids.app",
+  "Perplexity",
+  "Poke",
+  "Qoder",
+  "Replit",
+  "Same.dev",
+  "Trae",
+  "Traycer AI",
+  "VSCode Agent",
+  "Warp.dev",
+  "Windsurf"
+].sort();
 
 function PromptsContent() {
   const [searchTerm, setSearcherTerm] = useState('');
