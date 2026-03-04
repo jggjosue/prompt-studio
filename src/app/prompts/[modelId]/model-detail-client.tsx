@@ -13,7 +13,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { PlaceHolderVideos } from '@/lib/placeholder-videos';
-import { ArrowLeft, Sparkles, Wand2, Box, Copy, Bot, CheckCircle2, BookOpen, Lightbulb, MessageSquare, ListChecks } from 'lucide-react';
+import { ArrowLeft, Sparkles, Wand2, Box, Copy, Bot, CheckCircle2, BookOpen, Lightbulb, MessageSquare, ListChecks, Terminal } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useMemo } from 'react';
@@ -66,13 +66,14 @@ function SectionCard({ section }: { section: PromptBlock }) {
       </CardHeader>
       <CardContent className="p-4 sm:p-5 space-y-4 flex-grow">
         <div className="space-y-3">
-          <div className="flex gap-2">
-            <div className="bg-purple-500/10 p-1.5 rounded-md h-fit mt-0.5">
-              <Bot className="h-3.5 w-3.5 text-purple-500" />
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2 text-[10px] font-bold text-muted-foreground uppercase tracking-tight">
+              <Terminal className="h-3 w-3 text-primary" />
+              Technical Spec
             </div>
-            <div className="flex-1">
-              <p className="text-[10px] font-bold text-muted-foreground uppercase mb-1.5 tracking-tight">Technical Spec</p>
-              <div className="bg-muted/20 p-3 rounded-md text-[11px] font-mono border whitespace-pre-wrap leading-relaxed max-h-[200px] overflow-y-auto scrollbar-thin scrollbar-thumb-primary/10">
+            <div className="relative group/spec">
+              <div className="absolute inset-y-0 left-0 w-1 bg-primary/30 rounded-full group-hover/spec:bg-primary transition-colors" />
+              <div className="bg-zinc-950 dark:bg-zinc-900/80 p-4 pl-5 rounded-md text-[11px] font-mono text-zinc-300 dark:text-zinc-400 border border-white/5 whitespace-pre-wrap leading-relaxed max-h-[250px] overflow-y-auto shadow-inner scrollbar-thin scrollbar-thumb-white/10">
                 {section.description}
               </div>
             </div>
@@ -84,19 +85,19 @@ function SectionCard({ section }: { section: PromptBlock }) {
             <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-tight">Examples</p>
             <div className="space-y-2">
               {section.examples.map((ex, i) => (
-                <div key={i} className="text-[10px] bg-primary/5 p-2 rounded border border-primary/10 space-y-1">
+                <div key={i} className="text-[10px] bg-primary/5 p-3 rounded border border-primary/10 space-y-1 hover:bg-primary/10 transition-colors">
                   {ex.user && (
-                    <p className="text-primary font-bold flex items-center gap-1">
+                    <p className="text-primary font-bold flex items-center gap-1.5">
                       <MessageSquare className="h-3 w-3" /> {ex.user}
                     </p>
                   )}
-                  {ex.response && <p className="text-muted-foreground italic">Agent: {ex.response}</p>}
+                  {ex.response && <p className="text-muted-foreground italic leading-relaxed">Agent: {ex.response}</p>}
                   {ex.step && (
-                    <p className="text-primary font-bold flex items-center gap-1">
+                    <p className="text-primary font-bold flex items-center gap-1.5">
                       <ListChecks className="h-3 w-3" /> Step {ex.step}
                     </p>
                   )}
-                  {ex.action && <p className="text-muted-foreground">{ex.action}</p>}
+                  {ex.action && <p className="text-muted-foreground leading-relaxed">{ex.action}</p>}
                 </div>
               ))}
             </div>
