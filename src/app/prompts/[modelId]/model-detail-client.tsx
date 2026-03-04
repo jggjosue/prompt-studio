@@ -1,3 +1,4 @@
+
 'use client';
 
 import Footer from '@/components/layout/footer';
@@ -137,13 +138,14 @@ export default function ModelDetailClient({
   jsonPrompts?: PromptBlock[];
 }) {
   const relatedContent = useMemo(() => {
+    const modelSlug = modelName.toLowerCase();
     const images = PlaceHolderImages.filter(item => 
-      item.tags.some(tag => tag.toLowerCase() === modelName.toLowerCase()) ||
-      item.title.toLowerCase().includes(modelName.toLowerCase())
+      item.tags.some(tag => tag.toLowerCase() === modelSlug) ||
+      item.title.toLowerCase().includes(modelSlug)
     );
     const videos = PlaceHolderVideos.filter(item => 
-      item.tags.some(tag => tag.toLowerCase() === modelName.toLowerCase()) ||
-      item.title.toLowerCase().includes(modelName.toLowerCase())
+      item.tags.some(tag => tag.toLowerCase() === modelSlug) ||
+      item.title.toLowerCase().includes(modelSlug)
     );
     return [...images, ...videos].slice(0, 6);
   }, [modelName]);
@@ -174,7 +176,7 @@ export default function ModelDetailClient({
                   Master the patterns that power professional AI interactions.
                 </p>
                 <div className="flex flex-wrap gap-2 pt-2">
-                  <Badge variant="secondary" className="px-2 sm:px-3 py-0.5 sm:py-1 bg-green-500/10 text-green-600 border-green-500/20 text-[10px] sm:text-xs">{jsonPrompts.length || '30+'} Blocks</Badge>
+                  <Badge variant="secondary" className="px-2 sm:px-3 py-0.5 sm:py-1 bg-green-500/10 text-green-600 border-green-500/20 text-[10px] sm:text-xs">{jsonPrompts.length} Blocks</Badge>
                   <Badge variant="secondary" className="px-2 sm:px-3 py-0.5 sm:py-1 bg-blue-500/10 text-blue-600 border-blue-500/20 text-[10px] sm:text-xs">System Protocol</Badge>
                   <Badge variant="secondary" className="px-2 sm:px-3 py-0.5 sm:py-1 bg-purple-500/10 text-purple-600 border-purple-500/20 text-[10px] sm:text-xs">Optimized</Badge>
                 </div>
