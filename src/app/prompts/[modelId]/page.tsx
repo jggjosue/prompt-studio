@@ -1,7 +1,7 @@
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import ModelDetailClient from './model-detail-client';
-import { promptModels } from '../prompts-client';
+import { promptModels } from '@/lib/models-list';
 
 type Props = {
   params: { modelId: string }

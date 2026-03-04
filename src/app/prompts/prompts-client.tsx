@@ -13,42 +13,7 @@ import { Folder, ChevronRight, Search, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { Suspense, useState } from 'react';
 import { Input } from '@/components/ui/input';
-
-export const promptModels = [
-  "Amp",
-  "Anthropic",
-  "Assets",
-  "Augment Code",
-  "Cluely",
-  "CodeBuddy Prompts",
-  "Comet Assistant",
-  "Cursor Prompts",
-  "Devin AI",
-  "Dia",
-  "Emergent",
-  "Google",
-  "Junie",
-  "Kiro",
-  "Leap.new",
-  "Lovable",
-  "Manus Agent Tools & Prompts",
-  "NotionAi",
-  "Open Source prompts",
-  "Orchids.app",
-  "Perplexity",
-  "Poke",
-  "Qoder",
-  "Replit",
-  "Same.dev",
-  "Trae",
-  "Traycer AI",
-  "v0 Prompts and Tools",
-  "VSCode Agent",
-  "Warp.dev",
-  "Windsurf",
-  "Xcode",
-  "Z.ai Code"
-].sort();
+import { promptModels } from '@/lib/models-list';
 
 function PromptsContent() {
   const [searchTerm, setSearcherTerm] = useState('');
