@@ -14,7 +14,7 @@ import Link from 'next/link';
 import { Suspense, useState } from 'react';
 import { Input } from '@/components/ui/input';
 
-const promptModels = [
+export const promptModels = [
   "Amp",
   "Anthropic",
   "Assets",
@@ -83,7 +83,7 @@ function PromptsContent() {
         {filteredModels.map((model) => (
           <Link 
             key={model} 
-            href={`/image-prompts?tag=${encodeURIComponent(model)}`}
+            href={`/prompts/${encodeURIComponent(model.toLowerCase().replace(/\s+/g, '-'))}`}
             className="group"
           >
             <Card className="hover:border-primary/50 transition-all hover:shadow-md cursor-pointer overflow-hidden">
