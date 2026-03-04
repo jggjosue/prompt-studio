@@ -58,13 +58,13 @@ export default function HeaderClient() {
         },
         {
           href: '/image-prompts',
-          label: 'Image Prompts',
+          label: 'Image',
           description: 'Visual inspirations',
           icon: <ImageIcon className="h-5 w-5" />,
         },
         {
           href: '/video-prompts',
-          label: 'Video Prompts',
+          label: 'Video',
           description: 'Motion inspirations',
           icon: <Video className="h-5 w-5" />,
         },
