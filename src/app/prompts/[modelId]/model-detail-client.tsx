@@ -13,12 +13,27 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { PlaceHolderVideos } from '@/lib/placeholder-videos';
-import { ArrowLeft, Sparkles, Tag, Wand2, Box, Info } from 'lucide-react';
+import { ArrowLeft, Sparkles, Wand2, Box, Info, FileText, Copy } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useMemo } from 'react';
+import { useToast } from '@/hooks/use-toast';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 
-export default function ModelDetailClient({ modelName }: { modelName: string }) {
+export default function ModelDetailClient({ 
+  modelName, 
+  specialPrompt 
+}: { 
+  modelName: string;
+  specialPrompt?: string;
+}) {
+  const { toast } = useToast();
+  
   const relatedContent = useMemo(() => {
     const images = PlaceHolderImages.filter(item => 
       item.tags.some(tag => tag.toLowerCase() === modelName.toLowerCase()) ||
@@ -30,6 +45,15 @@ export default function ModelDetailClient({ modelName }: { modelName: string }) 
     );
     return [...images, ...videos].slice(0, 12);
   }, [modelName]);
+
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      toast({
+        title: "Copied!",
+        description: "Prompt copied to clipboard.",
+      });
+    });
+  };
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
@@ -79,6 +103,44 @@ export default function ModelDetailClient({ modelName }: { modelName: string }) 
           </div>
 
           <div className="grid gap-12">
+            {specialPrompt && (
+              <section className="space-y-6">
+                <div className="flex items-center gap-2">
+                  <FileText className="h-5 w-5 text-primary" />
+                  <h2 className="text-2xl font-bold font-headline">System Prompt Definition</h2>
+                </div>
+                <Card className="border-primary/10">
+                  <CardHeader className="pb-2">
+                    <div className="flex justify-between items-center">
+                      <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
+                        Source: amp.yaml
+                      </CardTitle>
+                      <Button variant="ghost" size="sm" onClick={() => handleCopy(specialPrompt)}>
+                        <Copy className="h-4 w-4 mr-2" />
+                        Copy Raw YAML
+                      </Button>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <Accordion type="single" collapsible defaultValue="prompt-view" className="w-full">
+                      <AccordionItem value="prompt-view" className="border-none">
+                        <AccordionTrigger className="hover:no-underline py-2">
+                          <span className="text-lg font-semibold">View Prompt Content</span>
+                        </AccordionTrigger>
+                        <AccordionContent>
+                          <div className="relative mt-4">
+                            <pre className="p-6 rounded-xl bg-muted font-mono text-xs leading-relaxed overflow-x-auto max-h-[600px] border">
+                              {specialPrompt}
+                            </pre>
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    </Accordion>
+                  </CardContent>
+                </Card>
+              </section>
+            )}
+
             <section>
               <div className="flex items-center gap-2 mb-6">
                 <Sparkles className="h-5 w-5 text-primary" />
