@@ -1,4 +1,3 @@
-
 'use client';
 
 import Footer from '@/components/layout/footer';
@@ -12,7 +11,6 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { useFirebase } from '@/firebase';
 import { useToast } from '@/hooks/use-toast';
 import {
   PlaceHolderImages,
@@ -22,144 +20,10 @@ import {
   PlaceHolderVideos,
   type VideoProp,
 } from '@/lib/placeholder-videos';
-import { doc, getDoc, onSnapshot, runTransaction, serverTimestamp } from 'firebase/firestore';
-import { ArrowLeft, Copy, Heart, Loader2, Wand2 } from 'lucide-react';
+import { ArrowLeft, Copy, Wand2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-
-
-function LikeButton({ contentId, className }: { contentId: string, className?: string }) {
-  const { firestore, user, isUserLoading } = useFirebase();
-  const { toast } = useToast();
-
-  const [likeCount, setLikeCount] = useState<number | null>(null);
-  const [isLiked, setIsLiked] = useState(false);
-  const [isLiking, setIsLiking] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  const isVideo = useMemo(() => PlaceHolderVideos.some(v => v.id === contentId), [contentId]);
-  const collectionName = isVideo ? 'placeholderVideos' : 'placeholderImages';
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!firestore || !mounted) return;
-
-    const docRef = doc(firestore, collectionName, contentId);
-    const unsubscribe = onSnapshot(docRef, (snapshot) => {
-      if (snapshot.exists()) {
-        const data = snapshot.data();
-        const likes = data.metadata?.likes ?? data.count ?? data.likes ?? 0;
-        setLikeCount(likes);
-      } else {
-        setLikeCount(0);
-      }
-    });
-    return () => unsubscribe();
-  }, [firestore, contentId, collectionName, mounted]);
-
-  useEffect(() => {
-    if (!firestore || !user || !mounted) {
-        setIsLiked(false);
-        return;
-    };
-    const checkLikeStatus = async () => {
-        const userLikeRef = doc(firestore, `user-likes/${user.uid}/items/${contentId}`);
-        const docSnap = await getDoc(userLikeRef);
-        setIsLiked(docSnap.exists());
-    }
-    checkLikeStatus();
-    
-    // Also listen for realtime changes in case it's updated elsewhere
-    const userLikeRef = doc(firestore, `user-likes/${user.uid}/items/${contentId}`);
-    const unsubscribe = onSnapshot(userLikeRef, (docSnap) => {
-        setIsLiked(docSnap.exists());
-    });
-
-    return () => unsubscribe();
-
-  }, [firestore, user, contentId, collectionName, mounted]);
-
-  const handleLike = useCallback(async (e?: React.MouseEvent) => {
-    e?.preventDefault();
-    e?.stopPropagation();
-
-    if (!firestore || !user) {
-      toast({
-        title: 'Authentication required',
-        description: 'Please sign in to like content.',
-        variant: 'destructive',
-      });
-      return;
-    }
-    if (isLiking) return;
-    setIsLiking(true);
-
-    try {
-        await runTransaction(firestore, async (transaction) => {
-            const docRef = doc(firestore, collectionName, contentId);
-            const userLikeRef = doc(firestore, `user-likes/${user.uid}/items/${contentId}`);
-    
-            const docSnap = await transaction.get(docRef);
-            const userLikeSnap = await transaction.get(userLikeRef);
-    
-            if (!docSnap.exists()) {
-                transaction.set(userLikeRef, { likedAt: serverTimestamp() });
-                transaction.set(docRef, { metadata: { likes: 1 } }, { merge: true });
-                return;
-            }
-    
-            const docData = docSnap.data();
-            const currentLikes = docData.metadata?.likes ?? docData.count ?? docData.likes ?? 0;
-            
-            if (userLikeSnap.exists()) {
-                // Unlike
-                transaction.delete(userLikeRef);
-                const newLikes = Math.max(0, currentLikes - 1);
-                transaction.set(docRef, { metadata: { likes: newLikes } }, { merge: true });
-            } else {
-                // Like
-                transaction.set(userLikeRef, { likedAt: serverTimestamp() });
-                const newLikes = currentLikes + 1;
-                transaction.set(docRef, { metadata: { likes: newLikes } }, { merge: true });
-            }
-        });
-    } catch (error) {
-        console.error("Like transaction failed: ", error);
-        toast({
-            title: 'Error',
-            description: 'Could not update like status. Please try again.',
-            variant: 'destructive',
-        });
-    } finally {
-        setIsLiking(false);
-    }
-  }, [firestore, user, contentId, isLiking, toast, collectionName]);
-
-  if (!mounted) {
-    return (
-      <div className="flex items-center gap-1">
-        <Loader2 className="h-4 w-4 animate-spin" />
-        <Button size="icon" variant="ghost" className={className} disabled>
-          <Heart className="w-4 h-4" />
-        </Button>
-      </div>
-    );
-  }
-
-  return (
-    <div className="flex items-center gap-1">
-      {likeCount !== null ? <span className="text-xs font-semibold">{likeCount.toLocaleString()}</span> : <Loader2 className="h-4 w-4 animate-spin" />}
-      <Button size="icon" variant="ghost" className={className} onClick={handleLike} disabled={isLiking || isUserLoading}>
-        <Heart fill={isLiked ? 'currentColor' : 'none'} className={isLiked ? 'text-red-500' : ''} />
-      </Button>
-    </div>
-  );
-}
-
+import { useMemo } from 'react';
 
 export default function GalleryDetailClient({ item }: { item: ImagePlaceholder | VideoProp }) {
   const otherItems = useMemo(() => [
@@ -216,7 +80,6 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                       data-ai-hint={item.imageHint}
                     />
                     <div className="absolute bottom-4 right-4 flex items-start gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <LikeButton contentId={item.id} className="text-white bg-black/20 hover:text-white hover:bg-black/40" />
                       <Button size="sm" variant="secondary" asChild>
                         <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
                             <Wand2 className="mr-2" />
@@ -262,8 +125,7 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                       <strong>High-Quality Visuals:</strong> AI tools enhanced
                       the visual appeal significantly.
                     </p>
-                    <p>
-                      <strong>Targeted Promotion:</strong> Social media
+                    <p><strong>Targeted Promotion:</strong> Social media
                       strategies broadened reach effectively.
                     </p>
                   </div>
@@ -325,7 +187,6 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                             <span className="text-sm text-muted-foreground">
                               By AI Artist
                             </span>
-                            <LikeButton contentId={other.id} className="w-6 h-6" />
                           </div>
                         </div>
                       </CardContent>
