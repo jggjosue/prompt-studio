@@ -25,7 +25,7 @@ function PromptsContent() {
   return (
     <div className="space-y-12">
       <div className="flex flex-col items-center space-y-6 text-center">
-        <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl font-headline">
+        <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
           The Prompt Library
         </h1>
         <p className="mx-auto max-w-[800px] text-muted-foreground md:text-xl">
@@ -57,7 +57,7 @@ function PromptsContent() {
                   <div className="bg-primary/10 p-2 rounded-lg text-primary group-hover:bg-primary group-hover:text-white transition-colors">
                     <Folder className="h-5 w-5" />
                   </div>
-                  <CardTitle className="font-headline text-lg group-hover:text-primary transition-colors">
+                  <CardTitle className="text-lg font-bold group-hover:text-primary transition-colors">
                     {model}
                   </CardTitle>
                 </div>
@@ -81,7 +81,7 @@ function PromptsContent() {
 
       <div className="bg-muted/30 rounded-2xl p-8 md:p-12 text-center space-y-6 max-w-4xl mx-auto border border-primary/5">
         <Sparkles className="h-10 w-10 text-primary mx-auto" />
-        <h2 className="text-2xl md:text-3xl font-bold font-headline">Need a custom prompt?</h2>
+        <h2 className="text-2xl md:text-3xl font-bold">Need a custom prompt?</h2>
         <p className="text-muted-foreground">
           Use our AI-powered generator to create high-quality prompts for any of these models in seconds.
         </p>

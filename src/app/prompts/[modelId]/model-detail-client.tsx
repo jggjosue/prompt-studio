@@ -1,4 +1,3 @@
-
 'use client';
 
 import Footer from '@/components/layout/footer';
@@ -55,7 +54,7 @@ function SectionCard({ section }: { section: PromptBlock }) {
             <Badge variant="outline" className="mb-1 bg-primary/5 text-primary border-primary/20 uppercase text-[9px] tracking-widest">
               Protocol Block
             </Badge>
-            <CardTitle className="text-lg font-headline flex items-center gap-2 line-clamp-1">
+            <CardTitle className="text-lg font-bold flex items-center gap-2 line-clamp-1">
               <BookOpen className="h-4 w-4 text-primary" />
               {section.title}
             </CardTitle>
@@ -169,7 +168,7 @@ export default function ModelDetailClient({
                   <div className="bg-primary p-2 sm:p-3 rounded-xl text-white shadow-lg shadow-primary/20">
                     <Box className="h-6 w-6 sm:h-8 sm:w-8" />
                   </div>
-                  <h1 className="text-2xl sm:text-4xl font-bold font-headline">{modelName} Protocol</h1>
+                  <h1 className="text-2xl sm:text-4xl font-bold">{modelName} Protocol</h1>
                 </div>
                 <p className="text-muted-foreground text-sm sm:text-lg max-w-2xl">
                   Expertly crafted prompts and instructions extracted from the {modelName} system. 
@@ -200,7 +199,7 @@ export default function ModelDetailClient({
                     <Sparkles className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
                   </div>
                   <div>
-                    <h2 className="text-xl sm:text-3xl font-bold font-headline">Prompt Architecture</h2>
+                    <h2 className="text-xl sm:text-3xl font-bold">Prompt Architecture</h2>
                     <p className="text-xs sm:text-muted-foreground">Browse structured rules and examples for this system.</p>
                   </div>
                 </div>
@@ -216,7 +215,7 @@ export default function ModelDetailClient({
             <section>
               <div className="flex items-center gap-2 mb-6">
                 <Sparkles className="h-5 w-5 text-primary" />
-                <h2 className="text-lg sm:text-2xl font-bold font-headline">Visual Context Examples</h2>
+                <h2 className="text-lg sm:text-2xl font-bold">Visual Context Examples</h2>
               </div>
               
               {relatedContent.length > 0 ? (
@@ -224,7 +223,7 @@ export default function ModelDetailClient({
                   {relatedContent.map(item => (
                     <Card key={item.id} className="overflow-hidden group h-full flex flex-col hover:shadow-lg transition-all border-primary/5">
                       <CardHeader className="p-4">
-                        <CardTitle className="font-headline text-base sm:text-lg line-clamp-1">
+                        <CardTitle className="text-base sm:text-lg font-bold line-clamp-1">
                           {item.title}
                         </CardTitle>
                       </CardHeader>
@@ -277,7 +276,7 @@ export default function ModelDetailClient({
               <div className="absolute top-0 right-0 p-4 sm:p-8 opacity-5 sm:opacity-10 pointer-events-none">
                 <Box className="h-24 w-24 sm:h-32 sm:w-32" />
               </div>
-              <h2 className="text-xl sm:text-2xl font-bold font-headline mb-6 flex items-center gap-2">
+              <h2 className="text-xl sm:text-2xl font-bold mb-6 flex items-center gap-2">
                 <CheckCircle2 className="text-primary h-5 w-5 sm:h-6 sm:w-6" />
                 Engineering Masterclass
               </h2>
