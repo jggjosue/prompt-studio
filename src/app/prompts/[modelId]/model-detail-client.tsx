@@ -155,13 +155,6 @@ export default function ModelDetailClient({
       <main className="flex-1 py-8 md:py-16">
         <div className="container max-w-7xl px-4 sm:px-6">
           <div className="mb-8 md:mb-12">
-            <Button variant="ghost" asChild size="sm" className="mb-4">
-              <Link href="/prompts">
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Back to Library
-              </Link>
-            </Button>
-            
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-muted/30 p-6 sm:p-8 rounded-2xl border border-primary/5">
               <div className="space-y-2">
                 <div className="flex items-center gap-3">
@@ -246,10 +239,10 @@ export default function ModelDetailClient({
                           )}
                         </div>
                       </CardContent>
-                      <CardFooter className="bg-muted/50 p-3 sm:p-4 border-t">
-                        <Button variant="secondary" size="sm" className="w-full text-xs" asChild>
+                      <CardFooter className="bg-muted/50 p-3 sm:p-4 border-t flex justify-end">
+                        <Button variant="secondary" size="sm" className="text-xs" asChild>
                           <Link href={item.type === 'video' ? `/gallery-videos/${item.id}` : `/gallery/${item.id}`}>
-                            View Prompt JSON
+                            View
                           </Link>
                         </Button>
                       </CardFooter>
@@ -310,6 +303,15 @@ export default function ModelDetailClient({
                 </div>
               </div>
             </section>
+          </div>
+
+          <div className="mt-12 flex justify-center">
+            <Button variant="ghost" asChild size="sm">
+              <Link href="/prompts">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back to Library
+              </Link>
+            </Button>
           </div>
         </div>
       </main>
