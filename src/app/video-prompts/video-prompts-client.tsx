@@ -225,21 +225,19 @@ export default function VideoPromptsClient() {
                   </div>
                 </CardContent>
                 <CardFooter className="bg-muted/50 p-4 border-t flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-2">
-                    <Button size="sm" asChild>
-                        <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
-                            <Wand2 className="w-4 h-4 mr-2" />
-                            Use this prompt
-                        </Link>
-                    </Button>
-                    <Button
-                      variant="secondary"
-                      size="sm"
-                      asChild
-                    >
-                      <Link href={`/gallery-videos/${item.id}`}>View</Link>
-                    </Button>
-                  </div>
+                  <Button size="sm" asChild>
+                      <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
+                          <Wand2 className="w-4 h-4 mr-2" />
+                          Use this prompt
+                      </Link>
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    asChild
+                  >
+                    <Link href={`/gallery-videos/${item.id}`}>View</Link>
+                  </Button>
                 </CardFooter>
               </Card>
             ))}

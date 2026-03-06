@@ -1,4 +1,3 @@
-
 'use client';
 
 import Header from '@/components/layout/header';
@@ -185,37 +184,6 @@ export default function ImageTagsClient() {
     });
   };
 
-  const [likes, setLikes] = useState<
-    Record<string, { count: number; isLiked: boolean }>
-  >({});
-
-  useEffect(() => {
-    const initialLikes: Record<string, { count: number; isLiked: boolean }> =
-      {};
-    PlaceHolderImages.forEach(i => {
-      if (i.imageUrl) {
-        const deterministicCount =
-          (parseInt(i.id.replace(/\D/g, '') || '0', 10) % 2400) + 100;
-        initialLikes[i.id] = { count: deterministicCount, isLiked: false };
-      }
-    });
-    setLikes(initialLikes);
-  }, []);
-
-  const handleLike = (itemId: string) => {
-    setLikes(prev => {
-      const currentItem = prev[itemId];
-      const newIsLiked = !currentItem.isLiked;
-      const newCount = newIsLiked
-        ? currentItem.count + 1
-        : currentItem.count - 1;
-      return {
-        ...prev,
-        [itemId]: { count: newCount, isLiked: newIsLiked },
-      };
-    });
-  };
-
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
       <Header />
@@ -366,27 +334,19 @@ export default function ImageTagsClient() {
                           </div>
                         </CardContent>
                         <CardFooter className="bg-muted/50 p-4 border-t flex items-center justify-between gap-2">
-                          <div className="flex items-center gap-2">
-                            <Button size="sm" asChild>
-                              <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
-                                  <Wand2 className="w-4 h-4 mr-2" />
-                                  Use this prompt
-                              </Link>
-                            </Button>
-                             <Button
-                              variant="secondary"
-                              size="sm"
-                              asChild
-                            >
-                              <Link href={`/gallery/${item.id}`}>View</Link>
-                            </Button>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-xs text-muted-foreground">{likes[item.id]?.count.toLocaleString()}</span>
-                            <Button variant="outline" size="icon" className="w-8 h-8" onClick={() => handleLike(item.id)}>
-                                <Heart className="w-4 h-4" fill={likes[item.id]?.isLiked ? 'currentColor' : 'none'} />
-                            </Button>
-                          </div>
+                          <Button size="sm" asChild>
+                            <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
+                                <Wand2 className="w-4 h-4 mr-2" />
+                                Use this prompt
+                            </Link>
+                          </Button>
+                           <Button
+                            variant="secondary"
+                            size="sm"
+                            asChild
+                          >
+                            <Link href={`/gallery/${item.id}`}>View</Link>
+                          </Button>
                         </CardFooter>
                       </Card>
                     ))}
