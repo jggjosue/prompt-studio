@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -10,130 +9,10 @@ import {
     CardTitle,
 } from '@/components/ui/card';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Heart, Tag, Wand2, Loader2 } from 'lucide-react';
+import { Tag, Wand2, Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useMemo, useState, useEffect, useCallback, Suspense } from 'react';
-import { doc, getDoc, runTransaction, serverTimestamp, onSnapshot } from 'firebase/firestore';
-import { useFirebase } from '@/firebase';
-import { useToast } from '@/hooks/use-toast';
-
-function LikeButton({ contentId, contentType }: { contentId: string; contentType: string }) {
-  const { firestore, user, isUserLoading } = useFirebase();
-  const { toast } = useToast();
-
-  const [likeCount, setLikeCount] = useState<number | null>(null);
-  const [isLiked, setIsLiked] = useState(false);
-  const [isLiking, setIsLiking] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  const collection = contentType === 'video' ? 'placeholderVideos' : 'placeholderImages';
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!firestore || !mounted) return;
-    const countDocRef = doc(firestore, collection, contentId);
-    const unsubscribe = onSnapshot(countDocRef, (snapshot) => {
-      if (snapshot.exists()) {
-        const data = snapshot.data();
-        const likes = data.metadata?.likes ?? data.count ?? data.likes ?? 0;
-        setLikeCount(likes);
-      } else {
-        setLikeCount(0);
-      }
-    });
-    return () => unsubscribe();
-  }, [firestore, contentId, collection, mounted]);
-
-  useEffect(() => {
-    if (!firestore || !user || !mounted) {
-        setIsLiked(false);
-        return;
-    };
-    const checkLikeStatus = async () => {
-        const userLikeRef = doc(firestore, `user-likes/${user.uid}/items/${contentId}`);
-        const docSnap = await getDoc(userLikeRef);
-        setIsLiked(docSnap.exists());
-    }
-    checkLikeStatus();
-
-    const userLikeRef = doc(firestore, `user-likes/${user.uid}/items/${contentId}`);
-    const unsubscribe = onSnapshot(userLikeRef, (docSnap) => {
-        setIsLiked(docSnap.exists());
-    });
-
-    return () => unsubscribe();
-
-  }, [firestore, user, contentId, collection, mounted]);
-
-  const handleLike = useCallback(async () => {
-    if (!firestore || !user) {
-      toast({
-        title: 'Authentication required',
-        description: 'Please sign in to like content.',
-        variant: 'destructive',
-      });
-      return;
-    }
-    if (isLiking) return;
-    setIsLiking(true);
-
-    try {
-        await runTransaction(firestore, async (transaction) => {
-            const countDocRef = doc(firestore, collection, contentId);
-            const userLikeRef = doc(firestore, `user-likes/${user.uid}/items/${contentId}`);
-
-            const docSnap = await transaction.get(countDocRef);
-            const userLikeDoc = await transaction.get(userLikeRef);
-            const docData = docSnap.exists() ? docSnap.data() : {};
-            const currentLikes = docData.metadata?.likes ?? docData.count ?? docData.likes ?? 0;
-
-            if (userLikeDoc.exists()) {
-                transaction.delete(userLikeRef);
-                const newLikes = Math.max(0, currentLikes - 1);
-                transaction.set(countDocRef, { metadata: { likes: newLikes } }, { merge: true });
-            } else {
-                transaction.set(userLikeRef, { likedAt: serverTimestamp() });
-                const newLikes = currentLikes + 1;
-                transaction.set(countDocRef, { metadata: { likes: newLikes } }, { merge: true });
-            }
-        });
-    } catch (error) {
-        console.error("Like transaction failed: ", error);
-        toast({
-            title: 'Error',
-            description: 'Could not update like status. Please try again.',
-            variant: 'destructive',
-        });
-    } finally {
-        setIsLiking(false);
-    }
-  }, [firestore, user, contentId, isLiking, toast, collection]);
-
-  if (!mounted) {
-    return (
-      <div className="flex items-center gap-1 text-muted-foreground">
-        <Loader2 className="h-4 w-4 animate-spin" />
-        <Button variant="ghost" size="icon" className="w-8 h-8" disabled>
-          <Heart className="w-4 h-4" />
-        </Button>
-      </div>
-    );
-  }
-
-  return (
-    <div className="flex items-center gap-1 text-muted-foreground">
-        {likeCount !== null ? <span>{likeCount.toLocaleString()}</span> : <Loader2 className="h-4 w-4 animate-spin" />}
-       <Button variant="ghost" size="icon" className="w-8 h-8" onClick={handleLike} disabled={isLiking || isUserLoading}>
-        <Heart className="w-4 h-4" fill={isLiked ? 'currentColor' : 'none'} />
-      </Button>
-    </div>
-  );
-}
-
+import { useMemo, Suspense } from 'react';
 
 function ContentGridContent() {
   const content = useMemo(() => {
@@ -194,9 +73,6 @@ function ContentGridContent() {
                   >
                     <Link href={`/gallery/${item.id}`}>View</Link>
                   </Button>
-                </div>
-                <div className="flex items-center gap-1">
-                  <LikeButton contentId={String(item.id)} contentType={item.type} />
                 </div>
             </CardFooter>
           </Card>

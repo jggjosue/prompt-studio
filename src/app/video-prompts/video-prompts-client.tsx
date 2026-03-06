@@ -1,10 +1,9 @@
-
 'use client';
 
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Pagination,
   PaginationContent,
@@ -19,7 +18,7 @@ import {
   type VideoProp,
 } from '@/lib/placeholder-videos';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Heart, Sparkles, Tag, Wand2 } from 'lucide-react';
+import { Sparkles, Tag, Wand2 } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useEffect, useMemo } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -43,19 +42,6 @@ export default function VideoPromptsClient() {
     });
   }, [filter]);
 
-  const [likes, setLikes] = useState<Record<string, { count: number; isLiked: boolean }>>({});
-
-  useEffect(() => {
-    const initialLikes: Record<string, { count: number; isLiked: boolean }> = {};
-    videoContent.forEach(i => {
-        if (i.imageUrl) {
-          const deterministicCount = (parseInt(i.id.replace(/\D/g, '') || "0", 10) % 2400) + 100;
-          initialLikes[i.id] = { count: deterministicCount, isLiked: false };
-        }
-    });
-    setLikes(initialLikes);
-  }, [videoContent]);
-  
   useEffect(() => {
     setCurrentPage(1);
   }, [filter]);
@@ -127,18 +113,6 @@ export default function VideoPromptsClient() {
           </PaginationLink>
         </PaginationItem>
       );
-    });
-  };
-
-  const handleLike = (itemId: string) => {
-    setLikes(prev => {
-        const currentItem = prev[itemId];
-        const newIsLiked = !currentItem.isLiked;
-        const newCount = newIsLiked ? currentItem.count + 1 : currentItem.count - 1;
-        return {
-            ...prev,
-            [itemId]: { count: newCount, isLiked: newIsLiked }
-        };
     });
   };
 
@@ -264,12 +238,6 @@ export default function VideoPromptsClient() {
                       asChild
                     >
                       <Link href={`/gallery-videos/${item.id}`}>View</Link>
-                    </Button>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs text-muted-foreground">{likes[item.id]?.count.toLocaleString()}</span>
-                    <Button variant="outline" size="icon" className="w-8 h-8" onClick={() => handleLike(item.id)}>
-                        <Heart className="w-4 h-4" fill={likes[item.id]?.isLiked ? 'currentColor' : 'none'} />
                     </Button>
                   </div>
                 </CardFooter>

@@ -1,4 +1,3 @@
-
 'use client';
 
 import Footer from '@/components/layout/footer';
@@ -25,7 +24,7 @@ import {
   PlaceHolderImages,
   type ImagePlaceholder,
 } from '@/lib/placeholder-images';
-import { Heart, Sparkles, Tag, Wand2 } from 'lucide-react';
+import { Sparkles, Tag, Wand2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useMemo, useState, Suspense } from 'react';
@@ -93,31 +92,6 @@ function ImagePromptsContent() {
     
     return filteredImages;
   }, [filter, tagFromUrl]);
-
-  const [likes, setLikes] = useState<Record<string, { count: number; isLiked: boolean }>>({});
-
-  useEffect(() => {
-    const initialLikes: Record<string, { count: number; isLiked: boolean }> = {};
-    imageContent.forEach(i => {
-        if (i.imageUrl) {
-          const deterministicCount = (parseInt(i.id.replace(/\D/g, '') || "0", 10) % 2400) + 100;
-          initialLikes[i.id] = { count: deterministicCount, isLiked: false };
-        }
-    });
-    setLikes(initialLikes);
-  }, [imageContent]);
-
-  const handleLike = (itemId: string) => {
-    setLikes(prev => {
-        const currentItem = prev[itemId];
-        const newIsLiked = !currentItem.isLiked;
-        const newCount = newIsLiked ? currentItem.count + 1 : currentItem.count - 1;
-        return {
-            ...prev,
-            [itemId]: { count: newCount, isLiked: newIsLiked }
-        };
-    });
-  };
 
   useEffect(() => {
     setCurrentPage(1);
@@ -272,12 +246,6 @@ function ImagePromptsContent() {
                       asChild
                     >
                       <Link href={`/gallery/${item.id}`}>View</Link>
-                    </Button>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <span className="text-xs text-muted-foreground">{likes[item.id]?.count.toLocaleString()}</span>
-                    <Button variant="outline" size="icon" className="w-8 h-8" onClick={() => handleLike(item.id)}>
-                        <Heart className="w-4 h-4" fill={likes[item.id]?.isLiked ? 'currentColor' : 'none'} />
                     </Button>
                   </div>
                 </CardFooter>
