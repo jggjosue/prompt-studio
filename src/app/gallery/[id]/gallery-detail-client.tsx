@@ -208,56 +208,6 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                 </div>
               )}
 
-              {!policyReview.isCompliant && (
-                <Card className="border-amber-300 bg-amber-50/50 dark:bg-amber-950/20">
-                  <CardContent className="p-4">
-                    <p className="font-semibold text-amber-900 dark:text-amber-200">
-                      Revisión de políticas para editores de Google
-                    </p>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      Este contenido podría incumplir políticas de monetización. Revisa antes de publicar anuncios.
-                    </p>
-                    <ul className="mt-3 text-sm space-y-1">
-                      {policyReview.violations.slice(0, 4).map((violation, idx) => (
-                        <li key={`${violation.category}-${idx}`} className="text-amber-900 dark:text-amber-100">
-                          {violation.message}
-                          {violation.matchedTerm ? ` (término detectado: "${violation.matchedTerm}")` : ''}
-                        </li>
-                      ))}
-                    </ul>
-                  </CardContent>
-                </Card>
-              )}
-
-              {manualActionRisk.hasRisk && (
-                <Card className="border-rose-300 bg-rose-50/50 dark:bg-rose-950/20">
-                  <CardContent className="p-4">
-                    <p className="font-semibold text-rose-900 dark:text-rose-100">
-                      Riesgo SEO (Acciones Manuales)
-                    </p>
-                    <ul className="mt-2 text-sm text-muted-foreground space-y-1">
-                      {manualActionRisk.hasDuplicateTitle && (
-                        <li>
-                          Título duplicado detectado ({manualActionRisk.duplicateCount} coincidencias): considera
-                          consolidar o diferenciar contenido.
-                        </li>
-                      )}
-                      {manualActionRisk.hasLowValueContent && (
-                        <li>
-                          Contenido potencialmente superficial ({manualActionRisk.wordCount} palabras): añade contexto
-                          y valor editorial.
-                        </li>
-                      )}
-                    </ul>
-                    <div className="mt-3">
-                      <Button asChild size="sm" variant="secondary">
-                        <Link href="/manual-actions">Ver guía de acciones manuales</Link>
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
-
               <Accordion type="single" collapsible defaultValue="item-1">
                 <AccordionItem value="item-1">
                   <AccordionTrigger className="text-lg font-semibold font-headline">
