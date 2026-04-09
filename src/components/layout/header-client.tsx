@@ -50,12 +50,12 @@ export default function HeaderClient() {
     {
       label: 'Prompts',
       dropdown: [
-        {
+        /*{
           href: '/prompts',
           label: 'Library',
           description: 'All AI Prompts',
           icon: <LayoutGrid className="h-5 w-5" />,
-        },
+        },*/
         {
           href: '/image-prompts',
           label: 'Image',
