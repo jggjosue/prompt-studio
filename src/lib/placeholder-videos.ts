@@ -13,8 +13,8 @@ export type VideoProp = {
 export const PlaceHolderVideos: VideoProp[] = (data.placeholderVideos as any[]).map((video, index) => {
   const generatedId = `v-${index + 1}`;
   
-  // Create prompt JSON including description but excluding imageUrl
-  const { imageUrl, ...cleanMetadata } = video;
+  // Create prompt JSON including description but excluding internal IDs and image URL
+  const { id: _sourceId, randomId: _randomId, imageUrl, ...cleanMetadata } = video;
   
   return {
     ...video,

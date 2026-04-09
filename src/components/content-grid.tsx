@@ -16,7 +16,13 @@ import { useMemo, Suspense } from 'react';
 
 function ContentGridContent() {
   const content = useMemo(() => {
-    return PlaceHolderImages.filter(item => item.imageUrl).slice(0, 9);
+    const uniqueByTitle = new Map<string, (typeof PlaceHolderImages)[number]>();
+    for (const item of PlaceHolderImages.filter(entry => entry.imageUrl)) {
+      if (!uniqueByTitle.has(item.title.toLowerCase())) {
+        uniqueByTitle.set(item.title.toLowerCase(), item);
+      }
+    }
+    return Array.from(uniqueByTitle.values()).slice(0, 9);
   }, []);
 
   return (

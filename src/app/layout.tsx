@@ -1,6 +1,5 @@
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
-import { FirebaseClientProvider } from '@/firebase';
 import type { Metadata } from 'next';
 import Script from 'next/script';
 import './globals.css';
@@ -86,10 +85,8 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <FirebaseClientProvider>
-            {children}
-            <Toaster />
-          </FirebaseClientProvider>
+          {children}
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

@@ -1,76 +1,32 @@
 {
   "placeholderVideos": [
     {
+      "title": "From Ape to Astronaut: The Evolution Saga",
+      "description": "Un mono se transforma en Elon Musk y viaja a Marte, explorando la evolución hacia las estrellas.",
+      "imageUrl": "https://assets.mixkit.co/videos/44883/44883-720.mp4",
+      "imageHint": "astronauts mars surface",
+      "type": "video",
+      "tags": [
+        "Surreal",
+        "Realism",
+        "Morphing",
+        "Effects"
+      ],
+      "randomId": "x52rvns5yh"
+    },
+    {
       "title": "Cyberpunk City Rain",
       "description": "A cinematic view of a futuristic city drenched in rain with vibrant neon reflections",
       "imageUrl": "https://i.imgur.com/6eIuc4F.mp4",
       "imageHint": "cyberpunk city rain",
       "type": "video",
-      "tags": ["Cyberpunk", "City", "Neon", "Rain"]
-    },
-    {
-      "title": "Neon Garden",
-      "description": "A serene neon garden with futuristic flora and soft rainfall",
-      "imageUrl": "https://i.imgur.com/2ambaMz.mp4",
-      "imageHint": "neon garden rain",
-      "type": "video",
-      "tags": ["Cyberpunk", "Synthwave", "Garden", "Japanese", "Neon", "Rain"]
-    },
-    {
-      "title": "Cyberpunk Alley",
-      "description": "Rainy cyberpunk alleyway with flickering signs",
-      "imageUrl": "https://i.imgur.com/YezmxQz.mp4",
-      "imageHint": "cyberpunk alley rain",
-      "type": "video",
-      "tags": ["Cyberpunk", "City", "Neon", "Rain"]
-    },
-    {
-      "title": "Nebula Drift",
-      "description": "A mesmerizing journey through a colorful galactic nebula in deep space.",
-      "imageUrl": "https://i.imgur.com/oN0tPda.mp4",
-      "imageHint": "space nebula drift",
-      "type": "video",
-      "tags": ["Space", "Galaxy", "Nebula"]
-    },
-    {
-      "title": "Cosmic Voyage",
-      "description": "Traveling through a dense starfield",
-      "imageUrl": "https://i.imgur.com/o3DxU6T.mp4",
-      "imageHint": "space nebula drift",
-      "type": "video",
-      "tags": ["Space", "Galaxy", "Nebula"]
-    },
-    {
-      "title": "Galactic Core",
-      "description": "The center of a swirling galaxy",
-      "imageUrl": "https://i.imgur.com/AFa9yWZ.mp4",
-      "imageHint": "space nebula drift",
-      "type": "video",
-      "tags": ["Space", "Galaxy", "Nebula"]
-    },
-    {
-      "title": "Star Cluster",
-      "description": "Glowing stars in a deep space cluster",
-      "imageUrl": "https://i.imgur.com/n8zR8zZ.mp4",
-      "imageHint": "space nebula drift",
-      "type": "video",
-      "tags": ["Space", "Galaxy", "Nebula"]
-    },
-    {
-      "title": "Void Journey",
-      "description": "Moving through the silent void of space",
-      "imageUrl": "https://i.imgur.com/K2s0Ftf.mp4",
-      "imageHint": "space nebula drift",
-      "type": "video",
-      "tags": ["Space", "Galaxy", "Nebula"]
-    },
-    {
-      "title": "Jungle Waterfall",
-      "description": "Serene and realistic waterfall cascading through a lush tropical jungle environment.",
-      "imageUrl": "https://i.imgur.com/LEbaqNt.mp4",
-      "imageHint": "tropical jungle waterfall",
-      "type": "video",
-      "tags": ["Nature", "Jungle", "Waterfall"]
+      "tags": [
+        "Cyberpunk",
+        "City",
+        "Neon",
+        "Rain"
+      ],
+      "randomId": "s6747vhqgu"
     },
     {
       "title": "Tropical Stream",
@@ -78,23 +34,12 @@
       "imageUrl": "https://i.imgur.com/rOPRejh.mp4",
       "imageHint": "tropical jungle waterfall",
       "type": "video",
-      "tags": ["Nature", "Jungle", "Waterfall"]
-    },
-    {
-      "title": "Forest Cascade",
-      "description": "Water flowing over ancient rocks",
-      "imageUrl": "https://i.imgur.com/QzuG1Xl.mp4",
-      "imageHint": "tropical jungle waterfall",
-      "type": "video",
-      "tags": ["Nature", "Jungle", "Waterfall"]
-    },
-    {
-      "title": "Hidden Falls",
-      "description": "A secret waterfall hidden by dense foliage",
-      "imageUrl": "https://i.imgur.com/JmugR6m.mp4",
-      "imageHint": "tropical jungle waterfall",
-      "type": "video",
-      "tags": ["Nature", "Jungle", "Waterfall"]
+      "tags": [
+        "Nature",
+        "Jungle",
+        "Waterfall"
+      ],
+      "randomId": "1uyrbl8vh7"
     },
     {
       "title": "Liquid Abstract",
@@ -102,31 +47,12 @@
       "imageUrl": "https://i.imgur.com/py9Vw71.mp4",
       "imageHint": "abstract liquid flow",
       "type": "video",
-      "tags": ["Abstract", "Art", "Colors"]
-    },
-    {
-      "title": "Fluid Motion",
-      "description": "Slow motion fluid art",
-      "imageUrl": "https://i.imgur.com/IXI0PNm.mp4",
-      "imageHint": "abstract liquid flow",
-      "type": "video",
-      "tags": ["Abstract", "Art", "Colors"]
-    },
-    {
-      "title": "Color Swirl",
-      "description": "Mixing colors in a liquid medium",
-      "imageUrl": "https://i.imgur.com/95NbL4K.mp4",
-      "imageHint": "abstract liquid flow",
-      "type": "video",
-      "tags": ["Abstract", "Art", "Colors"]
-    },
-    {
-      "title": "Ethereal Flow",
-      "description": "Soft colors moving like smoke",
-      "imageUrl": "https://i.imgur.com/Smj5sXS.mp4",
-      "imageHint": "abstract liquid flow",
-      "type": "video",
-      "tags": ["Abstract", "Art", "Colors"]
+      "tags": [
+        "Abstract",
+        "Art",
+        "Colors"
+      ],
+      "randomId": "exh5zcs5fr"
     },
     {
       "title": "Desert Horizon",
@@ -134,31 +60,12 @@
       "imageUrl": "https://i.imgur.com/qGScGJ4.mp4",
       "imageHint": "desert sunset landscape",
       "type": "video",
-      "tags": ["Desert", "Landscape", "Sunset"]
-    },
-    {
-      "title": "Golden Sands",
-      "description": "Sun setting over rolling sand dunes",
-      "imageUrl": "https://i.imgur.com/oKuI0sK.mp4",
-      "imageHint": "desert sunset landscape",
-      "type": "video",
-      "tags": ["Desert", "Landscape", "Sunset"]
-    },
-    {
-      "title": "Dune Shadow",
-      "description": "Long shadows stretching across the desert",
-      "imageUrl": "https://i.imgur.com/qHQdMgq.mp4",
-      "imageHint": "desert sunset landscape",
-      "type": "video",
-      "tags": ["Desert", "Landscape", "Sunset"]
-    },
-    {
-      "title": "Arid Vastness",
-      "description": "The endless horizon of a dry desert",
-      "imageUrl": "https://i.imgur.com/obmbq9a.mp4",
-      "imageHint": "desert sunset landscape",
-      "type": "video",
-      "tags": ["Desert", "Landscape", "Sunset"]
+      "tags": [
+        "Desert",
+        "Landscape",
+        "Sunset"
+      ],
+      "randomId": "oz900z0f0r"
     },
     {
       "title": "Metropolitan Pulse",
@@ -166,39 +73,12 @@
       "imageUrl": "https://i.imgur.com/u2K2GYY.mp4",
       "imageHint": "city time-lapse urban",
       "type": "video",
-      "tags": ["City", "Time-lapse", "Urban"]
-    },
-    {
-      "title": "City Lights",
-      "description": "Night traffic in a major metropolis",
-      "imageUrl": "https://i.imgur.com/ofe1HAa.mp4",
-      "imageHint": "city time-lapse urban",
-      "type": "video",
-      "tags": ["City", "Time-lapse", "Urban"]
-    },
-    {
-      "title": "Urban Flow",
-      "description": "Crowds moving through a modern station",
-      "imageUrl": "https://i.imgur.com/RTeecyt.mp4",
-      "imageHint": "city time-lapse urban",
-      "type": "video",
-      "tags": ["City", "Time-lapse", "Urban"]
-    },
-    {
-      "title": "Concrete Jungle",
-      "description": "High angle view of a busy street",
-      "imageUrl": "https://i.imgur.com/A8PBMLo.mp4",
-      "imageHint": "city time-lapse urban",
-      "type": "video",
-      "tags": ["City", "Time-lapse", "Urban"]
-    },
-    {
-      "title": "Winter Forest Cabin",
-      "description": "A peaceful and cozy winter scene with heavy snow falling over a secluded wooden cabin.",
-      "imageUrl": "https://i.imgur.com/EfkzbDS.mp4",
-      "imageHint": "winter cabin snow",
-      "type": "video",
-      "tags": ["Winter", "Snow", "Cozy"]
+      "tags": [
+        "City",
+        "Time-lapse",
+        "Urban"
+      ],
+      "randomId": "2q1wom4vn9"
     },
     {
       "title": "Tropical Paradise",
@@ -206,23 +86,12 @@
       "imageUrl": "https://i.imgur.com/4O7dnjX.mp4",
       "imageHint": "tropical beach",
       "type": "video",
-      "tags": ["Nature", "Beach", "Tropical"]
-    },
-    {
-      "title": "Mountain Peak Mist",
-      "description": "Breathtaking view of misty mountain peaks at sunrise with soft golden light.",
-      "imageUrl": "https://i.imgur.com/iM3FoKO.mp4",
-      "imageHint": "mountain mist",
-      "type": "video",
-      "tags": ["Nature", "Mountain", "Scenic"]
-    },
-    {
-      "title": "Neon Cyberpunk Alley",
-      "description": "A rain-slicked alleyway in a futuristic city with glowing holographic signs.",
-      "imageUrl": "https://i.imgur.com/9cPvTAM.mp4",
-      "imageHint": "neon alley",
-      "type": "video",
-      "tags": ["Cyberpunk", "City", "Neon"]
+      "tags": [
+        "Nature",
+        "Beach",
+        "Tropical"
+      ],
+      "randomId": "g5f4uaczlx"
     },
     {
       "title": "Deep Sea Bioluminescence",
@@ -230,7 +99,12 @@
       "imageUrl": "https://i.imgur.com/WaSrOlj.mp4",
       "imageHint": "bioluminescent ocean",
       "type": "video",
-      "tags": ["Underwater", "Nature", "Mystery"]
+      "tags": [
+        "Underwater",
+        "Nature",
+        "Mystery"
+      ],
+      "randomId": "nbogxqi3mo"
     },
     {
       "title": "Volcanic Eruption",
@@ -238,7 +112,12 @@
       "imageUrl": "https://i.imgur.com/XDoxqoD.mp4",
       "imageHint": "volcano lava",
       "type": "video",
-      "tags": ["Nature", "Volcano", "Epic"]
+      "tags": [
+        "Nature",
+        "Volcano",
+        "Epic"
+      ],
+      "randomId": "s4c2dehpmh"
     },
     {
       "title": "Arctic Aurora",
@@ -246,7 +125,12 @@
       "imageUrl": "https://i.imgur.com/tJGmfFv.mp4",
       "imageHint": "arctic aurora",
       "type": "video",
-      "tags": ["Nature", "Aurora", "Arctic"]
+      "tags": [
+        "Nature",
+        "Aurora",
+        "Arctic"
+      ],
+      "randomId": "9tor85lczr"
     },
     {
       "title": "Futuristic Lab",
@@ -254,7 +138,12 @@
       "imageUrl": "https://i.imgur.com/GaONX6f.mp4",
       "imageHint": "futuristic lab",
       "type": "video",
-      "tags": ["Sci-Fi", "Lab", "Tech"]
+      "tags": [
+        "Sci-Fi",
+        "Lab",
+        "Tech"
+      ],
+      "randomId": "4oolwav65d"
     },
     {
       "title": "Zen Garden Sand",
@@ -262,7 +151,12 @@
       "imageUrl": "https://i.imgur.com/zace2ZL.mp4",
       "imageHint": "zen garden",
       "type": "video",
-      "tags": ["Peaceful", "Zen", "Garden"]
+      "tags": [
+        "Peaceful",
+        "Zen",
+        "Garden"
+      ],
+      "randomId": "rezn8p411a"
     },
     {
       "title": "Steam Locomotive",
@@ -270,7 +164,12 @@
       "imageUrl": "https://i.imgur.com/mNfmYJb.mp4",
       "imageHint": "steam train",
       "type": "video",
-      "tags": ["Retro", "Train", "Winter"]
+      "tags": [
+        "Retro",
+        "Train",
+        "Winter"
+      ],
+      "randomId": "hwrjldzjwl"
     },
     {
       "title": "Macro Eye Detail",
@@ -278,7 +177,12 @@
       "imageUrl": "https://i.imgur.com/TzdMeix.mp4",
       "imageHint": "macro eye",
       "type": "video",
-      "tags": ["Macro", "Portrait", "Detail"]
+      "tags": [
+        "Macro",
+        "Portrait",
+        "Detail"
+      ],
+      "randomId": "rtm3s56a26"
     },
     {
       "title": "Abstract Paint Splash",
@@ -286,7 +190,12 @@
       "imageUrl": "https://i.imgur.com/SjtW1YO.mp4",
       "imageHint": "paint splash",
       "type": "video",
-      "tags": ["Abstract", "Art", "Color"]
+      "tags": [
+        "Abstract",
+        "Art",
+        "Color"
+      ],
+      "randomId": "ovuy40p31q"
     },
     {
       "title": "Robot Factory",
@@ -294,7 +203,12 @@
       "imageUrl": "https://i.imgur.com/TFMYmwr.mp4",
       "imageHint": "robot factory",
       "type": "video",
-      "tags": ["Sci-Fi", "Robot", "Industrial"]
+      "tags": [
+        "Sci-Fi",
+        "Robot",
+        "Industrial"
+      ],
+      "randomId": "1rcv3tqroy"
     },
     {
       "title": "Medieval Castle",
@@ -302,7 +216,12 @@
       "imageUrl": "https://i.imgur.com/ORoxHXU.mp4",
       "imageHint": "medieval castle",
       "type": "video",
-      "tags": ["History", "Architecture", "Epic"]
+      "tags": [
+        "History",
+        "Architecture",
+        "Epic"
+      ],
+      "randomId": "oe7npzi4px"
     },
     {
       "title": "Desert Dust Storm",
@@ -310,7 +229,12 @@
       "imageUrl": "https://i.imgur.com/jI1iD5K.mp4",
       "imageHint": "sandstorm desert",
       "type": "video",
-      "tags": ["Nature", "Desert", "Storm"]
+      "tags": [
+        "Nature",
+        "Desert",
+        "Storm"
+      ],
+      "randomId": "e9pxvg1dir"
     },
     {
       "title": "Crystal Cave Glow",
@@ -318,7 +242,12 @@
       "imageUrl": "https://i.imgur.com/sTEQHH2.mp4",
       "imageHint": "crystal cave",
       "type": "video",
-      "tags": ["Nature", "Crystal", "Cave"]
+      "tags": [
+        "Nature",
+        "Crystal",
+        "Cave"
+      ],
+      "randomId": "pesvou04ni"
     },
     {
       "title": "Underwater Ruins",
@@ -326,7 +255,12 @@
       "imageUrl": "https://i.imgur.com/S3xQe9I.mp4",
       "imageHint": "sunken city",
       "type": "video",
-      "tags": ["Underwater", "History", "Ancient"]
+      "tags": [
+        "Underwater",
+        "History",
+        "Ancient"
+      ],
+      "randomId": "ev8x4pr0r5"
     },
     {
       "title": "Space Station View",
@@ -334,7 +268,1055 @@
       "imageUrl": "https://i.imgur.com/7XA2ufT.mp4",
       "imageHint": "earth from space",
       "type": "video",
-      "tags": ["Space", "Earth", "Cinematic"]
+      "tags": [
+        "Space",
+        "Earth",
+        "Cinematic"
+      ],
+      "randomId": "rl5ijfo0lf"
+    },
+    {
+      "title": "Neon-Lit Dystopia",
+      "description": "A futuristic cityscape at night with flying vehicles and neon-lit skyscrapers.",
+      "imageUrl": "https://assets.mixkit.co/videos/5399/5399-720.mp4",
+      "imageHint": "futuristic city",
+      "type": "video",
+      "tags": [
+        "Futuristic",
+        "Cityscape",
+        "Neon"
+      ],
+      "randomId": "aerweem91h"
+    },
+    {
+      "title": "Cosmic Contemplation",
+      "description": "An astronaut contemplating a swirling galaxy from the edge of a crystalline planet.",
+      "imageUrl": "https://assets.mixkit.co/videos/45204/45204-720.mp4",
+      "imageHint": "space astronaut",
+      "type": "video",
+      "tags": [
+        "Space",
+        "Astronaut",
+        "Galaxy"
+      ],
+      "randomId": "d0a4gpplf3"
+    },
+    {
+      "title": "Draconic Reflection",
+      "description": "A detailed close-up of a dragon's eye, reflecting a fiery landscape.",
+      "imageUrl": "https://assets.mixkit.co/videos/45223/45223-720.mp4",
+      "imageHint": "dragon eye",
+      "type": "video",
+      "tags": [
+        "Dragon",
+        "Fantasy",
+        "Fiery"
+      ],
+      "randomId": "sqzm1kd0c6"
+    },
+    {
+      "title": "Floating Tomes",
+      "description": "An ancient, moss-covered library with books floating in mid-air.",
+      "imageUrl": "https://assets.mixkit.co/videos/48574/48574-720.mp4",
+      "imageHint": "magic library",
+      "type": "video",
+      "tags": [
+        "Magic",
+        "Library",
+        "Ancient"
+      ],
+      "randomId": "frrkhswzr7"
+    },
+    {
+      "title": "Warrior Queen's Gaze",
+      "description": "Portrait of a warrior queen with intricate, futuristic armor and a determined gaze.",
+      "imageUrl": "https://assets.mixkit.co/videos/51214/51214-720.mp4",
+      "imageHint": "warrior queen",
+      "type": "video",
+      "tags": [
+        "Warrior",
+        "Queen",
+        "Futuristic"
+      ],
+      "randomId": "zlmemuzvsd"
+    },
+    {
+      "title": "Synthwave Sakura",
+      "description": "A serene Japanese garden with a cherry blossom tree and a tranquil koi pond, but in a synthwave style.",
+      "imageUrl": "https://assets.mixkit.co/videos/48889/48889-720.mp4",
+      "imageHint": "synthwave garden",
+      "type": "video",
+      "tags": [
+        "Synthwave",
+        "Garden",
+        "Japanese"
+      ],
+      "randomId": "yofacr6x92"
+    },
+    {
+      "title": "Ethereal Glow",
+      "description": "A bioluminescent forest where the trees and plants glow with an ethereal light.",
+      "imageUrl": "https://assets.mixkit.co/active_storage/video_items/100505/1725309818/100505-video-720.mp4",
+      "imageHint": "bioluminescent forest",
+      "type": "video",
+      "tags": [
+        "Fantasy",
+        "Forest",
+        "Bioluminescent"
+      ],
+      "randomId": "eonwuamzxq"
+    },
+    {
+      "title": "Cyber-Market Rain",
+      "description": "A cyberpunk street market bustling with people and droids under the rain.",
+      "imageUrl": "https://assets.mixkit.co/videos/4332/4332-720.mp4",
+      "imageHint": "cyberpunk market rain",
+      "type": "video",
+      "tags": [
+        "Cyberpunk",
+        "Market",
+        "Rain"
+      ],
+      "randomId": "7oo0jkjsw3"
+    },
+    {
+      "id": "16",
+      "title": "Galactic Dance",
+      "description": "Two galaxies colliding in a slow, cosmic dance of stars and dust.",
+      "imageUrl": "https://assets.mixkit.co/videos/10405/10405-720.mp4",
+      "imageHint": "galaxy collision",
+      "type": "video",
+      "tags": [
+        "Space",
+        "Galaxy",
+        "Cosmic"
+      ],
+      "randomId": "zbvovforoo"
+    },
+    {
+      "id": "13",
+      "title": "Desert Drive",
+      "description": "A vintage car driving through a vast desert at sunset.",
+      "imageUrl": "https://assets.mixkit.co/videos/4310/4310-720.mp4",
+      "imageHint": "desert car",
+      "type": "video",
+      "tags": [
+        "Retro",
+        "Car",
+        "Desert"
+      ],
+      "randomId": "oiozp96918"
+    },
+    {
+      "id": "14",
+      "title": "Underwater Ballet",
+      "description": "A school of colorful fish moving in perfect synchronization.",
+      "imageUrl": "https://assets.mixkit.co/videos/44978/44978-720.mp4",
+      "imageHint": "fish school",
+      "type": "video",
+      "tags": [
+        "Nature",
+        "Underwater",
+        "Fish"
+      ],
+      "randomId": "al9l7nuvzn"
+    },
+    {
+      "id": "8",
+      "title": "Synthwave Sakura",
+      "description": "A serene Japanese garden with a cherry blossom tree and a tranquil koi pond, but in a synthwave style.",
+      "imageUrl": "https://assets.mixkit.co/videos/48889/48889-720.mp4",
+      "imageHint": "synthwave garden",
+      "type": "video",
+      "tags": [
+        "Synthwave",
+        "Garden",
+        "Japanese"
+      ],
+      "randomId": "19ygd01ulz"
+    },
+    {
+      "id": "10",
+      "title": "Grotto Cascade",
+      "description": "A hidden waterfall cascading into a crystal-clear grotto.",
+      "imageUrl": "https://assets.mixkit.co/videos/48006/48006-720.mp4",
+      "imageHint": "hidden waterfall",
+      "type": "video",
+      "tags": [
+        "Nature",
+        "Waterfall",
+        "Hidden"
+      ],
+      "randomId": "ran9gmtj7w"
+    },
+    {
+      "id": "12",
+      "title": "Pastel Geometry",
+      "description": "A minimalistic abstract composition of geometric shapes in pastel colors.",
+      "imageUrl": "https://assets.mixkit.co/videos/34348/34348-720.mp4",
+      "imageHint": "abstract geometric",
+      "type": "video",
+      "tags": [
+        "Abstract",
+        "Geometric",
+        "Pastel"
+      ],
+      "randomId": "8m1osoka6g"
+    },
+    {
+      "id": "18",
+      "title": "Forest Spirit",
+      "description": "A mystical creature made of leaves and branches moving through an ancient forest.",
+      "imageUrl": "https://assets.mixkit.co/active_storage/video_items/100505/1725309818/100505-video-720.mp4",
+      "imageHint": "forest spirit",
+      "type": "video",
+      "tags": [
+        "Fantasy",
+        "Creature",
+        "Forest"
+      ],
+      "randomId": "yc11qwq5md"
+    },
+    {
+      "title": "Grotto Cascade",
+      "description": "A hidden waterfall cascading into a crystal-clear grotto.",
+      "imageUrl": "https://assets.mixkit.co/videos/48006/48006-720.mp4",
+      "imageHint": "grotto waterfall",
+      "type": "video",
+      "tags": [
+        "Nature",
+        "Waterfall",
+        "Hidden"
+      ],
+      "randomId": "inesoiqaiy"
+    },
+    {
+      "title": "Pastel Geometry",
+      "description": "A minimalistic abstract composition of geometric shapes in pastel colors.",
+      "imageUrl": "https://assets.mixkit.co/videos/34348/34348-720.mp4",
+      "imageHint": "pastel geometry",
+      "type": "video",
+      "tags": [
+        "Abstract",
+        "Geometric",
+        "Pastel"
+      ],
+      "randomId": "uadl606ite"
+    },
+    {
+      "title": "Desert Drive",
+      "description": "A vintage car driving through a vast desert at sunset.",
+      "imageUrl": "https://assets.mixkit.co/videos/4310/4310-720.mp4",
+      "imageHint": "desert drive",
+      "type": "video",
+      "tags": [
+        "Retro",
+        "Car",
+        "Desert"
+      ],
+      "randomId": "1y2oawwtqx"
+    },
+    {
+      "title": "Underwater Ballet",
+      "description": "A school of colorful fish moving in perfect synchronization.",
+      "imageUrl": "https://assets.mixkit.co/videos/44978/44978-720.mp4",
+      "imageHint": "school of fish",
+      "type": "video",
+      "tags": [
+        "Nature",
+        "Underwater",
+        "Fish"
+      ],
+      "randomId": "ekmsma5yav"
+    },
+    {
+      "title": "Galactic Dance",
+      "description": "Two galaxies colliding in a slow, cosmic dance of stars and dust.",
+      "imageUrl": "https://assets.mixkit.co/videos/10405/10405-720.mp4",
+      "imageHint": "galaxy collision",
+      "type": "video",
+      "tags": [
+        "Space",
+        "Galaxy",
+        "Cosmic"
+      ],
+      "randomId": "ndfbp18sb7"
+    },
+    {
+      "title": "Galactic Hourglass: A Surreal Dreamscape",
+      "description": "En un vasto cosmos, un reloj de arena desafía el tiempo mientras galaxias caen como arena. Astronautas atraviesan una Tierra fracturada reflejando maravillas estelares.",
+      "imageUrl": "https://assets.mixkit.co/videos/28889/28889-720.mp4",
+      "imageHint": "galactic hourglass",
+      "type": "video",
+      "tags": [
+        "Surreal",
+        "Realism",
+        "Void",
+        "Black"
+      ],
+      "randomId": "jn7x2lcwvz"
+    },
+    {
+      "title": "Celestial Train: A Fiery Journey Through the Stars",
+      "description": "Un tren recorre un campo estrellado revelando explosiones de fuego y energía en un espectáculo cósmico.",
+      "imageUrl": "https://assets.mixkit.co/videos/1606/1606-720.mp4",
+      "imageHint": "celestial train",
+      "type": "video",
+      "tags": [
+        "Surreal",
+        "Realism",
+        "Slow",
+        "Motion"
+      ],
+      "randomId": "6rjrfammzj"
+    },
+    {
+      "title": "Fleeting Moments: Dandelions and a Vanishing Figure",
+      "description": "Un hombre se apresura fuera de escena mientras los dientes de león bailan suavemente en el viento, capturando la esencia de lo efímero.",
+      "imageUrl": "https://assets.mixkit.co/videos/15202/15202-720.mp4",
+      "imageHint": "dandelions wind",
+      "type": "video",
+      "tags": [
+        "Documentary",
+        "Style",
+        "Nature",
+        "Outdoor"
+      ],
+      "randomId": "sziofl4dd5"
+    },
+    {
+      "title": "Melancholy Melodies: A Parisian Violinist's Rainy Serenade",
+      "description": "Bajo una farola parpadeante, una violinista joven evoca emociones profundas en una calle lluviosa de París.",
+      "imageUrl": "https://assets.mixkit.co/videos/659/659-720.mp4",
+      "imageHint": "violinist urban night",
+      "type": "video",
+      "tags": [
+        "Urban",
+        "Landscape",
+        "Smooth",
+        "Transitions"
+      ],
+      "randomId": "nd292npkzy"
+    },
+    {
+      "title": "Snowmobile Thrill: A High-Speed Forest Adventure",
+      "description": "La adrenalina de conducir una moto de nieve a través de un bosque, esquivando árboles y levantando nieve.",
+      "imageUrl": "https://assets.mixkit.co/videos/48910/48910-720.mp4",
+      "imageHint": "snowmobile forest",
+      "type": "video",
+      "tags": [
+        "Cinematic"
+      ],
+      "randomId": "r84y0z57vo"
+    },
+    {
+      "title": "Cyclist's Thrilling Descent: Foggy Mountain Adventure",
+      "description": "Plano bajo de un ciclista descendiendo por una carretera montañosa envuelta en niebla y luz solar.",
+      "imageUrl": "https://assets.mixkit.co/videos/44343/44343-720.mp4",
+      "imageHint": "cyclist low angle forest",
+      "type": "video",
+      "tags": [
+        "Cinematic"
+      ],
+      "randomId": "gqva8rxzmg"
+    },
+    {
+      "title": "Dancers in a Strobe-Lit Club: A Dynamic Visual Journey",
+      "description": "La energía electrizante de un club con transiciones visuales dinámicas y movimientos rítmicos.",
+      "imageUrl": "https://assets.mixkit.co/videos/4344/4344-720.mp4",
+      "imageHint": "nightclub lasers dance",
+      "type": "video",
+      "tags": [
+        "Cinematic"
+      ],
+      "randomId": "44svucfkmh"
+    },
+    {
+      "title": "Enchanting Sleigh Ride Through a Romanian Winter Wonderland",
+      "description": "Un paseo en trineo por un pueblo nevado al atardecer, acompañado por el sonido de campanas.",
+      "imageUrl": "https://assets.mixkit.co/videos/25092/25092-720.mp4",
+      "imageHint": "snowy village sunset",
+      "type": "video",
+      "tags": [
+        "Cinematic",
+        "Nature",
+        "Outdoor",
+        "Smooth",
+        "Transitions"
+      ],
+      "randomId": "8rytbnkeaj"
+    },
+    {
+      "title": "Echoes of a Haunting Carnival",
+      "description": "Un carnaval lluvioso donde las sombras se mueven y el miedo acecha en silencio.",
+      "imageUrl": "https://assets.mixkit.co/videos/45182/45182-720.mp4",
+      "imageHint": "carnival silhouette",
+      "type": "video",
+      "tags": [
+        "Surreal",
+        "Realism",
+        "Slow",
+        "Motion"
+      ],
+      "randomId": "nenpfx28xv"
+    },
+    {
+      "title": "Cinematic Flight Through a Luxe Penthouse Escape",
+      "description": "Recorrido por habitaciones lujosas y piscina en azotea al atardecer, mostrando diseño elegante.",
+      "imageUrl": "https://assets.mixkit.co/videos/4029/4029-720.mp4",
+      "imageHint": "luxury room terrace sea",
+      "type": "video",
+      "tags": [
+        "Cinematic",
+        "Interior",
+        "Space"
+      ],
+      "randomId": "r4ekphnnbn"
+    },
+    {
+      "title": "Urban Serenity: A Baker's Winter Walk",
+      "description": "Un panadero camina por calles nevadas con calma, transmitiendo serenidad en un entorno urbano invernal.",
+      "imageUrl": "https://assets.mixkit.co/videos/2618/2618-720.mp4",
+      "imageHint": "snowy town street walk",
+      "type": "video",
+      "tags": [
+        "Cinematic",
+        "Urban",
+        "Landscape",
+        "Winter",
+        "Theme"
+      ],
+      "randomId": "fyux3svhfv"
+    },
+    {
+      "title": "Transcendent Transformation: From Light to Life",
+      "description": "Una figura emerge de un haz de luz, transformándose en un ser vivo en un entorno surrealista.",
+      "imageUrl": "https://assets.mixkit.co/videos/31536/31536-720.mp4",
+      "imageHint": "light beams particles",
+      "type": "video",
+      "tags": [
+        "Surreal",
+        "Realism",
+        "Morphing",
+        "Effects"
+      ],
+      "randomId": "j9w54kdcv0"
+    },
+    {
+      "title": "Plush Bloom to Luxury Fashion Elegance",
+      "description": "Un peluche florece y se convierte en un vestido de alta costura, mostrando creatividad y glamour.",
+      "imageUrl": "https://assets.mixkit.co/videos/809/809-720.mp4",
+      "imageHint": "fashion model white dress mirrors",
+      "type": "video",
+      "tags": [
+        "High",
+        "Fashion",
+        "Morphing",
+        "Effects"
+      ],
+      "randomId": "pxai9pprmv"
+    },
+    {
+      "title": "Secrets Unveiled: A Tense Confrontation",
+      "description": "Dos personajes se enfrentan en un espacio oscuro, con tensión dramática y atmósfera cinematográfica.",
+      "imageUrl": "https://assets.mixkit.co/videos/45878/45878-720.mp4",
+      "imageHint": "silhouette boxing dark",
+      "type": "video",
+      "tags": [
+        "Cinematic",
+        "Dramatic",
+        "Lighting"
+      ],
+      "randomId": "xrh91uqubf"
+    },
+    {
+      "title": "Chasing Shadows: A Nighttime Drift on Mountain Roads",
+      "description": "Un coche derrapa en carreteras montañosas bajo la noche, con luces y sombras intensas.",
+      "imageUrl": "https://assets.mixkit.co/active_storage/video_items/100632/1730327725/100632-video-720.mp4",
+      "imageHint": "highway timelapse night mountains",
+      "type": "video",
+      "tags": [
+        "Cinematic",
+        "Automotive",
+        "Night",
+        "Scene"
+      ],
+      "randomId": "3a9e50z6l8"
+    },
+    {
+      "title": "Echoes of Tomorrow: A Soldier's Remembrance",
+      "description": "Un soldado reflexiona en un campo vacío, con atmósfera melancólica y tonos cinematográficos.",
+      "imageUrl": "https://assets.mixkit.co/videos/47862/47862-720.mp4",
+      "imageHint": "soldier silhouette horizon",
+      "type": "video",
+      "tags": [
+        "Cinematic",
+        "War",
+        "Theme",
+        "Melancholic"
+      ],
+      "randomId": "mz492pjy9a"
+    },
+    {
+      "title": "Skyfall Escape: A Narrow Escape from Chaos",
+      "description": "En medio de una fuerte lluvia, un soldado enfrenta balas y un camión a toda velocidad en una huida vertiginosa.",
+      "imageUrl": "https://assets.mixkit.co/videos/4332/4332-720.mp4",
+      "imageHint": "rainy city night traffic",
+      "type": "video",
+      "tags": [
+        "Cinematic",
+        "Urban",
+        "Landscape",
+        "Slow",
+        "Motion"
+      ],
+      "randomId": "f7dnhl9a5u"
+    },
+    {
+      "title": "Dynamic Chase: Elemental Creatures in Motion",
+      "description": "Criaturas elementales colisionan en un terreno fracturado, mostrando un espectáculo visual intenso.",
+      "imageUrl": "https://assets.mixkit.co/videos/49573/49573-720.mp4",
+      "imageHint": "volcano eruption landscape",
+      "type": "video",
+      "tags": [
+        "Photorealistic"
+      ],
+      "randomId": "smd2447rnw"
+    },
+    {
+      "title": "Electric Blue Elegance: A Kingfisher's Moment",
+      "description": "Un martín pescador azul eléctrico captura su presa, con agua brillante y detalle impresionante.",
+      "imageUrl": "https://assets.mixkit.co/videos/20482/20482-720.mp4",
+      "imageHint": "bird fishing shallow water",
+      "type": "video",
+      "tags": [
+        "Photorealistic",
+        "Nature",
+        "Outdoor",
+        "Macro",
+        "Close",
+        "Up"
+      ],
+      "randomId": "frx8x2dn56"
+    },
+    {
+      "title": "Turning Pages of Reality: A Conceptual Journey",
+      "description": "Ambientes se transforman en páginas superpuestas, revelando nuevas historias con cada giro.",
+      "imageUrl": "https://assets.mixkit.co/videos/21603/21603-720.mp4",
+      "imageHint": "abstract layered book pages",
+      "type": "video",
+      "tags": [
+        "Magical",
+        "Realism",
+        "Abstract",
+        "Void",
+        "Smooth",
+        "Transit"
+      ],
+      "randomId": "r28hd4jyqb"
+    },
+    {
+      "title": "Thrilling Hyperloop Test Pod Experience",
+      "description": "Un pod de hyperloop recorre un túnel a gran velocidad, creando vibraciones intensas y visuales dinámicos.",
+      "imageUrl": "https://assets.mixkit.co/videos/44882/44882-720.mp4",
+      "imageHint": "subway tunnel hyperlapse pov",
+      "type": "video",
+      "tags": [
+        "Cinematic"
+      ],
+      "randomId": "iasd0arf5w"
+    },
+    {
+      "title": "Ashes and Valor: The Knight's Desolate Path",
+      "description": "Un caballero atraviesa un pueblo en llamas, cargando con el peso de la batalla en un épico histórico.",
+      "imageUrl": "https://assets.mixkit.co/videos/36758/36758-720.mp4",
+      "imageHint": "medieval knights battle",
+      "type": "video",
+      "tags": [
+        "Cinematic",
+        "Historical",
+        "Epic"
+      ],
+      "randomId": "va4blefmf8"
+    },
+    {
+      "title": "Urban Drift: A Neo-Noir Ride into Dawn",
+      "description": "De calles cubiertas de niebla a acantilados soleados, un viaje automovilístico lleno de adrenalina y arte.",
+      "imageUrl": "https://assets.mixkit.co/videos/3124/3124-720.mp4",
+      "imageHint": "highway cars slow motion",
+      "type": "video",
+      "tags": [
+        "Urban",
+        "Landscape",
+        "Slow",
+        "Motion"
+      ],
+      "randomId": "fto8w3ba10"
+    },
+    {
+      "title": "Sunset Serenade: A Cinematic Joy",
+      "description": "Una mujer gira alegremente en un campo abierto al atardecer, envuelta en risas y calidez.",
+      "imageUrl": "https://assets.mixkit.co/videos/46656/46656-720.mp4",
+      "imageHint": "woman slow motion chamomile field",
+      "type": "video",
+      "tags": [
+        "Cinematic",
+        "Nature",
+        "Outdoor",
+        "Slow",
+        "Motion"
+      ],
+      "randomId": "p17axpnsm2"
+    },
+    {
+      "title": "Cinematic Motorcycle Descent at Golden Hour",
+      "description": "Un motociclista solitario desciende desde una cima montañosa, capturando velocidad y precisión al atardecer.",
+      "imageUrl": "https://assets.mixkit.co/videos/39913/39913-720.mp4",
+      "imageHint": "motorcycle mountain road speed",
+      "type": "video",
+      "tags": [
+        "Cinematic"
+      ],
+      "randomId": "hdpqyxlxak"
+    },
+    {
+      "title": "Twilight Dance of the Snow Leopard",
+      "description": "Un leopardo de las nieves recorre una cresta nevada al anochecer, iluminado por la luz azul del crepúsculo.",
+      "imageUrl": "https://assets.mixkit.co/videos/6976/6976-720.mp4",
+      "imageHint": "white big cat snow",
+      "type": "video",
+      "tags": [
+        "Photorealistic"
+      ],
+      "randomId": "kerm3kj9wb"
+    },
+    {
+      "title": "Venezuela's Oil: A Comparative Analysis with the U.S.",
+      "description": "Explora cómo la producción petrolera de Venezuela se compara con la de EE.UU., analizando costos y tiempos.",
+      "imageUrl": "https://assets.mixkit.co/videos/48884/48884-720.mp4",
+      "imageHint": "oil pump refinery timelapse",
+      "type": "video",
+      "tags": [
+        "Documentary",
+        "Style",
+        "Abstract",
+        "Void"
+      ],
+      "randomId": "m0ojkst5lb"
+    },
+    {
+      "title": "Celestial Eclipse: A Dance of Shadows",
+      "description": "Un eclipse solar transforma el cielo en un espectáculo surrealista con sombras en movimiento.",
+      "imageUrl": "https://assets.mixkit.co/videos/48016/48016-720.mp4",
+      "imageHint": "cloudy sky moon eclipse surreal",
+      "type": "video",
+      "tags": [
+        "Surreal",
+        "Realism",
+        "Space",
+        "Cinematic"
+      ],
+      "randomId": "tp6mtwt4bd"
+    },
+    {
+      "title": "Urban Pulse: A Night in Motion",
+      "description": "Luces de neón reflejadas en calles mojadas mientras la ciudad vibra con energía nocturna.",
+      "imageUrl": "https://assets.mixkit.co/videos/4331/4331-720.mp4",
+      "imageHint": "rainy city street night traffic neon reflections wet asphalt",
+      "type": "video",
+      "tags": [
+        "Cinematic",
+        "Urban",
+        "Landscape",
+        "Night",
+        "Scene"
+      ],
+      "randomId": "3inl03xhlv"
+    },
+    {
+      "title": "Mechanical Heartbeat: Factory in Sync",
+      "description": "Engranajes y pistones se mueven al unísono en una fábrica futurista, mostrando ritmo industrial.",
+      "imageUrl": "https://assets.mixkit.co/videos/17675/17675-720.mp4",
+      "imageHint": "mechanical machinery factory gears industrial close up",
+      "type": "video",
+      "tags": [
+        "Industrial",
+        "Slow",
+        "Motion",
+        "Cinematic"
+      ],
+      "randomId": "23r837194r"
+    },
+    {
+      "title": "Ocean Symphony: Waves in Harmony",
+      "description": "Olas gigantes se mueven como una coreografía natural, con luz dorada del atardecer.",
+      "imageUrl": "https://assets.mixkit.co/videos/44482/44482-720.mp4",
+      "imageHint": "ocean waves beach sunset golden light foam rhythmic shore",
+      "type": "video",
+      "tags": [
+        "Documentary",
+        "Style",
+        "Nature",
+        "Outdoor",
+        "Slow",
+        "Motion"
+      ],
+      "randomId": "5ldzev2cq3"
+    },
+    {
+      "title": "Festival Sparks: Fireworks in the Sky",
+      "description": "Un festival cultural ilumina el cielo con fuegos artificiales y faroles flotantes.",
+      "imageUrl": "https://assets.mixkit.co/videos/6781/6781-720.mp4",
+      "imageHint": "fireworks city festival night celebration urban sky",
+      "type": "video",
+      "tags": [
+        "Cultural",
+        "Cinematic",
+        "Urban",
+        "Landscape"
+      ],
+      "randomId": "qppxounaqn"
+    },
+    {
+      "title": "Cosmic Voyage: A Ship Among Stars",
+      "description": "Un barco navega en un océano estelar rodeado de planetas y constelaciones brillantes.",
+      "imageUrl": "https://assets.mixkit.co/videos/44959/44959-720.mp4",
+      "imageHint": "futuristic spaceship earth orbit stars nebula fantasy voyage",
+      "type": "video",
+      "tags": [
+        "Surreal",
+        "Realism",
+        "Space",
+        "Fantasy"
+      ],
+      "randomId": "1ekhmtfdko"
+    },
+    {
+      "title": "Mystical Aurora: A Dance of Lights",
+      "description": "Auroras boreales iluminan el cielo nocturno mientras figuras etéreas parecen bailar entre las luces.",
+      "imageUrl": "https://assets.mixkit.co/videos/4038/4038-720.mp4",
+      "imageHint": "northern lights aurora borealis night sky timelapse green blue cinematic",
+      "type": "video",
+      "tags": [
+        "Surreal",
+        "Realism",
+        "Nature",
+        "Outdoor",
+        "Cinematic"
+      ],
+      "randomId": "8s5gfoxfmz"
+    },
+    {
+      "title": "Urban Rush: A City in Motion",
+      "description": "Tráfico y peatones se mueven rápidamente en una metrópolis iluminada por neón, transmitiendo energía urbana.",
+      "imageUrl": "https://assets.mixkit.co/videos/50999/50999-720.mp4",
+      "imageHint": "fast timelapse city highway intersection night traffic aerial neon lights",
+      "type": "video",
+      "tags": [
+        "Cinematic",
+        "Urban",
+        "Landscape",
+        "Fast",
+        "Motion"
+      ],
+      "randomId": "e9p6r5ffo1"
+    },
+    {
+      "title": "Mechanical Elegance: Clockwork in Sync",
+      "description": "Relojes y engranajes giran en perfecta armonía, mostrando la belleza de la mecánica detallada.",
+      "imageUrl": "https://assets.mixkit.co/videos/3651/3651-720.mp4",
+      "imageHint": "watch clock mechanism gears close up automatic movement cinematic",
+      "type": "video",
+      "tags": [
+        "Industrial",
+        "Slow",
+        "Motion",
+        "Cinematic"
+      ],
+      "randomId": "pmhwmj8ef2"
+    },
+    {
+      "title": "Ocean Majesty: A Whale's Leap",
+      "description": "Un majestuoso ballenato emerge del océano al amanecer, con agua brillante y atmósfera épica.",
+      "imageUrl": "https://assets.mixkit.co/videos/11032/11032-720.mp4",
+      "imageHint": "dolphins pod ocean open sea wildlife marine documentary golden water surface",
+      "type": "video",
+      "tags": [
+        "Documentary",
+        "Style",
+        "Nature",
+        "Outdoor",
+        "Slow",
+        "Motion"
+      ],
+      "randomId": "mtjbcnnnun"
+    },
+    {
+      "title": "Festival Radiance: Lanterns Ascend",
+      "description": "Miles de faroles flotan en el aire durante un festival nocturno, creando un ambiente mágico.",
+      "imageUrl": "https://assets.mixkit.co/videos/46273/46273-720.mp4",
+      "imageHint": "sky lantern paper lantern launching night sky festival cultural ascending magical",
+      "type": "video",
+      "tags": [
+        "Cultural",
+        "Cinematic",
+        "Urban",
+        "Landscape"
+      ],
+      "randomId": "lw7g21fgw3"
+    },
+    {
+      "title": "Cosmic Voyage: A Journey Among Stars",
+      "description": "Una nave atraviesa un océano estelar rodeada de planetas y constelaciones brillantes.",
+      "imageUrl": "https://assets.mixkit.co/videos/14151/14151-720.mp4",
+      "imageHint": "space journey stars nebulae cosmos 3d animation fantasy voyage",
+      "type": "video",
+      "tags": [
+        "Surreal",
+        "Realism",
+        "Space",
+        "Fantasy"
+      ],
+      "randomId": "t55ss4nsgs"
+    },
+    {
+      "title": "Ethereal Glow",
+      "description": "A bioluminescent forest where the trees and plants glow with an ethereal light.",
+      "imageUrl": "https://assets.mixkit.co/videos/28336/28336-720.mp4",
+      "imageHint": "forest sunrise dawn light trees glowing ethereal fantasy woodland mountains mist",
+      "type": "video",
+      "tags": [
+        "Fantasy",
+        "Forest",
+        "Bioluminescent"
+      ],
+      "randomId": "fpocier43v"
+    },
+    {
+      "title": "Cuando la escena se vuelve real",
+      "description": "Estoy en un cine viendo avatar 3 cuando una escena de pronto se vuelve real",
+      "imageUrl": "https://assets.mixkit.co/videos/33312/33312-720.mp4",
+      "imageHint": "movie theater cinema audience watching screen dark immersive glow surreal",
+      "type": "video",
+      "tags": [
+        "Cinematic",
+        "Surreal",
+        "Realism",
+        "Fantasy"
+      ],
+      "randomId": "bpovzlc6zs"
+    },
+    {
+      "title": "Northern Steel: Retrofit Industrial Metropolis",
+      "description": "A futuristic industrial city in Northern England, inspired by Manchester. Victorian red brick mills and warehouses are retrofitted with glowing blue energy conduits, massive gears, and futuristic machinery. Automated cargo drones fly low over old canals. Sleek, magnetic levitation trains move rapidly on elevated tracks above cobblestone streets. Steampunk meets sci-fi aesthetic, gritty texture, smoke and steam rising, overcast sky, photorealistic.",
+      "imageUrl": "https://assets.mixkit.co/videos/25881/25881-720.mp4",
+      "imageHint": "train industrial city urban factories tracks aerial gritty smoke photorealistic northern england inspired",
+      "type": "video",
+      "tags": [
+        "Photorealistic",
+        "Urban",
+        "Landscape",
+        "Industrial"
+      ],
+      "randomId": "mt7ahyv6sh"
+    },
+    {
+      "title": "Lviv Café: Rain Beyond the Glass",
+      "description": "Elegant Ukrainian woman sitting in a classic European-style café in Lviv. She is looking out a large window at the rain. Soft cinematic lighting, moody atmosphere, detailed facial expressions. 4k resolution, professional color grading, shot on Arri Alexa.",
+      "imageUrl": "https://assets.mixkit.co/videos/24679/24679-720.mp4",
+      "imageHint": "woman sitting by window melancholy contemplative cinematic portrait soft light moody european cafe inspired lviv rain",
+      "type": "video",
+      "tags": [
+        "Cinematic",
+        "Photorealistic",
+        "Dramatic",
+        "Lighting"
+      ],
+      "randomId": "iqcz80pqng"
+    },
+    {
+      "title": "Vyshyvanka in a Sea of Sunflowers",
+      "description": "Close-up of a beautiful woman with Slavic features wearing a traditional embroidered Vyshyvanka. She is standing in a vast field of sunflowers under a bright blue sky. A gentle breeze moves her hair and the flowers. High dynamic range, vibrant colors, slow-motion, hyper-realistic, 8k.",
+      "imageUrl": "https://assets.mixkit.co/videos/10321/10321-720.mp4",
+      "imageHint": "woman sunflower field slavic vyshyvanka traditional embroidery portrait blue sky breeze vibrant ukraine inspired",
+      "type": "video",
+      "tags": [
+        "Photorealistic",
+        "Nature",
+        "Outdoor",
+        "Slow",
+        "Motion"
+      ],
+      "randomId": "dtpvs87a58"
+    },
+    {
+      "title": "Podil Golden Hour: Cobbles and Trench",
+      "description": "Cinematic shot of a stunning Ukrainian woman walking through the historic streets of Podil, Kyiv. She has long flowing hair, wearing a stylish modern trench coat. Golden hour sunlight reflecting off cobblestone streets. Soft bokeh background, 4k, highly detailed, realistic skin textures, shot on 35mm lens.",
+      "imageUrl": "https://assets.mixkit.co/videos/22126/22126-720.mp4",
+      "imageHint": "woman walking old historic street cobblestone golden hour sunlight european ukraine kyiv podil inspired trench coat cinematic bokeh",
+      "type": "video",
+      "tags": [
+        "Cinematic",
+        "Photorealistic",
+        "Urban",
+        "Landscape"
+      ],
+      "randomId": "ko8qrsd8ol"
+    },
+    {
+      "title": "Kaiju felino: asalto a la Libertad",
+      "description": "Un gato gigante ataca Nueva York y destruye la estatua de la libertad",
+      "imageUrl": "https://assets.mixkit.co/videos/26828/26828-720.mp4",
+      "imageHint": "statue of liberty new york harbor skyline city giant cat kaiju attack surreal cinematic nyc",
+      "type": "video",
+      "tags": [
+        "Cinematic",
+        "Urban",
+        "Landscape",
+        "Surreal",
+        "Realism"
+      ],
+      "randomId": "b9o3wkwumf"
+    },
+    {
+      "title": "Trofeo entre ruinas futuristas",
+      "description": "El Depredador de la película Predator sosteniendo un casco blanco de Star Wars futurista de visor negro levantándolo al cielo en señal de Victoria en una ciudad futurista abandonada en un edificio",
+      "imageUrl": "https://assets.mixkit.co/videos/45004/45004-720.mp4",
+      "imageHint": "alien humanoid sci fi hunter dramatic backlight smoke helmet trophy victory sky abandoned futuristic city rooftop inspired",
+      "type": "video",
+      "tags": [
+        "Cinematic",
+        "Surreal",
+        "Realism",
+        "Fantasy"
+      ],
+      "randomId": "pgxflcn19l"
+    },
+    {
+      "title": "Noche al volante: SUV negra",
+      "description": "Joaquín Phoenix en su personaje del Joker, conduciendo un CUPRA terramar 2026 negro mate",
+      "imageUrl": "https://assets.mixkit.co/videos/42039/42039-720.mp4",
+      "imageHint": "car interior night city driving traffic pov cinematic black suv matte cupra terramar joker inspired",
+      "type": "video",
+      "tags": [
+        "Cinematic",
+        "Automotive",
+        "Night",
+        "Scene"
+      ],
+      "randomId": "r7tf97426z"
+    },
+    {
+      "title": "Titán y grizzly en el bosque",
+      "description": "Un gigante muy musculoso caminando por el bosque con un oso enorme caminando a su lado",
+      "imageUrl": "https://assets.mixkit.co/videos/48989/48989-720.mp4",
+      "imageHint": "grizzly bear huge walking forest alaska woods giant muscular man fantasy epic companion side by side",
+      "type": "video",
+      "tags": [
+        "Fantasy",
+        "Nature",
+        "Outdoor",
+        "Photorealistic"
+      ],
+      "randomId": "veo9vf9xf3"
+    },
+    {
+      "title": "El Coloso despierta",
+      "description": "Que la estatua de una de las siete maravillas del mundo, el coloso de rodas cobre vida",
+      "imageUrl": "https://assets.mixkit.co/videos/12564/12564-720.mp4",
+      "imageHint": "greek statue sculpture fountain ancient helios colossus rhodes seven wonders comes alive living stone fantasy",
+      "type": "video",
+      "tags": [
+        "Fantasy",
+        "Historical",
+        "Epic",
+        "Surreal",
+        "Realism"
+      ],
+      "randomId": "j73sixexwh"
+    },
+    {
+      "title": "Soberano del umbral: luz y sombra",
+      "description": "Indicación Crea un video de un Hombre musculoso etérea y majestuoso, dividido en dos mitades: un lado blanco perlado con rasgos luminosos y suaves, y un lado negro profundo con reflejos brillantes, unidos por una línea central radiante; posee orejas puntiagudas de elfo grandes y magníficas y camina hacia el frente con determinación, con estética futurista, hiperrealista y ultra detallada; a su lado blanco avanza un tigre blanco de pelaje brillante, y a su lado oscuro un tigre negro imponente con destellos intensos, con colores vibrantes, iluminación dramática y atmósfera mística, efectos etéreos, partículas luminosas y destellos envolventes. El fondo muestra una ciudad futurista dividida en tonos claros y oscuros, con estructuras brillantes mientras cenizas y nieve caen juntas en un efecto etéreo, con estética cinematográfica avanzada y elementos brillantes que refuercen el ambiente. Todo con un estilo impactante, sofisticado y visualmente épico en calidad 8K. Crea un video.\nmateriales hiperrealistas 3D, iluminación reflectante, configuración de estudio cinematográfico, sombras suaves, resolución 8K, trazado de rayos, estilo de fotografía de producto, contraste dramático, profundidad de campo, renderizado con Unreal Engine 5. reflejos ultradetallados, iluminación volumétrica, Fujifilm GFX 100 II, objetivo de 85 mm, poca profundidad de campo, atmósfera realista, desenfoque de movimiento dinámico, tono de fantasía épica —ar 16:9 –motion 5 –camera-move crane-orbit –stylize 1000..",
+      "imageUrl": "https://assets.mixkit.co/videos/7086/7086-720.mp4",
+      "imageHint": "white tiger walking majestic fantasy duality elf warrior black tiger twin futuristic city snow ash ethereal hyperrealistic unreal engine inspired",
+      "type": "video",
+      "tags": [
+        "Fantasy",
+        "Surreal",
+        "Realism",
+        "Photorealistic"
+      ],
+      "randomId": "ey1kpznr66"
+    },
+    {
+      "title": "Asalto orbital",
+      "description": "Crea video hiperrealista con calidad 4k con estilo cinematográfico donde una máquina con brazos y piernas con equipo táctico le dispara a una nave futurista",
+      "imageUrl": "https://assets.mixkit.co/videos/45220/45220-720.mp4",
+      "imageHint": "bipedal tactical robot android humanoid machine laser gun firing at futuristic spaceship sci-fi combat cinematic hyperrealistic 4k",
+      "type": "video",
+      "tags": [
+        "Photorealistic",
+        "Technology",
+        "Cinematic"
+      ],
+      "randomId": "n7l3utse2g"
+    },
+    {
+      "title": "Asfalto ardiente: tres leyendas",
+      "description": "video hiperealista 8k Escena de carreras tipo rápido y furioso de Jetta v.w contra un Camaro azul, y un Mustang",
+      "imageUrl": "https://assets.mixkit.co/videos/615/615-720.mp4",
+      "imageHint": "street racing fast furious style VW Jetta blue Camaro Mustang muscle cars drag race asphalt cinematic hyperrealistic 8k",
+      "type": "video",
+      "tags": [
+        "Cinematic",
+        "Fast",
+        "Motion",
+        "Photorealistic"
+      ],
+      "randomId": "bghsa02wv9"
+    },
+    {
+      "title": "El despertar de la arena",
+      "description": "rostro colosal antiguo emergiendo del desierto árabe, y a lo lejos un dron mirándolo en segunda persona.",
+      "imageUrl": "https://assets.mixkit.co/videos/47380/47380-720.mp4",
+      "imageHint": "colossal ancient pharaoh face stone statue emerging arabian desert sand storm drone second person pov distant aerial Luxor temple epic cinematic",
+      "type": "video",
+      "tags": [
+        "Cinematic",
+        "Historical",
+        "Epic",
+        "Photorealistic"
+      ],
+      "randomId": "luak181ne1"
+    },
+    {
+      "title": "Cruzando el fulgor",
+      "description": "Un avion de pasajeros atravezando una tormenta y despues ser atravezado por un rayo, en 8k, ultrarealista, wide angle",
+      "imageUrl": "https://assets.mixkit.co/videos/47698/47698-720.mp4",
+      "imageHint": "commercial passenger jet airliner flying through thunderstorm clouds lightning bolt striking aircraft wide angle ultra realistic 8k cinematic",
+      "type": "video",
+      "tags": [
+        "Cinematic",
+        "Photorealistic",
+        "Fast",
+        "Motion"
+      ],
+      "randomId": "5sm94c6gyz"
+    },
+    {
+      "title": "Vigilia en las profundidades",
+      "description": "Indicación Video hiper realista en 4k, alta definición, de una sirena realista humanoide con una cara aterradora y aspecto de pez, los brazos con membranas en los dedos, una cola con espina dorsal salida de pez desde la espalda hasta la cola, branquias en la parte de los oídos y cara, nadando rápidamente en el fondo del mar, siendo grabada por un buzo realista nadando, en alta definición. stylize1000--sw200 --raw --resolution high",
+      "imageUrl": "https://assets.mixkit.co/videos/49508/49508-720.mp4",
+      "imageHint": "terrifying humanoid mermaid fish face webbed hands fish spine tail gills ears deep ocean floor fast swimming diver camera pov hyperrealistic 4k horror marine",
+      "type": "video",
+      "tags": [
+        "Fantasy",
+        "Surreal",
+        "Realism",
+        "Photorealistic"
+      ],
+      "randomId": "kr4hpx5k7s"
     }
   ]
 }

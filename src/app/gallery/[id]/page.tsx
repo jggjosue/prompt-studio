@@ -1,18 +1,19 @@
 import { PlaceHolderImages, type ImagePlaceholder } from '@/lib/placeholder-images';
 import { PlaceHolderVideos, type VideoProp } from '@/lib/placeholder-videos';
+import { resolveRenderableMediaUrl } from '@/lib/media-resolver';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import GalleryDetailClient from './gallery-detail-client';
 
 type Props = {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
 export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const id = params.id;
+  const { id } = await params;
   const imageItem = PlaceHolderImages.find(p => p.id === id);
   const videoItem = PlaceHolderVideos.find(p => p.id === id);
   const item = imageItem || videoItem;
@@ -41,11 +42,16 @@ export async function generateMetadata(
     displayDescription = item.description;
   }
 
-  const openGraphImages = item.imageUrl ? [{ url: item.imageUrl }] : [];
+  const resolvedPreviewUrl = resolveRenderableMediaUrl(item);
+  const openGraphImages = resolvedPreviewUrl ? [{ url: resolvedPreviewUrl }] : [];
+  const canonicalPath = `/gallery/${id}`;
 
   return {
     title: `${item.title} | Prompt Studio`,
     description: displayDescription,
+    alternates: {
+      canonical: canonicalPath,
+    },
     openGraph: {
       title: item.title,
       description: displayDescription,
@@ -54,9 +60,10 @@ export async function generateMetadata(
   }
 }
 
-export default function GalleryDetailPage({ params }: Props) {
-    const imageItem = PlaceHolderImages.find(p => p.id === params.id);
-    const videoItem = PlaceHolderVideos.find(p => p.id === params.id);
+export default async function GalleryDetailPage({ params }: Props) {
+    const { id } = await params;
+    const imageItem = PlaceHolderImages.find(p => p.id === id);
+    const videoItem = PlaceHolderVideos.find(p => p.id === id);
     const item: ImagePlaceholder | VideoProp | undefined = imageItem || videoItem;
 
     if (!item) {

@@ -26,6 +26,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 export default function VideoPromptsClient() {
   const [hasMounted, setHasMounted] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+
   const [filter, setFilter] = useState('all');
   const itemsPerPage = 18;
 
@@ -45,7 +46,6 @@ export default function VideoPromptsClient() {
   useEffect(() => {
     setCurrentPage(1);
   }, [filter]);
-
 
   const totalPages = Math.ceil(videoContent.length / itemsPerPage);
 

@@ -15,7 +15,13 @@ import { useMemo } from 'react';
 
 export default function VideoExamples() {
   const videoContent = useMemo(() => {
-    return PlaceHolderVideos.slice(0, 9);
+    const uniqueByTitle = new Map<string, (typeof PlaceHolderVideos)[number]>();
+    for (const item of PlaceHolderVideos) {
+      if (!uniqueByTitle.has(item.title.toLowerCase())) {
+        uniqueByTitle.set(item.title.toLowerCase(), item);
+      }
+    }
+    return Array.from(uniqueByTitle.values()).slice(0, 9);
   }, []);
 
   return (

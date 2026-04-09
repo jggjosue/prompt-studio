@@ -20,18 +20,108 @@ import {
   PlaceHolderVideos,
   type VideoProp,
 } from '@/lib/placeholder-videos';
+import { evaluatePublisherPolicy } from '@/lib/google-publisher-policy';
+import { isRenderableVideoUrl, resolveRenderableMediaUrl } from '@/lib/media-resolver';
 import { ArrowLeft, Copy, Wand2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 export default function GalleryDetailClient({ item }: { item: ImagePlaceholder | VideoProp }) {
-  const otherItems = useMemo(() => [
-    ...PlaceHolderImages.filter(p => p.id !== item.id && p.imageUrl),
-    ...PlaceHolderVideos.filter(p => p.id !== item.id && p.imageUrl),
-  ].slice(0, 3), [item.id]);
+  const [otherItems, setOtherItems] = useState<Array<ImagePlaceholder | VideoProp>>([]);
+  const [leftRandomImage, setLeftRandomImage] = useState<ImagePlaceholder | null>(null);
+
+  useEffect(() => {
+    const pool = [
+      ...PlaceHolderImages.filter(p => p.id !== item.id && p.imageUrl),
+      ...PlaceHolderVideos.filter(p => p.id !== item.id && p.imageUrl),
+    ];
+    const mechanicalHeart = pool.find(p => p.title === 'Mechanical Heart');
+    const withoutMechanicalHeart = pool.filter(p => p.title !== 'Mechanical Heart');
+
+    // Shuffle to get different "Discover More" results on each page visit.
+    for (let i = withoutMechanicalHeart.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [withoutMechanicalHeart[i], withoutMechanicalHeart[j]] = [withoutMechanicalHeart[j], withoutMechanicalHeart[i]];
+    }
+
+    // Keep Mechanical Heart visible and fill the rest with random items.
+    let nextOtherItems: Array<ImagePlaceholder | VideoProp>;
+    if (mechanicalHeart) {
+      nextOtherItems = [mechanicalHeart, ...withoutMechanicalHeart.slice(0, 2)];
+    } else {
+      nextOtherItems = withoutMechanicalHeart.slice(0, 3);
+    }
+    setOtherItems(nextOtherItems);
+
+    const imagePool = PlaceHolderImages.filter(
+      p => p.id !== item.id && p.imageUrl && !isRenderableVideoUrl(p.imageUrl, p.type)
+    );
+    if (imagePool.length === 0) {
+      setLeftRandomImage(null);
+      return;
+    }
+    const idx = Math.floor(Math.random() * imagePool.length);
+    setLeftRandomImage(imagePool[idx]);
+  }, [item.id]);
   
   const { toast } = useToast();
+  const isPaywalled = useMemo(
+    () => item.tags.some(tag => ['paywall', 'subscription', 'members only'].includes(tag.toLowerCase())),
+    [item.tags]
+  );
+  const structuredData = useMemo(
+    () => ({
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      name: item.title,
+      description: item.description,
+      isAccessibleForFree: !isPaywalled,
+      hasPart: isPaywalled
+        ? {
+            '@type': 'WebPageElement',
+            isAccessibleForFree: false,
+            cssSelector: '.paywall',
+          }
+        : undefined,
+    }),
+    [item.title, item.description, isPaywalled]
+  );
+  const policyReview = useMemo(
+    () =>
+      evaluatePublisherPolicy({
+        title: item.title,
+        description: item.description,
+        tags: item.tags,
+      }),
+    [item.title, item.description, item.tags]
+  );
+
+  const manualActionRisk = useMemo(() => {
+    const allItems = [
+      ...PlaceHolderImages.filter(p => p.imageUrl),
+      ...PlaceHolderVideos.filter(p => p.imageUrl),
+    ];
+    const sameTitleCount = allItems.filter(
+      p => p.title.trim().toLowerCase() === item.title.trim().toLowerCase()
+    ).length;
+
+    const plainText = item.description
+      .replace(/[{}[\]":,]/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+    const wordCount = plainText ? plainText.split(' ').length : 0;
+    const hasLowValueContent = wordCount < 45;
+    const hasDuplicateTitle = sameTitleCount > 1;
+
+    return {
+      hasLowValueContent,
+      hasDuplicateTitle,
+      wordCount,
+      duplicateCount: sameTitleCount,
+      hasRisk: hasLowValueContent || hasDuplicateTitle,
+    };
+  }, [item.title, item.description]);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(item.description).then(() => {
@@ -44,6 +134,10 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
       <Header />
       <main className="flex-1 py-8 md:py-12">
         <div className="container">
@@ -62,7 +156,7 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                 </div>
               </div>
               <div className="relative aspect-[3/4] rounded-lg overflow-hidden border group">
-                {item.type === 'video' ? (
+                {isRenderableVideoUrl(item.imageUrl, item.type) ? (
                   <video
                     src={item.imageUrl}
                     playsInline
@@ -72,10 +166,10 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                 ) : (
                   <>
                     <Image
-                      src={item.imageUrl}
+                      src={resolveRenderableMediaUrl(item)}
                       alt={item.title}
                       fill
-                      unoptimized={item.imageUrl?.includes('meta.ai')}
+                      unoptimized
                       className="object-cover"
                       data-ai-hint={item.imageHint}
                     />
@@ -90,6 +184,79 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                   </>
                 )}
               </div>
+              {leftRandomImage && (
+                <div className="space-y-3">
+                  <h3 className="text-xl font-bold font-headline">Imagen aleatoria</h3>
+                  <Link href={`/gallery/${leftRandomImage.id}`} className="group block">
+                    <Card className="overflow-hidden">
+                      <CardContent className="p-0">
+                        <div className="relative aspect-[3/4]">
+                          <Image
+                            src={leftRandomImage.imageUrl}
+                            alt={leftRandomImage.title}
+                            fill
+                            unoptimized
+                            className="object-cover transition-transform group-hover:scale-105"
+                          />
+                        </div>
+                        <div className="p-4">
+                          <p className="font-semibold line-clamp-1">{leftRandomImage.title}</p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                </div>
+              )}
+
+              {!policyReview.isCompliant && (
+                <Card className="border-amber-300 bg-amber-50/50 dark:bg-amber-950/20">
+                  <CardContent className="p-4">
+                    <p className="font-semibold text-amber-900 dark:text-amber-200">
+                      Revisión de políticas para editores de Google
+                    </p>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      Este contenido podría incumplir políticas de monetización. Revisa antes de publicar anuncios.
+                    </p>
+                    <ul className="mt-3 text-sm space-y-1">
+                      {policyReview.violations.slice(0, 4).map((violation, idx) => (
+                        <li key={`${violation.category}-${idx}`} className="text-amber-900 dark:text-amber-100">
+                          {violation.message}
+                          {violation.matchedTerm ? ` (término detectado: "${violation.matchedTerm}")` : ''}
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              )}
+
+              {manualActionRisk.hasRisk && (
+                <Card className="border-rose-300 bg-rose-50/50 dark:bg-rose-950/20">
+                  <CardContent className="p-4">
+                    <p className="font-semibold text-rose-900 dark:text-rose-100">
+                      Riesgo SEO (Acciones Manuales)
+                    </p>
+                    <ul className="mt-2 text-sm text-muted-foreground space-y-1">
+                      {manualActionRisk.hasDuplicateTitle && (
+                        <li>
+                          Título duplicado detectado ({manualActionRisk.duplicateCount} coincidencias): considera
+                          consolidar o diferenciar contenido.
+                        </li>
+                      )}
+                      {manualActionRisk.hasLowValueContent && (
+                        <li>
+                          Contenido potencialmente superficial ({manualActionRisk.wordCount} palabras): añade contexto
+                          y valor editorial.
+                        </li>
+                      )}
+                    </ul>
+                    <div className="mt-3">
+                      <Button asChild size="sm" variant="secondary">
+                        <Link href="/manual-actions">Ver guía de acciones manuales</Link>
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
 
               <Accordion type="single" collapsible defaultValue="item-1">
                 <AccordionItem value="item-1">
@@ -162,19 +329,21 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                     <Card className="overflow-hidden">
                       <CardContent className="p-0">
                         <div className="relative aspect-[3/4]">
-                          {other.type === 'video' ? (
+                          {isRenderableVideoUrl(other.imageUrl, other.type) ? (
                             <video
                               src={other.imageUrl}
                               playsInline
                               muted
+                              autoPlay
+                              loop
                               className="object-cover transition-transform group-hover:scale-105 w-full h-full"
                             />
                           ) : (
                             <Image
-                              src={other.imageUrl}
+                              src={resolveRenderableMediaUrl(other)}
                               alt={other.title}
                               fill
-                              unoptimized={other.imageUrl?.includes('meta.ai')}
+                              unoptimized
                               className="object-cover transition-transform group-hover:scale-105"
                             />
                           )}

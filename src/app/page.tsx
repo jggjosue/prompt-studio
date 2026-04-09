@@ -11,6 +11,8 @@ import { Bot, Clapperboard, Lightbulb, Loader2 } from 'lucide-react';
 import { Suspense } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 export default function Home() {
   const examplePrompts = [
@@ -78,15 +80,6 @@ export default function Home() {
             <ModelCarousel />
           </div>
         </section> */}
-
-        <section id="gallery" className="w-full py-8 md:py-16">
-          <div className="container">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline mb-8 text-center">
-              Featured Creations
-            </h2>
-            <ContentGrid />
-          </div>
-        </section>
 
         <section id="video-examples" className="w-full py-8 md:py-16 bg-muted/30">
           <div className="container">
