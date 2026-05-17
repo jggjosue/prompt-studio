@@ -14,10 +14,12 @@ import * as path from 'path';
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// --- File Paths ---
-const imagesJsonPath = path.resolve(__dirname, '../src/lib/placeholder-images.json');
-const videosJsonPath = path.resolve(__dirname, '../src/lib/placeholder-videos.json');
+// --- File Paths (bundled JSON lives under public/prompts) ---
+const imagesJsonPath = path.resolve(__dirname, '../public/prompts/placeholder-images.json');
+const videosJsonPath = path.resolve(__dirname, '../public/prompts/placeholder-videos.json');
 
+type PlaceholderImagesFile = { placeholderImages: Array<Record<string, unknown> & { title: string; likes?: number }> };
+type PlaceholderVideosFile = { placeholderVideos: Array<Record<string, unknown> & { title: string; likes?: number }> };
 
 async function syncLikes() {
   console.log('Starting likes synchronization...');
@@ -26,21 +28,24 @@ async function syncLikes() {
   try {
     console.log('Syncing placeholderImages...');
     const imagesJsonContent = await fs.readFile(imagesJsonPath, 'utf-8');
-    const imagesData = JSON.parse(imagesJsonContent);
+    const imagesPayload = JSON.parse(imagesJsonContent) as PlaceholderImagesFile;
+
+    if (!Array.isArray(imagesPayload.placeholderImages)) {
+      throw new Error('Invalid placeholder-images.json: missing placeholderImages array');
+    }
 
     const imagesCollectionRef = collection(db, 'placeholderImages');
 
-    for (const image of imagesData) {
+    for (const image of imagesPayload.placeholderImages) {
       const q = query(imagesCollectionRef, where('title', '==', image.title));
       const querySnapshot = await getDocs(q);
 
       if (!querySnapshot.empty) {
-        // Assuming titles are unique, take the first result.
         const firestoreDoc = querySnapshot.docs[0];
         const firestoreLikes = firestoreDoc.data().likes || 0;
-        
+
         if (image.likes !== firestoreLikes) {
-          console.log(`Updating likes for image "${image.title}": ${image.likes || 0} -> ${firestoreLikes}`);
+          console.log(`Updating likes for image "${image.title}": ${image.likes ?? 0} -> ${firestoreLikes}`);
           image.likes = firestoreLikes;
         }
       } else {
@@ -48,23 +53,25 @@ async function syncLikes() {
       }
     }
 
-    await fs.writeFile(imagesJsonPath, JSON.stringify(imagesData, null, 2));
+    await fs.writeFile(imagesJsonPath, JSON.stringify(imagesPayload, null, 2) + '\n');
     console.log('Finished syncing placeholderImages.');
-
   } catch (error) {
     console.error('Error syncing images:', error);
   }
-
 
   // --- Sync Videos ---
   try {
     console.log('Syncing placeholderVideos...');
     const videosJsonContent = await fs.readFile(videosJsonPath, 'utf-8');
-    const videosData = JSON.parse(videosJsonContent);
+    const videosPayload = JSON.parse(videosJsonContent) as PlaceholderVideosFile;
+
+    if (!Array.isArray(videosPayload.placeholderVideos)) {
+      throw new Error('Invalid placeholder-videos.json: missing placeholderVideos array');
+    }
 
     const videosCollectionRef = collection(db, 'placeholderVideos');
 
-    for (const video of videosData) {
+    for (const video of videosPayload.placeholderVideos) {
       const q = query(videosCollectionRef, where('title', '==', video.title));
       const querySnapshot = await getDocs(q);
 
@@ -73,7 +80,7 @@ async function syncLikes() {
         const firestoreLikes = firestoreDoc.data().likes || 0;
 
         if (video.likes !== firestoreLikes) {
-          console.log(`Updating likes for video "${video.title}": ${video.likes || 0} -> ${firestoreLikes}`);
+          console.log(`Updating likes for video "${video.title}": ${video.likes ?? 0} -> ${firestoreLikes}`);
           video.likes = firestoreLikes;
         }
       } else {
@@ -81,17 +88,13 @@ async function syncLikes() {
       }
     }
 
-    await fs.writeFile(videosJsonPath, JSON.stringify(videosData, null, 2));
+    await fs.writeFile(videosJsonPath, JSON.stringify(videosPayload, null, 2) + '\n');
     console.log('Finished syncing placeholderVideos.');
-
   } catch (error) {
     console.error('Error syncing videos:', error);
   }
 
   console.log('Likes synchronization completed.');
-  // The script will exit, but since we are using Node v18+ it should exit automatically
-  // even with the open Firebase connection. If not, this process needs to be killed manually (Ctrl+C).
-  // For a more robust solution, you can call process.exit(0) or close the db connection.
   process.exit(0);
 }
 
