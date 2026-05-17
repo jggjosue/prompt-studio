@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Magzin Job — Editorial Minimal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #fafaf7;
+      --ink: #0f0f0f;
+      --gray: #6b7280;
+      --beige: #f3efe6;
+      --accent: #d97757;
+      --border: 1px solid #e5e5e0;
+      --radius: 4px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Inter, system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+    .serif { font-family: Fraunces, Georgia, serif; font-weight: 400; }
+    a { color: var(--ink); text-decoration: none; }
+    a:hover { color: var(--accent); }
+
+    .navbar {
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      padding: 1.25rem 1.5rem;
+      border-bottom: var(--border);
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+    .navbar .brand { color: var(--ink); }
+
+    .hero {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 4rem 1.5rem 2rem;
+      text-align: center;
+    }
+    .hero h1 {
+      font-family: Fraunces, serif;
+      font-size: clamp(2.25rem, 5vw, 3.25rem);
+      line-height: 1.15;
+      font-weight: 400;
+      margin-bottom: 1.25rem;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+    .hero p {
+      color: var(--gray);
+      max-width: 42ch;
+      margin: 0 auto 1.75rem;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.65rem 1.25rem;
+      background: var(--ink);
+      color: var(--bg);
+      border: var(--border);
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--ink);
+      margin-left: 0.5rem;
+    }
+
+    .dashboard-shot {
+      max-width: 1100px;
+      margin: 0 auto 4rem;
+      padding: 0 1.5rem;
+    }
+    .dashboard-frame {
+      border: var(--border);
+      border-radius: var(--radius);
+      background: var(--beige);
+      overflow: hidden;
+    }
+    .dash-inner {
+      padding: 1.5rem;
+      background: #fff;
+      border-bottom: var(--border);
+    }
+    .dash-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--gray);
+      margin-bottom: 1.25rem;
+    }
+    .dash-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0.75rem 0;
+      border-bottom: var(--border);
+    }
+    .dash-row:last-child { border-bottom: none; }
+    .dash-bar {
+      flex: 1;
+      height: 4px;
+      background: var(--beige);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .dash-fill { height: 100%; background: var(--accent); border-radius: 2px; }
+    .dash-score { font-size: 0.8rem; font-weight: 600; color: var(--accent); }
+
+    section { max-width: 720px; margin: 0 auto; padding: 0 1.5rem 4rem; }
+    section h2 {
+      font-family: Fraunces, serif;
+      font-size: 1.75rem;
+      font-weight: 400;
+      margin-bottom: 2rem;
+      padding-bottom: 0.75rem;
+      border-bottom: var(--border);
+    }
+
+    .benefit-list { list-style: none; }
+    .benefit-list li {
+      display: grid;
+      grid-template-columns: 3rem 1fr;
+      gap: 1.5rem;
+      padding: 2rem 0;
+      border-bottom: var(--border);
+    }
+    .benefit-num {
+      font-family: Fraunces, serif;
+      font-size: 2.5rem;
+      line-height: 1;
+      color: var(--accent);
+      font-weight: 400;
+    }
+    .benefit-list h3 {
+      font-family: Fraunces, serif;
+      font-size: 1.25rem;
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+    }
+    .benefit-list p { color: var(--gray); font-size: 0.95rem; }
+
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+      border-left: 1px solid #d1d5db;
+      margin-left: 0.5rem;
+    }
+    .timeline-item {
+      position: relative;
+      padding-bottom: 2.5rem;
+    }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: calc(-2rem - 5px);
+      top: 0.35rem;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 1px solid var(--gray);
+    }
+    .timeline-item h3 {
+      font-family: Fraunces, serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      margin-bottom: 0.35rem;
+    }
+    .timeline-item p { color: var(--gray); font-size: 0.9rem; }
+
+    footer {
+      border-top: var(--border);
+      padding: 3rem 1.5rem 2rem;
+      background: var(--beige);
+    }
+    .footer-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      font-size: 0.8rem;
+    }
+    .footer-grid h4 {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gray);
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+    .footer-grid ul { list-style: none; }
+    .footer-grid li { margin-bottom: 0.5rem; }
+    .footer-grid a { color: var(--gray); }
+    .footer-bar {
+      max-width: 1100px;
+      margin: 2rem auto 0;
+      padding-top: 1.5rem;
+      border-top: var(--border);
+      font-size: 0.75rem;
+      color: var(--gray);
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .footer-grid { grid-template-columns: repeat(2, 1fr); }
+      .navbar { flex-wrap: wrap; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar" aria-label="Main">
+    <a href="#" class="brand">Magzin Job</a>
+    <a href="#">Product</a>
+    <a href="#">Pricing</a>
+    <a href="#">Docs</a>
+    <a href="#">Sign in</a>
+  </nav>
+
+  <header class="hero">
+    <h1 class="serif">AI interviews that help you <em>hire</em> with clarity</h1>
+    <p>Structured screens, thoughtful scoring, and a hiring workflow your team will actually adopt.</p>
+    <a href="#" class="btn">Get started</a>
+    <a href="#" class="btn btn-outline">Read the docs</a>
+  </header>
+
+  <div class="dashboard-shot">
+    <div class="dashboard-frame" role="img" aria-label="Dashboard preview">
+      <div class="dash-inner">
+        <div class="dash-header">
+          <span>Interview Dashboard</span>
+          <span>Last 30 days</span>
+        </div>
+        <div class="dash-row">
+          <span style="width:80px;font-size:0.85rem">Candidate A</span>
+          <div class="dash-bar"><div class="dash-fill" style="width:92%"></div></div>
+          <span class="dash-score">9.2</span>
+        </div>
+        <div class="dash-row">
+          <span style="width:80px;font-size:0.85rem">Candidate B</span>
+          <div class="dash-bar"><div class="dash-fill" style="width:81%"></div></div>
+          <span class="dash-score">8.1</span>
+        </div>
+        <div class="dash-row">
+          <span style="width:80px;font-size:0.85rem">Candidate C</span>
+          <div class="dash-bar"><div class="dash-fill" style="width:73%"></div></div>
+          <span class="dash-score">7.3</span>
+        </div>
+        <div class="dash-row">
+          <span style="width:80px;font-size:0.85rem">Candidate D</span>
+          <div class="dash-bar"><div class="dash-fill" style="width:64%"></div></div>
+          <span class="dash-score">6.4</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <h2 class="serif">Why teams choose Magzin</h2>
+    <ol class="benefit-list">
+      <li>
+        <span class="benefit-num">01</span>
+        <div>
+          <h3>Save recruiter time</h3>
+          <p>Automate first-round interviews without losing signal on communication and role fit.</p>
+        </div>
+      </li>
+      <li>
+        <span class="benefit-num">02</span>
+        <div>
+          <h3>Improve interview quality</h3>
+          <p>Every candidate gets the same structured questions and scoring rubric.</p>
+        </div>
+      </li>
+      <li>
+        <span class="benefit-num">03</span>
+        <div>
+          <h3>Hire more fairly</h3>
+          <p>Reduce bias in early stages with consistent, auditable evaluation criteria.</p>
+        </div>
+      </li>
+      <li>
+        <span class="benefit-num">04</span>
+        <div>
+          <h3>See clear results</h3>
+          <p>Ranked shortlists and transcripts hiring managers can review in minutes.</p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2 class="serif">How it works</h2>
+    <div class="timeline">
+      <article class="timeline-item">
+        <h3>Define the role</h3>
+        <p>Set competencies and interview templates aligned to your hiring bar.</p>
+      </article>
+      <article class="timeline-item">
+        <h3>Invite candidates</h3>
+        <p>Send branded async AI interviews in a single click.</p>
+      </article>
+      <article class="timeline-item">
+        <h3>Review scores</h3>
+        <p>Compare candidates with transcripts and highlight reels.</p>
+      </article>
+      <article class="timeline-item">
+        <h3>Hire with confidence</h3>
+        <p>Share insights with your team and move finalists forward.</p>
+      </article>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#">Features</a></li>
+          <li><a href="#">Integrations</a></li>
+          <li><a href="#">Changelog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Documentation</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Support</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Terms</a></li>
+          <li><a href="#">Security</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="footer-bar">© 2025 Magzin Job · Editorial Minimal</p>
+  </footer>
+</body>
+</html>

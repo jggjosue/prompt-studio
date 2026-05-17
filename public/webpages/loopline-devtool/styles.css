@@ -1,0 +1,53 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Inter, system-ui, sans-serif; background: #0a0a0a; color: #ededed; line-height: 1.6; }
+.nav { display: flex; align-items: center; justify-content: space-between; padding: 1rem 2rem; border-bottom: 1px solid #1f1f1f; }
+.logo { font-family: 'JetBrains Mono', monospace; font-weight: 600; color: #ededed; text-decoration: none; font-feature-settings: "ss01", "cv11"; }
+.nav-links { display: flex; flex-wrap: wrap; gap: 1.5rem; font-size: 0.875rem; }
+.nav-links a { color: #737373; text-decoration: none; }
+.nav-links a:hover { color: #00ff88; }
+.stars { color: #ededed; }
+.hero { padding: 4rem 2rem; max-width: 72rem; margin: 0 auto; }
+.hero-inner { display: grid; gap: 3rem; align-items: center; }
+@media (min-width: 1024px) { .hero-inner { grid-template-columns: 1fr 1fr; } }
+.pill { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #00ff88; margin-bottom: 1rem; }
+h1 { font-family: 'JetBrains Mono', monospace; font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 600; line-height: 1.2; font-feature-settings: "ss01", "cv11"; }
+h1 .accent { color: #00ff88; }
+.sub { margin-top: 1rem; color: #737373; max-width: 28rem; }
+.cta { display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; }
+.btn-primary { background: #00ff88; color: #0a0a0a; padding: 0.65rem 1.25rem; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.875rem; }
+.btn-ghost { border: 1px solid #1f1f1f; color: #ededed; padding: 0.65rem 1.25rem; border-radius: 6px; text-decoration: none; font-size: 0.875rem; }
+.terminal { background: #111111; border: 1px solid #1f1f1f; border-radius: 8px; overflow: hidden; }
+.term-bar { display: flex; gap: 6px; padding: 10px 12px; border-bottom: 1px solid #1f1f1f; }
+.term-bar span { width: 10px; height: 10px; border-radius: 50%; background: #333; }
+.term-body { padding: 1rem; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; line-height: 1.7; font-feature-settings: "ss01", "cv11"; overflow-x: auto; }
+.prompt { color: #00ff88; }
+.ts { color: #737373; }
+.info { color: #00ff88; }
+.warn { color: #fbbf24; }
+.err { color: #ef4444; }
+.cursor { animation: blink 1s step-end infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.trust { text-align: center; padding: 2rem; color: #737373; font-size: 0.875rem; border-top: 1px solid #1f1f1f; border-bottom: 1px solid #1f1f1f; }
+.trust span { margin: 0 1rem; color: #737373; }
+.value { text-align: center; padding: 4rem 2rem; }
+.value h2 { font-family: 'JetBrains Mono', monospace; font-size: 1.75rem; }
+.value a { display: inline-block; margin-top: 1rem; color: #00ff88; text-decoration: none; }
+.features { display: grid; gap: 1rem; max-width: 72rem; margin: 0 auto; padding: 0 2rem 4rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.card { background: #111111; border: 1px solid #1f1f1f; border-radius: 8px; padding: 1.25rem; transition: box-shadow 0.2s; }
+.card:hover { box-shadow: 0 0 30px rgba(0,255,136,0.15); }
+.card h3 { font-size: 0.95rem; margin-bottom: 0.75rem; }
+.card pre { background: #0a0a0a; border: 1px solid #1f1f1f; border-radius: 4px; padding: 0.75rem; overflow-x: auto; }
+.kw { color: #3b82f6; }
+.fn { color: #00ff88; }
+.str { color: #fbbf24; }
+.cmt { color: #737373; }
+.steps, .integrations { max-width: 72rem; margin: 0 auto; padding: 2rem; text-align: center; }
+.steps h2, .integrations h2 { font-family: 'JetBrains Mono', monospace; margin-bottom: 2rem; }
+.step-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+.step-grid span { display: block; color: #00ff88; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; }
+.int-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; }
+.int-grid span { border: 1px solid #1f1f1f; background: #111; padding: 0.6rem; border-radius: 6px; font-size: 0.8rem; font-family: 'JetBrains Mono', monospace; }
+.footer { text-align: center; padding: 3rem 2rem; border-top: 1px solid #1f1f1f; color: #737373; font-size: 0.875rem; }
+.footer a { color: #737373; text-decoration: none; margin: 0 0.75rem; }
+.footer a:hover { color: #00ff88; }
+.footer p { margin-top: 1.5rem; }

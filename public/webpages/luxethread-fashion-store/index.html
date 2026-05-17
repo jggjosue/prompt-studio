@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LuxeThread — Fashion Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #fafafa;
+      --text: #171717;
+      --muted: #737373;
+      --accent: #171717;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Inter", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: color-mix(in srgb, var(--bg) 94%, transparent);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid color-mix(in srgb, var(--text) 10%, transparent);
+    }
+    .brand {
+      font-family: "Inter", Georgia, serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+    nav .links {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      font-size: 0.88rem;
+    }
+    nav .links a { color: var(--muted); }
+    nav .cart-icon {
+      font-size: 1.1rem;
+      padding: 0.25rem 0.5rem;
+      border: 1px solid color-mix(in srgb, var(--text) 15%, transparent);
+      border-radius: 6px;
+    }
+    .btn-shop {
+      background: var(--accent);
+      color:#fff;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+    .hero {
+      text-align: center;
+      padding: 3rem 1.5rem 2rem;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .pill {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.8rem;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--accent) 15%, transparent);
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-family: "Inter", Georgia, serif;
+      font-size: clamp(2rem, 4.5vw, 2.75rem);
+      font-weight: 600;
+      line-height: 1.15;
+      margin-bottom: 0.75rem;
+    }
+    .hero .sub { color: var(--muted); margin-bottom: 1.25rem; }
+    .hero-actions {
+      display: flex;
+      gap: 0.65rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color:#fff;
+      padding: 0.7rem 1.35rem;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+    .btn-secondary {
+      padding: 0.7rem 1.35rem;
+      border-radius: 8px;
+      border: 1px solid color-mix(in srgb, var(--text) 20%, transparent);
+      font-weight: 500;
+    }
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      justify-content: center;
+      padding: 0 1.5rem 2rem;
+    }
+    .chip {
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+      color: var(--muted);
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      padding-bottom: 2.5rem;
+    }
+    .product-card {
+      border: 1px solid color-mix(in srgb, var(--text) 12%, transparent);
+      border-radius: 12px;
+      overflow: hidden;
+      background: color-mix(in srgb, var(--bg) 98%, var(--accent) 2%);
+    }
+    .product-badge {
+      position: absolute;
+      margin: 0.75rem;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      padding: 0.25rem 0.5rem;
+      background: var(--accent);
+      color:#fff;
+      border-radius: 4px;
+    }
+    .product-card { position: relative; }
+    .product-img {
+      height: 140px;
+      margin: 2.25rem 1rem 0.75rem;
+      border-radius: 8px;
+      background: linear-gradient(145deg, color-mix(in srgb, var(--accent) 25%, var(--bg)), color-mix(in srgb, var(--muted) 30%, var(--bg)));
+    }
+    .product-card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 0 1rem;
+      margin-bottom: 0.25rem;
+    }
+    .product-detail {
+      padding: 0 1rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .product-price {
+      padding: 0.5rem 1rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .btn-cart {
+      display: block;
+      width: calc(100% - 2rem);
+      margin: 0 1rem 1rem;
+      padding: 0.55rem;
+      border: none;
+      border-radius: 8px;
+      background: var(--accent);
+      color:#fff;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .perks {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      text-align: center;
+      padding: 2rem 0;
+      border-top: 1px solid color-mix(in srgb, var(--text) 10%, transparent);
+      border-bottom: 1px solid color-mix(in srgb, var(--text) 10%, transparent);
+    }
+    .perks strong {
+      display: block;
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+    .perks span { font-size: 0.85rem; color: var(--muted); }
+    footer {
+      text-align: center;
+      padding: 2rem 0 3rem;
+    }
+    .payments {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin: 1rem 0;
+    }
+    footer input {
+      margin-top: 0.75rem;
+      padding: 0.55rem 1rem;
+      border-radius: 8px;
+      border: 1px solid color-mix(in srgb, var(--text) 15%, transparent);
+      background: transparent;
+      color: var(--text);
+      width: min(280px, 100%);
+    }
+    @media (max-width: 768px) {
+      nav .links a:not(.btn-shop):not(.cart-icon) { display: none; }
+      .product-grid, .perks { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <span class="brand">LuxeThread</span>
+    <div class="links">
+      <a href="#">Women</a><a href="#">Men</a><a href="#">Sale</a>
+      <span class="cart-icon" aria-label="Cart">🛒</span>
+      <a href="#" class="btn-shop">Shop now</a>
+    </div>
+  </nav>
+  <section class="hero">
+    <span class="pill">New season · Free returns</span>
+    <h1>Style that moves with <em style="font-style:italic;color:var(--accent)">you</em>.</h1>
+    <p class="sub">Curated picks with fast checkout and trusted delivery.</p>
+    <div class="hero-actions">
+      <a href="#" class="btn-primary">Shop now</a>
+      <a href="#" class="btn-secondary">Browse catalog</a>
+    </div>
+  </section>
+  <div class="chips"><span class="chip">Dresses</span><span class="chip">Outerwear</span><span class="chip">Accessories</span><span class="chip">Sustainable</span></div>
+  <section class="product-grid container">
+    <article class="product-card">
+      <span class="product-badge">NEW</span>
+      <div class="product-img" aria-hidden="true"></div>
+      <h3>Silk Midi Dress</h3>
+      <p class="product-detail">Ivory · sizes XS–XL</p>
+      <p class="product-price">$189</p>
+      <button type="button" class="btn-cart">Shop now</button>
+    </article>
+    <article class="product-card">
+      <span class="product-badge">BEST</span>
+      <div class="product-img" aria-hidden="true"></div>
+      <h3>Tailored Blazer</h3>
+      <p class="product-detail">Charcoal wool blend</p>
+      <p class="product-price">$245</p>
+      <button type="button" class="btn-cart">Shop now</button>
+    </article>
+    <article class="product-card">
+      <span class="product-badge">SALE</span>
+      <div class="product-img" aria-hidden="true"></div>
+      <h3>Leather Tote</h3>
+      <p class="product-detail">Hand-stitched · cognac</p>
+      <p class="product-price">$129</p>
+      <button type="button" class="btn-cart">Shop now</button>
+    </article>
+  </section>
+  <section class="perks container">
+    <div><strong>Free</strong><span>Shipping $75+</span></div>
+    <div><strong>30-day</strong><span>Returns</span></div>
+    <div><strong>4.8★</strong><span>12k reviews</span></div>
+  </section>
+  <footer class="container">
+    <p>Get 10% off your first order</p>
+    <input type="email" placeholder="Email address" aria-label="Email" />
+    <div class="payments">
+      <span>Visa</span><span>Mastercard</span><span>PayPal</span><span>Apple Pay</span>
+    </div>
+    <p style="margin-top:1rem;font-size:0.8rem;color:var(--muted)">© 2026 LuxeThread. E-commerce landing demo.</p>
+  </footer>
+</body>
+</html>

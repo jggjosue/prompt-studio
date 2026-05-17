@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NORTE Atelier</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --concrete: #d6d2cc;
+      --carbon: #1c1c1c;
+      --rust: #a64e2c;
+      --gray: #6e6a64;
+      --border: 2px solid var(--carbon);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Space Grotesk", system-ui, sans-serif;
+      background: var(--concrete);
+      color: var(--carbon);
+      cursor: crosshair;
+      line-height: 1.5;
+    }
+    .serif { font-family: Fraunces, Georgia, serif; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 88px 1fr;
+      min-height: 100vh;
+    }
+
+    /* Nav lateral */
+    .side-nav {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 88px;
+      border-right: var(--border);
+      background: var(--concrete);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2rem 0;
+      z-index: 50;
+    }
+    .logo-rotated {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      font-family: Fraunces, serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .side-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+    .side-links a {
+      color: var(--gray);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .side-links a:hover { color: var(--rust); }
+
+    main {
+      margin-left: 88px;
+    }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      min-height: 85vh;
+      padding: 4rem 3rem 3rem;
+      border-bottom: var(--border);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    .watermark {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      font-family: Fraunces, serif;
+      font-size: clamp(4rem, 12vw, 9rem);
+      font-weight: 700;
+      color: rgba(28, 28, 28, 0.06);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+    .hero h1 {
+      font-family: Fraunces, serif;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 600;
+      max-width: 14ch;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+    .hero .sub {
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--gray);
+    }
+
+    /* Manifiesto */
+    .manifiesto {
+      padding: 5rem 3rem;
+      border-bottom: var(--border);
+    }
+  .manifiesto .label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: var(--rust);
+      margin-bottom: 2rem;
+    }
+    .manifiesto p {
+      font-family: Fraunces, serif;
+      font-size: clamp(1.75rem, 4vw, 3.25rem);
+      line-height: 1.25;
+      max-width: 22ch;
+      font-weight: 400;
+    }
+
+    /* Galería mosaico */
+    .gallery {
+      padding: 3rem;
+      border-bottom: var(--border);
+    }
+    .gallery h2 {
+      font-family: Fraunces, serif;
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .mosaic {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 12px;
+    }
+    .mosaic-item {
+      border: var(--border);
+      background: var(--gray);
+      overflow: hidden;
+      min-height: 120px;
+    }
+    .mosaic-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(20%) contrast(1.05);
+    }
+    .mosaic-item:nth-child(1) { grid-column: span 5; min-height: 320px; }
+    .mosaic-item:nth-child(2) { grid-column: span 4; min-height: 220px; }
+    .mosaic-item:nth-child(3) { grid-column: span 3; min-height: 280px; }
+    .mosaic-item:nth-child(4) { grid-column: span 4; min-height: 200px; }
+    .mosaic-item:nth-child(5) { grid-column: span 5; min-height: 360px; }
+    .mosaic-item:nth-child(6) { grid-column: span 3; min-height: 240px; }
+    .mosaic-caption {
+      padding: 0.75rem;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-top: var(--border);
+      background: var(--concrete);
+    }
+
+    /* Servicios tabla */
+    .services {
+      padding: 4rem 3rem;
+      border-bottom: var(--border);
+    }
+    .services h2 {
+      font-family: Fraunces, serif;
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    th, td {
+      border: var(--border);
+      padding: 1.25rem 1rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      background: rgba(28, 28, 28, 0.04);
+    }
+    td:first-child {
+      font-family: Fraunces, serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      width: 28%;
+    }
+    .roman { font-variant-numeric: oldstyle-nums; color: var(--rust); }
+
+    /* Contacto */
+    .contact {
+      background: var(--rust);
+      color: #f5ebe6;
+      padding: 5rem 3rem;
+    }
+    .contact h2 {
+      font-family: Fraunces, serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 1.5rem;
+      line-height: 1.1;
+    }
+    .contact p { max-width: 36ch; margin-bottom: 0.75rem; font-size: 1rem; }
+    .contact a {
+      color: inherit;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+    .contact .meta {
+      margin-top: 2rem;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      opacity: 0.85;
+    }
+
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      .side-nav {
+        position: relative;
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        padding: 1rem 1.5rem;
+        border-right: none;
+        border-bottom: var(--border);
+      }
+      .logo-rotated {
+        writing-mode: horizontal-tb;
+        transform: none;
+      }
+      .side-links { flex-direction: row; flex-wrap: wrap; gap: 1rem; }
+      main { margin-left: 0; }
+      .mosaic { grid-template-columns: 1fr 1fr; }
+      .mosaic-item { grid-column: span 1 !important; min-height: 200px !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <nav class="side-nav" aria-label="Principal">
+      <a href="#" class="logo-rotated serif">NORTE Atelier</a>
+      <ul class="side-links">
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#manifiesto">Manifiesto</a></li>
+        <li><a href="#proyectos">Proyectos</a></li>
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <header id="inicio" class="hero">
+        <span class="watermark serif" aria-hidden="true">MMXXVI</span>
+        <h1 class="serif">Arquitectura de materia y luz</h1>
+        <p class="sub">Estudio · Norte de México</p>
+      </header>
+
+      <section id="manifiesto" class="manifiesto">
+        <p class="label">Manifiesto</p>
+        <p class="serif">Construimos con honestidad estructural: concreto, acero y piedra como lenguaje, no como decoración.</p>
+      </section>
+
+      <section id="proyectos" class="gallery">
+        <h2 class="serif">Proyectos</h2>
+        <div class="mosaic">
+          <article class="mosaic-item">
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80" alt="Casa Loma" />
+            <p class="mosaic-caption">Casa Loma · <span class="roman">MMXXIV</span></p>
+          </article>
+          <article class="mosaic-item">
+            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=80" alt="Taller Norte" />
+            <p class="mosaic-caption">Taller Norte · <span class="roman">MMXXIII</span></p>
+          </article>
+          <article class="mosaic-item">
+            <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1200&q=80" alt="Pabellón Río" />
+            <p class="mosaic-caption">Pabellón Río · <span class="roman">MMXXV</span></p>
+          </article>
+          <article class="mosaic-item">
+            <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cd7e?w=1200&q=80" alt="Oficinas Bruma" />
+            <p class="mosaic-caption">Oficinas Bruma · <span class="roman">MMXXII</span></p>
+          </article>
+          <article class="mosaic-item">
+            <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1200&q=80" alt="Residencia Ocote" />
+            <p class="mosaic-caption">Residencia Ocote · <span class="roman">MMXXIV</span></p>
+          </article>
+          <article class="mosaic-item">
+            <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1200&q=80" alt="Museo Fragmento" />
+            <p class="mosaic-caption">Museo Fragmento · <span class="roman">MMXXI</span></p>
+          </article>
+        </div>
+      </section>
+
+      <section id="servicios" class="services">
+        <h2 class="serif">Servicios</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Ámbito</th>
+              <th scope="col">Alcance</th>
+              <th scope="col">Entrega</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Arquitectura</td>
+              <td>Proyecto ejecutivo, supervisión de obra, coordinación de especialidades.</td>
+              <td>Planos · Maquetas · BIM</td>
+            </tr>
+            <tr>
+              <td>Interiorismo</td>
+              <td>Distribución, mobiliario fijo, especificación de materiales nobles.</td>
+              <td>Catálogos · Detalles constructivos</td>
+            </tr>
+            <tr>
+              <td>Consultoría</td>
+              <td>Estudios de sitio, normativa, viabilidad y asesoría técnica.</td>
+              <td>Informes · Revisión de proyecto</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="contacto" class="contact">
+        <h2 class="serif">Hablemos de tu proyecto</h2>
+        <p>Monterrey, México</p>
+        <p><a href="mailto:estudio@norte-atelier.mx">estudio@norte-atelier.mx</a></p>
+        <p>+52 81 0000 0000</p>
+        <p class="meta">© NORTE Atelier · MMXXVI</p>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

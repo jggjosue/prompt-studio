@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pinterest — Clon educativo</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <a href="#" class="logo" aria-label="Pinterest">
+      <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 0C5.4 0 0 5.4 0 12c0 5.1 3.2 9.4 7.7 11.2-.1-1-.2-2.5 0-3.6.2-.9 1.4-6 1.4-6s-.4-.8-.4-2c0-1.9 1.1-3.3 2.4-3.3 1.1 0 1.7.9 1.7 1.9 0 1.2-.7 2.9-1.1 4.6-.3 1.3.7 2.4 2 2.4 2.4 0 4.2-2.5 4.2-6.1 0-3.2-2.3-5.4-5.6-5.4-3.8 0-6.1 2.9-6.1 5.8 0 1.1.4 2.3 1 2.9.1.1.1.2.1.4-.1.4-.3 1.3-.4 1.5-.1.2-.3.3-.6.2-1.6-.7-2.6-3-2.6-4.8 0-3.9 2.8-7.5 8.2-7.5 4.3 0 7.7 3.1 7.7 7.2 0 4.3-2.7 7.7-6.5 7.7-1.3 0-2.5-.7-2.9-1.5l-.8 3c-.3 1-.9 2.3-1.3 3.1 1 .3 2 .5 3.1.5 6.6 0 12-5.4 12-12S18.6 0 12 0z"/></svg>
+    </a>
+    <div class="search-wrap">
+      <input type="search" placeholder="Buscar ideas" aria-label="Buscar" />
+    </div>
+    <div class="nav-actions">
+      <button type="button" class="btn-text">Iniciar sesión</button>
+      <button type="button" class="btn-pill">Registrarse</button>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-masonry" aria-hidden="true">
+      <div class="m-col">
+        <div class="m-img c1"></div>
+        <div class="m-img c2"></div>
+        <div class="m-img c3"></div>
+      </div>
+      <div class="m-col">
+        <div class="m-img c4"></div>
+        <div class="m-img c5"></div>
+        <div class="m-img c6"></div>
+      </div>
+      <div class="m-col">
+        <div class="m-img c7"></div>
+        <div class="m-img c8"></div>
+      </div>
+      <div class="m-col">
+        <div class="m-img c9"></div>
+        <div class="m-img c10"></div>
+        <div class="m-img c11"></div>
+      </div>
+    </div>
+    <div class="hero-overlay">
+      <h1>Encuentra ideas para tu próximo proyecto</h1>
+      <p>Descubre recetas, decoración, moda y mucho más en un solo lugar.</p>
+      <button type="button" class="btn-pill btn-hero">Explorar ahora</button>
+    </div>
+  </header>
+
+  <main class="pins-section">
+    <h2 class="sr-only">Pins destacados</h2>
+    <div class="pin-grid">
+      <article class="pin p1"><div class="pin-img pi-a"></div><p>Salón minimalista</p></article>
+      <article class="pin p2"><div class="pin-img pi-b"></div><p>Pasta al limón</p></article>
+      <article class="pin p3"><div class="pin-img pi-c"></div><p>Outfit otoño</p></article>
+      <article class="pin p4"><div class="pin-img pi-d"></div><p>Jardín vertical</p></article>
+      <article class="pin p5"><div class="pin-img pi-e"></div><p>Desayuno saludable</p></article>
+      <article class="pin p6"><div class="pin-img pi-f"></div><p>Dormitorio nórdico</p></article>
+      <article class="pin p7"><div class="pin-img pi-g"></div><p>Sneakers street</p></article>
+      <article class="pin p8"><div class="pin-img pi-h"></div><p>Mesa de verano</p></article>
+      <article class="pin p9"><div class="pin-img pi-i"></div><p>DIY estantería</p></article>
+      <article class="pin p10"><div class="pin-img pi-j"></div><p>Look casual</p></article>
+    </div>
+  </main>
+
+  <section class="faq" id="faq">
+    <h2>Explora por categoría</h2>
+    <p class="faq-hint">Selecciona un chip para ver ideas relacionadas</p>
+    <div class="chips" role="tablist">
+      <button type="button" class="chip active" data-cat="recetas" role="tab" aria-selected="true">Recetas</button>
+      <button type="button" class="chip" data-cat="decoracion" role="tab">Decoración</button>
+      <button type="button" class="chip" data-cat="moda" role="tab">Moda</button>
+      <button type="button" class="chip" data-cat="diy" role="tab">DIY</button>
+      <button type="button" class="chip" data-cat="viajes" role="tab">Viajes</button>
+    </div>
+    <div class="chip-panel" id="chip-panel">
+      <p class="panel-text">Platos rápidos, postres y menús para cada ocasión.</p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <a href="#">Acerca de</a>
+    <a href="#">Blog</a>
+    <a href="#">Empresas</a>
+    <a href="#">Privacidad</a>
+    <span class="footer-copy">© 2026 Clon educativo</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,1524 @@
+{
+  "webPages": [
+    {
+      "id": "1",
+      "title": "Job — Dark (HTML + Tailwind)",
+      "description": "Crea una landing page de una sola página para \"Job\", un SaaS de entrevistas con IA para reclutamiento. Usa HTML + Tailwind CSS vía CDN (`<script src=\"https://cdn.tailwindcss.com\"></script>`) y fuente Inter desde Google Fonts. Diseño dark mode estilo Linear/Vercel.\n\n**Configuración Tailwind** (extiende theme en `<script>`): colores `bg: '#0b0c10'`, `card: '#171922'`, `line: '#23262f'`, `muted: '#9aa0ad'`, `primary: '#6c5ce7'`, `primary2: '#a29bfe'`, `accent: '#00d4a3'`. Fuente sans = Inter.\n\n**Secciones:**\n1. Navbar sticky con `backdrop-blur` y borde inferior — logo \"M\" en cuadro con gradiente violeta, links Home/Searching/Blog, botón \"Log In\" blanco redondeado.\n2. Hero `grid lg:grid-cols-2 gap-16` con pill \"✦ AI Interviewer\", H1 `text-6xl font-extrabold tracking-tight` con \"hire\" en `bg-clip-text` gradiente violeta→verde, dos CTAs (primario con gradiente + sombra, fantasma con borde). A la derecha mockup de dashboard hecho con divs: header con 3 dots macOS, 4 filas (avatar circular con gradiente + barra de progreso con `bg-gradient-to-r from-primary to-accent` + score), grid de 3 stats abajo. Blobs radiales con `absolute blur-3xl opacity-30`.\n3. Trust bar con logos en texto (NASA, PORSCHE, NIKE, Nestlé, Deloitte) en `flex justify-around opacity-60`.\n4. Sección valor centrada con título grande y CTA link.\n5. Grid 4 beneficios (`grid md:grid-cols-4 gap-5`) — cada card `bg-card border border-line rounded-2xl p-7 hover:-translate-y-1`.\n6. \"How it works\" — 5 pasos en `grid md:grid-cols-5` sobre fondo más oscuro.\n7. Industrias — `grid grid-cols-4 gap-3.5` con 12 items.\n8. Footer minimalista.\n\nTodo responsive con breakpoints `md:` y `lg:`. Entrega un único `index.html`.",
+      "imageUrl": "/webpages/placeholder-web-1-job-dark.png",
+      "imageHint": "Job dark SaaS landing page Linear Vercel style",
+      "demoUrl": "/webpages/magzin-job-dark/index.html",
+      "stack": ["HTML", "Tailwind CDN"],
+      "tags": ["landing page", "SaaS", "dark mode", "Job", "recruitment", "AI"]
+    },
+    {
+      "id": "2",
+      "title": "Magzin Job — Next.js + shadcn/ui",
+      "description": "Crea una landing page para \"Magzin Job\" (SaaS de entrevistas con IA) en Next.js 14 App Router + TypeScript + Tailwind CSS + shadcn/ui.\n\n**Estructura de archivos:**\n```\napp/\n  layout.tsx        → fuente Inter, metadata SEO\n  page.tsx          → ensambla las secciones\ncomponents/\n  Navbar.tsx\n  Hero.tsx\n  DashboardMockup.tsx\n  TrustBar.tsx\n  ValueProp.tsx\n  Benefits.tsx\n  HowItWorks.tsx\n  Industries.tsx\n  Footer.tsx\nlib/data.ts         → arrays de benefits, steps, industries\n```\n\n**Convenciones:**\n- Componentes funcionales con `React.FC` o función nombrada, props tipados.\n- Usa `lucide-react` para iconos (Clock, Sparkles, Scale, BarChart3, ArrowRight).\n- Usa componentes `<Button variant=\"default|outline\">` y `<Card>` de shadcn/ui.\n- Animaciones con **Framer Motion**: `fadeInUp` en entrada de hero y `staggerChildren` en grids.\n- Tema dark mode forzado en `<html className=\"dark\">`, colores en `tailwind.config.ts` extendiendo `theme.extend.colors` con la paleta (primary `#6c5ce7`, accent `#00d4a3`, etc.).\n- Imágenes con `next/image` (placeholder si no hay asset).\n- Mismo contenido y secciones que la versión HTML.\n\nEntrega todos los archivos con código completo y tipado.",
+      "imageUrl": "/webpages/placeholder-web-3-magzin-job-nextjs.png",
+      "imageHint": "Magzin Job Next.js React landing",
+      "demoUrl": "",
+      "stack": ["Next.js 14", "TypeScript", "Tailwind", "shadcn/ui", "Framer Motion"],
+      "tags": ["landing page", "Next.js", "React", "Magzin Job", "prompt only"]
+    },
+    {
+      "id": "3",
+      "title": "Magzin Job — Light Mode",
+      "description": "Misma landing page de \"Magzin Job\" pero en modo claro elegante estilo Stripe/Notion. HTML + CSS puro, fuente Inter.\n\n**Paleta light:**\n- Fondo: `#fafafa` (off-white)\n- Fondo secundario: `#ffffff`\n- Cards: `#ffffff` con borde `#e5e7eb` y sombra suave `0 1px 3px rgba(0,0,0,0.05)`\n- Texto: `#0f172a` / muted `#64748b`\n- Primario: gradiente `#6366f1` → `#8b5cf6`\n- Acento: `#10b981`\n\n**Ajustes específicos:**\n- Navbar con fondo `rgba(255,255,255,0.8)` + `backdrop-filter: blur(12px)`, borde inferior `#e5e7eb`.\n- Hero con blobs de gradiente más suaves (opacidad 0.15).\n- Dashboard mockup: fondo blanco, borde gris claro, barras con gradiente índigo→esmeralda.\n- Botón primario con sombra `0 10px 25px -10px rgba(99,102,241,0.5)`.\n- Cards con hover: borde se vuelve `#6366f1` y `translateY(-4px)` + sombra más profunda.\n- Logos de trust en gris `#94a3b8`.\n- Mismas secciones y contenido que la versión dark.\n\nEntrega `index.html` + `styles.css`.",
+      "imageUrl": "/webpages/placeholder-web-2-magzin-job-light.png",
+      "imageHint": "Magzin Job light Stripe Notion landing",
+      "demoUrl": "/webpages/magzin-job-light/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["landing page", "light mode", "Magzin Job", "Stripe", "Notion"]
+    },
+    {
+      "id": "4",
+      "title": "Loopline — DevTool SaaS",
+      "description": "Crea una landing dark mode para \"Loopline\", un DevTool SaaS de observabilidad y debugging con IA para aplicaciones en producción. HTML + CSS puro, fuente JetBrains Mono para títulos/código e Inter para body.\n\n**Paleta:**\n- Fondo: `#0a0a0a` (negro puro)\n- Cards: `#111111` con borde `#1f1f1f`\n- Primario: verde terminal `#00ff88`\n- Secundario: `#3b82f6` (azul)\n- Texto: `#ededed` / muted `#737373`\n\n**Secciones:**\n1. Navbar con logo `</> Loopline` y links: Docs, Pricing, Changelog, GitHub (con icono ⭐ stars count \"12.4k\").\n2. Hero: pill `$ npm install loopline`, H1 \"Debug production. **At the speed of thought.**\", subtítulo, CTAs \"Start free →\" y \"Read the docs\". A la derecha, un mockup de terminal: barra superior con dots, prompt `> loopline trace`, líneas de log coloreadas (verde INFO, amarillo WARN, rojo ERROR) con timestamps, cursor parpadeante CSS.\n3. Trust bar: \"Trusted by engineers at\" + Vercel, Stripe, Linear, Supabase, Cloudflare.\n4. Sección valor: \"Stop guessing. Start tracing.\" con CTA \"View live demo →\".\n5. Grid 4 features: ⚡ Real-time traces · 🔍 AI root-cause · 🔐 SOC2 compliant · 🪝 One-line SDK. Cada card incluye un mini snippet de código con sintaxis coloreada.\n6. \"How it works\" en 5 pasos: Install SDK → Capture events → AI analyzes → Get insights → Ship fixes.\n7. Grid de integraciones: Node.js, Python, Go, Rust, Next.js, Django, FastAPI, Ruby, Java, Elixir, Deno, Bun.\n8. Footer con enlaces a Docs, Status, GitHub, Twitter/X, Discord.\n\nDetalle: usa `font-feature-settings: \"ss01\", \"cv11\"` en JetBrains Mono y borders sutiles `1px solid #1f1f1f` en todo. Hover en cards: glow verde `box-shadow: 0 0 30px rgba(0,255,136,0.15)`.\n\nEntrega `index.html` + `styles.css`.",
+      "imageUrl": "/webpages/placeholder-web-4-loopline-devtool.png",
+      "imageHint": "Loopline terminal devtool landing",
+      "demoUrl": "/webpages/loopline-devtool/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["landing page", "DevTool", "Loopline", "observability", "terminal"]
+    },
+    {
+      "id": "5",
+      "title": "ARQ Architect Studio",
+      "description": "Crea una página web de una sola página (single-page) para un estudio de arquitectura llamado \"ARQ Architect Studio\" con estética minimalista, profesional y editorial, inspirada en los sitios contemporáneos de estudios de arquitectura boutique.\n\n**Especificaciones técnicas:**\n* HTML + CSS puros en un solo archivo index.html\n* Sin frameworks, sin JavaScript externo (solo un pequeño handler inline para el formulario)\n* Tipografías de Google Fonts: Cormorant Garamond (serif, para títulos) e Inter (sans-serif, para cuerpo y UI)\n* Totalmente responsive (breakpoint en 768px)\n\n**Paleta de colores:**\n* Fondo beige cálido #ebe7e0\n* Texto tinta oscura #2a2724\n* Gris muted #8a857d\n* Bordes con rgba(42,39,36,0.15)\n\n**Estructura y secciones (en este orden):**\n1. Nav fijo superior con fondo semi-transparente y backdrop-filter: blur. A la izquierda: marca apilada \"ARQ\" (serif grande) + \"ARCHITECT STUDIO\" (subtítulo en caps con tracking amplio). A la derecha: menú horizontal en mayúsculas (Inicio, Nosotros, Servicios, Proyectos, Contacto) y selector de idioma \"ES | EN\".\n2. Hero a pantalla completa centrado, con imagen de fondo arquitectónica de Unsplash con overlay claro para legibilidad. Etiqueta superior pequeña (\"Estudio de Arquitectura · Ciudad de México\"), titular serif gigante: \"Diseñamos espacios que comunican, inspiran y conectan.\" (con la palabra \"comunican\" en cursiva muted), y debajo la línea de servicios: \"Arquitectura • Interiorismo • Visualización\". Línea vertical sutil en la parte inferior como marca de scroll.\n3. Nosotros: grid de 2 columnas (texto + imagen real de Unsplash, en aspect-ratio 4/5 con leve grayscale). Encabezado con etiqueta \"— Nosotros\" y un título serif grande. Tres párrafos sobre la filosofía del estudio, el proceso y el equipo (referenciando \"ARQ Studio\").\n4. Servicios sobre fondo ligeramente más oscuro: 3 columnas separadas por líneas verticales, cada una con numeración decorativa (01, 02, 03), título serif y descripción breve. Servicios: Diseño Arquitectónico, Interiorismo, Visualización 3D.\n5. Proyectos: grilla 2×2 con 4 proyectos. Cada tarjeta tiene una imagen de Unsplash (aspect-ratio 5/6) con efecto grayscale que desaparece en hover, y debajo título serif + meta (tipología · ubicación · año).\n6. Cita filosófica centrada en sección amplia, en serif itálico grande.\n7. Contacto: grid 2 columnas. A la izquierda título serif grande \"Hablemos de tu proyecto\", datos del estudio (Ciudad de México, correo hola@architect.com, redes). A la derecha formulario minimalista con inputs underline (Nombre, Correo, Teléfono, Tipo de proyecto, Mensaje) y botón outline que cambia a sólido en hover. Al enviar, el botón muestra \"Mensaje enviado ✓\".\n8. Footer en 3 columnas (marca + tagline, contacto, redes sociales) y barra inferior con copyright.\n\n**Detalles de interacción:**\n* Smooth scroll entre secciones\n* Hover sutil en navegación, tarjetas de servicios y proyectos\n* Transiciones suaves (0.3–0.8s, easing natural)\n* Labels en mayúsculas con tracking generoso (0.2–0.35em)\n* Uso consistente del símbolo \"—\" como acento tipográfico antes de las etiquetas de sección\n\nUsa imágenes reales de Unsplash de arquitectura (interiores minimalistas, fachadas de hormigón, espacios contemporáneos) referenciadas por URL directa con parámetros ?w=1200&q=80.",
+      "imageUrl": "/webpages/placeholder-web-5-arq-architect-studio.png",
+      "imageHint": "ARQ Architect Studio minimalist architecture landing",
+      "demoUrl": "/webpages/arq-architect-studio/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["landing page", "architecture", "ARQ", "minimalist", "editorial", "Mexico City"]
+    },
+    {
+      "id": "6",
+      "title": "Magzin Job — HTML + CSS",
+      "description": "Crea una landing page moderna en HTML + CSS puro (sin frameworks) para un producto SaaS llamado \"Magzin Job\", una plataforma de entrevistas potenciadas por IA para reclutamiento. Genera 3 archivos: index.html, styles.css y opcionalmente script.js.\n\n**Estética general:**\n* Tema oscuro premium estilo startup tech (fondo #0b0c10, superficies #171922, bordes #23262f).\n* Acento principal violeta/lila degradado (#6c5ce7 → #a29bfe) y secundario verde menta (#00d4a3).\n* Tipografía Inter (Google Fonts), pesos 400–800. Títulos grandes con letter-spacing:-.02em y font-weight:800.\n* Esquinas redondeadas (border-radius:14px en cards, 999px en botones/pills).\n* Glow radial sutil detrás del hero (gradientes radiales violeta y verde difuminados).\n\n**Estructura (en este orden):**\n1. Navbar sticky con blur (backdrop-filter): logo \"M\" en cuadrado degradado violeta + texto \"Magzin Job\", links (Home, Searching, Blog) y botón blanco redondeado \"Log In\". Toggle hamburguesa en mobile.\n2. Hero a 2 columnas: Izquierda: pill \"✦ AI Interviewer\", título grande \"AI-powered interviews to help you hire.\" (la palabra \"hire\" con gradiente violeta→verde), párrafo descriptivo, dos CTAs (\"Get started now\" primario degradado + \"Request a demo →\" ghost). Derecha: mock de dashboard con barra superior tipo macOS (3 dots rojo/amarillo/verde + \"Interview Dashboard\"), 4 filas con avatar circular degradado + barra de progreso + score (9.2, 8.1, 7.3, 6.4), y stats inferiores en grid de 3 (1,284 Interviews / 92% Match rate / 4.8m Avg time).\n3. Trust bar: \"TRUSTED BY GLOBAL TEAMS\" + logos en texto (NASA, PORSCHE, NIKE, Nestlé, Deloitte.).\n4. Sección de valor centrada: H2 \"Hiring is hard. Magzin AI Interviewer is here to help.\" + párrafo + link \"Read the case study →\".\n5. Beneficios en grid de 4 cards con ícono emoji en cuadrado violeta translúcido: Save time (⏱), Improve quality (✦), Drive fairness (⚖), See results (📊). Hover: levanta y borde violeta.\n6. How it works (fondo #11131a): título centrado + lista ordenada de 5 pasos en grid horizontal con número \"01–05\" en violeta y h4+descripción.\n7. Industry solutions: grid 4×3 de 12 industrias (Automotive, Banking & Insurance, Consumer Goods, Education, Government, Healthcare, Hospitality, Manufacturing, Energy & Utilities, Pharmaceutical & Biotech, Real Estate, Retail) + CTA \"Don't see your industry listed? Get in touch\".\n8. Footer con logo + \"© 2025 Magzin Job. All rights reserved.\"\n\n**Responsive:**\n* <900px: hero a 1 columna, nav-links se ocultan y aparece hamburguesa, grids a 2 columnas.\n* <520px: todos los grids a 1 columna.\n\n**Detalles técnicos:**\n* Container max-width 1180px, padding lateral 24px.\n* Botón primario con box-shadow:0 10px 30px -10px rgba(108,92,231,.6) y hover translateY(-2px).\n* Variables CSS en :root para todos los colores y radius.\n* Sin dependencias JS más allá de un toggle opcional para el menú móvil.\n* Código limpio, semántico, accesible (aria-label en botones de ícono).",
+      "imageUrl": "/webpages/placeholder-web-6-magzin-job-html-css.png",
+      "imageHint": "Magzin Job dark HTML CSS SaaS landing",
+      "demoUrl": "/webpages/magzin-job-html-css/index.html",
+      "stack": ["HTML", "CSS", "JavaScript"],
+      "tags": ["landing page", "Magzin Job", "SaaS", "dark mode", "recruitment", "AI"]
+    },
+    {
+      "id": "7",
+      "title": "NORTE Atelier — Brutalismo cálido",
+      "description": "Crea una página web single-page para un estudio de arquitectura llamado \"NORTE Atelier\" con estética brutalista cálida, inspirada en concreto pulido y materiales nobles.\n\n* Paleta: fondo concreto #d6d2cc, texto carbón #1c1c1c, acento óxido #a64e2c, gris medio #6e6a64.\n* Tipografías: Fraunces (serif moderno con cortes geométricos) para títulos + Space Grotesk para UI y cuerpo.\n* Estructura: nav lateral fijo a la izquierda (vertical) con logo rotado 90°. Hero con título asimétrico alineado a la izquierda y número grande de año \"MMXXVI\" como marca de agua. Sección \"Manifiesto\" con párrafo único enorme. Galería de proyectos en mosaico irregular (alturas variables, sin grid uniforme). Tabla de servicios con líneas gruesas tipo plano técnico. Contacto sobre fondo óxido con tipografía clara.\n* Detalles: bordes gruesos 2px solid, sin sombras, cursor personalizado tipo crosshair, números en formato romano para años.",
+      "imageUrl": "/webpages/placeholder-web-7-norte-atelier.png",
+      "imageHint": "NORTE Atelier warm brutalist architecture studio",
+      "demoUrl": "/webpages/norte-atelier/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["landing page", "architecture", "NORTE Atelier", "brutalism", "warm", "editorial"]
+    },
+    {
+      "id": "8",
+      "title": "Vértice Lab — Tech editorial oscuro",
+      "description": "Página web para \"Vértice Lab\", estudio de arquitectura paramétrica y diseño computacional. Estética dark editorial, futurista pero refinada.\n\n* Paleta: fondo grafito #0e0e10, texto crema #e8e4dc, acento verde lima #c8f04a, gris frío #5a5a62.\n* Tipografías: Neue Haas Grotesk (o Inter con tracking ajustado) en todo, jugando solo con pesos (200 a 700).\n* Estructura: nav superior fino con timestamp en vivo a la derecha. Hero con título tipo terminal animado por CSS (cursor parpadeante). Grid de proyectos 3×3 cuadrado con etiquetas tipo metadata (/proyecto-01.geometría). Sección de \"Procesos\" con líneas SVG animadas conectando círculos. Footer tipo consola con prompt > contact().\n* Detalles: todo en mayúsculas excepto cuerpo, números monoespaciados, líneas finas verde lima como acentos, hover con glow sutil.",
+      "imageUrl": "/webpages/placeholder-web-8-vertice-lab.png",
+      "imageHint": "Vertice Lab dark editorial parametric architecture",
+      "demoUrl": "/webpages/vertice-lab/index.html",
+      "stack": ["HTML", "CSS", "JavaScript"],
+      "tags": ["landing page", "architecture", "Vértice Lab", "parametric", "dark", "editorial", "computational"]
+    },
+    {
+      "id": "9",
+      "title": "Casa Maderal — Orgánico y artesanal",
+      "description": "Página single-page para \"Casa Maderal\", estudio especializado en arquitectura en madera y construcción biofílica. Estética cálida, artesanal, slow-living.\n\n* Paleta: fondo crema #f5efe4, texto marrón profundo #3a2a1c, acento verde musgo #5a6b3f, dorado quemado #b8884a.\n* Tipografías: Playfair Display itálica para títulos + Lora para cuerpo.\n* Estructura: hero con ilustración SVG de árbol o estructura de madera al fondo. Sección \"Oficio\" con tres tarjetas redondeadas y bordes orgánicos (border-radius irregular). Proyectos en carrusel horizontal con scroll-snap. Sección \"Materiales\" con muestras circulares de texturas. Formulario de contacto sobre fondo crema con campos redondeados.\n* Detalles: todas las imágenes con bordes muy redondeados o formas orgánicas (border-radius: 40% 60% 50% 50%), ilustraciones lineales tipo botánico como decoración.",
+      "imageUrl": "/webpages/placeholder-web-9-casa-maderal.png",
+      "imageHint": "Casa Maderal organic wood biophilic architecture",
+      "demoUrl": "/webpages/casa-maderal/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["landing page", "architecture", "Casa Maderal", "wood", "biophilic", "organic", "artisanal"]
+    },
+    {
+      "id": "10",
+      "title": "Plano 24 — Minimalismo escandinavo",
+      "description": "Sitio web para \"Plano 24\", estudio escandinavo de arquitectura residencial. Estética luminosa, hiperminimalista, casi clínica.\n\n* Paleta: blanco puro #ffffff, texto azul marino casi negro #10243d, acento azul cielo pálido #a8c4d8, gris perla #e8ebee.\n* Tipografías: Söhne o Inter (sans-serif neutra) en todo, con un único toque de EB Garamond para una sola palabra acento.\n* Estructura: nav minimalista centrado con solo 4 items en línea fina. Hero gigantesco con título en una sola línea cortando el ancho de la pantalla (overflow horizontal). Grid de proyectos 4 columnas con miniaturas muy pequeñas y mucho espacio en blanco. Sección \"Process\" como diagrama numerado horizontal (01 → 02 → 03 → 04). Footer reducido a una línea.\n* Detalles: muchísimo whitespace, líneas de 0.5px, todo alineado a una grilla visible, fotografías de arquitectura nórdica nevada.",
+      "imageUrl": "/webpages/placeholder-web-10-plano-24.png",
+      "imageHint": "Plano 24 Scandinavian minimalist architecture white",
+      "demoUrl": "/webpages/plano-24/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["landing page", "architecture", "Plano 24", "Scandinavian", "minimalist", "residential"]
+    },
+    {
+      "id": "11",
+      "title": "Estudio Tropic — Modernismo cálido latinoamericano",
+      "description": "Página web para \"Estudio Tropic\", despacho de arquitectura tropical contemporánea (estilo Luis Barragán + Lina Bo Bardi). Estética cálida, colorida pero sofisticada.\n\n* Paleta: fondo arena rosado #f0d9c4, texto vino oscuro #3d1a1a, acento amarillo mostaza #d9a441, verde selvático #2e4a32.\n* Tipografías: DM Serif Display para titulares grandes + DM Sans para cuerpo.\n* Estructura: hero dividido en dos bloques de color (arena + mostaza) con título serif gigante atravesando ambos. Sección \"Lugares\" con galería tipo collage diagonal. Bloque de filosofía sobre fondo verde selvático con tipografía amarilla. Tarjetas de proyectos con marcos de color sólido (cada proyecto un color distinto de la paleta). Contacto con formulario sobre tarjeta tipo postal.\n* Detalles: bloques de color planos generosos, sombras de color (no negras), arcos y formas curvas como elementos decorativos, fotografías con tinte cálido.",
+      "imageUrl": "/webpages/placeholder-web-11-estudio-tropic.png",
+      "imageHint": "Estudio Tropic Latin American tropical architecture warm",
+      "demoUrl": "/webpages/estudio-tropic/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["landing page", "architecture", "Estudio Tropic", "tropical", "Barragán", "Latin American", "colorful"]
+    },
+    {
+      "id": "12",
+      "title": "Magzin Job — Brutalist Sunshine",
+      "description": "Crea una landing page en HTML + CSS para \"Magzin Job\", plataforma de entrevistas con IA. Estilo neo-brutalista: fondo crema (#fef6e4), texto negro puro (#000), acentos amarillo eléctrico (#ffd60a) y rojo coral (#ff5d5d).\n\n* Tipografía \"Space Grotesk\" para títulos (peso 700) y \"DM Mono\" para detalles.\n* Cards con borde negro grueso de 3px, sombra dura 8px 8px 0 #000 (sin blur), esquinas rectas o border-radius:6px máximo.\n* Botones rectangulares con borde negro y sombra dura; hover desplaza la sombra a 4px 4px.\n* Navbar fija con borde inferior negro 3px, logo cuadrado amarillo con \"M\" negra.\n* Hero: H1 enorme (clamp 48–80px) con palabra clave subrayada en marcador amarillo. Mock dashboard con líneas negras gruesas y barras de progreso a cuadros tipo pixel.\n* Sección de beneficios: 4 cards con íconos dentro de círculos rojos, fondo blanco, borde negro.\n* Steps en cards apiladas con números gigantes (80px) en outline.\n* Footer negro con texto crema.",
+      "imageUrl": "/webpages/placeholder-web-12-magzin-job-brutalist-sunshine.png",
+      "imageHint": "Magzin Job neo-brutalist sunshine yellow coral",
+      "demoUrl": "/webpages/magzin-job-brutalist-sunshine/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["landing page", "Magzin Job", "neo-brutalist", "SaaS", "AI", "recruitment"]
+    },
+    {
+      "id": "13",
+      "title": "Magzin Job — Glassmorphism Ocean",
+      "description": "Crea una landing page para \"Magzin Job\" con estética glassmorphism / aqua premium. Fondo con gradiente animado (#0f2027 → #2c5364 → #00b4d8), elementos en cristal esmerilado.\n\n* Paleta: azul profundo (#0a1929), cyan (#00b4d8), blanco glass (rgba(255,255,255,.08)).\n* Tipografía \"Plus Jakarta Sans\" moderna y redondeada.\n* Todas las cards usan backdrop-filter:blur(20px) + background:rgba(255,255,255,.06) + borde 1px solid rgba(255,255,255,.15) + esquinas border-radius:24px.\n* Botones tipo píldora translúcidos con borde luminoso cyan; primario con glow box-shadow:0 0 40px rgba(0,180,216,.5).\n* Navbar flotante (margin-top:16px, mx-auto, max-width:1100px) con glass effect.\n* Hero: título con efecto shine animado, mock dashboard como tarjeta de cristal con orbes de luz detrás.\n* Beneficios: cards circulares grandes con íconos en gradiente cyan→blanco.\n* Steps conectados por línea punteada cyan.",
+      "imageUrl": "/webpages/placeholder-web-13-magzin-job-glassmorphism-ocean.png",
+      "imageHint": "Magzin Job glassmorphism ocean aqua premium",
+      "demoUrl": "/webpages/magzin-job-glassmorphism-ocean/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["landing page", "Magzin Job", "glassmorphism", "aqua", "SaaS", "AI"]
+    },
+    {
+      "id": "14",
+      "title": "Magzin Job — Editorial Minimal",
+      "description": "Crea una landing page para \"Magzin Job\" con estética editorial minimalista tipo revista (Stripe / Linear / Vercel docs). Fondo blanco roto (#fafaf7), tipografía serif para títulos.\n\n* Paleta: negro suave (#0f0f0f), gris (#6b7280), beige (#f3efe6), un único acento naranja terracota (#d97757).\n* Títulos en \"Fraunces\" o \"Instrument Serif\" (peso 400, italic en palabras clave). Body en \"Inter\".\n* Sin sombras, solo border:1px solid #e5e5e0. Esquinas border-radius:4px (muy sutiles).\n* Navbar minimal: solo texto, sin logo cuadrado, separador inferior 1px.\n* Hero a una sola columna, centrado, max-width 720px. Título grande serif con palabra en italic + naranja. Bajo el hero, screenshot del dashboard a ancho completo con sutil borde.\n* Beneficios en lista numerada (no cards), tipo artículo, con número grande naranja a la izquierda.\n* Steps como timeline vertical con línea fina gris.\n* Footer sobrio con muchas columnas de links.",
+      "imageUrl": "/webpages/placeholder-web-14-magzin-job-editorial-minimal.png",
+      "imageHint": "Magzin Job editorial minimal magazine terracotta",
+      "demoUrl": "/webpages/magzin-job-editorial-minimal/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["landing page", "Magzin Job", "editorial", "minimal", "SaaS", "AI"]
+    },
+    {
+      "id": "15",
+      "title": "Magzin Job — Cyberpunk Neon",
+      "description": "Crea una landing page para \"Magzin Job\" con estética cyberpunk / synthwave. Fondo negro absoluto (#05050a) con grid pattern sutil, neones magenta y cyan.\n\n* Paleta: magenta (#ff006e), cyan eléctrico (#00f5ff), violeta oscuro (#240046), texto blanco (#f8f9fa).\n* Tipografía \"JetBrains Mono\" para títulos y UI, \"Inter\" para body.\n* Cards con borde 1px en gradiente magenta→cyan + glow box-shadow:0 0 30px rgba(255,0,110,.3). Esquinas border-radius:2px (afiladas).\n* Botones primarios con texto magenta, fondo transparente, borde brillante; hover invierte colores con transición rápida.\n* Navbar con línea inferior degradada animada.\n* Hero: título con efecto glitch en hover, palabra clave con outline cyan + glow. Dashboard mock estilo terminal/HUD con líneas de scan, datos en monoespaciada y barras tipo equalizer.\n* Beneficios: cards con esquinas cortadas (clip-path) tipo HUD de videojuego.\n* Steps numerados con corchetes [01] [02] en cyan.\n* Background con grid SVG y partículas estáticas.",
+      "imageUrl": "/webpages/placeholder-web-15-magzin-job-cyberpunk-neon.png",
+      "imageHint": "Magzin Job cyberpunk synthwave neon magenta cyan",
+      "demoUrl": "/webpages/magzin-job-cyberpunk-neon/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["landing page", "Magzin Job", "cyberpunk", "synthwave", "neon", "SaaS", "AI"]
+    },
+    {
+      "id": "16",
+      "title": "Magzin Job — Soft Pastel Friendly",
+      "description": "Crea una landing page para \"Magzin Job\" con estética suave, amigable y accesible tipo Notion / Duolingo / productos consumer.\n\n* Paleta pastel: fondo durazno claro (#fff5ee), rosa salmón (#ff8a80), lavanda (#b8a4e3), verde menta (#a8e6cf), navy oscuro (#2d3047) para texto.\n* Tipografía \"Nunito\" redondeada (pesos 600–800), todo con sensación bouncy.\n* Cards muy redondeadas (border-radius:28px), sombras suaves coloridas (0 20px 40px -15px rgba(255,138,128,.25)), sin bordes.\n* Botones tipo \"blob\" extra redondeados, primario rosa salmón con micro-bounce en hover (transform:scale(1.05)).\n* Navbar blanca flotante con sombra suave, logo con emoji 💼 al lado del nombre.\n* Hero: ilustración SVG amigable o blobs orgánicos detrás del texto. Mock dashboard con avatares emoji (👩‍💼 👨‍💻) y barras pastel multicolor.\n* Beneficios: 4 cards con fondo de color distinto (durazno, lavanda, menta, rosa), íconos grandes en círculos blancos.\n* Steps con globos conectados por flechas curvas dibujadas (SVG).\n* Footer rosa pálido con corazón al final del copyright.",
+      "imageUrl": "/webpages/placeholder-web-16-magzin-job-soft-pastel-friendly.png",
+      "imageHint": "Magzin Job soft pastel friendly Notion Duolingo style",
+      "demoUrl": "/webpages/magzin-job-soft-pastel-friendly/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["landing page", "Magzin Job", "pastel", "friendly", "consumer", "SaaS", "AI"]
+    },
+    {
+      "id": "17",
+      "title": "Skill Future — Programming Education",
+      "description": "Crea una página web de una sola página (single-file HTML con CSS embebido, sin frameworks externos salvo Google Fonts) que clone el estilo de skillfuture.xyz, una plataforma educativa de programación.\n\n**Stack y estructura:**\n* HTML5 semántico + CSS3 puro en <style>, responsive mobile-first.\n* Fuente: Inter (Google Fonts, pesos 400–800).\n* Paleta: fondo #ffffff, texto #0f172a, muted #475569, líneas #e2e8f0, soft #f1f5f9, brand verde #16a34a (hover #15803d), acento azul #0ea5e9.\n* Contenedor central max-width: 1200px, padding lateral 24px.\n\n**Header (sticky):** Logo \"Skill Future\" con cuadrado degradado verde→azul de 28px. Nav: Tutorials, Exercises, Learning Paths, Data Structures, Algorithms, Glossary. Barra de búsqueda con fondo gris claro, icono lupa, placeholder \"Search tutorials...\". Botón burger oculto en desktop, visible en móvil.\n\n**Hero:** Fondo gradiente verde claro→blanco. Título clamp 36–64px font-weight 800: \"Master the Logic of Code\" — últimas dos palabras con gradiente verde→azul. Subtítulo completo. Botones \"Start Learning\" (verde) y \"Try Exercises\" (ghost). Fila Popular con pills: HTML, CSS, JavaScript, Python, SQL.\n\n**Features (grid 2×2):** \"Learn Everything You Need\" + 4 tarjetas (Algorithms, Data Structures, Exercises, Interactive Code Editor) con iconos y links.\n\n**Resources:** fondo gris suave, grid 4 columnas (Top Tutorials, References, Examples, Get Certified).\n\n**CTA oscura:** gradiente #0f172a → #1e293b, \"Get Certified. Get Hired.\" + botón verde.\n\n**Footer #0f172a:** 4 columnas, copyright © 2026, links legales, iconos sociales con hover verde.\n\n**Responsive:** breakpoint 860px — burger, grids 1 col (footer 2 cols).\n\n**UX:** scroll-behavior smooth, hovers 0.2–0.3s, translateY(-4px) en cards.\n\nEntrega un único index.html autocontenido, sin JS.",
+      "imageUrl": "/webpages/placeholder-web-17-skill-future.png",
+      "imageHint": "Skill Future programming education platform green blue",
+      "demoUrl": "/webpages/skill-future/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["landing page", "Skill Future", "education", "programming", "skillfuture", "tutorials"]
+    },
+    {
+      "id": "18",
+      "title": "CodeNova — Midnight Hacker",
+      "description": "\"Midnight Hacker\" — Dark mode neón.\n\nCrea una landing single-file HTML para una plataforma de coding llamada CodeNova con estética dark hacker.\n\n* Paleta: fondo #0a0a0f, texto #e4e4e7, muted #71717a, líneas #27272a, brand neón verde #22ff88, acento magenta #ff2e93.\n* Fuente: JetBrains Mono para títulos + Inter para body.\n* Hero con grid de líneas tenues de fondo (CSS background con linear-gradient repetido), título \"Hack Your Way to the Future\" con efecto glow (text-shadow verde neón).\n* Botones con borde brillante y hover que invierte colores.\n* Cards con fondo #13131a, borde sutil que se ilumina en verde al hover.\n* Banda CTA con efecto glassmorphism.\n* Footer casi negro con iconos sociales que brillan en magenta al pasar.",
+      "imageUrl": "/webpages/placeholder-web-18-codenova-midnight-hacker.png",
+      "imageHint": "CodeNova midnight hacker dark neon green magenta",
+      "demoUrl": "/webpages/codenova-midnight-hacker/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["landing page", "CodeNova", "dark mode", "hacker", "neon", "cyberpunk", "programming"]
+    },
+    {
+      "id": "19",
+      "title": "LaunchDev — Sunrise Bootcamp",
+      "description": "\"Sunrise Bootcamp\" — Cálido y amigable.\n\nGenera una página estilo bootcamp llamada LaunchDev con paleta cálida y orgánica.\n\n* Colores: fondo crema #fef7ed, texto #1c1917, muted #78716c, brand naranja coral #f97316 (hover #ea580c), acento rosa #ec4899, amarillo suave #fbbf24.\n* Fuente: Plus Jakarta Sans.\n* Hero con blob orgánico SVG/CSS naranja de fondo, título \"Code Your Comeback Story\" con palabra clave en cursiva subrayada con curva pintada (SVG underline).\n* Cards con esquinas muy redondeadas (24px), íconos en forma de blob, ilustración emoji grande.\n* Pills con sombra interior.\n* CTA banda con gradiente naranja→rosa.\n* Footer beige oscuro #292524.",
+      "imageUrl": "/webpages/placeholder-web-19-launchdev-sunrise-bootcamp.png",
+      "imageHint": "LaunchDev sunrise bootcamp warm coral cream friendly",
+      "demoUrl": "/webpages/launchdev-sunrise-bootcamp/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["landing page", "LaunchDev", "bootcamp", "warm", "friendly", "coral", "organic"]
+    },
+    {
+      "id": "20",
+      "title": "Logic Press — Editorial Minimal",
+      "description": "\"Editorial Minimal\" — Tipografía protagonista.\n\nDiseña una web educativa Logic Press con look editorial tipo The New York Times tech.\n\n* Paleta monocromática: fondo #ffffff, texto #000000, muted #525252, líneas #000 finas, único acento rojo bandera #dc2626.\n* Fuentes: Playfair Display (serif) para títulos grandes + IBM Plex Mono para acentos + Inter body.\n* Hero sin gradientes: título gigante (clamp 48–96px) \"Master. The. Logic.\" con puntos rojos, líneas horizontales negras de 1px separando secciones, todo muy aireado.\n* Cards sin borde, solo separadas por líneas verticales finas.\n* Sin sombras, sin radios redondeados (todo cuadrado).\n* Footer blanco con borde superior negro grueso de 4px.",
+      "imageUrl": "/webpages/placeholder-web-20-logic-press-editorial-minimal.png",
+      "imageHint": "Logic Press editorial minimal NYT typography red accent",
+      "demoUrl": "/webpages/logic-press-editorial-minimal/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["landing page", "Logic Press", "editorial", "minimal", "typography", "serif"]
+    },
+    {
+      "id": "21",
+      "title": "PixelForge Academy — Cyber Y2K",
+      "description": "\"Cyber Y2K\" — Retro futurista.\n\nCrea una página PixelForge Academy con estética Y2K / vaporwave.\n\n* Paleta: fondo gradiente diagonal #1e0a3c → #4c1d95 → #db2777, texto #fef3c7, brand cian #22d3ee, acento amarillo #facc15, magenta #f472b6.\n* Fuente: Space Grotesk + VT323 (monospace pixel) para detalles.\n* Hero con título \"Level Up Your Code\" en gradiente cian→magenta + sombra desplazada de 8px estilo retro.\n* Botones rectangulares con borde de 2px estilo neo-brutalism y sombra dura box-shadow: 6px 6px 0 #000.\n* Cards con fondo translúcido (backdrop-filter: blur), bordes color neón.\n* Estrellas y formas decorativas (★ ✦) en absoluto.\n* Footer con efecto scanline CSS.",
+      "imageUrl": "/webpages/placeholder-web-21-pixelforge-cyber-y2k.png",
+      "imageHint": "PixelForge Academy Y2K vaporwave cyan magenta retro",
+      "demoUrl": "/webpages/pixelforge-cyber-y2k/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["landing page", "PixelForge", "Y2K", "vaporwave", "retro", "neon"]
+    },
+    {
+      "id": "22",
+      "title": "Synthax Pro — Corporate Confidence",
+      "description": "\"Corporate Confidence\" — Enterprise SaaS.\n\nConstruye una landing Synthax Pro estilo SaaS enterprise serio (Stripe / Linear vibes).\n\n* Paleta: fondo #fafafa, texto #0a0a0a, muted #6b7280, líneas #e5e7eb, brand azul índigo #4f46e5 (hover #4338ca), acento violeta #8b5cf6, success #10b981.\n* Fuente: Geist (o Inter como fallback).\n* Hero centrado con badge superior \"✨ New: AI-powered tutorials\", título sobrio \"Engineering excellence, taught right\".\n* Botones con sombra sutil y micro-borde interno (efecto Stripe).\n* Cards con backdrop-filter y borde degradado animado al hover.\n* Sección con captura ficticia tipo dashboard (rectángulo con barras).\n* Banda CTA con fondo blanco y borde sutil en lugar de oscura.\n* Footer claro #f3f4f6 con tipografía pequeña y muy organizada en 5 columnas.",
+      "imageUrl": "/webpages/placeholder-web-22-synthax-pro-corporate-confidence.png",
+      "imageHint": "Synthax Pro enterprise SaaS indigo Stripe Linear style",
+      "demoUrl": "/webpages/synthax-pro-corporate-confidence/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["landing page", "Synthax Pro", "enterprise", "SaaS", "Stripe", "corporate"]
+    },
+    {
+      "id": "23",
+      "title": "Northwind — Sunset Gradient / Glassmorphism",
+      "description": "\"Northwind\" — Sunset Gradient / Glassmorphism.\n\nCrea una landing dark mode para \"Northwind\", un SaaS de automatización de ventas con IA. HTML + CSS puro, fuente Satoshi (o Inter como fallback).\n\n**Paleta sunset:**\n* Fondo: #1a0b2e (violeta profundo)\n* Fondo secundario: #0f0820\n* Cards: rgba(255,255,255,0.04) con backdrop-filter: blur(20px) y borde rgba(255,255,255,0.08) (glassmorphism)\n* Primario: gradiente #ff6b6b → #feca57 → #ff9ff3 (sunset)\n* Acento: #5f27cd\n* Texto: #fff / muted #a78bfa\n\n**Estilo:** Muchos blobs gradiente animados con @keyframes flotando en el fondo. Cards translúcidas con bordes brillantes. Hero con titular gigante \"Sell smarter. Close faster.\" y mockup de pipeline kanban (3 columnas: Lead → Qualified → Closed) con tarjetas glass. 4 beneficios, 5 pasos, grid final de \"Use cases\" en lugar de industries. Botones redondeados con gradiente sunset y glow.",
+      "imageUrl": "/webpages/placeholder-web-23-northwind-sunset-glassmorphism.png",
+      "imageHint": "Northwind sunset glassmorphism dark violet sales AI kanban",
+      "demoUrl": "/webpages/northwind-sunset-glassmorphism/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["landing page", "Northwind", "glassmorphism", "sunset", "SaaS", "sales", "AI"]
+    },
+    {
+      "id": "24",
+      "title": "Atlas Bank — Corporate Blue / Confianza Financiera",
+      "description": "\"Atlas Bank\" — Corporate Blue / Confianza Financiera.\n\nCrea una landing light mode para \"Atlas Bank\", una neobank B2B para empresas. HTML + CSS puro, fuentes Söhne (o Inter) para body y GT Super (o Playfair Display) para titulares.\n\n**Paleta corporate:**\n* Fondo: #ffffff\n* Fondo secundario: #f5f7fa\n* Cards: #ffffff con borde #e1e8ed y sombra 0 4px 20px rgba(15,23,42,0.06)\n* Primario: #0a2540 (azul marino profundo)\n* Acento: #00d4ff (cyan eléctrico)\n* Texto: #0a2540 / muted #425466\n\n**Estilo:** Serif elegante en H1 (\"Banking, reimagined for modern teams.\"), sans en body. Hero con mockup de tarjeta de crédito 3D inclinada con gradiente azul→cyan + dashboard de balance. Trust bar con logos serios (Goldman, JPMorgan, Visa, Mastercard, Plaid). Grid de productos: Cuentas, Tarjetas, Transferencias, FX, Tesorería, API. Footer rico con 4 columnas de links. Vibe: Stripe + Mercury.",
+      "imageUrl": "/webpages/placeholder-web-24-atlas-bank-corporate-blue.png",
+      "imageHint": "Atlas Bank corporate blue neobank B2B Stripe Mercury fintech",
+      "demoUrl": "/webpages/atlas-bank-corporate-blue/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["landing page", "Atlas Bank", "neobank", "fintech", "B2B", "corporate", "banking"]
+    },
+    {
+      "id": "25",
+      "title": "Pulse Health — Soft Mint / HealthTech Calmado",
+      "description": "\"Pulse Health\" — Soft Mint / HealthTech Calmado.\n\nCrea una landing light mode para \"Pulse Health\", una plataforma de telemedicina con IA. HTML + CSS puro, fuente DM Sans.\n\n**Paleta soft:**\n* Fondo: #f0fdf4 (verde menta muy claro)\n* Fondo secundario: #ffffff\n* Cards: #ffffff con borde #d1fae5 y sombra suave\n* Primario: #10b981 (esmeralda)\n* Secundario: #fb923c (durazno cálido)\n* Texto: #064e3b / muted #6b7280\n\n**Estilo:** Mucho whitespace, esquinas muy redondeadas (border-radius: 24px), ilustraciones SVG simples y orgánicas. Hero \"Your doctor, one tap away.\" con mockup de chat con doctor + tarjetita de cita agendada. Beneficios con iconos rounded en círculos pastel. Sección de testimonios de pacientes con foto y estrellas. Grid final de especialidades médicas (Cardiología, Dermatología, Pediatría, etc.). Vibe: Calm + Headspace.",
+      "imageUrl": "/webpages/placeholder-web-25-pulse-health-soft-mint.png",
+      "imageHint": "Pulse Health soft mint telemedicine Calm Headspace HealthTech",
+      "demoUrl": "/webpages/pulse-health-soft-mint/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["landing page", "Pulse Health", "telemedicine", "HealthTech", "mint", "wellness"]
+    },
+    {
+      "id": "26",
+      "title": "Cipher — Cyberpunk / Neon Glow",
+      "description": "\"Cipher\" — Cyberpunk / Neon Glow.\n\nCrea una landing dark mode para \"Cipher\", una plataforma de seguridad zero-trust con IA. HTML + CSS puro, fuente Space Grotesk para titulares y IBM Plex Mono para detalles.\n\n**Paleta cyber:**\n* Fondo: #000000 (negro absoluto)\n* Fondo secundario: #050510\n* Cards: #0a0a1a con borde 1px solid #1a1a2e\n* Primario: #ff00ff (magenta neón)\n* Secundario: #00ffff (cyan neón)\n* Texto: #ffffff / muted #6b7280\n\n**Estilo:** Grid pattern de fondo con líneas sutiles rgba(255,0,255,0.05). Hero con H1 glitch \"Encrypt. Detect. Defend.\" y mockup de mapa mundi con puntos de ataque animados (dots pulsantes magenta/cyan). Cards con borde brillante en hover (box-shadow: 0 0 40px rgba(255,0,255,0.4)). Texto con text-shadow neón en CTAs. Sección de stats grandes (\"99.99% uptime · 2.3B threats blocked\"). Grid final de threat types. Vibe: Cloudflare + Tron.",
+      "imageUrl": "/webpages/placeholder-web-26-cipher-cyberpunk-neon.png",
+      "imageHint": "Cipher cyberpunk zero-trust security neon magenta cyan glitch",
+      "demoUrl": "/webpages/cipher-cyberpunk-neon/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["landing page", "Cipher", "cybersecurity", "zero-trust", "cyberpunk", "neon"]
+    },
+    {
+      "id": "27",
+      "title": "Canvas Studio — Earthy / Editorial Brutalist",
+      "description": "\"Canvas Studio\" — Earthy / Editorial Brutalist.\n\nCrea una landing light mode para \"Canvas Studio\", una plataforma de diseño colaborativo para agencias creativas. HTML + CSS puro, fuente Fraunces para titulares (variable, expresiva) e Inter para body.\n\n**Paleta editorial:**\n* Fondo: #faf6f1 (crema/papel)\n* Fondo secundario: #f0e9dd\n* Cards: #ffffff con borde grueso 2px solid #1a1a1a (brutalist)\n* Primario: #1a1a1a (negro tinta)\n* Acento 1: #dc2626 (rojo bermellón)\n* Acento 2: #fbbf24 (amarillo mostaza)\n* Texto: #1a1a1a / muted #78716c\n\n**Estilo:** Asimétrico, layouts editoriales tipo revista. H1 enorme con tracking negativo y mezcla de pesos (\"Design together, ship faster\"). Sombras duras tipo brutalist (box-shadow: 6px 6px 0 #1a1a1a sin blur). Botones rectangulares con borde negro grueso. Hero con mockup de moodboard caótico (imágenes superpuestas, post-its amarillos, líneas rojas). Trust bar con logos en estilo recortado. Grid de features con números enormes (01, 02, 03) en serif. Vibe: Pentagram + Are.na + Read.cv.",
+      "imageUrl": "/webpages/placeholder-web-27-canvas-studio-earthy-brutalist.png",
+      "imageHint": "Canvas Studio editorial brutalist cream moodboard creative agency",
+      "demoUrl": "/webpages/canvas-studio-earthy-brutalist/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["landing page", "Canvas Studio", "design", "brutalist", "editorial", "creative agency"]
+    },
+    {
+      "id": "28",
+      "title": "Airbnb Clone",
+      "description": "Crea un clon funcional de airbnb.com en una subcarpeta llamada airbnb-clone/ usando Next.js 14 (App Router) + Tailwind CSS + Leaflet con JavaScript (no TypeScript). Datos mock, sin backend.\n\n**Stack:** next@14.2.5, react@18.3.1, leaflet@1.9.4, react-leaflet@4.2.1, lucide-react@0.441.0, tailwindcss@3.4.10\n\n**Colores Tailwind:** rausch #FF385C, babu #00A699, hof #484848, foggy #767676. Sombras airbnb y search.\n\n**Estructura:** app/ (layout, page, globals.css, rooms/[id]), components/ (Header, SearchBar, CategoryBar, ListingCard, Map, HomeContent), lib/listings.js (14 categorías + 12 propiedades mock en México).\n\n**Funcionalidades:** Home grid responsivo; categorías con ?cat=; búsqueda ?q=; toggle mapa Leaflet 50/50; carrusel y favoritos en tarjetas; /rooms/[id] con galería, anfitrión, badges, mapa, sidebar reserva.\n\n**Datos:** 12 propiedades (CDMX, Tulum, Mazamitla, Acapulco, Valle de Bravo, Sayulita, Valle de Guadalupe, Chapala, San Miguel, Polanco, Nevado de Toluca, Mérida), precios $85–$580, imágenes Unsplash.\n\n**Demo:** cd public/webpages/airbnb-clone && npm install && npm run dev (puerto 3000).",
+      "imageUrl": "/webpages/placeholder-web-28-airbnb-clone.png",
+      "imageHint": "Airbnb clone homepage Mexico listings map categories Spanish",
+      "demoUrl": "",
+      "stack": ["Next.js", "Tailwind CSS", "Leaflet", "JavaScript"],
+      "tags": ["Airbnb", "clone", "marketplace", "map", "Mexico", "Next.js"]
+    },
+    {
+      "id": "29",
+      "title": "StayNordic — Cabañas en Escandinavia",
+      "description": "StayNordic — Cabañas en Escandinavia.\n\n* Paleta: frost #E8F1F5, pine #1F3A2E, aurora #6FBF73, slate #2C3E50\n* Vertical: alquileres de cabañas en Noruega, Suecia, Finlandia\n* Componentes nuevos: WeatherBadge (temperatura en vivo), SaunaFilter, NorthernLightsIndicator, mapa con topo tiles (OpenTopoMap)\n* Tipografía: Inter + Fraunces para títulos",
+      "imageUrl": "/webpages/placeholder-web-29-staynordic-cabanas-escandinavia.png",
+      "imageHint": "StayNordic Scandinavian cabin rentals Norway Sweden Finland aurora sauna",
+      "demoUrl": "/webpages/staynordic-cabanas-escandinavia/index.html",
+      "stack": ["HTML", "CSS", "Leaflet"],
+      "tags": ["landing page", "StayNordic", "Scandinavia", "cabins", "Nordic", "travel"]
+    },
+    {
+      "id": "30",
+      "title": "CarHub — Marketplace de autos usados",
+      "description": "CarHub — Marketplace de autos usados.\n\n* Paleta: midnight #0F172A, electric #3B82F6, signal #F59E0B, mist #F1F5F9\n* Vertical: compra/venta de autos\n* Componentes nuevos: SpecsTable (HP, 0-60, MPG), PriceHistoryChart, VINBadge, DealerCard (reemplaza host), FinancingCalculator en sidebar\n* Filtros: marca, año, kilometraje, transmisión",
+      "imageUrl": "/webpages/placeholder-web-30-carhub-marketplace-autos.png",
+      "imageHint": "CarHub used car marketplace specs VIN dealer financing",
+      "demoUrl": "/webpages/carhub-marketplace-autos/index.html",
+      "stack": ["HTML", "CSS", "JavaScript"],
+      "tags": ["landing page", "CarHub", "automotive", "marketplace", "used cars"]
+    },
+    {
+      "id": "31",
+      "title": "PlateMap — Restaurantes con reservación",
+      "description": "PlateMap — Restaurantes con reservación.\n\n* Paleta: wine: #722F37, cream: #FAF3E7, olive: #6B8E23, charcoal: #2B2B2B\n* Vertical: descubrir y reservar restaurantes\n* Componentes nuevos: MenuPreview, OpenNowBadge, CuisineChips, ReservationTimeSlots, MichelinStars\n* Categorías: Italiana, Japonesa, Mexicana, Vegana, Brunch…",
+      "imageUrl": "/webpages/placeholder-web-31-platemap-restaurantes-reservacion.png",
+      "imageHint": "PlateMap restaurant reservation wine cream olive MenuPreview Michelin stars",
+      "demoUrl": "/webpages/platemap-restaurantes-reservacion/index.html",
+      "stack": ["HTML", "CSS", "JavaScript"],
+      "tags": ["landing page", "PlateMap", "restaurants", "reservations", "dining", "food"]
+    },
+    {
+      "id": "32",
+      "title": "Coworkly — Espacios de coworking",
+      "description": "Coworkly — Espacios de coworking.\n\n* Paleta: indigo: #4F46E5, peach: #FDBA74, bone: #FAFAF9, ink: #1C1917\n* Vertical: alquilar escritorios/salas por hora o día\n* Componentes nuevos: WifiSpeedBadge, AmenityGrid (café, impresora, fonobooths), HourlyRateToggle, AvailabilityCalendar, NoiseLevel\n* Mapa: clusters por barrio",
+      "imageUrl": "/webpages/placeholder-web-32-coworkly-espacios-coworking.png",
+      "imageHint": "Coworkly coworking indigo peach WifiSpeedBadge AmenityGrid map clusters",
+      "demoUrl": "/webpages/coworkly-espacios-coworking/index.html",
+      "stack": ["HTML", "CSS", "JavaScript", "Leaflet"],
+      "tags": ["landing page", "Coworkly", "coworking", "workspace", "rental", "offices"]
+    },
+    {
+      "id": "33",
+      "title": "PetPals — Cuidado de mascotas",
+      "description": "PetPals — Cuidado de mascotas (estilo Rover).\n\n* Paleta: coral: #FF6B6B, mint: #4ECDC4, sand: #FFE66D, navy: #1A535C\n* Vertical: sitters y paseadores\n* Componentes nuevos: PetTypeFilter (perro/gato/exótico), SitterProfileCard con video, ServiceTypeTabs (paseo, hospedaje, guardería), RepeatClientsBadge\n* Rating: patitas en vez de estrellas",
+      "imageUrl": "/webpages/placeholder-web-33-petpals-cuidado-mascotas.png",
+      "imageHint": "PetPals pet care Rover coral mint paw ratings sitters walkers",
+      "demoUrl": "/webpages/petpals-cuidado-mascotas/index.html",
+      "stack": ["HTML", "CSS", "JavaScript"],
+      "tags": ["landing page", "PetPals", "pets", "Rover", "sitters", "dog walking"]
+    },
+    {
+      "id": "34",
+      "title": "EventLoop — Tickets de eventos locales",
+      "description": "EventLoop — Tickets de eventos locales.\n\n* Paleta: neon: #D946EF, acid: #84CC16, void: #0A0A0A, paper: #FAFAFA\n* Vertical: conciertos, raves, stand-up\n* Componentes nuevos: EventDateBlock (cuadro tipo calendario), LineupList, VenueMap con asientos, TicketTierSelector, CountdownTimer\n* Categorías: Música, Comedia, Deportes, Arte, Festivales",
+      "imageUrl": "/webpages/placeholder-web-34-eventloop-tickets-eventos.png",
+      "imageHint": "EventLoop event tickets neon acid dark rave concert countdown venue seats",
+      "demoUrl": "/webpages/eventloop-tickets-eventos/index.html",
+      "stack": ["HTML", "CSS", "JavaScript"],
+      "tags": ["landing page", "EventLoop", "events", "tickets", "concerts", "raves", "stand-up"]
+    },
+    {
+      "id": "35",
+      "title": "PlotShare — Huertos urbanos compartidos",
+      "description": "PlotShare — Huertos urbanos compartidos.\n\n* Paleta: moss: #4A7C59, terracotta: #C65D3D, sky: #A8DADC, earth: #6B4423\n* Vertical: rentar parcelas de huerto\n* Componentes nuevos: SoilTypeIndicator, SunHoursBadge, ToolsIncluded, SeasonAvailability, PlotSizeFilter (m²)\n* Mapa: vista satelital",
+      "imageUrl": "/webpages/placeholder-web-35-plotshare-huertos-urbanos.png",
+      "imageHint": "PlotShare urban garden plots moss terracotta satellite map soil sun tools",
+      "demoUrl": "/webpages/plotshare-huertos-urbanos/index.html",
+      "stack": ["HTML", "CSS", "JavaScript", "Leaflet"],
+      "tags": ["landing page", "PlotShare", "urban garden", "allotment", "farming", "community"]
+    },
+    {
+      "id": "36",
+      "title": "CourseDeck — Marketplace de cursos online",
+      "description": "CourseDeck — Marketplace de cursos online.\n\n* Paleta: purple: #7C3AED, gold: #FACC15, ivory: #FFFBEB, obsidian: #18181B\n* Vertical: cursos como Udemy/Skillshare\n* Componentes nuevos: VideoPreviewModal, CurriculumAccordion, InstructorBio, EnrollmentCounter, CertificateBadge, LevelFilter (Beginner/Intermediate/Pro)\n* Sin mapa — reemplazado por LearningPathRecommender",
+      "imageUrl": "/webpages/placeholder-web-36-coursedeck-marketplace-cursos.png",
+      "imageHint": "CourseDeck online courses Udemy purple gold curriculum instructor learning path",
+      "demoUrl": "/webpages/coursedeck-marketplace-cursos/index.html",
+      "stack": ["HTML", "CSS", "JavaScript"],
+      "tags": ["landing page", "CourseDeck", "courses", "Udemy", "e-learning", "marketplace"]
+    },
+    {
+      "id": "37",
+      "title": "GearLend — Renta de equipo outdoor",
+      "description": "GearLend — Renta de equipo outdoor entre personas.\n\n* Paleta: forest: #14532D, safety: #F97316, khaki: #D4B483, slate: #475569\n* Vertical: tiendas de campaña, kayaks, bicis de montaña\n* Componentes nuevos: GearConditionRating, RentalDurationPicker (días), DepositInfo, PickupDropoffMap, UseHistoryStats (rentado 47 veces)\n* Categorías: Camping, Escalada, Ciclismo, Snow, Surf",
+      "imageUrl": "/webpages/placeholder-web-37-gearlend-renta-equipo-outdoor.png",
+      "imageHint": "GearLend outdoor gear rental forest orange camping kayak bike map deposit",
+      "demoUrl": "/webpages/gearlend-renta-equipo-outdoor/index.html",
+      "stack": ["HTML", "CSS", "JavaScript", "Leaflet"],
+      "tags": ["landing page", "GearLend", "outdoor", "rental", "camping", "gear", "P2P"]
+    },
+    {
+      "id": "38",
+      "title": "HealMatch — Reservar terapias y wellness",
+      "description": "HealMatch — Reservar terapias y wellness.\n\n* Paleta: sage: #87A878, blush: #F4C2C2, lavender: #B19CD9, pearl: #F5F1ED\n* Vertical: masajes, acupuntura, yoga, terapia\n* Componentes nuevos: TherapistCredentials, SessionLengthChips (30/60/90 min), ModalityTags, InsuranceAccepted, MoodCheckIn antes de filtrar, CalmingGradientHero\n* Mapa opcional — predominan sesiones online vs presenciales",
+      "imageUrl": "/webpages/placeholder-web-38-healmatch-terapias-wellness.png",
+      "imageHint": "HealMatch wellness therapy sage blush lavender mood check-in online sessions",
+      "demoUrl": "/webpages/healmatch-terapias-wellness/index.html",
+      "stack": ["HTML", "CSS", "JavaScript", "Leaflet"],
+      "tags": ["landing page", "HealMatch", "wellness", "therapy", "massage", "yoga", "health"]
+    },
+    {
+      "id": "39",
+      "title": "Spotify Clone — Página de inicio",
+      "description": "Crea un clon de la página de inicio de Spotify (spotify.com) usando HTML y CSS puros (sin frameworks). Estructura el proyecto en dos archivos: index.html y styles.css.\n\nRequisitos de diseño:\n1. Paleta de colores: fondo negro (#000), verde Spotify (#1ed760), grises (#b3b3b3, #282828, #121212), blanco para textos principales.\n2. Tipografía: Montserrat o similar sans-serif, con pesos 400/700/900. Títulos grandes con font-weight: 900 y letter-spacing negativo.\n3. Secciones (en este orden): Navbar sticky (logo SVG inline, Premium/Asistencia/Descargar, Regístrate, Iniciar sesión); Hero con gradiente verde diagonal; Planes Premium (Individual, Duo, Familiar); Features grid 4 columnas; CTA final morado→azul; Footer con columnas y redes.\n4. Botones: primario blanco border-radius 999px hover scale(1.04); outline transparente borde gris.\n5. Idioma: español (es).\n6. Responsive: clamp(), auto-fit minmax, ocultar nav-links en móvil (<768px).\n7. Sin imágenes externas (gradientes y emojis).",
+      "imageUrl": "/webpages/placeholder-web-39-spotify-clone-homepage.png",
+      "imageHint": "Spotify clone homepage green hero Premium plans black dark UI Spanish",
+      "demoUrl": "/webpages/spotify-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Spotify", "clone", "landing page", "music", "streaming", "homepage"]
+    },
+    {
+      "id": "40",
+      "title": "Spotify Clone — Next.js + Tailwind",
+      "description": "Crea un clon de la landing de Spotify (spotify.com) usando Next.js 14+ con App Router, TypeScript y Tailwind CSS.\n\nEstructura: app/ (layout.tsx, page.tsx, globals.css), components/ (Navbar, Hero, Plans, Features, CTA, Footer, ui/Button, ui/PlanCard), tailwind.config.ts, lib/content.ts.\n\nRequisitos: Server Components; colores spotify-green/black/gray/dark/border; Montserrat next/font; Navbar sticky; Hero gradient; Plans md:grid-cols-3 con badge Mejor valorado; Features md:grid-cols-4; CTA purple→blue; Footer 5 columnas; Button primary|outline; español.\n\nDemo: cd public/webpages/spotify-clone-next && npm install && npm run dev (puerto 3001).",
+      "imageUrl": "/webpages/placeholder-web-40-spotify-clone-nextjs.png",
+      "imageHint": "Spotify clone Next.js Tailwind TypeScript Premium plans green hero",
+      "demoUrl": "",
+      "stack": ["Next.js", "TypeScript", "Tailwind CSS", "React"],
+      "tags": ["Spotify", "clone", "Next.js", "Tailwind", "TypeScript", "landing page"]
+    },
+    {
+      "id": "41",
+      "title": "Apple Music Clone — Minimalista oscuro con acento rosa",
+      "description": "Apple Music Clone — Minimalista oscuro con acento rosa.\n\nPaleta: #fa2d48 (rojo Apple Music), #000, #1c1c1e, #8e8e93, #f5f5f7. Fuente: SF Pro Display / Inter.\n\nComponentes únicos:\n* Navbar translúcido con backdrop-blur-xl bg-black/70 (glassmorphism estilo Apple).\n* Hero con scroll parallax: imagen de fondo a pantalla completa con gradiente rosa→negro y título centrado.\n* Carrusel de álbumes horizontal con snap-x snap-mandatory (scroll por tarjetas).\n* Sección Sing con visualizador de letras animado (líneas que se desvanecen).\n* Pricing comparison table en vez de cards: tabla con check marks rojos.\n* Footer minimalista de 1 línea estilo apple.com con select de país.",
+      "imageUrl": "/webpages/placeholder-web-41-apple-music-clone-minimalista.png",
+      "imageHint": "Apple Music clone dark minimal pink red glassmorphism album carousel Sing lyrics pricing table",
+      "demoUrl": "/webpages/apple-music-clone-minimalista/index.html",
+      "stack": ["HTML", "CSS", "JavaScript"],
+      "tags": ["Apple Music", "clone", "landing page", "music", "minimal", "dark mode"]
+    },
+    {
+      "id": "42",
+      "title": "Tidal Clone — Premium negro con cian eléctrico",
+      "description": "Tidal Clone — Premium negro con cian eléctrico.\n\nPaleta: #00ffff (cian HiFi), #000, #0a0a0a, #7c7c7c, #ffffff. Fuente: Helvetica Neue / Geist.\n\nComponentes únicos:\n* Navbar con barra de progreso superior animada (tipo loading bar).\n* Hero split-screen: izquierda título + CTA, derecha mockup 3D de la app con transform: rotateY().\n* Badge \"Master Quality\" con borde cian brillante y box-shadow: 0 0 20px cyan.\n* Toggle anual/mensual en pricing con animación de slider.\n* Sección de artistas verificados con avatares circulares y línea decorativa cian.\n* Testimonios en formato cards con comillas tipográficas gigantes.\n* Footer con newsletter (input + botón cian).",
+      "imageUrl": "/webpages/placeholder-web-42-tidal-clone-premium-cian.png",
+      "imageHint": "Tidal clone premium black electric cyan HiFi Master Quality split hero pricing toggle",
+      "demoUrl": "/webpages/tidal-clone-premium-cian/index.html",
+      "stack": ["HTML", "CSS", "JavaScript"],
+      "tags": ["Tidal", "clone", "landing page", "music", "HiFi", "premium", "cyan"]
+    },
+    {
+      "id": "43",
+      "title": "YouTube Music Clone — Vibrante rojo y blanco",
+      "description": "YouTube Music Clone — Vibrante rojo y blanco.\n\nPaleta: #ff0033 (rojo YT Music), #fff, #0f0f0f, #aaaaaa, #272727. Fuente: Roboto / YouTube Sans.\n\nComponentes únicos:\n* Tema claro por defecto con toggle dark/light en navbar.\n* Hero con video de fondo (<video autoplay muted loop>) y overlay rojo semitransparente.\n* Tabs de categorías (Música, Podcasts, Conciertos) con underline animado rojo.\n* Grid masonry de playlists con tarjetas de distinto alto.\n* Mini reproductor flotante fijo al pie con play/pause y barra de progreso.\n* Sección de shorts musicales con tarjetas verticales 9:16.\n* CTA con confetti animado al hover del botón principal.",
+      "imageUrl": "/webpages/placeholder-web-43-youtube-music-clone-vibrante.png",
+      "imageHint": "YouTube Music clone red white light dark toggle video hero masonry shorts mini player",
+      "demoUrl": "/webpages/youtube-music-clone-vibrante/index.html",
+      "stack": ["HTML", "CSS", "JavaScript"],
+      "tags": ["YouTube Music", "clone", "landing page", "music", "video", "shorts"]
+    },
+    {
+      "id": "44",
+      "title": "SoundCloud Clone — Naranja vibrante creativo",
+      "description": "SoundCloud Clone — Naranja vibrante creativo.\n\nPaleta: #ff5500 (naranja SC), #ff7700, #333, #f2f2f2, #999. Fuente: Inter / Source Sans Pro.\n\nComponentes únicos:\n* Navbar blanco con buscador central grande tipo barra de comandos.\n* Hero con waveform animado (barras verticales pulsantes simulando audio).\n* Tarjetas de tracks horizontales: artwork cuadrado + título + waveform + botón play circular naranja.\n* Sidebar de géneros sticky a la izquierda (Hip-hop, Electronic, Indie...).\n* Sección \"Upload your sound\" con dropzone punteado naranja.\n* Stats animados con count-up (50M+ tracks, 175M+ usuarios).\n* Footer claro con grid de 6 columnas y badges de app stores.",
+      "imageUrl": "/webpages/placeholder-web-44-soundcloud-clone-naranja.png",
+      "imageHint": "SoundCloud clone orange creative search waveform tracks upload dropzone stats",
+      "demoUrl": "/webpages/soundcloud-clone-naranja/index.html",
+      "stack": ["HTML", "CSS", "JavaScript"],
+      "tags": ["SoundCloud", "clone", "landing page", "music", "creative", "upload"]
+    },
+    {
+      "id": "45",
+      "title": "Deezer Clone — Gradiente neón futurista",
+      "description": "Deezer Clone — Gradiente neón futurista.\n\nPaleta: #a238ff (violeta), #ef5466 (coral), #1f1d20, #fff, #86878b. Fuente: Poppins / Space Grotesk.\n\nComponentes únicos:\n* Navbar con gradiente animado (bg-gradient-to-r que rota colores cada 4s).\n* Hero con blob SVG animado de fondo (forma orgánica que se deforma con CSS keyframes).\n* Tarjetas de planes 3D con efecto tilt al pasar el mouse (rotación X/Y con mousemove).\n* Sección Flow (recomendaciones IA) con tarjetas que se barajan al hover.\n* Equalizer interactivo en la sección de audio HiFi (sliders que el usuario puede mover).\n* FAQ acordeón con animación suave de expansión.\n* Footer con mapa mundial SVG mostrando países disponibles iluminados en violeta.",
+      "imageUrl": "/webpages/placeholder-web-45-deezer-clone-neon-futurista.png",
+      "imageHint": "Deezer clone neon violet coral gradient blob Flow equalizer FAQ world map",
+      "demoUrl": "/webpages/deezer-clone-neon-futurista/index.html",
+      "stack": ["HTML", "CSS", "JavaScript"],
+      "tags": ["Deezer", "clone", "landing page", "music", "neon", "Flow", "HiFi"]
+    },
+    {
+      "id": "46",
+      "title": "SoundCloud Clone — Inicio HTML/CSS puro",
+      "description": "Crea un clon de la página de inicio de SoundCloud (soundcloud.com) usando HTML y CSS puros (sin frameworks ni JavaScript). Estructura el proyecto en dos archivos: index.html y styles.css. Todo el contenido debe estar en español.\n\nPaleta de colores: Naranja principal #ff5500; hover/secundario #ff7700 / #e64a00; fondo #f2f2f2; tarjetas #fff; texto #333; secundario #666 / #999; bordes #e5e5e5; dropzone #fff5f0.\n\nTipografía: Inter (Google Fonts, 400–900). Títulos weight 900 con letter-spacing negativo. Tamaños responsive con clamp().\n\nEstructura: (1) Navbar sticky blanco — logo SVG inline #ff5500, búsqueda #f2f2f2 con borde naranja en :focus-within, enlaces Inicio/Para creadores/Premium/Regístrate/Iniciar sesión, botón ⬆ Subir naranja. (2) Hero gradiente 135deg #ff5500→#ff7700, título \"Conecta con tu sonido\", subtítulo 320M pistas, botones Empezar a escuchar y ▶ Subir tu sonido, waveform ~30 spans con @keyframes pulse. (3) Grid 240px+1fr — sidebar Géneros sticky (Hip-hop activo naranja, Electronic, Indie, House, Jazz, Classical, Podcasts, Trending), lista Trending ahora con 4 tracks (artwork 80×80 gradientes, mini waveform 24 spans, play 56px). (4) Upload dropzone dashed #ff5500 max 700px. (5) Stats 4 columnas 320M+/175M+/40M+/190. (6) Footer 6 columnas + badges App Store/Google Play. Responsive 900px y 600px. Sin JS.",
+      "imageUrl": "/webpages/placeholder-web-46-soundcloud-clone-inicio-html.png",
+      "imageHint": "SoundCloud clone orange homepage navbar hero waveform genres tracks upload stats footer Spanish",
+      "demoUrl": "/webpages/soundcloud-clone-inicio/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["SoundCloud", "clone", "landing page", "music", "HTML", "CSS", "sin JavaScript"]
+    },
+    {
+      "id": "47",
+      "title": "Netflix Clone — México HTML/CSS/JS",
+      "description": "Crea un clon estático de la landing page de Netflix México (netflix.com) usando solo HTML, CSS y JavaScript vanilla (sin frameworks ni librerías). Estructura en 3 archivos: index.html, styles.css, script.js.\n\nDiseño: (1) Hero fullscreen 88vh — fondo collage pósters Netflix con overlay degradado, navbar transparente (logo rojo, select idioma Español/English, botón Iniciar sesión), H1 \"Películas y series ilimitadas, y mucho más.\", formulario email + Comenzar >. (2) 4 features alternadas con borde #222 — TV/Stranger Things, descarga offline, dispositivos, perfiles niños (H2 3rem, p 1.5rem). (3) FAQ acordeón 6 preguntas (#303030, + rota 45°, un panel abierto, max-height transition) + CTA email repetido. (4) Footer #757575 — teléfono 020-3970-7589, grid 4 columnas enlaces, selector idioma, copyright clon educativo.\n\nEstilos: #000, #fff, #e50914 (hover #f40612), #222/#303030/#757575, Helvetica Neue/Arial, border-radius 3px, responsive 740px.\n\nJS: acordeón FAQ (cierra otros al abrir), handleStart(event) preventDefault + alert con email.\n\nAssets reales assets.nflxext.com y occ-0-2773-2774.1.nflxso.net. Español México. Clon educativo no afiliado.",
+      "imageUrl": "/webpages/placeholder-web-47-netflix-clone-mexico.png",
+      "imageHint": "Netflix Mexico clone dark hero poster collage red logo email form features FAQ footer",
+      "demoUrl": "/webpages/netflix-clone-mexico/index.html",
+      "stack": ["HTML", "CSS", "JavaScript"],
+      "tags": ["Netflix", "clone", "landing page", "streaming", "México", "FAQ", "acordeón"]
+    },
+    {
+      "id": "48",
+      "title": "Disney+ Clone — Tabs y hero con video",
+      "description": "Clon de Disney+. Paleta: azul profundo #0e1a2b, acento azul cielo #0072d2, blanco. Tipografía Inter. Hero con video loop de fondo (placeholder), logo Disney+ centrado. Sustituye el acordeón FAQ por cards horizontales con tabs (Disney, Pixar, Marvel, Star Wars, Nat Geo). Botón principal: pill rounded-full. Footer minimalista de 2 columnas.",
+      "imageUrl": "/webpages/placeholder-web-48-disney-plus-clone.png",
+      "imageHint": "Disney+ clone deep blue hero video logo brand tabs horizontal cards pill button",
+      "demoUrl": "/webpages/disney-plus-clone/index.html",
+      "stack": ["HTML", "CSS", "JavaScript"],
+      "tags": ["Disney+", "clone", "landing page", "streaming", "tabs", "video hero"]
+    },
+    {
+      "id": "49",
+      "title": "Spotify Clone — Planes y ondas SVG",
+      "description": "Clon de Spotify. Paleta: negro #191414, verde #1db954, gris #535353. Tipografía Circular/Inter. Hero diagonal con ondas de sonido SVG animadas. En vez de features alternadas, usa 3 planes de precios en cards (Free, Premium Individual, Premium Familiar) con botón verde \"Probar gratis\". FAQ como lista expandible vertical sin \"+\", con flecha chevron. Footer oscuro con iconos sociales.",
+      "imageUrl": "/webpages/placeholder-web-49-spotify-clone.png",
+      "imageHint": "Spotify clone black green diagonal hero sound waves pricing cards FAQ chevron social footer",
+      "demoUrl": "/webpages/spotify-clone/index.html",
+      "stack": ["HTML", "CSS", "JavaScript"],
+      "tags": ["Spotify", "clone", "landing page", "music", "pricing", "FAQ"]
+    },
+    {
+      "id": "50",
+      "title": "HBO Max Clone — Carrusel y timeline FAQ",
+      "description": "Clon de HBO Max. Paleta: morado degradado #7B2CBF → #240046, blanco, dorado #FFD60A para CTAs. Tipografía serif (Playfair) en titulares + sans en cuerpo. Hero con carrusel automático de pósters de series. Features como grid 3x2 de tarjetas (no alternadas). FAQ tipo timeline vertical. Footer con newsletter inline.",
+      "imageUrl": "/webpages/placeholder-web-50-hbo-max-clone.png",
+      "imageHint": "HBO Max clone purple gradient gold CTA poster carousel 3x2 grid timeline FAQ newsletter",
+      "demoUrl": "/webpages/hbo-max-clone/index.html",
+      "stack": ["HTML", "CSS", "JavaScript"],
+      "tags": ["HBO Max", "clone", "landing page", "streaming", "carousel", "timeline"]
+    },
+    {
+      "id": "51",
+      "title": "Apple TV+ Clone — Minimalista full-bleed",
+      "description": "Clon minimalista tipo Apple TV+. Paleta: blanco #fff, negro #1d1d1f, gris #86868b, azul #0071e3. Tipografía SF Pro. Hero con mucho whitespace, texto centrado pequeño y producto en el centro. Sin imágenes de fondo en hero. Features como secciones full-bleed alternando fondo blanco/negro. En vez de FAQ acordeón, usa dos columnas de preguntas estáticas. Footer denso estilo Apple con muchas columnas.",
+      "imageUrl": "/webpages/placeholder-web-51-apple-tv-plus-clone.png",
+      "imageHint": "Apple TV+ clone minimalist white black full-bleed sections static FAQ two columns dense footer SF Pro",
+      "demoUrl": "/webpages/apple-tv-plus-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Apple TV+", "clone", "landing page", "streaming", "minimalist", "Apple"]
+    },
+    {
+      "id": "52",
+      "title": "Twitch Clone — Streams LIVE y chat FAQ",
+      "description": "Clon de Twitch. Paleta: morado #9146FF, fondo oscuro #0e0e10, texto #efeff1. Tipografía Inter. Hero con stream cards en vivo (placeholders con badge rojo \"LIVE\"). Reemplaza features por sección de categorías (gaming, IRL, música, esports) en grid 4 columnas. FAQ como chat-style boxes. Botón principal morado con sombra glow.",
+      "imageUrl": "/webpages/placeholder-web-52-twitch-clone.png",
+      "imageHint": "Twitch clone purple dark live stream cards LIVE badge categories grid chat FAQ glow button",
+      "demoUrl": "/webpages/twitch-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Twitch", "clone", "landing page", "streaming", "gaming", "live"]
+    },
+    {
+      "id": "53",
+      "title": "Notion Clone — SaaS productividad",
+      "description": "Clon de Notion (productividad SaaS). Paleta: crema #f7f6f3, negro #37352f, acentos pastel (rosa #ffcccb, amarillo #fff3a0). Tipografía Inter. Hero con ilustración isométrica de bloques. Features como mockups de la app con captions. Reemplaza FAQ por testimonios en grid con foto + cita. Botón negro pill. Footer claro con logos de clientes.",
+      "imageUrl": "/webpages/placeholder-web-53-notion-clone.png",
+      "imageHint": "Notion clone cream pastel isometric blocks app mockups testimonials grid black pill button client logos",
+      "demoUrl": "/webpages/notion-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Notion", "clone", "landing page", "SaaS", "productivity", "testimonials"]
+    },
+    {
+      "id": "54",
+      "title": "Linear Clone — Dev tool aurora y métricas",
+      "description": "Clon de Linear (dev tool). Paleta: negro puro #000, púrpura #5e6ad2, gris #8a8f98. Tipografía Inter Tight. Hero con gradiente animado tipo aurora y screenshot del producto flotante con perspectiva 3D. Features como secciones con código snippets. En vez de FAQ, sección \"Built for speed\" con métricas (números grandes animados al hacer scroll). Footer ultra minimal una línea.",
+      "imageUrl": "/webpages/placeholder-web-54-linear-clone.png",
+      "imageHint": "Linear clone black purple aurora gradient 3D product screenshot code snippets speed metrics scroll animation",
+      "demoUrl": "/webpages/linear-clone/index.html",
+      "stack": ["HTML", "CSS", "JavaScript"],
+      "tags": ["Linear", "clone", "landing page", "dev tools", "SaaS", "metrics"]
+    },
+    {
+      "id": "55",
+      "title": "Duolingo Clone — Mascota y idiomas",
+      "description": "Clon de Duolingo. Paleta: verde #58cc02, amarillo #ffc800, azul #1cb0f6, blanco. Tipografía Feather Bold / rounded sans. Hero juguetón con mascota animada (SVG) saludando. Features como pasos numerados (1, 2, 3) con iconos grandes. Reemplaza FAQ por selector de idiomas en grid con banderas. Botones con sombra inferior 3D estilo cartoon. Footer colorido.",
+      "imageUrl": "/webpages/placeholder-web-55-duolingo-clone.png",
+      "imageHint": "Duolingo clone green yellow blue owl mascot waving numbered steps language flags 3D buttons colorful footer",
+      "demoUrl": "/webpages/duolingo-clone/index.html",
+      "stack": ["HTML", "CSS", "JavaScript"],
+      "tags": ["Duolingo", "clone", "landing page", "education", "languages", "gamification"]
+    },
+    {
+      "id": "56",
+      "title": "Airbnb Clone — Búsqueda pill y categorías",
+      "description": "Clon de Airbnb. Paleta: rosa coral #FF385C, blanco, gris #717171. Tipografía Circular/Inter. Hero con barra de búsqueda pill flotante (destino, fechas, huéspedes) sobre imagen panorámica. Reemplaza features por carrusel de categorías con iconos (cabañas, piscinas, increíbles, etc.) tipo scroll horizontal. FAQ vertical con divider lines. Footer con selector de idioma + moneda.",
+      "imageUrl": "/webpages/placeholder-web-56-airbnb-clone-landing.png",
+      "imageHint": "Airbnb clone coral search pill panoramic hero category carousel horizontal FAQ dividers language currency footer",
+      "demoUrl": "/webpages/airbnb-clone-landing/index.html",
+      "stack": ["HTML", "CSS", "JavaScript"],
+      "tags": ["Airbnb", "clone", "landing page", "travel", "marketplace", "search"]
+    },
+    {
+      "id": "57",
+      "title": "Tesla Clone — One-page fullscreen",
+      "description": "Clon de Tesla. Paleta: blanco #fff, negro #171a20, plata #393c41. Tipografía Gotham/Inter. Hero fullscreen con un solo coche centrado y texto sobre la imagen, dos botones secundarios (Custom Order / Demo Drive) outlined transparentes. Sin features alternadas — en su lugar, secciones fullscreen scrolleables estilo one-page, cada una con un modelo distinto. Sin FAQ; reemplaza por specs en columnas (Range, 0-60, Top Speed). Footer micro con links pequeños centrados.",
+      "imageUrl": "/webpages/placeholder-web-57-tesla-clone.png",
+      "imageHint": "Tesla clone fullscreen scroll snap car models outlined buttons specs columns Range 0-60 micro footer",
+      "demoUrl": "/webpages/tesla-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Tesla", "clone", "landing page", "automotive", "electric", "one-page"]
+    },
+    {
+      "id": "58",
+      "title": "YouTube Premium Clone — Mosaico y planes",
+      "description": "Paleta: rojo #ff0000, blanco, gris #0f0f0f. Tipografía Roboto. Hero con mosaico de miniaturas de video auto-rotando como fondo. Features tipo \"Sin anuncios / Descargas / YouTube Music\" con iconos circulares rojos. Reemplaza FAQ por comparativa de planes (Free vs Premium) en tabla con checkmarks. Botón rojo rectangular. Footer denso multi-columna.",
+      "imageUrl": "/webpages/placeholder-web-58-youtube-premium-clone.png",
+      "imageHint": "YouTube Premium clone red dark thumbnail mosaic hero circular icons plan comparison table checkmarks dense footer",
+      "demoUrl": "/webpages/youtube-premium-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["YouTube", "Premium", "clone", "landing page", "streaming", "subscription"]
+    },
+    {
+      "id": "59",
+      "title": "Figma Clone — Canvas y demos en browser",
+      "description": "Paleta: blanco, negro #1e1e1e, multicolor (#f24e1e, #a259ff, #0acf83, #1abcfe). Tipografía Inter. Hero con canvas interactivo mostrando shapes arrastrables (placeholder). Features como demos animados en loop dentro de mockups de browser. Reemplaza FAQ por logos de empresas que usan Figma en grid 6 columnas. Botones outlined negros.",
+      "imageUrl": "/webpages/placeholder-web-59-figma-clone.png",
+      "imageHint": "Figma clone multicolor logo interactive canvas draggable shapes browser mockup animated demos company logos grid outlined buttons",
+      "demoUrl": "/webpages/figma-clone/index.html",
+      "stack": ["HTML", "CSS", "JavaScript"],
+      "tags": ["Figma", "clone", "landing page", "design", "collaboration", "canvas"]
+    },
+    {
+      "id": "60",
+      "title": "Slack Clone — Chat 3D e industrias",
+      "description": "Paleta: morado aubergine #4A154B, verde #2EB67D, amarillo #ECB22E, blanco. Tipografía Lato. Hero con mockup de chat flotante 3D a la derecha. Features como secciones tipo conversación (avatar + bubble de mensaje). FAQ reemplazado por casos de uso por industria en tabs horizontales. Footer con grid + badges de app stores.",
+      "imageUrl": "/webpages/placeholder-web-60-slack-clone.png",
+      "imageHint": "Slack clone aubergine purple floating 3D chat mockup conversation bubbles industry tabs app store badges",
+      "demoUrl": "/webpages/slack-clone/index.html",
+      "stack": ["HTML", "CSS", "JavaScript"],
+      "tags": ["Slack", "clone", "landing page", "collaboration", "chat", "workspace"]
+    },
+    {
+      "id": "61",
+      "title": "Stripe Clone — Gradientes y productos",
+      "description": "Paleta: índigo #635bff, gradiente azul-morado-rosa, blanco. Tipografía Inter/SöhneMono para code. Hero con gradiente blob animado detrás y bloques de código a la derecha. Features como dashboard screenshots alternados. Sin FAQ tradicional — reemplaza por grid de productos (Payments, Billing, Connect, Terminal). Footer claro y minimalista.",
+      "imageUrl": "/webpages/placeholder-web-61-stripe-clone.png",
+      "imageHint": "Stripe clone indigo gradient animated blob hero code blocks alternating dashboard screenshots product grid Payments Billing Connect Terminal minimal footer",
+      "demoUrl": "/webpages/stripe-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Stripe", "clone", "landing page", "fintech", "payments", "API"]
+    },
+    {
+      "id": "62",
+      "title": "Coinbase Clone — Ticker y mercados",
+      "description": "Paleta: azul #0052ff, blanco, negro. Tipografía Inter. Hero centrado con ticker de precios cripto en vivo (placeholder con BTC/ETH). Features como pasos para empezar (Crea cuenta → Verifica → Compra). Reemplaza FAQ por tabla de criptomonedas con precio y variación 24h. Botón azul pill. Footer con disclaimers legales prominentes.",
+      "imageUrl": "/webpages/placeholder-web-62-coinbase-clone.png",
+      "imageHint": "Coinbase clone blue #0052ff centered hero crypto price ticker BTC ETH steps create account verify buy crypto table 24h change pill button legal disclaimers footer",
+      "demoUrl": "/webpages/coinbase-clone/index.html",
+      "stack": ["HTML", "CSS", "JavaScript"],
+      "tags": ["Coinbase", "clone", "landing page", "crypto", "exchange", "fintech"]
+    },
+    {
+      "id": "63",
+      "title": "Dropbox Clone — Collage y bloques",
+      "description": "Paleta: azul #0061ff, crema #fafaf9, negro. Tipografía Sharp Grotesk / Inter. Hero con ilustración geométrica colorida estilo collage. Features como bloques asimétricos con backgrounds de colores distintos. FAQ como lista numerada simple sin acordeón. Botón azul rectangular grande. Footer en bloque azul.",
+      "imageUrl": "/webpages/placeholder-web-63-dropbox-clone.png",
+      "imageHint": "Dropbox clone blue #0061ff cream hero geometric colorful collage illustration asymmetric colored feature blocks numbered FAQ large rectangular blue button blue footer block",
+      "demoUrl": "/webpages/dropbox-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Dropbox", "clone", "landing page", "cloud storage", "sync", "files"]
+    },
+    {
+      "id": "64",
+      "title": "Discord Clone — Gaming y voice chat",
+      "description": "Paleta: blurple #5865F2, fondo oscuro #23272A, blanco. Tipografía Ginto/Inter. Hero con ilustración de personajes en escena gaming. Features alternadas con mockup de la app (canales y voice chat visibles). Reemplaza FAQ por CTA gigante \"Ready to start your journey?\" con botón. Footer morado oscuro con redes sociales grandes.",
+      "imageUrl": "/webpages/placeholder-web-64-discord-clone.png",
+      "imageHint": "Discord clone blurple #5865F2 dark #23272A hero gaming characters illustration alternating app mockup channels voice chat giant CTA Ready to start your journey dark purple footer large social icons",
+      "demoUrl": "/webpages/discord-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Discord", "clone", "landing page", "gaming", "voice chat", "community"]
+    },
+    {
+      "id": "65",
+      "title": "Pinterest Clone — Masonry y chips",
+      "description": "Paleta: rojo #e60023, blanco, gris #767676. Tipografía Helvetica. Hero con masonry grid de imágenes cayendo en cascada como fondo. Sin features alternadas — usa tarjetas pin-style redondeadas en grid irregular. FAQ como chips clickeables con categorías (Recetas, Decoración, Moda). Botón rojo pill. Footer minimalista.",
+      "imageUrl": "/webpages/placeholder-web-65-pinterest-clone.png",
+      "imageHint": "Pinterest clone red #e60023 white gray Helvetica hero masonry cascading images pin-style rounded cards irregular grid clickable category chips Recetas Decoracion Moda red pill button minimalist footer",
+      "demoUrl": "/webpages/pinterest-clone/index.html",
+      "stack": ["HTML", "CSS", "JavaScript"],
+      "tags": ["Pinterest", "clone", "landing page", "inspiration", "masonry", "visual discovery"]
+    },
+    {
+      "id": "66",
+      "title": "Robinhood Clone — Gráfico y stats",
+      "description": "Paleta: verde neón #00C805, negro #000, blanco. Tipografía Capsule Sans / Inter. Hero con gráfico de línea verde animado subiendo de fondo. Features con mockups de mobile app verticales. Reemplaza FAQ por stats grandes (millones de usuarios, trades por día) con contadores animados. Botón verde pill. Footer con disclaimers SEC.",
+      "imageUrl": "/webpages/placeholder-web-66-robinhood-clone.png",
+      "imageHint": "Robinhood clone neon green #00C805 black hero animated rising line chart vertical mobile app mockups large animated stats counters millions users trades per day green pill button SEC disclaimers footer",
+      "demoUrl": "/webpages/robinhood-clone/index.html",
+      "stack": ["HTML", "CSS", "JavaScript"],
+      "tags": ["Robinhood", "clone", "landing page", "fintech", "investing", "trading"]
+    },
+    {
+      "id": "67",
+      "title": "Webflow Clone — Editor y showcase",
+      "description": "Paleta: azul #4353FF, negro #080808, blanco, acentos rosa #FF5C5C. Tipografía Inter. Hero con video screencast del editor auto-play. Features como secciones con before/after sliders. Reemplaza FAQ por showcase de sitios hechos con Webflow en grid 3 columnas con hover zoom. Footer oscuro con newsletter destacado.",
+      "imageUrl": "/webpages/placeholder-web-67-webflow-clone.png",
+      "imageHint": "Webflow clone blue #4353FF black #080808 pink #FF5C5C Inter hero editor screencast autoplay before after sliders showcase grid 3 columns hover zoom dark footer newsletter",
+      "demoUrl": "/webpages/webflow-clone/index.html",
+      "stack": ["HTML", "CSS", "JavaScript"],
+      "tags": ["Webflow", "clone", "landing page", "no-code", "web design", "CMS"]
+    },
+    {
+      "id": "68",
+      "title": "GitHub Clone — Repos y open source",
+      "description": "Paleta: fondo oscuro #0d1117, verde #238636, gris #8b949e. Tipografía system-ui / monospace para código. Hero con mockup de repositorio (archivos, commits, estrellas). Features en grid de 6 tarjetas (Actions, Codespaces, Security, etc.). Sin FAQ — franja de logos de empresas open source. Botón verde pill. Footer oscuro multi-columna.",
+      "imageUrl": "/webpages/placeholder-web-68-github-clone.png",
+      "imageHint": "GitHub clone dark #0d1117 green #238636 hero repo code mockup features grid company logos open source green pill button dark footer",
+      "demoUrl": "/webpages/github-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["GitHub", "clone", "landing page", "developer", "open source", "git"]
+    },
+    {
+      "id": "69",
+      "title": "Canva Clone — Diseño y plantillas",
+      "description": "Paleta: gradiente morado #7d2ae8 a cyan #00c4cc, blanco, negro suave. Tipografía Canva Sans / Inter. Hero con collage de diseños flotantes. Carrusel horizontal de plantillas (Presentaciones, Redes, Logos). Reemplaza FAQ por grid de casos de uso (Marketing, Educación, Negocios). Botón pill morado. Footer claro.",
+      "imageUrl": "/webpages/placeholder-web-69-canva-clone.png",
+      "imageHint": "Canva clone purple cyan gradient hero design collage template carousel Presentaciones Redes Logos use case grid Marketing Educacion Negocios purple pill button",
+      "demoUrl": "/webpages/canva-clone/index.html",
+      "stack": ["HTML", "CSS", "JavaScript"],
+      "tags": ["Canva", "clone", "landing page", "design", "templates", "creative"]
+    },
+    {
+      "id": "70",
+      "title": "Shopify Clone — E-commerce y tiendas",
+      "description": "Paleta: verde #008060, blanco, negro #212326. Tipografía Shopify Sans / Inter. Hero con mockup de tienda online (productos, carrito). Features como 3 pasos numerados (Crea → Personaliza → Vende). Reemplaza FAQ por tarjetas de precios (Basic, Shopify, Advanced). Botón verde pill. Footer con enlaces de comercio.",
+      "imageUrl": "/webpages/placeholder-web-70-shopify-clone.png",
+      "imageHint": "Shopify clone green #008060 hero online store mockup products cart 3 numbered steps create customize sell pricing cards Basic Shopify Advanced green pill footer",
+      "demoUrl": "/webpages/shopify-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Shopify", "clone", "landing page", "e-commerce", "store", "retail"]
+    },
+    {
+      "id": "71",
+      "title": "Uber Clone — Movilidad y mapa",
+      "description": "Paleta: negro #000, blanco, gris #6b6b6b. Tipografía Uber Move / system-ui. Hero con mapa CSS animado (puntos y ruta). Features alternadas con mockups de app (conductor y pasajero). Sin FAQ — pills de ciudades disponibles (CDMX, Bogotá, Madrid). Botón pill negro. Footer minimalista.",
+      "imageUrl": "/webpages/placeholder-web-71-uber-clone.png",
+      "imageHint": "Uber clone black white hero CSS animated map dots route alternating driver passenger app mockups city pills CDMX Bogota Madrid black pill minimalist footer",
+      "demoUrl": "/webpages/uber-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Uber", "clone", "landing page", "mobility", "rides", "transport"]
+    },
+    {
+      "id": "72",
+      "title": "LinkedIn Clone — Red profesional",
+      "description": "Paleta: azul #0a66c2, blanco, gris #666. Tipografía system-ui. Hero con mockup de feed (publicaciones, reacciones, conexiones). Features como tarjetas de red (Empleos, Aprendizaje, Publicar). Reemplaza FAQ por testimonios de profesionales. Botón azul pill. Footer corporativo multi-columna.",
+      "imageUrl": "/webpages/placeholder-web-72-linkedin-clone.png",
+      "imageHint": "LinkedIn clone blue #0a66c2 hero feed mockup posts reactions connections network cards Jobs Learning Publish professional testimonials blue pill corporate footer",
+      "demoUrl": "/webpages/linkedin-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["LinkedIn", "clone", "landing page", "professional network", "careers", "B2B"]
+    },
+    {
+      "id": "73",
+      "title": "Zoom Clone — Videollamadas y webinars",
+      "description": "Paleta: azul #2D8CFF, blanco, gris #6E7680, fondo oscuro en tiles. Tipografía system-ui. Hero con grid 2×2 de participantes en videollamada. Features en 3 columnas (Meetings, Webinars, Phone). Sin FAQ — pills de planes (Basic, Pro, Business, Enterprise). Botón azul pill. Footer oscuro.",
+      "imageUrl": "/webpages/placeholder-web-73-zoom-clone.png",
+      "imageHint": "Zoom clone blue #2D8CFF hero 2x2 video call participant grid Meetings Webinars Phone plan pills Basic Pro Business Enterprise blue button dark footer",
+      "demoUrl": "/webpages/zoom-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Zoom", "clone", "landing page", "video conferencing", "webinars", "remote work"]
+    },
+    {
+      "id": "74",
+      "title": "Asana Clone — Proyectos y tableros",
+      "description": "Paleta: coral #F06A6A, morado #7A6FF0, gradiente suave en hero. Tipografía system-ui. Hero con mockup Kanban de 3 columnas (Por hacer, En curso, Hecho). Features grid de Listas, Tableros y Cronogramas. Reemplaza FAQ por casos de uso por equipo (Marketing, Producto, Operaciones, IT). Botón coral. Footer oscuro.",
+      "imageUrl": "/webpages/placeholder-web-74-asana-clone.png",
+      "imageHint": "Asana clone coral purple gradient hero Kanban board 3 columns features Lists Boards Timelines team use cases Marketing Product Operations IT coral button",
+      "demoUrl": "/webpages/asana-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Asana", "clone", "landing page", "project management", "Kanban", "productivity"]
+    },
+    {
+      "id": "75",
+      "title": "Mailchimp Clone — Email marketing",
+      "description": "Paleta: amarillo #FFE01B, negro #241C15, crema. Tipografía system-ui bold. Hero amarillo con tarjetas de campañas email flotantes. Features Email, Automations, Analytics. Sin FAQ — chips de plantillas (E-commerce, Eventos, Restaurantes). Botón negro sobre amarillo. Footer oscuro.",
+      "imageUrl": "/webpages/placeholder-web-75-mailchimp-clone.png",
+      "imageHint": "Mailchimp clone yellow #FFE01B black hero floating email campaign cards Email Automations Analytics template chips E-commerce Events footer dark",
+      "demoUrl": "/webpages/mailchimp-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Mailchimp", "clone", "landing page", "email marketing", "automation", "campaigns"]
+    },
+    {
+      "id": "76",
+      "title": "Zendesk Clone — Soporte al cliente",
+      "description": "Paleta: teal #03363D, mint #30AABC, fondo #F8F9F9. Tipografía system-ui. Hero con mockup de tickets (abierto, pendiente, resuelto). Features Ticketing, Messaging, Help Center. Reemplaza FAQ por stats CSAT y tiempo de respuesta. Botón mint. Footer teal oscuro.",
+      "imageUrl": "/webpages/placeholder-web-76-zendesk-clone.png",
+      "imageHint": "Zendesk clone teal #03363D mint hero support ticket mockup open pending solved Ticketing Messaging Help Center CSAT stats response time footer",
+      "demoUrl": "/webpages/zendesk-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Zendesk", "clone", "landing page", "customer support", "ticketing", "help desk"]
+    },
+    {
+      "id": "77",
+      "title": "Adobe Clone — Creative Cloud",
+      "description": "Paleta: rojo #FF0000, gris oscuro #2C2C2C, blanco. Tipografía system-ui. Hero oscuro full-width con CTA rojo. Grid de 6 apps (Ps, Ai, Pr, Ae, Id, Lr) con colores de marca. Features Generative Fill, Cloud, Fonts. Footer oscuro multi-columna Creative Cloud.",
+      "imageUrl": "/webpages/placeholder-web-77-adobe-clone.png",
+      "imageHint": "Adobe clone red #FF0000 dark gray hero Creative Cloud 6 app grid Photoshop Illustrator Premiere After Effects InDesign Lightroom Generative Fill Cloud Fonts footer",
+      "demoUrl": "/webpages/adobe-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Adobe", "clone", "landing page", "creative cloud", "design", "video editing"]
+    },
+    {
+      "id": "78",
+      "title": "Microsoft Teams Clone — Reuniones y chat",
+      "description": "Paleta: morado #6264A7, #464775, blanco. Tipografía system-ui. Hero con grid 2×2 de tiles de videollamada. Features Meetings, Chat y Copilot. Sin FAQ — pills de planes empresariales (Business, Enterprise, Educación). Botón blanco pill. Footer oscuro.",
+      "imageUrl": "/webpages/placeholder-web-78-teams-clone.png",
+      "imageHint": "Microsoft Teams clone purple #6264A7 hero 2x2 video tiles Meetings Chat Copilot enterprise plan pills white button dark footer",
+      "demoUrl": "/webpages/teams-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Microsoft Teams", "clone", "landing page", "video conferencing", "collaboration", "enterprise"]
+    },
+    {
+      "id": "79",
+      "title": "Google Workspace Clone — Productividad en la nube",
+      "description": "Paleta: blanco, gris #202124, azul #1A73E8, colores Gmail/Drive/Meet. Tipografía Google Sans / system-ui. Hero con badges de apps (Gmail, Drive, Meet, Docs). Features en 3 columnas. Pills de planes Starter/Business/Enterprise. Botón azul. Footer oscuro.",
+      "imageUrl": "/webpages/placeholder-web-79-google-workspace-clone.png",
+      "imageHint": "Google Workspace clone white gray Gmail Drive Meet Docs colored badges cloud productivity Starter Business Enterprise blue button",
+      "demoUrl": "/webpages/google-workspace-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Google Workspace", "clone", "landing page", "productivity", "Gmail", "cloud"]
+    },
+    {
+      "id": "80",
+      "title": "Meta Clone — Red social",
+      "description": "Paleta: azul #1877F2, fondo #F0F2F5, negro #1C1E21. Tipografía system-ui. Hero con mockup de publicación (autor, texto, imagen). Features Grupos, Marketplace, Reels. Chips de productos Meta. Botón azul. Footer oscuro.",
+      "imageUrl": "/webpages/placeholder-web-80-meta-clone.png",
+      "imageHint": "Meta Facebook clone blue #1877F2 hero post mockup author text image Groups Marketplace Reels product chips dark footer",
+      "demoUrl": "/webpages/meta-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Meta", "Facebook", "clone", "landing page", "social network", "community"]
+    },
+    {
+      "id": "81",
+      "title": "Instagram Clone — Fotos y reels",
+      "description": "Paleta: gradiente #F09433 a #BC1888, blanco, negro #262626. Tipografía system-ui. Hero con mini grid 3×3 de fotos. Features Stories, Reels, DM. Chips para creadores (Insights, Shopping). Botón blanco pill sobre gradiente. Footer negro.",
+      "imageUrl": "/webpages/placeholder-web-81-instagram-clone.png",
+      "imageHint": "Instagram clone gradient orange pink purple hero 3x3 photo grid Stories Reels DM creator chips Insights Shopping white pill button",
+      "demoUrl": "/webpages/instagram-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Instagram", "clone", "landing page", "social media", "photos", "reels"]
+    },
+    {
+      "id": "82",
+      "title": "TikTok Clone — Video corto",
+      "description": "Paleta: negro #000, cyan #25F4EE, rosa #FE2C55. Tipografía system-ui bold. Hero con mockup vertical de video. Features For You, Efectos, Live. Chips de hashtags tendencia. Botón rosa. Footer #121212.",
+      "imageUrl": "/webpages/placeholder-web-82-tiktok-clone.png",
+      "imageHint": "TikTok clone black cyan pink hero vertical video mockup For You Effects Live hashtag trend chips neon footer",
+      "demoUrl": "/webpages/tiktok-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["TikTok", "clone", "landing page", "short video", "social", "trends"]
+    },
+    {
+      "id": "83",
+      "title": "Amazon Clone — E-commerce global",
+      "description": "Paleta: naranja #FF9900, azul oscuro #131921, gris #EAEDED. Tipografía Amazon Ember / system-ui. Hero con grid de tarjetas producto. Features Prime, Alexa, AWS. Chips de categorías. Botón naranja. Footer #232F3E.",
+      "imageUrl": "/webpages/placeholder-web-83-amazon-clone.png",
+      "imageHint": "Amazon clone orange #FF9900 dark nav hero product cards grid Prime Alexa AWS category chips ecommerce footer",
+      "demoUrl": "/webpages/amazon-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Amazon", "clone", "landing page", "e-commerce", "Prime", "marketplace"]
+    },
+    {
+      "id": "84",
+      "title": "PayPal Clone — Pagos en línea",
+      "description": "Paleta: azul #003087, #0070BA, fondo #F5F7FA. Tipografía system-ui. Hero con mockup de checkout ($149, botón Pagar). Features Checkout, Invoices, Business. Chips de integraciones. Botón azul pill. Footer navy.",
+      "imageUrl": "/webpages/placeholder-web-84-paypal-clone.png",
+      "imageHint": "PayPal clone blue #003087 #0070BA hero checkout mockup pay button Checkout Invoices Business integration chips fintech footer",
+      "demoUrl": "/webpages/paypal-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["PayPal", "clone", "landing page", "payments", "fintech", "checkout"]
+    },
+    {
+      "id": "85",
+      "title": "HubSpot Clone — CRM inbound",
+      "description": "Paleta: coral #FF7A59, verde #00BDA5, azul gris #33475B, crema #FFF7F4. Tipografía system-ui. Hero con barras Leads/Deals/Tickets. Features Marketing, Sales, Service Hubs. Chips de hubs. Botón coral. Footer #33475B.",
+      "imageUrl": "/webpages/placeholder-web-85-hubspot-clone.png",
+      "imageHint": "HubSpot clone coral #FF7A59 mint hero Leads Deals Tickets bars Marketing Sales Service Hub chips CRM inbound footer",
+      "demoUrl": "/webpages/hubspot-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["HubSpot", "clone", "landing page", "CRM", "inbound marketing", "sales"]
+    },
+    {
+      "id": "86",
+      "title": "Salesforce Clone — Customer 360",
+      "description": "Paleta: azul #0176D3, navy #032D60, gradiente claro en hero. Tipografía system-ui. Hero con barra de progreso pipeline y $2.4M. Features Sales Cloud, Service Cloud, Einstein AI. Chips de industrias. Botón azul. Footer navy.",
+      "imageUrl": "/webpages/placeholder-web-86-salesforce-clone.png",
+      "imageHint": "Salesforce clone blue #0176D3 navy hero pipeline progress bar $2.4M Sales Cloud Service Cloud Einstein industry chips enterprise CRM footer",
+      "demoUrl": "/webpages/salesforce-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Salesforce", "clone", "landing page", "CRM", "enterprise", "cloud"]
+    },
+    {
+      "id": "87",
+      "title": "Monday.com Clone — Work OS",
+      "description": "Paleta: gradiente rojo #FF3D57 a amarillo #FFC542, blanco. Tipografía system-ui. Hero con columnas de tablero coloridas. Features Work OS, Automations, Dashboards. Chips de equipos. Botón blanco pill. Footer #323338.",
+      "imageUrl": "/webpages/placeholder-web-87-monday-clone.png",
+      "imageHint": "monday.com clone red yellow gradient hero colorful board columns Work OS Automations Dashboards team chips work management footer",
+      "demoUrl": "/webpages/monday-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["monday.com", "clone", "landing page", "work management", "boards", "automation"]
+    },
+    {
+      "id": "88",
+      "title": "Trello Clone — Tableros Kanban",
+      "description": "Paleta: azul #0079BF, gradiente a morado #5067C5, verde tarjeta #61BD4F. Tipografía system-ui. Hero con mockup de 2 columnas Kanban. Features Power-Ups, Butler, Templates. Chips de usos. Botón blanco pill. Footer #172B4D.",
+      "imageUrl": "/webpages/placeholder-web-88-trello-clone.png",
+      "imageHint": "Trello clone blue #0079BF gradient hero Kanban two columns todo done green card Power-Ups Butler Templates use case chips",
+      "demoUrl": "/webpages/trello-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Trello", "clone", "landing page", "Kanban", "project management", "boards"]
+    },
+    {
+      "id": "89",
+      "title": "Airtable Clone — Base de datos flexible",
+      "description": "Paleta: cyan #18BFFF, blanco, gris #333, fondo #F6F8FC. Tipografía system-ui. Hero con tabla spreadsheet (Nombre, Estado). Features Views, Interfaces, AI. Chips de plantillas. Botón cyan. Footer oscuro.",
+      "imageUrl": "/webpages/placeholder-web-89-airtable-clone.png",
+      "imageHint": "Airtable clone cyan #18BFFF hero spreadsheet table grid Nombre Estado Views Interfaces AI template chips database footer",
+      "demoUrl": "/webpages/airtable-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Airtable", "clone", "landing page", "database", "spreadsheet", "no-code"]
+    },
+    {
+      "id": "90",
+      "title": "Fiverr Clone — Freelance marketplace",
+      "description": "Paleta: verde #1DBF73, gris #404145, blanco. Tipografía system-ui. Hero con tarjetas gig (Logo Design, Video Edit). Features Gigs, Fiverr Pro, Business. Chips de categorías. Botón verde. Footer gris oscuro.",
+      "imageUrl": "/webpages/placeholder-web-90-fiverr-clone.png",
+      "imageHint": "Fiverr clone green #1DBF73 hero gig cards Logo Design Video Edit Gigs Pro Business category chips freelance marketplace footer",
+      "demoUrl": "/webpages/fiverr-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Fiverr", "clone", "landing page", "freelance", "marketplace", "gigs"]
+    },
+    {
+      "id": "91",
+      "title": "Upwork Clone — Talento global",
+      "description": "Paleta: verde #14A800, fondo #F2F7F2, negro #001E00. Tipografía system-ui. Hero con perfil freelancer (avatar, skills, Job Success). Features Talent, Project Catalog, Enterprise. Chips de habilidades. Botón verde. Footer verde oscuro.",
+      "imageUrl": "/webpages/placeholder-web-91-upwork-clone.png",
+      "imageHint": "Upwork clone green #14A800 hero freelancer profile avatar Job Success Talent Project Catalog Enterprise skills chips freelance footer",
+      "demoUrl": "/webpages/upwork-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Upwork", "clone", "landing page", "freelance", "talent", "remote work"]
+    },
+    {
+      "id": "92",
+      "title": "Square Clone — Pagos y POS",
+      "description": "Paleta: negro #000, blanco, gris #FAFAFA. Tipografía system-ui. Hero con mockup terminal de pago negro. Features Payments, POS, Banking. Chips por industria (Restaurantes, Retail). Botón negro. Footer negro.",
+      "imageUrl": "/webpages/placeholder-web-92-square-clone.png",
+      "imageHint": "Square clone black white hero payment terminal mockup Payments POS Banking industry chips Restaurants Retail fintech footer",
+      "demoUrl": "/webpages/square-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Square", "clone", "landing page", "payments", "POS", "small business"]
+    },
+    {
+      "id": "93",
+      "title": "Snapchat Clone — Stories y AR",
+      "description": "Paleta: amarillo #FFFC00, negro, blanco. Tipografía system-ui bold. Hero con círculo estilo fantasma/cámara. Features Stories, Lenses, Spotlight. Chips Para (Amigos, Creadores, Marcas). Botón negro sobre amarillo. Footer negro.",
+      "imageUrl": "/webpages/placeholder-web-93-snapchat-clone.png",
+      "imageHint": "Snapchat clone yellow #FFFC00 hero ghost camera circle Stories Lenses Spotlight AR social black button",
+      "demoUrl": "/webpages/snapchat-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Snapchat", "clone", "landing page", "AR", "stories", "social"]
+    },
+    {
+      "id": "94",
+      "title": "WhatsApp Clone — Mensajería Business",
+      "description": "Paleta: verde #25D366, teal #075E54, fondo chat #ECE5DD. Tipografía system-ui. Hero con burbujas de chat verdes y blancas. Features Business, Cifrado, Grupos. Chips de usos. Botón verde. Footer teal.",
+      "imageUrl": "/webpages/placeholder-web-94-whatsapp-clone.png",
+      "imageHint": "WhatsApp clone green #25D366 teal hero chat bubbles Business encryption groups messaging footer",
+      "demoUrl": "/webpages/whatsapp-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["WhatsApp", "clone", "landing page", "messaging", "business", "chat"]
+    },
+    {
+      "id": "95",
+      "title": "X Clone — Conversación en tiempo real",
+      "description": "Paleta: negro #000, blanco, gris #71767B. Tipografía system-ui. Hero con mockup de post (@usuario, reposts). Features Posts, Spaces, Premium. Chips de temas. Botón blanco pill. Footer negro.",
+      "imageUrl": "/webpages/placeholder-web-95-x-clone.png",
+      "imageHint": "X Twitter clone black hero tweet post mockup @user reposts Spaces Premium topics chips minimalist social",
+      "demoUrl": "/webpages/x-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["X", "Twitter", "clone", "landing page", "social", "real-time"]
+    },
+    {
+      "id": "96",
+      "title": "Reddit Clone — Comunidades",
+      "description": "Paleta: naranja #FF4500, gris #DAE0E6, negro #1A1A1B. Tipografía system-ui. Hero con tarjeta de post (upvotes, r/technology). Features Subreddits, Karma, Awards. Chips de subreddits. Botón naranja. Footer oscuro.",
+      "imageUrl": "/webpages/placeholder-web-96-reddit-clone.png",
+      "imageHint": "Reddit clone orange #FF4500 hero post card upvotes r/technology Subreddits Karma Awards community chips forum",
+      "demoUrl": "/webpages/reddit-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Reddit", "clone", "landing page", "community", "forum", "social"]
+    },
+    {
+      "id": "97",
+      "title": "DoorDash Clone — Delivery de comida",
+      "description": "Paleta: rojo #FF3008, blanco, negro #191919. Tipografía system-ui. Hero con tarjetas Pizza/Sushi. Features DashPass, Tracking, DashMart. Chips de ciudades. Botón rojo. Footer negro.",
+      "imageUrl": "/webpages/placeholder-web-97-doordash-clone.png",
+      "imageHint": "DoorDash clone red #FF3008 hero food delivery cards Pizza Sushi DashPass tracking cities chips",
+      "demoUrl": "/webpages/doordash-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["DoorDash", "clone", "landing page", "food delivery", "restaurants", "logistics"]
+    },
+    {
+      "id": "98",
+      "title": "Hulu Clone — Streaming TV",
+      "description": "Paleta: negro #000, verde #1CE783. Tipografía system-ui. Hero con carátulas de series en fila. Features Originals, Live TV, Bundles. Chips de géneros. Botón verde. Footer negro.",
+      "imageUrl": "/webpages/placeholder-web-98-hulu-clone.png",
+      "imageHint": "Hulu clone black green #1CE783 hero show thumbnails streaming Originals Live TV Bundles genre chips",
+      "demoUrl": "/webpages/hulu-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Hulu", "clone", "landing page", "streaming", "TV", "entertainment"]
+    },
+    {
+      "id": "99",
+      "title": "Calendly Clone — Agendar reuniones",
+      "description": "Paleta: azul #006BFF, navy #0B3558, fondo #F8FAFC. Tipografía system-ui. Hero con widget de booking 15 min. Features Scheduling, Integrations, Teams. Chips por rol. Botón azul. Footer navy.",
+      "imageUrl": "/webpages/placeholder-web-99-calendly-clone.png",
+      "imageHint": "Calendly clone blue #006BFF hero 15 min meeting booking widget Scheduling Integrations Teams sales HR footer",
+      "demoUrl": "/webpages/calendly-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Calendly", "clone", "landing page", "scheduling", "meetings", "SaaS"]
+    },
+    {
+      "id": "100",
+      "title": "Intercom Clone — Mensajería para negocios",
+      "description": "Paleta: azul #1F8DED, fondo #F4F7FC, negro footer. Tipografía system-ui. Hero con widget de chat azul. Features Inbox, Bots, Articles. Chips de industrias. Botón azul. Footer oscuro.",
+      "imageUrl": "/webpages/placeholder-web-100-intercom-clone.png",
+      "imageHint": "Intercom clone blue hero chat widget messenger Inbox Bots Articles help desk SaaS industries chips",
+      "demoUrl": "/webpages/intercom-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Intercom", "clone", "landing page", "customer messaging", "chat", "support"]
+    },
+    {
+      "id": "101",
+      "title": "DocuSign Clone — Firma electrónica",
+      "description": "Paleta: amarillo #FFCC22, azul #003DA5, crema #FFF9E6. Tipografía system-ui. Hero con documento firmado (Contrato.pdf, firma). Features eSignature, Templates, CLM. Chips de sectores. Botón amarillo. Footer azul.",
+      "imageUrl": "/webpages/placeholder-web-101-docusign-clone.png",
+      "imageHint": "DocuSign clone yellow blue hero signed document contract eSignature Templates CLM legal HR sales footer",
+      "demoUrl": "/webpages/docusign-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["DocuSign", "clone", "landing page", "e-signature", "legal", "documents"]
+    },
+    {
+      "id": "102",
+      "title": "Miro Clone — Pizarra colaborativa",
+      "description": "Paleta: amarillo #FFD02F, navy #050038, azul #4262FF. Tipografía system-ui. Hero con sticky notes de colores. Features Boards, Templates, Integrations. Chips de equipos. Botón azul. Footer navy.",
+      "imageUrl": "/webpages/placeholder-web-102-miro-clone.png",
+      "imageHint": "Miro clone yellow #FFD02F hero colorful sticky notes whiteboard Boards Templates Integrations product design agile footer",
+      "demoUrl": "/webpages/miro-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Miro", "clone", "landing page", "whiteboard", "collaboration", "brainstorming"]
+    },
+    {
+      "id": "103",
+      "title": "Jira Clone — Agile y sprints",
+      "description": "Paleta: azul Atlassian #0052CC, gris #F4F5F7, navy #172B4D. Tipografía system-ui. Hero con issue PROJ-42 En progreso. Features Scrum, Kanban, Reports. Chips de plantillas. Botón azul. Footer navy.",
+      "imageUrl": "/webpages/placeholder-web-103-jira-clone.png",
+      "imageHint": "Jira clone blue #0052CC hero issue PROJ-42 in progress Scrum Kanban Reports agile templates Atlassian footer",
+      "demoUrl": "/webpages/jira-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Jira", "Atlassian", "clone", "landing page", "agile", "project management"]
+    },
+    {
+      "id": "104",
+      "title": "GitLab Clone — DevOps platform",
+      "description": "Paleta: naranja #FC6D26, blanco, gris #303030. Tipografía monospace en mockup. Hero con snippet pipeline passed. Features CI/CD, Security, Registry. Chips Build/Test/Deploy. Botón naranja. Footer gris.",
+      "imageUrl": "/webpages/placeholder-web-104-gitlab-clone.png",
+      "imageHint": "GitLab clone orange #FC6D26 hero pipeline passed merge request CI/CD Security Registry DevOps footer",
+      "demoUrl": "/webpages/gitlab-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["GitLab", "clone", "landing page", "DevOps", "CI/CD", "git"]
+    },
+    {
+      "id": "105",
+      "title": "Vercel Clone — Deploy frontend",
+      "description": "Paleta: negro #000, blanco. Tipografía Geist / system-ui. Hero con terminal production URL. Features Edge, Preview, Analytics. Chips de frameworks. Botón blanco pill. Footer negro.",
+      "imageUrl": "/webpages/placeholder-web-105-vercel-clone.png",
+      "imageHint": "Vercel clone black white hero production deploy terminal Next.js React Svelte Edge Preview Analytics frontend cloud",
+      "demoUrl": "/webpages/vercel-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Vercel", "clone", "landing page", "deployment", "Next.js", "frontend"]
+    },
+    {
+      "id": "106",
+      "title": "Twilio Clone — APIs de comunicación",
+      "description": "Paleta: rojo #F22F46, teal #03363D, fondo rosa claro. Tipografía monospace en código. Hero con snippet messages.create. Features SMS, Voice, Verify. Chips de casos de uso. Botón rojo. Footer teal.",
+      "imageUrl": "/webpages/placeholder-web-106-twilio-clone.png",
+      "imageHint": "Twilio clone red #F22F46 hero code snippet SMS Voice Verify developer API communications footer",
+      "demoUrl": "/webpages/twilio-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Twilio", "clone", "landing page", "API", "SMS", "developer"]
+    },
+    {
+      "id": "107",
+      "title": "Snowflake Clone — Data Cloud",
+      "description": "Paleta: cyan #29B5E8, navy #11567F, gradiente claro. Tipografía system-ui. Hero con círculo data warehouse. Features Warehouse, Sharing, Marketplace. Chips de industrias. Botón cyan. Footer navy.",
+      "imageUrl": "/webpages/placeholder-web-107-snowflake-clone.png",
+      "imageHint": "Snowflake clone cyan blue gradient hero data warehouse circle analytics Sharing Marketplace enterprise data cloud footer",
+      "demoUrl": "/webpages/snowflake-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Snowflake", "clone", "landing page", "data cloud", "analytics", "warehouse"]
+    },
+    {
+      "id": "108",
+      "title": "Paramount+ Clone — Streaming y deportes",
+      "description": "Paleta: azul #0064FF, negro, blanco. Tipografía system-ui. Hero con carátulas de contenido en fila. Features Originales, Live, Kids. Chips de géneros. Botón azul. Footer negro.",
+      "imageUrl": "/webpages/placeholder-web-108-paramount-clone.png",
+      "imageHint": "Paramount Plus clone blue mountain hero show thumbnails streaming originals live sports kids genres footer black",
+      "demoUrl": "/webpages/paramount-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Paramount+", "clone", "landing page", "streaming", "movies", "sports"]
+    },
+    {
+      "id": "109",
+      "title": "Peacock Clone — NBCUniversal streaming",
+      "description": "Paleta: morado gradiente #3B0D6B a negro, naranja #FA7B17. Tipografía system-ui. Hero con tarjeta serie destacada. Features Live, Sports, Premium. Chips de planes Free/Premium/Plus. Botón naranja. Footer negro.",
+      "imageUrl": "/webpages/placeholder-web-109-peacock-clone.png",
+      "imageHint": "Peacock clone purple gradient orange hero featured series Live Sports Premium plans NBC streaming footer",
+      "demoUrl": "/webpages/peacock-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Peacock", "clone", "landing page", "streaming", "TV", "NBC"]
+    },
+    {
+      "id": "110",
+      "title": "Grammarly Clone — Escritura con IA",
+      "description": "Paleta: verde #15C39A, fondo #F0FAF6, negro #0E101A. Tipografía system-ui. Hero con texto resaltado con sugerencia gramatical. Features Grammar, Tone, Plagiarism. Chips por audiencia. Botón verde. Footer oscuro.",
+      "imageUrl": "/webpages/placeholder-web-110-grammarly-clone.png",
+      "imageHint": "Grammarly clone green #15C39A hero highlighted text grammar suggestion Tone Plagiarism writing assistant footer",
+      "demoUrl": "/webpages/grammarly-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Grammarly", "clone", "landing page", "writing", "AI", "productivity"]
+    },
+    {
+      "id": "111",
+      "title": "Box Clone — Almacenamiento empresarial",
+      "description": "Paleta: azul #0061D5, gris #F4F6F8, negro footer. Tipografía system-ui. Hero con chips de carpetas y archivos. Features Storage, Security, Workflow. Chips de industrias. Botón azul. Footer oscuro.",
+      "imageUrl": "/webpages/placeholder-web-111-box-clone.png",
+      "imageHint": "Box clone blue #0061D5 hero file folders cloud storage enterprise Security Workflow legal finance footer",
+      "demoUrl": "/webpages/box-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Box", "clone", "landing page", "cloud storage", "enterprise", "collaboration"]
+    },
+    {
+      "id": "112",
+      "title": "Evernote Clone — Notas organizadas",
+      "description": "Paleta: verde #00A82D, crema #F8F8F6, gris #333. Tipografía system-ui. Hero con nota y lista con borde verde. Features Notes, Search, Sync. Chips de usos. Botón verde. Footer gris.",
+      "imageUrl": "/webpages/placeholder-web-112-evernote-clone.png",
+      "imageHint": "Evernote clone green #00A82D hero note list border Notes Search Sync productivity organization footer",
+      "demoUrl": "/webpages/evernote-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Evernote", "clone", "landing page", "notes", "productivity", "organization"]
+    },
+    {
+      "id": "113",
+      "title": "Waze Clone — Navegación comunitaria",
+      "description": "Paleta: cyan #33CCFF, blanco, gris. Tipografía system-ui. Hero con mapa estilizado y auto. Features Routes, Alerts, Carpool. Chips de tipos de alerta. Botón cyan. Footer oscuro.",
+      "imageUrl": "/webpages/placeholder-web-113-waze-clone.png",
+      "imageHint": "Waze clone cyan blue hero stylized map car community navigation Routes Alerts Carpool traffic footer",
+      "demoUrl": "/webpages/waze-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Waze", "clone", "landing page", "navigation", "maps", "community"]
+    },
+    {
+      "id": "114",
+      "title": "Lyft Clone — Rideshare",
+      "description": "Paleta: magenta #FF00BF, blanco, negro. Tipografía system-ui. Hero con ruta punto a auto. Features Rides, Bikes, Rewards. Chips de ciudades. Botón magenta. Footer negro.",
+      "imageUrl": "/webpages/placeholder-web-114-lyft-clone.png",
+      "imageHint": "Lyft clone pink magenta #FF00BF hero route map pickup car Rides Bikes Rewards cities footer",
+      "demoUrl": "/webpages/lyft-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Lyft", "clone", "landing page", "rideshare", "mobility", "transport"]
+    },
+    {
+      "id": "115",
+      "title": "Grubhub Clone — Delivery de comida",
+      "description": "Paleta: rojo #F63440, crema #FFF5F0, negro #231F20. Tipografía system-ui. Hero con categorías Burgers/Asian. Features Delivery, Pickup, Grubhub+. Chips de cocinas. Botón rojo. Footer oscuro.",
+      "imageUrl": "/webpages/placeholder-web-115-grubhub-clone.png",
+      "imageHint": "Grubhub clone red #F63440 hero food categories Burgers Asian Delivery Pickup Grubhub plus cuisines footer",
+      "demoUrl": "/webpages/grubhub-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Grubhub", "clone", "landing page", "food delivery", "restaurants", "ordering"]
+    },
+    {
+      "id": "116",
+      "title": "Coursera Clone — Educación online",
+      "description": "Paleta: azul #0056D2, gris claro #F5F7F8, negro. Tipografía system-ui. Hero con tarjetas de cursos. Features Degrees, Certificates, Enterprise. Chips de temas. Botón azul. Footer oscuro.",
+      "imageUrl": "/webpages/placeholder-web-116-coursera-clone.png",
+      "imageHint": "Coursera clone blue #0056D2 hero course cards Machine Learning Marketing Degrees Certificates Enterprise education footer",
+      "demoUrl": "/webpages/coursera-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Coursera", "clone", "landing page", "education", "courses", "online learning"]
+    },
+    {
+      "id": "117",
+      "title": "Headspace Clone — Meditación y bienestar",
+      "description": "Paleta: naranja #F47B20, gradiente melocotón #FFE8D6, gris #3D3D3D. Tipografía system-ui. Hero con icono meditación y sesión 10 min. Features Meditate, Sleep, Move. Chips de temas. Botón naranja. Footer gris.",
+      "imageUrl": "/webpages/placeholder-web-117-headspace-clone.png",
+      "imageHint": "Headspace clone orange peach gradient hero meditation wellness Meditate Sleep Move stress focus mindfulness footer",
+      "demoUrl": "/webpages/headspace-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Headspace", "clone", "landing page", "meditation", "wellness", "mindfulness"]
+    },
+    {
+      "id": "118",
+      "title": "Peloton Clone — Fitness en casa",
+      "description": "Paleta: negro #000, rojo #DF1F2D, blanco. Tipografía system-ui bold. Hero con badge LIVE clase cycling. Features Bike, Tread, App. Chips de clases. Botón rojo. Footer negro.",
+      "imageUrl": "/webpages/placeholder-web-118-peloton-clone.png",
+      "imageHint": "Peloton clone black red hero LIVE cycling class Bike Tread App fitness home workout footer",
+      "demoUrl": "/webpages/peloton-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Peloton", "clone", "landing page", "fitness", "cycling", "workout"]
+    },
+    {
+      "id": "119",
+      "title": "Nike Clone — Deporte y estilo",
+      "description": "Paleta: negro #111, blanco, gris #F5F5F5. Tipografía system-ui bold. Hero con bloque AIR estilizado. Features Shoes, App, Members. Chips de deportes. Botón negro. Footer negro.",
+      "imageUrl": "/webpages/placeholder-web-119-nike-clone.png",
+      "imageHint": "Nike clone black white hero AIR athletic shoes Just Do It Running Basketball Training sportswear footer",
+      "demoUrl": "/webpages/nike-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Nike", "clone", "landing page", "sportswear", "athletic", "retail"]
+    },
+    {
+      "id": "120",
+      "title": "OpenAI Clone — Plataforma de IA",
+      "description": "Paleta: negro #000, verde #10A37F, gris #1A1A1A. Tipografía system-ui. Hero con mockup chat ¿Cómo puedo ayudarte? Features ChatGPT, API, Enterprise. Chips de productos. Botón verde. Footer negro.",
+      "imageUrl": "/webpages/placeholder-web-120-openai-clone.png",
+      "imageHint": "OpenAI clone black green #10A37F hero chat mockup ChatGPT API Enterprise GPT-4 DALL-E AI footer",
+      "demoUrl": "/webpages/openai-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["OpenAI", "clone", "landing page", "AI", "ChatGPT", "API"]
+    },
+    {
+      "id": "121",
+      "title": "Anthropic Clone — Claude AI",
+      "description": "Paleta: beige #FAF9F5, terracota #D97757, negro #141413. Tipografía system-ui. Hero con chat Claude. Features Claude, API, Safety. Chips de usos. Botón terracota. Footer oscuro.",
+      "imageUrl": "/webpages/placeholder-web-121-anthropic-clone.png",
+      "imageHint": "Anthropic clone beige terracotta hero Claude chat Constitutional AI API code writing research safe AI footer",
+      "demoUrl": "/webpages/anthropic-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Anthropic", "clone", "landing page", "Claude", "AI", "assistant"]
+    },
+    {
+      "id": "122",
+      "title": "Loom Clone — Video async",
+      "description": "Paleta: morado #625DF5 a #8B5CF6 gradiente, blanco. Tipografía system-ui. Hero con reproductor play sobre fondo negro. Features Record, Share, Transcript. Chips de equipos. Botón blanco pill. Footer #1A1A2E.",
+      "imageUrl": "/webpages/placeholder-web-122-loom-clone.png",
+      "imageHint": "Loom clone purple gradient hero video player play button screen recording async Record Share Transcript teams footer",
+      "demoUrl": "/webpages/loom-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Loom", "clone", "landing page", "video", "async", "screen recording"]
+    },
+    {
+      "id": "123",
+      "title": "Datadog Clone — Observabilidad",
+      "description": "Paleta: morado #632CA6, fondo #F6F2FB, negro footer. Tipografía system-ui. Hero con gráfico de barras métricas. Features APM, Logs, Security. Chips de integraciones AWS/K8s. Botón morado. Footer oscuro.",
+      "imageUrl": "/webpages/placeholder-web-123-datadog-clone.png",
+      "imageHint": "Datadog clone purple #632CA6 hero metrics bar chart APM Logs Security monitoring observability AWS Kubernetes footer",
+      "demoUrl": "/webpages/datadog-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Datadog", "clone", "landing page", "observability", "monitoring", "DevOps"]
+    },
+    {
+      "id": "124",
+      "title": "MongoDB Clone — Base de datos documental",
+      "description": "Paleta: verde #00ED64, teal oscuro #001E2B. Tipografía monospace en snippet. Hero con JSON de documento. Features Atlas, Search, Charts. Chips de casos de uso. Botón verde. Footer teal.",
+      "imageUrl": "/webpages/placeholder-web-124-mongodb-clone.png",
+      "imageHint": "MongoDB clone green #00ED64 dark teal hero JSON document Atlas Search Charts database developer footer",
+      "demoUrl": "/webpages/mongodb-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["MongoDB", "clone", "landing page", "database", "NoSQL", "developer"]
+    },
+    {
+      "id": "125",
+      "title": "Cloudflare Clone — CDN y seguridad",
+      "description": "Paleta: naranja #F38020, crema #FFF8F0, gris #404041. Tipografía system-ui. Hero con uptime 99.99% y edge cities. Features CDN, WAF, Workers. Chips de productos. Botón naranja. Footer gris.",
+      "imageUrl": "/webpages/placeholder-web-125-cloudflare-clone.png",
+      "imageHint": "Cloudflare clone orange #F38020 hero uptime edge CDN WAF Workers DNS Zero Trust security footer",
+      "demoUrl": "/webpages/cloudflare-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Cloudflare", "clone", "landing page", "CDN", "security", "edge"]
+    },
+    {
+      "id": "126",
+      "title": "Databricks Clone — Lakehouse",
+      "description": "Paleta: rojo #FF3621, navy #1B3139, fondo claro. Tipografía system-ui. Hero con Delta Lake y MLflow stats. Features Lakehouse, SQL, ML. Chips de industrias. Botón rojo. Footer navy.",
+      "imageUrl": "/webpages/placeholder-web-126-databricks-clone.png",
+      "imageHint": "Databricks clone red #FF3621 hero Delta Lake MLflow lakehouse SQL ML analytics data engineering footer",
+      "demoUrl": "/webpages/databricks-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Databricks", "clone", "landing page", "data", "lakehouse", "analytics"]
+    },
+    {
+      "id": "127",
+      "title": "Revolut Clone — Super app financiera",
+      "description": "Paleta: azul #0075EB, negro #191C1F, gradiente. Tipografía system-ui. Hero con tarjeta virtual •••• 4242. Features Exchange, Cards, Crypto. Chips de planes. Botón azul. Footer negro.",
+      "imageUrl": "/webpages/placeholder-web-127-revolut-clone.png",
+      "imageHint": "Revolut clone blue gradient hero virtual card Exchange Cards Crypto fintech super app banking footer",
+      "demoUrl": "/webpages/revolut-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Revolut", "clone", "landing page", "fintech", "banking", "crypto"]
+    },
+    {
+      "id": "128",
+      "title": "Wise Clone — Transferencias internacionales",
+      "description": "Paleta: verde brillante #9FE870, verde oscuro #163300. Tipografía system-ui. Hero con conversión USD→MXN y comisión. Features Transfer, Account, Card. Chips de rutas. Botón verde oscuro. Footer #163300.",
+      "imageUrl": "/webpages/placeholder-web-128-wise-clone.png",
+      "imageHint": "Wise clone bright green #9FE870 hero USD MXN exchange rate Transfer Account Card international money footer",
+      "demoUrl": "/webpages/wise-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Wise", "clone", "landing page", "money transfer", "fintech", "international"]
+    },
+    {
+      "id": "129",
+      "title": "Booking.com Clone — Reservas de viaje",
+      "description": "Paleta: azul #003580, amarillo #FEBB02, blanco. Tipografía system-ui. Hero con barra de búsqueda (ciudad, fechas, huéspedes). Features Hotels, Genius, Flights. Chips de tipos. Botón amarillo. Footer azul.",
+      "imageUrl": "/webpages/placeholder-web-129-booking-clone.png",
+      "imageHint": "Booking.com clone blue #003580 yellow search bar hotels dates guests Genius Flights travel footer",
+      "demoUrl": "/webpages/booking-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Booking.com", "clone", "landing page", "travel", "hotels", "booking"]
+    },
+    {
+      "id": "130",
+      "title": "Expedia Clone — Viajes y paquetes",
+      "description": "Paleta: amarillo #FFC94C, azul #3662D8, navy #191E3B. Tipografía system-ui. Hero con tabs Vuelos/Hoteles/Paquetes. Features Bundles, Rewards, Support. Chips de destinos. Botón azul. Footer navy.",
+      "imageUrl": "/webpages/placeholder-web-130-expedia-clone.png",
+      "imageHint": "Expedia clone yellow blue hero flights hotels packages Bundles OneKey Rewards travel destinations footer",
+      "demoUrl": "/webpages/expedia-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Expedia", "clone", "landing page", "travel", "flights", "vacation"]
+    },
+    {
+      "id": "131",
+      "title": "Mastercard Clone — Red de pagos",
+      "description": "Paleta: rojo #EB001B, naranja #F79E1B, negro. Tipografía system-ui. Hero con círculos rojo/naranja entrelazados. Features Cards, Business, Security. Chips de sectores. Botón rojo. Footer negro.",
+      "imageUrl": "/webpages/placeholder-web-131-mastercard-clone.png",
+      "imageHint": "Mastercard clone red orange circles hero Priceless payments Cards Business Security global commerce footer",
+      "demoUrl": "/webpages/mastercard-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Mastercard", "clone", "landing page", "payments", "cards", "fintech"]
+    },
+    {
+      "id": "132",
+      "title": "Visa Clone — Pagos globales",
+      "description": "Paleta: azul #1A1F71, dorado acento, blanco. Tipografía system-ui. Hero con tarjeta gradiente azul/dorado. Features Consumer, Commercial, Digital. Chips de soluciones. Botón azul. Footer navy.",
+      "imageUrl": "/webpages/placeholder-web-132-visa-clone.png",
+      "imageHint": "Visa clone blue #1A1F71 gold gradient card hero Consumer Commercial Digital Tap to Pay payments network footer",
+      "demoUrl": "/webpages/visa-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Visa", "clone", "landing page", "payments", "cards", "global"]
+    },
+    {
+      "id": "133",
+      "title": "Starlink Clone — Internet satelital",
+      "description": "Paleta: negro #000, blanco. Tipografía system-ui. Hero con icono satélite/dish. Features Residential, Roaming, Maritime. Chips de planes. Botón blanco pill. Footer negro.",
+      "imageUrl": "/webpages/placeholder-web-133-starlink-clone.png",
+      "imageHint": "Starlink clone black white hero satellite dish high speed internet Residential Roaming Maritime plans space footer",
+      "demoUrl": "/webpages/starlink-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Starlink", "clone", "landing page", "satellite", "internet", "connectivity"]
+    },
+    {
+      "id": "134",
+      "title": "MasterClass Clone — Aprendizaje premium",
+      "description": "Paleta: negro #000, rojo #E50914. Tipografía system-ui. Hero con reproductor video play. Features Classes, Sessions, Workbooks. Chips de categorías. Botón rojo. Footer negro.",
+      "imageUrl": "/webpages/placeholder-web-134-masterclass-clone.png",
+      "imageHint": "MasterClass clone black red hero video player celebrity instructors Classes Sessions Workbooks learning footer",
+      "demoUrl": "/webpages/masterclass-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["MasterClass", "clone", "landing page", "education", "video", "courses"]
+    },
+    {
+      "id": "135",
+      "title": "Skillshare Clone — Creatividad online",
+      "description": "Paleta: verde menta #00F7B3, navy #002333. Tipografía system-ui. Hero con grid de thumbnails creativos. Features Classes, Community, Offline. Chips de temas. Botón navy. Footer navy.",
+      "imageUrl": "/webpages/placeholder-web-135-skillshare-clone.png",
+      "imageHint": "Skillshare clone mint green #00F7B3 navy hero creative class grid design photo illustration Community footer",
+      "demoUrl": "/webpages/skillshare-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Skillshare", "clone", "landing page", "creative", "classes", "learning"]
+    },
+    {
+      "id": "136",
+      "title": "Zapier Clone — Automatización no-code",
+      "description": "Paleta: naranja #FF4A00, fondo #FFF5F0, gris #2D2E2E. Tipografía system-ui. Hero con flujo Gmail→Slack. Features Zaps, Tables, AI. Chips de apps. Botón naranja. Footer gris.",
+      "imageUrl": "/webpages/placeholder-web-136-zapier-clone.png",
+      "imageHint": "Zapier clone orange #FF4A00 hero Gmail Slack automation workflow Zaps Tables AI no-code integrations footer",
+      "demoUrl": "/webpages/zapier-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Zapier", "clone", "landing page", "automation", "no-code", "integrations"]
+    },
+    {
+      "id": "137",
+      "title": "Typeform Clone — Formularios conversacionales",
+      "description": "Paleta: negro #000, blanco, gris #FAFAFA. Tipografía system-ui. Hero con pregunta una a una y pill Excelente. Features Forms, Logic, Integrations. Chips de usos. Botón negro. Footer negro.",
+      "imageUrl": "/webpages/placeholder-web-137-typeform-clone.png",
+      "imageHint": "Typeform clone black white hero conversational form one question rating pill Forms Logic Integrations surveys footer",
+      "demoUrl": "/webpages/typeform-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Typeform", "clone", "landing page", "forms", "surveys", "no-code"]
+    },
+    {
+      "id": "138",
+      "title": "Apple Clone — Productos premium",
+      "description": "Paleta: gris #FBFBFD, negro #1D1D1F, azul #0071E3. Tipografía SF Pro / system-ui. Hero con silueta de producto minimalista. Features iPhone, Mac, Services. Chips de productos. Botón azul. Footer claro.",
+      "imageUrl": "/webpages/placeholder-web-138-apple-clone.png",
+      "imageHint": "Apple clone minimalist white gray hero product silhouette iPhone Mac Services premium clean design blue button",
+      "demoUrl": "/webpages/apple-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Apple", "clone", "landing page", "technology", "premium", "hardware"]
+    },
+    {
+      "id": "139",
+      "title": "Samsung Clone — Galaxy ecosystem",
+      "description": "Paleta: azul #1428A0, blanco, negro. Tipografía Samsung One / system-ui. Hero con bloque gradiente estilo Galaxy. Features Galaxy, TV, SmartThings. Chips de líneas. Botón azul. Footer negro.",
+      "imageUrl": "/webpages/placeholder-web-139-samsung-clone.png",
+      "imageHint": "Samsung clone blue #1428A0 hero Galaxy gradient Mobile TV SmartThings electronics ecosystem footer",
+      "demoUrl": "/webpages/samsung-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Samsung", "clone", "landing page", "electronics", "Galaxy", "smart home"]
+    },
+    {
+      "id": "140",
+      "title": "PlayStation Clone — Gaming console",
+      "description": "Paleta: azul #003791, #0070D1, negro. Tipografía system-ui. Hero con forma de consola estilizada. Features PS5, Plus, VR. Chips de géneros. Botón azul. Footer negro.",
+      "imageUrl": "/webpages/placeholder-web-140-playstation-clone.png",
+      "imageHint": "PlayStation clone blue hero PS5 console shape Play Has No Limits Plus VR gaming footer black",
+      "demoUrl": "/webpages/playstation-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["PlayStation", "clone", "landing page", "gaming", "console", "PS5"]
+    },
+    {
+      "id": "141",
+      "title": "Xbox Clone — Game Pass",
+      "description": "Paleta: verde #107C10, negro. Tipografía system-ui. Hero con bloques verdes estilo Game Pass. Features Game Pass, Cloud, Series X. Chips de beneficios. Botón verde. Footer negro.",
+      "imageUrl": "/webpages/placeholder-web-141-xbox-clone.png",
+      "imageHint": "Xbox clone green #107C10 black hero Game Pass blocks Cloud Series X gaming Microsoft footer",
+      "demoUrl": "/webpages/xbox-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Xbox", "clone", "landing page", "gaming", "Game Pass", "console"]
+    },
+    {
+      "id": "142",
+      "title": "IKEA Clone — Muebles accesibles",
+      "description": "Paleta: azul #0058A3, amarillo #FFDB00. Tipografía IKEA Sans / system-ui. Hero con bloques de muebles abstractos. Features Furniture, Planning, Food. Chips de habitaciones. Botón azul. Footer azul.",
+      "imageUrl": "/webpages/placeholder-web-142-ikea-clone.png",
+      "imageHint": "IKEA clone blue yellow hero furniture blocks Scandinavian Planning 3D Food home rooms footer",
+      "demoUrl": "/webpages/ikea-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["IKEA", "clone", "landing page", "furniture", "home", "retail"]
+    },
+    {
+      "id": "143",
+      "title": "Walmart Clone — Retail masivo",
+      "description": "Paleta: azul #0071DC, amarillo #FFC220, gris #2E2F32. Tipografía system-ui. Hero con grid de departamentos. Features Pickup, Delivery, Walmart+. Chips de categorías. Botón amarillo. Footer gris.",
+      "imageUrl": "/webpages/placeholder-web-143-walmart-clone.png",
+      "imageHint": "Walmart clone blue yellow hero departments grid Pickup Delivery Walmart plus save money retail footer",
+      "demoUrl": "/webpages/walmart-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Walmart", "clone", "landing page", "retail", "e-commerce", "grocery"]
+    },
+    {
+      "id": "144",
+      "title": "Target Clone — Expect More",
+      "description": "Paleta: rojo #CC0000, blanco, gris. Tipografía system-ui. Hero con círculo bullseye. Features Circle, Drive Up, Same Day. Chips de categorías. Botón rojo. Footer gris.",
+      "imageUrl": "/webpages/placeholder-web-144-target-clone.png",
+      "imageHint": "Target clone red bullseye hero Circle Drive Up Same Day retail style home beauty footer",
+      "demoUrl": "/webpages/target-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Target", "clone", "landing page", "retail", "shopping", "department store"]
+    },
+    {
+      "id": "145",
+      "title": "LEGO Clone — Creatividad en bloques",
+      "description": "Paleta: rojo #D11013, amarillo #FFCF00, azul, verde. Tipografía LEGO / system-ui. Hero con bloques de colores. Features Sets, Ideas, Adults. Chips de temas. Botón rojo. Footer negro.",
+      "imageUrl": "/webpages/placeholder-web-145-lego-clone.png",
+      "imageHint": "LEGO clone red yellow colorful bricks hero Sets Ideas Adults Star Wars City Technic creative play footer",
+      "demoUrl": "/webpages/lego-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["LEGO", "clone", "landing page", "toys", "creative", "building"]
+    },
+    {
+      "id": "146",
+      "title": "Crunchyroll Clone — Anime streaming",
+      "description": "Paleta: naranja #F47521, negro. Tipografía system-ui. Hero con posters anime en fila. Features Simulcast, Manga, Offline. Chips de géneros. Botón naranja. Footer negro.",
+      "imageUrl": "/webpages/placeholder-web-146-crunchyroll-clone.png",
+      "imageHint": "Crunchyroll clone orange #F47521 black hero anime posters Simulcast Manga Offline Shonen streaming footer",
+      "demoUrl": "/webpages/crunchyroll-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Crunchyroll", "clone", "landing page", "anime", "streaming", "entertainment"]
+    },
+    {
+      "id": "147",
+      "title": "Substack Clone — Newsletters",
+      "description": "Paleta: naranja #FF6719, crema #FFF8F4, negro. Tipografía system-ui. Hero con tarjeta newsletter y suscriptores. Features Publish, Paid, Growth. Chips de temas. Botón naranja. Footer negro.",
+      "imageUrl": "/webpages/placeholder-web-147-substack-clone.png",
+      "imageHint": "Substack clone orange hero newsletter card subscribers Publish Paid Growth writing publishing footer",
+      "demoUrl": "/webpages/substack-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Substack", "clone", "landing page", "newsletter", "writing", "publishing"]
+    },
+    {
+      "id": "148",
+      "title": "Medium Clone — Lectura y escritura",
+      "description": "Paleta: negro #000, blanco, gris #242424. Tipografía Georgia en artículos. Hero con preview de artículo. Features Read, Write, Member. Chips de topics. Botón negro. Footer negro.",
+      "imageUrl": "/webpages/placeholder-web-148-medium-clone.png",
+      "imageHint": "Medium clone black white hero article preview Georgia serif Read Write Member topics publishing footer",
+      "demoUrl": "/webpages/medium-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Medium", "clone", "landing page", "writing", "reading", "publishing"]
+    },
+    {
+      "id": "149",
+      "title": "Buffer Clone — Social media scheduling",
+      "description": "Paleta: azul #2C4BFF, menta claro, gris #231F20. Tipografía system-ui. Hero con calendario de posts. Features Publish, Analyze, Engage. Chips de redes. Botón azul. Footer oscuro.",
+      "imageUrl": "/webpages/placeholder-web-149-buffer-clone.png",
+      "imageHint": "Buffer clone blue hero calendar scheduled posts Publish Analyze Engage Instagram LinkedIn social media footer",
+      "demoUrl": "/webpages/buffer-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Buffer", "clone", "landing page", "social media", "scheduling", "marketing"]
+    },
+    {
+      "id": "150",
+      "title": "Coda Clone — Docs + apps",
+      "description": "Paleta: coral #F46A54, crema #FFF5F3, negro. Tipografía system-ui. Hero con tabla Tarea/Estado. Features Tables, Buttons, Packs. Chips de equipos. Botón coral. Footer negro.",
+      "imageUrl": "/webpages/placeholder-web-150-coda-clone.png",
+      "imageHint": "Coda clone coral orange hero table task status Tables Buttons Packs docs spreadsheet hybrid footer",
+      "demoUrl": "/webpages/coda-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Coda", "clone", "landing page", "docs", "no-code", "productivity"]
+    },
+    {
+      "id": "151",
+      "title": "Framer Clone — Web design",
+      "description": "Paleta: gradiente #0099FF a #8855FF, negro footer. Tipografía system-ui. Hero con preview de sitio framer.app. Features Design, CMS, AI. Chips para quién. Botón blanco pill. Footer negro.",
+      "imageUrl": "/webpages/placeholder-web-151-framer-clone.png",
+      "imageHint": "Framer clone blue purple gradient hero website builder preview Design CMS AI no-code portfolios footer",
+      "demoUrl": "/webpages/framer-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Framer", "clone", "landing page", "web design", "no-code", "website builder"]
+    },
+    {
+      "id": "152",
+      "title": "Rive Clone — Animación interactiva",
+      "description": "Paleta: morado #6B4EFF, navy #1A1A2E, gradiente. Tipografía system-ui. Hero con círculo morado animable. Features Editor, Runtime, Collaborate. Chips de export. Botón morado. Footer navy.",
+      "imageUrl": "/webpages/placeholder-web-152-rive-clone.png",
+      "imageHint": "Rive clone purple #6B4EFF hero circle interactive animation Editor Runtime Collaborate Web iOS Android footer",
+      "demoUrl": "/webpages/rive-clone/index.html",
+      "stack": ["HTML", "CSS"],
+      "tags": ["Rive", "clone", "landing page", "animation", "interactive", "design"]
+    }
+  ]
+}

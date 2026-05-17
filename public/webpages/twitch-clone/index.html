@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Twitch — Clon educativo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <a href="#" class="logo">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/></svg>
+      Twitch
+    </a>
+    <ul class="nav-links">
+      <li><a href="#live">En vivo</a></li>
+      <li><a href="#categorias">Categorías</a></li>
+      <li><a href="#faq">Ayuda</a></li>
+    </ul>
+    <button type="button" class="btn-purple">Iniciar sesión</button>
+  </nav>
+
+  <header class="hero" id="live">
+    <div class="hero-header">
+      <h1>Streams en vivo ahora</h1>
+      <p>Descubre creadores, gaming, música y más. Únete a millones de espectadores.</p>
+    </div>
+    <div class="streams-row">
+      <article class="stream-card">
+        <div class="stream-thumb">
+          <span class="live-badge">LIVE</span>
+          <span class="viewers">12.4K espectadores</span>
+        </div>
+        <div class="stream-info">
+          <div class="stream-avatar" aria-hidden="true"></div>
+          <div class="stream-meta">
+            <h3>Valorant Ranked — Road to Radiant</h3>
+            <p>ProGamer_MX</p>
+          </div>
+        </div>
+      </article>
+      <article class="stream-card">
+        <div class="stream-thumb">
+          <span class="live-badge">LIVE</span>
+          <span class="viewers">8.2K espectadores</span>
+        </div>
+        <div class="stream-info">
+          <div class="stream-avatar" aria-hidden="true"></div>
+          <div class="stream-meta">
+            <h3>Just Chatting con la comunidad</h3>
+            <p>LunaStreams</p>
+          </div>
+        </div>
+      </article>
+      <article class="stream-card">
+        <div class="stream-thumb">
+          <span class="live-badge">LIVE</span>
+          <span class="viewers">24.1K espectadores</span>
+        </div>
+        <div class="stream-info">
+          <div class="stream-avatar" aria-hidden="true"></div>
+          <div class="stream-meta">
+            <h3>LoL Worlds watch party</h3>
+            <p>EsportsFan</p>
+          </div>
+        </div>
+      </article>
+      <article class="stream-card">
+        <div class="stream-thumb">
+          <span class="live-badge">LIVE</span>
+          <span class="viewers">3.5K espectadores</span>
+        </div>
+        <div class="stream-info">
+          <div class="stream-avatar" aria-hidden="true"></div>
+          <div class="stream-meta">
+            <h3>Beatmaking en vivo</h3>
+            <p>DJ_Neon</p>
+          </div>
+        </div>
+      </article>
+    </div>
+  </header>
+
+  <section class="categories-section" id="categorias">
+    <h2>Categorías populares</h2>
+    <div class="categories-grid">
+      <a href="#" class="category-card gaming">
+        <div>
+          <h3>Gaming</h3>
+          <span>12.5M espectadores</span>
+        </div>
+      </a>
+      <a href="#" class="category-card irl">
+        <div>
+          <h3>IRL</h3>
+          <span>2.1M espectadores</span>
+        </div>
+      </a>
+      <a href="#" class="category-card music">
+        <div>
+          <h3>Música</h3>
+          <span>890K espectadores</span>
+        </div>
+      </a>
+      <a href="#" class="category-card esports">
+        <div>
+          <h3>Esports</h3>
+          <span>4.2M espectadores</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="faq-section" id="faq">
+    <h2>Preguntas de la comunidad</h2>
+    <div class="chat-faq">
+      <div class="chat-bubble question">
+        <strong>Viewer_42</strong>
+        ¿Qué es Twitch?
+      </div>
+      <div class="chat-bubble answer">
+        <span class="mod-tag">Moderador</span>
+        Twitch es la plataforma líder de streaming en vivo: gaming, música, IRL y esports.
+      </div>
+      <div class="chat-bubble question">
+        <strong>NuevoStreamer</strong>
+        ¿Es gratis ver streams?
+      </div>
+      <div class="chat-bubble answer">
+        <span class="mod-tag">Moderador</span>
+        Sí. Ver contenido es gratis. Puedes suscribirte a canales para apoyar a tus creadores favoritos.
+      </div>
+      <div class="chat-bubble question">
+        <strong>GamerPro</strong>
+        ¿Cómo empiezo a transmitir?
+      </div>
+      <div class="chat-bubble answer">
+        <span class="mod-tag">Moderador</span>
+        Crea una cuenta, descarga Twitch Studio u OBS, configura tu escena y pulsa "Go Live".
+      </div>
+      <div class="chat-bubble question">
+        <strong>MusicLover</strong>
+        ¿Qué son los Bits y las Suscripciones?
+      </div>
+      <div class="chat-bubble answer">
+        <span class="mod-tag">Moderador</span>
+        Bits son animaciones de apoyo en chat. Las suscripciones dan emotes y beneficios del canal.
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <h2>¿Listo para unirte?</h2>
+    <p>Crea tu cuenta y empieza a ver o transmitir hoy.</p>
+    <button type="button" class="btn-purple">Registrarse gratis</button>
+  </section>
+
+  <footer class="footer">
+    <p>Twitch · <a href="#">Clon educativo</a> (no afiliado) · México</p>
+  </footer>
+</body>
+</html>

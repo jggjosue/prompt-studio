@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PetPals — Cuidado de mascotas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --coral: #FF6B6B;
+      --mint: #4ECDC4;
+      --sand: #FFE66D;
+      --navy: #1A535C;
+      --container: 1140px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Nunito, system-ui, sans-serif;
+      background: #fff;
+      color: var(--navy);
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+
+    .header {
+      background: var(--navy);
+      color: #fff;
+      padding: 1rem 0;
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+    .logo span { color: var(--coral); }
+    .nav { display: flex; gap: 1.5rem; list-style: none; font-size: 0.9rem; font-weight: 600; }
+    .nav a:hover { color: var(--mint); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.7rem 1.35rem;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      transition: transform 0.15s, opacity 0.2s;
+    }
+    .btn-coral { background: var(--coral); color: #fff; }
+    .btn-coral:hover { transform: scale(1.02); opacity: 0.95; }
+    .btn-mint { background: var(--mint); color: var(--navy); }
+
+    .hero {
+      background: linear-gradient(180deg, rgba(78,205,196,0.15) 0%, #fff 60%);
+      padding: 3rem 0 2rem;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 2.85rem);
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 0.6rem;
+    }
+    .hero h1 span { color: var(--coral); }
+    .hero p {
+      max-width: 480px;
+      margin: 0 auto 1.5rem;
+      color: rgba(26,83,92,0.75);
+      font-size: 1.05rem;
+    }
+
+    /* ServiceTypeTabs */
+    .service-type-tabs {
+      display: inline-flex;
+      background: #fff;
+      border-radius: 999px;
+      padding: 5px;
+      box-shadow: 0 4px 20px rgba(26,83,92,0.12);
+      margin-bottom: 1.5rem;
+    }
+    .service-type-tabs button {
+      padding: 0.6rem 1.25rem;
+      border: none;
+      background: transparent;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: rgba(26,83,92,0.55);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .service-type-tabs button.active {
+      background: var(--coral);
+      color: #fff;
+    }
+
+    /* PetTypeFilter */
+    .pet-type-filter {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 2rem;
+    }
+    .pet-type-filter-label {
+      width: 100%;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--mint);
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    .pet-type-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.55rem 1.1rem;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      background: #fff;
+      border: 2px solid rgba(26,83,92,0.12);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .pet-type-chip:hover,
+    .pet-type-chip.active {
+      border-color: var(--mint);
+      background: rgba(78,205,196,0.15);
+      color: var(--navy);
+    }
+
+    /* Paw rating */
+    .paw-rating {
+      display: flex;
+      gap: 0.15rem;
+      font-size: 1rem;
+    }
+    .paw-rating .paw { color: var(--sand); }
+    .paw-rating .paw.filled { color: var(--coral); }
+
+    /* RepeatClientsBadge */
+    .repeat-clients-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: var(--sand);
+      color: var(--navy);
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 0.3rem 0.65rem;
+      border-radius: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .sitters-section { padding: 1rem 0 4rem; }
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 1.25rem;
+      text-align: center;
+    }
+    .sitter-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    /* SitterProfileCard */
+    .sitter-profile-card {
+      background: #fff;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 2px solid rgba(26,83,92,0.08);
+      transition: box-shadow 0.25s, transform 0.2s;
+    }
+    .sitter-profile-card:hover {
+      box-shadow: 0 16px 48px rgba(255,107,107,0.18);
+      transform: translateY(-4px);
+    }
+    .sitter-video {
+      height: 200px;
+      background: linear-gradient(135deg, var(--mint) 0%, var(--navy) 100%);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .sitter-video::after {
+      content: "▶";
+      width: 56px;
+      height: 56px;
+      background: rgba(255,255,255,0.95);
+      color: var(--coral);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      padding-left: 4px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    }
+    .sitter-video.alt-2 { background: linear-gradient(135deg, var(--coral) 0%, #e85555 100%); }
+    .sitter-video.alt-3 { background: linear-gradient(135deg, var(--sand) 0%, #f5d84a 100%); }
+    .sitter-video-label {
+      position: absolute;
+      top: 0.75rem;
+      left: 0.75rem;
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      background: rgba(26,83,92,0.75);
+      color: #fff;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+    .sitter-body { padding: 1.25rem; }
+    .sitter-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+    }
+    .sitter-body h3 { font-size: 1.2rem; font-weight: 800; }
+    .sitter-meta {
+      font-size: 0.85rem;
+      color: rgba(26,83,92,0.65);
+      margin-bottom: 0.5rem;
+    }
+    .sitter-price {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--coral);
+      margin-top: 0.75rem;
+    }
+    .sitter-price small { font-size: 0.75rem; font-weight: 600; color: rgba(26,83,92,0.5); }
+
+    .footer {
+      background: var(--navy);
+      color: #fff;
+      padding: 2rem 0;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+    .footer a { color: var(--mint); }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container header-inner">
+      <a href="#" class="logo">Pet<span>Pals</span></a>
+      <nav>
+        <ul class="nav">
+          <li><a href="#">Buscar</a></li>
+          <li><a href="#">Servicios</a></li>
+          <li><a href="#">Ser cuidador</a></li>
+        </ul>
+      </nav>
+      <button class="btn btn-coral">Registrarse</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <h1>Cuidadores y paseadores <span>de confianza</span></h1>
+      <p>Encuentra sitters verificados para tu mascota: paseos, hospedaje y guardería con amor.</p>
+
+      <div class="service-type-tabs" id="serviceTabs">
+        <button type="button" class="active" data-service="walk">Paseo</button>
+        <button type="button" data-service="boarding">Hospedaje</button>
+        <button type="button" data-service="daycare">Guardería</button>
+      </div>
+
+      <div class="pet-type-filter">
+        <span class="pet-type-filter-label">PetTypeFilter</span>
+        <span class="pet-type-chip active" data-pet="dog">🐕 Perro</span>
+        <span class="pet-type-chip" data-pet="cat">🐈 Gato</span>
+        <span class="pet-type-chip" data-pet="exotic">🦜 Exótico</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="sitters-section">
+    <div class="container">
+      <h2 class="section-title">Sitters destacados</h2>
+      <div class="sitter-grid">
+        <article class="sitter-profile-card">
+          <div class="sitter-video">
+            <span class="sitter-video-label">SitterProfileCard · video</span>
+          </div>
+          <div class="sitter-body">
+            <div class="sitter-header">
+              <div>
+                <h3>María G.</h3>
+                <div class="paw-rating" aria-label="5 patitas">
+                  <span class="paw filled">🐾</span>
+                  <span class="paw filled">🐾</span>
+                  <span class="paw filled">🐾</span>
+                  <span class="paw filled">🐾</span>
+                  <span class="paw filled">🐾</span>
+                </div>
+              </div>
+              <span class="repeat-clients-badge">RepeatClientsBadge · 24</span>
+            </div>
+            <p class="sitter-meta">Roma Norte · 3 años exp. · Perros y gatos</p>
+            <p class="sitter-price">$18<small>/paseo · 30 min</small></p>
+          </div>
+        </article>
+
+        <article class="sitter-profile-card">
+          <div class="sitter-video alt-2">
+            <span class="sitter-video-label">Video intro</span>
+          </div>
+          <div class="sitter-body">
+            <div class="sitter-header">
+              <div>
+                <h3>Carlos R.</h3>
+                <div class="paw-rating" aria-label="4 patitas">
+                  <span class="paw filled">🐾</span>
+                  <span class="paw filled">🐾</span>
+                  <span class="paw filled">🐾</span>
+                  <span class="paw filled">🐾</span>
+                  <span class="paw">🐾</span>
+                </div>
+              </div>
+              <span class="repeat-clients-badge">12 clientes</span>
+            </div>
+            <p class="sitter-meta">Condesa · Hospedaje en casa · Perros medianos</p>
+            <p class="sitter-price">$45<small>/noche</small></p>
+          </div>
+        </article>
+
+        <article class="sitter-profile-card">
+          <div class="sitter-video alt-3">
+            <span class="sitter-video-label">Video intro</span>
+          </div>
+          <div class="sitter-body">
+            <div class="sitter-header">
+              <div>
+                <h3>Luna &amp; Max Team</h3>
+                <div class="paw-rating" aria-label="5 patitas">
+                  <span class="paw filled">🐾</span>
+                  <span class="paw filled">🐾</span>
+                  <span class="paw filled">🐾</span>
+                  <span class="paw filled">🐾</span>
+                  <span class="paw filled">🐾</span>
+                </div>
+              </div>
+              <span class="repeat-clients-badge">38 clientes</span>
+            </div>
+            <p class="sitter-meta">Polanco · Guardería · Exóticos y gatos</p>
+            <p class="sitter-price">$32<small>/día</small></p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>PetPals © 2026 — Amor en cada paseo. <a href="#">Términos</a> · <a href="#">Privacidad</a></p>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll("#serviceTabs button").forEach(function(btn) {
+      btn.addEventListener("click", function() {
+        document.querySelectorAll("#serviceTabs button").forEach(function(b) { b.classList.remove("active"); });
+        btn.classList.add("active");
+      });
+    });
+    document.querySelectorAll(".pet-type-chip").forEach(function(chip) {
+      chip.addEventListener("click", function() {
+        document.querySelectorAll(".pet-type-chip").forEach(function(c) { c.classList.remove("active"); });
+        chip.classList.add("active");
+      });
+    });
+  </script>
+</body>
+</html>

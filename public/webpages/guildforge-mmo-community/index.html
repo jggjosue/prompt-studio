@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GuildForge — MMO Guild Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0f172a;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --art: linear-gradient(135deg,#1e3a8a,#38bdf8);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Inter", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse 55% 45% at 85% 5%, color-mix(in srgb, var(--accent) 22%, transparent), transparent);
+      pointer-events: none;
+    }
+    body > * { position: relative; z-index: 1; }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      border-bottom: 1px solid color-mix(in srgb, var(--text) 10%, transparent);
+    }
+    .brand { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em; }
+    nav .links { display: flex; align-items: center; gap: 1.25rem; font-size: 0.88rem; }
+    nav .links a { color: var(--muted); }
+    .btn-cta {
+      background: var(--accent);
+      color:#0f172a;
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+    .hero-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: center;
+      padding: 3rem 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .pill {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--accent) 18%, transparent);
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 700;
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+    }
+    .hero .sub { color: var(--muted); margin-bottom: 1.5rem; max-width: 28rem; }
+    .hero-actions { display: flex; gap: 0.65rem; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--accent);
+      color:#0f172a;
+      padding: 0.7rem 1.25rem;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+    .btn-ghost {
+      padding: 0.7rem 1.25rem;
+      border-radius: 999px;
+      border: 1px solid color-mix(in srgb, var(--text) 18%, transparent);
+    }
+    .hero-mock {
+      border-radius: 20px;
+      padding: 1.25rem;
+      background: var(--art);
+      border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+      min-height: 240px;
+      color: #fafafa;
+    }
+    .mock-cover {
+      width: 100%;
+      height: 90px;
+      border-radius: 10px;
+      background: color-mix(in srgb, #000 35%, transparent);
+      margin-bottom: 0.75rem;
+    }
+    .mock-title { font-weight: 700; font-size: 1.1rem; }
+    .mock-status { font-size: 0.8rem; opacity: 0.85; margin: 0.25rem 0 0.75rem; }
+    .mock-play {
+      width: 100%;
+      padding: 0.55rem;
+      border: none;
+      border-radius: 8px;
+      background: var(--accent);
+      color: #0f172a;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .mock-board .mock-row {
+      display: grid;
+      grid-template-columns: 1.5rem 1fr auto;
+      gap: 0.5rem;
+      padding: 0.45rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      font-size: 0.88rem;
+    }
+    .mock-board .mock-row.gold { color: #fbbf24; }
+    .mock-loot { display: flex; gap: 8px; align-items: flex-end; flex-wrap: wrap; }
+    .mock-skin {
+      width: 56px;
+      height: 72px;
+      border-radius: 8px;
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+    .mock-skin.legendary { background: linear-gradient(180deg,#fbbf24,#b45309); }
+    .mock-skin.epic { background: linear-gradient(180deg,#a855f7,#6b21a8); }
+    .mock-skin.rare { background: linear-gradient(180deg,#3b82f6,#1e3a8a); }
+    .mock-loot .mock-price { width: 100%; font-size: 0.8rem; font-weight: 600; margin-top: 0.5rem; }
+    .mock-stream .mock-live { font-size: 0.75rem; font-weight: 700; margin-bottom: 0.75rem; }
+    .mock-stream .mock-live span {
+      background: #ef4444;
+      color: #fff;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      margin-right: 0.35rem;
+    }
+    .mock-chat {
+      background: rgba(0,0,0,0.35);
+      border-radius: 8px;
+      padding: 0.75rem;
+      font-size: 0.8rem;
+    }
+    .mock-chat p { opacity: 0.9; margin-bottom: 0.35rem; }
+    .mock-guild .mock-member {
+      display: grid;
+      grid-template-columns: 3rem 1fr auto;
+      gap: 0.5rem;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      font-size: 0.85rem;
+    }
+    .mock-role {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+    .mock-indie .mock-game {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      padding: 0.5rem;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.5);
+      margin-bottom: 0.4rem;
+      font-size: 0.88rem;
+    }
+    .mock-indie .mock-game span {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .mock-vr { text-align: center; }
+    .mock-vis {
+      width: 100px;
+      height: 60px;
+      margin: 0 auto 1rem;
+      border-radius: 40px 40px 12px 12px;
+      background: color-mix(in srgb, #000 40%, transparent);
+      border: 3px solid var(--accent);
+    }
+    .mock-vr p { font-size: 0.85rem; font-weight: 600; }
+    .mock-vr .mock-fps { font-size: 0.8rem; opacity: 0.8; margin-top: 0.25rem; }
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      justify-content: center;
+      padding: 0 1.5rem 2rem;
+    }
+    .chip {
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+      color: var(--muted);
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      padding-bottom: 2.5rem;
+    }
+    .feature-card {
+      padding: 1.25rem;
+      border-radius: 12px;
+      border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+      background: color-mix(in srgb, var(--bg) 92%, var(--accent) 8%);
+    }
+    .feature-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+    }
+    .feature-card h3 { font-size: 1.05rem; margin: 0.5rem 0 0.35rem; }
+    .feature-detail { font-size: 0.88rem; color: var(--muted); }
+    .feature-meta { font-size: 0.8rem; margin-top: 0.5rem; font-weight: 600; color: var(--accent); }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      text-align: center;
+      padding: 2rem 0;
+      border-top: 1px solid color-mix(in srgb, var(--text) 10%, transparent);
+    }
+    .stats strong { display: block; font-size: 1.5rem; font-weight: 700; }
+    .stats span { font-size: 0.85rem; color: var(--muted); }
+    footer {
+      text-align: center;
+      padding: 2rem 0 3rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    footer input {
+      margin-top: 0.75rem;
+      padding: 0.55rem 1rem;
+      border-radius: 999px;
+      border: 1px solid color-mix(in srgb, var(--text) 15%, transparent);
+      background: transparent;
+      color: var(--text);
+      width: min(260px, 100%);
+    }
+    @media (max-width: 768px) {
+      .hero-wrap { grid-template-columns: 1fr; }
+      nav .links a:not(.btn-cta) { display: none; }
+      .feature-grid, .stats { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <span class="brand">GuildForge</span>
+    <div class="links">
+      <a href="#">Guilds</a><a href="#">Raids</a><a href="#">Recruit</a>
+      <a href="#" class="btn-cta">Create guild</a>
+    </div>
+  </nav>
+  <section class="hero-wrap">
+    <div class="hero">
+      <span class="pill">Raids · Rosters · Voice</span>
+      <h1>Your guild, one <em style="font-style:italic;color:var(--accent)">hub</em>.</h1>
+      <p class="sub">Schedule raids, track DKP, and coordinate members across MMOs.</p>
+      <div class="hero-actions">
+        <a href="#" class="btn-primary">Create guild</a>
+        <a href="#" class="btn-ghost">Watch trailer</a>
+      </div>
+    </div>
+    <div class="hero-mock" aria-hidden="true"><div class="mock-guild">
+        <div class="mock-member"><span class="mock-role">Tank</span><strong>Aelric</strong><span>Lv. 80</span></div>
+        <div class="mock-member"><span class="mock-role">Heal</span><strong>Mira</strong><span>Lv. 79</span></div>
+        <div class="mock-member"><span class="mock-role">DPS</span><strong>Kael</strong><span>Lv. 80</span></div>
+      </div></div>
+  </section>
+  <div class="chips"><span class="chip">WoW</span><span class="chip">FFXIV</span><span class="chip">Lost Ark</span><span class="chip">Guild Wars</span></div>
+  <section class="feature-grid container"><article class="feature-card">
+      <span class="feature-label">RAID</span>
+      <h3>Calendar sync</h3>
+      <p class="feature-detail">Signup · reminders · logs</p>
+      <p class="feature-meta">Discord bot</p>
+    </article>
+    <article class="feature-card">
+      <span class="feature-label">DKP</span>
+      <h3>Loot council tools</h3>
+      <p class="feature-detail">Points · bids · history</p>
+      <p class="feature-meta">Fair loot</p>
+    </article>
+    <article class="feature-card">
+      <span class="feature-label">VOICE</span>
+      <h3>Squad channels</h3>
+      <p class="feature-detail">Push-to-talk · overlays</p>
+      <p class="feature-meta">Low CPU</p>
+    </article></section>
+  <section class="stats container"><div><strong>80k+</strong><span>Guilds</span></div>
+    <div><strong>2M</strong><span>Members</span></div>
+    <div><strong>Free</strong><span>Core plan</span></div></section>
+  <footer class="container">
+    <p>© 2026 GuildForge. Gaming landing demo.</p>
+    <input type="email" placeholder="Email" aria-label="Email" />
+  </footer>
+</body>
+</html>

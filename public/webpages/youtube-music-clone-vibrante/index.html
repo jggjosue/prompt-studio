@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YouTube Music — Música que te encanta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="navbar-inner">
+      <a href="#" class="logo">
+        <span class="logo-icon" aria-hidden="true">▶</span>
+        Music
+      </a>
+      <button type="button" class="theme-toggle" id="themeToggle" aria-label="Cambiar tema claro u oscuro">
+        <span id="themeIcon">🌙</span>
+        <span id="themeLabel">Modo oscuro</span>
+      </button>
+      <a href="#" class="btn-red">Iniciar sesión</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-fallback" aria-hidden="true"></div>
+    <video
+      class="hero-video"
+      autoplay
+      muted
+      loop
+      playsinline
+      poster=""
+      aria-hidden="true"
+    >
+      <source src="https://assets.mixkit.co/videos/preview/mixkit-people-dancing-at-a-concert-1238-large.mp4" type="video/mp4" />
+    </video>
+    <div class="hero-overlay" aria-hidden="true"></div>
+    <div class="hero-content">
+      <h1>Música que te encanta, en video</h1>
+      <p>Millones de canciones, álbumes y videoclips. Prueba YouTube Music gratis.</p>
+      <div class="confetti-wrap">
+        <button type="button" class="btn-red" id="ctaConfetti">Probar 1 mes gratis</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="tabs-section">
+    <div class="category-tabs" role="tablist" aria-label="Categorías">
+      <button type="button" class="category-tab active" role="tab" aria-selected="true">Música</button>
+      <button type="button" class="category-tab" role="tab">Podcasts</button>
+      <button type="button" class="category-tab" role="tab">Conciertos</button>
+    </div>
+  </section>
+
+  <section class="playlists-section">
+    <div class="container">
+      <p class="section-label">Grid masonry</p>
+      <h2>Playlists para ti</h2>
+    </div>
+    <div class="masonry" id="playlistGrid">
+      <article class="playlist-card tall">
+        <div class="playlist-thumb"></div>
+        <div class="playlist-info"><h3>Éxitos 2026</h3><p>YouTube Music</p></div>
+      </article>
+      <article class="playlist-card short">
+        <div class="playlist-thumb"></div>
+        <div class="playlist-info"><h3>Mix diario</h3><p>Para ti</p></div>
+      </article>
+      <article class="playlist-card medium">
+        <div class="playlist-thumb"></div>
+        <div class="playlist-info"><h3>Reggaetón</h3><p>Lo más escuchado</p></div>
+      </article>
+      <article class="playlist-card tall">
+        <div class="playlist-thumb"></div>
+        <div class="playlist-info"><h3>Conciertos en vivo</h3><p>Exclusivos</p></div>
+      </article>
+      <article class="playlist-card medium">
+        <div class="playlist-thumb"></div>
+        <div class="playlist-info"><h3>Indie español</h3><p>Descubrimientos</p></div>
+      </article>
+      <article class="playlist-card short">
+        <div class="playlist-thumb"></div>
+        <div class="playlist-info"><h3>Workout</h3><p>Alta energía</p></div>
+      </article>
+      <article class="playlist-card medium">
+        <div class="playlist-thumb"></div>
+        <div class="playlist-info"><h3>Chill lo-fi</h3><p>Estudiar</p></div>
+      </article>
+      <article class="playlist-card tall">
+        <div class="playlist-thumb"></div>
+        <div class="playlist-info"><h3>Clásicos del rock</h3><p>Legendarios</p></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="shorts-section">
+    <div class="container">
+      <p class="section-label">Shorts musicales 9:16</p>
+      <h2>Shorts musicales</h2>
+      <div class="shorts-scroll" role="region" aria-label="Shorts musicales">
+        <article class="short-card">
+          <div class="short-thumb" aria-hidden="true"></div>
+          <p>Acústico en 60 seg</p>
+        </article>
+        <article class="short-card">
+          <div class="short-thumb"></div>
+          <p>Behind the beat</p>
+        </article>
+        <article class="short-card">
+          <div class="short-thumb"></div>
+          <p>Remix viral</p>
+        </article>
+        <article class="short-card">
+          <div class="short-thumb"></div>
+          <p>En el estudio</p>
+        </article>
+        <article class="short-card">
+          <div class="short-thumb"></div>
+          <p>Live session</p>
+        </article>
+        <article class="short-card">
+          <div class="short-thumb"></div>
+          <p>Cover del momento</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section container">
+    <h2>Lleva tu música a todas partes</h2>
+    <p style="color:var(--muted);margin-bottom:1.25rem">Sin anuncios, descargas y audio en segundo plano.</p>
+    <div class="confetti-wrap">
+      <button type="button" class="btn-red" id="ctaConfetti2">Empezar prueba gratis</button>
+    </div>
+  </section>
+
+  <div class="mini-player" role="region" aria-label="Reproductor mini">
+    <div class="mini-player-art" aria-hidden="true"></div>
+    <div class="mini-player-info">
+      <h4 id="trackTitle">Blinding Lights</h4>
+      <p id="trackArtist">The Weeknd</p>
+    </div>
+    <div class="mini-player-controls">
+      <button type="button" class="play-btn" id="playBtn" aria-label="Reproducir o pausar">▶</button>
+      <div class="progress-wrap">
+        <span id="timeCurrent">1:24</span>
+        <div class="progress-bar" id="progressBar" role="slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="38" tabindex="0">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <span>3:42</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var html = document.documentElement;
+      var themeToggle = document.getElementById("themeToggle");
+      var themeIcon = document.getElementById("themeIcon");
+      var themeLabel = document.getElementById("themeLabel");
+
+      themeToggle.addEventListener("click", function () {
+        var dark = html.getAttribute("data-theme") === "dark";
+        html.setAttribute("data-theme", dark ? "light" : "dark");
+        themeIcon.textContent = dark ? "🌙" : "☀️";
+        themeLabel.textContent = dark ? "Modo oscuro" : "Modo claro";
+      });
+
+      document.querySelectorAll(".category-tab").forEach(function (tab) {
+        tab.addEventListener("click", function () {
+          document.querySelectorAll(".category-tab").forEach(function (t) {
+            t.classList.remove("active");
+            t.setAttribute("aria-selected", "false");
+          });
+          tab.classList.add("active");
+          tab.setAttribute("aria-selected", "true");
+        });
+      });
+
+      var playing = false;
+      var playBtn = document.getElementById("playBtn");
+      var progressFill = document.getElementById("progressFill");
+      var progress = 38;
+      var timer;
+
+      playBtn.addEventListener("click", function () {
+        playing = !playing;
+        playBtn.textContent = playing ? "⏸" : "▶";
+        playBtn.setAttribute("aria-label", playing ? "Pausar" : "Reproducir");
+        clearInterval(timer);
+        if (playing) {
+          timer = setInterval(function () {
+            progress = (progress + 0.3) % 100;
+            progressFill.style.width = progress + "%";
+            document.getElementById("progressBar").setAttribute("aria-valuenow", Math.round(progress));
+          }, 200);
+        }
+      });
+
+      function spawnConfetti(btn) {
+        var colors = ["#ff0033", "#fff", "#ffcc00", "#00ff88", "#3366ff"];
+        var rect = btn.getBoundingClientRect();
+        for (var i = 0; i < 24; i++) {
+          var p = document.createElement("span");
+          p.className = "confetti-particle";
+          p.style.left = rect.left + rect.width / 2 + "px";
+          p.style.top = rect.top + rect.height / 2 + "px";
+          p.style.background = colors[i % colors.length];
+          p.style.setProperty("--tx", (Math.random() - 0.5) * 200 + "px");
+          p.style.setProperty("--ty", (Math.random() - 0.5) * 200 - 80 + "px");
+          document.body.appendChild(p);
+          setTimeout(function (el) {
+            return function () {
+              el.remove();
+            };
+          }(p), 1000);
+        }
+      }
+
+      ["ctaConfetti", "ctaConfetti2"].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) {
+          el.addEventListener("mouseenter", function () {
+            spawnConfetti(el);
+          });
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
