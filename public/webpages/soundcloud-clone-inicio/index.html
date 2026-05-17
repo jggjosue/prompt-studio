@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SoundCloud — Clon educativo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="navbar-inner">
+      <a href="#" class="logo-link" aria-label="SoundCloud inicio">
+        <svg viewBox="0 0 48 48" fill="currentColor" aria-hidden="true">
+          <path d="M8 28c-1.1 0-2 .9-2 2v4c0 1.1.9 2 2 2s2-.9 2-2v-4c0-1.1-.9-2-2-2zm6-6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2s2-.9 2-2V24c0-1.1-.9-2-2-2zm6-8c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2s2-.9 2-2V16c0-1.1-.9-2-2-2zm6-4c-1.1 0-2 .9-2 2v22c0 1.1.9 2 2 2s2-.9 2-2V12c0-1.1-.9-2-2-2zm6 2c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2s2-.9 2-2V10c0-1.1-.9-2-2-2zm6 6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2s2-.9 2-2V16c0-1.1-.9-2-2-2zm6 4c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2s2-.9 2-2v-6c0-1.1-.9-2-2-2zm8-14c-8.8 0-16 7.2-16 16 0 3.5 1.1 6.7 3 9.3 1.2-5.4 6-9.3 11.7-9.3 6.6 0 12 5.4 12 12s-5.4 12-12 12h-1c-1.1 0-2 .9-2 2s.9 2 2 2h1c8.8 0 16-7.2 16-16s-7.2-16-16-16z"/>
+        </svg>
+        <span class="logo-text">SoundCloud</span>
+      </a>
+      <div class="search-wrap">
+        <input type="search" placeholder="Buscar pistas, artistas, podcasts…" aria-label="Buscar" />
+        <button type="button" class="search-btn" aria-label="Buscar">🔍</button>
+      </div>
+      <div class="nav-right">
+        <ul class="nav-links">
+          <li><a href="#">Inicio</a></li>
+          <li><a href="#">Para creadores</a></li>
+          <li><a href="#">Premium</a></li>
+        </ul>
+        <div class="nav-auth">
+          <a href="#" class="register">Regístrate</a>
+          <a href="#" class="login">Iniciar sesión</a>
+        </div>
+        <a href="#" class="btn-upload">⬆ Subir</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h1>Conecta con tu sonido</h1>
+    <p class="hero-subtitle">Descubre, sube y comparte la música que mueve al mundo. Más de 320 millones de pistas esperando por ti.</p>
+    <div class="hero-buttons">
+      <a href="#" class="btn-primary-white">Empezar a escuchar</a>
+      <a href="#" class="btn-ghost-white">▶ Subir tu sonido</a>
+    </div>
+    <div class="waveform-hero" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+  </section>
+
+  <main class="main-layout">
+    <aside class="sidebar">
+      <h2>Géneros</h2>
+      <ul class="genre-list">
+        <li><a href="#" class="active">🎤 Hip-hop &amp; Rap</a></li>
+        <li><a href="#">🎧 Electronic</a></li>
+        <li><a href="#">🎸 Indie</a></li>
+        <li><a href="#">🏠 House</a></li>
+        <li><a href="#">🎷 Jazz</a></li>
+        <li><a href="#">🎻 Classical</a></li>
+        <li><a href="#">🎙️ Podcasts</a></li>
+        <li><a href="#">🔥 Trending</a></li>
+      </ul>
+    </aside>
+
+    <section class="tracks-section">
+      <h2>Trending ahora</h2>
+      <div class="track-list">
+        <article class="track-row">
+          <div class="track-artwork" role="img" aria-label="Portada Midnight Drive"></div>
+          <div class="track-info">
+            <h3>Midnight Drive</h3>
+            <p class="track-meta">Luna Echo · 1.2M plays</p>
+            <div class="mini-waveform" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+          <button type="button" class="play-btn" aria-label="Reproducir Midnight Drive">▶</button>
+        </article>
+        <article class="track-row">
+          <div class="track-artwork" role="img" aria-label="Portada Sunset Boulevard"></div>
+          <div class="track-info">
+            <h3>Sunset Boulevard</h3>
+            <p class="track-meta">The Riders · 890K plays</p>
+            <div class="mini-waveform" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+          <button type="button" class="play-btn" aria-label="Reproducir Sunset Boulevard">▶</button>
+        </article>
+        <article class="track-row">
+          <div class="track-artwork" role="img" aria-label="Portada Electric Dreams"></div>
+          <div class="track-info">
+            <h3>Electric Dreams</h3>
+            <p class="track-meta">Nova Beats · 2.4M plays</p>
+            <div class="mini-waveform" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+          <button type="button" class="play-btn" aria-label="Reproducir Electric Dreams">▶</button>
+        </article>
+        <article class="track-row">
+          <div class="track-artwork" role="img" aria-label="Portada Neon Nights"></div>
+          <div class="track-info">
+            <h3>Neon Nights</h3>
+            <p class="track-meta">Pulse Wave · 540K plays</p>
+            <div class="mini-waveform" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+          <button type="button" class="play-btn" aria-label="Reproducir Neon Nights">▶</button>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <section class="upload-section" id="subir">
+    <div class="dropzone">
+      <h2>Sube tu sonido</h2>
+      <p>Arrastra y suelta tus archivos aquí, o haz clic para buscar</p>
+      <button type="button" class="btn-orange">Seleccionar archivos</button>
+      <small>Formatos soportados: MP3, WAV, FLAC · Hasta 4GB</small>
+    </div>
+  </section>
+
+  <section class="stats-section">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value">320M+</div>
+        <p class="stat-label">Pistas disponibles</p>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">175M+</div>
+        <p class="stat-label">Oyentes activos</p>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">40M+</div>
+        <p class="stat-label">Creadores</p>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">190</div>
+        <p class="stat-label">Países</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h3>SoundCloud</h3>
+        <ul>
+          <li><a href="#">Sobre nosotros</a></li>
+          <li><a href="#">Empleo</a></li>
+          <li><a href="#">Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Productos</h3>
+        <ul>
+          <li><a href="#">Premium</a></li>
+          <li><a href="#">Pro</a></li>
+          <li><a href="#">Pro Unlimited</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Comunidad</h3>
+        <ul>
+          <li><a href="#">Artistas</a></li>
+          <li><a href="#">Desarrolladores</a></li>
+          <li><a href="#">Marca</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Soporte</h3>
+        <ul>
+          <li><a href="#">Ayuda</a></li>
+          <li><a href="#">Status</a></li>
+          <li><a href="#">Contacto</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Legal</h3>
+        <ul>
+          <li><a href="#">Términos</a></li>
+          <li><a href="#">Privacidad</a></li>
+          <li><a href="#">Cookies</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Descarga</h3>
+        <a href="#" class="store-badge">📱 App Store</a>
+        <a href="#" class="store-badge">▶ Google Play</a>
+      </div>
+    </div>
+    <p class="footer-copy">© 2026 SoundCloud · Clon educativo</p>
+  </footer>
+</body>
+</html>

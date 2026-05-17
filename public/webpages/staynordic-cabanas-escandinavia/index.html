@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StayNordic — Cabañas en Escandinavia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    :root {
+      --frost: #E8F1F5;
+      --pine: #1F3A2E;
+      --aurora: #6FBF73;
+      --slate: #2C3E50;
+      --container: 1140px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Inter, system-ui, sans-serif;
+      background: var(--frost);
+      color: var(--slate);
+      line-height: 1.6;
+    }
+    .serif { font-family: Fraunces, Georgia, serif; }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+
+    .header {
+      background: var(--pine);
+      color: #fff;
+      padding: 1rem 0;
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .logo {
+      font-family: Fraunces, serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+    }
+    .logo span { color: var(--aurora); }
+    .nav { display: flex; gap: 1.5rem; list-style: none; font-size: 0.9rem; }
+    .nav a { opacity: 0.9; }
+    .nav a:hover { color: var(--aurora); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.65rem 1.25rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn-aurora { background: var(--aurora); color: var(--pine); }
+    .btn-aurora:hover { opacity: 0.9; }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid rgba(255,255,255,0.4);
+      color: #fff;
+    }
+
+    /* WeatherBadge */
+    .weather-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #fff;
+      color: var(--slate);
+      padding: 0.4rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(44,62,80,0.1);
+    }
+    .weather-badge .temp { color: var(--pine); font-size: 1rem; }
+    .weather-badge .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--aurora);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* NorthernLightsIndicator */
+    .aurora-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .aurora-indicator.high {
+      background: linear-gradient(90deg, #6FBF73, #a8e6cf, #6FBF73);
+      color: var(--pine);
+    }
+    .aurora-indicator.medium {
+      background: rgba(111, 191, 115, 0.25);
+      color: var(--pine);
+    }
+    .aurora-indicator.low {
+      background: rgba(44, 62, 80, 0.1);
+      color: var(--slate);
+    }
+
+    /* SaunaFilter */
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    .filter-label { font-size: 0.8rem; font-weight: 600; color: var(--slate); }
+    .sauna-filter {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: #fff;
+      border: 2px solid transparent;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .sauna-filter:hover { border-color: var(--aurora); }
+    .sauna-filter.active {
+      border-color: var(--pine);
+      background: rgba(31, 58, 46, 0.06);
+    }
+    .sauna-filter input { accent-color: var(--pine); }
+
+    .country-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .pill {
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      background: #fff;
+      border: 1px solid rgba(44,62,80,0.15);
+      cursor: pointer;
+    }
+    .pill.active, .pill:hover {
+      background: var(--pine);
+      color: #fff;
+      border-color: var(--pine);
+    }
+
+    .hero {
+      padding: 3rem 0 2rem;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      color: var(--pine);
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    .hero p { max-width: 520px; color: var(--slate); opacity: 0.9; margin-bottom: 1.5rem; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      padding-bottom: 4rem;
+    }
+    #topo-map {
+      height: 420px;
+      border-radius: 12px;
+      border: 2px solid rgba(31, 58, 46, 0.15);
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container header-inner">
+      <a href="#" class="logo">Stay<span>Nordic</span></a>
+      <nav>
+        <ul class="nav">
+          <li><a href="#cabins">Cabañas</a></li>
+          <li><a href="#map">Mapa</a></li>
+          <li><a href="#">Aurora</a></li>
+        </ul>
+      </nav>
+      <div style="display:flex;gap:0.75rem;align-items:center;">
+        <div class="weather-badge" title="Temperatura en vivo">
+          <span class="dot"></span>
+          <span>Oslo</span>
+          <span class="temp" id="live-temp">−4°C</span>
+        </div>
+        <a href="#cabins" class="btn btn-aurora">Explorar</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <h1 class="serif">Cabañas en el corazón<br />de Escandinavia</h1>
+      <div class="hero-meta">
+        <span class="aurora-indicator high" id="aurora-badge">✦ Alta probabilidad aurora</span>
+        <span class="weather-badge">
+          <span>🇳🇴 Tromsø</span>
+          <span class="temp">−7°C</span>
+        </span>
+      </div>
+      <p>Alquileres en Noruega, Suecia y Finlandia. Sauna privada, lagos helados y cielos del norte — reserva tu refugio nórdico.</p>
+      <a href="#cabins" class="btn btn-aurora">Ver cabañas disponibles</a>
+    </div>
+  </section>
+
+  <section id="cabins" class="container" style="padding-bottom:2rem;">
+    <div class="filters">
+      <span class="filter-label">Filtros:</span>
+      <label class="sauna-filter active" id="sauna-filter">
+        <input type="checkbox" checked id="sauna-check" />
+        <span>🧖 Sauna privada</span>
+      </label>
+      <div class="country-pills">
+        <button type="button" class="pill active" data-country="all">Todos</button>
+        <button type="button" class="pill" data-country="norway">Noruega</button>
+        <button type="button" class="pill" data-country="sweden">Suecia</button>
+        <button type="button" class="pill" data-country="finland">Finlandia</button>
+      </div>
+    </div>
+
+    <div class="layout">
+      <div>
+        <div id="listings" style="display:grid;gap:1rem;"></div>
+      </div>
+      <div id="map">
+        <p style="font-size:0.8rem;font-weight:600;margin-bottom:0.5rem;color:var(--pine);">Mapa topográfico</p>
+        <div id="topo-map"></div>
+      </div>
+    </div>
+  </section>
+
+  <footer style="background:var(--pine);color:#fff;padding:2rem 0;text-align:center;font-size:0.85rem;">
+    <div class="container">© 2026 StayNordic · Noruega · Suecia · Finlandia</div>
+  </footer>
+
+  <script>
+    const CABINS = [
+      { id: 1, name: 'Hytta ved fjorden', country: 'norway', location: 'Lofoten, Noruega', lat: 68.15, lng: 13.61, price: 189, sauna: true, aurora: 'high', temp: -3, img: 'https://images.unsplash.com/photo-1449158743715-0a90ebb6d2e8?w=600' },
+      { id: 2, name: 'Stuga vid sjön', country: 'sweden', location: 'Dalarna, Suecia', lat: 60.62, lng: 15.12, price: 145, sauna: true, aurora: 'medium', temp: -8, img: 'https://images.unsplash.com/photo-1518780664697-633660c56603?w=600' },
+      { id: 3, name: 'Mökki järven rannalla', country: 'finland', location: 'Laplandia, Finlandia', lat: 67.92, lng: 26.50, price: 165, sauna: true, aurora: 'high', temp: -12, img: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600' },
+      { id: 4, name: 'Berg hytte', country: 'norway', location: 'Geiranger, Noruega', lat: 62.10, lng: 7.21, price: 210, sauna: false, aurora: 'low', temp: 1, img: 'https://images.unsplash.com/photo-1600047509807-ba8f84d4dc51?w=600' },
+      { id: 5, name: 'Skärgård cottage', country: 'sweden', location: 'Archipiélago, Suecia', lat: 59.33, lng: 18.75, price: 198, sauna: true, aurora: 'low', temp: -2, img: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=600' },
+      { id: 6, name: 'Revontuli cabin', country: 'finland', location: 'Rovaniemi, Finlandia', lat: 66.50, lng: 25.73, price: 175, sauna: true, aurora: 'high', temp: -15, img: 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600' },
+    ];
+
+    let map, markers = [];
+    let filterCountry = 'all';
+    let filterSauna = true;
+
+    function auroraLabel(level) {
+      const labels = { high: 'Aurora alta', medium: 'Aurora media', low: 'Aurora baja' };
+      return labels[level] || '';
+    }
+
+    function renderListings() {
+      const el = document.getElementById('listings');
+      const filtered = CABINS.filter(c => {
+        const matchCountry = filterCountry === 'all' || c.country === filterCountry;
+        const matchSauna = !filterSauna || c.sauna;
+        return matchCountry && matchSauna;
+      });
+      el.innerHTML = filtered.map(c => `
+        <article style="display:flex;gap:1rem;background:#fff;border-radius:12px;padding:1rem;border:1px solid rgba(44,62,80,0.1);">
+          <img src="${c.img}" alt="" style="width:120px;height:90px;object-fit:cover;border-radius:8px;" />
+          <div style="flex:1;">
+            <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.35rem;">
+              <span class="weather-badge"><span class="temp">${c.temp > 0 ? '+' : ''}${c.temp}°C</span></span>
+              <span class="aurora-indicator ${c.aurora}">✦ ${auroraLabel(c.aurora)}</span>
+              ${c.sauna ? '<span style="font-size:0.75rem;">🧖 Sauna</span>' : ''}
+            </div>
+            <h3 style="font-family:Fraunces,serif;font-size:1.1rem;color:var(--pine);">${c.name}</h3>
+            <p style="font-size:0.85rem;opacity:0.85;">${c.location}</p>
+            <p style="margin-top:0.35rem;font-weight:600;">€${c.price} <span style="font-weight:400;opacity:0.7;">/ noche</span></p>
+          </div>
+        </article>
+      `).join('');
+      updateMarkers(filtered);
+    }
+
+    function updateMarkers(list) {
+      if (!map) return;
+      markers.forEach(m => map.removeLayer(m));
+      markers = [];
+      list.forEach(c => {
+        const m = L.marker([c.lat, c.lng]).addTo(map);
+        m.bindPopup(`<strong>${c.name}</strong><br/>€${c.price}/noche`);
+        markers.push(m);
+      });
+    }
+
+    function initMap() {
+      map = L.map('topo-map').setView([64.5, 18], 4);
+      L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenTopoMap',
+        maxZoom: 17,
+      }).addTo(map);
+      renderListings();
+    }
+
+    document.querySelectorAll('.pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        filterCountry = btn.dataset.country;
+        renderListings();
+      });
+    });
+
+    const saunaCheck = document.getElementById('sauna-check');
+    const saunaFilter = document.getElementById('sauna-filter');
+    saunaCheck.addEventListener('change', () => {
+      filterSauna = saunaCheck.checked;
+      saunaFilter.classList.toggle('active', filterSauna);
+      renderListings();
+    });
+
+    setInterval(() => {
+      const temps = [-4, -5, -3, -6];
+      const t = temps[Math.floor(Math.random() * temps.length)];
+      document.getElementById('live-temp').textContent = t + '°C';
+    }, 8000);
+
+    initMap();
+  </script>
+</body>
+</html>

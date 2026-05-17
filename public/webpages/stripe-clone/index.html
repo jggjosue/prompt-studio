@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stripe — Clon educativo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <a href="#" class="logo">stripe</a>
+    <ul class="nav-links">
+      <li><a href="#productos">Productos</a></li>
+      <li><a href="#features">Soluciones</a></li>
+      <li><a href="#">Desarrolladores</a></li>
+      <li><a href="#">Precios</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button type="button" class="btn-text">Iniciar sesión</button>
+      <button type="button" class="btn-primary">Contactar ventas</button>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-blobs" aria-hidden="true">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+    </div>
+    <div class="hero-inner">
+      <div class="hero-text">
+        <h1>Infraestructura financiera para internet</h1>
+        <p>Millones de empresas de todos los tamaños usan Stripe para aceptar pagos, enviar transferencias y gestionar sus negocios online.</p>
+        <div class="hero-actions">
+          <button type="button" class="btn-primary">Empezar ahora</button>
+          <button type="button" class="btn-outline">Contactar ventas</button>
+        </div>
+      </div>
+      <div class="code-panel" aria-label="Ejemplo de código API">
+        <div class="code-tabs">
+          <span class="code-tab active">checkout.js</span>
+          <span class="code-tab">server.js</span>
+        </div>
+        <pre class="code-block"><code><span class="kw">const</span> stripe = <span class="fn">require</span>(<span class="str">'stripe'</span>)(process.env.STRIPE_KEY);
+
+<span class="kw">const</span> session = <span class="kw">await</span> stripe.checkout.sessions.<span class="fn">create</span>({
+  mode: <span class="str">'payment'</span>,
+  line_items: [{ price: <span class="str">'price_123'</span>, quantity: <span class="num">1</span> }],
+  success_url: <span class="str">'https://example.com/success'</span>,
+});</code></pre>
+      </div>
+    </div>
+  </header>
+
+  <section class="features" id="features">
+    <article class="feature-row">
+      <div class="feature-copy">
+        <span class="feature-label">Payments</span>
+        <h2>Acepta pagos en todo el mundo</h2>
+        <p>Checkout optimizado, métodos locales y prevención de fraude integrada para maximizar conversiones.</p>
+        <a href="#" class="feature-link">Explorar Payments →</a>
+      </div>
+      <div class="dashboard-shot shot-payments" aria-hidden="true">
+        <div class="dash-header"></div>
+        <div class="dash-chart"></div>
+        <div class="dash-rows">
+          <div class="dash-row"></div>
+          <div class="dash-row"></div>
+          <div class="dash-row"></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="feature-row reverse">
+      <div class="feature-copy">
+        <span class="feature-label">Billing</span>
+        <h2>Facturación recurrente sin fricción</h2>
+        <p>Planes, pruebas gratuitas y facturas automáticas para SaaS y suscripciones.</p>
+        <a href="#" class="feature-link">Explorar Billing →</a>
+      </div>
+      <div class="dashboard-shot shot-billing" aria-hidden="true">
+        <div class="dash-metric">$24,580</div>
+        <div class="dash-bars">
+          <span style="--h: 40%"></span>
+          <span style="--h: 65%"></span>
+          <span style="--h: 85%"></span>
+          <span style="--h: 55%"></span>
+          <span style="--h: 90%"></span>
+        </div>
+      </div>
+    </article>
+
+    <article class="feature-row">
+      <div class="feature-copy">
+        <span class="feature-label">Connect</span>
+        <h2>Pagos para marketplaces</h2>
+        <p>Onboarding de vendedores, reparto de comisiones y cumplimiento normativo en una sola API.</p>
+        <a href="#" class="feature-link">Explorar Connect →</a>
+      </div>
+      <div class="dashboard-shot shot-connect" aria-hidden="true">
+        <div class="connect-node hub">Plataforma</div>
+        <div class="connect-node">Vendedor A</div>
+        <div class="connect-node">Vendedor B</div>
+      </div>
+    </article>
+  </section>
+
+  <section class="products" id="productos">
+    <h2>Una suite completa de productos</h2>
+    <p class="products-sub">Todo lo que necesitas para construir, escalar y operar tu negocio online.</p>
+    <div class="products-grid">
+      <a href="#" class="product-card">
+        <div class="product-icon pi-payments">◆</div>
+        <h3>Payments</h3>
+        <p>Acepta tarjetas, wallets y métodos locales en más de 135 monedas.</p>
+        <span class="product-cta">Más información →</span>
+      </a>
+      <a href="#" class="product-card">
+        <div class="product-icon pi-billing">◎</div>
+        <h3>Billing</h3>
+        <p>Suscripciones, facturación por uso y gestión de ingresos recurrentes.</p>
+        <span class="product-cta">Más información →</span>
+      </a>
+      <a href="#" class="product-card">
+        <div class="product-icon pi-connect">◇</div>
+        <h3>Connect</h3>
+        <p>Pagos y payouts para plataformas, marketplaces y economías gig.</p>
+        <span class="product-cta">Más información →</span>
+      </a>
+      <a href="#" class="product-card">
+        <div class="product-icon pi-terminal">▣</div>
+        <h3>Terminal</h3>
+        <p>Hardware y software unificados para pagos presenciales.</p>
+        <span class="product-cta">Más información →</span>
+      </a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <a href="#" class="logo footer-logo">stripe</a>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Productos</h4>
+          <a href="#">Payments</a>
+          <a href="#">Billing</a>
+          <a href="#">Connect</a>
+          <a href="#">Terminal</a>
+        </div>
+        <div class="footer-col">
+          <h4>Desarrolladores</h4>
+          <a href="#">Documentación</a>
+          <a href="#">API reference</a>
+          <a href="#">Status</a>
+        </div>
+        <div class="footer-col">
+          <h4>Empresa</h4>
+          <a href="#">Sobre nosotros</a>
+          <a href="#">Carreras</a>
+          <a href="#">Prensa</a>
+        </div>
+      </div>
+    </div>
+    <p class="footer-copy">© 2026 Clon educativo — no afiliado a Stripe, Inc.</p>
+  </footer>
+</body>
+</html>

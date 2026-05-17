@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SoundCloud — Escucha y comparte música</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="navbar-inner">
+      <a href="#" class="logo">SoundCloud</a>
+      <label class="search-cmd">
+        <span aria-hidden="true">🔍</span>
+        <input type="search" placeholder="Buscar artistas, pistas, podcasts…" aria-label="Buscar" />
+        <kbd>⌘K</kbd>
+      </label>
+      <div class="nav-actions">
+        <a href="#" class="btn-text">Iniciar sesión</a>
+        <button type="button" class="btn-orange">Crear cuenta</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h1>Escucha. Comparte. Crea.</h1>
+    <p>La plataforma donde los artistas suben su sonido y la comunidad lo descubre.</p>
+    <div class="waveform-hero" aria-hidden="true">
+      <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+      <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+      <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+      <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+    </div>
+    <button type="button" class="btn-orange" style="padding:0.75rem 1.5rem;font-size:1rem">Explorar ahora</button>
+  </section>
+
+  <section class="stats-section" aria-label="Estadísticas">
+    <div class="stat-item">
+      <p class="stat-value" data-count="50" data-suffix="M+">0</p>
+      <p class="stat-label">pistas</p>
+    </div>
+    <div class="stat-item">
+      <p class="stat-value" data-count="175" data-suffix="M+">0</p>
+      <p class="stat-label">usuarios</p>
+    </div>
+    <div class="stat-item">
+      <p class="stat-value" data-count="12" data-suffix="M+">0</p>
+      <p class="stat-label">creadores</p>
+    </div>
+  </section>
+
+  <div class="page-layout">
+    <aside class="genre-sidebar">
+      <h3>Géneros</h3>
+      <ul class="genre-list">
+        <li><a href="#" class="active">Hip-hop</a></li>
+        <li><a href="#">Electronic</a></li>
+        <li><a href="#">Indie</a></li>
+        <li><a href="#">Rock</a></li>
+        <li><a href="#">Pop</a></li>
+        <li><a href="#">R&amp;B</a></li>
+        <li><a href="#">Jazz</a></li>
+        <li><a href="#">Classical</a></li>
+        <li><a href="#">Latin</a></li>
+        <li><a href="#">Ambient</a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <p class="section-label">Tarjetas de tracks</p>
+      <h2 class="section-title">Tendencias ahora</h2>
+      <div class="track-list">
+        <article class="track-card">
+          <div class="track-artwork" aria-hidden="true"></div>
+          <div class="track-info">
+            <h4>Midnight Drive — Extended Mix</h4>
+            <p class="meta">DJ Nova · 4:32 · 128K reproducciones</p>
+          </div>
+          <div class="track-waveform" aria-hidden="true">
+            <span class="played" style="height:60%"></span>
+            <span class="played" style="height:80%"></span>
+            <span class="played" style="height:45%"></span>
+            <span style="height:70%"></span>
+            <span style="height:35%"></span>
+            <span style="height:90%"></span>
+            <span style="height:50%"></span>
+            <span style="height:65%"></span>
+          </div>
+          <button type="button" class="play-circle" aria-label="Reproducir">▶</button>
+        </article>
+
+        <article class="track-card">
+          <div class="track-artwork"></div>
+          <div class="track-info">
+            <h4>Lo-fi Study Session Vol. 12</h4>
+            <p class="meta">ChillBeats · 2:18 · 89K reproducciones</p>
+          </div>
+          <div class="track-waveform" aria-hidden="true">
+            <span class="played" style="height:40%"></span>
+            <span style="height:55%"></span>
+            <span style="height:30%"></span>
+            <span style="height:75%"></span>
+            <span style="height:45%"></span>
+            <span style="height:60%"></span>
+          </div>
+          <button type="button" class="play-circle" aria-label="Reproducir">▶</button>
+        </article>
+
+        <article class="track-card">
+          <div class="track-artwork"></div>
+          <div class="track-info">
+            <h4>Bass Drop Festival Live</h4>
+            <p class="meta">SubZero · 5:01 · 210K reproducciones</p>
+          </div>
+          <div class="track-waveform" aria-hidden="true">
+            <span style="height:85%"></span>
+            <span style="height:95%"></span>
+            <span style="height:70%"></span>
+            <span style="height:100%"></span>
+            <span style="height:55%"></span>
+            <span style="height:80%"></span>
+            <span style="height:65%"></span>
+            <span style="height:90%"></span>
+          </div>
+          <button type="button" class="play-circle" aria-label="Reproducir">▶</button>
+        </article>
+
+        <article class="track-card">
+          <div class="track-artwork"></div>
+          <div class="track-info">
+            <h4>Acoustic Sunday (Demo)</h4>
+            <p class="meta">María Sol · 3:44 · 12K reproducciones</p>
+          </div>
+          <div class="track-waveform" aria-hidden="true">
+            <span class="played" style="height:50%"></span>
+            <span class="played" style="height:35%"></span>
+            <span style="height:45%"></span>
+            <span style="height:25%"></span>
+            <span style="height:40%"></span>
+            <span style="height:30%"></span>
+          </div>
+          <button type="button" class="play-circle" aria-label="Reproducir">▶</button>
+        </article>
+      </div>
+
+      <section class="upload-section">
+        <p class="section-label">Upload your sound</p>
+        <h2>Sube tu sonido</h2>
+        <div class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="Zona para subir archivos de audio">
+          <div class="dropzone-icon" aria-hidden="true">☁️</div>
+          <h3>Arrastra tu pista aquí</h3>
+          <p>o haz clic para elegir archivos · MP3, WAV, FLAC hasta 4 GB</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Compañía</h4>
+        <ul>
+          <li><a href="#">Acerca de</a></li>
+          <li><a href="#">Empleo</a></li>
+          <li><a href="#">Prensa</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Comunidad</h4>
+        <ul>
+          <li><a href="#">For Artists</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Charts</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Términos</a></li>
+          <li><a href="#">Privacidad</a></li>
+          <li><a href="#">Cookies</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Desarrolladores</h4>
+        <ul>
+          <li><a href="#">API</a></li>
+          <li><a href="#">Embeds</a></li>
+          <li><a href="#">Kit de prensa</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Soporte</h4>
+        <ul>
+          <li><a href="#">Ayuda</a></li>
+          <li><a href="#">Estado</a></li>
+          <li><a href="#">Contacto</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Idioma</h4>
+        <ul>
+          <li><a href="#">Español</a></li>
+          <li><a href="#">English</a></li>
+          <li><a href="#">Deutsch</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="app-badges">
+      <a href="#" class="app-badge"><span>🍎</span> App Store</a>
+      <a href="#" class="app-badge"><span>▶</span> Google Play</a>
+    </div>
+    <p class="footer-copy">© 2026 SoundCloud. Todos los derechos reservados.</p>
+  </footer>
+
+  <script>
+    (function () {
+      function animateCount(el) {
+        var target = parseInt(el.getAttribute("data-count"), 10);
+        var suffix = el.getAttribute("data-suffix") || "";
+        var duration = 2000;
+        var start = 0;
+        var startTime = null;
+
+        function step(timestamp) {
+          if (!startTime) startTime = timestamp;
+          var progress = Math.min((timestamp - startTime) / duration, 1);
+          var eased = 1 - Math.pow(1 - progress, 3);
+          var current = Math.floor(eased * target);
+          el.textContent = current + suffix;
+          if (progress < 1) {
+            requestAnimationFrame(step);
+          } else {
+            el.textContent = target + suffix;
+          }
+        }
+        requestAnimationFrame(step);
+      }
+
+      var statsObs = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              animateCount(entry.target);
+              statsObs.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.3 }
+      );
+
+      document.querySelectorAll(".stat-value[data-count]").forEach(function (el) {
+        statsObs.observe(el);
+      });
+
+      var dropzone = document.getElementById("dropzone");
+      if (dropzone) {
+        ["dragenter", "dragover"].forEach(function (ev) {
+          dropzone.addEventListener(ev, function (e) {
+            e.preventDefault();
+            dropzone.classList.add("dragover");
+          });
+        });
+        ["dragleave", "drop"].forEach(function (ev) {
+          dropzone.addEventListener(ev, function () {
+            dropzone.classList.remove("dragover");
+          });
+        });
+        dropzone.addEventListener("drop", function (e) {
+          e.preventDefault();
+        });
+      }
+
+      document.querySelectorAll(".genre-list a").forEach(function (link) {
+        link.addEventListener("click", function (e) {
+          e.preventDefault();
+          document.querySelectorAll(".genre-list a").forEach(function (l) {
+            l.classList.remove("active");
+          });
+          link.classList.add("active");
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

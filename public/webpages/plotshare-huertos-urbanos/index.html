@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PlotShare — Huertos urbanos compartidos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    :root {
+      --moss: #4A7C59;
+      --terracotta: #C65D3D;
+      --sky: #A8DADC;
+      --earth: #6B4423;
+      --container: 1140px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Source Sans 3", system-ui, sans-serif;
+      background: #f8f6f2;
+      color: var(--earth);
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+
+    .header {
+      background: var(--moss);
+      color: #fff;
+      padding: 1rem 0;
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .logo {
+      font-family: "Source Serif 4", Georgia, serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+    }
+    .logo span { color: var(--sky); }
+    .nav { display: flex; gap: 1.5rem; list-style: none; font-size: 0.9rem; }
+    .nav a:hover { color: var(--sky); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.65rem 1.25rem;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      transition: opacity 0.2s;
+    }
+    .btn-terracotta { background: var(--terracotta); color: #fff; }
+    .btn-terracotta:hover { opacity: 0.92; }
+
+    .hero {
+      padding: 3rem 0 2rem;
+      background: linear-gradient(180deg, rgba(168,218,220,0.35) 0%, #f8f6f2 70%);
+    }
+    .hero h1 {
+      font-family: "Source Serif 4", serif;
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 700;
+      color: var(--moss);
+      margin-bottom: 0.6rem;
+    }
+    .hero p {
+      max-width: 520px;
+      color: rgba(107,68,35,0.8);
+      margin-bottom: 1.5rem;
+    }
+
+    /* PlotSizeFilter */
+    .plot-size-filter {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+    .plot-size-filter-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--terracotta);
+      font-weight: 700;
+      width: 100%;
+    }
+    .size-chip {
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      background: #fff;
+      border: 2px solid rgba(74,124,89,0.2);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .size-chip:hover,
+    .size-chip.active {
+      border-color: var(--moss);
+      background: rgba(74,124,89,0.12);
+      color: var(--moss);
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      padding: 2rem 0 4rem;
+    }
+    @media (max-width: 900px) {
+      .main-grid { grid-template-columns: 1fr; }
+    }
+
+    #map {
+      height: 380px;
+      border-radius: 16px;
+      border: 2px solid rgba(74,124,89,0.25);
+      overflow: hidden;
+    }
+    .map-caption {
+      font-size: 0.75rem;
+      color: rgba(107,68,35,0.65);
+      margin-top: 0.5rem;
+    }
+
+    .plots-list { display: flex; flex-direction: column; gap: 1.25rem; }
+
+    .plot-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 1.25rem;
+      border: 1px solid rgba(74,124,89,0.15);
+      transition: box-shadow 0.25s;
+    }
+    .plot-card:hover {
+      box-shadow: 0 8px 28px rgba(74,124,89,0.15);
+    }
+    .plot-card h3 {
+      font-family: "Source Serif 4", serif;
+      font-size: 1.2rem;
+      color: var(--moss);
+      margin-bottom: 0.75rem;
+    }
+    .plot-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    /* SoilTypeIndicator */
+    .soil-type-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.35rem 0.65rem;
+      border-radius: 8px;
+      background: rgba(107,68,35,0.1);
+      color: var(--earth);
+    }
+    .soil-type-indicator.loam { background: rgba(198,93,61,0.15); color: var(--terracotta); }
+    .soil-type-indicator.sandy { background: rgba(168,218,220,0.5); color: #2d6a6e; }
+
+    /* SunHoursBadge */
+    .sun-hours-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.35rem 0.65rem;
+      border-radius: 8px;
+      background: rgba(255,200,50,0.25);
+      color: #8b6914;
+    }
+
+    /* ToolsIncluded */
+    .tools-included {
+      font-size: 0.8rem;
+      margin: 0.5rem 0;
+    }
+    .tools-included-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--moss);
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+    }
+    .tools-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .tool-tag {
+      padding: 0.25rem 0.5rem;
+      background: var(--sky);
+      color: var(--earth);
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    /* SeasonAvailability */
+    .season-availability {
+      margin-top: 0.75rem;
+    }
+    .season-availability-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--terracotta);
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+    .season-bars {
+      display: flex;
+      gap: 4px;
+    }
+    .season-month {
+      flex: 1;
+      height: 24px;
+      border-radius: 4px;
+      background: rgba(74,124,89,0.12);
+      font-size: 0.55rem;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 2px;
+      color: rgba(107,68,35,0.5);
+    }
+    .season-month.available {
+      background: var(--moss);
+      color: #fff;
+    }
+
+    .plot-price {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--terracotta);
+      margin-top: 0.75rem;
+    }
+    .plot-price small { font-size: 0.75rem; font-weight: 500; color: rgba(107,68,35,0.6); }
+
+    .footer {
+      background: var(--earth);
+      color: #fff;
+      padding: 2rem 0;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+    .footer a { color: var(--sky); }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container header-inner">
+      <a href="#" class="logo">Plot<span>Share</span></a>
+      <nav>
+        <ul class="nav">
+          <li><a href="#">Parcelas</a></li>
+          <li><a href="#">Huertos</a></li>
+          <li><a href="#">Comunidad</a></li>
+        </ul>
+      </nav>
+      <button class="btn btn-terracotta">Publicar parcela</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <h1>Renta parcelas de huerto en la ciudad</h1>
+      <p>Encuentra tu espacio verde: suelo fértil, horas de sol y herramientas incluidas para cultivar todo el año.</p>
+
+      <div class="plot-size-filter">
+        <span class="plot-size-filter-label">PlotSizeFilter (m²)</span>
+        <span class="size-chip" data-size="5">5 m²</span>
+        <span class="size-chip active" data-size="10">10 m²</span>
+        <span class="size-chip" data-size="20">20 m²</span>
+        <span class="size-chip" data-size="50">50+ m²</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="container main-grid">
+    <div>
+      <div id="map"></div>
+      <p class="map-caption">Vista satelital — parcelas disponibles en huertos urbanos</p>
+    </div>
+
+    <div class="plots-list">
+      <article class="plot-card" data-size="10">
+        <h3>Parcela Norte — Roma Verde</h3>
+        <div class="plot-badges">
+          <span class="soil-type-indicator loam">SoilTypeIndicator · Franco</span>
+          <span class="sun-hours-badge">☀ SunHoursBadge · 6h/día</span>
+        </div>
+        <div class="tools-included">
+          <div class="tools-included-label">ToolsIncluded</div>
+          <div class="tools-list">
+            <span class="tool-tag">Regadera</span>
+            <span class="tool-tag">Azadón</span>
+            <span class="tool-tag">Compostera</span>
+          </div>
+        </div>
+        <div class="season-availability">
+          <div class="season-availability-label">SeasonAvailability</div>
+          <div class="season-bars">
+            <span class="season-month">E</span>
+            <span class="season-month available">F</span>
+            <span class="season-month available">M</span>
+            <span class="season-month available">A</span>
+            <span class="season-month available">M</span>
+            <span class="season-month available">J</span>
+            <span class="season-month available">J</span>
+            <span class="season-month available">A</span>
+            <span class="season-month available">S</span>
+            <span class="season-month available">O</span>
+            <span class="season-month">N</span>
+            <span class="season-month">D</span>
+          </div>
+        </div>
+        <p class="plot-price">$850<small>/mes · 10 m²</small></p>
+      </article>
+
+      <article class="plot-card" data-size="20">
+        <h3>Jardín Condesa — Esquina soleada</h3>
+        <div class="plot-badges">
+          <span class="soil-type-indicator sandy">SoilTypeIndicator · Arenoso</span>
+          <span class="sun-hours-badge">☀ 8h/día</span>
+        </div>
+        <div class="tools-included">
+          <div class="tools-included-label">ToolsIncluded</div>
+          <div class="tools-list">
+            <span class="tool-tag">Invernadero</span>
+            <span class="tool-tag">Manguera</span>
+          </div>
+        </div>
+        <div class="season-availability">
+          <div class="season-availability-label">SeasonAvailability</div>
+          <div class="season-bars">
+            <span class="season-month available">E</span>
+            <span class="season-month available">F</span>
+            <span class="season-month available">M</span>
+            <span class="season-month available">A</span>
+            <span class="season-month available">M</span>
+            <span class="season-month available">J</span>
+            <span class="season-month available">J</span>
+            <span class="season-month available">A</span>
+            <span class="season-month available">S</span>
+            <span class="season-month available">O</span>
+            <span class="season-month available">N</span>
+            <span class="season-month available">D</span>
+          </div>
+        </div>
+        <p class="plot-price">$1,400<small>/mes · 20 m²</small></p>
+      </article>
+
+      <article class="plot-card" data-size="5">
+        <h3>Micro-huerto Coyoacán</h3>
+        <div class="plot-badges">
+          <span class="soil-type-indicator">Arcilloso</span>
+          <span class="sun-hours-badge">☀ 4h/día</span>
+        </div>
+        <div class="tools-included">
+          <div class="tools-included-label">ToolsIncluded</div>
+          <div class="tools-list">
+            <span class="tool-tag">Macetas</span>
+            <span class="tool-tag">Tierra</span>
+          </div>
+        </div>
+        <p class="plot-price">$420<small>/mes · 5 m²</small></p>
+      </article>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>PlotShare © 2026 — Cultiva en comunidad. <a href="#">Términos</a> · <a href="#">Privacidad</a></p>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll(".size-chip").forEach(function(chip) {
+      chip.addEventListener("click", function() {
+        document.querySelectorAll(".size-chip").forEach(function(c) { c.classList.remove("active"); });
+        chip.classList.add("active");
+        var size = chip.dataset.size;
+        document.querySelectorAll(".plot-card").forEach(function(card) {
+          var cardSize = parseInt(card.dataset.size, 10);
+          var filter = parseInt(size, 10);
+          if (size === "50") {
+            card.style.display = cardSize >= 20 ? "" : "none";
+          } else {
+            card.style.display = cardSize === filter ? "" : "none";
+          }
+        });
+      });
+    });
+
+    var map = L.map("map").setView([19.4326, -99.1332], 16);
+    L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
+      attribution: "Esri · vista satelital"
+    }).addTo(map);
+
+    var plots = [
+      { lat: 19.418, lng: -99.158, label: "Roma Verde", size: "10 m²" },
+      { lat: 19.411, lng: -99.175, label: "Condesa", size: "20 m²" },
+      { lat: 19.346, lng: -99.162, label: "Coyoacán", size: "5 m²" }
+    ];
+
+    plots.forEach(function(p) {
+      var icon = L.divIcon({
+        className: "plot-marker",
+        html: "<div style=\"background:#4A7C59;color:#fff;padding:6px 10px;border-radius:8px;font-size:12px;font-weight:700;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.3)\">" + p.size + "</div>",
+        iconSize: [60, 30],
+        iconAnchor: [30, 15]
+      });
+      L.marker([p.lat, p.lng], { icon: icon })
+        .bindPopup("<strong>" + p.label + "</strong><br>" + p.size)
+        .addTo(map);
+    });
+  </script>
+</body>
+</html>

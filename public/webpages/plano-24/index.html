@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plano 24</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital@0;1&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --white: #ffffff;
+      --navy: #10243d;
+      --sky: #a8c4d8;
+      --pearl: #e8ebee;
+      --line: 0.5px solid var(--pearl);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Inter, system-ui, sans-serif;
+      background: var(--white);
+      color: var(--navy);
+      font-weight: 300;
+      font-size: 13px;
+      letter-spacing: 0.02em;
+    }
+    .grid-bg {
+      background-image:
+        linear-gradient(var(--pearl) var(--line-width, 0.5px), transparent 0.5px),
+        linear-gradient(90deg, var(--pearl) 0.5px, transparent 0.5px);
+      background-size: 48px 48px;
+    }
+    .accent-serif {
+      font-family: "EB Garamond", Georgia, serif;
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    /* Nav centrado */
+    nav {
+      display: flex;
+      justify-content: center;
+      padding: 2.5rem 1.5rem 1rem;
+      border-bottom: var(--line);
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 3rem;
+    }
+    nav a {
+      color: var(--navy);
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--sky); }
+
+    /* Hero overflow */
+    .hero {
+      padding: 6rem 0 5rem;
+      border-bottom: var(--line);
+      overflow: hidden;
+    }
+    .hero h1 {
+      font-size: clamp(3rem, 12vw, 7rem);
+      font-weight: 300;
+      letter-spacing: -0.03em;
+      line-height: 0.95;
+      white-space: nowrap;
+      padding-left: 48px;
+      width: max-content;
+    }
+    .hero .sub {
+      padding: 2rem 48px 0;
+      color: var(--sky);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    section {
+      padding: 5rem 48px;
+      border-bottom: var(--line);
+    }
+    .section-title {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 3rem;
+      color: var(--navy);
+    }
+
+    /* Proyectos 4 cols */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 48px;
+    }
+    .project-item img {
+      width: 72px;
+      height: 72px;
+      object-fit: cover;
+      display: block;
+      margin-bottom: 1.25rem;
+    }
+    .project-item h3 {
+      font-size: 12px;
+      font-weight: 500;
+      margin-bottom: 0.35rem;
+    }
+    .project-item p {
+      font-size: 11px;
+      color: var(--sky);
+    }
+
+    /* Process diagram */
+    .process {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .process-step {
+      flex: 1;
+      min-width: 140px;
+      padding-top: 1rem;
+      border-top: var(--line);
+      position: relative;
+    }
+    .process-step::after {
+      content: "→";
+      position: absolute;
+      top: 1rem;
+      right: -1.5rem;
+      color: var(--sky);
+      font-size: 14px;
+    }
+    .process-step:last-child::after { content: none; }
+    .process-num {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: var(--sky);
+      margin-bottom: 0.75rem;
+    }
+    .process-step h4 {
+      font-size: 12px;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+    .process-step p {
+      font-size: 11px;
+      color: var(--navy);
+      opacity: 0.7;
+      max-width: 18ch;
+    }
+
+    footer {
+      padding: 1.5rem 48px;
+      font-size: 11px;
+      color: var(--sky);
+      letter-spacing: 0.08em;
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .projects-grid { grid-template-columns: repeat(2, 1fr); }
+      .process-step::after { display: none; }
+    }
+    @media (max-width: 520px) {
+      .projects-grid { grid-template-columns: 1fr; }
+      section { padding: 3rem 24px; }
+      nav ul { gap: 1.5rem; flex-wrap: wrap; justify-content: center; }
+    }
+  </style>
+</head>
+<body class="grid-bg">
+  <nav>
+    <ul>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#studio">Studio</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero">
+    <h1>Residential clarity for northern <span class="accent-serif">light</span></h1>
+    <p class="sub">Plano 24 · Oslo · Copenhagen</p>
+  </header>
+
+  <section id="work">
+    <p class="section-title">Selected work</p>
+    <div class="projects-grid">
+      <article class="project-item">
+        <img src="https://images.unsplash.com/photo-1518780664697-55e3ad7bfeeb?w=400&q=80" alt="House Fjord" />
+        <h3>House Fjord</h3>
+        <p>Bergen · 2024</p>
+      </article>
+      <article class="project-item">
+        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&q=80" alt="Snow Court" />
+        <h3>Snow Court</h3>
+        <p>Oslo · 2023</p>
+      </article>
+      <article class="project-item">
+        <img src="https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=400&q=80" alt="Pine Ridge" />
+        <h3>Pine Ridge</h3>
+        <p>Stockholm · 2024</p>
+      </article>
+      <article class="project-item">
+        <img src="https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=400&q=80" alt="White Volume" />
+        <h3>White Volume</h3>
+        <p>Helsinki · 2022</p>
+      </article>
+      <article class="project-item">
+        <img src="https://images.unsplash.com/photo-1600047509358-9dc75507daeb?w=400&q=80" alt="Coast Line" />
+        <h3>Coast Line</h3>
+        <p>Ålesund · 2025</p>
+      </article>
+      <article class="project-item">
+        <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=400&q=80" alt="Winter Room" />
+        <h3>Winter Room</h3>
+        <p>Trondheim · 2023</p>
+      </article>
+      <article class="project-item">
+        <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=400&q=80" alt="Glass Barn" />
+        <h3>Glass Barn</h3>
+        <p>Malmo · 2024</p>
+      </article>
+      <article class="project-item">
+        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400&q=80" alt="North Wing" />
+        <h3>North Wing</h3>
+        <p>Reykjavik · 2022</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="process">
+    <p class="section-title">Process</p>
+    <div class="process">
+      <div class="process-step">
+        <p class="process-num">01</p>
+        <h4>Brief</h4>
+        <p>Site, light, and program distilled to essentials.</p>
+      </div>
+      <div class="process-step">
+        <p class="process-num">02</p>
+        <h4>Plan</h4>
+        <p>Spatial grid and material palette defined.</p>
+      </div>
+      <div class="process-step">
+        <p class="process-num">03</p>
+        <h4>Build</h4>
+        <p>Precision detailing with local craftspeople.</p>
+      </div>
+      <div class="process-step">
+        <p class="process-num">04</p>
+        <h4>Live</h4>
+        <p>Handover and long-term stewardship.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="studio" style="min-height: 20vh;">
+    <p class="section-title">Studio</p>
+    <p style="max-width: 36ch; line-height: 1.8;">Plano 24 practices residential architecture across Scandinavia — calm volumes, generous daylight, and interiors reduced to what matters.</p>
+  </section>
+
+  <footer id="contact">
+    Plano 24 · hola@plano24.studio · © 2025
+  </footer>
+</body>
+</html>
