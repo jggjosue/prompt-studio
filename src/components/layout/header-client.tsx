@@ -1,109 +1,172 @@
 'use client';
 
-import Link from 'next/link';
-import {
-  ChevronDown,
-  Menu,
-  Video,
-  ImageIcon,
-  Tag,
-  LayoutGrid,
-  DollarSign,
-  Settings,
-  LogOut,
-  Sparkles,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenuSeparator,
-} from '@/components/ui/dropdown-menu';
-import Logo from './logo';
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-  SheetClose,
-} from '@/components/ui/sheet';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { ThemeToggle } from '../theme-toggle';
-import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs';
+import { Button } from '@/components/ui/button';
 import {
-  LogoutLink,
-} from '@kinde-oss/kinde-auth-nextjs/components';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetTrigger,
+} from '@/components/ui/sheet';
 import { Skeleton } from '@/components/ui/skeleton';
+import {
+  Show,
+  SignInButton,
+  SignUpButton,
+  UserButton,
+  useAuth,
+} from '@clerk/nextjs';
+import {
+  ChevronDown,
+  Globe,
+  LogIn,
+  Menu,
+  Tag,
+  User,
+  UserPlus,
+} from 'lucide-react';
+import { cn } from '@/lib/utils';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+import { LanguageToggle } from '../language-toggle';
+import { ThemeToggle } from '../theme-toggle';
+import Logo from './logo';
+
+const navLinkClass =
+  'text-muted-foreground transition-colors hover:text-foreground rounded-sm px-1 py-0.5';
+const navLinkActiveClass = 'text-foreground font-semibold';
+
+function pathMatchesPrefix(pathname: string, prefix: string): boolean {
+  return pathname === prefix || pathname.startsWith(`${prefix}/`);
+}
+
+function isNavItemActive(
+  pathname: string,
+  href?: string,
+  activePrefixes?: string[]
+): boolean {
+  if (activePrefixes?.length) {
+    return activePrefixes.some(prefix => pathMatchesPrefix(pathname, prefix));
+  }
+  if (!href) return false;
+  if (href === '/') return pathname === '/';
+  return pathMatchesPrefix(pathname, href);
+}
 
 export default function HeaderClient() {
-  const { user, isAuthenticated, isLoading } = useKindeBrowserClient();
+  const { isLoaded } = useAuth();
+  const pathname = usePathname();
+  const tNav = useTranslations('nav');
+  const tHeader = useTranslations('header');
+  const tCommon = useTranslations('common');
 
   const navLinks = [
-    { href: '/', label: 'Home' },
+    { href: '/', label: tNav('home') },
     {
-      label: 'Prompts',
-      dropdown: [
-        /*{
-          href: '/prompts',
-          label: 'Library',
-          description: 'All AI Prompts',
-          icon: <LayoutGrid className="h-5 w-5" />,
-        },*/
-        {
-          href: '/image-prompts',
-          label: 'Image',
-          description: 'Visual inspirations',
-          icon: <ImageIcon className="h-5 w-5" />,
-        },
-        {
-          href: '/video-prompts',
-          label: 'Video',
-          description: 'Motion inspirations',
-          icon: <Video className="h-5 w-5" />,
-        },
-      ],
+      href: '/prompts',
+      label: tNav('library'),
+      activePrefixes: ['/prompts'],
     },
     {
-      label: 'Tags',
+      href: '/image-prompts',
+      label: tNav('images'),
+      activePrefixes: ['/image-prompts', '/gallery', '/image-tags'],
+    },
+    {
+      href: '/video-prompts',
+      label: tNav('videos'),
+      activePrefixes: ['/video-prompts', '/gallery-videos', '/video-tags'],
+    },
+    {
+      href: '/landing-pages',
+      label: tNav('webs'),
+      activePrefixes: ['/landing-pages'],
+    },
+    {
+      label: tNav('tags'),
+      activePrefixes: ['/video-tags', '/image-tags', '/web-tags'],
       dropdown: [
         {
           href: '/video-tags',
-          label: 'Video Tags',
-          description: 'Browse by motion style',
+          label: tNav('videoTags'),
+          description: tNav('videoTagsDesc'),
           icon: <Tag className="h-5 w-5" />,
         },
         {
           href: '/image-tags',
-          label: 'Image Tags',
-          description: 'Browse by visual style',
+          label: tNav('imageTags'),
+          description: tNav('imageTagsDesc'),
           icon: <Tag className="h-5 w-5" />,
+        },
+        {
+          href: '/web-tags',
+          label: tNav('webTags'),
+          description: tNav('webTagsDesc'),
+          icon: <Globe className="h-5 w-5" />,
         },
       ],
     },
+    {
+      href: '/prices',
+      label: tNav('prices'),
+      activePrefixes: ['/prices', '/pricing'],
+    },
   ];
+
+  const linkClassName = (href?: string, activePrefixes?: string[]) =>
+    cn(
+      navLinkClass,
+      isNavItemActive(pathname, href, activePrefixes) && navLinkActiveClass
+    );
+
+  const accountMenuItems = (
+    <>
+      <DropdownMenuItem asChild className="p-0 focus:bg-transparent">
+        <SignUpButton mode="redirect" forceRedirectUrl="/prices">
+          <span className="flex w-full cursor-pointer items-center gap-2.5 rounded-md px-3 py-2.5 text-sm font-medium transition-colors hover:bg-accent focus:bg-accent">
+            <UserPlus className="h-4 w-4 shrink-0" />
+            {tHeader('createAccount')}
+          </span>
+        </SignUpButton>
+      </DropdownMenuItem>
+      <DropdownMenuItem asChild className="p-0 focus:bg-transparent">
+        <SignInButton mode="redirect" forceRedirectUrl="/dashboard">
+          <span className="flex w-full cursor-pointer items-center gap-2.5 rounded-md px-3 py-2.5 text-sm font-medium transition-colors hover:bg-[#B08D57] hover:text-foreground focus:bg-[#B08D57] focus:text-foreground">
+            <LogIn className="h-4 w-4 shrink-0" />
+            {tHeader('signIn')}
+          </span>
+        </SignInButton>
+      </DropdownMenuItem>
+    </>
+  );
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center">
+      <div className="container flex h-16 items-center gap-2 min-w-0">
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="ghost" size="icon" className="md:hidden mr-2">
               <Menu className="h-6 w-6" />
-              <span className="sr-only">Toggle Menu</span>
+              <span className="sr-only">{tCommon('toggleMenu')}</span>
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="w-full max-w-sm p-6">
             <Link href="/" className="mr-6 flex items-center gap-2 mb-8">
               <Logo />
               <span className="font-bold sm:inline-block font-headline">
-                Prompt Studio
+                {tHeader('brand')}
               </span>
             </Link>
             <div className="flex flex-col gap-4">
@@ -112,7 +175,14 @@ export default function HeaderClient() {
                   <SheetClose asChild key={link.label}>
                     <Link
                       href={link.href}
-                      className="text-lg font-medium hover:text-foreground/80 transition-colors"
+                      className={cn(
+                        'text-lg font-medium hover:text-foreground/80 transition-colors',
+                        isNavItemActive(
+                          pathname,
+                          link.href,
+                          link.activePrefixes
+                        ) && 'text-foreground font-semibold'
+                      )}
                     >
                       {link.label}
                     </Link>
@@ -125,7 +195,16 @@ export default function HeaderClient() {
                     key={link.label}
                   >
                     <AccordionItem value={link.label} className="border-b-0">
-                      <AccordionTrigger className="text-lg font-medium hover:no-underline">
+                      <AccordionTrigger
+                        className={cn(
+                          'text-lg font-medium hover:no-underline',
+                          isNavItemActive(
+                            pathname,
+                            undefined,
+                            link.activePrefixes
+                          ) && 'text-foreground font-semibold'
+                        )}
+                      >
                         {link.label}
                       </AccordionTrigger>
                       <AccordionContent>
@@ -134,7 +213,11 @@ export default function HeaderClient() {
                             <SheetClose asChild key={item.label}>
                               <Link
                                 href={item.href}
-                                className="flex items-start gap-3 p-2 rounded-md hover:bg-accent"
+                                className={cn(
+                                  'flex items-start gap-3 p-2 rounded-md hover:bg-accent',
+                                  pathMatchesPrefix(pathname, item.href) &&
+                                    'bg-accent'
+                                )}
                               >
                                 <div className="bg-primary/10 text-primary p-2 rounded-md">
                                   {item.icon}
@@ -154,6 +237,26 @@ export default function HeaderClient() {
                   </Accordion>
                 )
               )}
+              <Show when="signed-out">
+                <div className="mt-6 flex flex-col gap-2 border-t pt-6">
+                  <SheetClose asChild>
+                    <SignUpButton mode="redirect" forceRedirectUrl="/prices">
+                      <span className="flex w-full items-center justify-center gap-2 rounded-md px-4 py-2.5 text-sm font-medium transition-colors hover:bg-accent">
+                        <UserPlus className="h-4 w-4" />
+                        {tHeader('createAccount')}
+                      </span>
+                    </SignUpButton>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <SignInButton mode="redirect" forceRedirectUrl="/dashboard">
+                      <span className="flex w-full items-center justify-center gap-2 rounded-md bg-[#B08D57] px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-[#9a7a4b]">
+                        <LogIn className="h-4 w-4" />
+                        {tHeader('signIn')}
+                      </span>
+                    </SignInButton>
+                  </SheetClose>
+                </div>
+              </Show>
             </div>
           </SheetContent>
         </Sheet>
@@ -161,7 +264,7 @@ export default function HeaderClient() {
         <Link href="/" className="mr-6 flex items-center gap-2">
           <Logo />
           <span className="hidden font-bold sm:inline-block font-headline">
-            Prompt Studio
+            {tHeader('brand')}
           </span>
         </Link>
         <nav className="hidden items-center justify-center gap-6 text-sm font-medium md:flex flex-1">
@@ -170,13 +273,28 @@ export default function HeaderClient() {
               <Link
                 key={link.label}
                 href={link.href}
-                className="hover:text-foreground/80 transition-colors"
+                className={linkClassName(link.href, link.activePrefixes)}
+                aria-current={
+                  isNavItemActive(pathname, link.href, link.activePrefixes)
+                    ? 'page'
+                    : undefined
+                }
               >
                 {link.label}
               </Link>
             ) : (
               <DropdownMenu key={link.label}>
-                <DropdownMenuTrigger className="flex items-center gap-1 hover:text-foreground/80 transition-colors outline-none">
+                <DropdownMenuTrigger
+                  className={cn(
+                    'flex items-center gap-1 outline-none',
+                    linkClassName(undefined, link.activePrefixes)
+                  )}
+                  aria-current={
+                    isNavItemActive(pathname, undefined, link.activePrefixes)
+                      ? 'page'
+                      : undefined
+                  }
+                >
                   {link.label}{' '}
                   <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" />
                 </DropdownMenuTrigger>
@@ -186,7 +304,16 @@ export default function HeaderClient() {
                       <DropdownMenuItem key={item.label} asChild>
                         <Link
                           href={item.href}
-                          className="flex items-start gap-3 p-2 rounded-md hover:bg-accent"
+                          className={cn(
+                            'flex items-start gap-3 p-2 rounded-md hover:bg-accent',
+                            pathMatchesPrefix(pathname, item.href) &&
+                              'bg-accent'
+                          )}
+                          aria-current={
+                            pathMatchesPrefix(pathname, item.href)
+                              ? 'page'
+                              : undefined
+                          }
                         >
                           <div className="bg-primary/10 text-primary p-2 rounded-md">
                             {item.icon}
@@ -207,59 +334,41 @@ export default function HeaderClient() {
           )}
         </nav>
 
-        <div className="flex items-center gap-2 ml-auto">
+        <div className="flex items-center gap-2 ml-auto shrink-0">
+          <LanguageToggle />
           <ThemeToggle />
-          {isLoading && (
+          {!isLoaded && (
             <div className="flex items-center gap-2">
-              <Skeleton className="h-8 w-20" />
               <Skeleton className="h-8 w-8 rounded-full" />
             </div>
           )}
-          {!isLoading && isAuthenticated && (
+          <Show when="signed-out">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                  <Avatar className="h-8 w-8">
-                    <AvatarImage
-                      src={user?.picture ?? undefined}
-                      alt={user?.given_name ?? 'user'}
-                    />
-                    <AvatarFallback>
-                      {user?.given_name?.[0]}
-                      {user?.family_name?.[0]}
-                    </AvatarFallback>
-                  </Avatar>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-9 w-9 rounded-full"
+                  aria-label={tHeader('accountMenu')}
+                >
+                  <User className="h-5 w-5" strokeWidth={1.75} />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56" align="end" forceMount>
-                <DropdownMenuItem>
-                  <Link href="/dashboard" className="flex items-center w-full">
-                    <LayoutGrid className="mr-2 h-4 w-4" />
-                    Dashboard
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Link href="/dashboard/billing" className="flex items-center w-full">
-                    <DollarSign className="mr-2 h-4 w-4" />
-                    Billing
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Link href="/dashboard/settings" className="flex items-center w-full">
-                    <Settings className="mr-2 h-4 w-4" />
-                    Settings
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <LogoutLink className="flex items-center w-full">
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Sign out
-                  </LogoutLink>
-                </DropdownMenuItem>
+              <DropdownMenuContent align="end" className="w-52 p-1.5">
+                {accountMenuItems}
               </DropdownMenuContent>
             </DropdownMenu>
-          )}
+          </Show>
+          <Show when="signed-in">
+            <UserButton
+              afterSignOutUrl="/"
+              appearance={{
+                elements: {
+                  avatarBox: 'h-9 w-9',
+                },
+              }}
+            />
+          </Show>
         </div>
       </div>
     </header>

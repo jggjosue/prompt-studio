@@ -1,6 +1,10 @@
+import { ClerkProvider } from '@clerk/nextjs';
+import { SiteAnalytics } from '@/components/site-analytics';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import type { Metadata } from 'next';
+import { NextIntlClientProvider } from 'next-intl';
+import { getLocale, getMessages } from 'next-intl/server';
 import Script from 'next/script';
 import './globals.css';
 
@@ -44,13 +48,16 @@ export const metadata: Metadata = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <head>
         <meta name="google-adsense-account" content="ca-pub-7082864972330769" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -66,6 +73,7 @@ export default function RootLayout({
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7082864972330769"crossorigin="anonymous"></script>
       </head>
       <body className="font-body antialiased" suppressHydrationWarning>
+        <ClerkProvider>
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-8S22HHJK76"
           strategy="afterInteractive"
@@ -79,15 +87,19 @@ export default function RootLayout({
             gtag('config', 'G-8S22HHJK76');
           `}
         </Script>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-          <Toaster />
-        </ThemeProvider>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+            <Toaster />
+            <SiteAnalytics />
+          </ThemeProvider>
+        </NextIntlClientProvider>
+        </ClerkProvider>
       </body>
     </html>
   );

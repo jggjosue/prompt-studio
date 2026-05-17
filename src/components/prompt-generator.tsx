@@ -5,8 +5,12 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent } from '@/components/ui/card';
 import { Wand2 } from 'lucide-react';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 export default function PromptGenerator() {
+  const t = useTranslations('promptGenerator');
+  const tCommon = useTranslations('common');
+
   const prompt = {
     title: 'Creativity and development',
     description:
@@ -59,7 +63,7 @@ export default function PromptGenerator() {
           <div className="grid w-full gap-2">
             <Textarea
               name="keywords"
-              placeholder="Enter keywords to inspire the AI, e.g., 'mystical forest, ancient runes, glowing mushrooms'"
+              placeholder={t('placeholder')}
               rows={15}
               className="text-base"
               defaultValue={JSON.stringify(prompt, null, 2)}
@@ -73,7 +77,7 @@ export default function PromptGenerator() {
                 rel="noopener noreferrer"
               >
                 <Wand2 className="mr-2 h-4 w-4" />
-                Generate Prompt
+                {tCommon('generatePrompt')}
               </Link>
             </Button>
           </div>

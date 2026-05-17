@@ -10,7 +10,7 @@ import {
   Search,
   Users,
 } from 'lucide-react';
-import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
+import { currentUser } from '@clerk/nextjs/server';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -33,13 +33,12 @@ import {
 } from '@/components/ui/table';
 
 export default async function Dashboard() {
-    const { getUser } = getKindeServerSession();
-    const user = await getUser();
+    const user = await currentUser();
 
   return (
     <>
         <div className="flex items-center">
-            <h1 className="text-lg font-semibold md:text-2xl">Welcome back, {user?.given_name}!</h1>
+            <h1 className="text-lg font-semibold md:text-2xl">Welcome back, {user?.firstName}!</h1>
         </div>
         <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
           <Card>

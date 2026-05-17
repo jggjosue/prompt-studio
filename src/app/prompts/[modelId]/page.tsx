@@ -1,8 +1,14 @@
 
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
+import { getLocale } from 'next-intl/server';
 import ModelDetailClient from './model-detail-client';
 import { promptModels } from '@/lib/models-list';
+import {
+  chromeToolsToPromptBlocks,
+  localizePromptBlocks,
+  type RawPromptBlock,
+} from '@/lib/prompt-catalog';
 import fs from 'fs';
 import path from 'path';
 
@@ -32,7 +38,8 @@ export async function generateMetadata(
   }
 }
 
-export default function ModelDetailPage({ params }: Props) {
+export default async function ModelDetailPage({ params }: Props) {
+    const locale = await getLocale();
     const modelName = findModelName(params.modelId);
 
     if (!modelName) {
@@ -57,23 +64,23 @@ export default function ModelDetailPage({ params }: Props) {
     // Caso especial para Anthropic: combinar protocolos generales con herramientas de Chrome
     if (params.modelId === 'anthropic') {
       try {
-        const anthropicPath = path.join(process.cwd(), 'src/lib/prompts/anthropic.json');
-        const chromePath = path.join(process.cwd(), 'src/lib/prompts/claude-chrome.json');
+        const anthropicPath = path.join(process.cwd(), 'public/prompts/anthropic.json');
+        const chromePath = path.join(process.cwd(), 'public/prompts/claude-chrome.json');
         
         if (fs.existsSync(anthropicPath)) {
           const anthropicData = JSON.parse(fs.readFileSync(anthropicPath, 'utf8'));
-          jsonPrompts = [...(anthropicData.anthropic || [])];
+          jsonPrompts = localizePromptBlocks(
+            (anthropicData.anthropic || []) as RawPromptBlock[],
+            locale
+          );
         }
         
         if (fs.existsSync(chromePath)) {
           const chromeData = JSON.parse(fs.readFileSync(chromePath, 'utf8'));
-          const chromePrompts = chromeData.map((tool: any) => ({
-            title: tool.name === 'computer' ? 'Computer Use' : tool.name.charAt(0).toUpperCase() + tool.name.slice(1),
-            description: tool.description,
-            how_to_use_prompt: `Low-level automation tool for browser control. Integrated into the ${tool.name} protocol.`,
-            // Podríamos incluir el esquema como ejemplo técnico si quisiéramos
-          }));
-          jsonPrompts = [...jsonPrompts, ...chromePrompts];
+          jsonPrompts = [
+            ...jsonPrompts,
+            ...chromeToolsToPromptBlocks(chromeData, locale),
+          ];
         }
       } catch (error) {
         console.error('Error merging Anthropic JSONs:', error);
@@ -81,10 +88,13 @@ export default function ModelDetailPage({ params }: Props) {
     } else {
       // Lógica estándar para otros modelos
       try {
-        const jsonPath = path.join(process.cwd(), `src/lib/prompts/${params.modelId}.json`);
+        const jsonPath = path.join(process.cwd(), `public/prompts/${params.modelId}.json`);
         if (fs.existsSync(jsonPath)) {
           const jsonData = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
-          jsonPrompts = jsonData[params.modelId] || [];
+          jsonPrompts = localizePromptBlocks(
+            (jsonData[params.modelId] || []) as RawPromptBlock[],
+            locale
+          );
         }
       } catch (error) {
         console.error(`Error reading ${params.modelId}.json:`, error);

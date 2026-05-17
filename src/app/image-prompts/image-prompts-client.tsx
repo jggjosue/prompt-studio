@@ -2,6 +2,7 @@
 
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
+import { PromptCatalogCardHeader } from '@/components/prompt-catalog-card-header';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -20,16 +21,17 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import {
-  PlaceHolderImages,
-  type ImagePlaceholder,
-} from '@/lib/placeholder-images';
+import type { ImagePlaceholder } from '@/lib/placeholder-images';
+import { useLocalizedPlaceholderImages } from '@/hooks/use-localized-catalog';
 import { Sparkles, Tag, Wand2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useMemo, useState, Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+
+const NANO_BANANA_TAB_ENABLED = false;
 
 function ImagePromptsSkeleton() {
   return (
@@ -38,7 +40,7 @@ function ImagePromptsSkeleton() {
         <Skeleton className="h-12 w-3/4" />
         <Skeleton className="h-6 w-1/2" />
         <Skeleton className="h-10 w-64" />
-        <div className="flex gap-4 pt-4">
+        <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 pt-4">
           <Skeleton className="h-10 w-32" />
           <Skeleton className="h-10 w-40" />
         </div>
@@ -67,6 +69,8 @@ function ImagePromptsSkeleton() {
 }
 
 function ImagePromptsContent() {
+  const tTags = useTranslations('tags');
+  const placeholderImages = useLocalizedPlaceholderImages();
   const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState('all');
   const itemsPerPage = 18;
@@ -74,11 +78,11 @@ function ImagePromptsContent() {
   const tagFromUrl = searchParams.get('tag');
 
   const imageContent: ImagePlaceholder[] = useMemo(() => {
-    let filteredImages = PlaceHolderImages.filter(
+    let filteredImages = placeholderImages.filter(
       item => item.type === 'image' && item.imageUrl
     );
 
-    if (filter === 'nano-banana') {
+    if (NANO_BANANA_TAB_ENABLED && filter === 'nano-banana') {
       filteredImages = filteredImages.filter(item =>
         item.tags.map(t => t.toLowerCase()).includes('nano banana')
       );
@@ -91,11 +95,17 @@ function ImagePromptsContent() {
     }
     
     return filteredImages;
-  }, [filter, tagFromUrl]);
+  }, [filter, tagFromUrl, placeholderImages]);
 
   useEffect(() => {
     setCurrentPage(1);
   }, [filter, tagFromUrl]);
+
+  useEffect(() => {
+    if (!NANO_BANANA_TAB_ENABLED && filter === 'nano-banana') {
+      setFilter('all');
+    }
+  }, [filter]);
 
   const totalPages = Math.ceil(imageContent.length / itemsPerPage);
 
@@ -176,24 +186,26 @@ function ImagePromptsContent() {
               Discover thousands of AI image prompts and examples. Get inspired
               and create your own AI generated images.
             </p>
-            <Tabs
-              defaultValue="all"
-              className="w-full max-w-md pt-4"
-              onValueChange={value => setFilter(value)}
-            >
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="all">All Prompts</TabsTrigger>
-                <TabsTrigger value="nano-banana">
+            {NANO_BANANA_TAB_ENABLED ? (
+              <Tabs
+                defaultValue="all"
+                className="w-full max-w-md pt-4"
+                onValueChange={value => setFilter(value)}
+              >
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="all">All Prompts</TabsTrigger>
+                  <TabsTrigger value="nano-banana">
                     <Sparkles className="mr-2 h-4 w-4" />
                     Nano Banana Pro
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
-            <div className="flex gap-4 pt-4">
+                  </TabsTrigger>
+                </TabsList>
+              </Tabs>
+            ) : null}
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 pt-4">
               <Button variant="outline" asChild>
                 <Link href="/image-tags">
                   <Tag className="mr-2" />
-                  Browse by Tags
+                  {tTags('browseByTags')}
                 </Link>
               </Button>
               <Button asChild>
@@ -211,11 +223,12 @@ function ImagePromptsContent() {
                 key={item.id}
                 className="overflow-hidden group h-full flex flex-col bg-card"
               >
-                <CardHeader>
-                  <CardTitle className="font-headline text-xl">
-                    {item.title}
-                  </CardTitle>
-                </CardHeader>
+                <PromptCatalogCardHeader
+                  title={item.title}
+                  membership={item.membership}
+                  className="p-6 pb-0"
+                  titleClassName="text-xl"
+                />
                 <CardContent className="p-6 pt-0 space-y-4 flex-grow">
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Tag className="w-4 h-4" />
@@ -232,7 +245,7 @@ function ImagePromptsContent() {
                     />
                   </div>
                 </CardContent>
-                <CardFooter className="bg-muted/50 p-4 border-t flex items-center justify-between gap-2">
+                <CardFooter className="bg-muted/50 p-4 border-t flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-between gap-2">
                   <Button size="sm" asChild>
                     <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
                         <Wand2 className="w-4 h-4 mr-2" />

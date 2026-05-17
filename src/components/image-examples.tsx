@@ -1,29 +1,30 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { PromptCatalogCardHeader } from '@/components/prompt-catalog-card-header';
 import {
   Card,
   CardContent,
   CardFooter,
-  CardHeader,
-  CardTitle,
 } from '@/components/ui/card';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { useLocalizedPlaceholderImages } from '@/hooks/use-localized-catalog';
+import type { ImagePlaceholder } from '@/lib/placeholder-images';
 import { Loader2, Tag, Wand2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Suspense, useMemo } from 'react';
 
 function ImageExamplesContent() {
+  const placeholderImages = useLocalizedPlaceholderImages();
   const imageContent = useMemo(() => {
-    const uniqueByTitle = new Map<string, (typeof PlaceHolderImages)[number]>();
-    for (const item of PlaceHolderImages.filter(entry => entry.type === 'image' && entry.imageUrl)) {
+    const uniqueByTitle = new Map<string, ImagePlaceholder>();
+    for (const item of placeholderImages.filter(entry => entry.type === 'image' && entry.imageUrl)) {
       if (!uniqueByTitle.has(item.title.toLowerCase())) {
         uniqueByTitle.set(item.title.toLowerCase(), item);
       }
     }
     return Array.from(uniqueByTitle.values()).slice(0, 9);
-  }, []);
+  }, [placeholderImages]);
 
   return (
     <>
@@ -33,11 +34,12 @@ function ImageExamplesContent() {
             key={item.id}
             className="overflow-hidden group h-full flex flex-col bg-card"
           >
-            <CardHeader className="p-4">
-              <CardTitle className="font-headline text-lg">
-                {item.title}
-              </CardTitle>
-            </CardHeader>
+            <PromptCatalogCardHeader
+              title={item.title}
+              membership={item.membership}
+              className="p-4"
+              titleClassName="text-lg"
+            />
             <CardContent className="p-4 pt-0 space-y-4 flex-grow">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Tag className="w-4 h-4" />
@@ -54,7 +56,7 @@ function ImageExamplesContent() {
                 />
               </div>
             </CardContent>
-            <CardFooter className="bg-muted/50 p-4 border-t flex items-center justify-between gap-2">
+            <CardFooter className="bg-muted/50 p-4 border-t flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-between gap-2">
               <Button size="sm" asChild>
                 <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
                     <Wand2 className="w-4 h-4 mr-2" />

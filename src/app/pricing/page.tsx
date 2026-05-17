@@ -157,7 +157,7 @@ export default function PricingPage() {
             </p>
           </div>
 
-          <div className="flex justify-center items-center gap-4 mb-12">
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 mb-12">
             <Label htmlFor="billing-cycle" className={cn(!isYearly ? 'text-foreground' : 'text-muted-foreground')}>
               Monthly
             </Label>

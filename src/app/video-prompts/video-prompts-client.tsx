@@ -2,6 +2,7 @@
 
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
+import { PromptCatalogCardHeader } from '@/components/prompt-catalog-card-header';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -13,17 +14,18 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
-import {
-  PlaceHolderVideos,
-  type VideoProp,
-} from '@/lib/placeholder-videos';
+import type { VideoProp } from '@/lib/placeholder-videos';
+import { useLocalizedPlaceholderVideos } from '@/hooks/use-localized-catalog';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Sparkles, Tag, Wand2 } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useEffect, useMemo } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useTranslations } from 'next-intl';
 
 export default function VideoPromptsClient() {
+  const tTags = useTranslations('tags');
+  const placeholderVideos = useLocalizedPlaceholderVideos();
   const [hasMounted, setHasMounted] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -35,13 +37,13 @@ export default function VideoPromptsClient() {
   }, []);
 
   const videoContent: VideoProp[] = useMemo(() => {
-    return PlaceHolderVideos.filter(item => {
+    return placeholderVideos.filter(item => {
       if (filter === 'nano-banana') {
         return item.tags.map(t => t.toLowerCase()).includes('nano banana');
       }
       return true;
     });
-  }, [filter]);
+  }, [filter, placeholderVideos]);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -126,7 +128,7 @@ export default function VideoPromptsClient() {
               <Skeleton className="h-12 w-3/4" />
               <Skeleton className="h-6 w-1/2" />
               <Skeleton className="h-10 w-64" />
-              <div className="flex gap-4 pt-4">
+              <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 pt-4">
                 <Skeleton className="h-10 w-32" />
                 <Skeleton className="h-10 w-40" />
               </div>
@@ -183,11 +185,11 @@ export default function VideoPromptsClient() {
                 </TabsTrigger>
               </TabsList>
             </Tabs>
-            <div className="flex gap-4 pt-4">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 pt-4">
               <Button variant="outline" asChild>
                 <Link href="/video-tags">
                   <Tag className="mr-2" />
-                  Browse by Tags
+                  {tTags('browseByTags')}
                 </Link>
               </Button>
               <Button asChild>
@@ -205,11 +207,12 @@ export default function VideoPromptsClient() {
                 key={item.id}
                 className="overflow-hidden group h-full flex flex-col bg-card"
               >
-                <CardHeader>
-                  <CardTitle className="font-headline text-xl">
-                    {item.title}
-                  </CardTitle>
-                </CardHeader>
+                <PromptCatalogCardHeader
+                  title={item.title}
+                  membership={item.membership}
+                  className="p-6 pb-0"
+                  titleClassName="text-xl"
+                />
                 <CardContent className="p-6 pt-0 space-y-4 flex-grow">
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Tag className="w-4 h-4" />
@@ -224,7 +227,7 @@ export default function VideoPromptsClient() {
                     />
                   </div>
                 </CardContent>
-                <CardFooter className="bg-muted/50 p-4 border-t flex items-center justify-between gap-2">
+                <CardFooter className="bg-muted/50 p-4 border-t flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-between gap-2">
                   <Button size="sm" asChild>
                       <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
                           <Wand2 className="w-4 h-4 mr-2" />

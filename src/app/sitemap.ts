@@ -1,5 +1,6 @@
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { PlaceHolderVideos } from '@/lib/placeholder-videos';
+import { PROMPT_EDIT_ENABLED } from '@/lib/prompt-edit';
 import { MetadataRoute } from 'next';
 
 const BASE_URL = 'https://www.prompstudio.com';
@@ -31,6 +32,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: `${BASE_URL}/landing-pages`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
       url: `${BASE_URL}/image-tags`,
       lastModified: new Date(),
       changeFrequency: 'daily',
@@ -43,16 +50,32 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
-      url: `${BASE_URL}/prompt/edit`,
+      url: `${BASE_URL}/web-tags`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.7,
     },
-     {
+    ...(PROMPT_EDIT_ENABLED
+      ? [
+          {
+            url: `${BASE_URL}/prompt/edit`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly' as const,
+            priority: 0.7,
+          },
+        ]
+      : []),
+    {
       url: `${BASE_URL}/pricing`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.5,
+    },
+    {
+      url: `${BASE_URL}/prices`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.6,
     },
   ];
 

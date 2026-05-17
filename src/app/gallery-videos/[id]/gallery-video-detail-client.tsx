@@ -12,16 +12,18 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import {
-  PlaceHolderVideos,
-  type VideoProp,
-} from '@/lib/placeholder-videos';
+import type { VideoProp } from '@/lib/placeholder-videos';
+import { useLocalizedPlaceholderVideos } from '@/hooks/use-localized-catalog';
 import { ArrowLeft, Copy, Wand2 } from 'lucide-react';
 import Link from 'next/link';
 import { useMemo } from 'react';
 
 export default function GalleryVideoDetailClient({ item }: { item: VideoProp }) {
-  const otherItems = useMemo(() => PlaceHolderVideos.filter(p => p.id !== item.id).slice(0, 3), [item.id]);
+  const placeholderVideos = useLocalizedPlaceholderVideos();
+  const otherItems = useMemo(
+    () => placeholderVideos.filter(p => p.id !== item.id).slice(0, 3),
+    [item.id, placeholderVideos]
+  );
   
   const { toast } = useToast();
 
@@ -38,11 +40,11 @@ export default function GalleryVideoDetailClient({ item }: { item: VideoProp }) 
     <div className="flex min-h-screen w-full flex-col bg-background">
       <Header />
       <main className="flex-1 py-8 md:py-12">
-        <div className="container">
-          <div className="grid lg:grid-cols-2 gap-12">
+        <div className="container min-w-0">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
             <div className="space-y-6">
               <div>
-                <h1 className="text-3xl md:text-4xl font-bold font-headline mb-2">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-headline mb-2 text-balance">
                   {item.title}
                 </h1>
                 <div className="flex flex-wrap gap-2 mt-4">
@@ -60,7 +62,7 @@ export default function GalleryVideoDetailClient({ item }: { item: VideoProp }) 
                     controls
                     className="w-full h-full object-cover"
                   />
-                 <div className="absolute bottom-4 right-4 flex items-start gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                 <div className="absolute bottom-4 right-4 flex items-start gap-4 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                     <Button size="sm" variant="secondary" asChild>
                       <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
                           <Wand2 className="mr-2" />

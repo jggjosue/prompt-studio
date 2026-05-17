@@ -82,7 +82,14 @@ body {
   * {
     @apply border-border;
   }
+  html {
+    @apply overflow-x-hidden;
+  }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground overflow-x-hidden min-w-0;
+  }
+  img,
+  video {
+    @apply max-w-full h-auto;
   }
 }

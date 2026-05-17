@@ -2,6 +2,7 @@
 
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
+import { PromptCatalogCardHeader } from '@/components/prompt-catalog-card-header';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -11,10 +12,13 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { PlaceHolderVideos } from '@/lib/placeholder-videos';
+import {
+  useLocalizedPlaceholderImages,
+  useLocalizedPlaceholderVideos,
+} from '@/hooks/use-localized-catalog';
 import { ArrowLeft, Sparkles, Wand2, Box, Copy, Bot, CheckCircle2, BookOpen, Lightbulb, MessageSquare, ListChecks, Terminal } from 'lucide-react';
 import Image from 'next/image';
+import { PromptEditButton } from '@/components/prompt-edit-button';
 import Link from 'next/link';
 import { useMemo } from 'react';
 import { useToast } from '@/hooks/use-toast';
@@ -117,12 +121,15 @@ function SectionCard({ section }: { section: PromptBlock }) {
         )}
       </CardContent>
       <CardFooter className="bg-muted/10 p-3 border-t">
-        <Button variant="secondary" size="sm" className="w-full text-xs h-8" asChild>
-          <Link href={`/prompt/edit?prompt=${encodeURIComponent(section.description)}`}>
-            <Wand2 className="h-3.5 w-3.5 mr-2" />
-            Test Prompt
-          </Link>
-        </Button>
+        <PromptEditButton
+          variant="secondary"
+          size="sm"
+          className="w-full text-xs h-8"
+          href={`/prompt/edit?prompt=${encodeURIComponent(section.description)}`}
+        >
+          <Wand2 className="h-3.5 w-3.5 mr-2" />
+          Test Prompt
+        </PromptEditButton>
       </CardFooter>
     </Card>
   );
@@ -136,18 +143,21 @@ export default function ModelDetailClient({
   specialPrompt?: string;
   jsonPrompts?: PromptBlock[];
 }) {
+  const placeholderImages = useLocalizedPlaceholderImages();
+  const placeholderVideos = useLocalizedPlaceholderVideos();
+
   const relatedContent = useMemo(() => {
     const modelSlug = modelName.toLowerCase();
-    const images = PlaceHolderImages.filter(item => 
+    const images = placeholderImages.filter(item => 
       item.tags.some(tag => tag.toLowerCase() === modelSlug) ||
       item.title.toLowerCase().includes(modelSlug)
     );
-    const videos = PlaceHolderVideos.filter(item => 
+    const videos = placeholderVideos.filter(item => 
       item.tags.some(tag => tag.toLowerCase() === modelSlug) ||
       item.title.toLowerCase().includes(modelSlug)
     );
     return [...images, ...videos].slice(0, 6);
-  }, [modelName]);
+  }, [modelName, placeholderImages, placeholderVideos]);
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
@@ -174,12 +184,14 @@ export default function ModelDetailClient({
                 </div>
               </div>
               <div className="flex flex-col gap-3">
-                <Button size="lg" className="w-full md:w-auto shadow-md text-sm sm:text-base" asChild>
-                  <Link href={`/prompt/edit?model=${encodeURIComponent(modelName)}`}>
-                    <Wand2 className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-                    Open Generator
-                  </Link>
-                </Button>
+                <PromptEditButton
+                  size="lg"
+                  className="w-full md:w-auto shadow-md text-sm sm:text-base"
+                  href={`/prompt/edit?model=${encodeURIComponent(modelName)}`}
+                >
+                  <Wand2 className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                  Open Generator
+                </PromptEditButton>
               </div>
             </div>
           </div>
@@ -215,11 +227,12 @@ export default function ModelDetailClient({
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                   {relatedContent.map(item => (
                     <Card key={item.id} className="overflow-hidden group h-full flex flex-col hover:shadow-lg transition-all border-primary/5">
-                      <CardHeader className="p-4">
-                        <CardTitle className="text-base sm:text-lg font-bold line-clamp-1">
-                          {item.title}
-                        </CardTitle>
-                      </CardHeader>
+                      <PromptCatalogCardHeader
+                        title={item.title}
+                        membership={item.membership}
+                        className="p-4"
+                        titleClassName="text-base sm:text-lg font-bold line-clamp-1"
+                      />
                       <CardContent className="p-4 pt-0 space-y-4 flex-grow">
                         <div className="relative aspect-[3/4] rounded-md overflow-hidden bg-muted">
                           {item.type === 'video' ? (

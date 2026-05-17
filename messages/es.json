@@ -1,0 +1,338 @@
+{
+  "language": {
+    "toggle": "Cambiar idioma",
+    "english": "English",
+    "spanish": "Español"
+  },
+  "theme": {
+    "toggle": "Cambiar tema",
+    "light": "Claro",
+    "dark": "Oscuro",
+    "system": "Sistema"
+  },
+  "common": {
+    "toggleMenu": "Abrir menú",
+    "signIn": "Iniciar sesión",
+    "signUp": "Registrarse",
+    "signOut": "Cerrar sesión",
+    "loading": "Cargando...",
+    "view": "Ver",
+    "copy": "Copiar",
+    "copied": "¡Copiado!",
+    "copyPrompt": "Copiar prompt",
+    "back": "Volver",
+    "search": "Buscar",
+    "noResults": "No se encontraron resultados.",
+    "useThisPrompt": "Usar este prompt",
+    "generatePrompt": "Generar prompt",
+    "durationSeconds": "Duración: 5 segundos",
+    "noCreditCard": "No se requiere tarjeta de crédito",
+    "accountRequired": "Cuenta requerida",
+    "noAccount": "Sin cuenta",
+    "free": "Gratis",
+    "premium": "Premium",
+    "startup": "Startup",
+    "perMonth": "/mes",
+    "perYear": "/año",
+    "forever": "/siempre"
+  },
+  "nav": {
+    "home": "Inicio",
+    "library": "Biblioteca",
+    "images": "Imágenes",
+    "videos": "Videos",
+    "webs": "Webs",
+    "prices": "Precios",
+    "tags": "Etiquetas",
+    "videoTags": "Etiquetas de video",
+    "videoTagsDesc": "Explora por estilo de movimiento",
+    "imageTags": "Etiquetas de imagen",
+    "imageTagsDesc": "Explora por estilo visual",
+    "webTags": "Webs",
+    "webTagsDesc": "Explora por estilo de página"
+  },
+  "header": {
+    "brand": "Prompt Studio",
+    "dashboard": "Panel",
+    "profile": "Perfil",
+    "billing": "Facturación",
+    "settings": "Configuración",
+    "createAccount": "Crear cuenta",
+    "signIn": "Iniciar sesión",
+    "accountMenu": "Cuenta"
+  },
+  "footer": {
+    "brand": "Prompt Studio",
+    "tagline": "Tu colección definitiva de prompts de video con IA. Inspírate, explora ejemplos y crea videos impresionantes con IA.",
+    "copyright": "Todos los derechos reservados.",
+    "links": "Enlaces",
+    "contact": "Contacto",
+    "aiVideoGenerator": "Generador de video con IA",
+    "aiImageGenerator": "Generador de imágenes con IA",
+    "videoPrompts": "Prompts de video",
+    "videoTags": "Etiquetas de video",
+    "imagePrompts": "Prompts de imagen",
+    "imageTags": "Etiquetas de imagen",
+    "nanoBanana": "Nano Banana Pro",
+    "landingPages": "Landing pages",
+    "webTags": "Etiquetas web",
+    "music": "Música",
+    "portfolio": "Portafolio",
+    "gaming": "Gaming",
+    "travel": "Viajes",
+    "promptGenerator": "Generador de prompts",
+    "legal": "Legal",
+    "termsOfUse": "Términos de uso",
+    "privacyPolicy": "Política de privacidad"
+  },
+  "home": {
+    "heroTitle": "Genera tu próxima visión",
+    "heroSubtitle": "Libera tu creatividad con nuestro generador de prompts con IA. Escribe tus ideas y míralas cobrar vida.",
+    "videoExamplesTitle": "Ejemplos de video",
+    "videoExamplesSubtitle": "Descubre ejemplos de video con IA de alta calidad creados con prompts de video expertos.",
+    "imageExamplesTitle": "Ejemplos de imagen",
+    "imageExamplesSubtitle": "Explora imágenes generadas con IA y los prompts que las crearon.",
+    "exploreToolsTitle": "Explora nuestras herramientas",
+    "exploreToolsSubtitle": "Descubre los modelos y la inspiración detrás de las creaciones.",
+    "modelShowcaseTitle": "Vitrina de modelos de IA",
+    "examplePromptsTitle": "Prompts de ejemplo",
+    "communityGallery": "Galería de la comunidad",
+    "models": {
+      "starlight": {
+        "name": "Starlight XL",
+        "description": "Generación de imágenes fotorrealistas para visuales impactantes."
+      },
+      "chrono": {
+        "name": "Chrono-Animator",
+        "description": "Transforma imágenes estáticas en videos cortos dinámicos."
+      },
+      "dream": {
+        "name": "Dream Weaver 3",
+        "description": "Crea arte surrealista y abstracto a partir de prompts de texto simples."
+      }
+    },
+    "examplePrompts": [
+      "Un león majestuoso con monóculo steampunk, retrato, detallado, intrincado, enfoque nítido",
+      "Atardecer synthwave sobre una ciudad retrofuturista, luces de neón, estética de los 80",
+      "Un bosque encantado con hongos brillantes y criaturas etéreas, fantasía, mágico",
+      "Una persecución a alta velocidad con aerodeslizadores en un campo de asteroides, ciencia ficción, acción"
+    ]
+  },
+  "faq": {
+    "title": "Preguntas frecuentes",
+    "subtitle": "Todo lo que necesitas saber sobre prompts de video e imagen con IA",
+    "items": [
+      {
+        "question": "¿Qué es Prompt Studio?",
+        "answer": "Prompt Studio es tu biblioteca integral de prompts de IA con miles de prompts de video e imagen de calidad. Ayudamos a creadores a descubrir ejemplos de alta calidad, inspirarse y generar videos e imágenes profesionales con IA usando prompts elaborados para varios modelos."
+      },
+      {
+        "question": "¿Cómo funciona Prompt Studio?",
+        "answer": "Puedes explorar nuestra galería para inspirarte, usar nuestro generador de prompts para crear nuevas ideas y explorar distintos modelos de IA. Cuando encuentres o crees un prompt que te guste, úsalo con tu generador de imagen o video favorito."
+      },
+      {
+        "question": "¿Prompt Studio es gratuito?",
+        "answer": "Sí, explorar la galería y generar prompts es completamente gratis. Algunas funciones avanzadas pueden requerir una cuenta."
+      },
+      {
+        "question": "¿Qué modelos de IA admite Prompt Studio?",
+        "answer": "Admitimos una amplia gama de modelos populares de IA para generación de imagen y video. La plataforma está diseñada para ser compatible con las herramientas más recientes y potentes."
+      },
+      {
+        "question": "¿Puedo usar los prompts con cualquier generador de IA?",
+        "answer": "¡Por supuesto! Nuestros prompts son versátiles y funcionan con cualquier herramienta de generación de imagen o video que acepte prompts de texto."
+      },
+      {
+        "question": "¿Cómo contacto al soporte?",
+        "answer": "Puedes escribir a support@promptstudio.com. ¡Estamos encantados de ayudarte!"
+      }
+    ]
+  },
+  "promptGenerator": {
+    "placeholder": "Escribe palabras clave para inspirar la IA, p. ej. 'bosque místico, runas antiguas, hongos luminosos'"
+  },
+  "prices": {
+    "title": "Precios",
+    "subtitle": "Empieza gratis, desbloquea prompts Premium o elige Developer con código fuente e instrucciones de instalación.",
+    "annualBilling": "Facturación anual",
+    "annualBillingHint": "Aplica a Premium y Developer. Premium: {premiumYear}/año (ahorra {premiumSave}). Startup: {devYear}/año (ahorra {devSave}).",
+    "freeDesc": "Todo lo que puedes descargar sin iniciar sesión.",
+    "browseFree": "Explorar prompts gratis",
+    "premiumDesc": "Todos los prompts Premium. Descarga el catálogo completo con una suscripción.",
+    "allFreeBenefits": "Todos los beneficios del plan Gratis",
+    "weeklyDrops": "nuevos prompts por categoría cada semana",
+    "weeklyDropsLabel": "Novedades semanales:",
+    "managePremium": "Gestionar Premium",
+    "subscribePremium": "Suscribirse a Premium",
+    "previewPremium": "Vista previa del contenido Premium",
+    "startupDesc": "Premium más código fuente completo y guías de instalación para cada demo web.",
+    "installGuides": "desarrollo local, hosting estático y configuración del cargador refactory",
+    "installGuidesLabel": "Guías de instalación:",
+    "upgradeStartup": "Mejorar a Startup",
+    "subscribeStartup": "Suscribirse como Startup",
+    "browseWebProjects": "Explorar proyectos web",
+    "bestForBuilders": "Ideal para desarrolladores",
+    "footerNote": "El contenido gratis no requiere cuenta. Premium desbloquea todos los prompts Premium. Startup añade código fuente descargable e instrucciones de instalación por proyecto.",
+    "clerkBillingTitle": "Suscríbete con Clerk",
+    "clerkBillingSubtitle": "Pagos seguros con Stripe. Tras suscribirte, el contenido premium se desbloquea al instante.",
+    "planActive": "Plan activo",
+    "subscribeBelow": "Suscríbete abajo",
+    "billedMonthly": "Facturación mensual · activa la facturación anual arriba para ahorrar",
+    "equivalentMonthly": "Equivalente a {amount}/mes, facturado anualmente",
+    "savePerYear": "· Ahorra {amount}/año",
+    "freeFeatures": [
+      "Descarga cada prompt marcado como Gratis — sin cuenta",
+      "Explora prompts de imagen, video y web abiertos para todos",
+      "Copia y usa prompts al instante desde la biblioteca",
+      "Explora demos de landing pages etiquetadas como Gratis"
+    ],
+    "premiumFeatures": [
+      "Acceso completo a todos los prompts Premium de la biblioteca",
+      "Descarga cualquier prompt con la insignia Premium",
+      "Nuevos prompts por categoría cada semana",
+      "Landing pages, imágenes, videos y prompts de modelos incluidos"
+    ],
+    "developerFeatures": [
+      "Todo lo incluido en Gratis y Premium",
+      "Código fuente completo de cada proyecto y demo web",
+      "Instrucciones paso a paso de instalación por proyecto",
+      "Paquetes HTML/CSS (y JS cuando aplique) listos para clonar"
+    ]
+  },
+  "dashboard": {
+    "dashboard": "Panel",
+    "create": "Crear",
+    "creations": "Creaciones",
+    "myCreations": "Mis creaciones",
+    "favorites": "Favoritos",
+    "settings": "Configuración",
+    "billing": "Facturación",
+    "settingsSection": "Configuración",
+    "upgradeTitle": "Mejorar a Pro",
+    "upgradeDesc": "Desbloquea todas las funciones y obtén acceso ilimitado a nuestro equipo de soporte.",
+    "upgrade": "Mejorar",
+    "navLabel": "Navegación del panel",
+    "profile": "Perfil",
+    "analytics": "Analítica"
+  },
+  "dashboardAnalytics": {
+    "title": "Analítica",
+    "subtitle": "Métricas de usuarios y actividad de tu app en Clerk (solo producción).",
+    "clerkTitle": "Panel de Clerk",
+    "clerkDesc": "Registros, inicios de sesión, usuarios activos y retención. Personaliza rango de fechas e intervalo (diario, semanal, mensual) en el Overview.",
+    "openClerkDashboard": "Abrir analítica en Clerk",
+    "methodologyTitle": "Cómo se miden las métricas",
+    "methodologyDesc": "Resumen según la metodología oficial de Clerk.",
+    "metrics": {
+      "activeUser": {
+        "title": "Usuario activo",
+        "desc": "Cuenta si el usuario tuvo actividad de sesión ese día (inicio de sesión, token o petición autenticada). Una vez por periodo, sin importar dispositivos."
+      },
+      "signIn": {
+        "title": "Inicio de sesión",
+        "desc": "Cada vez que un usuario completa el flujo de autenticación y se crea una sesión nueva. Las renovaciones de sesión no cuentan."
+      },
+      "signUp": {
+        "title": "Registro",
+        "desc": "Cuando se crea una cuenta nueva (en el momento de creación, no al verificar el correo)."
+      },
+      "retention": {
+        "title": "Retención",
+        "desc": "Porcentaje de usuarios que se registraron en un periodo y volvieron en un periodo posterior (modelo por cohortes)."
+      },
+      "freshness": {
+        "title": "Actualización de datos",
+        "desc": "Se actualiza a diario. Las métricas completas cubren hasta el fin del día UTC anterior; las proyecciones son en tiempo casi real."
+      }
+    },
+    "faqTitle": "Preguntas frecuentes",
+    "faqDev": "Los datos de la instancia de desarrollo no aparecen en analítica; solo producción.",
+    "faqImpersonation": "Las sesiones por suplantación de usuario no se incluyen.",
+    "faqBots": "Las sesiones máquina-a-máquina (M2M) no se cuentan; solo usuarios reales."
+  },
+  "profile": {
+    "title": "Perfil",
+    "subtitle": "Administra tu cuenta y suscripción con Clerk Billing.",
+    "member": "Miembro",
+    "accountTitle": "Información de la cuenta",
+    "accountDesc": "Tu perfil se gestiona a través de tu proveedor de inicio de sesión.",
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "email": "Correo electrónico",
+    "accountManaged": "Para cambiar tu nombre o correo, actualiza tu cuenta en la configuración de tu proveedor de autenticación.",
+    "subscriptionTitle": "Suscripción y facturación",
+    "subscriptionDesc": "Elige un plan y ciclo de facturación. Premium y Startup desbloquean contenido de pago.",
+    "subscriptionClerkDesc": "Los pagos se procesan con Clerk Billing (Stripe). Elige o cambia tu plan abajo.",
+    "currentPlan": "Plan actual",
+    "subscriptionFreeHint": "Suscríbete a Premium o Startup para desbloquear landing pages, prompts y demos.",
+    "subscriptionActiveHint": "Tu suscripción está activa. Puedes explorar todo el contenido premium.",
+    "browsePremiumContent": "Explorar contenido premium",
+    "billingCycle": "Ciclo de facturación",
+    "monthly": "Mensual",
+    "monthlyDesc": "Facturación cada mes",
+    "annual": "Anual",
+    "annualDesc": "Un pago al año — ahorra vs mensual",
+    "plan": "Plan",
+    "currentAmount": "Importe actual",
+    "nextPayment": "Próximo pago",
+    "paymentHistory": "Historial de pagos",
+    "description": "Descripción",
+    "amount": "Importe",
+    "status": "Estado",
+    "paid": "Pagado",
+    "comparePlans": "Comparar todos los planes",
+    "saveSubscription": "Guardar suscripción",
+    "subscriptionSaved": "Suscripción actualizada",
+    "subscriptionSavedDesc": "Se guardaron tu plan y preferencias de facturación.",
+    "paymentTitle": "Método de pago",
+    "paymentDesc": "Añade una tarjeta de crédito o débito para suscripciones Premium y Startup.",
+    "defaultCard": "Predeterminada",
+    "cardholderName": "Nombre en la tarjeta",
+    "cardholderPlaceholder": "Nombre completo como en la tarjeta",
+    "cardNumber": "Número de tarjeta",
+    "expiry": "Vencimiento",
+    "cvc": "CVC",
+    "secureNote": "Los datos de la tarjeta se validan localmente en esta demo. Conecta Stripe para pagos seguros en producción.",
+    "stripeNote": "Se aceptan Visa, Mastercard y American Express.",
+    "saveCard": "Guardar tarjeta",
+    "cardSaved": "Tarjeta guardada",
+    "cardSavedDesc": "{brand} terminada en {last4} es ahora tu método de pago predeterminado.",
+    "cardError": "No se pudo guardar la tarjeta",
+    "cardNumberInvalid": "Introduce un número de tarjeta válido.",
+    "cardExpiryInvalid": "Introduce el vencimiento como MM/AA.",
+    "cardCvcInvalid": "Introduce un código de seguridad válido.",
+    "cardNameRequired": "Introduce el nombre en la tarjeta.",
+    "saving": "Guardando..."
+  },
+  "prompts": {
+    "title": "Biblioteca de prompts",
+    "subtitle": "Explora prompts elaborados por expertos, organizados por modelos de IA y herramientas de desarrollo. Encuentra el punto de partida perfecto para tu próximo proyecto.",
+    "searchPlaceholder": "Buscar modelos...",
+    "browseCurated": "Explora prompts seleccionados para herramientas y sistemas {model}.",
+    "noModels": "No hay modelos que coincidan con tu búsqueda.",
+    "loadingLibrary": "Cargando biblioteca...",
+    "customTitle": "¿Necesitas un prompt personalizado?",
+    "customSubtitle": "Usa nuestro generador con IA para crear prompts de alta calidad para cualquiera de estos modelos en segundos.",
+    "goToGenerator": "Ir al generador"
+  },
+  "gallery": {
+    "backToGallery": "Volver a la galería",
+    "promptDetails": "Detalles del prompt",
+    "tags": "Etiquetas",
+    "openInStudio": "Abrir en AI Studio"
+  },
+  "tags": {
+    "browseByTags": "Explorar por etiquetas",
+    "copyInstantly": "Copiar prompts al instante",
+    "noVideosForTag": "No hay videos para esta etiqueta.",
+    "noImagesForTag": "No hay imágenes para esta etiqueta.",
+    "noLandingPages": "No hay landing pages para este filtro."
+  },
+  "auth": {
+    "loginTitle": "Inicia sesión en tu cuenta",
+    "registerTitle": "Crea una cuenta"
+  },
+  "contentGrid": {
+    "loadingGallery": "Cargando galería..."
+  }
+}

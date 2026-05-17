@@ -8,34 +8,26 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import VideoExamples from '@/components/video-examples';
 import { Bot, Clapperboard, Lightbulb, Loader2 } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
 import { Suspense } from 'react';
-import { Analytics } from '@vercel/analytics/react';
-import { SpeedInsights } from '@vercel/speed-insights/next';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-
-export default function Home() {
-  const examplePrompts = [
-    'A majestic lion with a steampunk monocle, portrait, detailed, intricate, sharp focus',
-    'Synthwave sunset over a retro-futuristic city, neon lights, 80s aesthetic',
-    'An enchanted forest with glowing mushrooms and ethereal creatures, fantasy, magical',
-    'A high-speed chase with hovercrafts through a dense asteroid field, sci-fi, action',
-  ];
+export default async function Home() {
+  const t = await getTranslations('home');
+  const examplePrompts = t.raw('examplePrompts') as string[];
 
   const aiModels = [
     {
-      name: 'Starlight XL',
-      description: 'Photorealistic image generation for stunning visuals.',
+      name: t('models.starlight.name'),
+      description: t('models.starlight.description'),
       icon: <Bot className="h-6 w-6 text-primary" />,
     },
     {
-      name: 'Chrono-Animator',
-      description: 'Transform static images into dynamic short videos.',
+      name: t('models.chrono.name'),
+      description: t('models.chrono.description'),
       icon: <Clapperboard className="h-6 w-6 text-primary" />,
     },
     {
-      name: 'Dream Weaver 3',
-      description: 'Create surreal and abstract art from simple text prompts.',
+      name: t('models.dream.name'),
+      description: t('models.dream.description'),
       icon: <Lightbulb className="h-6 w-6 text-primary" />,
     },
   ];
@@ -50,11 +42,10 @@ export default function Home() {
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center space-y-4 text-center">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none font-headline">
-                Generate Your Next Vision
+                {t('heroTitle')}
               </h1>
               <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-                Unleash your creativity with our AI-powered prompt generator. Type
-                in your ideas and watch them come to life.
+                {t('heroSubtitle')}
               </p>
             </div>
             <div className="mx-auto w-full max-w-2xl pt-8 md:pt-12">
@@ -65,30 +56,14 @@ export default function Home() {
           </div>
         </section>
 
-        {/* <section className="w-full py-12 md:py-24 lg:py-28">
-          <div className="container">
-            <div className="flex flex-col items-center space-y-4 text-center mb-12">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
-                Powerful AI Models at Your Fingertips
-              </h2>
-              <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-                Choose from industry-leading AI models for image and video
-                generation. Each model offers unique capabilities to bring your
-                creative vision to life.
-              </p>
-            </div>
-            <ModelCarousel />
-          </div>
-        </section> */}
-
         <section id="video-examples" className="w-full py-8 md:py-16 bg-muted/30">
           <div className="container">
              <div className="flex flex-col items-center space-y-2 text-center mb-12">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
-                    Video Examples
+                    {t('videoExamplesTitle')}
                 </h2>
                 <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg">
-                    Discover high-quality AI video examples created with expertly crafted AI video prompts.
+                    {t('videoExamplesSubtitle')}
                 </p>
             </div>
             <Suspense fallback={<div className="flex w-full justify-center py-10"><Loader2 className="h-8 w-8 animate-spin text-muted-foreground" /></div>}>
@@ -101,10 +76,10 @@ export default function Home() {
           <div className="container">
              <div className="flex flex-col items-center space-y-2 text-center mb-12">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
-                    Image Examples
+                    {t('imageExamplesTitle')}
                 </h2>
                 <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg">
-                    Explore stunning AI-generated images and the prompts that created them.
+                    {t('imageExamplesSubtitle')}
                 </p>
             </div>
             <ImageExamples />
@@ -112,7 +87,6 @@ export default function Home() {
         </section>
         
         <Faq />
-
 
         <Separator className="my-8" />
 
@@ -122,16 +96,16 @@ export default function Home() {
         >
           <div className="flex flex-col justify-center">
             <h2 className="text-3xl font-bold tracking-tighter font-headline mb-4">
-              Explore Our Tools
+              {t('exploreToolsTitle')}
             </h2>
             <p className="text-muted-foreground">
-              Discover the models and inspiration behind the creations.
+              {t('exploreToolsSubtitle')}
             </p>
           </div>
           <Card className="hover:shadow-lg transition-shadow">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 font-headline text-xl md:text-2xl">
-                <Bot className="h-6 w-6" /> AI Model Showcase
+                <Bot className="h-6 w-6" /> {t('modelShowcaseTitle')}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -155,7 +129,7 @@ export default function Home() {
           <Card className="hover:shadow-lg transition-shadow">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 font-headline text-xl md:text-2xl">
-                <Lightbulb className="h-6 w-6" /> Example Prompts
+                <Lightbulb className="h-6 w-6" /> {t('examplePromptsTitle')}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -169,8 +143,6 @@ export default function Home() {
         </section>
       </main>
       <Footer />
-      <Analytics mode="production" />
-      <SpeedInsights />
     </div>
   );
 }
