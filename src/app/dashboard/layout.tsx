@@ -1,9 +1,6 @@
 import type { ReactNode } from 'react';
 import Link from 'next/link';
-import {
-  getKindeServerSession,
-  LogoutLink,
-} from '@kinde-oss/kinde-auth-nextjs/server';
+import { SidebarNavLink } from '@/components/dashboard/sidebar-nav-link';
 import {
   Bell,
   Home,
@@ -17,7 +14,8 @@ import {
   Image,
   Clapperboard,
   Heart,
-  CreditCard
+  CreditCard,
+  UserCircle,
 } from 'lucide-react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -40,25 +38,29 @@ import {
 } from '@/components/ui/dropdown-menu';
 import Logo from '@/components/layout/logo';
 import Header from '@/components/layout/header';
+import { DashboardMobileNav } from '@/components/dashboard/dashboard-mobile-nav';
+import { getTranslations } from 'next-intl/server';
 
 export default async function DashboardLayout({
   children,
 }: {
   children: ReactNode;
 }) {
-  const { getUser } = getKindeServerSession();
-  const user = await getUser();
+  const t = await getTranslations('dashboard');
+  const tHeader = await getTranslations('header');
 
   const navItems = [
-    { href: '/dashboard', icon: <LayoutGrid className="h-4 w-4" />, label: 'Dashboard' },
-    { href: '/prompt/edit', icon: <Clapperboard className="h-4 w-4" />, label: 'Create' },
-    { href: '/dashboard/creations', icon: <Image className="h-4 w-4" />, label: 'My Creations', badge: '5' },
-    { href: '/dashboard/favorites', icon: <Heart className="h-4 w-4" />, label: 'Favorites' },
+    { href: '/dashboard', icon: <LayoutGrid className="h-4 w-4" />, label: t('dashboard') },
+    { href: '/dashboard/analytics', icon: <LineChart className="h-4 w-4" />, label: t('analytics') },
+    { href: '/prompt/edit', icon: <Clapperboard className="h-4 w-4" />, label: t('create') },
+    { href: '/dashboard/creations', icon: <Image className="h-4 w-4" />, label: t('myCreations'), badge: '5' },
+    { href: '/dashboard/favorites', icon: <Heart className="h-4 w-4" />, label: t('favorites') },
   ];
   
   const settingsNavItems = [
-    { href: '/dashboard/settings', icon: <Settings className="h-4 w-4" />, label: 'Settings' },
-    { href: '/dashboard/billing', icon: <CreditCard className="h-4 w-4" />, label: 'Billing' },
+    { href: '/dashboard/profile', icon: <UserCircle className="h-4 w-4" />, label: t('profile') },
+    { href: '/dashboard/settings', icon: <Settings className="h-4 w-4" />, label: t('settings') },
+    { href: '/dashboard/billing', icon: <CreditCard className="h-4 w-4" />, label: t('billing') },
   ];
 
   return (
@@ -68,13 +70,13 @@ export default async function DashboardLayout({
           <div className="flex h-16 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <Link href="/" className="flex items-center gap-2 font-semibold">
               <Logo />
-              <span className="">Prompt Studio</span>
+              <span className="">{tHeader('brand')}</span>
             </Link>
           </div>
           <div className="flex-1">
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
               {navItems.map(item => (
-                <Link
+                <SidebarNavLink
                   key={item.label}
                   href={item.href}
                   className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
@@ -82,12 +84,12 @@ export default async function DashboardLayout({
                   {item.icon}
                   {item.label}
                   {item.badge && <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">{item.badge}</Badge>}
-                </Link>
+                </SidebarNavLink>
               ))}
             </nav>
             <div className="mt-4 px-2 lg:px-4">
               <h3 className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                Settings
+                {t('settingsSection')}
               </h3>
               <nav className="grid items-start text-sm font-medium">
                 {settingsNavItems.map(item => (
@@ -106,24 +108,24 @@ export default async function DashboardLayout({
           <div className="mt-auto p-4">
              <Card>
               <CardHeader className="p-2 pt-0 md:p-4">
-                <CardTitle>Upgrade to Pro</CardTitle>
+                <CardTitle>{t('upgradeTitle')}</CardTitle>
                 <CardDescription>
-                  Unlock all features and get unlimited access to our support
-                  team.
+                  {t('upgradeDesc')}
                 </CardDescription>
               </CardHeader>
               <CardContent className="p-2 pt-0 md:p-4 md:pt-0">
                 <Button size="sm" className="w-full" asChild>
-                  <Link href="/pricing">Upgrade</Link>
+                  <Link href="/pricing">{t('upgrade')}</Link>
                 </Button>
               </CardContent>
             </Card>
           </div>
         </div>
       </div>
-      <div className="flex flex-col">
+      <div className="flex min-w-0 flex-col">
         <Header />
-        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 bg-muted/20">
+        <DashboardMobileNav />
+        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 bg-muted/20 min-w-0">
           {children}
         </main>
       </div>

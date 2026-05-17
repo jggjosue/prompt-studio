@@ -71,7 +71,7 @@ export default function PromptEditorClient() {
       <main className="flex-1 py-12 md:py-16">
         <div className="container max-w-5xl">
           <div className="flex flex-col items-center space-y-4 text-center mb-12">
-            <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
+            <h1 className="text-2xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline text-balance px-2">
               Create & Discover Stunning AI Videos & Images
             </h1>
             <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
@@ -80,13 +80,13 @@ export default function PromptEditorClient() {
               and generate professional-quality content with our AI-powered
               tools and prompt library.
             </p>
-            <div className="flex gap-4">
-                <Button variant="outline" asChild>
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 w-full max-w-md sm:max-w-none justify-center">
+                <Button variant="outline" className="w-full sm:w-auto" asChild>
                     <Link href="/#gallery">
                         View Examples
                     </Link>
                 </Button>
-                <Button variant="secondary" asChild>
+                <Button variant="secondary" className="w-full sm:w-auto" asChild>
                   <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
                     <Sparkles className="mr-2" />
                     Nano Banana Pro
@@ -109,11 +109,11 @@ export default function PromptEditorClient() {
                   </TabsList>
                   <TabsContent value="ai-image">
                     <Tabs defaultValue="text-to-image">
-                      <TabsList>
-                        <TabsTrigger value="text-to-image">
+                      <TabsList className="grid w-full grid-cols-2">
+                        <TabsTrigger value="text-to-image" className="text-xs sm:text-sm">
                           Text to Image
                         </TabsTrigger>
-                        <TabsTrigger value="image-to-image">
+                        <TabsTrigger value="image-to-image" className="text-xs sm:text-sm">
                           Image to Image
                         </TabsTrigger>
                       </TabsList>
@@ -124,7 +124,7 @@ export default function PromptEditorClient() {
                               name="prompt"
                               value={prompt}
                               onChange={(e) => setPrompt(e.target.value)}
-                              className="h-64 text-base"
+                              className="h-64 text-base pb-10"
                               placeholder='{"subject":{"description":"Young western woman with long blonde wavy hair..."}, ...}'
                             />
                             <div className="absolute bottom-4 right-4 text-xs text-muted-foreground">

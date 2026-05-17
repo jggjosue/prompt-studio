@@ -1,0 +1,338 @@
+{
+  "language": {
+    "toggle": "Change language",
+    "english": "English",
+    "spanish": "Español"
+  },
+  "theme": {
+    "toggle": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "common": {
+    "toggleMenu": "Toggle Menu",
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "signOut": "Sign out",
+    "loading": "Loading...",
+    "view": "View",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "copyPrompt": "Copy prompt",
+    "back": "Back",
+    "search": "Search",
+    "noResults": "No results found.",
+    "useThisPrompt": "Use this prompt",
+    "generatePrompt": "Generate Prompt",
+    "durationSeconds": "Duration: 5 seconds",
+    "noCreditCard": "No credit card required",
+    "accountRequired": "Account required",
+    "noAccount": "No account",
+    "free": "Free",
+    "premium": "Premium",
+    "startup": "Startup",
+    "perMonth": "/month",
+    "perYear": "/year",
+    "forever": "/forever"
+  },
+  "nav": {
+    "home": "Home",
+    "library": "Library",
+    "images": "Images",
+    "videos": "Videos",
+    "webs": "Webs",
+    "prices": "Prices",
+    "tags": "Tags",
+    "videoTags": "Video Tags",
+    "videoTagsDesc": "Browse by motion style",
+    "imageTags": "Image Tags",
+    "imageTagsDesc": "Browse by visual style",
+    "webTags": "Webs",
+    "webTagsDesc": "Browse by page style"
+  },
+  "header": {
+    "brand": "Prompt Studio",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "billing": "Billing",
+    "settings": "Settings",
+    "createAccount": "Create account",
+    "signIn": "Sign in",
+    "accountMenu": "Account"
+  },
+  "footer": {
+    "brand": "Prompt Studio",
+    "tagline": "Your ultimate collection of AI video prompts. Gather inspiration, explore examples, and create stunning videos with AI.",
+    "copyright": "All rights reserved.",
+    "links": "Links",
+    "contact": "Contact",
+    "aiVideoGenerator": "AI Video Generator",
+    "aiImageGenerator": "AI Image Generator",
+    "videoPrompts": "Video Prompts",
+    "videoTags": "Video Tags",
+    "imagePrompts": "Image Prompts",
+    "imageTags": "Image Tags",
+    "nanoBanana": "Nano Banana Pro",
+    "landingPages": "Landing Pages",
+    "webTags": "Web Tags",
+    "music": "Music",
+    "portfolio": "Portfolio",
+    "gaming": "Gaming",
+    "travel": "Travel",
+    "promptGenerator": "Prompt Generator",
+    "legal": "Legal",
+    "termsOfUse": "Terms of Use",
+    "privacyPolicy": "Privacy Policy"
+  },
+  "home": {
+    "heroTitle": "Generate Your Next Vision",
+    "heroSubtitle": "Unleash your creativity with our AI-powered prompt generator. Type in your ideas and watch them come to life.",
+    "videoExamplesTitle": "Video Examples",
+    "videoExamplesSubtitle": "Discover high-quality AI video examples created with expertly crafted AI video prompts.",
+    "imageExamplesTitle": "Image Examples",
+    "imageExamplesSubtitle": "Explore stunning AI-generated images and the prompts that created them.",
+    "exploreToolsTitle": "Explore Our Tools",
+    "exploreToolsSubtitle": "Discover the models and inspiration behind the creations.",
+    "modelShowcaseTitle": "AI Model Showcase",
+    "examplePromptsTitle": "Example Prompts",
+    "communityGallery": "Community Gallery",
+    "models": {
+      "starlight": {
+        "name": "Starlight XL",
+        "description": "Photorealistic image generation for stunning visuals."
+      },
+      "chrono": {
+        "name": "Chrono-Animator",
+        "description": "Transform static images into dynamic short videos."
+      },
+      "dream": {
+        "name": "Dream Weaver 3",
+        "description": "Create surreal and abstract art from simple text prompts."
+      }
+    },
+    "examplePrompts": [
+      "A majestic lion with a steampunk monocle, portrait, detailed, intricate, sharp focus",
+      "Synthwave sunset over a retro-futuristic city, neon lights, 80s aesthetic",
+      "An enchanted forest with glowing mushrooms and ethereal creatures, fantasy, magical",
+      "A high-speed chase with hovercrafts through a dense asteroid field, sci-fi, action"
+    ]
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Everything you need to know about AI video and image prompts",
+    "items": [
+      {
+        "question": "What is Prompt Studio?",
+        "answer": "Prompt Studio is your comprehensive AI prompt library featuring thousands of quality AI video prompts and AI image prompts. We help creators discover high-quality examples, get inspired, and generate professional AI-generated videos and images using expertly crafted prompts for various AI models."
+      },
+      {
+        "question": "How does Prompt Studio work?",
+        "answer": "You can browse our gallery for inspiration, use our prompt generator to create new ideas, and explore different AI models. Once you find or create a prompt you like, you can use it with your favorite AI image or video generator."
+      },
+      {
+        "question": "Is Prompt Studio free to use?",
+        "answer": "Yes, browsing our gallery and generating prompts is completely free. Some advanced features may require an account."
+      },
+      {
+        "question": "What AI models does Prompt Studio support?",
+        "answer": "We support a wide range of popular AI models for both image and video generation. Our platform is designed to be compatible with the latest and most powerful tools available."
+      },
+      {
+        "question": "Can I use Prompt Studio prompts with any AI generator?",
+        "answer": "Absolutely! Our prompts are designed to be versatile and can be used with any AI image or video generation tool that accepts text-based prompts."
+      },
+      {
+        "question": "How do I contact support?",
+        "answer": "You can contact our support team by emailing support@promptstudio.com. We are always happy to help!"
+      }
+    ]
+  },
+  "promptGenerator": {
+    "placeholder": "Enter keywords to inspire the AI, e.g., 'mystical forest, ancient runes, glowing mushrooms'"
+  },
+  "prices": {
+    "title": "Prices",
+    "subtitle": "Start free, unlock Premium prompts, or go Developer for full project source code and install guides.",
+    "annualBilling": "Annual billing",
+    "annualBillingHint": "Applies to Premium and Developer. Premium: {premiumYear}/year (save {premiumSave}). Startup: {devYear}/year (save {devSave}).",
+    "freeDesc": "Everything you can download without signing in.",
+    "browseFree": "Browse free prompts",
+    "premiumDesc": "All Premium prompts. Download the full catalog with a subscription.",
+    "allFreeBenefits": "All Free plan benefits",
+    "weeklyDrops": "new prompts by category every week",
+    "weeklyDropsLabel": "Weekly drops:",
+    "managePremium": "Manage Premium",
+    "subscribePremium": "Subscribe to Premium",
+    "previewPremium": "Preview Premium content",
+    "startupDesc": "Premium plus full project code and install docs for every web demo.",
+    "installGuides": "local dev, static hosting, and refactory loader setup",
+    "installGuidesLabel": "Install guides:",
+    "upgradeStartup": "Upgrade to Startup",
+    "subscribeStartup": "Subscribe as Startup",
+    "browseWebProjects": "Browse web projects",
+    "bestForBuilders": "Best for builders",
+    "footerNote": "Free content needs no account. Premium unlocks all Premium prompts. Startup adds downloadable source code and installation instructions for each project.",
+    "clerkBillingTitle": "Subscribe with Clerk",
+    "clerkBillingSubtitle": "Secure payments via Stripe. After subscribing, premium content unlocks instantly.",
+    "planActive": "Active plan",
+    "subscribeBelow": "Subscribe below",
+    "billedMonthly": "Billed every month · enable annual billing above to save",
+    "equivalentMonthly": "Equivalent to {amount}/month, billed annually",
+    "savePerYear": "· Save {amount}/year",
+    "freeFeatures": [
+      "Download every prompt marked as Free — no account required",
+      "Browse image, video, and web prompts open to everyone",
+      "Copy and use prompts instantly from the library",
+      "Explore landing page demos tagged as Free"
+    ],
+    "premiumFeatures": [
+      "Full access to all Premium prompts across the library",
+      "Download any prompt with the Premium badge",
+      "New prompts added by category every week",
+      "Landing pages, images, videos, and model prompts included"
+    ],
+    "developerFeatures": [
+      "Everything included in Free and Premium",
+      "Full source code for every web project and demo",
+      "Step-by-step install and setup instructions per project",
+      "Clone-ready HTML/CSS (and JS where applicable) bundles"
+    ]
+  },
+  "dashboard": {
+    "dashboard": "Dashboard",
+    "create": "Create",
+    "creations": "Creations",
+    "myCreations": "My Creations",
+    "favorites": "Favorites",
+    "settings": "Settings",
+    "billing": "Billing",
+    "settingsSection": "Settings",
+    "upgradeTitle": "Upgrade to Pro",
+    "upgradeDesc": "Unlock all features and get unlimited access to our support team.",
+    "upgrade": "Upgrade",
+    "navLabel": "Dashboard navigation",
+    "profile": "Profile",
+    "analytics": "Analytics"
+  },
+  "dashboardAnalytics": {
+    "title": "Analytics",
+    "subtitle": "User and activity metrics for your app in Clerk (production only).",
+    "clerkTitle": "Clerk Dashboard",
+    "clerkDesc": "Sign-ups, sign-ins, active users, and retention. Customize date range and interval (daily, weekly, monthly) in Overview.",
+    "openClerkDashboard": "Open Clerk analytics",
+    "methodologyTitle": "How metrics are counted",
+    "methodologyDesc": "Summary based on Clerk's official methodology.",
+    "metrics": {
+      "activeUser": {
+        "title": "Active user",
+        "desc": "Counted on any day the user has session activity (sign-in, token refresh, or authenticated request). Once per period regardless of devices."
+      },
+      "signIn": {
+        "title": "Sign-in",
+        "desc": "Each time a user completes authentication and a new session is created. Session refreshes are not counted again."
+      },
+      "signUp": {
+        "title": "Sign-up",
+        "desc": "When a new account is created (at account creation, not email verification)."
+      },
+      "retention": {
+        "title": "Retention",
+        "desc": "Percentage of users who signed up in a period and returned in a later period (cohort model)."
+      },
+      "freshness": {
+        "title": "Data freshness",
+        "desc": "Updated daily. Complete metrics through the previous UTC day; projections update in near real time."
+      }
+    },
+    "faqTitle": "FAQ",
+    "faqDev": "Development instance data is excluded; production only.",
+    "faqImpersonation": "Impersonated sessions are excluded.",
+    "faqBots": "Machine-to-machine (M2M) sessions are excluded; real user accounts only."
+  },
+  "profile": {
+    "title": "Profile",
+    "subtitle": "Manage your account and subscription with Clerk Billing.",
+    "member": "Member",
+    "accountTitle": "Account information",
+    "accountDesc": "Your profile is managed through your sign-in provider.",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "accountManaged": "To change your name or email, update your account in your authentication provider settings.",
+    "subscriptionTitle": "Subscription & billing",
+    "subscriptionDesc": "Choose a plan and billing cycle. Premium and Startup unlock paid content.",
+    "subscriptionClerkDesc": "Payments are handled by Clerk Billing (Stripe). Choose or change your plan below.",
+    "currentPlan": "Current plan",
+    "subscriptionFreeHint": "Subscribe to Premium or Startup to unlock landing pages, prompts, and live demos.",
+    "subscriptionActiveHint": "Your subscription is active. You can browse all premium content.",
+    "browsePremiumContent": "Browse premium content",
+    "billingCycle": "Billing cycle",
+    "monthly": "Monthly",
+    "monthlyDesc": "Billed every month",
+    "annual": "Annual",
+    "annualDesc": "Billed once per year — save vs monthly",
+    "plan": "Plan",
+    "currentAmount": "Current amount",
+    "nextPayment": "Next payment",
+    "paymentHistory": "Payment history",
+    "description": "Description",
+    "amount": "Amount",
+    "status": "Status",
+    "paid": "Paid",
+    "comparePlans": "Compare all plans",
+    "saveSubscription": "Save subscription",
+    "subscriptionSaved": "Subscription updated",
+    "subscriptionSavedDesc": "Your plan and billing preferences have been saved.",
+    "paymentTitle": "Payment method",
+    "paymentDesc": "Add a credit or debit card for Premium and Startup subscriptions.",
+    "defaultCard": "Default",
+    "cardholderName": "Name on card",
+    "cardholderPlaceholder": "Full name as shown on card",
+    "cardNumber": "Card number",
+    "expiry": "Expiry",
+    "cvc": "CVC",
+    "secureNote": "Card details are validated locally in this demo. Connect Stripe for secure production payments.",
+    "stripeNote": "Visa, Mastercard, and American Express accepted.",
+    "saveCard": "Save card",
+    "cardSaved": "Card saved",
+    "cardSavedDesc": "{brand} ending in {last4} is now your default payment method.",
+    "cardError": "Could not save card",
+    "cardNumberInvalid": "Enter a valid card number.",
+    "cardExpiryInvalid": "Enter expiry as MM/YY.",
+    "cardCvcInvalid": "Enter a valid security code.",
+    "cardNameRequired": "Enter the name on the card.",
+    "saving": "Saving..."
+  },
+  "prompts": {
+    "title": "The Prompt Library",
+    "subtitle": "Explore expertly crafted prompts organized by AI models and development tools. Find the perfect starting point for your next project.",
+    "searchPlaceholder": "Search models...",
+    "browseCurated": "Browse curated prompts for {model} tools and systems.",
+    "noModels": "No models found matching your search.",
+    "loadingLibrary": "Loading Library...",
+    "customTitle": "Need a custom prompt?",
+    "customSubtitle": "Use our AI-powered generator to create high-quality prompts for any of these models in seconds.",
+    "goToGenerator": "Go to Generator"
+  },
+  "gallery": {
+    "backToGallery": "Back to gallery",
+    "promptDetails": "Prompt details",
+    "tags": "Tags",
+    "openInStudio": "Open in AI Studio"
+  },
+  "tags": {
+    "browseByTags": "Browse by Tags",
+    "copyInstantly": "Copy prompts instantly",
+    "noVideosForTag": "No videos found for this tag.",
+    "noImagesForTag": "No images found for this tag.",
+    "noLandingPages": "No landing pages found for this filter."
+  },
+  "auth": {
+    "loginTitle": "Sign in to your account",
+    "registerTitle": "Create an account"
+  },
+  "contentGrid": {
+    "loadingGallery": "Loading gallery..."
+  }
+}

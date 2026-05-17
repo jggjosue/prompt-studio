@@ -12,14 +12,13 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
+import type { ImagePlaceholder } from '@/lib/placeholder-images';
+import type { VideoProp } from '@/lib/placeholder-videos';
 import {
-  PlaceHolderImages,
-  type ImagePlaceholder,
-} from '@/lib/placeholder-images';
-import {
-  PlaceHolderVideos,
-  type VideoProp,
-} from '@/lib/placeholder-videos';
+  useLocalizedPlaceholderImages,
+  useLocalizedPlaceholderVideos,
+} from '@/hooks/use-localized-catalog';
+import { useLocale } from 'next-intl';
 import { evaluatePublisherPolicy } from '@/lib/google-publisher-policy';
 import { isRenderableVideoUrl, resolveRenderableMediaUrl } from '@/lib/media-resolver';
 import { ArrowLeft, Copy, Wand2 } from 'lucide-react';
@@ -28,13 +27,16 @@ import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 
 export default function GalleryDetailClient({ item }: { item: ImagePlaceholder | VideoProp }) {
+  const locale = useLocale();
+  const placeholderImages = useLocalizedPlaceholderImages();
+  const placeholderVideos = useLocalizedPlaceholderVideos();
   const [otherItems, setOtherItems] = useState<Array<ImagePlaceholder | VideoProp>>([]);
   const [leftRandomImage, setLeftRandomImage] = useState<ImagePlaceholder | null>(null);
 
   useEffect(() => {
     const pool = [
-      ...PlaceHolderImages.filter(p => p.id !== item.id && p.imageUrl),
-      ...PlaceHolderVideos.filter(p => p.id !== item.id && p.imageUrl),
+      ...placeholderImages.filter(p => p.id !== item.id && p.imageUrl),
+      ...placeholderVideos.filter(p => p.id !== item.id && p.imageUrl),
     ];
     const mechanicalHeart = pool.find(p => p.title === 'Mechanical Heart');
     const withoutMechanicalHeart = pool.filter(p => p.title !== 'Mechanical Heart');
@@ -54,7 +56,7 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
     }
     setOtherItems(nextOtherItems);
 
-    const imagePool = PlaceHolderImages.filter(
+    const imagePool = placeholderImages.filter(
       p => p.id !== item.id && p.imageUrl && !isRenderableVideoUrl(p.imageUrl, p.type)
     );
     if (imagePool.length === 0) {
@@ -63,7 +65,7 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
     }
     const idx = Math.floor(Math.random() * imagePool.length);
     setLeftRandomImage(imagePool[idx]);
-  }, [item.id]);
+  }, [item.id, placeholderImages, placeholderVideos]);
   
   const { toast } = useToast();
   const isPaywalled = useMemo(
@@ -99,8 +101,8 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
 
   const manualActionRisk = useMemo(() => {
     const allItems = [
-      ...PlaceHolderImages.filter(p => p.imageUrl),
-      ...PlaceHolderVideos.filter(p => p.imageUrl),
+      ...placeholderImages.filter(p => p.imageUrl),
+      ...placeholderVideos.filter(p => p.imageUrl),
     ];
     const sameTitleCount = allItems.filter(
       p => p.title.trim().toLowerCase() === item.title.trim().toLowerCase()
@@ -121,7 +123,7 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
       duplicateCount: sameTitleCount,
       hasRisk: hasLowValueContent || hasDuplicateTitle,
     };
-  }, [item.title, item.description]);
+  }, [item.title, item.description, placeholderImages, placeholderVideos]);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(item.description).then(() => {
@@ -140,11 +142,11 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
       />
       <Header />
       <main className="flex-1 py-8 md:py-12">
-        <div className="container">
-          <div className="grid lg:grid-cols-2 gap-12">
+        <div className="container min-w-0">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
             <div className="space-y-6">
               <div>
-                <h1 className="text-3xl md:text-4xl font-bold font-headline mb-2">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-headline mb-2 text-balance">
                   {item.title}
                 </h1>
                 <div className="flex flex-wrap gap-2 mt-4">
@@ -166,14 +168,14 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                 ) : (
                   <>
                     <Image
-                      src={resolveRenderableMediaUrl(item)}
+                      src={resolveRenderableMediaUrl(item, locale)}
                       alt={item.title}
                       fill
                       unoptimized
                       className="object-cover"
                       data-ai-hint={item.imageHint}
                     />
-                    <div className="absolute bottom-4 right-4 flex items-start gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="absolute bottom-4 right-4 flex items-start gap-4 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                       <Button size="sm" variant="secondary" asChild>
                         <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
                             <Wand2 className="mr-2" />
@@ -290,7 +292,7 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                             />
                           ) : (
                             <Image
-                              src={resolveRenderableMediaUrl(other)}
+                              src={resolveRenderableMediaUrl(other, locale)}
                               alt={other.title}
                               fill
                               unoptimized

@@ -1,5 +1,6 @@
 
-import { PlaceHolderVideos } from '@/lib/placeholder-videos';
+import { getVideoById } from '@/lib/placeholder-videos';
+import { getLocale } from 'next-intl/server';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import GalleryVideoDetailClient from './gallery-video-detail-client';
@@ -13,7 +14,8 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const id = params.id;
-  const item = PlaceHolderVideos.find(p => p.id === id);
+  const locale = await getLocale();
+  const item = getVideoById(id, locale);
 
   if (!item) {
     return {
@@ -35,8 +37,9 @@ export async function generateMetadata(
   }
 }
 
-export default function GalleryVideoDetailPage({ params }: Props) {
-    const item = PlaceHolderVideos.find(p => p.id === params.id);
+export default async function GalleryVideoDetailPage({ params }: Props) {
+    const locale = await getLocale();
+    const item = getVideoById(params.id, locale);
 
     if (!item) {
         notFound();

@@ -2,6 +2,7 @@
 
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
+import { PromptCatalogCardHeader } from '@/components/prompt-catalog-card-header';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -11,6 +12,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { PromptEditButton } from '@/components/prompt-edit-button';
 import Link from 'next/link';
 import {
   videoTagsData as staticVideoTagsData,
@@ -37,10 +39,8 @@ import {
 } from '@/components/ui/pagination';
 import { cn } from '@/lib/utils';
 import { useState, useMemo, useEffect } from 'react';
-import {
-  PlaceHolderVideos,
-  type VideoProp,
-} from '@/lib/placeholder-videos';
+import type { VideoProp } from '@/lib/placeholder-videos';
+import { useLocalizedPlaceholderVideos } from '@/hooks/use-localized-catalog';
 
 const icons = {
   Wand2: <Wand2 className="h-6 w-6" />,
@@ -51,12 +51,13 @@ const icons = {
 };
 
 export default function VideoTagsClient() {
+  const placeholderVideos = useLocalizedPlaceholderVideos();
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 18;
 
   const { videoTagsData, totalVideos, totalUniqueTags } = useMemo(() => {
-    const allVideos = PlaceHolderVideos.filter(
+    const allVideos = placeholderVideos.filter(
       item => item.type === 'video' && item.imageUrl
     );
     const tagCounts: Record<string, number> = {};
@@ -106,7 +107,7 @@ export default function VideoTagsClient() {
         item.type === 'video' &&
         item.imageUrl
     );
-  }, [selectedTag]);
+  }, [selectedTag, placeholderVideos]);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -204,12 +205,10 @@ export default function VideoTagsClient() {
                   Nano Banana Pro
                 </Link>
               </Button>
-              <Button asChild>
-                <Link href="/prompt/edit">
-                  <Wand2 className="mr-2 h-4 w-4" />
-                  Generate a Video
-                </Link>
-              </Button>
+              <PromptEditButton href="/prompt/edit">
+                <Wand2 className="mr-2 h-4 w-4" />
+                Generate a Video
+              </PromptEditButton>
             </div>
             <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 pt-4 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
@@ -245,7 +244,7 @@ export default function VideoTagsClient() {
                     'bg-yellow-50/20 dark:bg-yellow-950/20 border-yellow-200/50 dark:border-yellow-800/50'
                 )}
               >
-                <div className="flex items-center gap-3 mb-2">
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-2 min-w-0">
                   <div
                     className={cn(
                       'p-2 rounded-full',
@@ -263,7 +262,7 @@ export default function VideoTagsClient() {
                   >
                     {icons[category.icon as keyof typeof icons]}
                   </div>
-                  <h2 className="text-2xl font-bold font-headline">
+                  <h2 className="text-xl sm:text-2xl font-bold font-headline break-words min-w-0 flex-1">
                     {category.name}
                   </h2>
                   <Badge variant="secondary">{category.count}</Badge>
@@ -303,11 +302,12 @@ export default function VideoTagsClient() {
                         key={item.id}
                         className="overflow-hidden group h-full flex flex-col bg-card"
                       >
-                        <CardHeader className="p-4">
-                          <CardTitle className="font-headline text-xl">
-                            {item.title}
-                          </CardTitle>
-                        </CardHeader>
+                        <PromptCatalogCardHeader
+                          title={item.title}
+                          membership={item.membership}
+                          className="p-4"
+                          titleClassName="text-xl"
+                        />
                         <CardContent className="p-6 pt-0 space-y-4 flex-grow">
                           <div className="relative aspect-[9/16] rounded-md overflow-hidden">
                             <video
@@ -318,7 +318,7 @@ export default function VideoTagsClient() {
                             />
                           </div>
                         </CardContent>
-                        <CardFooter className="bg-muted/50 p-4 border-t flex items-center justify-between gap-2">
+                        <CardFooter className="bg-muted/50 p-4 border-t flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-between gap-2">
                           <Button size="sm" asChild>
                             <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
                                 <Wand2 className="w-4 h-4 mr-2" />

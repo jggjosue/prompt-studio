@@ -1,5 +1,6 @@
-import { PlaceHolderImages, type ImagePlaceholder } from '@/lib/placeholder-images';
-import { PlaceHolderVideos, type VideoProp } from '@/lib/placeholder-videos';
+import { getImageById, type ImagePlaceholder } from '@/lib/placeholder-images';
+import { getVideoById, type VideoProp } from '@/lib/placeholder-videos';
+import { getLocale } from 'next-intl/server';
 import { resolveRenderableMediaUrl } from '@/lib/media-resolver';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
@@ -14,8 +15,9 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const { id } = await params;
-  const imageItem = PlaceHolderImages.find(p => p.id === id);
-  const videoItem = PlaceHolderVideos.find(p => p.id === id);
+  const locale = await getLocale();
+  const imageItem = getImageById(id, locale);
+  const videoItem = getVideoById(id, locale);
   const item = imageItem || videoItem;
 
   if (!item) {
@@ -42,7 +44,7 @@ export async function generateMetadata(
     displayDescription = item.description;
   }
 
-  const resolvedPreviewUrl = resolveRenderableMediaUrl(item);
+  const resolvedPreviewUrl = resolveRenderableMediaUrl(item, locale);
   const openGraphImages = resolvedPreviewUrl ? [{ url: resolvedPreviewUrl }] : [];
   const canonicalPath = `/gallery/${id}`;
 
@@ -62,8 +64,9 @@ export async function generateMetadata(
 
 export default async function GalleryDetailPage({ params }: Props) {
     const { id } = await params;
-    const imageItem = PlaceHolderImages.find(p => p.id === id);
-    const videoItem = PlaceHolderVideos.find(p => p.id === id);
+    const locale = await getLocale();
+    const imageItem = getImageById(id, locale);
+    const videoItem = getVideoById(id, locale);
     const item: ImagePlaceholder | VideoProp | undefined = imageItem || videoItem;
 
     if (!item) {

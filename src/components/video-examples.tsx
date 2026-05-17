@@ -1,28 +1,31 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { PromptCatalogCardHeader } from '@/components/prompt-catalog-card-header';
 import {
   Card,
   CardContent,
   CardFooter,
-  CardHeader,
-  CardTitle,
 } from '@/components/ui/card';
-import { PlaceHolderVideos } from '@/lib/placeholder-videos';
+import { useLocalizedPlaceholderVideos } from '@/hooks/use-localized-catalog';
+import type { VideoProp } from '@/lib/placeholder-videos';
 import { Tag, Wand2 } from 'lucide-react';
 import Link from 'next/link';
 import { useMemo } from 'react';
+import { useTranslations } from 'next-intl';
 
 export default function VideoExamples() {
+  const tCommon = useTranslations('common');
+  const placeholderVideos = useLocalizedPlaceholderVideos();
   const videoContent = useMemo(() => {
-    const uniqueByTitle = new Map<string, (typeof PlaceHolderVideos)[number]>();
-    for (const item of PlaceHolderVideos) {
+    const uniqueByTitle = new Map<string, VideoProp>();
+    for (const item of placeholderVideos) {
       if (!uniqueByTitle.has(item.title.toLowerCase())) {
         uniqueByTitle.set(item.title.toLowerCase(), item);
       }
     }
     return Array.from(uniqueByTitle.values()).slice(0, 9);
-  }, []);
+  }, [placeholderVideos]);
 
   return (
     <>
@@ -32,11 +35,12 @@ export default function VideoExamples() {
             key={item.id}
             className="overflow-hidden group h-full flex flex-col bg-card"
           >
-            <CardHeader className="p-4">
-              <CardTitle className="font-headline text-lg">
-                {item.title}
-              </CardTitle>
-            </CardHeader>
+            <PromptCatalogCardHeader
+              title={item.title}
+              membership={item.membership}
+              className="p-4"
+              titleClassName="text-lg"
+            />
             <CardContent className="p-4 pt-0 space-y-4 flex-grow">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Tag className="w-4 h-4" />
@@ -50,9 +54,11 @@ export default function VideoExamples() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <p className="text-sm text-muted-foreground">Duration: 5 seconds</p>
+              <p className="text-sm text-muted-foreground">
+                {tCommon('durationSeconds')}
+              </p>
             </CardContent>
-            <CardFooter className="bg-muted/50 p-4 border-t flex items-center justify-between gap-2">
+            <CardFooter className="bg-muted/50 p-4 border-t flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-between gap-2">
               <Button size="sm" asChild>
                 <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
                     <Wand2 className="w-4 h-4 mr-2" />
