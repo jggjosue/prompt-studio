@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Estudio Tropic</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --arena: #f0d9c4;
+      --vino: #3d1a1a;
+      --mostaza: #d9a441;
+      --selva: #2e4a32;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "DM Sans", system-ui, sans-serif;
+      background: var(--arena);
+      color: var(--vino);
+      line-height: 1.6;
+    }
+    .serif { font-family: "DM Serif Display", Georgia, serif; }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 2rem;
+    }
+    nav a {
+      color: var(--vino);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+    nav .logo { font-family: "DM Serif Display", serif; font-size: 1.35rem; }
+
+    /* Hero dos bloques */
+    .hero-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 55vh;
+      position: relative;
+    }
+    .hero-arena { background: var(--arena); }
+    .hero-mostaza { background: var(--mostaza); }
+    .hero-title-wrap {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      pointer-events: none;
+    }
+    .hero-title-wrap h1 {
+      font-family: "DM Serif Display", serif;
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      line-height: 1.05;
+      text-align: center;
+      color: var(--vino);
+      text-shadow: 8px 12px 0 rgba(217, 164, 65, 0.35);
+    }
+    .arch-deco {
+      position: absolute;
+      width: 120px;
+      height: 60px;
+      border: 3px solid var(--vino);
+      border-bottom: none;
+      border-radius: 120px 120px 0 0;
+      opacity: 0.15;
+    }
+    .arch-deco.a { bottom: 10%; left: 8%; }
+    .arch-deco.b { top: 15%; right: 10%; transform: rotate(180deg); }
+
+    section { padding: 4rem 2rem; }
+    .section-head {
+      font-family: "DM Serif Display", serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 2rem;
+    }
+
+    /* Lugares collage diagonal */
+    .lugares { max-width: 1100px; margin: 0 auto; }
+    .collage {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      grid-template-rows: repeat(4, 100px);
+      gap: 12px;
+    }
+    .collage-item {
+      overflow: hidden;
+      border-radius: 0 40px 0 40px;
+      box-shadow: 12px 16px 0 rgba(61, 26, 26, 0.12);
+    }
+    .collage-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: sepia(0.15) saturate(1.1);
+    }
+    .collage-item:nth-child(1) { grid-column: 1 / 4; grid-row: 1 / 3; transform: rotate(-2deg); }
+    .collage-item:nth-child(2) { grid-column: 4 / 7; grid-row: 1 / 2; transform: rotate(1.5deg); }
+    .collage-item:nth-child(3) { grid-column: 3 / 6; grid-row: 2 / 4; transform: rotate(-1deg); }
+    .collage-item:nth-child(4) { grid-column: 1 / 3; grid-row: 3 / 5; transform: rotate(2deg); }
+    .collage-item:nth-child(5) { grid-column: 5 / 7; grid-row: 3 / 5; transform: rotate(-1.5deg); }
+
+    /* Filosofía */
+    .filosofia {
+      background: var(--selva);
+      color: var(--mostaza);
+      padding: 5rem 2rem;
+      text-align: center;
+    }
+    .filosofia p {
+      font-family: "DM Serif Display", serif;
+      font-size: clamp(1.5rem, 3.5vw, 2.75rem);
+      max-width: 20ch;
+      margin: 0 auto;
+      line-height: 1.3;
+    }
+    .filosofia .sub {
+      font-family: "DM Sans", sans-serif;
+      font-size: 0.9rem;
+      margin-top: 1.5rem;
+      opacity: 0.9;
+    }
+
+    /* Proyectos marcos de color */
+    .proyectos { max-width: 1100px; margin: 0 auto; }
+    .project-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 2rem;
+    }
+    .project-card {
+      padding: 1rem;
+      border-radius: 0 32px 0 32px;
+    }
+    .project-card.frame-arena {
+      background: var(--arena);
+      box-shadow: 14px 18px 0 rgba(217, 164, 65, 0.45);
+    }
+    .project-card.frame-mostaza {
+      background: var(--mostaza);
+      box-shadow: 14px 18px 0 rgba(46, 74, 50, 0.35);
+    }
+    .project-card.frame-selva {
+      background: var(--selva);
+      box-shadow: 14px 18px 0 rgba(61, 26, 26, 0.25);
+    }
+    .project-card.frame-vino {
+      background: var(--vino);
+      color: var(--arena);
+      box-shadow: 14px 18px 0 rgba(217, 164, 65, 0.4);
+    }
+    .project-card img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 0 24px 0 24px;
+      filter: sepia(0.12) saturate(1.05);
+    }
+    .project-card h3 {
+      font-family: "DM Serif Display", serif;
+      font-size: 1.35rem;
+      margin-top: 1rem;
+    }
+    .project-card.frame-vino h3 { color: var(--mostaza); }
+    .project-card p { font-size: 0.85rem; margin-top: 0.35rem; opacity: 0.85; }
+
+    /* Contacto postal */
+    .contact-wrap {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 4rem 2rem 5rem;
+    }
+    .postcard {
+      background: #fff;
+      border: 3px solid var(--vino);
+      padding: 2rem;
+      border-radius: 4px;
+      box-shadow: 16px 20px 0 rgba(46, 74, 50, 0.3);
+      transform: rotate(-0.5deg);
+    }
+    .postcard h2 {
+      font-family: "DM Serif Display", serif;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    .postcard label {
+      display: block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.35rem;
+      color: var(--selva);
+    }
+    .postcard input,
+    .postcard textarea {
+      width: 100%;
+      margin-bottom: 1rem;
+      padding: 0.65rem;
+      border: 2px solid var(--arena);
+      font-family: "DM Sans", sans-serif;
+      background: var(--arena);
+      color: var(--vino);
+    }
+    .postcard textarea { min-height: 90px; resize: vertical; }
+    .postcard button {
+      background: var(--mostaza);
+      color: var(--vino);
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 6px 8px 0 rgba(61, 26, 26, 0.2);
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.8rem;
+      color: var(--vino);
+      opacity: 0.7;
+    }
+
+    @media (max-width: 768px) {
+      .hero-split { grid-template-columns: 1fr; min-height: 40vh; }
+      .hero-mostaza { min-height: 120px; }
+      .collage {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+      }
+      .collage-item { grid-column: auto !important; grid-row: auto !important; min-height: 140px; transform: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="#" class="logo">Estudio Tropic</a>
+    <div>
+      <a href="#lugares">Lugares</a> ·
+      <a href="#proyectos">Proyectos</a> ·
+      <a href="#contacto">Contacto</a>
+    </div>
+  </nav>
+
+  <header class="hero-split">
+    <div class="hero-arena" aria-hidden="true"></div>
+    <div class="hero-mostaza" aria-hidden="true"></div>
+    <span class="arch-deco a" aria-hidden="true"></span>
+    <span class="arch-deco b" aria-hidden="true"></span>
+    <div class="hero-title-wrap">
+      <h1>Arquitectura tropical con alma latinoamericana</h1>
+    </div>
+  </header>
+
+  <section id="lugares" class="lugares">
+    <h2 class="section-head">Lugares</h2>
+    <div class="collage">
+      <figure class="collage-item"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80" alt="Casa patio" /></figure>
+      <figure class="collage-item"><img src="https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=800&q=80" alt="Muro rosa" /></figure>
+      <figure class="collage-item"><img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=800&q=80" alt="Piscina" /></figure>
+      <figure class="collage-item"><img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&q=80" alt="Interior" /></figure>
+      <figure class="collage-item"><img src="https://images.unsplash.com/photo-1600047509358-9dc75507daeb?w=800&q=80" alt="Jardín" /></figure>
+    </div>
+  </section>
+
+  <section class="filosofia">
+    <p>Color, sombra y agua como materiales de primera.</p>
+    <p class="sub">Estudio Tropic · México · Brasil · Colombia</p>
+  </section>
+
+  <section id="proyectos" class="proyectos">
+    <h2 class="section-head">Proyectos</h2>
+    <div class="project-cards">
+      <article class="project-card frame-arena">
+        <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&q=80" alt="Casa Sol" />
+        <h3>Casa Sol</h3>
+        <p>Oaxaca · 2024</p>
+      </article>
+      <article class="project-card frame-mostaza">
+        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80" alt="Pabellón Agua" />
+        <h3>Pabellón Agua</h3>
+        <p>São Paulo · 2023</p>
+      </article>
+      <article class="project-card frame-selva">
+        <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=600&q=80" alt="Villa Selva" />
+        <h3>Villa Selva</h3>
+        <p>Cartagena · 2024</p>
+      </article>
+      <article class="project-card frame-vino">
+        <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600&q=80" alt="Muro Mostaza" />
+        <h3>Muro Mostaza</h3>
+        <p>CDMX · 2025</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="contacto" class="contact-wrap">
+    <div class="postcard">
+      <h2>Escríbenos</h2>
+      <form onsubmit="event.preventDefault(); alert('Mensaje enviado');">
+        <label for="n">Nombre</label>
+        <input id="n" type="text" required />
+        <label for="e">Correo</label>
+        <input id="e" type="email" required />
+        <label for="m">Mensaje</label>
+        <textarea id="m" required></textarea>
+        <button type="submit">Enviar postal</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>© Estudio Tropic · Arquitectura tropical contemporánea</footer>
+</body>
+</html>

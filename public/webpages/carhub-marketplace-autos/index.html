@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CarHub — Marketplace de autos usados</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --midnight: #0F172A;
+      --electric: #3B82F6;
+      --signal: #F59E0B;
+      --mist: #F1F5F9;
+      --container: 1200px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Inter, system-ui, sans-serif;
+      background: var(--mist);
+      color: var(--midnight);
+      line-height: 1.5;
+      font-size: 14px;
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: var(--container); margin: 0 auto; padding: 0 20px; }
+
+    .header {
+      background: var(--midnight);
+      color: #fff;
+      padding: 0.9rem 0;
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .logo { font-weight: 700; font-size: 1.25rem; }
+    .logo span { color: var(--electric); }
+    .nav { display: flex; gap: 1.5rem; list-style: none; font-size: 0.875rem; }
+    .nav a { opacity: 0.85; }
+    .nav a:hover { color: var(--electric); }
+    .btn {
+      padding: 0.55rem 1.1rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-electric { background: var(--electric); color: #fff; }
+    .btn-signal { background: var(--signal); color: var(--midnight); }
+
+    .hero {
+      background: linear-gradient(135deg, var(--midnight) 0%, #1e3a5f 100%);
+      color: #fff;
+      padding: 2.5rem 0;
+    }
+    .hero h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 700; margin-bottom: 0.5rem; }
+    .hero p { opacity: 0.85; margin-bottom: 1.5rem; }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: end;
+    }
+    .filter-group label {
+      display: block;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      opacity: 0.8;
+      margin-bottom: 0.25rem;
+    }
+    .filter-group select {
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      font-size: 0.875rem;
+      min-width: 120px;
+    }
+    .filter-group select option { color: var(--midnight); }
+
+    .main { padding: 2rem 0 3rem; }
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    .listings { display: grid; gap: 1rem; }
+    .car-card {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 1rem;
+      background: #fff;
+      border-radius: 10px;
+      padding: 1rem;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .car-card:hover, .car-card.active {
+      border-color: var(--electric);
+      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15);
+    }
+    .car-card img {
+      width: 140px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .car-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; }
+    .car-card .price { font-size: 1.15rem; font-weight: 700; color: var(--electric); }
+    .car-card .meta { font-size: 0.8rem; color: #64748b; margin-top: 0.25rem; }
+
+    .vin-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-family: ui-monospace, monospace;
+      font-size: 0.7rem;
+      padding: 0.25rem 0.5rem;
+      background: var(--midnight);
+      color: #fff;
+      border-radius: 4px;
+      margin-top: 0.35rem;
+    }
+    .vin-badge::before { content: 'VIN'; opacity: 0.6; font-size: 0.6rem; }
+
+    .sidebar {
+      position: sticky;
+      top: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .panel {
+      background: #fff;
+      border-radius: 10px;
+      padding: 1.25rem;
+      box-shadow: 0 1px 3px rgba(15,23,42,0.08);
+    }
+    .panel h2 {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #64748b;
+      margin-bottom: 0.75rem;
+    }
+
+    .specs-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+    .specs-table td {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--mist);
+    }
+    .specs-table td:last-child { text-align: right; font-weight: 600; }
+
+    .price-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      height: 80px;
+      margin-top: 0.5rem;
+    }
+    .price-chart .bar {
+      flex: 1;
+      background: var(--electric);
+      border-radius: 4px 4px 0 0;
+      opacity: 0.7;
+      min-height: 8px;
+    }
+    .price-chart .bar:last-child {
+      opacity: 1;
+      background: var(--signal);
+    }
+
+    .dealer-card {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+    .dealer-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--electric), var(--midnight));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.75rem;
+    }
+    .dealer-card strong { display: block; font-size: 0.9rem; }
+    .dealer-card span { font-size: 0.8rem; color: #64748b; }
+
+    .financing label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      margin-top: 0.75rem;
+    }
+    .financing label:first-child { margin-top: 0; }
+    .financing input, .financing select {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      font-size: 0.875rem;
+    }
+    .financing .result {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: var(--mist);
+      border-radius: 8px;
+      text-align: center;
+    }
+    .financing .result strong {
+      display: block;
+      font-size: 1.5rem;
+      color: var(--electric);
+    }
+
+    .detail-hero img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      .nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container header-inner">
+      <a href="#" class="logo">Car<span>Hub</span></a>
+      <nav>
+        <ul class="nav">
+          <li><a href="#listings">Comprar</a></li>
+          <li><a href="#">Vender</a></li>
+          <li><a href="#">Financiamiento</a></li>
+        </ul>
+      </nav>
+      <button type="button" class="btn btn-electric">Publicar auto</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <h1>Encuentra tu próximo auto</h1>
+      <p>Marketplace de autos usados con historial de precios, specs verificadas y dealers certificados.</p>
+      <div class="filters">
+        <div class="filter-group">
+          <label>Marca</label>
+          <select id="filter-brand">
+            <option value="">Todas</option>
+            <option value="toyota">Toyota</option>
+            <option value="honda">Honda</option>
+            <option value="ford">Ford</option>
+            <option value="bmw">BMW</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Año</label>
+          <select id="filter-year">
+            <option value="">Todos</option>
+            <option value="2022">2022+</option>
+            <option value="2020">2020+</option>
+            <option value="2018">2018+</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Kilometraje</label>
+          <select id="filter-mileage">
+            <option value="">Cualquiera</option>
+            <option value="30000">≤ 30,000 km</option>
+            <option value="60000">≤ 60,000 km</option>
+            <option value="100000">≤ 100,000 km</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Transmisión</label>
+          <select id="filter-transmission">
+            <option value="">Todas</option>
+            <option value="automatic">Automática</option>
+            <option value="manual">Manual</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-signal" id="apply-filters">Buscar</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="main" id="listings">
+    <div class="container layout">
+      <div class="listings" id="car-list"></div>
+      <aside class="sidebar" id="detail-panel">
+        <div class="panel detail-hero" id="detail-content">
+          <p style="color:#64748b;text-align:center;padding:2rem;">Selecciona un vehículo para ver detalles</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <footer style="background:var(--midnight);color:#fff;padding:1.5rem 0;text-align:center;font-size:0.8rem;">
+    <div class="container">© 2026 CarHub · Marketplace de autos usados</div>
+  </footer>
+
+  <script>
+    const CARS = [
+      { id: 1, brand: 'toyota', name: '2021 Toyota Camry SE', year: 2021, mileage: 28500, transmission: 'automatic', price: 24900, hp: 203, zero60: '7.5s', mpg: '32', vin: '4T1B11HK5MU123456', dealer: 'AutoMax CDMX', dealerRating: '4.8', img: 'https://images.unsplash.com/photo-1621007947382-b804b777f10a?w=600', history: [26, 25.5, 25, 24.8, 24.9] },
+      { id: 2, brand: 'honda', name: '2020 Honda Civic Sport', year: 2020, mileage: 42000, transmission: 'manual', price: 19500, hp: 180, zero60: '7.2s', mpg: '34', vin: '2HGFC2F59LH789012', dealer: 'Honda Premium', dealerRating: '4.9', img: 'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=600', history: [21, 20.5, 20, 19.8, 19.5] },
+      { id: 3, brand: 'ford', name: '2022 Ford Mustang EcoBoost', year: 2022, mileage: 15000, transmission: 'automatic', price: 32900, hp: 310, zero60: '5.1s', mpg: '25', vin: '1FA6P8TH5N5123456', dealer: 'Mustang Motors', dealerRating: '4.7', img: 'https://images.unsplash.com/photo-1584345604476-8d5f9d9634e4?w=600', history: [34, 33, 32.5, 33, 32.9] },
+      { id: 4, brand: 'bmw', name: '2019 BMW 330i xDrive', year: 2019, mileage: 58000, transmission: 'automatic', price: 27900, hp: 255, zero60: '5.6s', mpg: '28', vin: 'WBA8E9G50KNV78901', dealer: 'BMW Select', dealerRating: '4.6', img: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=600', history: [30, 29, 28.5, 28, 27.9] },
+      { id: 5, brand: 'toyota', name: '2018 Toyota RAV4 XLE', year: 2018, mileage: 72000, transmission: 'automatic', price: 18900, hp: 176, zero60: '8.0s', mpg: '30', vin: '2T3BFREV0JW456789', dealer: 'SUV Center', dealerRating: '4.5', img: 'https://images.unsplash.com/photo-1519641471654-76cefc7b8635?w=600', history: [20, 19.5, 19.2, 19, 18.9] },
+    ];
+
+    let selectedId = 1;
+    let filters = { brand: '', year: '', mileage: '', transmission: '' };
+
+    function filterCars() {
+      return CARS.filter(c => {
+        if (filters.brand && c.brand !== filters.brand) return false;
+        if (filters.year && c.year < parseInt(filters.year)) return false;
+        if (filters.mileage && c.mileage > parseInt(filters.mileage)) return false;
+        if (filters.transmission && c.transmission !== filters.transmission) return false;
+        return true;
+      });
+    }
+
+    function renderList() {
+      const list = filterCars();
+      const el = document.getElementById('car-list');
+      if (!list.length) {
+        el.innerHTML = '<p style="padding:2rem;text-align:center;color:#64748b;">No hay resultados con estos filtros.</p>';
+        return;
+      }
+      if (!list.find(c => c.id === selectedId)) selectedId = list[0].id;
+      el.innerHTML = list.map(c => `
+        <article class="car-card ${c.id === selectedId ? 'active' : ''}" data-id="${c.id}">
+          <img src="${c.img}" alt="" />
+          <div>
+            <h3>${c.name}</h3>
+            <p class="price">$${c.price.toLocaleString()}</p>
+            <p class="meta">${c.year} · ${c.mileage.toLocaleString()} km · ${c.transmission === 'automatic' ? 'Automática' : 'Manual'}</p>
+            <span class="vin-badge">${c.vin.slice(-8)}</span>
+          </div>
+        </article>
+      `).join('');
+      el.querySelectorAll('.car-card').forEach(card => {
+        card.addEventListener('click', () => {
+          selectedId = parseInt(card.dataset.id);
+          renderList();
+          renderDetail();
+        });
+      });
+      renderDetail();
+    }
+
+    function renderDetail() {
+      const c = CARS.find(x => x.id === selectedId);
+      if (!c) return;
+      const maxH = Math.max(...c.history);
+      const bars = c.history.map((v, i) => {
+        const h = (v / maxH) * 100;
+        return `<div class="bar" style="height:${h}%" title="$${v}k"></div>`;
+      }).join('');
+
+      document.getElementById('detail-content').innerHTML = `
+        <img src="${c.img}" alt="${c.name}" />
+        <h2 style="font-size:1.15rem;font-weight:700;margin-bottom:0.25rem;">${c.name}</h2>
+        <p style="font-size:1.35rem;font-weight:700;color:var(--electric);margin-bottom:1rem;">$${c.price.toLocaleString()}</p>
+        <span class="vin-badge">${c.vin}</span>
+
+        <div class="panel" style="margin-top:1rem;padding:0;box-shadow:none;">
+          <h2>Especificaciones</h2>
+          <table class="specs-table">
+            <tr><td>Potencia (HP)</td><td>${c.hp}</td></tr>
+            <tr><td>0-60 mph</td><td>${c.zero60}</td></tr>
+            <tr><td>MPG combinado</td><td>${c.mpg}</td></tr>
+            <tr><td>Kilometraje</td><td>${c.mileage.toLocaleString()} km</td></tr>
+          </table>
+        </div>
+
+        <div class="panel" style="margin-top:1rem;padding:0;box-shadow:none;">
+          <h2>Historial de precio</h2>
+          <p style="font-size:0.75rem;color:#64748b;">Últimos 5 meses (miles USD)</p>
+          <div class="price-chart">${bars}</div>
+        </div>
+
+        <div class="panel" style="margin-top:1rem;padding:0;box-shadow:none;">
+          <h2>Dealer</h2>
+          <div class="dealer-card">
+            <div class="dealer-avatar">${c.dealer.split(' ').map(w=>w[0]).join('').slice(0,2)}</div>
+            <div>
+              <strong>${c.dealer}</strong>
+              <span>★ ${c.dealerRating} · Certificado CarHub</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel financing" style="margin-top:1rem;">
+          <h2>FinancingCalculator</h2>
+          <label>Precio del vehículo</label>
+          <input type="number" id="fin-price" value="${c.price}" />
+          <label>Enganche (%)</label>
+          <input type="number" id="fin-down" value="20" min="0" max="50" />
+          <label>Plazo (meses)</label>
+          <select id="fin-months">
+            <option value="36">36</option>
+            <option value="48" selected>48</option>
+            <option value="60">60</option>
+          </select>
+          <label>Tasa anual (%)</label>
+          <input type="number" id="fin-rate" value="9.9" step="0.1" />
+          <div class="result">
+            <span style="font-size:0.8rem;color:#64748b;">Pago mensual estimado</span>
+            <strong id="fin-payment">—</strong>
+          </div>
+          <button type="button" class="btn btn-electric" style="width:100%;margin-top:1rem;" id="calc-fin">Calcular</button>
+        </div>
+      `;
+
+      document.getElementById('calc-fin').addEventListener('click', calcFinancing);
+      calcFinancing();
+    }
+
+    function calcFinancing() {
+      const price = parseFloat(document.getElementById('fin-price').value) || 0;
+      const downPct = parseFloat(document.getElementById('fin-down').value) || 0;
+      const months = parseInt(document.getElementById('fin-months').value) || 48;
+      const rate = parseFloat(document.getElementById('fin-rate').value) / 100 / 12;
+      const principal = price * (1 - downPct / 100);
+      let payment = 0;
+      if (rate > 0) {
+        payment = principal * (rate * Math.pow(1 + rate, months)) / (Math.pow(1 + rate, months) - 1);
+      } else {
+        payment = principal / months;
+      }
+      document.getElementById('fin-payment').textContent = '$' + Math.round(payment).toLocaleString() + '/mes';
+    }
+
+    document.getElementById('apply-filters').addEventListener('click', () => {
+      filters = {
+        brand: document.getElementById('filter-brand').value,
+        year: document.getElementById('filter-year').value,
+        mileage: document.getElementById('filter-mileage').value,
+        transmission: document.getElementById('filter-transmission').value,
+      };
+      renderList();
+    });
+
+    renderList();
+  </script>
+</body>
+</html>

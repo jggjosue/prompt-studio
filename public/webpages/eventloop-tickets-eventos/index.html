@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EventLoop — Tickets de eventos locales</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --neon: #D946EF;
+      --acid: #84CC16;
+      --void: #0A0A0A;
+      --paper: #FAFAFA;
+      --container: 1140px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Space Grotesk", system-ui, sans-serif;
+      background: var(--void);
+      color: var(--paper);
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+
+    .header {
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(250,250,250,0.08);
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+    .logo span { color: var(--neon); }
+    .nav { display: flex; gap: 1.5rem; list-style: none; font-size: 0.9rem; }
+    .nav a { opacity: 0.8; }
+    .nav a:hover { color: var(--acid); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.65rem 1.25rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      transition: opacity 0.2s;
+    }
+    .btn-neon { background: var(--neon); color: #fff; }
+    .btn-neon:hover { opacity: 0.9; }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--acid);
+      color: var(--acid);
+    }
+
+    .hero { padding: 2.5rem 0; }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 2rem;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; }
+    }
+    .hero h1 {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.5rem;
+    }
+    .hero h1 span { color: var(--neon); }
+    .hero-tagline { color: rgba(250,250,250,0.65); margin-bottom: 1rem; }
+
+    /* CountdownTimer */
+    .countdown-timer {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .countdown-timer-label {
+      width: 100%;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--acid);
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+    }
+    .countdown-unit {
+      text-align: center;
+      background: rgba(217,70,239,0.15);
+      border: 1px solid rgba(217,70,239,0.35);
+      border-radius: 10px;
+      padding: 0.5rem 0.75rem;
+      min-width: 56px;
+    }
+    .countdown-unit .num {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--neon);
+      display: block;
+      line-height: 1.2;
+    }
+    .countdown-unit .lbl {
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      opacity: 0.6;
+    }
+
+    /* EventDateBlock */
+    .event-date-block {
+      background: var(--paper);
+      color: var(--void);
+      border-radius: 12px;
+      overflow: hidden;
+      width: 88px;
+      text-align: center;
+      box-shadow: 0 0 24px rgba(217,70,239,0.3);
+    }
+    .event-date-block-month {
+      background: var(--neon);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 0.35rem;
+      letter-spacing: 0.08em;
+    }
+    .event-date-block-day {
+      font-size: 2.25rem;
+      font-weight: 700;
+      padding: 0.25rem 0;
+      line-height: 1;
+    }
+    .event-date-block-weekday {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      padding-bottom: 0.5rem;
+      opacity: 0.6;
+    }
+
+    /* Category chips */
+    .category-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 1.5rem 0;
+    }
+    .category-chip {
+      padding: 0.45rem 1rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: rgba(250,250,250,0.06);
+      border: 1px solid rgba(250,250,250,0.12);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .category-chip:hover,
+    .category-chip.active {
+      background: var(--acid);
+      color: var(--void);
+      border-color: var(--acid);
+    }
+
+    .event-detail {
+      padding: 2rem 0 4rem;
+    }
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    @media (max-width: 768px) {
+      .detail-grid { grid-template-columns: 1fr; }
+    }
+
+    /* LineupList */
+    .lineup-list {
+      background: rgba(250,250,250,0.04);
+      border-radius: 16px;
+      padding: 1.25rem;
+      border: 1px solid rgba(250,250,250,0.08);
+    }
+    .lineup-list-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--neon);
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+    .lineup-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.65rem 0;
+      border-bottom: 1px solid rgba(250,250,250,0.06);
+      font-size: 0.95rem;
+    }
+    .lineup-item:last-child { border-bottom: none; }
+    .lineup-item .time { color: var(--acid); font-weight: 600; font-size: 0.85rem; }
+
+    /* VenueMap */
+    .venue-map {
+      background: rgba(250,250,250,0.04);
+      border-radius: 16px;
+      padding: 1.25rem;
+      border: 1px solid rgba(250,250,250,0.08);
+    }
+    .venue-map-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--acid);
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+    .seat-grid {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 6px;
+      max-width: 280px;
+      margin: 0 auto 1rem;
+    }
+    .seat {
+      aspect-ratio: 1;
+      border-radius: 4px;
+      background: rgba(250,250,250,0.1);
+      cursor: pointer;
+      transition: background 0.15s;
+      font-size: 0;
+    }
+    .seat:hover { background: rgba(217,70,239,0.4); }
+    .seat.selected { background: var(--neon); }
+    .seat.taken { background: rgba(250,250,250,0.05); cursor: not-allowed; opacity: 0.4; }
+    .stage {
+      text-align: center;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--neon);
+      padding: 0.5rem;
+      margin-bottom: 0.75rem;
+      border: 1px dashed rgba(217,70,239,0.4);
+      border-radius: 6px;
+    }
+
+    /* TicketTierSelector */
+    .ticket-tier-selector {
+      margin-top: 1.5rem;
+    }
+    .ticket-tier-selector-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--neon);
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+    .ticket-tiers {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .ticket-tier {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.25rem;
+      background: rgba(250,250,250,0.04);
+      border: 2px solid rgba(250,250,250,0.1);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .ticket-tier:hover,
+    .ticket-tier.selected {
+      border-color: var(--neon);
+      background: rgba(217,70,239,0.1);
+    }
+    .ticket-tier h4 { font-size: 1rem; font-weight: 600; }
+    .ticket-tier p { font-size: 0.8rem; opacity: 0.6; }
+    .ticket-tier .price { font-size: 1.25rem; font-weight: 700; color: var(--acid); }
+
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+    .event-card {
+      background: rgba(250,250,250,0.04);
+      border-radius: 16px;
+      padding: 1.25rem;
+      border: 1px solid rgba(250,250,250,0.08);
+      display: flex;
+      gap: 1rem;
+      transition: border-color 0.2s;
+    }
+    .event-card:hover { border-color: var(--neon); }
+    .event-card h3 { font-size: 1.05rem; margin-bottom: 0.25rem; }
+    .event-card .type { font-size: 0.75rem; color: var(--acid); font-weight: 600; }
+
+    .footer {
+      padding: 2rem 0;
+      text-align: center;
+      font-size: 0.85rem;
+      opacity: 0.5;
+      border-top: 1px solid rgba(250,250,250,0.08);
+    }
+    .footer a { color: var(--neon); }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container header-inner">
+      <a href="#" class="logo">Event<span>Loop</span></a>
+      <nav>
+        <ul class="nav">
+          <li><a href="#">Eventos</a></li>
+          <li><a href="#">Mis tickets</a></li>
+          <li><a href="#">Vender</a></li>
+        </ul>
+      </nav>
+      <button class="btn btn-neon">Comprar</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <div class="category-chips">
+        <span class="category-chip active">Música</span>
+        <span class="category-chip">Comedia</span>
+        <span class="category-chip">Deportes</span>
+        <span class="category-chip">Arte</span>
+        <span class="category-chip">Festivales</span>
+      </div>
+
+      <div class="hero-grid">
+        <div class="event-date-block" title="EventDateBlock">
+          <div class="event-date-block-month">May</div>
+          <div class="event-date-block-day">24</div>
+          <div class="event-date-block-weekday">Sáb</div>
+        </div>
+
+        <div>
+          <h1>Neon Pulse <span>Rave Night</span></h1>
+          <p class="hero-tagline">Conciertos, raves y stand-up — tickets locales al instante.</p>
+
+          <div class="countdown-timer-wrap">
+            <div class="countdown-timer-label">CountdownTimer</div>
+            <div class="countdown-timer" id="countdown">
+              <div class="countdown-unit"><span class="num" id="cd-days">12</span><span class="lbl">Días</span></div>
+              <div class="countdown-unit"><span class="num" id="cd-hours">08</span><span class="lbl">Hrs</span></div>
+              <div class="countdown-unit"><span class="num" id="cd-mins">42</span><span class="lbl">Min</span></div>
+              <div class="countdown-unit"><span class="num" id="cd-secs">15</span><span class="lbl">Seg</span></div>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-outline">Ver lineup</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="event-detail">
+    <div class="container detail-grid">
+      <div class="lineup-list">
+        <div class="lineup-list-label">LineupList</div>
+        <div class="lineup-item"><span>DJ Acid Wave</span><span class="time">22:00</span></div>
+        <div class="lineup-item"><span>Neon Collective</span><span class="time">23:30</span></div>
+        <div class="lineup-item"><span>Void Machine (live)</span><span class="time">01:00</span></div>
+        <div class="lineup-item"><span>Closing: Pulse Unit</span><span class="time">03:00</span></div>
+      </div>
+
+      <div>
+        <div class="venue-map">
+          <div class="venue-map-label">VenueMap · asientos</div>
+          <div class="stage">ESCENARIO</div>
+          <div class="seat-grid" id="seatGrid"></div>
+        </div>
+
+        <div class="ticket-tier-selector">
+          <div class="ticket-tier-selector-label">TicketTierSelector</div>
+          <div class="ticket-tiers" id="ticketTiers">
+            <div class="ticket-tier selected" data-tier="ga">
+              <div><h4>General</h4><p>Acceso pista</p></div>
+              <span class="price">$450</span>
+            </div>
+            <div class="ticket-tier" data-tier="vip">
+              <div><h4>VIP</h4><p>Barra + zona preferente</p></div>
+              <span class="price">$890</span>
+            </div>
+            <div class="ticket-tier" data-tier="table">
+              <div><h4>Mesa 4 pax</h4><p>Botella incluida</p></div>
+              <span class="price">$3,200</span>
+            </div>
+          </div>
+          <button class="btn btn-neon" style="width:100%;margin-top:1rem;justify-content:center">Reservar tickets</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <h2 style="font-size:1.25rem;margin-top:2rem;margin-bottom:1rem">Más eventos</h2>
+      <div class="events-grid">
+        <article class="event-card">
+          <div class="event-date-block" style="width:72px;flex-shrink:0">
+            <div class="event-date-block-month">Jun</div>
+            <div class="event-date-block-day">08</div>
+            <div class="event-date-block-weekday">Dom</div>
+          </div>
+          <div>
+            <span class="type">Comedia</span>
+            <h3>Stand-Up Night CDMX</h3>
+            <p style="font-size:0.85rem;opacity:0.6">Teatro Variedades · desde $280</p>
+          </div>
+        </article>
+        <article class="event-card">
+          <div class="event-date-block" style="width:72px;flex-shrink:0">
+            <div class="event-date-block-month">Jul</div>
+            <div class="event-date-block-day">15</div>
+            <div class="event-date-block-weekday">Mar</div>
+          </div>
+          <div>
+            <span class="type">Festivales</span>
+            <h3>Acid Fields 2026</h3>
+            <p style="font-size:0.85rem;opacity:0.6">Valle de Bravo · 3 días</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>EventLoop © 2026 — Vive la noche. <a href="#">Términos</a> · <a href="#">Privacidad</a></p>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll(".category-chip").forEach(function(chip) {
+      chip.addEventListener("click", function() {
+        document.querySelectorAll(".category-chip").forEach(function(c) { c.classList.remove("active"); });
+        chip.classList.add("active");
+      });
+    });
+
+    document.querySelectorAll(".ticket-tier").forEach(function(tier) {
+      tier.addEventListener("click", function() {
+        document.querySelectorAll(".ticket-tier").forEach(function(t) { t.classList.remove("selected"); });
+        tier.classList.add("selected");
+      });
+    });
+
+    var grid = document.getElementById("seatGrid");
+    var taken = [2, 5, 12, 18, 25, 33];
+    for (var i = 0; i < 32; i++) {
+      var seat = document.createElement("button");
+      seat.className = "seat" + (taken.indexOf(i) >= 0 ? " taken" : "");
+      seat.type = "button";
+      seat.setAttribute("aria-label", "Asiento " + (i + 1));
+      if (taken.indexOf(i) < 0) {
+        seat.addEventListener("click", function(s) {
+          return function() {
+            if (s.classList.contains("taken")) return;
+            document.querySelectorAll(".seat.selected").forEach(function(x) { x.classList.remove("selected"); });
+            s.classList.add("selected");
+          };
+        }(seat));
+      }
+      grid.appendChild(seat);
+    }
+
+    var target = new Date();
+    target.setDate(target.getDate() + 12);
+    target.setHours(22, 0, 0, 0);
+    function pad(n) { return n < 10 ? "0" + n : String(n); }
+    function tick() {
+      var now = new Date();
+      var diff = Math.max(0, target - now);
+      var d = Math.floor(diff / 86400000);
+      var h = Math.floor((diff % 86400000) / 3600000);
+      var m = Math.floor((diff % 3600000) / 60000);
+      var s = Math.floor((diff % 60000) / 1000);
+      document.getElementById("cd-days").textContent = pad(d);
+      document.getElementById("cd-hours").textContent = pad(h);
+      document.getElementById("cd-mins").textContent = pad(m);
+      document.getElementById("cd-secs").textContent = pad(s);
+    }
+    tick();
+    setInterval(tick, 1000);
+  </script>
+</body>
+</html>
