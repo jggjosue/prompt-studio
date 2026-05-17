@@ -43,14 +43,6 @@ npm install
 ### 4. Update Environment Variables
 
 Create a `.env.local` file in the root of your project and copy the environment variables below into it. Replace the placeholder values with the actual credentials from your Kinde application.
-
-```
-KINDE_CLIENT_ID=e2d1ff2d40c54b10b2ab450a8f38240d
-KINDE_CLIENT_SECRET=iFxOnyvKA84Z9MeJyvKp0uE1N22BErauQkF3HPqHAd5dWkn1ggnu
-KINDE_ISSUER_URL=https://promptstudio.kinde.com
-KINDE_SITE_URL=http://localhost:3000
-KINDE_POST_LOGOUT_REDIRECT_URL=http://localhost:3000
-KINDE_POST_LOGIN_REDIRECT_URL=http://localhost:3000/dashboard
 ```
 
 ### 5. Run the Development Server
