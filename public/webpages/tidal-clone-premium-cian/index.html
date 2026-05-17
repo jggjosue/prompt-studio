@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TIDAL — Música en la más alta fidelidad</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/style.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="navbar-wrap">
+    <div class="progress-bar" aria-hidden="true">
+      <div class="progress-bar-fill"></div>
+    </div>
+    <nav class="navbar">
+      <div class="navbar-inner">
+        <a href="#" class="logo">TID<span>AL</span></a>
+        <ul class="nav-links">
+          <li><a href="#">Explorar</a></li>
+          <li><a href="#">HiFi</a></li>
+          <li><a href="#">Artistas</a></li>
+        </ul>
+        <a href="#" class="btn-cyan">Probar gratis</a>
+      </div>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-split">
+      <div class="hero-copy">
+        <span class="badge-master">Master Quality</span>
+        <h1>Escucha como el artista lo creó</h1>
+        <p>Audio sin pérdida, sonido espacial y contenido exclusivo. La experiencia HiFi definitiva.</p>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap">
+          <a href="#" class="btn-cyan">Empezar prueba gratis</a>
+          <a href="#" class="btn-outline-cyan">Ver planes</a>
+        </div>
+      </div>
+      <div class="app-mockup-wrap">
+        <div class="app-mockup" aria-label="Mockup 3D de la app">
+          <div class="app-mockup-header"></div>
+          <div class="app-mockup-album"></div>
+          <div class="app-mockup-lines">
+            <span></span>
+            <span></span>
+            <span style="width:35%"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pricing-section" id="pricing">
+    <div class="container">
+      <div class="pricing-header">
+        <p class="section-label">Toggle anual / mensual</p>
+        <h2>Elige tu plan HiFi</h2>
+        <div class="billing-toggle" id="billingToggle">
+          <div class="billing-slider" aria-hidden="true"></div>
+          <button type="button" class="active" data-period="monthly">Mensual</button>
+          <button type="button" data-period="annual">Anual · -20%</button>
+        </div>
+      </div>
+      <div class="pricing-cards">
+        <article class="pricing-card">
+          <h3>HiFi</h3>
+          <p class="price" data-monthly="10,99 €" data-annual="8,79 €">
+            <span id="priceHifi">10,99 €</span>
+            <small>/mes</small>
+          </p>
+          <ul>
+            <li>Audio sin pérdida</li>
+            <li>Más de 100 M de pistas</li>
+            <li>Videos musicales</li>
+          </ul>
+          <a href="#" class="btn-cyan" style="width:100%">Suscribirse</a>
+        </article>
+        <article class="pricing-card featured">
+          <h3>HiFi Plus</h3>
+          <p class="price" data-monthly="19,99 €" data-annual="15,99 €">
+            <span id="pricePlus">19,99 €</span>
+            <small>/mes</small>
+          </p>
+          <ul>
+            <li>Master Quality Audio</li>
+            <li>Dolby Atmos</li>
+            <li>Contenido exclusivo</li>
+            <li>Descargas offline</li>
+          </ul>
+          <a href="#" class="btn-cyan" style="width:100%">Suscribirse</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="artists-section">
+    <div class="container">
+      <p class="section-label">Artistas verificados</p>
+      <h2>Creadores en TIDAL</h2>
+      <p class="artists-subtitle">Perfiles verificados con audio en máxima calidad</p>
+      <div class="artists-row">
+        <div class="artists-line" aria-hidden="true"></div>
+        <div class="artist-avatar-wrap">
+          <div class="artist-avatar" aria-hidden="true"></div>
+          <p class="artist-name">Beyoncé</p>
+          <p class="artist-verified">Verificado</p>
+        </div>
+        <div class="artist-avatar-wrap">
+          <div class="artist-avatar"></div>
+          <p class="artist-name">Jay-Z</p>
+          <p class="artist-verified">Verificado</p>
+        </div>
+        <div class="artist-avatar-wrap">
+          <div class="artist-avatar"></div>
+          <p class="artist-name">Rihanna</p>
+          <p class="artist-verified">Verificado</p>
+        </div>
+        <div class="artist-avatar-wrap">
+          <div class="artist-avatar"></div>
+          <p class="artist-name">Kendrick Lamar</p>
+          <p class="artist-verified">Verificado</p>
+        </div>
+        <div class="artist-avatar-wrap">
+          <div class="artist-avatar"></div>
+          <p class="artist-name">Daft Punk</p>
+          <p class="artist-verified">Verificado</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonials-section">
+    <div class="container">
+      <p class="section-label" style="text-align:center">Testimonios</p>
+      <h2>Lo que dicen los audiófilos</h2>
+      <div class="testimonials-grid">
+        <article class="testimonial-card">
+          <span class="testimonial-quote" aria-hidden="true">"</span>
+          <p>La diferencia con Master Quality es abismal. Por fin escucho cada detalle de la mezcla como en el estudio.</p>
+          <p class="testimonial-author">Carlos M.</p>
+          <p class="testimonial-role">Productor musical</p>
+        </article>
+        <article class="testimonial-card">
+          <span class="testimonial-quote" aria-hidden="true">"</span>
+          <p>Cambié de plataforma por el sonido espacial. TIDAL es la referencia para escuchar en casa con buenos altavoces.</p>
+          <p class="testimonial-author">Elena R.</p>
+          <p class="testimonial-role">Audiófila</p>
+        </article>
+        <article class="testimonial-card">
+          <span class="testimonial-quote" aria-hidden="true">"</span>
+          <p>Los exclusivos y las sesiones en vivo valen cada céntimo. La app se siente premium de verdad.</p>
+          <p class="testimonial-author">Marcus T.</p>
+          <p class="testimonial-role">DJ</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="logo">TID<span>AL</span></a>
+          <p>Música en la más alta fidelidad. Hecho para quienes escuchan con oídos exigentes.</p>
+        </div>
+        <div>
+          <p class="newsletter-label">Newsletter</p>
+          <form class="newsletter-form" action="#" method="get">
+            <input type="email" placeholder="Tu correo electrónico" aria-label="Correo para newsletter" />
+            <button type="submit" class="btn-cyan">Suscribirse</button>
+          </form>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 TIDAL. Todos los derechos reservados.</span>
+        <div style="display:flex;gap:1.5rem">
+          <a href="#">Privacidad</a>
+          <a href="#">Términos</a>
+          <a href="#">Ayuda</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var toggle = document.getElementById("billingToggle");
+      var priceHifi = document.getElementById("priceHifi");
+      var pricePlus = document.getElementById("pricePlus");
+      if (!toggle) return;
+
+      toggle.querySelectorAll("button").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          toggle.querySelectorAll("button").forEach(function (b) {
+            b.classList.remove("active");
+          });
+          btn.classList.add("active");
+          var annual = btn.dataset.period === "annual";
+          toggle.classList.toggle("annual", annual);
+          if (priceHifi) {
+            priceHifi.textContent = annual ? "8,79 €" : "10,99 €";
+          }
+          if (pricePlus) {
+            pricePlus.textContent = annual ? "15,99 €" : "19,99 €";
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vértice Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --graphite: #0e0e10;
+      --cream: #e8e4dc;
+      --lime: #c8f04a;
+      --gray: #5a5a62;
+      --mono: "SF Mono", "Fira Code", ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Inter, system-ui, sans-serif;
+      background: var(--graphite);
+      color: var(--cream);
+      letter-spacing: 0.02em;
+      line-height: 1.55;
+      font-weight: 400;
+    }
+    .upper { text-transform: uppercase; letter-spacing: 0.14em; font-weight: 500; }
+    .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+    /* Nav */
+    .top-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid rgba(200, 240, 74, 0.2);
+      font-size: 0.7rem;
+    }
+    .top-nav a {
+      color: var(--cream);
+      text-decoration: none;
+      transition: color 0.25s, text-shadow 0.25s;
+    }
+    .top-nav a:hover {
+      color: var(--lime);
+      text-shadow: 0 0 12px rgba(200, 240, 74, 0.45);
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    #timestamp { color: var(--gray); font-weight: 300; }
+
+    /* Hero terminal */
+    .hero {
+      min-height: 55vh;
+      display: flex;
+      align-items: center;
+      padding: 4rem 2rem;
+      border-bottom: 1px solid rgba(200, 240, 74, 0.15);
+    }
+    .terminal-title {
+      font-family: var(--mono);
+      font-size: clamp(1.25rem, 3.5vw, 2rem);
+      font-weight: 300;
+      color: var(--lime);
+      text-transform: none;
+    }
+    .terminal-title .cursor {
+      display: inline-block;
+      width: 0.55em;
+      height: 1.1em;
+      background: var(--lime);
+      margin-left: 2px;
+      vertical-align: text-bottom;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+    .hero-sub {
+      margin-top: 1.5rem;
+      max-width: 42ch;
+      color: var(--gray);
+      font-weight: 300;
+      font-size: 0.95rem;
+      text-transform: none;
+    }
+
+    section { padding: 4rem 2rem; max-width: 1200px; margin: 0 auto; }
+    section h2 {
+      font-size: 0.7rem;
+      margin-bottom: 2rem;
+      color: var(--lime);
+    }
+
+    /* Projects 3x3 */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(200, 240, 74, 0.2);
+      border: 1px solid rgba(200, 240, 74, 0.2);
+    }
+    .project-cell {
+      aspect-ratio: 1;
+      background: var(--graphite);
+      position: relative;
+      overflow: hidden;
+      transition: box-shadow 0.35s ease;
+    }
+    .project-cell:hover {
+      box-shadow: inset 0 0 40px rgba(200, 240, 74, 0.12);
+      z-index: 1;
+    }
+    .project-cell img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.55;
+      transition: opacity 0.35s ease;
+    }
+    .project-cell:hover img { opacity: 0.85; }
+    .project-meta {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 0.75rem;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--lime);
+      background: linear-gradient(transparent, rgba(14, 14, 16, 0.95));
+      text-transform: none;
+    }
+
+    /* Procesos SVG */
+    .processes {
+      max-width: none;
+      border-top: 1px solid rgba(200, 240, 74, 0.15);
+      border-bottom: 1px solid rgba(200, 240, 74, 0.15);
+    }
+    .process-wrap {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .process-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .process-svg line {
+      stroke: var(--lime);
+      stroke-width: 1;
+      stroke-dasharray: 8 6;
+      animation: dash 4s linear infinite;
+    }
+    @keyframes dash { to { stroke-dashoffset: -28; } }
+    .process-svg circle {
+      fill: var(--graphite);
+      stroke: var(--lime);
+      stroke-width: 1;
+    }
+    .process-svg text {
+      fill: var(--cream);
+      font-family: Inter, sans-serif;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .process-labels {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-top: 2rem;
+      font-size: 0.75rem;
+      color: var(--gray);
+      text-transform: none;
+    }
+
+    /* Footer consola */
+    .console-footer {
+      padding: 3rem 2rem;
+      font-family: var(--mono);
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(200, 240, 74, 0.2);
+    }
+    .console-footer .prompt { color: var(--lime); }
+    .console-footer a {
+      color: var(--cream);
+      text-decoration: none;
+      transition: color 0.25s, text-shadow 0.25s;
+    }
+    .console-footer a:hover {
+      color: var(--lime);
+      text-shadow: 0 0 10px rgba(200, 240, 74, 0.5);
+    }
+    .console-footer .meta {
+      margin-top: 1.5rem;
+      font-size: 0.7rem;
+      color: var(--gray);
+      text-transform: none;
+    }
+
+    @media (max-width: 768px) {
+      .projects-grid { grid-template-columns: repeat(2, 1fr); }
+      .nav-links { display: none; }
+      .process-labels { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+      .projects-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="top-nav upper">
+    <a href="#" class="upper">Vértice Lab</a>
+    <ul class="nav-links">
+      <li><a href="#proyectos">Proyectos</a></li>
+      <li><a href="#procesos">Procesos</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+    <span id="timestamp" class="mono" aria-live="polite"></span>
+  </header>
+
+  <section class="hero">
+    <div>
+      <p class="terminal-title upper" style="text-transform:none">
+        &gt; diseño paramétrico · computación aplicada<span class="cursor" aria-hidden="true"></span>
+      </p>
+      <p class="hero-sub">Estudio de arquitectura paramétrica y diseño computacional. Geometría, datos y materialidad en un solo flujo de trabajo.</p>
+    </div>
+  </section>
+
+  <section id="proyectos">
+    <h2 class="upper">Proyectos</h2>
+    <div class="projects-grid">
+      <article class="project-cell">
+        <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=800&q=80" alt="" />
+        <span class="project-meta">/proyecto-01.geometría</span>
+      </article>
+      <article class="project-cell">
+        <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=80" alt="" />
+        <span class="project-meta">/proyecto-02.malla</span>
+      </article>
+      <article class="project-cell">
+        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80" alt="" />
+        <span class="project-meta">/proyecto-03.superficie</span>
+      </article>
+      <article class="project-cell">
+        <img src="https://images.unsplash.com/photo-1511818966892-7c871c93f021?w=800&q=80" alt="" />
+        <span class="project-meta">/proyecto-04.topología</span>
+      </article>
+      <article class="project-cell">
+        <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&q=80" alt="" />
+        <span class="project-meta">/proyecto-05.fabricación</span>
+      </article>
+      <article class="project-cell">
+        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80" alt="" />
+        <span class="project-meta">/proyecto-06.ensamblaje</span>
+      </article>
+      <article class="project-cell">
+        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80" alt="" />
+        <span class="project-meta">/proyecto-07.optimización</span>
+      </article>
+      <article class="project-cell">
+        <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800&q=80" alt="" />
+        <span class="project-meta">/proyecto-08.simulación</span>
+      </article>
+      <article class="project-cell">
+        <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cd7e?w=800&q=80" alt="" />
+        <span class="project-meta">/proyecto-09.render</span>
+      </article>
+    </div>
+  </section>
+
+  <section id="procesos" class="processes">
+    <div class="process-wrap">
+      <h2 class="upper">Procesos</h2>
+      <svg class="process-svg" viewBox="0 0 800 200" aria-hidden="true">
+        <line x1="100" y1="100" x2="300" y2="100" />
+        <line x1="300" y1="100" x2="500" y2="100" />
+        <line x1="500" y1="100" x2="700" y2="100" />
+        <circle cx="100" cy="100" r="28" />
+        <circle cx="300" cy="100" r="28" />
+        <circle cx="500" cy="100" r="28" />
+        <circle cx="700" cy="100" r="28" />
+        <text x="100" y="105" text-anchor="middle">INPUT</text>
+        <text x="300" y="105" text-anchor="middle">MODEL</text>
+        <text x="500" y="105" text-anchor="middle">TEST</text>
+        <text x="700" y="105" text-anchor="middle">BUILD</text>
+      </svg>
+      <div class="process-labels">
+        <p><span class="mono">01</span> — Captura de parámetros y restricciones del sitio.</p>
+        <p><span class="mono">02</span> — Modelado paramétrico y iteración algorítmica.</p>
+        <p><span class="mono">03</span> — Validación estructural y ambiental.</p>
+        <p><span class="mono">04</span> — Fabricación digital y montaje.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contacto" class="console-footer">
+    <p><span class="prompt">&gt;</span> <a href="mailto:lab@vertice.studio">contact()</a></p>
+    <p class="meta">Vértice Lab · CDMX · <span class="mono" id="year"></span></p>
+  </footer>
+
+  <script>
+    function tick() {
+      var el = document.getElementById('timestamp');
+      if (el) el.textContent = new Date().toISOString().replace('T', ' ').slice(0, 19) + ' UTC';
+    }
+    tick();
+    setInterval(tick, 1000);
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

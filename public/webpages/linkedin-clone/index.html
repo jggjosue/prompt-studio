@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LinkedIn — Clon educativo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <a href="#" class="logo">
+      <span class="logo-in">in</span>
+      LinkedIn
+    </a>
+    <ul class="nav-links">
+      <li><a href="#network">Red</a></li>
+      <li><a href="#testimonials">Historias</a></li>
+      <li><a href="#">Empleos</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button type="button" class="btn-text">Iniciar sesión</button>
+      <button type="button" class="btn-pill">Unirse ahora</button>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <h1>Conecta con profesionales y haz crecer tu carrera</h1>
+        <p>Encuentra oportunidades, comparte conocimiento y construye relaciones que importan en tu industria.</p>
+        <div class="hero-signup">
+          <input type="email" placeholder="Correo electrónico" aria-label="Correo" />
+          <button type="button" class="btn-pill">Unirse gratis</button>
+        </div>
+        <p class="hero-note">Al continuar, aceptas los Términos de uso (clon educativo).</p>
+      </div>
+      <div class="feed-mockup" aria-label="Vista previa del feed">
+        <div class="feed-card">
+          <div class="feed-user">
+            <span class="avatar">AM</span>
+            <div class="feed-meta">
+              <strong>Ana Martínez</strong>
+              <span>Directora de producto · 2 h</span>
+            </div>
+          </div>
+          <p class="feed-body">Emocionada de compartir que nuestro equipo lanzó una nueva función que ya usa +50 empresas. ¡Gracias a todos los que colaboraron! 🚀</p>
+          <div class="feed-stats">
+            <span>👍 124 · 💬 18</span>
+          </div>
+        </div>
+        <div class="feed-card">
+          <div class="feed-user">
+            <span class="avatar av2">CR</span>
+            <div class="feed-meta">
+              <strong>Carlos Ruiz</strong>
+              <span>Ingeniero de software · 5 h</span>
+            </div>
+          </div>
+          <p class="feed-body">Buscando recomendaciones de cursos sobre liderazgo técnico. ¿Qué les ha funcionado?</p>
+          <div class="feed-stats">
+            <span>👍 42 · 💬 31</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="network" id="network">
+    <h2>Herramientas para tu red profesional</h2>
+    <div class="network-grid">
+      <article class="network-card">
+        <span class="net-icon">🔍</span>
+        <h3>Encuentra empleo</h3>
+        <p>Millones de vacantes filtradas por sector, nivel y ubicación.</p>
+      </article>
+      <article class="network-card">
+        <span class="net-icon">📚</span>
+        <h3>Aprende habilidades</h3>
+        <p>Cursos en video con certificados reconocidos por reclutadores.</p>
+      </article>
+      <article class="network-card">
+        <span class="net-icon">🤝</span>
+        <h3>Conecta con expertos</h3>
+        <p>Mensajes, grupos y eventos para ampliar tu red.</p>
+      </article>
+      <article class="network-card">
+        <span class="net-icon">📢</span>
+        <h3>Publica contenido</h3>
+        <p>Comparte artículos y logros para fortalecer tu marca personal.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="testimonials" id="testimonials">
+    <h2>Lo que dicen los profesionales</h2>
+    <div class="testimonial-grid">
+      <blockquote class="testimonial-card">
+        <p>"LinkedIn me ayudó a conseguir mi rol actual. Las conexiones y el perfil optimizado marcaron la diferencia."</p>
+        <footer>
+          <span class="t-avatar">LG</span>
+          <div class="t-author">
+            <cite>Laura Gómez</cite>
+            <span>UX Designer, fintech</span>
+          </div>
+        </footer>
+      </blockquote>
+      <blockquote class="testimonial-card">
+        <p>"Publicar semanalmente aumentó mis consultas de clientes un 40%. Es mi canal B2B principal."</p>
+        <footer>
+          <span class="t-avatar">MP</span>
+          <div class="t-author">
+            <cite>Miguel Paredes</cite>
+            <span>Consultor de marketing</span>
+          </div>
+        </footer>
+      </blockquote>
+      <blockquote class="testimonial-card">
+        <p>"Los cursos de Learning me prepararon para la certificación que pedían en cada entrevista."</p>
+        <footer>
+          <span class="t-avatar">SF</span>
+          <div class="t-author">
+            <cite>Sofía Fernández</cite>
+            <span>Analista de datos</span>
+          </div>
+        </footer>
+      </blockquote>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <h2>Únete a más de 900 millones de miembros</h2>
+    <button type="button" class="btn-pill btn-lg">Crear cuenta gratis</button>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="#">Acerca de</a>
+      <a href="#">Accesibilidad</a>
+      <a href="#">Centro de ayuda</a>
+      <a href="#">Legal</a>
+    </div>
+    <p class="footer-disclaimer">Clon educativo con fines de aprendizaje. No está afiliado ni respaldado por LinkedIn Corporation. Todas las marcas pertenecen a sus respectivos dueños.</p>
+    <p class="footer-copy">LinkedIn · Clon educativo · © 2026</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Northwind — Sell smarter. Close faster.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    @font-face {
+      font-family: "Satoshi";
+      src: local("Satoshi"), local("Inter");
+    }
+    :root {
+      --bg: #1a0b2e;
+      --bg-2: #0f0820;
+      --glass: rgba(255, 255, 255, 0.04);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --accent: #5f27cd;
+      --text: #fff;
+      --muted: #a78bfa;
+      --sunset: linear-gradient(135deg, #ff6b6b, #feca57, #ff9ff3);
+      --container: 1140px;
+      --pad: 24px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: Satoshi, Inter, system-ui, sans-serif;
+      background: var(--bg-2);
+      color: var(--text);
+      line-height: 1.6;
+      font-size: 15px;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: var(--container); margin: 0 auto; padding: 0 var(--pad); position: relative; z-index: 2; }
+
+    .blobs {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.5;
+    }
+    .blob-1 {
+      width: 420px;
+      height: 420px;
+      background: #ff6b6b;
+      top: -10%;
+      left: -5%;
+      animation: float1 14s ease-in-out infinite;
+    }
+    .blob-2 {
+      width: 360px;
+      height: 360px;
+      background: #feca57;
+      top: 30%;
+      right: -8%;
+      animation: float2 18s ease-in-out infinite;
+    }
+    .blob-3 {
+      width: 300px;
+      height: 300px;
+      background: #ff9ff3;
+      bottom: 10%;
+      left: 20%;
+      animation: float3 16s ease-in-out infinite;
+    }
+    .blob-4 {
+      width: 280px;
+      height: 280px;
+      background: #5f27cd;
+      bottom: 25%;
+      right: 25%;
+      animation: float1 20s ease-in-out infinite reverse;
+    }
+    @keyframes float1 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(40px, 30px) scale(1.08); }
+    }
+    @keyframes float2 {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(-30px, 50px); }
+    }
+    @keyframes float3 {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      50% { transform: translate(25px, -35px) rotate(5deg); }
+    }
+
+    .glass {
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(15, 8, 32, 0.7);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 0;
+      gap: 1.5rem;
+    }
+    .logo {
+      font-weight: 800;
+      font-size: 1.2rem;
+      letter-spacing: -0.02em;
+      background: var(--sunset);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .nav {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav a {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+    .nav a:hover { color: var(--text); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 0.7rem 1.4rem;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-sunset {
+      background: var(--sunset);
+      color: #1a0b2e;
+      box-shadow: 0 0 32px rgba(255, 107, 107, 0.4), 0 4px 20px rgba(255, 159, 243, 0.25);
+    }
+    .btn-sunset:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 48px rgba(254, 202, 87, 0.5), 0 8px 28px rgba(255, 107, 107, 0.35);
+    }
+    .btn-ghost {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      color: var(--text);
+      backdrop-filter: blur(12px);
+    }
+    .btn-ghost:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .hero {
+      padding: 4rem 0 3rem;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 2.5rem;
+      align-items: center;
+    }
+    .hero-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      border: 1px solid var(--glass-border);
+      background: var(--glass);
+      margin-bottom: 1.25rem;
+    }
+    .hero h1 {
+      font-size: clamp(2.25rem, 5vw, 3.5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.25rem;
+    }
+    .hero h1 .grad {
+      background: var(--sunset);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 440px;
+      margin-bottom: 1.75rem;
+    }
+    .hero-btns { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+    .kanban {
+      padding: 1.25rem;
+      box-shadow: 0 0 60px rgba(95, 39, 205, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    }
+    .kanban-cols {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+    }
+    .kanban-col h4 {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 0.65rem;
+      text-align: center;
+    }
+    .kanban-card {
+      padding: 0.65rem 0.75rem;
+      border-radius: 10px;
+      margin-bottom: 0.5rem;
+      font-size: 0.75rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(12px);
+    }
+    .kanban-card strong { display: block; font-size: 0.8rem; margin-bottom: 0.2rem; }
+    .kanban-card span { color: var(--muted); font-size: 0.7rem; }
+    .kanban-arrow {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.7rem;
+      margin: 0.25rem 0;
+    }
+
+    .section { padding: 4rem 0; }
+    .section-head {
+      text-align: center;
+      max-width: 560px;
+      margin: 0 auto 2.5rem;
+    }
+    .section-head h2 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+    .section-head p { color: var(--muted); }
+
+    .benefits {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+    .benefit {
+      padding: 1.5rem;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .benefit:hover {
+      border-color: rgba(255, 107, 107, 0.35);
+      box-shadow: 0 0 40px rgba(255, 159, 243, 0.12);
+    }
+    .benefit-icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .benefit h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+    .benefit p { font-size: 0.875rem; color: var(--muted); }
+
+    .steps {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem 1rem;
+    }
+    .step {
+      flex: 1;
+      min-width: 160px;
+      max-width: 200px;
+      padding: 1.25rem;
+      text-align: center;
+    }
+    .step-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--sunset);
+      color: #1a0b2e;
+      font-weight: 800;
+      font-size: 0.85rem;
+      margin-bottom: 0.75rem;
+    }
+    .step h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.35rem; }
+    .step p { font-size: 0.8rem; color: var(--muted); }
+
+    .use-cases {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .use-case {
+      padding: 1.5rem;
+      transition: transform 0.25s;
+    }
+    .use-case:hover { transform: translateY(-4px); }
+    .use-case h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+    .use-case p { font-size: 0.875rem; color: var(--muted); }
+
+    .cta-wrap { padding: 2rem 0 4rem; }
+    .cta-band {
+      text-align: center;
+      padding: 3rem 2rem;
+    }
+    .cta-band h2 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 800;
+      margin-bottom: 0.75rem;
+    }
+    .cta-band p {
+      color: var(--muted);
+      max-width: 480px;
+      margin: 0 auto 1.5rem;
+    }
+
+    .footer {
+      border-top: 1px solid var(--glass-border);
+      padding: 2.5rem 0;
+      background: rgba(15, 8, 32, 0.8);
+    }
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .benefits { grid-template-columns: 1fr 1fr; }
+      .use-cases { grid-template-columns: 1fr; }
+      .nav { display: none; }
+    }
+    @media (max-width: 520px) {
+      .benefits { grid-template-columns: 1fr; }
+      .kanban-cols { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="blobs" aria-hidden="true">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="blob blob-4"></div>
+  </div>
+
+  <header class="header">
+    <div class="container header-inner">
+      <a href="#" class="logo">Northwind</a>
+      <nav>
+        <ul class="nav">
+          <li><a href="#benefits">Product</a></li>
+          <li><a href="#steps">How it works</a></li>
+          <li><a href="#use-cases">Use cases</a></li>
+          <li><a href="#">Pricing</a></li>
+        </ul>
+      </nav>
+      <a href="#cta" class="btn btn-sunset">Start free trial</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="hero-badge">AI sales automation</span>
+          <h1>Sell smarter.<br /><span class="grad">Close faster.</span></h1>
+          <p>Northwind routes leads, drafts follow-ups, and moves deals through your pipeline — while you focus on relationships.</p>
+          <div class="hero-btns">
+            <a href="#cta" class="btn btn-sunset">Get started free</a>
+            <a href="#" class="btn btn-ghost">Watch demo</a>
+          </div>
+        </div>
+        <div class="kanban glass">
+          <div class="kanban-cols">
+            <div class="kanban-col">
+              <h4>Lead</h4>
+              <div class="kanban-card"><strong>Acme Corp</strong><span>$24k · 2d ago</span></div>
+              <div class="kanban-card"><strong>Bright Labs</strong><span>$18k · Hot</span></div>
+            </div>
+            <div class="kanban-col">
+              <h4>Qualified</h4>
+              <div class="kanban-card"><strong>Nova Systems</strong><span>Demo Fri</span></div>
+              <div class="kanban-card"><strong>Peak Health</strong><span>Proposal sent</span></div>
+            </div>
+            <div class="kanban-col">
+              <h4>Closed</h4>
+              <div class="kanban-card"><strong>Orbit AI</strong><span>Won · $42k</span></div>
+              <div class="kanban-card"><strong>Flowstack</strong><span>Won · $31k</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="benefits" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Why teams switch to Northwind</h2>
+          <p>Glass-clear pipeline visibility with AI that actually moves deals forward.</p>
+        </div>
+        <div class="benefits">
+          <article class="benefit glass">
+            <div class="benefit-icon">⚡</div>
+            <h3>Auto-qualify leads</h3>
+            <p>AI scores inbound and routes hot prospects to the right rep instantly.</p>
+          </article>
+          <article class="benefit glass">
+            <div class="benefit-icon">✉️</div>
+            <h3>Smart follow-ups</h3>
+            <p>Context-aware emails drafted in your voice — you approve or edit.</p>
+          </article>
+          <article class="benefit glass">
+            <div class="benefit-icon">📊</div>
+            <h3>Pipeline forecasts</h3>
+            <p>Real-time win probability and revenue projections per stage.</p>
+          </article>
+          <article class="benefit glass">
+            <div class="benefit-icon">🔗</div>
+            <h3>CRM sync</h3>
+            <p>HubSpot, Salesforce, and Pipedrive stay in perfect two-way sync.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="steps" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Five steps to closed-won</h2>
+          <p>From connect to celebrate — Northwind guides every handoff.</p>
+        </div>
+        <div class="steps">
+          <div class="step glass">
+            <span class="step-num">1</span>
+            <h3>Connect CRM</h3>
+            <p>OAuth in under 2 minutes</p>
+          </div>
+          <div class="step glass">
+            <span class="step-num">2</span>
+            <h3>Train AI</h3>
+            <p>Import playbooks & tone</p>
+          </div>
+          <div class="step glass">
+            <span class="step-num">3</span>
+            <h3>Route leads</h3>
+            <p>Auto-assign by rules</p>
+          </div>
+          <div class="step glass">
+            <span class="step-num">4</span>
+            <h3>Automate touches</h3>
+            <p>Sequences that adapt</p>
+          </div>
+          <div class="step glass">
+            <span class="step-num">5</span>
+            <h3>Close & learn</h3>
+            <p>Insights feed back in</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="use-cases" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Use cases</h2>
+          <p>Built for how modern revenue teams actually sell.</p>
+        </div>
+        <div class="use-cases">
+          <article class="use-case glass">
+            <h3>SMB outbound</h3>
+            <p>Scale personalized outreach without hiring an SDR army.</p>
+          </article>
+          <article class="use-case glass">
+            <h3>Enterprise ABM</h3>
+            <p>Coordinate multi-threaded deals across buying committees.</p>
+          </article>
+          <article class="use-case glass">
+            <h3>PLG conversion</h3>
+            <p>Turn product-qualified leads into sales-assisted closes.</p>
+          </article>
+          <article class="use-case glass">
+            <h3>Partner channels</h3>
+            <p>Share pipeline visibility with resellers and affiliates.</p>
+          </article>
+          <article class="use-case glass">
+            <h3>Renewals</h3>
+            <p>Flag churn risk and trigger save plays automatically.</p>
+          </article>
+          <article class="use-case glass">
+            <h3>RevOps</h3>
+            <p>Clean data, unified reporting, fewer manual exports.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="cta" class="cta-wrap">
+      <div class="container">
+        <div class="cta-band glass">
+          <h2>Ready to sunset your manual pipeline?</h2>
+          <p>14-day trial. No credit card. Your deals deserve AI that closes.</p>
+          <a href="#" class="btn btn-sunset">Start free trial</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="logo">Northwind</span>
+      <span>© 2026 Northwind, Inc. · Privacy · Terms</span>
+    </div>
+  </footer>
+</body>
+</html>

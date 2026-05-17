@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Uber — Clon educativo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Uber+Move+Text:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <a href="#" class="logo">Uber</a>
+    <ul class="nav-links">
+      <li><a href="#apps">Apps</a></li>
+      <li><a href="#cities">Ciudades</a></li>
+      <li><a href="#">Seguridad</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button type="button" class="btn-text">Iniciar sesión</button>
+      <button type="button" class="btn-pill">Registrarse</button>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <h1>Llega a donde quieras, cuando quieras</h1>
+        <p>Solicita un viaje, pide comida o envía un paquete. Todo desde una sola app.</p>
+        <div class="hero-form">
+          <input type="text" placeholder="¿A dónde vas?" aria-label="Destino" />
+          <button type="button" class="btn-pill">Ver precios</button>
+        </div>
+      </div>
+      <div class="map-panel" aria-label="Mapa con ruta animada">
+        <div class="map-grid">
+          <span class="map-dot d1"></span>
+          <span class="map-dot d2"></span>
+          <span class="map-dot d3"></span>
+          <span class="map-dot d4"></span>
+          <span class="map-dot d5"></span>
+          <span class="map-dot d6"></span>
+          <span class="map-dot d7"></span>
+          <span class="map-dot d8"></span>
+          <div class="route-line"></div>
+          <div class="route-car"></div>
+          <span class="pin pin-a">A</span>
+          <span class="pin pin-b">B</span>
+        </div>
+        <div class="eta-card">
+          <span class="eta-label">Llegada estimada</span>
+          <span class="eta-time">4 min</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="apps" id="apps">
+    <article class="app-row">
+      <div class="app-copy">
+        <h2>Uber para pasajeros</h2>
+        <p>Viajes económicos, confortables o premium. Paga con tarjeta, efectivo o billetera digital.</p>
+        <a href="#" class="link-arrow">Descargar app →</a>
+      </div>
+      <div class="phone-mock phone-left" aria-hidden="true">
+        <div class="phone-screen">
+          <div class="screen-header">Tu viaje</div>
+          <div class="screen-map"></div>
+          <div class="screen-card">
+            <span>UberX</span>
+            <strong>$8.50</strong>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="app-row reverse">
+      <div class="app-copy">
+        <h2>Uber Eats</h2>
+        <p>Restaurantes locales y favoritos a domicilio. Sigue tu pedido en tiempo real.</p>
+        <a href="#" class="link-arrow">Pedir comida →</a>
+      </div>
+      <div class="phone-mock phone-right" aria-hidden="true">
+        <div class="phone-screen eats">
+          <div class="screen-header">Uber Eats</div>
+          <div class="food-row"><span></span><span></span><span></span></div>
+          <div class="screen-card">
+            <span>En camino</span>
+            <strong>12 min</strong>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <section class="cities" id="cities">
+    <h2>Disponible en tu ciudad</h2>
+    <p class="section-sub">Explora viajes, comida y envíos cerca de ti</p>
+    <div class="city-pills">
+      <button type="button" class="city-pill active">Ciudad de México</button>
+      <button type="button" class="city-pill">Guadalajara</button>
+      <button type="button" class="city-pill">Monterrey</button>
+      <button type="button" class="city-pill">Bogotá</button>
+      <button type="button" class="city-pill">Buenos Aires</button>
+      <button type="button" class="city-pill">Madrid</button>
+      <button type="button" class="city-pill">Lima</button>
+      <button type="button" class="city-pill">Santiago</button>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="#">Viajes</a>
+      <a href="#">Eats</a>
+      <a href="#">Empresa</a>
+      <a href="#">Legal</a>
+    </div>
+    <p class="footer-disclaimer">Clon educativo con fines de aprendizaje. No está afiliado ni respaldado por Uber Technologies, Inc. Todas las marcas pertenecen a sus respectivos dueños.</p>
+    <p class="footer-copy">Uber · Clon educativo · © 2026</p>
+  </footer>
+</body>
+</html>
