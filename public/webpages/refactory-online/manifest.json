@@ -1,0 +1,3377 @@
+{
+  "version": 1,
+  "generatedAt": "2026-05-17T03:40:19.242Z",
+  "loaderUrl": "/webpages/refactory-online/loader.html",
+  "apiUrl": "/api/refactory-online",
+  "demos": {
+    "adobe-clone": {
+      "id": "77",
+      "title": "Adobe Clone — Creative Cloud",
+      "imageUrl": "/webpages/placeholder-web-77-adobe-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "airbnb-clone-landing": {
+      "id": "56",
+      "title": "Airbnb Clone — Pill Search and Categories",
+      "imageUrl": "/webpages/placeholder-web-56-airbnb-clone-landing.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html",
+        "styles.css",
+        "script.js"
+      ]
+    },
+    "airtable-clone": {
+      "id": "89",
+      "title": "Airtable Clone — Flexible Database",
+      "imageUrl": "/webpages/placeholder-web-89-airtable-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "amazon-clone": {
+      "id": "83",
+      "title": "Amazon Clone — Global E-commerce",
+      "imageUrl": "/webpages/placeholder-web-83-amazon-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "amplive-concert-tickets": {
+      "id": "246",
+      "title": "AmpLive — Concert tickets",
+      "imageUrl": "/webpages/placeholder-web-246-amplive-concert-tickets.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "aniwave-anime-streaming": {
+      "id": "203",
+      "title": "AniWave — Anime streaming platform",
+      "imageUrl": "/webpages/placeholder-web-203-aniwave-anime-streaming.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "anthropic-clone": {
+      "id": "121",
+      "title": "Anthropic Clone — Claude AI",
+      "imageUrl": "/webpages/placeholder-web-121-anthropic-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "apple-clone": {
+      "id": "138",
+      "title": "Apple Clone — Premium Products",
+      "imageUrl": "/webpages/placeholder-web-138-apple-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "apple-music-clone-minimalista": {
+      "id": "41",
+      "title": "Apple Music Clone — Dark minimalist with pink accent",
+      "imageUrl": "/webpages/placeholder-web-41-apple-music-clone-minimalista.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "apple-tv-plus-clone": {
+      "id": "51",
+      "title": "Apple TV+ Clone — Minimalist Full-Bleed",
+      "imageUrl": "/webpages/placeholder-web-51-apple-tv-plus-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "arenalive-sports-events": {
+      "id": "186",
+      "title": "ArenaLive — Sports & stadium events",
+      "imageUrl": "/webpages/placeholder-web-186-arenalive-sports-events.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "arenapulse-esports-platform": {
+      "id": "256",
+      "title": "ArenaPulse — Esports platform",
+      "imageUrl": "/webpages/placeholder-web-256-arenapulse-esports-platform.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "arq-architect-studio": {
+      "id": "5",
+      "title": "ARQ Architect Studio",
+      "imageUrl": "/webpages/placeholder-web-5-arq-architect-studio.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "artisanbox-handmade-market": {
+      "id": "233",
+      "title": "ArtisanBox — Handmade marketplace",
+      "imageUrl": "/webpages/placeholder-web-233-artisanbox-handmade-market.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "artwalk-culture-festival": {
+      "id": "196",
+      "title": "ArtWalk — Art & culture festival",
+      "imageUrl": "/webpages/placeholder-web-196-artwalk-culture-festival.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "asana-clone": {
+      "id": "74",
+      "title": "Asana Clone — Projects and Boards",
+      "imageUrl": "/webpages/placeholder-web-74-asana-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "assistly-freelance-va": {
+      "id": "175",
+      "title": "Assistly — Freelance virtual assistant",
+      "imageUrl": "/webpages/placeholder-web-175-assistly-freelance-va.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "atelier-creative-studio-portfolio": {
+      "id": "249",
+      "title": "Atelier — Creative studio portfolio",
+      "imageUrl": "/webpages/placeholder-web-249-atelier-creative-studio-portfolio.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "atelier-journal-luxury": {
+      "id": "162",
+      "title": "Atelier Journal — Luxury fashion editorial",
+      "imageUrl": "/webpages/placeholder-web-162-atelier-journal-luxury.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "atlas-bank-corporate-blue": {
+      "id": "24",
+      "title": "Atlas Bank — Corporate Blue / Financial Confidence",
+      "imageUrl": "/webpages/placeholder-web-24-atlas-bank-corporate-blue.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "bareform-builder": {
+      "id": "225",
+      "title": "BareForm — Minimal form builder",
+      "imageUrl": "/webpages/placeholder-web-225-bareform-builder.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "beatforge-marketplace": {
+      "id": "244",
+      "title": "BeatForge — Beat marketplace",
+      "imageUrl": "/webpages/placeholder-web-244-beatforge-marketplace.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "booking-clone": {
+      "id": "129",
+      "title": "Booking.com Clone — Travel Reservations",
+      "imageUrl": "/webpages/placeholder-web-129-booking-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "box-clone": {
+      "id": "111",
+      "title": "Box Clone — Enterprise Storage",
+      "imageUrl": "/webpages/placeholder-web-111-box-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "brandmint-freelance-strategist": {
+      "id": "176",
+      "title": "BrandMint — Freelance brand strategist",
+      "imageUrl": "/webpages/placeholder-web-176-brandmint-freelance-strategist.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "breathspace-breathing": {
+      "id": "209",
+      "title": "BreathSpace — Breathing exercises",
+      "imageUrl": "/webpages/placeholder-web-209-breathspace-breathing.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "broadsheet-tech-editorial": {
+      "id": "163",
+      "title": "Broadsheet — Tech editorial newspaper",
+      "imageUrl": "/webpages/placeholder-web-163-broadsheet-tech-editorial.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "buffer-clone": {
+      "id": "149",
+      "title": "Buffer Clone — Social media scheduling",
+      "imageUrl": "/webpages/placeholder-web-149-buffer-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "calendly-clone": {
+      "id": "99",
+      "title": "Calendly Clone — Schedule meetings",
+      "imageUrl": "/webpages/placeholder-web-99-calendly-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "canva-clone": {
+      "id": "69",
+      "title": "Canva Clone — Design and Templates",
+      "imageUrl": "/webpages/placeholder-web-69-canva-clone.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html",
+        "styles.css",
+        "script.js"
+      ]
+    },
+    "canvas-studio-earthy-brutalist": {
+      "id": "27",
+      "title": "Canvas Studio — Earthy / Editorial Brutalist",
+      "imageUrl": "/webpages/placeholder-web-27-canvas-studio-earthy-brutalist.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "carhub-marketplace-autos": {
+      "id": "30",
+      "title": "CarHub — Used car marketplace",
+      "imageUrl": "/webpages/placeholder-web-30-carhub-marketplace-autos.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "casa-maderal": {
+      "id": "9",
+      "title": "Casa Maderal — Organic and artisanal",
+      "imageUrl": "/webpages/placeholder-web-9-casa-maderal.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "caselab-ux-design-portfolio": {
+      "id": "250",
+      "title": "CaseLab — UX design portfolio",
+      "imageUrl": "/webpages/placeholder-web-250-caselab-ux-design-portfolio.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "chorus-music-lessons": {
+      "id": "247",
+      "title": "Chorus — Online music lessons",
+      "imageUrl": "/webpages/placeholder-web-247-chorus-music-lessons.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "chronicle-history-journal": {
+      "id": "167",
+      "title": "Chronicle — History & culture journal",
+      "imageUrl": "/webpages/placeholder-web-167-chronicle-history-journal.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "cipher-cyberpunk-neon": {
+      "id": "26",
+      "title": "Cipher — Cyberpunk / Neon Glow",
+      "imageUrl": "/webpages/placeholder-web-26-cipher-cyberpunk-neon.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "cloudflare-clone": {
+      "id": "125",
+      "title": "Cloudflare Clone — CDN and Security",
+      "imageUrl": "/webpages/placeholder-web-125-cloudflare-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "coda-clone": {
+      "id": "150",
+      "title": "Coda Clone — Docs + apps",
+      "imageUrl": "/webpages/placeholder-web-150-coda-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "codecraft-developer-portfolio": {
+      "id": "251",
+      "title": "CodeCraft — Developer portfolio",
+      "imageUrl": "/webpages/placeholder-web-251-codecraft-developer-portfolio.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "codenova-midnight-hacker": {
+      "id": "18",
+      "title": "CodeNova — Midnight Hacker",
+      "imageUrl": "/webpages/placeholder-web-18-codenova-midnight-hacker.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "codewave-freelance-developer": {
+      "id": "169",
+      "title": "CodeWave — Freelance full-stack developer",
+      "imageUrl": "/webpages/placeholder-web-169-codewave-freelance-developer.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "coinbase-clone": {
+      "id": "62",
+      "title": "Coinbase Clone — Ticker and markets",
+      "imageUrl": "/webpages/placeholder-web-62-coinbase-clone.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html",
+        "styles.css",
+        "script.js"
+      ]
+    },
+    "collective-freelance-agency": {
+      "id": "180",
+      "title": "The Collective — Freelance agency studio",
+      "imageUrl": "/webpages/placeholder-web-180-collective-freelance-agency.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "column-studio-photography": {
+      "id": "159",
+      "title": "Column Studio — Photography portfolio",
+      "imageUrl": "/webpages/placeholder-web-159-column-studio-photography.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "coreclub-boutique-fitness": {
+      "id": "202",
+      "title": "CoreClub — Boutique fitness club",
+      "imageUrl": "/webpages/placeholder-web-202-coreclub-boutique-fitness.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "corporateedge-business-events": {
+      "id": "195",
+      "title": "CorporateEdge — Corporate events agency",
+      "imageUrl": "/webpages/placeholder-web-195-corporateedge-business-events.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "cosplayhub-community": {
+      "id": "207",
+      "title": "CosplayHub — Cosplay community",
+      "imageUrl": "/webpages/placeholder-web-207-cosplayhub-community.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "coursedeck-marketplace-cursos": {
+      "id": "36",
+      "title": "CourseDeck — Online Course Marketplace",
+      "imageUrl": "/webpages/placeholder-web-36-coursedeck-marketplace-cursos.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "coursera-clone": {
+      "id": "116",
+      "title": "Coursera Clone — Online Education",
+      "imageUrl": "/webpages/placeholder-web-116-coursera-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "coworkly-espacios-coworking": {
+      "id": "32",
+      "title": "Coworkly — Coworking spaces",
+      "imageUrl": "/webpages/placeholder-web-32-coworkly-espacios-coworking.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Leaflet"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "cozyloft-home-decor": {
+      "id": "229",
+      "title": "CozyLoft — Home decor shop",
+      "imageUrl": "/webpages/placeholder-web-229-cozyloft-home-decor.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "crunchyroll-clone": {
+      "id": "146",
+      "title": "Crunchyroll Clone — Anime streaming",
+      "imageUrl": "/webpages/placeholder-web-146-crunchyroll-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "cryptopulse-trading": {
+      "id": "236",
+      "title": "CryptoPulse — Crypto trading platform",
+      "imageUrl": "/webpages/placeholder-web-236-cryptopulse-trading.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "databricks-clone": {
+      "id": "126",
+      "title": "Databricks Clone — Lakehouse",
+      "imageUrl": "/webpages/placeholder-web-126-databricks-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "datadog-clone": {
+      "id": "123",
+      "title": "Datadog Clone — Observability",
+      "imageUrl": "/webpages/placeholder-web-123-datadog-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "deezer-clone-neon-futurista": {
+      "id": "45",
+      "title": "Deezer Clone — Futuristic Neon Gradient",
+      "imageUrl": "/webpages/placeholder-web-45-deezer-clone-neon-futurista.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "devops-freelance-engineer": {
+      "id": "178",
+      "title": "CloudPilot — Freelance DevOps engineer",
+      "imageUrl": "/webpages/placeholder-web-178-devops-freelance-engineer.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "discord-clone": {
+      "id": "64",
+      "title": "Discord Clone — Gaming and Voice Chat",
+      "imageUrl": "/webpages/placeholder-web-64-discord-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "disney-plus-clone": {
+      "id": "48",
+      "title": "Disney+ Clone — Tabs and hero with video",
+      "imageUrl": "/webpages/placeholder-web-48-disney-plus-clone.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html",
+        "styles.css",
+        "script.js"
+      ]
+    },
+    "docusign-clone": {
+      "id": "101",
+      "title": "DocuSign Clone — Electronic signature",
+      "imageUrl": "/webpages/placeholder-web-101-docusign-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "doordash-clone": {
+      "id": "97",
+      "title": "DoorDash Clone — Food Delivery",
+      "imageUrl": "/webpages/placeholder-web-97-doordash-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "dropbox-clone": {
+      "id": "63",
+      "title": "Dropbox Clone — Collage and Blocks",
+      "imageUrl": "/webpages/placeholder-web-63-dropbox-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "duolingo-clone": {
+      "id": "55",
+      "title": "Duolingo Clone — Pet and Languages",
+      "imageUrl": "/webpages/placeholder-web-55-duolingo-clone.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html",
+        "styles.css",
+        "script.js"
+      ]
+    },
+    "echocast-podcast-music": {
+      "id": "245",
+      "title": "EchoCast — Music podcasts",
+      "imageUrl": "/webpages/placeholder-web-245-echocast-podcast-music.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "edit-bureau-creative": {
+      "id": "158",
+      "title": "Edit Bureau — Creative agency editorial",
+      "imageUrl": "/webpages/placeholder-web-158-edit-bureau-creative.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "embertable-steakhouse": {
+      "id": "218",
+      "title": "EmberTable — Fine dining steakhouse",
+      "imageUrl": "/webpages/placeholder-web-218-embertable-steakhouse.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "estudio-tropic": {
+      "id": "11",
+      "title": "Tropic Studio — Warm Latin American Modernism",
+      "imageUrl": "/webpages/placeholder-web-11-estudio-tropic.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "eventloop-tickets-eventos": {
+      "id": "34",
+      "title": "EventLoop — Local event tickets",
+      "imageUrl": "/webpages/placeholder-web-34-eventloop-tickets-eventos.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "evernote-clone": {
+      "id": "112",
+      "title": "Evernote Clone — Organized Notes",
+      "imageUrl": "/webpages/placeholder-web-112-evernote-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "expedia-clone": {
+      "id": "130",
+      "title": "Expedia Clone — Travel & Packages",
+      "imageUrl": "/webpages/placeholder-web-130-expedia-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "expotrade-industry-expo": {
+      "id": "190",
+      "title": "ExpoTrade — Trade show & expo",
+      "imageUrl": "/webpages/placeholder-web-190-expotrade-industry-expo.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "figma-clone": {
+      "id": "59",
+      "title": "Figma Clone — Canvas and demos in browser",
+      "imageUrl": "/webpages/placeholder-web-59-figma-clone.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html",
+        "styles.css",
+        "script.js"
+      ]
+    },
+    "finfreelance-accountant": {
+      "id": "181",
+      "title": "LedgerLink — Freelance accountant for creators",
+      "imageUrl": "/webpages/placeholder-web-181-finfreelance-accountant.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "fittrack-workout-app": {
+      "id": "201",
+      "title": "FitTrack — Workout & fitness app",
+      "imageUrl": "/webpages/placeholder-web-201-fittrack-workout-app.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "fiverr-clone": {
+      "id": "90",
+      "title": "Fiverr Clone — Freelance marketplace",
+      "imageUrl": "/webpages/placeholder-web-90-fiverr-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "flexflow-yoga-studio": {
+      "id": "199",
+      "title": "FlexFlow — Yoga & pilates studio",
+      "imageUrl": "/webpages/placeholder-web-199-flexflow-yoga-studio.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "forma-architecture-portfolio": {
+      "id": "253",
+      "title": "Forma — Architecture portfolio",
+      "imageUrl": "/webpages/placeholder-web-253-forma-architecture-portfolio.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "forma-brutalist-editorial": {
+      "id": "165",
+      "title": "Forma — Brutalist editorial grid",
+      "imageUrl": "/webpages/placeholder-web-165-forma-brutalist-editorial.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "framehaus-art-director-portfolio": {
+      "id": "254",
+      "title": "Framehaus — Art director portfolio",
+      "imageUrl": "/webpages/placeholder-web-254-framehaus-art-director-portfolio.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "framer-clone": {
+      "id": "151",
+      "title": "Framer Clone — Web design",
+      "imageUrl": "/webpages/placeholder-web-151-framer-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "galanight-charity-gala": {
+      "id": "187",
+      "title": "GalaNight — Charity gala events",
+      "imageUrl": "/webpages/placeholder-web-187-galanight-charity-gala.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "gearlend-renta-equipo-outdoor": {
+      "id": "37",
+      "title": "GearLend — Outdoor equipment rental",
+      "imageUrl": "/webpages/placeholder-web-37-gearlend-renta-equipo-outdoor.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Leaflet"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "github-clone": {
+      "id": "68",
+      "title": "GitHub Clone — Repos and Open Source",
+      "imageUrl": "/webpages/placeholder-web-68-github-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "gitlab-clone": {
+      "id": "104",
+      "title": "GitLab Clone — DevOps platform",
+      "imageUrl": "/webpages/placeholder-web-104-gitlab-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "glowlab-beauty-shop": {
+      "id": "231",
+      "title": "GlowLab — Beauty & skincare shop",
+      "imageUrl": "/webpages/placeholder-web-231-glowlab-beauty-shop.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "google-workspace-clone": {
+      "id": "79",
+      "title": "Google Workspace Clone — Productivity in the cloud",
+      "imageUrl": "/webpages/placeholder-web-79-google-workspace-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "grain-film-photography": {
+      "id": "164",
+      "title": "Grain — Film photography editorial",
+      "imageUrl": "/webpages/placeholder-web-164-grain-film-photography.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "grammarly-clone": {
+      "id": "110",
+      "title": "Grammarly Clone — Writing with AI",
+      "imageUrl": "/webpages/placeholder-web-110-grammarly-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "greenbasket-grocery": {
+      "id": "227",
+      "title": "GreenBasket — Organic grocery delivery",
+      "imageUrl": "/webpages/placeholder-web-227-greenbasket-grocery.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "grubhub-clone": {
+      "id": "115",
+      "title": "Grubhub Clone — Food Delivery",
+      "imageUrl": "/webpages/placeholder-web-115-grubhub-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "guildforge-mmo-community": {
+      "id": "259",
+      "title": "GuildForge — MMO community",
+      "imageUrl": "/webpages/placeholder-web-259-guildforge-mmo-community.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "hackbay-hackathon": {
+      "id": "191",
+      "title": "HackBay — Hackathon weekend",
+      "imageUrl": "/webpages/placeholder-web-191-hackbay-hackathon.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "halftone-design-zine": {
+      "id": "161",
+      "title": "Halftone — Design zine",
+      "imageUrl": "/webpages/placeholder-web-161-halftone-design-zine.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "hbo-max-clone": {
+      "id": "50",
+      "title": "HBO Max Clone — Carousel and Timeline FAQ",
+      "imageUrl": "/webpages/placeholder-web-50-hbo-max-clone.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html",
+        "styles.css",
+        "script.js"
+      ]
+    },
+    "headspace-clone": {
+      "id": "117",
+      "title": "Headspace Clone — Meditation and Wellbeing",
+      "imageUrl": "/webpages/placeholder-web-117-headspace-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "healmatch-terapias-wellness": {
+      "id": "38",
+      "title": "HealMatch — Book therapies and wellness",
+      "imageUrl": "/webpages/placeholder-web-38-healmatch-terapias-wellness.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Leaflet"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "horizon-luxury-hotels": {
+      "id": "263",
+      "title": "Horizon — Luxury hotels",
+      "imageUrl": "/webpages/placeholder-web-263-horizon-luxury-hotels.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "hubspot-clone": {
+      "id": "85",
+      "title": "HubSpot Clone — CRM inbound",
+      "imageUrl": "/webpages/placeholder-web-85-hubspot-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "hulu-clone": {
+      "id": "98",
+      "title": "Hulu Clone — Streaming TV",
+      "imageUrl": "/webpages/placeholder-web-98-hulu-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "ikea-clone": {
+      "id": "142",
+      "title": "IKEA Clone — Accessible furniture",
+      "imageUrl": "/webpages/placeholder-web-142-ikea-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "illustrate-freelance-artist": {
+      "id": "177",
+      "title": "Illustrate — Freelance illustrator",
+      "imageUrl": "/webpages/placeholder-web-177-illustrate-freelance-artist.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "infrawatch-observability": {
+      "id": "215",
+      "title": "InfraWatch — Observability & monitoring",
+      "imageUrl": "/webpages/placeholder-web-215-infrawatch-observability.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "ink-quarterly-magazine": {
+      "id": "153",
+      "title": "Ink Quarterly — Fashion magazine editorial",
+      "imageUrl": "/webpages/placeholder-web-153-ink-quarterly-magazine.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "inkwell-freelance-writer": {
+      "id": "170",
+      "title": "Inkwell — Freelance copywriter",
+      "imageUrl": "/webpages/placeholder-web-170-inkwell-freelance-writer.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "inkwell-illustrator-portfolio": {
+      "id": "252",
+      "title": "Inkwell — Illustrator portfolio",
+      "imageUrl": "/webpages/placeholder-web-252-inkwell-illustrator-portfolio.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "instagram-clone": {
+      "id": "81",
+      "title": "Instagram Clone — Photos and reels",
+      "imageUrl": "/webpages/placeholder-web-81-instagram-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "insuregrid-insurtech": {
+      "id": "238",
+      "title": "InsureGrid — Digital insurance",
+      "imageUrl": "/webpages/placeholder-web-238-insuregrid-insurtech.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "intercom-clone": {
+      "id": "100",
+      "title": "Intercom Clone — Business Messaging",
+      "imageUrl": "/webpages/placeholder-web-100-intercom-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "ironpulse-strength-gym": {
+      "id": "198",
+      "title": "IronPulse — Strength & CrossFit gym",
+      "imageUrl": "/webpages/placeholder-web-198-ironpulse-strength-gym.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "jira-clone": {
+      "id": "103",
+      "title": "Jira Clone — Agile and Sprints",
+      "imageUrl": "/webpages/placeholder-web-103-jira-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "kubefleet-kubernetes": {
+      "id": "214",
+      "title": "KubeFleet — Kubernetes operations",
+      "imageUrl": "/webpages/placeholder-web-214-kubefleet-kubernetes.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "launchdev-sunrise-bootcamp": {
+      "id": "19",
+      "title": "LaunchDev — Sunrise Bootcamp",
+      "imageUrl": "/webpages/placeholder-web-19-launchdev-sunrise-bootcamp.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "ledgerflow-accounting": {
+      "id": "235",
+      "title": "LedgerFlow — B2B accounting platform",
+      "imageUrl": "/webpages/placeholder-web-235-ledgerflow-accounting.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "lego-clone": {
+      "id": "145",
+      "title": "LEGO Clone — Creativity in blocks",
+      "imageUrl": "/webpages/placeholder-web-145-lego-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "lendwise-personal-loans": {
+      "id": "237",
+      "title": "LendWise — Personal lending",
+      "imageUrl": "/webpages/placeholder-web-237-lendwise-personal-loans.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "lenshire-freelance-photographer": {
+      "id": "171",
+      "title": "LensHire — Freelance photographer",
+      "imageUrl": "/webpages/placeholder-web-171-lenshire-freelance-photographer.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "linea-design-studio": {
+      "id": "223",
+      "title": "Linea — Minimal design studio",
+      "imageUrl": "/webpages/placeholder-web-223-linea-design-studio.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "linear-clone": {
+      "id": "54",
+      "title": "Linear Clone — Dev tool aurora and metrics",
+      "imageUrl": "/webpages/placeholder-web-54-linear-clone.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html",
+        "styles.css",
+        "script.js"
+      ]
+    },
+    "linkedin-clone": {
+      "id": "72",
+      "title": "LinkedIn Clone — Professional Network",
+      "imageUrl": "/webpages/placeholder-web-72-linkedin-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "logic-press-editorial-minimal": {
+      "id": "20",
+      "title": "Logic Press — Editorial Minimal",
+      "imageUrl": "/webpages/placeholder-web-20-logic-press-editorial-minimal.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "loom-clone": {
+      "id": "122",
+      "title": "Loom Clone — Video async",
+      "imageUrl": "/webpages/placeholder-web-122-loom-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "loopline-devtool": {
+      "id": "4",
+      "title": "Loopline — DevTool SaaS",
+      "imageUrl": "/webpages/placeholder-web-4-loopline-devtool.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "lootvault-game-marketplace": {
+      "id": "257",
+      "title": "LootVault — Game marketplace",
+      "imageUrl": "/webpages/placeholder-web-257-lootvault-game-marketplace.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "lumen-art-gallery": {
+      "id": "166",
+      "title": "Lumen — Art gallery editorial",
+      "imageUrl": "/webpages/placeholder-web-166-lumen-art-gallery.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "luxethread-fashion-store": {
+      "id": "226",
+      "title": "LuxeThread — Fashion e-commerce",
+      "imageUrl": "/webpages/placeholder-web-226-luxethread-fashion-store.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "lyft-clone": {
+      "id": "114",
+      "title": "Lyft Clone — Rideshare",
+      "imageUrl": "/webpages/placeholder-web-114-lyft-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "magzin-job-brutalist-sunshine": {
+      "id": "12",
+      "title": "Magzin Job — Brutalist Sunshine",
+      "imageUrl": "/webpages/placeholder-web-12-magzin-job-brutalist-sunshine.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "magzin-job-cyberpunk-neon": {
+      "id": "15",
+      "title": "Magzin Job — Cyberpunk Neon",
+      "imageUrl": "/webpages/placeholder-web-15-magzin-job-cyberpunk-neon.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "magzin-job-dark": {
+      "id": "1",
+      "title": "Job — Dark (HTML + Tailwind)",
+      "imageUrl": "/webpages/placeholder-web-1-job-dark.png",
+      "stack": [
+        "HTML",
+        "Tailwind CDN"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "magzin-job-editorial-minimal": {
+      "id": "14",
+      "title": "Magzin Job — Editorial Minimal",
+      "imageUrl": "/webpages/placeholder-web-14-magzin-job-editorial-minimal.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "magzin-job-glassmorphism-ocean": {
+      "id": "13",
+      "title": "Magzin Job — Glassmorphism Ocean",
+      "imageUrl": "/webpages/placeholder-web-13-magzin-job-glassmorphism-ocean.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "magzin-job-html-css": {
+      "id": "6",
+      "title": "Magzin Job — HTML + CSS",
+      "imageUrl": "/webpages/placeholder-web-6-magzin-job-html-css.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html",
+        "styles.css",
+        "script.js"
+      ]
+    },
+    "magzin-job-light": {
+      "id": "3",
+      "title": "Magzin Job — Light Mode",
+      "imageUrl": "/webpages/placeholder-web-2-magzin-job-light.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "magzin-job-soft-pastel-friendly": {
+      "id": "16",
+      "title": "Magzin Job — Soft Pastel Friendly",
+      "imageUrl": "/webpages/placeholder-web-16-magzin-job-soft-pastel-friendly.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "mailchimp-clone": {
+      "id": "75",
+      "title": "Mailchimp Clone — Email marketing",
+      "imageUrl": "/webpages/placeholder-web-75-mailchimp-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "mangashelf-digital-library": {
+      "id": "204",
+      "title": "MangaShelf — Digital manga library",
+      "imageUrl": "/webpages/placeholder-web-204-mangashelf-digital-library.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "marketfreelance-hub": {
+      "id": "179",
+      "title": "TalentDock — Freelance talent marketplace",
+      "imageUrl": "/webpages/placeholder-web-179-marketfreelance-hub.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "mastercard-clone": {
+      "id": "131",
+      "title": "Mastercard Clone — Payment network",
+      "imageUrl": "/webpages/placeholder-web-131-mastercard-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "masterclass-clone": {
+      "id": "134",
+      "title": "MasterClass Clone — Premium Learning",
+      "imageUrl": "/webpages/placeholder-web-134-masterclass-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "medium-clone": {
+      "id": "148",
+      "title": "Medium Clone — Reading and writing",
+      "imageUrl": "/webpages/placeholder-web-148-medium-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "meetpoint-community-meetups": {
+      "id": "189",
+      "title": "MeetPoint — Community meetups",
+      "imageUrl": "/webpages/placeholder-web-189-meetpoint-community-meetups.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "meridian-press-literary": {
+      "id": "160",
+      "title": "Meridian Press — Literary journal",
+      "imageUrl": "/webpages/placeholder-web-160-meridian-press-literary.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "meta-clone": {
+      "id": "80",
+      "title": "Meta Clone — Red social",
+      "imageUrl": "/webpages/placeholder-web-80-meta-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "mindfulkids-family": {
+      "id": "212",
+      "title": "MindfulKids — Meditation for families",
+      "imageUrl": "/webpages/placeholder-web-212-mindfulkids-family.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "miro-clone": {
+      "id": "102",
+      "title": "Miro Clone — Collaborative Whiteboard",
+      "imageUrl": "/webpages/placeholder-web-102-miro-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "monday-clone": {
+      "id": "87",
+      "title": "Monday.com Clone — Work OS",
+      "imageUrl": "/webpages/placeholder-web-87-monday-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "mongodb-clone": {
+      "id": "124",
+      "title": "MongoDB Clone — Document Database",
+      "imageUrl": "/webpages/placeholder-web-124-mongodb-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "monograph-architecture-journal": {
+      "id": "155",
+      "title": "The Monograph — Architecture journal",
+      "imageUrl": "/webpages/placeholder-web-155-monograph-architecture-journal.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "mononote-writing-app": {
+      "id": "222",
+      "title": "MonoNote — Minimal writing app",
+      "imageUrl": "/webpages/placeholder-web-222-mononote-writing-app.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "motionlab-freelance-video": {
+      "id": "173",
+      "title": "MotionLab — Freelance video editor",
+      "imageUrl": "/webpages/placeholder-web-173-motionlab-freelance-video.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "neonstrike-game-launch": {
+      "id": "255",
+      "title": "NeonStrike — AAA game launch",
+      "imageUrl": "/webpages/placeholder-web-255-neonstrike-game-launch.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "netflix-clone-mexico": {
+      "id": "47",
+      "title": "Netflix Clone — México HTML/CSS/JS",
+      "imageUrl": "/webpages/placeholder-web-47-netflix-clone-mexico.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html",
+        "styles.css",
+        "script.js"
+      ]
+    },
+    "nightmarket-food-events": {
+      "id": "197",
+      "title": "NightMarket — Food & night market events",
+      "imageUrl": "/webpages/placeholder-web-197-nightmarket-food-events.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "nike-clone": {
+      "id": "119",
+      "title": "Nike Clone — Sport and style",
+      "imageUrl": "/webpages/placeholder-web-119-nike-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "nomadstay-budget-hostels": {
+      "id": "265",
+      "title": "NomadStay — Budget hostels",
+      "imageUrl": "/webpages/placeholder-web-265-nomadstay-budget-hostels.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "norte-atelier": {
+      "id": "7",
+      "title": "NORTE Atelier — Warm Brutalism",
+      "imageUrl": "/webpages/placeholder-web-7-norte-atelier.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "northwind-sunset-glassmorphism": {
+      "id": "23",
+      "title": "Northwind — Sunset Gradient / Glassmorphism",
+      "imageUrl": "/webpages/placeholder-web-23-northwind-sunset-glassmorphism.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "notion-clone": {
+      "id": "53",
+      "title": "Notion Clone — SaaS productivity",
+      "imageUrl": "/webpages/placeholder-web-53-notion-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "openai-clone": {
+      "id": "120",
+      "title": "OpenAI Clone — AI Platform",
+      "imageUrl": "/webpages/placeholder-web-120-openai-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "otakucon-anime-convention": {
+      "id": "205",
+      "title": "OtakuCon — Anime convention",
+      "imageUrl": "/webpages/placeholder-web-205-otakucon-anime-convention.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "paper-signal-newsletter": {
+      "id": "157",
+      "title": "Paper & Signal — Editorial newsletter",
+      "imageUrl": "/webpages/placeholder-web-157-paper-signal-newsletter.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "paramount-clone": {
+      "id": "108",
+      "title": "Paramount+ Clone — Streaming and Sports",
+      "imageUrl": "/webpages/placeholder-web-108-paramount-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "pawpark-pet-supplies": {
+      "id": "230",
+      "title": "PawPark — Pet supplies store",
+      "imageUrl": "/webpages/placeholder-web-230-pawpark-pet-supplies.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "paybridge-payments-api": {
+      "id": "240",
+      "title": "PayBridge — Payments infrastructure",
+      "imageUrl": "/webpages/placeholder-web-240-paybridge-payments-api.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "paypal-clone": {
+      "id": "84",
+      "title": "PayPal Clone — Online Payments",
+      "imageUrl": "/webpages/placeholder-web-84-paypal-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "peacock-clone": {
+      "id": "109",
+      "title": "Peacock Clone — NBCUniversal streaming",
+      "imageUrl": "/webpages/placeholder-web-109-peacock-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "peloton-clone": {
+      "id": "118",
+      "title": "Peloton Clone — Fitness at home",
+      "imageUrl": "/webpages/placeholder-web-118-peloton-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "petpals-cuidado-mascotas": {
+      "id": "33",
+      "title": "PetPals — Pet Sitting",
+      "imageUrl": "/webpages/placeholder-web-33-petpals-cuidado-mascotas.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "pinterest-clone": {
+      "id": "65",
+      "title": "Pinterest Clone — Masonry and Chips",
+      "imageUrl": "/webpages/placeholder-web-65-pinterest-clone.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html",
+        "styles.css",
+        "script.js"
+      ]
+    },
+    "pipelineforge-cicd": {
+      "id": "213",
+      "title": "PipelineForge — CI/CD platform",
+      "imageUrl": "/webpages/placeholder-web-213-pipelineforge-cicd.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "pixelcraft-freelance-designer": {
+      "id": "168",
+      "title": "PixelCraft — Freelance UI/UX designer",
+      "imageUrl": "/webpages/placeholder-web-168-pixelcraft-freelance-designer.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "pixelforge-cyber-y2k": {
+      "id": "21",
+      "title": "PixelForge Academy — Cyber Y2K",
+      "imageUrl": "/webpages/placeholder-web-21-pixelforge-cyber-y2k.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "pixelframe-photography-portfolio": {
+      "id": "248",
+      "title": "PixelFrame — Photography portfolio",
+      "imageUrl": "/webpages/placeholder-web-248-pixelframe-photography-portfolio.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "pixelshelf-indie-game-store": {
+      "id": "260",
+      "title": "PixelShelf — Indie game store",
+      "imageUrl": "/webpages/placeholder-web-260-pixelshelf-indie-game-store.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "pizzaalta-neapolitan": {
+      "id": "221",
+      "title": "PizzaAlta — Neapolitan pizzeria",
+      "imageUrl": "/webpages/placeholder-web-221-pizzaalta-neapolitan.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "plano-24": {
+      "id": "10",
+      "title": "Plan 24 — Scandinavian minimalism",
+      "imageUrl": "/webpages/placeholder-web-10-plano-24.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "platemap-restaurantes-reservacion": {
+      "id": "31",
+      "title": "PlateMap — Restaurants with reservation",
+      "imageUrl": "/webpages/placeholder-web-31-platemap-restaurantes-reservacion.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "playstation-clone": {
+      "id": "140",
+      "title": "PlayStation Clone — Gaming console",
+      "imageUrl": "/webpages/placeholder-web-140-playstation-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "plotshare-huertos-urbanos": {
+      "id": "35",
+      "title": "PlotShare — Shared urban gardens",
+      "imageUrl": "/webpages/placeholder-web-35-plotshare-huertos-urbanos.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Leaflet"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "pulse-health-soft-mint": {
+      "id": "25",
+      "title": "Pulse Health — Soft Mint / Calm HealthTech",
+      "imageUrl": "/webpages/placeholder-web-25-pulse-health-soft-mint.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "pulsefest-music-festival": {
+      "id": "183",
+      "title": "PulseFest — Music festival landing",
+      "imageUrl": "/webpages/placeholder-web-183-pulsefest-music-festival.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "rankflow-freelance-seo": {
+      "id": "174",
+      "title": "RankFlow — Freelance SEO specialist",
+      "imageUrl": "/webpages/placeholder-web-174-rankflow-freelance-seo.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "reddit-clone": {
+      "id": "96",
+      "title": "Reddit Clone — Communities",
+      "imageUrl": "/webpages/placeholder-web-96-reddit-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "revolut-clone": {
+      "id": "127",
+      "title": "Revolut Clone — Super financial app",
+      "imageUrl": "/webpages/placeholder-web-127-revolut-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "rive-clone": {
+      "id": "152",
+      "title": "Rive Clone — Interactive Animation",
+      "imageUrl": "/webpages/placeholder-web-152-rive-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "robinhood-clone": {
+      "id": "66",
+      "title": "Robinhood Clone — Chart and stats",
+      "imageUrl": "/webpages/placeholder-web-66-robinhood-clone.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html",
+        "styles.css",
+        "script.js"
+      ]
+    },
+    "runcrew-running-club": {
+      "id": "200",
+      "title": "RunCrew — Running club & training",
+      "imageUrl": "/webpages/placeholder-web-200-runcrew-running-club.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "sakuralane-omakase": {
+      "id": "219",
+      "title": "SakuraLane — Japanese omakase",
+      "imageUrl": "/webpages/placeholder-web-219-sakuralane-omakase.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "salesforce-clone": {
+      "id": "86",
+      "title": "Salesforce Clone — Customer 360",
+      "imageUrl": "/webpages/placeholder-web-86-salesforce-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "samsung-clone": {
+      "id": "139",
+      "title": "Samsung Clone — Galaxy ecosystem",
+      "imageUrl": "/webpages/placeholder-web-139-samsung-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "serif-co-publishing": {
+      "id": "154",
+      "title": "Serif & Co — Literary publishing house",
+      "imageUrl": "/webpages/placeholder-web-154-serif-co-publishing.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "shopify-clone": {
+      "id": "70",
+      "title": "Shopify Clone — E-commerce and stores",
+      "imageUrl": "/webpages/placeholder-web-70-shopify-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "skill-future": {
+      "id": "17",
+      "title": "Skill Future — Programming Education",
+      "imageUrl": "/webpages/placeholder-web-17-skill-future.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "skillshare-clone": {
+      "id": "135",
+      "title": "Skillshare Clone — Online Creativity",
+      "imageUrl": "/webpages/placeholder-web-135-skillshare-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "skyroute-flight-deals": {
+      "id": "268",
+      "title": "SkyRoute — Flight deals",
+      "imageUrl": "/webpages/placeholder-web-268-skyroute-flight-deals.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "slack-clone": {
+      "id": "60",
+      "title": "Slack Clone — 3D Chat and industries",
+      "imageUrl": "/webpages/placeholder-web-60-slack-clone.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html",
+        "styles.css",
+        "script.js"
+      ]
+    },
+    "sleepflow-night-meditation": {
+      "id": "211",
+      "title": "SleepFlow — Sleep meditation",
+      "imageUrl": "/webpages/placeholder-web-211-sleepflow-night-meditation.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "snapchat-clone": {
+      "id": "93",
+      "title": "Snapchat Clone — Stories and AR",
+      "imageUrl": "/webpages/placeholder-web-93-snapchat-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "snowflake-clone": {
+      "id": "107",
+      "title": "Snowflake Clone — Data Cloud",
+      "imageUrl": "/webpages/placeholder-web-107-snowflake-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "soundcloud-clone-inicio": {
+      "id": "46",
+      "title": "SoundCloud Clone — Inicio HTML/CSS puro",
+      "imageUrl": "/webpages/placeholder-web-46-soundcloud-clone-inicio-html.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "soundcloud-clone-naranja": {
+      "id": "44",
+      "title": "SoundCloud Clone — Creative Vibrant Orange",
+      "imageUrl": "/webpages/placeholder-web-44-soundcloud-clone-naranja.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "soundwave-producer-studio": {
+      "id": "242",
+      "title": "SoundWave — Producer studio",
+      "imageUrl": "/webpages/placeholder-web-242-soundwave-producer-studio.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "sportpeak-athletic-wear": {
+      "id": "232",
+      "title": "SportPeak — Athletic wear store",
+      "imageUrl": "/webpages/placeholder-web-232-sportpeak-athletic-wear.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "spotify-clone": {
+      "id": "49",
+      "title": "Spotify Clone — Plans and SVG Waves",
+      "imageUrl": "/webpages/placeholder-web-49-spotify-clone.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html",
+        "styles.css",
+        "script.js"
+      ]
+    },
+    "square-clone": {
+      "id": "92",
+      "title": "Square Clone — Payments and POS",
+      "imageUrl": "/webpages/placeholder-web-92-square-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "sredesk-incident-platform": {
+      "id": "217",
+      "title": "SREDesk — Incident & reliability platform",
+      "imageUrl": "/webpages/placeholder-web-217-sredesk-incident-platform.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "stagecomedy-standup": {
+      "id": "192",
+      "title": "StageComedy — Stand-up & comedy nights",
+      "imageUrl": "/webpages/placeholder-web-192-stagecomedy-standup.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "starlink-clone": {
+      "id": "133",
+      "title": "Starlink Clone — Satellite Internet",
+      "imageUrl": "/webpages/placeholder-web-133-starlink-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "staynordic-cabanas-escandinavia": {
+      "id": "29",
+      "title": "StayNordic — Cabins in Scandinavia",
+      "imageUrl": "/webpages/placeholder-web-29-staynordic-cabanas-escandinavia.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "Leaflet"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "stillmind-meditation-app": {
+      "id": "208",
+      "title": "StillMind — Meditation & mindfulness app",
+      "imageUrl": "/webpages/placeholder-web-208-stillmind-meditation-app.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "stratline-freelance-consultant": {
+      "id": "172",
+      "title": "Stratline — Freelance business consultant",
+      "imageUrl": "/webpages/placeholder-web-172-stratline-freelance-consultant.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "streamforge-game-streaming": {
+      "id": "258",
+      "title": "StreamForge — Game streaming",
+      "imageUrl": "/webpages/placeholder-web-258-streamforge-game-streaming.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "stripe-clone": {
+      "id": "61",
+      "title": "Stripe Clone — Gradients and Products",
+      "imageUrl": "/webpages/placeholder-web-61-stripe-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "studioneko-anime-production": {
+      "id": "206",
+      "title": "Studio Neko — Anime production studio",
+      "imageUrl": "/webpages/placeholder-web-206-studioneko-anime-production.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "substack-clone": {
+      "id": "147",
+      "title": "Substack Clone — Newsletters",
+      "imageUrl": "/webpages/placeholder-web-147-substack-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "summithq-tech-conference": {
+      "id": "184",
+      "title": "SummitHQ — Tech conference",
+      "imageUrl": "/webpages/placeholder-web-184-summithq-tech-conference.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "synthax-pro-corporate-confidence": {
+      "id": "22",
+      "title": "Synthax Pro — Corporate Confidence",
+      "imageUrl": "/webpages/placeholder-web-22-synthax-pro-corporate-confidence.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "target-clone": {
+      "id": "144",
+      "title": "Target Clone — Expect More",
+      "imageUrl": "/webpages/placeholder-web-144-target-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "teams-clone": {
+      "id": "78",
+      "title": "Microsoft Teams Clone — Meetings and Chat",
+      "imageUrl": "/webpages/placeholder-web-78-teams-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "terraformhub-iac": {
+      "id": "216",
+      "title": "TerraformHub — Infrastructure as Code",
+      "imageUrl": "/webpages/placeholder-web-216-terraformhub-iac.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "terraguide-local-experiences": {
+      "id": "267",
+      "title": "TerraGuide — Local experiences",
+      "imageUrl": "/webpages/placeholder-web-267-terraguide-local-experiences.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "tesla-clone": {
+      "id": "57",
+      "title": "Tesla Clone — One-page fullscreen",
+      "imageUrl": "/webpages/placeholder-web-57-tesla-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "ticketflow-events-saas": {
+      "id": "194",
+      "title": "TicketFlow — Event ticketing platform",
+      "imageUrl": "/webpages/placeholder-web-194-ticketflow-events-saas.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "tidal-clone-premium-cian": {
+      "id": "42",
+      "title": "Tidal Clone — Premium Black with Electric Cyan",
+      "imageUrl": "/webpages/placeholder-web-42-tidal-clone-premium-cian.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "tiktok-clone": {
+      "id": "82",
+      "title": "TikTok Clone — Short video",
+      "imageUrl": "/webpages/placeholder-web-82-tiktok-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "trailpath-adventure-tours": {
+      "id": "264",
+      "title": "TrailPath — Adventure tours",
+      "imageUrl": "/webpages/placeholder-web-264-trailpath-adventure-tours.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "trello-clone": {
+      "id": "88",
+      "title": "Trello Clone — Kanban Boards",
+      "imageUrl": "/webpages/placeholder-web-88-trello-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "twilio-clone": {
+      "id": "106",
+      "title": "Twilio Clone — Communication APIs",
+      "imageUrl": "/webpages/placeholder-web-106-twilio-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "twitch-clone": {
+      "id": "52",
+      "title": "Twitch Clone — LIVE Streams and Chat FAQ",
+      "imageUrl": "/webpages/placeholder-web-52-twitch-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "type-foundry-studio": {
+      "id": "156",
+      "title": "Type Foundry — Typography studio",
+      "imageUrl": "/webpages/placeholder-web-156-type-foundry-studio.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "typeform-clone": {
+      "id": "137",
+      "title": "Typeform Clone — Conversational Forms",
+      "imageUrl": "/webpages/placeholder-web-137-typeform-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "uber-clone": {
+      "id": "71",
+      "title": "Uber Clone — Mobility and map",
+      "imageUrl": "/webpages/placeholder-web-71-uber-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "upwork-clone": {
+      "id": "91",
+      "title": "Upwork Clone — Global Talent",
+      "imageUrl": "/webpages/placeholder-web-91-upwork-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "vaultpay-neobank": {
+      "id": "234",
+      "title": "VaultPay — Digital neobank",
+      "imageUrl": "/webpages/placeholder-web-234-vaultpay-neobank.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "vercel-clone": {
+      "id": "105",
+      "title": "Vercel Clone — Deploy frontend",
+      "imageUrl": "/webpages/placeholder-web-105-vercel-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "verdekitchen-farm-table": {
+      "id": "220",
+      "title": "VerdeKitchen — Farm-to-table",
+      "imageUrl": "/webpages/placeholder-web-220-verdekitchen-farm-table.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "vertice-lab": {
+      "id": "8",
+      "title": "Vértice Lab – Tech dark editorial",
+      "imageUrl": "/webpages/placeholder-web-8-vertice-lab.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "vibestream-music-app": {
+      "id": "241",
+      "title": "VibeStream — Music streaming app",
+      "imageUrl": "/webpages/placeholder-web-241-vibestream-music-app.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "vinylroom-record-shop": {
+      "id": "243",
+      "title": "VinylRoom — Vinyl record shop",
+      "imageUrl": "/webpages/placeholder-web-243-vinylroom-record-shop.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "virtualstage-hybrid-events": {
+      "id": "193",
+      "title": "VirtualStage — Hybrid virtual events",
+      "imageUrl": "/webpages/placeholder-web-193-virtualstage-hybrid-events.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "visa-clone": {
+      "id": "132",
+      "title": "Visa Clone — Global Payments",
+      "imageUrl": "/webpages/placeholder-web-132-visa-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "voicehire-freelance-narrator": {
+      "id": "182",
+      "title": "VoiceHire — Freelance voice-over artist",
+      "imageUrl": "/webpages/placeholder-web-182-voicehire-freelance-narrator.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "voidmail-inbox": {
+      "id": "224",
+      "title": "VoidMail — Minimal email client",
+      "imageUrl": "/webpages/placeholder-web-224-voidmail-inbox.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "voltgear-tech-shop": {
+      "id": "228",
+      "title": "VoltGear — Tech & gadgets store",
+      "imageUrl": "/webpages/placeholder-web-228-voltgear-tech-shop.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "vowday-wedding-events": {
+      "id": "185",
+      "title": "VowDay — Wedding & celebration events",
+      "imageUrl": "/webpages/placeholder-web-185-vowday-wedding-events.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "voyage-cruise-line": {
+      "id": "266",
+      "title": "Voyage — Cruise line",
+      "imageUrl": "/webpages/placeholder-web-266-voyage-cruise-line.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "vrx-vr-gaming-platform": {
+      "id": "261",
+      "title": "VRX — VR gaming platform",
+      "imageUrl": "/webpages/placeholder-web-261-vrx-vr-gaming-platform.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "walmart-clone": {
+      "id": "143",
+      "title": "Walmart Clone — Mass Retail",
+      "imageUrl": "/webpages/placeholder-web-143-walmart-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "wanderly-travel-booking": {
+      "id": "262",
+      "title": "Wanderly — Travel booking",
+      "imageUrl": "/webpages/placeholder-web-262-wanderly-travel-booking.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "waze-clone": {
+      "id": "113",
+      "title": "Waze Clone — Community Navigation",
+      "imageUrl": "/webpages/placeholder-web-113-waze-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "wealthhorizon-investing": {
+      "id": "239",
+      "title": "WealthHorizon — Wealth management",
+      "imageUrl": "/webpages/placeholder-web-239-wealthhorizon-investing.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "webflow-clone": {
+      "id": "67",
+      "title": "Webflow Clone — Editor and Showcase",
+      "imageUrl": "/webpages/placeholder-web-67-webflow-clone.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html",
+        "styles.css",
+        "script.js"
+      ]
+    },
+    "whatsapp-clone": {
+      "id": "94",
+      "title": "WhatsApp Clone — Business Messaging",
+      "imageUrl": "/webpages/placeholder-web-94-whatsapp-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "wise-clone": {
+      "id": "128",
+      "title": "Wise Clone — International Transfers",
+      "imageUrl": "/webpages/placeholder-web-128-wise-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "workshopweek-classes": {
+      "id": "188",
+      "title": "WorkshopWeek — Workshops & masterclasses",
+      "imageUrl": "/webpages/placeholder-web-188-workshopweek-classes.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "x-clone": {
+      "id": "95",
+      "title": "X Clone — Real-time conversation",
+      "imageUrl": "/webpages/placeholder-web-95-x-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "xbox-clone": {
+      "id": "141",
+      "title": "Xbox Clone — Game Pass",
+      "imageUrl": "/webpages/placeholder-web-141-xbox-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "youtube-music-clone-vibrante": {
+      "id": "43",
+      "title": "YouTube Music Clone — Vibrant Red and White",
+      "imageUrl": "/webpages/placeholder-web-43-youtube-music-clone-vibrante.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "youtube-premium-clone": {
+      "id": "58",
+      "title": "YouTube Premium Clone — Mosaic and plans",
+      "imageUrl": "/webpages/placeholder-web-58-youtube-premium-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "zapier-clone": {
+      "id": "136",
+      "title": "Zapier Clone — No-code automation",
+      "imageUrl": "/webpages/placeholder-web-136-zapier-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "zendesk-clone": {
+      "id": "76",
+      "title": "Zendesk Clone — Customer Support",
+      "imageUrl": "/webpages/placeholder-web-76-zendesk-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    },
+    "zengarden-retreat": {
+      "id": "210",
+      "title": "ZenGarden — Meditation retreat center",
+      "imageUrl": "/webpages/placeholder-web-210-zengarden-retreat.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "zoom-clone": {
+      "id": "73",
+      "title": "Zoom Clone — Video calls and webinars",
+      "imageUrl": "/webpages/placeholder-web-73-zoom-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html",
+        "styles.css"
+      ]
+    }
+  }
+}
