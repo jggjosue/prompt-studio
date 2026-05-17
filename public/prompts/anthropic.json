@@ -1,0 +1,238 @@
+{
+  "anthropic": [
+    {
+      "title": {
+        "en": "Task Agent",
+        "es": "Agente de tareas"
+      },
+      "description": {
+        "en": "Launches a new agent to handle complex, multi-step tasks autonomously. Supports general-purpose agents, status line configuration, and output styles.",
+        "es": "Lanza un nuevo agente para manejar tareas complejas de varios pasos de forma autónoma. Admite agentes de uso general, configuración de línea de estado y estilos de salida."
+      },
+      "how_to_use_prompt": {
+        "en": "Use this protocol when you need deep research or code searches that require autonomy. Ideal for tasks you cannot solve in a single attempt.",
+        "es": "Utilice este protocolo cuando necesite una investigación profunda o búsquedas de código que requieran autonomía. Ideal para tareas que no puedes resolver en un solo intento."
+      },
+      "examples": [
+        {
+          "user": "Write a function to check prime numbers.",
+          "response": "I will write the function and then use the 'code-reviewer' agent to validate the implementation."
+        }
+      ],
+      "membership": "Free"
+    },
+    {
+      "title": {
+        "en": "Computer Use",
+        "es": "Uso de la computadora"
+      },
+      "description": {
+        "en": "Interacts with the operating system and browser via mouse and keyboard control. Enables clicks, typing, screenshots, and scrolling.",
+        "es": "Interactúa con el sistema operativo y el navegador mediante el control del mouse y el teclado. Permite hacer clic, escribir, hacer capturas de pantalla y desplazarse."
+      },
+      "how_to_use_prompt": {
+        "en": "Before any click action, always request a screenshot to confirm visual coordinates. Ensure the cursor lands in the center of the target element.",
+        "es": "Antes de cualquier acción de clic, solicite siempre una captura de pantalla para confirmar las coordenadas visuales. Asegúrese de que el cursor aterrice en el centro del elemento de destino."
+      },
+      "examples": [
+        {
+          "step": 1,
+          "action": {
+            "en": "screenshot -> Analyze image -> left_click at [x, y] to open the menu.",
+            "es": "captura de pantalla -> Analizar imagen -> clic izquierdo en [x, y] para abrir el menú."
+          }
+        },
+        {
+          "step": 2,
+          "action": {
+            "en": "type -> Enter 'https://google.com' in the address bar.",
+            "es": "escriba -> Ingrese 'https://google.com' en la barra de direcciones."
+          }
+        }
+      ],
+      "membership": "Free"
+    },
+    {
+      "title": {
+        "en": "Element Discovery (Find)",
+        "es": "Descubrimiento de elementos (buscar)"
+      },
+      "description": {
+        "en": "Locates specific elements on a web page using natural language descriptions. Useful for finding buttons, search bars, or products without knowing their coordinates.",
+        "es": "Localiza elementos específicos en una página web utilizando descripciones en lenguaje natural. Útil para buscar botones, barras de búsqueda o productos sin conocer sus coordenadas."
+      },
+      "how_to_use_prompt": {
+        "en": "Use 'find' when you need to interact with an element but are unsure of its exact position. Returns reference IDs that can be used with other tools.",
+        "es": "Utilice 'buscar' cuando necesite interactuar con un elemento pero no esté seguro de su posición exacta. Devuelve ID de referencia que se pueden utilizar con otras herramientas."
+      },
+      "examples": [
+        {
+          "user": "Find the 'Add to cart' button.",
+          "response": "[Use find with query 'add to cart button'] -> Returns ref_123"
+        }
+      ],
+      "membership": "Free"
+    },
+    {
+      "title": {
+        "en": "Page Structure (Read Page)",
+        "es": "Estructura de la página (leer página)"
+      },
+      "description": {
+        "en": "Extracts the accessibility tree of the current page to understand its semantic structure. Shows interactive elements, labels, and hierarchies.",
+        "es": "Extrae el árbol de accesibilidad de la página actual para comprender su estructura semántica. Muestra elementos interactivos, etiquetas y jerarquías."
+      },
+      "how_to_use_prompt": {
+        "en": "Use 'read_page' to get an overview of the DOM hierarchy. If the output is too large, use 'depth' or focus on a specific 'ref_id'.",
+        "es": "Utilice 'read_page' para obtener una descripción general de la jerarquía DOM. Si el resultado es demasiado grande, utilice \"profundidad\" o céntrese en un \"ref_id\" específico."
+      },
+      "examples": [
+        {
+          "action": {
+            "en": "read_page with filter='interactive' to list only available buttons and links.",
+            "es": "read_page con filter='interactive' para enumerar solo los botones y enlaces disponibles."
+          }
+        }
+      ],
+      "membership": "Free"
+    },
+    {
+      "title": {
+        "en": "JavaScript Execution",
+        "es": "Ejecución de JavaScript"
+      },
+      "description": {
+        "en": "Runs JavaScript directly in the current web page context. Allows DOM manipulation, calling page functions, and extracting complex data.",
+        "es": "Ejecuta JavaScript directamente en el contexto de la página web actual. Permite la manipulación de DOM, llamar a funciones de página y extraer datos complejos."
+      },
+      "how_to_use_prompt": {
+        "en": "Use this tool for tasks visual tools cannot perform, such as extracting data from a global window variable or firing specific events.",
+        "es": "Utilice esta herramienta para tareas que las herramientas visuales no pueden realizar, como extraer datos de una variable de ventana global o activar eventos específicos."
+      },
+      "examples": [
+        {
+          "action": {
+            "en": "javascript_tool -> text: 'window.appData.user.id' -> Returns the current user ID.",
+            "es": "javascript_tool -> texto: 'window.appData.user.id' -> Devuelve el ID de usuario actual."
+          }
+        }
+      ],
+      "membership": "Free"
+    },
+    {
+      "title": {
+        "en": "Network & Console Debugging",
+        "es": "Depuración de red y consola"
+      },
+      "description": {
+        "en": "Monitors network requests (XHR/Fetch) and browser console messages. Essential for diagnosing API errors or client-side logic failures.",
+        "es": "Supervisa las solicitudes de red (XHR/Fetch) y los mensajes de la consola del navegador. Esencial para diagnosticar errores de API o fallas lógicas del lado del cliente."
+      },
+      "how_to_use_prompt": {
+        "en": "When a web action fails silently, check 'read_console_messages' and 'read_network_requests' to identify 4xx/5xx errors or JS exceptions.",
+        "es": "Cuando una acción web falla silenciosamente, verifique 'read_console_messages' y 'read_network_requests' para identificar errores 4xx/5xx o excepciones JS."
+      },
+      "examples": [
+        {
+          "action": {
+            "en": "read_console_messages with pattern='error' to find script load failures.",
+            "es": "read_console_messages con patrón='error' para encontrar fallas en la carga del script."
+          }
+        }
+      ],
+      "membership": "Free"
+    },
+    {
+      "title": {
+        "en": "Bash Persistence",
+        "es": "Persistencia del golpe"
+      },
+      "description": {
+        "en": "Runs bash commands in a persistent session. Includes directory checks, handling spaces in paths, and safe execution.",
+        "es": "Ejecuta comandos bash en una sesión persistente. Incluye comprobaciones de directorio, manejo de espacios en rutas y ejecución segura."
+      },
+      "how_to_use_prompt": {
+        "en": "Use this block to interact with the operating system. Always verify the parent directory exists before creating files.",
+        "es": "Utilice este bloque para interactuar con el sistema operativo. Verifique siempre que exista el directorio principal antes de crear archivos."
+      },
+      "examples": [
+        {
+          "action": {
+            "en": "npm install -> Installs project dependencies.",
+            "es": "npm install -> Instala las dependencias del proyecto."
+          }
+        }
+      ],
+      "membership": "Free"
+    },
+    {
+      "title": {
+        "en": "Precise Editing",
+        "es": "Edición precisa"
+      },
+      "description": {
+        "en": "Performs exact string replacements in files. Requires reading the file first to ensure context and indentation accuracy.",
+        "es": "Realiza reemplazos exactos de cadenas en archivos. Requiere leer el archivo primero para garantizar la precisión del contexto y la sangría."
+      },
+      "how_to_use_prompt": {
+        "en": "To edit code, read the file first. Capture enough context in 'old_string' so it is unique.",
+        "es": "Para editar el código, lea primero el archivo. Capture suficiente contexto en 'old_string' para que sea único."
+      },
+      "examples": [
+        {
+          "action": {
+            "en": "Read main.js -> Identify the function -> Use Edit to update the logic.",
+            "es": "Lea main.js -> Identificar la función -> Use Editar para actualizar la lógica."
+          }
+        }
+      ],
+      "membership": "Free"
+    },
+    {
+      "title": {
+        "en": "GIF Automation Export",
+        "es": "Exportación de automatización GIF"
+      },
+      "description": {
+        "en": "Records and exports automation sessions as animated GIFs. Includes visual click indicators, drag paths, and action labels.",
+        "es": "Graba y exporta sesiones de automatización como GIF animados. Incluye indicadores visuales de clic, rutas de arrastre y etiquetas de acción."
+      },
+      "how_to_use_prompt": {
+        "en": "Start recording before a complex sequence of steps to document agent behavior or create automatic tutorials.",
+        "es": "Comience a grabar antes de una secuencia compleja de pasos para documentar el comportamiento de los agentes o crear tutoriales automáticos."
+      },
+      "examples": [
+        {
+          "action": {
+            "en": "start_recording -> Run purchase sequence -> stop_recording -> export.",
+            "es": "start_recording -> Ejecutar secuencia de compra -> stop_recording -> exportar."
+          }
+        }
+      ],
+      "membership": "Free"
+    },
+    {
+      "title": {
+        "en": "Git Workflow",
+        "es": "Flujo de trabajo de Git"
+      },
+      "description": {
+        "en": "Protocol for managing commits and pull requests. Includes diff analysis, concise message drafting, and repository standards compliance.",
+        "es": "Protocolo para gestionar confirmaciones y solicitudes de extracción. Incluye análisis de diferencias, redacción de mensajes concisos y cumplimiento de estándares de repositorio."
+      },
+      "how_to_use_prompt": {
+        "en": "When you finish a task, use this protocol to confirm changes. The assistant will analyze the log to follow the project's commit style.",
+        "es": "Cuando termine una tarea, utilice este protocolo para confirmar los cambios. El asistente analizará el registro para seguir el estilo de confirmación del proyecto."
+      },
+      "examples": [
+        {
+          "action": {
+            "en": "git status -> git diff -> git commit with a descriptive message.",
+            "es": "git status -> git diff -> git commit con un mensaje descriptivo."
+          }
+        }
+      ],
+      "membership": "Free"
+    }
+  ]
+}

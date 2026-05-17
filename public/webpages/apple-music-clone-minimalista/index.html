@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apple Music — Música como debe sonar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="navbar-inner">
+      <a href="#" class="logo"> <span>Music</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#">Descubrir</a></li>
+          <li><a href="#">Radio</a></li>
+          <li><a href="#">Buscar</a></li>
+        </ul>
+      </nav>
+      <a href="#" class="btn-cta">Probar gratis</a>
+    </div>
+  </header>
+
+  <section class="hero" id="hero">
+    <div class="hero-bg" id="heroBg" aria-hidden="true"></div>
+    <div class="hero-content">
+      <h1>Música como debe sonar</h1>
+      <p>Más de 100 millones de canciones. Audio espacial. Sin anuncios.</p>
+      <a href="#" class="btn-cta" style="font-size:1rem;padding:0.75rem 1.75rem">Probar Apple Music gratis</a>
+    </div>
+  </section>
+
+  <section class="albums-section">
+    <div class="container">
+      <p class="section-label">Carrusel de álbumes</p>
+    </div>
+    <h2>Novedades destacadas</h2>
+    <div class="album-carousel" role="region" aria-label="Álbumes destacados">
+      <article class="album-card">
+        <div class="album-cover" aria-hidden="true"></div>
+        <div class="album-info">
+          <h3>Midnights</h3>
+          <p>Taylor Swift</p>
+        </div>
+      </article>
+      <article class="album-card">
+        <div class="album-cover"></div>
+        <div class="album-info">
+          <h3>Random Access Memories</h3>
+          <p>Daft Punk</p>
+        </div>
+      </article>
+      <article class="album-card">
+        <div class="album-cover"></div>
+        <div class="album-info">
+          <h3>Un Verano Sin Ti</h3>
+          <p>Bad Bunny</p>
+        </div>
+      </article>
+      <article class="album-card">
+        <div class="album-cover"></div>
+        <div class="album-info">
+          <h3>folklore</h3>
+          <p>Taylor Swift</p>
+        </div>
+      </article>
+      <article class="album-card">
+        <div class="album-cover"></div>
+        <div class="album-info">
+          <h3>Blonde</h3>
+          <p>Frank Ocean</p>
+        </div>
+      </article>
+      <article class="album-card">
+        <div class="album-cover"></div>
+        <div class="album-info">
+          <h3>Channel Orange</h3>
+          <p>Frank Ocean</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="sing-section">
+    <div class="container sing-grid">
+      <div>
+        <p class="section-label">Sección Sing</p>
+        <h2>Canta con letras en tiempo real</h2>
+        <p class="subtitle">Visualizador de letras animado: cada línea se ilumina y se desvanece al ritmo de la canción.</p>
+        <a href="#" class="btn-cta">Descubrir Sing</a>
+      </div>
+      <div class="lyrics-visualizer" aria-label="Visualizador de letras">
+        <p class="lyric-line">We could leave the Christmas lights up</p>
+        <p class="lyric-line active">Till January</p>
+        <p class="lyric-line">This is our place, we make the rules</p>
+        <p class="lyric-line">And there's a dazzling haze</p>
+        <p class="lyric-line">A mysterious way about you, dear</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="pricing-section">
+    <div class="container">
+      <p class="section-label" style="text-align:center">Pricing comparison table</p>
+      <h2>Compara planes</h2>
+      <div class="pricing-table-wrap">
+        <table class="pricing-table">
+          <thead>
+            <tr>
+              <th scope="col">Característica</th>
+              <th scope="col">
+                <span class="plan-name">Individual</span>
+                <span class="plan-price">10,99 €/mes</span>
+              </th>
+              <th scope="col">
+                <span class="plan-name">Familiar</span>
+                <span class="plan-price">16,99 €/mes</span>
+              </th>
+              <th scope="col">
+                <span class="plan-name">Estudiante</span>
+                <span class="plan-price">5,99 €/mes</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>100 M+ canciones</td>
+              <td><span class="check-yes" aria-label="Sí">✓</span></td>
+              <td><span class="check-yes">✓</span></td>
+              <td><span class="check-yes">✓</span></td>
+            </tr>
+            <tr>
+              <td>Audio espacial con Dolby Atmos</td>
+              <td><span class="check-yes">✓</span></td>
+              <td><span class="check-yes">✓</span></td>
+              <td><span class="check-yes">✓</span></td>
+            </tr>
+            <tr>
+              <td>Sing — letras en tiempo real</td>
+              <td><span class="check-yes">✓</span></td>
+              <td><span class="check-yes">✓</span></td>
+              <td><span class="check-no">—</span></td>
+            </tr>
+            <tr>
+              <td>Hasta 6 cuentas</td>
+              <td><span class="check-no">—</span></td>
+              <td><span class="check-yes">✓</span></td>
+              <td><span class="check-no">—</span></td>
+            </tr>
+            <tr>
+              <td>Apple Music Classical</td>
+              <td><span class="check-yes">✓</span></td>
+              <td><span class="check-yes">✓</span></td>
+              <td><span class="check-yes">✓</span></td>
+            </tr>
+            <tr>
+              <td>Descarga sin conexión</td>
+              <td><span class="check-yes">✓</span></td>
+              <td><span class="check-yes">✓</span></td>
+              <td><span class="check-yes">✓</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer-minimal">
+    <div class="footer-minimal-inner">
+      <div class="footer-links">
+        <span>Copyright © 2026 Apple Inc. Todos los derechos reservados.</span>
+        <a href="#">Privacidad</a>
+        <a href="#">Condiciones de uso</a>
+        <a href="#">Ventas y reembolsos</a>
+        <a href="#">Mapa del sitio</a>
+      </div>
+      <label>
+        <span class="visually-hidden">País o región</span>
+        <select aria-label="Seleccionar país o región">
+          <option>España</option>
+          <option>México</option>
+          <option>Argentina</option>
+          <option>Estados Unidos</option>
+          <option>Reino Unido</option>
+        </select>
+      </label>
+    </div>
+  </footer>
+
+  <style>
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+  </style>
+
+  <script>
+    (function () {
+      var heroBg = document.getElementById("heroBg");
+      var hero = document.getElementById("hero");
+      if (!heroBg || !hero) return;
+
+      function onScroll() {
+        var rect = hero.getBoundingClientRect();
+        var progress = Math.min(1, Math.max(0, -rect.top / rect.height));
+        heroBg.style.transform = "translate3d(0, " + progress * 30 + "%, 0) scale(" + (1 + progress * 0.08) + ")";
+      }
+
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+
+      var lines = document.querySelectorAll(".lyric-line");
+      var idx = 1;
+      setInterval(function () {
+        lines.forEach(function (l, i) {
+          l.classList.toggle("active", i === idx);
+        });
+        idx = (idx + 1) % lines.length;
+      }, 2400);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Disney+ — Clon educativo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <nav class="navbar">
+      <ul class="nav-links">
+        <li><a href="#">Inicio</a></li>
+        <li><a href="#marcas">Marcas</a></li>
+        <li><a href="#">Películas</a></li>
+        <li><a href="#">Series</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="#" class="nav-login">Iniciar sesión</a>
+        <button type="button" class="btn-pill">Suscribirse</button>
+      </div>
+    </nav>
+
+    <video class="hero-video" autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1920&q=80" aria-hidden="true">
+      <source src="https://cdn.coverr.co/videos/coverr-cinematic-sunset-over-the-ocean-4648/1080p.mp4" type="video/mp4" />
+    </video>
+    <div class="hero-overlay" aria-hidden="true"></div>
+
+    <div class="hero-content">
+      <div class="hero-logo" aria-label="Disney+">
+        <svg viewBox="0 0 400 120" fill="none" xmlns="http://www.w3.org/2000/svg" role="img">
+          <text x="50%" y="52" text-anchor="middle" fill="#fff" font-family="Georgia, serif" font-size="52" font-weight="400" letter-spacing="-1">Disney</text>
+          <text x="50%" y="100" text-anchor="middle" fill="#fff" font-family="Inter, sans-serif" font-size="56" font-weight="700">+</text>
+        </svg>
+      </div>
+      <p class="hero-tagline">Las mejores historias del mundo, en un solo lugar.</p>
+      <div class="hero-buttons">
+        <button type="button" class="btn-pill">Comenzar ahora</button>
+        <button type="button" class="btn-pill btn-pill-outline">Ver planes</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="brands-section" id="marcas">
+    <h2>Explora por marca</h2>
+    <div class="tabs" role="tablist" aria-label="Marcas">
+      <button type="button" class="tab-btn active" role="tab" data-brand="disney" aria-selected="true" aria-controls="panel-disney">Disney</button>
+      <button type="button" class="tab-btn" role="tab" data-brand="pixar" aria-selected="false" aria-controls="panel-pixar">Pixar</button>
+      <button type="button" class="tab-btn" role="tab" data-brand="marvel" aria-selected="false" aria-controls="panel-marvel">Marvel</button>
+      <button type="button" class="tab-btn" role="tab" data-brand="starwars" aria-selected="false" aria-controls="panel-starwars">Star Wars</button>
+      <button type="button" class="tab-btn" role="tab" data-brand="natgeo" aria-selected="false" aria-controls="panel-natgeo">Nat Geo</button>
+    </div>
+
+    <div class="tab-panels">
+      <div id="panel-disney" class="tab-panel active" data-brand="disney" role="tabpanel">
+        <div class="cards-row">
+          <article class="brand-card"><div class="brand-card-thumb"></div><div class="brand-card-body"><h3>El Rey León</h3><p>Disney · Película</p></div></article>
+          <article class="brand-card"><div class="brand-card-thumb"></div><div class="brand-card-body"><h3>Frozen II</h3><p>Disney · Película</p></div></article>
+          <article class="brand-card"><div class="brand-card-thumb"></div><div class="brand-card-body"><h3>Encanto</h3><p>Disney · Película</p></div></article>
+          <article class="brand-card"><div class="brand-card-thumb"></div><div class="brand-card-body"><h3>WandaVision</h3><p>Disney · Serie</p></div></article>
+          <article class="brand-card"><div class="brand-card-thumb"></div><div class="brand-card-body"><h3>Moana</h3><p>Disney · Película</p></div></article>
+        </div>
+      </div>
+
+      <div id="panel-pixar" class="tab-panel" data-brand="pixar" role="tabpanel" hidden>
+        <div class="cards-row">
+          <article class="brand-card"><div class="brand-card-thumb"></div><div class="brand-card-body"><h3>Toy Story 4</h3><p>Pixar · Película</p></div></article>
+          <article class="brand-card"><div class="brand-card-thumb"></div><div class="brand-card-body"><h3>Coco</h3><p>Pixar · Película</p></div></article>
+          <article class="brand-card"><div class="brand-card-thumb"></div><div class="brand-card-body"><h3>Inside Out</h3><p>Pixar · Película</p></div></article>
+          <article class="brand-card"><div class="brand-card-thumb"></div><div class="brand-card-body"><h3>Luca</h3><p>Pixar · Película</p></div></article>
+          <article class="brand-card"><div class="brand-card-thumb"></div><div class="brand-card-body"><h3>Soul</h3><p>Pixar · Película</p></div></article>
+        </div>
+      </div>
+
+      <div id="panel-marvel" class="tab-panel" data-brand="marvel" role="tabpanel" hidden>
+        <div class="cards-row">
+          <article class="brand-card"><div class="brand-card-thumb"></div><div class="brand-card-body"><h3>Avengers: Endgame</h3><p>Marvel · Película</p></div></article>
+          <article class="brand-card"><div class="brand-card-thumb"></div><div class="brand-card-body"><h3>WandaVision</h3><p>Marvel · Serie</p></div></article>
+          <article class="brand-card"><div class="brand-card-thumb"></div><div class="brand-card-body"><h3>Loki</h3><p>Marvel · Serie</p></div></article>
+          <article class="brand-card"><div class="brand-card-thumb"></div><div class="brand-card-body"><h3>Black Panther</h3><p>Marvel · Película</p></div></article>
+          <article class="brand-card"><div class="brand-card-thumb"></div><div class="brand-card-body"><h3>Spider-Man</h3><p>Marvel · Película</p></div></article>
+        </div>
+      </div>
+
+      <div id="panel-starwars" class="tab-panel" data-brand="starwars" role="tabpanel" hidden>
+        <div class="cards-row">
+          <article class="brand-card"><div class="brand-card-thumb"></div><div class="brand-card-body"><h3>Episodio IV</h3><p>Star Wars · Película</p></div></article>
+          <article class="brand-card"><div class="brand-card-thumb"></div><div class="brand-card-body"><h3>The Mandalorian</h3><p>Star Wars · Serie</p></div></article>
+          <article class="brand-card"><div class="brand-card-thumb"></div><div class="brand-card-body"><h3>Andor</h3><p>Star Wars · Serie</p></div></article>
+          <article class="brand-card"><div class="brand-card-thumb"></div><div class="brand-card-body"><h3>Rogue One</h3><p>Star Wars · Película</p></div></article>
+          <article class="brand-card"><div class="brand-card-thumb"></div><div class="brand-card-body"><h3>Ahsoka</h3><p>Star Wars · Serie</p></div></article>
+        </div>
+      </div>
+
+      <div id="panel-natgeo" class="tab-panel" data-brand="natgeo" role="tabpanel" hidden>
+        <div class="cards-row">
+          <article class="brand-card"><div class="brand-card-thumb"></div><div class="brand-card-body"><h3>Planeta Tierra</h3><p>Nat Geo · Documental</p></div></article>
+          <article class="brand-card"><div class="brand-card-thumb"></div><div class="brand-card-body"><h3>Free Solo</h3><p>Nat Geo · Documental</p></div></article>
+          <article class="brand-card"><div class="brand-card-thumb"></div><div class="brand-card-body"><h3>Cosmos</h3><p>Nat Geo · Serie</p></div></article>
+          <article class="brand-card"><div class="brand-card-thumb"></div><div class="brand-card-body"><h3>Hostile Planet</h3><p>Nat Geo · Serie</p></div></article>
+          <article class="brand-card"><div class="brand-card-thumb"></div><div class="brand-card-body"><h3>Jane</h3><p>Nat Geo · Documental</p></div></article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <p>Empieza a disfrutar hoy. Cancela cuando quieras.</p>
+    <button type="button" class="btn-pill">Suscribirse ahora</button>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h3>Disney+</h3>
+        <ul>
+          <li><a href="#">Acerca de</a></li>
+          <li><a href="#">Centro de ayuda</a></li>
+          <li><a href="#">Dispositivos compatibles</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Legal</h3>
+        <ul>
+          <li><a href="#">Términos de uso</a></li>
+          <li><a href="#">Privacidad</a></li>
+          <li><a href="#">Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="footer-copy">Disney+ · Clon educativo (no afiliado)</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
