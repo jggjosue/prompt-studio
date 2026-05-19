@@ -1,246 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CosplayHub — Cosplay Community</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --bg: #1a0a2e;
-      --text: #fdf4ff;
-      --muted: #e9d5ff;
-      --accent: #d946ef;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: "Inter", system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      font-size: 15px;
-    }
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background: radial-gradient(ellipse 80% 50% at 50% -20%, color-mix(in srgb, var(--accent) 25%, transparent), transparent);
-      pointer-events: none;
-      z-index: 0;
-    }
-    body > * { position: relative; z-index: 1; }
-    a { color: inherit; text-decoration: none; }
-    .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
-    .accent-word { font-style: italic; color: var(--accent); }
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 1.5rem;
-      max-width: 1100px;
-      margin: 0 auto;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: color-mix(in srgb, var(--bg) 88%, transparent);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
-    }
-    nav .brand { font-weight: 800; font-size: 1.2rem; letter-spacing: -0.02em; }
-    nav .links { display: flex; gap: 1.5rem; align-items: center; font-size: 0.9rem; font-weight: 500; }
-    nav .links a:hover { color: var(--accent); }
-    .btn-cta {
-      padding: 0.5rem 1rem;
-      border-radius: 999px;
-      font-weight: 700;
-      font-size: 0.875rem;
-      background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 60%, #fff));
-      color: var(--bg);
-      border: none;
-    }
-    .hero {
-      padding: 3.5rem 1.5rem 2rem;
-      max-width: 820px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    .pill {
-      display: inline-block;
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 0.4rem 0.9rem;
-      border-radius: 999px;
-      border: 1px solid color-mix(in srgb, var(--accent) 50%, transparent);
-      color: var(--accent);
-      margin-bottom: 1.25rem;
-    }
-    .hero h1 {
-      font-size: clamp(2.1rem, 5vw, 3.2rem);
-      font-weight: 800;
-      line-height: 1.08;
-      letter-spacing: -0.03em;
-      margin-bottom: 0.75rem;
-    }
-    .hero .sub { color: var(--muted); max-width: 44ch; margin: 0 auto 1.5rem; }
-    .hero-actions { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
-    .btn-primary {
-      padding: 0.8rem 1.5rem;
-      border-radius: 999px;
-      font-weight: 700;
-      background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 70%, #a855f7));
-      color: var(--bg);
-      border: none;
-    }
-    .btn-ghost {
-      padding: 0.8rem 1.5rem;
-      border-radius: 999px;
-      font-weight: 600;
-      border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
-    }
-    .chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      justify-content: center;
-      padding: 1.25rem 1.5rem 0;
-    }
-    .chip {
-      font-size: 0.8rem;
-      font-weight: 500;
-      padding: 0.35rem 0.85rem;
-      border-radius: 999px;
-      background: color-mix(in srgb, var(--accent) 18%, transparent);
-      border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
-    }
-    .series-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.25rem;
-      padding: 2.5rem 0 3rem;
-    }
-    .series-card {
-      padding: 1.35rem;
-      border-radius: 16px;
-      border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
-      background: color-mix(in srgb, var(--bg) 60%, var(--accent) 10%);
-      min-height: 200px;
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .series-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 12px 40px color-mix(in srgb, var(--accent) 25%, transparent);
-    }
-    .series-card::before {
-      content: "";
-      display: block;
-      height: 72px;
-      border-radius: 10px;
-      margin-bottom: 1rem;
-      background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 50%, #000), color-mix(in srgb, var(--accent) 20%, var(--bg)));
-    }
-    .series-label {
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      color: var(--accent);
-      margin-bottom: 0.4rem;
-    }
-    .series-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.35rem; }
-    .series-detail { font-size: 0.88rem; color: var(--muted); margin-bottom: 0.35rem; }
-    .series-meta { font-size: 0.85rem; font-weight: 600; margin-bottom: auto; padding-bottom: 0.75rem; }
-    .card-link { font-size: 0.9rem; font-weight: 700; color: var(--accent); }
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      text-align: center;
-      padding: 2.5rem 0;
-      border-top: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
-    }
-    .stats strong {
-      display: block;
-      font-size: 1.85rem;
-      font-weight: 800;
-      color: var(--accent);
-      margin-bottom: 0.25rem;
-    }
-    .stats span { font-size: 0.85rem; color: var(--muted); }
-    footer {
-      padding: 2.5rem 1.5rem;
-      text-align: center;
-      font-size: 0.85rem;
-      color: var(--muted);
-    }
-    footer input {
-      margin-top: 0.75rem;
-      padding: 0.55rem 1rem;
-      border-radius: 999px;
-      border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
-      background: transparent;
-      color: var(--text);
-      width: min(280px, 100%);
-    }
-    @media (max-width: 768px) {
-      nav .links a:not(.btn-cta) { display: none; }
-      .series-grid, .stats { grid-template-columns: 1fr; }
-    }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CosplayHub — Cosplay Community</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#1a0a2e;--text:#fdf4ff;--muted:#e9d5ff;--accent:#d946ef;--accent2:#a21caf;--border:#3b1d5e;--card:#2d1550;--font:'Inter',system-ui,sans-serif}
+body{font-family:var(--font);background:var(--bg);color:var(--text)}
+nav{background:rgba(26,10,46,0.95);border-bottom:1px solid var(--border);padding:0 2rem;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;backdrop-filter:blur(10px)}
+.nav-logo{display:flex;align-items:center;gap:9px;font-weight:900;font-size:1.15rem;color:var(--text);letter-spacing:-0.3px}
+.logo-mark{width:30px;height:30px;background:var(--accent);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:1rem}
+.nav-links{display:flex;gap:1.5rem}
+.nav-links a{font-size:0.875rem;font-weight:500;color:var(--muted);text-decoration:none;opacity:0.8}
+.nav-links a:hover{color:var(--text);opacity:1}
+.nav-actions{display:flex;gap:10px}
+.btn-ghost{background:transparent;border:1.5px solid var(--border);color:var(--muted);padding:8px 16px;border-radius:6px;font-size:0.875rem;font-weight:600;cursor:pointer}
+.btn-accent{background:var(--accent);color:#fff;border:none;padding:9px 20px;border-radius:6px;font-size:0.875rem;font-weight:700;cursor:pointer}
+
+.hero{padding:5.5rem 2rem 4rem;text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(217,70,239,0.15) 0%,transparent 60%)}
+.hero-pill{display:inline-flex;align-items:center;gap:7px;background:rgba(217,70,239,0.15);border:1.5px solid rgba(217,70,239,0.4);color:var(--accent);font-size:0.78rem;font-weight:700;letter-spacing:0.06em;padding:5px 14px;border-radius:99px;margin-bottom:1.5rem}
+.hero h1{font-size:clamp(2rem,5.5vw,3.75rem);font-weight:900;color:var(--text);max-width:680px;margin:0 auto 1.25rem;line-height:1.1;letter-spacing:-1.5px}
+.hero h1 span{color:var(--accent)}
+.hero p{font-size:1.1rem;color:var(--muted);max-width:500px;margin:0 auto 2.5rem;line-height:1.65;opacity:0.9}
+.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:3.5rem}
+.btn-hero{background:var(--accent);color:#fff;border:none;padding:14px 32px;border-radius:8px;font-size:1rem;font-weight:800;cursor:pointer}
+.btn-hero-ghost{background:transparent;border:2px solid var(--border);color:var(--muted);padding:12px 28px;border-radius:8px;font-size:1rem;font-weight:600;cursor:pointer}
+
+/* LISTING GRID */
+.listing-wrap{max-width:720px;margin:0 auto}
+.listing-label{font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(233,213,255,0.5);margin-bottom:1rem;text-align:left}
+.listing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.listing-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:transform 0.15s,border-color 0.15s}
+.listing-card:hover{transform:translateY(-3px);border-color:var(--accent)}
+.listing-thumb{height:120px;display:flex;align-items:center;justify-content:center;font-size:2.75rem;position:relative}
+.listing-badge{position:absolute;top:8px;left:8px;font-size:0.62rem;font-weight:800;padding:3px 8px;border-radius:4px;letter-spacing:0.04em}
+.badge-hot{background:var(--accent);color:#fff}
+.badge-new{background:#7c3aed;color:#fff}
+.badge-popular{background:#0891b2;color:#fff}
+.listing-body{padding:12px 14px}
+.listing-title{font-size:0.88rem;font-weight:700;color:var(--text);margin-bottom:3px}
+.listing-sub{font-size:0.72rem;color:var(--muted);opacity:0.8;margin-bottom:8px;line-height:1.4}
+.listing-price{font-size:0.85rem;font-weight:800;color:var(--accent)}
+
+/* CHIPS */
+.chips-section{padding:3rem 2rem;background:rgba(255,255,255,0.03);text-align:center;border-top:1px solid var(--border)}
+.chips-label{font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(233,213,255,0.5);margin-bottom:1.25rem}
+.chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.chip{padding:9px 20px;border-radius:99px;border:1.5px solid var(--border);color:var(--muted);font-size:0.875rem;font-weight:600;cursor:pointer;background:var(--card);transition:all 0.15s}
+.chip:hover,.chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* FEATURES */
+.features{padding:5.5rem 2rem;background:rgba(255,255,255,0.02);text-align:center}
+.features h2{font-size:2.25rem;font-weight:900;color:var(--text);margin-bottom:0.75rem;letter-spacing:-0.5px}
+.features p.sub{color:var(--muted);max-width:500px;margin:0 auto 3rem;font-size:1.05rem;opacity:0.85}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;max-width:860px;margin:0 auto}
+.feat{background:var(--card);border-radius:12px;padding:2rem 1.5rem;text-align:left;border:1px solid var(--border)}
+.feat-icon{font-size:1.75rem;margin-bottom:0.75rem;display:block}
+.feat h4{font-size:1rem;font-weight:700;color:var(--text);margin-bottom:0.5rem}
+.feat p{font-size:0.875rem;color:var(--muted);line-height:1.6;opacity:0.85}
+
+/* STATS */
+.stats{background:linear-gradient(135deg,var(--accent2),var(--accent));padding:3rem 2rem;text-align:center}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1.5rem;max-width:700px;margin:0 auto}
+.stat-val{font-size:2rem;font-weight:900;color:#fff;letter-spacing:-1px}
+.stat-label{font-size:0.8rem;color:rgba(255,255,255,0.85);margin-top:2px}
+
+/* FOOTER */
+footer{background:#0f0620;color:rgba(233,213,255,0.4);padding:3.5rem 2rem 2rem;border-top:1px solid var(--border)}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:2rem;max-width:860px;margin:0 auto 2rem}
+.footer-col h5{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(233,213,255,0.3);margin-bottom:0.75rem}
+.footer-col a{display:block;font-size:0.875rem;color:rgba(233,213,255,0.45);text-decoration:none;margin-bottom:6px}
+.footer-col a:hover{color:var(--text)}
+.email-row{display:flex;gap:8px;margin-top:1rem}
+.email-row input{flex:1;padding:9px 12px;border:1.5px solid var(--border);background:var(--card);color:var(--text);border-radius:6px;font-size:0.8rem;outline:none}
+.email-row input::placeholder{color:#6b21a8}
+.email-row button{background:var(--accent);color:#fff;border:none;padding:9px 14px;border-radius:6px;font-size:0.8rem;font-weight:700;cursor:pointer;white-space:nowrap}
+.footer-bottom{border-top:1px solid #2a1040;padding-top:1.5rem;text-align:center;font-size:0.75rem;color:#4a1070}
+</style>
 </head>
 <body>
-  <nav>
-    <span class="brand">CosplayHub</span>
-    <div class="links">
-      <a href="#">Creators</a><a href="#">Shop</a><a href="#">Join</a>
-      <a href="#" class="btn-cta">Watch free</a>
+<nav>
+  <div class="nav-logo"><div class="logo-mark">✨</div>CosplayHub</div>
+  <div class="nav-links"><a href="#">Creators</a><a href="#">Commissions</a><a href="#">Events</a><a href="#">Marketplace</a></div>
+  <div class="nav-actions"><button class="btn-ghost">Sign in</button><button class="btn-accent">Join free</button></div>
+</nav>
+
+<section class="hero">
+  <div class="hero-pill">✨ Creators · Commissions · Events</div>
+  <h1>The home for <span>cosplay creators</span> worldwide</h1>
+  <p>Commission costumes, discover creators, join events, and sell your work — all in one community built for the craft.</p>
+  <div class="hero-actions">
+    <button class="btn-hero">Join the community</button>
+    <button class="btn-hero-ghost">Browse creators</button>
+  </div>
+  <div class="listing-wrap">
+    <div class="listing-label">Featured listings</div>
+    <div class="listing-grid">
+      <div class="listing-card">
+        <div class="listing-thumb" style="background:linear-gradient(160deg,#1e0a3c,#4a1060)">🛡️<div class="listing-badge badge-hot">HOT</div></div>
+        <div class="listing-body"><div class="listing-title">Armor & Props</div><div class="listing-sub">Full builds · Worldwide ship</div><div class="listing-price">From $400</div></div>
+      </div>
+      <div class="listing-card">
+        <div class="listing-thumb" style="background:linear-gradient(160deg,#2d1550,#6b21a8)">💜<div class="listing-badge badge-new">NEW</div></div>
+        <div class="listing-body"><div class="listing-title">Styled Character Wigs</div><div class="listing-sub">Heat-resistant · Custom color</div><div class="listing-price">From $85</div></div>
+      </div>
+      <div class="listing-card">
+        <div class="listing-thumb" style="background:linear-gradient(160deg,#0c1a3a,#1e3a8a)">📸<div class="listing-badge badge-popular">POPULAR</div></div>
+        <div class="listing-body"><div class="listing-title">Convention Photo Sets</div><div class="listing-sub">Pro shoots · Digital delivery</div><div class="listing-price">From $25</div></div>
+      </div>
     </div>
-  </nav>
-  <section class="hero">
-    <span class="pill">Creators · Commissions · Events</span>
-    <h1>Find makers who bring your favorite characters to <span class="accent-word">life</span>.</h1>
-    <p class="sub">Discover series, creators, and events built for anime fans.</p>
-    <div class="hero-actions">
-      <a href="#" class="btn-primary">Watch free</a>
-      <a href="#" class="btn-ghost">Browse catalog</a>
+  </div>
+</section>
+
+<section class="chips-section">
+  <div class="chips-label">Explore categories</div>
+  <div class="chips">
+    <span class="chip active">Commissions</span><span class="chip">Tutorials</span><span class="chip">Events</span>
+    <span class="chip">Marketplace</span><span class="chip">Wigs</span><span class="chip">Props</span><span class="chip">Photography</span>
+  </div>
+</section>
+
+<section class="features">
+  <h2>Built for the cosplay community</h2>
+  <p class="sub">Whether you create, commission, or collect — CosplayHub has everything you need.</p>
+  <div class="features-grid">
+    <div class="feat"><span class="feat-icon">🎨</span><h4>Commissions</h4><p>Connect with skilled costume makers worldwide. Browse portfolios, get quotes, and track your order from start to finish.</p></div>
+    <div class="feat"><span class="feat-icon">🎪</span><h4>Events</h4><p>Discover conventions, meetups, and online competitions. Enter contests, find judges, and win recognition from your peers.</p></div>
+    <div class="feat"><span class="feat-icon">🛒</span><h4>Marketplace</h4><p>Buy, sell, and trade costumes, wigs, props, and accessories with cosplayers in your local area or globally.</p></div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="stats-grid">
+    <div><div class="stat-val">120K+</div><div class="stat-label">Creators</div></div>
+    <div><div class="stat-val">800K</div><div class="stat-label">Listings</div></div>
+    <div><div class="stat-val">2,400</div><div class="stat-label">Events/year</div></div>
+    <div><div class="stat-val">60+</div><div class="stat-label">Countries</div></div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col"><h5>Discover</h5><a href="#">Creators</a><a href="#">Commissions</a><a href="#">Events</a><a href="#">Marketplace</a></div>
+    <div class="footer-col"><h5>Create</h5><a href="#">Start selling</a><a href="#">Creator tools</a><a href="#">Tutorials</a></div>
+    <div class="footer-col"><h5>Company</h5><a href="#">About</a><a href="#">Blog</a><a href="#">Careers</a></div>
+    <div class="footer-col">
+      <h5>Community updates</h5>
+      <p style="font-size:0.8rem;color:#6b21a8;margin-bottom:0">Get event alerts and new creator spotlights.</p>
+      <div class="email-row"><input type="email" placeholder="your@email.com"/><button>Join</button></div>
     </div>
-  </section>
-  <div class="chips"><span class="chip">Commissions</span><span class="chip">Tutorials</span><span class="chip">Events</span><span class="chip">Marketplace</span></div>
-  <section class="series-grid container">
-    <article class="series-card">
-      <span class="series-label">FEATURED</span>
-      <h3>Armor & Props</h3>
-      <p class="series-detail">Full builds · Worldwide ship</p>
-      <p class="series-meta">From $400</p>
-      <a href="#" class="card-link">View →</a>
-    </article>
-    <article class="series-card">
-      <span class="series-label">WIGS</span>
-      <h3>Styled character wigs</h3>
-      <p class="series-detail">Heat-resistant · Custom color</p>
-      <p class="series-meta">From $85</p>
-      <a href="#" class="card-link">View →</a>
-    </article>
-    <article class="series-card">
-      <span class="series-label">PRINTS</span>
-      <h3>Convention photo sets</h3>
-      <p class="series-detail">Pro shoots · Digital delivery</p>
-      <p class="series-meta">From $25</p>
-      <a href="#" class="card-link">View →</a>
-    </article>
-  </section>
-  <section class="stats container">
-    <div><strong>10k+</strong><span>Titles</span></div>
-    <div><strong>Simulcast</strong><span>Same-day Japan</span></div>
-    <div><strong>HD</strong><span>Streaming</span></div>
-  </section>
-  <footer class="container">
-    <p>Get weekly picks for new anime & manga</p>
-    <input type="email" placeholder="your@email.com" aria-label="Email" />
-    <p style="margin-top:1.25rem">© 2026 CosplayHub. Anime landing demo.</p>
-  </footer>
+  </div>
+  <div class="footer-bottom">© 2024 CosplayHub Inc. All rights reserved.</div>
+</footer>
 </body>
 </html>

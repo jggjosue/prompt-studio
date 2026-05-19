@@ -1,49 +1,249 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Square — Clon educativo</title>
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Square — Payments and POS</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --black: #000;
+    --white: #fff;
+    --gray-bg: #FAFAFA;
+    --gray: #6b6b6b;
+    --border: #e0e0e0;
+    --font: system-ui, -apple-system, sans-serif;
+  }
+  body { font-family: var(--font); background: var(--white); color: var(--black); }
+
+  /* NAV */
+  nav {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 1.15rem; color: var(--black); letter-spacing: -0.5px; }
+  .sq-icon { width: 28px; height: 28px; background: var(--black); border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+  .sq-icon svg { width: 16px; height: 16px; }
+  .nav-links { display: flex; gap: 1.5rem; }
+  .nav-links a { font-size: 0.875rem; font-weight: 500; color: var(--black); text-decoration: none; opacity: 0.65; }
+  .nav-links a:hover { opacity: 1; }
+  .nav-actions { display: flex; gap: 10px; }
+  .btn-outline { background: transparent; border: 1.5px solid #ccc; color: var(--black); padding: 8px 16px; border-radius: 4px; font-size: 0.875rem; font-weight: 600; cursor: pointer; }
+  .btn-black { background: var(--black); color: var(--white); border: none; padding: 9px 20px; border-radius: 4px; font-size: 0.875rem; font-weight: 700; cursor: pointer; }
+
+  /* HERO */
+  .hero { background: var(--black); padding: 6rem 2rem 5rem; text-align: center; }
+  .hero-eyebrow { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 1.25rem; }
+  .hero h1 { font-size: clamp(2.2rem, 5.5vw, 3.75rem); font-weight: 900; color: var(--white); max-width: 700px; margin: 0 auto 1.25rem; line-height: 1.1; letter-spacing: -1.5px; }
+  .hero p { font-size: 1.1rem; color: rgba(255,255,255,0.6); max-width: 520px; margin: 0 auto 2.75rem; line-height: 1.65; }
+  .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 4rem; }
+  .btn-white { background: var(--white); color: var(--black); border: none; padding: 14px 32px; border-radius: 4px; font-size: 1rem; font-weight: 800; cursor: pointer; }
+  .btn-white-outline { background: transparent; border: 2px solid rgba(255,255,255,0.3); color: var(--white); padding: 12px 30px; border-radius: 4px; font-size: 1rem; font-weight: 700; cursor: pointer; }
+
+  /* TERMINAL MOCKUP */
+  .terminal-wrap { max-width: 400px; margin: 0 auto; }
+  .terminal {
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 16px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  .terminal-screen {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 10px;
+    width: 100%;
+    padding: 1.5rem;
+    text-align: center;
+  }
+  .terminal-amount { font-size: 2.5rem; font-weight: 900; color: var(--white); letter-spacing: -1px; }
+  .terminal-label { font-size: 0.8rem; color: rgba(255,255,255,0.4); margin-top: 4px; }
+  .terminal-card { background: #222; border-radius: 8px; width: 100%; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; }
+  .card-chip { width: 32px; height: 24px; background: #c8a44a; border-radius: 4px; }
+  .card-number { font-size: 0.8rem; color: rgba(255,255,255,0.5); letter-spacing: 2px; }
+  .card-brand { width: 32px; height: 22px; background: linear-gradient(135deg,#eb5757,#f5a623); border-radius: 50%; opacity: 0.8; }
+  .pay-btn { background: var(--white); color: var(--black); border: none; width: 100%; padding: 14px; border-radius: 8px; font-size: 1rem; font-weight: 800; cursor: pointer; letter-spacing: -0.3px; }
+  .terminal-footer { display: flex; gap: 1rem; width: 100%; }
+  .t-btn { flex: 1; background: #1a1a1a; border: 1px solid #333; color: rgba(255,255,255,0.5); padding: 10px; border-radius: 8px; font-size: 0.78rem; font-weight: 600; cursor: pointer; text-align: center; }
+
+  /* CHIPS */
+  .chips-section { padding: 3.5rem 2rem; background: var(--gray-bg); text-align: center; }
+  .chips-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gray); margin-bottom: 1.25rem; }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .chip { padding: 9px 20px; border-radius: 99px; border: 1.5px solid #ccc; color: var(--black); font-size: 0.875rem; font-weight: 600; cursor: pointer; background: var(--white); transition: all 0.15s; }
+  .chip:hover, .chip.active { background: var(--black); color: var(--white); border-color: var(--black); }
+
+  /* FEATURES */
+  .features { padding: 5.5rem 2rem; background: var(--white); text-align: center; }
+  .features h2 { font-size: 2.25rem; font-weight: 900; color: var(--black); margin-bottom: 0.75rem; letter-spacing: -0.5px; }
+  .features p.sub { color: var(--gray); max-width: 500px; margin: 0 auto 3rem; font-size: 1.05rem; }
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; max-width: 900px; margin: 0 auto; }
+  .feat { text-align: left; }
+  .feat-line { width: 40px; height: 4px; background: var(--black); border-radius: 2px; margin-bottom: 1.25rem; }
+  .feat h4 { font-size: 1.05rem; font-weight: 800; color: var(--black); margin-bottom: 0.6rem; }
+  .feat p { font-size: 0.875rem; color: var(--gray); line-height: 1.6; }
+
+  /* STATS */
+  .stats { background: var(--gray-bg); padding: 4rem 2rem; text-align: center; }
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 2.5rem; max-width: 760px; margin: 0 auto; }
+  .stat-number { font-size: 2.75rem; font-weight: 900; color: var(--black); letter-spacing: -1px; }
+  .stat-label { font-size: 0.875rem; color: var(--gray); margin-top: 4px; }
+
+  /* FOOTER */
+  footer { background: var(--black); color: rgba(255,255,255,0.5); padding: 3.5rem 2rem 2rem; }
+  .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 2rem; max-width: 900px; margin: 0 auto 2rem; }
+  .footer-col h5 { font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.25); margin-bottom: 0.75rem; }
+  .footer-col a { display: block; font-size: 0.875rem; color: rgba(255,255,255,0.5); text-decoration: none; margin-bottom: 6px; }
+  .footer-col a:hover { color: var(--white); }
+  .footer-bottom { border-top: 1px solid #222; padding-top: 1.5rem; text-align: center; font-size: 0.75rem; color: #444; }
+</style>
 </head>
 <body>
-  <nav class="navbar">
-    <a href="#" class="logo">Square</a>
-    <ul class="nav-links">
-      <li><a href="#features">Producto</a></li>
-      <li><a href="#more">Soluciones</a></li>
-      <li><a href="#">Precios</a></li>
-    </ul>
-    <div class="nav-actions">
-      <button type="button" class="btn btn-ghost">Iniciar sesión</button>
-      <button type="button" class="btn btn-primary">Probar gratis</button>
-    </div>
-  </nav>
-  <header class="hero">
-    <div class="hero-inner">
-      <div>
-        <h1>Vende en cualquier lugar</h1>
-        <p>Pagos y POS.</p>
-        <button type="button" class="btn btn-primary">Empezar gratis</button>
+
+<nav>
+  <div class="nav-logo">
+    <div class="sq-icon"><svg viewBox="0 0 16 16" fill="white"><rect x="2" y="2" width="12" height="12" rx="2"/></svg></div>
+    Square
+  </div>
+  <div class="nav-links">
+    <a href="#">Products</a>
+    <a href="#">Industries</a>
+    <a href="#">Hardware</a>
+    <a href="#">Pricing</a>
+    <a href="#">Resources</a>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-outline">Sign in</button>
+    <button class="btn-black">Get started free</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-eyebrow">Commerce Platform</div>
+  <h1>The platform that powers your entire business</h1>
+  <p>Accept payments anywhere, manage your team, and grow your business — all with one powerful platform.</p>
+  <div class="hero-actions">
+    <button class="btn-white">Get started free</button>
+    <button class="btn-white-outline">Contact sales</button>
+  </div>
+  <div class="terminal-wrap">
+    <div class="terminal">
+      <div class="terminal-screen">
+        <div class="terminal-amount">$247.50</div>
+        <div class="terminal-label">Total due</div>
       </div>
-      <div class="mockup" aria-label="Vista previa"><div style="background:#000;color:#fff;padding:1.5rem;border-radius:12px;text-align:center;max-width:160px;margin:0 auto"><div style="width:60px;height:40px;background:#fff;border-radius:6px;margin:0 auto 1rem"></div><strong>Terminal</strong></div></div>
+      <div class="terminal-card">
+        <div class="card-chip"></div>
+        <div class="card-number">•••• •••• •••• 4242</div>
+        <div class="card-brand"></div>
+      </div>
+      <button class="pay-btn">Charge $247.50</button>
+      <div class="terminal-footer">
+        <div class="t-btn">Split</div>
+        <div class="t-btn">Discount</div>
+        <div class="t-btn">Note</div>
+      </div>
     </div>
-  </header>
-  <section class="section" id="features">
-    <h2>Funciones principales</h2>
-    <div class="feat-grid"><article class="feat-card"><h3>Payments</h3><p>Tarjetas.</p></article><article class="feat-card"><h3>POS</h3><p>Punto de venta.</p></article><article class="feat-card"><h3>Banking</h3><p>Cuenta.</p></article></div>
-  </section>
-  <section class="section" id="more">
-    <h2>Para</h2>
-    <div class="chips"><span class="chip">Restaurantes</span><span class="chip">Retail</span><span class="chip">eCommerce</span></div>
-  </section>
-  <footer>
-    <div class="footer-grid">
-      <div><h4>Producto</h4><ul><li>Funciones</li><li>Integraciones</li></ul></div>
-      <div><h4>Empresa</h4><ul><li>Acerca de</li><li>Carreras</li></ul></div>
-      <div><h4>Recursos</h4><ul><li>Blog</li><li>Soporte</li></ul></div>
+  </div>
+</section>
+
+<section class="chips-section">
+  <div class="chips-label">Built for your industry</div>
+  <div class="chips">
+    <span class="chip active">Restaurants</span>
+    <span class="chip">Retail</span>
+    <span class="chip">Beauty & Wellness</span>
+    <span class="chip">Healthcare</span>
+    <span class="chip">Home Services</span>
+    <span class="chip">Professional Services</span>
+  </div>
+</section>
+
+<section class="features">
+  <h2>One platform, every tool you need</h2>
+  <p class="sub">From your first sale to your millionth — Square scales with you.</p>
+  <div class="features-grid">
+    <div class="feat">
+      <div class="feat-line"></div>
+      <h4>Payments</h4>
+      <p>Accept every payment type — cards, contactless, cash, and online — with the lowest fees in the industry.</p>
     </div>
-    <p class="disclaimer">Clon educativo no oficial. Sin afiliación con la marca original.</p>
-  </footer>
+    <div class="feat">
+      <div class="feat-line"></div>
+      <h4>Point of Sale</h4>
+      <p>Manage your sales, inventory, and customer data from one powerful POS system built for your business type.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-line"></div>
+      <h4>Banking</h4>
+      <p>Get instant access to your sales with Square Banking — a business checking account built for your needs.</p>
+    </div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="stats-grid">
+    <div>
+      <div class="stat-number">4M+</div>
+      <div class="stat-label">Businesses using Square</div>
+    </div>
+    <div>
+      <div class="stat-number">$210B</div>
+      <div class="stat-label">Processed annually</div>
+    </div>
+    <div>
+      <div class="stat-number">2.6%</div>
+      <div class="stat-label">Simple, flat-rate pricing</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h5>Products</h5>
+      <a href="#">Point of Sale</a>
+      <a href="#">Payments</a>
+      <a href="#">Banking</a>
+      <a href="#">Payroll</a>
+    </div>
+    <div class="footer-col">
+      <h5>Industries</h5>
+      <a href="#">Restaurants</a>
+      <a href="#">Retail</a>
+      <a href="#">Beauty</a>
+      <a href="#">Home Services</a>
+    </div>
+    <div class="footer-col">
+      <h5>Resources</h5>
+      <a href="#">Developer Docs</a>
+      <a href="#">Blog</a>
+      <a href="#">Support</a>
+      <a href="#">Community</a>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <a href="#">About Square</a>
+      <a href="#">Careers</a>
+      <a href="#">Press</a>
+      <a href="#">Investors</a>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2024 Block, Inc. All rights reserved.</div>
+</footer>
+
 </body>
 </html>

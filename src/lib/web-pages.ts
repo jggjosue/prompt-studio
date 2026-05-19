@@ -1,6 +1,8 @@
 import data from '../../public/webpages/web-pages.json';
 import type { Locale } from '@/i18n/config';
 import { pickLocalized, type LocalizedField } from '@/lib/localized-string';
+import { normalizeDemoFolder } from '@/lib/refactory-online';
+import { resolveWebPageImageUrl } from '@/lib/web-page-media';
 
 export type WebPageEntry = {
   id: string;
@@ -28,12 +30,24 @@ type RawWebPageEntry = {
 
 const rawPages = data.webPages as RawWebPageEntry[];
 
+export function getRawWebPages(): RawWebPageEntry[] {
+  return rawPages;
+}
+
+export function getRawWebPageById(id: string): RawWebPageEntry | undefined {
+  return rawPages.find(page => page.id === id);
+}
+
+export function getRawWebPageByDemoSlug(slug: string): RawWebPageEntry | undefined {
+  return rawPages.find(page => normalizeDemoFolder(page.demoUrl ?? '') === slug);
+}
+
 function mapWebPage(page: RawWebPageEntry, index: number, locale: Locale | string): WebPageEntry {
   return {
     id: `wp-${index + 1}`,
     title: pickLocalized(page.title, locale),
     description: pickLocalized(page.description, locale),
-    imageUrl: page.imageUrl,
+    imageUrl: resolveWebPageImageUrl(page.imageUrl),
     imageHint: pickLocalized(page.imageHint, locale),
     demoUrl: page.demoUrl,
     stack: page.stack,

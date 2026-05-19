@@ -6,12 +6,12 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import {
-  Clapperboard,
+  // Clapperboard,
   CreditCard,
-  Heart,
-  Image,
-  LayoutGrid,
-  LineChart,
+  // Heart,
+  // Image,
+  // LayoutGrid,
+  // LineChart,
   Settings,
   UserCircle,
 } from 'lucide-react';
@@ -22,14 +22,14 @@ export function DashboardMobileNav() {
   const t = useTranslations('dashboard');
 
   const links = [
-    { href: '/dashboard', label: t('dashboard'), icon: LayoutGrid },
-    { href: '/dashboard/analytics', label: t('analytics'), icon: LineChart },
-    { href: '/prompt/edit', label: t('create'), icon: Clapperboard },
-    { href: '/dashboard/creations', label: t('creations'), icon: Image },
-    { href: '/dashboard/favorites', label: t('favorites'), icon: Heart },
+    // { href: '/dashboard', label: t('dashboard'), icon: LayoutGrid },
+    // { href: '/dashboard/analytics', label: t('analytics'), icon: LineChart },
+    // { href: '/prompt/edit', label: t('create'), icon: Clapperboard },
+    // { href: '/dashboard/creations', label: t('creations'), icon: Image },
+    // { href: '/dashboard/favorites', label: t('favorites'), icon: Heart },
     { href: '/dashboard/profile', label: t('profile'), icon: UserCircle },
-    { href: '/dashboard/settings', label: t('settings'), icon: Settings },
-    { href: '/dashboard/billing', label: t('billing'), icon: CreditCard },
+    // { href: '/dashboard/settings', label: t('settings'), icon: Settings },
+    // { href: '/dashboard/billing', label: t('billing'), icon: CreditCard },
   ];
 
   return (

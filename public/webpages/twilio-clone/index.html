@@ -1,6 +1,233 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>Twilio — Clon educativo</title><link rel="stylesheet" href="styles.css"/></head><body>
-<nav class="navbar"><a href="#" class="logo">Twilio</a><ul class="nav-links"><li><a href="#features">Producto</a></li><li><a href="#more">Más</a></li><li><a href="#">Precios</a></li></ul><div class="nav-actions"><button type="button" class="btn btn-ghost">Iniciar sesión</button><button type="button" class="btn btn-primary">Probar gratis</button></div></nav>
-<header class="hero"><div class="hero-inner"><div><h1>APIs de comunicación</h1><p>SMS, voz y video para desarrolladores.</p><button type="button" class="btn btn-primary">Empezar</button></div><div class="mockup"><pre style="background:#1e1e1e;color:#50fa7b;padding:1rem;border-radius:8px;font-size:.7rem">messages.create({ to, body })</pre></div></div></header>
-<section class="section" id="features"><h2>Funciones</h2><div class="feat-grid"><article class="feat-card"><h3>SMS</h3><p>Mensajes globales.</p></article><article class="feat-card"><h3>Voice</h3><p>Llamadas programables.</p></article><article class="feat-card"><h3>Verify</h3><p>2FA y OTP.</p></article></div></section>
-<section class="section" id="more"><h2>Casos</h2><div class="chips"><span class="chip">Alertas</span><span class="chip">Marketing</span><span class="chip">Auth</span></div></section>
-<footer><div class="footer-grid"><div><h4>Producto</h4><ul><li>Funciones</li></ul></div><div><h4>Empresa</h4><ul><li>Acerca de</li></ul></div><div><h4>Recursos</h4><ul><li>Soporte</li></ul></div></div><p class="disclaimer">Clon educativo no oficial. Sin afiliación con la marca original.</p></footer></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Twilio — Communication APIs</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --red: #F22F46;
+    --teal: #03363D;
+    --teal-mid: #05545e;
+    --pink-bg: #fff5f6;
+    --white: #fff;
+    --gray: #687074;
+    --border: #e8d5d7;
+    --mono: 'Courier New', 'Lucida Console', monospace;
+    --font: system-ui, -apple-system, sans-serif;
+  }
+  body { font-family: var(--font); background: var(--white); color: #1a1a1a; }
+
+  /* NAV */
+  nav {
+    background: var(--white);
+    border-bottom: 1px solid #eee;
+    padding: 0 2rem;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.15rem; color: #1a1a1a; }
+  .twilio-mark { width: 28px; height: 28px; background: var(--red); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .twilio-mark svg { width: 16px; height: 16px; }
+  .nav-links { display: flex; gap: 1.5rem; }
+  .nav-links a { font-size: 0.875rem; font-weight: 500; color: #4a4a4a; text-decoration: none; }
+  .nav-links a:hover { color: var(--red); }
+  .nav-actions { display: flex; gap: 10px; }
+  .btn-outline { background: transparent; border: 1.5px solid #ccc; color: #1a1a1a; padding: 8px 16px; border-radius: 4px; font-size: 0.875rem; font-weight: 600; cursor: pointer; }
+  .btn-red { background: var(--red); color: var(--white); border: none; padding: 9px 20px; border-radius: 4px; font-size: 0.875rem; font-weight: 700; cursor: pointer; }
+
+  /* HERO */
+  .hero { background: var(--pink-bg); padding: 5.5rem 2rem 4rem; text-align: center; }
+  .hero-eyebrow { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); margin-bottom: 1.25rem; }
+  .hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; color: #1a1a1a; max-width: 700px; margin: 0 auto 1.25rem; line-height: 1.12; }
+  .hero p { font-size: 1.1rem; color: var(--gray); max-width: 540px; margin: 0 auto 2.75rem; line-height: 1.65; }
+  .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 3.5rem; }
+  .btn-hero-red { background: var(--red); color: var(--white); border: none; padding: 14px 32px; border-radius: 4px; font-size: 1rem; font-weight: 700; cursor: pointer; }
+  .btn-hero-outline { background: transparent; border: 2px solid #ccc; color: #1a1a1a; padding: 12px 30px; border-radius: 4px; font-size: 1rem; font-weight: 600; cursor: pointer; }
+
+  /* CODE SNIPPET */
+  .code-wrap { max-width: 580px; margin: 0 auto; }
+  .code-card {
+    background: var(--teal);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(3,54,61,0.25);
+    text-align: left;
+  }
+  .code-topbar { background: rgba(255,255,255,0.06); padding: 12px 16px; display: flex; align-items: center; gap: 8px; }
+  .code-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .cd-red { background: #ff5f57; }
+  .cd-yellow { background: #febc2e; }
+  .cd-green { background: #28c840; }
+  .code-filename { font-family: var(--mono); font-size: 0.78rem; color: rgba(255,255,255,0.4); margin-left: 6px; }
+  .code-body { padding: 1.5rem; }
+  .code-body pre { font-family: var(--mono); font-size: 0.82rem; line-height: 1.75; white-space: pre-wrap; word-break: break-word; }
+  .c-comment { color: #6b8a8d; }
+  .c-keyword { color: #f8b4bc; }
+  .c-string { color: #9fefb0; }
+  .c-var { color: #8ad4e8; }
+  .c-fn { color: #ffdf90; }
+  .c-num { color: #f9c784; }
+  .c-white { color: rgba(255,255,255,0.85); }
+
+  /* CHIPS */
+  .chips-section { padding: 3.5rem 2rem; background: var(--white); text-align: center; border-top: 1px solid #eee; }
+  .chips-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gray); margin-bottom: 1.25rem; }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .chip { padding: 9px 20px; border-radius: 4px; border: 1.5px solid #e0e0e0; color: #1a1a1a; font-size: 0.875rem; font-weight: 500; cursor: pointer; background: var(--white); transition: all 0.15s; }
+  .chip:hover, .chip.active { background: var(--red); color: var(--white); border-color: var(--red); }
+
+  /* FEATURES */
+  .features { padding: 5.5rem 2rem; background: var(--pink-bg); text-align: center; }
+  .features h2 { font-size: 2.25rem; font-weight: 800; color: #1a1a1a; margin-bottom: 0.75rem; }
+  .features p.sub { color: var(--gray); max-width: 520px; margin: 0 auto 3rem; font-size: 1.05rem; }
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; max-width: 900px; margin: 0 auto; }
+  .feat { background: var(--white); border-radius: 10px; padding: 2rem 1.5rem; text-align: left; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .feat-label { display: inline-block; background: #fde8ea; color: var(--red); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; padding: 3px 8px; border-radius: 3px; margin-bottom: 0.75rem; }
+  .feat h4 { font-size: 1rem; font-weight: 700; color: #1a1a1a; margin-bottom: 0.5rem; }
+  .feat p { font-size: 0.875rem; color: var(--gray); line-height: 1.6; }
+
+  /* FOOTER */
+  footer { background: var(--teal); color: rgba(255,255,255,0.5); padding: 3.5rem 2rem 2rem; }
+  .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 2rem; max-width: 900px; margin: 0 auto 2rem; }
+  .footer-col h5 { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.35); margin-bottom: 0.75rem; }
+  .footer-col a { display: block; font-size: 0.875rem; color: rgba(255,255,255,0.5); text-decoration: none; margin-bottom: 6px; }
+  .footer-col a:hover { color: var(--white); }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.5rem; text-align: center; font-size: 0.75rem; color: rgba(255,255,255,0.25); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <div class="twilio-mark">
+      <svg viewBox="0 0 16 16" fill="white"><circle cx="5.5" cy="5.5" r="2"/><circle cx="10.5" cy="5.5" r="2"/><circle cx="5.5" cy="10.5" r="2"/><circle cx="10.5" cy="10.5" r="2"/></svg>
+    </div>
+    Twilio
+  </div>
+  <div class="nav-links">
+    <a href="#">Products</a>
+    <a href="#">Solutions</a>
+    <a href="#">Pricing</a>
+    <a href="#">Docs</a>
+    <a href="#">Community</a>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-outline">Log in</button>
+    <button class="btn-red">Start building</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-eyebrow">Communication APIs</div>
+  <h1>Build the future of communications</h1>
+  <p>Add messaging, voice, video, and email to your apps with just a few lines of code. Trusted by 300,000+ companies worldwide.</p>
+  <div class="hero-actions">
+    <button class="btn-hero-red">Start building free</button>
+    <button class="btn-hero-outline">View documentation</button>
+  </div>
+
+  <div class="code-wrap">
+    <div class="code-card">
+      <div class="code-topbar">
+        <div class="code-dot cd-red"></div>
+        <div class="code-dot cd-yellow"></div>
+        <div class="code-dot cd-green"></div>
+        <span class="code-filename">send_message.py</span>
+      </div>
+      <div class="code-body">
+        <pre><span class="c-comment"># Send your first SMS with Twilio</span>
+<span class="c-keyword">from</span> <span class="c-var">twilio.rest</span> <span class="c-keyword">import</span> <span class="c-fn">Client</span>
+
+<span class="c-var">account_sid</span> <span class="c-white">=</span> <span class="c-string">"ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"</span>
+<span class="c-var">auth_token</span> <span class="c-white">  =</span> <span class="c-string">"your_auth_token"</span>
+<span class="c-var">client</span> <span class="c-white">=</span> <span class="c-fn">Client</span><span class="c-white">(</span><span class="c-var">account_sid</span><span class="c-white">,</span> <span class="c-var">auth_token</span><span class="c-white">)</span>
+
+<span class="c-var">message</span> <span class="c-white">=</span> <span class="c-var">client</span><span class="c-white">.</span><span class="c-fn">messages</span><span class="c-white">.</span><span class="c-fn">create</span><span class="c-white">(</span>
+    <span class="c-var">body</span><span class="c-white">=</span><span class="c-string">"Hello from Twilio! 🚀"</span><span class="c-white">,</span>
+    <span class="c-var">from_</span><span class="c-white">=</span><span class="c-string">"+15551234567"</span><span class="c-white">,</span>
+    <span class="c-var">to</span><span class="c-white">=</span><span class="c-string">"+15559876543"</span>
+<span class="c-white">)</span>
+
+<span class="c-fn">print</span><span class="c-white">(</span><span class="c-var">message</span><span class="c-white">.</span><span class="c-var">sid</span><span class="c-white">)</span>  <span class="c-comment"># SM1234...done!</span></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="chips-section">
+  <div class="chips-label">Use cases</div>
+  <div class="chips">
+    <span class="chip active">Notifications</span>
+    <span class="chip">Customer Support</span>
+    <span class="chip">Two-Factor Auth</span>
+    <span class="chip">Marketing</span>
+    <span class="chip">Call Tracking</span>
+    <span class="chip">Chatbots</span>
+  </div>
+</section>
+
+<section class="features">
+  <h2>Every channel. One platform.</h2>
+  <p class="sub">Build reliable communications into any product with APIs developers love.</p>
+  <div class="features-grid">
+    <div class="feat">
+      <div class="feat-label">SMS</div>
+      <h4>Messaging</h4>
+      <p>Send and receive SMS, MMS, and WhatsApp messages globally with 99.95% delivery reliability.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-label">Voice</div>
+      <h4>Voice</h4>
+      <p>Build phone applications with crystal-clear voice quality and intelligent routing at massive scale.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-label">2FA</div>
+      <h4>Verify</h4>
+      <p>Protect your users with one-time passwords and phone verification via SMS, voice, or email.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h5>Products</h5>
+      <a href="#">Messaging</a>
+      <a href="#">Voice</a>
+      <a href="#">Video</a>
+      <a href="#">Email (SendGrid)</a>
+    </div>
+    <div class="footer-col">
+      <h5>Developers</h5>
+      <a href="#">Quickstarts</a>
+      <a href="#">API Reference</a>
+      <a href="#">SDKs</a>
+      <a href="#">Changelog</a>
+    </div>
+    <div class="footer-col">
+      <h5>Solutions</h5>
+      <a href="#">Startups</a>
+      <a href="#">Enterprise</a>
+      <a href="#">Agencies</a>
+      <a href="#">ISVs</a>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <a href="#">About</a>
+      <a href="#">Careers</a>
+      <a href="#">Blog</a>
+      <a href="#">Trust Center</a>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2024 Twilio Inc. All rights reserved.</div>
+</footer>
+
+</body>
+</html>

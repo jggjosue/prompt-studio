@@ -1,288 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VaultPay — Digital Neobank</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --bg: #0c1222;
-      --text: #f1f5f9;
-      --muted: #94a3b8;
-      --accent: #3b82f6;
-      --card: linear-gradient(135deg,#1e3a8a,#2563eb);
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: "Inter", system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      font-size: 15px;
-    }
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background: radial-gradient(ellipse 60% 50% at 80% 0%, color-mix(in srgb, var(--accent) 18%, transparent), transparent);
-      pointer-events: none;
-    }
-    body > * { position: relative; z-index: 1; }
-    a { color: inherit; text-decoration: none; }
-    .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 1.5rem;
-      max-width: 1100px;
-      margin: 0 auto;
-      border-bottom: 1px solid color-mix(in srgb, var(--text) 10%, transparent);
-    }
-    .brand { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em; }
-    nav .links { display: flex; align-items: center; gap: 1.25rem; font-size: 0.88rem; }
-    nav .links a { color: var(--muted); }
-    .btn-cta {
-      background: var(--accent);
-      color:#0f172a;
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 0.85rem;
-    }
-    .hero-wrap {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      align-items: center;
-      padding: 3rem 1.5rem;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-    .pill {
-      display: inline-block;
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      padding: 0.35rem 0.75rem;
-      border-radius: 999px;
-      background: color-mix(in srgb, var(--accent) 18%, transparent);
-      color: var(--accent);
-      margin-bottom: 1rem;
-    }
-    .hero h1 {
-      font-size: clamp(2rem, 4vw, 2.75rem);
-      font-weight: 700;
-      line-height: 1.12;
-      letter-spacing: -0.03em;
-      margin-bottom: 1rem;
-    }
-    .hero .sub { color: var(--muted); margin-bottom: 1.5rem; max-width: 28rem; }
-    .hero-actions { display: flex; gap: 0.65rem; flex-wrap: wrap; }
-    .btn-primary {
-      background: var(--accent);
-      color:#0f172a;
-      padding: 0.7rem 1.25rem;
-      border-radius: 8px;
-      font-weight: 600;
-    }
-    .btn-ghost {
-      padding: 0.7rem 1.25rem;
-      border-radius: 8px;
-      border: 1px solid color-mix(in srgb, var(--text) 18%, transparent);
-    }
-    .hero-mock {
-      border-radius: 16px;
-      padding: 1.5rem;
-      background: var(--card);
-      border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
-      min-height: 220px;
-      color: #f8fafc;
-    }
-    .mock-card .mock-balance { font-size: 1.75rem; font-weight: 700; margin: 1rem 0 0.25rem; }
-    .mock-card .mock-label, .mock-card .mock-num { font-size: 0.85rem; opacity: 0.85; }
-    .mock-chip { font-size: 0.7rem; letter-spacing: 0.1em; opacity: 0.9; }
-    .mock-dashboard .mock-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 0.5rem 0;
-      border-bottom: 1px solid rgba(255,255,255,0.15);
-      font-size: 0.9rem;
-    }
-    .mock-bars {
-      display: flex;
-      align-items: flex-end;
-      gap: 0.5rem;
-      height: 80px;
-      margin-top: 1rem;
-    }
-    .mock-bars span {
-      flex: 1;
-      background: color-mix(in srgb, var(--accent) 70%, #fff);
-      border-radius: 4px 4px 0 0;
-    }
-    .mock-bars span:nth-child(1) { height: 45%; }
-    .mock-bars span:nth-child(2) { height: 70%; }
-    .mock-bars span:nth-child(3) { height: 55%; }
-    .mock-bars span:nth-child(4) { height: 90%; }
-    .mock-chart .mock-pair { font-size: 0.8rem; opacity: 0.8; }
-    .mock-chart .mock-price { font-size: 1.5rem; font-weight: 700; margin: 0.5rem 0; }
-    .mock-chart .mock-price span { color: #4ade80; font-size: 0.9rem; }
-    .mock-line {
-      height: 60px;
-      margin-top: 1rem;
-      background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 80%, #fff));
-      clip-path: polygon(0 80%, 20% 60%, 40% 70%, 60% 30%, 80% 50%, 100% 10%, 100% 100%, 0 100%);
-    }
-    .mock-calc strong { display: block; font-size: 1.4rem; margin: 0.25rem 0 0.75rem; }
-    .mock-calc .accent { color: var(--accent); }
-    .mock-policies .mock-policy {
-      display: flex;
-      justify-content: space-between;
-      padding: 0.65rem 0;
-      border-bottom: 1px solid rgba(0,0,0,0.08);
-    }
-    .mock-portfolio strong { font-size: 1.6rem; display: block; margin: 0.35rem 0 1rem; }
-    .mock-donut {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      border: 10px solid color-mix(in srgb, var(--accent) 60%, transparent);
-      border-top-color: var(--accent);
-    }
-    .mock-terminal {
-      font-family: ui-monospace, monospace;
-      font-size: 0.8rem;
-    }
-    .mock-terminal code {
-      display: block;
-      margin: 0.75rem 0;
-      padding: 0.5rem;
-      background: rgba(0,0,0,0.06);
-      border-radius: 6px;
-    }
-    .mock-ok { color: #22c55e; font-weight: 600; }
-    .chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.45rem;
-      justify-content: center;
-      padding: 0 1.5rem 2rem;
-    }
-    .chip {
-      padding: 0.35rem 0.85rem;
-      border-radius: 999px;
-      font-size:  0.78rem;
-      border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
-      color: var(--muted);
-    }
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.25rem;
-      padding-bottom: 2.5rem;
-    }
-    .feature-card {
-      padding: 1.25rem;
-      border-radius: 12px;
-      border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
-      background: color-mix(in srgb, var(--bg) 92%, var(--accent) 8%);
-    }
-    .feature-label {
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      color: var(--accent);
-    }
-    .feature-card h3 { font-size: 1.05rem; margin: 0.5rem 0 0.35rem; }
-    .feature-detail { font-size: 0.88rem; color: var(--muted); }
-    .feature-meta { font-size: 0.8rem; margin-top: 0.5rem; font-weight: 600; color: var(--accent); }
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      text-align: center;
-      padding: 2rem 0;
-      border-top: 1px solid color-mix(in srgb, var(--text) 10%, transparent);
-    }
-    .stats strong { display: block; font-size: 1.5rem; font-weight: 700; }
-    .stats span { font-size: 0.85rem; color: var(--muted); }
-    footer {
-      text-align: center;
-      padding: 2rem 0 3rem;
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-    footer input {
-      margin-top: 0.75rem;
-      padding: 0.55rem 1rem;
-      border-radius: 8px;
-      border: 1px solid color-mix(in srgb, var(--text) 15%, transparent);
-      background: transparent;
-      color: var(--text);
-      width: min(260px, 100%);
-    }
-    @media (max-width: 768px) {
-      .hero-wrap { grid-template-columns: 1fr; }
-      nav .links a:not(.btn-cta) { display: none; }
-      .feature-grid, .stats { grid-template-columns: 1fr; }
-    }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VaultPay — Digital Neobank</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0c1222;--text:#f1f5f9;--muted:#94a3b8;--accent:#3b82f6;--accent2:#1d4ed8;--border:#1e2d42;--card:#111827;--white:#fff;--mono:'Courier New',monospace;--font:'Inter',system-ui,sans-serif}
+body{font-family:var(--font);background:var(--bg);color:var(--text)}
+nav{background:rgba(12,18,34,0.9);border-bottom:1px solid var(--border);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;backdrop-filter:blur(12px)}
+.nav-logo{font-weight:800;font-size:1.15rem;color:var(--text);display:flex;align-items:center;gap:8px}
+.logo-mark{width:28px;height:28px;background:var(--accent);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.9rem}
+.nav-links{display:flex;gap:1.75rem}
+.nav-links a{font-size:0.875rem;font-weight:400;color:var(--muted);text-decoration:none}
+.nav-links a:hover{color:var(--text)}
+.btn-accent{background:var(--accent);color:#fff;border:none;padding:9px 20px;border-radius:6px;font-size:0.875rem;font-weight:700;cursor:pointer}
+
+/* HERO — SPLIT */
+.hero{padding:5rem 2rem 4.5rem;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+@media(max-width:768px){.hero{grid-template-columns:1fr;gap:3rem;text-align:center}}
+.hero-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.3);color:var(--accent);font-size:0.75rem;font-weight:600;letter-spacing:0.04em;padding:5px 14px;border-radius:99px;margin-bottom:1.5rem}
+.hero h1{font-size:clamp(2.25rem,4.5vw,3.5rem);font-weight:800;color:var(--text);line-height:1.1;letter-spacing:-1px;margin-bottom:1.25rem}
+.hero h1 em{color:var(--accent);font-style:italic}
+.hero p{font-size:1rem;color:var(--muted);max-width:440px;line-height:1.65;margin-bottom:2.5rem}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn-hero{background:var(--accent);color:#fff;border:none;padding:13px 28px;border-radius:6px;font-size:1rem;font-weight:700;cursor:pointer}
+.btn-hero-ghost{background:transparent;border:1.5px solid var(--border);color:var(--text);padding:12px 24px;border-radius:6px;font-size:1rem;font-weight:500;cursor:pointer}
+
+/* CARD MOCKUP */
+.card-mockup{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.card-vis{background:linear-gradient(135deg,var(--accent2),var(--accent));border-radius:12px;padding:1.5rem;margin:1rem;position:relative}
+.card-chip{width:32px;height:22px;background:linear-gradient(135deg,#f59e0b,#fbbf24);border-radius:4px;margin-bottom:1.25rem}
+.card-num{font-family:var(--mono);font-size:0.9rem;color:rgba(255,255,255,0.8);letter-spacing:2px;margin-bottom:0.75rem}
+.card-row{display:flex;justify-content:space-between;align-items:flex-end}
+.card-name{font-size:0.8rem;font-weight:600;color:#fff;letter-spacing:0.05em;text-transform:uppercase}
+.card-exp{font-size:0.75rem;color:rgba(255,255,255,0.7)}
+.card-logo{font-size:1.4rem;position:absolute;top:1.25rem;right:1.25rem}
+.card-stats{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--border)}
+.cstat{padding:1rem 1.25rem;border-right:1px solid var(--border)}
+.cstat:last-child{border-right:none}
+.cstat-label{font-size:0.7rem;color:var(--muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:0.06em}
+.cstat-val{font-family:var(--mono);font-size:1.1rem;font-weight:700;color:var(--text)}
+.cstat-val.green{color:#34d399}
+
+/* CHIPS */
+.chips-section{padding:3.5rem 2rem;background:rgba(255,255,255,0.02);text-align:center;border-top:1px solid var(--border)}
+.chips-label{font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);margin-bottom:1rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.chip{padding:8px 20px;border-radius:6px;border:1px solid var(--border);color:var(--muted);font-size:0.875rem;font-weight:500;cursor:pointer;background:var(--card);transition:all 0.15s}
+.chip:hover,.chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* FEATURES */
+.features{padding:5rem 2rem;background:rgba(255,255,255,0.01);text-align:center}
+.features h2{font-size:2rem;font-weight:800;color:var(--text);margin-bottom:0.75rem;letter-spacing:-0.5px}
+.features p.sub{color:var(--muted);max-width:480px;margin:0 auto 3rem;font-size:1rem}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem;max-width:860px;margin:0 auto}
+.feat{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.75rem 1.5rem;text-align:left}
+.feat-label{display:inline-block;background:rgba(59,130,246,0.12);color:var(--accent);font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;padding:3px 8px;border-radius:3px;margin-bottom:0.75rem}
+.feat h4{font-size:1rem;font-weight:700;color:var(--text);margin-bottom:0.4rem}
+.feat p{font-size:0.875rem;color:var(--muted);line-height:1.6}
+.feat-meta{font-family:var(--mono);font-size:0.72rem;color:var(--accent);margin-top:0.75rem}
+
+/* TRUST BAND */
+.trust{padding:3rem 2rem;text-align:center;border-top:1px solid var(--border)}
+.trust-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1.5rem;max-width:600px;margin:0 auto}
+.trust-val{font-family:var(--mono);font-size:1.75rem;font-weight:700;color:var(--accent);letter-spacing:-0.5px}
+.trust-label{font-size:0.8rem;color:var(--muted);margin-top:3px}
+
+/* FOOTER */
+footer{background:#070d1a;border-top:1px solid var(--border);padding:3.5rem 2rem 2rem}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:2rem;max-width:860px;margin:0 auto 2rem}
+.footer-col h5{font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.25);margin-bottom:0.75rem}
+.footer-col a{display:block;font-size:0.875rem;color:var(--muted);text-decoration:none;margin-bottom:6px}
+.footer-col a:hover{color:var(--text)}
+.email-row{display:flex;gap:0;margin-top:0.75rem}
+.email-row input{flex:1;padding:9px 12px;border:1px solid var(--border);background:var(--card);color:var(--text);border-right:none;font-size:0.8rem;outline:none;border-radius:4px 0 0 4px;font-family:var(--font)}
+.email-row button{padding:9px 14px;background:var(--accent);color:#fff;border:none;font-size:0.8rem;font-weight:600;cursor:pointer;border-radius:0 4px 4px 0}
+.footer-bottom{border-top:1px solid var(--border);padding-top:1.5rem;text-align:center;font-size:0.72rem;color:#374151;max-width:860px;margin:0 auto}
+</style>
 </head>
 <body>
-  <nav>
-    <span class="brand">VaultPay</span>
-    <div class="links">
-      <a href="#">Personal</a><a href="#">Business</a><a href="#">Pricing</a>
-      <a href="#" class="btn-cta">Open account</a>
-    </div>
-  </nav>
-  <section class="hero-wrap">
-    <div class="hero">
-      <span class="pill">FDIC insured · No monthly fees</span>
-      <h1>Banking built for how you <em style="font-style:italic;color:var(--accent)">live</em>.</h1>
-      <p class="sub">Bank-grade security, modern UX, built for regulated finance.</p>
+<nav>
+  <div class="nav-logo"><div class="logo-mark">🏦</div>VaultPay</div>
+  <div class="nav-links"><a href="#">Personal</a><a href="#">Business</a><a href="#">Pricing</a></div>
+  <button class="btn-accent">Open account</button>
+</nav>
+
+<section style="background:radial-gradient(ellipse at 60% 0%,rgba(59,130,246,0.1) 0%,transparent 60%)">
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-pill">🏛️ FDIC insured · No monthly fees</div>
+      <h1>Banking built for the <em>digital</em> age</h1>
+      <p>Open an account in minutes. Earn 4.5% APY, spend with a metal debit card, and send money anywhere — all with zero fees.</p>
       <div class="hero-actions">
-        <a href="#" class="btn-primary">Open account</a>
-        <a href="#" class="btn-ghost">See demo</a>
+        <button class="btn-hero">Open account</button>
+        <button class="btn-hero-ghost">See demo</button>
       </div>
     </div>
-    <div class="hero-mock" aria-hidden="true"><div class="mock-card">
-      <div class="mock-chip">VISA</div>
-      <p class="mock-balance">$24,580.42</p>
-      <p class="mock-label">Available balance</p>
-      <p class="mock-num">•••• 4829</p>
-    </div></div>
-  </section>
-  <div class="chips"><span class="chip">Checking</span><span class="chip">Savings</span><span class="chip">Wire</span><span class="chip">Business</span></div>
-  <section class="feature-grid container"><article class="feature-card">
-      <span class="feature-label">ACCOUNTS</span>
-      <h3>High-yield checking</h3>
-      <p class="feature-detail">4.5% APY · no minimum</p>
-      <p class="feature-meta">Instant open</p>
-    </article>
-    <article class="feature-card">
-      <span class="feature-label">CARDS</span>
-      <h3>Metal debit</h3>
-      <p class="feature-detail">1.5% cashback · Apple Pay</p>
-      <p class="feature-meta">Ships in 3 days</p>
-    </article>
-    <article class="feature-card">
-      <span class="feature-label">TRANSFER</span>
-      <h3>Wire & ACH</h3>
-      <p class="feature-detail">Same-day · 180 countries</p>
-      <p class="feature-meta">Zero FX markup</p>
-    </article></section>
-  <section class="stats container"><div><strong>$0</strong><span>Monthly fees</span></div>
-    <div><strong>4.5%</strong><span>APY savings</span></div>
-    <div><strong>2M+</strong><span>Customers</span></div></section>
-  <footer class="container">
-    <p>Demo only · Not financial advice. © 2026 VaultPay</p>
-    <input type="email" placeholder="Work email" aria-label="Email" />
-  </footer>
+    <div>
+      <div class="card-mockup">
+        <div class="card-vis">
+          <div class="card-chip"></div>
+          <div class="card-num">•••• •••• •••• 4291</div>
+          <div class="card-row">
+            <div class="card-name">Alex Rivera</div>
+            <div class="card-exp">12/28</div>
+          </div>
+          <div class="card-logo">💳</div>
+        </div>
+        <div class="card-stats">
+          <div class="cstat">
+            <div class="cstat-label">Balance</div>
+            <div class="cstat-val">$12,480</div>
+          </div>
+          <div class="cstat">
+            <div class="cstat-label">APY</div>
+            <div class="cstat-val green">4.50%</div>
+          </div>
+          <div class="cstat">
+            <div class="cstat-label">Cashback</div>
+            <div class="cstat-val">$48.20</div>
+          </div>
+          <div class="cstat">
+            <div class="cstat-label">This month</div>
+            <div class="cstat-val green">+$312</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="chips-section">
+  <div class="chips-label">Products</div>
+  <div class="chips">
+    <span class="chip active">Checking</span><span class="chip">Savings</span><span class="chip">Wire</span><span class="chip">Business</span>
+  </div>
+</section>
+
+<section class="features">
+  <h2>One account, every tool</h2>
+  <p class="sub">Modern banking features built for how you actually live and work.</p>
+  <div class="features-grid">
+    <div class="feat">
+      <div class="feat-label">Accounts</div>
+      <h4>High-yield checking</h4>
+      <p>4.5% APY with no minimum balance — earn on every dollar while you spend.</p>
+      <div class="feat-meta">4.5% APY · no minimum · instant open</div>
+    </div>
+    <div class="feat">
+      <div class="feat-label">Cards</div>
+      <h4>Metal debit card</h4>
+      <p>1.5% cashback on all purchases, Apple Pay and Google Pay support, ships in 3 business days.</p>
+      <div class="feat-meta">1.5% cashback · Apple Pay · ships in 3 days</div>
+    </div>
+    <div class="feat">
+      <div class="feat-label">Transfer</div>
+      <h4>Wire & ACH</h4>
+      <p>Same-day domestic wires and international transfers to 180+ countries with zero FX markup.</p>
+      <div class="feat-meta">same-day · 180 countries · $0 FX</div>
+    </div>
+  </div>
+</section>
+
+<section class="trust">
+  <div class="trust-grid">
+    <div><div class="trust-val">$0</div><div class="trust-label">Monthly fees</div></div>
+    <div><div class="trust-val">4.5%</div><div class="trust-label">APY on savings</div></div>
+    <div><div class="trust-val">2M+</div><div class="trust-label">Customers</div></div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col"><h5>Personal</h5><a href="#">Checking</a><a href="#">Savings</a><a href="#">Metal card</a></div>
+    <div class="footer-col"><h5>Business</h5><a href="#">Business account</a><a href="#">Payroll</a><a href="#">Invoicing</a></div>
+    <div class="footer-col"><h5>Company</h5><a href="#">About</a><a href="#">Careers</a><a href="#">Press</a></div>
+    <div class="footer-col">
+      <h5>Updates</h5>
+      <div class="email-row"><input type="email" placeholder="your@email.com"/><button>Sign up</button></div>
+    </div>
+  </div>
+  <div class="footer-bottom">VaultPay is not a bank. Banking services provided by Partner Bank, Member FDIC. Deposits insured up to $250,000. © 2024 VaultPay Inc. All rights reserved.</div>
+</footer>
 </body>
 </html>

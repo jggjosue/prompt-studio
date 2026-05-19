@@ -30,11 +30,14 @@ import {
 import {
   ChevronDown,
   Globe,
+  ImageIcon,
+  LayoutGrid,
   LogIn,
   Menu,
   Tag,
   User,
   UserPlus,
+  Video,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
@@ -75,24 +78,34 @@ export default function HeaderClient() {
   const navLinks = [
     { href: '/', label: tNav('home') },
     {
-      href: '/prompts',
       label: tNav('library'),
-      activePrefixes: ['/prompts'],
-    },
-    {
-      href: '/image-prompts',
-      label: tNav('images'),
-      activePrefixes: ['/image-prompts', '/gallery', '/image-tags'],
-    },
-    {
-      href: '/video-prompts',
-      label: tNav('videos'),
-      activePrefixes: ['/video-prompts', '/gallery-videos', '/video-tags'],
-    },
-    {
-      href: '/landing-pages',
-      label: tNav('webs'),
-      activePrefixes: ['/landing-pages'],
+      activePrefixes: ['/prompts', '/image-prompts', '/gallery', '/image-tags', '/video-prompts', '/gallery-videos', '/video-tags', '/landing-pages'],
+      dropdown: [
+        {
+          href: '/prompts',
+          label: tNav('library'),
+          description: tNav('libraryDesc'),
+          icon: <LayoutGrid className="h-5 w-5" />,
+        },
+        {
+          href: '/image-prompts',
+          label: tNav('images'),
+          description: tNav('imageTagsDesc'),
+          icon: <ImageIcon className="h-5 w-5" />,
+        },
+        {
+          href: '/video-prompts',
+          label: tNav('videos'),
+          description: tNav('videoTagsDesc'),
+          icon: <Video className="h-5 w-5" />,
+        },
+        {
+          href: '/landing-pages',
+          label: tNav('webs'),
+          description: tNav('webTagsDesc'),
+          icon: <Globe className="h-5 w-5" />,
+        },
+      ],
     },
     {
       label: tNav('tags'),
@@ -237,6 +250,19 @@ export default function HeaderClient() {
                   </Accordion>
                 )
               )}
+              <Show when="signed-in">
+                <SheetClose asChild>
+                  <Link
+                    href="/dashboard/profile"
+                    className={cn(
+                      'text-lg font-medium hover:text-foreground/80 transition-colors',
+                      isNavItemActive(pathname, '/dashboard/profile', ['/dashboard']) && 'text-foreground font-semibold'
+                    )}
+                  >
+                    {tHeader('profile')}
+                  </Link>
+                </SheetClose>
+              </Show>
               <Show when="signed-out">
                 <div className="mt-6 flex flex-col gap-2 border-t pt-6">
                   <SheetClose asChild>
@@ -332,6 +358,15 @@ export default function HeaderClient() {
               </DropdownMenu>
             )
           )}
+          <Show when="signed-in">
+            <Link
+              href="/dashboard/profile"
+              className={linkClassName('/dashboard/profile', ['/dashboard'])}
+              aria-current={isNavItemActive(pathname, '/dashboard/profile', ['/dashboard']) ? 'page' : undefined}
+            >
+              {tHeader('profile')}
+            </Link>
+          </Show>
         </nav>
 
         <div className="flex items-center gap-2 ml-auto shrink-0">

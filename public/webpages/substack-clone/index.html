@@ -1,6 +1,156 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>Substack — Clon educativo</title><link rel="stylesheet" href="styles.css"/></head><body>
-<nav class="navbar"><a href="#" class="logo">Substack</a><ul class="nav-links"><li><a href="#features">Producto</a></li><li><a href="#more">Más</a></li></ul><div class="nav-actions"><button type="button" class="btn btn-ghost">Iniciar sesión</button><button type="button" class="btn btn-primary">Probar</button></div></nav>
-<header class="hero"><div class="hero-inner"><div><h1>Empieza a escribir</h1><p>Newsletters con suscripción directa a tus lectores.</p><button type="button" class="btn btn-primary">Crear newsletter</button></div><div class="mockup"><div style="border:1px solid #ddd;border-radius:8px;padding:1rem;max-width:220px"><strong>Mi Newsletter</strong><p style="font-size:.8rem;color:#666;margin:.35rem 0">12,400 suscriptores</p><span style="font-size:.75rem;color:#ff6719">Suscribirse · $5/mes</span></div></div></div></header>
-<section class="section" id="features"><h2>Funciones</h2><div class="feat-grid"><article class="feat-card"><h3>Publish</h3><p>Email y web.</p></article><article class="feat-card"><h3>Paid</h3><p>Monetiza contenido.</p></article><article class="feat-card"><h3>Growth</h3><p>Recomendaciones.</p></article></div></section>
-<section class="section" id="more"><h2>Temas</h2><div class="chips"><span class="chip">Tech</span><span class="chip">Política</span><span class="chip">Cultura</span></div></section>
-<footer><div class="footer-grid"><div><h4>Producto</h4><ul><li>Funciones</li></ul></div><div><h4>Empresa</h4><ul><li>Acerca de</li></ul></div><div><h4>Recursos</h4><ul><li>Soporte</li></ul></div></div><p class="disclaimer">Clon educativo no oficial. Sin afiliación con la marca original.</p></footer></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Substack — Publish and Grow</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--orange:#FF6719;--cream:#FFF8F4;--black:#1a1a1a;--gray:#6b6b6b;--border:#e8e0d8;--font:system-ui,-apple-system,sans-serif}
+body{font-family:var(--font);background:var(--cream);color:var(--black)}
+nav{background:var(--cream);border-bottom:1px solid var(--border);padding:0 2rem;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.nav-logo{font-size:1.25rem;font-weight:900;color:var(--black);letter-spacing:-0.5px}
+.nav-logo span{color:var(--orange)}
+.nav-links{display:flex;gap:1.5rem}
+.nav-links a{font-size:0.875rem;font-weight:500;color:var(--gray);text-decoration:none}
+.nav-links a:hover{color:var(--black)}
+.nav-actions{display:flex;gap:10px}
+.btn-ghost{background:transparent;border:1.5px solid var(--border);color:var(--black);padding:8px 16px;border-radius:99px;font-size:0.875rem;font-weight:600;cursor:pointer}
+.btn-orange{background:var(--orange);color:#fff;border:none;padding:9px 20px;border-radius:99px;font-size:0.875rem;font-weight:700;cursor:pointer}
+
+.hero{padding:5rem 2rem 4rem;text-align:center;background:var(--cream)}
+.hero h1{font-size:clamp(2.2rem,5.5vw,4rem);font-weight:900;color:var(--black);max-width:720px;margin:0 auto 1.25rem;line-height:1.1;letter-spacing:-1.5px}
+.hero h1 em{color:var(--orange);font-style:italic}
+.hero p{font-size:1.15rem;color:var(--gray);max-width:520px;margin:0 auto 2.5rem;line-height:1.65}
+.hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:3.5rem}
+.btn-hero{background:var(--orange);color:#fff;border:none;padding:14px 32px;border-radius:99px;font-size:1rem;font-weight:800;cursor:pointer}
+.btn-hero-ghost{background:transparent;border:2px solid var(--black);color:var(--black);padding:12px 28px;border-radius:99px;font-size:1rem;font-weight:700;cursor:pointer}
+
+/* NEWSLETTER CARD MOCKUP */
+.newsletter-card{background:#fff;border:1px solid var(--border);border-radius:16px;max-width:480px;margin:0 auto;overflow:hidden;box-shadow:0 8px 32px rgba(255,103,25,0.1)}
+.nc-header{background:var(--orange);padding:20px 24px;color:#fff}
+.nc-avatar{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:10px}
+.nc-name{font-weight:800;font-size:1.1rem}
+.nc-tagline{font-size:0.82rem;opacity:0.85;margin-top:2px}
+.nc-body{padding:20px 24px}
+.nc-excerpt{font-size:0.9rem;color:var(--gray);line-height:1.6;margin-bottom:16px}
+.nc-meta{display:flex;align-items:center;justify-content:space-between;padding-top:14px;border-top:1px solid var(--border)}
+.nc-subs{font-size:0.8rem;color:var(--gray)}
+.nc-subs strong{color:var(--black);font-weight:700}
+.nc-subscribe{background:var(--orange);color:#fff;border:none;padding:9px 20px;border-radius:99px;font-size:0.8rem;font-weight:700;cursor:pointer}
+.nc-email-row{display:flex;gap:8px;margin-top:14px}
+.nc-email-row input{flex:1;padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:0.875rem;outline:none;background:var(--cream)}
+.nc-email-row input:focus{border-color:var(--orange)}
+.nc-email-row button{background:var(--black);color:#fff;border:none;padding:10px 16px;border-radius:8px;font-size:0.875rem;font-weight:700;cursor:pointer;white-space:nowrap}
+
+/* CHIPS */
+.chips-section{padding:3rem 2rem;background:#fff;text-align:center;border-top:1px solid var(--border)}
+.chips-label{font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray);margin-bottom:1.25rem}
+.chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.chip{padding:9px 20px;border-radius:99px;border:1.5px solid var(--border);color:var(--black);font-size:0.875rem;font-weight:600;cursor:pointer;background:#fff;transition:all 0.15s}
+.chip:hover,.chip.active{background:var(--orange);color:#fff;border-color:var(--orange)}
+
+/* FEATURES */
+.features{padding:5rem 2rem;background:var(--cream);text-align:center}
+.features h2{font-size:2.25rem;font-weight:900;color:var(--black);margin-bottom:0.75rem;letter-spacing:-0.5px}
+.features p.sub{color:var(--gray);max-width:520px;margin:0 auto 3rem;font-size:1.05rem}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2rem;max-width:900px;margin:0 auto}
+.feat{background:#fff;border-radius:14px;padding:2.25rem 2rem;text-align:left;border:1px solid var(--border)}
+.feat-num{font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:0.75rem}
+.feat h4{font-size:1.1rem;font-weight:800;color:var(--black);margin-bottom:0.6rem;letter-spacing:-0.3px}
+.feat p{font-size:0.875rem;color:var(--gray);line-height:1.6}
+
+/* FOOTER */
+footer{background:var(--black);color:rgba(255,255,255,0.5);padding:3.5rem 2rem 2rem}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:2rem;max-width:900px;margin:0 auto 2rem}
+.footer-col h5{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:0.75rem}
+.footer-col a{display:block;font-size:0.875rem;color:rgba(255,255,255,0.5);text-decoration:none;margin-bottom:6px}
+.footer-col a:hover{color:#fff}
+.footer-bottom{border-top:1px solid #333;padding-top:1.5rem;text-align:center;font-size:0.75rem;color:#555}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo">Sub<span>stack</span></div>
+  <div class="nav-links">
+    <a href="#">For writers</a><a href="#">For podcasters</a><a href="#">Pricing</a><a href="#">Blog</a>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-ghost">Sign in</button>
+    <button class="btn-orange">Start writing</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <h1>A place for <em>independent</em> writing</h1>
+  <p>Substack lets independent writers and podcasters publish directly to their audience and get paid through subscriptions.</p>
+  <div class="hero-cta">
+    <button class="btn-hero">Start publishing</button>
+    <button class="btn-hero-ghost">Explore Substack</button>
+  </div>
+  <div class="newsletter-card">
+    <div class="nc-header">
+      <div class="nc-avatar">✍️</div>
+      <div class="nc-name">The Weekly Dispatch</div>
+      <div class="nc-tagline">Thoughtful takes on tech, culture, and the world</div>
+    </div>
+    <div class="nc-body">
+      <p class="nc-excerpt">This week: Why the most interesting companies are built by writers who decided to ship — and what that means for the future of media...</p>
+      <div class="nc-meta">
+        <div class="nc-subs"><strong>42,800</strong> subscribers</div>
+        <button class="nc-subscribe">Subscribe</button>
+      </div>
+      <div class="nc-email-row">
+        <input type="email" placeholder="Type your email..."/>
+        <button>Subscribe free</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="chips-section">
+  <div class="chips-label">Explore themes</div>
+  <div class="chips">
+    <span class="chip active">Technology</span>
+    <span class="chip">Culture</span>
+    <span class="chip">Politics</span>
+    <span class="chip">Business</span>
+    <span class="chip">Health</span>
+    <span class="chip">Fiction</span>
+    <span class="chip">Finance</span>
+  </div>
+</section>
+
+<section class="features">
+  <h2>Everything you need to build your audience</h2>
+  <p class="sub">Substack gives you the tools to grow and monetize your writing.</p>
+  <div class="features-grid">
+    <div class="feat">
+      <div class="feat-num">01 — Publish</div>
+      <h4>Write on your terms</h4>
+      <p>A powerful editor, your own domain, and your archive — all yours. No algorithm deciding who reads your work.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-num">02 — Paid</div>
+      <h4>Get paid directly</h4>
+      <p>Turn your readers into paying subscribers with monthly or annual plans. You keep 90% of all revenue.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-num">03 — Growth</div>
+      <h4>Grow your community</h4>
+      <p>Built-in network effects, referral tools, and cross-promotion help your publication reach new readers every day.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col"><h5>Writers</h5><a href="#">Start publishing</a><a href="#">Pricing</a><a href="#">Writer resources</a></div>
+    <div class="footer-col"><h5>Readers</h5><a href="#">Discover</a><a href="#">App</a><a href="#">Gift subscriptions</a></div>
+    <div class="footer-col"><h5>Company</h5><a href="#">About</a><a href="#">Blog</a><a href="#">Careers</a></div>
+    <div class="footer-col"><h5>Legal</h5><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Content policy</a></div>
+  </div>
+  <div class="footer-bottom">© 2024 Substack Inc. All rights reserved.</div>
+</footer>
+</body>
+</html>

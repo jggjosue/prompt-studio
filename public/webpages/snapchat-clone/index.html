@@ -1,6 +1,217 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>Snapchat — Clon educativo</title><link rel="stylesheet" href="styles.css"/></head><body>
-<nav class="navbar"><a href="#" class="logo">Snapchat</a><ul class="nav-links"><li><a href="#features">Producto</a></li><li><a href="#more">Más</a></li><li><a href="#">Precios</a></li></ul><div class="nav-actions"><button type="button" class="btn btn-ghost">Iniciar sesión</button><button type="button" class="btn btn-primary">Probar gratis</button></div></nav>
-<header class="hero"><div class="hero-inner"><div><h1>Comparte el momento</h1><p>Fotos y videos que desaparecen. Lentes AR y mapas.</p><button type="button" class="btn btn-primary">Descargar</button></div><div class="mockup"><div style="width:100px;height:100px;background:#fff;border-radius:50%;margin:0 auto;border:3px solid #000"></div></div></div></header>
-<section class="section" id="features"><h2>Funciones</h2><div class="feat-grid"><article class="feat-card"><h3>Stories</h3><p>24 horas.</p></article><article class="feat-card"><h3>Lenses</h3><p>Filtros AR.</p></article><article class="feat-card"><h3>Spotlight</h3><p>Descubrimiento.</p></article></div></section>
-<section class="section" id="more"><h2>Para</h2><div class="chips"><span class="chip">Amigos</span><span class="chip">Creadores</span><span class="chip">Marcas</span></div></section>
-<footer><div class="footer-grid"><div><h4>Producto</h4><ul><li>Funciones</li></ul></div><div><h4>Empresa</h4><ul><li>Acerca de</li></ul></div><div><h4>Recursos</h4><ul><li>Soporte</li></ul></div></div><p class="disclaimer">Clon educativo no oficial. Sin afiliación con la marca original.</p></footer></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Snapchat — Stories and AR</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --yellow: #FFFC00;
+    --black: #000;
+    --white: #fff;
+    --gray: #f5f5f5;
+    --text-gray: #555;
+    --font: system-ui, -apple-system, sans-serif;
+  }
+  body { font-family: var(--font); background: var(--white); color: var(--black); }
+
+  /* NAV */
+  nav {
+    background: var(--yellow);
+    padding: 0 2rem;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 1.15rem; color: var(--black); letter-spacing: -0.3px; }
+  .ghost-icon { width: 32px; height: 32px; }
+  .nav-links { display: flex; gap: 1.5rem; }
+  .nav-links a { font-size: 0.875rem; font-weight: 700; color: var(--black); text-decoration: none; opacity: 0.75; }
+  .nav-links a:hover { opacity: 1; }
+  .nav-actions { display: flex; gap: 10px; }
+  .btn-black { background: var(--black); color: var(--white); border: none; padding: 9px 20px; border-radius: 99px; font-size: 0.875rem; font-weight: 700; cursor: pointer; }
+  .btn-outline { background: transparent; border: 2px solid var(--black); color: var(--black); padding: 7px 18px; border-radius: 99px; font-size: 0.875rem; font-weight: 700; cursor: pointer; }
+
+  /* HERO */
+  .hero { background: var(--yellow); padding: 5rem 2rem 5rem; text-align: center; }
+  .ghost-circle {
+    width: 160px; height: 160px;
+    background: var(--black);
+    border-radius: 50%;
+    margin: 0 auto 2.5rem;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .ghost-circle::after {
+    content: '👻';
+    font-size: 5rem;
+    line-height: 1;
+  }
+  .hero h1 { font-size: clamp(2.2rem, 5.5vw, 3.75rem); font-weight: 900; color: var(--black); max-width: 680px; margin: 0 auto 1.25rem; line-height: 1.1; letter-spacing: -1px; }
+  .hero p { font-size: 1.15rem; color: rgba(0,0,0,0.65); max-width: 500px; margin: 0 auto 2.5rem; line-height: 1.6; font-weight: 500; }
+  .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn-hero-black { background: var(--black); color: var(--white); border: none; padding: 14px 32px; border-radius: 99px; font-size: 1rem; font-weight: 800; cursor: pointer; letter-spacing: 0.02em; }
+  .btn-hero-outline { background: transparent; border: 2.5px solid var(--black); color: var(--black); padding: 12px 30px; border-radius: 99px; font-size: 1rem; font-weight: 800; cursor: pointer; }
+
+  /* CHIPS */
+  .chips-section { background: var(--white); padding: 3.5rem 2rem; text-align: center; border-top: 1px solid #eee; }
+  .chips-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-gray); margin-bottom: 1.25rem; }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .chip { padding: 10px 22px; border-radius: 99px; border: 2px solid var(--black); color: var(--black); font-size: 0.9rem; font-weight: 700; cursor: pointer; background: var(--white); transition: all 0.15s; }
+  .chip:hover, .chip.active { background: var(--black); color: var(--yellow); border-color: var(--black); }
+
+  /* FEATURES */
+  .features { background: var(--black); padding: 5rem 2rem; }
+  .features-inner { max-width: 960px; margin: 0 auto; }
+  .features h2 { font-size: 2.25rem; font-weight: 900; color: var(--yellow); text-align: center; margin-bottom: 0.75rem; letter-spacing: -0.5px; }
+  .features-sub { text-align: center; color: rgba(255,255,255,0.6); font-size: 1.05rem; margin-bottom: 3.5rem; }
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
+  .feat { background: #111; border-radius: 16px; padding: 2.25rem 1.75rem; border: 1px solid #222; }
+  .feat-emoji { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
+  .feat h4 { font-size: 1.1rem; font-weight: 800; color: var(--yellow); margin-bottom: 0.6rem; letter-spacing: -0.2px; }
+  .feat p { font-size: 0.875rem; color: rgba(255,255,255,0.6); line-height: 1.6; }
+
+  /* PHONE MOCKUPS STRIP */
+  .mockup-strip { background: var(--gray); padding: 4rem 2rem; overflow: hidden; }
+  .mockup-strip h3 { text-align: center; font-size: 1.5rem; font-weight: 900; margin-bottom: 2.5rem; }
+  .phones { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .phone { width: 140px; height: 260px; border-radius: 22px; border: 3px solid #222; overflow: hidden; display: flex; flex-direction: column; flex-shrink: 0; }
+  .phone-screen { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; }
+  .phone-bottom { height: 32px; background: rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .phone-dot { width: 6px; height: 6px; border-radius: 50%; background: #bbb; }
+  .phone-dot.active { background: var(--black); width: 18px; border-radius: 3px; }
+
+  /* FOOTER */
+  footer { background: var(--black); color: rgba(255,255,255,0.55); padding: 3rem 2rem 2rem; }
+  .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 2rem; max-width: 900px; margin: 0 auto 2rem; }
+  .footer-col h5 { font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--yellow); margin-bottom: 0.75rem; }
+  .footer-col a { display: block; font-size: 0.875rem; color: rgba(255,255,255,0.55); text-decoration: none; margin-bottom: 6px; }
+  .footer-col a:hover { color: var(--yellow); }
+  .footer-bottom { border-top: 1px solid #222; padding-top: 1.5rem; text-align: center; font-size: 0.75rem; color: #444; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <svg class="ghost-icon" viewBox="0 0 32 32" fill="black">
+      <path d="M16 2C10.477 2 6 6.477 6 12v10l3-3 3 3 3-3 3 3 3-3 3 3V12c0-5.523-4.477-10-10-10z"/>
+    </svg>
+    Snapchat
+  </div>
+  <div class="nav-links">
+    <a href="#">Features</a>
+    <a href="#">For Business</a>
+    <a href="#">Creators</a>
+    <a href="#">Community</a>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-outline">Log in</button>
+    <button class="btn-black">Download</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="ghost-circle"></div>
+  <h1>Snap, Chat, and See the World</h1>
+  <p>Express yourself, stay connected with friends, and see the world live on Snapchat.</p>
+  <div class="hero-actions">
+    <button class="btn-hero-black">Download Snapchat</button>
+    <button class="btn-hero-outline">Learn More</button>
+  </div>
+</section>
+
+<section class="chips-section">
+  <div class="chips-label">Snapchat is for</div>
+  <div class="chips">
+    <span class="chip active">Friends</span>
+    <span class="chip">Creators</span>
+    <span class="chip">Brands</span>
+    <span class="chip">Developers</span>
+  </div>
+</section>
+
+<section class="features">
+  <div class="features-inner">
+    <h2>Everything you love, in one place</h2>
+    <p class="features-sub">More ways to connect, create, and discover every day.</p>
+    <div class="features-grid">
+      <div class="feat">
+        <span class="feat-emoji">📸</span>
+        <h4>Stories</h4>
+        <p>Share your day with friends and followers through photos and videos that disappear after 24 hours.</p>
+      </div>
+      <div class="feat">
+        <span class="feat-emoji">✨</span>
+        <h4>Lenses</h4>
+        <p>Transform your look with thousands of AR lenses powered by real-time facial tracking technology.</p>
+      </div>
+      <div class="feat">
+        <span class="feat-emoji">🌟</span>
+        <h4>Spotlight</h4>
+        <p>Discover the best Snaps from the Snapchat community — and go viral with your own creations.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="mockup-strip">
+  <h3>Life moves fast — capture it</h3>
+  <div class="phones">
+    <div class="phone" style="background:linear-gradient(160deg,#ff6b6b,#ffd93d)">
+      <div class="phone-screen">🌅</div>
+      <div class="phone-bottom"><div class="phone-dot active"></div><div class="phone-dot"></div><div class="phone-dot"></div></div>
+    </div>
+    <div class="phone" style="background:linear-gradient(160deg,#6c63ff,#3f3d56)">
+      <div class="phone-screen">👻</div>
+      <div class="phone-bottom"><div class="phone-dot"></div><div class="phone-dot active"></div><div class="phone-dot"></div></div>
+    </div>
+    <div class="phone" style="background:linear-gradient(160deg,#FFFC00,#000)">
+      <div class="phone-screen">🎭</div>
+      <div class="phone-bottom"><div class="phone-dot"></div><div class="phone-dot"></div><div class="phone-dot active"></div></div>
+    </div>
+    <div class="phone" style="background:linear-gradient(160deg,#43e97b,#38f9d7)">
+      <div class="phone-screen">🎬</div>
+      <div class="phone-bottom"><div class="phone-dot active"></div><div class="phone-dot"></div><div class="phone-dot"></div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h5>Company</h5>
+      <a href="#">About</a>
+      <a href="#">News</a>
+      <a href="#">Careers</a>
+      <a href="#">Investors</a>
+    </div>
+    <div class="footer-col">
+      <h5>Community</h5>
+      <a href="#">Safety Center</a>
+      <a href="#">Support</a>
+      <a href="#">Community Guidelines</a>
+    </div>
+    <div class="footer-col">
+      <h5>Advertising</h5>
+      <a href="#">Snap Ads</a>
+      <a href="#">Sponsored Lenses</a>
+      <a href="#">Story Ads</a>
+    </div>
+    <div class="footer-col">
+      <h5>Legal</h5>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Cookie Policy</a>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2024 Snap Inc. All rights reserved.</div>
+</footer>
+
+</body>
+</html>

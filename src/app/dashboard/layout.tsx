@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import type React from 'react';
 import Link from 'next/link';
 import { SidebarNavLink } from '@/components/dashboard/sidebar-nav-link';
 import {
@@ -39,6 +40,7 @@ import {
 import Logo from '@/components/layout/logo';
 import Header from '@/components/layout/header';
 import { DashboardMobileNav } from '@/components/dashboard/dashboard-mobile-nav';
+import { DashboardUpgradeCard } from '@/components/dashboard/dashboard-upgrade-card';
 import { getTranslations } from 'next-intl/server';
 
 export default async function DashboardLayout({
@@ -49,18 +51,19 @@ export default async function DashboardLayout({
   const t = await getTranslations('dashboard');
   const tHeader = await getTranslations('header');
 
-  const navItems = [
-    { href: '/dashboard', icon: <LayoutGrid className="h-4 w-4" />, label: t('dashboard') },
-    { href: '/dashboard/analytics', icon: <LineChart className="h-4 w-4" />, label: t('analytics') },
-    { href: '/prompt/edit', icon: <Clapperboard className="h-4 w-4" />, label: t('create') },
-    { href: '/dashboard/creations', icon: <Image className="h-4 w-4" />, label: t('myCreations'), badge: '5' },
-    { href: '/dashboard/favorites', icon: <Heart className="h-4 w-4" />, label: t('favorites') },
-  ];
+  // const navItems = [
+  //   { href: '/dashboard', icon: <LayoutGrid className="h-4 w-4" />, label: t('dashboard') },
+  //   { href: '/dashboard/analytics', icon: <LineChart className="h-4 w-4" />, label: t('analytics') },
+  //   { href: '/prompt/edit', icon: <Clapperboard className="h-4 w-4" />, label: t('create') },
+  //   { href: '/dashboard/creations', icon: <Image className="h-4 w-4" />, label: t('myCreations'), badge: '5' },
+  //   { href: '/dashboard/favorites', icon: <Heart className="h-4 w-4" />, label: t('favorites') },
+  // ];
+  const navItems: { href: string; icon: React.ReactNode; label: string; badge?: string }[] = [];
   
   const settingsNavItems = [
     { href: '/dashboard/profile', icon: <UserCircle className="h-4 w-4" />, label: t('profile') },
-    { href: '/dashboard/settings', icon: <Settings className="h-4 w-4" />, label: t('settings') },
-    { href: '/dashboard/billing', icon: <CreditCard className="h-4 w-4" />, label: t('billing') },
+    // { href: '/dashboard/settings', icon: <Settings className="h-4 w-4" />, label: t('settings') },
+    // { href: '/dashboard/billing', icon: <CreditCard className="h-4 w-4" />, label: t('billing') },
   ];
 
   return (
@@ -106,19 +109,7 @@ export default async function DashboardLayout({
             </div>
           </div>
           <div className="mt-auto p-4">
-             <Card>
-              <CardHeader className="p-2 pt-0 md:p-4">
-                <CardTitle>{t('upgradeTitle')}</CardTitle>
-                <CardDescription>
-                  {t('upgradeDesc')}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="p-2 pt-0 md:p-4 md:pt-0">
-                <Button size="sm" className="w-full" asChild>
-                  <Link href="/pricing">{t('upgrade')}</Link>
-                </Button>
-              </CardContent>
-            </Card>
+            <DashboardUpgradeCard />
           </div>
         </div>
       </div>

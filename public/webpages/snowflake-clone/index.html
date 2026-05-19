@@ -1,6 +1,285 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>Snowflake — Clon educativo</title><link rel="stylesheet" href="styles.css"/></head><body>
-<nav class="navbar"><a href="#" class="logo">Snowflake</a><ul class="nav-links"><li><a href="#features">Producto</a></li><li><a href="#more">Más</a></li><li><a href="#">Precios</a></li></ul><div class="nav-actions"><button type="button" class="btn btn-ghost">Iniciar sesión</button><button type="button" class="btn btn-primary">Probar gratis</button></div></nav>
-<header class="hero"><div class="hero-inner"><div><h1>Data Cloud</h1><p>Almacena, procesa y analiza datos a escala.</p><button type="button" class="btn btn-primary">Prueba gratis</button></div><div class="mockup"><div style="width:80px;height:80px;background:linear-gradient(135deg,#29b5e8,#56c0e0);border-radius:50%;margin:0 auto"></div></div></div></header>
-<section class="section" id="features"><h2>Funciones</h2><div class="feat-grid"><article class="feat-card"><h3>Warehouse</h3><p>Compute elástico.</p></article><article class="feat-card"><h3>Sharing</h3><p>Datos seguros entre orgs.</p></article><article class="feat-card"><h3>Marketplace</h3><p>Datasets de terceros.</p></article></div></section>
-<section class="section" id="more"><h2>Industrias</h2><div class="chips"><span class="chip">Finanzas</span><span class="chip">Retail</span><span class="chip">Healthcare</span></div></section>
-<footer><div class="footer-grid"><div><h4>Producto</h4><ul><li>Funciones</li></ul></div><div><h4>Empresa</h4><ul><li>Acerca de</li></ul></div><div><h4>Recursos</h4><ul><li>Soporte</li></ul></div></div><p class="disclaimer">Clon educativo no oficial. Sin afiliación con la marca original.</p></footer></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Snowflake — Data Cloud</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cyan: #29B5E8;
+    --navy: #11567F;
+    --dark-navy: #0a3352;
+    --white: #fff;
+    --gray: #6b7280;
+    --light-bg: #f0f8ff;
+    --border: #d1e8f5;
+    --font: system-ui, -apple-system, sans-serif;
+  }
+  body { font-family: var(--font); background: var(--white); color: #1a2b3c; }
+
+  /* NAV */
+  nav {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.15rem; color: var(--navy); }
+  .snowflake-icon { color: var(--cyan); font-size: 1.6rem; line-height: 1; }
+  .nav-links { display: flex; gap: 1.5rem; }
+  .nav-links a { font-size: 0.875rem; font-weight: 500; color: #4a5568; text-decoration: none; }
+  .nav-links a:hover { color: var(--navy); }
+  .nav-actions { display: flex; gap: 10px; }
+  .btn-outline { background: transparent; border: 1.5px solid var(--cyan); color: var(--navy); padding: 8px 16px; border-radius: 4px; font-size: 0.875rem; font-weight: 600; cursor: pointer; }
+  .btn-cyan { background: var(--cyan); color: var(--white); border: none; padding: 9px 20px; border-radius: 4px; font-size: 0.875rem; font-weight: 700; cursor: pointer; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(160deg, var(--dark-navy) 0%, var(--navy) 55%, #1a7aad 100%);
+    padding: 6rem 2rem 5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(41,181,232,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-eyebrow { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); margin-bottom: 1.25rem; }
+  .hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; color: var(--white); max-width: 720px; margin: 0 auto 1.25rem; line-height: 1.12; }
+  .hero h1 span { color: var(--cyan); }
+  .hero p { font-size: 1.1rem; color: rgba(255,255,255,0.72); max-width: 540px; margin: 0 auto 2.75rem; line-height: 1.65; }
+  .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 4rem; }
+  .btn-hero-cyan { background: var(--cyan); color: var(--white); border: none; padding: 14px 32px; border-radius: 4px; font-size: 1rem; font-weight: 700; cursor: pointer; }
+  .btn-hero-outline { background: transparent; border: 2px solid rgba(255,255,255,0.35); color: var(--white); padding: 12px 30px; border-radius: 4px; font-size: 1rem; font-weight: 600; cursor: pointer; }
+
+  /* DATA CIRCLE */
+  .data-circle-wrap { max-width: 480px; margin: 0 auto; }
+  .data-circle {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 50%;
+    width: 320px;
+    height: 320px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .data-circle-inner {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(41,181,232,0.35);
+    border-radius: 50%;
+    width: 220px;
+    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .dc-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); }
+  .dc-value { font-size: 2rem; font-weight: 800; color: var(--cyan); letter-spacing: -1px; }
+  .dc-sub { font-size: 0.75rem; color: rgba(255,255,255,0.5); }
+  .orbit-node {
+    position: absolute;
+    background: var(--cyan);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: var(--white);
+    font-weight: 700;
+    box-shadow: 0 0 16px rgba(41,181,232,0.5);
+  }
+
+  /* CHIPS */
+  .chips-section { padding: 3.5rem 2rem; background: var(--light-bg); text-align: center; }
+  .chips-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gray); margin-bottom: 1.25rem; }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .chip { padding: 9px 20px; border-radius: 4px; border: 1.5px solid var(--border); color: var(--navy); font-size: 0.875rem; font-weight: 600; cursor: pointer; background: var(--white); transition: all 0.15s; }
+  .chip:hover, .chip.active { background: var(--cyan); color: var(--white); border-color: var(--cyan); }
+
+  /* FEATURES */
+  .features { padding: 5.5rem 2rem; background: var(--white); text-align: center; }
+  .features h2 { font-size: 2.25rem; font-weight: 800; color: var(--navy); margin-bottom: 0.75rem; }
+  .features p.sub { color: var(--gray); max-width: 520px; margin: 0 auto 3rem; font-size: 1.05rem; }
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; max-width: 900px; margin: 0 auto; }
+  .feat { background: var(--light-bg); border-radius: 10px; padding: 2rem 1.5rem; text-align: left; border: 1px solid var(--border); }
+  .feat-icon { width: 44px; height: 44px; border-radius: 10px; background: rgba(41,181,232,0.12); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1rem; }
+  .feat h4 { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 0.5rem; }
+  .feat p { font-size: 0.875rem; color: var(--gray); line-height: 1.6; }
+
+  /* STATS */
+  .stats { background: var(--navy); padding: 4rem 2rem; text-align: center; }
+  .stats h3 { font-size: 1.25rem; font-weight: 700; color: rgba(255,255,255,0.6); margin-bottom: 2.5rem; text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.875rem; }
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 2.5rem; max-width: 800px; margin: 0 auto; }
+  .stat-number { font-size: 2.75rem; font-weight: 900; color: var(--cyan); letter-spacing: -1px; }
+  .stat-label { font-size: 0.875rem; color: rgba(255,255,255,0.55); margin-top: 4px; }
+
+  /* FOOTER */
+  footer { background: var(--dark-navy); color: rgba(255,255,255,0.5); padding: 3.5rem 2rem 2rem; }
+  .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 2rem; max-width: 900px; margin: 0 auto 2rem; }
+  .footer-col h5 { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--cyan); margin-bottom: 0.75rem; }
+  .footer-col a { display: block; font-size: 0.875rem; color: rgba(255,255,255,0.5); text-decoration: none; margin-bottom: 6px; }
+  .footer-col a:hover { color: var(--white); }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.5rem; text-align: center; font-size: 0.75rem; color: rgba(255,255,255,0.25); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <span class="snowflake-icon">❄</span>
+    Snowflake
+  </div>
+  <div class="nav-links">
+    <a href="#">Platform</a>
+    <a href="#">Solutions</a>
+    <a href="#">Customers</a>
+    <a href="#">Pricing</a>
+    <a href="#">Resources</a>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-outline">Log in</button>
+    <button class="btn-cyan">Try free</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-eyebrow">The Data Cloud</div>
+  <h1>Mobilize your data with the <span>AI Data Cloud</span></h1>
+  <p>Enable data-driven insights and AI-powered applications — securely, at global scale — with Snowflake's unified platform.</p>
+  <div class="hero-actions">
+    <button class="btn-hero-cyan">Start for free</button>
+    <button class="btn-hero-outline">Watch overview</button>
+  </div>
+
+  <div class="data-circle-wrap">
+    <div class="data-circle">
+      <div style="position:absolute;top:20px;left:50%;transform:translateX(-50%)">
+        <div class="orbit-node" style="width:48px;height:48px">🏢</div>
+      </div>
+      <div style="position:absolute;right:20px;top:50%;transform:translateY(-50%)">
+        <div class="orbit-node" style="width:44px;height:44px">🔗</div>
+      </div>
+      <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%)">
+        <div class="orbit-node" style="width:48px;height:48px">📊</div>
+      </div>
+      <div style="position:absolute;left:20px;top:50%;transform:translateY(-50%)">
+        <div class="orbit-node" style="width:44px;height:44px">🤖</div>
+      </div>
+      <div class="data-circle-inner">
+        <div class="dc-label">Data Processed</div>
+        <div class="dc-value">3.8EB</div>
+        <div class="dc-sub">This month</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="chips-section">
+  <div class="chips-label">Industry solutions</div>
+  <div class="chips">
+    <span class="chip active">Financial Services</span>
+    <span class="chip">Healthcare</span>
+    <span class="chip">Retail</span>
+    <span class="chip">Media</span>
+    <span class="chip">Technology</span>
+    <span class="chip">Manufacturing</span>
+  </div>
+</section>
+
+<section class="features">
+  <h2>One platform. Endless possibilities.</h2>
+  <p class="sub">Unify your data, build AI applications, and share data securely across your entire ecosystem.</p>
+  <div class="features-grid">
+    <div class="feat">
+      <div class="feat-icon">🏛</div>
+      <h4>Data Warehouse</h4>
+      <p>Run fast, scalable analytics with automatic scaling, concurrency, and zero management overhead.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">🔗</div>
+      <h4>Data Sharing</h4>
+      <p>Securely share live data with partners, customers, and suppliers — with no data copies or ETL needed.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">🛒</div>
+      <h4>Marketplace</h4>
+      <p>Access third-party datasets and AI models from 2,000+ providers directly within your Snowflake account.</p>
+    </div>
+  </div>
+</section>
+
+<section class="stats">
+  <h3>Snowflake by the numbers</h3>
+  <div class="stats-grid">
+    <div>
+      <div class="stat-number">9,400+</div>
+      <div class="stat-label">Global customers</div>
+    </div>
+    <div>
+      <div class="stat-number">41%</div>
+      <div class="stat-label">Fortune 500 customers</div>
+    </div>
+    <div>
+      <div class="stat-number">3B+</div>
+      <div class="stat-label">Queries per day</div>
+    </div>
+    <div>
+      <div class="stat-number">99.9%</div>
+      <div class="stat-label">Uptime SLA</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h5>Platform</h5>
+      <a href="#">Data Cloud</a>
+      <a href="#">AI & ML</a>
+      <a href="#">Security</a>
+      <a href="#">Marketplace</a>
+    </div>
+    <div class="footer-col">
+      <h5>Solutions</h5>
+      <a href="#">Data Engineering</a>
+      <a href="#">Data Warehouse</a>
+      <a href="#">Data Science</a>
+      <a href="#">Data Applications</a>
+    </div>
+    <div class="footer-col">
+      <h5>Resources</h5>
+      <a href="#">Documentation</a>
+      <a href="#">Blog</a>
+      <a href="#">Community</a>
+      <a href="#">Events</a>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <a href="#">About</a>
+      <a href="#">Careers</a>
+      <a href="#">Partners</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2024 Snowflake Inc. All rights reserved.</div>
+</footer>
+
+</body>
+</html>

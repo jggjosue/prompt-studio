@@ -1,41 +1,46 @@
 'use client';
 
-import {
-  activeClerkPlanLabel,
-  clerkGrantsMembership,
-} from '@/lib/clerk-billing';
+import { useStripeSubscription } from '@/hooks/use-stripe-subscription';
 import {
   buildCheckoutUrl,
   buildSignUpUrl,
   membershipRequiresPayment,
   normalizeMembership,
 } from '@/lib/membership-access';
+import type { ContentMembership } from '@/lib/membership-access';
 import { useAuth } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
 
 export type AccessRequestResult = true | false | 'pending';
 
+function stripeGrantsMembership(plan: string, required: ContentMembership): boolean {
+  if (required === 'free') return true;
+  if (plan === 'startup') return true;
+  if (required === 'premium') return plan === 'premium';
+  return false;
+}
+
 export function useMembershipAccess() {
-  const { isLoaded, isSignedIn, has } = useAuth();
+  const { isLoaded, isSignedIn } = useAuth();
+  const { plan, ready } = useStripeSubscription();
   const router = useRouter();
 
-  const plan = activeClerkPlanLabel(has, Boolean(isSignedIn));
   const hasPaidPlan = plan === 'premium' || plan === 'startup';
 
   const canAccessMembership = useCallback(
     (membership?: string) => {
       if (!membershipRequiresPayment(membership)) return true;
-      if (!isLoaded) return false;
-      return clerkGrantsMembership(has, Boolean(isSignedIn), normalizeMembership(membership));
+      if (!ready) return false;
+      return stripeGrantsMembership(plan, normalizeMembership(membership));
     },
-    [has, isLoaded, isSignedIn]
+    [plan, ready]
   );
 
   const requestAccess = useCallback(
     (membership?: string): AccessRequestResult => {
       if (!membershipRequiresPayment(membership)) return true;
-      if (!isLoaded) return 'pending';
+      if (!isLoaded || !ready) return 'pending';
 
       const tier = normalizeMembership(membership);
 
@@ -44,14 +49,14 @@ export function useMembershipAccess() {
         return false;
       }
 
-      if (!clerkGrantsMembership(has, true, tier)) {
+      if (!stripeGrantsMembership(plan, tier)) {
         router.push(buildCheckoutUrl({ plan: tier }));
         return false;
       }
 
       return true;
     },
-    [has, isLoaded, isSignedIn, router]
+    [plan, ready, isLoaded, isSignedIn, router]
   );
 
   const runWithAccess = useCallback(
@@ -63,7 +68,7 @@ export function useMembershipAccess() {
   );
 
   return {
-    ready: isLoaded,
+    ready: isLoaded && ready,
     isSignedIn: Boolean(isSignedIn),
     plan,
     hasPaidPlan,

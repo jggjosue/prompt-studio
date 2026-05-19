@@ -1,6 +1,6 @@
 'use client';
 
-import { ProfileSubscriptionCard } from '@/components/profile-subscription-card';
+import { ProfileSubscriptionInfo } from '@/components/profile-subscription-info';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   Card,
@@ -110,7 +110,7 @@ export default function ProfileClient({ user }: ProfileClientProps) {
         </CardContent>
       </Card>
 
-      <ProfileSubscriptionCard />
+      <ProfileSubscriptionInfo />
     </div>
   );
 }

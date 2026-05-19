@@ -1,242 +1,54 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Refactory Online — Cargando demo</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: "Inter", system-ui, sans-serif;
-      background: #0b0c10;
-      color: #e5e5e5;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-    .bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.75rem;
-      padding: 0.65rem 1rem;
-      background: #111;
-      border-bottom: 1px solid #222;
-      flex-shrink: 0;
-      flex-wrap: wrap;
-    }
-    .bar-left {
-      display: flex;
-      align-items: center;
-      gap: 0.65rem;
-      min-width: 0;
-      flex: 1 1 200px;
-    }
-    .bar a { color: #8b8bff; text-decoration: none; font-size: 0.85rem; white-space: nowrap; }
-    .bar a:hover { text-decoration: underline; }
-    .demo-select {
-      flex: 1 1 140px;
-      min-width: 0;
-      max-width: 280px;
-      padding: 0.35rem 0.5rem;
-      font-size: 0.8rem;
-      background: #1a1a1a;
-      color: #e5e5e5;
-      border: 1px solid #333;
-      border-radius: 6px;
-    }
-    .bar .title {
-      font-size: 0.9rem;
-      font-weight: 600;
-      text-align: center;
-      flex: 0 1 auto;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .bar .status {
-      font-size: 0.75rem;
-      color: #888;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-    #stage {
-      flex: 1;
-      min-height: 0;
-      background: #fff;
-    }
-    .error {
-      padding: 2rem;
-      color: #f87171;
-      text-align: center;
-    }
-  </style>
-</head>
-<body>
-  <header class="bar" id="refactory-bar">
-    <div class="bar-left">
-      <a href="/landing-pages">← Landing pages</a>
-      <select id="demo-select" class="demo-select" aria-label="Elegir ejemplo web" hidden>
-        <option value="">Cargando lista…</option>
-      </select>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Refactory Online — Cargando demo</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        font-family:
+          system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          sans-serif;
+        background: #0b0c10;
+        color: #e8eaed;
+        overflow-x: hidden;
+      }
+      #refactory-root {
+        display: contents;
+      }
+      .refactory-loading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 40vh;
+        color: #9aa0ad;
+        font-size: 0.95rem;
+      }
+      .refactory-error {
+        max-width: 42rem;
+        margin: 2rem auto;
+        padding: 1rem 1.25rem;
+        border-radius: 0.5rem;
+        background: #2a1518;
+        border: 1px solid #5c2b32;
+        color: #f5c6cb;
+        line-height: 1.5;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="refactory-root">
+      <div class="refactory-loading">Cargando componentes…</div>
     </div>
-    <span class="title" id="demo-title">Refactory Online</span>
-    <span class="status" id="status">Descargando componentes…</span>
-  </header>
-  <main id="stage" aria-live="polite"></main>
-  <script src="refactory.js"></script>
-  <script>
-    (function () {
-      if (window.self !== window.top) {
-        return;
-      }
-
-      if (window.__REFACTORY_LOADER_INITIALIZED__) {
-        return;
-      }
-      window.__REFACTORY_LOADER_INITIALIZED__ = true;
-
-      document.querySelectorAll('#refactory-bar').forEach(function (el, i) {
-        if (i > 0) el.remove();
-      });
-
-      var params = new URLSearchParams(location.search);
-      var stage = document.getElementById('stage');
-      var status = document.getElementById('status');
-      var titleEl = document.getElementById('demo-title');
-      var demoSelect = document.getElementById('demo-select');
-      var manifest = null;
-      var currentSlug = null;
-      var loadToken = 0;
-      var suppressSelectChange = false;
-
-      function getSlugFromUrl() {
-        return params.get('demo') || params.get('slug') || '';
-      }
-
-      function setStatus(text) {
-        status.textContent = text;
-      }
-
-      function syncSelectValue(slug) {
-        if (!demoSelect || demoSelect.value === slug) return;
-        suppressSelectChange = true;
-        demoSelect.value = slug;
-        suppressSelectChange = false;
-      }
-
-      function applyMeta(slug) {
-        var meta = manifest && manifest.demos && manifest.demos[slug];
-        titleEl.textContent = (meta && meta.title) || slug;
-        document.title = titleEl.textContent + ' — Refactory Online';
-      }
-
-      function populateSelect(demos) {
-        suppressSelectChange = true;
-        var slugs = Object.keys(demos).sort(function (a, b) {
-          var ta = (demos[a].title || a).toLowerCase();
-          var tb = (demos[b].title || b).toLowerCase();
-          return ta.localeCompare(tb);
-        });
-        demoSelect.innerHTML = '';
-        slugs.forEach(function (slug) {
-          var opt = document.createElement('option');
-          opt.value = slug;
-          opt.textContent = demos[slug].title || slug;
-          demoSelect.appendChild(opt);
-        });
-        demoSelect.hidden = slugs.length === 0;
-        suppressSelectChange = false;
-      }
-
-      function loadDemo(slug, options) {
-        options = options || {};
-        if (!slug) return Promise.resolve();
-
-        if (!options.force && slug === currentSlug && stage.querySelector('iframe')) {
-          return Promise.resolve();
-        }
-
-        currentSlug = slug;
-        var token = ++loadToken;
-        setStatus('Descargando componentes…');
-        syncSelectValue(slug);
-        applyMeta(slug);
-
-        return RefactoryOnline.mount(stage, slug, {
-          mode: 'iframe',
-          minHeight: 'calc(100vh - 48px)',
-        })
-          .then(function () {
-            if (token !== loadToken) return;
-            setStatus('Componentes cargados');
-          })
-          .catch(function (err) {
-            if (token !== loadToken) return;
-            setStatus('Error');
-            console.error(err);
-          });
-      }
-
-      function navigateToDemo(slug) {
-        if (!slug || slug === currentSlug) return Promise.resolve();
-
-        var url = new URL(window.location.href);
-        url.searchParams.set('demo', slug);
-        url.searchParams.delete('slug');
-        history.replaceState({ demo: slug }, '', url.pathname + url.search);
-        params = new URLSearchParams(url.search);
-        return loadDemo(slug, { force: true });
-      }
-
-      demoSelect.addEventListener('change', function () {
-        if (suppressSelectChange) return;
-        var slug = demoSelect.value;
-        if (!slug || slug === currentSlug) return;
-        navigateToDemo(slug);
-      });
-
-      window.addEventListener('popstate', function () {
-        params = new URLSearchParams(location.search);
-        var slug = getSlugFromUrl();
-        if (slug && slug !== currentSlug) {
-          loadDemo(slug, { force: true });
-        }
-      });
-
-      window.addEventListener('pageshow', function (event) {
-        if (!event.persisted) return;
-        params = new URLSearchParams(location.search);
-        var slug = getSlugFromUrl();
-        if (slug) {
-          currentSlug = null;
-          loadDemo(slug, { force: true });
-        }
-      });
-
-      var slug = getSlugFromUrl();
-      if (!slug) {
-        stage.innerHTML =
-          '<p class="error">Falta el parámetro <code>?demo=slug-carpeta</code></p>';
-        setStatus('Error');
-        return;
-      }
-
-      titleEl.textContent = slug;
-
-      RefactoryOnline.fetchManifest()
-        .then(function (m) {
-          manifest = m;
-          if (m.demos) {
-            populateSelect(m.demos);
-            syncSelectValue(slug);
-            applyMeta(slug);
-          }
-        })
-        .catch(function () {});
-
-      loadDemo(slug, { force: true });
-    })();
-  </script>
-</body>
+    <script src="/webpages/refactory-online/refactory.js"></script>
+  </body>
 </html>

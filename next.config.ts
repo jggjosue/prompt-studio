@@ -4,7 +4,16 @@ import createNextIntlPlugin from 'next-intl/plugin';
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Genkit / OpenTelemetry use optional exporters; keep them external on the server bundle.
+  serverExternalPackages: [
+    'genkit',
+    '@genkit-ai/google-genai',
+    '@genkit-ai/next',
+    '@opentelemetry/sdk-node',
+    '@opentelemetry/exporter-jaeger',
+    'firebase-admin',
+    '@aws-sdk/client-s3',
+  ],
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -52,6 +61,12 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'i.imgur.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'raw.githubusercontent.com',
         port: '',
         pathname: '/**',
       },
