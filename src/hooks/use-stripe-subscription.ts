@@ -1,30 +1,84 @@
 'use client';
 
 import type { SubscriptionStatusResponse } from '@/app/api/subscription/status/route';
+import {
+  clearSubscriptionStatusCache,
+  getCachedSubscriptionStatus,
+  loadSubscriptionStatus,
+  subscribeSubscriptionStatus,
+} from '@/lib/subscription-status-cache';
 import { useAuth } from '@clerk/nextjs';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useSyncExternalStore } from 'react';
 
 type State = SubscriptionStatusResponse & { ready: boolean };
 
-const DEFAULT: State = { plan: 'free', status: null, currentPeriodEnd: null, billingCycle: null, ready: false };
+const FREE_READY: State = {
+  plan: 'free',
+  status: null,
+  currentPeriodEnd: null,
+  billingCycle: null,
+  ready: true,
+};
+
+const NOT_READY: State = {
+  plan: 'free',
+  status: null,
+  currentPeriodEnd: null,
+  billingCycle: null,
+  ready: false,
+};
+
+function toState(
+  data: SubscriptionStatusResponse,
+  ready: boolean
+): State {
+  return { ...data, ready };
+}
 
 export function useStripeSubscription(): State {
-  const { isLoaded, isSignedIn } = useAuth();
-  const [state, setState] = useState<State>(DEFAULT);
+  const { isLoaded, isSignedIn, userId } = useAuth();
+
+  const subscribe = useCallback(
+    (onStoreChange: () => void) =>
+      subscribeSubscriptionStatus(onStoreChange),
+    []
+  );
+
+  const getSnapshot = useCallback((): State => {
+    if (!isLoaded) return NOT_READY;
+    if (!isSignedIn || !userId) return FREE_READY;
+    const cached = getCachedSubscriptionStatus(userId);
+    if (cached) return toState(cached, true);
+    return NOT_READY;
+  }, [isLoaded, isSignedIn, userId]);
+
+  const getServerSnapshot = useCallback((): State => NOT_READY, []);
+
+  const snapshot = useSyncExternalStore(
+    subscribe,
+    getSnapshot,
+    getServerSnapshot
+  );
 
   useEffect(() => {
     if (!isLoaded) return;
 
-    if (!isSignedIn) {
-      setState({ plan: 'free', status: null, currentPeriodEnd: null, billingCycle: null, ready: true });
+    if (!isSignedIn || !userId) {
+      clearSubscriptionStatusCache();
       return;
     }
 
-    fetch('/api/subscription/status')
-      .then((res) => res.json())
-      .then((data: SubscriptionStatusResponse) => setState({ ...data, ready: true }))
-      .catch(() => setState({ plan: 'free', status: null, currentPeriodEnd: null, billingCycle: null, ready: true }));
-  }, [isLoaded, isSignedIn]);
+    void loadSubscriptionStatus(userId);
+  }, [isLoaded, isSignedIn, userId]);
 
-  return state;
+  return snapshot;
+}
+
+/** Fuerza refetch (p. ej. tras volver del checkout de Stripe). */
+export function useRefreshSubscriptionStatus(): () => void {
+  const { isSignedIn, userId } = useAuth();
+  return useCallback(() => {
+    if (!isSignedIn || !userId) return;
+    void loadSubscriptionStatus(userId, { force: true });
+  }, [isSignedIn, userId]);
 }
