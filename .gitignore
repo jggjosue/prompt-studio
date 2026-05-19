@@ -47,5 +47,5 @@ firebase-debug.log
 firestore-debug.log
 
 # Precompresión Brotli/Gzip (scripts/precompress-static.mjs, postbuild)
-public/**/*.br
-public/**/*.gz
+#public/**/*.br
+#public/**/*.gz
