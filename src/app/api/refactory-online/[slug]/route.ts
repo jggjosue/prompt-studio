@@ -1,13 +1,27 @@
+import { cdnCacheHeaders } from '@/lib/cdn-cache';
 import { NextResponse } from 'next/server';
 import { getDemoProjectKind, isRefactoryPreviewable } from '@/lib/demo-project-type';
+import { compressedJsonResponse } from '@/lib/http-compression';
 import { validateDemoUrl } from '@/lib/cloudflare-r2';
+
+/** Debe coincidir con `VERCEL_EDGE_REGIONS` en `@/lib/cdn-cache` (literal requerido por Next.js). */
+export const preferredRegion = [
+  'iad1',
+  'sfo1',
+  'cdg1',
+  'fra1',
+  'sin1',
+  'syd1',
+  'gru1',
+  'hnd1',
+];
 import { resolveDemoBundle } from '@/lib/refactory-bundle';
 import { getRawWebPageByDemoSlug } from '@/lib/web-pages';
 
 const SLUG_RE = /^[a-z0-9][a-z0-9-]*$/i;
 
 export async function GET(
-  _request: Request,
+  request: Request,
   context: { params: Promise<{ slug: string }> }
 ) {
   const { slug } = await context.params;
@@ -41,10 +55,8 @@ export async function GET(
   const bundle = await resolveDemoBundle(slug, demoUrl, stack);
 
   if (bundle) {
-    return NextResponse.json(bundle, {
-      headers: {
-        'Cache-Control': 'public, max-age=60, stale-while-revalidate=300',
-      },
+    return compressedJsonResponse(request, bundle, {
+      headers: cdnCacheHeaders('staleWhileRevalidate'),
     });
   }
 
@@ -52,7 +64,9 @@ export async function GET(
 
   return NextResponse.json(
     {
+      code: 'DEMO_INTEGRATING',
       error: `Demo HTML no encontrada: ${slug}`,
+      slug,
       demoUrl,
       projectKind,
       validation,

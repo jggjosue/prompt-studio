@@ -22,7 +22,8 @@ import { useLocale } from 'next-intl';
 import { evaluatePublisherPolicy } from '@/lib/google-publisher-policy';
 import { isRenderableVideoUrl, resolveRenderableMediaUrl } from '@/lib/media-resolver';
 import { ArrowLeft, Copy, Wand2 } from 'lucide-react';
-import Image from 'next/image';
+import { LazyVideo } from '@/components/lazy-video';
+import { OptimizedImage } from '@/components/optimized-image';
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 
@@ -159,19 +160,19 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
               </div>
               <div className="relative aspect-[3/4] rounded-lg overflow-hidden border group">
                 {isRenderableVideoUrl(item.imageUrl, item.type) ? (
-                  <video
+                  <LazyVideo
                     src={item.imageUrl}
-                    playsInline
+                    eager
                     controls
                     className="w-full h-full object-cover"
                   />
                 ) : (
                   <>
-                    <Image
+                    <OptimizedImage
                       src={resolveRenderableMediaUrl(item, locale)}
                       alt={item.title}
                       fill
-                      unoptimized
+                      priority
                       className="object-cover"
                       data-ai-hint={item.imageHint}
                     />
@@ -193,11 +194,10 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                     <Card className="overflow-hidden">
                       <CardContent className="p-0">
                         <div className="relative aspect-[3/4]">
-                          <Image
+                          <OptimizedImage
                             src={leftRandomImage.imageUrl}
                             alt={leftRandomImage.title}
                             fill
-                            unoptimized
                             className="object-cover transition-transform group-hover:scale-105"
                           />
                         </div>
@@ -282,20 +282,19 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                       <CardContent className="p-0">
                         <div className="relative aspect-[3/4]">
                           {isRenderableVideoUrl(other.imageUrl, other.type) ? (
-                            <video
+                            <LazyVideo
                               src={other.imageUrl}
-                              playsInline
                               muted
                               autoPlay
                               loop
+                              preload="none"
                               className="object-cover transition-transform group-hover:scale-105 w-full h-full"
                             />
                           ) : (
-                            <Image
+                            <OptimizedImage
                               src={resolveRenderableMediaUrl(other, locale)}
                               alt={other.title}
                               fill
-                              unoptimized
                               className="object-cover transition-transform group-hover:scale-105"
                             />
                           )}

@@ -39,12 +39,15 @@ import {
   UserPlus,
   Video,
 } from 'lucide-react';
+import { ClientLink } from '@/components/client-link';
+import { RoutePrefetchProvider } from '@/components/route-prefetch-provider';
+import { isNavActive } from '@/lib/app-routes';
 import { cn } from '@/lib/utils';
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { LanguageToggle } from '../language-toggle';
 import { ThemeToggle } from '../theme-toggle';
+import { SiteBreadcrumbs } from '@/components/site-breadcrumbs';
 import Logo from './logo';
 
 const navLinkClass =
@@ -52,7 +55,7 @@ const navLinkClass =
 const navLinkActiveClass = 'text-foreground font-semibold';
 
 function pathMatchesPrefix(pathname: string, prefix: string): boolean {
-  return pathname === prefix || pathname.startsWith(`${prefix}/`);
+  return isNavActive(pathname, prefix);
 }
 
 function isNavItemActive(
@@ -60,12 +63,7 @@ function isNavItemActive(
   href?: string,
   activePrefixes?: string[]
 ): boolean {
-  if (activePrefixes?.length) {
-    return activePrefixes.some(prefix => pathMatchesPrefix(pathname, prefix));
-  }
-  if (!href) return false;
-  if (href === '/') return pathname === '/';
-  return pathMatchesPrefix(pathname, href);
+  return isNavActive(pathname, href, activePrefixes);
 }
 
 export default function HeaderClient() {
@@ -166,6 +164,8 @@ export default function HeaderClient() {
   );
 
   return (
+    <>
+      <RoutePrefetchProvider />
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center gap-2 min-w-0">
         <Sheet>
@@ -176,17 +176,17 @@ export default function HeaderClient() {
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="w-full max-w-sm p-6">
-            <Link href="/" className="mr-6 flex items-center gap-2 mb-8">
+            <ClientLink href="/" className="mr-6 flex items-center gap-2 mb-8">
               <Logo />
               <span className="font-bold sm:inline-block font-headline">
                 {tHeader('brand')}
               </span>
-            </Link>
+            </ClientLink>
             <div className="flex flex-col gap-4">
               {navLinks.map(link =>
                 link.href ? (
                   <SheetClose asChild key={link.label}>
-                    <Link
+                    <ClientLink
                       href={link.href}
                       className={cn(
                         'text-lg font-medium hover:text-foreground/80 transition-colors',
@@ -198,7 +198,7 @@ export default function HeaderClient() {
                       )}
                     >
                       {link.label}
-                    </Link>
+                    </ClientLink>
                   </SheetClose>
                 ) : (
                   <Accordion
@@ -224,7 +224,7 @@ export default function HeaderClient() {
                         <div className="grid grid-cols-1 gap-2 py-2 pl-4">
                           {link.dropdown?.map(item => (
                             <SheetClose asChild key={item.label}>
-                              <Link
+                              <ClientLink
                                 href={item.href}
                                 className={cn(
                                   'flex items-start gap-3 p-2 rounded-md hover:bg-accent',
@@ -241,7 +241,7 @@ export default function HeaderClient() {
                                     {item.description}
                                   </p>
                                 </div>
-                              </Link>
+                              </ClientLink>
                             </SheetClose>
                           ))}
                         </div>
@@ -252,7 +252,7 @@ export default function HeaderClient() {
               )}
               <Show when="signed-in">
                 <SheetClose asChild>
-                  <Link
+                  <ClientLink
                     href="/dashboard/profile"
                     className={cn(
                       'text-lg font-medium hover:text-foreground/80 transition-colors',
@@ -260,7 +260,7 @@ export default function HeaderClient() {
                     )}
                   >
                     {tHeader('profile')}
-                  </Link>
+                  </ClientLink>
                 </SheetClose>
               </Show>
               <Show when="signed-out">
@@ -287,16 +287,16 @@ export default function HeaderClient() {
           </SheetContent>
         </Sheet>
 
-        <Link href="/" className="mr-6 flex items-center gap-2">
+        <ClientLink href="/" className="mr-6 flex items-center gap-2">
           <Logo />
           <span className="hidden font-bold sm:inline-block font-headline">
             {tHeader('brand')}
           </span>
-        </Link>
+        </ClientLink>
         <nav className="hidden items-center justify-center gap-6 text-sm font-medium md:flex flex-1">
           {navLinks.map(link =>
             link.href ? (
-              <Link
+              <ClientLink
                 key={link.label}
                 href={link.href}
                 className={linkClassName(link.href, link.activePrefixes)}
@@ -307,7 +307,7 @@ export default function HeaderClient() {
                 }
               >
                 {link.label}
-              </Link>
+              </ClientLink>
             ) : (
               <DropdownMenu key={link.label}>
                 <DropdownMenuTrigger
@@ -328,7 +328,7 @@ export default function HeaderClient() {
                   <div className="grid grid-cols-1 gap-2 p-1">
                     {link.dropdown?.map(item => (
                       <DropdownMenuItem key={item.label} asChild>
-                        <Link
+                        <ClientLink
                           href={item.href}
                           className={cn(
                             'flex items-start gap-3 p-2 rounded-md hover:bg-accent',
@@ -350,7 +350,7 @@ export default function HeaderClient() {
                               {item.description}
                             </p>
                           </div>
-                        </Link>
+                        </ClientLink>
                       </DropdownMenuItem>
                     ))}
                   </div>
@@ -359,13 +359,13 @@ export default function HeaderClient() {
             )
           )}
           <Show when="signed-in">
-            <Link
+            <ClientLink
               href="/dashboard/profile"
               className={linkClassName('/dashboard/profile', ['/dashboard'])}
               aria-current={isNavItemActive(pathname, '/dashboard/profile', ['/dashboard']) ? 'page' : undefined}
             >
               {tHeader('profile')}
-            </Link>
+            </ClientLink>
           </Show>
         </nav>
 
@@ -407,5 +407,12 @@ export default function HeaderClient() {
         </div>
       </div>
     </header>
+    {pathname !== '/' && (
+      <SiteBreadcrumbs
+        pathname={pathname}
+        className="border-b bg-muted/20 hidden md:block"
+      />
+    )}
+    </>
   );
 }

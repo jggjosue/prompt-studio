@@ -10,7 +10,7 @@ import {
     CarouselPrevious,
 } from '@/components/ui/carousel';
 import { AiModels } from '@/lib/models-data';
-import Image from 'next/image';
+import { OptimizedImage } from '@/components/optimized-image';
 
 export default function ModelCarousel() {
   return (
@@ -26,12 +26,12 @@ export default function ModelCarousel() {
           <CarouselItem key={model.id} className="md:basis-1/2 lg:basis-1/3">
             <Card className="overflow-hidden group">
               <CardContent className="p-0 relative">
-                <Image
+                <OptimizedImage
                   src={model.imageUrl}
                   alt={model.name}
                   width={600}
                   height={400}
-                  unoptimized={model.imageUrl?.includes('meta.ai')}
+                  sizes="(max-width: 768px) 100vw, 33vw"
                   className="w-full h-auto object-cover aspect-[3/2] transition-transform duration-300 group-hover:scale-105"
                   data-ai-hint={model.imageHint}
                 />

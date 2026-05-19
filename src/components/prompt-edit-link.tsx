@@ -5,7 +5,8 @@ import {
   isPromptEditHref,
 } from '@/lib/prompt-edit';
 import { cn } from '@/lib/utils';
-import Link, { type LinkProps } from 'next/link';
+import { ClientLink } from '@/components/client-link';
+import type { LinkProps } from 'next/link';
 
 type PromptEditLinkProps = LinkProps & {
   className?: string;
@@ -36,8 +37,8 @@ export function PromptEditLink({
   }
 
   return (
-    <Link href={href} className={className} onClick={onClick} {...props}>
+    <ClientLink href={href} className={className} onClick={onClick} {...props}>
       {children}
-    </Link>
+    </ClientLink>
   );
 }

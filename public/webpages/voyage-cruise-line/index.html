@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Voyage — Cruise Line</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0f172a;--text:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--accent2:#0284c7;--border:#1e293b;--card:#1e293b;--font:'Inter',system-ui,sans-serif}
+body{font-family:var(--font);background:var(--bg);color:var(--text)}
+nav{background:rgba(15,23,42,0.9);border-bottom:1px solid var(--border);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;backdrop-filter:blur(10px)}
+.nav-logo{font-weight:800;font-size:1.15rem;color:var(--text);display:flex;align-items:center;gap:8px;letter-spacing:-0.3px}
+.logo-mark{width:28px;height:28px;background:linear-gradient(135deg,var(--accent2),var(--accent));border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:1rem}
+.nav-links{display:flex;gap:1.75rem}
+.nav-links a{font-size:0.875rem;color:var(--muted);text-decoration:none}
+.nav-links a:hover{color:var(--text)}
+.btn-accent{background:var(--accent);color:#0f172a;border:none;padding:9px 20px;border-radius:6px;font-size:0.875rem;font-weight:700;cursor:pointer}
+
+.hero{padding:5rem 2rem 4.5rem;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+@media(max-width:768px){.hero{grid-template-columns:1fr;gap:2.5rem}}
+.hero-pill{display:inline-flex;align-items:center;background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.25);color:var(--accent);font-size:0.75rem;font-weight:600;letter-spacing:0.04em;padding:5px 14px;border-radius:99px;margin-bottom:1.5rem}
+.hero h1{font-size:clamp(2.25rem,4.5vw,3.5rem);font-weight:800;color:var(--text);line-height:1.1;letter-spacing:-1px;margin-bottom:1.25rem}
+.hero h1 em{color:var(--accent);font-style:italic}
+.hero p{font-size:1rem;color:var(--muted);max-width:440px;line-height:1.65;margin-bottom:2.5rem}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn-hero{background:var(--accent);color:#0f172a;border:none;padding:13px 28px;border-radius:6px;font-size:1rem;font-weight:700;cursor:pointer}
+.btn-hero-ghost{background:transparent;border:1.5px solid var(--border);color:var(--text);padding:12px 24px;border-radius:6px;font-size:1rem;font-weight:500;cursor:pointer}
+
+/* CRUISE ITINERARY MOCKUP */
+.cruise-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 8px 32px rgba(56,189,248,0.1)}
+.cruise-hero-img{height:100px;background:linear-gradient(135deg,#0c4a6e,#0284c7,#38bdf8);display:flex;align-items:center;justify-content:center;font-size:2.5rem;position:relative}
+.cruise-tag{position:absolute;bottom:10px;left:10px;background:rgba(0,0,0,0.5);color:#fff;font-size:0.65rem;font-weight:700;padding:3px 10px;border-radius:3px;backdrop-filter:blur(6px)}
+.cruise-info{padding:14px}
+.cruise-name{font-size:1rem;font-weight:700;color:var(--text);margin-bottom:4px}
+.cruise-meta{font-size:0.78rem;color:var(--muted);margin-bottom:12px}
+.itinerary{border-top:1px solid var(--border);padding-top:10px}
+.itin-label{font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:8px}
+.itin-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.itin-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0}
+.itin-port{font-size:0.78rem;color:var(--text);flex:1}
+.itin-day{font-size:0.7rem;color:var(--muted)}
+.cruise-price-row{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.cruise-from{font-size:0.7rem;color:var(--muted)}
+.cruise-price{font-size:1.3rem;font-weight:800;color:var(--accent)}
+.cruise-book{background:var(--accent);color:#0f172a;border:none;padding:8px 18px;border-radius:6px;font-size:0.85rem;font-weight:700;cursor:pointer}
+
+/* CHIPS */
+.chips-section{padding:3rem 2rem;background:rgba(255,255,255,0.02);text-align:center;border-top:1px solid var(--border)}
+.chips-label{font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);margin-bottom:1rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.chip{padding:8px 18px;border-radius:6px;border:1px solid var(--border);color:var(--muted);font-size:0.875rem;font-weight:500;cursor:pointer;background:var(--card);transition:all 0.15s}
+.chip:hover,.chip.active{background:var(--accent);color:#0f172a;border-color:var(--accent)}
+
+/* FEATURES */
+.features{padding:5rem 2rem;text-align:center}
+.features h2{font-size:2rem;font-weight:800;color:var(--text);margin-bottom:0.75rem;letter-spacing:-0.5px}
+.features p.sub{color:var(--muted);max-width:480px;margin:0 auto 3rem}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem;max-width:860px;margin:0 auto}
+.feat{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.75rem 1.5rem;text-align:left}
+.feat-label{display:inline-block;background:rgba(56,189,248,0.1);color:var(--accent);font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;padding:3px 8px;border-radius:3px;margin-bottom:0.75rem}
+.feat h4{font-size:1rem;font-weight:700;color:var(--text);margin-bottom:0.4rem}
+.feat p{font-size:0.875rem;color:var(--muted);line-height:1.6}
+.feat-meta{font-size:0.72rem;color:var(--accent);margin-top:0.75rem}
+
+/* STATS */
+.stats{padding:3rem 2rem;text-align:center;border-top:1px solid var(--border)}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1.5rem;max-width:600px;margin:0 auto}
+.stat-val{font-size:1.85rem;font-weight:900;color:var(--accent)}
+.stat-label{font-size:0.8rem;color:var(--muted);margin-top:3px}
+
+footer{background:#07101d;border-top:1px solid var(--border);padding:3.5rem 2rem 2rem}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:2rem;max-width:860px;margin:0 auto 2rem}
+.footer-col h5{font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.2);margin-bottom:0.75rem}
+.footer-col a{display:block;font-size:0.875rem;color:var(--muted);text-decoration:none;margin-bottom:6px}
+.footer-col a:hover{color:var(--text)}
+.email-row{display:flex;gap:0;margin-top:0.75rem}
+.email-row input{flex:1;padding:9px 12px;border:1px solid var(--border);background:var(--card);color:var(--text);border-right:none;font-size:0.8rem;outline:none;border-radius:4px 0 0 4px;font-family:var(--font)}
+.email-row button{padding:9px 14px;background:var(--accent);color:#0f172a;border:none;font-size:0.8rem;font-weight:700;cursor:pointer;border-radius:0 4px 4px 0}
+.footer-bottom{border-top:1px solid var(--border);padding-top:1.5rem;text-align:center;font-size:0.75rem;color:#1e293b;max-width:860px;margin:0 auto}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo"><div class="logo-mark">🚢</div>Voyage</div>
+  <div class="nav-links"><a href="#">Itineraries</a><a href="#">Ships</a><a href="#">Book</a></div>
+  <button class="btn-accent">View cruises</button>
+</nav>
+
+<section style="background:radial-gradient(ellipse at 60% 0%,rgba(56,189,248,0.1) 0%,transparent 55%)">
+  <div class="hero">
+    <div>
+      <div class="hero-pill">🌊 Caribbean · Mediterranean · Alaska</div>
+      <h1>Cruise the world in <em>absolute comfort</em></h1>
+      <p>12 ships, 50+ ports, and all-inclusive pricing that covers everything from excursions to fine dining. Voyage — where every horizon is yours.</p>
+      <div class="hero-actions">
+        <button class="btn-hero">View cruises</button>
+        <button class="btn-hero-ghost">Explore destinations</button>
+      </div>
+    </div>
+    <div>
+      <div class="cruise-card">
+        <div class="cruise-hero-img">🏝️<div class="cruise-tag">⭐ FEATURED VOYAGE</div></div>
+        <div class="cruise-info">
+          <div class="cruise-name">Caribbean Grand — 10 Nights</div>
+          <div class="cruise-meta">Round-trip Miami · All-inclusive · MS Voyager</div>
+          <div class="itinerary">
+            <div class="itin-label">Itinerary</div>
+            <div class="itin-row"><div class="itin-dot"></div><span class="itin-port">Miami, FL</span><span class="itin-day">Day 1 — Embark</span></div>
+            <div class="itin-row"><div class="itin-dot" style="background:#7dd3fc"></div><span class="itin-port">Nassau, Bahamas</span><span class="itin-day">Day 3</span></div>
+            <div class="itin-row"><div class="itin-dot" style="background:#7dd3fc"></div><span class="itin-port">St. Thomas, USVI</span><span class="itin-day">Day 5</span></div>
+            <div class="itin-row"><div class="itin-dot"></div><span class="itin-port">Cozumel, Mexico</span><span class="itin-day">Day 8</span></div>
+          </div>
+          <div class="cruise-price-row">
+            <div><div class="cruise-from">From per person</div><div class="cruise-price">$1,299</div></div>
+            <button class="cruise-book">Book now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="chips-section">
+  <div class="chips-label">Destinations</div>
+  <div class="chips">
+    <span class="chip active">Caribbean</span><span class="chip">Mediterranean</span><span class="chip">Alaska</span><span class="chip">Asia</span>
+  </div>
+</section>
+
+<section class="features">
+  <h2>Everything included, every night</h2>
+  <p class="sub">No hidden fees, no surprises — all-inclusive means all-inclusive.</p>
+  <div class="features-grid">
+    <div class="feat">
+      <div class="feat-label">Cabin</div>
+      <h4>Balcony suites</h4>
+      <p>Floor-to-ceiling ocean views, butler service, and all dining and drinks included from embarkation to disembarkation.</p>
+      <div class="feat-meta">ocean views · butler · all-inclusive</div>
+    </div>
+    <div class="feat">
+      <div class="feat-label">Port</div>
+      <h4>Curated excursions</h4>
+      <p>Snorkeling, cultural tours, and food experiences at 50+ ports of call — curated by local experts.</p>
+      <div class="feat-meta">snorkel · culture · food · 50+ ports</div>
+    </div>
+    <div class="feat">
+      <div class="feat-label">Kids</div>
+      <h4>Family clubs</h4>
+      <p>Age-specific programs for kids 3–17 with trained staff, free childcare, and teen-only activities.</p>
+      <div class="feat-meta">ages 3–17 · free childcare</div>
+    </div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="stats-grid">
+    <div><div class="stat-val">12</div><div class="stat-label">Ships</div></div>
+    <div><div class="stat-val">50+</div><div class="stat-label">Ports of call</div></div>
+    <div><div class="stat-val">All-in</div><div class="stat-label">Pricing</div></div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col"><h5>Cruise</h5><a href="#">Caribbean</a><a href="#">Mediterranean</a><a href="#">Alaska</a></div>
+    <div class="footer-col"><h5>Ships</h5><a href="#">Fleet</a><a href="#">Dining</a><a href="#">Amenities</a></div>
+    <div class="footer-col"><h5>Company</h5><a href="#">About</a><a href="#">Press</a><a href="#">Careers</a></div>
+    <div class="footer-col">
+      <h5>Newsletter</h5>
+      <div class="email-row"><input type="email" placeholder="your@email.com"/><button>Subscribe</button></div>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2024 Voyage Cruise Line Ltd. All rights reserved.</div>
+</footer>
+</body>
+</html>

@@ -10,7 +10,7 @@ import {
 import { useLocalizedPlaceholderImages } from '@/hooks/use-localized-catalog';
 import type { ImagePlaceholder } from '@/lib/placeholder-images';
 import { Loader2, Tag, Wand2 } from 'lucide-react';
-import Image from 'next/image';
+import { OptimizedImage } from '@/components/optimized-image';
 import Link from 'next/link';
 import { Suspense, useMemo } from 'react';
 
@@ -46,11 +46,10 @@ function ImageExamplesContent() {
                 <span className="truncate">{item.tags.join(', ')}</span>
               </div>
               <div className="relative aspect-[3/4] rounded-md overflow-hidden">
-                <Image
+                <OptimizedImage
                   src={item.imageUrl}
                   alt={item.title}
                   fill
-                  unoptimized={item.imageUrl?.includes('meta.ai')}
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   data-ai-hint={item.imageHint}
                 />

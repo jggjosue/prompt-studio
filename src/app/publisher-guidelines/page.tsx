@@ -1,7 +1,11 @@
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
+import { GuidelinesReadability } from '@/app/publisher-guidelines/guidelines-readability';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { CheckCircle2, FileText, Navigation, RefreshCw, ShieldAlert } from 'lucide-react';
+import { CheckCircle2, FileText, Navigation, Pencil, RefreshCw, ShieldAlert } from 'lucide-react';
+import Link from 'next/link';
+import { getTranslations } from 'next-intl/server';
 
 const sections = [
   {
@@ -42,7 +46,9 @@ const sections = [
   },
 ];
 
-export default function PublisherGuidelinesPage() {
+export default async function PublisherGuidelinesPage() {
+  const t = await getTranslations('landingEditor');
+
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
       <Header />
@@ -52,6 +58,8 @@ export default function PublisherGuidelinesPage() {
             <h1 className="text-3xl md:text-4xl font-bold font-headline">Calidad de contenido y UX</h1>
             <p className="mt-3 text-muted-foreground">
               Recomendaciones prácticas para mantener una experiencia apta para monetización con AdSense.
+              Usa el analizador de legibilidad (Flesch-Kincaid / Fernández-Huerta) para validar frases,
+              densidad de keywords y jerarquía de encabezados antes de publicar.
             </p>
           </div>
           <div className="grid gap-6 md:grid-cols-2">
@@ -79,6 +87,23 @@ export default function PublisherGuidelinesPage() {
               );
             })}
           </div>
+          <Card className="mb-8 border-primary/20">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-xl">
+                <Pencil className="h-5 w-5 text-primary" />
+                {t('editorCardTitle')}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <p className="text-sm text-muted-foreground flex-1">
+                {t('editorCardDesc')}
+              </p>
+              <Button asChild>
+                <Link href="/dashboard/landing-editor">{t('openEditor')}</Link>
+              </Button>
+            </CardContent>
+          </Card>
+          <GuidelinesReadability />
         </div>
       </main>
       <Footer />

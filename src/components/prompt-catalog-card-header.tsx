@@ -3,6 +3,7 @@
 import { MembershipBadge } from '@/components/membership-badge';
 import { CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
+import { memo } from 'react';
 
 type PromptCatalogCardHeaderProps = {
   title: string;
@@ -11,7 +12,7 @@ type PromptCatalogCardHeaderProps = {
   titleClassName?: string;
 };
 
-export function PromptCatalogCardHeader({
+function PromptCatalogCardHeaderComponent({
   title,
   membership,
   className,
@@ -30,3 +31,5 @@ export function PromptCatalogCardHeader({
     </CardHeader>
   );
 }
+
+export const PromptCatalogCardHeader = memo(PromptCatalogCardHeaderComponent);

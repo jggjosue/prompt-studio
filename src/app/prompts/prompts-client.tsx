@@ -9,20 +9,31 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Folder, ChevronRight, Search, Sparkles } from 'lucide-react';
+import { Folder, ChevronRight, Sparkles } from 'lucide-react';
 import { PromptEditButton } from '@/components/prompt-edit-button';
 import Link from 'next/link';
-import { Suspense, useState } from 'react';
-import { Input } from '@/components/ui/input';
+import { RelatedInternalLinks } from '@/components/related-internal-links';
+import { SearchInput } from '@/components/search-input';
+import { useSearchField } from '@/hooks/use-search-field';
+import { Suspense, useMemo } from 'react';
+import { useFuzzyFilter } from '@/hooks/use-fuzzy-filter';
 import { promptModels } from '@/lib/models-list';
 import { useTranslations } from 'next-intl';
 
 function PromptsContent() {
   const t = useTranslations('prompts');
-  const [searchTerm, setSearcherTerm] = useState('');
+  const {
+    input: searchTerm,
+    setInput: setSearchTerm,
+    debounced: debouncedSearch,
+    isPending: isSearchPending,
+  } = useSearchField();
 
-  const filteredModels = promptModels.filter(model => 
-    model.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredModels = useFuzzyFilter(
+    promptModels,
+    debouncedSearch,
+    model => [model],
+    model => model
   );
 
   return (
@@ -35,15 +46,14 @@ function PromptsContent() {
           {t('subtitle')}
         </p>
         
-        <div className="relative w-full max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input 
-            placeholder={t('searchPlaceholder')} 
-            className="pl-10"
-            value={searchTerm}
-            onChange={(e) => setSearcherTerm(e.target.value)}
-          />
-        </div>
+        <SearchInput
+          className="max-w-md"
+          placeholder={t('searchPlaceholder')}
+          value={searchTerm}
+          onValueChange={setSearchTerm}
+          isPending={isSearchPending}
+          inputClassName="pl-10"
+        />
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -80,6 +90,8 @@ function PromptsContent() {
           <p className="text-muted-foreground">{t('noModels')}</p>
         </div>
       )}
+
+      <RelatedInternalLinks className="max-w-4xl mx-auto" />
 
       <div className="bg-muted/30 rounded-2xl p-8 md:p-12 text-center space-y-6 max-w-4xl mx-auto border border-primary/5">
         <Sparkles className="h-10 w-10 text-primary mx-auto" />

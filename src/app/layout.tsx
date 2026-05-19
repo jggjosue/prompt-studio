@@ -1,8 +1,11 @@
 import '@/app/globals.css';
+import { inter, spaceGrotesk } from '@/app/fonts';
+import { ServiceWorkerRegister } from '@/components/service-worker-register';
 import { SiteAnalytics } from '@/components/site-analytics';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import { ClerkProvider } from '@clerk/nextjs';
+import { clerkProviderProps } from '@/lib/clerk-config';
 import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
@@ -11,6 +14,12 @@ import Script from 'next/script';
 export const metadata: Metadata = {
   title: 'Prompt Studio',
   description: 'AI-powered image and video generation platform',
+  manifest: '/manifest.webmanifest',
+  appleWebApp: {
+    capable: true,
+    title: 'Prompt Studio',
+    statusBarStyle: 'black-translucent',
+  },
   keywords: [
     'Chatgpt',
     'chatgpt go bbva',
@@ -86,22 +95,16 @@ export default async function RootLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html
+      lang={locale}
+      className={`${inter.variable} ${spaceGrotesk.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <meta name="google-adsense-account" content="ca-pub-7082864972330769" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap"
-          rel="stylesheet"
-        />
       </head>
-      <body className="font-body antialiased" suppressHydrationWarning>
-        <ClerkProvider>
+      <body className={`${inter.className} font-body antialiased`} suppressHydrationWarning>
+        <ClerkProvider {...clerkProviderProps}>
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7082864972330769"
@@ -131,6 +134,7 @@ export default async function RootLayout({
             {children}
             <Toaster />
             <SiteAnalytics />
+            <ServiceWorkerRegister />
           </ThemeProvider>
         </NextIntlClientProvider>
         </ClerkProvider>

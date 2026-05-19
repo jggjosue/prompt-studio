@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SkyRoute — Flight Deals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0c0a1f;--text:#e0e7ff;--muted:#a5b4fc;--accent:#6366f1;--accent2:#4f46e5;--border:#1e1b4b;--card:#13112b;--mono:'Courier New',monospace;--font:'Inter',system-ui,sans-serif}
+body{font-family:var(--font);background:var(--bg);color:var(--text)}
+nav{background:rgba(12,10,31,0.9);border-bottom:1px solid var(--border);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;backdrop-filter:blur(10px)}
+.nav-logo{font-weight:800;font-size:1.15rem;color:var(--text);display:flex;align-items:center;gap:8px}
+.logo-mark{width:28px;height:28px;background:linear-gradient(135deg,var(--accent2),var(--accent));border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.9rem}
+.nav-links{display:flex;gap:1.75rem}
+.nav-links a{font-size:0.875rem;color:var(--muted);text-decoration:none;opacity:0.8}
+.nav-links a:hover{color:var(--text);opacity:1}
+.btn-accent{background:var(--accent);color:#fff;border:none;padding:9px 20px;border-radius:6px;font-size:0.875rem;font-weight:700;cursor:pointer}
+
+.hero{padding:5rem 2rem 4.5rem;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+@media(max-width:768px){.hero{grid-template-columns:1fr;gap:2.5rem}}
+.hero-pill{display:inline-flex;align-items:center;background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.3);color:var(--accent);font-size:0.75rem;font-weight:600;letter-spacing:0.04em;padding:5px 14px;border-radius:99px;margin-bottom:1.5rem}
+.hero h1{font-size:clamp(2.25rem,4.5vw,3.5rem);font-weight:800;color:var(--text);line-height:1.1;letter-spacing:-1px;margin-bottom:1.25rem}
+.hero h1 em{color:var(--accent);font-style:italic}
+.hero p{font-size:1rem;color:var(--muted);max-width:440px;line-height:1.65;margin-bottom:2.5rem;opacity:0.9}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn-hero{background:var(--accent);color:#fff;border:none;padding:13px 28px;border-radius:6px;font-size:1rem;font-weight:700;cursor:pointer}
+.btn-hero-ghost{background:transparent;border:1.5px solid var(--border);color:var(--text);padding:12px 24px;border-radius:6px;font-size:1rem;font-weight:500;cursor:pointer}
+
+/* FLIGHT TICKET MOCKUP */
+.ticket-wrap{display:flex;flex-direction:column;gap:10px}
+.ticket{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.ticket-header{background:linear-gradient(135deg,var(--accent2),var(--accent));padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
+.ticket-route{display:flex;align-items:center;gap:8px}
+.ticket-city{font-size:1.1rem;font-weight:800;color:#fff;letter-spacing:-0.3px}
+.ticket-arrow{font-size:0.8rem;color:rgba(255,255,255,0.6)}
+.ticket-badge{background:rgba(255,255,255,0.2);color:#fff;font-size:0.65rem;font-weight:800;padding:3px 8px;border-radius:3px}
+.ticket-body{padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
+.ticket-info{}
+.ticket-airline{font-size:0.7rem;color:var(--muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:0.06em}
+.ticket-date{font-size:0.82rem;color:var(--text);font-weight:600}
+.ticket-duration{font-size:0.7rem;color:var(--muted);margin-top:2px}
+.ticket-price-col{text-align:right}
+.ticket-was{font-size:0.7rem;color:var(--muted);text-decoration:line-through}
+.ticket-price{font-family:var(--mono);font-size:1.2rem;font-weight:700;color:var(--accent)}
+.ticket-save{font-size:0.65rem;font-weight:700;color:#34d399}
+
+/* CHIPS */
+.chips-section{padding:3rem 2rem;background:rgba(255,255,255,0.02);text-align:center;border-top:1px solid var(--border)}
+.chips-label{font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);margin-bottom:1rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.chip{padding:8px 18px;border-radius:6px;border:1px solid var(--border);color:var(--muted);font-size:0.875rem;font-weight:500;cursor:pointer;background:var(--card);transition:all 0.15s}
+.chip:hover,.chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* FEATURES */
+.features{padding:5rem 2rem;text-align:center}
+.features h2{font-size:2rem;font-weight:800;color:var(--text);margin-bottom:0.75rem;letter-spacing:-0.5px}
+.features p.sub{color:var(--muted);max-width:480px;margin:0 auto 3rem;opacity:0.85}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem;max-width:860px;margin:0 auto}
+.feat{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.75rem 1.5rem;text-align:left}
+.feat-label{display:inline-block;background:rgba(99,102,241,0.12);color:var(--accent);font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;padding:3px 8px;border-radius:3px;margin-bottom:0.75rem}
+.feat h4{font-size:1rem;font-weight:700;color:var(--text);margin-bottom:0.4rem}
+.feat p{font-size:0.875rem;color:var(--muted);line-height:1.6;opacity:0.85}
+.feat-meta{font-size:0.72rem;color:var(--accent);margin-top:0.75rem}
+
+/* STATS */
+.stats{padding:3rem 2rem;text-align:center;border-top:1px solid var(--border)}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1.5rem;max-width:600px;margin:0 auto}
+.stat-val{font-family:var(--mono);font-size:1.75rem;font-weight:700;color:var(--accent)}
+.stat-label{font-size:0.8rem;color:var(--muted);margin-top:3px}
+
+footer{background:#07060f;border-top:1px solid var(--border);padding:3.5rem 2rem 2rem}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:2rem;max-width:860px;margin:0 auto 2rem}
+.footer-col h5{font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:rgba(165,180,252,0.25);margin-bottom:0.75rem}
+.footer-col a{display:block;font-size:0.875rem;color:var(--muted);text-decoration:none;margin-bottom:6px;opacity:0.7}
+.footer-col a:hover{color:var(--text);opacity:1}
+.email-row{display:flex;gap:0;margin-top:0.75rem}
+.email-row input{flex:1;padding:9px 12px;border:1px solid var(--border);background:var(--card);color:var(--text);border-right:none;font-size:0.8rem;outline:none;border-radius:4px 0 0 4px;font-family:var(--font)}
+.email-row button{padding:9px 14px;background:var(--accent);color:#fff;border:none;font-size:0.8rem;font-weight:700;cursor:pointer;border-radius:0 4px 4px 0}
+.footer-bottom{border-top:1px solid var(--border);padding-top:1.5rem;text-align:center;font-size:0.75rem;color:#1e1b4b;max-width:860px;margin:0 auto}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo"><div class="logo-mark">✈️</div>SkyRoute</div>
+  <div class="nav-links"><a href="#">Deals</a><a href="#">Alerts</a><a href="#">Points</a></div>
+  <button class="btn-accent">Find flights</button>
+</nav>
+
+<section style="background:radial-gradient(ellipse at 60% 0%,rgba(99,102,241,0.12) 0%,transparent 55%)">
+  <div class="hero">
+    <div>
+      <div class="hero-pill">✈️ Alerts · Multi-city · Points</div>
+      <h1>Fly <em>smarter</em>, spend less</h1>
+      <p>SkyRoute tracks 500+ airlines and alerts you the moment prices drop. Find hidden-city fares, mistake fares, and points sweet spots automatically.</p>
+      <div class="hero-actions">
+        <button class="btn-hero">Find flights</button>
+        <button class="btn-hero-ghost">Explore destinations</button>
+      </div>
+    </div>
+    <div>
+      <div class="ticket-wrap">
+        <div class="ticket">
+          <div class="ticket-header">
+            <div class="ticket-route"><span class="ticket-city">JFK</span><span class="ticket-arrow">──✈──</span><span class="ticket-city">CDG</span></div>
+            <span class="ticket-badge">DEAL</span>
+          </div>
+          <div class="ticket-body">
+            <div class="ticket-info">
+              <div class="ticket-airline">Air France · Nonstop</div>
+              <div class="ticket-date">Mar 14 – Mar 21</div>
+              <div class="ticket-duration">7h 20m direct</div>
+            </div>
+            <div class="ticket-price-col">
+              <div class="ticket-was">$891</div>
+              <div class="ticket-price">$387</div>
+              <div class="ticket-save">Save 57%</div>
+            </div>
+          </div>
+        </div>
+        <div class="ticket">
+          <div class="ticket-header" style="background:linear-gradient(135deg,#1e1b4b,#312e81)">
+            <div class="ticket-route"><span class="ticket-city">LAX</span><span class="ticket-arrow">──✈──</span><span class="ticket-city">NRT</span></div>
+            <span class="ticket-badge">ALERT</span>
+          </div>
+          <div class="ticket-body">
+            <div class="ticket-info">
+              <div class="ticket-airline">ANA · 1 stop</div>
+              <div class="ticket-date">Apr 5 – Apr 19</div>
+              <div class="ticket-duration">13h 45m via HNL</div>
+            </div>
+            <div class="ticket-price-col">
+              <div class="ticket-was">$1,240</div>
+              <div class="ticket-price">$562</div>
+              <div class="ticket-save">Save 55%</div>
+            </div>
+          </div>
+        </div>
+        <div class="ticket">
+          <div class="ticket-header" style="background:linear-gradient(135deg,#0c4a6e,#0369a1)">
+            <div class="ticket-route"><span class="ticket-city">ORD</span><span class="ticket-arrow">──✈──</span><span class="ticket-city">CUN</span></div>
+            <span class="ticket-badge">WEEKEND</span>
+          </div>
+          <div class="ticket-body">
+            <div class="ticket-info">
+              <div class="ticket-airline">United · Nonstop</div>
+              <div class="ticket-date">Feb 28 – Mar 2</div>
+              <div class="ticket-duration">4h 10m direct</div>
+            </div>
+            <div class="ticket-price-col">
+              <div class="ticket-was">$480</div>
+              <div class="ticket-price">$189</div>
+              <div class="ticket-save">Save 61%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="chips-section">
+  <div class="chips-label">Browse deals</div>
+  <div class="chips">
+    <span class="chip active">Europe</span><span class="chip">Asia</span><span class="chip">USA</span><span class="chip">Weekend</span>
+  </div>
+</section>
+
+<section class="features">
+  <h2>Find deals nobody else finds</h2>
+  <p class="sub">Three tools that save you hundreds every time you fly.</p>
+  <div class="features-grid">
+    <div class="feat">
+      <div class="feat-label">Alert</div>
+      <h4>Price drop pings</h4>
+      <p>Set alerts for any route. Get email, push, and SMS the moment fares drop below your target price — free forever.</p>
+      <div class="feat-meta">email · push · SMS · free</div>
+    </div>
+    <div class="feat">
+      <div class="feat-label">Mix</div>
+      <h4>Hack itineraries</h4>
+      <p>Hidden-city ticketing, strategic layovers, and split-ticket combos — automatically found and explained.</p>
+      <div class="feat-meta">hidden-city · layovers · save 40%</div>
+    </div>
+    <div class="feat">
+      <div class="feat-label">Pts</div>
+      <h4>Points optimizer</h4>
+      <p>Connect your loyalty accounts and find where your points go furthest across 40+ airline transfer partners.</p>
+      <div class="feat-meta">transfer partners · 1.5× value</div>
+    </div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="stats-grid">
+    <div><div class="stat-val">40%</div><div class="stat-label">Avg. savings</div></div>
+    <div><div class="stat-val">500+</div><div class="stat-label">Airlines tracked</div></div>
+    <div><div class="stat-val">2M</div><div class="stat-label">Alerts sent</div></div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col"><h5>Deals</h5><a href="#">Mistake fares</a><a href="#">Weekend trips</a><a href="#">Business class</a></div>
+    <div class="footer-col"><h5>Tools</h5><a href="#">Price alerts</a><a href="#">Hack itineraries</a><a href="#">Points optimizer</a></div>
+    <div class="footer-col"><h5>Company</h5><a href="#">About</a><a href="#">Blog</a><a href="#">Careers</a></div>
+    <div class="footer-col">
+      <h5>Deal alerts</h5>
+      <div class="email-row"><input type="email" placeholder="your@email.com"/><button>Get deals</button></div>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2024 SkyRoute Inc. All rights reserved. Flight deals are subject to availability and change.</div>
+</footer>
+</body>
+</html>

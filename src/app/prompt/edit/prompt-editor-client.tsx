@@ -19,7 +19,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { Clapperboard, Image as ImageIcon, Loader2, Sparkles } from 'lucide-react';
-import Image from 'next/image';
+import { OptimizedImage } from '@/components/optimized-image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useActionState, useEffect, useState } from 'react';
@@ -101,7 +101,7 @@ export default function PromptEditorClient() {
                 <Tabs defaultValue="ai-image">
                   <TabsList className="grid w-full grid-cols-2">
                     <TabsTrigger value="ai-image">
-                      <ImageIcon className="mr-2" /> AI Image
+                      <OptimizedImageIcon className="mr-2" /> AI Image
                     </TabsTrigger>
                     <TabsTrigger value="ai-video">
                       <Clapperboard className="mr-2" /> AI Video
@@ -196,17 +196,16 @@ export default function PromptEditorClient() {
               <CardContent className="p-4 h-full flex items-center justify-center bg-muted/50 rounded-lg">
                 {state.imageUrl ? (
                   <div className="relative w-full aspect-square">
-                    <Image
+                    <OptimizedImage
                       src={state.imageUrl}
                       alt="Generated image"
                       fill
-                      unoptimized={state.imageUrl?.includes('meta.ai')}
                       className="object-contain"
                     />
                   </div>
                 ) : (
                   <div className="text-center text-muted-foreground">
-                    <ImageIcon className="mx-auto h-12 w-12" />
+                    <OptimizedImageIcon className="mx-auto h-12 w-12" />
                     <p className="mt-2">Your generated image will appear here.</p>
                   </div>
                 )}

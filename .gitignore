@@ -39,7 +39,13 @@ next-env.d.ts
 
 .genkit/*
 .env*
+!.env.example
+data/landing-readability.json
 
 # firebase
 firebase-debug.log
 firestore-debug.log
+
+# Precompresión Brotli/Gzip (scripts/precompress-static.mjs, postbuild)
+public/**/*.br
+public/**/*.gz
