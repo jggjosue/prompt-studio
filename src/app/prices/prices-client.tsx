@@ -8,7 +8,10 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import { useStripeSubscription } from '@/hooks/use-stripe-subscription';
+import {
+  useRefreshSubscriptionStatus,
+  useStripeSubscription,
+} from '@/hooks/use-stripe-subscription';
 import { getPremiumStripeCheckoutUrl } from '@/lib/stripe-checkout';
 import { SignInButton, SignUpButton, useAuth } from '@clerk/nextjs';
 import {
@@ -22,7 +25,8 @@ import {
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { useId, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useId, useRef, useState } from 'react';
 
 const PREMIUM_MONTHLY = 10;
 const PREMIUM_YEARLY = 100;
@@ -74,9 +78,22 @@ export default function PricesClient() {
   const tCommon = useTranslations('common');
   const annualBillingId = useId();
   const [isAnnual, setIsAnnual] = useState(false);
+  const searchParams = useSearchParams();
+  const refreshSubscription = useRefreshSubscriptionStatus();
+  const checkoutRefreshDone = useRef(false);
   const { isLoaded, isSignedIn, userId } = useAuth();
   const { plan, ready } = useStripeSubscription();
   const hasPremiumPlan = ready && (plan === 'premium' || plan === 'startup');
+
+  useEffect(() => {
+    if (!isLoaded || !isSignedIn || checkoutRefreshDone.current) return;
+    const checkout =
+      searchParams.get('checkout') === 'success' ||
+      searchParams.has('session_id');
+    if (!checkout) return;
+    checkoutRefreshDone.current = true;
+    refreshSubscription();
+  }, [isLoaded, isSignedIn, searchParams, refreshSubscription]);
 
   const freeFeatures = t.raw('freeFeatures') as string[];
   const premiumOnlyFeatures = t.raw('premiumFeatures') as string[];

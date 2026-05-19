@@ -1,12 +1,7 @@
 import type { SubscriptionStatusResponse } from '@/app/api/subscription/status/route';
 
 const STORAGE_KEY = 'ps:subscription-status:v1';
-/** Datos considerados frescos: no se vuelve a pedir la API. */
-const FRESH_TTL_MS = 5 * 60 * 1000;
-/** Tras esto se ignora la caché y se fuerza refetch. */
-const MAX_STALE_MS = 30 * 60 * 1000;
-/** Mínimo entre refetches en segundo plano (stale-while-revalidate). */
-const MIN_BACKGROUND_REFETCH_MS = 60 * 1000;
+const SESSION_FETCHED_KEY = 'ps:subscription-status:api-called';
 
 type CacheEntry = {
   userId: string;
@@ -28,21 +23,119 @@ const FREE: SubscriptionStatusResponse = {
   billingCycle: null,
 };
 
+export type SubscriptionStoreSnapshot = SubscriptionStatusResponse & {
+  ready: boolean;
+};
+
+const SNAP_NOT_READY: SubscriptionStoreSnapshot = {
+  ...FREE,
+  ready: false,
+};
+
+const SNAP_FREE_READY: SubscriptionStoreSnapshot = {
+  ...FREE,
+  ready: true,
+};
+
 let memoryEntry: CacheEntry | null = null;
 let inflight: Promise<SubscriptionStatusResponse> | null = null;
-let lastBackgroundAttempt = 0;
+/** Evita programar más de una carga por usuario por pestaña (React Strict Mode, re-renders). */
+let loadScheduledForUser: string | null = null;
+const sessionFetchedUsers = new Set<string>();
 const listeners = new Set<() => void>();
 
-function notify() {
+let stableSnapKey = '';
+let stableSnapState: SubscriptionStoreSnapshot = SNAP_NOT_READY;
+const readySnapshotByKey = new Map<string, SubscriptionStoreSnapshot>();
+
+function markSessionApiFetched(userId: string): void {
+  sessionFetchedUsers.add(userId);
+  if (typeof window === 'undefined') return;
+  try {
+    sessionStorage.setItem(SESSION_FETCHED_KEY, userId);
+  } catch {
+    /* quota / private mode */
+  }
+}
+
+export function hasSessionApiFetched(userId: string): boolean {
+  if (sessionFetchedUsers.has(userId)) return true;
+  if (typeof window === 'undefined') return false;
+  try {
+    return sessionStorage.getItem(SESSION_FETCHED_KEY) === userId;
+  } catch {
+    return false;
+  }
+}
+
+function clearSessionApiFetched(): void {
+  sessionFetchedUsers.clear();
+  loadScheduledForUser = null;
+  if (typeof window === 'undefined') return;
+  try {
+    sessionStorage.removeItem(SESSION_FETCHED_KEY);
+  } catch {
+    /* ignore */
+  }
+}
+
+function buildSnapshotKey(
+  isLoaded: boolean,
+  isSignedIn: boolean,
+  userId: string | null | undefined
+): string {
+  if (!isLoaded) return '@loading';
+  if (!isSignedIn || !userId) return '@guest';
+  const entry = getEntry(userId);
+  if (!entry) return `@${userId}:pending`;
+  const d = entry.data;
+  return `@${userId}:${d.plan}:${d.status ?? ''}:${d.currentPeriodEnd ?? ''}:${d.billingCycle ?? ''}`;
+}
+
+function readySnapshotFor(
+  userId: string,
+  data: SubscriptionStatusResponse
+): SubscriptionStoreSnapshot {
+  const dataKey = `${data.plan}:${data.status ?? ''}:${data.currentPeriodEnd ?? ''}:${data.billingCycle ?? ''}`;
+  const mapKey = `${userId}:${dataKey}`;
+  const existing = readySnapshotByKey.get(mapKey);
+  if (existing) return existing;
+  const snap: SubscriptionStoreSnapshot = { ...data, ready: true };
+  readySnapshotByKey.set(mapKey, snap);
+  return snap;
+}
+
+function computeSnapshot(
+  isLoaded: boolean,
+  isSignedIn: boolean,
+  userId: string | null | undefined
+): SubscriptionStoreSnapshot {
+  if (!isLoaded) return SNAP_NOT_READY;
+  if (!isSignedIn || !userId) return SNAP_FREE_READY;
+  const cached = getCachedSubscriptionStatus(userId);
+  if (!cached) return SNAP_NOT_READY;
+  return readySnapshotFor(userId, cached);
+}
+
+export function getStableSubscriptionSnapshot(
+  isLoaded: boolean,
+  isSignedIn: boolean,
+  userId: string | null | undefined
+): SubscriptionStoreSnapshot {
+  const key = buildSnapshotKey(isLoaded, isSignedIn, userId);
+  if (key === stableSnapKey) return stableSnapState;
+  stableSnapKey = key;
+  stableSnapState = computeSnapshot(isLoaded, isSignedIn, userId);
+  return stableSnapState;
+}
+
+function invalidateStableSnapshot(): void {
+  stableSnapKey = '';
+}
+
+function notify(): void {
+  invalidateStableSnapshot();
   listeners.forEach(fn => fn());
-}
-
-function isFresh(entry: CacheEntry, now = Date.now()): boolean {
-  return now - entry.fetchedAt < FRESH_TTL_MS;
-}
-
-function isUsable(entry: CacheEntry, now = Date.now()): boolean {
-  return now - entry.fetchedAt < MAX_STALE_MS;
 }
 
 function readSessionStorage(userId: string): CacheEntry | null {
@@ -52,12 +145,11 @@ function readSessionStorage(userId: string): CacheEntry | null {
     if (!raw) return null;
     const parsed = JSON.parse(raw) as StoredPayload;
     if (parsed.v !== 1 || parsed.userId !== userId) return null;
-    const entry: CacheEntry = {
+    return {
       userId: parsed.userId,
       data: parsed.data,
       fetchedAt: parsed.fetchedAt,
     };
-    return isUsable(entry) ? entry : null;
   } catch {
     return null;
   }
@@ -79,12 +171,15 @@ function writeSessionStorage(entry: CacheEntry): void {
 }
 
 function getEntry(userId: string): CacheEntry | null {
-  if (memoryEntry?.userId === userId && isUsable(memoryEntry)) {
+  if (memoryEntry?.userId === userId) {
     return memoryEntry;
   }
   const fromStorage = readSessionStorage(userId);
   if (fromStorage) {
     memoryEntry = fromStorage;
+    if (hasSessionApiFetched(userId)) {
+      sessionFetchedUsers.add(userId);
+    }
     return fromStorage;
   }
   return null;
@@ -94,6 +189,7 @@ function commit(userId: string, data: SubscriptionStatusResponse): CacheEntry {
   const entry: CacheEntry = { userId, data, fetchedAt: Date.now() };
   memoryEntry = entry;
   writeSessionStorage(entry);
+  markSessionApiFetched(userId);
   notify();
   return entry;
 }
@@ -108,8 +204,8 @@ async function fetchFromApi(): Promise<SubscriptionStatusResponse> {
 }
 
 /**
- * Una sola petición en vuelo para todos los consumidores del hook.
- * `force` ignora frescura; sin force aplica TTL + stale-while-revalidate.
+ * Una petición HTTP por usuario y pestaña de navegador por sesión.
+ * Vuelve a llamar solo con `{ force: true }` o `invalidateSubscriptionStatusCache()`.
  */
 export async function loadSubscriptionStatus(
   userId: string,
@@ -118,17 +214,9 @@ export async function loadSubscriptionStatus(
   const { force = false } = options;
   const existing = getEntry(userId);
 
-  if (!force && existing && isFresh(existing)) {
-    return existing.data;
-  }
-
-  if (!force && existing && isUsable(existing)) {
-    const now = Date.now();
-    if (now - lastBackgroundAttempt >= MIN_BACKGROUND_REFETCH_MS) {
-      lastBackgroundAttempt = now;
-      void refreshInBackground(userId);
-    }
-    return existing.data;
+  if (!force && hasSessionApiFetched(userId)) {
+    if (existing) return existing.data;
+    return FREE;
   }
 
   if (inflight) return inflight;
@@ -140,9 +228,12 @@ export async function loadSubscriptionStatus(
     })
     .catch(() => {
       const fallback = existing?.data ?? FREE;
-      if (existing) return fallback;
-      commit(userId, FREE);
-      return FREE;
+      if (!existing) {
+        commit(userId, FREE);
+        return FREE;
+      }
+      markSessionApiFetched(userId);
+      return fallback;
     })
     .finally(() => {
       inflight = null;
@@ -151,14 +242,28 @@ export async function loadSubscriptionStatus(
   return inflight;
 }
 
-async function refreshInBackground(userId: string): Promise<void> {
-  if (inflight) return;
-  try {
-    const data = await fetchFromApi();
-    commit(userId, data);
-  } catch {
-    /* keep stale cache */
+/**
+ * Punto único de entrada desde el provider: deduplica Strict Mode y re-renders.
+ */
+export function scheduleSubscriptionStatusLoad(
+  userId: string,
+  options: { force?: boolean } = {}
+): Promise<SubscriptionStatusResponse> {
+  const { force = false } = options;
+
+  if (!force && hasSessionApiFetched(userId)) {
+    const cached = getEntry(userId);
+    return Promise.resolve(cached?.data ?? FREE);
   }
+
+  if (!force && loadScheduledForUser === userId) {
+    if (inflight) return inflight;
+    const cached = getEntry(userId);
+    if (cached) return Promise.resolve(cached.data);
+  }
+
+  loadScheduledForUser = userId;
+  return loadSubscriptionStatus(userId, { force });
 }
 
 export function getCachedSubscriptionStatus(
@@ -169,9 +274,15 @@ export function getCachedSubscriptionStatus(
 }
 
 export function clearSubscriptionStatusCache(): void {
+  const hadData =
+    memoryEntry !== null ||
+    (typeof window !== 'undefined' && sessionStorage.getItem(STORAGE_KEY) !== null);
+
   memoryEntry = null;
   inflight = null;
-  lastBackgroundAttempt = 0;
+  readySnapshotByKey.clear();
+  clearSessionApiFetched();
+
   if (typeof window !== 'undefined') {
     try {
       sessionStorage.removeItem(STORAGE_KEY);
@@ -179,16 +290,22 @@ export function clearSubscriptionStatusCache(): void {
       /* ignore */
     }
   }
-  notify();
+
+  if (hadData) notify();
 }
 
-/** Tras checkout o webhook: forzar próximo fetch. */
+/** Tras checkout, webhook o cambio manual de plan: permite un nuevo fetch. */
 export function invalidateSubscriptionStatusCache(): void {
+  sessionFetchedUsers.clear();
+  loadScheduledForUser = null;
+
   if (memoryEntry) {
     memoryEntry = { ...memoryEntry, fetchedAt: 0 };
   }
+
   if (typeof window !== 'undefined') {
     try {
+      sessionStorage.removeItem(SESSION_FETCHED_KEY);
       const raw = sessionStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw) as StoredPayload;
@@ -201,6 +318,7 @@ export function invalidateSubscriptionStatusCache(): void {
       /* ignore */
     }
   }
+
   notify();
 }
 
@@ -208,9 +326,3 @@ export function subscribeSubscriptionStatus(listener: () => void): () => void {
   listeners.add(listener);
   return () => listeners.delete(listener);
 }
-
-export const subscriptionCacheTuning = {
-  FRESH_TTL_MS,
-  MAX_STALE_MS,
-  MIN_BACKGROUND_REFETCH_MS,
-} as const;
