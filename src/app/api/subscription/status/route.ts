@@ -30,9 +30,17 @@ function toResponse(meta: StripeUserMetadata): SubscriptionStatusResponse {
   };
 }
 
+function jsonResponse(body: SubscriptionStatusResponse) {
+  return NextResponse.json(body, {
+    headers: {
+      'Cache-Control': 'private, no-store',
+    },
+  });
+}
+
 export async function GET() {
   const { userId } = await auth();
-  if (!userId) return NextResponse.json<SubscriptionStatusResponse>(FREE);
+  if (!userId) return jsonResponse(FREE);
 
   const client = await clerkClient();
   const user = await client.users.getUser(userId);
@@ -46,18 +54,18 @@ export async function GET() {
       limit: 1,
     });
 
-    if (subs.length === 0) return NextResponse.json<SubscriptionStatusResponse>(FREE);
+    if (subs.length === 0) return jsonResponse(FREE);
 
     const fresh = extractSubscriptionMeta(subs[0], meta.stripeCustomerId, meta.stripePlan ?? 'premium');
-    return NextResponse.json<SubscriptionStatusResponse>(toResponse(fresh));
+    return jsonResponse(toResponse(fresh));
   }
 
   // Slow path — buscar por email del usuario en Stripe
   const email = user.emailAddresses[0]?.emailAddress;
-  if (!email) return NextResponse.json<SubscriptionStatusResponse>(FREE);
+  if (!email) return jsonResponse(FREE);
 
   const { data: customers } = await stripe.customers.list({ email, limit: 5 });
-  if (customers.length === 0) return NextResponse.json<SubscriptionStatusResponse>(FREE);
+  if (customers.length === 0) return jsonResponse(FREE);
 
   for (const customer of customers) {
     const { data: subs } = await stripe.subscriptions.list({
@@ -79,8 +87,8 @@ export async function GET() {
       await stripe.customers.update(customer.id, { metadata: { clerkUserId: userId } });
     }
 
-    return NextResponse.json<SubscriptionStatusResponse>(toResponse(freshMeta));
+    return jsonResponse(toResponse(freshMeta));
   }
 
-  return NextResponse.json<SubscriptionStatusResponse>(FREE);
+  return jsonResponse(FREE);
 }

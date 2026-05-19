@@ -2,6 +2,7 @@ import '@/app/globals.css';
 import { inter, spaceGrotesk } from '@/app/fonts';
 import { ServiceWorkerRegister } from '@/components/service-worker-register';
 import { SiteAnalytics } from '@/components/site-analytics';
+import { SubscriptionStatusProvider } from '@/components/subscription-status-provider';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import { ClerkProvider } from '@clerk/nextjs';
@@ -125,6 +126,7 @@ export default async function RootLayout({
           `}
         </Script>
         <NextIntlClientProvider locale={locale} messages={messages}>
+          <SubscriptionStatusProvider>
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
@@ -136,6 +138,7 @@ export default async function RootLayout({
             <SiteAnalytics />
             <ServiceWorkerRegister />
           </ThemeProvider>
+          </SubscriptionStatusProvider>
         </NextIntlClientProvider>
         </ClerkProvider>
       </body>
