@@ -1,6 +1,152 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>Buffer — Clon educativo</title><link rel="stylesheet" href="styles.css"/></head><body>
-<nav class="navbar"><a href="#" class="logo">Buffer</a><ul class="nav-links"><li><a href="#features">Producto</a></li><li><a href="#more">Más</a></li></ul><div class="nav-actions"><button type="button" class="btn btn-ghost">Iniciar sesión</button><button type="button" class="btn btn-primary">Probar</button></div></nav>
-<header class="hero"><div class="hero-inner"><div><h1>Social media más simple</h1><p>Programa posts en todas tus redes.</p><button type="button" class="btn btn-primary">Empezar gratis</button></div><div class="mockup"><p style="font-size:.8rem;text-align:center">📅 Lun · 📅 Mar · 📅 Mié<br/><small>3 posts programados</small></p></div></div></header>
-<section class="section" id="features"><h2>Funciones</h2><div class="feat-grid"><article class="feat-card"><h3>Publish</h3><p>Calendario visual.</p></article><article class="feat-card"><h3>Analyze</h3><p>Métricas.</p></article><article class="feat-card"><h3>Engage</h3><p>Comentarios.</p></article></div></section>
-<section class="section" id="more"><h2>Redes</h2><div class="chips"><span class="chip">Instagram</span><span class="chip">X</span><span class="chip">LinkedIn</span></div></section>
-<footer><div class="footer-grid"><div><h4>Producto</h4><ul><li>Funciones</li></ul></div><div><h4>Empresa</h4><ul><li>Acerca de</li></ul></div><div><h4>Recursos</h4><ul><li>Soporte</li></ul></div></div><p class="disclaimer">Clon educativo no oficial. Sin afiliación con la marca original.</p></footer></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Buffer — Social Media Scheduling</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--blue:#2C4BFF;--mint:#E8F5EE;--dark:#231F20;--gray:#6b7280;--border:#e5e7eb;--white:#fff;--font:system-ui,-apple-system,sans-serif}
+body{font-family:var(--font);background:var(--white);color:var(--dark)}
+nav{background:var(--white);border-bottom:1px solid var(--border);padding:0 2rem;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.nav-logo{display:flex;align-items:center;gap:8px;font-weight:900;font-size:1.15rem;color:var(--dark)}
+.buf-icon{width:28px;height:28px;background:var(--blue);border-radius:6px;display:flex;align-items:center;justify-content:center}
+.buf-icon svg{width:16px;height:16px}
+.nav-links{display:flex;gap:1.5rem}
+.nav-links a{font-size:0.875rem;font-weight:500;color:var(--gray);text-decoration:none}
+.nav-links a:hover{color:var(--dark)}
+.nav-actions{display:flex;gap:10px}
+.btn-ghost{background:transparent;border:1.5px solid var(--border);color:var(--dark);padding:8px 16px;border-radius:4px;font-size:0.875rem;font-weight:600;cursor:pointer}
+.btn-blue{background:var(--blue);color:var(--white);border:none;padding:9px 20px;border-radius:4px;font-size:0.875rem;font-weight:700;cursor:pointer}
+
+.hero{background:var(--mint);padding:5.5rem 2rem 4rem;text-align:center}
+.hero-eyebrow{font-size:0.78rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);margin-bottom:1rem}
+.hero h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:900;color:var(--dark);max-width:700px;margin:0 auto 1.25rem;line-height:1.12;letter-spacing:-1px}
+.hero h1 span{color:var(--blue)}
+.hero p{font-size:1.1rem;color:var(--gray);max-width:520px;margin:0 auto 2.5rem;line-height:1.65}
+.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:3.5rem}
+.btn-hero{background:var(--blue);color:var(--white);border:none;padding:14px 32px;border-radius:4px;font-size:1rem;font-weight:700;cursor:pointer}
+.btn-hero-ghost{background:var(--white);border:2px solid var(--border);color:var(--dark);padding:12px 28px;border-radius:4px;font-size:1rem;font-weight:600;cursor:pointer}
+
+/* CALENDAR MOCKUP */
+.cal-wrap{max-width:680px;margin:0 auto}
+.cal-card{background:var(--white);border-radius:14px;box-shadow:0 8px 32px rgba(44,75,255,0.12);overflow:hidden}
+.cal-topbar{background:var(--dark);padding:10px 16px;display:flex;align-items:center;gap:8px}
+.cd{width:10px;height:10px;border-radius:50%}
+.cd-r{background:#ff5f57}.cd-y{background:#febc2e}.cd-g{background:#28c840}
+.cal-title{color:rgba(255,255,255,0.7);font-size:0.8rem;font-weight:600;margin-left:6px}
+.cal-header{display:grid;grid-template-columns:repeat(7,1fr);background:#f9fafb;border-bottom:1px solid var(--border)}
+.cal-day-label{padding:8px 4px;text-align:center;font-size:0.7rem;font-weight:700;color:var(--gray);text-transform:uppercase}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:#f0f0f0;border-bottom:1px solid var(--border)}
+.cal-cell{background:var(--white);min-height:64px;padding:6px;position:relative}
+.cal-cell.today{background:#f0f4ff}
+.cal-date{font-size:0.7rem;font-weight:700;color:var(--gray);margin-bottom:4px}
+.cal-date.today-num{color:var(--blue)}
+.post-chip{border-radius:4px;padding:3px 6px;font-size:0.62rem;font-weight:700;color:#fff;margin-bottom:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer}
+.cal-legend{padding:10px 14px;display:flex;gap:12px;align-items:center}
+.leg{display:flex;align-items:center;gap:5px;font-size:0.72rem;color:var(--gray)}
+.leg-dot{width:10px;height:10px;border-radius:2px}
+
+/* CHIPS */
+.chips-section{padding:3rem 2rem;background:var(--white);text-align:center;border-top:1px solid var(--border)}
+.chips-label{font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray);margin-bottom:1.25rem}
+.chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.chip{padding:9px 20px;border-radius:4px;border:1.5px solid var(--border);color:var(--dark);font-size:0.875rem;font-weight:500;cursor:pointer;background:var(--white);display:flex;align-items:center;gap:6px;transition:all 0.15s}
+.chip:hover,.chip.active{background:var(--blue);color:var(--white);border-color:var(--blue)}
+
+/* FEATURES */
+.features{padding:5.5rem 2rem;background:var(--mint);text-align:center}
+.features h2{font-size:2.25rem;font-weight:900;color:var(--dark);margin-bottom:0.75rem;letter-spacing:-0.5px}
+.features p.sub{color:var(--gray);max-width:520px;margin:0 auto 3rem;font-size:1.05rem}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;max-width:900px;margin:0 auto}
+.feat{background:var(--white);border-radius:12px;padding:2rem 1.5rem;text-align:left;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.feat-icon{font-size:1.75rem;margin-bottom:0.75rem;display:block}
+.feat h4{font-size:1rem;font-weight:700;color:var(--dark);margin-bottom:0.5rem}
+.feat p{font-size:0.875rem;color:var(--gray);line-height:1.6}
+
+/* FOOTER */
+footer{background:var(--dark);color:rgba(255,255,255,0.5);padding:3.5rem 2rem 2rem}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:2rem;max-width:900px;margin:0 auto 2rem}
+.footer-col h5{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.3);margin-bottom:0.75rem}
+.footer-col a{display:block;font-size:0.875rem;color:rgba(255,255,255,0.5);text-decoration:none;margin-bottom:6px}
+.footer-col a:hover{color:var(--white)}
+.footer-bottom{border-top:1px solid #333;padding-top:1.5rem;text-align:center;font-size:0.75rem;color:#555}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo"><div class="buf-icon"><svg viewBox="0 0 16 16" fill="white"><rect x="1" y="2" width="14" height="3" rx="1.5"/><rect x="1" y="7" width="14" height="3" rx="1.5"/><rect x="1" y="12" width="8" height="3" rx="1.5"/></svg></div>Buffer</div>
+  <div class="nav-links"><a href="#">Publish</a><a href="#">Analyze</a><a href="#">Engage</a><a href="#">Pricing</a></div>
+  <div class="nav-actions"><button class="btn-ghost">Log in</button><button class="btn-blue">Start free</button></div>
+</nav>
+
+<section class="hero">
+  <div class="hero-eyebrow">Social media tools for creators</div>
+  <h1>Schedule posts. <span>Grow faster.</span></h1>
+  <p>Buffer helps creators and small businesses grow their social audience with a simple, powerful publishing and analytics platform.</p>
+  <div class="hero-actions">
+    <button class="btn-hero">Get started free</button>
+    <button class="btn-hero-ghost">See how it works</button>
+  </div>
+  <div class="cal-wrap">
+    <div class="cal-card">
+      <div class="cal-topbar"><div class="cd cd-r"></div><div class="cd cd-y"></div><div class="cd cd-g"></div><span class="cal-title">Content Calendar — December 2024</span></div>
+      <div class="cal-header">
+        <div class="cal-day-label">Mon</div><div class="cal-day-label">Tue</div><div class="cal-day-label">Wed</div>
+        <div class="cal-day-label">Thu</div><div class="cal-day-label">Fri</div><div class="cal-day-label">Sat</div><div class="cal-day-label">Sun</div>
+      </div>
+      <div class="cal-grid">
+        <div class="cal-cell"><div class="cal-date">9</div><div class="post-chip" style="background:#1877F2">FB: Tips thread</div></div>
+        <div class="cal-cell"><div class="cal-date">10</div><div class="post-chip" style="background:#E1306C">IG: Behind scenes</div></div>
+        <div class="cal-cell today"><div class="cal-date today-num">11</div><div class="post-chip" style="background:#1DA1F2">X: Product update</div><div class="post-chip" style="background:#0A66C2">LI: Case study</div></div>
+        <div class="cal-cell"><div class="cal-date">12</div></div>
+        <div class="cal-cell"><div class="cal-date">13</div><div class="post-chip" style="background:#E1306C">IG: Reel drop</div></div>
+        <div class="cal-cell"><div class="cal-date">14</div></div>
+        <div class="cal-cell"><div class="cal-date">15</div></div>
+        <div class="cal-cell"><div class="cal-date">16</div><div class="post-chip" style="background:#1DA1F2">X: Thread</div></div>
+        <div class="cal-cell"><div class="cal-date">17</div><div class="post-chip" style="background:#1877F2">FB: Promotion</div></div>
+        <div class="cal-cell"><div class="cal-date">18</div><div class="post-chip" style="background:#E1306C">IG: Story poll</div></div>
+        <div class="cal-cell"><div class="cal-date">19</div><div class="post-chip" style="background:#0A66C2">LI: Article</div></div>
+        <div class="cal-cell"><div class="cal-date">20</div></div>
+        <div class="cal-cell"><div class="cal-date">21</div></div>
+        <div class="cal-cell"><div class="cal-date">22</div></div>
+      </div>
+      <div class="cal-legend">
+        <div class="leg"><div class="leg-dot" style="background:#1877F2"></div>Facebook</div>
+        <div class="leg"><div class="leg-dot" style="background:#E1306C"></div>Instagram</div>
+        <div class="leg"><div class="leg-dot" style="background:#1DA1F2"></div>X</div>
+        <div class="leg"><div class="leg-dot" style="background:#0A66C2"></div>LinkedIn</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="chips-section">
+  <div class="chips-label">Connect your networks</div>
+  <div class="chips">
+    <span class="chip active">📘 Facebook</span><span class="chip">📷 Instagram</span><span class="chip">🐦 X / Twitter</span>
+    <span class="chip">💼 LinkedIn</span><span class="chip">📌 Pinterest</span><span class="chip">🎵 TikTok</span>
+  </div>
+</section>
+
+<section class="features">
+  <h2>Your all-in-one social platform</h2>
+  <p class="sub">Publish, analyze, and engage — all from one clean, simple dashboard.</p>
+  <div class="features-grid">
+    <div class="feat"><span class="feat-icon">📅</span><h4>Publish</h4><p>Schedule posts to multiple social accounts at once, with AI suggestions for the best posting times.</p></div>
+    <div class="feat"><span class="feat-icon">📊</span><h4>Analyze</h4><p>Get clear, actionable analytics on your posts — see what's working and grow your audience faster.</p></div>
+    <div class="feat"><span class="feat-icon">💬</span><h4>Engage</h4><p>Manage all your comments and DMs in one inbox. Never miss a conversation with your community.</p></div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col"><h5>Product</h5><a href="#">Publish</a><a href="#">Analyze</a><a href="#">Engage</a><a href="#">Pricing</a></div>
+    <div class="footer-col"><h5>Resources</h5><a href="#">Blog</a><a href="#">Case Studies</a><a href="#">Newsletter</a></div>
+    <div class="footer-col"><h5>Company</h5><a href="#">About</a><a href="#">Careers</a><a href="#">Press</a></div>
+    <div class="footer-col"><h5>Support</h5><a href="#">Help Center</a><a href="#">Community</a><a href="#">Status</a></div>
+  </div>
+  <div class="footer-bottom">© 2024 Buffer. All rights reserved.</div>
+</footer>
+</body>
+</html>

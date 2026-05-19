@@ -1,49 +1,277 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>monday.com — Clon educativo</title>
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>monday.com — Work OS</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --red: #FF3D57;
+    --yellow: #FFC542;
+    --orange: #FF7200;
+    --footer: #323338;
+    --text: #323338;
+    --gray: #676879;
+    --light: #f6f7fb;
+    --white: #fff;
+    --font: system-ui, -apple-system, sans-serif;
+  }
+  body { font-family: var(--font); color: var(--text); background: var(--white); }
+
+  /* NAV */
+  nav {
+    background: var(--white);
+    border-bottom: 1px solid #e6e9ef;
+    padding: 0 2rem;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .nav-logo {
+    font-size: 1.4rem;
+    font-weight: 800;
+    background: linear-gradient(90deg, var(--red), var(--yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.5px;
+  }
+  .nav-links { display: flex; align-items: center; gap: 1.5rem; font-size: 0.875rem; color: var(--gray); }
+  .nav-links a { text-decoration: none; color: inherit; font-weight: 500; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-actions { display: flex; gap: 10px; align-items: center; }
+  .btn-ghost { background: transparent; border: 2px solid #c5c7d4; color: var(--text); padding: 8px 16px; border-radius: 99px; font-size: 0.875rem; font-weight: 600; cursor: pointer; }
+  .btn-pill { background: linear-gradient(135deg, var(--red), var(--yellow)); color: #fff; border: none; padding: 9px 20px; border-radius: 99px; font-size: 0.875rem; font-weight: 700; cursor: pointer; }
+
+  /* HERO */
+  .hero { padding: 5rem 2rem 3rem; text-align: center; background: var(--white); }
+  .hero-eyebrow { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--red); margin-bottom: 1rem; }
+  .hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; color: var(--text); max-width: 700px; margin: 0 auto 1.25rem; line-height: 1.12; }
+  .hero h1 span { background: linear-gradient(90deg, var(--red), var(--yellow)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero p { font-size: 1.125rem; color: var(--gray); max-width: 520px; margin: 0 auto 2.5rem; line-height: 1.6; }
+  .hero-cta { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; margin-bottom: 3.5rem; }
+  .cta-email { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  .cta-email input { padding: 12px 16px; border: 2px solid #c5c7d4; border-radius: 8px; font-size: 0.9rem; width: 220px; outline: none; }
+  .cta-email input:focus { border-color: var(--red); }
+  .btn-get-started { background: linear-gradient(135deg, var(--red), var(--yellow)); color: #fff; border: none; padding: 12px 24px; border-radius: 8px; font-size: 0.95rem; font-weight: 700; cursor: pointer; }
+  .cta-note { font-size: 0.8rem; color: var(--gray); }
+
+  /* BOARD MOCKUP */
+  .board-container { max-width: 800px; margin: 0 auto; background: var(--white); border-radius: 12px; box-shadow: 0 8px 40px rgba(50,51,56,0.15); overflow: hidden; }
+  .board-header { background: var(--footer); padding: 10px 16px; display: flex; align-items: center; gap: 10px; }
+  .board-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .d-red { background: #ff5f57; }
+  .d-yellow { background: #febc2e; }
+  .d-green { background: #28c840; }
+  .board-title { color: #fff; font-size: 0.875rem; font-weight: 600; margin-left: 6px; }
+  .board-body { padding: 16px; background: var(--light); display: flex; gap: 12px; overflow-x: auto; }
+  .board-col { min-width: 200px; }
+  .col-header { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray); margin-bottom: 8px; padding: 0 4px; }
+  .col-count { display: inline-flex; align-items: center; justify-content: center; background: #e6e9ef; color: var(--gray); font-size: 0.68rem; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; margin-left: 4px; }
+  .task-card { background: var(--white); border-radius: 8px; padding: 12px; margin-bottom: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); border-left: 4px solid; cursor: pointer; }
+  .task-card:hover { box-shadow: 0 3px 10px rgba(0,0,0,0.14); }
+  .task-name { font-size: 0.875rem; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .task-meta { display: flex; align-items: center; gap: 6px; }
+  .task-avatar { width: 22px; height: 22px; border-radius: 50%; font-size: 0.65rem; font-weight: 700; color: #fff; display: flex; align-items: center; justify-content: center; }
+  .task-date { font-size: 0.7rem; color: var(--gray); }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; margin-right: auto; }
+  .add-card { background: transparent; border: 1.5px dashed #c5c7d4; border-radius: 8px; padding: 10px; text-align: center; font-size: 0.8rem; color: var(--gray); cursor: pointer; width: 100%; }
+  .add-card:hover { border-color: var(--red); color: var(--red); }
+
+  /* FEATURES */
+  .features { padding: 5rem 2rem; text-align: center; }
+  .features h2 { font-size: 2rem; font-weight: 800; color: var(--text); margin-bottom: 0.75rem; }
+  .features-sub { color: var(--gray); font-size: 1.05rem; max-width: 520px; margin: 0 auto 3rem; }
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.5rem; max-width: 900px; margin: 0 auto; }
+  .feat { background: var(--light); border-radius: 12px; padding: 2rem 1.5rem; text-align: left; }
+  .feat-icon { font-size: 1.75rem; margin-bottom: 0.75rem; }
+  .feat h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text); }
+  .feat p { font-size: 0.875rem; color: var(--gray); line-height: 1.55; }
+
+  /* CHIPS */
+  .chips-section { background: var(--light); padding: 3rem 2rem; text-align: center; }
+  .chips-section h3 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gray); margin-bottom: 1.25rem; font-weight: 700; }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .chip { padding: 8px 18px; border-radius: 99px; border: 1.5px solid #c5c7d4; color: var(--text); font-size: 0.875rem; font-weight: 600; cursor: pointer; background: var(--white); transition: all 0.15s; }
+  .chip:hover, .chip.active { background: linear-gradient(135deg, var(--red), var(--yellow)); color: #fff; border-color: transparent; }
+
+  /* FOOTER */
+  footer { background: var(--footer); color: #d0d4e4; padding: 3.5rem 2rem 2rem; }
+  .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 2rem; max-width: 900px; margin: 0 auto 2rem; }
+  .footer-col h5 { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #878caa; margin-bottom: 0.75rem; }
+  .footer-col a { display: block; font-size: 0.875rem; color: #d0d4e4; text-decoration: none; margin-bottom: 6px; opacity: 0.85; }
+  .footer-col a:hover { opacity: 1; }
+  .footer-bottom { border-top: 1px solid #44475a; padding-top: 1.5rem; text-align: center; font-size: 0.75rem; color: #878caa; }
+</style>
 </head>
 <body>
-  <nav class="navbar">
-    <a href="#" class="logo">monday.com</a>
-    <ul class="nav-links">
-      <li><a href="#features">Producto</a></li>
-      <li><a href="#more">Soluciones</a></li>
-      <li><a href="#">Precios</a></li>
-    </ul>
-    <div class="nav-actions">
-      <button type="button" class="btn btn-ghost">Iniciar sesión</button>
-      <button type="button" class="btn btn-primary">Probar gratis</button>
+
+<nav>
+  <div class="nav-logo">monday.com</div>
+  <div class="nav-links">
+    <a href="#">Product</a>
+    <a href="#">Teams</a>
+    <a href="#">Use Cases</a>
+    <a href="#">Pricing</a>
+    <a href="#">More</a>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-ghost">Log in</button>
+    <button class="btn-pill">Get Started</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-eyebrow">The Work OS</div>
+  <h1>Power your teams with a platform built to <span>run everything</span></h1>
+  <p>One platform. Any workflow. Every team. monday.com adapts to the way your team works.</p>
+  <div class="hero-cta">
+    <div class="cta-email">
+      <input type="email" placeholder="Enter your work email" />
+      <button class="btn-get-started">Get Started Free</button>
     </div>
-  </nav>
-  <header class="hero">
-    <div class="hero-inner">
-      <div>
-        <h1>Todo tu trabajo</h1>
-        <p>Tableros coloridos.</p>
-        <button type="button" class="btn btn-primary">Empezar gratis</button>
+    <div class="cta-note">Free forever. No credit card needed.</div>
+  </div>
+
+  <div class="board-container">
+    <div class="board-header">
+      <div class="board-dot d-red"></div>
+      <div class="board-dot d-yellow"></div>
+      <div class="board-dot d-green"></div>
+      <span class="board-title">🗂 Sprint Planning — Q3 2024</span>
+    </div>
+    <div class="board-body">
+      <div class="board-col">
+        <div class="col-header">To Do <span class="col-count">5</span></div>
+        <div class="task-card" style="border-color:#FF3D57">
+          <div class="task-name">Redesign landing page</div>
+          <div class="task-meta">
+            <div class="task-avatar" style="background:#FF3D57">A</div>
+            <span class="task-date">Dec 15</span>
+          </div>
+        </div>
+        <div class="task-card" style="border-color:#FFC542">
+          <div class="task-name">API integration docs</div>
+          <div class="task-meta">
+            <div class="task-avatar" style="background:#FFC542">B</div>
+            <span class="task-date">Dec 18</span>
+          </div>
+        </div>
+        <button class="add-card">+ Add item</button>
       </div>
-      <div class="mockup" aria-label="Vista previa"><div style="display:flex;gap:.4rem"><span style="flex:1;background:#579bfc;min-height:80px;border-radius:6px"></span><span style="flex:1;background:#00c875;min-height:100px;border-radius:6px"></span></div></div>
+      <div class="board-col">
+        <div class="col-header">In Progress <span class="col-count">3</span></div>
+        <div class="task-card" style="border-color:#0073EA">
+          <div class="task-name">Mobile app testing</div>
+          <div class="task-meta">
+            <div class="task-avatar" style="background:#0073EA">C</div>
+            <span class="task-date">Dec 12</span>
+          </div>
+        </div>
+        <div class="task-card" style="border-color:#9C4FCC">
+          <div class="task-name">Dashboard analytics</div>
+          <div class="task-meta">
+            <div class="task-avatar" style="background:#9C4FCC">D</div>
+            <span class="task-date">Dec 20</span>
+          </div>
+        </div>
+        <button class="add-card">+ Add item</button>
+      </div>
+      <div class="board-col">
+        <div class="col-header">Done <span class="col-count">7</span></div>
+        <div class="task-card" style="border-color:#00CA72">
+          <div class="task-name">User research phase</div>
+          <div class="task-meta">
+            <div class="task-avatar" style="background:#00CA72">E</div>
+            <span class="task-date">Nov 30</span>
+          </div>
+        </div>
+        <div class="task-card" style="border-color:#00CA72">
+          <div class="task-name">Competitor analysis</div>
+          <div class="task-meta">
+            <div class="task-avatar" style="background:#FF7200">F</div>
+            <span class="task-date">Nov 28</span>
+          </div>
+        </div>
+        <button class="add-card">+ Add item</button>
+      </div>
     </div>
-  </header>
-  <section class="section" id="features">
-    <h2>Funciones principales</h2>
-    <div class="feat-grid"><article class="feat-card"><h3>Work OS</h3><p>Plantillas.</p></article><article class="feat-card"><h3>Automations</h3><p>Sin código.</p></article><article class="feat-card"><h3>Dashboards</h3><p>Métricas.</p></article></div>
-  </section>
-  <section class="section" id="more">
-    <h2>Equipos</h2>
-    <div class="chips"><span class="chip">Marketing</span><span class="chip">Dev</span><span class="chip">HR</span></div>
-  </section>
-  <footer>
-    <div class="footer-grid">
-      <div><h4>Producto</h4><ul><li>Funciones</li><li>Integraciones</li></ul></div>
-      <div><h4>Empresa</h4><ul><li>Acerca de</li><li>Carreras</li></ul></div>
-      <div><h4>Recursos</h4><ul><li>Blog</li><li>Soporte</li></ul></div>
+  </div>
+</section>
+
+<section class="chips-section">
+  <h3>Built for every team</h3>
+  <div class="chips">
+    <span class="chip active">Marketing</span>
+    <span class="chip">Sales</span>
+    <span class="chip">IT & Operations</span>
+    <span class="chip">HR</span>
+    <span class="chip">Product</span>
+    <span class="chip">Design</span>
+    <span class="chip">Finance</span>
+  </div>
+</section>
+
+<section class="features">
+  <h2>Everything your team needs</h2>
+  <p class="features-sub">From automations to dashboards — all in one place.</p>
+  <div class="features-grid">
+    <div class="feat">
+      <div class="feat-icon">⚡</div>
+      <h4>Work OS</h4>
+      <p>Build custom workflows for any team, project, or process with no code required.</p>
     </div>
-    <p class="disclaimer">Clon educativo no oficial. Sin afiliación con la marca original.</p>
-  </footer>
+    <div class="feat">
+      <div class="feat-icon">🤖</div>
+      <h4>Automations</h4>
+      <p>Automate repetitive tasks so your team can focus on the work that matters most.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">📊</div>
+      <h4>Dashboards</h4>
+      <p>Get a real-time bird's-eye view of your work progress, timelines, and team performance.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h5>Product</h5>
+      <a href="#">Features</a>
+      <a href="#">Integrations</a>
+      <a href="#">Templates</a>
+      <a href="#">Pricing</a>
+    </div>
+    <div class="footer-col">
+      <h5>Teams</h5>
+      <a href="#">Marketing</a>
+      <a href="#">Sales CRM</a>
+      <a href="#">Project Mgmt</a>
+      <a href="#">Remote Work</a>
+    </div>
+    <div class="footer-col">
+      <h5>Resources</h5>
+      <a href="#">Blog</a>
+      <a href="#">Customer Stories</a>
+      <a href="#">Webinars</a>
+      <a href="#">Help Center</a>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <a href="#">About</a>
+      <a href="#">Careers</a>
+      <a href="#">Press</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2024 monday.com — All rights reserved.</div>
+</footer>
+
 </body>
 </html>

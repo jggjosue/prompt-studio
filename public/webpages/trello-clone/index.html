@@ -1,49 +1,248 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trello — Clon educativo</title>
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Trello — Kanban Boards</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --blue: #0079BF;
+    --purple: #5067C5;
+    --green: #61BD4F;
+    --footer: #172B4D;
+    --text: #172B4D;
+    --gray: #5e6c84;
+    --light: #f4f5f7;
+    --white: #fff;
+    --font: system-ui, -apple-system, sans-serif;
+  }
+  body { font-family: var(--font); color: var(--text); background: var(--white); }
+
+  /* NAV */
+  nav {
+    background: linear-gradient(90deg, var(--blue) 0%, var(--purple) 100%);
+    padding: 0 2rem;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 1.2rem; color: var(--white); letter-spacing: -0.3px; }
+  .nav-logo svg { width: 26px; height: 26px; }
+  .nav-links { display: flex; gap: 1.25rem; }
+  .nav-links a { font-size: 0.875rem; font-weight: 600; color: rgba(255,255,255,0.9); text-decoration: none; }
+  .nav-links a:hover { color: #fff; }
+  .nav-actions { display: flex; gap: 8px; }
+  .btn-ghost-white { background: transparent; border: 2px solid rgba(255,255,255,0.5); color: #fff; padding: 6px 14px; border-radius: 99px; font-size: 0.875rem; font-weight: 600; cursor: pointer; }
+  .btn-white-pill { background: #fff; color: var(--blue); border: none; padding: 8px 18px; border-radius: 99px; font-size: 0.875rem; font-weight: 700; cursor: pointer; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, var(--blue) 0%, var(--purple) 100%);
+    padding: 5.5rem 2rem 4rem;
+    text-align: center;
+    color: #fff;
+  }
+  .hero h1 { font-size: clamp(2rem, 5vw, 3.25rem); font-weight: 800; max-width: 660px; margin: 0 auto 1.25rem; line-height: 1.15; }
+  .hero p { font-size: 1.1rem; color: rgba(255,255,255,0.88); max-width: 520px; margin: 0 auto 2.5rem; line-height: 1.6; }
+  .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 3.5rem; }
+  .btn-get-started { background: var(--green); color: #fff; border: none; padding: 13px 28px; border-radius: 99px; font-size: 1rem; font-weight: 700; cursor: pointer; }
+  .btn-learn { background: rgba(255,255,255,0.18); color: #fff; border: 2px solid rgba(255,255,255,0.6); padding: 11px 26px; border-radius: 99px; font-size: 1rem; font-weight: 700; cursor: pointer; }
+
+  /* KANBAN MOCKUP */
+  .kanban-wrap { max-width: 680px; margin: 0 auto; }
+  .kanban-board { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 16px; display: flex; gap: 12px; }
+  .kanban-col { flex: 1; }
+  .kanban-col-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .kanban-col-title { font-size: 0.825rem; font-weight: 700; color: rgba(255,255,255,0.9); }
+  .kanban-count { background: rgba(255,255,255,0.2); color: #fff; font-size: 0.7rem; font-weight: 700; padding: 2px 7px; border-radius: 99px; }
+  .kanban-card { background: var(--white); border-radius: 6px; padding: 10px 12px; margin-bottom: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.15); cursor: pointer; }
+  .kanban-card:hover { box-shadow: 0 3px 8px rgba(0,0,0,0.2); transform: translateY(-1px); }
+  .kc-label { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 0.65rem; font-weight: 700; margin-bottom: 7px; }
+  .kc-text { font-size: 0.82rem; color: var(--text); font-weight: 600; margin-bottom: 8px; }
+  .kc-footer { display: flex; align-items: center; gap: 6px; }
+  .kc-avatar { width: 22px; height: 22px; border-radius: 50%; font-size: 0.65rem; font-weight: 700; color: #fff; display: flex; align-items: center; justify-content: center; }
+  .kc-due { font-size: 0.68rem; color: var(--gray); }
+  .kanban-add { background: rgba(255,255,255,0.15); border: none; color: rgba(255,255,255,0.75); font-size: 0.8rem; padding: 8px; border-radius: 6px; cursor: pointer; width: 100%; text-align: left; }
+
+  /* USE CASE CHIPS */
+  .chips-section { padding: 3.5rem 2rem; background: var(--light); text-align: center; }
+  .chips-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gray); font-weight: 700; margin-bottom: 1.25rem; }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .chip { padding: 8px 18px; border-radius: 6px; border: 1.5px solid #c0c9d9; color: var(--text); font-size: 0.875rem; font-weight: 600; cursor: pointer; background: var(--white); transition: all 0.15s; }
+  .chip:hover, .chip.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+
+  /* FEATURES */
+  .features { padding: 5rem 2rem; text-align: center; background: var(--white); }
+  .features h2 { font-size: 2rem; font-weight: 800; color: var(--text); margin-bottom: 0.75rem; }
+  .features p.sub { color: var(--gray); font-size: 1.05rem; max-width: 500px; margin: 0 auto 3rem; }
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; max-width: 880px; margin: 0 auto; }
+  .feat { border: 1.5px solid #dfe1e6; border-radius: 10px; padding: 2rem; text-align: left; }
+  .feat-icon { font-size: 1.75rem; margin-bottom: 0.75rem; }
+  .feat h4 { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 0.5rem; }
+  .feat p { font-size: 0.875rem; color: var(--gray); line-height: 1.55; }
+
+  /* FOOTER */
+  footer { background: var(--footer); color: #b8c6d8; padding: 3.5rem 2rem 2rem; }
+  .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 2rem; max-width: 900px; margin: 0 auto 2rem; }
+  .footer-col h5 { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #5e7ea0; margin-bottom: 0.75rem; }
+  .footer-col a { display: block; font-size: 0.875rem; color: #b8c6d8; text-decoration: none; margin-bottom: 6px; }
+  .footer-col a:hover { color: #fff; }
+  .footer-bottom { border-top: 1px solid #253858; padding-top: 1.5rem; text-align: center; font-size: 0.75rem; color: #5e7ea0; }
+</style>
 </head>
 <body>
-  <nav class="navbar">
-    <a href="#" class="logo">Trello</a>
-    <ul class="nav-links">
-      <li><a href="#features">Producto</a></li>
-      <li><a href="#more">Soluciones</a></li>
-      <li><a href="#">Precios</a></li>
-    </ul>
-    <div class="nav-actions">
-      <button type="button" class="btn btn-ghost">Iniciar sesión</button>
-      <button type="button" class="btn btn-primary">Probar gratis</button>
-    </div>
-  </nav>
-  <header class="hero">
-    <div class="hero-inner">
-      <div>
-        <h1>Organiza en tableros</h1>
-        <p>Listas y tarjetas visuales.</p>
-        <button type="button" class="btn btn-primary">Registrarse</button>
+
+<nav>
+  <div class="nav-logo">
+    <svg viewBox="0 0 26 26" fill="none">
+      <rect width="10" height="18" rx="2" fill="white"/>
+      <rect x="14" width="10" height="12" rx="2" fill="white" opacity="0.7"/>
+    </svg>
+    Trello
+  </div>
+  <div class="nav-links">
+    <a href="#">Features</a>
+    <a href="#">Solutions</a>
+    <a href="#">Plans</a>
+    <a href="#">Pricing</a>
+    <a href="#">Resources</a>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-ghost-white">Log in</button>
+    <button class="btn-white-pill">Get Trello for free</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <h1>Trello brings all your tasks, teammates, and tools together</h1>
+  <p>Keep everything in the same place — even if your team isn't. Manage projects visually with boards, lists, and cards.</p>
+  <div class="hero-actions">
+    <button class="btn-get-started">Sign up — it's free!</button>
+    <button class="btn-learn">Watch Video</button>
+  </div>
+
+  <div class="kanban-wrap">
+    <div class="kanban-board">
+      <div class="kanban-col">
+        <div class="kanban-col-header">
+          <span class="kanban-col-title">📋 Backlog</span>
+          <span class="kanban-count">6</span>
+        </div>
+        <div class="kanban-card">
+          <div class="kc-label" style="background:#d1ecf1;color:#0c5460">Design</div>
+          <div class="kc-text">Onboarding flow redesign</div>
+          <div class="kc-footer">
+            <div class="kc-avatar" style="background:#0079BF">A</div>
+            <span class="kc-due">Dec 20</span>
+          </div>
+        </div>
+        <div class="kanban-card">
+          <div class="kc-label" style="background:#fff3cd;color:#856404">Dev</div>
+          <div class="kc-text">Auth bug fix</div>
+          <div class="kc-footer">
+            <div class="kc-avatar" style="background:#5067C5">B</div>
+            <span class="kc-due">Dec 17</span>
+          </div>
+        </div>
+        <button class="kanban-add">+ Add a card</button>
       </div>
-      <div class="mockup" aria-label="Vista previa"><div style="display:flex;gap:.5rem"><span style="flex:1;background:#ebecf0;padding:.5rem;border-radius:6px"><small>Por hacer</small><div style="background:#fff;margin-top:.35rem;padding:.35rem;border-radius:4px;font-size:.75rem">Tarea 1</div></span><span style="flex:1;background:#ebecf0;padding:.5rem;border-radius:6px"><small>Hecho</small><div style="background:#61bd4f;color:#fff;margin-top:.35rem;padding:.35rem;border-radius:4px;font-size:.75rem">Listo</div></span></div></div>
+      <div class="kanban-col">
+        <div class="kanban-col-header">
+          <span class="kanban-col-title">🔄 In Progress</span>
+          <span class="kanban-count">3</span>
+        </div>
+        <div class="kanban-card">
+          <div class="kc-label" style="background:#d4edda;color:#155724">Feature</div>
+          <div class="kc-text">Dark mode toggle</div>
+          <div class="kc-footer">
+            <div class="kc-avatar" style="background:#61BD4F">C</div>
+            <span class="kc-due">Dec 15</span>
+          </div>
+        </div>
+        <div class="kanban-card">
+          <div class="kc-label" style="background:#f8d7da;color:#721c24">Urgent</div>
+          <div class="kc-text">Payment gateway test</div>
+          <div class="kc-footer">
+            <div class="kc-avatar" style="background:#EB5A46">D</div>
+            <span class="kc-due">Dec 13</span>
+          </div>
+        </div>
+        <button class="kanban-add">+ Add a card</button>
+      </div>
     </div>
-  </header>
-  <section class="section" id="features">
-    <h2>Funciones principales</h2>
-    <div class="feat-grid"><article class="feat-card"><h3>Power-Ups</h3><p>Integraciones.</p></article><article class="feat-card"><h3>Butler</h3><p>Automatizar.</p></article><article class="feat-card"><h3>Templates</h3><p>Plantillas.</p></article></div>
-  </section>
-  <section class="section" id="more">
-    <h2>Usos</h2>
-    <div class="chips"><span class="chip">Agile</span><span class="chip">Marketing</span><span class="chip">Diseño</span></div>
-  </section>
-  <footer>
-    <div class="footer-grid">
-      <div><h4>Producto</h4><ul><li>Funciones</li><li>Integraciones</li></ul></div>
-      <div><h4>Empresa</h4><ul><li>Acerca de</li><li>Carreras</li></ul></div>
-      <div><h4>Recursos</h4><ul><li>Blog</li><li>Soporte</li></ul></div>
+  </div>
+</section>
+
+<section class="chips-section">
+  <div class="chips-label">Use cases</div>
+  <div class="chips">
+    <span class="chip active">Project Management</span>
+    <span class="chip">Remote Teams</span>
+    <span class="chip">Agile</span>
+    <span class="chip">Marketing</span>
+    <span class="chip">Engineering</span>
+    <span class="chip">Education</span>
+  </div>
+</section>
+
+<section class="features">
+  <h2>A productivity powerhouse</h2>
+  <p class="sub">Simple, flexible, and powerful — no matter the team size or workflow.</p>
+  <div class="features-grid">
+    <div class="feat">
+      <div class="feat-icon">🔌</div>
+      <h4>Power-Ups</h4>
+      <p>Connect your favorite apps and integrate with the tools your team already uses every day.</p>
     </div>
-    <p class="disclaimer">Clon educativo no oficial. Sin afiliación con la marca original.</p>
-  </footer>
+    <div class="feat">
+      <div class="feat-icon">🤖</div>
+      <h4>Butler Automation</h4>
+      <p>Command Butler to automate tasks, build workflows, and put your entire process on autopilot.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">📄</div>
+      <h4>Templates</h4>
+      <p>Jump-start any project with over 300 pre-built templates from industry leaders.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h5>About</h5>
+      <a href="#">What is Trello?</a>
+      <a href="#">What's new</a>
+      <a href="#">Pricing</a>
+      <a href="#">Apps</a>
+    </div>
+    <div class="footer-col">
+      <h5>Platforms</h5>
+      <a href="#">iOS</a>
+      <a href="#">Android</a>
+      <a href="#">Desktop</a>
+    </div>
+    <div class="footer-col">
+      <h5>Resources</h5>
+      <a href="#">Templates</a>
+      <a href="#">Help Docs</a>
+      <a href="#">Trello Blog</a>
+      <a href="#">Community</a>
+    </div>
+    <div class="footer-col">
+      <h5>Legal</h5>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Cookie Policy</a>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2024 Trello — Atlassian. All rights reserved.</div>
+</footer>
+
 </body>
 </html>

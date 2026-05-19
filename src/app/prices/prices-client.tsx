@@ -1,6 +1,5 @@
 'use client';
 
-import { ClerkPricingTable } from '@/components/clerk-pricing-table';
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
 import { PremiumAccessLink } from '@/components/premium-access-link';
@@ -9,16 +8,16 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import { useMembershipAccess } from '@/hooks/use-membership-access';
-import { CLERK_FEATURES, CLERK_USER_PLANS } from '@/lib/clerk-billing';
+import { useStripeSubscription } from '@/hooks/use-stripe-subscription';
+import { getPremiumStripeCheckoutUrl } from '@/lib/stripe-checkout';
 import { SignInButton, SignUpButton, useAuth } from '@clerk/nextjs';
 import {
   Check,
-  Code2,
+  // Code2,
   Crown,
   Download,
   Sparkles,
-  Terminal,
+  // Terminal,
   UserPlus,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -26,9 +25,9 @@ import Link from 'next/link';
 import { useId, useState } from 'react';
 
 const PREMIUM_MONTHLY = 10;
-const PREMIUM_YEARLY = 99;
-const DEVELOPER_MONTHLY = 15;
-const DEVELOPER_YEARLY = 150;
+const PREMIUM_YEARLY = 100;
+// const DEVELOPER_MONTHLY = 15;
+// const DEVELOPER_YEARLY = 150;
 
 function formatMonthlyEquivalent(yearly: number) {
   return (yearly / 12).toFixed(2).replace(/\.00$/, '');
@@ -75,31 +74,18 @@ export default function PricesClient() {
   const tCommon = useTranslations('common');
   const annualBillingId = useId();
   const [isAnnual, setIsAnnual] = useState(false);
-  const { isLoaded, isSignedIn, has } = useAuth();
-  const { plan, hasPaidPlan, ready } = useMembershipAccess();
-
-  const hasPremiumPlan =
-    ready &&
-    Boolean(
-      has?.({ plan: CLERK_USER_PLANS.premium }) ||
-        has?.({ feature: CLERK_FEATURES.premiumAccess }) ||
-        plan === 'premium' ||
-        plan === 'startup'
-    );
-  const hasStartupPlan =
-    ready &&
-    Boolean(
-      has?.({ plan: CLERK_USER_PLANS.startup }) ||
-        has?.({ feature: CLERK_FEATURES.startupAccess }) ||
-        plan === 'startup'
-    );
+  const { isLoaded, isSignedIn, userId } = useAuth();
+  const { plan, ready } = useStripeSubscription();
+  const hasPremiumPlan = ready && (plan === 'premium' || plan === 'startup');
 
   const freeFeatures = t.raw('freeFeatures') as string[];
   const premiumOnlyFeatures = t.raw('premiumFeatures') as string[];
-  const developerOnlyFeatures = t.raw('developerFeatures') as string[];
+  // const developerOnlyFeatures = t.raw('developerFeatures') as string[];
 
   const annualSavingsPremium = PREMIUM_MONTHLY * 12 - PREMIUM_YEARLY;
-  const annualSavingsDeveloper = DEVELOPER_MONTHLY * 12 - DEVELOPER_YEARLY;
+  // const annualSavingsDeveloper = DEVELOPER_MONTHLY * 12 - DEVELOPER_YEARLY;
+
+  const premiumCheckoutUrl = getPremiumStripeCheckoutUrl(isAnnual, userId);
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
@@ -133,15 +119,15 @@ export default function PricesClient() {
                   {t('annualBillingHint', {
                     premiumYear: PREMIUM_YEARLY,
                     premiumSave: annualSavingsPremium,
-                    devYear: DEVELOPER_YEARLY,
-                    devSave: annualSavingsDeveloper,
+                    devYear: 0,
+                    devSave: 0,
                   })}
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {/* Free */}
             <Card className="flex flex-col border-muted-foreground/20 shadow-sm">
               <CardHeader className="pb-4">
@@ -220,45 +206,58 @@ export default function PricesClient() {
                   </li>
                 </ul>
                 <div className="mt-auto space-y-3">
-                  {isLoaded && isSignedIn ? (
-                    hasPremiumPlan ? (
-                      <>
-                        <Badge className="w-full justify-center py-2">
-                          {t('planActive')}
-                        </Badge>
-                        <Button className="w-full" asChild>
-                          <PremiumAccessLink
-                            membership="Premium"
-                            href="/web-tags?membership=Premium"
-                          >
-                            {t('previewPremium')}
-                          </PremiumAccessLink>
-                        </Button>
-                        <Button variant="outline" className="w-full" asChild>
-                          <Link href="/dashboard/profile">{t('managePremium')}</Link>
-                        </Button>
-                      </>
-                    ) : (
-                      <>
-                        <Button variant="ghost" className="w-full" asChild>
-                          <PremiumAccessLink
-                            membership="Premium"
-                            href="/web-tags?membership=Premium"
-                          >
-                            {t('previewPremium')}
-                          </PremiumAccessLink>
-                        </Button>
-                        <Button className="w-full" asChild>
-                          <a href="#subscribe">{t('subscribeBelow')}</a>
-                        </Button>
-                      </>
-                    )
+                  {isLoaded && isSignedIn && hasPremiumPlan ? (
+                    <>
+                      <Badge className="w-full justify-center py-2 text-sm">
+                        {t('planActive')}
+                      </Badge>
+                      <Button className="w-full" asChild>
+                        <PremiumAccessLink
+                          membership="Premium"
+                          href="/web-tags?membership=Premium"
+                        >
+                          {t('previewPremium')}
+                        </PremiumAccessLink>
+                      </Button>
+                      <Button variant="outline" className="w-full" asChild>
+                        <Link href="/dashboard/profile">{t('managePremium')}</Link>
+                      </Button>
+                    </>
+                  ) : isLoaded && isSignedIn ? (
+                    <>
+                      <Button className="w-full" asChild>
+                        <a
+                          href={premiumCheckoutUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {t('subscribePremium')}
+                        </a>
+                      </Button>
+                      <Button variant="ghost" className="w-full" asChild>
+                        <PremiumAccessLink
+                          membership="Premium"
+                          href="/web-tags?membership=Premium"
+                        >
+                          {t('previewPremium')}
+                        </PremiumAccessLink>
+                      </Button>
+                    </>
                   ) : (
                     <>
-                      <SignUpButton mode="redirect" forceRedirectUrl="/prices">
-                        <Button className="w-full">
+                      <Button className="w-full" asChild>
+                        <a
+                          href={premiumCheckoutUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
                           <UserPlus className="w-4 h-4 mr-2" />
                           {t('subscribePremium')}
+                        </a>
+                      </Button>
+                      <SignUpButton mode="redirect" forceRedirectUrl="/prices">
+                        <Button variant="secondary" className="w-full">
+                          {tCommon('signUp')}
                         </Button>
                       </SignUpButton>
                       <SignInButton mode="redirect" forceRedirectUrl="/dashboard">
@@ -280,110 +279,8 @@ export default function PricesClient() {
               </CardContent>
             </Card>
 
-            {/* Developer */}
-            <Card className="flex flex-col border-amber-500/50 shadow-lg relative overflow-hidden">
-              <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-amber-500 via-orange-500 to-amber-500" />
-              <CardHeader className="pb-4 pt-8">
-                <div className="flex items-center justify-between gap-2 flex-wrap">
-                  <CardTitle className="font-headline text-2xl flex items-center gap-2">
-                    <Code2 className="w-6 h-6 text-amber-600 dark:text-amber-400" />
-                    {tCommon('startup')}
-                  </CardTitle>
-                  <Badge className="bg-amber-600 text-white hover:bg-amber-600">
-                    {t('bestForBuilders')}
-                  </Badge>
-                </div>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  {t('startupDesc')}
-                </p>
-              </CardHeader>
-              <CardContent className="flex flex-col flex-grow">
-                <PaidPlanPrice
-                  isAnnual={isAnnual}
-                  monthly={DEVELOPER_MONTHLY}
-                  yearly={DEVELOPER_YEARLY}
-                />
-                <ul className="space-y-4 mb-8 flex-grow">
-                  {developerOnlyFeatures.map((text) => (
-                    <li key={text} className="flex items-start gap-3 text-sm">
-                      <Check className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
-                      <span>{text}</span>
-                    </li>
-                  ))}
-                  <li className="flex items-start gap-3 text-sm">
-                    <Terminal className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
-                    <span>
-                      <strong className="text-foreground">{t('installGuidesLabel')}</strong>{' '}
-                      {t('installGuides')}
-                    </span>
-                  </li>
-                </ul>
-                <div className="mt-auto space-y-3">
-                  {isLoaded && isSignedIn ? (
-                    hasStartupPlan ? (
-                      <>
-                        <Badge className="w-full justify-center py-2 bg-amber-600 text-white hover:bg-amber-600">
-                          {t('planActive')}
-                        </Badge>
-                        <Button
-                          className="w-full bg-amber-600 hover:bg-amber-700 text-white"
-                          asChild
-                        >
-                          <Link href="/landing-pages">{t('browseWebProjects')}</Link>
-                        </Button>
-                        <Button variant="outline" className="w-full" asChild>
-                          <Link href="/dashboard/profile">{t('managePremium')}</Link>
-                        </Button>
-                      </>
-                    ) : (
-                      <>
-                        <Button variant="ghost" className="w-full" asChild>
-                          <Link href="/landing-pages">{t('browseWebProjects')}</Link>
-                        </Button>
-                        <Button
-                          className="w-full bg-amber-600 hover:bg-amber-700 text-white"
-                          asChild
-                        >
-                          <a href="#subscribe">{t('subscribeBelow')}</a>
-                        </Button>
-                      </>
-                    )
-                  ) : (
-                    <>
-                      <SignUpButton mode="redirect" forceRedirectUrl="/prices">
-                        <Button className="w-full bg-amber-600 hover:bg-amber-700 text-white">
-                          <Code2 className="w-4 h-4 mr-2" />
-                          {t('subscribeStartup')}
-                        </Button>
-                      </SignUpButton>
-                      <SignInButton mode="redirect" forceRedirectUrl="/dashboard">
-                        <Button variant="outline" className="w-full">
-                          {tCommon('signIn')}
-                        </Button>
-                      </SignInButton>
-                      <Button variant="ghost" className="w-full" asChild>
-                        <Link href="/landing-pages">{t('browseWebProjects')}</Link>
-                      </Button>
-                    </>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+            {/* Plan Startup — oculto de momento */}
           </div>
-
-          {isLoaded && isSignedIn && (
-            <section className="mt-16 space-y-6">
-              <div className="text-center max-w-2xl mx-auto">
-                <h2 className="text-2xl font-bold font-headline mb-2">
-                  {t('clerkBillingTitle')}
-                </h2>
-                <p className="text-muted-foreground text-sm">
-                  {hasPaidPlan ? t('planActive') : t('clerkBillingSubtitle')}
-                </p>
-              </div>
-              <ClerkPricingTable />
-            </section>
-          )}
 
           <p className="text-center text-sm text-muted-foreground mt-12 max-w-2xl mx-auto">
             {t('footerNote')}

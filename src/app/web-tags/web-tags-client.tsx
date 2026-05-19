@@ -23,7 +23,7 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination';
 import { getRefactoryLoaderUrl } from '@/lib/refactory-online';
-import { cn } from '@/lib/utils';
+import { cn, shouldUnoptimizeImage } from '@/lib/utils';
 import { useLocalizedWebPages } from '@/hooks/use-localized-catalog';
 import { webTagCategoryDefs, type WebTagCategory } from '@/lib/web-tags-data';
 import {
@@ -451,8 +451,10 @@ function WebTagsContent() {
                           src={page.imageUrl}
                           alt={page.title}
                           fill
+                          sizes="(max-width: 640px) 100vw, 50vw"
                           className="object-cover"
                           data-ai-hint={page.imageHint}
+                          unoptimized={shouldUnoptimizeImage(page.imageUrl)}
                         />
                       </div>
                     </CardContent>

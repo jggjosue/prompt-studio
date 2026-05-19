@@ -1,12 +1,12 @@
-import { ClerkProvider } from '@clerk/nextjs';
+import '@/app/globals.css';
 import { SiteAnalytics } from '@/components/site-analytics';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
+import { ClerkProvider } from '@clerk/nextjs';
 import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
 import Script from 'next/script';
-import './globals.css';
 
 export const metadata: Metadata = {
   title: 'Prompt Studio',
@@ -36,6 +36,35 @@ export const metadata: Metadata = {
     'banana pro',
     'nano banana pro',
     'prompts',
+    'prompt studio',
+    'promptstudio',
+    'promt studio',
+    'promp studio',
+    'prompt studios',
+    'promptstudyo',
+    'prompt models studio',
+    'my prompt studio',
+    'prompts studio',
+    'prompt studio photo',
+    'prompt studio fivem',
+    'ai prompt studio',
+    'promptoo studio',
+    'studio prompt',
+    'prompt-studio',
+    'for prompt studio',
+    'prompay studio',
+    'contemplative audiovisual prompt',
+    'promt studios',
+    'prom studio',
+    'prompt model studio',
+    'prompt studio ai',
+    'sakura prompt',
+    'promptmodels studio',
+    'the prompt studio',
+    '프롬프트 스튜디오',
+    'prompt.studio',
+    '"contemplative audiovisual prompt"',
+    'studio prompt generator',
     'chat gpt prompts for christmas pictures',
     'voice mail prompts',
     'christmas ai photo prompts',
@@ -70,10 +99,15 @@ export default async function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap"
           rel="stylesheet"
         />
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7082864972330769"crossorigin="anonymous"></script>
       </head>
       <body className="font-body antialiased" suppressHydrationWarning>
         <ClerkProvider>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7082864972330769"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-8S22HHJK76"
           strategy="afterInteractive"

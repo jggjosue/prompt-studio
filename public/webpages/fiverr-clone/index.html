@@ -1,49 +1,302 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fiverr — Clon educativo</title>
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fiverr — Freelance Marketplace</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green: #1DBF73;
+    --green-dark: #19a463;
+    --dark: #404145;
+    --gray: #62646a;
+    --light-gray: #f1f1f1;
+    --white: #fff;
+    --border: #dadbdd;
+    --font: system-ui, -apple-system, sans-serif;
+  }
+  body { font-family: var(--font); color: var(--dark); background: var(--white); }
+
+  /* NAV */
+  nav {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .nav-logo { font-size: 1.4rem; font-weight: 900; color: var(--dark); letter-spacing: -0.5px; }
+  .nav-logo span { color: var(--green); }
+  .nav-links { display: flex; gap: 1.25rem; align-items: center; }
+  .nav-links a { font-size: 0.875rem; font-weight: 500; color: var(--gray); text-decoration: none; }
+  .nav-links a:hover { color: var(--dark); }
+  .nav-actions { display: flex; gap: 10px; align-items: center; }
+  .btn-ghost { background: transparent; border: 1.5px solid var(--border); color: var(--dark); padding: 7px 16px; border-radius: 4px; font-size: 0.875rem; font-weight: 600; cursor: pointer; }
+  .btn-join { background: var(--green); color: #fff; border: none; padding: 8px 18px; border-radius: 4px; font-size: 0.875rem; font-weight: 700; cursor: pointer; }
+  .btn-join:hover { background: var(--green-dark); }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #1a4730 0%, #1a3d2d 40%, #0e2a1e 100%);
+    padding: 5rem 2rem 4rem;
+    text-align: center;
+    color: #fff;
+  }
+  .hero h1 { font-size: clamp(1.9rem, 4.5vw, 3rem); font-weight: 800; max-width: 640px; margin: 0 auto 0.75rem; line-height: 1.15; }
+  .hero h1 em { color: var(--green); font-style: normal; }
+  .hero p { font-size: 1.05rem; color: rgba(255,255,255,0.8); max-width: 480px; margin: 0 auto 2.5rem; }
+
+  /* SEARCH BAR */
+  .search-bar { display: flex; max-width: 560px; margin: 0 auto 3rem; background: #fff; border-radius: 4px; overflow: hidden; }
+  .search-bar input { flex: 1; padding: 14px 16px; border: none; outline: none; font-size: 0.95rem; color: var(--dark); }
+  .search-btn { background: var(--green); color: #fff; border: none; padding: 0 22px; font-size: 0.95rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+  .popular { font-size: 0.78rem; color: rgba(255,255,255,0.65); max-width: 560px; margin: 0 auto; text-align: left; padding-left: 4px; }
+  .popular strong { color: rgba(255,255,255,0.85); }
+  .pop-tag { display: inline-block; margin: 0 4px; border: 1px solid rgba(255,255,255,0.4); border-radius: 99px; padding: 3px 10px; font-size: 0.75rem; cursor: pointer; }
+  .pop-tag:hover { background: rgba(255,255,255,0.1); }
+
+  /* GIG CARDS */
+  .gigs-section { padding: 4rem 2rem; }
+  .gigs-title { font-size: 1.5rem; font-weight: 700; color: var(--dark); margin-bottom: 1.5rem; }
+  .gigs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.25rem; max-width: 1000px; }
+  .gig-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; cursor: pointer; transition: box-shadow 0.15s; }
+  .gig-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+  .gig-img { height: 140px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; }
+  .gig-body { padding: 12px; }
+  .gig-seller { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .seller-av { width: 28px; height: 28px; border-radius: 50%; font-size: 0.7rem; font-weight: 700; color: #fff; display: flex; align-items: center; justify-content: center; }
+  .seller-name { font-size: 0.8rem; font-weight: 600; color: var(--dark); }
+  .seller-level { font-size: 0.68rem; color: var(--gray); }
+  .gig-title { font-size: 0.82rem; color: var(--dark); line-height: 1.4; margin-bottom: 8px; }
+  .gig-stars { display: flex; align-items: center; gap: 4px; font-size: 0.75rem; color: #ffbe00; margin-bottom: 8px; }
+  .gig-stars span { color: var(--gray); }
+  .gig-price { font-size: 0.78rem; color: var(--gray); }
+  .gig-price strong { font-size: 0.95rem; color: var(--dark); }
+
+  /* CHIPS (Categories) */
+  .categories { padding: 3rem 2rem; background: var(--light-gray); }
+  .categories h3 { font-size: 1.25rem; font-weight: 700; color: var(--dark); margin-bottom: 1.25rem; }
+  .cat-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+  .cat-chip { padding: 8px 18px; border-radius: 99px; border: 1.5px solid var(--border); color: var(--dark); font-size: 0.875rem; font-weight: 500; cursor: pointer; background: var(--white); transition: all 0.15s; }
+  .cat-chip:hover, .cat-chip.active { background: var(--green); color: #fff; border-color: var(--green); }
+
+  /* FEATURES */
+  .features { padding: 5rem 2rem; text-align: center; }
+  .features h2 { font-size: 2rem; font-weight: 800; color: var(--dark); margin-bottom: 0.75rem; }
+  .features p.sub { color: var(--gray); max-width: 500px; margin: 0 auto 3rem; font-size: 1rem; }
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; max-width: 880px; margin: 0 auto; }
+  .feat { text-align: left; }
+  .feat-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+  .feat h4 { font-size: 1rem; font-weight: 700; color: var(--dark); margin-bottom: 0.5rem; }
+  .feat p { font-size: 0.875rem; color: var(--gray); line-height: 1.55; }
+
+  /* TRUST */
+  .trust { background: var(--dark); color: #fff; padding: 3.5rem 2rem; text-align: center; }
+  .trust h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: 2rem; }
+  .trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 2rem; max-width: 700px; margin: 0 auto; }
+  .trust-stat .num { font-size: 2.25rem; font-weight: 800; color: var(--green); }
+  .trust-stat .label { font-size: 0.875rem; color: rgba(255,255,255,0.7); margin-top: 4px; }
+
+  /* FOOTER */
+  footer { background: var(--dark); border-top: 1px solid #555; color: #b3b3b3; padding: 3rem 2rem 2rem; }
+  .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 2rem; max-width: 900px; margin: 0 auto 2rem; }
+  .footer-col h5 { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #888; margin-bottom: 0.75rem; }
+  .footer-col a { display: block; font-size: 0.875rem; color: #b3b3b3; text-decoration: none; margin-bottom: 6px; }
+  .footer-col a:hover { color: #fff; }
+  .footer-bottom { border-top: 1px solid #555; padding-top: 1.5rem; text-align: center; font-size: 0.75rem; color: #666; }
+</style>
 </head>
 <body>
-  <nav class="navbar">
-    <a href="#" class="logo">Fiverr</a>
-    <ul class="nav-links">
-      <li><a href="#features">Producto</a></li>
-      <li><a href="#more">Soluciones</a></li>
-      <li><a href="#">Precios</a></li>
-    </ul>
-    <div class="nav-actions">
-      <button type="button" class="btn btn-ghost">Iniciar sesión</button>
-      <button type="button" class="btn btn-primary">Probar gratis</button>
-    </div>
-  </nav>
-  <header class="hero">
-    <div class="hero-inner">
-      <div>
-        <h1>Talento freelance</h1>
-        <p>Servicios desde $5.</p>
-        <button type="button" class="btn btn-primary">Explorar</button>
+
+<nav>
+  <div class="nav-logo">fiver<span>r</span></div>
+  <div class="nav-links">
+    <a href="#">Explore</a>
+    <a href="#">Business</a>
+    <a href="#">Fiverr Pro</a>
+    <a href="#">Learn</a>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-ghost">Log In</button>
+    <button class="btn-join">Join</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <h1>Find the right <em>freelance service</em>, right away</h1>
+  <p>Work with talented freelancers to get things done — faster than ever.</p>
+  <div class="search-bar">
+    <input type="text" placeholder="Try &quot;logo design&quot; or &quot;video editing&quot;" />
+    <button class="search-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      Search
+    </button>
+  </div>
+  <div class="popular">
+    <strong>Popular:</strong>
+    <span class="pop-tag">Logo Design</span>
+    <span class="pop-tag">Video Editing</span>
+    <span class="pop-tag">Copywriting</span>
+    <span class="pop-tag">Web Dev</span>
+  </div>
+</section>
+
+<section class="gigs-section">
+  <h2 class="gigs-title">Top freelance services</h2>
+  <div class="gigs-grid">
+    <div class="gig-card">
+      <div class="gig-img" style="background:linear-gradient(135deg,#667eea,#764ba2)">🎨</div>
+      <div class="gig-body">
+        <div class="gig-seller">
+          <div class="seller-av" style="background:#1DBF73">J</div>
+          <div>
+            <div class="seller-name">jdesign_pro</div>
+            <div class="seller-level">Top Rated Seller</div>
+          </div>
+        </div>
+        <div class="gig-title">I will design a professional logo for your brand</div>
+        <div class="gig-stars">★★★★★ <span>(2.4k)</span></div>
+        <div class="gig-price">Starting at <strong>$15</strong></div>
       </div>
-      <div class="mockup" aria-label="Vista previa"><div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem"><div style="border:1px solid #e4e5e7;border-radius:8px;padding:.75rem"><div style="width:40px;height:40px;background:#1dbf73;border-radius:50%"></div><strong>Logo Design</strong></div><div style="border:1px solid #e4e5e7;border-radius:8px;padding:.75rem"><div style="width:40px;height:40px;background:#446ee7;border-radius:50%"></div><strong>Video Edit</strong></div></div></div>
     </div>
-  </header>
-  <section class="section" id="features">
-    <h2>Funciones principales</h2>
-    <div class="feat-grid"><article class="feat-card"><h3>Gigs</h3><p>Paquetes listos.</p></article><article class="feat-card"><h3>Pro</h3><p>Elite verificado.</p></article><article class="feat-card"><h3>Business</h3><p>Empresas.</p></article></div>
-  </section>
-  <section class="section" id="more">
-    <h2>Categorías</h2>
-    <div class="chips"><span class="chip">Diseño</span><span class="chip">Marketing</span><span class="chip">Video</span></div>
-  </section>
-  <footer>
-    <div class="footer-grid">
-      <div><h4>Producto</h4><ul><li>Funciones</li><li>Integraciones</li></ul></div>
-      <div><h4>Empresa</h4><ul><li>Acerca de</li><li>Carreras</li></ul></div>
-      <div><h4>Recursos</h4><ul><li>Blog</li><li>Soporte</li></ul></div>
+    <div class="gig-card">
+      <div class="gig-img" style="background:linear-gradient(135deg,#f093fb,#f5576c)">🎬</div>
+      <div class="gig-body">
+        <div class="gig-seller">
+          <div class="seller-av" style="background:#f5576c">M</div>
+          <div>
+            <div class="seller-name">motioncraft</div>
+            <div class="seller-level">Level 2 Seller</div>
+          </div>
+        </div>
+        <div class="gig-title">I will edit your video professionally with color grading</div>
+        <div class="gig-stars">★★★★★ <span>(1.8k)</span></div>
+        <div class="gig-price">Starting at <strong>$30</strong></div>
+      </div>
     </div>
-    <p class="disclaimer">Clon educativo no oficial. Sin afiliación con la marca original.</p>
-  </footer>
+    <div class="gig-card">
+      <div class="gig-img" style="background:linear-gradient(135deg,#4facfe,#00f2fe)">💻</div>
+      <div class="gig-body">
+        <div class="gig-seller">
+          <div class="seller-av" style="background:#4facfe">K</div>
+          <div>
+            <div class="seller-name">kodecreator</div>
+            <div class="seller-level">Pro Verified</div>
+          </div>
+        </div>
+        <div class="gig-title">I will build a responsive website using React and Tailwind</div>
+        <div class="gig-stars">★★★★★ <span>(3.1k)</span></div>
+        <div class="gig-price">Starting at <strong>$75</strong></div>
+      </div>
+    </div>
+    <div class="gig-card">
+      <div class="gig-img" style="background:linear-gradient(135deg,#43e97b,#38f9d7)">✍️</div>
+      <div class="gig-body">
+        <div class="gig-seller">
+          <div class="seller-av" style="background:#43e97b">S</div>
+          <div>
+            <div class="seller-name">sara_writes</div>
+            <div class="seller-level">Top Rated Plus</div>
+          </div>
+        </div>
+        <div class="gig-title">I will write SEO blog articles and website copy</div>
+        <div class="gig-stars">★★★★★ <span>(4.5k)</span></div>
+        <div class="gig-price">Starting at <strong>$20</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="categories">
+  <h3>Browse categories</h3>
+  <div class="cat-chips">
+    <span class="cat-chip active">Design & Creative</span>
+    <span class="cat-chip">Programming & Tech</span>
+    <span class="cat-chip">Writing & Translation</span>
+    <span class="cat-chip">Video & Animation</span>
+    <span class="cat-chip">Music & Audio</span>
+    <span class="cat-chip">Marketing</span>
+    <span class="cat-chip">Business</span>
+  </div>
+</section>
+
+<section class="features">
+  <h2>Why Fiverr?</h2>
+  <p class="sub">Millions of talented people. One platform. Zero hassle.</p>
+  <div class="features-grid">
+    <div class="feat">
+      <div class="feat-icon">💼</div>
+      <h4>Gigs marketplace</h4>
+      <p>Browse ready-to-buy services in hundreds of categories. Find exactly what you need, instantly.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">⭐</div>
+      <h4>Fiverr Pro</h4>
+      <p>Access hand-vetted professionals with expert skills and proven track records for critical projects.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">🏢</div>
+      <h4>Business</h4>
+      <p>Manage your team's freelance work in one place with consolidated billing and dedicated support.</p>
+    </div>
+  </div>
+</section>
+
+<section class="trust">
+  <h3>Trusted by the world's best companies</h3>
+  <div class="trust-grid">
+    <div class="trust-stat">
+      <div class="num">700+</div>
+      <div class="label">Categories of freelance services</div>
+    </div>
+    <div class="trust-stat">
+      <div class="num">4M+</div>
+      <div class="label">5-star reviews posted</div>
+    </div>
+    <div class="trust-stat">
+      <div class="num">700K+</div>
+      <div class="label">Sellers offering services</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h5>For Clients</h5>
+      <a href="#">How Fiverr Works</a>
+      <a href="#">Find Freelancers</a>
+      <a href="#">Fiverr Pro</a>
+      <a href="#">Enterprise</a>
+    </div>
+    <div class="footer-col">
+      <h5>For Freelancers</h5>
+      <a href="#">Start Selling</a>
+      <a href="#">Seller Tips</a>
+      <a href="#">Community Forum</a>
+    </div>
+    <div class="footer-col">
+      <h5>Support</h5>
+      <a href="#">Help Center</a>
+      <a href="#">Safety & Trust</a>
+      <a href="#">Selling Guidelines</a>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <a href="#">About Fiverr</a>
+      <a href="#">Careers</a>
+      <a href="#">Press</a>
+      <a href="#">Investors</a>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2024 Fiverr International Ltd. All rights reserved.</div>
+</footer>
+
 </body>
 </html>

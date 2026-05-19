@@ -39,11 +39,21 @@ function scanFolders() {
 const data = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
 const scanned = scanFolders();
 
+function demoFolderFromUrl(demoUrl) {
+  if (!demoUrl || typeof demoUrl !== 'string') return null;
+  const trimmed = demoUrl.trim();
+  if (!trimmed) return null;
+  const legacy = trimmed.match(/\/webpages\/([^/]+)(?:\/|$)/);
+  if (legacy) return legacy[1];
+  if (/^[a-z0-9][a-z0-9-]*$/i.test(trimmed) && !trimmed.includes('/')) {
+    return trimmed;
+  }
+  return null;
+}
+
 for (const page of data.webPages || []) {
-  if (!page.demoUrl) continue;
-  const match = page.demoUrl.match(/\/webpages\/([^/]+)\//);
-  if (!match) continue;
-  const slug = match[1];
+  const slug = demoFolderFromUrl(page.demoUrl);
+  if (!slug) continue;
   const dir = path.join(webpagesDir, slug);
   scanned[slug] = {
     id: page.id,

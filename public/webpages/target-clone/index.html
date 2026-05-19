@@ -1,6 +1,285 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>Target — Clon educativo</title><link rel="stylesheet" href="styles.css"/></head><body>
-<nav class="navbar"><a href="#" class="logo">Target</a><ul class="nav-links"><li><a href="#features">Producto</a></li><li><a href="#more">Más</a></li></ul><div class="nav-actions"><button type="button" class="btn btn-ghost">Iniciar sesión</button><button type="button" class="btn btn-primary">Probar</button></div></nav>
-<header class="hero"><div class="hero-inner"><div><h1>Expect More. Pay Less.</h1><p>Moda, hogar, electrónica y más.</p><button type="button" class="btn btn-primary">Comprar</button></div><div class="mockup"><div style="width:60px;height:60px;border:4px solid #cc0000;border-radius:50%;margin:0 auto"></div></div></div></header>
-<section class="section" id="features"><h2>Funciones</h2><div class="feat-grid"><article class="feat-card"><h3>Circle</h3><p>Ofertas exclusivas.</p></article><article class="feat-card"><h3>Drive Up</h3><p>Recoge sin bajar.</p></article><article class="feat-card"><h3>Same Day</h3><p>Entrega hoy.</p></article></div></section>
-<section class="section" id="more"><h2>Categorías</h2><div class="chips"><span class="chip">Style</span><span class="chip">Home</span><span class="chip">Beauty</span></div></section>
-<footer><div class="footer-grid"><div><h4>Producto</h4><ul><li>Funciones</li></ul></div><div><h4>Empresa</h4><ul><li>Acerca de</li></ul></div><div><h4>Recursos</h4><ul><li>Soporte</li></ul></div></div><p class="disclaimer">Clon educativo no oficial. Sin afiliación con la marca original.</p></footer></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Target — Expect More. Pay Less.</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --red: #CC0000;
+    --red-dark: #a80000;
+    --white: #fff;
+    --gray-bg: #f6f6f6;
+    --gray: #666;
+    --border: #e0e0e0;
+    --text: #333;
+    --font: system-ui, -apple-system, sans-serif;
+  }
+  body { font-family: var(--font); background: var(--white); color: var(--text); }
+
+  /* NAV */
+  nav {
+    background: var(--red);
+    padding: 0 2rem;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 1.25rem; color: var(--white); letter-spacing: -0.3px; }
+  .bullseye { width: 36px; height: 36px; position: relative; display: flex; align-items: center; justify-content: center; }
+  .bullseye::before { content: ''; position: absolute; width: 36px; height: 36px; border-radius: 50%; background: var(--white); }
+  .bullseye::after { content: ''; position: absolute; width: 20px; height: 20px; border-radius: 50%; background: var(--red); }
+  .bullseye-inner { position: absolute; width: 8px; height: 8px; border-radius: 50%; background: var(--white); z-index: 1; }
+  .nav-search { flex: 1; max-width: 520px; margin: 0 2rem; display: flex; }
+  .nav-search input { flex: 1; padding: 9px 14px; border: none; border-radius: 4px 0 0 4px; font-size: 0.9rem; outline: none; }
+  .nav-search button { background: #333; color: #fff; border: none; padding: 0 16px; border-radius: 0 4px 4px 0; cursor: pointer; }
+  .nav-actions { display: flex; gap: 1.25rem; align-items: center; }
+  .nav-actions a { font-size: 0.8rem; font-weight: 600; color: var(--white); text-decoration: none; opacity: 0.9; }
+  .nav-actions a:hover { opacity: 1; }
+
+  /* SUB-NAV */
+  .sub-nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; gap: 2rem; overflow-x: auto; }
+  .sub-nav a { display: block; padding: 12px 0; font-size: 0.85rem; font-weight: 600; color: var(--text); text-decoration: none; white-space: nowrap; border-bottom: 2.5px solid transparent; }
+  .sub-nav a:hover, .sub-nav a.active { color: var(--red); border-bottom-color: var(--red); }
+
+  /* HERO */
+  .hero { background: var(--red); padding: 5rem 2rem 4rem; text-align: center; position: relative; overflow: hidden; }
+  .hero-bg-circle {
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    border: 80px solid rgba(255,255,255,0.06);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .hero-bg-circle2 {
+    position: absolute;
+    width: 380px; height: 380px;
+    border-radius: 50%;
+    border: 50px solid rgba(255,255,255,0.08);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .hero-content { position: relative; z-index: 1; }
+  .hero-eyebrow { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.65); margin-bottom: 1rem; }
+  .hero h1 { font-size: clamp(2rem, 5.5vw, 3.75rem); font-weight: 900; color: var(--white); max-width: 680px; margin: 0 auto 1.25rem; line-height: 1.1; letter-spacing: -1px; }
+  .hero p { font-size: 1.1rem; color: rgba(255,255,255,0.82); max-width: 500px; margin: 0 auto 2.5rem; line-height: 1.6; }
+  .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 3.5rem; }
+  .btn-white { background: var(--white); color: var(--red); border: none; padding: 14px 32px; border-radius: 99px; font-size: 1rem; font-weight: 800; cursor: pointer; }
+  .btn-white:hover { background: #f5f5f5; }
+  .btn-outline-white { background: transparent; border: 2.5px solid rgba(255,255,255,0.55); color: var(--white); padding: 12px 30px; border-radius: 99px; font-size: 1rem; font-weight: 700; cursor: pointer; }
+
+  /* BULLSEYE HERO GRAPHIC */
+  .bullseye-hero { width: 200px; height: 200px; margin: 0 auto; position: relative; }
+  .bh-ring { position: absolute; border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%,-50%); }
+
+  /* CATEGORY CHIPS */
+  .chips-section { background: var(--gray-bg); padding: 3rem 2rem; text-align: center; }
+  .chips-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gray); margin-bottom: 1.25rem; }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .chip { padding: 9px 20px; border-radius: 99px; border: 1.5px solid var(--border); color: var(--text); font-size: 0.875rem; font-weight: 600; cursor: pointer; background: var(--white); transition: all 0.15s; }
+  .chip:hover, .chip.active { background: var(--red); color: var(--white); border-color: var(--red); }
+
+  /* FEATURES / SERVICES */
+  .features { padding: 5rem 2rem; background: var(--white); text-align: center; }
+  .features h2 { font-size: 2.25rem; font-weight: 900; color: var(--text); margin-bottom: 0.75rem; letter-spacing: -0.5px; }
+  .features p.sub { color: var(--gray); max-width: 520px; margin: 0 auto 3rem; font-size: 1.05rem; }
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; max-width: 900px; margin: 0 auto; }
+  .feat { text-align: center; padding: 2rem 1.25rem; border: 1.5px solid var(--border); border-radius: 12px; }
+  .feat-icon { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
+  .feat h4 { font-size: 1.05rem; font-weight: 800; color: var(--text); margin-bottom: 0.5rem; }
+  .feat p { font-size: 0.875rem; color: var(--gray); line-height: 1.6; }
+
+  /* DEAL CARDS */
+  .deals { background: var(--gray-bg); padding: 4rem 2rem; }
+  .deals h3 { font-size: 1.5rem; font-weight: 900; color: var(--text); margin-bottom: 1.5rem; }
+  .deals-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; max-width: 1000px; }
+  .deal-card { background: var(--white); border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+  .deal-img { height: 140px; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+  .deal-body { padding: 12px; }
+  .deal-badge { background: var(--red); color: var(--white); font-size: 0.7rem; font-weight: 800; padding: 2px 7px; border-radius: 3px; display: inline-block; margin-bottom: 6px; }
+  .deal-name { font-size: 0.875rem; font-weight: 600; color: var(--text); margin-bottom: 6px; line-height: 1.3; }
+  .deal-price { font-size: 1rem; font-weight: 800; color: var(--red); }
+  .deal-was { font-size: 0.78rem; color: var(--gray); text-decoration: line-through; margin-left: 6px; }
+
+  /* FOOTER */
+  footer { background: #f5f5f5; border-top: 1px solid var(--border); color: var(--gray); padding: 3rem 2rem 2rem; }
+  .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 2rem; max-width: 900px; margin: 0 auto 2rem; }
+  .footer-col h5 { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text); margin-bottom: 0.75rem; }
+  .footer-col a { display: block; font-size: 0.875rem; color: var(--gray); text-decoration: none; margin-bottom: 6px; }
+  .footer-col a:hover { color: var(--red); }
+  .footer-bottom { border-top: 1px solid var(--border); padding-top: 1.5rem; text-align: center; font-size: 0.75rem; color: #999; }
+  .footer-logo { font-size: 1.5rem; font-weight: 900; color: var(--red); text-align: center; margin-bottom: 1.5rem; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <div class="bullseye"><div class="bullseye-inner"></div></div>
+    Target
+  </div>
+  <div class="nav-search">
+    <input type="text" placeholder="Search for products, brands, and more" />
+    <button>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
+  </div>
+  <div class="nav-actions">
+    <a href="#">Sign in</a>
+    <a href="#">Registry</a>
+    <a href="#">🛒 Cart</a>
+  </div>
+</nav>
+
+<nav class="sub-nav">
+  <a href="#" class="active">Today's Deals</a>
+  <a href="#">Clothing</a>
+  <a href="#">Electronics</a>
+  <a href="#">Grocery</a>
+  <a href="#">Home</a>
+  <a href="#">Beauty</a>
+  <a href="#">Toys</a>
+  <a href="#">Sports</a>
+  <a href="#">Baby</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg-circle"></div>
+  <div class="hero-bg-circle2"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Expect More. Pay Less.</div>
+    <h1>Get great deals delivered fast</h1>
+    <p>Shop thousands of items with free same-day delivery with Target Circle, free Drive Up, and free shipping on orders $35+.</p>
+    <div class="hero-actions">
+      <button class="btn-white">Shop Now</button>
+      <button class="btn-outline-white">Join Target Circle</button>
+    </div>
+
+    <div class="bullseye-hero">
+      <div class="bh-ring" style="width:200px;height:200px;background:rgba(255,255,255,0.12)"></div>
+      <div class="bh-ring" style="width:140px;height:140px;background:rgba(255,255,255,0.15)"></div>
+      <div class="bh-ring" style="width:80px;height:80px;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;">
+        <span style="font-size:1.75rem">🎯</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="chips-section">
+  <div class="chips-label">Shop by category</div>
+  <div class="chips">
+    <span class="chip active">All Deals</span>
+    <span class="chip">Electronics</span>
+    <span class="chip">Clothing</span>
+    <span class="chip">Home</span>
+    <span class="chip">Beauty</span>
+    <span class="chip">Grocery</span>
+    <span class="chip">Toys</span>
+    <span class="chip">Sports</span>
+  </div>
+</section>
+
+<section class="features">
+  <h2>More ways to shop</h2>
+  <p class="sub">Flexible fulfillment options to fit your schedule — every time.</p>
+  <div class="features-grid">
+    <div class="feat">
+      <span class="feat-icon">🎯</span>
+      <h4>Target Circle</h4>
+      <p>Earn 1% back on every purchase, get exclusive deals, and enjoy birthday surprises — always free to join.</p>
+    </div>
+    <div class="feat">
+      <span class="feat-icon">🚗</span>
+      <h4>Drive Up</h4>
+      <p>Order online, pull up to the store, and we'll bring it out to you in minutes. Ready in as little as 1 hour.</p>
+    </div>
+    <div class="feat">
+      <span class="feat-icon">⚡</span>
+      <h4>Same Day Delivery</h4>
+      <p>Get your Target order delivered to your door in just a few hours with Shipt — right from your local store.</p>
+    </div>
+  </div>
+</section>
+
+<section class="deals">
+  <h3>Today's top deals</h3>
+  <div class="deals-grid">
+    <div class="deal-card">
+      <div class="deal-img" style="background:#fff0f0">🎧</div>
+      <div class="deal-body">
+        <span class="deal-badge">30% OFF</span>
+        <div class="deal-name">Wireless Noise Cancelling Headphones</div>
+        <div><span class="deal-price">$69.99</span><span class="deal-was">$99.99</span></div>
+      </div>
+    </div>
+    <div class="deal-card">
+      <div class="deal-img" style="background:#f0fff5">🪴</div>
+      <div class="deal-body">
+        <span class="deal-badge">25% OFF</span>
+        <div class="deal-name">Indoor Plant Bundle Set of 3</div>
+        <div><span class="deal-price">$22.49</span><span class="deal-was">$29.99</span></div>
+      </div>
+    </div>
+    <div class="deal-card">
+      <div class="deal-img" style="background:#f0f0ff">👟</div>
+      <div class="deal-body">
+        <span class="deal-badge">NEW</span>
+        <div class="deal-name">All Day Comfort Athletic Sneakers</div>
+        <div><span class="deal-price">$34.99</span></div>
+      </div>
+    </div>
+    <div class="deal-card">
+      <div class="deal-img" style="background:#fff8f0">☕</div>
+      <div class="deal-body">
+        <span class="deal-badge">20% OFF</span>
+        <div class="deal-name">Stainless Steel Coffee Travel Mug</div>
+        <div><span class="deal-price">$15.99</span><span class="deal-was">$19.99</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">target</div>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h5>About Target</h5>
+      <a href="#">Company Info</a>
+      <a href="#">News & Blog</a>
+      <a href="#">Target Brands</a>
+      <a href="#">Careers</a>
+    </div>
+    <div class="footer-col">
+      <h5>Help</h5>
+      <a href="#">Order Status</a>
+      <a href="#">Returns</a>
+      <a href="#">Contact Us</a>
+      <a href="#">FAQs</a>
+    </div>
+    <div class="footer-col">
+      <h5>Services</h5>
+      <a href="#">Target Circle</a>
+      <a href="#">Target RedCard</a>
+      <a href="#">Gift Cards</a>
+      <a href="#">Registry</a>
+    </div>
+    <div class="footer-col">
+      <h5>Get the App</h5>
+      <a href="#">App Store</a>
+      <a href="#">Google Play</a>
+      <a href="#">Target.com</a>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2024 Target Brands, Inc. All rights reserved.</div>
+</footer>
+
+</body>
+</html>

@@ -1,6 +1,158 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>Crunchyroll — Clon educativo</title><link rel="stylesheet" href="styles.css"/></head><body>
-<nav class="navbar"><a href="#" class="logo">Crunchyroll</a><ul class="nav-links"><li><a href="#features">Producto</a></li><li><a href="#more">Más</a></li></ul><div class="nav-actions"><button type="button" class="btn btn-ghost">Iniciar sesión</button><button type="button" class="btn btn-primary">Probar</button></div></nav>
-<header class="hero"><div class="hero-inner"><div><h1>El anime que amas</h1><p>Simulcast, catálogo masivo y sin anuncios.</p><button type="button" class="btn btn-primary">Probar gratis</button></div><div class="mockup"><div style="display:flex;gap:.35rem"><span style="width:45px;height:65px;background:linear-gradient(180deg,#f47521,#333);border-radius:4px"></span><span style="width:45px;height:65px;background:#333;border-radius:4px"></span></div></div></div></header>
-<section class="section" id="features"><h2>Funciones</h2><div class="feat-grid"><article class="feat-card"><h3>Simulcast</h3><p>Episodios al día.</p></article><article class="feat-card"><h3>Manga</h3><p>Lectura digital.</p></article><article class="feat-card"><h3>Offline</h3><p>Descarga.</p></article></div></section>
-<section class="section" id="more"><h2>Géneros</h2><div class="chips"><span class="chip">Shonen</span><span class="chip">Romance</span><span class="chip">Fantasy</span></div></section>
-<footer><div class="footer-grid"><div><h4>Producto</h4><ul><li>Funciones</li></ul></div><div><h4>Empresa</h4><ul><li>Acerca de</li></ul></div><div><h4>Recursos</h4><ul><li>Soporte</li></ul></div></div><p class="disclaimer">Clon educativo no oficial. Sin afiliación con la marca original.</p></footer></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Crunchyroll — Anime Streaming</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--orange:#F47521;--black:#000;--dark:#121212;--dark2:#1e1e1e;--white:#fff;--gray:#aaa;--font:system-ui,-apple-system,sans-serif}
+body{font-family:var(--font);background:var(--dark);color:var(--white)}
+nav{background:var(--black);border-bottom:1px solid #222;padding:0 2rem;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.nav-logo{display:flex;align-items:center;gap:8px;font-weight:900;font-size:1.2rem;color:var(--orange);letter-spacing:-0.3px}
+.cr-icon{width:32px;height:32px;background:var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+.nav-links{display:flex;gap:1.5rem}
+.nav-links a{font-size:0.875rem;font-weight:500;color:var(--gray);text-decoration:none}
+.nav-links a:hover{color:var(--white)}
+.nav-actions{display:flex;gap:10px}
+.btn-ghost{background:transparent;border:1.5px solid #444;color:var(--white);padding:8px 16px;border-radius:4px;font-size:0.875rem;font-weight:600;cursor:pointer}
+.btn-orange{background:var(--orange);color:var(--white);border:none;padding:9px 20px;border-radius:4px;font-size:0.875rem;font-weight:700;cursor:pointer}
+
+.hero{background:linear-gradient(180deg,#000 0%,#1a0a00 60%,var(--dark) 100%);padding:5rem 2rem 4rem;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 50% 0%,rgba(244,117,33,0.18) 0%,transparent 60%);pointer-events:none}
+.hero-eyebrow{font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--orange);margin-bottom:1rem}
+.hero h1{font-size:clamp(2rem,5.5vw,3.75rem);font-weight:900;color:var(--white);max-width:700px;margin:0 auto 1.25rem;line-height:1.1;letter-spacing:-1px}
+.hero h1 span{color:var(--orange)}
+.hero p{font-size:1.1rem;color:var(--gray);max-width:520px;margin:0 auto 2.5rem;line-height:1.65}
+.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:3.5rem}
+.btn-hero{background:var(--orange);color:var(--white);border:none;padding:14px 32px;border-radius:4px;font-size:1rem;font-weight:700;cursor:pointer}
+.btn-hero-ghost{background:transparent;border:2px solid #555;color:var(--white);padding:12px 28px;border-radius:4px;font-size:1rem;font-weight:600;cursor:pointer}
+
+/* ANIME POSTER ROW */
+.posters-row{display:flex;gap:12px;justify-content:center;flex-wrap:nowrap;overflow:hidden;padding:0 1rem;max-width:860px;margin:0 auto}
+.poster{width:130px;height:185px;border-radius:10px;flex-shrink:0;display:flex;align-items:flex-end;padding:10px;position:relative;overflow:hidden;cursor:pointer;transition:transform 0.2s}
+.poster:hover{transform:scale(1.04)}
+.poster-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:3.5rem}
+.poster-label{position:relative;z-index:1;font-size:0.72rem;font-weight:700;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,0.8);line-height:1.2}
+.poster-badge{position:absolute;top:8px;left:8px;background:var(--orange);color:#fff;font-size:0.6rem;font-weight:800;padding:2px 6px;border-radius:3px;z-index:1}
+
+/* GENRE CHIPS */
+.chips-section{padding:3rem 2rem;background:var(--black);text-align:center}
+.chips-label{font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray);margin-bottom:1.25rem}
+.chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.chip{padding:9px 20px;border-radius:99px;border:1.5px solid #333;color:var(--white);font-size:0.875rem;font-weight:600;cursor:pointer;background:var(--dark2);transition:all 0.15s}
+.chip:hover,.chip.active{background:var(--orange);color:var(--white);border-color:var(--orange)}
+
+/* FEATURES */
+.features{padding:5rem 2rem;background:var(--dark);text-align:center}
+.features h2{font-size:2.25rem;font-weight:900;color:var(--white);margin-bottom:0.75rem}
+.features p.sub{color:var(--gray);max-width:520px;margin:0 auto 3rem;font-size:1.05rem}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;max-width:900px;margin:0 auto}
+.feat{background:var(--dark2);border-radius:12px;padding:2rem 1.5rem;text-align:left;border:1px solid #2a2a2a}
+.feat-emoji{font-size:2rem;margin-bottom:1rem;display:block}
+.feat h4{font-size:1rem;font-weight:700;color:var(--white);margin-bottom:0.5rem}
+.feat p{font-size:0.875rem;color:var(--gray);line-height:1.6}
+
+/* PLANS */
+.plans{background:var(--black);padding:4.5rem 2rem;text-align:center}
+.plans h2{font-size:2rem;font-weight:900;color:var(--white);margin-bottom:2.5rem}
+.plans-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.25rem;max-width:700px;margin:0 auto}
+.plan-card{border:1px solid #333;border-radius:12px;padding:1.75rem;text-align:left}
+.plan-card.featured{border-color:var(--orange);background:rgba(244,117,33,0.06)}
+.plan-badge{background:var(--orange);color:#fff;font-size:0.68rem;font-weight:800;padding:2px 8px;border-radius:3px;display:inline-block;margin-bottom:0.75rem}
+.plan-name{font-size:1rem;font-weight:700;color:var(--white);margin-bottom:0.25rem}
+.plan-price{font-size:1.75rem;font-weight:900;color:var(--white);letter-spacing:-0.5px}
+.plan-price sup{font-size:0.875rem;font-weight:600;vertical-align:top;margin-top:4px;display:inline-block}
+.plan-price sub{font-size:0.75rem;font-weight:500;color:var(--gray)}
+.plan-desc{font-size:0.8rem;color:var(--gray);margin-top:8px;line-height:1.5}
+.plan-btn{width:100%;margin-top:1rem;padding:10px;border-radius:4px;font-size:0.875rem;font-weight:700;cursor:pointer;border:none;background:var(--orange);color:#fff}
+
+/* FOOTER */
+footer{background:var(--black);border-top:1px solid #1a1a1a;color:var(--gray);padding:3.5rem 2rem 2rem}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:2rem;max-width:900px;margin:0 auto 2rem}
+.footer-col h5{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:0.75rem}
+.footer-col a{display:block;font-size:0.875rem;color:var(--gray);text-decoration:none;margin-bottom:6px}
+.footer-col a:hover{color:var(--white)}
+.footer-bottom{border-top:1px solid #1a1a1a;padding-top:1.5rem;text-align:center;font-size:0.75rem;color:#444}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo"><div class="cr-icon">🍥</div>Crunchyroll</div>
+  <div class="nav-links"><a href="#">Browse</a><a href="#">Games</a><a href="#">News</a><a href="#">Store</a></div>
+  <div class="nav-actions"><button class="btn-ghost">Log in</button><button class="btn-orange">Try Free</button></div>
+</nav>
+
+<section class="hero">
+  <div class="hero-eyebrow">The world's largest anime library</div>
+  <h1>Stream the best <span>anime</span> anywhere</h1>
+  <p>Watch over 45,000 episodes and 4 million minutes of content — with new episodes added every hour during simulcast season.</p>
+  <div class="hero-actions">
+    <button class="btn-hero">Start Watching Free</button>
+    <button class="btn-hero-ghost">See Catalog</button>
+  </div>
+  <div class="posters-row">
+    <div class="poster" style="background:linear-gradient(180deg,#1a0033,#4a007a)"><div class="poster-bg">⚔️</div><div class="poster-badge">NEW</div><div class="poster-label">Demon Blade Chronicles</div></div>
+    <div class="poster" style="background:linear-gradient(180deg,#001a33,#003366)"><div class="poster-bg">🌊</div><div class="poster-badge">TOP 10</div><div class="poster-label">Ocean Spirit Rising</div></div>
+    <div class="poster" style="background:linear-gradient(180deg,#1a1a00,#4a4a00)"><div class="poster-bg">⚡</div><div class="poster-badge">SIM</div><div class="poster-label">Volt Academy</div></div>
+    <div class="poster" style="background:linear-gradient(180deg,#330000,#660000)"><div class="poster-bg">🔥</div><div class="poster-badge">DUB</div><div class="poster-label">Ember Titan</div></div>
+    <div class="poster" style="background:linear-gradient(180deg,#001a00,#003a00)"><div class="poster-bg">🌸</div><div class="poster-badge">NEW</div><div class="poster-label">Sakura Protocol</div></div>
+    <div class="poster" style="background:linear-gradient(180deg,#1a001a,#3d003d)"><div class="poster-bg">🌙</div><div class="poster-badge">+</div><div class="poster-label">Moonfall City</div></div>
+  </div>
+</section>
+
+<section class="chips-section">
+  <div class="chips-label">Browse by genre</div>
+  <div class="chips">
+    <span class="chip active">Action</span><span class="chip">Romance</span><span class="chip">Fantasy</span>
+    <span class="chip">Shonen</span><span class="chip">Seinen</span><span class="chip">Isekai</span>
+    <span class="chip">Horror</span><span class="chip">Comedy</span>
+  </div>
+</section>
+
+<section class="features">
+  <h2>Stream smarter. Watch more.</h2>
+  <p class="sub">Everything an anime fan could want — all in one place.</p>
+  <div class="features-grid">
+    <div class="feat"><span class="feat-emoji">📡</span><h4>Simulcast</h4><p>New episodes arrive within hours of their Japanese broadcast — watch the same day as Japan, every week.</p></div>
+    <div class="feat"><span class="feat-emoji">📚</span><h4>Manga</h4><p>Read official manga from thousands of series — including titles exclusive to Crunchyroll in multiple languages.</p></div>
+    <div class="feat"><span class="feat-emoji">📱</span><h4>Offline Viewing</h4><p>Download episodes for offline watching on mobile — perfect for commutes, flights, and dead zones.</p></div>
+  </div>
+</section>
+
+<section class="plans">
+  <h2>Choose your plan</h2>
+  <div class="plans-grid">
+    <div class="plan-card">
+      <div class="plan-name">Fan</div>
+      <div class="plan-price"><sup>$</sup>7<sub>/mo</sub></div>
+      <div class="plan-desc">Ad-free streaming. 1 simultaneous stream. Manga included.</div>
+      <button class="plan-btn">Start Free Trial</button>
+    </div>
+    <div class="plan-card featured">
+      <div class="plan-badge">POPULAR</div>
+      <div class="plan-name">Mega Fan</div>
+      <div class="plan-price"><sup>$</sup>10<sub>/mo</sub></div>
+      <div class="plan-desc">4 simultaneous streams. Offline viewing. Crunchyroll Store discount.</div>
+      <button class="plan-btn">Start Free Trial</button>
+    </div>
+    <div class="plan-card">
+      <div class="plan-name">Ultimate Fan</div>
+      <div class="plan-price"><sup>$</sup>15<sub>/mo</sub></div>
+      <div class="plan-desc">6 streams. All devices. Annual game rewards. VIP events access.</div>
+      <button class="plan-btn">Start Free Trial</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col"><h5>Watch</h5><a href="#">Anime</a><a href="#">Manga</a><a href="#">Games</a></div>
+    <div class="footer-col"><h5>Info</h5><a href="#">About</a><a href="#">News</a><a href="#">Help</a></div>
+    <div class="footer-col"><h5>Apps</h5><a href="#">iOS</a><a href="#">Android</a><a href="#">TV</a></div>
+    <div class="footer-col"><h5>Legal</h5><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Accessibility</a></div>
+  </div>
+  <div class="footer-bottom">© 2024 Crunchyroll, LLC. A Sony Pictures Entertainment company.</div>
+</footer>
+</body>
+</html>

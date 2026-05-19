@@ -1,49 +1,272 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Airtable — Clon educativo</title>
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Airtable — Flexible Database</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cyan: #18BFFF;
+    --cyan-dark: #0099cc;
+    --text: #333;
+    --gray: #666;
+    --bg: #F6F8FC;
+    --white: #fff;
+    --border: #dde0e6;
+    --font: system-ui, -apple-system, sans-serif;
+  }
+  body { font-family: var(--font); color: var(--text); background: var(--white); }
+
+  /* NAV */
+  nav {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 1.1rem; color: var(--text); letter-spacing: -0.3px; }
+  .nav-logo .logo-block { width: 28px; height: 28px; background: var(--cyan); border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+  .nav-logo .logo-block svg { width: 18px; height: 18px; }
+  .nav-links { display: flex; gap: 1.5rem; }
+  .nav-links a { font-size: 0.875rem; font-weight: 500; color: var(--text); text-decoration: none; }
+  .nav-links a:hover { color: var(--cyan-dark); }
+  .nav-actions { display: flex; gap: 8px; align-items: center; }
+  .btn-ghost { background: transparent; border: 1.5px solid var(--border); color: var(--text); padding: 7px 16px; border-radius: 6px; font-size: 0.875rem; font-weight: 600; cursor: pointer; }
+  .btn-primary { background: var(--cyan); color: var(--white); border: none; padding: 8px 18px; border-radius: 6px; font-size: 0.875rem; font-weight: 700; cursor: pointer; }
+  .btn-primary:hover { background: var(--cyan-dark); }
+
+  /* HERO */
+  .hero { background: var(--bg); padding: 5.5rem 2rem 4rem; text-align: center; }
+  .hero-eyebrow { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--cyan-dark); margin-bottom: 1rem; }
+  .hero h1 { font-size: clamp(2rem, 5vw, 3.25rem); font-weight: 800; color: var(--text); max-width: 680px; margin: 0 auto 1.25rem; line-height: 1.14; }
+  .hero h1 em { color: var(--cyan); font-style: normal; }
+  .hero p { font-size: 1.1rem; color: var(--gray); max-width: 520px; margin: 0 auto 2.5rem; line-height: 1.6; }
+  .hero-form { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem; }
+  .hero-form input { padding: 12px 16px; border: 1.5px solid var(--border); border-radius: 6px; font-size: 0.9rem; width: 240px; outline: none; background: var(--white); }
+  .hero-form input:focus { border-color: var(--cyan); }
+  .btn-hero { background: var(--cyan); color: #fff; border: none; padding: 12px 22px; border-radius: 6px; font-size: 0.95rem; font-weight: 700; cursor: pointer; }
+  .hero-note { font-size: 0.78rem; color: var(--gray); margin-bottom: 3rem; }
+
+  /* SPREADSHEET MOCKUP */
+  .sheet-wrap { max-width: 720px; margin: 0 auto; }
+  .sheet-card { background: var(--white); border-radius: 10px; box-shadow: 0 8px 32px rgba(0,0,0,0.1); overflow: hidden; }
+  .sheet-toolbar { background: var(--white); border-bottom: 1px solid var(--border); padding: 8px 16px; display: flex; align-items: center; gap: 12px; }
+  .sheet-tab { font-size: 0.8rem; font-weight: 600; color: var(--gray); padding: 4px 10px; border-radius: 4px; cursor: pointer; }
+  .sheet-tab.active { background: var(--bg); color: var(--text); }
+  .sheet-views { display: flex; gap: 6px; margin-left: auto; }
+  .view-btn { font-size: 0.72rem; padding: 4px 8px; border-radius: 4px; border: 1px solid var(--border); color: var(--gray); cursor: pointer; background: transparent; }
+  .view-btn.active { background: var(--cyan); color: #fff; border-color: var(--cyan); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  thead th { background: var(--bg); padding: 10px 12px; text-align: left; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gray); border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); }
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:hover { background: #f0f7ff; }
+  tbody td { padding: 10px 12px; color: var(--text); border-right: 1px solid var(--border); }
+  .status-pill { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 99px; font-size: 0.7rem; font-weight: 700; }
+  .s-done { background: #d4f0e0; color: #1a6b3c; }
+  .s-progress { background: #fff0cd; color: #7a5c00; }
+  .s-todo { background: #e8eaf0; color: #555; }
+  .s-review { background: #dde8ff; color: #2d4ea0; }
+  .assignee { display: flex; align-items: center; gap: 6px; }
+  .av { width: 22px; height: 22px; border-radius: 50%; font-size: 0.65rem; font-weight: 700; color: #fff; display: flex; align-items: center; justify-content: center; }
+  .add-row { padding: 10px 12px; color: var(--cyan-dark); font-size: 0.82rem; font-weight: 600; cursor: pointer; background: transparent; border: none; text-align: left; width: 100%; }
+  .add-row:hover { background: var(--bg); }
+
+  /* CHIPS */
+  .chips-section { padding: 3rem 2rem; text-align: center; }
+  .chips-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gray); font-weight: 700; margin-bottom: 1.25rem; }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .chip { padding: 8px 18px; border-radius: 6px; border: 1.5px solid var(--border); color: var(--text); font-size: 0.875rem; font-weight: 500; cursor: pointer; background: var(--white); transition: all 0.15s; }
+  .chip:hover, .chip.active { background: var(--cyan); color: #fff; border-color: var(--cyan); }
+
+  /* FEATURES */
+  .features { background: var(--bg); padding: 5rem 2rem; text-align: center; }
+  .features h2 { font-size: 2rem; font-weight: 800; color: var(--text); margin-bottom: 0.75rem; }
+  .features p.sub { color: var(--gray); max-width: 500px; margin: 0 auto 3rem; font-size: 1.05rem; }
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; max-width: 880px; margin: 0 auto; }
+  .feat { background: var(--white); border-radius: 10px; padding: 2rem 1.5rem; text-align: left; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+  .feat-icon { font-size: 1.6rem; margin-bottom: 0.75rem; }
+  .feat h4 { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 0.5rem; }
+  .feat p { font-size: 0.875rem; color: var(--gray); line-height: 1.55; }
+
+  /* FOOTER */
+  footer { background: #1c1c1e; color: #b3b3b3; padding: 3.5rem 2rem 2rem; }
+  .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 2rem; max-width: 900px; margin: 0 auto 2rem; }
+  .footer-col h5 { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #888; margin-bottom: 0.75rem; }
+  .footer-col a { display: block; font-size: 0.875rem; color: #b3b3b3; text-decoration: none; margin-bottom: 6px; }
+  .footer-col a:hover { color: #fff; }
+  .footer-bottom { border-top: 1px solid #333; padding-top: 1.5rem; text-align: center; font-size: 0.75rem; color: #666; }
+</style>
 </head>
 <body>
-  <nav class="navbar">
-    <a href="#" class="logo">Airtable</a>
-    <ul class="nav-links">
-      <li><a href="#features">Producto</a></li>
-      <li><a href="#more">Soluciones</a></li>
-      <li><a href="#">Precios</a></li>
-    </ul>
-    <div class="nav-actions">
-      <button type="button" class="btn btn-ghost">Iniciar sesión</button>
-      <button type="button" class="btn btn-primary">Probar gratis</button>
+
+<nav>
+  <div class="nav-logo">
+    <div class="logo-block">
+      <svg viewBox="0 0 18 18" fill="white"><rect x="1" y="1" width="7" height="7" rx="1.5"/><rect x="10" y="1" width="7" height="4" rx="1.5"/><rect x="10" y="7" width="7" height="4" rx="1.5"/><rect x="1" y="10" width="7" height="7" rx="1.5"/><rect x="10" y="13" width="7" height="4" rx="1.5"/></svg>
     </div>
-  </nav>
-  <header class="hero">
-    <div class="hero-inner">
-      <div>
-        <h1>Base de datos flexible</h1>
-        <p>Spreadsheet + base de datos.</p>
-        <button type="button" class="btn btn-primary">Empezar gratis</button>
+    Airtable
+  </div>
+  <div class="nav-links">
+    <a href="#">Product</a>
+    <a href="#">Solutions</a>
+    <a href="#">Enterprise</a>
+    <a href="#">Pricing</a>
+    <a href="#">Resources</a>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-ghost">Sign in</button>
+    <button class="btn-primary">Get started free</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-eyebrow">Flexible Database Platform</div>
+  <h1>Build apps that fit your business — <em>without</em> code</h1>
+  <p>Create flexible databases, connect your data, and build apps in hours, not months. It's your workflow, your way.</p>
+  <div class="hero-form">
+    <input type="email" placeholder="Enter work email" />
+    <button class="btn-hero">Get Airtable free</button>
+  </div>
+  <div class="hero-note">Free for individuals. No credit card required.</div>
+
+  <div class="sheet-wrap">
+    <div class="sheet-card">
+      <div class="sheet-toolbar">
+        <div class="sheet-tab active">📊 Grid view</div>
+        <div class="sheet-tab">🗓 Calendar</div>
+        <div class="sheet-tab">📋 Kanban</div>
+        <div class="sheet-views">
+          <button class="view-btn active">Grid</button>
+          <button class="view-btn">Gallery</button>
+          <button class="view-btn">Form</button>
+        </div>
       </div>
-      <div class="mockup" aria-label="Vista previa"><table style="width:100%;font-size:.75rem;border-collapse:collapse"><tr style="background:#f6f8fc"><th style="border:1px solid #eee;padding:.4rem">Nombre</th><th style="border:1px solid #eee;padding:.4rem">Estado</th></tr><tr><td style="border:1px solid #eee;padding:.4rem">Proyecto A</td><td style="border:1px solid #eee;padding:.4rem;color:#2ecc71">Activo</td></tr></table></div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width:36px">#</th>
+            <th>Name</th>
+            <th>State</th>
+            <th>Assignee</th>
+            <th>Priority</th>
+            <th>Due Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="color:#bbb;font-size:0.7rem">1</td>
+            <td style="font-weight:600">Homepage redesign</td>
+            <td><span class="status-pill s-progress">In Progress</span></td>
+            <td><div class="assignee"><div class="av" style="background:#18BFFF">A</div>Alice</div></td>
+            <td>High</td>
+            <td>Dec 15</td>
+          </tr>
+          <tr>
+            <td style="color:#bbb;font-size:0.7rem">2</td>
+            <td style="font-weight:600">API documentation</td>
+            <td><span class="status-pill s-done">Done</span></td>
+            <td><div class="assignee"><div class="av" style="background:#F82B60">B</div>Bob</div></td>
+            <td>Medium</td>
+            <td>Dec 10</td>
+          </tr>
+          <tr>
+            <td style="color:#bbb;font-size:0.7rem">3</td>
+            <td style="font-weight:600">User testing report</td>
+            <td><span class="status-pill s-review">In Review</span></td>
+            <td><div class="assignee"><div class="av" style="background:#20C933">C</div>Carol</div></td>
+            <td>Medium</td>
+            <td>Dec 20</td>
+          </tr>
+          <tr>
+            <td style="color:#bbb;font-size:0.7rem">4</td>
+            <td style="font-weight:600">Onboarding flow update</td>
+            <td><span class="status-pill s-todo">To Do</span></td>
+            <td><div class="assignee"><div class="av" style="background:#8B46FF">D</div>Dan</div></td>
+            <td>Low</td>
+            <td>Dec 28</td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="add-row">+ Add a record</button>
     </div>
-  </header>
-  <section class="section" id="features">
-    <h2>Funciones principales</h2>
-    <div class="feat-grid"><article class="feat-card"><h3>Views</h3><p>Grid y Kanban.</p></article><article class="feat-card"><h3>Interfaces</h3><p>Apps sin código.</p></article><article class="feat-card"><h3>AI</h3><p>Campos inteligentes.</p></article></div>
-  </section>
-  <section class="section" id="more">
-    <h2>Plantillas</h2>
-    <div class="chips"><span class="chip">CRM</span><span class="chip">Content</span><span class="chip">Roadmap</span></div>
-  </section>
-  <footer>
-    <div class="footer-grid">
-      <div><h4>Producto</h4><ul><li>Funciones</li><li>Integraciones</li></ul></div>
-      <div><h4>Empresa</h4><ul><li>Acerca de</li><li>Carreras</li></ul></div>
-      <div><h4>Recursos</h4><ul><li>Blog</li><li>Soporte</li></ul></div>
+  </div>
+</section>
+
+<section class="chips-section">
+  <div class="chips-label">Template categories</div>
+  <div class="chips">
+    <span class="chip active">Project Management</span>
+    <span class="chip">CRM</span>
+    <span class="chip">Content Calendar</span>
+    <span class="chip">Product Roadmap</span>
+    <span class="chip">HR & Recruiting</span>
+    <span class="chip">Inventory</span>
+    <span class="chip">Events</span>
+  </div>
+</section>
+
+<section class="features">
+  <h2>One platform for every workflow</h2>
+  <p class="sub">Connect data, automate work, and build apps your way.</p>
+  <div class="features-grid">
+    <div class="feat">
+      <div class="feat-icon">👁</div>
+      <h4>Views</h4>
+      <p>Visualize your data as a grid, calendar, gallery, Kanban, Gantt, or form — all from the same source.</p>
     </div>
-    <p class="disclaimer">Clon educativo no oficial. Sin afiliación con la marca original.</p>
-  </footer>
+    <div class="feat">
+      <div class="feat-icon">🖥</div>
+      <h4>Interfaces</h4>
+      <p>Design custom apps and dashboards with drag-and-drop tools, no engineering required.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">✨</div>
+      <h4>AI</h4>
+      <p>Summarize records, categorize data, and generate content automatically with built-in AI.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h5>Product</h5>
+      <a href="#">Platform</a>
+      <a href="#">Views</a>
+      <a href="#">Automations</a>
+      <a href="#">Integrations</a>
+    </div>
+    <div class="footer-col">
+      <h5>Solutions</h5>
+      <a href="#">Marketing</a>
+      <a href="#">Sales</a>
+      <a href="#">Operations</a>
+      <a href="#">Engineering</a>
+    </div>
+    <div class="footer-col">
+      <h5>Resources</h5>
+      <a href="#">Templates</a>
+      <a href="#">Tutorials</a>
+      <a href="#">Community</a>
+      <a href="#">Blog</a>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <a href="#">About</a>
+      <a href="#">Careers</a>
+      <a href="#">Press</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2024 Airtable. All rights reserved.</div>
+</footer>
+
 </body>
 </html>

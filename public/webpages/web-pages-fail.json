@@ -1,0 +1,2282 @@
+{
+  "webPages": [
+    {
+      "id": "262",
+      "title": {
+        "en": "Wanderly — Travel booking",
+        "es": "Wanderly — Reserva de viajes"
+      },
+      "description": {
+        "en": "Create a single-page light mode landing for \"Wanderly\", a Travel Booking Platform. Pure HTML + CSS in one index.html file (no frameworks).\n\n**Palette:** background #f0f9ff, text #0c4a6e, muted #64748b, accent #0284c7.\n**Typography:** Google Fonts — \"Inter\" for UI; elegant headlines with travel wanderlust energy.\n\n**Sections (in order):**\n1. Sticky nav: logo \"Wanderly\", links (Explore, Deals, Trips), primary CTA (\"Search trips\").\n2. Split hero: pill \"Flights · Hotels · Packages\", headline with one italic keyword, travel subcopy, CTAs (\"Search trips\" + \"Explore destinations\"), **search mockup** (trip search, hotel suite, trail map, hostel beds, cruise itinerary, local experiences, or flight ticket — travel-specific).\n3. Destination/experience chips: Beach, City, Ski, Family.\n4. Features grid (3 cards):\n- **Free date changes** (FLEX): Most fares · 24h grace — No fees\n- **Flight + hotel** (BUNDLE): Save up to 35% — Member deals\n- **24/7 concierge** (SUPPORT): Chat · phone · app — 4.8★ rated\n5. Stats band: 2M+ Bookings/yr, 190 Countries, 35% Bundle savings.\n6. Footer: newsletter + copyright.\n\nTravel aesthetic: destination photography placeholders, map routes, booking cards, warm or ocean palettes, responsive (768px). Returns index.html only.",
+        "es": "Cree un aterrizaje en modo ligero de una sola página para \"Wanderly\", una plataforma de reserva de viajes. HTML puro + CSS en un archivo index.html (sin marcos).\n\n**Paleta:** fondo #f0f9ff, ​​texto #0c4a6e, silenciado #64748b, acento #0284c7.\n**Tipografía:** Google Fonts: \"Inter\" para la interfaz de usuario; titulares elegantes con la energía de la pasión por los viajes.\n\n**Secciones (en orden):**\n1. Navegación fija: logotipo \"Wanderly\", enlaces (Explorar, Ofertas, Viajes), CTA principal (\"Buscar viajes\").\n2. Héroe dividido: píldora \"Vuelos · Hoteles · Paquetes\", título con una palabra clave en cursiva, subcopia de viaje, CTA (\"Buscar viajes\" + \"Explorar destinos\"), **búsqueda de maqueta** (búsqueda de viaje, suite de hotel, mapa de senderos, camas de albergue, itinerario de crucero, experiencias locales o boleto de avión, específico del viaje).\n3. Chips de destino/experiencia: Playa, Ciudad, Esquí, Familia.\n4. Características de la cuadrícula (3 cartas):\n- **Cambios de fecha gratuitos** (FLEX): Mayoría de tarifas · Gracia de 24 horas — Sin cargos\n- **Vuelo + hotel** (PAQUETE): Ahorre hasta un 35 % — Ofertas para miembros\n- **Conserjería 24 horas al día, 7 días a la semana** (SOPORTE): Chat · teléfono · aplicación — 4.8★ calificado\n5. Banda de estadísticas: más de 2 millones de reservas/año, 190 países, 35 % de ahorro en paquetes.\n6. Pie de página: boletín + derechos de autor.\n\nEstética de viajes: marcadores de posición de fotografías de destinos, rutas de mapas, tarjetas de reserva, paletas cálidas u oceánicas, responsivas (768 px). Devuelve index.html únicamente."
+      },
+      "imageUrl": "/webpages/placeholder-web-262-wanderly-travel-booking.png",
+      "imageHint": {
+        "en": "Wanderly travel booking light blue search flights hotels destination hero",
+        "es": "Reserva de viajes errantes búsqueda de vuelos azul claro hoteles destino héroe"
+      },
+      "demoUrl": "wanderly-travel-booking",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "tags": [
+        "landing page",
+        "travel",
+        "booking",
+        "flights",
+        "hotels",
+        "vacation"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "258",
+      "title": {
+        "en": "StreamForge — Game streaming",
+        "es": "StreamForge: transmisión de juegos"
+      },
+      "description": {
+        "en": "Create a single-page dark mode landing for \"StreamForge\", a Game Streaming Platform. Pure HTML + CSS in one index.html file (no frameworks).\n\n**Palette:** background #0e0a14, text #ede9fe, muted #a78bfa, accent #8b5cf6.\n**Typography:** Google Fonts — \"Inter\" for UI; bold display headlines with gaming energy.\n\n**Sections (in order):**\n1. Sticky nav: logo \"StreamForge\", links (Creators, Viewers, Partners), primary CTA (\"Start streaming\").\n2. Split hero: pill \"Go live · Grow · Monetize\", headline with one italic keyword, gaming subcopy, CTAs (\"Start streaming\" + \"Watch trailer\"), **stream mockup** (game launcher, leaderboard, loot cards, live stream overlay, guild roster, indie game grid, or VR headset — gaming-specific).\n3. Genre/platform chips: IRL, Speedrun, Retro, Indie.\n4. Features grid (3 cards):\n- **Sub-second latency** (LIVE): WebRTC · global POPs — <1s delay\n- **Mod tools** (CHAT): Emotes · raids · polls — Free tier\n- **Creator payouts** (PAY): Subs · tips · ads — Weekly\n5. Stats band: 50k+ Live channels, 8M Daily viewers, 70/30 Rev split.\n6. Footer: newsletter + copyright.\n\nGaming aesthetic: neon accents, HUD-style UI, pixel or cinematic gradients, controller/stream icons, responsive (768px). Returns index.html only.",
+        "es": "Cree un aterrizaje en modo oscuro de una sola página para \"StreamForge\", una plataforma de transmisión de juegos. HTML puro + CSS en un archivo index.html (sin marcos).\n\n**Paleta:** fondo #0e0a14, texto #ede9fe, silenciado #a78bfa, acento #8b5cf6.\n**Tipografía:** Google Fonts: \"Inter\" para la interfaz de usuario; titulares atrevidos con energía de juego.\n\n**Secciones (en orden):**\n1. Navegación fija: logotipo \"StreamForge\", enlaces (Creadores, Espectadores, Socios), CTA principal (\"Iniciar transmisión\").\n2. Héroe dividido: píldora \"Emitir en vivo · Crecer · Monetizar\", título con una palabra clave en cursiva, subcopia del juego, CTA (\"Iniciar transmisión\" + \"Ver avance\"), **maqueta de transmisión** (lanzador de juegos, tabla de clasificación, tarjetas de botín, superposición de transmisión en vivo, lista de gremios, cuadrícula de juegos independientes o auriculares de realidad virtual, específicos para juegos).\n3. Fichas de género/plataforma: IRL, Speedrun, Retro, Indie.\n4. Características de la cuadrícula (3 cartas):\n- **Latencia inferior a un segundo** (EN VIVO): WebRTC · POP globales: <1 segundo de retraso\n- **Herramientas de modificación** (CHAT): Emoticones · incursiones · encuestas — Nivel gratuito\n- **Pagos para creadores** (PAGO): Suscripciones · propinas · anuncios: semanal\n5. Banda de estadísticas: más de 50.000 canales en vivo, 8 millones de espectadores diarios, división de 70/30 Rev.\n6. Pie de página: boletín + derechos de autor.\n\nEstética de juego: acentos de neón, interfaz de usuario estilo HUD, gradientes de píxeles o cinematográficos, íconos de controlador/transmisión, responsivo (768 px). Devuelve index.html únicamente."
+      },
+      "imageUrl": "/webpages/placeholder-web-258-streamforge-game-streaming.png",
+      "imageHint": {
+        "en": "StreamForge game streaming purple dark live chat overlay viewer count",
+        "es": "Recuento de espectadores de superposición de chat en vivo oscuro púrpura de transmisión de juegos StreamForge"
+      },
+      "demoUrl": "streamforge-game-streaming",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "landing page",
+        "gaming",
+        "streaming",
+        "live",
+        "community",
+        "creator"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "261",
+      "title": {
+        "en": "VRX — VR gaming platform",
+        "es": "VRX: plataforma de juegos de realidad virtual"
+      },
+      "description": {
+        "en": "Create a single-page dark mode landing for \"VRX\", a VR Gaming Platform. Pure HTML + CSS in one index.html file (no frameworks).\n\n**Palette:** background #020617, text #e0f2fe, muted #67e8f9, accent #22d3ee.\n**Typography:** Google Fonts — \"Inter\" for UI; bold display headlines with gaming energy.\n\n**Sections (in order):**\n1. Sticky nav: logo \"VRX\", links (Games, Hardware, Labs), primary CTA (\"Explore VR\").\n2. Split hero: pill \"Room-scale · Hand tracking · 120Hz\", headline with one italic keyword, gaming subcopy, CTAs (\"Explore VR\" + \"Watch trailer\"), **headset mockup** (game launcher, leaderboard, loot cards, live stream overlay, guild roster, indie game grid, or VR headset — gaming-specific).\n3. Genre/platform chips: Horror, Fitness, Social, Sim.\n4. Features grid (3 cards):\n- **Exclusive library** (PLAY): 40+ launch titles — Cross-buy\n- **Inside-out tracking** (TRACK): Hands · full body — No lighthouses\n- **Edge rendering** (CLOUD): Wireless PC VR — Wi-Fi 6E\n5. Stats band: 120Hz Refresh, 40+ Launch games, $499 Headset from.\n6. Footer: newsletter + copyright.\n\nGaming aesthetic: neon accents, HUD-style UI, pixel or cinematic gradients, controller/stream icons, responsive (768px). Returns index.html only.",
+        "es": "Cree un aterrizaje en modo oscuro de una sola página para \"VRX\", una plataforma de juegos de realidad virtual. HTML puro + CSS en un archivo index.html (sin marcos).\n\n**Paleta:** fondo #020617, texto #e0f2fe, silenciado #67e8f9, acento #22d3ee.\n**Tipografía:** Google Fonts: \"Inter\" para la interfaz de usuario; titulares atrevidos con energía de juego.\n\n**Secciones (en orden):**\n1. Navegación fija: logotipo \"VRX\", enlaces (juegos, hardware, laboratorios), CTA principal (\"Explore VR\").\n2. Héroe dividido: pastilla \"Escala de habitación · Seguimiento manual · 120 Hz\", título con una palabra clave en cursiva, subcopia del juego, CTA (\"Explorar la realidad virtual\" + \"Ver avance\"), **maqueta de auriculares** (lanzador de juegos, tabla de clasificación, tarjetas de botín, superposición de transmisión en vivo, lista de gremios, cuadrícula de juegos independientes o auriculares de realidad virtual, específicos para juegos).\n3. Fichas de género/plataforma: Terror, Fitness, Social, Sim.\n4. Características de la cuadrícula (3 cartas):\n- **Biblioteca exclusiva** (PLAY): más de 40 títulos de lanzamiento — Compra cruzada\n- **Seguimiento de adentro hacia afuera** (TRACK): Manos · cuerpo completo — Sin faros\n- **Representación de bordes** (NUBE): PC VR inalámbrica: Wi-Fi 6E\n5. Banda de estadísticas: actualización de 120 Hz, más de 40 juegos de lanzamiento, auriculares de $499 desde.\n6. Pie de página: boletín + derechos de autor.\n\nEstética de juego: acentos de neón, interfaz de usuario estilo HUD, gradientes de píxeles o cinematográficos, íconos de controlador/transmisión, responsivo (768 px). Devuelve index.html únicamente."
+      },
+      "imageUrl": "/webpages/placeholder-web-261-vrx-vr-gaming-platform.png",
+      "imageHint": {
+        "en": "VRX VR gaming platform cyan dark headset immersive room-scale futuristic",
+        "es": "VRX Plataforma de juegos VR cian oscuro auricular inmersivo a escala de habitación futurista"
+      },
+      "demoUrl": "vrx-vr-gaming-platform",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "tags": [
+        "landing page",
+        "gaming",
+        "VR",
+        "immersive",
+        "hardware",
+        "platform"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "242",
+      "title": {
+        "en": "SoundWave — Producer studio",
+        "es": "SoundWave — Estudio de producción"
+      },
+      "description": {
+        "en": "Create a single-page dark mode landing for \"SoundWave\", a Producer Studio. Pure HTML + CSS in one index.html file (no frameworks).\n\n**Palette:** background #0c1222, text #e2e8f0, muted #64748b, accent #22d3ee.\n**Typography:** Google Fonts — \"Inter\" + optional display font for headlines.\n\n**Sections (in order):**\n1. Sticky nav: logo \"SoundWave\", links (Plugins, Pricing, Learn), primary CTA (\"Try free\").\n2. Split hero: pill \"VST · MIDI · Cloud stems\", headline with one italic keyword, music subcopy, CTAs (\"Try free\" + \"Explore catalog\"), **waveform mockup** (player, waveform, vinyl, podcast episodes, stage lights, or playlist — music-specific).\n3. Genre/product chips: Trap, House, Lo-fi, Vocals.\n4. Features grid (3 cards):\n- **Analog-modeled EQ** (MIX): Zero-latency · 32 tracks — Pro tier\n- **Cloud projects** (COLLAB): Version history · comments — Real-time\n- **Mastering chain** (EXPORT): LUFS targets · stems — WAV · MP3\n5. Stats band: 500+ Built-in sounds, 32 Track lanes, 4.9★ Producer rated.\n6. Footer: newsletter + copyright.\n\nMusic aesthetic: album-art gradients, play buttons, waveform or track-list UI, vibrant or retro palettes, responsive (768px). Returns index.html only.",
+        "es": "Cree un aterrizaje en modo oscuro de una sola página para \"SoundWave\", un Producer Studio. HTML puro + CSS en un archivo index.html (sin marcos).\n\n**Paleta:** fondo #0c1222, texto #e2e8f0, silenciado #64748b, acento #22d3ee.\n**Tipografía:** Google Fonts: \"Inter\" + fuente de visualización opcional para titulares.\n\n**Secciones (en orden):**\n1. Navegación fija: logotipo \"SoundWave\", enlaces (complementos, precios, información), CTA principal (\"Pruébelo gratis\").\n2. Héroe dividido: píldora \"VST · MIDI · Cloud stems\", título con una palabra clave en cursiva, subcopia de música, CTA (\"Prueba gratis\" + \"Explorar catálogo\"), **maqueta de forma de onda** (reproductor, forma de onda, vinilo, episodios de podcast, luces de escenario o lista de reproducción, específica de música).\n3. Fichas de género/producto: Trap, House, Lo-fi, Voz.\n4. Características de la cuadrícula (3 cartas):\n- **EQ modelado analógico** (MIX): latencia cero · 32 pistas — Nivel Pro\n- **Proyectos en la nube** (COLLAB): Historial de versiones · comentarios: en tiempo real\n- **Cadena de masterización** (EXPORTACIÓN): objetivos LUFS · tallos — WAV · MP3\n5. Banda de estadísticas: más de 500 sonidos integrados, 32 carriles de pistas, calificación del productor 4,9★.\n6. Pie de página: boletín + derechos de autor.\n\nEstética musical: degradados en la carátula del álbum, botones de reproducción, interfaz de usuario con forma de onda o lista de pistas, paletas vibrantes o retro, responsivas (768 px). Devuelve index.html únicamente."
+      },
+      "imageUrl": "/webpages/placeholder-web-242-soundwave-producer-studio.png",
+      "imageHint": {
+        "en": "SoundWave producer DAW dark cyan waveform mixer knobs music studio",
+        "es": "SoundWave productor DAW mezclador de forma de onda cian oscuro perillas estudio de música"
+      },
+      "demoUrl": "soundwave-producer-studio",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "tags": [
+        "landing page",
+        "music",
+        "producer",
+        "DAW",
+        "audio",
+        "studio"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "241",
+      "title": {
+        "en": "VibeStream — Music streaming app",
+        "es": "VibeStream: aplicación de transmisión de música"
+      },
+      "description": {
+        "en": "Create a single-page dark mode landing for \"VibeStream\", a Music Streaming App. Pure HTML + CSS in one index.html file (no frameworks).\n\n**Palette:** background #0a0a0f, text #fafafa, muted #a1a1aa, accent #a855f7.\n**Typography:** Google Fonts — \"Inter\" + optional display font for headlines.\n\n**Sections (in order):**\n1. Sticky nav: logo \"VibeStream\", links (Discover, Premium, Download), primary CTA (\"Start listening\").\n2. Split hero: pill \"100M+ tracks · Hi-Fi\", headline with one italic keyword, music subcopy, CTAs (\"Start listening\" + \"Explore catalog\"), **player mockup** (player, waveform, vinyl, podcast episodes, stage lights, or playlist — music-specific).\n3. Genre/product chips: Pop, Hip-hop, Electronic, Indie.\n4. Features grid (3 cards):\n- **Daily mixes** (DISCOVER): AI playlists · mood filters — Updated hourly\n- **Download anywhere** (OFFLINE): Lossless · device sync — No ads\n- **Listen together** (SOCIAL): Jam sessions · live lyrics — Friends feed\n5. Stats band: 100M+ Tracks, Hi-Fi Audio quality, Free Tier available.\n6. Footer: newsletter + copyright.\n\nMusic aesthetic: album-art gradients, play buttons, waveform or track-list UI, vibrant or retro palettes, responsive (768px). Returns index.html only.",
+        "es": "Cree un aterrizaje en modo oscuro de una sola página para \"VibeStream\", una aplicación de transmisión de música. HTML puro + CSS en un archivo index.html (sin marcos).\n\n**Paleta:** fondo #0a0a0f, texto #fafafa, silenciado #a1a1aa, acento #a855f7.\n**Tipografía:** Google Fonts: \"Inter\" + fuente de visualización opcional para titulares.\n\n**Secciones (en orden):**\n1. Navegación fija: logotipo \"VibeStream\", enlaces (Descubrir, Premium, Descargar), CTA principal (\"Comenzar a escuchar\").\n2. Héroe dividido: pastilla \"Más de 100 millones de pistas · Hi-Fi\", título con una palabra clave en cursiva, subcopia de música, CTA (\"Comenzar a escuchar\" + \"Explorar catálogo\"), **maqueta de reproductor** (reproductor, forma de onda, vinilo, episodios de podcast, luces de escenario o lista de reproducción, específica de música).\n3. Fichas de género/producto: Pop, Hip-hop, Electrónica, Indie.\n4. Características de la cuadrícula (3 cartas):\n- **Mezclas diarias** (DESCUBRIR): listas de reproducción de IA · filtros de estado de ánimo: actualizados cada hora\n- **Descargar en cualquier lugar** (FUERA DE CONEXIÓN): Sin pérdida · sincronización del dispositivo — Sin anuncios\n- **Escuchar juntos** (SOCIAL): sesiones improvisadas · letras en vivo — Feed de amigos\n5. Banda de estadísticas: más de 100 millones de pistas, calidad de audio Hi-Fi, nivel gratuito disponible.\n6. Pie de página: boletín + derechos de autor.\n\nEstética musical: degradados en la carátula del álbum, botones de reproducción, interfaz de usuario con forma de onda o lista de pistas, paletas vibrantes o retro, responsivas (768 px). Devuelve index.html únicamente."
+      },
+      "imageUrl": "/webpages/placeholder-web-241-vibestream-music-app.png",
+      "imageHint": {
+        "en": "VibeStream music streaming dark purple album art player waveform fintech-style",
+        "es": "VibeStream transmisión de música, reproductor de carátulas de álbum de color púrpura oscuro, forma de onda, estilo fintech"
+      },
+      "demoUrl": "vibestream-music-app",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "tags": [
+        "landing page",
+        "music",
+        "streaming",
+        "audio",
+        "playlist",
+        "app"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "243",
+      "title": {
+        "en": "VinylRoom — Vinyl record shop",
+        "es": "VinylRoom — Tienda de discos de vinilo"
+      },
+      "description": {
+        "en": "Create a single-page light mode landing for \"VinylRoom\", a Vinyl Record Shop. Pure HTML + CSS in one index.html file (no frameworks).\n\n**Palette:** background #f5f0e8, text #292524, muted #78716c, accent #b45309.\n**Typography:** Google Fonts — \"Inter\" + optional display font for headlines.\n\n**Sections (in order):**\n1. Sticky nav: logo \"VinylRoom\", links (New arrivals, Genres, Visit), primary CTA (\"Shop records\").\n2. Split hero: pill \"New · Used · Rare pressings\", headline with one italic keyword, music subcopy, CTAs (\"Shop records\" + \"Explore catalog\"), **vinyl mockup** (player, waveform, vinyl, podcast episodes, stage lights, or playlist — music-specific).\n3. Genre/product chips: Jazz, Soul, Punk, Classical.\n4. Features grid (3 cards):\n- **Friday drops** (NEW): Indie · jazz · soul — Pre-order\n- **Graded vinyl** (USED): VG+ and above only — Inspected\n- **Turntables** (GEAR): Belt-drive · cartridges — Setup help\n5. Stats band: 12k+ Titles in stock, 1987 Est. year, Local Pickup.\n6. Footer: newsletter + copyright.\n\nMusic aesthetic: album-art gradients, play buttons, waveform or track-list UI, vibrant or retro palettes, responsive (768px). Returns index.html only.",
+        "es": "Cree un aterrizaje en modo claro de una sola página para \"VinylRoom\", una tienda de discos de vinilo. HTML puro + CSS en un archivo index.html (sin marcos).\n\n**Paleta:** fondo #f5f0e8, texto #292524, silenciado #78716c, acento #b45309.\n**Tipografía:** Google Fonts: \"Inter\" + fuente de visualización opcional para titulares.\n\n**Secciones (en orden):**\n1. Navegación fija: logotipo \"VinylRoom\", enlaces (Novedades, Géneros, Visita), CTA principal (\"Registros de la tienda\").\n2. Héroe dividido: píldora \"Nuevo · Usado · Edición rara\", título con una palabra clave en cursiva, subcopia de música, CTA (\"Comprar discos\" + \"Explorar catálogo\"), **maqueta de vinilo** (reproductor, forma de onda, vinilo, episodios de podcast, luces de escenario o lista de reproducción, específica de música).\n3. Fichas de género/producto: Jazz, Soul, Punk, Clásica.\n4. Características de la cuadrícula (3 cartas):\n- **Lanzamientos del viernes** (NUEVO): Indie · jazz · soul — Reserva\n- **Vinilo graduado** (USADO): VG+ y superiores únicamente — Inspeccionado\n- **Tocadiscos** (GEAR): Transmisión por correa · cartuchos — Ayuda de configuración\n5. Banda de estadísticas: más de 12.000 títulos en stock, 1987 est. Año, recogida local.\n6. Pie de página: boletín + derechos de autor.\n\nEstética musical: degradados en la carátula del álbum, botones de reproducción, interfaz de usuario con forma de onda o lista de pistas, paletas vibrantes o retro, responsivas (768 px). Devuelve index.html únicamente."
+      },
+      "imageUrl": "/webpages/placeholder-web-243-vinylroom-record-shop.png",
+      "imageHint": {
+        "en": "VinylRoom record shop warm retro cream brown vinyl crate album covers",
+        "es": "VinylRoom tienda de discos cálidas portadas de álbumes de cajas de vinilo marrón crema retro"
+      },
+      "demoUrl": "vinylroom-record-shop",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "landing page",
+        "music",
+        "vinyl",
+        "records",
+        "retail",
+        "retro"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "232",
+      "title": {
+        "en": "SportPeak — Athletic wear store",
+        "es": "SportPeak — Tienda de ropa deportiva"
+      },
+      "description": {
+        "en": "Create a single-page dark mode landing for \"SportPeak\", a Athletic Wear Store e-commerce site. Pure HTML + CSS in one index.html file (no frameworks).\n\n**Palette:** background #18181b, text #fafafa, muted #a1a1aa, accent #f97316.\n**Typography:** Google Fonts — \"Inter\".\n\n**Sections (in order):**\n1. Sticky nav: logo \"SportPeak\", category links (Men, Women, Outlet), cart icon placeholder + CTA (\"Shop gear\").\n2. Hero: pill \"Train harder · Move freer\", headline with one italic keyword, value subcopy, CTAs (\"Shop gear\" + \"Browse catalog\").\n3. Category chips: Running, Gym, Yoga, Team sports.\n4. Product grid (3 cards):\n- **Compression Tights** (PRO): Moisture-wick · pocket — $72\n- **Trail Runner** (HOT): Grip sole · lightweight — $128\n- **Training Tee** (-30%): Breathable mesh — $28\nEach card: sale/new badge, product image placeholder, title, variant line, price, \"Add to cart\" button.\n5. Trust/perks band: Free Returns 45 days, Pro Athlete program, 4.9★ 8k athletes.\n6. Footer: newsletter signup, payment icons row (text labels), copyright.\n\nE-commerce aesthetic: clean product photography areas, price prominence, subtle card borders, mobile-friendly grid. Responsive (768px). Returns index.html only.",
+        "es": "Cree un aterrizaje en modo oscuro de una sola página para \"SportPeak\", un sitio de comercio electrónico de Athletic Wear Store. HTML puro + CSS en un archivo index.html (sin marcos).\n\n**Paleta:** fondo #18181b, texto #fafafa, silenciado #a1a1aa, acento #f97316.\n**Tipografía:** Google Fonts — \"Inter\".\n\n**Secciones (en orden):**\n1. Navegación fija: logotipo \"SportPeak\", enlaces de categorías (Hombres, Mujeres, Outlet), marcador de posición del ícono del carrito + CTA (\"Comprar equipo\").\n2. Héroe: píldora \"Entrena más duro · Muévete más libre\", título con una palabra clave en cursiva, subcopia de valor, CTA (\"Comprar equipo\" + \"Explorar catálogo\").\n3. Fichas de categoría: Running, Gym, Yoga, Deportes de equipo.\n4. Cuadrícula de productos (3 tarjetas):\n- **Medias de compresión** (PRO): bolsillo absorbente de humedad — $72\n- **Trail Runner** (HOT): Suela de agarre · ligera — $128\n- **Camiseta de entrenamiento** (-30%): malla transpirable — $28\nCada tarjeta: insignia de oferta/nueva, marcador de posición de imagen del producto, título, línea de variante, precio, botón \"Agregar al carrito\".\n5. Banda de confianza/beneficios: Devoluciones gratuitas 45 días, programa Pro Athlete, 4,9★ 8k atletas.\n6. Pie de página: suscripción al boletín informativo, fila de íconos de pago (etiquetas de texto), derechos de autor.\n\nEstética del comercio electrónico: áreas limpias para la fotografía de productos, prominencia de precios, bordes de tarjetas sutiles, cuadrícula compatible con dispositivos móviles. Responsivo (768px). Devuelve index.html únicamente."
+      },
+      "imageUrl": "/webpages/placeholder-web-232-sportpeak-athletic-wear.png",
+      "imageHint": {
+        "en": "SportPeak athletic wear bold orange black performance running leggings ecommerce",
+        "es": "SportPeak ropa deportiva atrevido naranja negro rendimiento leggings para correr comercio electrónico"
+      },
+      "demoUrl": "sportpeak-athletic-wear",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "tags": [
+        "landing page",
+        "e-commerce",
+        "sportswear",
+        "fitness",
+        "athletic",
+        "retail"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "239",
+      "title": {
+        "en": "WealthHorizon — Wealth management",
+        "es": "WealthHorizon - Gestión patrimonial"
+      },
+      "description": {
+        "en": "Create a single-page dark mode landing for \"WealthHorizon\", a Wealth Management fintech product site. Pure HTML + CSS in one index.html file (no frameworks).\n\n**Palette:** background #022c22, text #ecfdf5, muted #6ee7b7, accent #34d399.\n**Typography:** Google Fonts — \"Inter\" (UI) + optional geometric sans for headlines.\n\n**Sections (in order):**\n1. Sticky nav: logo \"WealthHorizon\", links (Invest, Retire, Advisors), primary CTA (\"Start investing\").\n2. Split hero: pill \"Advisors + automation\", headline with one italic keyword, trust subcopy, CTAs (\"Start investing\" + \"See demo\"), **portfolio mockup** on the right (card UI, dashboard, chart, or payment terminal — fintech-specific).\n3. Product chips: IRA, 401k roll, ESG, Tax smart.\n4. Features grid (3 cards):\n- **Model portfolios** (PORTFOLIO): ETF · tax-loss harvest — Low 0.15% fee\n- **Goal planning** (GOALS): Retirement · college · house — Monte Carlo\n- **CFP® access** (HUMAN): Video reviews · quarterly — Fiduciary\nEach card: label badge, title, detail, meta line, subtle border, no heavy shadows.\n5. Trust/stats band: 0.15% Advisory fee, $500 Min to start, 12yr Avg client tenure.\n6. Footer: compliance line (e.g. \"Not a bank\" / \"Securities offered through…\"), email signup, copyright.\n\nFintech aesthetic: clean grids, security badges, monospace accents for numbers, professional trust signals, responsive (768px). Returns index.html only.",
+        "es": "Cree una página de aterrizaje en modo oscuro de una sola página para \"WealthHorizon\", un sitio de productos fintech de gestión patrimonial. HTML puro + CSS en un archivo index.html (sin marcos).\n\n**Paleta:** fondo #022c22, texto #ecfdf5, silenciado #6ee7b7, acento #34d399.\n**Tipografía:** Google Fonts: \"Inter\" (UI) + sans geométrico opcional para titulares.\n\n**Secciones (en orden):**\n1. Navegación fija: logotipo \"WealthHorizon\", enlaces (Invertir, Jubilarse, Asesores), CTA principal (\"Comenzar a invertir\").\n2. Héroe dividido: píldora \"Asesores + automatización\", título con una palabra clave en cursiva, subcopia de confianza, CTA (\"Comenzar a invertir\" + \"Ver demostración\"), **maqueta de cartera** a la derecha (interfaz de usuario de tarjeta, tablero, gráfico o terminal de pago, específico de fintech).\n3. Fichas de producto: IRA, 401k roll, ESG, Tax smart.\n4. Características de la cuadrícula (3 cartas):\n- **Carteras modelo** (PORTFOLIO): ETF · cosecha de pérdidas fiscales — Tarifa baja del 0,15 %\n- **Planificación de objetivos** (METAS): Jubilación · universidad · casa — Monte Carlo\n- **Acceso CFP®** (HUMAN): Revisiones de videos · trimestral — Fiduciario\nCada tarjeta: insignia de etiqueta, título, detalle, metalínea, borde sutil, sin sombras intensas.\n5. Banda de confianza/estadísticas: 0,15 % de tarifa de asesoramiento, $500 mínimo para comenzar, antigüedad promedio del cliente de 12 años.\n6. Pie de página: línea de cumplimiento (por ejemplo, \"No es un banco\" / \"Valores ofrecidos a través de...\"), registro de correo electrónico, derechos de autor.\n\nEstética fintech: cuadrículas limpias, insignias de seguridad, acentos monoespaciales para números, señales de confianza profesionales, capacidad de respuesta (768 px). Devuelve index.html únicamente."
+      },
+      "imageUrl": "/webpages/placeholder-web-239-wealthhorizon-investing.png",
+      "imageHint": {
+        "en": "WealthHorizon investing dark emerald portfolio chart wealth management fintech",
+        "es": "WealthHorizon inversión gráfico de cartera esmeralda oscura gestión patrimonial fintech"
+      },
+      "demoUrl": "wealthhorizon-investing",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "tags": [
+        "landing page",
+        "fintech",
+        "investing",
+        "wealth",
+        "portfolio",
+        "finance"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "217",
+      "title": {
+        "en": "SREDesk — Incident & reliability platform",
+        "es": "SREDesk: plataforma de incidentes y confiabilidad"
+      },
+      "description": {
+        "en": "Create a single-page dark mode landing for \"SREDesk\", a SRE Platform DevOps / platform engineering product site. Pure HTML + CSS in one index.html file (no frameworks).\n\n**Palette:** background #111827, text #f9fafb, muted #9ca3af, accent #ef4444.\n**Typography:** Google Fonts — \"IBM Plex Mono\" (monospace for headings and UI).\n\n**Sections (in order):**\n1. Sticky nav: logo \"SREDesk\", links (Incidents, On-call, Status), accent CTA (\"Start free\" / \"Request demo\").\n2. Hero: integration pill \"Incidents · Status · Postmortems\", monospace-style headline with one italic/accent keyword, technical subcopy, CTAs (\"Start building\" + \"View docs\").\n3. Tech stack chips: PagerDuty, Slack, Jira, Datadog.\n4. Features grid (3 cards):\n- **Incident rooms** (RESPOND): Slack/Teams war rooms · timelines — Sub-5min MTTA\n- **Status pages** (COMMUNICATE): Subscriber updates · components — Custom domains\n- **Blameless reviews** (LEARN): Templates · action tracking — Analytics\nEach card: uppercase label, title, detail, meta line, \"Learn more\" link. Optional terminal-style decorative line in card header.\n5. Stats band: 3 metrics (e.g. \"99.99% uptime\", \"10k+ teams\", \"< 50ms deploy\").\n6. Footer: developer-focused signup, GitHub link placeholder, copyright.\n\nDevOps aesthetic: dark UI, terminal hints, grid lines, accent glow on hover, crisp borders. Optional fake CLI snippet in hero. Responsive (768px). Returns index.html only.",
+        "es": "Cree un aterrizaje en modo oscuro de una sola página para \"SREDesk\", un sitio de productos de ingeniería de plataforma/DevOps de plataforma SRE. HTML puro + CSS en un archivo index.html (sin marcos).\n\n**Paleta:** fondo #111827, texto #f9fafb, silenciado #9ca3af, acento #ef4444.\n**Tipografía:** Google Fonts: \"IBM Plex Mono\" (monoespacio para títulos y interfaz de usuario).\n\n**Secciones (en orden):**\n1. Navegación fija: logotipo \"SREDesk\", enlaces (Incidentes, De guardia, Estado), acento CTA (\"Empezar gratis\" / \"Solicitar demostración\").\n2. Héroe: píldora de integración \"Incidentes · Estado · Autopsias\", titular estilo monoespacio con una palabra clave en cursiva/acento, subcopia técnica, CTA (\"Comenzar a construir\" + \"Ver documentos\").\n3. Chips de tecnología: PagerDuty, Slack, Jira, Datadog.\n4. Características de la cuadrícula (3 cartas):\n- **Salas de incidentes** (RESPONDER): Salas de guerra de Slack/Teams · cronogramas — MTTA inferior a 5 minutos\n- **Páginas de estado** (COMUNICADO): Actualizaciones de suscriptores · componentes — Dominios personalizados\n- **Reseñas intachables** (APRENDER): Plantillas · seguimiento de acciones — Análisis\nCada tarjeta: etiqueta en mayúscula, título, detalle, metalínea, enlace \"Más información\". Línea decorativa estilo terminal opcional en el encabezado de la tarjeta.\n5. Banda de estadísticas: 3 métricas (por ejemplo, \"99,99 % de tiempo de actividad\", \"más de 10.000 equipos\", \"implementación < 50 ms\").\n6. Pie de página: registro centrado en el desarrollador, marcador de posición del enlace de GitHub, derechos de autor.\n\nEstética de DevOps: interfaz de usuario oscura, sugerencias de terminal, líneas de cuadrícula, brillo acentuado al pasar el mouse, bordes nítidos. Fragmento de CLI falso opcional en hero. Responsivo (768px). Devuelve index.html únicamente."
+      },
+      "imageUrl": "/webpages/placeholder-web-217-sredesk-incident-platform.png",
+      "imageHint": {
+        "en": "SREDesk incident reliability red dark on-call status page postmortem SRE",
+        "es": "SREDesk confiabilidad de incidentes rojo oscuro página de estado de guardia postmortem SRE"
+      },
+      "demoUrl": "sredesk-incident-platform",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "tags": [
+        "landing page",
+        "DevOps",
+        "SRE",
+        "incident",
+        "on-call",
+        "reliability"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "216",
+      "title": {
+        "en": "TerraformHub — Infrastructure as Code",
+        "es": "TerraformHub: infraestructura como código"
+      },
+      "description": {
+        "en": "Create a single-page dark mode landing for \"TerraformHub\", a Infrastructure as Code DevOps / platform engineering product site. Pure HTML + CSS in one index.html file (no frameworks).\n\n**Palette:** background #1a1a1a, text #fafafa, muted #a3a3a3, accent #f97316.\n**Typography:** Google Fonts — \"IBM Plex Mono\" (monospace for headings and UI).\n\n**Sections (in order):**\n1. Sticky nav: logo \"TerraformHub\", links (Registry, Runs, Enterprise), accent CTA (\"Start free\" / \"Request demo\").\n2. Hero: integration pill \"Modules · State · Policy\", monospace-style headline with one italic/accent keyword, technical subcopy, CTAs (\"Start building\" + \"View docs\").\n3. Tech stack chips: AWS, Azure, GCP, OPA.\n4. Features grid (3 cards):\n- **Verified registry** (MODULES): VPC, EKS, RDS blueprints — Version pinning\n- **OPA guardrails** (POLICY): Cost & security checks pre-apply — Custom rules\n- **Remote locking** (STATE): Encrypted state · audit log — Drift schedules\nEach card: uppercase label, title, detail, meta line, \"Learn more\" link. Optional terminal-style decorative line in card header.\n5. Stats band: 3 metrics (e.g. \"99.99% uptime\", \"10k+ teams\", \"< 50ms deploy\").\n6. Footer: developer-focused signup, GitHub link placeholder, copyright.\n\nDevOps aesthetic: dark UI, terminal hints, grid lines, accent glow on hover, crisp borders. Optional fake CLI snippet in hero. Responsive (768px). Returns index.html only.",
+        "es": "Cree un aterrizaje en modo oscuro de una sola página para \"TerraformHub\", un sitio de productos de ingeniería de plataforma/Infraestructura como código DevOps. HTML puro + CSS en un archivo index.html (sin marcos).\n\n**Paleta:** fondo #1a1a1a, texto #fafafa, silenciado #a3a3a3, acento #f97316.\n**Tipografía:** Google Fonts: \"IBM Plex Mono\" (monoespacio para títulos y interfaz de usuario).\n\n**Secciones (en orden):**\n1. Navegación fija: logotipo \"TerraformHub\", enlaces (Registro, Ejecuciones, Enterprise), acento CTA (\"Comenzar gratis\" / \"Solicitar demostración\").\n2. Héroe: píldora de integración \"Módulos · Estado · Política\", titular estilo monoespacio con una palabra clave en cursiva/acento, subcopia técnica, CTA (\"Comenzar a construir\" + \"Ver documentos\").\n3. Chips de tecnología: AWS, Azure, GCP, OPA.\n4. Características de la cuadrícula (3 cartas):\n- **Registro verificado** (MÓDULOS): VPC, EKS, planos RDS — Fijación de versiones\n- **Barandillas OPA** (POLÍTICA): Se aplican controles de seguridad y costos previamente — Reglas personalizadas\n- **Bloqueo remoto** (ESTADO): Estado cifrado · registro de auditoría — Horarios de deriva\nCada tarjeta: etiqueta en mayúscula, título, detalle, metalínea, enlace \"Más información\". Línea decorativa estilo terminal opcional en el encabezado de la tarjeta.\n5. Banda de estadísticas: 3 métricas (por ejemplo, \"99,99 % de tiempo de actividad\", \"más de 10.000 equipos\", \"implementación < 50 ms\").\n6. Pie de página: registro centrado en el desarrollador, marcador de posición del enlace de GitHub, derechos de autor.\n\nEstética de DevOps: interfaz de usuario oscura, sugerencias de terminal, líneas de cuadrícula, brillo acentuado al pasar el mouse, bordes nítidos. Fragmento de CLI falso opcional en hero. Responsivo (768px). Devuelve index.html únicamente."
+      },
+      "imageUrl": "/webpages/placeholder-web-216-terraformhub-iac.png",
+      "imageHint": {
+        "en": "TerraformHub infrastructure as code orange terraform modules state cloud",
+        "es": "Infraestructura TerraformHub como nube de estado de módulos Terraform de código naranja"
+      },
+      "demoUrl": "terraformhub-iac",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "landing page",
+        "DevOps",
+        "Terraform",
+        "IaC",
+        "cloud",
+        "automation"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "219",
+      "title": {
+        "en": "SakuraLane — Japanese omakase",
+        "es": "SakuraLane - Omakase japonés"
+      },
+      "description": {
+        "en": "Create a single-page light mode landing for \"SakuraLane\", a Japanese Omakase restaurant site. Pure HTML + CSS in one index.html file (no frameworks).\n\n**Palette:** background #faf9f7, text #1c1917, muted #78716c, accent #b91c1c.\n**Typography:** Google Fonts — \"Inter\".\n\n**Sections (in order):**\n1. Sticky nav: logo \"SakuraLane\", links (Experience, Chef, Reservations), prominent CTA (\"Request seating\").\n2. Hero: pill \"12 seats · Seasonal omakase\", headline with one italic keyword, appetizing subcopy, CTAs (\"Request seating\" + \"View menu\").\n3. Cuisine chips: Omakase, Sashimi, Sake, Counter seating.\n4. Menu highlights grid (3 cards):\n- **Evening Course** (OMakase): 18 pieces · 2 hours — $195\n- **Chef's Selection** (SUSHI): Edomae style · daily catch — $120\n- **Pairing Flight** (SAKE): 5 pours · regional — $65\nEach card: label badge, dish name, description, price/meta, \"Order\" or \"Reserve\" link. Food photography placeholders or warm gradient blocks.\n5. Stats band: 12 Seats only, ★ Michelin Guide noted, 48h Advance booking.\n6. Footer: reservation/delivery line, email or phone input, hours note, copyright.\n\nRestaurant aesthetic: appetizing imagery areas, OpenNowBadge-style pill, MichelinStars or rating stars optional, warm lighting on dark steakhouses, clean minimal for omakase. Responsive (768px). Returns index.html only.",
+        "es": "Cree un aterrizaje en modo ligero de una sola página para \"SakuraLane\", un sitio de restaurante japonés Omakase. HTML puro + CSS en un archivo index.html (sin marcos).\n\n**Paleta:** fondo #faf9f7, texto #1c1917, silenciado #78716c, acento #b91c1c.\n**Tipografía:** Google Fonts — \"Inter\".\n\n**Secciones (en orden):**\n1. Navegación fija: logotipo \"SakuraLane\", enlaces (Experiencia, Chef, Reservas), CTA destacado (\"Solicitar asiento\").\n2. Héroe: píldora \"12 asientos · Omakase estacional\", título con una palabra clave en cursiva, subcopia apetitosa, CTA (\"Solicitar asiento\" + \"Ver menú\").\n3. Chips de cocina: omakase, sashimi, sake y mostrador.\n4. Cuadrícula de aspectos destacados del menú (3 tarjetas):\n- **Curso nocturno** (OMakase): 18 piezas · 2 horas — $195\n- **Selección del chef** (SUSHI): estilo Edomae · captura diaria — $120\n- **Vuelo de emparejamiento** (SAKE): 5 porciones · regional — $65\nCada tarjeta: etiqueta de etiqueta, nombre del plato, descripción, precio/meta, enlace \"Pedido\" o \"Reserva\". Marcadores de posición de fotografía de alimentos o bloques de degradado cálido.\n5. Banda de estadísticas: 12 asientos únicamente, ★ Guía Michelin anotada, reserva con 48 horas de antelación.\n6. Pie de página: línea de reserva/entrega, entrada de correo electrónico o teléfono, nota de horario, derechos de autor.\n\nEstética del restaurante: áreas con imágenes apetitosas, píldora estilo OpenNowBadge, estrellas Michelin o estrellas de calificación opcionales, iluminación cálida en asadores oscuros, limpieza mínima para omakase. Responsivo (768px). Devuelve index.html únicamente."
+      },
+      "imageUrl": "/webpages/placeholder-web-219-sakuralane-omakase.png",
+      "imageHint": {
+        "en": "SakuraLane Japanese omakase minimal red black sushi counter seasonal chef",
+        "es": "SakuraLane Omakase japonés mínimo rojo negro sushi mostrador chef de temporada"
+      },
+      "demoUrl": "sakuralane-omakase",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "landing page",
+        "restaurants",
+        "Japanese",
+        "omakase",
+        "sushi",
+        "fine dining"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "220",
+      "title": {
+        "en": "VerdeKitchen — Farm-to-table",
+        "es": "VerdeCocina — De la granja a la mesa"
+      },
+      "description": {
+        "en": "Create a single-page light mode landing for \"VerdeKitchen\", a Farm-to-Table Restaurant restaurant site. Pure HTML + CSS in one index.html file (no frameworks).\n\n**Palette:** background #f4f9f4, text #14532d, muted #4d7c5c, accent #16a34a.\n**Typography:** Google Fonts — \"Inter\".\n\n**Sections (in order):**\n1. Sticky nav: logo \"VerdeKitchen\", links (Menu, Farms, Order), prominent CTA (\"View menu\").\n2. Hero: pill \"Local farms · Zero waste\", headline with one italic keyword, appetizing subcopy, CTAs (\"View menu\" + \"View menu\").\n3. Cuisine chips: Organic, Vegan options, Gluten-free, Compost.\n4. Menu highlights grid (3 cards):\n- **Harvest Grain** (BOWL): Quinoa · roasted roots — $18\n- **Garden Risotto** (PLATE): Pea tendrils · lemon — $22\n- **Berry Tart** (DESSERT): Almond crust · honey — $12\nEach card: label badge, dish name, description, price/meta, \"Order\" or \"Reserve\" link. Food photography placeholders or warm gradient blocks.\n5. Stats band: 12 Partner farms, 100% Compostable, 0 Food miles avg.\n6. Footer: reservation/delivery line, email or phone input, hours note, copyright.\n\nRestaurant aesthetic: appetizing imagery areas, OpenNowBadge-style pill, MichelinStars or rating stars optional, warm lighting on dark steakhouses, clean minimal for omakase. Responsive (768px). Returns index.html only.",
+        "es": "Cree un aterrizaje en modo ligero de una sola página para \"VerdeKitchen\", un sitio de restaurantes de la granja a la mesa. HTML puro + CSS en un archivo index.html (sin marcos).\n\n**Paleta:** fondo #f4f9f4, texto #14532d, silenciado #4d7c5c, acento #16a34a.\n**Tipografía:** Google Fonts — \"Inter\".\n\n**Secciones (en orden):**\n1. Navegación fija: logo \"VerdeKitchen\", enlaces (Menú, Granjas, Orden), CTA destacado (\"Ver menú\").\n2. Héroe: píldora \"Granjas locales · Residuo cero\", título con una palabra clave en cursiva, subtexto atractivo, CTA (\"Ver menú\" + \"Ver menú\").\n3. Chips de cocina: Orgánicos, Opciones veganas, Sin gluten, Compost.\n4. Cuadrícula de aspectos destacados del menú (3 tarjetas):\n- **Granos de cosecha** (BOWL): Quinua · raíces tostadas — $18\n- **Garden Risotto** (PLATO): Zarcillos de guisantes · limón — $22\n- **Tarta de frutos rojos** (POSTRE): corteza de almendras · miel — $12\nCada tarjeta: etiqueta de etiqueta, nombre del plato, descripción, precio/meta, enlace \"Pedido\" o \"Reserva\". Marcadores de posición de fotografía de alimentos o bloques de degradado cálido.\n5. Banda de estadísticas: 12 granjas asociadas, 100 % compostable, 0 millas de comida promedio.\n6. Pie de página: línea de reserva/entrega, entrada de correo electrónico o teléfono, nota de horario, derechos de autor.\n\nEstética del restaurante: áreas con imágenes apetitosas, píldora estilo OpenNowBadge, estrellas Michelin o estrellas de calificación opcionales, iluminación cálida en asadores oscuros, limpieza mínima para omakase. Responsivo (768px). Devuelve index.html únicamente."
+      },
+      "imageUrl": "/webpages/placeholder-web-220-verdekitchen-farm-table.png",
+      "imageHint": {
+        "en": "VerdeKitchen farm to table green organic vegetarian light fresh produce menu",
+        "es": "VerdeKitchen, de la granja a la mesa, verde, orgánico, vegetariano, menú ligero de productos frescos."
+      },
+      "demoUrl": "verdekitchen-farm-table",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "landing page",
+        "restaurants",
+        "farm-to-table",
+        "organic",
+        "vegetarian",
+        "sustainable"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "224",
+      "title": {
+        "en": "VoidMail — Minimal email client",
+        "es": "VoidMail: cliente de correo electrónico mínimo"
+      },
+      "description": {
+        "en": "Create a single-page dark mode landing for \"VoidMail\", a Email Client. Pure HTML + CSS in one index.html file (no frameworks).\n\n**Palette:** background #09090b, text #fafafa, muted #71717a, accent #fafafa.\n**Typography:** Google Fonts — \"Inter\" (400–500 weights only).\n\n**Minimal design rules:** no box shadows, no gradients, border-radius 0–4px max, 1px borders only, abundant whitespace, max-width ~720px for hero text, text-only nav with thin bottom rule.\n\n**Sections (in order):**\n1. Minimal nav: brand text only (no logo icon), links (Product, Security, Beta), understated text CTA (\"Join waitlist\").\n2. Hero: small caps pill \"Inbox zero · Keyboard-first\", large headline with one italic keyword, one-line subcopy, single underlined or bordered CTA.\n3. Numbered feature list (not cards):\n- **Triage fast** (01): Archive, snooze, and reply without the mouse\n- **Privacy by default** (02): No ads, no tracking pixels, no data resale\n- **Unified search** (03): Find any thread across accounts instantly\nLarge orange/black numbers on the left, title + one line detail, separated by 1px horizontal rules.\n4. Optional thin full-width placeholder block (dashboard or mockup) with 1px border only.\n5. Footer: single line copyright + one email input, no multi-column footer.\n\nAesthetic: Stripe / Linear / Vercel docs inspired — editorial, calm, grid-aligned. Responsive (768px). Returns index.html only.",
+        "es": "Cree una página de aterrizaje en modo oscuro de una sola página para \"VoidMail\", un cliente de correo electrónico. HTML puro + CSS en un archivo index.html (sin marcos).\n\n**Paleta:** fondo #09090b, texto #fafafa, silenciado #71717a, acento #fafafa.\n**Tipografía:** Google Fonts: \"Inter\" (solo pesos 400–500).\n\n**Reglas de diseño mínimas:** sin sombras de cuadro, sin degradados, radio de borde de 0 a 4 px como máximo, solo bordes de 1 px, abundante espacio en blanco, ancho máximo de ~720 px para texto principal, navegación de solo texto con regla inferior delgada.\n\n**Secciones (en orden):**\n1. Navegación mínima: solo texto de la marca (sin ícono de logotipo), enlaces (Producto, Seguridad, Beta), texto discreto CTA (\"Unirse a la lista de espera\").\n2. Héroe: píldora en versalitas \"Bandeja de entrada cero · Teclado primero\", título grande con una palabra clave en cursiva, subcopia de una línea, CTA simple subrayada o con borde.\n3. Lista de funciones numeradas (no tarjetas):\n- **Triaje rápido** (01): Archiva, pospone y responde sin el mouse\n- **Privacidad por defecto** (02): Sin anuncios, sin píxeles de seguimiento, sin reventa de datos\n- **Búsqueda unificada** (03): encuentre cualquier hilo entre cuentas al instante\nNúmeros grandes de color naranja/negro a la izquierda, título + detalle de una línea, separados por reglas horizontales de 1 px.\n4. Bloque de marcador de posición delgado opcional de ancho completo (panel de control o maqueta) con borde de 1 px únicamente.\n5. Pie de página: derechos de autor de una sola línea + una entrada de correo electrónico, sin pie de página de varias columnas.\n\nEstético: inspirado en documentos Stripe/Linear/Vercel: editorial, tranquilo, alineado con la cuadrícula. Responsivo (768px). Devuelve index.html únicamente."
+      },
+      "imageUrl": "/webpages/placeholder-web-224-voidmail-inbox.png",
+      "imageHint": {
+        "en": "VoidMail minimal email dark black gray inbox clean typography",
+        "es": "VoidMail correo electrónico minimalista tipografía limpia bandeja de entrada gris negro oscuro"
+      },
+      "demoUrl": "voidmail-inbox",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "tags": [
+        "landing page",
+        "minimal",
+        "email",
+        "productivity",
+        "dark mode",
+        "SaaS"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "228",
+      "title": {
+        "en": "VoltGear — Tech & gadgets store",
+        "es": "VoltGear — Tienda de tecnología y gadgets"
+      },
+      "description": {
+        "en": "Create a single-page dark mode landing for \"VoltGear\", a Electronics Store e-commerce site. Pure HTML + CSS in one index.html file (no frameworks).\n\n**Palette:** background #0f172a, text #f1f5f9, muted #94a3b8, accent #3b82f6.\n**Typography:** Google Fonts — \"Inter\".\n\n**Sections (in order):**\n1. Sticky nav: logo \"VoltGear\", category links (Audio, Desk, Deals), cart icon placeholder + CTA (\"Add to cart\").\n2. Hero: pill \"Pro gear · Fast ship\", headline with one italic keyword, value subcopy, CTAs (\"Add to cart\" + \"Browse catalog\").\n3. Category chips: Audio, Peripherals, Smart home, Gaming.\n4. Product grid (3 cards):\n- **ANC Headphones** (HOT): 40hr battery · USB-C — $199\n- **Mechanical Keyboard** (NEW): Hot-swap · RGB off — $149\n- **4K Webcam** (-20%): Auto-focus · dual mic — $79\nEach card: sale/new badge, product image placeholder, title, variant line, price, \"Add to cart\" button.\n5. Trust/perks band: 2-day Free shipping, 2yr Warranty, 24/7 Support.\n6. Footer: newsletter signup, payment icons row (text labels), copyright.\n\nE-commerce aesthetic: clean product photography areas, price prominence, subtle card borders, mobile-friendly grid. Responsive (768px). Returns index.html only.",
+        "es": "Cree un aterrizaje en modo oscuro de una sola página para \"VoltGear\", un sitio de comercio electrónico de tiendas de electrónica. HTML puro + CSS en un archivo index.html (sin marcos).\n\n**Paleta:** fondo #0f172a, texto #f1f5f9, silenciado #94a3b8, acento #3b82f6.\n**Tipografía:** Google Fonts — \"Inter\".\n\n**Secciones (en orden):**\n1. Navegación fija: logotipo \"VoltGear\", enlaces de categorías (Audio, Escritorio, Ofertas), marcador de posición del ícono del carrito + CTA (\"Agregar al carrito\").\n2. Héroe: píldora \"Equipo profesional · Envío rápido\", título con una palabra clave en cursiva, subcopia de valor, CTA (\"Agregar al carrito\" + \"Buscar catálogo\").\n3. Chips de categoría: Audio, Periféricos, Hogar inteligente, Gaming.\n4. Cuadrícula de productos (3 tarjetas):\n- **Auriculares ANC** (CALIENTE): Batería de 40 horas · USB-C — $199\n- **Teclado mecánico** (NUEVO): Intercambio en caliente · RGB desactivado — $149\n- **Cámara web 4K** (-20%): enfoque automático · micrófono dual — $79\nCada tarjeta: insignia de oferta/nueva, marcador de posición de imagen del producto, título, línea de variante, precio, botón \"Agregar al carrito\".\n5. Banda de confianza/beneficios: envío gratuito en 2 días, garantía de 2 años, soporte 24 horas al día, 7 días a la semana.\n6. Pie de página: suscripción al boletín informativo, fila de íconos de pago (etiquetas de texto), derechos de autor.\n\nEstética del comercio electrónico: áreas limpias para la fotografía de productos, prominencia de precios, bordes de tarjetas sutiles, cuadrícula compatible con dispositivos móviles. Responsivo (768px). Devuelve index.html únicamente."
+      },
+      "imageUrl": "/webpages/placeholder-web-228-voltgear-tech-shop.png",
+      "imageHint": {
+        "en": "VoltGear tech gadgets store dark blue neon product cards electronics ecommerce",
+        "es": "Tienda de gadgets tecnológicos VoltGear, tarjetas de productos de neón azul oscuro, comercio electrónico electrónico"
+      },
+      "demoUrl": "voltgear-tech-shop",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "tags": [
+        "landing page",
+        "e-commerce",
+        "electronics",
+        "gadgets",
+        "tech",
+        "retail"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "210",
+      "title": {
+        "en": "ZenGarden — Meditation retreat center",
+        "es": "ZenGarden — Centro de retiro de meditación"
+      },
+      "description": {
+        "en": "Create a single-page light mode landing for \"ZenGarden\", a Retreat Center wellness site. Pure HTML + CSS in one index.html file (no frameworks).\n\n**Palette:** background #f7f6f2, text #3f3f46, muted #78716c, accent #65a30d.\n**Typography:** Google Fonts — \"Inter\" + \"Lora\" for soft headlines (light/medium weights, calm spacing).\n\n**Sections (in order):**\n1. Sticky nav: logo \"ZenGarden\", links (Programs, Stay, Book), soft rounded CTA (\"Start free\" / \"Book retreat\").\n2. Hero: pill \"Mountains · Silent mornings\", gentle headline with one italic keyword, calming subcopy, CTAs (\"Begin session\" + \"Explore library\").\n3. Practice chips: Silent, Walking, Tea ceremony, Nature.\n4. Sessions grid (3 cards):\n- **Silent Retreat** (WEEKEND): Fri–Sun · Meals included — From $480\n- **Mindful Living** (WEEK): 7 days · Walking meditation — From $1,200\n- **Saturday Reset** (DAY): One-day · Group sessions — $120\nEach card: label, title, duration/detail, meta, \"Start\" link. Soft rounded cards, plenty of padding.\n5. Stats band: 3 calm metrics (e.g. \"500+ sessions\", \"2M minutes\", \"Certified guides\").\n6. Footer: peaceful signup line, email input, copyright.\n\nMeditation aesthetic: soft gradients, rounded corners (16–24px), low contrast borders, airy whitespace, no harsh shadows. Responsive (768px). Returns index.html only.",
+        "es": "Cree un aterrizaje en modo de luz de una sola página para \"ZenGarden\", un sitio de bienestar de un centro de retiro. HTML puro + CSS en un archivo index.html (sin marcos).\n\n**Paleta:** fondo #f7f6f2, texto #3f3f46, silenciado #78716c, acento #65a30d.\n**Tipografía:** Google Fonts: \"Inter\" + \"Lora\" para titulares suaves (peso ligero/medio, espaciado tranquilo).\n\n**Secciones (en orden):**\n1. Navegación fija: logotipo \"ZenGarden\", enlaces (Programas, Estadía, Reservar), CTA suave y redondeado (\"Empezar gratis\" / \"Reservar retiro\").\n2. Héroe: píldora \"Montañas · Mañanas silenciosas\", título suave con una palabra clave en cursiva, subtexto tranquilizador, CTA (\"Iniciar sesión\" + \"Explorar biblioteca\").\n3. Fichas de práctica: Silencio, Caminar, Ceremonia del Té, Naturaleza.\n4. Cuadrícula de sesiones (3 tarjetas):\n- **Retiro de Silencio** (FIN DE SEMANA): viernes a domingo · Comidas incluidas — Desde $480\n- **Vida consciente** (SEMANA): 7 días · Meditación caminando — Desde $1,200\n- **Reinicio del sábado** (DÍA): Un día · Sesiones grupales: $120\nCada tarjeta: etiqueta, título, duración/detalle, meta, enlace \"Inicio\". Tarjetas suaves y redondeadas, con mucho relleno.\n5. Banda de estadísticas: 3 métricas de calma (por ejemplo, \"más de 500 sesiones\", \"2 millones de minutos\", \"guías certificados\").\n6. Pie de página: línea de registro pacífica, entrada de correo electrónico, derechos de autor.\n\nEstética de meditación: degradados suaves, esquinas redondeadas (16–24 px), bordes de bajo contraste, espacios en blanco aireados, sin sombras duras. Responsivo (768px). Devuelve index.html únicamente."
+      },
+      "imageUrl": "/webpages/placeholder-web-210-zengarden-retreat.png",
+      "imageHint": {
+        "en": "ZenGarden meditation retreat sage stone minimal nature zen peaceful",
+        "es": "ZenGarden retiro de meditación piedra salvia naturaleza minimalista zen pacífico"
+      },
+      "demoUrl": "zengarden-retreat",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "landing page",
+        "meditation",
+        "retreat",
+        "zen",
+        "wellness",
+        "nature"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "211",
+      "title": {
+        "en": "SleepFlow — Sleep meditation",
+        "es": "SleepFlow: meditación del sueño"
+      },
+      "description": {
+        "en": "Create a single-page dark mode landing for \"SleepFlow\", a Sleep Meditation wellness site. Pure HTML + CSS in one index.html file (no frameworks).\n\n**Palette:** background #0f172a, text #e2e8f0, muted #94a3b8, accent #818cf8.\n**Typography:** Google Fonts — \"Inter\" (light/medium weights, calm spacing).\n\n**Sections (in order):**\n1. Sticky nav: logo \"SleepFlow\", links (Stories, Sounds, Trial), soft rounded CTA (\"Start free\" / \"Book retreat\").\n2. Hero: pill \"Fall asleep in minutes\", gentle headline with one italic keyword, calming subcopy, CTAs (\"Begin session\" + \"Explore library\").\n3. Practice chips: Stories, ASMR, Nature, Kids.\n4. Sessions grid (3 cards):\n- **Moonlit Train** (STORY): Narrated · 35 min — ★ 4.9\n- **Rain on Glass** (SOUNDS): Ambient · Loop — No ads\n- **Progressive Relax** (BODY): Voice · 20 min — Muscle release\nEach card: label, title, duration/detail, meta, \"Start\" link. Soft rounded cards, plenty of padding.\n5. Stats band: 3 calm metrics (e.g. \"500+ sessions\", \"2M minutes\", \"Certified guides\").\n6. Footer: peaceful signup line, email input, copyright.\n\nMeditation aesthetic: soft gradients, rounded corners (16–24px), low contrast borders, airy whitespace, no harsh shadows. Responsive (768px). Returns index.html only.",
+        "es": "Cree un aterrizaje en modo oscuro de una sola página para \"SleepFlow\", un sitio de bienestar y meditación del sueño. HTML puro + CSS en un archivo index.html (sin marcos).\n\n**Paleta:** fondo #0f172a, texto #e2e8f0, silenciado #94a3b8, acento #818cf8.\n**Tipografía:** Google Fonts: \"Inter\" (pesos ligeros/medios, espaciado tranquilo).\n\n**Secciones (en orden):**\n1. Navegación fija: logotipo \"SleepFlow\", enlaces (Historias, Sonidos, Prueba), CTA suave y redondeado (\"Empezar gratis\" / \"Retiro de libros\").\n2. Héroe: píldora \"Quedarse dormido en minutos\", título amable con una palabra clave en cursiva, subtexto tranquilizador, CTA (\"Iniciar sesión\" + \"Explorar biblioteca\").\n3. Fichas de práctica: Cuentos, ASMR, Naturaleza, Niños.\n4. Cuadrícula de sesiones (3 tarjetas):\n- **Tren iluminado por la luna** (HISTORIA): Narrado · 35 min — ★ 4.9\n- **Lluvia sobre cristal** (SONIDOS): Ambiente · Bucle — Sin anuncios\n- **Relajación Progresiva** (CUERPO): Voz · 20 min — Liberación muscular\nCada tarjeta: etiqueta, título, duración/detalle, meta, enlace \"Inicio\". Tarjetas suaves y redondeadas, con mucho relleno.\n5. Banda de estadísticas: 3 métricas de calma (por ejemplo, \"más de 500 sesiones\", \"2 millones de minutos\", \"guías certificados\").\n6. Pie de página: línea de registro pacífica, entrada de correo electrónico, derechos de autor.\n\nEstética de meditación: degradados suaves, esquinas redondeadas (16–24 px), bordes de bajo contraste, espacios en blanco aireados, sin sombras duras. Responsivo (768px). Devuelve index.html únicamente."
+      },
+      "imageUrl": "/webpages/placeholder-web-211-sleepflow-night-meditation.png",
+      "imageHint": {
+        "en": "SleepFlow sleep meditation dark blue indigo moon stars night calm",
+        "es": "SleepFlow sueño meditación azul oscuro índigo luna estrellas noche calma"
+      },
+      "demoUrl": "sleepflow-night-meditation",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "landing page",
+        "meditation",
+        "sleep",
+        "relaxation",
+        "wellness",
+        "night"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "185",
+      "title": {
+        "en": "VowDay — Wedding & celebration events",
+        "es": "VowDay — Eventos de boda y celebración"
+      },
+      "description": {
+        "en": "Create a single-page light mode landing for \"VowDay\", a Weddings events platform / organizer site. Pure HTML + CSS in one index.html file (no frameworks).\n\n**Palette:** background #fdf8f6, text #44403c, muted #a8a29e, accent #be185d.\n**Typography:** Google Fonts — \"Inter\" + \"Cormorant Garamond\" for headlines.\n\n**Sections (in order):**\n1. Sticky nav: logo \"VowDay\", links (Venues, Packages, Inquire), \"Get tickets\" or \"Register\" CTA in accent.\n2. Hero: date/location pill \"Curated venues · Full planning\", large headline with one italic keyword, subcopy, primary CTA + secondary link.\n3. Category chips: Ceremony, Reception, Catering, Photo.\n4. Featured events grid (3 cards):\n- **Garden Ceremony** (PKG A, Hacienda Rosa): From $12k\n- **City Rooftop** (PKG B, Skyline Terrace): From $18k\n- **Destination Weekend** (PKG C, Coastal Villa): Custom\nEach card: calendar-style date block, title, venue, price, \"Buy tickets\" button.\n5. Stats band: 3 metrics (e.g. \"200+ events/year\", \"50k attendees\", \"12 cities\").\n6. Footer: newsletter signup, social links, copyright.\n\nEvent ticketing / festival aesthetic: energetic, date-forward, clear CTAs. Optional countdown timer in hero (CSS only). Responsive (768px). Returns index.html only.",
+        "es": "Cree un aterrizaje en modo ligero de una sola página para \"VowDay\", una plataforma/sitio organizador de eventos de bodas. HTML puro + CSS en un archivo index.html (sin marcos).\n\n**Paleta:** fondo #fdf8f6, texto #44403c, silenciado #a8a29e, acento #be185d.\n**Tipografía:** Google Fonts: \"Inter\" + \"Cormorant Garamond\" para los titulares.\n\n**Secciones (en orden):**\n1. Navegación fija: logotipo \"VowDay\", enlaces (Lugares, Paquetes, Consulta), CTA \"Obtener entradas\" o \"Registrarse\" con acento.\n2. Héroe: píldora de fecha/ubicación \"Lugares seleccionados · Planificación completa\", título grande con una palabra clave en cursiva, subcopia, CTA principal + enlace secundario.\n3. Fichas de categoría: Ceremonia, Recepción, Catering, Foto.\n4. Cuadrícula de eventos destacados (3 tarjetas):\n- **Ceremonia del Jardín** (PKG A, Hacienda Rosa): Desde $12k\n- **City Rooftop** (PKG B, Skyline Terrace): desde $18k\n- **Destino Fin de Semana** (PKG C, Villa Costera): Personalizado\nCada tarjeta: bloque de fecha estilo calendario, título, lugar, precio, botón \"Comprar entradas\".\n5. Banda de estadísticas: 3 métricas (por ejemplo, \"más de 200 eventos/año\", \"50.000 asistentes\", \"12 ciudades\").\n6. Pie de página: suscripción al boletín, enlaces sociales, derechos de autor.\n\nVenta de entradas para eventos/estética del festival: CTA enérgicos, adelantados y claros. Temporizador de cuenta regresiva opcional en hero (solo CSS). Responsivo (768px). Devuelve index.html únicamente."
+      },
+      "imageUrl": "/webpages/placeholder-web-185-vowday-wedding-events.png",
+      "imageHint": {
+        "en": "VowDay wedding events blush rose gold elegant planner venues",
+        "es": "Los eventos de bodas de VowDay se ruborizan en oro rosa y lugares elegantes para planificar"
+      },
+      "demoUrl": "vowday-wedding-events",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "landing page",
+        "events",
+        "wedding",
+        "celebration",
+        "planning",
+        "elegant"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "184",
+      "title": {
+        "en": "SummitHQ — Tech conference",
+        "es": "SummitHQ - Conferencia tecnológica"
+      },
+      "description": {
+        "en": "Create a single-page light mode landing for \"SummitHQ\", a Tech Conference events platform / organizer site. Pure HTML + CSS in one index.html file (no frameworks).\n\n**Palette:** background #f8fafc, text #0f172a, muted #64748b, accent #2563eb.\n**Typography:** Google Fonts — \"Inter\".\n\n**Sections (in order):**\n1. Sticky nav: logo \"SummitHQ\", links (Agenda, Speakers, Register), \"Get tickets\" or \"Register\" CTA in accent.\n2. Hero: date/location pill \"Oct 22–24 · San Francisco\", large headline with one italic keyword, subcopy, primary CTA + secondary link.\n3. Category chips: AI, DevTools, Startups, Cloud.\n4. Featured events grid (3 cards):\n- **Keynotes & AI Track** (DAY 1, Moscone West): $499\n- **Workshops** (DAY 2, Breakout Halls): Included\n- **Startup Showcase** (DAY 3, Expo Floor): Free w/ pass\nEach card: calendar-style date block, title, venue, price, \"Buy tickets\" button.\n5. Stats band: 3 metrics (e.g. \"200+ events/year\", \"50k attendees\", \"12 cities\").\n6. Footer: newsletter signup, social links, copyright.\n\nEvent ticketing / festival aesthetic: energetic, date-forward, clear CTAs. Optional countdown timer in hero (CSS only). Responsive (768px). Returns index.html only.",
+        "es": "Cree un aterrizaje en modo ligero de una sola página para \"SummitHQ\", una plataforma/sitio organizador de eventos de conferencias tecnológicas. HTML puro + CSS en un archivo index.html (sin marcos).\n\n**Paleta:** fondo #f8fafc, texto #0f172a, silenciado #64748b, acento #2563eb.\n**Tipografía:** Google Fonts — \"Inter\".\n\n**Secciones (en orden):**\n1. Navegación fija: logotipo \"SummitHQ\", enlaces (Agenda, Oradores, Registrarse), CTA \"Obtener entradas\" o \"Registrarse\" con acento.\n2. Héroe: píldora de fecha/ubicación \"22-24 de octubre · San Francisco\", título grande con una palabra clave en cursiva, subcopia, CTA principal + enlace secundario.\n3. Fichas de categoría: IA, DevTools, Startups, Cloud.\n4. Cuadrícula de eventos destacados (3 tarjetas):\n- **Notas claves y seguimiento de IA** (DÍA 1, Moscone West): $499\n- **Talleres** (DÍA 2, Salas de grupo): Incluido\n- **Startup Showcase** (DÍA 3, piso de exposición): Gratis con pase\nCada tarjeta: bloque de fecha estilo calendario, título, lugar, precio, botón \"Comprar entradas\".\n5. Banda de estadísticas: 3 métricas (por ejemplo, \"más de 200 eventos/año\", \"50.000 asistentes\", \"12 ciudades\").\n6. Pie de página: suscripción al boletín, enlaces sociales, derechos de autor.\n\nVenta de entradas para eventos/estética del festival: CTA enérgicos, adelantados y claros. Temporizador de cuenta regresiva opcional en hero (solo CSS). Responsivo (768px). Devuelve index.html únicamente."
+      },
+      "imageUrl": "/webpages/placeholder-web-184-summithq-tech-conference.png",
+      "imageHint": {
+        "en": "SummitHQ tech conference blue professional speakers agenda register",
+        "es": "Registro de agenda de oradores profesionales azules de la conferencia tecnológica SummitHQ"
+      },
+      "demoUrl": "summithq-tech-conference",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "landing page",
+        "events",
+        "conference",
+        "technology",
+        "SaaS",
+        "networking"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "188",
+      "title": {
+        "en": "WorkshopWeek — Workshops & masterclasses",
+        "es": "WorkshopWeek — Talleres y clases magistrales"
+      },
+      "description": {
+        "en": "Create a single-page light mode landing for \"WorkshopWeek\", a Workshops events platform / organizer site. Pure HTML + CSS in one index.html file (no frameworks).\n\n**Palette:** background #fff7ed, text #1c1917, muted #78716c, accent #ea580c.\n**Typography:** Google Fonts — \"Inter\".\n\n**Sections (in order):**\n1. Sticky nav: logo \"WorkshopWeek\", links (Calendar, Instructors, Enroll), \"Get tickets\" or \"Register\" CTA in accent.\n2. Hero: date/location pill \"Small groups · Hands-on\", large headline with one italic keyword, subcopy, primary CTA + secondary link.\n3. Category chips: Design, Photo, Business, Writing.\n4. Featured events grid (3 cards):\n- **UX Sprint Lab** (APR 5, Studio 4B): $220\n- **Photo Lighting 101** (APR 12, Light House): $180\n- **Startup Pitch Clinic** (APR 19, Hub Norte): $150\nEach card: calendar-style date block, title, venue, price, \"Buy tickets\" button.\n5. Stats band: 3 metrics (e.g. \"200+ events/year\", \"50k attendees\", \"12 cities\").\n6. Footer: newsletter signup, social links, copyright.\n\nEvent ticketing / festival aesthetic: energetic, date-forward, clear CTAs. Optional countdown timer in hero (CSS only). Responsive (768px). Returns index.html only.",
+        "es": "Cree un aterrizaje en modo ligero de una sola página para \"WorkshopWeek\", una plataforma/sitio organizador de eventos de talleres. HTML puro + CSS en un archivo index.html (sin marcos).\n\n**Paleta:** fondo #fff7ed, texto #1c1917, silenciado #78716c, acento #ea580c.\n**Tipografía:** Google Fonts — \"Inter\".\n\n**Secciones (en orden):**\n1. Navegación fija: logotipo \"WorkshopWeek\", enlaces (Calendario, Instructores, Inscribirse), CTA \"Obtener boletos\" o \"Registrarse\" con acento.\n2. Héroe: píldora de fecha/ubicación \"Grupos pequeños · Práctica\", título grande con una palabra clave en cursiva, subcopia, CTA principal + enlace secundario.\n3. Fichas de categoría: Diseño, Fotografía, Negocios, Redacción.\n4. Cuadrícula de eventos destacados (3 tarjetas):\n- **UX Sprint Lab** (5 de abril, Estudio 4B): $220\n- **Photo Lighting 101** (12 DE ABRIL, Light House): $180\n- **Clínica de presentación de startups** (19 de abril, Hub Norte): $150\nCada tarjeta: bloque de fecha estilo calendario, título, lugar, precio, botón \"Comprar entradas\".\n5. Banda de estadísticas: 3 métricas (por ejemplo, \"más de 200 eventos/año\", \"50.000 asistentes\", \"12 ciudades\").\n6. Pie de página: suscripción al boletín, enlaces sociales, derechos de autor.\n\nVenta de entradas para eventos/estética del festival: CTA enérgicos, adelantados y claros. Temporizador de cuenta regresiva opcional en hero (solo CSS). Responsivo (768px). Devuelve index.html únicamente."
+      },
+      "imageUrl": "/webpages/placeholder-web-188-workshopweek-classes.png",
+      "imageHint": {
+        "en": "WorkshopWeek workshops classes warm coral schedule enroll creative",
+        "es": "WorkshopWeek talleres clases coral cálido horario inscribirte creativo"
+      },
+      "demoUrl": "workshopweek-classes",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "landing page",
+        "events",
+        "workshops",
+        "education",
+        "classes",
+        "creative"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "193",
+      "title": {
+        "en": "VirtualStage — Hybrid virtual events",
+        "es": "VirtualStage: eventos virtuales híbridos"
+      },
+      "description": {
+        "en": "Create a single-page dark mode landing for \"VirtualStage\", a Hybrid Events events platform / organizer site. Pure HTML + CSS in one index.html file (no frameworks).\n\n**Palette:** background #0f172a, text #f1f5f9, muted #94a3b8, accent #818cf8.\n**Typography:** Google Fonts — \"Inter\".\n\n**Sections (in order):**\n1. Sticky nav: logo \"VirtualStage\", links (Platform, Plans, Demo), \"Get tickets\" or \"Register\" CTA in accent.\n2. Hero: date/location pill \"Live + stream · Global audience\", large headline with one italic keyword, subcopy, primary CTA + secondary link.\n3. Category chips: Webinar, Summit, Training, RTMP.\n4. Featured events grid (3 cards):\n- **Summit Broadcast** (LIVE, HD Stream + Q&A): $29/pass\n- **Breakout Rooms** (LAB, Zoom-class rooms): Included\n- **On-demand Library** (REPLAY, 30-day access): Included\nEach card: calendar-style date block, title, venue, price, \"Buy tickets\" button.\n5. Stats band: 3 metrics (e.g. \"200+ events/year\", \"50k attendees\", \"12 cities\").\n6. Footer: newsletter signup, social links, copyright.\n\nEvent ticketing / festival aesthetic: energetic, date-forward, clear CTAs. Optional countdown timer in hero (CSS only). Responsive (768px). Returns index.html only.",
+        "es": "Cree un aterrizaje en modo oscuro de una sola página para \"VirtualStage\", una plataforma/sitio organizador de eventos híbridos. HTML puro + CSS en un archivo index.html (sin marcos).\n\n**Paleta:** fondo #0f172a, texto #f1f5f9, silenciado #94a3b8, acento #818cf8.\n**Tipografía:** Google Fonts — \"Inter\".\n\n**Secciones (en orden):**\n1. Navegación fija: logo \"VirtualStage\", enlaces (Plataforma, Planes, Demostración), CTA \"Obtener entradas\" o \"Registrarse\" con acento.\n2. Héroe: píldora de fecha/ubicación \"En vivo + transmisión · Audiencia global\", título grande con una palabra clave en cursiva, subcopia, CTA principal + enlace secundario.\n3. Fichas de categoría: Webinar, Summit, Training, RTMP.\n4. Cuadrícula de eventos destacados (3 tarjetas):\n- **Summit Broadcast** (EN VIVO, transmisión HD + preguntas y respuestas): $29/pase\n- **Salas para grupos de trabajo** (LAB, salas de clase Zoom): Incluidas\n- **Biblioteca bajo demanda** (REPLAY, acceso de 30 días): Incluida\nCada tarjeta: bloque de fecha estilo calendario, título, lugar, precio, botón \"Comprar entradas\".\n5. Banda de estadísticas: 3 métricas (por ejemplo, \"más de 200 eventos/año\", \"50.000 asistentes\", \"12 ciudades\").\n6. Pie de página: suscripción al boletín, enlaces sociales, derechos de autor.\n\nVenta de entradas para eventos/estética del festival: CTA enérgicos, adelantados y claros. Temporizador de cuenta regresiva opcional en hero (solo CSS). Responsivo (768px). Devuelve index.html únicamente."
+      },
+      "imageUrl": "/webpages/placeholder-web-193-virtualstage-hybrid-events.png",
+      "imageHint": {
+        "en": "VirtualStage hybrid virtual events gradient blue purple streaming global",
+        "es": "VirtualStage eventos virtuales híbridos degradado azul púrpura streaming global"
+      },
+      "demoUrl": "virtualstage-hybrid-events",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "landing page",
+        "events",
+        "virtual",
+        "hybrid",
+        "streaming",
+        "webinar"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "192",
+      "title": {
+        "en": "StageComedy — Stand-up & comedy nights",
+        "es": "StageComedy: noches de stand-up y comedia"
+      },
+      "description": {
+        "en": "Create a single-page dark mode landing for \"StageComedy\", a Comedy events platform / organizer site. Pure HTML + CSS in one index.html file (no frameworks).\n\n**Palette:** background #1e1b4b, text #fafafa, muted #c4b5fd, accent #a855f7.\n**Typography:** Google Fonts — \"Space Grotesk\".\n\n**Sections (in order):**\n1. Sticky nav: logo \"StageComedy\", links (Lineup, Venues, Tickets), \"Get tickets\" or \"Register\" CTA in accent.\n2. Hero: date/location pill \"Every Friday & Saturday\", large headline with one italic keyword, subcopy, primary CTA + secondary link.\n3. Category chips: Stand-up, Improv, Podcast, 21+.\n4. Featured events grid (3 cards):\n- **Headliner Night** (FRI, The Cellar): From $28\n- **Open Mic + Feature** (SAT, The Cellar): From $18\n- **Podcast Live Tapings** (SUN, Studio B): From $22\nEach card: calendar-style date block, title, venue, price, \"Buy tickets\" button.\n5. Stats band: 3 metrics (e.g. \"200+ events/year\", \"50k attendees\", \"12 cities\").\n6. Footer: newsletter signup, social links, copyright.\n\nEvent ticketing / festival aesthetic: energetic, date-forward, clear CTAs. Optional countdown timer in hero (CSS only). Responsive (768px). Returns index.html only.",
+        "es": "Cree un aterrizaje en modo oscuro de una sola página para \"StageComedy\", una plataforma/sitio organizador de eventos de comedia. HTML puro + CSS en un archivo index.html (sin marcos).\n\n**Paleta:** fondo #1e1b4b, texto #fafafa, silenciado #c4b5fd, acento #a855f7.\n**Tipografía:** Google Fonts: \"Space Grotesk\".\n\n**Secciones (en orden):**\n1. Navegación fija: logotipo \"StageComedy\", enlaces (programación, lugares, entradas), CTA \"Obtener entradas\" o \"Registrarse\" con acento.\n2. Héroe: píldora de fecha/ubicación \"Todos los viernes y sábados\", título grande con una palabra clave en cursiva, subcopia, CTA principal + enlace secundario.\n3. Fichas de categoría: Stand-up, Improvisación, Podcast, 21+.\n4. Cuadrícula de eventos destacados (3 tarjetas):\n- **Noche principal** (VIERNES, The Cellar): desde $28\n- **Micrófono abierto + función** (SAT, The Cellar): desde $18\n- **Grabaciones de podcasts en vivo** (DOM, Estudio B): desde $22\nCada tarjeta: bloque de fecha estilo calendario, título, lugar, precio, botón \"Comprar entradas\".\n5. Banda de estadísticas: 3 métricas (por ejemplo, \"más de 200 eventos/año\", \"50.000 asistentes\", \"12 ciudades\").\n6. Pie de página: suscripción al boletín, enlaces sociales, derechos de autor.\n\nVenta de entradas para eventos/estética del festival: CTA enérgicos, adelantados y claros. Temporizador de cuenta regresiva opcional en hero (solo CSS). Responsivo (768px). Devuelve index.html únicamente."
+      },
+      "imageUrl": "/webpages/placeholder-web-192-stagecomedy-standup.png",
+      "imageHint": {
+        "en": "StageComedy stand up comedy purple spotlight club tickets lineup",
+        "es": "Lista de entradas para el club StageComedy stand up comedia Purple Spotlight"
+      },
+      "demoUrl": "stagecomedy-standup",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "landing page",
+        "events",
+        "comedy",
+        "stand-up",
+        "entertainment",
+        "tickets"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "194",
+      "title": {
+        "en": "TicketFlow — Event ticketing platform",
+        "es": "TicketFlow: plataforma de venta de entradas para eventos"
+      },
+      "description": {
+        "en": "Create a single-page light mode landing for \"TicketFlow\", a Ticketing SaaS events platform / organizer site. Pure HTML + CSS in one index.html file (no frameworks).\n\n**Palette:** background #fafafa, text #18181b, muted #71717a, accent #4f46e5.\n**Typography:** Google Fonts — \"Inter\".\n\n**Sections (in order):**\n1. Sticky nav: logo \"TicketFlow\", links (Features, Pricing, Start), \"Get tickets\" or \"Register\" CTA in accent.\n2. Hero: date/location pill \"For organizers who sell out\", large headline with one italic keyword, subcopy, primary CTA + secondary link.\n3. Category chips: Scanning, Promo codes, Reports, API.\n4. Featured events grid (3 cards):\n- **Reserved Seating** (PRO, Interactive maps): 2% + $0.99\n- **Email & SMS** (GROW, Automated campaigns): Included\n- **Check-in App** (LIVE, QR scan offline): Included\nEach card: calendar-style date block, title, venue, price, \"Buy tickets\" button.\n5. Stats band: 3 metrics (e.g. \"200+ events/year\", \"50k attendees\", \"12 cities\").\n6. Footer: newsletter signup, social links, copyright.\n\nEvent ticketing / festival aesthetic: energetic, date-forward, clear CTAs. Optional countdown timer in hero (CSS only). Responsive (768px). Returns index.html only.",
+        "es": "Cree un aterrizaje en modo ligero de una sola página para \"TicketFlow\", un sitio organizador/plataforma de eventos SaaS de venta de entradas. HTML puro + CSS en un archivo index.html (sin marcos).\n\n**Paleta:** fondo #fafafa, texto #18181b, silenciado #71717a, acento #4f46e5.\n**Tipografía:** Google Fonts — \"Inter\".\n\n**Secciones (en orden):**\n1. Navegación fija: logotipo \"TicketFlow\", enlaces (Características, Precios, Inicio), CTA \"Obtener entradas\" o \"Registrarse\" con acento.\n2. Héroe: píldora de fecha/ubicación \"Para organizadores que se agotan\", título grande con una palabra clave en cursiva, subcopia, CTA principal + enlace secundario.\n3. Fichas de categoría: escaneo, códigos promocionales, informes, API.\n4. Cuadrícula de eventos destacados (3 tarjetas):\n- **Asientos reservados** (PRO, mapas interactivos): 2% + $0,99\n- **Correo electrónico y SMS** (CRECIMIENTO, campañas automatizadas): Incluido\n- **Aplicación de registro** (EN VIVO, escaneo QR sin conexión): incluida\nCada tarjeta: bloque de fecha estilo calendario, título, lugar, precio, botón \"Comprar entradas\".\n5. Banda de estadísticas: 3 métricas (por ejemplo, \"más de 200 eventos/año\", \"50.000 asistentes\", \"12 ciudades\").\n6. Pie de página: suscripción al boletín, enlaces sociales, derechos de autor.\n\nVenta de entradas para eventos/estética del festival: CTA enérgicos, adelantados y claros. Temporizador de cuenta regresiva opcional en hero (solo CSS). Responsivo (768px). Devuelve index.html únicamente."
+      },
+      "imageUrl": "/webpages/placeholder-web-194-ticketflow-events-saas.png",
+      "imageHint": {
+        "en": "TicketFlow event ticketing SaaS indigo dashboard sell tickets analytics",
+        "es": "TicketFlow venta de entradas para eventos Panel SaaS indigo análisis de venta de entradas"
+      },
+      "demoUrl": "ticketflow-events-saas",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "tags": [
+        "landing page",
+        "events",
+        "ticketing",
+        "SaaS",
+        "platform",
+        "organizers"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "200",
+      "title": {
+        "en": "RunCrew — Running club & training",
+        "es": "RunCrew — Club de corredores y entrenamiento"
+      },
+      "description": {
+        "en": "Create a single-page light mode landing for \"RunCrew\", a Running Club fitness brand site. Pure HTML + CSS in one index.html file (no frameworks).\n\n**Palette:** background #fff7ed, text #1c1917, muted #78716c, accent #ea580c.\n**Typography:** Google Fonts — \"Inter\".\n\n**Sections (in order):**\n1. Sticky nav: logo \"RunCrew\", links (Plans, Routes, Join run), \"Join now\" or \"Start trial\" CTA in accent.\n2. Hero: location/hours pill \"Tue & Thu track · Sun long run\", large bold headline with one italic keyword, motivational subcopy, CTAs (\"Start free trial\" + \"View schedule\").\n3. Category chips: Track, Trail, Marathon, Recovery.\n4. Programs / pricing grid (3 cards):\n- **Couch to 5K** (5K): 8-week beginner group program — $79\n- **Half marathon** (21K): Coach-led · 12-week cycle — $199\n- **Annual membership** (CLUB): All group runs + race discounts — $120/yr\nEach card: label badge, title, detail, price, \"Sign up\" link.\n5. Stats band: 3 metrics (e.g. \"2k+ members\", \"40 classes/week\", \"15 coaches\").\n6. Footer: trial signup email, social links, copyright.\n\nFitness / gym aesthetic: energetic, bold typography, high contrast CTAs. Responsive (768px). Returns index.html only.",
+        "es": "Cree un aterrizaje en modo ligero de una sola página para \"RunCrew\", un sitio de la marca de fitness Running Club. HTML puro + CSS en un archivo index.html (sin marcos).\n\n**Paleta:** fondo #fff7ed, texto #1c1917, silenciado #78716c, acento #ea580c.\n**Tipografía:** Google Fonts — \"Inter\".\n\n**Secciones (en orden):**\n1. Navegación fija: logotipo \"RunCrew\", enlaces (Planes, Rutas, Unirse a la carrera), CTA \"Unirse ahora\" o \"Iniciar prueba\" con acento.\n2. Héroe: píldora de ubicación/horas \"Sección de martes y jueves · Largo plazo del sol\", título grande en negrita con una palabra clave en cursiva, subcopia motivacional, CTA (\"Iniciar prueba gratuita\" + \"Ver programación\").\n3. Fichas de categoría: Pista, Trail, Maratón, Recuperación.\n4. Programas/cuadrícula de precios (3 tarjetas):\n- **Couch to 5K** (5K): programa grupal para principiantes de 8 semanas: $79\n- **Medio maratón** (21K): dirigido por un entrenador · ciclo de 12 semanas: $199\n- **Membresía anual** (CLUB): todas las carreras grupales + descuentos en carreras: $120/año\nCada tarjeta: distintivo de etiqueta, título, detalle, precio, enlace \"Registrarse\".\n5. Banda de estadísticas: 3 métricas (por ejemplo, \"más de 2.000 miembros\", \"40 clases/semana\", \"15 entrenadores\").\n6. Pie de página: correo electrónico de registro de prueba, enlaces sociales, derechos de autor.\n\nEstética de fitness/gimnasio: tipografía enérgica y atrevida, CTA de alto contraste. Responsivo (768px). Devuelve index.html únicamente."
+      },
+      "imageUrl": "/webpages/placeholder-web-200-runcrew-running-club.png",
+      "imageHint": {
+        "en": "RunCrew running club orange energetic marathon training group runs",
+        "es": "RunCrew running club carreras de grupo de entrenamiento de maratón energético naranja"
+      },
+      "demoUrl": "runcrew-running-club",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "landing page",
+        "fitness",
+        "running",
+        "marathon",
+        "sport",
+        "community"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "183",
+      "title": {
+        "en": "PulseFest — Music festival landing",
+        "es": "PulseFest – Desembarco del festival de música"
+      },
+      "description": {
+        "en": "Create a single-page dark mode landing for \"PulseFest\", a Music Festival events platform / organizer site. Pure HTML + CSS in one index.html file (no frameworks).\n\n**Palette:** background #0a0a0a, text #fafafa, muted #a3a3a3, accent #d946ef.\n**Typography:** Google Fonts — \"Space Grotesk\".\n\n**Sections (in order):**\n1. Sticky nav: logo \"PulseFest\", links (Lineup, Tickets, Map), \"Get tickets\" or \"Register\" CTA in accent.\n2. Hero: date/location pill \"June 14–16 · Mexico City\", large headline with one italic keyword, subcopy, primary CTA + secondary link.\n3. Category chips: Electronic, Hip-hop, Indie, VIP.\n4. Featured events grid (3 cards):\n- **Opening Night** (JUN 14, Main Stage): From $89\n- **Bass District** (JUN 15, Warehouse Zone): From $65\n- **Sunset Closing** (JUN 16, River Arena): From $99\nEach card: calendar-style date block, title, venue, price, \"Buy tickets\" button.\n5. Stats band: 3 metrics (e.g. \"200+ events/year\", \"50k attendees\", \"12 cities\").\n6. Footer: newsletter signup, social links, copyright.\n\nEvent ticketing / festival aesthetic: energetic, date-forward, clear CTAs. Optional countdown timer in hero (CSS only). Responsive (768px). Returns index.html only.",
+        "es": "Cree un aterrizaje en modo oscuro de una sola página para \"PulseFest\", una plataforma/sitio organizador de eventos de festivales de música. HTML puro + CSS en un archivo index.html (sin marcos).\n\n**Paleta:** fondo #0a0a0a, texto #fafafa, silenciado #a3a3a3, acento #d946ef.\n**Tipografía:** Google Fonts: \"Space Grotesk\".\n\n**Secciones (en orden):**\n1. Navegación fija: logotipo \"PulseFest\", enlaces (Alineación, Entradas, Mapa), CTA \"Obtener entradas\" o \"Registrarse\" con acento.\n2. Héroe: píldora de fecha/ubicación \"14 al 16 de junio · Ciudad de México\", título grande con una palabra clave en cursiva, subcopia, CTA principal + enlace secundario.\n3. Fichas de categoría: Electrónica, Hip-hop, Indie, VIP.\n4. Cuadrícula de eventos destacados (3 tarjetas):\n- **Noche de estreno** (14 de junio, escenario principal): desde $89\n- **Bass District** (15 DE JUNIO, Zona Almacén): Desde $65\n- **Cierre al atardecer** (16 de junio, River Arena): desde $99\nCada tarjeta: bloque de fecha estilo calendario, título, lugar, precio, botón \"Comprar entradas\".\n5. Banda de estadísticas: 3 métricas (por ejemplo, \"más de 200 eventos/año\", \"50.000 asistentes\", \"12 ciudades\").\n6. Pie de página: suscripción al boletín, enlaces sociales, derechos de autor.\n\nVenta de entradas para eventos/estética del festival: CTA enérgicos, adelantados y claros. Temporizador de cuenta regresiva opcional en hero (solo CSS). Responsivo (768px). Devuelve index.html únicamente."
+      },
+      "imageUrl": "/webpages/placeholder-web-183-pulsefest-music-festival.png",
+      "imageHint": {
+        "en": "PulseFest music festival neon purple green dark lineup tickets countdown",
+        "es": "PulseFest festival de música neón púrpura verde oscuro cartel cuenta regresiva de entradas"
+      },
+      "demoUrl": "pulsefest-music-festival",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "tags": [
+        "landing page",
+        "events",
+        "music",
+        "festival",
+        "tickets",
+        "concert"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "182",
+      "title": {
+        "en": "VoiceHire — Freelance voice-over artist",
+        "es": "VoiceHire: locutor independiente"
+      },
+      "description": {
+        "en": "Create a single-page dark mode landing for \"VoiceHire\", a freelance Voice-Over & Narration personal brand / service site. Pure HTML + CSS in one index.html file (no frameworks).\n\n**Palette:** background #292524, text #fafaf9, muted #a8a29e, accent #fbbf24.\n**Typography:** Google Fonts — \"Inter\".\n\n**Sections (in order):**\n1. Sticky nav: logo \"VoiceHire\", links (Demos, Rates, Script), prominent \"Hire me\" CTA button in accent color.\n2. Hero: availability pill \"EN · ES · Neutral Latin\", large headline with one italic keyword, role subtitle \"Voice-Over & Narration\", short value prop, dual CTAs (\"Book a call\" + \"View work\").\n3. Skills row: chips for Commercial, eLearning, Podcast, IVR.\n4. Services grid (3 cards):\n- **Spot** ($250): Up to 60 seconds, 2 takes, broadcast ready.\n- **Explainer** ($600): 2–3 min corporate or product narration.\n- **Audiobook** ($200/PFH): Per finished hour, proofed and mastered.\nEach card: title, price badge, description, \"Get quote\" link.\n5. Social proof band: 3 stats (e.g. \"50+ clients\", \"4.9★ rating\", \"8 yrs experience\") or a short testimonial quote.\n6. Footer: contact email, social links placeholder, copyright.\n\nFreelance marketplace aesthetic: trustworthy, personal, clear pricing signals. Responsive (768px). Subtle hover on cards. Returns index.html only.",
+        "es": "Cree un aterrizaje en modo oscuro de una sola página para \"VoiceHire\", un sitio independiente de servicios/marca personal de locución y narración. HTML puro + CSS en un archivo index.html (sin marcos).\n\n**Paleta:** fondo #292524, texto #fafaf9, silenciado #a8a29e, acento #fbbf24.\n**Tipografía:** Google Fonts — \"Inter\".\n\n**Secciones (en orden):**\n1. Navegación fija: logotipo \"VoiceHire\", enlaces (Demostraciones, Tarifas, Script), botón CTA destacado \"Contrátame\" en color destacado.\n2. Héroe: píldora de disponibilidad \"EN · ES · Latín neutro\", título grande con una palabra clave en cursiva, subtítulo de función \"Voz en off y narración\", propuesta de valor breve, CTA duales (\"Reservar una llamada\" + \"Ver trabajo\").\n3. Fila de habilidades: chips para Comercial, eLearning, Podcast, IVR.\n4. Cuadrícula de servicios (3 tarjetas):\n- **Spot** ($250): Hasta 60 segundos, 2 tomas, listo para transmitir.\n- **Explicador** ($600): 2–3 min narración corporativa o de producto.\n- **Audiolibro** ($200/PFH): Por hora terminada, revisado y masterizado.\nCada tarjeta: título, distintivo de precio, descripción, enlace \"Obtener cotización\".\n5. Banda de prueba social: 3 estadísticas (por ejemplo, \"más de 50 clientes\", \"calificación de 4,9★\", \"8 años de experiencia\") o una breve cita testimonial.\n6. Pie de página: correo electrónico de contacto, marcador de posición de enlaces sociales, derechos de autor.\n\nEstética del mercado independiente: señales de precios claras, personales y confiables. Responsivo (768px). Flota sutilmente sobre las cartas. Devuelve index.html únicamente."
+      },
+      "imageUrl": "/webpages/placeholder-web-182-voicehire-freelance-narrator.png",
+      "imageHint": {
+        "en": "VoiceHire freelance voice over narrator studio microphone warm landing",
+        "es": "VoiceHire locutor independiente micrófono de estudio aterrizaje cálido"
+      },
+      "demoUrl": "voicehire-freelance-narrator",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "landing page",
+        "freelance",
+        "voice-over",
+        "audio",
+        "podcast",
+        "media"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "174",
+      "title": {
+        "en": "RankFlow — Freelance SEO specialist",
+        "es": "RankFlow: especialista en SEO independiente"
+      },
+      "description": {
+        "en": "Create a single-page light mode landing for \"RankFlow\", a freelance SEO & Content Strategist personal brand / service site. Pure HTML + CSS in one index.html file (no frameworks).\n\n**Palette:** background #f0fdf4, text #14532d, muted #4d7c0f, accent #16a34a.\n**Typography:** Google Fonts — \"Inter\".\n\n**Sections (in order):**\n1. Sticky nav: logo \"RankFlow\", links (Results, Plans, Audit), prominent \"Hire me\" CTA button in accent color.\n2. Hero: availability pill \"Organic-only · White hat\", large headline with one italic keyword, role subtitle \"SEO & Content Strategist\", short value prop, dual CTAs (\"Book a call\" + \"View work\").\n3. Skills row: chips for Ahrefs, GSC, Content, Link building.\n4. Services grid (3 cards):\n- **Technical SEO** ($1,800): Crawl fixes, schema, Core Web Vitals plan.\n- **Content Plan** ($2,200/mo): Keyword map, briefs, and on-page optimization.\n- **Full Growth** ($4,500/mo): Strategy, content, links, and monthly reporting.\nEach card: title, price badge, description, \"Get quote\" link.\n5. Social proof band: 3 stats (e.g. \"50+ clients\", \"4.9★ rating\", \"8 yrs experience\") or a short testimonial quote.\n6. Footer: contact email, social links placeholder, copyright.\n\nFreelance marketplace aesthetic: trustworthy, personal, clear pricing signals. Responsive (768px). Subtle hover on cards. Returns index.html only.",
+        "es": "Cree un aterrizaje en modo ligero de una sola página para \"RankFlow\", un sitio independiente de servicios/marca personal de SEO y estratega de contenido. HTML puro + CSS en un archivo index.html (sin marcos).\n\n**Paleta:** fondo #f0fdf4, texto #14532d, silenciado #4d7c0f, acento #16a34a.\n**Tipografía:** Google Fonts — \"Inter\".\n\n**Secciones (en orden):**\n1. Navegación fija: logotipo \"RankFlow\", enlaces (Resultados, Planes, Auditoría), botón CTA destacado \"Contrátame\" en color destacado.\n2. Héroe: píldora de disponibilidad \"Solo orgánico · Sombrero blanco\", título grande con una palabra clave en cursiva, subtítulo de rol \"SEO y estratega de contenido\", propuesta de valor breve, CTA duales (\"Reservar una llamada\" + \"Ver trabajo\").\n3. Fila de habilidades: fichas para Ahrefs, GSC, Contenido, Construcción de enlaces.\n4. Cuadrícula de servicios (3 tarjetas):\n- **SEO técnico** ($1800): correcciones de rastreo, esquema, plan Core Web Vitals.\n- **Plan de contenido** ($2200/mes): mapa de palabras clave, resúmenes y optimización en la página.\n- **Crecimiento total** ($4500/mes): estrategia, contenido, enlaces e informes mensuales.\nCada tarjeta: título, distintivo de precio, descripción, enlace \"Obtener cotización\".\n5. Banda de prueba social: 3 estadísticas (por ejemplo, \"más de 50 clientes\", \"calificación de 4,9★\", \"8 años de experiencia\") o una breve cita testimonial.\n6. Pie de página: correo electrónico de contacto, marcador de posición de enlaces sociales, derechos de autor.\n\nEstética del mercado independiente: señales de precios claras, personales y confiables. Responsivo (768px). Flota sutilmente sobre las cartas. Devuelve index.html únicamente."
+      },
+      "imageUrl": "/webpages/placeholder-web-174-rankflow-freelance-seo.png",
+      "imageHint": {
+        "en": "RankFlow freelance SEO green growth charts keywords organic traffic",
+        "es": "RankFlow freelance SEO gráficos de crecimiento ecológico palabras clave tráfico orgánico"
+      },
+      "demoUrl": "rankflow-freelance-seo",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "landing page",
+        "freelance",
+        "SEO",
+        "marketing",
+        "growth",
+        "analytics"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "172",
+      "title": {
+        "en": "Stratline — Freelance business consultant",
+        "es": "Stratline — Consultor de negocios independiente"
+      },
+      "description": {
+        "en": "Create a single-page light mode landing for \"Stratline\", a freelance Growth & Operations Consultant personal brand / service site. Pure HTML + CSS in one index.html file (no frameworks).\n\n**Palette:** background #f8fafc, text #0f172a, muted #64748b, accent #1d4ed8.\n**Typography:** Google Fonts — \"Inter\".\n\n**Sections (in order):**\n1. Sticky nav: logo \"Stratline\", links (Expertise, Case studies, Engage), prominent \"Hire me\" CTA button in accent color.\n2. Hero: availability pill \"Ex-FAANG · 12 years\", large headline with one italic keyword, role subtitle \"Growth & Operations Consultant\", short value prop, dual CTAs (\"Book a call\" + \"View work\").\n3. Skills row: chips for GTM, Pricing, OKRs, Fundraising.\n4. Services grid (3 cards):\n- **Diagnostic** ($2,500): 2-week audit of GTM, ops, and unit economics.\n- **Advisory** ($4k/mo): Weekly calls, async Slack, exec-ready decks.\n- **Workshop** ($6,000): Facilitated OKR or pricing strategy offsite.\nEach card: title, price badge, description, \"Get quote\" link.\n5. Social proof band: 3 stats (e.g. \"50+ clients\", \"4.9★ rating\", \"8 yrs experience\") or a short testimonial quote.\n6. Footer: contact email, social links placeholder, copyright.\n\nFreelance marketplace aesthetic: trustworthy, personal, clear pricing signals. Responsive (768px). Subtle hover on cards. Returns index.html only.",
+        "es": "Cree un aterrizaje en modo ligero de una sola página para \"Stratline\", un sitio independiente de marca personal/servicio de Consultor de Crecimiento y Operaciones. HTML puro + CSS en un archivo index.html (sin marcos).\n\n**Paleta:** fondo #f8fafc, texto #0f172a, silenciado #64748b, acento #1d4ed8.\n**Tipografía:** Google Fonts — \"Inter\".\n\n**Secciones (en orden):**\n1. Navegación fija: logotipo \"Stratline\", enlaces (Experiencia, Estudios de casos, Participación), botón CTA destacado \"Contrátame\" en color destacado.\n2. Héroe: píldora de disponibilidad \"Ex-FAANG · 12 años\", título grande con una palabra clave en cursiva, subtítulo del rol \"Consultor de crecimiento y operaciones\", propuesta de valor breve, CTA duales (\"Reservar una llamada\" + \"Ver trabajo\").\n3. Fila de habilidades: fichas para GTM, precios, OKR, recaudación de fondos.\n4. Cuadrícula de servicios (3 tarjetas):\n- **Diagnóstico** ($2500): auditoría de 2 semanas de GTM, operaciones y economía unitaria.\n- **Asesoramiento** ($4k/mes): llamadas semanales, Slack asíncrono, plataformas listas para ejecutivos.\n- **Taller** ($6,000): OKR facilitado o estrategia de precios fuera del sitio.\nCada tarjeta: título, distintivo de precio, descripción, enlace \"Obtener cotización\".\n5. Banda de prueba social: 3 estadísticas (por ejemplo, \"más de 50 clientes\", \"calificación de 4,9★\", \"8 años de experiencia\") o una breve cita testimonial.\n6. Pie de página: correo electrónico de contacto, marcador de posición de enlaces sociales, derechos de autor.\n\nEstética del mercado independiente: señales de precios claras, personales y confiables. Responsivo (768px). Flota sutilmente sobre las cartas. Devuelve index.html únicamente."
+      },
+      "imageUrl": "/webpages/placeholder-web-172-stratline-freelance-consultant.png",
+      "imageHint": {
+        "en": "Stratline freelance consultant navy corporate trust metrics advisory",
+        "es": "Consultor independiente de Stratline, asesoramiento sobre métricas de confianza corporativa de la marina"
+      },
+      "demoUrl": "stratline-freelance-consultant",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "landing page",
+        "freelance",
+        "consulting",
+        "business",
+        "strategy",
+        "corporate"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "156",
+      "title": {
+        "en": "Type Foundry — Typography studio",
+        "es": "Type Foundry — Estudio de tipografía"
+      },
+      "description": {
+        "en": "Create a single-page light editorial landing for \"Type Foundry\" with a refined magazine / publishing aesthetic. Pure HTML + CSS in one index.html file (no frameworks).\n\n**Palette:** background #ffffff, text #000000, muted #666666, accent #000000.\n**Typography:** Google Fonts — \"Instrument Serif\" for headlines (mix regular + italic emphasis) and \"IBM Plex Mono\" for UI and body.\nMagazine-style editorial layout: generous whitespace, serif headlines, thin rules, asymmetric grids where appropriate.\n\n**Sections (in order):**\n1. Minimal top nav: brand name, links (Typefaces, Licensing, Studio), subtle underline on hover.\n2. Hero: small caps label \"Letters as architecture\", large serif headline with italic emphasis on one keyword, short subcopy, primary CTA.\n3. Featured grid: 3 editorial cards with large numbers (01–03), serif titles, short descriptions, separated by 1px rules.\n4. Quote band: centered italic serif pull-quote about craft, design, or storytelling.\n5. Footer: 3 columns (brand, links, newsletter email field with underline input), copyright.\n\nFully responsive (breakpoint 768px). Smooth hover transitions. Semantic HTML, accessible contrast. Returns index.html only.",
+        "es": "Cree un aterrizaje editorial ligero de una sola página para \"Type Foundry\" con una estética refinada de revista/publicación. HTML puro + CSS en un archivo index.html (sin marcos).\n\n**Paleta:** fondo #ffffff, texto #000000, silenciado #666666, acento #000000.\n**Tipografía:** Google Fonts: \"Instrument Serif\" para los titulares (mezcla de énfasis regular + cursiva) y \"IBM Plex Mono\" para la interfaz de usuario y el cuerpo.\nDiseño editorial estilo revista: espacios en blanco generosos, titulares serif, reglas finas, cuadrículas asimétricas cuando corresponda.\n\n**Secciones (en orden):**\n1. Navegación superior mínima: nombre de marca, enlaces (tipos de letra, licencias, estudio), subrayado sutil al pasar el mouse.\n2. Héroe: etiqueta en versales \"Las letras como arquitectura\", título serif grande con énfasis en cursiva en una palabra clave, subcopia corta, CTA principal.\n3. Cuadrícula destacada: 3 tarjetas editoriales con números grandes (01–03), títulos serif, descripciones breves, separadas por reglas de 1 px.\n4. Banda de citas: cita serif en cursiva centrada sobre artesanía, diseño o narración.\n5. Pie de página: 3 columnas (marca, enlaces, campo de correo electrónico del boletín con entrada subrayada), derechos de autor.\n\nTotalmente responsivo (punto de interrupción 768px). Transiciones suaves al pasar el mouse. HTML semántico, contraste accesible. Devuelve index.html únicamente."
+      },
+      "imageUrl": "/webpages/placeholder-web-156-type-foundry-studio.png",
+      "imageHint": {
+        "en": "Type Foundry black white stark typography specimen editorial grid",
+        "es": "Tipo Foundry cuadrícula editorial de espécimen de tipografía rígida en blanco y negro"
+      },
+      "demoUrl": "type-foundry-studio",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "landing page",
+        "editorial",
+        "typography",
+        "design",
+        "minimalist",
+        "creative"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "154",
+      "title": {
+        "en": "Serif & Co — Literary publishing house",
+        "es": "Serif & Co — Editorial literaria"
+      },
+      "description": {
+        "en": "Create a single-page light editorial landing for \"Serif & Co\" with a refined magazine / publishing aesthetic. Pure HTML + CSS in one index.html file (no frameworks).\n\n**Palette:** background #faf7f2, text #2c1810, muted #7a6a62, accent #6b2d3c.\n**Typography:** Google Fonts — \"Cormorant Garamond\" for headlines (mix regular + italic emphasis) and \"Inter\" for UI and body.\nMagazine-style editorial layout: generous whitespace, serif headlines, thin rules, asymmetric grids where appropriate.\n\n**Sections (in order):**\n1. Minimal top nav: brand name, links (Catalog, Authors, Press), subtle underline on hover.\n2. Hero: small caps label \"Independent publishing since 1987\", large serif headline with italic emphasis on one keyword, short subcopy, primary CTA.\n3. Featured grid: 3 editorial cards with large numbers (01–03), serif titles, short descriptions, separated by 1px rules.\n4. Quote band: centered italic serif pull-quote about craft, design, or storytelling.\n5. Footer: 3 columns (brand, links, newsletter email field with underline input), copyright.\n\nFully responsive (breakpoint 768px). Smooth hover transitions. Semantic HTML, accessible contrast. Returns index.html only.",
+        "es": "Cree un aterrizaje editorial ligero de una sola página para \"Serif & Co\" con una estética refinada de revista/publicación. HTML puro + CSS en un archivo index.html (sin marcos).\n\n**Paleta:** fondo #faf7f2, texto #2c1810, silenciado #7a6a62, acento #6b2d3c.\n**Tipografía:** Google Fonts: \"Cormorant Garamond\" para los titulares (mezcla de énfasis regular + cursiva) e \"Inter\" para la interfaz de usuario y el cuerpo.\nDiseño editorial estilo revista: espacios en blanco generosos, titulares serif, reglas finas, cuadrículas asimétricas cuando corresponda.\n\n**Secciones (en orden):**\n1. Navegación superior mínima: nombre de marca, enlaces (Catálogo, Autores, Prensa), subrayado sutil al pasar el mouse.\n2. Héroe: etiqueta en versalitas \"Publicación independiente desde 1987\", título serif grande con énfasis en cursiva en una palabra clave, subcopia corta, CTA principal.\n3. Cuadrícula destacada: 3 tarjetas editoriales con números grandes (01–03), títulos serif, descripciones breves, separadas por reglas de 1 px.\n4. Banda de citas: cita serif en cursiva centrada sobre artesanía, diseño o narración.\n5. Pie de página: 3 columnas (marca, enlaces, campo de correo electrónico del boletín con entrada subrayada), derechos de autor.\n\nTotalmente responsivo (punto de interrupción 768px). Transiciones suaves al pasar el mouse. HTML semántico, contraste accesible. Devuelve index.html únicamente."
+      },
+      "imageUrl": "/webpages/placeholder-web-154-serif-co-publishing.png",
+      "imageHint": {
+        "en": "Serif Co publishing burgundy cream Cormorant literary books editorial",
+        "es": "Serif Co editorial editorial de libros literarios Cormorant crema burdeos"
+      },
+      "demoUrl": "serif-co-publishing",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "landing page",
+        "editorial",
+        "publishing",
+        "literary",
+        "serif",
+        "elegant"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "152",
+      "title": {
+        "en": "Rive Clone — Interactive Animation",
+        "es": "Clon de Rive: animación interactiva"
+      },
+      "description": {
+        "en": "Palette: purple #6B4EFF, navy #1A1A2E, gradient. system-ui typography. Hero with purple circle animatable. Features Editor, Runtime, Collaborate. Export chips. Purple button. Footer navy.",
+        "es": "Paleta: morado #6B4EFF, azul marino #1A1A2E, degradado. tipografía del sistema-ui. Héroe con círculo morado animable. Editor de funciones, tiempo de ejecución, colaboración. Exportar chips. Botón morado. Pie de página azul marino."
+      },
+      "imageUrl": "/webpages/placeholder-web-152-rive-clone.png",
+      "imageHint": {
+        "en": "Rive clone purple #6B4EFF hero circle interactive animation Editor Runtime Collaborate Web iOS Android footer",
+        "es": "Rive clon púrpura #6B4EFF héroe círculo animación interactiva Editor Runtime Collaborate Web iOS Android footer"
+      },
+      "demoUrl": "rive-clone",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "Rive",
+        "clone",
+        "landing page",
+        "animation",
+        "interactive",
+        "design"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "127",
+      "title": {
+        "en": "Revolut Clone — Super financial app",
+        "es": "Revolut Clone: ​​aplicación súper financiera"
+      },
+      "description": {
+        "en": "Palette: blue #0075EB, black #191C1F, gradient. system-ui typography. Hero with virtual card •••• 4242. Features Exchange, Cards, Crypto. Plan chips. Blue button. Black footer.",
+        "es": "Paleta: azul #0075EB, negro #191C1F, degradado. tipografía del sistema-ui. Héroe con tarjeta virtual •••• 4242. Funciones Intercambio, Tarjetas, Cripto. Planificar fichas. Botón azul. Pie de página negro."
+      },
+      "imageUrl": "/webpages/placeholder-web-127-revolut-clone.png",
+      "imageHint": {
+        "en": "Revolut clone blue gradient hero virtual card Exchange Cards Crypto fintech super app banking footer",
+        "es": "Revolut clon héroe degradado azul tarjeta virtual Tarjetas de intercambio Crypto fintech súper aplicación banca pie de página"
+      },
+      "demoUrl": "revolut-clone",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "Revolut",
+        "clone",
+        "landing page",
+        "fintech",
+        "banking",
+        "crypto"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "128",
+      "title": {
+        "en": "Wise Clone — International Transfers",
+        "es": "Wise Clone - Transferencias internacionales"
+      },
+      "description": {
+        "en": "Palette: bright green #9FE870, dark green #163300. system-ui typography. Hero with USD→MXN conversion and commission. Features Transfer, Account, Card. Route chips. Dark green button. Footer #163300.",
+        "es": "Paleta: verde brillante #9FE870, verde oscuro #163300. tipografía del sistema-ui. Hero con conversión y comisión de USD→MXN. Funciones Transferencia, Cuenta, Tarjeta. Ruta de chips. Botón verde oscuro. Pie de página n.º 163300."
+      },
+      "imageUrl": "/webpages/placeholder-web-128-wise-clone.png",
+      "imageHint": {
+        "en": "Wise clone bright green #9FE870 hero USD MXN exchange rate Transfer Account Card international money footer",
+        "es": "Wise clon verde brillante #9FE870 hero USD MXN tipo de cambio Tarjeta de cuenta de transferencia dinero internacional pie de página"
+      },
+      "demoUrl": "wise-clone",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "Wise",
+        "clone",
+        "landing page",
+        "money transfer",
+        "fintech",
+        "international"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "133",
+      "title": {
+        "en": "Starlink Clone — Satellite Internet",
+        "es": "Clon de Starlink: Internet por satélite"
+      },
+      "description": {
+        "en": "Palette: black #000, white. system-ui typography. Hero with satellite/dish icon. Features Residential, Roaming, Maritime. Plan chips. White pill button. Black footer.",
+        "es": "Paleta: negro #000, blanco. tipografía del sistema-ui. Héroe con icono de satélite/antena. Características Residencial, Roaming, Marítimo. Planificar fichas. Botón de pastilla blanca. Pie de página negro."
+      },
+      "imageUrl": "/webpages/placeholder-web-133-starlink-clone.png",
+      "imageHint": {
+        "en": "Starlink clone black white hero satellite dish high speed internet Residential Roaming Maritime plans space footer",
+        "es": "Starlink clon héroe blanco negro antena parabólica Internet de alta velocidad Roaming residencial Planes marítimos pie de página espacial"
+      },
+      "demoUrl": "starlink-clone",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "Starlink",
+        "clone",
+        "landing page",
+        "satellite",
+        "internet",
+        "connectivity"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "132",
+      "title": {
+        "en": "Visa Clone — Global Payments",
+        "es": "Clon de Visa: Pagos globales"
+      },
+      "description": {
+        "en": "Palette: blue #1A1F71, gold accent, white. system-ui typography. Hero with blue/gold gradient card. Features Consumer, Commercial, Digital. Solution Chips. Blue button. Footer navy.",
+        "es": "Paleta: azul #1A1F71, acento dorado, blanco. tipografía del sistema-ui. Héroe con tarjeta degradada azul/dorada. Características Consumo, Comercial, Digital. Fichas de solución. Botón azul. Pie de página azul marino."
+      },
+      "imageUrl": "/webpages/placeholder-web-132-visa-clone.png",
+      "imageHint": {
+        "en": "Visa clone blue #1A1F71 gold gradient card hero Consumer Commercial Digital Tap to Pay payments network footer",
+        "es": "Visa clon azul #1A1F71 tarjeta dorada gradiente hero Consumidor Comercial Digital Toque para pagar pagos pie de página de red"
+      },
+      "demoUrl": "visa-clone",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "Visa",
+        "clone",
+        "landing page",
+        "payments",
+        "cards",
+        "global"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "135",
+      "title": {
+        "en": "Skillshare Clone — Online Creativity",
+        "es": "Clon de Skillshare: creatividad en línea"
+      },
+      "description": {
+        "en": "Palette: mint green #00F7B3, navy #002333. system-ui typography. Hero with grid of creative thumbnails. Features Classes, Community, Offline. Theme chips. Navy button. Footer navy.",
+        "es": "Paleta: verde menta #00F7B3, azul marino #002333. tipografía del sistema-ui. Héroe con cuadrícula de miniaturas creativas. Características Clases, Comunidad, Sin conexión. Fichas temáticas. Botón azul marino. Pie de página azul marino."
+      },
+      "imageUrl": "/webpages/placeholder-web-135-skillshare-clone.png",
+      "imageHint": {
+        "en": "Skillshare clone mint green #00F7B3 navy hero creative class grid design photo illustration Community footer",
+        "es": "Skillshare clon verde menta #00F7B3 Navy Hero clase creativa diseño de cuadrícula ilustración de foto Pie de página de la comunidad"
+      },
+      "demoUrl": "skillshare-clone",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "Skillshare",
+        "clone",
+        "landing page",
+        "creative",
+        "classes",
+        "learning"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "137",
+      "title": {
+        "en": "Typeform Clone — Conversational Forms",
+        "es": "Clon de Typeform: formularios conversacionales"
+      },
+      "description": {
+        "en": "Palette: black #000, white, gray #FAFAFA. system-ui typography. Hero with question one by one and got Excellent. Features Forms, Logic, Integrations. Uses chips. Black button. Black footer.",
+        "es": "Paleta: negro #000, blanco, gris #FAFAFA. tipografía del sistema-ui. Héroe con preguntas una por una y obtuvo Excelente. Características Formularios, Lógica, Integraciones. Utiliza patatas fritas. Botón negro. Pie de página negro."
+      },
+      "imageUrl": "/webpages/placeholder-web-137-typeform-clone.png",
+      "imageHint": {
+        "en": "Typeform clone black white hero conversational form one question rating pill Forms Logic Integrations surveys footer",
+        "es": "Typeform clon héroe blanco negro formulario conversacional píldora de calificación de una pregunta Formas Lógica Integraciones pie de página de encuestas"
+      },
+      "demoUrl": "typeform-clone",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "Typeform",
+        "clone",
+        "landing page",
+        "forms",
+        "surveys",
+        "no-code"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "136",
+      "title": {
+        "en": "Zapier Clone — No-code automation",
+        "es": "Zapier Clone: ​​automatización sin código"
+      },
+      "description": {
+        "en": "Palette: orange #FF4A00, background #FFF5F0, gray #2D2E2E. system-ui typography. Hero with Gmail→Slack flow. Features Zaps, Tables, AI. App chips. Orange button. Gray footer.",
+        "es": "Paleta: naranja #FF4A00, fondo #FFF5F0, gris #2D2E2E. tipografía del sistema-ui. Héroe con Gmail → Flujo flojo. Incluye Zaps, Tablas, IA. Fichas de aplicaciones. Botón naranja. Pie de página gris."
+      },
+      "imageUrl": "/webpages/placeholder-web-136-zapier-clone.png",
+      "imageHint": {
+        "en": "Zapier clone orange #FF4A00 hero Gmail Slack automation workflow Zaps Tables AI no-code integrations footer",
+        "es": "Zapier clon naranja #FF4A00 hero Gmail Slack flujo de trabajo de automatización Zaps Tables AI integraciones sin código pie de página"
+      },
+      "demoUrl": "zapier-clone",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "Zapier",
+        "clone",
+        "landing page",
+        "automation",
+        "no-code",
+        "integrations"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "139",
+      "title": {
+        "en": "Samsung Clone — Galaxy ecosystem",
+        "es": "Clon de Samsung: ecosistema Galaxy"
+      },
+      "description": {
+        "en": "Palette: blue #1428A0, white, black. Samsung One / system-ui font. Hero with Galaxy style gradient block. Features Galaxy, TV, SmartThings. Line chips. Blue button. Black footer.",
+        "es": "Paleta: azul #1428A0, blanco, negro. Fuente Samsung One / system-ui. Héroe con bloque degradado estilo Galaxy. Incluye Galaxy, TV, SmartThings. Fichas de línea. Botón azul. Pie de página negro."
+      },
+      "imageUrl": "/webpages/placeholder-web-139-samsung-clone.png",
+      "imageHint": {
+        "en": "Samsung clone blue #1428A0 hero Galaxy gradient Mobile TV SmartThings electronics ecosystem footer",
+        "es": "Samsung clon azul #1428A0 hero Galaxy gradiente Mobile TV SmartThings ecosistema electrónico pie de página"
+      },
+      "demoUrl": "samsung-clone",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "Samsung",
+        "clone",
+        "landing page",
+        "electronics",
+        "Galaxy",
+        "smart home"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "141",
+      "title": {
+        "en": "Xbox Clone — Game Pass",
+        "es": "Clon de Xbox: Pase de juego"
+      },
+      "description": {
+        "en": "Palette: green #107C10, black. system-ui typography. Hero with green Game Pass style blocks. Features Game Pass, Cloud, Series X. Perk Chips. Green button. Black footer.",
+        "es": "Paleta: verde #107C10, negro. tipografía del sistema-ui. Héroe con bloques verdes estilo Game Pass. Incluye Game Pass, Cloud, Serie X. Fichas de beneficios. Botón verde. Pie de página negro."
+      },
+      "imageUrl": "/webpages/placeholder-web-141-xbox-clone.png",
+      "imageHint": {
+        "en": "Xbox clone green #107C10 black hero Game Pass blocks Cloud Series X gaming Microsoft footer",
+        "es": "Xbox clon verde #107C10 héroe negro Game Pass bloquea juegos Cloud Series X Microsoft footer"
+      },
+      "demoUrl": "xbox-clone",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "Xbox",
+        "clone",
+        "landing page",
+        "gaming",
+        "Game Pass",
+        "console"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "140",
+      "title": {
+        "en": "PlayStation Clone — Gaming console",
+        "es": "Clon de PlayStation: consola de juegos"
+      },
+      "description": {
+        "en": "Palette: blue #003791, #0070D1, black. system-ui typography. Hero shaped like a stylized console. Features PS5, Plus, VR. Genre chips. Blue button. Black footer.",
+        "es": "Paleta: azul #003791, #0070D1, negro. tipografía del sistema-ui. Héroe con forma de consola estilizada. Incluye PS5, Plus, realidad virtual. Fichas de género. Botón azul. Pie de página negro."
+      },
+      "imageUrl": "/webpages/placeholder-web-140-playstation-clone.png",
+      "imageHint": {
+        "en": "PlayStation clone blue hero PS5 console shape Play Has No Limits Plus VR gaming footer black",
+        "es": "PlayStation clon blue hero Forma de consola PS5 Play Has No Limits Plus Pie de página de juegos VR negro"
+      },
+      "demoUrl": "playstation-clone",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "PlayStation",
+        "clone",
+        "landing page",
+        "gaming",
+        "console",
+        "PS5"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "143",
+      "title": {
+        "en": "Walmart Clone — Mass Retail",
+        "es": "Clon de Walmart: venta minorista masiva"
+      },
+      "description": {
+        "en": "Palette: blue #0071DC, yellow #FFC220, gray #2E2F32. system-ui typography. Hero with department grid. Features Pickup, Delivery, Walmart+. Category chips. Yellow button. Gray footer.",
+        "es": "Paleta: azul #0071DC, amarillo #FFC220, gris #2E2F32. tipografía del sistema-ui. Héroe con cuadrícula de departamentos. Incluye recogida, entrega, Walmart+. Fichas de categoría. Botón amarillo. Pie de página gris."
+      },
+      "imageUrl": "/webpages/placeholder-web-143-walmart-clone.png",
+      "imageHint": {
+        "en": "Walmart clone blue yellow hero departments grid Pickup Delivery Walmart plus save money retail footer",
+        "es": "Walmart clon azul amarillo héroe departamentos cuadrícula Recogida Entrega Walmart más ahorrar dinero pie de página minorista"
+      },
+      "demoUrl": "walmart-clone",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "Walmart",
+        "clone",
+        "landing page",
+        "retail",
+        "e-commerce",
+        "grocery"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "47",
+      "title": {
+        "en": "Netflix Clone — México HTML/CSS/JS",
+        "es": "Clon de Netflix — México HTML/CSS/JS"
+      },
+      "description": {
+        "en": "Create a static clone of the Netflix Mexico landing page (netflix.com) using only vanilla HTML, CSS and JavaScript (no frameworks or libraries). Structure in 3 files: index.html, styles.css, script.js.\n\nDesign: (1) Hero fullscreen 88vh — Netflix poster collage background with gradient overlay, transparent navbar (red logo, select Spanish/English language, Log in button), H1 \"Unlimited movies and series, and much more.\", email form + Start >. (2) 4 features alternating with border #222 — TV/Stranger Things, offline download, devices, children's profiles (H2 3rem, p 1.5rem). (3) FAQ accordion 6 questions (#303030, + rotate 45°, one panel open, max-height transition) + CTA repeated email. (4) Footer #757575 — telephone 020-3970-7589, grid 4 columns links, language selector, copyright educational clone.\n\nStyles: #000, #fff, #e50914 (hover #f40612), #222/#303030/#757575, Helvetica Neue/Arial, border-radius 3px, responsive 740px.\n\nJS: accordion FAQ (closes others on opening), handleStart(event) preventDefault + alert with email.\n\nReal assets assets.nflxext.com and occ-0-2773-2774.1.nflxso.net. Spanish Mexico. Unaffiliated educational clone.",
+        "es": "Cree un clon estático de la página de inicio de Netflix México (netflix.com) utilizando solo HTML, CSS y JavaScript básicos (sin marcos ni bibliotecas). Estructura en 3 archivos: index.html, estilos.css, script.js.\n\nDiseño: (1) Hero pantalla completa 88vh — Fondo de collage de póster de Netflix con superposición de degradado, barra de navegación transparente (logotipo rojo, selección de idioma español/inglés, botón Iniciar sesión), H1 \"Películas y series ilimitadas, y mucho más\", formulario de correo electrónico + Inicio >. (2) 4 funciones que se alternan con el borde n.° 222: TV/Stranger Things, descarga sin conexión, dispositivos, perfiles infantiles (H2 3rem, p 1.5rem). (3) Acordeón de preguntas frecuentes: 6 preguntas (#303030, + rotación de 45°, un panel abierto, transición de altura máxima) + correo electrónico repetido de CTA. (4) Pie de página n.º 757575: teléfono 020-3970-7589, enlaces de cuadrícula de 4 columnas, selector de idioma, clon educativo sobre derechos de autor.\n\nEstilos: #000, #fff, #e50914 (pase el cursor #f40612), #222/#303030/#757575, Helvetica Neue/Arial, radio de borde 3px, capacidad de respuesta 740px.\n\nJS: preguntas frecuentes sobre acordeón (cierra otras al abrir), handleStart(event) preventDefault + alerta con correo electrónico.\n\nActivos reales activos.nflxext.com y occ-0-2773-2774.1.nflxso.net. México español. Clon educativo no afiliado."
+      },
+      "imageUrl": "/webpages/placeholder-web-47-netflix-clone-mexico.png",
+      "imageHint": {
+        "en": "Netflix Mexico clone dark hero poster collage red logo email form features FAQ footer",
+        "es": "Netflix México clon héroe oscuro póster collage logotipo rojo formulario de correo electrónico características pie de página de preguntas frecuentes"
+      },
+      "demoUrl": "netflix-clone-mexico",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "tags": [
+        "Netflix",
+        "clone",
+        "landing page",
+        "streaming",
+        "Mexico",
+        "FAQ",
+        "accordion"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "94",
+      "title": {
+        "en": "WhatsApp Clone — Business Messaging",
+        "es": "Clon de WhatsApp: mensajería empresarial"
+      },
+      "description": {
+        "en": "Palette: green #25D366, teal #075E54, chat background #ECE5DD. system-ui typography. Hero with green and white chat bubbles. Features Business, Encryption, Groups. Uses chips. Green button. Footer teal.",
+        "es": "Paleta: verde #25D366, verde azulado #075E54, fondo de chat #ECE5DD. tipografía del sistema-ui. Héroe con burbujas de chat verdes y blancas. Funciones Empresariales, Cifrado, Grupos. Utiliza patatas fritas. Botón verde. Verde azulado de pie de página."
+      },
+      "imageUrl": "/webpages/placeholder-web-94-whatsapp-clone.png",
+      "imageHint": {
+        "en": "WhatsApp clone green #25D366 teal hero chat bubbles Business encryption groups messaging footer",
+        "es": "Clon de WhatsApp verde #25D366 burbujas de chat de héroe verde azulado Pie de página de mensajería de grupos de cifrado empresarial"
+      },
+      "demoUrl": "whatsapp-clone",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "WhatsApp",
+        "clone",
+        "landing page",
+        "messaging",
+        "business",
+        "chat"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "96",
+      "title": {
+        "en": "Reddit Clone — Communities",
+        "es": "Clon de Reddit: comunidades"
+      },
+      "description": {
+        "en": "Palette: orange #FF4500, gray #DAE0E6, black #1A1A1B. system-ui typography. Hero with post card (upvotes, r/technology). Features Subreddits, Karma, Awards. Subreddit chips. Orange button. Dark footer.",
+        "es": "Paleta: naranja #FF4500, gris #DAE0E6, negro #1A1A1B. tipografía del sistema-ui. Héroe con tarjeta postal (votos a favor, r/tecnología). Incluye subreddits, karma y premios. Fichas de subreddit. Botón naranja. Pie de página oscuro."
+      },
+      "imageUrl": "/webpages/placeholder-web-96-reddit-clone.png",
+      "imageHint": {
+        "en": "Reddit clone orange #FF4500 hero post card upvotes r/technology Subreddits Karma Awards community chips forum",
+        "es": "Reddit clon naranja #FF4500 héroe tarjeta postal votos a favor r/tecnología Subreddits Karma Awards comunidad chips foro"
+      },
+      "demoUrl": "reddit-clone",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "Reddit",
+        "clone",
+        "landing page",
+        "community",
+        "forum",
+        "social"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "105",
+      "title": {
+        "en": "Vercel Clone — Deploy frontend",
+        "es": "Clon de Vercel: implementar interfaz"
+      },
+      "description": {
+        "en": "Palette: black #000, white. Geist / system-ui typography. Hero with terminal production URL. Features Edge, Preview, Analytics. Framework chips. White pill button. Black footer.",
+        "es": "Paleta: negro #000, blanco. Tipografía Geist / system-ui. Héroe con URL de producción de terminal. Funciones Edge, vista previa y análisis. Fichas de marco. Botón de pastilla blanca. Pie de página negro."
+      },
+      "imageUrl": "/webpages/placeholder-web-105-vercel-clone.png",
+      "imageHint": {
+        "en": "Vercel clone black white hero production deploy terminal Next.js React Svelte Edge Preview Analytics frontend cloud",
+        "es": "Vercel clon negro blanco héroe producción implementar terminal Next.js React Svelte Edge Preview Analytics frontend nube"
+      },
+      "demoUrl": "vercel-clone",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "Vercel",
+        "clone",
+        "landing page",
+        "deployment",
+        "Next.js",
+        "frontend"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "113",
+      "title": {
+        "en": "Waze Clone — Community Navigation",
+        "es": "Clon de Waze: navegación comunitaria"
+      },
+      "description": {
+        "en": "Palette: cyan #33CCFF, white, gray. system-ui typography. Hero with stylized map and car. Features Routes, Alerts, Carpool. Alert type chips. Cyan button. Dark footer.",
+        "es": "Paleta: cian #33CCFF, blanco, gris. tipografía del sistema-ui. Héroe con mapa estilizado y coche. Funciones Rutas, Alertas, Carpool. Chips tipo alerta. Botón cian. Pie de página oscuro."
+      },
+      "imageUrl": "/webpages/placeholder-web-113-waze-clone.png",
+      "imageHint": {
+        "en": "Waze clone cyan blue hero stylized map car community navigation Routes Alerts Carpool traffic footer",
+        "es": "Waze clon cian azul héroe mapa estilizado coche comunidad navegación Rutas Alertas Carpool tráfico pie de página"
+      },
+      "demoUrl": "waze-clone",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "Waze",
+        "clone",
+        "landing page",
+        "navigation",
+        "maps",
+        "community"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "82",
+      "title": {
+        "en": "TikTok Clone — Short video",
+        "es": "Clon de TikTok – Vídeo corto"
+      },
+      "description": {
+        "en": "Palette: black #000, cyan #25F4EE, pink #FE2C55. System-ui bold typography. Hero with vertical video mockup. Features For You, Effects, Live. Trending hashtag chips. Pink button. Footer #121212.",
+        "es": "Paleta: negro #000, cian #25F4EE, rosa #FE2C55. Tipografía en negrita System-ui. Héroe con maqueta de vídeo vertical. Funciones para ti, efectos, en vivo. Fichas de hashtag de tendencia. Botón rosa. Pie de página n.º 121212."
+      },
+      "imageUrl": "/webpages/placeholder-web-82-tiktok-clone.png",
+      "imageHint": {
+        "en": "TikTok clone black cyan pink hero vertical video mockup For You Effects Live hashtag trend chips neon footer",
+        "es": "TikTok clon negro cian rosa héroe maqueta de video vertical para ti Efectos Hashtag en vivo chips de tendencia pie de página de neón"
+      },
+      "demoUrl": "tiktok-clone",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "TikTok",
+        "clone",
+        "landing page",
+        "short video",
+        "social",
+        "trends"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "67",
+      "title": {
+        "en": "Webflow Clone — Editor and Showcase",
+        "es": "Clon de flujo web: editor y escaparate"
+      },
+      "description": {
+        "en": "Palette: Blue #4353FF, Black #080808, White, Pink Accents #FF5C5C. Inter Typography. Hero with auto-play editor screencast video. Features like sections with before/after sliders. Replace FAQ with a showcase of sites made with Webflow in a 3-column grid with hover zoom. Dark footer with featured newsletter.",
+        "es": "Paleta: Azul #4353FF, Negro #080808, Blanco, Detalles en rosa #FF5C5C. Intertipografía. Héroe con vídeo de screencast del editor de reproducción automática. Funciones como secciones con controles deslizantes de antes/después. Reemplace las preguntas frecuentes con una muestra de sitios creados con Webflow en una cuadrícula de 3 columnas con zoom al pasar el mouse. Pie de página oscuro con boletín destacado."
+      },
+      "imageUrl": "/webpages/placeholder-web-67-webflow-clone.png",
+      "imageHint": {
+        "en": "Webflow clone blue #4353FF black #080808 pink #FF5C5C Inter hero editor screencast autoplay before after sliders showcase grid 3 columns hover zoom dark footer newsletter",
+        "es": "Clon de flujo web azul #4353FF negro #080808 rosa #FF5C5C Inter hero editor screencast reproducción automática antes después deslizadores mostrar cuadrícula 3 columnas zoom flotante pie de página oscuro boletín"
+      },
+      "demoUrl": "webflow-clone",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "tags": [
+        "Webflow",
+        "clone",
+        "landing page",
+        "no-code",
+        "web design",
+        "CMS"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "66",
+      "title": {
+        "en": "Robinhood Clone — Chart and stats",
+        "es": "Clon de Robinhood: gráficos y estadísticas"
+      },
+      "description": {
+        "en": "Palette: neon green #00C805, black #000, white. Capsule Sans / Inter typography. Hero with animated green line graph going up background. Features with vertical mobile app mockups. Replace FAQ with large stats (millions of users, trades per day) with animated counters. Green pill button. Footer with SEC disclaimers.",
+        "es": "Paleta: verde neón #00C805, negro #000, blanco. Tipografía Capsule Sans / Inter. Héroe con un gráfico animado de líneas verdes subiendo de fondo. Funciones con maquetas de aplicaciones móviles verticales. Reemplace las preguntas frecuentes con estadísticas grandes (millones de usuarios, transacciones por día) con contadores animados. Botón de pastilla verde. Pie de página con exenciones de responsabilidad de la SEC."
+      },
+      "imageUrl": "/webpages/placeholder-web-66-robinhood-clone.png",
+      "imageHint": {
+        "en": "Robinhood clone neon green #00C805 black hero animated rising line chart vertical mobile app mockups large animated stats counters millions users trades per day green pill button SEC disclaimers footer",
+        "es": "Clon de Robinhood verde neón #00C805 héroe negro gráfico de líneas ascendentes animado maquetas de aplicaciones móviles verticales grandes contadores de estadísticas animadas millones de usuarios transacciones por día botón de píldora verde Descargo de responsabilidad de la SEC pie de página"
+      },
+      "demoUrl": "robinhood-clone",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "tags": [
+        "Robinhood",
+        "clone",
+        "landing page",
+        "fintech",
+        "investing",
+        "trading"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "70",
+      "title": {
+        "en": "Shopify Clone — E-commerce and stores",
+        "es": "Shopify Clone: ​​comercio electrónico y tiendas"
+      },
+      "description": {
+        "en": "Palette: green #008060, white, black #212326. Shopify Sans / Inter typography. Hero with online store mockup (products, cart). Features like 3 numbered steps (Create → Customize → Sell). Replace FAQ with pricing cards (Basic, Shopify, Advanced). Green pill button. Footer with commerce links.",
+        "es": "Paleta: verde #008060, blanco, negro #212326. Tipografía Shopify Sans / Inter. Héroe con maqueta de tienda online (productos, carrito). Funciones como 3 pasos numerados (Crear → Personalizar → Vender). Reemplace las preguntas frecuentes con tarjetas de precios (Básico, Shopify, Avanzado). Botón de pastilla verde. Pie de página con enlaces comerciales."
+      },
+      "imageUrl": "/webpages/placeholder-web-70-shopify-clone.png",
+      "imageHint": {
+        "en": "Shopify clone green #008060 hero online store mockup products cart 3 numbered steps create customize sell pricing cards Basic Shopify Advanced green pill footer",
+        "es": "Shopify clon verde #008060 maqueta de tienda en línea héroe carrito de productos 3 pasos numerados crear tarjetas de precios de venta personalizadas Shopify básico Pie de página de píldora verde avanzado"
+      },
+      "demoUrl": "shopify-clone",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "Shopify",
+        "clone",
+        "landing page",
+        "e-commerce",
+        "store",
+        "retail"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "71",
+      "title": {
+        "en": "Uber Clone — Mobility and map",
+        "es": "Uber Clon — Movilidad y mapa"
+      },
+      "description": {
+        "en": "Palette: black #000, white, gray #6b6b6b. Uber Move typography / system-ui. Hero with animated CSS map (points and route). Features alternated with app mockups (driver and passenger). Without FAQ — city pills available (CDMX, Bogotá, Madrid). Black pill button. Minimalist footer.",
+        "es": "Paleta: negro #000, blanco, gris #6b6b6b. Tipografía Uber Move / sistema-ui. Héroe con mapa CSS animado (puntos y ruta). Funciones alternadas con maquetas de aplicaciones (conductor y pasajero). Sin preguntas frecuentes: pastillas de la ciudad disponibles (CDMX, Bogotá, Madrid). Botón de pastilla negra. Pie de página minimalista."
+      },
+      "imageUrl": "/webpages/placeholder-web-71-uber-clone.png",
+      "imageHint": {
+        "en": "Uber clone black white hero CSS animated map dots route alternating driver passenger app mockups city pills CDMX Bogota Madrid black pill minimalist footer",
+        "es": "Uber clon héroe blanco negro CSS mapa animado puntos ruta conductor alterno pasajero aplicación maquetas píldoras de la ciudad CDMX Bogotá Madrid píldora negra pie de página minimalista"
+      },
+      "demoUrl": "uber-clone",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "Uber",
+        "clone",
+        "landing page",
+        "mobility",
+        "rides",
+        "transport"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "73",
+      "title": {
+        "en": "Zoom Clone — Video calls and webinars",
+        "es": "Zoom Clone: ​​videollamadas y seminarios web"
+      },
+      "description": {
+        "en": "Palette: blue #2D8CFF, white, gray #6E7680, dark background in tiles. system-ui typography. Hero with 2×2 grid of participants in a video call. Features in 3 columns (Meetings, Webinars, Phone). No FAQ — plan pills (Basic, Pro, Business, Enterprise). Blue pill button. Dark footer.",
+        "es": "Paleta: azul #2D8CFF, blanco, gris #6E7680, fondo oscuro en mosaicos. tipografía del sistema-ui. Héroe con grilla 2×2 de participantes en una videollamada. Funciones en 3 columnas (Reuniones, Seminarios web, Teléfono). Sin preguntas frecuentes: píldoras del plan (Basic, Pro, Business, Enterprise). Botón de pastilla azul. Pie de página oscuro."
+      },
+      "imageUrl": "/webpages/placeholder-web-73-zoom-clone.png",
+      "imageHint": {
+        "en": "Zoom clone blue #2D8CFF hero 2x2 video call participant grid Meetings Webinars Phone plan pills Basic Pro Business Enterprise blue button dark footer",
+        "es": "Zoom clon azul #2D8CFF héroe Cuadrícula de participantes de videollamadas 2x2 Reuniones Seminarios web Píldoras del plan telefónico Básico Pro Empresarial Botón azul Pie de página oscuro"
+      },
+      "demoUrl": "zoom-clone",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "Zoom",
+        "clone",
+        "landing page",
+        "video conferencing",
+        "webinars",
+        "remote work"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "76",
+      "title": {
+        "en": "Zendesk Clone — Customer Support",
+        "es": "Clon de Zendesk — Atención al cliente"
+      },
+      "description": {
+        "en": "Palette: teal #03363D, mint #30AABC, background #F8F9F9. system-ui typography. Hero with ticket mockup (open, pending, resolved). Features Ticketing, Messaging, Help Center. Replaces FAQ with CSAT stats and response time. mint button Dark teal footer.",
+        "es": "Paleta: verde azulado #03363D, menta #30AABC, fondo #F8F9F9. tipografía del sistema-ui. Héroe con maqueta de ticket (abierto, pendiente, resuelto). Funciones de venta de entradas, mensajería y centro de ayuda. Reemplaza las preguntas frecuentes con estadísticas de CSAT y tiempo de respuesta. botón menta Pie de página verde azulado oscuro."
+      },
+      "imageUrl": "/webpages/placeholder-web-76-zendesk-clone.png",
+      "imageHint": {
+        "en": "Zendesk clone teal #03363D mint hero support ticket mockup open pending solved Ticketing Messaging Help Center CSAT stats response time footer",
+        "es": "Clon de Zendesk verde azulado #03363D maqueta de ticket de soporte de mint hero abierto pendiente resuelto Ticketing Mensajería Centro de ayuda Estadísticas CSAT tiempo de respuesta pie de página"
+      },
+      "demoUrl": "zendesk-clone",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "Zendesk",
+        "clone",
+        "landing page",
+        "customer support",
+        "ticketing",
+        "help desk"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "78",
+      "title": {
+        "en": "Microsoft Teams Clone — Meetings and Chat",
+        "es": "Clon de Microsoft Teams: reuniones y chat"
+      },
+      "description": {
+        "en": "Palette: purple #6264A7, #464775, white. system-ui typography. Hero with 2×2 grid of video call tiles. Features Meetings, Chat and Copilot. Without FAQ — business plan pills (Business, Enterprise, Education). White pill button. Dark footer.",
+        "es": "Paleta: morado #6264A7, #464775, blanco. tipografía del sistema-ui. Héroe con cuadrícula de 2×2 de mosaicos de videollamadas. Incluye Reuniones, Chat y Copiloto. Sin preguntas frecuentes: píldoras para planes de negocios (Negocios, Empresas, Educación). Botón de pastilla blanca. Pie de página oscuro."
+      },
+      "imageUrl": "/webpages/placeholder-web-78-teams-clone.png",
+      "imageHint": {
+        "en": "Microsoft Teams clone purple #6264A7 hero 2x2 video tiles Meetings Chat Copilot enterprise plan pills white button dark footer",
+        "es": "Microsoft Teams clon púrpura #6264A7 hero 2x2 mosaicos de video Reuniones Chat Copilot píldoras del plan empresarial botón blanco pie de página oscuro"
+      },
+      "demoUrl": "teams-clone",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "Microsoft Teams",
+        "clone",
+        "landing page",
+        "video conferencing",
+        "collaboration",
+        "enterprise"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "61",
+      "title": {
+        "en": "Stripe Clone — Gradients and Products",
+        "es": "Clon de rayas: degradados y productos"
+      },
+      "description": {
+        "en": "Palette: indigo #635bff, blue-purple-pink gradient, white. Inter/SöhneMono font for code. Hero with animated blob gradient behind and code blocks on the right. Features such as alternating dashboard screenshots. No traditional FAQ — replaced by product grid (Payments, Billing, Connect, Terminal). Clear and minimalist footer.",
+        "es": "Paleta: índigo #635bff, degradado azul-púrpura-rosa, blanco. Fuente Inter/SöhneMono para código. Héroe con un degradado animado detrás y bloques de código a la derecha. Funciones como capturas de pantalla alternas del panel. Sin preguntas frecuentes tradicionales: reemplazadas por una cuadrícula de productos (Pagos, Facturación, Conexión, Terminal). Pie de página claro y minimalista."
+      },
+      "imageUrl": "/webpages/placeholder-web-61-stripe-clone.png",
+      "imageHint": {
+        "en": "Stripe clone indigo gradient animated blob hero code blocks alternating dashboard screenshots product grid Payments Billing Connect Terminal minimal footer",
+        "es": "Clon de rayas gradiente índigo bloques de código de héroe de blob animado capturas de pantalla del panel alternas cuadrícula de productos Pagos Facturación Connect Terminal pie de página mínimo"
+      },
+      "demoUrl": "stripe-clone",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "Stripe",
+        "clone",
+        "landing page",
+        "fintech",
+        "payments",
+        "API"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "60",
+      "title": {
+        "en": "Slack Clone — 3D Chat and industries",
+        "es": "Slack Clone: ​​chat 3D e industrias"
+      },
+      "description": {
+        "en": "Palette: Aubergine purple #4A154B, green #2EB67D, yellow #ECB22E, white. Lato typography. Hero with 3D floating chat mockup on the right. Features such as conversation-type sections (avatar + message bubble). FAQ replaced by use cases by industry in horizontal tabs. Footer with grid + app store badges.",
+        "es": "Paleta: morado berenjena #4A154B, verde #2EB67D, amarillo #ECB22E, blanco. Tipografía lato. Héroe con maqueta de chat flotante 3D a la derecha. Funciones como secciones tipo conversación (avatar + burbuja de mensajes). Las preguntas frecuentes reemplazadas por casos de uso por industria en pestañas horizontales. Pie de página con cuadrícula + insignias de la tienda de aplicaciones."
+      },
+      "imageUrl": "/webpages/placeholder-web-60-slack-clone.png",
+      "imageHint": {
+        "en": "Slack clone aubergine purple floating 3D chat mockup conversation bubbles industry tabs app store badges",
+        "es": "Slack clon berenjena púrpura flotante maqueta de chat 3D burbujas de conversación pestañas de la industria insignias de la tienda de aplicaciones"
+      },
+      "demoUrl": "slack-clone",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "tags": [
+        "Slack",
+        "clone",
+        "landing page",
+        "collaboration",
+        "chat",
+        "workspace"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "58",
+      "title": {
+        "en": "YouTube Premium Clone — Mosaic and plans",
+        "es": "Clon Premium de YouTube: mosaico y planos"
+      },
+      "description": {
+        "en": "Palette: red #ff0000, white, gray #0f0f0f. Roboto typography. Hero with auto-rotating video thumbnail mosaic as background. Features like \"No Ads / Downloads / YouTube Music\" with red circular icons. Replaces FAQ with comparison of plans (Free vs Premium) in table with checkmarks. Red rectangular button. Dense multi-column footer.",
+        "es": "Paleta: rojo #ff0000, blanco, gris #0f0f0f. Tipografía robótica. Héroe con mosaico de miniaturas de vídeo con rotación automática como fondo. Funciones como \"Sin anuncios/Descargas/YouTube Music\" con íconos circulares rojos. Reemplaza las preguntas frecuentes con la comparación de planes (Gratis versus Premium) en la tabla con marcas de verificación. Botón rectangular rojo. Pie de página denso de varias columnas."
+      },
+      "imageUrl": "/webpages/placeholder-web-58-youtube-premium-clone.png",
+      "imageHint": {
+        "en": "YouTube Premium clone red dark thumbnail mosaic hero circular icons plan comparison table checkmarks dense footer",
+        "es": "YouTube Premium clon rojo oscuro miniatura mosaico héroe iconos circulares plan tabla de comparación marcas de verificación pie de página denso"
+      },
+      "demoUrl": "youtube-premium-clone",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "YouTube",
+        "Premium",
+        "clone",
+        "landing page",
+        "streaming",
+        "subscription"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "57",
+      "title": {
+        "en": "Tesla Clone — One-page fullscreen",
+        "es": "Clon de Tesla: pantalla completa de una página"
+      },
+      "description": {
+        "en": "Tesla clone. Palette: white #fff, black #171a20, silver #393c41. Gotham/Inter typography. Hero fullscreen with a single centered car and text over the image, two secondary buttons (Custom Order / Demo Drive) outlined transparent. No alternating features — instead, one-page-style scrollable fullscreen sections, each with a different model. No FAQ; replaced by specs in columns (Range, 0-60, Top Speed). Micro footer with small centered links.",
+        "es": "Clon de Tesla. Paleta: blanco #fff, negro #171a20, plateado #393c41. Tipografía Gotham/Inter. Hero a pantalla completa con un solo auto centrado y texto sobre la imagen, dos botones secundarios (Pedido personalizado / Demo Drive) delineados en transparente. No hay funciones alternas; en su lugar, secciones de pantalla completa desplazables al estilo de una página, cada una con un modelo diferente. Sin preguntas frecuentes; reemplazado por especificaciones en columnas (Rango, 0-60, Velocidad máxima). Micro pie de página con pequeños enlaces centrados."
+      },
+      "imageUrl": "/webpages/placeholder-web-57-tesla-clone.png",
+      "imageHint": {
+        "en": "Tesla clone fullscreen scroll snap car models outlined buttons specs columns Range 0-60 micro footer",
+        "es": "Tesla clon pantalla completa desplazamiento complemento modelos de automóviles botones delineados especificaciones columnas Rango 0-60 micro pie de página"
+      },
+      "demoUrl": "tesla-clone",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "Tesla",
+        "clone",
+        "landing page",
+        "automotive",
+        "electric",
+        "one-page"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "52",
+      "title": {
+        "en": "Twitch Clone — LIVE Streams and Chat FAQ",
+        "es": "Twitch Clone: ​​preguntas frecuentes sobre transmisiones EN VIVO y chat"
+      },
+      "description": {
+        "en": "Twitch clone. Palette: purple #9146FF, dark background #0e0e10, text #efeff1. Inter Typography. Hero with live stream cards (placeholders with red \"LIVE\" badge). Replace features with category section (gaming, IRL, music, esports) in 4 column grid. FAQ as chat-style boxes. Purple main button with glow shadow.",
+        "es": "Clon de contracción. Paleta: morado #9146FF, fondo oscuro #0e0e10, texto #efeff1. Intertipografía. Héroe con tarjetas de transmisión en vivo (marcadores de posición con insignia roja \"LIVE\"). Reemplace las funciones con la sección de categorías (juegos, IRL, música, deportes electrónicos) en una cuadrícula de 4 columnas. Preguntas frecuentes en cuadros estilo chat. Botón principal morado con sombra luminosa."
+      },
+      "imageUrl": "/webpages/placeholder-web-52-twitch-clone.png",
+      "imageHint": {
+        "en": "Twitch clone purple dark live stream cards LIVE badge categories grid chat FAQ glow button",
+        "es": "Twitch clon púrpura oscuro tarjetas de transmisión en vivo Categorías de insignias EN VIVO cuadrícula chat Preguntas frecuentes botón brillante"
+      },
+      "demoUrl": "twitch-clone",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "Twitch",
+        "clone",
+        "landing page",
+        "streaming",
+        "gaming",
+        "live"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "39",
+      "title": {
+        "en": "Spotify Clone — Home Page",
+        "es": "Clon de Spotify - Página de inicio"
+      },
+      "description": {
+        "en": "Create a clone of the Spotify home page (spotify.com) using pure HTML and CSS (no frameworks). Structure the project in two files: index.html and styles.css.\n\nDesign requirements:\n1. Color palette: black background (#000), Spotify green (#1ed760), gray (#b3b3b3, #282828, #121212), white for main texts.\n2. Typography: Montserrat or similar sans-serif, with weights 400/700/900. Large titles with font-weight: 900 and negative letter-spacing.\n3. Sections (in this order): Navbar sticky (SVG inline logo, Premium/Support/Download, Register, Login); Hero with diagonal green gradient; Premium Plans (Individual, Duo, Family); Features grid 4 columns; purple→blue final CTA; Footer with columns and networks.\n4. Buttons: primary white border-radius 999px hover scale(1.04); transparent outline gray border.\n5. Language: Spanish (es).\n6. Responsive: clamp(), auto-fit minmax, hide nav-links on mobile (<768px).\n7. No external images (gradients and emojis).",
+        "es": "Cree un clon de la página de inicio de Spotify (spotify.com) usando HTML y CSS puros (sin marcos). Estructura el proyecto en dos archivos: index.html y estilos.css.\n\nRequisitos de diseño:\n1. Paleta de colores: fondo negro (#000), verde Spotify (#1ed760), gris (#b3b3b3, #282828, #121212), blanco para textos principales.\n2. Tipografía: Montserrat o similar sans-serif, con gramajes 400/700/900. Títulos grandes con peso de fuente: 900 y espacio negativo.\n3. Secciones (en este orden): barra de navegación adhesiva (logotipo SVG en línea, Premium/Soporte/Descarga, Registrarse, Iniciar sesión); Héroe con degradado verde diagonal; Planes Premium (Individual, Dúo, Familiar); Cuenta con cuadrícula de 4 columnas; CTA final violeta → azul; Pie de página con columnas y redes.\n4. Botones: borde blanco principal, radio de 999 px, escala de desplazamiento (1.04); borde gris de contorno transparente.\n5. Idioma: Español (es).\n6. Responsivo: abrazadera(), ajuste automático de minmax, ocultar enlaces de navegación en el móvil (<768px).\n7. No imágenes externas (degradados y emojis)."
+      },
+      "imageUrl": "/webpages/placeholder-web-39-spotify-clone-homepage.png",
+      "imageHint": {
+        "en": "Spotify clone homepage green hero Premium plans black dark UI Spanish",
+        "es": "Spotify clon página de inicio héroe verde Planes premium negro oscuro UI Español"
+      },
+      "demoUrl": "spotify-clone",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "Spotify",
+        "clone",
+        "landing page",
+        "music",
+        "streaming",
+        "homepage"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "35",
+      "title": {
+        "en": "PlotShare — Shared urban gardens",
+        "es": "PlotShare — Huertos urbanos compartidos"
+      },
+      "description": {
+        "en": "PlotShare — Shared urban gardens.\n\n* Palette: moss: #4A7C59, terracotta: #C65D3D, sky: #A8DADC, earth: #6B4423\n* Vertical: rent garden plots\n* New components: SoilTypeIndicator, SunHoursBadge, ToolsIncluded, SeasonAvailability, PlotSizeFilter (m²)\n* Map: satellite view",
+        "es": "PlotShare — Huertos urbanos compartidos.\n\n* Paleta: musgo: #4A7C59, terracota: #C65D3D, cielo: #A8DADC, tierra: #6B4423\n* Vertical: alquiler parcelas de jardín\n* Nuevos componentes: SoilTypeIndicator, SunHoursBadge, ToolsIncluded, SeasonAvailability, PlotSizeFilter (m²)\n* Mapa: vista satelital"
+      },
+      "imageUrl": "/webpages/placeholder-web-35-plotshare-huertos-urbanos.png",
+      "imageHint": {
+        "en": "PlotShare urban garden plots moss terracotta satellite map soil sun tools",
+        "es": "PlotShare huerto urbano parcelas musgo terracota mapa satélite suelo sol herramientas"
+      },
+      "demoUrl": "plotshare-huertos-urbanos",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Leaflet"
+      ],
+      "tags": [
+        "landing page",
+        "PlotShare",
+        "urban garden",
+        "allotment",
+        "farming",
+        "community"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "46",
+      "title": {
+        "en": "SoundCloud Clone — Inicio HTML/CSS puro",
+        "es": "Clon de SoundCloud — Inicio HTML/CSS puro"
+      },
+      "description": {
+        "en": "Create a clone of the SoundCloud home page (soundcloud.com) using pure HTML and CSS (no frameworks or JavaScript). Structure the project in two files: index.html and styles.css. All content must be in Spanish.\n\nColor Palette: Main Orange #ff5500; hover/secondary #ff7700 / #e64a00; background #f2f2f2; cards #fff; text #333; secondary #666 / #999; edges #e5e5e5; dropzone #fff5f0.\n\nTypography: Inter (Google Fonts, 400–900). Titles weight 900 with negative letter-spacing. Responsive sizes with clamp().\n\nStructure: (1) Navbar sticky white — inline SVG logo #ff5500, search #f2f2f2 with orange border in :focus-within, links Home/For creators/Premium/Sign up/Login, orange ⬆ Upload button. (2) Hero gradient 135deg #ff5500→#ff7700, title \"Connect with your sound\", subtitle 320M tracks, Start listening and ▶ Upload your sound buttons, waveform ~30 spans with @keyframes press. (3) Grid 240px+1fr — sidebar Sticky Genres (Hip-hop active orange, Electronic, Indie, House, Jazz, Classical, Podcasts, Trending), Trending list now with 4 tracks (artwork 80×80 gradients, mini waveform 24 spans, play 56px). (4) Upload dropzone dashed #ff5500 max 700px. (5) Stats 4 columns 320M+/175M+/40M+/190. (6) Footer 6 columns + App Store/Google Play badges. Responsive 900px and 600px. No JS.",
+        "es": "Cree un clon de la página de inicio de SoundCloud (soundcloud.com) utilizando HTML y CSS puros (sin marcos ni JavaScript). Estructura el proyecto en dos archivos: index.html y estilos.css. Todo el contenido debe estar en español.\n\nPaleta de colores: Naranja principal #ff5500; hover/secundario #ff7700 / #e64a00; fondo #f2f2f2; tarjetas #fff; texto #333; secundaria #666 / #999; bordes #e5e5e5; zona de lanzamiento #fff5f0.\n\nTipografía: Inter (Google Fonts, 400–900). Los títulos pesan 900 con espacio entre letras negativo. Tamaños responsivos con abrazadera().\n\nEstructura: (1) Barra de navegación blanca fija: logotipo SVG en línea #ff5500, búsqueda #f2f2f2 con borde naranja en :focus-within, enlaces Inicio/Para creadores/Premium/Registrarse/Iniciar sesión, botón naranja ⬆ Cargar. (2) Hero gradiente 135 grados #ff5500→#ff7700, título \"Conéctate con tu sonido\", subtítulos de 320 millones de pistas, comienza a escuchar y ▶ Sube tus botones de sonido, forma de onda ~30 intervalos con @keyframes presionados. (3) Cuadrícula 240px+1fr: barra lateral Sticky Genres (Hip-hop naranja activo, Electrónica, Indie, House, Jazz, Clásica, Podcasts, Tendencias), lista de tendencias ahora con 4 pistas (obra de arte con gradientes de 80×80, mini forma de onda de 24 intervalos, reproducción de 56px). (4) Cargue la zona de caída discontinua #ff5500 máximo 700 px. (5) Estadísticas 4 columnas 320M+/175M+/40M+/190. (6) Pie de página de 6 columnas + insignias de App Store/Google Play. Responsivo 900px y 600px. Sin JS."
+      },
+      "imageUrl": "/webpages/placeholder-web-46-soundcloud-clone-inicio-html.png",
+      "imageHint": {
+        "en": "SoundCloud clone orange homepage navbar hero waveform genres tracks upload stats footer Spanish",
+        "es": "SoundCloud clon naranja página de inicio barra de navegación héroe forma de onda géneros pistas subir estadísticas pie de página Español"
+      },
+      "demoUrl": "soundcloud-clone-inicio",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "SoundCloud",
+        "clone",
+        "landing page",
+        "music",
+        "HTML",
+        "CSS",
+        "no JavaScript"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "44",
+      "title": {
+        "en": "SoundCloud Clone — Creative Vibrant Orange",
+        "es": "Clon de SoundCloud: naranja vibrante y creativo"
+      },
+      "description": {
+        "en": "SoundCloud Clone — Creative vibrant orange.\n\nPalette: #ff5500 (SC orange), #ff7700, #333, #f2f2f2, #999. Source: Inter/Source Sans Pro.\n\nUnique components:\n* White Navbar with large central command bar type search engine.\n* Hero with animated waveform (pulsating vertical bars simulating audio).\n* Horizontal track cards: square artwork + title + waveform + orange circular play button.\n* Sidebar of sticky genres on the left (Hip-hop, Electronic, Indie...).\n* \"Upload your sound\" section with orange dotted dropzone.\n* Animated stats with count-up (50M+ tracks, 175M+ users).\n* Clear footer with 6 column grid and app store badges.",
+        "es": "SoundCloud Clone: ​​naranja vibrante y creativo.\n\nPaleta: #ff5500 (SC naranja), #ff7700, #333, #f2f2f2, #999. Fuente: Inter/Fuente Sans Pro.\n\nComponentes únicos:\n* Barra de navegación blanca con gran barra de comandos central tipo buscador.\n* Héroe con forma de onda animada (barras verticales pulsantes que simulan audio).\n* Tarjetas de seguimiento horizontales: arte cuadrado + título + forma de onda + botón de reproducción circular naranja.\n* Barra lateral de géneros pegajosos a la izquierda (Hip-hop, Electrónica, Indie...).\n* Sección \"Sube tu sonido\" con zona de caída con puntos de color naranja.\n* Estadísticas animadas con recuento (más de 50 millones de pistas, más de 175 millones de usuarios).\n* Pie de página claro con cuadrícula de 6 columnas e insignias de la tienda de aplicaciones."
+      },
+      "imageUrl": "/webpages/placeholder-web-44-soundcloud-clone-naranja.png",
+      "imageHint": {
+        "en": "SoundCloud clone orange creative search waveform tracks upload dropzone stats",
+        "es": "SoundCloud clon naranja búsqueda creativa pistas de forma de onda carga estadísticas de zona de caída"
+      },
+      "demoUrl": "soundcloud-clone-naranja",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "tags": [
+        "SoundCloud",
+        "clone",
+        "landing page",
+        "music",
+        "creative",
+        "upload"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "43",
+      "title": {
+        "en": "YouTube Music Clone — Vibrant Red and White",
+        "es": "Clon de música de YouTube: rojo y blanco vibrantes"
+      },
+      "description": {
+        "en": "YouTube Music Clone — Vibrant red and white.\n\nPalette: #ff0033 (YT Music red), #fff, #0f0f0f, #aaaaaa, #272727. Source: Roboto / YouTube Sans.\n\nUnique components:\n* Default light theme with dark/light toggle in navbar.\n* Hero with background video (<video autoplay muted loop>) and semi-transparent red overlay.\n* Category tabs (Music, Podcasts, Concerts) with animated red underline.\n* Masonry grid of playlists with cards of different heights.\n* Mini floating player fixed to the foot with play/pause and progress bar.\n* Musical shorts section with vertical cards 9:16.\n* CTA with animated confetti on hover of the main button.",
+        "es": "Clon de música de YouTube: rojo y blanco vibrantes.\n\nPaleta: #ff0033 (YT Music rojo), #fff, #0f0f0f, #aaaaaa, #272727. Fuente: Roboto / YouTube Sans.\n\nComponentes únicos:\n* Tema claro predeterminado con alternancia oscuro/claro en la barra de navegación.\n* Héroe con video de fondo (<bucle silenciado de reproducción automática de video>) y superposición roja semitransparente.\n* Pestañas de categorías (Música, Podcasts, Conciertos) con subrayado rojo animado.\n* Cuadrícula de mampostería de listas de reproducción con tarjetas de diferentes alturas.\n* Mini reproductor flotante fijado al pie con play/pausa y barra de progreso.\n* Sección de cortos musicales con tarjetas verticales 9:16.\n* CTA con confeti animado al pasar el cursor sobre el botón principal."
+      },
+      "imageUrl": "/webpages/placeholder-web-43-youtube-music-clone-vibrante.png",
+      "imageHint": {
+        "en": "YouTube Music clone red white light dark toggle video hero masonry shorts mini player",
+        "es": "YouTube Music clon rojo blanco claro oscuro alternar video héroe mampostería pantalones cortos mini reproductor"
+      },
+      "demoUrl": "youtube-music-clone-vibrante",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "tags": [
+        "YouTube Music",
+        "clone",
+        "landing page",
+        "music",
+        "video",
+        "shorts"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "42",
+      "title": {
+        "en": "Tidal Clone — Premium Black with Electric Cyan",
+        "es": "Tidal Clone: ​​negro premium con cian eléctrico"
+      },
+      "description": {
+        "en": "Tidal Clone — Premium black with electric cyan.\n\nPalette: #00ffff (HiFi cyan), #000, #0a0a0a, #7c7c7c, #ffffff. Source: Helvetica Neue / Geist.\n\nUnique components:\n* Navbar with animated top progress bar (loading bar type).\n* Hero split-screen: left title + CTA, right 3D mockup of the app with transform: rotateY().\n* \"Master Quality\" badge with bright cyan border and box-shadow: 0 0 20px cyan.\n* Annual/monthly toggle in pricing with slider animation.\n* Verified artists section with circular avatars and cyan decorative line.\n* Testimonials in card format with giant typographical quotes.\n* Footer with newsletter (input + cyan button).",
+        "es": "Tidal Clone: ​​negro premium con cian eléctrico.\n\nPaleta: #00ffff (cian HiFi), #000, #0a0a0a, #7c7c7c, #ffffff. Fuente: Helvetica Neue / Geist.\n\nComponentes únicos:\n* Barra de navegación con barra de progreso superior animada (tipo barra de carga).\n* Pantalla dividida del héroe: título izquierdo + CTA, maqueta 3D derecha de la aplicación con transformación: rotarY().\n* Insignia \"Calidad maestra\" con borde cian brillante y cuadro de sombra: 0 0 20px cian.\n* Alternancia anual/mensual de precios con animación deslizante.\n*Sección de artistas verificados con avatares circulares y línea decorativa cian.\n* Testimonios en formato tarjeta con citas tipográficas gigantes.\n* Pie de página con newsletter (entrada + botón cian)."
+      },
+      "imageUrl": "/webpages/placeholder-web-42-tidal-clone-premium-cian.png",
+      "imageHint": {
+        "en": "Tidal clone premium black electric cyan HiFi Master Quality split hero pricing toggle",
+        "es": "Tidal clone premium negro cian eléctrico HiFi Master Quality cambio de precios de héroe dividido"
+      },
+      "demoUrl": "tidal-clone-premium-cian",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "tags": [
+        "Tidal",
+        "clone",
+        "landing page",
+        "music",
+        "HiFi",
+        "premium",
+        "cyan"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "31",
+      "title": {
+        "en": "PlateMap — Restaurants with reservation",
+        "es": "PlateMap — Restaurantes con reserva"
+      },
+      "description": {
+        "en": "PlateMap — Restaurants with reservation.\n\n* Palette: wine: #722F37, cream: #FAF3E7, olive: #6B8E23, charcoal: #2B2B2B\n* Vertical: discover and reserve restaurants\n* New components: MenuPreview, OpenNowBadge, CuisineChips, ReservationTimeSlots, MichelinStars\n* Categories: Italian, Japanese, Mexican, Vegan, Brunch…",
+        "es": "PlateMap — Restaurantes con reserva.\n\n* Paleta: vino: #722F37, crema: #FAF3E7, oliva: #6B8E23, carbón: #2B2B2B\n* Vertical: descubrir y reservar restaurantes\n* Nuevos componentes: MenuPreview, OpenNowBadge, CuisineChips, ReservationTimeSlots, MichelinStars\n* Categorías: Italiano, Japonés, Mexicano, Vegano, Brunch…"
+      },
+      "imageUrl": "/webpages/placeholder-web-31-platemap-restaurantes-reservacion.png",
+      "imageHint": {
+        "en": "PlateMap restaurant reservation wine cream olive MenuPreview Michelin stars",
+        "es": "PlatoMapa restaurante reserva vino crema oliva MenúVista previa estrellas Michelin"
+      },
+      "demoUrl": "platemap-restaurantes-reservacion",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "tags": [
+        "landing page",
+        "PlateMap",
+        "restaurants",
+        "reservations",
+        "dining",
+        "food"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "29",
+      "title": {
+        "en": "StayNordic — Cabins in Scandinavia",
+        "es": "StayNordic — Cabañas en Escandinavia"
+      },
+      "description": {
+        "en": "StayNordic — Cabins in Scandinavia.\n\n* Palette: frost #E8F1F5, pine #1F3A2E, aurora #6FBF73, slate #2C3E50\n* Vertical: cabin rentals in Norway, Sweden, Finland\n* New components: WeatherBadge (live temperature), SaunaFilter, NorthernLightsIndicator, map with topo tiles (OpenTopoMap)\n* Typography: Inter + Fraunces for titles",
+        "es": "StayNordic — Cabañas en Escandinavia.\n\n* Paleta: escarcha #E8F1F5, pino #1F3A2E, aurora #6FBF73, pizarra #2C3E50\n* Vertical: alquiler de cabañas en Noruega, Suecia, Finlandia.\n* Nuevos componentes: WeatherBadge (temperatura en vivo), SaunaFilter, NorthernLightsIndicator, mapa con mosaicos topográficos (OpenTopoMap)\n* Tipografía: Inter + Fraunces para títulos"
+      },
+      "imageUrl": "/webpages/placeholder-web-29-staynordic-cabanas-escandinavia.png",
+      "imageHint": {
+        "en": "StayNordic Scandinavian cabin rentals Norway Sweden Finland aurora sauna",
+        "es": "StayNordic Alquiler de cabañas escandinavas Noruega Suecia Finlandia sauna aurora"
+      },
+      "demoUrl": "staynordic-cabanas-escandinavia",
+      "stack": [
+        "HTML",
+        "CSS",
+        "Leaflet"
+      ],
+      "tags": [
+        "landing page",
+        "StayNordic",
+        "Scandinavia",
+        "cabins",
+        "Nordic",
+        "travel"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "22",
+      "title": {
+        "en": "Synthax Pro — Corporate Confidence",
+        "es": "Synthax Pro — Confianza corporativa"
+      },
+      "description": {
+        "en": "\"Corporate Confidence\" — Enterprise SaaS.\n\nBuild a serious enterprise SaaS style Synthax Pro landing page (Stripe / Linear vibes).\n\n* Palette: background #fafafa, text #0a0a0a, muted #6b7280, lines #e5e7eb, brand indigo blue #4f46e5 (hover #4338ca), violet accent #8b5cf6, success #10b981.\n* Source: Geist (or Inter as a fallback).\n* Hero centered with top badge \"✨ New: AI-powered tutorials\", sober title \"Engineering excellence, taught right\".\n* Buttons with subtle shadow and internal micro-edge (Stripe effect).\n* Cards with backdrop-filter and animated gradient border on hover.\n* Section with fictitious dashboard-type capture (rectangle with bars).\n* CTA band with white background and subtle border instead of dark.\n* Clear footer #f3f4f6 with small typography and very organized in 5 columns.",
+        "es": "\"Confianza corporativa\" — SaaS empresarial.\n\nCree una página de inicio empresarial seria estilo SaaS Synthax Pro (Stripe / Linear vibes).\n\n* Paleta: fondo #fafafa, texto #0a0a0a, apagado #6b7280, líneas #e5e7eb, marca azul índigo #4f46e5 (pase el cursor #4338ca), acento violeta #8b5cf6, éxito #10b981.\n* Fuente: Geist (o Inter como alternativa).\n* Héroe centrado con la insignia superior \"✨ Nuevo: tutoriales basados ​​en IA\", título sobrio \"Excelencia en ingeniería, bien enseñada\".\n* Botones con sutil sombra y microborde interno (Efecto Raya).\n* Tarjetas con filtro de fondo y borde degradado animado al pasar el mouse.\n* Sección con captura ficticia tipo tablero (rectángulo con barras).\n* Banda CTA con fondo blanco y borde sutil en lugar de oscuro.\n* Pie de página claro #f3f4f6 con tipografía pequeña y muy organizado en 5 columnas."
+      },
+      "imageUrl": "/webpages/placeholder-web-22-synthax-pro-corporate-confidence.png",
+      "imageHint": {
+        "en": "Synthax Pro enterprise SaaS indigo Stripe Linear style",
+        "es": "Synthax Pro Enterprise SaaS índigo Stripe Estilo lineal"
+      },
+      "demoUrl": "synthax-pro-corporate-confidence",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "landing page",
+        "Synthax Pro",
+        "enterprise",
+        "SaaS",
+        "Stripe",
+        "corporate"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "25",
+      "title": {
+        "en": "Pulse Health — Soft Mint / Calm HealthTech",
+        "es": "Salud del pulso: menta suave / Calm HealthTech"
+      },
+      "description": {
+        "en": "\"Pulse Health\" — Soft Mint / HealthTech Calm.\n\nCreate a landing light mode for \"Pulse Health\", an AI telemedicine platform. Pure HTML + CSS, DM Sans font.\n\n**Soft palette:**\n* Background: #f0fdf4 (very light mint green)\n* Secondary background: #ffffff\n* Cards: #ffffff with #d1fae5 border and soft shadow\n* Primary: #10b981 (emerald)\n* Secondary: #fb923c (warm peach)\n* Text: #064e3b / muted #6b7280\n\n**Style:** Lots of whitespace, very rounded corners (border-radius: 24px), simple and organic SVG illustrations. Hero \"Your doctor, one tap away.\" with mockup of chat with doctor + scheduled appointment card. Benefits icons with rounded in pastel circles. Patient testimonials section with photo and stars. Final grid of medical specialties (Cardiology, Dermatology, Pediatrics, etc.). Vibe: Calm + Headspace.",
+        "es": "\"Pulse Health\" — Soft Mint / HealthTech Calm.\n\nCree un modo de luz de aterrizaje para \"Pulse Health\", una plataforma de telemedicina con IA. HTML puro + CSS, fuente DM Sans.\n\n**Paleta suave:**\n* Fondo: #f0fdf4 (verde menta muy claro)\n*Antecedentes secundarios: #ffffff\n* Tarjetas: #ffffff con borde #d1fae5 y sombra suave\n* Primario: #10b981 (esmeralda)\n*Secundario: #fb923c (melocotón tibio)\n* Texto: #064e3b / silenciado #6b7280\n\n**Estilo:** Muchos espacios en blanco, esquinas muy redondeadas (radio de borde: 24 px), ilustraciones SVG simples y orgánicas. Héroe \"Tu médico, a un toque de distancia\". con maqueta de chat con médico + tarjeta de cita programada. Iconos de beneficios con círculos redondeados en colores pastel. Sección de testimonios de pacientes con fotografía y estrellas. Cuadrícula final de especialidades médicas (Cardiología, Dermatología, Pediatría, etc.). Ambiente: Calma + Espacio para la cabeza."
+      },
+      "imageUrl": "/webpages/placeholder-web-25-pulse-health-soft-mint.png",
+      "imageHint": {
+        "en": "Pulse Health soft mint telemedicine Calm Headspace HealthTech",
+        "es": "Telemedicina de menta suave Pulse Health Calm Headspace HealthTech"
+      },
+      "demoUrl": "pulse-health-soft-mint",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "landing page",
+        "Pulse Health",
+        "telemedicine",
+        "HealthTech",
+        "mint",
+        "wellness"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "17",
+      "title": {
+        "en": "Skill Future — Programming Education",
+        "es": "Futuro de habilidades: educación en programación"
+      },
+      "description": {
+        "en": "Create a single-page web page (single-file HTML with embedded CSS, without external frameworks except Google Fonts) that clones the style of skillfuture.xyz, an educational programming platform.\n\n**Stack and structure:**\n* Semantic HTML5 + pure CSS3 in <style>, mobile-first responsive.\n* Source: Inter (Google Fonts, weights 400–800).\n* Palette: background #ffffff, text #0f172a, muted #475569, lines #e2e8f0, soft #f1f5f9, brand green #16a34a (hover #15803d), blue accent #0ea5e9.\n* Center container max-width: 1200px, side padding 24px.\n\n**Header (sticky):** \"Skill Future\" logo with 28px green→blue gradient square. Nav: Tutorials, Exercises, Learning Paths, Data Structures, Algorithms, Glossary. Search bar with light gray background, magnifying glass icon, placeholder \"Search tutorials...\". Burger button hidden on desktop, visible on mobile.\n\n**Hero:** Light green→white gradient background. Title clamp 36–64px font-weight 800: \"Master the Logic of Code\" — last two words with green→blue gradient. Full subtitle. \"Start Learning\" (green) and \"Try Exercises\" (ghost) buttons. Popular row with pills: HTML, CSS, JavaScript, Python, SQL.\n\n**Features (2×2 grid):** \"Learn Everything You Need\" + 4 cards (Algorithms, Data Structures, Exercises, Interactive Code Editor) with icons and links.\n\n**Resources:** soft gray background, 4 column grid (Top Tutorials, References, Examples, Get Certified).\n\n**Dark CTA:** gradient #0f172a → #1e293b, \"Get Certified. Get Hired.\" + green button.\n\n**Footer #0f172a:** 4 columns, copyright © 2026, legal links, social icons with green hover.\n\n**Responsive:** breakpoint 860px — burger, grids 1 col (footer 2 cols).\n\n**UX:** scroll-behavior smooth, hovers 0.2–0.3s, translateY(-4px) on cards.\n\nDelivers a single self-contained index.html, without JS.",
+        "es": "Cree una página web de una sola página (HTML de un solo archivo con CSS integrado, sin marcos externos excepto Google Fonts) que clone el estilo de Skillfuture.xyz, una plataforma de programación educativa.\n\n**Pila y estructura:**\n* HTML5 semántico + CSS3 puro en <estilo>, con capacidad de respuesta móvil primero.\n* Fuente: Inter (Google Fonts, pesos 400–800).\n* Paleta: fondo #ffffff, texto #0f172a, silenciado #475569, líneas #e2e8f0, suave #f1f5f9, marca verde #16a34a (pase el cursor #15803d), acento azul #0ea5e9.\n* Ancho máximo del contenedor central: 1200 px, relleno lateral 24 px.\n\n**Encabezado (pegajoso):** Logotipo \"Skill Future\" con un cuadrado degradado verde→azul de 28 px. Nav: tutoriales, ejercicios, rutas de aprendizaje, estructuras de datos, algoritmos, glosario. Barra de búsqueda con fondo gris claro, icono de lupa, marcador de posición \"Buscar tutoriales...\". Botón de hamburguesa oculto en el escritorio, visible en el móvil.\n\n**Héroe:** Verde claro → fondo degradado blanco. Abrazadera de título 36–64 px, peso de fuente 800: \"Domina la lógica del código\": las dos últimas palabras con un degradado verde → azul. Subtítulo completo. Botones \"Comenzar a aprender\" (verde) y \"Probar ejercicios\" (fantasma). Fila popular con pastillas: HTML, CSS, JavaScript, Python, SQL.\n\n**Características (cuadrícula 2×2):** \"Aprenda todo lo que necesita\" + 4 tarjetas (Algoritmos, Estructuras de datos, Ejercicios, Editor de código interactivo) con íconos y enlaces.\n\n**Recursos:** fondo gris suave, cuadrícula de 4 columnas (tutoriales principales, referencias, ejemplos, certificación).\n\n**CTA oscuro:** degradado #0f172a → #1e293b, \"Obtén la certificación. Consigue que te contraten\". + botón verde.\n\n**Pie de página n.° 0f172a:** 4 columnas, copyright © 2026, enlaces legales, íconos sociales con cursor verde.\n\n**Responsivo:** punto de interrupción 860 px: hamburguesa, cuadrículas de 1 columna (pie de página de 2 columnas).\n\n**UX:** comportamiento de desplazamiento suave, se desplaza entre 0,2 y 0,3 s, traduceY(-4px) en las tarjetas.\n\nOfrece un único index.html autónomo, sin JS."
+      },
+      "imageUrl": "/webpages/placeholder-web-17-skill-future.png",
+      "imageHint": {
+        "en": "Skill Future programming education platform green blue",
+        "es": "Plataforma educativa de programación Skill Future verde azul"
+      },
+      "demoUrl": "skill-future",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "landing page",
+        "Skill Future",
+        "education",
+        "programming",
+        "skillfuture",
+        "tutorials"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "5",
+      "title": {
+        "en": "ARQ Architect Studio",
+        "es": "ARQ Estudio de Arquitecto"
+      },
+      "description": {
+        "en": "Create a single-page website for an architecture studio called \"ARQ Architect Studio\" with a minimalist, professional and editorial aesthetic, inspired by the contemporary sites of boutique architecture studios.\n\n**Technical specifications:**\n* Pure HTML + CSS in a single index.html file\n* No frameworks, no external JavaScript (just a small inline handler for the form)\n* Google Fonts fonts: Cormorant Garamond (serif, for titles) and Inter (sans-serif, for body and UI)\n* Fully responsive (breakpoint at 768px)\n\n**Color palette:**\n* Warm beige background #ebe7e0\n* Dark ink text #2a2724\n* Gray muted #8a857d\n* Edges with rgba (42,39,36,0.15)\n\n**Structure and sections (in this order):**\n1. Fixed top Nav with semi-transparent background and backdrop-filter: blur. On the left: stacked brand \"ARQ\" (large serif) + \"ARCHITECT STUDIO\" (subtitle in caps with wide tracking). On the right: horizontal menu in capital letters (Home, About us, Services, Projects, Contact) and language selector \"ES | EN\".\n2. Full screen hero centered, with architectural background image from Unsplash with clear overlay for readability. Small top label (\"Architecture Studio · Mexico City\"), giant serif headline: \"We design spaces that communicate, inspire and connect.\" (with the word \"communicate\" in muted italics), and below the line of services: \"Architecture • Interior Design • Visualization\". Subtle vertical line at the bottom as a scroll mark.\n3. Us: 2-column grid (text + real image from Unsplash, in aspect-ratio 4/5 with slight grayscale). Header with “— Us” tag and a large serif title. Three paragraphs about the studio philosophy, process and team (referencing \"ARQ Studio\").\n4. Services on a slightly darker background: 3 columns separated by vertical lines, each with decorative numbering (01, 02, 03), serif title and short description. Services: Architectural Design, Interior Design, 3D Visualization.\n5. Projects: 2×2 grid with 4 projects. Each card has an Unsplash image (aspect-ratio 5/6) with a grayscale effect that disappears on hover, and below a serif title + meta (typology · location · year).\n6. Philosophical quote centered in a large section, in large italic serif.\n7. Contact: grid 2 columns. On the left large serif title \"Let's talk about your project\", study data (Mexico City, email hola@architect.com, networks). On the right minimalist form with underline inputs (Name, Email, Phone, Project Type, Message) and outline button that changes to solid on hover. When sending, the button displays \"Message sent ✓\".\n8. Footer in 3 columns (brand + tagline, contact, social networks) and bottom bar with copyright.\n\n**Interaction details:**\n* Smooth scroll between sections\n* Subtle hover in navigation, service cards and projects\n* Smooth transitions (0.3–0.8s, natural easing)\n* Uppercase labels with generous tracking (0.2–0.35em)\n* Consistent use of the \"—\" symbol as a typographical accent before section labels\n\nUse real Unsplash images of architecture (minimalist interiors, concrete facades, contemporary spaces) referenced by direct URL with parameters ?w=1200&q=80.",
+        "es": "Cree un sitio web de una sola página para un estudio de arquitectura llamado \"ARQ Architect Studio\" con una estética minimalista, profesional y editorial, inspirado en los sitios contemporáneos de los estudios de arquitectura boutique.\n\n**Especificaciones técnicas:**\n* HTML puro + CSS en un único archivo index.html\n* Sin marcos, sin JavaScript externo (solo un pequeño controlador en línea para el formulario)\n* Fuentes de Google Fonts: Cormorant Garamond (serif, para títulos) e Inter (sans-serif, para cuerpo y UI)\n* Totalmente responsivo (punto de interrupción a 768 px)\n\n**Paleta de colores:**\n* Fondo beige cálido #ebe7e0\n* Texto en tinta oscura #2a2724\n* Gris apagado #8a857d\n* Bordes con rgba (42,39,36,0.15)\n\n**Estructura y secciones (en este orden):**\n1. Navegación superior fija con fondo semitransparente y filtro de fondo: desenfoque. A la izquierda: marca apilada \"ARQ\" (serif grande) + \"ARCHITECT STUDIO\" (subtítulo en mayúsculas con seguimiento ancho). A la derecha: menú horizontal en mayúsculas (Inicio, Quiénes somos, Servicios, Proyectos, Contacto) y selector de idioma \"ES | EN\".\n2. Centrado en el héroe en pantalla completa, con una imagen de fondo arquitectónica de Unsplash con una superposición clara para facilitar la lectura. Pequeño sello superior (\"Estudio de Arquitectura · Ciudad de México\"), titular con serifa gigante: \"Diseñamos espacios que comunican, inspiran y conectan\". (con la palabra \"comunicar\" en cursiva apagada), y debajo de la línea de servicios: \"Arquitectura • Diseño de Interiores • Visualización\". Sutil línea vertical en la parte inferior como marca de desplazamiento.\n3. Nosotros: cuadrícula de 2 columnas (texto + imagen real de Unsplash, en relación de aspecto 4/5 con ligera escala de grises). Encabezado con etiqueta “—Nosotros” y un título serif grande. Tres párrafos sobre la filosofía, el proceso y el equipo del estudio (haciendo referencia a \"ARQ Studio\").\n4. Servicios sobre fondo ligeramente más oscuro: 3 columnas separadas por líneas verticales, cada una con numeración decorativa (01, 02, 03), título serif y breve descripción. Servicios: Diseño Arquitectónico, Diseño de Interiores, Visualización 3D.\n5. Proyectos: Cuadrícula 2×2 con 4 proyectos. Cada tarjeta tiene una imagen Unsplash (relación de aspecto 5/6) con un efecto de escala de grises que desaparece al pasar el mouse, y debajo un título serif + meta (tipología · ubicación · año).\n6. Cita filosófica centrada en una sección grande, en letra serif en cursiva grande.\n7. Contacto: cuadrícula 2 columnas. A la izquierda título serif grande “Hablemos de tu proyecto”, datos del estudio (Ciudad de México, correo electrónico hola@architect.com, redes). A la derecha, formulario minimalista con entradas subrayadas (Nombre, Correo electrónico, Teléfono, Tipo de proyecto, Mensaje) y un botón de esquema que cambia a sólido al pasar el mouse. Al enviar, el botón muestra \"Mensaje enviado ✓\".\n8. Pie de página en 3 columnas (marca + lema, contacto, redes sociales) y barra inferior con copyright.\n\n**Detalles de la interacción:**\n* Desplazamiento suave entre secciones\n* Desplazamiento sutil en navegación, tarjetas de servicio y proyectos.\n* Transiciones suaves (0,3 a 0,8 s, relajación natural)\n* Etiquetas en mayúsculas con seguimiento generoso (0,2–0,35 em)\n* Uso constante del símbolo \"—\" como acento tipográfico antes de las etiquetas de las secciones\n\nUtilice imágenes reales de arquitectura de Unsplash (interiores minimalistas, fachadas de hormigón, espacios contemporáneos) a las que se hace referencia mediante URL directa con parámetros ?w=1200&q=80."
+      },
+      "imageUrl": "/webpages/placeholder-web-5-arq-architect-studio.png",
+      "imageHint": {
+        "en": "ARQ Architect Studio minimalist architecture landing",
+        "es": "ARQ Architect Studio aterrizaje de arquitectura minimalista"
+      },
+      "demoUrl": "arq-architect-studio",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "landing page",
+        "architecture",
+        "ARQ",
+        "minimalist",
+        "editorial",
+        "Mexico City"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "7",
+      "title": {
+        "en": "NORTE Atelier — Warm Brutalism",
+        "es": "NORTE Atelier — Brutalismo Cálido"
+      },
+      "description": {
+        "en": "Create a single-page website for an architecture studio called \"NORTE Atelier\" with a warm brutalist aesthetic, inspired by polished concrete and noble materials.\n\n* Palette: concrete background #d6d2cc, charcoal text #1c1c1c, rust accent #a64e2c, medium gray #6e6a64.\n* Fonts: Fraunces (modern serif with geometric cuts) for titles + Space Grotesk for UI and body.\n* Structure: fixed side navigation on the left (vertical) with logo rotated 90°. Hero with left-aligned asymmetrical title and large year number \"MMXXVI\" as watermark. \"Manifesto\" section with huge single paragraph. Gallery of irregular mosaic projects (variable heights, without uniform grid). Service table with thick lines similar to a technical plan. Contact on rust background with clear typography.\n* Details: thick 2px solid borders, no shadows, custom crosshair cursor, Roman format numbers for years.",
+        "es": "Crea una página web de una sola página para un estudio de arquitectura llamado \"NORTE Atelier\" con una cálida estética brutalista, inspirada en el hormigón pulido y materiales nobles.\n\n* Paleta: fondo de hormigón #d6d2cc, texto en carbón #1c1c1c, acento óxido #a64e2c, gris medio #6e6a64.\n* Fuentes: Fraunces (serif moderno con cortes geométricos) para títulos + Space Grotesk para UI y cuerpo.\n* Estructura: navegación lateral fija a la izquierda (vertical) con logo girado 90°. Héroe con título asimétrico alineado a la izquierda y número de año grande \"MMXXVI\" como marca de agua. Sección \"Manifiesto\" con un párrafo único enorme. Galería de proyectos de mosaicos irregulares (alturas variables, sin rejilla uniforme). Mesa de servicio de líneas gruesas similar a un plano técnico. Contacto sobre fondo óxido con tipografía clara.\n* Detalles: bordes sólidos gruesos de 2 píxeles, sin sombras, cursor en forma de cruz personalizado, números en formato romano para años."
+      },
+      "imageUrl": "/webpages/placeholder-web-7-norte-atelier.png",
+      "imageHint": {
+        "en": "NORTE Atelier warm brutalist architecture studio",
+        "es": "NORTE Atelier cálido estudio de arquitectura brutalista"
+      },
+      "demoUrl": "norte-atelier",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "landing page",
+        "architecture",
+        "NORTE Atelier",
+        "brutalism",
+        "warm",
+        "editorial"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "8",
+      "title": {
+        "en": "Vértice Lab – Tech dark editorial",
+        "es": "Vértice Lab – Editorial tecnología oscura"
+      },
+      "description": {
+        "en": "Website for \"Vértice Lab\", parametric architecture and computational design studio. Dark editorial aesthetic, futuristic but refined.\n\n* Palette: graphite background #0e0e10, cream text #e8e4dc, lime green accent #c8f04a, cool gray #5a5a62.\n* Fonts: Neue Haas Grotesk (or Inter with adjusted tracking) throughout, playing only with weights (200 to 700).\n* Structure: fine top nav with live timestamp on the right. Hero with terminal type title animated by CSS (blinking cursor). Grid of 3×3 square projects with metadata type tags (/project-01.geometry). \"Processes\" section with animated SVG lines connecting circles. Console-type footer with prompt > contact().\n* Details: all capital letters except body, monospaced numbers, thin lime green lines as accents, hover with subtle glow.",
+        "es": "Sitio web para \"Vértice Lab\", estudio de arquitectura paramétrica y diseño computacional. Estética editorial oscura, futurista pero refinada.\n\n* Paleta: fondo de grafito #0e0e10, texto crema #e8e4dc, acento verde lima #c8f04a, gris frío #5a5a62.\n* Fuentes: Neue Haas Grotesk (o Inter con seguimiento ajustado) en todas partes, jugando solo con pesos (200 a 700).\n* Estructura: navegación superior fina con marca de tiempo en vivo a la derecha. Héroe con título tipo terminal animado por CSS (cursor parpadeante). Grid de proyectos cuadrados de 3×3 con etiquetas de tipo metadatos (/project-01.geometry). Sección \"Procesos\" con líneas SVG animadas que conectan círculos. Pie de página tipo consola con mensaje > contacto().\n* Detalles: todas las letras mayúsculas excepto el cuerpo, números monoespaciados, líneas finas de color verde lima como acentos, flotan con un brillo sutil."
+      },
+      "imageUrl": "/webpages/placeholder-web-8-vertice-lab.png",
+      "imageHint": {
+        "en": "Vertice Lab dark editorial parametric architecture",
+        "es": "Arquitectura paramétrica editorial oscura de Vertice Lab"
+      },
+      "demoUrl": "vertice-lab",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "tags": [
+        "landing page",
+        "architecture",
+        "Vértice Lab",
+        "parametric",
+        "dark",
+        "editorial",
+        "computational"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "9",
+      "title": {
+        "en": "Casa Maderal — Organic and artisanal",
+        "es": "Casa Maderal — Orgánica y artesanal"
+      },
+      "description": {
+        "en": "Single-page page for \"Casa Maderal\", a studio specialized in wood architecture and biophilic construction. Warm, artisanal, slow-living aesthetics.\n\n* Palette: Cream Background #f5efe4, Deep Brown Text #3a2a1c, Moss Green Accent #5a6b3f, Burnt Gold #b8884a.\n* Fonts: Playfair Display italic for titles + Lora for body.\n* Structure: hero with SVG illustration of tree or wooden structure in the background. \"Office\" section with three rounded cards and organic edges (irregular border-radius). Horizontal carousel projects with scroll-snap. \"Materials\" section with circular texture samples. Contact form on cream background with rounded fields.\n* Details: all images with very rounded edges or organic shapes (border-radius: 40% 60% 50% 50%), botanical-type linear illustrations as decoration.",
+        "es": "Página de una sola página para \"Casa Maderal\", estudio especializado en arquitectura en madera y construcción biofílica. Estética cálida, artesanal, de vida lenta.\n\n* Paleta: Fondo crema #f5efe4, texto marrón oscuro #3a2a1c, acento verde musgo #5a6b3f, oro quemado #b8884a.\n* Fuentes: Playfair Display cursiva para títulos + Lora para cuerpo.\n* Estructura: héroe con ilustración SVG de árbol o estructura de madera de fondo. Sección \"Office\" con tres tarjetas redondeadas y bordes orgánicos (radio-borde irregular). Proyectos de carrusel horizontal con desplazamiento. Sección \"Materiales\" con muestras de texturas circulares. Formulario de contacto sobre fondo crema con campos redondeados.\n*Detalles: todas las imágenes con bordes muy redondeados o formas orgánicas (radio-borde: 40% 60% 50% 50%), ilustraciones lineales de tipo botánico como decoración."
+      },
+      "imageUrl": "/webpages/placeholder-web-9-casa-maderal.png",
+      "imageHint": {
+        "en": "Casa Maderal organic wood biophilic architecture",
+        "es": "Casa Maderal madera orgánica arquitectura biofílica"
+      },
+      "demoUrl": "casa-maderal",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "landing page",
+        "architecture",
+        "Wooden House",
+        "wood",
+        "biophilic",
+        "organic",
+        "artisanal"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "10",
+      "title": {
+        "en": "Plan 24 — Scandinavian minimalism",
+        "es": "Plan 24: minimalismo escandinavo"
+      },
+      "description": {
+        "en": "Website for \"Plano 24\", a Scandinavian residential architecture studio. Bright, hyper-minimalist, almost clinical aesthetic.\n\n* Palette: Pure White #ffffff, Near Black Navy Text #10243d, Pale Sky Blue Accent #a8c4d8, Pearl Gray #e8ebee.\n* Fonts: Söhne or Inter (neutral sans-serif) throughout, with a single touch of EB Garamond for single-word accent.\n* Structure: minimalist nav centered with only 4 items in a thin line. Huge hero with title in a single line cutting the width of the screen (horizontal overflow). Project grid 4 columns with very small thumbnails and a lot of white space. \"Process\" section as horizontal numbered diagram (01 → 02 → 03 → 04). Footer reduced to one line.\n* Details: lots of whitespace, 0.5px lines, everything aligned to a visible grid, photographs of snowy Nordic architecture.",
+        "es": "Sitio web para \"Plano 24\", un estudio de arquitectura residencial escandinavo. Estética brillante, hiperminimalista, casi clínica.\n\n* Paleta: Blanco puro #ffffff, texto azul marino casi negro #10243d, acento azul cielo pálido #a8c4d8, gris perla #e8ebee.\n* Fuentes: Söhne o Inter (sans-serif neutral) en todas partes, con un solo toque de EB Garamond para acentuar una sola palabra.\n* Estructura: navegación minimalista centrada con solo 4 elementos en una línea delgada. Héroe enorme con título en una sola línea que corta el ancho de la pantalla (desbordamiento horizontal). Cuadrícula de proyecto de 4 columnas con miniaturas muy pequeñas y mucho espacio en blanco. Sección \"Proceso\" como diagrama numerado horizontal (01 → 02 → 03 → 04). Pie de página reducido a una línea.\n* Detalles: muchos espacios en blanco, líneas de 0,5 px, todo alineado en una cuadrícula visible, fotografías de arquitectura nórdica nevada."
+      },
+      "imageUrl": "/webpages/placeholder-web-10-plano-24.png",
+      "imageHint": {
+        "en": "Plano 24 Scandinavian minimalist architecture white",
+        "es": "Plano 24 Arquitectura minimalista escandinava blanco"
+      },
+      "demoUrl": "plano-24",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "tags": [
+        "landing page",
+        "architecture",
+        "Plano 24",
+        "Scandinavian",
+        "minimalist",
+        "residential"
+      ],
+      "membership": "Premium"
+    },
+  ]
+}

@@ -20,16 +20,14 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination';
 import { getRefactoryLoaderUrl } from '@/lib/refactory-online';
-import type { WebPageEntry } from '@/lib/web-pages';
 import { useLocalizedWebPages } from '@/hooks/use-localized-catalog';
-import { useToast } from '@/hooks/use-toast';
-import { cn } from '@/lib/utils';
-import { Check, Copy, ExternalLink, FileText, Globe, Tag } from 'lucide-react';
+import { cn, shouldUnoptimizeImage } from '@/lib/utils';
+import { Input } from '@/components/ui/input';
+import { ExternalLink, Globe, Search, Tag, X } from 'lucide-react';
 import Image from 'next/image';
 import { PremiumAccessLink } from '@/components/premium-access-link';
-import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Suspense, useMemo } from 'react';
+import { Suspense, useMemo, useCallback } from 'react';
 
 const ITEMS_PER_PAGE = 30;
 
@@ -39,7 +37,20 @@ function LandingPagesContent() {
   const searchParams = useSearchParams();
 
   const webPages = useLocalizedWebPages();
-  const pages = useMemo(() => webPages.filter(p => p.imageUrl), [webPages]);
+  const allPages = useMemo(() => webPages.filter(p => p.imageUrl), [webPages]);
+
+  const query = searchParams.get('q')?.trim() ?? '';
+
+  const pages = useMemo(() => {
+    if (!query) return allPages;
+    const q = query.toLowerCase();
+    return allPages.filter(
+      p =>
+        p.title.toLowerCase().includes(q) ||
+        p.tags.some(t => t.toLowerCase().includes(q)) ||
+        p.stack.some(s => s.toLowerCase().includes(q))
+    );
+  }, [allPages, query]);
 
   const totalPages = Math.max(1, Math.ceil(pages.length / ITEMS_PER_PAGE));
   const pageParam = parseInt(searchParams.get('page') ?? '1', 10);
@@ -55,6 +66,21 @@ function LandingPagesContent() {
   const rangeStart = pages.length === 0 ? 0 : (currentPage - 1) * ITEMS_PER_PAGE + 1;
   const rangeEnd = Math.min(currentPage * ITEMS_PER_PAGE, pages.length);
 
+  const handleSearch = useCallback(
+    (value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete('page');
+      if (value.trim()) {
+        params.set('q', value.trim());
+      } else {
+        params.delete('q');
+      }
+      const qs = params.toString();
+      router.push(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+    },
+    [searchParams, pathname, router]
+  );
+
   const handlePageChange = (page: number) => {
     if (page < 1 || page > totalPages) return;
     const params = new URLSearchParams(searchParams.toString());
@@ -63,8 +89,8 @@ function LandingPagesContent() {
     } else {
       params.set('page', String(page));
     }
-    const query = params.toString();
-    router.push(query ? `${pathname}?${query}` : pathname, { scroll: false });
+    const qs = params.toString();
+    router.push(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -78,7 +104,48 @@ function LandingPagesContent() {
           Prompts and live HTML demos for SaaS landing pages — dark, light,
           Next.js, and DevTool variants.
         </p>
+
+        <div className="relative w-full max-w-md mt-2">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+          <Input
+            type="search"
+            placeholder="Search by title, tag, or stack…"
+            className="pl-9 pr-9"
+            defaultValue={query}
+            onChange={e => handleSearch(e.target.value)}
+          />
+          {query && (
+            <button
+              onClick={() => handleSearch('')}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="Clear search"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          )}
+        </div>
+
+        {query && (
+          <p className="text-sm text-muted-foreground">
+            {pages.length === 0
+              ? 'No results found'
+              : `${pages.length} result${pages.length !== 1 ? 's' : ''} for "${query}"`}
+          </p>
+        )}
       </div>
+
+      {paginatedPages.length === 0 && (
+        <div className="flex flex-col items-center justify-center py-24 text-center text-muted-foreground gap-3">
+          <Search className="w-10 h-10 opacity-30" />
+          <p className="text-base font-medium">No pages match your search.</p>
+          <button
+            onClick={() => handleSearch('')}
+            className="text-sm underline underline-offset-4 hover:text-foreground transition-colors"
+          >
+            Clear search
+          </button>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
         {paginatedPages.map(page => (
@@ -102,8 +169,10 @@ function LandingPagesContent() {
                   src={page.imageUrl}
                   alt={page.title}
                   fill
+                  sizes="(max-width: 640px) 100vw, 50vw"
                   className="object-cover"
                   data-ai-hint={page.imageHint}
+                  unoptimized={shouldUnoptimizeImage(page.imageUrl)}
                 />
               </div>
             </CardContent>
