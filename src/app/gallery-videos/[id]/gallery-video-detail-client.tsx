@@ -1,5 +1,6 @@
 'use client';
 
+import { LazyVideo } from '@/components/lazy-video';
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
 import {
@@ -56,9 +57,9 @@ export default function GalleryVideoDetailClient({ item }: { item: VideoProp }) 
                 </div>
               </div>
               <div className="relative aspect-[9/16] rounded-lg overflow-hidden border group">
-                <video
+                <LazyVideo
                     src={item.imageUrl}
-                    playsInline
+                    eager
                     controls
                     className="w-full h-full object-cover"
                   />
@@ -144,10 +145,10 @@ export default function GalleryVideoDetailClient({ item }: { item: VideoProp }) 
                     <Card className="overflow-hidden">
                       <CardContent className="p-0">
                         <div className="relative aspect-[9/16]">
-                           <video
+                           <LazyVideo
                               src={other.imageUrl}
-                              playsInline
                               muted
+                              preload="none"
                               className="object-cover transition-transform group-hover:scale-105 w-full h-full"
                             />
                         </div>

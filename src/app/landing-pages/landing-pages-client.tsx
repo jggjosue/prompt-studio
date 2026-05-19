@@ -2,96 +2,116 @@
 
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
-import { PremiumMembershipButton } from '@/components/web-page-premium-button';
-import { WebPagePromptDialog } from '@/components/web-page-prompt-dialog';
-import { Button } from '@/components/ui/button';
+import { CatalogFacetBar } from '@/components/catalog-facet-bar';
+import { WebPageCard } from '@/components/web-page-card';
+import { KeysetPagination } from '@/components/keyset-pagination';
+import { RelatedInternalLinks } from '@/components/related-internal-links';
+import { SearchInput } from '@/components/search-input';
 import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/components/ui/pagination';
-import { getRefactoryLoaderUrl } from '@/lib/refactory-online';
+  buildCatalogQueryUrl,
+  useCatalogSearchUrl,
+} from '@/hooks/use-catalog-search-url';
+import { useKeysetPaginationUrl } from '@/hooks/use-keyset-pagination';
 import { useLocalizedWebPages } from '@/hooks/use-localized-catalog';
-import { cn, shouldUnoptimizeImage } from '@/lib/utils';
-import { Input } from '@/components/ui/input';
-import { ExternalLink, Globe, Search, Tag, X } from 'lucide-react';
-import Image from 'next/image';
-import { PremiumAccessLink } from '@/components/premium-access-link';
+import { summarizeWebFacets } from '@/lib/catalog-tag-aggregation';
+import { useLandingReadabilityIndex } from '@/hooks/use-landing-readability-index';
+import { useFuzzyFilter } from '@/hooks/use-fuzzy-filter';
+import { Search } from 'lucide-react';
+import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Suspense, useMemo, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
+import { Suspense, useMemo } from 'react';
 
 const ITEMS_PER_PAGE = 30;
 
 function LandingPagesContent() {
+  const tFacets = useTranslations('facets');
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
+  const facetTag = searchParams.get('tag')?.trim() || null;
+  const facetStack = searchParams.get('stack')?.trim() || null;
+
   const webPages = useLocalizedWebPages();
+  const { snapshots: readabilityByPageId } = useLandingReadabilityIndex();
   const allPages = useMemo(() => webPages.filter(p => p.imageUrl), [webPages]);
 
-  const query = searchParams.get('q')?.trim() ?? '';
-
-  const pages = useMemo(() => {
-    if (!query) return allPages;
-    const q = query.toLowerCase();
-    return allPages.filter(
-      p =>
-        p.title.toLowerCase().includes(q) ||
-        p.tags.some(t => t.toLowerCase().includes(q)) ||
-        p.stack.some(s => s.toLowerCase().includes(q))
-    );
-  }, [allPages, query]);
-
-  const totalPages = Math.max(1, Math.ceil(pages.length / ITEMS_PER_PAGE));
-  const pageParam = parseInt(searchParams.get('page') ?? '1', 10);
-  const currentPage = Number.isFinite(pageParam)
-    ? Math.min(Math.max(1, pageParam), totalPages)
-    : 1;
-
-  const paginatedPages = pages.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
+  const webFacets = useMemo(
+    () => summarizeWebFacets(allPages, { topN: 14, minCount: 2 }),
+    [allPages]
   );
 
-  const rangeStart = pages.length === 0 ? 0 : (currentPage - 1) * ITEMS_PER_PAGE + 1;
-  const rangeEnd = Math.min(currentPage * ITEMS_PER_PAGE, pages.length);
-
-  const handleSearch = useCallback(
-    (value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.delete('page');
-      if (value.trim()) {
-        params.set('q', value.trim());
-      } else {
-        params.delete('q');
-      }
-      const qs = params.toString();
-      router.push(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
-    },
-    [searchParams, pathname, router]
-  );
-
-  const handlePageChange = (page: number) => {
-    if (page < 1 || page > totalPages) return;
-    const params = new URLSearchParams(searchParams.toString());
-    if (page <= 1) {
-      params.delete('page');
-    } else {
-      params.set('page', String(page));
+  const facetFiltered = useMemo(() => {
+    let items = allPages;
+    if (facetTag) {
+      items = items.filter(p =>
+        p.tags.some(t => t.toLowerCase() === facetTag.toLowerCase())
+      );
     }
-    const qs = params.toString();
-    router.push(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (facetStack) {
+      items = items.filter(p =>
+        p.stack.some(s => s.toLowerCase() === facetStack.toLowerCase())
+      );
+    }
+    return items;
+  }, [allPages, facetTag, facetStack]);
+
+  const {
+    input: searchInput,
+    setInput: setSearchInput,
+    debounced: debouncedQuery,
+    isPending: isSearchPending,
+    clearSearch,
+  } = useCatalogSearchUrl();
+
+  const pages = useFuzzyFilter(
+    facetFiltered,
+    debouncedQuery,
+    page => [page.title, ...page.tags, ...page.stack],
+    page => page.id
+  );
+
+  const {
+    items: paginatedPages,
+    hasNext,
+    hasPrev,
+    goNext,
+    goPrev,
+    rangeStart,
+    rangeEnd,
+    totalCount,
+  } = useKeysetPaginationUrl(
+    pages,
+    page => page.id,
+    ITEMS_PER_PAGE,
+    {
+      searchParams,
+      pathname,
+      router,
+      resetDeps: [debouncedQuery, facetTag, facetStack],
+    }
+  );
+
+  const selectFacetTag = (tag: string) => {
+    router.push(
+      buildCatalogQueryUrl(pathname, searchParams, { tag, stack: null }),
+      { scroll: false }
+    );
+  };
+
+  const selectFacetStack = (stack: string) => {
+    router.push(
+      buildCatalogQueryUrl(pathname, searchParams, { tag: null, stack }),
+      { scroll: false }
+    );
+  };
+
+  const clearFacets = () => {
+    router.push(
+      buildCatalogQueryUrl(pathname, searchParams, { tag: null, stack: null }),
+      { scroll: false }
+    );
   };
 
   return (
@@ -105,33 +125,45 @@ function LandingPagesContent() {
           Next.js, and DevTool variants.
         </p>
 
-        <div className="relative w-full max-w-md mt-2">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
-          <Input
-            type="search"
-            placeholder="Search by title, tag, or stack…"
-            className="pl-9 pr-9"
-            defaultValue={query}
-            onChange={e => handleSearch(e.target.value)}
-          />
-          {query && (
-            <button
-              onClick={() => handleSearch('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-              aria-label="Clear search"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          )}
-        </div>
+        <SearchInput
+          className="max-w-md mt-2"
+          placeholder="Search by title, tag, or stack…"
+          value={searchInput}
+          onValueChange={setSearchInput}
+          isPending={isSearchPending}
+        />
 
-        {query && (
+        {(debouncedQuery || facetTag || facetStack) && (
           <p className="text-sm text-muted-foreground">
             {pages.length === 0
               ? 'No results found'
-              : `${pages.length} result${pages.length !== 1 ? 's' : ''} for "${query}"`}
+              : `${pages.length} result${pages.length !== 1 ? 's' : ''}${
+                  debouncedQuery ? ` for "${debouncedQuery}"` : ''
+                }${facetTag ? ` · tag: ${facetTag}` : ''}${
+                  facetStack ? ` · stack: ${facetStack}` : ''
+                }`}
           </p>
         )}
+
+        <CatalogFacetBar
+          topTags={webFacets.topTags}
+          topStacks={webFacets.topStacks}
+          activeTag={facetTag}
+          activeStack={facetStack}
+          onSelectTag={selectFacetTag}
+          onSelectStack={selectFacetStack}
+          onClearFacets={clearFacets}
+        />
+
+        <p className="text-xs text-muted-foreground">
+          {tFacets('fullBrowse')}{' '}
+          <Link
+            href="/web-tags"
+            className="underline underline-offset-4 hover:text-foreground"
+          >
+            {tFacets('webTagsLink')}
+          </Link>
+        </p>
       </div>
 
       {paginatedPages.length === 0 && (
@@ -139,7 +171,7 @@ function LandingPagesContent() {
           <Search className="w-10 h-10 opacity-30" />
           <p className="text-base font-medium">No pages match your search.</p>
           <button
-            onClick={() => handleSearch('')}
+            onClick={clearSearch}
             className="text-sm underline underline-offset-4 hover:text-foreground transition-colors"
           >
             Clear search
@@ -149,99 +181,25 @@ function LandingPagesContent() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
         {paginatedPages.map(page => (
-          <Card
+          <WebPageCard
             key={page.id}
-            className="overflow-hidden group h-full flex flex-col bg-card"
-          >
-            <CardHeader>
-              <CardTitle className="font-headline text-xl">{page.title}</CardTitle>
-              <p className="text-xs text-muted-foreground mt-1">
-                {page.stack.join(' · ')}
-              </p>
-            </CardHeader>
-            <CardContent className="p-6 pt-0 space-y-4 flex-grow">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Tag className="w-4 h-4 shrink-0" />
-                <span className="truncate">{page.tags.join(', ')}</span>
-              </div>
-              <div className="relative aspect-video rounded-md overflow-hidden border">
-                <Image
-                  src={page.imageUrl}
-                  alt={page.title}
-                  fill
-                  sizes="(max-width: 640px) 100vw, 50vw"
-                  className="object-cover"
-                  data-ai-hint={page.imageHint}
-                  unoptimized={shouldUnoptimizeImage(page.imageUrl)}
-                />
-              </div>
-            </CardContent>
-            <CardFooter className="bg-muted/50 p-4 border-t flex flex-wrap items-center justify-between gap-2">
-              <div className="flex items-center gap-2 flex-wrap">
-                <WebPagePromptDialog page={page} />
-                <PremiumMembershipButton membership={page.membership} />
-              </div>
-              {page.demoUrl ? (
-                <Button size="sm" asChild>
-                  <PremiumAccessLink
-                    membership={page.membership}
-                    href={getRefactoryLoaderUrl(page.demoUrl)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <ExternalLink className="w-4 h-4 mr-2" />
-                    Open demo
-                  </PremiumAccessLink>
-                </Button>
-              ) : (
-                <Button size="sm" variant="secondary" disabled>
-                  <Globe className="w-4 h-4 mr-2" />
-                  Prompt only
-                </Button>
-              )}
-            </CardFooter>
-          </Card>
+            page={page}
+            savedReadability={readabilityByPageId[page.id] ?? null}
+          />
         ))}
       </div>
 
-      {pages.length > ITEMS_PER_PAGE && (
-        <div className="mt-12 flex flex-col items-center gap-4">
-          <p className="text-sm text-muted-foreground">
-            {rangeStart}–{rangeEnd} de {pages.length} · Página {currentPage} de{' '}
-            {totalPages}
-          </p>
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious
-                  href="#"
-                  className={cn(
-                    currentPage <= 1 && 'pointer-events-none opacity-50'
-                  )}
-                  onClick={e => {
-                    e.preventDefault();
-                    handlePageChange(currentPage - 1);
-                  }}
-                  aria-disabled={currentPage <= 1}
-                />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationNext
-                  href="#"
-                  className={cn(
-                    currentPage >= totalPages && 'pointer-events-none opacity-50'
-                  )}
-                  onClick={e => {
-                    e.preventDefault();
-                    handlePageChange(currentPage + 1);
-                  }}
-                  aria-disabled={currentPage >= totalPages}
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        </div>
-      )}
+      <KeysetPagination
+        hasPrev={hasPrev}
+        hasNext={hasNext}
+        onPrev={goPrev}
+        onNext={goNext}
+        rangeStart={rangeStart}
+        rangeEnd={rangeEnd}
+        totalCount={totalCount}
+      />
+
+      <RelatedInternalLinks className="mt-12 max-w-3xl mx-auto" />
     </>
   );
 }

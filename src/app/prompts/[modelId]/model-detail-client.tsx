@@ -17,7 +17,8 @@ import {
   useLocalizedPlaceholderVideos,
 } from '@/hooks/use-localized-catalog';
 import { ArrowLeft, Sparkles, Wand2, Box, Copy, Bot, CheckCircle2, BookOpen, Lightbulb, MessageSquare, ListChecks, Terminal } from 'lucide-react';
-import Image from 'next/image';
+import { LazyVideo } from '@/components/lazy-video';
+import { OptimizedImage } from '@/components/optimized-image';
 import { PromptEditButton } from '@/components/prompt-edit-button';
 import Link from 'next/link';
 import { useMemo } from 'react';
@@ -236,14 +237,14 @@ export default function ModelDetailClient({
                       <CardContent className="p-4 pt-0 space-y-4 flex-grow">
                         <div className="relative aspect-[3/4] rounded-md overflow-hidden bg-muted">
                           {item.type === 'video' ? (
-                            <video
+                            <LazyVideo
                               src={item.imageUrl}
                               className="w-full h-full object-cover"
                               muted
-                              playsInline
+                              preload="none"
                             />
                           ) : (
-                            <Image
+                            <OptimizedImage
                               src={item.imageUrl}
                               alt={item.title}
                               fill

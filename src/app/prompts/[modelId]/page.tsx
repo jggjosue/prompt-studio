@@ -9,6 +9,7 @@ import {
   localizePromptBlocks,
   type RawPromptBlock,
 } from '@/lib/prompt-catalog';
+import { readCachedUtf8File } from '@/lib/cached-fs';
 import fs from 'fs';
 import path from 'path';
 
@@ -66,17 +67,19 @@ export default async function ModelDetailPage({ params }: Props) {
       try {
         const anthropicPath = path.join(process.cwd(), 'public/prompts/anthropic.json');
         const chromePath = path.join(process.cwd(), 'public/prompts/claude-chrome.json');
-        
-        if (fs.existsSync(anthropicPath)) {
-          const anthropicData = JSON.parse(fs.readFileSync(anthropicPath, 'utf8'));
+
+        const anthropicRaw = await readCachedUtf8File(anthropicPath);
+        if (anthropicRaw) {
+          const anthropicData = JSON.parse(anthropicRaw);
           jsonPrompts = localizePromptBlocks(
             (anthropicData.anthropic || []) as RawPromptBlock[],
             locale
           );
         }
-        
-        if (fs.existsSync(chromePath)) {
-          const chromeData = JSON.parse(fs.readFileSync(chromePath, 'utf8'));
+
+        const chromeRaw = await readCachedUtf8File(chromePath);
+        if (chromeRaw) {
+          const chromeData = JSON.parse(chromeRaw);
           jsonPrompts = [
             ...jsonPrompts,
             ...chromeToolsToPromptBlocks(chromeData, locale),
@@ -86,11 +89,14 @@ export default async function ModelDetailPage({ params }: Props) {
         console.error('Error merging Anthropic JSONs:', error);
       }
     } else {
-      // Lógica estándar para otros modelos
       try {
-        const jsonPath = path.join(process.cwd(), `public/prompts/${params.modelId}.json`);
-        if (fs.existsSync(jsonPath)) {
-          const jsonData = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
+        const jsonPath = path.join(
+          process.cwd(),
+          `public/prompts/${params.modelId}.json`
+        );
+        const raw = await readCachedUtf8File(jsonPath);
+        if (raw) {
+          const jsonData = JSON.parse(raw);
           jsonPrompts = localizePromptBlocks(
             (jsonData[params.modelId] || []) as RawPromptBlock[],
             locale

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TerraGuide — Local Experiences</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#fff1f2;--text:#881337;--muted:#9f1239;--muted-soft:#be123c;--accent:#e11d48;--border:#fecdd3;--card:#fff;--font:'Inter',system-ui,sans-serif}
+body{font-family:var(--font);background:var(--bg);color:var(--text)}
+nav{background:rgba(255,241,242,0.95);border-bottom:1px solid var(--border);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;backdrop-filter:blur(10px)}
+.nav-logo{font-weight:800;font-size:1.1rem;color:var(--text);display:flex;align-items:center;gap:8px}
+.logo-mark{width:28px;height:28px;background:var(--accent);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:1rem}
+.nav-links{display:flex;gap:1.75rem}
+.nav-links a{font-size:0.875rem;color:var(--muted-soft);text-decoration:none}
+.nav-links a:hover{color:var(--text)}
+.btn-accent{background:var(--accent);color:#fff;border:none;padding:9px 20px;border-radius:6px;font-size:0.875rem;font-weight:700;cursor:pointer}
+
+.hero{padding:5rem 2rem 4.5rem;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+@media(max-width:768px){.hero{grid-template-columns:1fr;gap:2.5rem}}
+.hero-pill{display:inline-flex;align-items:center;background:rgba(225,29,72,0.08);border:1px solid rgba(225,29,72,0.2);color:var(--accent);font-size:0.75rem;font-weight:600;letter-spacing:0.04em;padding:5px 14px;border-radius:99px;margin-bottom:1.5rem}
+.hero h1{font-size:clamp(2.25rem,4.5vw,3.5rem);font-weight:800;color:var(--text);line-height:1.1;letter-spacing:-1px;margin-bottom:1.25rem}
+.hero h1 em{color:var(--accent);font-style:italic}
+.hero p{font-size:1rem;color:var(--muted-soft);max-width:440px;line-height:1.65;margin-bottom:2.5rem}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn-hero{background:var(--accent);color:#fff;border:none;padding:13px 28px;border-radius:6px;font-size:1rem;font-weight:700;cursor:pointer}
+.btn-hero-ghost{background:var(--card);border:1.5px solid var(--border);color:var(--text);padding:12px 24px;border-radius:6px;font-size:1rem;font-weight:500;cursor:pointer}
+
+/* EXPERIENCES GRID MOCKUP */
+.exp-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 6px 24px rgba(225,29,72,0.08)}
+.exp-search{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;gap:8px}
+.exp-search input{flex:1;padding:8px 12px;border:1px solid var(--border);border-radius:6px;font-size:0.8rem;color:var(--text);background:var(--bg);outline:none;font-family:var(--font)}
+.exp-search button{background:var(--accent);color:#fff;border:none;padding:8px 14px;border-radius:6px;font-size:0.8rem;font-weight:600;cursor:pointer;white-space:nowrap}
+.exp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border)}
+.exp-item{background:var(--card);padding:12px}
+.exp-thumb{height:70px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:2rem;margin-bottom:8px;position:relative}
+.exp-badge{position:absolute;top:6px;left:6px;font-size:0.58rem;font-weight:800;padding:2px 7px;border-radius:3px}
+.badge-hot{background:var(--accent);color:#fff}
+.badge-new{background:#7c3aed;color:#fff}
+.exp-name{font-size:0.78rem;font-weight:700;color:var(--text);margin-bottom:2px}
+.exp-meta{font-size:0.68rem;color:var(--muted-soft);margin-bottom:5px}
+.exp-price{font-size:0.82rem;font-weight:800;color:var(--accent)}
+.exp-rating{font-size:0.68rem;color:var(--muted-soft)}
+
+/* CHIPS */
+.chips-section{padding:3rem 2rem;background:var(--card);text-align:center;border-top:1px solid var(--border)}
+.chips-label{font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted-soft);margin-bottom:1rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.chip{padding:8px 18px;border-radius:6px;border:1px solid var(--border);color:var(--text);font-size:0.875rem;font-weight:500;cursor:pointer;background:var(--bg);transition:all 0.15s}
+.chip:hover,.chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* FEATURES */
+.features{padding:5rem 2rem;background:var(--bg);text-align:center}
+.features h2{font-size:2rem;font-weight:800;color:var(--text);margin-bottom:0.75rem;letter-spacing:-0.5px}
+.features p.sub{color:var(--muted-soft);max-width:480px;margin:0 auto 3rem}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem;max-width:860px;margin:0 auto}
+.feat{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.75rem 1.5rem;text-align:left}
+.feat-label{display:inline-block;background:#ffe4e6;color:var(--accent);font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;padding:3px 8px;border-radius:3px;margin-bottom:0.75rem}
+.feat h4{font-size:1rem;font-weight:700;color:var(--text);margin-bottom:0.4rem}
+.feat p{font-size:0.875rem;color:var(--muted-soft);line-height:1.6}
+.feat-meta{font-size:0.72rem;color:var(--accent);margin-top:0.75rem}
+
+/* STATS */
+.stats{background:var(--accent);padding:3rem 2rem;text-align:center}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1.5rem;max-width:600px;margin:0 auto}
+.stat-val{font-size:1.85rem;font-weight:900;color:#fff}
+.stat-label{font-size:0.8rem;color:rgba(255,255,255,0.8);margin-top:3px}
+
+footer{background:var(--text);color:rgba(255,255,255,0.5);padding:3.5rem 2rem 2rem}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:2rem;max-width:860px;margin:0 auto 2rem}
+.footer-col h5{font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.25);margin-bottom:0.75rem}
+.footer-col a{display:block;font-size:0.875rem;color:rgba(255,255,255,0.5);text-decoration:none;margin-bottom:6px}
+.footer-col a:hover{color:#fff}
+.email-row{display:flex;gap:0;margin-top:0.75rem}
+.email-row input{flex:1;padding:9px 12px;border:1px solid #4a1a2a;background:#2a0a18;color:#fff;border-right:none;font-size:0.8rem;outline:none;border-radius:4px 0 0 4px;font-family:var(--font)}
+.email-row button{padding:9px 14px;background:var(--accent);color:#fff;border:none;font-size:0.8rem;font-weight:700;cursor:pointer;border-radius:0 4px 4px 0}
+.footer-bottom{border-top:1px solid #4a1a2a;padding-top:1.5rem;text-align:center;font-size:0.75rem;color:#6a2a3a;max-width:860px;margin:0 auto}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo"><div class="logo-mark">🗺️</div>TerraGuide</div>
+  <div class="nav-links"><a href="#">Experiences</a><a href="#">Hosts</a><a href="#">Gift</a></div>
+  <button class="btn-accent">Explore tours</button>
+</nav>
+
+<section style="background:radial-gradient(ellipse at 60% 0%,rgba(225,29,72,0.07) 0%,transparent 55%)">
+  <div class="hero">
+    <div>
+      <div class="hero-pill">🌍 Food · Art · Nature</div>
+      <h1>Experiences led by <em>real locals</em></h1>
+      <p>Discover your destination through the eyes of someone who truly lives there. Every host is verified and every experience is one-of-a-kind.</p>
+      <div class="hero-actions">
+        <button class="btn-hero">Explore tours</button>
+        <button class="btn-hero-ghost">Explore destinations</button>
+      </div>
+    </div>
+    <div>
+      <div class="exp-card">
+        <div class="exp-search">
+          <input type="text" placeholder="Where are you going?"/>
+          <button>Search</button>
+        </div>
+        <div class="exp-grid">
+          <div class="exp-item">
+            <div class="exp-thumb" style="background:#fce7f3"><span>🍜</span><div class="exp-badge badge-hot">HOT</div></div>
+            <div class="exp-name">Street Food Walk</div><div class="exp-meta">Bangkok · 3hr</div>
+            <div style="display:flex;justify-content:space-between;align-items:center"><span class="exp-price">$28</span><span class="exp-rating">⭐ 4.97</span></div>
+          </div>
+          <div class="exp-item">
+            <div class="exp-thumb" style="background:#ede9fe"><span>🎨</span><div class="exp-badge badge-new">NEW</div></div>
+            <div class="exp-name">Graffiti Art Tour</div><div class="exp-meta">Berlin · 2hr</div>
+            <div style="display:flex;justify-content:space-between;align-items:center"><span class="exp-price">$22</span><span class="exp-rating">⭐ 4.91</span></div>
+          </div>
+          <div class="exp-item">
+            <div class="exp-thumb" style="background:#dcfce7"><span>🌿</span></div>
+            <div class="exp-name">Rainforest Hike</div><div class="exp-meta">Medellín · 5hr</div>
+            <div style="display:flex;justify-content:space-between;align-items:center"><span class="exp-price">$35</span><span class="exp-rating">⭐ 4.99</span></div>
+          </div>
+          <div class="exp-item">
+            <div class="exp-thumb" style="background:#fef9c3"><span>🎶</span></div>
+            <div class="exp-name">Jazz Bar Crawl</div><div class="exp-meta">New Orleans · 4hr</div>
+            <div style="display:flex;justify-content:space-between;align-items:center"><span class="exp-price">$45</span><span class="exp-rating">⭐ 4.95</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="chips-section">
+  <div class="chips-label">Browse by type</div>
+  <div class="chips">
+    <span class="chip active">Food</span><span class="chip">Art</span><span class="chip">Hike</span><span class="chip">Nightlife</span>
+  </div>
+</section>
+
+<section class="features">
+  <h2>Local-first, always</h2>
+  <p class="sub">Every experience is hosted by someone who truly knows their city.</p>
+  <div class="features-grid">
+    <div class="feat">
+      <div class="feat-label">Host</div>
+      <h4>Verified locals</h4>
+      <p>Every host passes ID verification, has background checks, and holds TerraGuide insurance. 4.9★ average.</p>
+      <div class="feat-meta">ID · reviews · insurance · 4.9★ avg</div>
+    </div>
+    <div class="feat">
+      <div class="feat-label">Small</div>
+      <h4>Small groups</h4>
+      <p>Maximum 8 guests per experience. Intimate enough for real conversation — never a tourist crowd.</p>
+      <div class="feat-meta">max 8 guests · intimate</div>
+    </div>
+    <div class="feat">
+      <div class="feat-label">Gift</div>
+      <h4>Experience gifts</h4>
+      <p>Instant digital vouchers you can book for any date. The perfect gift for anyone who has everything.</p>
+      <div class="feat-meta">instant voucher · PDF · any date</div>
+    </div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="stats-grid">
+    <div><div class="stat-val">15k+</div><div class="stat-label">Experiences</div></div>
+    <div><div class="stat-val">80</div><div class="stat-label">Cities</div></div>
+    <div><div class="stat-val">4.9★</div><div class="stat-label">Guest rating</div></div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col"><h5>Explore</h5><a href="#">Food</a><a href="#">Art & Culture</a><a href="#">Nature</a></div>
+    <div class="footer-col"><h5>Hosts</h5><a href="#">Become a host</a><a href="#">Host resources</a><a href="#">Insurance</a></div>
+    <div class="footer-col"><h5>Company</h5><a href="#">About</a><a href="#">Press</a><a href="#">Careers</a></div>
+    <div class="footer-col">
+      <h5>Newsletter</h5>
+      <div class="email-row"><input type="email" placeholder="your@email.com"/><button>Subscribe</button></div>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2024 TerraGuide Inc. All rights reserved.</div>
+</footer>
+</body>
+</html>

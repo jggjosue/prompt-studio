@@ -2,17 +2,20 @@ import Link from 'next/link';
 import {
   Activity,
   ArrowUpRight,
-  CircleUser,
   CreditCard,
   DollarSign,
-  Menu,
-  Package2,
-  Search,
   Users,
 } from 'lucide-react';
 import { currentUser } from '@clerk/nextjs/server';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { CatalogFacetsOverview } from '@/components/dashboard/catalog-facets-overview';
+import {
+  summarizeTagFacets,
+  summarizeWebFacets,
+} from '@/lib/catalog-tag-aggregation';
+import { getPlaceholderImages } from '@/lib/placeholder-images';
+import { getPlaceholderVideos } from '@/lib/placeholder-videos';
+import { getWebPages } from '@/lib/web-pages';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -33,7 +36,26 @@ import {
 } from '@/components/ui/table';
 
 export default async function Dashboard() {
-    const user = await currentUser();
+  const user = await currentUser();
+
+  const landings = getWebPages('en').filter(p => p.imageUrl);
+  const images = getPlaceholderImages('en').filter(
+    p => p.type === 'image' && p.imageUrl
+  );
+  const videos = getPlaceholderVideos('en').filter(p => p.imageUrl);
+
+  const landingFacets = summarizeWebFacets(landings, {
+    topN: 8,
+    minCount: 2,
+  });
+  const imageFacets = summarizeTagFacets(images, p => p.tags, {
+    topN: 8,
+    minCount: 2,
+  });
+  const videoFacets = summarizeTagFacets(videos, p => p.tags, {
+    topN: 8,
+    minCount: 2,
+  });
 
   return (
     <>
@@ -95,6 +117,15 @@ export default async function Dashboard() {
           </Card>
         </div>
         <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
+          <CatalogFacetsOverview
+            landingCount={landings.length}
+            imageCount={images.length}
+            videoCount={videos.length}
+            topLandingTags={landingFacets.topTags}
+            topLandingStacks={landingFacets.topStacks}
+            topImageTags={imageFacets.topTags}
+            topVideoTags={videoFacets.topTags}
+          />
           <Card className="xl:col-span-2">
             <CardHeader className="flex flex-row items-center">
               <div className="grid gap-2">

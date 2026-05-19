@@ -10,7 +10,7 @@ import { PromptCatalogCardHeader } from '@/components/prompt-catalog-card-header
 import { useLocalizedPlaceholderImages } from '@/hooks/use-localized-catalog';
 import type { ImagePlaceholder } from '@/lib/placeholder-images';
 import { Tag, Wand2, Loader2 } from 'lucide-react';
-import Image from 'next/image';
+import { OptimizedImage } from '@/components/optimized-image';
 import Link from 'next/link';
 import { useMemo, Suspense } from 'react';
 import { useTranslations } from 'next-intl';
@@ -49,12 +49,12 @@ function ContentGridContent() {
                 <span className="truncate">{item.tags.join(', ')}</span>
               </div>
               <div className="relative aspect-[3/4] rounded-md overflow-hidden">
-                <Image
+                <OptimizedImage
                   src={item.imageUrl}
                   alt={item.title}
                   fill
-                  unoptimized={item.imageUrl?.includes('meta.ai')}
-                  className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
                   data-ai-hint={item.imageHint}
                 />
               </div>

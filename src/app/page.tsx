@@ -1,9 +1,10 @@
-import ContentGrid from '@/components/content-grid';
 import Faq from '@/components/faq';
+import { HomeLinkHub } from '@/components/home-link-hub';
 import ImageExamples from '@/components/image-examples';
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
 import PromptGenerator from '@/components/prompt-generator';
+import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import VideoExamples from '@/components/video-examples';
@@ -60,7 +61,9 @@ export default async function Home() {
           <div className="container">
              <div className="flex flex-col items-center space-y-2 text-center mb-12">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
+                  <Link href="/video-prompts" className="hover:text-primary transition-colors">
                     {t('videoExamplesTitle')}
+                  </Link>
                 </h2>
                 <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg">
                     {t('videoExamplesSubtitle')}
@@ -76,7 +79,9 @@ export default async function Home() {
           <div className="container">
              <div className="flex flex-col items-center space-y-2 text-center mb-12">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
+                  <Link href="/image-prompts" className="hover:text-primary transition-colors">
                     {t('imageExamplesTitle')}
+                  </Link>
                 </h2>
                 <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg">
                     {t('imageExamplesSubtitle')}
@@ -84,6 +89,10 @@ export default async function Home() {
             </div>
             <ImageExamples />
           </div>
+        </section>
+
+        <section className="w-full bg-muted/30 border-y">
+          <HomeLinkHub />
         </section>
         
         <Faq />

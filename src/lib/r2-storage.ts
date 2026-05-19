@@ -4,6 +4,7 @@ import {
   ListObjectsV2Command,
   S3Client,
 } from '@aws-sdk/client-s3';
+import { cacheGet, cacheSet } from '@/lib/server-cache';
 import {
   getDemoProjectKind,
   getDemoProjectManifest,
@@ -105,6 +106,9 @@ export async function getR2ObjectText(objectKey: string): Promise<string | null>
 }
 
 export async function getR2ObjectBytes(objectKey: string): Promise<Buffer | null> {
+  const cached = cacheGet<Buffer>('r2-bytes', objectKey);
+  if (cached) return cached;
+
   const client = getR2S3Client();
   if (!client) return null;
 
@@ -116,7 +120,9 @@ export async function getR2ObjectBytes(objectKey: string): Promise<Buffer | null
       })
     );
     if (!response.Body) return null;
-    return Buffer.from(await response.Body.transformToByteArray());
+    const bytes = Buffer.from(await response.Body.transformToByteArray());
+    await cacheSet('r2-bytes', objectKey, bytes, { ttlMs: 6 * 60 * 60 * 1000 });
+    return bytes;
   } catch {
     return null;
   }

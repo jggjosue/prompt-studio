@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/card';
 import { useLocalizedPlaceholderVideos } from '@/hooks/use-localized-catalog';
 import type { VideoProp } from '@/lib/placeholder-videos';
+import { LazyVideo } from '@/components/lazy-video';
 import { Tag, Wand2 } from 'lucide-react';
 import Link from 'next/link';
 import { useMemo } from 'react';
@@ -47,9 +48,8 @@ export default function VideoExamples() {
                 <span className="truncate">{item.tags.join(', ')}</span>
               </div>
               <div className="relative aspect-[3/4] rounded-md overflow-hidden">
-                <video
+                <LazyVideo
                   src={item.imageUrl}
-                  playsInline
                   controls
                   className="w-full h-full object-cover"
                 />

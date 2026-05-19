@@ -2,277 +2,310 @@
 
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
-import { PromptCatalogCardHeader } from '@/components/prompt-catalog-card-header';
+import { CatalogFacetBar } from '@/components/catalog-facet-bar';
+import { PromptCatalogCard } from '@/components/prompt-catalog-card';
+import { SearchInput } from '@/components/search-input';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
+import { KeysetPagination } from '@/components/keyset-pagination';
 import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/components/ui/pagination';
+  buildCatalogQueryUrl,
+  useCatalogSearchUrl,
+} from '@/hooks/use-catalog-search-url';
+import { useKeysetPaginationUrl } from '@/hooks/use-keyset-pagination';
 import type { VideoProp } from '@/lib/placeholder-videos';
 import { useLocalizedPlaceholderVideos } from '@/hooks/use-localized-catalog';
+import { summarizeTagFacets } from '@/lib/catalog-tag-aggregation';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Sparkles, Tag, Wand2 } from 'lucide-react';
+import { useFuzzyFilter } from '@/hooks/use-fuzzy-filter';
+import { Sparkles, Search, Tag, Wand2 } from 'lucide-react';
 import Link from 'next/link';
-import { useState, useEffect, useMemo } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useMemo, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useTranslations } from 'next-intl';
 
-export default function VideoPromptsClient() {
+const ITEMS_PER_PAGE = 18;
+
+function VideoPromptsSkeleton() {
+  return (
+    <>
+      <div className="flex flex-col items-center space-y-4 text-center mb-12">
+        <Skeleton className="h-12 w-3/4" />
+        <Skeleton className="h-6 w-1/2" />
+        <Skeleton className="h-10 w-64" />
+        <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 pt-4">
+          <Skeleton className="h-10 w-32" />
+          <Skeleton className="h-10 w-40" />
+        </div>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        {Array.from({ length: 9 }).map((_, index) => (
+          <Card
+            key={index}
+            className="overflow-hidden group h-full flex flex-col bg-card"
+          >
+            <CardHeader>
+              <Skeleton className="h-6 w-3/4" />
+            </CardHeader>
+            <CardContent className="p-6 pt-0 space-y-4 flex-grow">
+              <Skeleton className="h-4 w-1/2" />
+              <Skeleton className="aspect-[9/16] w-full rounded-md" />
+            </CardContent>
+            <CardFooter className="bg-muted/50 p-4 border-t">
+              <div className="flex justify-between w-full">
+                <Skeleton className="h-8 w-24" />
+                <Skeleton className="h-8 w-16" />
+              </div>
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
+    </>
+  );
+}
+
+function VideoPromptsContent() {
   const tTags = useTranslations('tags');
+  const tFacets = useTranslations('facets');
+  const tCommon = useTranslations('common');
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const placeholderVideos = useLocalizedPlaceholderVideos();
-  const [hasMounted, setHasMounted] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-
   const [filter, setFilter] = useState('all');
-  const itemsPerPage = 18;
 
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
+  const facetTag = searchParams.get('tag')?.trim() || null;
 
-  const videoContent: VideoProp[] = useMemo(() => {
-    return placeholderVideos.filter(item => {
-      if (filter === 'nano-banana') {
-        return item.tags.map(t => t.toLowerCase()).includes('nano banana');
-      }
-      return true;
-    });
-  }, [filter, placeholderVideos]);
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [filter]);
-
-  const totalPages = Math.ceil(videoContent.length / itemsPerPage);
-
-  const paginatedContent = videoContent.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+  const allVideos = useMemo(
+    () => placeholderVideos.filter(item => item.imageUrl),
+    [placeholderVideos]
   );
 
-  const handlePageChange = (page: number) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
-  };
+  const videoFacets = useMemo(
+    () => summarizeTagFacets(allVideos, p => p.tags, { topN: 14, minCount: 2 }),
+    [allVideos]
+  );
 
-  const renderPaginationLinks = () => {
-    const pageNumbers = [];
-    const maxPagesToShow = 5;
-    const halfMaxPages = Math.floor(maxPagesToShow / 2);
+  const facetFiltered = useMemo(() => {
+    let items = allVideos;
 
-    if (totalPages <= maxPagesToShow) {
-      for (let i = 1; i <= totalPages; i++) {
-        pageNumbers.push(i);
-      }
-    } else {
-      pageNumbers.push(1);
-      if (currentPage > halfMaxPages + 2) {
-        pageNumbers.push('ellipsis-start');
-      }
-
-      let startPage = Math.max(2, currentPage - halfMaxPages);
-      let endPage = Math.min(totalPages - 1, currentPage + halfMaxPages);
-      
-      if (currentPage < halfMaxPages + 2) {
-        endPage = maxPagesToShow - 1;
-      }
-      if (currentPage > totalPages - (halfMaxPages + 1)) {
-        startPage = totalPages - (maxPagesToShow - 2);
-      }
-
-      for (let i = startPage; i <= endPage; i++) {
-        pageNumbers.push(i);
-      }
-
-      if (currentPage < totalPages - (halfMaxPages + 1)) {
-        pageNumbers.push('ellipsis-end');
-      }
-      pageNumbers.push(totalPages);
-    }
-
-    return pageNumbers.map((page, index) => {
-      if (typeof page === 'string') {
-        return <PaginationEllipsis key={page + index} />;
-      }
-      return (
-        <PaginationItem key={page}>
-          <PaginationLink
-            href="#"
-            isActive={currentPage === page}
-            onClick={e => {
-              e.preventDefault();
-              handlePageChange(page);
-            }}
-          >
-            {page}
-          </PaginationLink>
-        </PaginationItem>
+    if (filter === 'nano-banana') {
+      items = items.filter(item =>
+        item.tags.map(t => t.toLowerCase()).includes('nano banana')
       );
+    }
+
+    if (facetTag) {
+      items = items.filter(item =>
+        item.tags.some(t => t.toLowerCase() === facetTag.toLowerCase())
+      );
+    }
+
+    return items;
+  }, [allVideos, filter, facetTag]);
+
+  const {
+    input: searchInput,
+    setInput: setSearchInput,
+    debounced: debouncedQuery,
+    isPending: isSearchPending,
+    clearSearch,
+  } = useCatalogSearchUrl();
+
+  const videoContent = useFuzzyFilter(
+    facetFiltered,
+    debouncedQuery,
+    (item: VideoProp) => [
+      item.title,
+      item.description ?? '',
+      ...item.tags,
+      item.imageHint ?? '',
+    ],
+    item => item.id
+  );
+
+  const {
+    items: paginatedContent,
+    hasNext,
+    hasPrev,
+    goNext,
+    goPrev,
+    rangeStart,
+    rangeEnd,
+    totalCount,
+  } = useKeysetPaginationUrl(
+    videoContent,
+    item => item.id,
+    ITEMS_PER_PAGE,
+    {
+      searchParams,
+      pathname,
+      router,
+      resetDeps: [filter, facetTag, debouncedQuery],
+    }
+  );
+
+  const selectFacetTag = (tag: string) => {
+    router.push(buildCatalogQueryUrl(pathname, searchParams, { tag }), {
+      scroll: false,
     });
   };
 
-  if (!hasMounted) {
-    return (
-      <div className="flex min-h-screen w-full flex-col bg-background">
-        <Header />
-        <main className="flex-1 py-12 md:py-16">
-          <div className="container max-w-7xl">
-            <div className="flex flex-col items-center space-y-4 text-center mb-12">
-              <Skeleton className="h-12 w-3/4" />
-              <Skeleton className="h-6 w-1/2" />
-              <Skeleton className="h-10 w-64" />
-              <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 pt-4">
-                <Skeleton className="h-10 w-32" />
-                <Skeleton className="h-10 w-40" />
-              </div>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-              {Array.from({ length: 9 }).map((_, index) => (
-                <Card key={index} className="overflow-hidden group h-full flex flex-col bg-card">
-                  <CardHeader>
-                    <Skeleton className="h-6 w-3/4" />
-                  </CardHeader>
-                  <CardContent className="p-6 pt-0 space-y-4 flex-grow">
-                    <Skeleton className="h-4 w-1/2" />
-                    <Skeleton className="aspect-[9/16] w-full rounded-md" />
-                  </CardContent>
-                  <CardFooter className="bg-muted/50 p-4 border-t">
-                    <div className="flex justify-between w-full">
-                       <Skeleton className="h-8 w-24" />
-                       <Skeleton className="h-8 w-16" />
-                    </div>
-                  </CardFooter>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
+  const clearFacets = () => {
+    router.push(buildCatalogQueryUrl(pathname, searchParams, { tag: null }), {
+      scroll: false,
+    });
+  };
 
   return (
+    <>
+      <div className="flex flex-col items-center space-y-4 text-center mb-12">
+        <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
+          Explore AI Video Prompts
+        </h1>
+        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
+          Discover thousands of AI video prompts and examples. Get inspired and
+          create your own AI generated videos.
+        </p>
+
+        <SearchInput
+          className="max-w-md mt-2"
+          placeholder={tTags('searchPlaceholder')}
+          value={searchInput}
+          onValueChange={setSearchInput}
+          isPending={isSearchPending}
+        />
+
+        {(debouncedQuery.trim() || facetTag) && (
+          <p className="text-sm text-muted-foreground">
+            {videoContent.length === 0
+              ? tCommon('noResults')
+              : `${videoContent.length} result${videoContent.length !== 1 ? 's' : ''}${
+                  debouncedQuery.trim()
+                    ? ` for "${debouncedQuery.trim()}"`
+                    : ''
+                }${facetTag ? ` · tag: ${facetTag}` : ''}`}
+          </p>
+        )}
+
+        <CatalogFacetBar
+          topTags={videoFacets.topTags}
+          activeTag={facetTag}
+          onSelectTag={selectFacetTag}
+          onClearFacets={clearFacets}
+        />
+
+        <p className="text-xs text-muted-foreground">
+          {tFacets('fullBrowse')}{' '}
+          <Link
+            href="/video-tags"
+            className="underline underline-offset-4 hover:text-foreground"
+          >
+            {tFacets('videoTagsLink')}
+          </Link>
+        </p>
+
+        <Tabs
+          defaultValue="all"
+          className="w-full max-w-md pt-4"
+          onValueChange={value => setFilter(value)}
+        >
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="all">All Prompts</TabsTrigger>
+            <TabsTrigger value="nano-banana">
+              <Sparkles className="mr-2 h-4 w-4" />
+              Nano Banana Pro
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+
+        <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 pt-4">
+          <Button variant="outline" asChild>
+            <Link href="/video-tags">
+              <Tag className="mr-2" />
+              {tTags('browseByTags')}
+            </Link>
+          </Button>
+          <Button asChild>
+            <Link
+              href="https://aistudio.google.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Wand2 className="mr-2" />
+              Generate a Video
+            </Link>
+          </Button>
+        </div>
+      </div>
+
+      {paginatedContent.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-24 text-center text-muted-foreground gap-3">
+          <Search className="w-10 h-10 opacity-30" />
+          <p className="text-base font-medium">{tCommon('noResults')}</p>
+          {debouncedQuery.trim() || facetTag ? (
+            <div className="flex flex-wrap justify-center gap-3">
+              {debouncedQuery.trim() ? (
+                <button
+                  type="button"
+                  onClick={clearSearch}
+                  className="text-sm underline underline-offset-4 hover:text-foreground transition-colors"
+                >
+                  {tTags('clearSearch')}
+                </button>
+              ) : null}
+              {facetTag ? (
+                <button
+                  type="button"
+                  onClick={clearFacets}
+                  className="text-sm underline underline-offset-4 hover:text-foreground transition-colors"
+                >
+                  {tFacets('clearFacets')}
+                </button>
+              ) : null}
+            </div>
+          ) : null}
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {paginatedContent.map(item => (
+            <PromptCatalogCard
+              key={item.id}
+              item={{ ...item, type: 'video' }}
+              galleryHref={`/gallery-videos/${item.id}`}
+              aspectClassName="aspect-[9/16]"
+              headerClassName="p-6 pb-0"
+              titleClassName="text-xl"
+            />
+          ))}
+        </div>
+      )}
+
+      <KeysetPagination
+        hasPrev={hasPrev}
+        hasNext={hasNext}
+        onPrev={goPrev}
+        onNext={goNext}
+        rangeStart={rangeStart}
+        rangeEnd={rangeEnd}
+        totalCount={totalCount}
+      />
+    </>
+  );
+}
+
+export default function VideoPromptsClient() {
+  return (
     <div className="flex min-h-screen w-full flex-col bg-background">
-      <Header />
+      <Suspense fallback={<div className="w-full h-16 border-b" />}>
+        <Header />
+      </Suspense>
       <main className="flex-1 py-12 md:py-16">
         <div className="container max-w-7xl">
-          <div className="flex flex-col items-center space-y-4 text-center mb-12">
-            <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
-              Explore AI Video Prompts
-            </h1>
-            <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-              Discover thousands of AI video prompts and examples. Get inspired
-              and create your own AI generated videos.
-            </p>
-            <Tabs
-              defaultValue="all"
-              className="w-full max-w-md pt-4"
-              onValueChange={value => setFilter(value)}
-            >
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="all">All Prompts</TabsTrigger>
-                <TabsTrigger value="nano-banana">
-                    <Sparkles className="mr-2 h-4 w-4" />
-                    Nano Banana Pro
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
-            <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 pt-4">
-              <Button variant="outline" asChild>
-                <Link href="/video-tags">
-                  <Tag className="mr-2" />
-                  {tTags('browseByTags')}
-                </Link>
-              </Button>
-              <Button asChild>
-                <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
-                  <Wand2 className="mr-2" />
-                  Generate a Video
-                </Link>
-              </Button>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {paginatedContent.map(item => (
-              <Card
-                key={item.id}
-                className="overflow-hidden group h-full flex flex-col bg-card"
-              >
-                <PromptCatalogCardHeader
-                  title={item.title}
-                  membership={item.membership}
-                  className="p-6 pb-0"
-                  titleClassName="text-xl"
-                />
-                <CardContent className="p-6 pt-0 space-y-4 flex-grow">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Tag className="w-4 h-4" />
-                    <span className="truncate">{item.tags.join(', ')}</span>
-                  </div>
-                  <div className="relative aspect-[9/16] rounded-md overflow-hidden">
-                    <video
-                      src={item.imageUrl}
-                      playsInline
-                      controls
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                </CardContent>
-                <CardFooter className="bg-muted/50 p-4 border-t flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-between gap-2">
-                  <Button size="sm" asChild>
-                      <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
-                          <Wand2 className="w-4 h-4 mr-2" />
-                          Use this prompt
-                      </Link>
-                  </Button>
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    asChild
-                  >
-                    <Link href={`/gallery-videos/${item.id}`}>View</Link>
-                  </Button>
-                </CardFooter>
-              </Card>
-            ))}
-          </div>
-
-          <div className="mt-12 flex justify-center">
-            <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handlePageChange(currentPage - 1);
-                    }}
-                    aria-disabled={currentPage === 1}
-                  />
-                </PaginationItem>
-                {renderPaginationLinks()}
-                <PaginationItem>
-                  <PaginationNext
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handlePageChange(currentPage + 1);
-                    }}
-                    aria-disabled={currentPage === totalPages}
-                  />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
-          </div>
+          <Suspense fallback={<VideoPromptsSkeleton />}>
+            <VideoPromptsContent />
+          </Suspense>
         </div>
       </main>
       <Footer />

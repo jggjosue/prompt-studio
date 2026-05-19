@@ -2,36 +2,30 @@
 
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
-import { PromptCatalogCardHeader } from '@/components/prompt-catalog-card-header';
+import { CatalogFacetBar } from '@/components/catalog-facet-bar';
+import { PromptCatalogCard } from '@/components/prompt-catalog-card';
+import { SearchInput } from '@/components/search-input';
+import { KeysetPagination } from '@/components/keyset-pagination';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/components/ui/pagination';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import type { ImagePlaceholder } from '@/lib/placeholder-images';
+import {
+  buildCatalogQueryUrl,
+  useCatalogSearchUrl,
+} from '@/hooks/use-catalog-search-url';
+import { useKeysetPaginationUrl } from '@/hooks/use-keyset-pagination';
 import { useLocalizedPlaceholderImages } from '@/hooks/use-localized-catalog';
-import { Sparkles, Tag, Wand2 } from 'lucide-react';
-import Image from 'next/image';
+import type { ImagePlaceholder } from '@/lib/placeholder-images';
+import { summarizeTagFacets } from '@/lib/catalog-tag-aggregation';
+import { useFuzzyFilter } from '@/hooks/use-fuzzy-filter';
+import { Sparkles, Search, Tag, Wand2 } from 'lucide-react';
 import Link from 'next/link';
-import { useEffect, useMemo, useState, Suspense } from 'react';
-import { Skeleton } from '@/components/ui/skeleton';
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { Suspense, useEffect, useMemo, useState } from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const NANO_BANANA_TAB_ENABLED = false;
+const ITEMS_PER_PAGE = 18;
 
 function ImagePromptsSkeleton() {
   return (
@@ -47,21 +41,7 @@ function ImagePromptsSkeleton() {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
         {Array.from({ length: 9 }).map((_, index) => (
-          <Card key={index} className="overflow-hidden group h-full flex flex-col bg-card">
-            <CardHeader>
-              <Skeleton className="h-6 w-3/4" />
-            </CardHeader>
-            <CardContent className="p-6 pt-0 space-y-4 flex-grow">
-              <Skeleton className="h-4 w-1/2" />
-              <Skeleton className="aspect-[3/4] w-full rounded-md" />
-            </CardContent>
-            <CardFooter className="bg-muted/50 p-4 border-t">
-              <div className="flex justify-between w-full">
-                 <Skeleton className="h-8 w-24" />
-                 <Skeleton className="h-8 w-16" />
-              </div>
-            </CardFooter>
-          </Card>
+          <Skeleton key={index} className="h-[420px] w-full rounded-lg" />
         ))}
       </div>
     </>
@@ -70,36 +50,64 @@ function ImagePromptsSkeleton() {
 
 function ImagePromptsContent() {
   const tTags = useTranslations('tags');
-  const placeholderImages = useLocalizedPlaceholderImages();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [filter, setFilter] = useState('all');
-  const itemsPerPage = 18;
+  const tFacets = useTranslations('facets');
+  const tCommon = useTranslations('common');
+  const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
-  const tagFromUrl = searchParams.get('tag');
+  const placeholderImages = useLocalizedPlaceholderImages();
+  const [filter, setFilter] = useState('all');
 
-  const imageContent: ImagePlaceholder[] = useMemo(() => {
-    let filteredImages = placeholderImages.filter(
-      item => item.type === 'image' && item.imageUrl
-    );
+  const facetTag = searchParams.get('tag')?.trim() || null;
+
+  const allImages = useMemo(
+    () =>
+      placeholderImages.filter(item => item.type === 'image' && item.imageUrl),
+    [placeholderImages]
+  );
+
+  const imageFacets = useMemo(
+    () => summarizeTagFacets(allImages, p => p.tags, { topN: 14, minCount: 2 }),
+    [allImages]
+  );
+
+  const facetFiltered = useMemo(() => {
+    let items = allImages;
 
     if (NANO_BANANA_TAB_ENABLED && filter === 'nano-banana') {
-      filteredImages = filteredImages.filter(item =>
+      items = items.filter(item =>
         item.tags.map(t => t.toLowerCase()).includes('nano banana')
       );
     }
 
-    if (tagFromUrl) {
-      filteredImages = filteredImages.filter(item =>
-        item.tags.map(t => t.toLowerCase()).includes(tagFromUrl.toLowerCase())
+    if (facetTag) {
+      items = items.filter(item =>
+        item.tags.some(t => t.toLowerCase() === facetTag.toLowerCase())
       );
     }
-    
-    return filteredImages;
-  }, [filter, tagFromUrl, placeholderImages]);
 
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [filter, tagFromUrl]);
+    return items;
+  }, [allImages, filter, facetTag]);
+
+  const {
+    input: searchInput,
+    setInput: setSearchInput,
+    debounced: debouncedQuery,
+    isPending: isSearchPending,
+    clearSearch,
+  } = useCatalogSearchUrl();
+
+  const imageContent = useFuzzyFilter(
+    facetFiltered,
+    debouncedQuery,
+    (item: ImagePlaceholder) => [
+      item.title,
+      item.description ?? '',
+      ...item.tags,
+      item.imageHint ?? '',
+    ],
+    item => item.id
+  );
 
   useEffect(() => {
     if (!NANO_BANANA_TAB_ENABLED && filter === 'nano-banana') {
@@ -107,190 +115,173 @@ function ImagePromptsContent() {
     }
   }, [filter]);
 
-  const totalPages = Math.ceil(imageContent.length / itemsPerPage);
-
-  const paginatedContent = imageContent.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+  const {
+    items: paginatedContent,
+    hasNext,
+    hasPrev,
+    goNext,
+    goPrev,
+    rangeStart,
+    rangeEnd,
+    totalCount,
+  } = useKeysetPaginationUrl(
+    imageContent,
+    item => item.id,
+    ITEMS_PER_PAGE,
+    {
+      searchParams,
+      pathname,
+      router,
+      resetDeps: [filter, facetTag, debouncedQuery],
+    }
   );
 
-  const handlePageChange = (page: number) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
+  const selectFacetTag = (tag: string) => {
+    router.push(buildCatalogQueryUrl(pathname, searchParams, { tag }), {
+      scroll: false,
+    });
   };
 
-  const renderPaginationLinks = () => {
-    const pageNumbers = [];
-    const maxPagesToShow = 5;
-    const halfMaxPages = Math.floor(maxPagesToShow / 2);
-
-    if (totalPages <= maxPagesToShow) {
-      for (let i = 1; i <= totalPages; i++) {
-        pageNumbers.push(i);
-      }
-    } else {
-      pageNumbers.push(1);
-      if (currentPage > halfMaxPages + 2) {
-        pageNumbers.push('ellipsis-start');
-      }
-
-      let startPage = Math.max(2, currentPage - halfMaxPages);
-      let endPage = Math.min(totalPages - 1, currentPage + halfMaxPages);
-
-      if (currentPage < halfMaxPages + 2) {
-        endPage = maxPagesToShow - 1;
-      }
-      if (currentPage > totalPages - (halfMaxPages + 1)) {
-        startPage = totalPages - (maxPagesToShow - 2);
-      }
-
-      for (let i = startPage; i <= endPage; i++) {
-        pageNumbers.push(i);
-      }
-
-      if (currentPage < totalPages - (halfMaxPages + 1)) {
-        pageNumbers.push('ellipsis-end');
-      }
-      pageNumbers.push(totalPages);
-    }
-
-    return pageNumbers.map((page, index) => {
-      if (typeof page === 'string') {
-        return <PaginationEllipsis key={page + index} />;
-      }
-      return (
-        <PaginationItem key={page}>
-          <PaginationLink
-            href="#"
-            isActive={currentPage === page}
-            onClick={e => {
-              e.preventDefault();
-              handlePageChange(page);
-            }}
-          >
-            {page}
-          </PaginationLink>
-        </PaginationItem>
-      );
+  const clearFacets = () => {
+    router.push(buildCatalogQueryUrl(pathname, searchParams, { tag: null }), {
+      scroll: false,
     });
   };
 
   return (
     <>
       <div className="flex flex-col items-center space-y-4 text-center mb-12">
-            <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
-              Explore AI Image Prompts
-            </h1>
-            <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-              Discover thousands of AI image prompts and examples. Get inspired
-              and create your own AI generated images.
-            </p>
-            {NANO_BANANA_TAB_ENABLED ? (
-              <Tabs
-                defaultValue="all"
-                className="w-full max-w-md pt-4"
-                onValueChange={value => setFilter(value)}
-              >
-                <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger value="all">All Prompts</TabsTrigger>
-                  <TabsTrigger value="nano-banana">
-                    <Sparkles className="mr-2 h-4 w-4" />
-                    Nano Banana Pro
-                  </TabsTrigger>
-                </TabsList>
-              </Tabs>
-            ) : null}
-            <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 pt-4">
-              <Button variant="outline" asChild>
-                <Link href="/image-tags">
-                  <Tag className="mr-2" />
-                  {tTags('browseByTags')}
-                </Link>
-              </Button>
-              <Button asChild>
-                <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
-                    <Wand2 className="mr-2" />
-                    Generate an Image
-                </Link>
-              </Button>
+        <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
+          Explore AI Image Prompts
+        </h1>
+        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
+          Discover thousands of AI image prompts and examples. Get inspired and
+          create your own AI generated images.
+        </p>
+
+        <SearchInput
+          className="max-w-md mt-2"
+          placeholder={tTags('searchPlaceholder')}
+          value={searchInput}
+          onValueChange={setSearchInput}
+          isPending={isSearchPending}
+        />
+
+        {(debouncedQuery.trim() || facetTag) && (
+          <p className="text-sm text-muted-foreground">
+            {imageContent.length === 0
+              ? tCommon('noResults')
+              : `${imageContent.length} result${imageContent.length !== 1 ? 's' : ''}${
+                  debouncedQuery.trim()
+                    ? ` for "${debouncedQuery.trim()}"`
+                    : ''
+                }${facetTag ? ` · tag: ${facetTag}` : ''}`}
+          </p>
+        )}
+
+        <CatalogFacetBar
+          topTags={imageFacets.topTags}
+          activeTag={facetTag}
+          onSelectTag={selectFacetTag}
+          onClearFacets={clearFacets}
+        />
+
+        <p className="text-xs text-muted-foreground">
+          {tFacets('fullBrowse')}{' '}
+          <Link
+            href="/image-tags"
+            className="underline underline-offset-4 hover:text-foreground"
+          >
+            {tFacets('imageTagsLink')}
+          </Link>
+        </p>
+
+        {NANO_BANANA_TAB_ENABLED ? (
+          <Tabs
+            defaultValue="all"
+            className="w-full max-w-md pt-4"
+            onValueChange={value => setFilter(value)}
+          >
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="all">All Prompts</TabsTrigger>
+              <TabsTrigger value="nano-banana">
+                <Sparkles className="mr-2 h-4 w-4" />
+                Nano Banana Pro
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+        ) : null}
+
+        <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 pt-4">
+          <Button variant="outline" asChild>
+            <Link href="/image-tags">
+              <Tag className="mr-2" />
+              {tTags('browseByTags')}
+            </Link>
+          </Button>
+          <Button asChild>
+            <Link
+              href="https://aistudio.google.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Wand2 className="mr-2" />
+              Generate an Image
+            </Link>
+          </Button>
+        </div>
+      </div>
+
+      {paginatedContent.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-24 text-center text-muted-foreground gap-3">
+          <Search className="w-10 h-10 opacity-30" />
+          <p className="text-base font-medium">{tCommon('noResults')}</p>
+          {debouncedQuery.trim() || facetTag ? (
+            <div className="flex flex-wrap justify-center gap-3">
+              {debouncedQuery.trim() ? (
+                <button
+                  type="button"
+                  onClick={clearSearch}
+                  className="text-sm underline underline-offset-4 hover:text-foreground transition-colors"
+                >
+                  {tTags('clearSearch')}
+                </button>
+              ) : null}
+              {facetTag ? (
+                <button
+                  type="button"
+                  onClick={clearFacets}
+                  className="text-sm underline underline-offset-4 hover:text-foreground transition-colors"
+                >
+                  {tFacets('clearFacets')}
+                </button>
+              ) : null}
             </div>
-          </div>
+          ) : null}
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {paginatedContent.map(item => (
+            <PromptCatalogCard
+              key={item.id}
+              item={{ ...item, type: 'image' }}
+              galleryHref={`/gallery/${item.id}`}
+              headerClassName="p-6 pb-0"
+              titleClassName="text-xl"
+            />
+          ))}
+        </div>
+      )}
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {paginatedContent.map(item => (
-              <Card
-                key={item.id}
-                className="overflow-hidden group h-full flex flex-col bg-card"
-              >
-                <PromptCatalogCardHeader
-                  title={item.title}
-                  membership={item.membership}
-                  className="p-6 pb-0"
-                  titleClassName="text-xl"
-                />
-                <CardContent className="p-6 pt-0 space-y-4 flex-grow">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Tag className="w-4 h-4" />
-                    <span className="truncate">{item.tags.join(', ')}</span>
-                  </div>
-                    <div className="relative aspect-[3/4] rounded-md overflow-hidden">
-                    <Image
-                      src={item.imageUrl}
-                      alt={item.title}
-                      fill
-                      unoptimized={item.imageUrl?.includes('meta.ai')}
-                      className="object-cover"
-                      data-ai-hint={item.imageHint}
-                    />
-                  </div>
-                </CardContent>
-                <CardFooter className="bg-muted/50 p-4 border-t flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-between gap-2">
-                  <Button size="sm" asChild>
-                    <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
-                        <Wand2 className="w-4 h-4 mr-2" />
-                        Use this prompt
-                    </Link>
-                  </Button>
-                   <Button
-                    variant="secondary"
-                    size="sm"
-                    asChild
-                  >
-                    <Link href={`/gallery/${item.id}`}>View</Link>
-                  </Button>
-                </CardFooter>
-              </Card>
-            ))}
-          </div>
-
-          <div className="mt-12 flex justify-center">
-            <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious
-                    href="#"
-                    onClick={e => {
-                      e.preventDefault();
-                      handlePageChange(currentPage - 1);
-                    }}
-                    aria-disabled={currentPage === 1}
-                  />
-                </PaginationItem>
-                {renderPaginationLinks()}
-                <PaginationItem>
-                  <PaginationNext
-                    href="#"
-                    onClick={e => {
-                      e.preventDefault();
-                      handlePageChange(currentPage + 1);
-                    }}
-                    aria-disabled={currentPage === totalPages}
-                  />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
-          </div>
+      <KeysetPagination
+        hasPrev={hasPrev}
+        hasNext={hasNext}
+        onPrev={goPrev}
+        onNext={goNext}
+        rangeStart={rangeStart}
+        rangeEnd={rangeEnd}
+        totalCount={totalCount}
+      />
     </>
   );
 }

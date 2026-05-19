@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { validateDemoUrl } from '@/lib/cloudflare-r2';
+import { compressedJsonResponse } from '@/lib/http-compression';
 import {
   getRawWebPageByDemoSlug,
   getRawWebPageById,
@@ -35,7 +36,7 @@ export async function GET(request: Request) {
 
     const invalid = results.filter(r => !r.valid && r.status !== 'prompt-only');
 
-    return NextResponse.json({
+    return compressedJsonResponse(request, {
       total: results.length,
       valid: results.filter(r => r.valid).length,
       promptOnly: results.filter(r => r.status === 'prompt-only').length,

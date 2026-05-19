@@ -42,6 +42,15 @@ export function getRawWebPageByDemoSlug(slug: string): RawWebPageEntry | undefin
   return rawPages.find(page => normalizeDemoFolder(page.demoUrl ?? '') === slug);
 }
 
+/** Resuelve `wp-12` → entrada cruda en web-pages.json (índice 1-based del catálogo). */
+export function getRawWebPageByCatalogId(catalogId: string): RawWebPageEntry | undefined {
+  const match = /^wp-(\d+)$/.exec(catalogId.trim());
+  if (!match) return undefined;
+  const index = Number.parseInt(match[1]!, 10) - 1;
+  if (index < 0 || index >= rawPages.length) return undefined;
+  return rawPages[index];
+}
+
 function mapWebPage(page: RawWebPageEntry, index: number, locale: Locale | string): WebPageEntry {
   return {
     id: `wp-${index + 1}`,

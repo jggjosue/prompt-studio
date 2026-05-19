@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TrailPath — Adventure Tours</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#f0fdf4;--text:#14532d;--muted:#166534;--muted-light:#4ade80;--accent:#16a34a;--border:#bbf7d0;--card:#fff;--font:'Inter',system-ui,sans-serif}
+body{font-family:var(--font);background:var(--bg);color:var(--text)}
+nav{background:rgba(240,253,244,0.95);border-bottom:1px solid var(--border);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;backdrop-filter:blur(10px)}
+.nav-logo{font-weight:800;font-size:1.1rem;color:var(--text);display:flex;align-items:center;gap:8px}
+.logo-mark{width:28px;height:28px;background:var(--accent);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:1rem}
+.nav-links{display:flex;gap:1.75rem}
+.nav-links a{font-size:0.875rem;color:var(--muted);text-decoration:none}
+.nav-links a:hover{color:var(--text)}
+.btn-accent{background:var(--accent);color:#fff;border:none;padding:9px 20px;border-radius:6px;font-size:0.875rem;font-weight:700;cursor:pointer}
+
+.hero{padding:5rem 2rem 4.5rem;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+@media(max-width:768px){.hero{grid-template-columns:1fr;gap:2.5rem}}
+.hero-pill{display:inline-flex;align-items:center;background:rgba(22,163,74,0.1);border:1px solid rgba(22,163,74,0.25);color:var(--accent);font-size:0.75rem;font-weight:600;letter-spacing:0.04em;padding:5px 14px;border-radius:99px;margin-bottom:1.5rem}
+.hero h1{font-size:clamp(2.25rem,4.5vw,3.5rem);font-weight:800;color:var(--text);line-height:1.1;letter-spacing:-1px;margin-bottom:1.25rem}
+.hero h1 em{color:var(--accent);font-style:italic}
+.hero p{font-size:1rem;color:var(--muted);max-width:440px;line-height:1.65;margin-bottom:2.5rem}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn-hero{background:var(--accent);color:#fff;border:none;padding:13px 28px;border-radius:6px;font-size:1rem;font-weight:700;cursor:pointer}
+.btn-hero-ghost{background:var(--card);border:1.5px solid var(--border);color:var(--text);padding:12px 24px;border-radius:6px;font-size:1rem;font-weight:500;cursor:pointer}
+
+/* MAP / TRIP CARD MOCKUP */
+.map-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 6px 24px rgba(22,163,74,0.1)}
+.map-area{height:130px;background:linear-gradient(135deg,#dcfce7,#bbf7d0);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.map-grid{position:absolute;inset:0;display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(4,1fr);opacity:0.3}
+.map-grid div{border:1px solid #86efac}
+.map-pin{position:absolute;font-size:1.2rem;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3))}
+.route-line{position:absolute;top:50%;left:20%;width:60%;height:2px;background:var(--accent);border-radius:1px}
+.route-line::before,.route-line::after{content:'';position:absolute;top:-4px;width:10px;height:10px;border-radius:50%;background:var(--accent)}
+.route-line::before{left:-5px}.route-line::after{right:-5px}
+.trip-rows{padding:0 14px 4px}
+.trip-row{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--border)}
+.trip-row:last-child{border-bottom:none}
+.trip-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.trip-info{flex:1}
+.trip-name{font-size:0.85rem;font-weight:700;color:var(--text);margin-bottom:2px}
+.trip-meta{font-size:0.72rem;color:var(--muted)}
+.trip-badge{font-size:0.62rem;font-weight:700;padding:3px 8px;border-radius:3px}
+.badge-spots{background:#dcfce7;color:var(--accent)}
+.badge-full{background:#fef9c3;color:#854d0e}
+.trip-price{font-size:0.9rem;font-weight:800;color:var(--accent);flex-shrink:0}
+
+/* CHIPS */
+.chips-section{padding:3rem 2rem;background:var(--card);text-align:center;border-top:1px solid var(--border)}
+.chips-label{font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);margin-bottom:1rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.chip{padding:8px 18px;border-radius:6px;border:1px solid var(--border);color:var(--text);font-size:0.875rem;font-weight:500;cursor:pointer;background:var(--bg);transition:all 0.15s}
+.chip:hover,.chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* FEATURES */
+.features{padding:5rem 2rem;background:var(--bg);text-align:center}
+.features h2{font-size:2rem;font-weight:800;color:var(--text);margin-bottom:0.75rem;letter-spacing:-0.5px}
+.features p.sub{color:var(--muted);max-width:480px;margin:0 auto 3rem}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem;max-width:860px;margin:0 auto}
+.feat{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.75rem 1.5rem;text-align:left}
+.feat-label{display:inline-block;background:#dcfce7;color:var(--accent);font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;padding:3px 8px;border-radius:3px;margin-bottom:0.75rem}
+.feat h4{font-size:1rem;font-weight:700;color:var(--text);margin-bottom:0.4rem}
+.feat p{font-size:0.875rem;color:var(--muted);line-height:1.6}
+.feat-meta{font-size:0.72rem;color:var(--accent);margin-top:0.75rem}
+
+/* STATS */
+.stats{background:var(--accent);padding:3rem 2rem;text-align:center}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1.5rem;max-width:600px;margin:0 auto}
+.stat-val{font-size:1.85rem;font-weight:900;color:#fff}
+.stat-label{font-size:0.8rem;color:rgba(255,255,255,0.8);margin-top:3px}
+
+footer{background:var(--text);color:rgba(255,255,255,0.5);padding:3.5rem 2rem 2rem}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:2rem;max-width:860px;margin:0 auto 2rem}
+.footer-col h5{font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.25);margin-bottom:0.75rem}
+.footer-col a{display:block;font-size:0.875rem;color:rgba(255,255,255,0.5);text-decoration:none;margin-bottom:6px}
+.footer-col a:hover{color:#fff}
+.email-row{display:flex;gap:0;margin-top:0.75rem}
+.email-row input{flex:1;padding:9px 12px;border:1px solid #1a4a2a;background:#0f2a1a;color:#fff;border-right:none;font-size:0.8rem;outline:none;border-radius:4px 0 0 4px;font-family:var(--font)}
+.email-row button{padding:9px 14px;background:var(--accent);color:#fff;border:none;font-size:0.8rem;font-weight:700;cursor:pointer;border-radius:0 4px 4px 0}
+.footer-bottom{border-top:1px solid #1a4a2a;padding-top:1.5rem;text-align:center;font-size:0.75rem;color:#2d6a3a;max-width:860px;margin:0 auto}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo"><div class="logo-mark">🥾</div>TrailPath</div>
+  <div class="nav-links"><a href="#">Tours</a><a href="#">Gear</a><a href="#">Safety</a></div>
+  <button class="btn-accent">Browse tours</button>
+</nav>
+
+<section style="background:radial-gradient(ellipse at 60% 0%,rgba(22,163,74,0.08) 0%,transparent 55%)">
+  <div class="hero">
+    <div>
+      <div class="hero-pill">🏔️ Hike · Climb · Camp</div>
+      <h1>Adventure trips worth <em>every step</em></h1>
+      <p>Expert-guided wilderness tours in the world's most dramatic landscapes. Small groups, zero compromise on safety.</p>
+      <div class="hero-actions">
+        <button class="btn-hero">Browse tours</button>
+        <button class="btn-hero-ghost">Explore destinations</button>
+      </div>
+    </div>
+    <div>
+      <div class="map-card">
+        <div class="map-area">
+          <div class="map-grid"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+          <div class="route-line"></div>
+          <span class="map-pin" style="top:30%;left:18%">📍</span>
+          <span class="map-pin" style="top:50%;left:55%">🏕️</span>
+          <span class="map-pin" style="top:25%;left:75%">🏔️</span>
+        </div>
+        <div class="trip-rows">
+          <div class="trip-row"><div class="trip-icon" style="background:#dcfce7">🏔️</div><div class="trip-info"><div class="trip-name">Patagonia Trek — 10 days</div><div class="trip-meta">Nov–Mar · Small group · All gear</div></div><span class="trip-badge badge-spots">4 spots</span><span class="trip-price">$2,490</span></div>
+          <div class="trip-row"><div class="trip-icon" style="background:#fef9c3">🌋</div><div class="trip-info"><div class="trip-name">Dolomites Loop — 7 days</div><div class="trip-meta">Jun–Sep · Hut-to-hut · Guided</div></div><span class="trip-badge badge-full">Full</span><span class="trip-price">$1,890</span></div>
+          <div class="trip-row"><div class="trip-icon" style="background:#e0f2fe">🏔️</div><div class="trip-info"><div class="trip-name">Nepal Base Camp — 14 days</div><div class="trip-meta">Apr–May · Classic route · Porters</div></div><span class="trip-badge badge-spots">2 spots</span><span class="trip-price">$3,290</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="chips-section">
+  <div class="chips-label">Destinations</div>
+  <div class="chips">
+    <span class="chip active">Patagonia</span><span class="chip">Dolomites</span><span class="chip">Nepal</span><span class="chip">Iceland</span>
+  </div>
+</section>
+
+<section class="features">
+  <h2>Adventure done right</h2>
+  <p class="sub">Safety, sustainability, and unforgettable experiences — built into every trip.</p>
+  <div class="features-grid">
+    <div class="feat">
+      <div class="feat-label">Guide</div>
+      <h4>Certified leaders</h4>
+      <p>Every guide holds Wilderness First Aid and carries a satellite communicator. Max 6 guests per guide.</p>
+      <div class="feat-meta">wilderness first aid · 1:6 ratio</div>
+    </div>
+    <div class="feat">
+      <div class="feat-label">Gear</div>
+      <h4>Equipment included</h4>
+      <p>Tents, backpacks, poles, and GPS — all provided. Show up with your boots and we'll handle the rest.</p>
+      <div class="feat-meta">tents · packs · GPS · no rental hassle</div>
+    </div>
+    <div class="feat">
+      <div class="feat-label">Impact</div>
+      <h4>Leave no trace</h4>
+      <p>B Corp certified, carbon offset on every trip, and all guides are hired locally in each destination.</p>
+      <div class="feat-meta">local partners · carbon offset · B Corp</div>
+    </div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="stats-grid">
+    <div><div class="stat-val">120+</div><div class="stat-label">Routes worldwide</div></div>
+    <div><div class="stat-val">15yr</div><div class="stat-label">Experience</div></div>
+    <div><div class="stat-val">4.9★</div><div class="stat-label">Guest rating</div></div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col"><h5>Tours</h5><a href="#">All tours</a><a href="#">By difficulty</a><a href="#">Multi-day</a></div>
+    <div class="footer-col"><h5>Destinations</h5><a href="#">Patagonia</a><a href="#">Dolomites</a><a href="#">Nepal</a></div>
+    <div class="footer-col"><h5>Company</h5><a href="#">About</a><a href="#">Guides</a><a href="#">Safety</a></div>
+    <div class="footer-col">
+      <h5>Newsletter</h5>
+      <div class="email-row"><input type="email" placeholder="your@email.com"/><button>Subscribe</button></div>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2024 TrailPath Adventures Inc. All rights reserved.</div>
+</footer>
+</body>
+</html>

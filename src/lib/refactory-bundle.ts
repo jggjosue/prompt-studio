@@ -5,6 +5,7 @@ import {
   isRefactoryPreviewable,
 } from '@/lib/demo-project-type';
 import { normalizeDemoFolder } from '@/lib/refactory-online';
+import { cacheGetOrSet } from '@/lib/server-cache';
 import {
   getR2ObjectText,
   isR2S3Configured,
@@ -128,10 +129,18 @@ export async function resolveDemoBundle(
     return null;
   }
 
-  const local = readLocalDemoBundle(folder, projectKind);
-  if (local) return local;
+  const cacheKey = `${folder}:${projectKind}:${stack.join(',')}`;
 
-  return readR2DemoBundle(folder, stack);
+  return cacheGetOrSet(
+    'demo-bundle',
+    cacheKey,
+    async () => {
+      const local = readLocalDemoBundle(folder, projectKind);
+      if (local) return local;
+      return readR2DemoBundle(folder, stack);
+    },
+    { ttlMs: 30 * 60 * 1000 }
+  );
 }
 
 /** Comprueba si la carpeta existe en R2 con las reglas del stack (sin cargar contenido). */

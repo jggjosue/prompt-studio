@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BeatForge — Beat Marketplace</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#18120b;--text:#fef3c7;--muted:#d6d3d1;--accent:#f97316;--accent2:#ea580c;--border:#2a1e10;--card:#221808;--font:'Inter',system-ui,sans-serif}
+body{font-family:var(--font);background:var(--bg);color:var(--text)}
+nav{background:rgba(24,18,11,0.9);border-bottom:1px solid var(--border);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;backdrop-filter:blur(10px)}
+.nav-logo{font-weight:900;font-size:1.15rem;color:var(--text);display:flex;align-items:center;gap:8px}
+.logo-mark{width:28px;height:28px;background:linear-gradient(135deg,var(--accent2),var(--accent));border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.9rem}
+.nav-links{display:flex;gap:1.75rem}
+.nav-links a{font-size:0.875rem;font-weight:400;color:var(--muted);text-decoration:none;opacity:0.8}
+.nav-links a:hover{color:var(--text);opacity:1}
+.btn-accent{background:var(--accent);color:#fff;border:none;padding:9px 20px;border-radius:6px;font-size:0.875rem;font-weight:700;cursor:pointer}
+
+.hero{padding:5rem 2rem 4.5rem;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+@media(max-width:768px){.hero{grid-template-columns:1fr;gap:2.5rem}}
+.hero-pill{display:inline-flex;align-items:center;background:rgba(249,115,22,0.12);border:1px solid rgba(249,115,22,0.3);color:var(--accent);font-size:0.75rem;font-weight:600;letter-spacing:0.04em;padding:5px 14px;border-radius:99px;margin-bottom:1.5rem}
+.hero h1{font-size:clamp(2.25rem,4.5vw,3.5rem);font-weight:900;color:var(--text);line-height:1.08;letter-spacing:-1px;margin-bottom:1.25rem}
+.hero h1 em{color:var(--accent);font-style:italic}
+.hero p{font-size:1rem;color:var(--muted);max-width:440px;line-height:1.65;margin-bottom:2.5rem;opacity:0.85}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn-hero{background:var(--accent);color:#fff;border:none;padding:13px 28px;border-radius:6px;font-size:1rem;font-weight:700;cursor:pointer}
+.btn-hero-ghost{background:transparent;border:1.5px solid var(--border);color:var(--muted);padding:12px 24px;border-radius:6px;font-size:1rem;font-weight:500;cursor:pointer}
+
+/* WAVEFORM PLAYER MOCKUP */
+.player-wrap{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 8px 32px rgba(249,115,22,0.12)}
+.beat-row{display:flex;align-items:center;gap:10px;padding:13px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.15s}
+.beat-row:hover{background:rgba(249,115,22,0.06)}
+.beat-row.playing{background:rgba(249,115,22,0.08)}
+.beat-play{width:32px;height:32px;border-radius:50%;background:var(--accent);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.75rem;flex-shrink:0}
+.beat-play.outline{background:transparent;border:1.5px solid var(--border);color:var(--muted)}
+.beat-info{flex:1;min-width:0}
+.beat-title{font-size:0.85rem;font-weight:700;color:var(--text);margin-bottom:2px}
+.beat-meta{font-size:0.7rem;color:var(--muted);display:flex;gap:8px}
+.beat-tag{font-size:0.6rem;font-weight:700;padding:2px 7px;border-radius:3px;background:rgba(249,115,22,0.15);color:var(--accent)}
+.beat-bpm{font-size:0.7rem;color:var(--muted)}
+.waveform{flex:1;height:28px;display:flex;gap:2px;align-items:center;padding:0 4px}
+.wbar{flex:1;border-radius:1px;background:rgba(254,243,199,0.1)}
+.wbar.played{background:var(--accent)}
+.beat-price{font-size:0.85rem;font-weight:700;color:var(--accent);flex-shrink:0}
+.player-footer{padding:12px 14px;background:rgba(249,115,22,0.06);border-top:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.player-controls{display:flex;gap:8px}
+.ctrl{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.06);border:none;color:var(--muted);cursor:pointer;font-size:0.75rem}
+.ctrl.play{background:var(--accent);color:#fff;width:36px;height:36px}
+.vol-bar{flex:1;height:3px;background:var(--border);border-radius:1px;position:relative;cursor:pointer}
+.vol-fill{width:70%;height:100%;background:var(--accent);border-radius:1px}
+
+/* CHIPS */
+.chips-section{padding:3rem 2rem;background:rgba(255,255,255,0.02);text-align:center;border-top:1px solid var(--border)}
+.chips-label{font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);margin-bottom:1rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.chip{padding:8px 18px;border-radius:6px;border:1px solid var(--border);color:var(--muted);font-size:0.875rem;font-weight:500;cursor:pointer;background:var(--card);transition:all 0.15s}
+.chip:hover,.chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* FEATURES */
+.features{padding:5rem 2rem;text-align:center}
+.features h2{font-size:2rem;font-weight:900;color:var(--text);margin-bottom:0.75rem;letter-spacing:-0.5px}
+.features p.sub{color:var(--muted);max-width:480px;margin:0 auto 3rem;opacity:0.8}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem;max-width:860px;margin:0 auto}
+.feat{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.75rem 1.5rem;text-align:left}
+.feat-label{display:inline-block;background:rgba(249,115,22,0.12);color:var(--accent);font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;padding:3px 8px;border-radius:3px;margin-bottom:0.75rem}
+.feat h4{font-size:1rem;font-weight:700;color:var(--text);margin-bottom:0.4rem}
+.feat p{font-size:0.875rem;color:var(--muted);line-height:1.6;opacity:0.85}
+.feat-meta{font-size:0.72rem;color:var(--accent);margin-top:0.75rem}
+
+/* STATS */
+.stats{background:linear-gradient(135deg,var(--accent2),var(--accent));padding:3rem 2rem;text-align:center}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1.5rem;max-width:600px;margin:0 auto}
+.stat-val{font-size:1.85rem;font-weight:900;color:#fff}
+.stat-label{font-size:0.8rem;color:rgba(255,255,255,0.8);margin-top:3px}
+
+footer{background:#0f0904;border-top:1px solid var(--border);padding:3.5rem 2rem 2rem}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:2rem;max-width:860px;margin:0 auto 2rem}
+.footer-col h5{font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:rgba(254,243,199,0.2);margin-bottom:0.75rem}
+.footer-col a{display:block;font-size:0.875rem;color:var(--muted);text-decoration:none;margin-bottom:6px;opacity:0.7}
+.footer-col a:hover{color:var(--text);opacity:1}
+.email-row{display:flex;gap:0;margin-top:0.75rem}
+.email-row input{flex:1;padding:9px 12px;border:1px solid var(--border);background:var(--card);color:var(--text);border-right:none;font-size:0.8rem;outline:none;border-radius:4px 0 0 4px;font-family:var(--font)}
+.email-row button{padding:9px 14px;background:var(--accent);color:#fff;border:none;font-size:0.8rem;font-weight:700;cursor:pointer;border-radius:0 4px 4px 0}
+.footer-bottom{border-top:1px solid var(--border);padding-top:1.5rem;text-align:center;font-size:0.75rem;color:#4a3420;max-width:860px;margin:0 auto}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo"><div class="logo-mark">🎛️</div>BeatForge</div>
+  <div class="nav-links"><a href="#">Beats</a><a href="#">Licenses</a><a href="#">Sell</a></div>
+  <button class="btn-accent">Browse beats</button>
+</nav>
+
+<section style="background:radial-gradient(ellipse at 60% 0%,rgba(249,115,22,0.1) 0%,transparent 55%)">
+  <div class="hero">
+    <div>
+      <div class="hero-pill">🎚️ Lease · Exclusive · Stems</div>
+      <h1>Find your next <em>hit</em> right here</h1>
+      <p>80,000+ premium beats from the world's best producers. License instantly, download today, record tomorrow.</p>
+      <div class="hero-actions">
+        <button class="btn-hero">Browse beats</button>
+        <button class="btn-hero-ghost">Explore catalog</button>
+      </div>
+    </div>
+    <div>
+      <div class="player-wrap">
+        <div class="beat-row playing">
+          <button class="beat-play">⏸</button>
+          <div class="beat-info"><div class="beat-title">Midnight Drip</div><div class="beat-meta"><span class="beat-tag">Trap</span><span class="beat-bpm">140 BPM · Cm</span></div></div>
+          <div class="waveform">
+            <div class="wbar played" style="height:55%"></div><div class="wbar played" style="height:80%"></div>
+            <div class="wbar played" style="height:60%"></div><div class="wbar" style="height:90%"></div>
+            <div class="wbar" style="height:50%"></div><div class="wbar" style="height:70%"></div>
+            <div class="wbar" style="height:40%"></div><div class="wbar" style="height:65%"></div>
+          </div>
+          <span class="beat-price">$49</span>
+        </div>
+        <div class="beat-row">
+          <button class="beat-play outline">▶</button>
+          <div class="beat-info"><div class="beat-title">Lagos Heat</div><div class="beat-meta"><span class="beat-tag">Afrobeat</span><span class="beat-bpm">97 BPM · Dm</span></div></div>
+          <div class="waveform">
+            <div class="wbar" style="height:45%"></div><div class="wbar" style="height:75%"></div>
+            <div class="wbar" style="height:55%"></div><div class="wbar" style="height:85%"></div>
+            <div class="wbar" style="height:60%"></div><div class="wbar" style="height:40%"></div>
+            <div class="wbar" style="height:70%"></div><div class="wbar" style="height:50%"></div>
+          </div>
+          <span class="beat-price">$39</span>
+        </div>
+        <div class="beat-row">
+          <button class="beat-play outline">▶</button>
+          <div class="beat-info"><div class="beat-title">Velvet Touch</div><div class="beat-meta"><span class="beat-tag">R&B</span><span class="beat-bpm">78 BPM · Bbm</span></div></div>
+          <div class="waveform">
+            <div class="wbar" style="height:60%"></div><div class="wbar" style="height:40%"></div>
+            <div class="wbar" style="height:80%"></div><div class="wbar" style="height:55%"></div>
+            <div class="wbar" style="height:70%"></div><div class="wbar" style="height:45%"></div>
+            <div class="wbar" style="height:60%"></div><div class="wbar" style="height:75%"></div>
+          </div>
+          <span class="beat-price">$29</span>
+        </div>
+        <div class="player-footer">
+          <div class="player-controls"><button class="ctrl">⏮</button><button class="ctrl play">⏸</button><button class="ctrl">⏭</button></div>
+          <div class="vol-bar"><div class="vol-fill"></div></div>
+          <span style="font-size:0.72rem;color:var(--muted)">🔈</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="chips-section">
+  <div class="chips-label">Browse by genre</div>
+  <div class="chips">
+    <span class="chip active">Trap</span><span class="chip">Drill</span><span class="chip">R&B</span><span class="chip">Afrobeat</span>
+  </div>
+</section>
+
+<section class="features">
+  <h2>License the right way</h2>
+  <p class="sub">From streaming singles to full exclusives — BeatForge has every license type covered.</p>
+  <div class="features-grid">
+    <div class="feat">
+      <div class="feat-label">Lease</div>
+      <h4>MP3 lease</h4>
+      <p>From $29. Good for up to 50,000 streams. Instant download, no approval needed — start recording today.</p>
+      <div class="feat-meta">From $29 · 50k streams · instant DL</div>
+    </div>
+    <div class="feat">
+      <div class="feat-label">Excl</div>
+      <h4>Exclusive rights</h4>
+      <p>WAV + trackout stems, one buyer forever. The beat is removed from the marketplace once you purchase.</p>
+      <div class="feat-meta">WAV + stems · 1 buyer · from $299</div>
+    </div>
+    <div class="feat">
+      <div class="feat-label">Sell</div>
+      <h4>Producer storefront</h4>
+      <p>Keep 70% of every sale. Real-time analytics, weekly payouts, and your own branded producer page.</p>
+      <div class="feat-meta">70% rev share · analytics · payout weekly</div>
+    </div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="stats-grid">
+    <div><div class="stat-val">80k+</div><div class="stat-label">Beats available</div></div>
+    <div><div class="stat-val">15k</div><div class="stat-label">Producers</div></div>
+    <div><div class="stat-val">$29</div><div class="stat-label">Starting price</div></div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col"><h5>Buy</h5><a href="#">Beats</a><a href="#">Licenses</a><a href="#">Stems</a></div>
+    <div class="footer-col"><h5>Sell</h5><a href="#">Start selling</a><a href="#">Pricing</a><a href="#">Payouts</a></div>
+    <div class="footer-col"><h5>Company</h5><a href="#">About</a><a href="#">Blog</a><a href="#">Careers</a></div>
+    <div class="footer-col">
+      <h5>Newsletter</h5>
+      <div class="email-row"><input type="email" placeholder="your@email.com"/><button>Subscribe</button></div>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2024 BeatForge Inc. All rights reserved.</div>
+</footer>
+</body>
+</html>
