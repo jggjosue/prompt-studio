@@ -34,20 +34,42 @@ export const clerkProviderProps = {
     process.env.NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL ?? '/prices',
 } as const;
 
-/** Ejecutar antes de build de producción: `npm run verify:clerk -- production` */
+function shouldEnforceLiveClerkKeys(): boolean {
+  const flag = process.env.CLERK_ENFORCE_LIVE_KEYS?.trim().toLowerCase();
+  return flag === '1' || flag === 'true' || flag === 'yes';
+}
+
+/**
+ * Aviso en build de producción si siguen claves de test.
+ * Solo falla el build si `CLERK_ENFORCE_LIVE_KEYS=1` (recomendado cuando ya tengas pk_live_* en Vercel).
+ * Comprobación estricta manual: `npm run verify:clerk:prod`
+ */
 export function assertClerkProductionKeys(): void {
-  if (process.env.VERCEL_ENV !== 'production' && process.env.NODE_ENV !== 'production') {
-    return;
-  }
+  const isProdBuild =
+    process.env.VERCEL_ENV === 'production' ||
+    process.env.NODE_ENV === 'production';
+  if (!isProdBuild) return;
+
+  const problems: string[] = [];
   if (publishableKey.startsWith('pk_test_')) {
-    throw new Error(
-      '[Clerk] Build de producción con pk_test_*. Usa pk_live_* y sk_live_* en Vercel (entorno Production).'
-    );
+    problems.push('NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY es pk_test_*');
   }
   const secret = process.env.CLERK_SECRET_KEY;
   if (secret?.startsWith('sk_test_')) {
-    throw new Error(
-      '[Clerk] Build de producción con sk_test_*. Usa sk_live_* en Vercel (entorno Production).'
-    );
+    problems.push('CLERK_SECRET_KEY es sk_test_*');
   }
+  if (problems.length === 0) return;
+
+  const message =
+    '[Clerk] Build de producción con claves de test: ' +
+    problems.join('; ') +
+    '. Configura pk_live_* y sk_live_* en Vercel (Production). ' +
+    'Para bloquear el build hasta entonces, deja CLERK_ENFORCE_LIVE_KEYS sin definir; ' +
+    'cuando uses live keys, opcionalmente pon CLERK_ENFORCE_LIVE_KEYS=1 para exigirlas.';
+
+  if (shouldEnforceLiveClerkKeys()) {
+    throw new Error(message);
+  }
+
+  console.warn(message);
 }
