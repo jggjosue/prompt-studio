@@ -9,22 +9,36 @@
 
 import { createHash } from 'crypto';
 import type { Redis } from 'ioredis';
+import {
+  getCacheNamespacePolicy,
+  type CacheNamespace,
+} from '@/lib/cache-namespace-policy';
 import type { LruSetOptions, LruStats, LruStoreConfig } from '@/lib/lru-cache-store';
 import { getLruStoreConfigFromEnv } from '@/lib/lru-cache-store';
 
-const VAL_PREFIX = 'ps:cache:val:';
-const LRU_INDEX_PREFIX = 'ps:cache:lru:';
+/** Hash tag por namespace — operaciones MULTI en el mismo slot (Redis Cluster). */
+function hashTag(namespace: string): string {
+  return `{ps:cache:${namespace}}`;
+}
 
 function hashKey(key: string): string {
   return createHash('sha256').update(key).digest('hex').slice(0, 32);
 }
 
 function valueKey(namespace: string, key: string): string {
-  return `${VAL_PREFIX}${namespace}:${hashKey(key)}`;
+  return `${hashTag(namespace)}:val:${hashKey(key)}`;
 }
 
 function indexKey(namespace: string): string {
-  return `${LRU_INDEX_PREFIX}${namespace}`;
+  return `${hashTag(namespace)}:lru`;
+}
+
+function maxEntriesFor(namespace: string): number {
+  try {
+    return getCacheNamespacePolicy(namespace as CacheNamespace).maxEntries;
+  } catch {
+    return getLruStoreConfigFromEnv().maxEntries;
+  }
 }
 
 export type RedisLruPayload =
@@ -138,7 +152,8 @@ export class RedisLruStore {
   private async evictIfNeeded(redis: Redis, namespace: string): Promise<void> {
     const iKey = indexKey(namespace);
     const count = await redis.zcard(iKey);
-    const overflow = count - this.config.maxEntries;
+    const cap = maxEntriesFor(namespace);
+    const overflow = count - cap;
     if (overflow <= 0) return;
 
     const victims = await redis.zpopmin(iKey, overflow);
@@ -184,12 +199,14 @@ export class RedisLruStore {
     const redis = await getRedisLruClient();
     if (!redis) return null;
     const size = await redis.zcard(indexKey(namespace));
+    const cap = maxEntriesFor(namespace);
+    const policy = getCacheNamespacePolicy(namespace as CacheNamespace);
     return {
       namespace,
       size,
       calculatedSize: 0,
-      maxEntries: this.config.maxEntries,
-      maxSizeBytes: this.config.maxSizeBytes,
+      maxEntries: cap,
+      maxSizeBytes: policy.maxSizeBytes,
     };
   }
 }

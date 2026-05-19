@@ -42,6 +42,11 @@ export const SW_ROUTE_POLICIES = [
     note: 'Catálogos locales',
   },
   {
+    pattern: '/api/landing-pages/catalog, readability-index',
+    strategy: SW_CACHE_STRATEGIES.staleWhileRevalidate,
+    note: 'API catálogo / legibilidad — SWR + LRU en almacén data (48 entradas)',
+  },
+  {
     pattern: '/api/* (resto)',
     strategy: SW_CACHE_STRATEGIES.networkFirst,
     note: 'APIs dinámicas; sin bloquear Clerk/Stripe (omitidos)',

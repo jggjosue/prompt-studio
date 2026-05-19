@@ -15,7 +15,7 @@ import {
 import { useKeysetPaginationUrl } from '@/hooks/use-keyset-pagination';
 import { useLocalizedPlaceholderImages } from '@/hooks/use-localized-catalog';
 import type { ImagePlaceholder } from '@/lib/placeholder-images';
-import { summarizeTagFacets } from '@/lib/catalog-tag-aggregation';
+import { useMediaCatalogHashBundle } from '@/hooks/use-catalog-hash-bundle';
 import { useFuzzyFilter } from '@/hooks/use-fuzzy-filter';
 import { Sparkles, Search, Tag, Wand2 } from 'lucide-react';
 import Link from 'next/link';
@@ -66,28 +66,22 @@ function ImagePromptsContent() {
     [placeholderImages]
   );
 
-  const imageFacets = useMemo(
-    () => summarizeTagFacets(allImages, p => p.tags, { topN: 14, minCount: 2 }),
-    [allImages]
+  const { topTags, filtered: facetByTag } = useMediaCatalogHashBundle(
+    allImages,
+    item => item.id,
+    item => item.tags,
+    { tag: facetTag },
+    { topN: 14, minCount: 2 }
   );
 
   const facetFiltered = useMemo(() => {
-    let items = allImages;
-
-    if (NANO_BANANA_TAB_ENABLED && filter === 'nano-banana') {
-      items = items.filter(item =>
-        item.tags.map(t => t.toLowerCase()).includes('nano banana')
-      );
+    if (!NANO_BANANA_TAB_ENABLED || filter !== 'nano-banana') {
+      return facetByTag;
     }
-
-    if (facetTag) {
-      items = items.filter(item =>
-        item.tags.some(t => t.toLowerCase() === facetTag.toLowerCase())
-      );
-    }
-
-    return items;
-  }, [allImages, filter, facetTag]);
+    return facetByTag.filter(item =>
+      item.tags.map(t => t.toLowerCase()).includes('nano banana')
+    );
+  }, [facetByTag, filter]);
 
   const {
     input: searchInput,
@@ -121,6 +115,7 @@ function ImagePromptsContent() {
     hasPrev,
     goNext,
     goPrev,
+    goFirst,
     rangeStart,
     rangeEnd,
     totalCount,
@@ -180,7 +175,7 @@ function ImagePromptsContent() {
         )}
 
         <CatalogFacetBar
-          topTags={imageFacets.topTags}
+          topTags={topTags}
           activeTag={facetTag}
           onSelectTag={selectFacetTag}
           onClearFacets={clearFacets}
@@ -278,6 +273,7 @@ function ImagePromptsContent() {
         hasNext={hasNext}
         onPrev={goPrev}
         onNext={goNext}
+        onFirst={goFirst}
         rangeStart={rangeStart}
         rangeEnd={rangeEnd}
         totalCount={totalCount}

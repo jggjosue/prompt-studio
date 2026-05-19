@@ -1,5 +1,6 @@
 'use client';
 
+import { fetchJsonWithLru } from '@/lib/client-lru-cache';
 import type { LandingReadabilityPublicSnapshot } from '@/lib/landing-readability-store';
 import type { Locale } from '@/i18n/config';
 import { useLocale } from 'next-intl';
@@ -16,9 +17,10 @@ export function useLandingReadabilityIndex() {
     let cancelled = false;
     setIsLoading(true);
 
-    fetch(`/api/landing-pages/readability-index?locale=${locale}`)
-      .then(res => (res.ok ? res.json() : { snapshots: {} }))
-      .then((data: { snapshots?: Record<string, LandingReadabilityPublicSnapshot> }) => {
+    fetchJsonWithLru<{ snapshots?: Record<string, LandingReadabilityPublicSnapshot> }>(
+      `/api/landing-pages/readability-index?locale=${locale}`
+    )
+      .then(data => {
         if (!cancelled) {
           setSnapshots(data.snapshots ?? {});
         }

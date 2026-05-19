@@ -13,8 +13,8 @@ import {
 } from '@/hooks/use-catalog-search-url';
 import { useKeysetPaginationUrl } from '@/hooks/use-keyset-pagination';
 import { useLocalizedWebPages } from '@/hooks/use-localized-catalog';
-import { summarizeWebFacets } from '@/lib/catalog-tag-aggregation';
 import { useLandingReadabilityIndex } from '@/hooks/use-landing-readability-index';
+import { useWebCatalogHashBundle } from '@/hooks/use-catalog-hash-bundle';
 import { useFuzzyFilter } from '@/hooks/use-fuzzy-filter';
 import { Search } from 'lucide-react';
 import Link from 'next/link';
@@ -37,25 +37,13 @@ function LandingPagesContent() {
   const { snapshots: readabilityByPageId } = useLandingReadabilityIndex();
   const allPages = useMemo(() => webPages.filter(p => p.imageUrl), [webPages]);
 
-  const webFacets = useMemo(
-    () => summarizeWebFacets(allPages, { topN: 14, minCount: 2 }),
-    [allPages]
+  const { topTags, topStacks, filtered: facetFiltered } = useWebCatalogHashBundle(
+    allPages,
+    page => page.id,
+    page => ({ tags: page.tags, stack: page.stack }),
+    { tag: facetTag, stack: facetStack },
+    { topN: 14, minCount: 2 }
   );
-
-  const facetFiltered = useMemo(() => {
-    let items = allPages;
-    if (facetTag) {
-      items = items.filter(p =>
-        p.tags.some(t => t.toLowerCase() === facetTag.toLowerCase())
-      );
-    }
-    if (facetStack) {
-      items = items.filter(p =>
-        p.stack.some(s => s.toLowerCase() === facetStack.toLowerCase())
-      );
-    }
-    return items;
-  }, [allPages, facetTag, facetStack]);
 
   const {
     input: searchInput,
@@ -78,6 +66,7 @@ function LandingPagesContent() {
     hasPrev,
     goNext,
     goPrev,
+    goFirst,
     rangeStart,
     rangeEnd,
     totalCount,
@@ -146,8 +135,8 @@ function LandingPagesContent() {
         )}
 
         <CatalogFacetBar
-          topTags={webFacets.topTags}
-          topStacks={webFacets.topStacks}
+          topTags={topTags}
+          topStacks={topStacks}
           activeTag={facetTag}
           activeStack={facetStack}
           onSelectTag={selectFacetTag}
@@ -194,6 +183,7 @@ function LandingPagesContent() {
         hasNext={hasNext}
         onPrev={goPrev}
         onNext={goNext}
+        onFirst={goFirst}
         rangeStart={rangeStart}
         rangeEnd={rangeEnd}
         totalCount={totalCount}
