@@ -9,10 +9,7 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { PromptEditButton } from '@/components/prompt-edit-button';
 import Link from 'next/link';
-import {
-  useImageTagAggregates,
-  useImageTagFilterIndex,
-} from '@/hooks/use-catalog-hash-aggregation';
+import { useImageTagsCatalogPipeline } from '@/hooks/use-catalog-hash-aggregation';
 import { filterItemsByTag } from '@/lib/catalog-tag-aggregation';
 import {
   Palette,
@@ -28,7 +25,7 @@ import {
 } from 'lucide-react';
 import { KeysetPagination } from '@/components/keyset-pagination';
 import { cn } from '@/lib/utils';
-import { useKeysetPagination } from '@/hooks/use-keyset-pagination';
+import { useKeysetPaginationUrl } from '@/hooks/use-keyset-pagination';
 import { useLocalizedPlaceholderImages } from '@/hooks/use-localized-catalog';
 import {
   buildCatalogQueryUrl,
@@ -75,9 +72,11 @@ function ImageTagsContent() {
     [placeholderImages]
   );
 
-  const { categories: imageTagsData, totalUniqueTags } =
-    useImageTagAggregates(allImages);
-  const tagFilterIndex = useImageTagFilterIndex(allImages);
+  const {
+    categories: imageTagsData,
+    totalUniqueTags,
+    facetIndex: tagFilterIndex,
+  } = useImageTagsCatalogPipeline(allImages);
 
   useEffect(() => {
     const tag = searchParams.get('tag')?.trim();
@@ -115,10 +114,14 @@ function ImageTagsContent() {
     hasPrev,
     goNext,
     goPrev,
+    goFirst,
     rangeStart,
     rangeEnd,
     totalCount,
-  } = useKeysetPagination(displayImages, item => item.id, ITEMS_PER_PAGE, {
+  } = useKeysetPaginationUrl(displayImages, item => item.id, ITEMS_PER_PAGE, {
+    searchParams,
+    pathname,
+    router,
     resetDeps: [selectedTag, debouncedQuery],
   });
 
@@ -314,6 +317,7 @@ function ImageTagsContent() {
                 hasNext={hasNext}
                 onPrev={goPrev}
                 onNext={goNext}
+                onFirst={goFirst}
                 rangeStart={rangeStart}
                 rangeEnd={rangeEnd}
                 totalCount={totalCount}

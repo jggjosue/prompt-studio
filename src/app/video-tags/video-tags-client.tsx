@@ -9,10 +9,7 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { PromptEditButton } from '@/components/prompt-edit-button';
 import Link from 'next/link';
-import {
-  useVideoTagAggregates,
-  useVideoTagFilterIndex,
-} from '@/hooks/use-catalog-hash-aggregation';
+import { useVideoTagsCatalogPipeline } from '@/hooks/use-catalog-hash-aggregation';
 import { filterItemsByTag } from '@/lib/catalog-tag-aggregation';
 import {
   Wand2,
@@ -26,7 +23,7 @@ import {
 } from 'lucide-react';
 import { KeysetPagination } from '@/components/keyset-pagination';
 import { cn } from '@/lib/utils';
-import { useKeysetPagination } from '@/hooks/use-keyset-pagination';
+import { useKeysetPaginationUrl } from '@/hooks/use-keyset-pagination';
 import { useLocalizedPlaceholderVideos } from '@/hooks/use-localized-catalog';
 import {
   buildCatalogQueryUrl,
@@ -73,9 +70,11 @@ function VideoTagsContent() {
     [placeholderVideos]
   );
 
-  const { categories: videoTagsData, totalUniqueTags } =
-    useVideoTagAggregates(allVideos);
-  const tagFilterIndex = useVideoTagFilterIndex(allVideos);
+  const {
+    categories: videoTagsData,
+    totalUniqueTags,
+    facetIndex: tagFilterIndex,
+  } = useVideoTagsCatalogPipeline(allVideos);
 
   useEffect(() => {
     const tag = searchParams.get('tag')?.trim();
@@ -113,10 +112,14 @@ function VideoTagsContent() {
     hasPrev,
     goNext,
     goPrev,
+    goFirst,
     rangeStart,
     rangeEnd,
     totalCount,
-  } = useKeysetPagination(displayVideos, item => item.id, ITEMS_PER_PAGE, {
+  } = useKeysetPaginationUrl(displayVideos, item => item.id, ITEMS_PER_PAGE, {
+    searchParams,
+    pathname,
+    router,
     resetDeps: [selectedTag, debouncedQuery],
   });
 
@@ -313,6 +316,7 @@ function VideoTagsContent() {
                 hasNext={hasNext}
                 onPrev={goPrev}
                 onNext={goNext}
+                onFirst={goFirst}
                 rangeStart={rangeStart}
                 rangeEnd={rangeEnd}
                 totalCount={totalCount}

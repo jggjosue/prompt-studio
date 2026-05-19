@@ -8,19 +8,24 @@
  */
 
 import {
+  getCacheNamespacePolicy,
+  listCacheNamespaces,
+  type CacheNamespace,
+} from '@/lib/cache-namespace-policy';
+import {
   MemoryLruStore,
   getLruStoreConfigFromEnv,
   type LruSetOptions,
   type LruStats,
 } from '@/lib/lru-cache-store';
-import { RedisLruStore, isRedisLruConfigured } from '@/lib/redis-lru-cache';
+import {
+  RedisLruStore,
+  isRedisLruConfigured,
+} from '@/lib/redis-lru-cache';
 
-export type CacheNamespace =
-  | 'r2-bytes'
-  | 'web-asset'
-  | 'demo-bundle'
-  | 'prompt-json'
-  | 'catalog';
+export { isRedisLruConfigured };
+
+export type { CacheNamespace };
 
 export type CacheGetOrSetOptions = LruSetOptions & {
   namespace: CacheNamespace;
@@ -28,6 +33,17 @@ export type CacheGetOrSetOptions = LruSetOptions & {
 
 const memory = new MemoryLruStore(getLruStoreConfigFromEnv());
 const redis = new RedisLruStore();
+
+function resolveStoreOptions(
+  namespace: CacheNamespace,
+  options: Omit<CacheGetOrSetOptions, 'namespace'> = {}
+): Omit<CacheGetOrSetOptions, 'namespace'> {
+  const policy = getCacheNamespacePolicy(namespace);
+  return {
+    ttlMs: options.ttlMs ?? policy.defaultTtlMs,
+    sizeBytes: options.sizeBytes,
+  };
+}
 
 /**
  * Obtiene del caché o ejecuta `factory` y guarda el resultado (LRU + TTL).
@@ -52,7 +68,7 @@ export async function cacheGetOrSet<T>(
   }
 
   const value = await factory();
-  const storeOptions = withAutoSize(value, options);
+  const storeOptions = withAutoSize(value, resolveStoreOptions(namespace, options));
   memory.set(namespace, key, value, storeOptions);
 
   if (isRedisLruConfigured()) {
@@ -86,10 +102,29 @@ export async function cacheSet<T>(
   value: T,
   options: Omit<CacheGetOrSetOptions, 'namespace'> = {}
 ): Promise<void> {
-  memory.set(namespace, key, value, options);
+  const storeOptions = withAutoSize(value, resolveStoreOptions(namespace, options));
+  memory.set(namespace, key, value, storeOptions);
   if (isRedisLruConfigured()) {
-    await redis.set(namespace, key, value, options);
+    await redis.set(namespace, key, value, storeOptions);
   }
+}
+
+/** Lectura L1 → L2; promueve a memoria si solo estaba en Redis. */
+export async function cacheGetAsync<T>(
+  namespace: CacheNamespace,
+  key: string
+): Promise<T | undefined> {
+  const memHit = memory.get<T>(namespace, key);
+  if (memHit !== undefined) return memHit;
+
+  if (isRedisLruConfigured()) {
+    const redisHit = await redis.get<T>(namespace, key);
+    if (redisHit !== undefined) {
+      memory.set(namespace, key, redisHit, resolveStoreOptions(namespace));
+      return redisHit;
+    }
+  }
+  return undefined;
 }
 
 export async function cacheInvalidate(
@@ -111,11 +146,38 @@ export async function cacheInvalidate(
 
 export async function cacheStats(
   namespace: CacheNamespace
-): Promise<{ memory: LruStats; redis: LruStats | null }> {
+): Promise<{
+  policy: ReturnType<typeof getCacheNamespacePolicy>;
+  memory: LruStats;
+  redis: LruStats | null;
+}> {
   return {
+    policy: getCacheNamespacePolicy(namespace),
     memory: memory.stats(namespace),
     redis: isRedisLruConfigured() ? await redis.stats(namespace) : null,
   };
+}
+
+export async function cacheStatsAll(): Promise<
+  Record<
+    CacheNamespace,
+    Awaited<ReturnType<typeof cacheStats>> & { redisConfigured: boolean }
+  >
+> {
+  const redisConfigured = isRedisLruConfigured();
+  const out = {} as Record<CacheNamespace, Awaited<ReturnType<typeof cacheStats>> & { redisConfigured: boolean }>;
+  for (const ns of listCacheNamespaces()) {
+    const stats = await cacheStats(ns);
+    out[ns] = { ...stats, redisConfigured };
+  }
+  return out;
+}
+
+/** Invalida todos los namespaces (tras deploy masivo de JSON). */
+export async function cacheInvalidateAll(): Promise<void> {
+  for (const ns of listCacheNamespaces()) {
+    await cacheInvalidate(ns);
+  }
 }
 
 /** Clave estable para assets transcodificados. */

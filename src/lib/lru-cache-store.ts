@@ -4,6 +4,10 @@
  */
 
 import { LRUCache } from 'lru-cache';
+import {
+  getCacheNamespacePolicy,
+  getGlobalLruDefaults,
+} from '@/lib/cache-namespace-policy';
 
 export type LruStoreConfig = {
   maxEntries: number;
@@ -25,25 +29,25 @@ export type LruStats = {
   maxSizeBytes: number;
 };
 
-const DEFAULT_CONFIG: LruStoreConfig = {
-  maxEntries: 256,
-  maxSizeBytes: 128 * 1024 * 1024,
-  defaultTtlMs: 60 * 60 * 1000,
-};
-
-function parsePositiveInt(raw: string | undefined, fallback: number): number {
-  if (!raw?.trim()) return fallback;
-  const n = Number.parseInt(raw, 10);
-  return Number.isFinite(n) && n > 0 ? n : fallback;
-}
+const DEFAULT_CONFIG: LruStoreConfig = getGlobalLruDefaults();
 
 export function getLruStoreConfigFromEnv(): LruStoreConfig {
-  return {
-    maxEntries: parsePositiveInt(process.env.CACHE_LRU_MAX_ENTRIES, 256),
-    maxSizeBytes:
-      parsePositiveInt(process.env.CACHE_LRU_MAX_MB, 128) * 1024 * 1024,
-    defaultTtlMs: parsePositiveInt(process.env.CACHE_LRU_TTL_MS, 3_600_000),
-  };
+  return getGlobalLruDefaults();
+}
+
+function configForNamespace(namespace: string): LruStoreConfig {
+  try {
+    const policy = getCacheNamespacePolicy(
+      namespace as import('@/lib/cache-namespace-policy').CacheNamespace
+    );
+    return {
+      maxEntries: policy.maxEntries,
+      maxSizeBytes: policy.maxSizeBytes,
+      defaultTtlMs: policy.defaultTtlMs,
+    };
+  } catch {
+    return DEFAULT_CONFIG;
+  }
 }
 
 function entrySize(value: unknown): number {
@@ -68,11 +72,12 @@ export class MemoryLruStore {
   private cacheFor(namespace: string): LRUCache<string, object> {
     let cache = this.caches.get(namespace);
     if (!cache) {
+      const nsConfig = configForNamespace(namespace);
       cache = new LRUCache<string, object>({
-        max: this.config.maxEntries,
-        maxSize: this.config.maxSizeBytes,
+        max: nsConfig.maxEntries,
+        maxSize: nsConfig.maxSizeBytes,
         sizeCalculation: value => entrySize(value),
-        ttl: this.config.defaultTtlMs,
+        ttl: nsConfig.defaultTtlMs,
         updateAgeOnGet: true,
         updateAgeOnHas: true,
       });
@@ -108,12 +113,13 @@ export class MemoryLruStore {
 
   stats(namespace: string): LruStats {
     const cache = this.cacheFor(namespace);
+    const nsConfig = configForNamespace(namespace);
     return {
       namespace,
       size: cache.size,
       calculatedSize: cache.calculatedSize ?? 0,
-      maxEntries: this.config.maxEntries,
-      maxSizeBytes: this.config.maxSizeBytes,
+      maxEntries: nsConfig.maxEntries,
+      maxSizeBytes: nsConfig.maxSizeBytes,
     };
   }
 }

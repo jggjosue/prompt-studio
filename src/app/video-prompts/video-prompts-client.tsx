@@ -15,8 +15,8 @@ import {
 import { useKeysetPaginationUrl } from '@/hooks/use-keyset-pagination';
 import type { VideoProp } from '@/lib/placeholder-videos';
 import { useLocalizedPlaceholderVideos } from '@/hooks/use-localized-catalog';
-import { summarizeTagFacets } from '@/lib/catalog-tag-aggregation';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useMediaCatalogHashBundle } from '@/hooks/use-catalog-hash-bundle';
 import { useFuzzyFilter } from '@/hooks/use-fuzzy-filter';
 import { Sparkles, Search, Tag, Wand2 } from 'lucide-react';
 import Link from 'next/link';
@@ -82,28 +82,20 @@ function VideoPromptsContent() {
     [placeholderVideos]
   );
 
-  const videoFacets = useMemo(
-    () => summarizeTagFacets(allVideos, p => p.tags, { topN: 14, minCount: 2 }),
-    [allVideos]
+  const { topTags, filtered: facetByTag } = useMediaCatalogHashBundle(
+    allVideos,
+    item => item.id,
+    item => item.tags ?? [],
+    { tag: facetTag },
+    { topN: 14, minCount: 2 }
   );
 
   const facetFiltered = useMemo(() => {
-    let items = allVideos;
-
-    if (filter === 'nano-banana') {
-      items = items.filter(item =>
-        item.tags.map(t => t.toLowerCase()).includes('nano banana')
-      );
-    }
-
-    if (facetTag) {
-      items = items.filter(item =>
-        item.tags.some(t => t.toLowerCase() === facetTag.toLowerCase())
-      );
-    }
-
-    return items;
-  }, [allVideos, filter, facetTag]);
+    if (filter !== 'nano-banana') return facetByTag;
+    return facetByTag.filter(item =>
+      item.tags.map(t => t.toLowerCase()).includes('nano banana')
+    );
+  }, [facetByTag, filter]);
 
   const {
     input: searchInput,
@@ -131,6 +123,7 @@ function VideoPromptsContent() {
     hasPrev,
     goNext,
     goPrev,
+    goFirst,
     rangeStart,
     rangeEnd,
     totalCount,
@@ -190,7 +183,7 @@ function VideoPromptsContent() {
         )}
 
         <CatalogFacetBar
-          topTags={videoFacets.topTags}
+          topTags={topTags}
           activeTag={facetTag}
           onSelectTag={selectFacetTag}
           onClearFacets={clearFacets}
@@ -287,6 +280,7 @@ function VideoPromptsContent() {
         hasNext={hasNext}
         onPrev={goPrev}
         onNext={goNext}
+        onFirst={goFirst}
         rangeStart={rangeStart}
         rangeEnd={rangeEnd}
         totalCount={totalCount}

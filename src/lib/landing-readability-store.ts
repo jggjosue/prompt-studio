@@ -1,7 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import type { ReadabilityGrade, ReadabilityReport } from '@/lib/readability-analysis';
-import { cacheGetOrSet, cacheSet } from '@/lib/server-cache';
+import { cacheGetOrSet, cacheInvalidate, cacheSet } from '@/lib/server-cache';
 
 export type LandingReadabilitySnapshot = {
   pageId: string;
@@ -27,8 +27,12 @@ type ReadabilityIndexFile = {
 };
 
 const INDEX_PATH = path.join(process.cwd(), 'data/landing-readability.json');
-const CACHE_NS = 'catalog' as const;
+const CACHE_NS = 'readability' as const;
 const INDEX_CACHE_KEY = '__readability-index__';
+
+function publicIndexCacheKey(locale: 'en' | 'es'): string {
+  return `public-index:${locale}`;
+}
 
 /** Payload ligero para listados (sin `report` completo). */
 export type LandingReadabilityPublicSnapshot = {
@@ -88,6 +92,8 @@ async function persistIndexRecords(
   await cacheSet(CACHE_NS, INDEX_CACHE_KEY, index, {
     ttlMs: 365 * 24 * 60 * 60 * 1000,
   });
+  await cacheInvalidate(CACHE_NS, publicIndexCacheKey('en'));
+  await cacheInvalidate(CACHE_NS, publicIndexCacheKey('es'));
   try {
     await writeFileIndex(index);
   } catch (error) {

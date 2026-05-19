@@ -4,7 +4,7 @@ import {
   ListObjectsV2Command,
   S3Client,
 } from '@aws-sdk/client-s3';
-import { cacheGet, cacheSet } from '@/lib/server-cache';
+import { cacheGetAsync, cacheSet } from '@/lib/server-cache';
 import {
   getDemoProjectKind,
   getDemoProjectManifest,
@@ -106,7 +106,7 @@ export async function getR2ObjectText(objectKey: string): Promise<string | null>
 }
 
 export async function getR2ObjectBytes(objectKey: string): Promise<Buffer | null> {
-  const cached = cacheGet<Buffer>('r2-bytes', objectKey);
+  const cached = await cacheGetAsync<Buffer>('r2-bytes', objectKey);
   if (cached) return cached;
 
   const client = getR2S3Client();

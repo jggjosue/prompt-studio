@@ -25,8 +25,8 @@ function tokenize(text: string): string[] {
     .filter(t => t.length > 0);
 }
 
-/** Umbral mínimo de ítems para construir el árbol (evita overhead en listas tiny). */
-export const CATALOG_INDEX_MIN_ITEMS = 24;
+/** Umbral mínimo de ítems para construir el árbol (listas tiny: fuzzy directo). */
+export const CATALOG_INDEX_MIN_ITEMS = 12;
 
 export type CatalogIndexStats = {
   itemCount: number;

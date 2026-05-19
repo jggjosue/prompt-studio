@@ -1,14 +1,25 @@
 /**
  * Keyset (cursor) pagination — O(log n + limit) per page on a sorted key.
  *
- * Avoids OFFSET-style skips (`slice((page-1)*n)`) that degrade as the user
- * advances through large catalogs. Uses indexed comparison on a stable sort key
- * (typically `id`).
+ * Evita OFFSET (`LIMIT n OFFSET m`), que en BD obliga a leer y descartar
+ * las primeras m filas: coste crece con la profundidad de página.
  *
- * DB equivalent: `WHERE id > $cursor ORDER BY id ASC LIMIT $n`
+ * Keyset: comparación directa sobre clave indexada (id, timestamp):
+ *   `WHERE id > $after ORDER BY id ASC LIMIT $n`  → tiempo ~constante por página.
+ *
+ * Cliente (catálogo JSON): binary search + slice; servidor: mismo contrato en API.
  */
 
 export type KeysetCursor = string | null;
+
+export type KeysetPageMeta = {
+  /** Motor de paginación (para telemetría / API). */
+  mode: 'keyset';
+  /** Complejidad por página tras ordenar el catálogo. */
+  pageComplexity: 'O(log n + limit)';
+  /** Complejidad equivalente con OFFSET en la misma posición. */
+  offsetEquivalent: 'O(offset + limit)';
+};
 
 export type KeysetSlice<T> = {
   items: T[];
@@ -103,4 +114,41 @@ export function decodeKeysetCursor(raw: string | null | undefined): KeysetCursor
   } catch {
     return raw.trim();
   }
+}
+
+/** True si `afterKey` existe en la lista ordenada (cursor compartible válido). */
+export function isKeysetCursorInCatalog<T>(
+  sorted: readonly T[],
+  getKey: (item: T) => string,
+  afterKey: KeysetCursor
+): boolean {
+  if (afterKey === null) return true;
+  let lo = 0;
+  let hi = sorted.length - 1;
+  while (lo <= hi) {
+    const mid = (lo + hi) >> 1;
+    const cmp = compareCursorKeys(getKey(sorted[mid]!), afterKey);
+    if (cmp === 0) return true;
+    if (cmp < 0) lo = mid + 1;
+    else hi = mid - 1;
+  }
+  return false;
+}
+
+/** Cursor obsoleto (filtro cambió) → primera página. */
+export function sanitizeKeysetCursor<T>(
+  sorted: readonly T[],
+  getKey: (item: T) => string,
+  afterKey: KeysetCursor
+): KeysetCursor {
+  if (afterKey === null) return null;
+  return isKeysetCursorInCatalog(sorted, getKey, afterKey) ? afterKey : null;
+}
+
+export function keysetPageMeta(): KeysetPageMeta {
+  return {
+    mode: 'keyset',
+    pageComplexity: 'O(log n + limit)',
+    offsetEquivalent: 'O(offset + limit)',
+  };
 }

@@ -5,7 +5,7 @@
  * - Network-First: HTML (navegación) y APIs dinámicas
  */
 
-const CACHE_VERSION = 'ps-cache-v3';
+const CACHE_VERSION = 'ps-cache-v4';
 
 const CACHE = {
   static: `${CACHE_VERSION}-static`,
@@ -180,6 +180,13 @@ function pickStrategy(request) {
 
   if (url.pathname.startsWith('/api/webpages/assets/')) {
     return { name: 'stale-while-revalidate', cache: CACHE.runtime };
+  }
+
+  if (
+    url.pathname === '/api/landing-pages/catalog' ||
+    url.pathname.startsWith('/api/landing-pages/readability-index')
+  ) {
+    return { name: 'stale-while-revalidate', cache: CACHE.data };
   }
 
   if (

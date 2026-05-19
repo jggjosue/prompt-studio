@@ -14,16 +14,17 @@ import {
 } from '@/components/ui/card';
 import { KeysetPagination } from '@/components/keyset-pagination';
 import { cn } from '@/lib/utils';
-import { useKeysetPagination } from '@/hooks/use-keyset-pagination';
+import { useKeysetPaginationUrl } from '@/hooks/use-keyset-pagination';
 import { useLocalizedWebPages } from '@/hooks/use-localized-catalog';
 import { useSearchField } from '@/hooks/use-search-field';
 import { DEBOUNCE_MS } from '@/lib/flow-control';
 import { useFuzzyFilter } from '@/hooks/use-fuzzy-filter';
+import { useWebCatalogHashPipeline } from '@/hooks/use-catalog-hash-aggregation';
 import {
-  useWebPageTagFilterIndex,
-  useWebTagAggregates,
-} from '@/hooks/use-catalog-hash-aggregation';
-import { filterItemsByTag } from '@/lib/catalog-tag-aggregation';
+  filterItemsByMembership,
+  filterItemsByStack,
+  filterItemsByTag,
+} from '@/lib/catalog-tag-aggregation';
 import type { WebTagCategory } from '@/lib/web-tags-data';
 import {
   Building2,
@@ -42,7 +43,8 @@ import { useMembershipAccess } from '@/hooks/use-membership-access';
 import { membershipRequiresPayment } from '@/lib/membership-access';
 import { PromptEditButton } from '@/components/prompt-edit-button';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { buildCatalogQueryUrl } from '@/hooks/use-catalog-search-url';
 import { useTranslations } from 'next-intl';
 import { Suspense, useEffect, useMemo, useState, type ReactNode } from 'react';
 
@@ -84,6 +86,7 @@ function WebTagsContent() {
   const tTags = useTranslations('tags');
   const tCommon = useTranslations('common');
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const webPages = useLocalizedWebPages();
   const { ready, canAccessMembership, requestAccess, runWithAccess } =
@@ -106,11 +109,13 @@ function WebTagsContent() {
   );
 
   const {
-    categories: webTagsData,
-    totalWebPages,
-    totalUniqueTags,
-  } = useWebTagAggregates(allPages);
-  const pageFilterIndex = useWebPageTagFilterIndex(allPages);
+    aggregates: {
+      categories: webTagsData,
+      totalWebPages,
+      totalUniqueTags,
+    },
+    facetIndex: pageFilterIndex,
+  } = useWebCatalogHashPipeline(allPages);
 
   useEffect(() => {
     const tag = searchParams.get('tag');
@@ -134,12 +139,12 @@ function WebTagsContent() {
     if (!filter) return [];
 
     if (filter.kind === 'tag') {
-      return filterItemsByTag(pageFilterIndex.byTag, filter.value);
+      return filterItemsByTag(pageFilterIndex, filter.value);
     }
     if (filter.kind === 'stack') {
-      return filterItemsByTag(pageFilterIndex.byStack, filter.value);
+      return filterItemsByStack(pageFilterIndex, filter.value);
     }
-    return filterItemsByTag(pageFilterIndex.byMembership, filter.value);
+    return filterItemsByMembership(pageFilterIndex, filter.value);
   }, [filter, pageFilterIndex]);
 
   const baseForSearch = useMemo(() => {
@@ -171,10 +176,14 @@ function WebTagsContent() {
     hasPrev,
     goNext,
     goPrev,
+    goFirst,
     rangeStart,
     rangeEnd,
     totalCount,
-  } = useKeysetPagination(displayPages, page => page.id, ITEMS_PER_PAGE, {
+  } = useKeysetPaginationUrl(displayPages, page => page.id, ITEMS_PER_PAGE, {
+    searchParams,
+    pathname,
+    router,
     resetDeps: [filter, debouncedQuery],
   });
 
@@ -185,20 +194,27 @@ function WebTagsContent() {
         value: tagName,
         label: tagName,
       });
-      if (category.kind === 'membership') {
-        router.push(
-          `/web-tags?membership=${encodeURIComponent(tagName)}`,
-          { scroll: false }
-        );
-      } else if (category.kind === 'stack') {
-        router.push(`/web-tags?stack=${encodeURIComponent(tagName)}`, {
-          scroll: false,
-        });
-      } else {
-        router.push(`/web-tags?tag=${encodeURIComponent(tagName)}`, {
-          scroll: false,
-        });
-      }
+      const updates =
+        category.kind === 'membership'
+          ? {
+              membership: tagName,
+              tag: null as string | null,
+              stack: null as string | null,
+            }
+          : category.kind === 'stack'
+            ? {
+                stack: tagName,
+                tag: null as string | null,
+                membership: null as string | null,
+              }
+            : {
+                tag: tagName,
+                stack: null as string | null,
+                membership: null as string | null,
+              };
+      router.push(buildCatalogQueryUrl(pathname, searchParams, updates), {
+        scroll: false,
+      });
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
@@ -385,6 +401,7 @@ function WebTagsContent() {
                 hasNext={hasNext}
                 onPrev={goPrev}
                 onNext={goNext}
+                onFirst={goFirst}
                 rangeStart={rangeStart}
                 rangeEnd={rangeEnd}
                 totalCount={totalCount}

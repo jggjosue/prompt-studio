@@ -9,10 +9,7 @@ import {
 import { currentUser } from '@clerk/nextjs/server';
 
 import { CatalogFacetsOverview } from '@/components/dashboard/catalog-facets-overview';
-import {
-  summarizeTagFacets,
-  summarizeWebFacets,
-} from '@/lib/catalog-tag-aggregation';
+import { summarizeDashboardCatalogFacets } from '@/lib/catalog-tag-aggregation';
 import { getPlaceholderImages } from '@/lib/placeholder-images';
 import { getPlaceholderVideos } from '@/lib/placeholder-videos';
 import { getWebPages } from '@/lib/web-pages';
@@ -44,18 +41,14 @@ export default async function Dashboard() {
   );
   const videos = getPlaceholderVideos('en').filter(p => p.imageUrl);
 
-  const landingFacets = summarizeWebFacets(landings, {
-    topN: 8,
-    minCount: 2,
-  });
-  const imageFacets = summarizeTagFacets(images, p => p.tags, {
-    topN: 8,
-    minCount: 2,
-  });
-  const videoFacets = summarizeTagFacets(videos, p => p.tags, {
-    topN: 8,
-    minCount: 2,
-  });
+  const { landing: landingFacets, image: imageFacets, video: videoFacets } =
+    summarizeDashboardCatalogFacets({
+      landings,
+      images,
+      videos,
+      topN: 8,
+      minCount: 2,
+    });
 
   return (
     <>

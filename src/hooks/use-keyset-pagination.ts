@@ -5,6 +5,7 @@ import {
   encodeKeysetCursor,
   keysetSliceForward,
   keysetSort,
+  sanitizeKeysetCursor,
   type KeysetCursor,
 } from '@/lib/keyset-pagination';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -25,7 +26,11 @@ export type UseKeysetPaginationResult<T> = {
   totalCount: number;
   goNext: () => void;
   goPrev: () => void;
+  /** Vuelve a la primera página (borra cursor / OFFSET equivalente a 0). */
+  goFirst: () => void;
   reset: () => void;
+  /** Cursor activo (`after`); null = primera página. */
+  afterCursor: KeysetCursor;
 };
 
 /**
@@ -52,7 +57,17 @@ export function useKeysetPagination<T>(
     setAfterStack([null]);
   }, [sorted.length, resetKey]);
 
-  const afterKey = afterStack[afterStack.length - 1] ?? null;
+  const rawAfter = afterStack[afterStack.length - 1] ?? null;
+  const afterKey = useMemo(
+    () => sanitizeKeysetCursor(sorted, getKey, rawAfter),
+    [sorted, getKey, rawAfter]
+  );
+
+  useEffect(() => {
+    if (rawAfter !== null && afterKey === null) {
+      setAfterStack([null]);
+    }
+  }, [rawAfter, afterKey]);
 
   const slice = useMemo(
     () => keysetSliceForward(sorted, getKey, pageSize, afterKey),
@@ -66,6 +81,10 @@ export function useKeysetPagination<T>(
 
   const goPrev = useCallback(() => {
     setAfterStack(stack => (stack.length > 1 ? stack.slice(0, -1) : stack));
+  }, []);
+
+  const goFirst = useCallback(() => {
+    setAfterStack([null]);
   }, []);
 
   const reset = useCallback(() => {
@@ -82,7 +101,9 @@ export function useKeysetPagination<T>(
     totalCount: sorted.length,
     goNext,
     goPrev,
+    goFirst,
     reset,
+    afterCursor: afterKey,
   };
 }
 
@@ -122,7 +143,16 @@ export function useKeysetPaginationUrl<T>(
     [resetDeps]
   );
 
-  const afterFromUrl = decodeKeysetCursor(searchParams.get(cursorParam));
+  const afterFromUrl = useMemo(
+    () =>
+      sanitizeKeysetCursor(
+        sorted,
+        getKey,
+        decodeKeysetCursor(searchParams.get(cursorParam))
+      ),
+    [sorted, getKey, searchParams, cursorParam]
+  );
+
   const [afterStack, setAfterStack] = useState<KeysetCursor[]>(() =>
     afterFromUrl ? [null, afterFromUrl] : [null]
   );
@@ -132,16 +162,13 @@ export function useKeysetPaginationUrl<T>(
   }, [sorted.length, resetKey]);
 
   useEffect(() => {
-    const fromUrl = decodeKeysetCursor(searchParams.get(cursorParam));
+    const fromUrl = sanitizeKeysetCursor(
+      sorted,
+      getKey,
+      decodeKeysetCursor(searchParams.get(cursorParam))
+    );
     setAfterStack(fromUrl ? [null, fromUrl] : [null]);
-  }, [searchParams, cursorParam]);
-
-  const afterKey = afterStack[afterStack.length - 1] ?? null;
-
-  const slice = useMemo(
-    () => keysetSliceForward(sorted, getKey, pageSize, afterKey),
-    [sorted, getKey, pageSize, afterKey]
-  );
+  }, [searchParams, cursorParam, sorted, getKey]);
 
   const pushUrl = useCallback(
     (nextAfter: KeysetCursor) => {
@@ -165,6 +192,24 @@ export function useKeysetPaginationUrl<T>(
     ]
   );
 
+  const rawAfter = afterStack[afterStack.length - 1] ?? null;
+  const afterKey = useMemo(
+    () => sanitizeKeysetCursor(sorted, getKey, rawAfter),
+    [sorted, getKey, rawAfter]
+  );
+
+  useEffect(() => {
+    if (rawAfter !== null && afterKey === null) {
+      setAfterStack([null]);
+      pushUrl(null);
+    }
+  }, [rawAfter, afterKey, pushUrl]);
+
+  const slice = useMemo(
+    () => keysetSliceForward(sorted, getKey, pageSize, afterKey),
+    [sorted, getKey, pageSize, afterKey]
+  );
+
   const goNext = useCallback(() => {
     if (!slice.hasNext || !slice.lastKey) return;
     setAfterStack(stack => [...stack, slice.lastKey]);
@@ -179,6 +224,11 @@ export function useKeysetPaginationUrl<T>(
       pushUrl(prevAfter);
       return next;
     });
+  }, [pushUrl]);
+
+  const goFirst = useCallback(() => {
+    setAfterStack([null]);
+    pushUrl(null);
   }, [pushUrl]);
 
   const reset = useCallback(() => {
@@ -196,6 +246,8 @@ export function useKeysetPaginationUrl<T>(
     totalCount: sorted.length,
     goNext,
     goPrev,
+    goFirst,
     reset,
+    afterCursor: afterKey,
   };
 }
