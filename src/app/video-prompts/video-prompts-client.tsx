@@ -222,9 +222,7 @@ function VideoPromptsContent() {
           </Button>
           <Button asChild>
             <Link
-              href="https://aistudio.google.com/"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/prompt/edit"
             >
               <Wand2 className="mr-2" />
               Generate a Video

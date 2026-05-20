@@ -25,7 +25,33 @@ function withEdgeHeaders(
 }
 
 export default clerkMiddleware(async (auth, req) => {
-  if (!PROMPT_EDIT_ENABLED && req.nextUrl.pathname === PROMPT_EDIT_PATH) {
+  const pathname = req.nextUrl.pathname;
+
+  const disabledDashboardPaths = [
+    '/dashboard',
+    '/dashboard/',
+    '/dashboard/analytics',
+    '/dashboard/creations',
+    '/dashboard/favorites',
+    '/dashboard/settings',
+    '/dashboard/billing',
+  ];
+
+  const shouldRedirect = disabledDashboardPaths.some(p => {
+    if (p === '/dashboard' || p === '/dashboard/') {
+      return pathname === '/dashboard' || pathname === '/dashboard/';
+    }
+    return pathname === p || pathname.startsWith(p + '/');
+  });
+
+  if (shouldRedirect) {
+    return withEdgeHeaders(
+      NextResponse.redirect(new URL('/dashboard/profile', req.url)),
+      req
+    );
+  }
+
+  if (!PROMPT_EDIT_ENABLED && pathname === PROMPT_EDIT_PATH) {
     return withEdgeHeaders(
       NextResponse.redirect(new URL('/', req.url)),
       req

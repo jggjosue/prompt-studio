@@ -6,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Wand2 } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
+import { useState } from 'react';
 
 export default function PromptGenerator() {
   const t = useTranslations('promptGenerator');
@@ -56,6 +57,9 @@ export default function PromptGenerator() {
       'Glitch',
     ],
   };
+
+  const [textareaValue, setTextareaValue] = useState(JSON.stringify(prompt, null, 2));
+
   return (
     <Card>
       <CardContent className="p-4 md:p-6">
@@ -66,15 +70,14 @@ export default function PromptGenerator() {
               placeholder={t('placeholder')}
               rows={15}
               className="text-base"
-              defaultValue={JSON.stringify(prompt, null, 2)}
+              value={textareaValue}
+              onChange={(e) => setTextareaValue(e.target.value)}
             />
           </div>
           <div className="flex flex-col md:flex-row gap-4 justify-end">
             <Button asChild className="w-full md:w-auto">
               <Link
-                href="https://aistudio.google.com/"
-                target="_blank"
-                rel="noopener noreferrer"
+                href={`/prompt/edit?prompt=${encodeURIComponent(textareaValue)}`}
               >
                 <Wand2 className="mr-2 h-4 w-4" />
                 {tCommon('generatePrompt')}

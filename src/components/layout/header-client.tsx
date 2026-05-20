@@ -27,6 +27,7 @@ import {
   UserButton,
   useAuth,
 } from '@clerk/nextjs';
+import { useState, useEffect } from 'react';
 import {
   ChevronDown,
   Globe,
@@ -67,6 +68,11 @@ function isNavItemActive(
 }
 
 export default function HeaderClient() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const { isLoaded } = useAuth();
   const pathname = usePathname();
   const tNav = useTranslations('nav');
@@ -128,6 +134,11 @@ export default function HeaderClient() {
           icon: <Globe className="h-5 w-5" />,
         },
       ],
+    },
+    {
+      href: '/prompt/edit',
+      label: tNav('editor'),
+      activePrefixes: ['/prompt/edit'],
     },
     {
       href: '/prices',
@@ -250,39 +261,43 @@ export default function HeaderClient() {
                   </Accordion>
                 )
               )}
-              <Show when="signed-in">
-                <SheetClose asChild>
-                  <ClientLink
-                    href="/dashboard/profile"
-                    className={cn(
-                      'text-lg font-medium hover:text-foreground/80 transition-colors',
-                      isNavItemActive(pathname, '/dashboard/profile', ['/dashboard']) && 'text-foreground font-semibold'
-                    )}
-                  >
-                    {tHeader('profile')}
-                  </ClientLink>
-                </SheetClose>
-              </Show>
-              <Show when="signed-out">
-                <div className="mt-6 flex flex-col gap-2 border-t pt-6">
-                  <SheetClose asChild>
-                    <SignUpButton mode="redirect" forceRedirectUrl="/prices">
-                      <span className="flex w-full items-center justify-center gap-2 rounded-md px-4 py-2.5 text-sm font-medium transition-colors hover:bg-accent">
-                        <UserPlus className="h-4 w-4" />
-                        {tHeader('createAccount')}
-                      </span>
-                    </SignUpButton>
-                  </SheetClose>
-                  <SheetClose asChild>
-                    <SignInButton mode="redirect" forceRedirectUrl="/dashboard">
-                      <span className="flex w-full items-center justify-center gap-2 rounded-md bg-[#B08D57] px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-[#9a7a4b]">
-                        <LogIn className="h-4 w-4" />
-                        {tHeader('signIn')}
-                      </span>
-                    </SignInButton>
-                  </SheetClose>
-                </div>
-              </Show>
+              {mounted && (
+                <>
+                  <Show when="signed-in">
+                    <SheetClose asChild>
+                      <ClientLink
+                        href="/dashboard/profile"
+                        className={cn(
+                          'text-lg font-medium hover:text-foreground/80 transition-colors',
+                          isNavItemActive(pathname, '/dashboard/profile', ['/dashboard']) && 'text-foreground font-semibold'
+                        )}
+                      >
+                        {tHeader('profile')}
+                      </ClientLink>
+                    </SheetClose>
+                  </Show>
+                  <Show when="signed-out">
+                    <div className="mt-6 flex flex-col gap-2 border-t pt-6">
+                      <SheetClose asChild>
+                        <SignUpButton mode="redirect" forceRedirectUrl="/prices">
+                          <span className="flex w-full items-center justify-center gap-2 rounded-md px-4 py-2.5 text-sm font-medium transition-colors hover:bg-accent">
+                            <UserPlus className="h-4 w-4" />
+                            {tHeader('createAccount')}
+                          </span>
+                        </SignUpButton>
+                      </SheetClose>
+                      <SheetClose asChild>
+                        <SignInButton mode="redirect" forceRedirectUrl="/dashboard">
+                          <span className="flex w-full items-center justify-center gap-2 rounded-md bg-[#B08D57] px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-[#9a7a4b]">
+                            <LogIn className="h-4 w-4" />
+                            {tHeader('signIn')}
+                          </span>
+                        </SignInButton>
+                      </SheetClose>
+                    </div>
+                  </Show>
+                </>
+              )}
             </div>
           </SheetContent>
         </Sheet>
@@ -358,52 +373,56 @@ export default function HeaderClient() {
               </DropdownMenu>
             )
           )}
-          <Show when="signed-in">
-            <ClientLink
-              href="/dashboard/profile"
-              className={linkClassName('/dashboard/profile', ['/dashboard'])}
-              aria-current={isNavItemActive(pathname, '/dashboard/profile', ['/dashboard']) ? 'page' : undefined}
-            >
-              {tHeader('profile')}
-            </ClientLink>
-          </Show>
+          {mounted && (
+            <Show when="signed-in">
+              <ClientLink
+                href="/dashboard/profile"
+                className={linkClassName('/dashboard/profile', ['/dashboard'])}
+                aria-current={isNavItemActive(pathname, '/dashboard/profile', ['/dashboard']) ? 'page' : undefined}
+              >
+                {tHeader('profile')}
+              </ClientLink>
+            </Show>
+          )}
         </nav>
 
         <div className="flex items-center gap-2 ml-auto shrink-0">
           <LanguageToggle />
           <ThemeToggle />
-          {!isLoaded && (
+          {(!mounted || !isLoaded) ? (
             <div className="flex items-center gap-2">
               <Skeleton className="h-8 w-8 rounded-full" />
             </div>
+          ) : (
+            <>
+              <Show when="signed-out">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-9 w-9 rounded-full"
+                      aria-label={tHeader('accountMenu')}
+                    >
+                      <User className="h-5 w-5" strokeWidth={1.75} />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-52 p-1.5">
+                    {accountMenuItems}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </Show>
+              <Show when="signed-in">
+                <UserButton
+                  appearance={{
+                    elements: {
+                      avatarBox: 'h-9 w-9',
+                    },
+                  }}
+                />
+              </Show>
+            </>
           )}
-          <Show when="signed-out">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-9 w-9 rounded-full"
-                  aria-label={tHeader('accountMenu')}
-                >
-                  <User className="h-5 w-5" strokeWidth={1.75} />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-52 p-1.5">
-                {accountMenuItems}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </Show>
-          <Show when="signed-in">
-            <UserButton
-              afterSignOutUrl="/"
-              appearance={{
-                elements: {
-                  avatarBox: 'h-9 w-9',
-                },
-              }}
-            />
-          </Show>
         </div>
       </div>
     </header>

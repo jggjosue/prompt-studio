@@ -1,7 +1,7 @@
 export const PROMPT_EDIT_PATH = '/prompt/edit';
 
 /** Set to true when the prompt editor route should be available. */
-export const PROMPT_EDIT_ENABLED = false;
+export const PROMPT_EDIT_ENABLED = true;
 
 export function isPromptEditHref(href: string): boolean {
   if (!href) return false;

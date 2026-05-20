@@ -122,17 +122,32 @@ function WebTagsContent() {
     const stack = searchParams.get('stack');
     const membership = searchParams.get('membership');
 
+    let nextFilter: WebFilter | null = null;
     if (tag) {
-      setFilter({ kind: 'tag', value: tag, label: tag });
+      nextFilter = { kind: 'tag', value: tag, label: tag };
     } else if (stack) {
-      setFilter({ kind: 'stack', value: stack, label: stack });
+      nextFilter = { kind: 'stack', value: stack, label: stack };
     } else if (membership) {
-      setFilter({
+      nextFilter = {
         kind: 'membership',
         value: membership,
         label: membership,
-      });
+      };
     }
+
+    setFilter((prev) => {
+      if (!prev && !nextFilter) return null;
+      if (
+        prev &&
+        nextFilter &&
+        prev.kind === nextFilter.kind &&
+        prev.value === nextFilter.value &&
+        prev.label === nextFilter.label
+      ) {
+        return prev;
+      }
+      return nextFilter;
+    });
   }, [searchParams]);
 
   const filteredPages = useMemo(() => {

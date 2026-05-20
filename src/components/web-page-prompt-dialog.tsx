@@ -11,8 +11,9 @@ import { useMembershipAccess } from '@/hooks/use-membership-access';
 import { useToast } from '@/hooks/use-toast';
 import { copyToClipboard } from '@/lib/copy-to-clipboard';
 import type { WebPageEntry } from '@/lib/web-pages';
-import { Check, Copy, FileText } from 'lucide-react';
+import { Check, Copy, FileText, Wand2 } from 'lucide-react';
 import { useState } from 'react';
+import Link from 'next/link';
 
 export function WebPagePromptDialog({ page }: { page: WebPageEntry }) {
   const { toast } = useToast();
@@ -53,20 +54,35 @@ export function WebPagePromptDialog({ page }: { page: WebPageEntry }) {
       <DialogContent className="w-[calc(100vw-2rem)] max-w-2xl max-h-[85vh] overflow-y-auto">
         <DialogHeader className="flex-row items-start justify-between gap-2 space-y-0 pr-8">
           <DialogTitle className="text-left leading-snug">{page.title}</DialogTitle>
-          <Button
-            type="button"
-            variant="outline"
-            size="icon"
-            className="h-9 w-9 shrink-0"
-            onClick={handleCopy}
-            aria-label="Copy prompt"
-          >
-            {copied ? (
-              <Check className="h-4 w-4 text-green-500" />
-            ) : (
-              <Copy className="h-4 w-4" />
-            )}
-          </Button>
+          <div className="flex items-center gap-2 shrink-0">
+            <Button
+              type="button"
+              variant="outline"
+              size="icon"
+              className="h-9 w-9"
+              onClick={handleCopy}
+              aria-label="Copy prompt"
+            >
+              {copied ? (
+                <Check className="h-4 w-4 text-green-500" />
+              ) : (
+                <Copy className="h-4 w-4" />
+              )}
+            </Button>
+            <Button size="sm" asChild>
+              <Link href={`/prompt/edit?prompt=${encodeURIComponent(JSON.stringify({
+                type: 'web',
+                title: page.title,
+                description: page.description,
+                imageUrl: page.imageUrl,
+                stack: page.stack,
+                tags: page.tags
+              }))}`}>
+                <Wand2 className="h-3.5 w-3.5 mr-1.5" />
+                Use prompt
+              </Link>
+            </Button>
+          </div>
         </DialogHeader>
         <pre className="whitespace-pre-wrap text-sm text-muted-foreground font-sans select-all">
           {page.description}

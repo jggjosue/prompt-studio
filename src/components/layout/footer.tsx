@@ -38,9 +38,14 @@ export default function Footer() {
               <span>{t('brand')}</span>
             </ClientLink>
             <p className="text-sm">{t('tagline')}</p>
-            <p className="text-xs pt-4">
-              © {new Date().getFullYear()} {t('brand')}. {t('copyright')}
-            </p>
+            <div className="pt-4 space-y-1.5">
+              <p className="text-[11px] text-muted-foreground/80 leading-relaxed font-sans">
+                Magzin LLC, 800 Third Avenue Associates, New York, NY, 10022, United States
+              </p>
+              <p className="text-xs text-muted-foreground">
+                © {new Date().getFullYear()} {t('brand')}. {t('copyright')}
+              </p>
+            </div>
           </div>
           <div className="md:col-span-3 grid grid-cols-2 md:grid-cols-5 gap-8">
             <div>

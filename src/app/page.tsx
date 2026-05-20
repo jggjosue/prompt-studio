@@ -5,12 +5,13 @@ import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
 import PromptGenerator from '@/components/prompt-generator';
 import Link from 'next/link';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import VideoExamples from '@/components/video-examples';
 import { Bot, Clapperboard, Lightbulb, Loader2 } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 import { Suspense } from 'react';
+import { Spotlight } from '@/components/ui/spotlight';
+import { BentoGrid, BentoGridItem } from '@/components/ui/bento-grid';
 export default async function Home() {
   const t = await getTranslations('home');
   const examplePrompts = t.raw('examplePrompts') as string[];
@@ -39,8 +40,12 @@ export default async function Home() {
         <Header />
       </Suspense>
       <main className="flex-1">
-        <section className="w-full py-8 md:py-16 bg-muted/30">
-          <div className="container px-4 md:px-6">
+        <section className="w-full py-8 md:py-16 bg-muted/30 relative overflow-hidden">
+          <Spotlight
+            className="-top-40 left-0 md:left-60 md:-top-20"
+            fill="purple"
+          />
+          <div className="container px-4 md:px-6 relative z-10">
             <div className="flex flex-col items-center space-y-4 text-center">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none font-headline">
                 {t('heroTitle')}
@@ -99,56 +104,57 @@ export default async function Home() {
 
         <Separator className="my-8" />
 
-        <section
-          id="features"
-          className="container grid gap-4 md:gap-8 px-4 md:px-6 py-8 md:py-16 md:grid-cols-2 lg:grid-cols-3"
-        >
-          <div className="flex flex-col justify-center">
-            <h2 className="text-3xl font-bold tracking-tighter font-headline mb-4">
-              {t('exploreToolsTitle')}
-            </h2>
-            <p className="text-muted-foreground">
-              {t('exploreToolsSubtitle')}
-            </p>
-          </div>
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 font-headline text-xl md:text-2xl">
-                <Bot className="h-6 w-6" /> {t('modelShowcaseTitle')}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-4">
-                {aiModels.map(model => (
-                  <li key={model.name} className="flex items-start gap-4">
-                    <div className="p-2 bg-primary/10 rounded-full">
-                      {model.icon}
-                    </div>
-                    <div>
-                      <h3 className="font-semibold">{model.name}</h3>
-                      <p className="text-sm text-muted-foreground">
-                        {model.description}
-                      </p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 font-headline text-xl md:text-2xl">
-                <Lightbulb className="h-6 w-6" /> {t('examplePromptsTitle')}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-3 list-disc list-inside text-sm text-muted-foreground">
-                {examplePrompts.map((prompt, i) => (
-                  <li key={i}>{prompt}</li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
+        <section id="features" className="container py-8 md:py-16 px-4 md:px-6">
+          <BentoGrid>
+            <div className="flex flex-col justify-center p-6 row-span-1">
+              <h2 className="text-3xl font-bold tracking-tighter font-headline mb-4">
+                {t('exploreToolsTitle')}
+              </h2>
+              <p className="text-muted-foreground text-sm">
+                {t('exploreToolsSubtitle')}
+              </p>
+            </div>
+            
+            <BentoGridItem
+              title={t('modelShowcaseTitle')}
+              icon={<Bot className="h-6 w-6 text-primary" />}
+              className="md:col-span-1"
+              header={
+                <div className="flex-1 min-h-[6rem] w-full rounded-2xl bg-muted/40 border p-4 flex flex-col justify-center">
+                  <ul className="space-y-3">
+                    {aiModels.map(model => (
+                      <li key={model.name} className="flex items-start gap-2.5">
+                        <div className="p-1 bg-primary/10 rounded-full shrink-0">
+                          {model.icon}
+                        </div>
+                        <div>
+                          <h4 className="text-xs font-bold text-foreground leading-none">{model.name}</h4>
+                          <p className="text-[10px] text-muted-foreground leading-tight mt-0.5">
+                            {model.description}
+                          </p>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              }
+            />
+
+            <BentoGridItem
+              title={t('examplePromptsTitle')}
+              icon={<Lightbulb className="h-6 w-6 text-primary" />}
+              className="md:col-span-1"
+              header={
+                <div className="flex-1 min-h-[6rem] w-full rounded-2xl bg-muted/40 border p-4 flex flex-col justify-center">
+                  <ul className="space-y-1.5 list-disc list-inside text-[11px] text-muted-foreground font-medium">
+                    {examplePrompts.map((prompt, i) => (
+                      <li key={i} className="truncate">{prompt}</li>
+                    ))}
+                  </ul>
+                </div>
+              }
+            />
+          </BentoGrid>
         </section>
       </main>
       <Footer />

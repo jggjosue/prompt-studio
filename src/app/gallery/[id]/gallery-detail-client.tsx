@@ -178,7 +178,13 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                     />
                     <div className="absolute bottom-4 right-4 flex items-start gap-4 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                       <Button size="sm" variant="secondary" asChild>
-                        <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
+                        <Link href={`/prompt/edit?prompt=${encodeURIComponent(JSON.stringify({
+                          type: item.type || 'image',
+                          title: item.title,
+                          description: item.description,
+                          imageUrl: resolveRenderableMediaUrl(item, locale),
+                          tags: item.tags
+                        }))}`}>
                             <Wand2 className="mr-2" />
                             Use this prompt
                         </Link>

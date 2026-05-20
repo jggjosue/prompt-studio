@@ -49,6 +49,7 @@
   },
   "nav": {
     "home": "Inicio",
+    "editor": "Studio",
     "library": "Prompts",
     "libraryDesc": "Explora todos los prompts de IA",
     "images": "Imágenes",

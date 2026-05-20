@@ -79,8 +79,8 @@ function ImageTagsContent() {
   } = useImageTagsCatalogPipeline(allImages);
 
   useEffect(() => {
-    const tag = searchParams.get('tag')?.trim();
-    if (tag) setSelectedTag(tag);
+    const tag = searchParams.get('tag')?.trim() || null;
+    setSelectedTag(prev => prev === tag ? prev : tag);
   }, [searchParams]);
 
   const filteredByTag = useMemo(() => {

@@ -7,9 +7,11 @@ import {
 import { cn } from '@/lib/utils';
 import { ClientLink } from '@/components/client-link';
 import type { LinkProps } from 'next/link';
+import type { ReactNode } from 'react';
 
 type PromptEditLinkProps = LinkProps & {
   className?: string;
+  children?: ReactNode;
 };
 
 export function PromptEditLink({
