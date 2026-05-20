@@ -54,7 +54,10 @@ export function useKeysetPagination<T>(
   );
 
   useEffect(() => {
-    setAfterStack([null]);
+    setAfterStack((stack) => {
+      if (stack.length === 1 && stack[0] === null) return stack;
+      return [null];
+    });
   }, [sorted.length, resetKey]);
 
   const rawAfter = afterStack[afterStack.length - 1] ?? null;
@@ -65,7 +68,10 @@ export function useKeysetPagination<T>(
 
   useEffect(() => {
     if (rawAfter !== null && afterKey === null) {
-      setAfterStack([null]);
+      setAfterStack((stack) => {
+        if (stack.length === 1 && stack[0] === null) return stack;
+        return [null];
+      });
     }
   }, [rawAfter, afterKey]);
 
@@ -158,7 +164,10 @@ export function useKeysetPaginationUrl<T>(
   );
 
   useEffect(() => {
-    setAfterStack([null]);
+    setAfterStack((stack) => {
+      if (stack.length === 1 && stack[0] === null) return stack;
+      return [null];
+    });
   }, [sorted.length, resetKey]);
 
   useEffect(() => {
@@ -167,7 +176,11 @@ export function useKeysetPaginationUrl<T>(
       getKey,
       decodeKeysetCursor(searchParams.get(cursorParam))
     );
-    setAfterStack(fromUrl ? [null, fromUrl] : [null]);
+    setAfterStack((stack) => {
+      const current = stack[stack.length - 1] ?? null;
+      if (current === fromUrl) return stack;
+      return fromUrl ? [null, fromUrl] : [null];
+    });
   }, [searchParams, cursorParam, sorted, getKey]);
 
   const pushUrl = useCallback(
@@ -200,7 +213,10 @@ export function useKeysetPaginationUrl<T>(
 
   useEffect(() => {
     if (rawAfter !== null && afterKey === null) {
-      setAfterStack([null]);
+      setAfterStack((stack) => {
+        if (stack.length === 1 && stack[0] === null) return stack;
+        return [null];
+      });
       pushUrl(null);
     }
   }, [rawAfter, afterKey, pushUrl]);

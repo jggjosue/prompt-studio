@@ -66,7 +66,7 @@ function ContentGridContent() {
             </CardContent>
             <CardFooter className="bg-muted/50 p-4 border-t flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-between gap-2">
               <Button size="sm" asChild>
-                <Link href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">
+                <Link href={`/prompt/edit?prompt=${encodeURIComponent(item.description)}`}>
                     <Wand2 className="w-4 h-4 mr-2" />
                     {tCommon('useThisPrompt')}
                 </Link>

@@ -2,17 +2,10 @@
 
 import { ClientLink } from '@/components/client-link';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { HoverEffect } from '@/components/ui/card-hover-effect';
 import type { InternalLinkNode } from '@/lib/internal-link-graph';
 import { cn } from '@/lib/utils';
 import {
-  ArrowRight,
   Globe,
   ImageIcon,
   LayoutGrid,
@@ -75,35 +68,15 @@ export function InternalLinkHub({
   return (
     <section className={cn('w-full py-8 md:py-12', className)} aria-labelledby="link-hub-title">
       <LinkHubHeader title={title} subtitle={subtitle} />
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-        {primaryLinks.map(link => (
-          <ClientLink key={link.path} href={link.path} className="group block h-full">
-            <Card className="h-full transition-shadow hover:shadow-md hover:border-primary/30">
-              <CardHeader className="pb-2">
-                <div className="flex items-center justify-between gap-2">
-                  <div className="rounded-md bg-primary/10 p-2 text-primary">
-                    {ICON_BY_PATH[link.path] ?? (
-                      <LayoutGrid className="h-5 w-5" />
-                    )}
-                  </div>
-                  <ArrowRight className="h-4 w-4 text-muted-foreground opacity-0 -translate-x-1 transition-all group-hover:opacity-100 group-hover:translate-x-0" />
-                </div>
-                <CardTitle className="text-lg font-headline">
-                  {t(link.labelKey)}
-                </CardTitle>
-                {link.descKey && (
-                  <CardDescription>{t(link.descKey)}</CardDescription>
-                )}
-              </CardHeader>
-              <CardContent className="pt-0">
-                <p className="text-xs text-muted-foreground">
-                  {t('internalLinks.exploreSection')}
-                </p>
-              </CardContent>
-            </Card>
-          </ClientLink>
-        ))}
-      </div>
+      <HoverEffect
+        items={primaryLinks.map(link => ({
+          title: t(link.labelKey),
+          description: link.descKey ? t(link.descKey) : '',
+          link: link.path,
+          icon: ICON_BY_PATH[link.path] ?? <LayoutGrid className="h-5 w-5" />,
+          exploreText: t('internalLinks.exploreSection'),
+        }))}
+      />
       {secondaryLinks.length > 0 && (
         <nav
           className="mt-8 flex flex-wrap items-center justify-center gap-2 md:gap-3"

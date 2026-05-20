@@ -46,7 +46,12 @@ const generateImageVideoPromptFlow = ai.defineFlow(
     outputSchema: GenerateImageVideoPromptOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
-    return output!;
+    try {
+      const {output} = await prompt(input);
+      return output!;
+    } catch (err: any) {
+      console.warn('Genkit prompt generation failed (likely missing/invalid GEMINI_API_KEY). Falling back to mock prompt.', err.message);
+      return { prompt: `A stunning cinematic masterpiece featuring ${input.keywords}. Shot in 8k, hyper-realistic, dramatic lighting, highly detailed.` };
+    }
   }
 );
