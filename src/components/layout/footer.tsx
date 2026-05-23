@@ -1,11 +1,11 @@
 'use client';
 
-import { PromptEditLink } from '@/components/prompt-edit-link';
 import { ClientLink } from '@/components/client-link';
+import { PromptEditLink } from '@/components/prompt-edit-link';
 import { getFooterLinkGroups } from '@/lib/internal-link-graph';
-import Logo from './logo';
 import { Mail } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import Logo from './logo';
 
 export default function Footer() {
   const t = useTranslations('footer');
@@ -114,11 +114,11 @@ export default function Footer() {
               <ul className="space-y-3">
                 <li>
                   <a
-                    href="mailto:hi@prompstudio.com"
+                    href="mailto:support@prompstudio.com"
                     className="flex items-center gap-2 text-sm hover:text-foreground transition-colors"
                   >
                     <Mail className="h-4 w-4" />
-                    hi@prompstudio.com
+                    support@prompstudio.com
                   </a>
                 </li>
               </ul>
