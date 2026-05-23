@@ -38,6 +38,13 @@ function jsonResponse(body: SubscriptionStatusResponse) {
   });
 }
 
+const DEV_PREMIUM: SubscriptionStatusResponse = {
+  plan: 'premium',
+  status: 'active',
+  currentPeriodEnd: null,
+  billingCycle: 'monthly',
+};
+
 export async function GET() {
   const { userId } = await auth();
   if (!userId) return jsonResponse(FREE);
@@ -45,6 +52,10 @@ export async function GET() {
   const client = await clerkClient();
   const user = await client.users.getUser(userId);
   const meta = user.privateMetadata as Partial<StripeUserMetadata>;
+
+  const devCred = process.env.DEV_CRED_JO;
+  const userEmail = user.emailAddresses[0]?.emailAddress;
+  if (devCred && userEmail === devCred) return jsonResponse(DEV_PREMIUM);
 
   // Fast path — ya tenemos el customer ID almacenado desde el webhook
   if (meta.stripeCustomerId) {
