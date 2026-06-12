@@ -447,6 +447,7 @@
     "loadPageError": "No se pudo cargar el contenido",
     "openEditor": "Abrir editor de landings",
     "savedBadgeHint": "Último análisis guardado",
-    "openSavedAnalysis": "Abrir análisis de legibilidad guardado"
+    "openSavedAnalysis": "Abrir análisis de legibilidad guardado",
+    "test": ""
   }
 }
