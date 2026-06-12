@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evento Deportivo 3D — Replays y Ángulos Libres</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <header id="topbar">
+      <div class="logo"><span class="logo-star">✦</span><span>Sports 3D</span></div>
+      <div class="topbar-actions">
+        <button id="replays-btn" class="btn btn-sm btn-outline">🎬 Replays</button>
+        <button id="stats-btn" class="btn btn-sm btn-outline">📊 Stats</button>
+        <button id="comments-btn" class="btn btn-sm btn-outline">💬 Comentarios</button>
+        <button id="metrics-btn" class="btn btn-sm btn-outline">📊</button>
+        <span id="game-clock" class="game-clock">45:00</span>
+      </div>
+    </header>
+
+    <div id="main">
+      <div id="scene-root" role="img" aria-label="Estadio 3D con campo de juego"></div>
+
+      <!-- Replays panel -->
+      <div id="replays-panel" class="hidden panel-left" role="dialog" aria-label="Replays">
+        <div class="panel-header"><h4>🎬 Replays</h4><button id="replays-close" class="btn btn-sm btn-outline">×</button></div>
+        <div id="replays-body" class="replays-body"></div>
+      </div>
+
+      <!-- Timeline bar (bottom) -->
+      <div id="timeline-bar" class="timeline-bar hidden">
+        <input type="range" id="timeline-scrub" min="0" max="100" value="0" aria-label="Scrubber">
+        <div id="timeline-markers" class="timeline-markers"></div>
+      </div>
+
+      <!-- Stats overlay -->
+      <div id="stats-overlay" class="hidden overlay" role="dialog" aria-label="Estadísticas">
+        <div class="overlay-box" style="max-width:360px">
+          <h4>📊 Estadísticas en vivo</h4>
+          <div id="stats-body" class="stats-body"></div>
+          <button id="stats-close" class="btn btn-primary" style="width:100%;margin-top:.2rem">Cerrar</button>
+        </div>
+      </div>
+
+      <!-- Comments panel -->
+      <div id="comments-panel" class="hidden panel-right" role="dialog" aria-label="Comentarios">
+        <div class="panel-header"><h4>💬 Comentarios</h4><button id="comments-close" class="btn btn-sm btn-outline">×</button></div>
+        <div id="comments-list" class="comments-list"></div>
+        <textarea id="comments-input" placeholder="Comenta en este timestamp…" aria-label="Comentario"></textarea>
+        <button id="comments-send" class="btn btn-primary" style="width:100%;margin-top:.1rem">Enviar</button>
+      </div>
+
+      <!-- Metrics panel -->
+      <div id="metrics-panel" class="hidden panel-left" role="dialog" aria-label="Métricas">
+        <div class="panel-header"><h4>📊 Métricas</h4><button id="metrics-close" class="btn btn-sm btn-outline">×</button></div>
+        <div id="metrics-body" class="metrics-body"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="sports3d.js"></script>
+</body>
+</html>

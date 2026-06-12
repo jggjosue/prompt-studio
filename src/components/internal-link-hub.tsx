@@ -86,7 +86,13 @@ export function InternalLinkHub({
             {t('internalLinks.discoveryLabel')}:
           </span>
           {secondaryLinks.map(link => (
-            <Button key={link.path} variant="outline" size="sm" asChild>
+            <Button
+              key={link.path}
+              variant="outline"
+              size="sm"
+              className="border-blue-950/10 bg-white/55 text-slate-700 backdrop-blur-md hover:border-primary/40 hover:bg-white/75 hover:text-primary dark:border-white/15 dark:bg-black/25 dark:text-white/80 dark:hover:bg-black/45 dark:hover:text-white"
+              asChild
+            >
               <ClientLink href={link.path}>{t(link.labelKey)}</ClientLink>
             </Button>
           ))}

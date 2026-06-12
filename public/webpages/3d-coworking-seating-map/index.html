@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mapa 3D Coworking — Mesas y Reservas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <header id="topbar">
+      <div class="logo"><span class="logo-star">✦</span><span>Mapa Coworking</span></div>
+      <div class="topbar-actions">
+        <div class="filter-group" id="filter-type">
+          <button class="btn btn-sm btn-filter active" data-filter="all">Todas</button>
+          <button class="btn btn-sm btn-filter" data-filter="hot-desk">Hot‑desk</button>
+          <button class="btn btn-sm btn-filter" data-filter="dedicated">Dedicado</button>
+          <button class="btn btn-sm btn-filter" data-filter="private">Privado</button>
+        </div>
+        <div class="filter-group" id="filter-amenity">
+          <button class="btn btn-sm btn-filter active" data-amenity="all">Todo</button>
+          <button class="btn btn-sm btn-filter" data-amenity="monitor">🖥 Monitor</button>
+          <button class="btn btn-sm btn-filter" data-amenity="silla-ergonomica">💺 Ergo</button>
+        </div>
+        <label class="toggle-label"><input type="checkbox" id="toggle-available"> <span>Disponible</span></label>
+        <button id="toggle-night" class="btn btn-sm btn-outline">🌙 Noche</button>
+        <button id="analytics-btn" class="btn btn-sm btn-outline">📊</button>
+      </div>
+    </header>
+
+    <div id="main">
+      <div id="scene-root" role="img" aria-label="Mapa 3D de coworking con mesas interactivas"></div>
+
+      <!-- Desk panel -->
+      <div id="desk-panel" class="hidden" role="dialog" aria-label="Panel de escritorio">
+        <button id="desk-panel-close" class="panel-close">&times;</button>
+        <div class="desk-panel-inner">
+          <div id="desk-preview-wrap" class="desk-preview-wrap">
+            <video id="desk-video" controls preload="metadata" playsinline></video>
+          </div>
+          <div id="desk-info" class="desk-info"></div>
+          <div id="desk-calendar" class="desk-calendar"></div>
+          <button id="desk-reserve-btn" class="btn btn-primary btn-block">📅 Reservar</button>
+        </div>
+      </div>
+
+      <!-- Analytics -->
+      <div id="analytics-panel" class="hidden panel-left" role="dialog" aria-label="Analítica">
+        <div class="panel-header"><h4>📊 Actividad</h4><button id="analytics-close" class="btn btn-sm btn-outline">×</button></div>
+        <div id="analytics-body" class="analytics-body"></div>
+      </div>
+
+      <!-- Reservation toast -->
+      <div id="reserve-toast" class="hidden toast" role="status" aria-live="polite">✅ Reserva iniciada</div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="seatingMap3d.js"></script>
+</body>
+</html>

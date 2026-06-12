@@ -2,8 +2,6 @@
 
 import {
   Pagination,
-  PaginationContent,
-  PaginationItem,
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
@@ -69,30 +67,16 @@ export function KeysetPagination({
         </button>
       ) : null}
       <Pagination>
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious
-              href="#"
-              onClick={e => {
-                e.preventDefault();
-                onPrev();
-              }}
-              aria-disabled={!hasPrev}
-              className={cn(!hasPrev && 'pointer-events-none opacity-50')}
-            />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationNext
-              href="#"
-              onClick={e => {
-                e.preventDefault();
-                onNext();
-              }}
-              aria-disabled={!hasNext}
-              className={cn(!hasNext && 'pointer-events-none opacity-50')}
-            />
-          </PaginationItem>
-        </PaginationContent>
+        <PaginationPrevious
+          onClick={onPrev}
+          disabled={!hasPrev}
+          className={cn(!hasPrev && 'pointer-events-none opacity-50')}
+        />
+        <PaginationNext
+          onClick={onNext}
+          disabled={!hasNext}
+          className={cn(!hasNext && 'pointer-events-none opacity-50')}
+        />
       </Pagination>
     </div>
   );

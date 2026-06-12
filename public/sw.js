@@ -5,7 +5,7 @@
  * - Network-First: HTML (navegación) y APIs dinámicas
  */
 
-const CACHE_VERSION = 'ps-cache-v4';
+const CACHE_VERSION = 'ps-cache-v5';
 
 const CACHE = {
   static: `${CACHE_VERSION}-static`,

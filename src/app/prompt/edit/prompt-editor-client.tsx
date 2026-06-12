@@ -1,8 +1,11 @@
 'use client';
 
-import { handleImageGeneration, proxyOpenAIImage, proxyOpenAIChat, proxyAnthropicChat, proxyRunwayStart, proxyRunwayPoll, proxyVeoVideo, proxyGemini, type ImageGenerationFormState } from '@/app/actions';
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
+
+import { handleImageGeneration, proxyOpenAIImage, proxyOpenAIChat, proxyAnthropicChat, proxyRunwayStart, proxyRunwayPoll, proxyVeoVideo, proxyGemini, type ImageGenerationFormState } from '@/app/actions';
+
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -45,7 +48,7 @@ import {
 import { OptimizedImage } from '@/components/optimized-image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { useActionState, useEffect, useState, useTransition, useRef } from 'react';
+import { useActionState, useEffect, useState, useTransition, useRef, Suspense } from 'react';
 
 // Sample video placeholders to simulate dynamic generation
 const sampleVideos = [
@@ -63,13 +66,13 @@ function generateMockLandingHTML(promptText: string, framework: string, theme: s
   
   const bgClass = theme === 'dark' ? 'bg-slate-950 text-slate-50' : 
                   theme === 'neon' ? 'bg-black text-cyan-400 font-mono' :
-                  theme === 'glassmorphism' ? 'bg-gradient-to-br from-indigo-950 via-slate-900 to-purple-950 text-white' :
+                  theme === 'glassmorphism' ? 'bg-gradient-to-br from-blue-950 via-slate-900 to-blue-950 text-white' :
                   'bg-slate-50 text-slate-900';
 
   const accentColor = color === 'emerald' ? 'emerald-500' :
                       color === 'rose' ? 'rose-500' :
                       color === 'amber' ? 'amber-500' :
-                      'indigo-500';
+                      'blue-500';
 
   const textAccent = `text-${accentColor}`;
   const bgAccent = `bg-${accentColor}`;
@@ -361,7 +364,7 @@ export default function PromptEditorClient() {
   const [webFramework, setWebFramework] = useState('nextjs');
   const [webTheme, setWebTheme] = useState('glassmorphism');
   const [webComponent, setWebComponent] = useState('hero');
-  const [webColor, setWebColor] = useState('indigo');
+  const [webColor, setWebColor] = useState('blue');
 
   // Mock Generation UI flows
   const [isPending, startTransition] = useTransition();
@@ -396,7 +399,7 @@ export default function PromptEditorClient() {
       /,\s*zoom-in camera/i, /,\s*zoom-out camera/i, /,\s*pan-left camera/i, /,\s*pan-right camera/i, /,\s*orbit camera/i,
       /,\s*nextjs framework/i, /,\s*react framework/i, /,\s*html framework/i,
       /,\s*glassmorphism theme/i, /,\s*dark theme/i, /,\s*light theme/i, /,\s*neon theme/i,
-      /,\s*indigo color/i, /,\s*emerald color/i, /,\s*rose color/i, /,\s*amber color/i,
+      /,\s*blue color/i, /,\s*emerald color/i, /,\s*rose color/i, /,\s*amber color/i,
       /,\s*hero layout/i, /,\s*pricing layout/i, /,\s*features layout/i, /,\s*full-page layout/i
     ];
     tags.forEach(re => {
@@ -1393,8 +1396,10 @@ Requirements:
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
-      <Header />
-      <main className="flex-1 py-8 md:py-12">
+      <Suspense fallback={<div className="w-full h-16 border-b" />}>
+        <Header />
+      </Suspense>
+      <main className="flex-1 py-6 md:py-10">
         <div className="container max-w-6xl px-4">
           
           {/* Header Area */}
@@ -1409,9 +1414,9 @@ Requirements:
 
           {/* Smart Clipboard Info Dialog */}
           {importedMetadata && (
-            <div className="mb-6 p-4 rounded-xl border bg-gradient-to-r from-purple-500/5 via-violet-500/5 to-indigo-500/5 dark:from-purple-500/10 dark:via-violet-500/10 dark:to-indigo-500/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div className="mb-6 p-4 rounded-xl border bg-gradient-to-r from-blue-500/5 via-cyan-500/5 to-sky-500/5 dark:from-blue-500/10 dark:via-cyan-500/10 dark:to-sky-500/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
               <div className="flex items-center gap-3">
-                <div className="p-3 rounded-xl bg-primary/10 text-primary border border-primary/20 shrink-0">
+                <div className="p-3 rounded-xl bg-blue-500/10 text-blue-500 border border-blue-500/20 shrink-0">
                   {importedMetadata.type === 'video' ? (
                     <Clapperboard className="h-5 w-5" />
                   ) : importedMetadata.type === 'web' ? (
@@ -1467,13 +1472,13 @@ Requirements:
                       {/* Subtype tabs */}
                       <TabsList className="flex w-full rounded-none border-b h-auto min-h-14 bg-muted/30 p-0 flex-wrap sm:flex-nowrap">
                         <TabsTrigger value="pure-text" className="flex-1 data-[state=active]:bg-background rounded-none sm:border-r border-b sm:border-b-0 text-[10px] sm:text-xs md:text-sm font-semibold gap-1 h-14 min-w-[50%] sm:min-w-0">
-                          <MessageSquare className="h-4 w-4 text-pink-500" /> Chat
+                          <MessageSquare className="h-4 w-4 text-blue-500" /> Chat
                         </TabsTrigger>
                         <TabsTrigger value="ai-image" className="flex-1 data-[state=active]:bg-background rounded-none sm:border-r border-b sm:border-b-0 text-[10px] sm:text-xs md:text-sm font-semibold gap-1 h-14 min-w-[50%] sm:min-w-0">
                           <ImageIcon className="h-4 w-4 text-sky-500" /> AI Image
                         </TabsTrigger>
                         <TabsTrigger value="ai-video" className="flex-1 data-[state=active]:bg-background rounded-none sm:border-r text-[10px] sm:text-xs md:text-sm font-semibold gap-1 h-14 min-w-[50%] sm:min-w-0">
-                          <Clapperboard className="h-4 w-4 text-violet-500" /> AI Video
+                          <Clapperboard className="h-4 w-4 text-blue-500" /> AI Video
                         </TabsTrigger>
                         <TabsTrigger value="ai-web" className="flex-1 data-[state=active]:bg-background rounded-none text-[10px] sm:text-xs md:text-sm font-semibold gap-1 h-14 min-w-[50%] sm:min-w-0">
                           <Globe className="h-4 w-4 text-emerald-500" /> Web Landing
@@ -1486,7 +1491,7 @@ Requirements:
                           <div className="space-y-4 flex flex-col h-[520px]">
                             <div className="flex items-center justify-between border-b pb-2">
                               <div className="flex items-center gap-2">
-                                <MessageSquare className="h-5 w-5 text-pink-500" />
+                                <MessageSquare className="h-5 w-5 text-blue-500" />
                                 <span className="font-bold text-sm text-foreground">AI Prompt Assistant Chat</span>
                               </div>
                               <Button 
@@ -1513,7 +1518,7 @@ Requirements:
                             {/* Active API Provider / Model and API Key inside Chat Tab */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 rounded-xl border bg-muted/30">
                               <div className="space-y-1">
-                                <Label className="text-[10px] font-bold text-pink-500 flex items-center gap-1.5">
+                                <Label className="text-[10px] font-bold text-blue-500 flex items-center gap-1.5">
                                   <KeyRound className="h-3.5 w-3.5" />
                                   Active API Provider / Model
                                 </Label>
@@ -1539,7 +1544,7 @@ Requirements:
                                     }
                                   }}
                                 >
-                                  <SelectTrigger className="text-xs h-8 bg-background font-semibold border-pink-500/30">
+                                  <SelectTrigger className="text-xs h-8 bg-background font-semibold border-blue-500/30">
                                     <SelectValue placeholder="✨ Mock Sandbox (Free)" />
                                   </SelectTrigger>
                                   <SelectContent>
@@ -1562,7 +1567,7 @@ Requirements:
                                   if (chatProvider === 'openai') return (
                                     <>
                                       <div className="flex items-center justify-between">
-                                        <Label className="text-[10px] font-bold flex items-center gap-1 text-pink-500"><KeyRound className="h-3 w-3" />OpenAI API Key</Label>
+                                        <Label className="text-[10px] font-bold flex items-center gap-1 text-blue-500"><KeyRound className="h-3 w-3" />OpenAI API Key</Label>
                                         {openAIKey ? <span className="text-[9px] font-bold text-emerald-500">Active</span> : <a href="https://platform.openai.com/api-keys" target="_blank" rel="noreferrer" className="text-[9px] text-blue-500 hover:underline">Get Key →</a>}
                                       </div>
                                       <Input type="password" placeholder="sk-proj-..." value={openAIKey} onChange={(e) => setOpenAIKey(e.target.value)} className="text-xs bg-background h-8 rounded-lg" />
@@ -1571,7 +1576,7 @@ Requirements:
                                   if (chatProvider === 'anthropic') return (
                                     <>
                                       <div className="flex items-center justify-between">
-                                        <Label className="text-[10px] font-bold flex items-center gap-1 text-pink-500"><KeyRound className="h-3 w-3" />Anthropic API Key</Label>
+                                        <Label className="text-[10px] font-bold flex items-center gap-1 text-blue-500"><KeyRound className="h-3 w-3" />Anthropic API Key</Label>
                                         {anthropicKey ? <span className="text-[9px] font-bold text-emerald-500">Active</span> : <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noreferrer" className="text-[9px] text-blue-500 hover:underline">Get Key →</a>}
                                       </div>
                                       <Input type="password" placeholder="sk-ant-..." value={anthropicKey} onChange={(e) => setAnthropicKey(e.target.value)} className="text-xs bg-background h-8 rounded-lg" />
@@ -1580,7 +1585,7 @@ Requirements:
                                   if (chatProvider === 'google') return (
                                     <>
                                       <div className="flex items-center justify-between">
-                                        <Label className="text-[10px] font-bold flex items-center gap-1 text-pink-500"><KeyRound className="h-3 w-3" />Google Gemini API Key</Label>
+                                        <Label className="text-[10px] font-bold flex items-center gap-1 text-blue-500"><KeyRound className="h-3 w-3" />Google Gemini API Key</Label>
                                         {vertexKey ? <span className="text-[9px] font-bold text-emerald-500">Active</span> : <a href="https://aistudio.google.com/" target="_blank" rel="noreferrer" className="text-[9px] text-blue-500 hover:underline">Get Key →</a>}
                                       </div>
                                       <Input type="password" placeholder="AI Studio Key..." value={vertexKey} onChange={(e) => setVertexKey(e.target.value)} className="text-xs bg-background h-8 rounded-lg" />
@@ -1603,7 +1608,7 @@ Requirements:
                                   <div className={`flex items-start ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
                                     <div className={`p-3 rounded-2xl max-w-[85%] text-sm ${
                                       msg.sender === 'user' 
-                                        ? 'bg-indigo-600 text-white rounded-tr-none shadow-sm font-semibold' 
+                                        ? 'bg-blue-600 text-white rounded-tr-none shadow-sm font-semibold' 
                                         : 'bg-muted/80 text-foreground border rounded-tl-none shadow-sm'
                                     }`}>
                                       <p className="whitespace-pre-line leading-relaxed">{msg.text}</p>
@@ -1629,7 +1634,7 @@ Requirements:
                                               type="button"
                                               size="sm"
                                               variant="default"
-                                              className="h-7 text-[10px] font-semibold gap-1 bg-pink-600 hover:bg-pink-700 text-white"
+                                              className="h-7 text-[10px] font-semibold gap-1 bg-blue-600 hover:bg-blue-700 text-white"
                                               onClick={() => handleLoadSuggestedPrompt(msg.suggestedPrompt || '', msg.promptType || 'general')}
                                             >
                                               <Wand2 className="h-3 w-3" /> Load in Editor
@@ -1666,7 +1671,7 @@ Requirements:
                                 type="button" 
                                 onClick={handleSendChatMessage} 
                                 size="icon" 
-                                className="h-10 w-10 shrink-0 bg-pink-600 hover:bg-pink-700 text-white rounded-xl shadow-sm"
+                                className="h-10 w-10 shrink-0 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-sm"
                               >
                                 <Send className="h-4 w-4" />
                               </Button>
@@ -1734,7 +1739,7 @@ Requirements:
                               className="text-xs font-semibold h-9 gap-1.5"
                               onClick={handleEnhancePrompt}
                             >
-                              <Wand2 className="h-3.5 w-3.5 text-purple-500 animate-pulse" />
+                              <Wand2 className="h-3.5 w-3.5 text-blue-500 animate-pulse" />
                               Enhance Prompt
                             </Button>
                           </div>
@@ -1746,7 +1751,7 @@ Requirements:
                           <AccordionItem value="options" className="border-t border-b-0">
                             <AccordionTrigger className="hover:no-underline py-3">
                               <span className="flex items-center gap-2 text-sm font-extrabold text-foreground">
-                                <Settings2 className="h-4 w-4 text-primary" />
+                                <Settings2 className="h-4 w-4 text-blue-500" />
                                 Advanced Design Settings
                               </span>
                             </AccordionTrigger>
@@ -1757,7 +1762,7 @@ Requirements:
                                 <div className="space-y-4">
                                   {/* Provider Select — always full width */}
                                   <div className="space-y-1.5">
-                                    <Label className="text-xs font-bold text-pink-500 flex items-center gap-1.5">
+                                    <Label className="text-xs font-bold text-blue-500 flex items-center gap-1.5">
                                       <KeyRound className="h-3.5 w-3.5" />
                                       Active API Provider / Model
                                     </Label>
@@ -1772,7 +1777,7 @@ Requirements:
                                         else if (p === 'google') setGoogleWebModel(m);
                                       }}
                                     >
-                                      <SelectTrigger className="text-xs h-9 bg-background font-semibold border-pink-500/30">
+                                      <SelectTrigger className="text-xs h-9 bg-background font-semibold border-blue-500/30">
                                         <SelectValue />
                                       </SelectTrigger>
                                       <SelectContent>
@@ -1793,7 +1798,7 @@ Requirements:
                                   <div className="w-full rounded-lg border bg-muted/30 p-3 space-y-2">
                                     <div className="flex items-center justify-between">
                                       <Label className="text-xs font-bold flex items-center gap-1.5">
-                                        <KeyRound className="h-3 w-3 text-pink-500" />
+                                        <KeyRound className="h-3 w-3 text-blue-500" />
                                         {imageProvider === 'mock' && 'API Key'}
                                         {imageProvider === 'openai' && 'OpenAI API Key'}
                                         {imageProvider === 'fal' && 'Fal.ai API Key'}
@@ -1943,7 +1948,7 @@ Requirements:
                               {activeTab === 'ai-video' && (
                                 <div className="grid sm:grid-cols-2 gap-4">
                                   <div className="col-span-2 space-y-1.5">
-                                    <Label className="text-xs font-bold text-pink-500 flex items-center gap-1.5">
+                                    <Label className="text-xs font-bold text-blue-500 flex items-center gap-1.5">
                                       <KeyRound className="h-3.5 w-3.5" />
                                       Active API Provider / Model
                                     </Label>
@@ -1960,7 +1965,7 @@ Requirements:
                                         else if (p === 'google') setGoogleWebModel(m);
                                       }}
                                     >
-                                      <SelectTrigger className="text-xs h-9 bg-background font-semibold border-pink-500/30">
+                                      <SelectTrigger className="text-xs h-9 bg-background font-semibold border-blue-500/30">
                                         <SelectValue />
                                       </SelectTrigger>
                                       <SelectContent>
@@ -1975,7 +1980,7 @@ Requirements:
                                   <div className="col-span-2 w-full rounded-lg border bg-muted/30 p-3 space-y-2">
                                     <div className="flex items-center justify-between">
                                       <Label className="text-xs font-bold flex items-center gap-1.5">
-                                        <KeyRound className="h-3 w-3 text-pink-500" />
+                                        <KeyRound className="h-3 w-3 text-blue-500" />
                                         {videoProvider === 'mock' && 'API Key'}
                                         {videoProvider === 'runway' && 'Runway API Key'}
                                         {videoProvider === 'veo' && 'Google Veo API Key'}
@@ -2104,7 +2109,7 @@ Requirements:
                               {activeTab === 'ai-web' && (
                                 <div className="grid sm:grid-cols-2 gap-4">
                                   <div className="col-span-2 space-y-1.5">
-                                    <Label className="text-xs font-bold text-pink-500 flex items-center gap-1.5">
+                                    <Label className="text-xs font-bold text-blue-500 flex items-center gap-1.5">
                                       <KeyRound className="h-3.5 w-3.5" />
                                       Active API Provider / Model
                                     </Label>
@@ -2119,7 +2124,7 @@ Requirements:
                                         else if (p === 'google') setGoogleWebModel(m);
                                       }}
                                     >
-                                      <SelectTrigger className="text-xs h-9 bg-background font-semibold border-pink-500/30">
+                                      <SelectTrigger className="text-xs h-9 bg-background font-semibold border-blue-500/30">
                                         <SelectValue />
                                       </SelectTrigger>
                                       <SelectContent>
@@ -2141,7 +2146,7 @@ Requirements:
                                   <div className="col-span-2 w-full rounded-lg border bg-muted/30 p-3 space-y-2">
                                     <div className="flex items-center justify-between">
                                       <Label className="text-xs font-bold flex items-center gap-1.5">
-                                        <KeyRound className="h-3 w-3 text-pink-500" />
+                                        <KeyRound className="h-3 w-3 text-blue-500" />
                                         {webProvider === 'mock' && 'API Key'}
                                         {webProvider === 'anthropic' && 'Anthropic API Key'}
                                         {webProvider === 'openai' && 'OpenAI API Key'}
@@ -2182,7 +2187,7 @@ Requirements:
                                         <SelectValue />
                                       </SelectTrigger>
                                       <SelectContent>
-                                        <SelectItem value="indigo" className="text-xs">🔵 Royal Indigo / Purple</SelectItem>
+                                        <SelectItem value="blue" className="text-xs">🔵 Royal Blue</SelectItem>
                                         <SelectItem value="emerald" className="text-xs">🟢 Tech Emerald / Green</SelectItem>
                                         <SelectItem value="rose" className="text-xs">🔴 Vivid Rose / Crimson</SelectItem>
                                         <SelectItem value="amber" className="text-xs">🟡 Warm Amber / Gold</SelectItem>
@@ -2211,7 +2216,7 @@ Requirements:
                               {activeTab === 'pure-text' && (
                                 <div className="space-y-3">
                                   <div className="col-span-2 space-y-1.5">
-                                    <Label className="text-xs font-bold text-pink-500 flex items-center gap-1.5">
+                                    <Label className="text-xs font-bold text-blue-500 flex items-center gap-1.5">
                                       <KeyRound className="h-3.5 w-3.5" />
                                       Active API Provider / Model
                                     </Label>
@@ -2237,7 +2242,7 @@ Requirements:
                                         }
                                       }}
                                     >
-                                      <SelectTrigger className="text-xs h-9 bg-background font-semibold border-pink-500/30">
+                                      <SelectTrigger className="text-xs h-9 bg-background font-semibold border-blue-500/30">
                                         <SelectValue placeholder="✨ Mock Sandbox (Free)" />
                                       </SelectTrigger>
                                       <SelectContent>
@@ -2259,7 +2264,7 @@ Requirements:
                                       if (chatProvider === 'openai') return (
                                         <div className="mt-3 rounded-lg border bg-muted/30 p-3 space-y-2">
                                           <div className="flex items-center justify-between">
-                                            <Label className="text-xs font-bold flex items-center gap-1.5"><KeyRound className="h-3 w-3 text-pink-500" />OpenAI API Key</Label>
+                                            <Label className="text-xs font-bold flex items-center gap-1.5"><KeyRound className="h-3 w-3 text-blue-500" />OpenAI API Key</Label>
                                             {openAIKey ? <span className="text-[10px] font-semibold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full">✓ Active</span> : <a href="https://platform.openai.com/api-keys" target="_blank" rel="noreferrer" className="text-[10px] text-blue-500 hover:underline font-medium">Get API Key →</a>}
                                           </div>
                                           <Input type="password" placeholder="sk-proj-..." value={openAIKey} onChange={(e) => setOpenAIKey(e.target.value)} className="text-xs bg-background h-9 rounded-lg" />
@@ -2268,7 +2273,7 @@ Requirements:
                                       if (chatProvider === 'anthropic') return (
                                         <div className="mt-3 rounded-lg border bg-muted/30 p-3 space-y-2">
                                           <div className="flex items-center justify-between">
-                                            <Label className="text-xs font-bold flex items-center gap-1.5"><KeyRound className="h-3 w-3 text-pink-500" />Anthropic API Key</Label>
+                                            <Label className="text-xs font-bold flex items-center gap-1.5"><KeyRound className="h-3 w-3 text-blue-500" />Anthropic API Key</Label>
                                             {anthropicKey ? <span className="text-[10px] font-semibold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full">✓ Active</span> : <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noreferrer" className="text-[10px] text-blue-500 hover:underline font-medium">Get API Key →</a>}
                                           </div>
                                           <Input type="password" placeholder="sk-ant-..." value={anthropicKey} onChange={(e) => setAnthropicKey(e.target.value)} className="text-xs bg-background h-9 rounded-lg" />
@@ -2277,7 +2282,7 @@ Requirements:
                                       if (chatProvider === 'google') return (
                                         <div className="mt-3 rounded-lg border bg-muted/30 p-3 space-y-2">
                                           <div className="flex items-center justify-between">
-                                            <Label className="text-xs font-bold flex items-center gap-1.5"><KeyRound className="h-3 w-3 text-pink-500" />Google Gemini API Key</Label>
+                                            <Label className="text-xs font-bold flex items-center gap-1.5"><KeyRound className="h-3 w-3 text-blue-500" />Google Gemini API Key</Label>
                                             {vertexKey ? <span className="text-[10px] font-semibold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full">✓ Active</span> : <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noreferrer" className="text-[10px] text-blue-500 hover:underline font-medium">Get API Key →</a>}
                                           </div>
                                           <Input type="password" placeholder="Google AI Studio key..." value={vertexKey} onChange={(e) => setVertexKey(e.target.value)} className="text-xs bg-background h-9 rounded-lg" />
@@ -2299,32 +2304,32 @@ Requirements:
                           const getButtonConfig = () => {
                             if (activeTab === 'ai-video') {
                               return {
-                                gradient: '!bg-gradient-to-r !from-violet-600 !to-fuchsia-600 hover:!from-violet-700 hover:!to-fuchsia-700 dark:!from-violet-500 dark:!to-fuchsia-500 dark:hover:!from-violet-600 dark:hover:!to-fuchsia-600',
-                                shadow: '!shadow-lg !shadow-violet-500/20 hover:!shadow-violet-500/40 dark:!shadow-violet-500/15 dark:hover:!shadow-violet-500/35',
+                                gradient: '!bg-gradient-to-r !from-blue-600 !to-cyan-500 hover:!from-blue-700 hover:!to-cyan-600 dark:!from-blue-500 dark:!to-cyan-400 dark:hover:!from-blue-600 dark:hover:!to-cyan-500',
+                                shadow: '!shadow-lg !shadow-blue-500/20 hover:!shadow-blue-500/40 dark:!shadow-blue-500/15 dark:hover:!shadow-cyan-500/30',
                                 icon: <Clapperboard className="h-4 w-4 !text-white animate-pulse" />,
                                 text: 'Generate AI Video',
-                                border: '!border !border-violet-500/20 dark:!border-violet-400/30',
-                                ring: 'hover:!ring-2 hover:!ring-offset-2 hover:!ring-offset-background hover:!ring-violet-500/50 dark:hover:!ring-violet-400/50'
+                                border: '!border !border-blue-500/20 dark:!border-cyan-400/30',
+                                ring: 'hover:!ring-2 hover:!ring-offset-2 hover:!ring-offset-background hover:!ring-blue-500/50 dark:hover:!ring-cyan-400/50'
                               };
                             }
                             if (activeTab === 'ai-web') {
                               return {
-                                gradient: '!bg-gradient-to-r !from-purple-600 !to-violet-600 hover:!from-purple-700 hover:!to-violet-700 dark:!from-emerald-400 dark:!to-teal-500 dark:hover:!from-emerald-500 dark:hover:!to-teal-600',
-                                shadow: '!shadow-lg !shadow-purple-500/20 hover:!shadow-purple-500/40 dark:!shadow-emerald-500/15 dark:hover:!shadow-emerald-500/35',
+                                gradient: '!bg-gradient-to-r !from-blue-600 !to-cyan-500 hover:!from-blue-700 hover:!to-cyan-600 dark:!from-blue-500 dark:!to-cyan-400 dark:hover:!from-blue-600 dark:hover:!to-cyan-500',
+                                shadow: '!shadow-lg !shadow-blue-500/20 hover:!shadow-blue-500/40 dark:!shadow-emerald-500/15 dark:hover:!shadow-emerald-500/35',
                                 icon: <Globe className="h-4 w-4 !text-white animate-pulse" />,
                                 text: 'Generate Landing Code',
-                                border: '!border !border-purple-500/20 dark:!border-emerald-400/30',
-                                ring: 'hover:!ring-2 hover:!ring-offset-2 hover:!ring-offset-background hover:!ring-purple-500/50 dark:hover:!ring-emerald-400/50'
+                                border: '!border !border-blue-500/20 dark:!border-emerald-400/30',
+                                ring: 'hover:!ring-2 hover:!ring-offset-2 hover:!ring-offset-background hover:!ring-blue-500/50 dark:hover:!ring-emerald-400/50'
                               };
                             }
                             // Default to Image
                             return {
-                              gradient: '!bg-gradient-to-r !from-indigo-600 !to-purple-600 hover:!from-indigo-700 hover:!to-purple-700 dark:!from-sky-400 dark:!to-indigo-500 dark:hover:!from-sky-500 dark:hover:!to-indigo-600',
-                              shadow: '!shadow-lg !shadow-indigo-500/20 hover:!shadow-indigo-500/40 dark:!shadow-sky-500/15 dark:hover:!shadow-sky-500/35',
-                              icon: <Sparkles className="h-4 w-4 !text-white animate-pulse" />,
+                              gradient: '!bg-gradient-to-r !from-blue-600 !to-blue-600 hover:!from-blue-700 hover:!to-blue-700 dark:!from-sky-400 dark:!to-blue-500 dark:hover:!from-sky-500 dark:hover:!to-blue-600',
+                              shadow: '!shadow-lg !shadow-blue-500/20 hover:!shadow-blue-500/40 dark:!shadow-sky-500/15 dark:hover:!shadow-sky-500/35',
+                                icon: <Sparkles className="h-4 w-4 !text-white animate-pulse" />,
                               text: 'Generate AI Image',
-                              border: '!border !border-indigo-500/20 dark:!border-sky-400/30',
-                              ring: 'hover:!ring-2 hover:!ring-offset-2 hover:!ring-offset-background hover:!ring-indigo-500/50 dark:hover:!ring-sky-400/50'
+                              border: '!border !border-blue-500/20 dark:!border-sky-400/30',
+                              ring: 'hover:!ring-2 hover:!ring-offset-2 hover:!ring-offset-background hover:!ring-blue-500/50 dark:hover:!ring-sky-400/50'
                             };
                           };
 
@@ -2374,11 +2379,11 @@ Requirements:
                     <span className="text-xs font-extrabold text-foreground flex items-center gap-1.5">
                       {activeTab === 'pure-text' ? (
                         <>
-                          <Sparkles className="h-4 w-4 text-pink-500" /> AI Workspace Toolbox
+                          <Sparkles className="h-4 w-4 text-blue-500" /> AI Workspace Toolbox
                         </>
                       ) : (
                         <>
-                          <Tv className="h-4 w-4 text-primary" /> Live Render Preview
+                          <Tv className="h-4 w-4 text-blue-500" /> Live Render Preview
                         </>
                       )}
                     </span>
@@ -2413,8 +2418,8 @@ Requirements:
                     {(isPending || localGenerating) && (
                       <div className="absolute inset-0 bg-background/95 flex flex-col items-center justify-center p-6 z-10 text-center space-y-4">
                         <div className="relative flex items-center justify-center">
-                          <Loader2 className="h-12 w-12 text-indigo-500 animate-spin" />
-                          <Sparkles className="h-5 w-5 text-purple-400 absolute animate-pulse" />
+                          <Loader2 className="h-12 w-12 text-blue-500 animate-spin" />
+                          <Sparkles className="h-5 w-5 text-blue-400 absolute animate-pulse" />
                         </div>
                         <div className="space-y-1.5 max-w-[280px]">
                           <p className="font-bold text-sm text-foreground">
@@ -2426,7 +2431,7 @@ Requirements:
                         </div>
                         <div className="w-full max-w-[200px] h-1.5 bg-muted rounded-full overflow-hidden border">
                           <div 
-                            className="bg-indigo-600 h-full transition-all duration-300 rounded-full" 
+                            className="bg-blue-600 h-full transition-all duration-300 rounded-full" 
                             style={{ width: `${localGenerating ? genProgress : 50}%` }}
                           />
                         </div>
@@ -2439,7 +2444,7 @@ Requirements:
                         {outputImageUrl ? (
                           outputImageUrl.startsWith('data:text/gemini,') ? (
                             // Gemini text-model result: show description card
-                            <div className="relative w-full rounded-xl border bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20 p-5 shadow-inner space-y-3">
+                            <div className="relative w-full rounded-xl border bg-gradient-to-br from-blue-50 to-blue-50 dark:from-blue-950/20 dark:to-blue-950/20 p-5 shadow-inner space-y-3">
                               <div className="flex items-center gap-2 mb-1">
                                 <div className="p-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-500">
                                   <Sparkles className="h-4 w-4" />
@@ -2494,7 +2499,7 @@ Requirements:
                           </div>
                         ) : (
                           <div className="text-center p-6 space-y-3">
-                            <div className="p-4 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-500 inline-block">
+                            <div className="p-4 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-500 inline-block">
                               <Clapperboard className="h-8 w-8" />
                             </div>
                             <h3 className="font-bold text-sm text-foreground">Ready for Video Generation</h3>
@@ -2564,7 +2569,7 @@ Requirements:
                       <div className="w-full h-full flex flex-col justify-start flex-grow">
                         <div className="border-b pb-3 mb-4">
                           <h3 className="font-bold text-sm text-foreground flex items-center gap-1.5">
-                            <Sparkles className="h-4 w-4 text-pink-500" />
+                            <Sparkles className="h-4 w-4 text-blue-500" />
                             Refined Prompt Log
                           </h3>
                           <p className="text-xs text-muted-foreground">
@@ -2581,7 +2586,7 @@ Requirements:
                                     variant="secondary" 
                                     className={`text-[9px] uppercase tracking-wider ${
                                       item.type === 'image' ? 'bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-500/20' :
-                                      item.type === 'video' ? 'bg-violet-500/10 text-violet-600 dark:text-violet-400 border-violet-500/20' :
+                                      item.type === 'video' ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20' :
                                       item.type === 'web' ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20' :
                                       'bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/20'
                                     }`}
@@ -2612,7 +2617,7 @@ Requirements:
                                     type="button"
                                     variant="default" 
                                     size="sm" 
-                                    className="h-8 text-[11px] font-semibold flex-1 gap-1 bg-pink-600 hover:bg-pink-700 text-white border-0"
+                                    className="h-8 text-[11px] font-semibold flex-1 gap-1 bg-blue-600 hover:bg-blue-700 text-white border-0"
                                     onClick={() => handleLoadSuggestedPrompt(item.text, item.type)}
                                   >
                                     <Wand2 className="h-3 w-3" /> Use Prompt
@@ -2623,7 +2628,7 @@ Requirements:
                           </div>
                         ) : (
                           <div className="flex-1 flex flex-col justify-center items-center py-12 text-center space-y-3">
-                            <div className="p-4 rounded-full bg-pink-500/10 border border-pink-500/20 text-pink-500 inline-block animate-pulse">
+                            <div className="p-4 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-500 inline-block animate-pulse">
                               <MessageSquare className="h-8 w-8" />
                             </div>
                             <h4 className="font-bold text-sm text-foreground">No Prompts Refined Yet</h4>

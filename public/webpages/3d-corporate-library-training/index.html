@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biblioteca Corporativa 3D — Clips de Formación</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <header id="topbar">
+      <div class="logo"><span class="logo-icon">◈</span><span>Capacitación 3D</span></div>
+      <div class="search-filters">
+        <input type="text" id="search-input" placeholder="Buscar por palabra clave..." aria-label="Buscar">
+        <select id="dept-filter" aria-label="Departamento"><option value="all">Todos</option><option value="IT">IT</option><option value="RH">RH</option><option value="Finanzas">Finanzas</option><option value="Marketing">Marketing</option></select>
+        <select id="level-filter" aria-label="Nivel"><option value="all">Todos</option><option value="basic">Básico</option><option value="intermediate">Intermedio</option><option value="advanced">Avanzado</option></select>
+      </div>
+      <div class="topbar-actions">
+        <button id="export-notes-btn" class="btn btn-sm btn-outline" title="Exportar notas">📤</button>
+        <button id="fallback-btn" class="btn btn-sm btn-outline">♿</button>
+      </div>
+    </header>
+
+    <div id="main">
+      <div id="scene-root" role="img" aria-label="Biblioteca corporativa 3D con estanterías por departamento"></div>
+
+      <div id="clip-panel" class="hidden">
+        <button id="clip-close" class="panel-close">&times;</button>
+        <div class="clip-inner">
+          <h3 id="clip-title" class="clip-title"></h3>
+          <div class="video-wrapper">
+            <video id="clip-video" controls preload="metadata" crossorigin="anonymous"></video>
+          </div>
+          <div id="clip-meta" class="clip-meta"></div>
+          <div class="notes-area">
+            <h4>📝 Notas</h4>
+            <div class="notes-timeline" id="notes-timeline"></div>
+            <div class="notes-input-row">
+              <input type="text" id="notes-input" placeholder="Nota en este timestamp..." style="flex:1">
+              <button id="notes-add-btn" class="btn btn-sm">➕</button>
+            </div>
+          </div>
+          <div id="clip-transcript" class="clip-transcript">
+            <details><summary>📄 Transcripción</summary><div id="transcript-body" class="transcript-body"></div></details>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="modal" class="modal hidden"><div class="modal-content"><button id="modal-close" class="modal-close">&times;</button><div id="modal-body" class="modal-body"></div></div></div>
+    <div id="fallback-section" class="hidden" aria-live="polite"><div class="fallback-inner"><h2>📚 Capacitación — Versión 2D</h2><div id="fb-grid" class="fb-grid"></div></div></div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="corpLibrary3d.js"></script>
+</body>
+</html>

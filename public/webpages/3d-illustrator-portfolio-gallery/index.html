@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ilustrador 3D — Galería con Proyecciones</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <header id="topbar">
+      <div class="logo"><span class="logo-icon">◈</span><span>Ilustra 3D</span></div>
+      <div class="filter-bar" id="filter-bar">
+        <button class="filter-btn active" data-filter="all">Todas</button>
+        <button class="filter-btn" data-filter="digital">Digital</button>
+        <button class="filter-btn" data-filter="acuarela">Acuarela</button>
+        <button class="filter-btn" data-filter="lineart">Lineart</button>
+      </div>
+      <div class="topbar-actions">
+        <button id="analytics-btn" class="btn btn-sm btn-outline" title="Analytics">📊</button>
+        <button id="fallback-btn" class="btn btn-sm btn-outline">♿</button>
+      </div>
+    </header>
+
+    <div id="main">
+      <div id="scene-root" role="img" aria-label="Galería 3D con paneles flotantes de ilustraciones"></div>
+
+      <div id="macro-view" class="hidden">
+        <button id="macro-close" class="panel-close">&times;</button>
+        <div class="macro-inner">
+          <h3 id="macro-title" class="macro-title"></h3>
+          <div class="macro-video-wrap">
+            <video id="macro-video" controls preload="metadata" crossorigin="anonymous"></video>
+            <input type="range" id="macro-scrub" min="0" max="1000" value="0" class="macro-scrub">
+          </div>
+          <div class="layer-toggles" id="layer-toggles">
+            <label><input type="checkbox" data-layer="sketch" checked> Sketch</label>
+            <label><input type="checkbox" data-layer="lineart" checked> Lineart</label>
+            <label><input type="checkbox" data-layer="color" checked> Color</label>
+          </div>
+          <button id="export-frame-btn" class="btn btn-primary">📷 Exportar frame</button>
+          <div id="macro-caption" class="macro-caption"></div>
+        </div>
+      </div>
+
+      <div id="analytics-panel" class="hidden">
+        <div class="analytics-header">
+          <h3>📊 Analytics</h3>
+          <button id="analytics-close" class="btn btn-sm btn-outline">×</button>
+        </div>
+        <div id="analytics-body" class="analytics-body"></div>
+      </div>
+    </div>
+
+    <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+      <div class="modal-content">
+        <button id="modal-close" class="modal-close">&times;</button>
+        <div id="modal-body" class="modal-body"></div>
+      </div>
+    </div>
+
+    <div id="fallback-section" class="hidden" aria-live="polite">
+      <div class="fallback-inner"><h2>🎨 Galería — Versión 2D</h2><div id="fb-grid" class="fb-grid"></div></div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="gallery.js"></script>
+</body>
+</html>

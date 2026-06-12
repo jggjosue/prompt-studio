@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Interview Room — Video Replays & Synchronized Annotations</title>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.159.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.159.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="scene-root"></div>
+
+  <main class="ui">
+    <header class="top glass">
+      <div>
+        <p class="eyebrow">Interview Room 3D</p>
+        <h1>Replays &amp; Annotations</h1>
+      </div>
+      <div class="actions">
+        <button id="record-toggle" class="btn warn">Grabar</button>
+        <button id="side-by-side" class="btn">Lado a lado</button>
+        <button id="export-pdf" class="btn">Exportar PDF</button>
+        <button id="fallback-toggle" class="btn">Fallback 2D</button>
+      </div>
+    </header>
+
+    <section class="panel glass">
+      <h2>Entrevistas</h2>
+      <div class="row" id="interview-buttons">
+        <button class="btn card-btn" data-card="0">UX Research — Ana</button>
+        <button class="btn card-btn" data-card="1">Product — Carlos</button>
+        <button class="btn card-btn" data-card="2">Engineering — Elena</button>
+      </div>
+      <p id="card-copy" class="copy">Haz clic en una tarjeta de la mesa para abrir la entrevista y ver anotaciones sincronizadas.</p>
+      <div class="annotation-list" id="annotation-list">
+        <p class="anno-meta">Las anotaciones aparecerán aquí sincronizadas con el video.</p>
+      </div>
+    </section>
+
+    <section id="fallback" class="fallback glass hidden" aria-label="2D fallback with interview replays"></section>
+  </main>
+
+  <div id="dialog" class="dialog hidden" role="dialog" aria-modal="true" aria-label="Interview replay with annotations">
+    <article class="dialog-card">
+      <button id="close-dialog" class="btn close">✕</button>
+      <h3 id="dialog-title"></h3>
+      <div class="dialog-video-wrap">
+        <video id="dialog-video" controls preload="metadata" crossorigin="anonymous">
+          <track kind="captions" srclang="en" label="English" src="assets/subtitles-en.srt" default>
+        </video>
+      </div>
+      <div class="dialog-body">
+        <div class="dialog-notes" id="dialog-notes">
+          <h4>Anotaciones</h4>
+          <div id="notes-list" class="notes-list"></div>
+          <div class="add-note">
+            <textarea id="note-input" rows="2" placeholder="Añadir anotación en este momento…"></textarea>
+            <button id="save-note" class="btn primary">Guardar</button>
+          </div>
+        </div>
+        <div class="dialog-actions">
+          <a class="download" href="assets/transcript.txt" download>📝 Transcripción</a>
+          <a class="download" href="assets/resumen.pdf" download>📄 Resumen PDF</a>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <div id="sbs-overlay" class="sbs-overlay hidden" role="dialog" aria-label="Side by side comparison">
+    <div class="sbs-card">
+      <button id="close-sbs" class="btn close">✕</button>
+      <h3>Comparador lado a lado</h3>
+      <div class="sbs-grid">
+        <div class="sbs-col">
+          <select id="sbs-left-select" class="sbs-select"></select>
+          <video id="sbs-left-video" controls preload="metadata"></video>
+          <div class="sbs-notes" id="sbs-left-notes"></div>
+        </div>
+        <div class="sbs-col">
+          <select id="sbs-right-select" class="sbs-select"></select>
+          <video id="sbs-right-video" controls preload="metadata"></video>
+          <div class="sbs-notes" id="sbs-right-notes"></div>
+        </div>
+      </div>
+      <p class="sbs-caption">Ambos videos se sincronizan al presionar play. Las anotaciones aparecen en tiempo real.</p>
+    </div>
+  </div>
+
+  <script type="module" src="interviewRoom.js"></script>
+</body>
+</html>

@@ -82,6 +82,17 @@ export async function GET(
 
   if (!bytes) {
     try {
+      const { join } = await import('path');
+      const { readFile } = await import('fs/promises');
+      const localPath = join(process.cwd(), 'public', 'webpages', filename);
+      bytes = await readFile(localPath);
+    } catch {
+      // ignore
+    }
+  }
+
+  if (!bytes) {
+    try {
       const fallback = await fetch(githubWebPageAssetUrl(filename), {
         signal: AbortSignal.timeout(15_000),
       });

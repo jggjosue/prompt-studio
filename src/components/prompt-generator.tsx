@@ -61,7 +61,15 @@ export default function PromptGenerator() {
   const [textareaValue, setTextareaValue] = useState(JSON.stringify(prompt, null, 2));
 
   return (
-    <Card>
+    <Card
+      className="prompt-glass-card text-slate-950 shadow-2xl shadow-blue-950/15 dark:text-white dark:shadow-black/25"
+      style={{
+        backgroundColor: 'transparent',
+        borderColor: 'rgba(96, 165, 250, 0.35)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+      }}
+    >
       <CardContent className="p-4 md:p-6">
         <div className="space-y-4">
           <div className="grid w-full gap-2">
@@ -69,7 +77,14 @@ export default function PromptGenerator() {
               name="keywords"
               placeholder={t('placeholder')}
               rows={15}
-              className="text-base"
+              className="prompt-glass-textarea resize-y text-base font-medium leading-relaxed text-slate-950 shadow-inner shadow-blue-950/10 placeholder:text-slate-600 focus-visible:border-primary/50 focus-visible:ring-primary/70 focus-visible:ring-offset-0 dark:text-white dark:shadow-black/30 dark:placeholder:text-white/55"
+              style={{
+                backgroundColor: 'transparent',
+                borderColor: 'rgba(96, 165, 250, 0.4)',
+                textShadow: '0 1px 2px rgba(0, 0, 0, 0.42)',
+                backdropFilter: 'blur(2px)',
+                WebkitBackdropFilter: 'blur(2px)',
+              }}
               value={textareaValue}
               onChange={(e) => setTextareaValue(e.target.value)}
             />

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Artista 3D — Portfolio con Breakdowns</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <header id="topbar">
+      <div class="logo"><span class="logo-cube">◇</span><span>Artista 3D</span></div>
+      <div class="topbar-actions">
+        <button id="compare-btn" class="btn btn-sm btn-outline">⇄ Antes/Después</button>
+        <button id="analytics-btn" class="btn btn-sm btn-outline" title="Analytics">📊</button>
+        <button id="fallback-btn" class="btn btn-sm btn-outline">♿</button>
+      </div>
+    </header>
+
+    <div id="main">
+      <div id="scene-root" role="img" aria-label="Galería 3D con obras que contienen reels y breakdowns de proceso"></div>
+
+      <div id="breakdown-panel" class="hidden">
+        <button id="breakdown-close" class="panel-close">&times;</button>
+        <div class="breakdown-inner">
+          <div class="breakdown-video-wrap">
+            <video id="breakdown-video" controls preload="metadata" crossorigin="anonymous" playsinline></video>
+          </div>
+          <div id="breakdown-meta" class="breakdown-meta"></div>
+          <div id="breakdown-overlays" class="breakdown-overlays"></div>
+          <div class="breakdown-settings">
+            <pre id="breakdown-params" class="breakdown-params"></pre>
+            <button id="export-settings-btn" class="btn btn-sm btn-outline" style="width:100%;margin-top:.15rem">📥 Exportar JSON</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="compare-panel" class="hidden">
+        <div class="compare-header">
+          <h3>⇄ Antes / Después</h3>
+          <button id="compare-close" class="btn btn-sm btn-outline">×</button>
+        </div>
+        <div class="compare-grid" id="compare-grid"></div>
+      </div>
+
+      <div id="analytics-panel" class="hidden">
+        <div class="analytics-header">
+          <h3>📊 Analytics</h3>
+          <button id="analytics-close" class="btn btn-sm btn-outline">×</button>
+        </div>
+        <div id="analytics-body"></div>
+      </div>
+    </div>
+
+    <div id="fallback-section" class="hidden" aria-live="polite">
+      <div class="fallback-inner">
+        <h2>◇ Versión 2D</h2>
+        <div id="fb-works" class="fb-works"></div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+  <script src="artist3d.js"></script>
+</body>
+</html>

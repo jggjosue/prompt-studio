@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UX 3D — Portfolio Walkthrough</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <header id="topbar">
+      <div class="logo"><span class="logo-pen">✎</span><span>UX 3D</span></div>
+      <div class="topbar-actions">
+        <button id="inspect-btn" class="btn btn-sm btn-outline">🔍 Inspeccionar</button>
+        <button id="analytics-btn" class="btn btn-sm btn-outline" title="Analytics">📊</button>
+        <button id="fallback-btn" class="btn btn-sm btn-outline">♿</button>
+      </div>
+    </header>
+
+    <div id="main">
+      <div id="scene-root" role="img" aria-label="Escena 3D con maqueta interactiva de interfaz UX"></div>
+
+      <div id="hero-overlay" class="hero-overlay">
+        <h1 class="hero-title">Diseño <span class="highlight">UX/UI</span></h1>
+        <p class="hero-sub">Interfaces · Prototipos · Experiencia de usuario</p>
+        <button id="walkthrough-btn" class="btn btn-primary btn-lg">▶ Play walkthrough</button>
+        <button id="resume-walkthrough-btn" class="btn btn-outline btn-lg hidden" style="margin-left:.3rem">▶ Reanudar</button>
+      </div>
+
+      <div id="tooltip-3d" class="tooltip-3d hidden" aria-live="polite"></div>
+
+      <div id="inspect-panel" class="hidden">
+        <div class="inspect-header">
+          <h3>🔍 Inspeccionar</h3>
+          <button id="inspect-close" class="btn btn-sm btn-outline">×</button>
+        </div>
+        <div id="inspect-body" class="inspect-body"></div>
+        <div id="inspect-snippet" class="inspect-snippet">
+          <pre><code id="inspect-code" class="language-css"></code></pre>
+          <button id="inspect-copy" class="btn btn-sm btn-outline" style="width:100%;margin-top:.1rem">📋 Copiar</button>
+        </div>
+      </div>
+
+      <div id="analytics-panel" class="hidden">
+        <div class="analytics-header">
+          <h3>📊 Analytics</h3>
+          <button id="analytics-close" class="btn btn-sm btn-outline">×</button>
+        </div>
+        <div id="analytics-body"></div>
+      </div>
+    </div>
+
+    <div id="fallback-section" class="hidden" aria-live="polite">
+      <div class="fallback-inner">
+        <h2>✎ Versión 2D</h2>
+        <div id="fb-walkthroughs" class="fb-walkthroughs"></div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+  <script src="ux3d.js"></script>
+</body>
+</html>

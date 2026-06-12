@@ -326,9 +326,9 @@ export default function ManualActionsPage() {
             </CardContent>
           </Card>
 
-          <Card className="border-indigo-300 bg-indigo-50/50 dark:bg-indigo-950/20">
+          <Card className="border-blue-300 bg-blue-50/50 dark:bg-blue-950/20">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-indigo-900 dark:text-indigo-100">
+              <CardTitle className="flex items-center gap-2 text-blue-900 dark:text-blue-100">
                 <ShieldAlert className="h-5 w-5" />
                 Abuso de reputación del sitio (contenido de terceros)
               </CardTitle>
@@ -337,7 +337,7 @@ export default function ManualActionsPage() {
               <ul className="space-y-2 text-sm text-muted-foreground">
                 {siteReputationAbuseChecklist.map(item => (
                   <li key={item} className="flex items-start gap-2">
-                    <CheckCircle2 className="h-4 w-4 mt-0.5 text-indigo-600 shrink-0" />
+                    <CheckCircle2 className="h-4 w-4 mt-0.5 text-blue-600 shrink-0" />
                     <span>{item}</span>
                   </li>
                 ))}

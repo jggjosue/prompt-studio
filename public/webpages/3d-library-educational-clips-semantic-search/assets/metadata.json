@@ -1,0 +1,40 @@
+{
+  "clips": [
+    {
+      "id": "physics-vectors",
+      "title": "Physics: Vectors and Forces",
+      "duration": "08:20",
+      "language": "EN",
+      "level": "intermediate",
+      "tags": ["physics", "vectors", "force", "mechanics"],
+      "thumbnail": "thumb-physics-vectors.jpg"
+    },
+    {
+      "id": "algebra-functions",
+      "title": "Algebra: Functions in Motion",
+      "duration": "06:45",
+      "language": "EN",
+      "level": "beginner",
+      "tags": ["math", "algebra", "functions", "graphs"],
+      "thumbnail": "thumb-algebra-functions.jpg"
+    },
+    {
+      "id": "history-modern",
+      "title": "Modern History in 12 Events",
+      "duration": "09:10",
+      "language": "EN",
+      "level": "all",
+      "tags": ["history", "timeline", "society", "geopolitics"],
+      "thumbnail": "thumb-history-modern.jpg"
+    },
+    {
+      "id": "biology-cell",
+      "title": "Biology: Cell Systems",
+      "duration": "07:05",
+      "language": "EN",
+      "level": "intermediate",
+      "tags": ["biology", "cell", "organelles", "science"],
+      "thumbnail": "thumb-biology-cell.jpg"
+    }
+  ]
+}

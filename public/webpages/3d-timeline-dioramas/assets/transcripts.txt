@@ -1,0 +1,28 @@
+TIMELINE 3D — TRANSCRIPCIONES
+==============================
+
+Capítulo 1: Orígenes (1920)
+- Primeros experimentos con radiofrecuencia.
+- Comunicación inalámbrica.
+- Laboratorio de Marconi.
+- Patente de la radio.
+
+Capítulo 2: Expansión (1950)
+- Televisión comercial.
+- Primeros ordenadores.
+- UNIVAC y la era de la computación.
+
+Capítulo 3: Digital (1980)
+- Microprocesador Intel 4004.
+- PC de IBM y Apple II.
+- Disquete y almacenamiento magnético.
+
+Capítulo 4: Internet (2000)
+- World Wide Web (Tim Berners-Lee, 1993).
+- Buscadores: Google, Yahoo.
+- Burbuja punto-com.
+
+Capítulo 5: IA (2020)
+- Machine learning y deep learning.
+- Redes neuronales artificiales.
+- Transformación de industrias.

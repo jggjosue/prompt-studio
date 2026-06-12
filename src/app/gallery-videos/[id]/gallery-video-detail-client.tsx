@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { LiquidButton } from '@/components/ui/liquid-glass-button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import type { VideoProp } from '@/lib/placeholder-videos';
@@ -64,7 +65,7 @@ export default function GalleryVideoDetailClient({ item }: { item: VideoProp }) 
                     className="w-full h-full object-cover"
                   />
                  <div className="absolute bottom-4 right-4 flex items-start gap-4 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
-                    <Button size="sm" variant="secondary" asChild>
+                    <LiquidButton size="sm" asChild>
                       <Link href={`/prompt/edit?prompt=${encodeURIComponent(JSON.stringify({
                         type: 'video',
                         title: item.title,
@@ -75,7 +76,7 @@ export default function GalleryVideoDetailClient({ item }: { item: VideoProp }) 
                           <Wand2 className="mr-2" />
                           Use this prompt
                       </Link>
-                    </Button>
+                    </LiquidButton>
                   </div>
               </div>
 

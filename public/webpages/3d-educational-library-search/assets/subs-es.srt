@@ -1,0 +1,11 @@
+1
+00:00:00,000 --> 00:00:08,000
+Biblioteca educativa 3D con estanterías de madera clara y volúmenes que contienen clips educativos.
+
+2
+00:00:08,000 --> 00:00:16,000
+Usa la búsqueda semántica para encontrar clips. Los resultados iluminan los estantes relevantes.
+
+3
+00:00:16,000 --> 00:00:24,000
+Arrastra clips a tu playlist o márcalos con notas personales con timestamp.

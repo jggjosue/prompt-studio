@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tech Showroom 3D — Demos y Hotspots</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <header id="topbar">
+      <div class="logo"><span class="logo-icon">◈</span><span>Tech 3D</span></div>
+      <div class="topbar-actions">
+        <button id="deep-dive-btn" class="btn btn-sm btn-outline" title="Modo Deep Dive">🔬 Deep Dive</button>
+        <button id="share-btn" class="btn btn-sm btn-outline" title="Compartir">🔗</button>
+        <button id="fallback-btn" class="btn btn-sm btn-outline">♿</button>
+      </div>
+    </header>
+
+    <div id="main">
+      <div id="scene-root" role="img" aria-label="Showroom 3D de tecnología con hotspots técnicos"></div>
+
+      <div id="hotspot-labels" class="hotspot-labels">
+        <button class="hs-label" data-hotspot="0">🔐 Auth API</button>
+        <button class="hs-label" data-hotspot="1">📡 WebSocket</button>
+        <button class="hs-label" data-hotspot="2">⚡ Edge</button>
+      </div>
+
+      <div id="demo-panel" class="hidden">
+        <button id="demo-close" class="panel-close">&times;</button>
+        <div class="demo-inner">
+          <h3 id="demo-title" class="demo-title"></h3>
+          <div class="video-wrapper">
+            <video id="demo-video" controls preload="metadata" crossorigin="anonymous"></video>
+          </div>
+          <div id="snippet-area" class="snippet-area">
+            <pre><code id="snippet-code" class="language-javascript"></code></pre>
+            <div class="snippet-actions">
+              <button id="copy-btn" class="btn btn-sm btn-outline">📋 Copiar</button>
+              <button id="sandbox-btn" class="btn btn-sm btn-outline">🚀 Sandbox</button>
+            </div>
+          </div>
+          <p id="demo-desc" class="demo-desc"></p>
+        </div>
+      </div>
+
+      <div id="deep-dive-overlay" class="hidden">
+        <div class="deep-dive-inner">
+          <h3>🔬 Deep Dive</h3>
+          <p id="deep-dive-content" class="deep-dive-content"></p>
+          <button id="deep-dive-close" class="btn btn-sm btn-outline">Cerrar</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+      <div class="modal-content">
+        <button id="modal-close" class="modal-close">&times;</button>
+        <div id="modal-body" class="modal-body"></div>
+      </div>
+    </div>
+
+    <div id="fallback-section" class="hidden" aria-live="polite">
+      <div class="fallback-inner">
+        <h2>⚙️ Tech Showroom — Versión 2D</h2>
+        <div id="fb-grid" class="fb-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prismjs/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prismjs/1.29.0/components/prism-javascript.min.js"></script>
+  <script src="techshow3d.js"></script>
+</body>
+</html>

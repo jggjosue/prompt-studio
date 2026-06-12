@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>3D Compliance & Audit Center</title>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.158.0/examples/jsm/"}}</script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#03050a;--panel:#0a0e1a;--border:#1a2235;--text:#e2e8f0;--muted:#64748b;
+  --crit:#ef4444;--high:#f97316;--med:#f59e0b;--low:#3b82f6;--info:#22c55e;
+  --accent:#6366f1;--font:system-ui,sans-serif
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);overflow:hidden;height:100vh}
+canvas{display:block}
+
+/* NAV */
+#nav{position:fixed;top:0;left:0;right:0;height:52px;background:rgba(3,5,10,0.92);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 1.25rem;gap:1rem;z-index:50;backdrop-filter:blur(10px)}
+#nav .logo{font-weight:800;font-size:0.95rem;letter-spacing:-0.3px;margin-right:auto;display:flex;align-items:center;gap:8px}
+.logo-dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.filter-btn{padding:5px 14px;border-radius:99px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:0.75rem;font-weight:600;cursor:pointer;transition:all .15s;letter-spacing:.04em}
+.filter-btn:hover{border-color:var(--accent);color:var(--text)}
+.filter-btn.active{color:#fff;border-color:transparent}
+.filter-btn[data-sev="ALL"].active{background:var(--accent)}
+.filter-btn[data-sev="CRITICAL"].active{background:var(--crit);border-color:var(--crit)}
+.filter-btn[data-sev="HIGH"].active{background:var(--high);border-color:var(--high)}
+.filter-btn[data-sev="MEDIUM"].active{background:var(--med);border-color:var(--med)}
+.filter-btn[data-sev="LOW"].active{background:var(--low);border-color:var(--low)}
+.filter-btn[data-sev="INFO"].active{background:var(--info);border-color:var(--info)}
+.nav-sep{width:1px;height:20px;background:var(--border)}
+#toggle2d{padding:5px 14px;border-radius:99px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:0.75rem;font-weight:600;cursor:pointer;transition:all .15s}
+#toggle2d:hover{border-color:var(--accent);color:var(--text)}
+
+/* SIDE PANEL */
+#panel{position:fixed;top:52px;right:0;bottom:0;width:380px;background:var(--panel);border-left:1px solid var(--border);display:flex;flex-direction:column;opacity:0;pointer-events:none;transform:translateX(30px);transition:opacity .3s,transform .3s;z-index:40;overflow:hidden}
+#panel.open{opacity:1;pointer-events:all;transform:translateX(0)}
+#panel-close{position:absolute;top:12px;right:14px;background:transparent;border:none;color:var(--muted);font-size:1.1rem;cursor:pointer;padding:4px 8px;border-radius:4px}
+#panel-close:hover{color:var(--text);background:var(--border)}
+#panel-sev{display:inline-block;padding:3px 10px;border-radius:4px;font-size:0.65rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+#panel-title{font-size:1.05rem;font-weight:700;margin-bottom:4px}
+#panel-node{font-size:0.8rem;color:var(--muted);margin-bottom:1rem}
+
+/* VIDEO PLAYER */
+.video-wrap{background:#000;border-radius:8px;overflow:hidden;margin-bottom:1rem;position:relative}
+.video-screen{width:100%;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0a0e1a,#0d1526);font-size:2rem;position:relative;overflow:hidden}
+.vid-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;padding:14px;background:linear-gradient(transparent,rgba(0,0,0,.7))}
+.vid-label{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.6);margin-bottom:4px}
+.vid-ep{font-size:0.82rem;font-weight:600;color:#fff}
+.vid-controls{padding:10px 12px;background:#0a0e1a}
+.progress-track{width:100%;height:4px;background:#1e293b;border-radius:2px;cursor:pointer;margin-bottom:8px;position:relative}
+.progress-fill{height:100%;border-radius:2px;background:var(--accent);pointer-events:none}
+.vid-row{display:flex;align-items:center;gap:8px}
+.vid-btn{background:transparent;border:none;color:var(--text);cursor:pointer;font-size:.85rem;padding:3px}
+.vid-btn:hover{color:var(--accent)}
+.vid-time{font-size:.68rem;color:var(--muted);margin-left:auto}
+.chapter-markers{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.chap{padding:3px 9px;border-radius:3px;font-size:0.65rem;font-weight:600;cursor:pointer;border:1px solid var(--border);color:var(--muted);background:transparent;transition:all .15s}
+.chap:hover,.chap.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* AUDIT TIMELINE */
+.panel-section{padding:0 1rem}
+.section-label{font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:.6rem}
+#audit-timeline{display:flex;flex-direction:column;gap:6px;max-height:160px;overflow-y:auto}
+.aud-step{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:6px;background:rgba(255,255,255,.03);border:1px solid var(--border)}
+.aud-icon{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;flex-shrink:0;margin-top:1px}
+.aud-body{flex:1;min-width:0}
+.aud-action{font-size:.78rem;font-weight:600;color:var(--text)}
+.aud-time{font-size:.65rem;color:var(--muted)}
+
+/* LOG ENTRIES */
+#log-entries{max-height:130px;overflow-y:auto;display:flex;flex-direction:column;gap:4px}
+.log-line{font-size:.68rem;font-family:monospace;color:var(--muted);padding:4px 8px;border-radius:3px;background:rgba(255,255,255,.02);border-left:2px solid var(--border);line-height:1.5}
+.log-line.crit{border-color:var(--crit);color:#fca5a5}
+.log-line.high{border-color:var(--high);color:#fdba74}
+.log-line.med{border-color:var(--med);color:#fcd34d}
+
+/* CHART */
+#chart-wrap{margin:0 1rem;margin-bottom:.5rem}
+.chart-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.chart-label{font-size:.65rem;color:var(--muted);width:55px;text-align:right;flex-shrink:0}
+.chart-bar-track{flex:1;height:8px;background:rgba(255,255,255,.05);border-radius:4px;overflow:hidden}
+.chart-bar-fill{height:100%;border-radius:4px;transition:width .6s cubic-bezier(.16,1,.3,1)}
+.chart-count{font-size:.65rem;color:var(--muted);width:20px;text-align:left;flex-shrink:0}
+
+/* 2D TABLE */
+#view2d{position:fixed;top:52px;left:0;right:0;bottom:0;background:var(--bg);overflow-y:auto;display:none;z-index:30;padding:1.5rem}
+#view2d h2{font-size:1.1rem;font-weight:700;margin-bottom:1rem}
+table{width:100%;border-collapse:collapse;font-size:.8rem}
+th{text-align:left;padding:8px 12px;border-bottom:1px solid var(--border);color:var(--muted);font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--text)}
+tr:hover td{background:rgba(255,255,255,.03)}
+.sev-badge{padding:2px 8px;border-radius:3px;font-size:.65rem;font-weight:700;letter-spacing:.06em}
+
+/* NODE LABELS */
+.node-label{position:fixed;pointer-events:none;transform:translate(-50%,-50%);font-size:.62rem;font-weight:600;color:rgba(226,232,240,.75);background:rgba(3,5,10,.7);padding:2px 7px;border-radius:3px;white-space:nowrap;letter-spacing:.04em;border:1px solid rgba(255,255,255,.07);z-index:20}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+
+@media(prefers-reduced-motion:reduce){
+  #panel{transition:none}
+  .filter-btn,.chap{transition:none}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="logo"><div class="logo-dot"></div>AuditCore 3D</div>
+  <button class="filter-btn active" data-sev="ALL">All</button>
+  <button class="filter-btn" data-sev="CRITICAL">Critical</button>
+  <button class="filter-btn" data-sev="HIGH">High</button>
+  <button class="filter-btn" data-sev="MEDIUM">Medium</button>
+  <button class="filter-btn" data-sev="LOW">Low</button>
+  <button class="filter-btn" data-sev="INFO">Info</button>
+  <div class="nav-sep"></div>
+  <button id="toggle2d">2D Table</button>
+</nav>
+
+<!-- 3D CANVAS -->
+<canvas id="c"></canvas>
+
+<!-- NODE LABELS -->
+<div id="labels"></div>
+
+<!-- SIDE PANEL -->
+<div id="panel">
+  <button id="panel-close">✕</button>
+  <div style="padding:1rem 1rem .5rem">
+    <div id="panel-sev"></div>
+    <div id="panel-title"></div>
+    <div id="panel-node"></div>
+  </div>
+
+  <!-- VIDEO -->
+  <div style="padding:0 1rem .5rem">
+    <div class="video-wrap">
+      <div class="video-screen" id="vid-screen">
+        <div class="vid-overlay">
+          <div class="vid-label">Audit Replay</div>
+          <div class="vid-ep" id="vid-ep-title">Incident Recording</div>
+        </div>
+        <div id="vid-emoji" style="font-size:2.5rem;opacity:.35">🔍</div>
+      </div>
+      <div class="vid-controls">
+        <div class="progress-track" id="prog-track">
+          <div class="progress-fill" id="prog-fill" style="width:0%"></div>
+        </div>
+        <div class="vid-row">
+          <button class="vid-btn" id="vid-prev">⏮</button>
+          <button class="vid-btn" id="vid-play">▶</button>
+          <button class="vid-btn" id="vid-next">⏭</button>
+          <span class="vid-time" id="vid-time">0:00 / 0:00</span>
+        </div>
+        <div class="chapter-markers" id="chap-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHART -->
+  <div style="padding:0 1rem .75rem">
+    <div class="section-label">Severity Distribution</div>
+    <div id="chart-wrap">
+      <div class="chart-bar-row"><div class="chart-label">Critical</div><div class="chart-bar-track"><div class="chart-bar-fill" id="cb-crit" style="background:var(--crit);width:0%"></div></div><div class="chart-count" id="cc-crit">0</div></div>
+      <div class="chart-bar-row"><div class="chart-label">High</div><div class="chart-bar-track"><div class="chart-bar-fill" id="cb-high" style="background:var(--high);width:0%"></div></div><div class="chart-count" id="cc-high">0</div></div>
+      <div class="chart-bar-row"><div class="chart-label">Medium</div><div class="chart-bar-track"><div class="chart-bar-fill" id="cb-med" style="background:var(--med);width:0%"></div></div><div class="chart-count" id="cc-med">0</div></div>
+      <div class="chart-bar-row"><div class="chart-label">Low</div><div class="chart-bar-track"><div class="chart-bar-fill" id="cb-low" style="background:var(--low);width:0%"></div></div><div class="chart-count" id="cc-low">0</div></div>
+      <div class="chart-bar-row"><div class="chart-label">Info</div><div class="chart-bar-track"><div class="chart-bar-fill" id="cb-info" style="background:var(--info);width:0%"></div></div><div class="chart-count" id="cc-info">0</div></div>
+    </div>
+  </div>
+
+  <!-- AUDIT TIMELINE -->
+  <div class="panel-section" style="margin-bottom:.75rem">
+    <div class="section-label">Audit Trail</div>
+    <div id="audit-timeline"></div>
+  </div>
+
+  <!-- LOGS -->
+  <div class="panel-section" style="flex:1;overflow:hidden;display:flex;flex-direction:column">
+    <div class="section-label">Log Entries</div>
+    <div id="log-entries"></div>
+  </div>
+
+  <div style="padding:.75rem 1rem;border-top:1px solid var(--border);display:flex;gap:8px">
+    <button style="flex:1;padding:8px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:.75rem;font-weight:600;cursor:pointer">Export PDF</button>
+    <button style="flex:1;padding:8px;border-radius:6px;border:none;background:var(--accent);color:#fff;font-size:.75rem;font-weight:600;cursor:pointer">Assign Task</button>
+  </div>
+</div>
+
+<!-- 2D TABLE -->
+<div id="view2d">
+  <h2>Incident Registry</h2>
+  <table id="inc-table">
+    <thead><tr><th>ID</th><th>Severity</th><th>Description</th><th>Node</th><th>Timestamp</th><th>Status</th></tr></thead>
+    <tbody id="inc-tbody"></tbody>
+  </table>
+</div>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+// ─── DATA ────────────────────────────────────────────────────────────────────
+const NODES = [
+  {id:'GW',   label:'Gateway',     pos:[-7.5, 0, 0],    color:0x6366f1, zone:'perimeter'},
+  {id:'W1',   label:'Web-01',      pos:[-5.0, 0,-1.8],  color:0x38bdf8, zone:'internal'},
+  {id:'W2',   label:'Web-02',      pos:[-5.0, 0, 1.8],  color:0x38bdf8, zone:'internal'},
+  {id:'A1',   label:'App-01',      pos:[-1.5, 0,-1.8],  color:0x34d399, zone:'internal'},
+  {id:'A2',   label:'App-02',      pos:[-1.5, 0, 1.8],  color:0x34d399, zone:'internal'},
+  {id:'AU',   label:'Auth-Svc',    pos:[ 1.0, 0, 0],    color:0xa78bfa, zone:'internal'},
+  {id:'DB1',  label:'DB-Primary',  pos:[ 4.5, 0,-1.2],  color:0xf472b6, zone:'data'},
+  {id:'DB2',  label:'DB-Replica',  pos:[ 4.5, 0, 1.2],  color:0xf472b6, zone:'data'},
+  {id:'CA',   label:'Cache',       pos:[ 6.8, 0, 0],    color:0xfbbf24, zone:'data'},
+];
+const EDGES = [
+  ['GW','W1'],['GW','W2'],
+  ['W1','A1'],['W2','A2'],
+  ['A1','AU'],['A2','AU'],
+  ['AU','DB1'],['AU','DB2'],
+  ['DB1','CA'],['DB2','CA'],
+];
+const INCIDENTS = [
+  {
+    id:'INC-001', sev:'CRITICAL', node:'DB-Primary', nodeId:'DB1',
+    title:'SQL Injection Detected', ts:'2024-01-15 03:22:11', status:'Open',
+    desc:'Malicious SQL payload intercepted in authentication query. Potential data exfiltration attempt on primary database.',
+    emoji:'🔴', dur:210,
+    chapters:[{t:'Intro',s:0},{t:'Attack Vector',s:45},{t:'Impact Scope',s:120},{t:'Remediation',s:175}],
+    trail:[
+      {icon:'🔍',color:'#ef4444',action:'Anomaly Detected by SIEM',time:'03:22:11'},
+      {icon:'🚨',color:'#ef4444',action:'Critical Alert Raised',time:'03:22:14'},
+      {icon:'🔒',color:'#f97316',action:'DB Connection Quarantined',time:'03:22:18'},
+      {icon:'📞',color:'#6366f1',action:'Security Team Notified',time:'03:22:45'},
+      {icon:'🛡',color:'#22c55e',action:'WAF Rule Updated',time:'03:31:00'},
+    ],
+    logs:[
+      {cls:'crit', txt:'[03:22:11] CRITICAL: SQLi detected — payload: \' OR 1=1; DROP TABLE users--'},
+      {cls:'crit', txt:'[03:22:12] CRITICAL: 847 rows accessed before block — DB-Primary:5432'},
+      {cls:'high', txt:'[03:22:15] HIGH: Outbound connection attempt from DB-Primary to 45.33.xx.xx'},
+      {cls:'', txt:'[03:22:18] INFO: Connection from App-01 to DB-Primary suspended'},
+      {cls:'', txt:'[03:22:45] INFO: Incident escalated to security@corp.internal'},
+    ],
+  },
+  {
+    id:'INC-002', sev:'HIGH', node:'Gateway', nodeId:'GW',
+    title:'Brute Force — Login Endpoint', ts:'2024-01-15 07:44:30', status:'Contained',
+    desc:'Distributed brute force attack targeting /api/auth/login. 12,400 failed attempts from 340 distinct IPs over 8 minutes.',
+    emoji:'🟠', dur:155,
+    chapters:[{t:'Overview',s:0},{t:'Attack Map',s:40},{t:'Blocked IPs',s:95},{t:'Hardening',s:130}],
+    trail:[
+      {icon:'📊',color:'#f97316',action:'Rate Limit Threshold Exceeded',time:'07:44:30'},
+      {icon:'🔍',color:'#f59e0b',action:'IP Reputation Check Triggered',time:'07:44:35'},
+      {icon:'🚫',color:'#ef4444',action:'340 IPs Blocklisted',time:'07:45:12'},
+      {icon:'✅',color:'#22c55e',action:'Attack Traffic Dropped 98%',time:'07:52:00'},
+    ],
+    logs:[
+      {cls:'high', txt:'[07:44:30] HIGH: 1,450 req/min on /api/auth/login — threshold: 200'},
+      {cls:'high', txt:'[07:44:35] HIGH: Distributed source — 340 IPs in 22 countries'},
+      {cls:'med', txt:'[07:44:40] MEDIUM: Auth-Svc CPU spike to 94%'},
+      {cls:'', txt:'[07:45:12] INFO: GeoBlock rule applied — CN,RU,KP range blocked'},
+    ],
+  },
+  {
+    id:'INC-003', sev:'MEDIUM', node:'App-01', nodeId:'A1',
+    title:'Unpatched Dependency CVE', ts:'2024-01-15 09:10:05', status:'Mitigating',
+    desc:'CVE-2023-44487 (HTTP/2 Rapid Reset) detected in App-01 node.js runtime v18.12.0. Upgrade required to v18.19.0.',
+    emoji:'🟡', dur:95,
+    chapters:[{t:'CVE Details',s:0},{t:'Exposure',s:30},{t:'Patch Plan',s:65}],
+    trail:[
+      {icon:'🔎',color:'#f59e0b',action:'Vulnerability Scan Completed',time:'09:10:05'},
+      {icon:'📋',color:'#6366f1',action:'CVE-2023-44487 Identified',time:'09:10:06'},
+      {icon:'🗓',color:'#3b82f6',action:'Patch Scheduled — Maintenance Window',time:'09:30:00'},
+    ],
+    logs:[
+      {cls:'med', txt:'[09:10:05] MEDIUM: CVE-2023-44487 — CVSS 7.5 — App-01 node:18.12.0'},
+      {cls:'', txt:'[09:10:06] INFO: Affected endpoints: /api/stream, /api/events'},
+      {cls:'', txt:'[09:30:00] INFO: Maintenance window scheduled 2024-01-16 02:00 UTC'},
+    ],
+  },
+  {
+    id:'INC-004', sev:'LOW', node:'Cache', nodeId:'CA',
+    title:'Cache Expiry Misconfiguration', ts:'2024-01-15 11:55:00', status:'Resolved',
+    desc:'Session tokens cached with TTL of 7 days instead of policy-required 24h. Tokens have been invalidated and policy enforced.',
+    emoji:'🔵', dur:75,
+    chapters:[{t:'Discovery',s:0},{t:'Policy Gap',s:25},{t:'Resolution',s:55}],
+    trail:[
+      {icon:'🔍',color:'#3b82f6',action:'Routine Policy Audit',time:'11:55:00'},
+      {icon:'⚠',color:'#f59e0b',action:'TTL Discrepancy Found',time:'11:55:10'},
+      {icon:'🔄',color:'#22c55e',action:'All Sessions Invalidated',time:'12:01:00'},
+      {icon:'✅',color:'#22c55e',action:'Policy Corrected & Deployed',time:'12:05:30'},
+    ],
+    logs:[
+      {cls:'', txt:'[11:55:00] LOW: Cache TTL for session:* set to 604800s (7d) — expected 86400s'},
+      {cls:'', txt:'[12:01:00] INFO: 4,832 active sessions invalidated'},
+      {cls:'', txt:'[12:05:30] INFO: Redis maxTTL policy enforced via config-map update'},
+    ],
+  },
+  {
+    id:'INC-005', sev:'INFO', node:'Auth-Svc', nodeId:'AU',
+    title:'Certificate Renewal Alert', ts:'2024-01-15 14:00:00', status:'Scheduled',
+    desc:'TLS certificate for auth.internal expires in 14 days. Auto-renewal scheduled via Let\'s Encrypt ACME protocol.',
+    emoji:'🟢', dur:60,
+    chapters:[{t:'Certificate',s:0},{t:'Schedule',s:30}],
+    trail:[
+      {icon:'📅',color:'#22c55e',action:'Cert Expiry Check — 14 days',time:'14:00:00'},
+      {icon:'🤖',color:'#6366f1',action:'ACME Renewal Queued',time:'14:00:05'},
+    ],
+    logs:[
+      {cls:'', txt:'[14:00:00] INFO: cert:auth.internal expires 2024-01-29 — 14 days remaining'},
+      {cls:'', txt:'[14:00:05] INFO: ACME renewal job queued for 2024-01-27 02:00 UTC'},
+    ],
+  },
+];
+
+const SEV_COLORS = {CRITICAL:'#ef4444',HIGH:'#f97316',MEDIUM:'#f59e0b',LOW:'#3b82f6',INFO:'#22c55e'};
+const SEV_HEX    = {CRITICAL:0xef4444,HIGH:0xf97316,MEDIUM:0xf59e0b,LOW:0x3b82f6,INFO:0x22c55e};
+
+// ─── RENDERER ─────────────────────────────────────────────────────────────────
+const canvas = document.getElementById('c');
+const renderer = new THREE.WebGLRenderer({canvas, antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 0.85;
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x03050a);
+scene.fog = new THREE.FogExp2(0x03050a, 0.045);
+
+const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 200);
+camera.position.set(0, 12, 18);
+
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
+controls.dampingFactor = 0.06;
+controls.target.set(0, 0, 0);
+controls.minDistance = 4;
+controls.maxDistance = 35;
+controls.maxPolarAngle = Math.PI * 0.48;
+
+// ─── LIGHTS ────────────────────────────────────────────────────────────────────
+scene.add(new THREE.AmbientLight(0x0a0e1a, 2));
+const dir = new THREE.DirectionalLight(0x7090ff, 1.2);
+dir.position.set(5, 14, 8);
+dir.castShadow = true;
+dir.shadow.mapSize.set(1024, 1024);
+scene.add(dir);
+const pt1 = new THREE.PointLight(0x6366f1, 2, 20); pt1.position.set(0,3,0); scene.add(pt1);
+const pt2 = new THREE.PointLight(0x38bdf8, 1.5, 15); pt2.position.set(-6,2,0); scene.add(pt2);
+const pt3 = new THREE.PointLight(0xf472b6, 1.5, 12); pt3.position.set(5,2,0); scene.add(pt3);
+
+// ─── GRID & FLOOR ─────────────────────────────────────────────────────────────
+const grid = new THREE.GridHelper(30, 30, 0x0d1a2d, 0x0d1a2d);
+grid.position.y = -0.01;
+scene.add(grid);
+
+const floorGeo = new THREE.PlaneGeometry(30,30);
+const floorMat = new THREE.MeshStandardMaterial({color:0x030710,roughness:1,metalness:0});
+const floor = new THREE.Mesh(floorGeo, floorMat);
+floor.rotation.x = -Math.PI/2; floor.receiveShadow = true;
+scene.add(floor);
+
+// ─── ZONE PLANES ─────────────────────────────────────────────────────────────
+function makeZone(x, z, w, d, color, alpha) {
+  const g = new THREE.PlaneGeometry(w, d);
+  const m = new THREE.MeshBasicMaterial({color, transparent:true, opacity:alpha, side:THREE.DoubleSide});
+  const mesh = new THREE.Mesh(g, m);
+  mesh.rotation.x = -Math.PI/2;
+  mesh.position.set(x, 0.01, z);
+  scene.add(mesh);
+  // border
+  const box = new THREE.Box3(); box.setFromObject(mesh);
+  const edges = new THREE.EdgesGeometry(new THREE.PlaneGeometry(w,d));
+  const eLine = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({color, transparent:true, opacity:0.3}));
+  eLine.rotation.x = -Math.PI/2; eLine.position.copy(mesh.position);
+  scene.add(eLine);
+}
+makeZone(-6.5, 0,  4,  6, 0x6366f1, 0.05); // perimeter
+makeZone(-2.0, 0, 10,  6, 0x38bdf8, 0.04); // internal
+makeZone( 5.5, 0,  5,  5, 0xf472b6, 0.04); // data
+
+// zone labels
+function makeZoneLabel(text, x, z, color) {
+  const canvas2 = document.createElement('canvas');
+  canvas2.width = 256; canvas2.height = 48;
+  const ctx = canvas2.getContext('2d');
+  ctx.fillStyle = color + '22';
+  ctx.fillRect(0,0,256,48);
+  ctx.font = 'bold 18px system-ui';
+  ctx.fillStyle = color;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(text, 128, 24);
+  const tex = new THREE.CanvasTexture(canvas2);
+  const plane = new THREE.Mesh(
+    new THREE.PlaneGeometry(3.5, 0.65),
+    new THREE.MeshBasicMaterial({map:tex, transparent:true, depthWrite:false})
+  );
+  plane.rotation.x = -Math.PI/2;
+  plane.position.set(x, 0.02, z);
+  scene.add(plane);
+}
+makeZoneLabel('PERIMETER ZONE', -6.5, 2.4, '#6366f1');
+makeZoneLabel('INTERNAL NETWORK', -2.0, 2.4, '#38bdf8');
+makeZoneLabel('DATA LAYER', 5.5, 1.8, '#f472b6');
+
+// ─── NODE MESHES ──────────────────────────────────────────────────────────────
+const nodeMap = {};
+const nodeMeshes = [];
+
+function makeNode(n) {
+  const grp = new THREE.Group();
+  grp.position.set(...n.pos);
+  scene.add(grp);
+
+  // base platform
+  const baseGeo = new THREE.CylinderGeometry(0.55, 0.6, 0.06, 16);
+  const baseMat = new THREE.MeshStandardMaterial({color:0x0d1a2d, metalness:0.5, roughness:0.5});
+  const base = new THREE.Mesh(baseGeo, baseMat);
+  base.receiveShadow = true;
+  grp.add(base);
+
+  // body
+  let bodyGeo;
+  if (n.id === 'GW') bodyGeo = new THREE.OctahedronGeometry(0.55);
+  else if (n.id.startsWith('DB')) bodyGeo = new THREE.CylinderGeometry(0.38, 0.42, 0.9, 16);
+  else if (n.id === 'CA') bodyGeo = new THREE.BoxGeometry(0.75, 0.55, 0.55);
+  else bodyGeo = new THREE.BoxGeometry(0.6, 0.75, 0.6);
+  const bodyMat = new THREE.MeshStandardMaterial({color:n.color, metalness:0.6, roughness:0.3, emissive:n.color, emissiveIntensity:0.15});
+  const body = new THREE.Mesh(bodyGeo, bodyMat);
+  body.castShadow = true;
+  body.position.y = 0.55;
+  grp.add(body);
+
+  // glow ring
+  const ringGeo = new THREE.RingGeometry(0.62, 0.68, 32);
+  const ringMat = new THREE.MeshBasicMaterial({color:n.color, transparent:true, opacity:0.4, side:THREE.DoubleSide});
+  const ring = new THREE.Mesh(ringGeo, ringMat);
+  ring.rotation.x = -Math.PI/2;
+  ring.position.y = 0.03;
+  grp.add(ring);
+
+  // hitbox for raycasting
+  const hitGeo = new THREE.BoxGeometry(1.2, 1.6, 1.2);
+  const hitMat = new THREE.MeshBasicMaterial({visible:false});
+  const hit = new THREE.Mesh(hitGeo, hitMat);
+  hit.position.y = 0.55;
+  hit.userData.nodeId = n.id;
+  grp.add(hit);
+  nodeMeshes.push(hit);
+
+  nodeMap[n.id] = {grp, body, bodyMat, ring, ringMat, data:n};
+  return grp;
+}
+
+NODES.forEach(makeNode);
+
+// ─── CONNECTIONS ─────────────────────────────────────────────────────────────
+EDGES.forEach(([a,b]) => {
+  const na = NODES.find(n=>n.id===a);
+  const nb = NODES.find(n=>n.id===b);
+  const pts = [new THREE.Vector3(...na.pos), new THREE.Vector3(...nb.pos)];
+  const geo = new THREE.BufferGeometry().setFromPoints(pts);
+  const mat = new THREE.LineBasicMaterial({color:0x1e3a5f, transparent:true, opacity:0.6});
+  scene.add(new THREE.Line(geo, mat));
+});
+
+// ─── INCIDENT MARKERS ─────────────────────────────────────────────────────────
+const incMarkers = {};
+function makeIncMarker(inc) {
+  const nd = NODES.find(n=>n.id===inc.nodeId);
+  if (!nd) return;
+  const grp = new THREE.Group();
+  grp.position.set(nd.pos[0]+0.5, 1.4, nd.pos[2]+0.5);
+  scene.add(grp);
+
+  const col = SEV_HEX[inc.sev];
+
+  // diamond
+  const dGeo = new THREE.OctahedronGeometry(0.2);
+  const dMat = new THREE.MeshStandardMaterial({color:col, emissive:col, emissiveIntensity:0.8, metalness:0.3, roughness:0.3});
+  const diamond = new THREE.Mesh(dGeo, dMat);
+  grp.add(diamond);
+
+  // pulse ring
+  const prGeo = new THREE.RingGeometry(0.25, 0.3, 24);
+  const prMat = new THREE.MeshBasicMaterial({color:col, transparent:true, opacity:0.6, side:THREE.DoubleSide});
+  const pr = new THREE.Mesh(prGeo, prMat);
+  pr.rotation.x = -Math.PI/2;
+  grp.add(pr);
+
+  // outer pulse
+  const pr2Geo = new THREE.RingGeometry(0.35, 0.38, 24);
+  const pr2Mat = new THREE.MeshBasicMaterial({color:col, transparent:true, opacity:0.3, side:THREE.DoubleSide});
+  const pr2 = new THREE.Mesh(pr2Geo, pr2Mat);
+  pr2.rotation.x = -Math.PI/2;
+  grp.add(pr2);
+
+  // pole line
+  const pGeo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0,0,0), new THREE.Vector3(0,-1.0,0)]);
+  const pLine = new THREE.Line(pGeo, new THREE.LineBasicMaterial({color:col, transparent:true, opacity:0.4}));
+  grp.add(pLine);
+
+  // hitbox
+  const hGeo = new THREE.BoxGeometry(0.5,0.5,0.5);
+  const hMat = new THREE.MeshBasicMaterial({visible:false});
+  const hit = new THREE.Mesh(hGeo, hMat);
+  hit.userData.incId = inc.id;
+  grp.add(hit);
+
+  incMarkers[inc.id] = {grp, diamond, dMat, pr, pr2, prMat, pr2Mat, inc, visible:true};
+  return incMarkers[inc.id];
+}
+INCIDENTS.forEach(makeIncMarker);
+
+// ─── RAYCASTER ────────────────────────────────────────────────────────────────
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+
+canvas.addEventListener('click', e => {
+  const rect = canvas.getBoundingClientRect();
+  mouse.set(
+    ((e.clientX-rect.left)/rect.width)*2-1,
+    -((e.clientY-rect.top)/rect.height)*2+1
+  );
+  raycaster.setFromCamera(mouse, camera);
+
+  // Check incident markers first
+  const incHits = [];
+  Object.values(incMarkers).forEach(m => {
+    if (!m.visible) return;
+    m.grp.traverse(c => { if(c.userData.incId) incHits.push(c); });
+  });
+  let found = raycaster.intersectObjects(incHits);
+  if (found.length) {
+    const inc = INCIDENTS.find(i=>i.id===found[0].object.userData.incId);
+    if (inc) { openIncident(inc); return; }
+  }
+});
+
+// ─── CAMERA FLY-TO ────────────────────────────────────────────────────────────
+const CAM_DEFAULT = {px:0,py:12,pz:18,tx:0,ty:0,tz:0};
+let flying = false;
+
+function flyTo(camPos, target, dur, cb) {
+  if (flying) return;
+  flying = true;
+  controls.enabled = false;
+  const proxy = {t:0};
+  gsap.to(proxy, {t:1, duration:dur||1.8, ease:'power3.inOut',
+    onUpdate() {
+      const α = proxy.t;
+      camera.position.lerpVectors(
+        new THREE.Vector3(camera.position.x, camera.position.y, camera.position.z),
+        new THREE.Vector3(...camPos), α
+      );
+      controls.target.lerpVectors(controls.target, new THREE.Vector3(...target), α);
+    },
+    onComplete() {
+      flying = false;
+      controls.enabled = true;
+      if(cb) cb();
+    }
+  });
+}
+
+function flyHome() {
+  flyTo([CAM_DEFAULT.px,CAM_DEFAULT.py,CAM_DEFAULT.pz],[0,0,0],1.4);
+}
+
+// ─── PANEL ────────────────────────────────────────────────────────────────────
+const panel = document.getElementById('panel');
+let activeInc = null;
+
+function openIncident(inc) {
+  activeInc = inc;
+
+  // sev badge
+  const sevEl = document.getElementById('panel-sev');
+  sevEl.textContent = inc.sev;
+  sevEl.style.background = SEV_COLORS[inc.sev]+'22';
+  sevEl.style.color = SEV_COLORS[inc.sev];
+  sevEl.style.border = '1px solid '+SEV_COLORS[inc.sev]+'44';
+
+  document.getElementById('panel-title').textContent = inc.title;
+  document.getElementById('panel-node').textContent = `${inc.id}  ·  Node: ${inc.node}  ·  ${inc.ts}  ·  Status: ${inc.status}`;
+
+  // video
+  document.getElementById('vid-ep-title').textContent = inc.title;
+  document.getElementById('vid-emoji').textContent = inc.emoji;
+  vidDur = inc.dur; vidProg = 0; vidPlaying = false;
+  updateVidUI();
+  populateChapters(inc.chapters);
+
+  // chart
+  updateChart();
+
+  // audit timeline
+  const tl = document.getElementById('audit-timeline');
+  tl.innerHTML = inc.trail.map(s=>`
+    <div class="aud-step">
+      <div class="aud-icon" style="background:${s.color}22;color:${s.color}">${s.icon}</div>
+      <div class="aud-body">
+        <div class="aud-action">${s.action}</div>
+        <div class="aud-time">${s.time}</div>
+      </div>
+    </div>`).join('');
+
+  // logs
+  const logEl = document.getElementById('log-entries');
+  logEl.innerHTML = inc.logs.map(l=>`<div class="log-line ${l.cls}">${l.txt}</div>`).join('');
+
+  panel.classList.add('open');
+
+  // fly camera to node
+  const nd = NODES.find(n=>n.id===inc.nodeId);
+  if (nd) {
+    const [x,,z] = nd.pos;
+    flyTo([x+4, 5, z+6], [x,0.5,z], 1.6);
+  }
+}
+
+function closePanel() {
+  panel.classList.remove('open');
+  activeInc = null;
+  flyHome();
+  stopVid();
+}
+
+document.getElementById('panel-close').addEventListener('click', closePanel);
+
+// ─── CHART ────────────────────────────────────────────────────────────────────
+function updateChart() {
+  const counts = {CRITICAL:0,HIGH:0,MEDIUM:0,LOW:0,INFO:0};
+  INCIDENTS.forEach(i=>counts[i.sev]++);
+  const max = Math.max(...Object.values(counts));
+  const map = {CRITICAL:'crit',HIGH:'high',MEDIUM:'med',LOW:'low',INFO:'info'};
+  Object.entries(counts).forEach(([sev,cnt])=>{
+    const key = map[sev];
+    document.getElementById('cb-'+key).style.width = max?`${(cnt/max)*100}%`:'0%';
+    document.getElementById('cc-'+key).textContent = cnt;
+  });
+}
+updateChart();
+
+// ─── VIDEO PLAYER ─────────────────────────────────────────────────────────────
+let vidDur = 120, vidProg = 0, vidPlaying = false;
+let vidRaf = null, vidLast = null;
+let curChap = 0;
+
+function fmtTime(s) {
+  const m = Math.floor(s/60); const ss = Math.floor(s%60);
+  return `${m}:${ss.toString().padStart(2,'0')}`;
+}
+function updateVidUI() {
+  const pct = vidDur ? (vidProg/vidDur)*100 : 0;
+  document.getElementById('prog-fill').style.width = pct+'%';
+  document.getElementById('vid-time').textContent = `${fmtTime(vidProg)} / ${fmtTime(vidDur)}`;
+  document.getElementById('vid-play').textContent = vidPlaying?'⏸':'▶';
+
+  // chapter highlight
+  if (activeInc) {
+    const chaps = activeInc.chapters;
+    let ci = 0;
+    for (let i=0;i<chaps.length;i++) { if(vidProg>=chaps[i].s) ci=i; }
+    curChap = ci;
+    document.querySelectorAll('.chap').forEach((el,idx)=>el.classList.toggle('active',idx===ci));
+  }
+}
+function playVid() {
+  if (!vidPlaying) {
+    if(vidProg>=vidDur) vidProg=0;
+    vidPlaying=true; vidLast=performance.now();
+    const tick = (now)=>{
+      if(!vidPlaying) return;
+      const dt=(now-vidLast)/1000; vidLast=now;
+      vidProg=Math.min(vidProg+dt,vidDur);
+      if(vidProg>=vidDur) { vidPlaying=false; }
+      updateVidUI();
+      vidRaf=requestAnimationFrame(tick);
+    };
+    vidRaf=requestAnimationFrame(tick);
+  }
+}
+function pauseVid() { vidPlaying=false; }
+function stopVid() { vidPlaying=false; vidProg=0; if(vidRaf) cancelAnimationFrame(vidRaf); }
+function prevChap() {
+  if(!activeInc) return;
+  const chaps=activeInc.chapters;
+  const prev=curChap>0?curChap-1:0;
+  vidProg=chaps[prev].s; updateVidUI();
+}
+function nextChap() {
+  if(!activeInc) return;
+  const chaps=activeInc.chapters;
+  const next=Math.min(curChap+1,chaps.length-1);
+  vidProg=chaps[next].s; updateVidUI();
+}
+function populateChapters(chaps) {
+  const el=document.getElementById('chap-list');
+  el.innerHTML=chaps.map((c,i)=>`<button class="chap" data-i="${i}">${c.t}</button>`).join('');
+  el.querySelectorAll('.chap').forEach(b=>{
+    b.addEventListener('click',()=>{
+      vidProg=chaps[+b.dataset.i].s; updateVidUI();
+    });
+  });
+}
+document.getElementById('vid-play').addEventListener('click',()=>{vidPlaying?pauseVid():playVid();updateVidUI();});
+document.getElementById('vid-prev').addEventListener('click',prevChap);
+document.getElementById('vid-next').addEventListener('click',nextChap);
+
+const track = document.getElementById('prog-track');
+let scrubbing = false;
+function scrubAt(cx) {
+  const rect=track.getBoundingClientRect();
+  const ratio=Math.max(0,Math.min(1,(cx-rect.left)/rect.width));
+  vidProg=ratio*vidDur; updateVidUI();
+}
+track.addEventListener('mousedown',e=>{scrubbing=true;scrubAt(e.clientX);});
+window.addEventListener('mousemove',e=>{if(scrubbing)scrubAt(e.clientX);});
+window.addEventListener('mouseup',()=>{scrubbing=false;});
+
+// ─── SEVERITY FILTERS ─────────────────────────────────────────────────────────
+let activeSev = 'ALL';
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    activeSev = btn.dataset.sev;
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    applyFilter();
+  });
+});
+function applyFilter() {
+  Object.values(incMarkers).forEach(m=>{
+    const show = activeSev==='ALL' || m.inc.sev===activeSev;
+    m.visible = show;
+    m.grp.visible = show;
+  });
+}
+
+// ─── NODE LABELS ─────────────────────────────────────────────────────────────
+const labelsContainer = document.getElementById('labels');
+const labelEls = {};
+NODES.forEach(n=>{
+  const el = document.createElement('div');
+  el.className='node-label';
+  el.textContent=n.label;
+  labelsContainer.appendChild(el);
+  labelEls[n.id]=el;
+});
+
+const _v = new THREE.Vector3();
+function updateLabels() {
+  NODES.forEach(n=>{
+    _v.set(...n.pos).project(camera);
+    const x=(_v.x*0.5+0.5)*canvas.clientWidth;
+    const y=(-_v.y*0.5+0.5)*canvas.clientHeight + 52;
+    if (_v.z<1) {
+      labelEls[n.id].style.display='block';
+      labelEls[n.id].style.left=x+'px';
+      labelEls[n.id].style.top=(y-38)+'px';
+    } else {
+      labelEls[n.id].style.display='none';
+    }
+  });
+}
+
+// ─── 2D TABLE ─────────────────────────────────────────────────────────────────
+function populateTable() {
+  const tbody=document.getElementById('inc-tbody');
+  tbody.innerHTML=INCIDENTS.map(i=>{
+    const col=SEV_COLORS[i.sev];
+    return `<tr>
+      <td>${i.id}</td>
+      <td><span class="sev-badge" style="background:${col}22;color:${col};border:1px solid ${col}44">${i.sev}</span></td>
+      <td>${i.title}</td>
+      <td>${i.node}</td>
+      <td>${i.ts}</td>
+      <td>${i.status}</td>
+    </tr>`;
+  }).join('');
+}
+populateTable();
+
+const view2d=document.getElementById('view2d');
+let is2d=false;
+document.getElementById('toggle2d').addEventListener('click',()=>{
+  is2d=!is2d;
+  view2d.style.display=is2d?'block':'none';
+  document.getElementById('toggle2d').textContent=is2d?'3D View':'2D Table';
+});
+
+// ─── ANIMATION LOOP ────────────────────────────────────────────────────────────
+const clock = new THREE.Clock();
+function resize() {
+  const w=window.innerWidth, h=window.innerHeight;
+  renderer.setSize(w,h);
+  camera.aspect=w/h; camera.updateProjectionMatrix();
+}
+resize();
+window.addEventListener('resize',resize);
+
+function animate() {
+  requestAnimationFrame(animate);
+  const t=clock.getElapsedTime();
+  controls.update();
+
+  // node body float + rotate
+  NODES.forEach(n=>{
+    const entry=nodeMap[n.id];
+    if(!entry) return;
+    entry.body.position.y = 0.55+Math.sin(t*1.2+n.pos[0])*0.04;
+    entry.body.rotation.y += 0.003;
+    // ring pulse
+    const pulse=0.3+Math.sin(t*2+n.pos[0])*0.15;
+    entry.ringMat.opacity=pulse*0.5;
+  });
+
+  // incident marker pulse
+  Object.values(incMarkers).forEach(m=>{
+    if(!m.visible) return;
+    const st=t*2+m.inc.id.charCodeAt(4)*0.3;
+    m.diamond.rotation.y=t*1.5;
+    m.diamond.rotation.x=t*0.8;
+    const scale=1+Math.sin(st)*0.12;
+    m.grp.scale.setScalar(scale);
+    m.prMat.opacity=0.4+Math.sin(st)*0.25;
+    m.pr2Mat.opacity=0.15+Math.sin(st+1)*0.15;
+  });
+
+  updateLabels();
+  renderer.render(scene,camera);
+}
+animate();
+
+// ─── KEYBOARD ─────────────────────────────────────────────────────────────────
+window.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){closePanel();}
+  if(e.key===' '){e.preventDefault();vidPlaying?pauseVid():playVid();updateVidUI();}
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Traductor 3D — Biblioteca de Voz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <header id="topbar">
+      <div class="logo"><span class="logo-globe">🌐</span><span>Traductor 3D</span></div>
+      <div class="topbar-actions">
+        <button id="compare-btn" class="btn btn-sm btn-outline">⇄ Comparar</button>
+        <button id="request-btn" class="btn btn-sm btn-outline">✉ Muestra</button>
+        <button id="analytics-btn" class="btn btn-sm btn-outline" title="Analytics">📊</button>
+        <button id="fallback-btn" class="btn btn-sm btn-outline">♿</button>
+      </div>
+    </header>
+
+    <div id="main">
+      <div id="scene-root" role="img" aria-label="Biblioteca 3D con ejemplos de traducción y clips de voz"></div>
+
+      <div id="clip-panel" class="hidden">
+        <button id="clip-close" class="panel-close">&times;</button>
+        <div class="clip-inner">
+          <div class="clip-audio-wrap">
+            <div id="clip-original" class="clip-audio">
+              <div class="clip-lang-label" id="clip-original-lang">Original</div>
+              <audio id="clip-original-audio" controls preload="metadata" crossorigin="anonymous"></audio>
+              <div class="clip-text" id="clip-original-text"></div>
+            </div>
+            <div id="clip-translated" class="clip-audio">
+              <div class="clip-lang-label" id="clip-translated-lang">Traducción</div>
+              <audio id="clip-translated-audio" controls preload="metadata" crossorigin="anonymous"></audio>
+              <div class="clip-text" id="clip-translated-text"></div>
+            </div>
+          </div>
+          <div class="clip-subs" id="clip-subs" aria-live="polite"></div>
+        </div>
+      </div>
+
+      <div id="compare-panel" class="hidden">
+        <div class="compare-header">
+          <h3>⇄ Comparar idiomas</h3>
+          <button id="compare-close" class="btn btn-sm btn-outline">×</button>
+        </div>
+        <div id="compare-body" class="compare-body">
+          <div class="compare-side"><div class="cl">Original</div><audio controls preload="metadata" crossorigin="anonymous"></audio><div class="ct"></div></div>
+          <div class="compare-side"><div class="cl">Traducción</div><audio controls preload="metadata" crossorigin="anonymous"></audio><div class="ct"></div></div>
+        </div>
+      </div>
+
+      <div id="request-panel" class="hidden">
+        <div class="request-header">
+          <h3>✉ Solicitar muestra</h3>
+          <button id="request-close" class="btn btn-sm btn-outline">×</button>
+        </div>
+        <form id="request-form" class="request-form">
+          <select aria-label="Idioma origen" required><option value="">Idioma origen</option><option>Inglés</option><option>Francés</option><option>Alemán</option><option>Portugués</option></select>
+          <select aria-label="Idioma destino" required><option value="">Idioma destino</option><option>Español</option><option>Inglés</option><option>Francés</option><option>Alemán</option></select>
+          <textarea placeholder="Texto a traducir (opcional)" aria-label="Texto" rows="2"></textarea>
+          <button type="submit" class="btn btn-primary" style="width:100%">Enviar solicitud</button>
+        </form>
+      </div>
+
+      <div id="analytics-panel" class="hidden">
+        <div class="analytics-header">
+          <h3>📊 Analytics</h3>
+          <button id="analytics-close" class="btn btn-sm btn-outline">×</button>
+        </div>
+        <div id="analytics-body"></div>
+      </div>
+    </div>
+
+    <div id="fallback-section" class="hidden" aria-live="polite">
+      <div class="fallback-inner">
+        <h2>🌐 Versión 2D</h2>
+        <div id="fb-clips" class="fb-clips"></div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
+  <script src="translator3d.js"></script>
+</body>
+</html>

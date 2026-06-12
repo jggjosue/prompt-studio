@@ -167,7 +167,7 @@ export default function PricingPage() {
                 checked={isYearly}
                 onCheckedChange={setIsYearly}
               />
-              <div className="absolute -top-6 right-[-80px] bg-pink-100 text-pink-700 text-xs font-bold px-2 py-1 rounded-full">
+              <div className="absolute -top-6 right-[-80px] bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded-full">
                 2 Months Free
               </div>
             </div>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consultor Creativo 3D — Sala de Workshops</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <header id="topbar">
+      <div class="logo"><span class="logo-star">✦</span><span>Consultor Creativo</span></div>
+      <div class="topbar-actions">
+        <button id="bookmarks-btn" class="btn btn-sm btn-outline">🔖 Bookmarks</button>
+        <button id="summary-btn" class="btn btn-sm btn-outline">📋 Resumen</button>
+        <button id="analytics-btn" class="btn btn-sm btn-outline" title="Analytics">📊</button>
+        <button id="fallback-btn" class="btn btn-sm btn-outline">♿</button>
+      </div>
+    </header>
+
+    <div id="main">
+      <div id="scene-root" role="img" aria-label="Sala 3D con mesas de workshops"></div>
+
+      <div id="workshop-panel" class="hidden">
+        <button id="workshop-close" class="panel-close">&times;</button>
+        <div class="workshop-inner">
+          <div class="workshop-video-wrap">
+            <video id="workshop-video" controls preload="metadata" crossorigin="anonymous" playsinline></video>
+          </div>
+          <div id="workshop-meta" class="workshop-meta"></div>
+          <div class="workshop-sections" id="workshop-sections"></div>
+          <div class="workshop-notes" id="workshop-notes">
+            <div class="notes-header"><span>📝 Notas</span><button id="notes-export-btn" class="btn btn-sm btn-outline">📥 Exportar</button></div>
+            <div id="notes-body" class="notes-body" contenteditable="true" aria-label="Notas sincronizadas"></div>
+          </div>
+          <div class="workshop-attachments" id="workshop-attachments"></div>
+        </div>
+      </div>
+
+      <div id="bookmarks-panel" class="hidden">
+        <div class="bookmarks-header">
+          <h3>🔖 Bookmarks</h3>
+          <button id="bookmarks-close" class="btn btn-sm btn-outline">×</button>
+        </div>
+        <div id="bookmarks-body"></div>
+      </div>
+
+      <div id="summary-panel" class="hidden">
+        <div class="summary-header">
+          <h3>📋 Resumen automático</h3>
+          <button id="summary-close" class="btn btn-sm btn-outline">×</button>
+        </div>
+        <div id="summary-body" class="summary-body">
+          <p class="summary-info">Preparando paquete de resumen con bookmarks, notas y materiales.</p>
+          <button id="summary-gen-btn" class="btn btn-primary" style="width:100%">📦 Generar paquete</button>
+        </div>
+      </div>
+
+      <div id="analytics-panel" class="hidden">
+        <div class="analytics-header">
+          <h3>📊 Analytics</h3>
+          <button id="analytics-close" class="btn btn-sm btn-outline">×</button>
+        </div>
+        <div id="analytics-body"></div>
+      </div>
+    </div>
+
+    <div id="fallback-section" class="hidden" aria-live="polite">
+      <div class="fallback-inner">
+        <h2>✦ Versión 2D</h2>
+        <div id="fb-workshops" class="fb-workshops"></div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="consultant3d.js"></script>
+</body>
+</html>

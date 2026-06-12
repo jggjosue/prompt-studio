@@ -1,0 +1,11 @@
+1
+00:00:00,000 --> 00:00:05,000
+Welcome to the backstage sequence for this collection.
+
+2
+00:00:05,000 --> 00:00:10,000
+We begin with pattern cutting, draping, and fit refinement.
+
+3
+00:00:10,000 --> 00:00:15,000
+Final detailing includes texture finishing and stage-light testing.

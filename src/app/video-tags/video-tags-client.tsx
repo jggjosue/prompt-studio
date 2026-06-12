@@ -1,11 +1,14 @@
 'use client';
 
-import Footer from '@/components/layout/footer';
-import Header from '@/components/layout/header';
+import { SidebarLayout } from '@/components/layout/sidebar-layout';
+
+
+
 import { PromptCatalogCard } from '@/components/prompt-catalog-card';
 import { SearchInput } from '@/components/search-input';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import DisplayCards from '@/components/ui/display-cards';
 import { Badge } from '@/components/ui/badge';
 import { PromptEditButton } from '@/components/prompt-edit-button';
 import Link from 'next/link';
@@ -21,9 +24,8 @@ import {
   Palette,
   Store,
 } from 'lucide-react';
-import { KeysetPagination } from '@/components/keyset-pagination';
 import { cn } from '@/lib/utils';
-import { useKeysetPaginationUrl } from '@/hooks/use-keyset-pagination';
+import { useInfiniteScroll } from '@/hooks/use-infinite-scroll';
 import { useLocalizedPlaceholderVideos } from '@/hooks/use-localized-catalog';
 import {
   buildCatalogQueryUrl,
@@ -34,6 +36,7 @@ import type { VideoProp } from '@/lib/placeholder-videos';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Suspense, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { Loader2 } from 'lucide-react';
 
 const icons: Record<string, ReactNode> = {
   Wand2: <Wand2 className="h-6 w-6" />,
@@ -107,21 +110,10 @@ function VideoTagsContent() {
   const showResults = Boolean(selectedTag) || searchActive;
 
   const {
-    items: paginatedVideos,
-    hasNext,
-    hasPrev,
-    goNext,
-    goPrev,
-    goFirst,
-    rangeStart,
-    rangeEnd,
-    totalCount,
-  } = useKeysetPaginationUrl(displayVideos, item => item.id, ITEMS_PER_PAGE, {
-    searchParams,
-    pathname,
-    router,
-    resetDeps: [selectedTag, debouncedQuery],
-  });
+    visibleItems: paginatedVideos,
+    hasMore,
+    observerTarget,
+  } = useInfiniteScroll(displayVideos, ITEMS_PER_PAGE);
 
   const selectTag = (tagName: string) => {
     setSelectedTag(tagName);
@@ -141,6 +133,7 @@ function VideoTagsContent() {
 
   return (
     <>
+
       <div className="flex flex-col items-center space-y-4 text-center mb-12">
         <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
           Explore Video Prompts by Tags
@@ -200,7 +193,7 @@ function VideoTagsContent() {
             className={cn(
               'p-6 md:p-8',
               index === 0 &&
-                'bg-purple-50/20 dark:bg-purple-950/20 border-purple-200/50 dark:border-purple-800/50',
+                'bg-blue-50/20 dark:bg-blue-950/20 border-blue-200/50 dark:border-blue-800/50',
               index === 1 &&
                 'bg-green-50/20 dark:bg-green-950/20 border-green-200/50 dark:border-green-800/50',
               index === 2 &&
@@ -216,7 +209,7 @@ function VideoTagsContent() {
                 className={cn(
                   'p-2 rounded-full',
                   index === 0 &&
-                    'bg-purple-100 text-purple-700 dark:bg-purple-900/50 dark:text-purple-300',
+                    'bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300',
                   index === 1 &&
                     'bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300',
                   index === 2 &&
@@ -300,9 +293,10 @@ function VideoTagsContent() {
                 {displayVideos.length !== 1 ? 's' : ''}
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                {paginatedVideos.map(item => (
+                {paginatedVideos.map((item, index) => (
                   <PromptCatalogCard
                     key={item.id}
+                    animationIndex={index}
                     item={{ ...item, type: 'video' }}
                     galleryHref={`/gallery-videos/${item.id}`}
                     aspectClassName="aspect-[9/16]"
@@ -311,16 +305,11 @@ function VideoTagsContent() {
                   />
                 ))}
               </div>
-              <KeysetPagination
-                hasPrev={hasPrev}
-                hasNext={hasNext}
-                onPrev={goPrev}
-                onNext={goNext}
-                onFirst={goFirst}
-                rangeStart={rangeStart}
-                rangeEnd={rangeEnd}
-                totalCount={totalCount}
-              />
+              {hasMore && (
+                <div ref={observerTarget} className="flex justify-center p-4">
+                  <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+                </div>
+              )}
             </>
           ) : (
             <div className="flex flex-col items-center justify-center py-16 text-center text-muted-foreground gap-3">
@@ -345,10 +334,7 @@ function VideoTagsContent() {
 
 export default function VideoTagsClient() {
   return (
-    <div className="flex min-h-screen w-full flex-col bg-background">
-      <Suspense fallback={<div className="w-full h-16 border-b" />}>
-        <Header />
-      </Suspense>
+    <SidebarLayout>
       <main className="flex-1 py-12 md:py-16">
         <div className="container max-w-7xl">
           <Suspense
@@ -367,7 +353,6 @@ export default function VideoTagsClient() {
           </Suspense>
         </div>
       </main>
-      <Footer />
-    </div>
+      </SidebarLayout>
   );
 }

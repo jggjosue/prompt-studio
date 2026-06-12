@@ -5,7 +5,7 @@ import {
   fuzzyFilterSort,
   type FuzzySearchOptions,
 } from '@/lib/fuzzy-search';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 
 export type UseFuzzyFilterOptions = FuzzySearchOptions;
 
@@ -19,18 +19,25 @@ export function useFuzzyFilter<T>(
   getId: (item: T) => string,
   options?: UseFuzzyFilterOptions
 ): T[] {
+  const getFieldsRef = useRef(getFields);
+  getFieldsRef.current = getFields;
+  const getIdRef = useRef(getId);
+  getIdRef.current = getId;
+  const optionsRef = useRef(options);
+  optionsRef.current = options;
+
   const catalogIndex = useMemo(
-    () => CatalogSearchIndex.fromItems(items, getId, getFields),
-    [items, getId, getFields]
+    () => CatalogSearchIndex.fromItems(items, getIdRef.current, getFieldsRef.current),
+    [items]
   );
 
   return useMemo(
     () =>
-      fuzzyFilterSort(items, query, getFields, {
-        ...options,
+      fuzzyFilterSort(items, query, getFieldsRef.current, {
+        ...optionsRef.current,
         catalogIndex,
-        getId: getId as (item: unknown) => string,
+        getId: getIdRef.current as (item: unknown) => string,
       }),
-    [items, query, getFields, options, catalogIndex, getId]
+    [items, query, catalogIndex]
   );
 }
