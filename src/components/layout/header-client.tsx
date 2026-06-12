@@ -30,9 +30,9 @@ import {
 import { useState, useEffect } from 'react';
 import {
   ChevronDown,
-  Globe,
+  // Globe,
   ImageIcon,
-  LayoutGrid,
+  // LayoutGrid,
   LogIn,
   Menu,
   Tag,
@@ -47,7 +47,7 @@ import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { LanguageToggle } from '../language-toggle';
-import { ThemeToggle } from '../theme-toggle';
+// import { ThemeToggle } from '../theme-toggle';
 import { SiteBreadcrumbs } from '@/components/site-breadcrumbs';
 import Logo from './logo';
 
@@ -80,17 +80,26 @@ export default function HeaderClient() {
   const tCommon = useTranslations('common');
 
   const navLinks = [
-    { href: '/', label: tNav('home') },
+    { id: 'home', href: '/', label: tNav('home') },
     {
+      id: 'webs',
+      href: '/landing-pages',
+      label: tNav('webs'),
+      activePrefixes: ['/landing-pages', '/web-tags'],
+    },
+    {
+      id: 'library',
       label: tNav('library'),
-      activePrefixes: ['/prompts', '/image-prompts', '/gallery', '/image-tags', '/video-prompts', '/gallery-videos', '/video-tags', '/landing-pages'],
+      activePrefixes: ['/prompts', '/image-prompts', '/gallery', '/image-tags', '/video-prompts', '/gallery-videos', '/video-tags'],
       dropdown: [
+        /*
         {
           href: '/prompts',
           label: tNav('library'),
           description: tNav('libraryDesc'),
           icon: <LayoutGrid className="h-5 w-5" />,
         },
+        */
         {
           href: '/image-prompts',
           label: tNav('images'),
@@ -103,14 +112,9 @@ export default function HeaderClient() {
           description: tNav('videoTagsDesc'),
           icon: <Video className="h-5 w-5" />,
         },
-        {
-          href: '/landing-pages',
-          label: tNav('webs'),
-          description: tNav('webTagsDesc'),
-          icon: <Globe className="h-5 w-5" />,
-        },
       ],
     },
+    /*
     {
       label: tNav('tags'),
       activePrefixes: ['/video-tags', '/image-tags', '/web-tags'],
@@ -135,12 +139,15 @@ export default function HeaderClient() {
         },
       ],
     },
+    */
     {
+      id: 'editor',
       href: '/prompt/edit',
       label: tNav('editor'),
       activePrefixes: ['/prompt/edit'],
     },
     {
+      id: 'prices',
       href: '/prices',
       label: tNav('prices'),
       activePrefixes: ['/prices', '/pricing'],
@@ -196,7 +203,7 @@ export default function HeaderClient() {
             <div className="flex flex-col gap-4">
               {navLinks.map(link =>
                 link.href ? (
-                  <SheetClose asChild key={link.label}>
+                  <SheetClose asChild key={link.id}>
                     <ClientLink
                       href={link.href}
                       className={cn(
@@ -216,7 +223,7 @@ export default function HeaderClient() {
                     type="single"
                     collapsible
                     className="w-full"
-                    key={link.label}
+                    key={link.id}
                   >
                     <AccordionItem value={link.label} className="border-b-0">
                       <AccordionTrigger
@@ -243,7 +250,7 @@ export default function HeaderClient() {
                                     'bg-accent'
                                 )}
                               >
-                                <div className="bg-primary/10 text-primary p-2 rounded-md">
+                                <div className="bg-blue-500/10 text-blue-500 p-2 rounded-md">
                                   {item.icon}
                                 </div>
                                 <div>
@@ -312,7 +319,7 @@ export default function HeaderClient() {
           {navLinks.map(link =>
             link.href ? (
               <ClientLink
-                key={link.label}
+                key={link.id}
                 href={link.href}
                 className={linkClassName(link.href, link.activePrefixes)}
                 aria-current={
@@ -324,7 +331,7 @@ export default function HeaderClient() {
                 {link.label}
               </ClientLink>
             ) : (
-              <DropdownMenu key={link.label}>
+              <DropdownMenu key={link.id}>
                 <DropdownMenuTrigger
                   className={cn(
                     'flex items-center gap-1 outline-none',
@@ -356,7 +363,7 @@ export default function HeaderClient() {
                               : undefined
                           }
                         >
-                          <div className="bg-primary/10 text-primary p-2 rounded-md">
+                          <div className="bg-blue-500/10 text-blue-500 p-2 rounded-md">
                             {item.icon}
                           </div>
                           <div>
@@ -388,7 +395,8 @@ export default function HeaderClient() {
 
         <div className="flex items-center gap-2 ml-auto shrink-0">
           <LanguageToggle />
-          <ThemeToggle />
+          {/* Theme selector disabled: the site now always uses dark mode. */}
+          {/* <ThemeToggle /> */}
           {(!mounted || !isLoaded) ? (
             <div className="flex items-center gap-2">
               <Skeleton className="h-8 w-8 rounded-full" />

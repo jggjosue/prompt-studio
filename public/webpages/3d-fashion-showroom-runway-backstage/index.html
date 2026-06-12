@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Fashion Showroom Runway</title>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.159.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.159.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="video-bank" aria-hidden="true">
+    <video id="back-1" muted loop playsinline preload="metadata" crossorigin="anonymous" src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"></video>
+    <video id="back-2" muted loop playsinline preload="metadata" crossorigin="anonymous" src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"></video>
+    <video id="back-3" muted loop playsinline preload="metadata" crossorigin="anonymous" src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"></video>
+  </div>
+
+  <div id="scene-root"></div>
+
+  <main class="ui">
+    <header class="top glass">
+      <div>
+        <p class="eyebrow">Atelier Runway</p>
+        <h1>Fashion Showroom in 3D</h1>
+      </div>
+      <div class="actions">
+        <button id="lookbook-btn" class="btn">Modo lookbook</button>
+        <button id="editor-btn" class="btn">Modo editor</button>
+      </div>
+    </header>
+
+    <aside class="panel glass">
+      <h2>Backstage Playlist</h2>
+      <div id="playlist" class="playlist"></div>
+      <p id="hint" class="hint">Hover over a garment for swatches. Click to open backstage clip and specs.</p>
+    </aside>
+
+    <section id="overlay" class="overlay hidden" role="dialog" aria-modal="true">
+      <article class="overlay-card">
+        <button id="close-overlay" class="btn close">Close</button>
+        <h3 id="overlay-title"></h3>
+        <video id="overlay-video" controls preload="metadata" crossorigin="anonymous"></video>
+        <p id="overlay-subtitle" class="subtitle"></p>
+        <p id="overlay-specs"></p>
+        <a href="assets/transcript.txt" download>Download transcript</a>
+      </article>
+    </section>
+  </main>
+
+  <script type="module" src="fashion.js"></script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tipografía Cinemática 3D — Video Atmosférico</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <header id="topbar">
+      <div class="logo"><span class="logo-icon">◈</span><span>CineType 3D</span></div>
+      <div class="mood-presets" id="mood-presets">
+        <button class="mood-btn active" data-mood="neutral">◐ Neutral</button>
+        <button class="mood-btn" data-mood="warm">☀ Cálido</button>
+        <button class="mood-btn" data-mood="cool">❄ Frío</button>
+        <button class="mood-btn" data-mood="dramatic">🌆 Dramático</button>
+      </div>
+      <div class="topbar-actions">
+        <button id="export-btn" class="btn btn-sm btn-outline" title="Exportar frame">📷</button>
+        <button id="fallback-btn" class="btn btn-sm btn-outline">♿</button>
+      </div>
+    </header>
+
+    <div id="main">
+      <div id="scene-root" role="img" aria-label="Escena 3D con tipografía cinemática sobre video atmosférico"></div>
+
+      <div id="controls-bar" class="controls-bar">
+        <div class="video-scrub">
+          <video id="bg-video" preload="metadata" crossorigin="anonymous" loop></video>
+          <input type="range" id="scrub-range" min="0" max="1000" value="0" aria-label="Scrub video">
+          <span id="scrub-time" class="scrub-time">0:00</span>
+        </div>
+        <div class="type-controls">
+          <label>Tracking <input type="range" id="tracking-slider" min="-0.2" max="0.2" step="0.01" value="0"></label>
+          <label>Weight <input type="range" id="weight-slider" min="0.5" max="2" step="0.05" value="1"></label>
+        </div>
+        <div class="audio-stems">
+          <label><input type="checkbox" id="stem-music" checked> Música</label>
+          <label><input type="checkbox" id="stem-narration" checked> Narración</label>
+          <label><input type="checkbox" id="stem-fx" checked> FX</label>
+        </div>
+      </div>
+
+      <div id="transcript-panel" class="hidden">
+        <button id="transcript-close" class="panel-close">&times;</button>
+        <div class="transcript-inner">
+          <h3>📄 Transcripción</h3>
+          <div id="transcript-body" class="transcript-body"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+      <div class="modal-content">
+        <button id="modal-close" class="modal-close">&times;</button>
+        <div id="modal-body" class="modal-body"></div>
+      </div>
+    </div>
+
+    <div id="fallback-section" class="hidden" aria-live="polite">
+      <div class="fallback-inner"><h2>◈ Tipografía Cinemática — Versión 2D</h2><div id="fb-grid" class="fb-grid"></div></div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="typeCine3d.js"></script>
+</body>
+</html>

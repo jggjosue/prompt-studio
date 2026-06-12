@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expo Tecnológica 3D — Demos y Estaciones Interactivas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+  <div id="app">
+    <header id="topbar">
+      <div class="logo"><span class="logo-star">✦</span><span>Tech Expo 3D</span></div>
+      <div class="topbar-actions">
+        <button id="map-btn" class="btn btn-sm btn-outline">🗺 Mapa</button>
+        <button id="deepdive-btn" class="btn btn-sm btn-outline">🔍 Deep Dive</button>
+        <button id="metrics-btn" class="btn btn-sm btn-outline">📊</button>
+      </div>
+    </header>
+
+    <div id="main">
+      <div id="scene-root" role="img" aria-label="Pabellón tecnológico 3D con islas temáticas"></div>
+
+      <!-- Map panel -->
+      <div id="map-panel" class="hidden panel-left" role="dialog" aria-label="Mapa de la expo">
+        <div class="panel-header"><h4>🗺 Pabellón</h4><button id="map-close" class="btn btn-sm btn-outline">×</button></div>
+        <div id="map-body" class="map-body"></div>
+      </div>
+
+      <!-- Station overlay -->
+      <div id="station-overlay" class="hidden overlay" role="dialog" aria-label="Estación demo">
+        <div class="overlay-box station-box">
+          <div class="station-layout">
+            <div class="station-video-wrap">
+              <video id="station-video" controls preload="metadata" playsinline></video>
+              <div class="station-vis" id="station-vis"></div>
+            </div>
+            <div class="station-info-wrap">
+              <div id="station-info" class="station-info"></div>
+              <div class="station-snippets">
+                <pre id="station-code" class="language-javascript"><code id="station-code-content"></code></pre>
+              </div>
+              <div class="station-actions">
+                <button id="sandbox-btn" class="btn btn-sm btn-outline">🚀 Probar en sandbox</button>
+                <button id="deepdive-open" class="btn btn-sm btn-outline">🔍 Deep dive</button>
+                <button id="station-close" class="btn btn-sm btn-outline">Cerrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Deep dive panel -->
+      <div id="deepdive-panel" class="hidden overlay" role="dialog" aria-label="Deep dive">
+        <div class="overlay-box" style="max-width:500px">
+          <h4>🔍 Deep Dive</h4>
+          <div id="deepdive-logs" class="deepdive-logs"></div>
+          <div id="deepdive-metrics" class="deepdive-metrics"></div>
+          <button id="deepdive-close" class="btn btn-primary" style="width:100%;margin-top:.2rem">Cerrar</button>
+        </div>
+      </div>
+
+      <!-- Metrics panel -->
+      <div id="metrics-panel" class="hidden panel-left" role="dialog" aria-label="Métricas">
+        <div class="panel-header"><h4>📊 Métricas</h4><button id="metrics-close" class="btn btn-sm btn-outline">×</button></div>
+        <div id="metrics-body" class="metrics-body"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="expo3d.js"></script>
+</body>
+</html>

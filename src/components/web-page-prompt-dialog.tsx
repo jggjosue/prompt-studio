@@ -45,6 +45,7 @@ export function WebPagePromptDialog({ page }: { page: WebPageEntry }) {
       <Button
         size="sm"
         variant="outline"
+        className="border-blue-500/35 text-blue-400 hover:border-blue-500/55 hover:bg-blue-500/10 hover:text-blue-300"
         type="button"
         onClick={() => runWithAccess(page.membership, () => setOpen(true))}
       >
@@ -69,7 +70,11 @@ export function WebPagePromptDialog({ page }: { page: WebPageEntry }) {
                 <Copy className="h-4 w-4" />
               )}
             </Button>
-            <Button size="sm" asChild>
+            <Button
+              size="sm"
+              className="!bg-blue-600 !text-white hover:!bg-blue-700"
+              asChild
+            >
               <Link href={`/prompt/edit?prompt=${encodeURIComponent(JSON.stringify({
                 type: 'web',
                 title: page.title,

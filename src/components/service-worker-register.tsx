@@ -7,8 +7,37 @@ import { useEffect } from 'react';
  */
 export function ServiceWorkerRegister() {
   useEffect(() => {
-    if (process.env.NODE_ENV !== 'production') return;
     if (!('serviceWorker' in navigator)) return;
+
+    if (process.env.NODE_ENV !== 'production') {
+      const clearDevelopmentWorker = async () => {
+        try {
+          const registrations =
+            await navigator.serviceWorker.getRegistrations();
+          await Promise.all(
+            registrations
+              .filter(registration =>
+                registration.active?.scriptURL.endsWith('/sw.js')
+              )
+              .map(registration => registration.unregister())
+          );
+
+          if ('caches' in window) {
+            const cacheNames = await caches.keys();
+            await Promise.all(
+              cacheNames
+                .filter(cacheName => cacheName.startsWith('ps-cache-'))
+                .map(cacheName => caches.delete(cacheName))
+            );
+          }
+        } catch (err) {
+          console.warn('[SW] Development cleanup failed:', err);
+        }
+      };
+
+      void clearDevelopmentWorker();
+      return;
+    }
 
     const register = async () => {
       try {

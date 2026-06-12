@@ -4,19 +4,18 @@ import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
 import { CatalogFacetBar } from '@/components/catalog-facet-bar';
 import { WebPageCard } from '@/components/web-page-card';
-import { KeysetPagination } from '@/components/keyset-pagination';
 import { RelatedInternalLinks } from '@/components/related-internal-links';
 import { SearchInput } from '@/components/search-input';
 import {
   buildCatalogQueryUrl,
   useCatalogSearchUrl,
 } from '@/hooks/use-catalog-search-url';
-import { useKeysetPaginationUrl } from '@/hooks/use-keyset-pagination';
+import { useInfiniteScroll } from '@/hooks/use-infinite-scroll';
 import { useLocalizedWebPages } from '@/hooks/use-localized-catalog';
 import { useLandingReadabilityIndex } from '@/hooks/use-landing-readability-index';
-import { useWebCatalogHashBundle } from '@/hooks/use-catalog-hash-bundle';
+import { useWebCatalogHashPipeline } from '@/hooks/use-catalog-hash-aggregation';
 import { useFuzzyFilter } from '@/hooks/use-fuzzy-filter';
-import { Search } from 'lucide-react';
+import { Search, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
@@ -37,13 +36,26 @@ function LandingPagesContent() {
   const { snapshots: readabilityByPageId } = useLandingReadabilityIndex();
   const allPages = useMemo(() => webPages.filter(p => p.imageUrl), [webPages]);
 
-  const { topTags, topStacks, filtered: facetFiltered } = useWebCatalogHashBundle(
-    allPages,
-    page => page.id,
-    page => ({ tags: page.tags, stack: page.stack }),
-    { tag: facetTag, stack: facetStack },
-    { topN: 14, minCount: 2 }
-  );
+  const { aggregates, facetIndex } = useWebCatalogHashPipeline(allPages);
+  const { categories } = aggregates;
+
+  // We can still support fuzzy filter or we can just filter allPages
+  // Wait, facetFiltered needs to be computed based on facetTag and facetStack
+  const facetFiltered = useMemo(() => {
+    if (!facetTag && !facetStack) return allPages;
+    return allPages.filter(page => {
+      const matchTag = facetTag ? page.tags.includes(facetTag) : true;
+      const matchStack = facetStack ? page.stack?.includes(facetStack) : true;
+      return matchTag && matchStack;
+    });
+  }, [allPages, facetTag, facetStack]);
+
+  const customCategories = useMemo(() => {
+    return categories.map(cat => ({
+      label: cat.name,
+      entries: cat.tags.map(t => ({ key: t.name, count: t.count })),
+    }));
+  }, [categories]);
 
   const {
     input: searchInput,
@@ -61,32 +73,17 @@ function LandingPagesContent() {
   );
 
   const {
-    items: paginatedPages,
-    hasNext,
-    hasPrev,
-    goNext,
-    goPrev,
-    goFirst,
-    rangeStart,
-    rangeEnd,
-    totalCount,
-  } = useKeysetPaginationUrl(
-    pages,
-    page => page.id,
-    ITEMS_PER_PAGE,
-    {
-      searchParams,
-      pathname,
-      router,
-      resetDeps: [debouncedQuery, facetTag, facetStack],
-    }
-  );
+    visibleItems: paginatedPages,
+    hasMore,
+    observerTarget,
+  } = useInfiniteScroll(pages, ITEMS_PER_PAGE);
 
   const selectFacetTag = (tag: string) => {
     router.push(
       buildCatalogQueryUrl(pathname, searchParams, { tag, stack: null }),
       { scroll: false }
     );
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const selectFacetStack = (stack: string) => {
@@ -94,6 +91,7 @@ function LandingPagesContent() {
       buildCatalogQueryUrl(pathname, searchParams, { tag: null, stack }),
       { scroll: false }
     );
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const clearFacets = () => {
@@ -101,93 +99,110 @@ function LandingPagesContent() {
       buildCatalogQueryUrl(pathname, searchParams, { tag: null, stack: null }),
       { scroll: false }
     );
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
     <>
-      <div className="flex flex-col items-center space-y-4 text-center mb-12">
-        <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
-          Landing Page Prompts
-        </h1>
-        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-          Prompts and live HTML demos for SaaS landing pages — dark, light,
-          Next.js, and DevTool variants.
-        </p>
-
-        <SearchInput
-          className="max-w-md mt-2"
-          placeholder="Search by title, tag, or stack…"
-          value={searchInput}
-          onValueChange={setSearchInput}
-          isPending={isSearchPending}
-        />
-
-        {(debouncedQuery || facetTag || facetStack) && (
-          <p className="text-sm text-muted-foreground">
-            {pages.length === 0
-              ? 'No results found'
-              : `${pages.length} result${pages.length !== 1 ? 's' : ''}${
-                  debouncedQuery ? ` for "${debouncedQuery}"` : ''
-                }${facetTag ? ` · tag: ${facetTag}` : ''}${
-                  facetStack ? ` · stack: ${facetStack}` : ''
-                }`}
+      <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-[240px_1fr] md:gap-x-8 lg:grid-cols-[280px_1fr]">
+        <div className="flex flex-col items-center space-y-4 text-center md:col-start-2">
+          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
+            Landing Page Prompts
+          </h1>
+          <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
+            Prompts and live HTML demos for SaaS landing pages — dark, light,
+            Next.js, and DevTool variants.
           </p>
-        )}
 
-        <CatalogFacetBar
-          topTags={topTags}
-          topStacks={topStacks}
-          activeTag={facetTag}
-          activeStack={facetStack}
-          onSelectTag={selectFacetTag}
-          onSelectStack={selectFacetStack}
-          onClearFacets={clearFacets}
-        />
-
-        <p className="text-xs text-muted-foreground">
-          {tFacets('fullBrowse')}{' '}
-          <Link
-            href="/web-tags"
-            className="underline underline-offset-4 hover:text-foreground"
-          >
-            {tFacets('webTagsLink')}
-          </Link>
-        </p>
-      </div>
-
-      {paginatedPages.length === 0 && (
-        <div className="flex flex-col items-center justify-center py-24 text-center text-muted-foreground gap-3">
-          <Search className="w-10 h-10 opacity-30" />
-          <p className="text-base font-medium">No pages match your search.</p>
-          <button
-            onClick={clearSearch}
-            className="text-sm underline underline-offset-4 hover:text-foreground transition-colors"
-          >
-            Clear search
-          </button>
-        </div>
-      )}
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
-        {paginatedPages.map(page => (
-          <WebPageCard
-            key={page.id}
-            page={page}
-            savedReadability={readabilityByPageId[page.id] ?? null}
+          <SearchInput
+            className="max-w-md mt-2"
+            placeholder="Search by title, tag, or stack…"
+            value={searchInput}
+            onValueChange={setSearchInput}
+            isPending={isSearchPending}
           />
-        ))}
-      </div>
 
-      <KeysetPagination
-        hasPrev={hasPrev}
-        hasNext={hasNext}
-        onPrev={goPrev}
-        onNext={goNext}
-        onFirst={goFirst}
-        rangeStart={rangeStart}
-        rangeEnd={rangeEnd}
-        totalCount={totalCount}
-      />
+          {(debouncedQuery || facetTag || facetStack) && (
+            <p className="text-sm text-muted-foreground">
+              {pages.length === 0
+                ? 'No results found'
+                : `${pages.length} result${pages.length !== 1 ? 's' : ''}${
+                    debouncedQuery ? ` for "${debouncedQuery}"` : ''
+                  }${facetTag ? ` · tag: ${facetTag}` : ''}${
+                    facetStack ? ` · stack: ${facetStack}` : ''
+                  }`}
+            </p>
+          )}
+        </div>
+
+        <aside className="hidden flex-col gap-4 overflow-y-auto pb-8 pr-2 custom-scrollbar md:col-start-1 md:row-start-2 md:flex md:h-[calc(100vh-8rem)] md:sticky md:top-24">
+          <CatalogFacetBar
+            customCategories={customCategories}
+            activeTag={facetTag}
+            activeStack={facetStack}
+            onSelectTag={selectFacetTag}
+            onSelectStack={selectFacetStack}
+            onClearFacets={clearFacets}
+            orientation="vertical"
+          />
+          <p className="text-xs text-muted-foreground px-4">
+            {tFacets('fullBrowse')}{' '}
+            <Link
+              href="/web-tags"
+              className="underline underline-offset-4 hover:text-foreground"
+            >
+              {tFacets('webTagsLink')}
+            </Link>
+          </p>
+        </aside>
+
+        <div className="flex min-w-0 flex-col gap-6 md:col-start-2 md:row-start-2 md:gap-0">
+          <div className="md:hidden">
+            <CatalogFacetBar
+              customCategories={customCategories}
+              activeTag={facetTag}
+              activeStack={facetStack}
+              onSelectTag={selectFacetTag}
+              onSelectStack={selectFacetStack}
+              onClearFacets={clearFacets}
+              orientation="horizontal"
+            />
+          </div>
+
+          {paginatedPages.length === 0 && (
+            <div className="flex flex-col items-center justify-center py-24 text-center text-muted-foreground gap-3">
+              <Search className="w-10 h-10 opacity-30" />
+              <p className="text-base font-medium">No pages match your search.</p>
+              <button
+                onClick={clearSearch}
+                className="text-sm underline underline-offset-4 hover:text-foreground transition-colors"
+              >
+                Clear search
+              </button>
+            </div>
+          )}
+
+          <div
+            data-landing-results
+            className="grid min-w-0 grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-1 md:gap-8 lg:grid-cols-2 xl:grid-cols-2"
+          >
+            {paginatedPages.map((page, index) => (
+              <WebPageCard
+                key={page.id}
+                page={page}
+                animationIndex={index}
+                savedReadability={readabilityByPageId[page.id] ?? null}
+              />
+            ))}
+          </div>
+
+          {hasMore && (
+            <div ref={observerTarget} className="flex justify-center p-4 md:mt-6">
+              <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+            </div>
+          )}
+        </div>
+      </div>
 
       <RelatedInternalLinks className="mt-12 max-w-3xl mx-auto" />
     </>

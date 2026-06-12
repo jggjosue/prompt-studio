@@ -1,0 +1,11 @@
+1
+00:00:00,000 --> 00:00:05,000
+3D Cinematic Typography Show — Music and Video Control
+
+2
+00:00:05,000 --> 00:00:12,000
+Floating 3D letters react to real-time audio analysis from the background music.
+
+3
+00:00:12,000 --> 00:00:20,000
+Select audio stems, change mood presets, and export frames for your moodboard.

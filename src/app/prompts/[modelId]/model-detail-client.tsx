@@ -181,7 +181,7 @@ export default function ModelDetailClient({
                 <div className="flex flex-wrap gap-2 pt-2">
                   <Badge variant="secondary" className="px-2 sm:px-3 py-0.5 sm:py-1 bg-green-500/10 text-green-600 border-green-500/20 text-[10px] sm:text-xs">{jsonPrompts.length} Blocks</Badge>
                   <Badge variant="secondary" className="px-2 sm:px-3 py-0.5 sm:py-1 bg-blue-500/10 text-blue-600 border-blue-500/20 text-[10px] sm:text-xs">System Protocol</Badge>
-                  <Badge variant="secondary" className="px-2 sm:px-3 py-0.5 sm:py-1 bg-purple-500/10 text-purple-600 border-purple-500/20 text-[10px] sm:text-xs">Optimized</Badge>
+                  <Badge variant="secondary" className="px-2 sm:px-3 py-0.5 sm:py-1 bg-blue-500/10 text-blue-600 border-blue-500/20 text-[10px] sm:text-xs">Optimized</Badge>
                 </div>
               </div>
               <div className="flex flex-col gap-3">

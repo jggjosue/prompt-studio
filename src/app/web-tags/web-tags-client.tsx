@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/card';
 import { KeysetPagination } from '@/components/keyset-pagination';
 import { cn } from '@/lib/utils';
-import { useKeysetPaginationUrl } from '@/hooks/use-keyset-pagination';
+import { useInfiniteScroll } from '@/hooks/use-infinite-scroll';
 import { useLocalizedWebPages } from '@/hooks/use-localized-catalog';
 import { useSearchField } from '@/hooks/use-search-field';
 import { DEBOUNCE_MS } from '@/lib/flow-control';
@@ -47,6 +47,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { buildCatalogQueryUrl } from '@/hooks/use-catalog-search-url';
 import { useTranslations } from 'next-intl';
 import { Suspense, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { Loader2 } from 'lucide-react';
 
 const icons: Record<string, ReactNode> = {
   LayoutGrid: <LayoutGrid className="h-6 w-6" />,
@@ -58,7 +59,7 @@ const icons: Record<string, ReactNode> = {
 };
 
 const categoryCardStyles = [
-  'bg-purple-50/20 dark:bg-purple-950/20 border-purple-200/50 dark:border-purple-800/50',
+  'bg-blue-50/20 dark:bg-blue-950/20 border-blue-200/50 dark:border-blue-800/50',
   'bg-green-50/20 dark:bg-green-950/20 border-green-200/50 dark:border-green-800/50',
   'bg-blue-50/20 dark:bg-blue-950/20 border-blue-200/50 dark:border-blue-800/50',
   'bg-red-50/20 dark:bg-red-950/20 border-red-200/50 dark:border-red-800/50',
@@ -67,7 +68,7 @@ const categoryCardStyles = [
 ];
 
 const categoryIconStyles = [
-  'bg-purple-100 text-purple-700 dark:bg-purple-900/50 dark:text-purple-300',
+  'bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300',
   'bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300',
   'bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300',
   'bg-red-100 text-red-700 dark:bg-red-900/50 dark:text-red-300',
@@ -186,21 +187,10 @@ function WebTagsContent() {
   const showResults = Boolean(filter) || searchActive;
 
   const {
-    items: paginatedPages,
-    hasNext,
-    hasPrev,
-    goNext,
-    goPrev,
-    goFirst,
-    rangeStart,
-    rangeEnd,
-    totalCount,
-  } = useKeysetPaginationUrl(displayPages, page => page.id, ITEMS_PER_PAGE, {
-    searchParams,
-    pathname,
-    router,
-    resetDeps: [filter, debouncedQuery],
-  });
+    visibleItems: paginatedPages,
+    hasMore,
+    observerTarget,
+  } = useInfiniteScroll(displayPages, ITEMS_PER_PAGE);
 
   const handleSelectFilter = (category: WebTagCategory, tagName: string) => {
     const applyFilter = () => {
@@ -407,20 +397,19 @@ function WebTagsContent() {
                 {displayPages.length !== 1 ? 's' : ''}
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
-                {paginatedPages.map(page => (
-                  <WebPageCard key={page.id} page={page} />
+                {paginatedPages.map((page, index) => (
+                  <WebPageCard
+                    key={page.id}
+                    page={page}
+                    animationIndex={index}
+                  />
                 ))}
               </div>
-              <KeysetPagination
-                hasPrev={hasPrev}
-                hasNext={hasNext}
-                onPrev={goPrev}
-                onNext={goNext}
-                onFirst={goFirst}
-                rangeStart={rangeStart}
-                rangeEnd={rangeEnd}
-                totalCount={totalCount}
-              />
+              {hasMore && (
+                <div ref={observerTarget} className="flex justify-center p-4">
+                  <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+                </div>
+              )}
             </>
           ) : (
             <div className="flex flex-col items-center justify-center py-16 text-center text-muted-foreground gap-3">

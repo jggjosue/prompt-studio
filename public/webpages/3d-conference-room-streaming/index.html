@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Conference Room</title>
+  
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.158.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <!-- HLS for live streaming -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Hidden video elements for textures -->
+  <div style="display: none;">
+    <!-- Simulated HLS stream placeholder -->
+    <video id="main-stream" loop playsinline crossorigin="anonymous" src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"></video>
+    <!-- Highlight clip 1 -->
+    <video id="side-clip-1" loop muted playsinline crossorigin="anonymous" src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"></video>
+    <!-- Highlight clip 2 -->
+    <video id="side-clip-2" loop muted playsinline crossorigin="anonymous" src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"></video>
+  </div>
+
+  <div id="canvas-container"></div>
+
+  <!-- UI Overlay -->
+  <main class="ui-layer">
+    <header class="header">
+      <div class="event-title">
+        <h1>Global Tech Summit 2026</h1>
+        <span class="live-badge">LIVE</span>
+      </div>
+      <div class="actions">
+        <button id="btn-fallback" class="nav-btn">2D Stream View</button>
+      </div>
+    </header>
+
+    <!-- Camera angles & Interaction -->
+    <div class="controls-panel">
+      <div class="control-group">
+        <h3>Camera Angle</h3>
+        <div class="btn-row">
+          <button class="cam-btn active" data-cam="center">Center</button>
+          <button class="cam-btn" data-cam="left">Left Wing</button>
+          <button class="cam-btn" data-cam="right">Right Wing</button>
+          <button class="cam-btn" data-cam="audience">Audience</button>
+        </div>
+      </div>
+      
+      <div class="control-group">
+        <h3>Interactions</h3>
+        <div class="btn-row">
+          <button id="btn-play-highlights" class="action-btn">Play Highlights</button>
+          <button id="btn-mark-moment" class="action-btn">Mark Key Moment</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Subtitles -->
+    <div class="subtitles-container">
+      <p id="live-subtitle">Welcome to the Global Tech Summit. We are about to begin the keynote presentation.</p>
+    </div>
+
+    <!-- 2D Fallback View -->
+    <div id="fallback-view" class="fallback-view hidden">
+      <div class="fallback-header">
+        <h2>2D Live Stream</h2>
+        <button id="btn-close-fallback" class="nav-btn">Back to 3D</button>
+      </div>
+      <div class="video-container">
+        <!-- Re-using main stream or placeholder for 2D -->
+        <video id="fallback-video" controls src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"></video>
+      </div>
+      <div class="fallback-chat">
+        <p><strong>System:</strong> Live stream fallback active.</p>
+      </div>
+    </div>
+    
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden">Moment bookmarked!</div>
+  </main>
+
+  <script type="module" src="conference.js"></script>
+</body>
+</html>

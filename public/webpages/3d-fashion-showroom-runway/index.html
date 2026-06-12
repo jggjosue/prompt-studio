@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Showroom 3D — Pasarela y Backstage</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <header id="topbar">
+      <div class="logo"><span class="logo-icon">◈</span><span>Showroom 3D</span></div>
+      <nav class="mode-nav">
+        <button class="mode-btn active" data-mode="runway">🗂 Pasarela</button>
+        <button class="mode-btn" data-mode="lookbook">🔍 Lookbook</button>
+        <button class="mode-btn" data-mode="mixer">🎨 Combinar</button>
+      </nav>
+      <div class="topbar-actions">
+        <button id="audio-toggle" class="btn btn-sm btn-outline" title="Alternar audio">🔊</button>
+        <button id="fallback-btn" class="btn btn-sm btn-outline" title="Fallback 2D">♿</button>
+      </div>
+    </header>
+
+    <div id="main">
+      <div id="scene-root" role="img" aria-label="Showroom 3D de moda con pasarela"></div>
+
+      <aside id="panel" class="hidden">
+        <button id="panel-close" class="panel-close" aria-label="Cerrar">&times;</button>
+        <div id="panel-content">
+          <h2 id="garment-title">Prenda</h2>
+          <p id="garment-desc" class="desc"></p>
+          <div class="video-wrapper">
+            <video id="backstage-video" controls preload="metadata" crossorigin="anonymous">
+              <track kind="subtitles" srclang="es" label="Español" src="assets/subs-es.srt">
+              <track kind="subtitles" srclang="en" label="English" src="assets/subs-en.srt">
+            </video>
+          </div>
+          <div id="credits" class="credits"></div>
+          <div class="garment-meta" id="garment-meta"></div>
+        </div>
+      </aside>
+
+      <div id="mixer-panel" class="hidden">
+        <div class="mixer-header">
+          <h3>🎨 Editor de combinaciones</h3>
+          <button id="export-btn" class="btn btn-sm btn-primary">Exportar collage</button>
+        </div>
+        <div class="mixer-slots" id="mixer-slots"></div>
+        <div class="mixer-preview" id="mixer-preview">
+          <canvas id="mixer-canvas" width="400" height="500"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div id="fallback-section" class="hidden" aria-live="polite">
+      <div class="fallback-inner">
+        <h2>🗂 Showroom 3D — Versión 2D</h2>
+        <div id="fb-grid" class="fb-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="fashion3d.js"></script>
+</body>
+</html>

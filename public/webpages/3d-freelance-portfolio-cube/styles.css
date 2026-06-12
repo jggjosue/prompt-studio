@@ -1,0 +1,75 @@
+:root {
+  --bg: #faf8f4; --card: #fff; --line: #e8e4de; --text: #1a1a2e;
+  --muted: #8a8a96; --accent: #2a2a3e; --blue: #4a6a8a;
+  --radius: 12px; --shadow: 0 1px 10px rgba(0,0,0,.03);
+  --font: 'Inter', system-ui, sans-serif; --speed: .2s;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--font);background:var(--bg);color:var(--text);height:100vh;overflow:hidden}
+#app{display:flex;flex-direction:column;height:100vh}
+#topbar{display:flex;align-items:center;gap:.4rem;padding:.35rem .8rem;background:var(--card);border-bottom:1px solid var(--line);z-index:10;flex-shrink:0}
+.logo{display:flex;align-items:center;gap:.4rem;font-weight:600;font-size:.85rem;color:var(--text);margin-right:auto}
+.logo-icon{font-size:1rem;color:var(--blue)}
+.topbar-actions{display:flex;gap:.3rem}
+.btn{display:inline-flex;align-items:center;gap:.3rem;padding:.22rem .5rem;border:1px solid var(--line);border-radius:6px;background:transparent;font-family:var(--font);font-size:.6rem;color:var(--text);cursor:pointer;transition:var(--speed)}
+.btn-sm{padding:.18rem .4rem;font-size:.58rem}
+.btn-primary{padding:.3rem .7rem;background:var(--blue);color:#fff;border:none;border-radius:6px;font-family:var(--font);font-size:.62rem;cursor:pointer;transition:var(--speed)}
+.btn-primary:hover{opacity:.85}
+.btn-outline:hover{border-color:var(--blue);color:var(--blue)}
+#main{flex:1;position:relative;overflow:hidden}
+#scene-root{width:100%;height:100%;background:var(--bg)}
+#scene-root canvas{display:block}
+#face-panel{position:absolute;right:1rem;top:1rem;bottom:1rem;width:360px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow-y:auto;z-index:6;animation:slideIn .3s ease-out}
+@keyframes slideIn{from{transform:translateX(20px);opacity:0}to{transform:translateX(0);opacity:1}}
+.panel-close{position:absolute;top:.5rem;right:.75rem;background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--muted);z-index:1}
+.face-inner{padding:1rem;display:flex;flex-direction:column;gap:.5rem}
+.face-title{font-size:.85rem;font-weight:600;color:var(--text);padding-right:1.5rem}
+.video-wrapper{border-radius:var(--radius);overflow:hidden;background:#000}
+.video-wrapper video{width:100%;display:block;max-height:160px}
+.face-meta{font-size:.6rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:.2rem}
+.face-meta span{padding:.08rem .3rem;background:var(--bg);border-radius:4px}
+.face-srt{font-size:.6rem}
+.face-srt summary{cursor:pointer;font-weight:500;color:var(--muted)}
+.face-srt-body{max-height:80px;overflow-y:auto;padding:.3rem;background:var(--bg);border-radius:6px;font-size:.58rem;line-height:1.4}
+#showcase-vitrine{position:fixed;inset:0;z-index:25;background:rgba(0,0,0,.6);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;backdrop-filter:blur(4px)}
+.vitrine-inner{max-width:700px;width:100%;background:var(--card);border-radius:var(--radius);padding:1rem;position:relative}
+.vitrine-scene{height:200px;background:var(--bg);border-radius:8px;margin-bottom:.5rem;overflow:hidden}
+.vitrine-video{width:100%;border-radius:8px;max-height:200px}
+#timeline-panel{position:absolute;left:1rem;bottom:4rem;width:280px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:.75rem;z-index:7;box-shadow:var(--shadow);animation:slideUp .3s ease-out;max-height:50vh;overflow-y:auto}
+@keyframes slideUp{from{transform:translateY(10px);opacity:0}to{transform:translateY(0);opacity:1}}
+.timeline-header{display:flex;align-items:center;gap:.3rem;margin-bottom:.4rem}
+.timeline-header h3{font-size:.75rem;flex:1}
+.timeline-items{display:flex;flex-direction:column;gap:.25rem}
+.timeline-item{padding:.3rem;border:1px solid var(--line);border-radius:6px;font-size:.6rem;cursor:pointer;transition:var(--speed);background:var(--bg)}
+.timeline-item:hover{border-color:var(--blue)}
+.timeline-item .ti-title{font-weight:500;color:var(--text)}
+.timeline-item .ti-desc{font-size:.55rem;color:var(--muted)}
+#analytics-panel{position:absolute;left:1rem;bottom:4rem;width:280px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:.75rem;z-index:7;box-shadow:var(--shadow);animation:slideUp .3s ease-out}
+.analytics-header{display:flex;align-items:center;gap:.3rem;margin-bottom:.4rem}
+.analytics-header h3{font-size:.75rem;flex:1}
+.analytics-body{font-size:.6rem;color:var(--muted)}
+.analytics-row{display:flex;justify-content:space-between;padding:.15rem 0;border-bottom:1px solid var(--line)}
+.modal{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.7);display:grid;place-items:center;padding:1rem}
+.modal-content{background:var(--card);border-radius:var(--radius);max-width:560px;width:100%;padding:1rem;position:relative}
+.modal-close{position:absolute;top:.5rem;right:.75rem;background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--muted)}
+.modal-body{font-size:.65rem;color:var(--text);padding:.4rem 0;line-height:1.5}
+#fallback-section{position:fixed;inset:0;z-index:50;background:var(--bg);overflow-y:auto;padding:2rem}
+.fallback-inner{max-width:700px;margin:0 auto}
+.fallback-inner h2{margin-bottom:1rem;color:var(--text)}
+.fb-grid{display:flex;flex-direction:column;gap:.5rem}
+.fb-card{background:var(--card);border-radius:var(--radius);padding:.75rem;border:1px solid var(--line);display:flex;gap:.75rem;align-items:flex-start;cursor:pointer;transition:var(--speed)}
+.fb-card:hover{border-color:var(--blue)}
+.fb-card video{width:140px;border-radius:6px;flex-shrink:0}
+.fb-card h3{font-size:.72rem;margin-bottom:.1rem}
+.fb-card p{font-size:.62rem;color:var(--muted)}
+.hidden{display:none !important}
+@media(max-width:768px){
+  #face-panel{right:0;left:0;top:auto;bottom:0;width:100%;max-height:65vh;border-radius:var(--radius) var(--radius) 0 0}
+  #showcase-vitrine{padding:.5rem}
+  .vitrine-scene{height:150px}
+  #timeline-panel{left:.5rem;right:.5rem;width:auto;bottom:3rem}
+  #analytics-panel{left:.5rem;right:.5rem;width:auto;bottom:3rem}
+  .fb-card{flex-direction:column}
+  .fb-card video{width:100%}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:0s !important;animation-duration:0s !important}}

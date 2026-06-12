@@ -60,7 +60,7 @@ function PaidPlanPrice({ isAnnual, monthly, yearly }: PaidPlanProps) {
         <p className="text-sm text-muted-foreground mb-6">
           {t('equivalentMonthly', { amount: formatMonthlyEquivalent(yearly) })}
           {savings > 0 && (
-            <span className="text-primary font-medium">
+            <span className="text-blue-500 font-medium">
               {' '}
               {t('savePerYear', { amount: savings })}
             </span>
@@ -118,12 +118,13 @@ export default function PricesClient() {
             </p>
           </div>
 
-          <div className="mb-10 max-w-lg mx-auto p-4 rounded-lg border bg-muted/40">
+          <div className="mb-10 max-w-lg mx-auto rounded-lg border border-blue-500/25 bg-blue-500/[0.06] p-4 shadow-sm shadow-blue-950/10">
             <div className="flex items-start gap-3">
               <Checkbox
                 id={annualBillingId}
                 checked={isAnnual}
                 onCheckedChange={(checked) => setIsAnnual(checked === true)}
+                className="!border-blue-500 text-white data-[state=checked]:!border-blue-500 data-[state=checked]:!bg-blue-600 data-[state=checked]:text-white focus-visible:!ring-blue-500"
               />
               <div className="grid gap-1.5 leading-none">
                 <Label
@@ -164,7 +165,7 @@ export default function PricesClient() {
                 <ul className="space-y-4 mb-8 flex-grow">
                   {freeFeatures.map((text) => (
                     <li key={text} className="flex items-start gap-3 text-sm">
-                      <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+                      <Check className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" />
                       <span>{text}</span>
                     </li>
                   ))}
@@ -181,15 +182,15 @@ export default function PricesClient() {
             </Card>
 
             {/* Premium */}
-            <Card className="flex flex-col border-primary/40 shadow-md relative overflow-hidden">
-              <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary via-violet-500 to-primary" />
+            <Card className="relative flex flex-col overflow-hidden border-blue-500/50 shadow-lg shadow-blue-950/10">
+              <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-500" />
               <CardHeader className="pb-4 pt-8">
                 <div className="flex items-center justify-between gap-2 flex-wrap">
                   <CardTitle className="font-headline text-2xl flex items-center gap-2">
-                    <Crown className="w-6 h-6 text-primary" />
+                    <Crown className="w-6 h-6 text-blue-500" />
                     {tCommon('premium')}
                   </CardTitle>
-                  <Badge className="bg-primary text-primary-foreground">
+                  <Badge className="bg-blue-500 text-white hover:bg-blue-600">
                     {tCommon('accountRequired')}
                   </Badge>
                 </div>
@@ -210,12 +211,12 @@ export default function PricesClient() {
                   </li>
                   {premiumOnlyFeatures.map((text) => (
                     <li key={text} className="flex items-start gap-3 text-sm">
-                      <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+                      <Check className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" />
                       <span>{text}</span>
                     </li>
                   ))}
                   <li className="flex items-start gap-3 text-sm">
-                    <Sparkles className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+                    <Sparkles className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" />
                     <span>
                       <strong className="text-foreground">{t('weeklyDropsLabel')}</strong>{' '}
                       {t('weeklyDrops')}
@@ -225,10 +226,13 @@ export default function PricesClient() {
                 <div className="mt-auto space-y-3">
                   {isLoaded && isSignedIn && hasPremiumPlan ? (
                     <>
-                      <Badge className="w-full justify-center py-2 text-sm">
+                      <Badge className="w-full justify-center bg-blue-600 py-2 text-sm text-white hover:bg-blue-600">
                         {t('planActive')}
                       </Badge>
-                      <Button className="w-full" asChild>
+                      <Button
+                        className="w-full bg-blue-600 text-white hover:bg-blue-700"
+                        asChild
+                      >
                         <PremiumAccessLink
                           membership="Premium"
                           href="/web-tags?membership=Premium"
@@ -242,7 +246,10 @@ export default function PricesClient() {
                     </>
                   ) : isLoaded && isSignedIn ? (
                     <>
-                      <Button className="w-full" asChild>
+                      <Button
+                        className="w-full bg-blue-600 text-white hover:bg-blue-700"
+                        asChild
+                      >
                         <a
                           href={premiumCheckoutUrl}
                           target="_blank"
@@ -262,7 +269,10 @@ export default function PricesClient() {
                     </>
                   ) : (
                     <>
-                      <Button className="w-full" asChild>
+                      <Button
+                        className="w-full bg-blue-600 text-white hover:bg-blue-700"
+                        asChild
+                      >
                         <a
                           href={premiumCheckoutUrl}
                           target="_blank"

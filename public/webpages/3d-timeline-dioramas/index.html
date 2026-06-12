@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timeline 3D — Dioramas y Narración</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <header id="topbar">
+      <div class="logo"><span class="logo-icon">◈</span><span>Timeline 3D</span></div>
+      <div class="topbar-center">
+        <span id="chapter-label" class="chapter-label">Capítulo 1</span>
+      </div>
+      <div class="topbar-actions">
+        <button id="curator-btn" class="btn btn-sm btn-outline" title="Modo curador">🎬</button>
+        <button id="fallback-btn" class="btn btn-sm btn-outline" title="Fallback 2D">♿</button>
+      </div>
+    </header>
+
+    <div id="main">
+      <div id="scene-root" role="img" aria-label="Timeline 3D con dioramas animados"></div>
+
+      <div id="hud">
+        <div id="timeline-bar">
+          <div id="timeline-track">
+            <div id="timeline-progress"></div>
+            <div id="chapter-dots"></div>
+          </div>
+          <div id="scrub-handle" class="scrub-handle"></div>
+        </div>
+      </div>
+
+      <div id="video-panel" class="hidden">
+        <button id="video-panel-close" class="panel-close">&times;</button>
+        <div class="video-panel-inner">
+          <h3 id="video-title" class="video-title"></h3>
+          <div class="video-wrapper">
+            <video id="chapter-video" controls preload="metadata" crossorigin="anonymous">
+              <track kind="subtitles" srclang="es" label="Español" src="assets/subs-es.srt">
+            </video>
+          </div>
+          <p id="video-desc" class="video-desc"></p>
+          <div id="hotspots" class="hotspots"></div>
+          <a id="pdf-link" class="pdf-link" target="_blank" rel="noopener" style="display:none">📄 Descargar PDF</a>
+        </div>
+      </div>
+    </div>
+
+    <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+      <div class="modal-content">
+        <button id="modal-close" class="modal-close">&times;</button>
+        <video id="modal-video" controls preload="metadata" crossorigin="anonymous"></video>
+        <div id="modal-body" class="modal-body"></div>
+      </div>
+    </div>
+
+    <div id="fallback-section" class="hidden" aria-live="polite">
+      <div class="fallback-inner">
+        <h2>⏳ Timeline — Versión 2D</h2>
+        <div id="fb-grid" class="fb-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="timeline3d.js"></script>
+</body>
+</html>

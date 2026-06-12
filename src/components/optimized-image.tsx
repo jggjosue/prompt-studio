@@ -4,9 +4,11 @@ import { LazyPlaceholder } from '@/components/lazy-in-view';
 import { useIntersectionInView } from '@/hooks/use-intersection-in-view';
 import { shouldUnoptimizeImage } from '@/lib/utils';
 import { cn } from '@/lib/utils';
+import { ImageOff } from 'lucide-react';
 import Image, { type ImageProps } from 'next/image';
+import { useEffect, useState } from 'react';
 
-const DEFAULT_QUALITY = 75;
+const DEFAULT_QUALITY = 72;
 
 type OptimizedImageProps = ImageProps & {
   /** Fuerza sin optimizar (p. ej. meta.ai). */
@@ -30,8 +32,12 @@ export function OptimizedImage({
   lazyAdaptive,
   fill,
   className,
+  onLoad,
+  onError,
   ...props
 }: OptimizedImageProps) {
+  const [isReady, setIsReady] = useState(false);
+  const [hasError, setHasError] = useState(false);
   const srcString =
     typeof src === 'string'
       ? src
@@ -52,19 +58,50 @@ export function OptimizedImage({
 
   const shouldLoad = !useAdaptiveLazy || isNearView;
 
-  const image = shouldLoad ? (
-    <Image
-      {...props}
-      src={src}
-      fill={fill}
-      priority={priority}
-      loading={priority ? undefined : 'lazy'}
-      quality={quality}
-      unoptimized={skipOptimize}
-      className={className}
-    />
-  ) : (
-    <LazyPlaceholder />
+  useEffect(() => {
+    setIsReady(false);
+    setHasError(false);
+  }, [srcString]);
+
+  const image = (
+    <>
+      {shouldLoad ? (
+        <Image
+          {...props}
+          src={src}
+          fill={fill}
+          priority={priority}
+          loading={priority ? undefined : 'lazy'}
+          quality={quality}
+          unoptimized={skipOptimize}
+          decoding="async"
+          className={cn(
+            'transition-[opacity,filter,transform] duration-500',
+            isReady && !hasError
+              ? 'opacity-100 blur-0 scale-100'
+              : 'opacity-0 blur-sm scale-[1.015]',
+            className
+          )}
+          onLoad={event => {
+            setIsReady(true);
+            onLoad?.(event);
+          }}
+          onError={event => {
+            setHasError(true);
+            onError?.(event);
+          }}
+        />
+      ) : null}
+      {!isReady && !hasError ? (
+        <LazyPlaceholder className="bg-gradient-to-br from-muted via-muted/80 to-primary/10" />
+      ) : null}
+      {hasError ? (
+        <span className="absolute inset-0 grid place-items-center bg-muted text-muted-foreground">
+          <ImageOff className="size-6" aria-hidden />
+          <span className="sr-only">Image unavailable</span>
+        </span>
+      ) : null}
+    </>
   );
 
   if (!useAdaptiveLazy) {

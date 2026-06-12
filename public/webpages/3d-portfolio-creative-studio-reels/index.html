@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AURA — Creative Studio 3D Portfolio</title>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.158.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+
+  <!-- WebGL fixed background -->
+  <canvas id="c"></canvas>
+
+  <!-- Intro Screen -->
+  <div id="intro-veil">
+    <h1 class="intro-title" id="veil-title">A U R A</h1>
+    <p class="intro-subtitle" id="veil-subtitle">Creative Studio Portfolio</p>
+    <button class="intro-btn" id="btn-enter" aria-label="Enter Studio 3D Portfolio">Enter Experience</button>
+  </div>
+
+  <!-- Glass Header -->
+  <nav id="nav" aria-label="Main Navigation">
+    <div class="nav-logo">
+      <div class="logo-mark">A</div>
+      <div>
+        <div class="logo-name">Aura</div>
+        <div class="logo-tagline">Studio Portfolio</div>
+      </div>
+    </div>
+    <div class="nav-actions">
+      <button class="nav-btn ghost" id="btn-toggle-sound" aria-label="Toggle Soundscapes Audio">Mute Audio</button>
+      <div style="width: 1px; height: 18px; background: var(--border-light)"></div>
+      <button class="nav-btn" id="btn-2d" aria-label="Toggle 2D Accessible Version">2D Version</button>
+    </div>
+  </nav>
+
+  <!-- Scroll containers creating standard scroll markers -->
+  <div id="scroll-wrapper">
+    <!-- Section 0: Virtuality -->
+    <section class="scroll-section" id="sect-0">
+      <div class="project-card">
+        <div class="proj-meta">
+          <span class="proj-num">I</span>
+          <span class="proj-cat">3D & Augmented Reality</span>
+        </div>
+        <h2 class="proj-title">Virtuality</h2>
+        <p class="proj-desc">
+          Step into a glowing modular simulation. We build immersive holographic grids and high-frequency code arrays that redefine spacial dimensions.
+        </p>
+        <button class="proj-action" id="action-0" aria-label="Play Virtuality Creative Reel">Play Full Reel</button>
+      </div>
+    </section>
+
+    <!-- Section 1: Motion Design -->
+    <section class="scroll-section" id="sect-1">
+      <div class="project-card">
+        <div class="proj-meta">
+          <span class="proj-num">II</span>
+          <span class="proj-cat">Kinetic Typography</span>
+        </div>
+        <h2 class="proj-title">Motion</h2>
+        <p class="proj-desc">
+          Hypnotic mathematical geometry and typographic grids morphing seamlessly. Elegant kinetic lines conveying message with pristine weight and speed.
+        </p>
+        <button class="proj-action" id="action-1" aria-label="Play Motion Creative Reel">Play Full Reel</button>
+      </div>
+    </section>
+
+    <!-- Section 2: Luxury Branding -->
+    <section class="scroll-section" id="sect-2">
+      <div class="project-card">
+        <div class="proj-meta">
+          <span class="proj-num">III</span>
+          <span class="proj-cat">Brand Identity & Luxury</span>
+        </div>
+        <h2 class="proj-title">Luxury</h2>
+        <p class="proj-desc">
+          Sleek fluid gold ripples and high-end editorial layouts. Crafting timeless identity systems for top-tier global enterprise and fashion labels.
+        </p>
+        <button class="proj-action" id="action-2" aria-label="Play Luxury Creative Reel">Play Full Reel</button>
+      </div>
+    </section>
+
+    <!-- Section 3: Soundscapes -->
+    <section class="scroll-section" id="sect-3">
+      <div class="project-card">
+        <div class="proj-meta">
+          <span class="proj-num">IV</span>
+          <span class="proj-cat">Interactive Audio Visualizer</span>
+        </div>
+        <h2 class="proj-title">Acoustics</h2>
+        <p class="proj-desc">
+          Fusing geometry with acoustic frequencies. Sound waves and visual nodes dancing in perfect unison, synthesizing direct real-time feedback loops.
+        </p>
+        <button class="proj-action" id="action-3" aria-label="Play Acoustics Creative Reel">Play Full Reel</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- Project Right Side Dot indicators -->
+  <div id="side-nav" aria-label="Project Navigation Dots">
+    <div class="side-dot active" data-id="0" id="dot-0"><span class="side-dot-lbl">Virtuality</span></div>
+    <div class="side-dot" data-id="1" id="dot-1"><span class="side-dot-lbl">Motion</span></div>
+    <div class="side-dot" data-id="2" id="dot-2"><span class="side-dot-lbl">Luxury</span></div>
+    <div class="side-dot" data-id="3" id="dot-3"><span class="side-dot-lbl">Acoustics</span></div>
+  </div>
+
+  <!-- Sound Status Indicator -->
+  <div id="sound-bar" class="playing" aria-label="Sound Status Indicator">
+    <div class="sound-waves">
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+    </div>
+    <span class="sound-txt" id="active-sound-lbl">Synthesizer Active</span>
+  </div>
+
+  <!-- Fullscreen Video Reel Player Modal -->
+  <div id="player-modal" role="dialog" aria-modal="true" aria-labelledby="p-title">
+    <div class="player-box">
+      <div class="player-header">
+        <div>
+          <span class="player-cat-lbl" id="p-cat-lbl">Virtuality</span>
+          <h2 class="player-title-lbl" id="p-title">Virtuality Creative Reel</h2>
+        </div>
+        <button class="player-close" id="player-close" aria-label="Close Reel Player">✕</button>
+      </div>
+      <div class="player-video-wrap">
+        <canvas id="player-canvas"></canvas>
+        <div class="player-subtitles" id="player-subtitles" style="display: block">
+          <span class="player-subtitles-txt" id="p-subtitles-txt">Initializing narration track...</span>
+        </div>
+      </div>
+      <div class="player-controls">
+        <div class="player-timeline-container" id="p-timeline-container" aria-label="Scrub Reel Timeline">
+          <div class="player-timeline-bg">
+            <div class="player-timeline-fill" id="p-timeline-fill"></div>
+          </div>
+        </div>
+        <div class="player-controls-row">
+          <div style="display: flex; align-items: center; gap: 1.25rem">
+            <button class="p-btn p-play-btn" id="p-btn-play" aria-label="Play/Pause Reel">▶</button>
+            <span class="p-time-lbl" id="p-time-lbl">0:00 / 0:30</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1.25rem">
+            <button class="p-btn active" id="p-btn-cc" aria-label="Toggle Closed Captions">CC ON</button>
+            <button class="p-btn" id="p-btn-tr" aria-label="View Full Written Transcript">Transcript</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Written Transcript Modal -->
+  <div id="transcript-modal" role="dialog" aria-modal="true" aria-labelledby="tr-title">
+    <div class="modal-box">
+      <div style="display: flex; justify-content: space-between; align-items: center">
+        <h2 class="modal-title" id="tr-title">Narrative Transcript</h2>
+        <button class="player-close" id="tr-close" aria-label="Close Transcript Modal">✕</button>
+      </div>
+      <div class="transcript-body" id="tr-body">
+        <!-- Filled dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Clean 2D Accessibility Fallback Page -->
+  <div id="fallback-2d" role="region" aria-label="Standard 2D Presentation">
+    <div class="fb-container">
+      <div class="fb-header">
+        <h1 class="fb-title">AURA STUDIO</h1>
+        <p class="fb-sub">Accessible 2D Portfolio Fallback</p>
+      </div>
+      <div class="fb-grid" id="fb-grid">
+        <!-- Filled dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ES6 MODULE SCRIPT -->
+  <script type="module" src="portfolio.js"></script>
+</body>
+</html>

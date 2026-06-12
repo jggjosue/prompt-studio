@@ -1,0 +1,15 @@
+1
+00:00:00,000 --> 00:00:04,000
+Welcome to the corporate campus tour.
+
+2
+00:00:04,000 --> 00:00:09,000
+This lobby introduces visitor services and reception capacity.
+
+3
+00:00:09,000 --> 00:00:14,000
+The auditorium supports keynote events and hybrid broadcasts.
+
+4
+00:00:14,000 --> 00:00:20,000
+The R and D terrace showcases active innovation programs.

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gala Benéfica 3D — Subasta en Vivo y Videos Testimoniales</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <header id="topbar">
+      <div class="logo"><span class="logo-star">✦</span><span>Gala Benéfica</span></div>
+      <div class="topbar-actions">
+        <button id="auction-btn" class="btn btn-sm btn-outline">🔨 Subasta</button>
+        <button id="donor-btn" class="btn btn-sm btn-outline">🎁 Donante</button>
+        <button id="clips-btn" class="btn btn-sm btn-outline">🎬 Clips</button>
+        <button id="metrics-btn" class="btn btn-sm btn-outline">📊</button>
+      </div>
+    </header>
+
+    <div id="main">
+      <div id="scene-root" role="img" aria-label="Gala benéfica 3D con escenario y pantallas testimoniales"></div>
+
+      <!-- Auction panel -->
+      <div id="auction-panel" class="hidden panel-right" role="dialog" aria-label="Subasta en vivo">
+        <div class="panel-header"><h4>🔨 Subasta en vivo</h4><button id="auction-close" class="btn btn-sm btn-outline">×</button></div>
+        <div id="auction-body" class="auction-body"></div>
+      </div>
+
+      <!-- Donor panel -->
+      <div id="donor-panel" class="hidden panel-left" role="dialog" aria-label="Modo donante">
+        <div class="panel-header"><h4>🎁 Modo donante</h4><button id="donor-close" class="btn btn-sm btn-outline">×</button></div>
+        <div id="donor-body" class="donor-body"></div>
+      </div>
+
+      <!-- Clips gallery -->
+      <div id="clips-panel" class="hidden panel-right" role="dialog" aria-label="Clips destacados">
+        <div class="panel-header"><h4>🎬 Clips destacados</h4><button id="clips-close" class="btn btn-sm btn-outline">×</button></div>
+        <div id="clips-body" class="clips-body"></div>
+      </div>
+
+      <!-- Metrics panel -->
+      <div id="metrics-panel" class="hidden panel-left" role="dialog" aria-label="Métricas">
+        <div class="panel-header"><h4>📊 Métricas</h4><button id="metrics-close" class="btn btn-sm btn-outline">×</button></div>
+        <div id="metrics-body" class="metrics-body"></div>
+      </div>
+
+      <!-- Toast -->
+      <div id="bid-toast" class="hidden toast" role="status" aria-live="polite">✅ Puja enviada</div>
+      <div id="donor-toast" class="hidden toast" role="status" aria-live="polite">🎁 Recibo descargado</div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="gala3d.js"></script>
+</body>
+</html>

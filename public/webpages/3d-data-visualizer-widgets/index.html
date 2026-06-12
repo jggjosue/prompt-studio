@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard 3D — Datos y Video Insights</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+  <div id="app">
+    <header id="topbar">
+      <div class="logo"><span class="logo-icon">◈</span><span>Data 3D</span></div>
+      <div class="topbar-center">
+        <button id="comparator-btn" class="btn btn-sm btn-outline">🔗 Comparar periodos</button>
+        <button id="export-btn" class="btn btn-sm btn-outline">📸 Snapshot</button>
+      </div>
+      <div class="topbar-actions">
+        <button id="websocket-indicator" class="btn btn-sm btn-outline" title="Datos en vivo">🔴 En vivo</button>
+        <button id="fallback-btn" class="btn btn-sm btn-outline">♿</button>
+      </div>
+    </header>
+
+    <div id="main">
+      <div id="scene-root" role="img" aria-label="Dashboard 3D de datos con widgets flotantes"></div>
+
+      <div id="scrub-bar" class="scrub-bar">
+        <div class="scrub-track" id="scrub-track">
+          <div id="scrub-progress" class="scrub-progress"></div>
+          <div id="scrub-handle" class="scrub-handle">◉</div>
+        </div>
+        <span id="scrub-label" class="scrub-label">Periodo: 2024 Q1</span>
+      </div>
+
+      <div id="insight-panel" class="hidden">
+        <button id="insight-close" class="panel-close">&times;</button>
+        <div class="insight-inner">
+          <h3 id="insight-title" class="insight-title"></h3>
+          <div class="video-wrapper">
+            <video id="insight-video" controls preload="metadata" crossorigin="anonymous"></video>
+          </div>
+          <p id="insight-desc" class="insight-desc"></p>
+          <button id="insight-clip-btn" class="btn btn-sm btn-outline">✂️ Generar clip corto</button>
+        </div>
+      </div>
+
+      <div id="comparator-overlay" class="hidden">
+        <div class="comparator-inner">
+          <h3>🔗 Comparador</h3>
+          <div class="comparator-videos">
+            <div><video id="comp-video-a" controls preload="metadata" crossorigin="anonymous"></video><span class="comp-label">Periodo A</span></div>
+            <div><video id="comp-video-b" controls preload="metadata" crossorigin="anonymous"></video><span class="comp-label">Periodo B</span></div>
+          </div>
+          <button id="comp-close" class="btn btn-sm btn-outline">Cerrar</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+      <div class="modal-content">
+        <button id="modal-close" class="modal-close">&times;</button>
+        <video id="modal-video" controls preload="metadata" crossorigin="anonymous"></video>
+        <div id="modal-body" class="modal-body"></div>
+      </div>
+    </div>
+
+    <div id="fallback-section" class="hidden" aria-live="polite">
+      <div class="fallback-inner">
+        <h2>📊 Dashboard 3D — Versión 2D</h2>
+        <div id="fb-grid" class="fb-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="data3d.js"></script>
+</body>
+</html>

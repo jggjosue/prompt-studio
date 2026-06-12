@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { LiquidButton } from '@/components/ui/liquid-glass-button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import type { ImagePlaceholder } from '@/lib/placeholder-images';
@@ -177,7 +178,7 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                       data-ai-hint={item.imageHint}
                     />
                     <div className="absolute bottom-4 right-4 flex items-start gap-4 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
-                      <Button size="sm" variant="secondary" asChild>
+                      <LiquidButton size="sm" asChild>
                         <Link href={`/prompt/edit?prompt=${encodeURIComponent(JSON.stringify({
                           type: item.type || 'image',
                           title: item.title,
@@ -188,7 +189,7 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                             <Wand2 className="mr-2" />
                             Use this prompt
                         </Link>
-                      </Button>
+                      </LiquidButton>
                     </div>
                   </>
                 )}

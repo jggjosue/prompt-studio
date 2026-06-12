@@ -1,0 +1,15 @@
+{
+  "product": "Noir Edition",
+  "material": "PBR metallic composite",
+  "renderProfile": {
+    "hdr": "studio-soft.hdr",
+    "videoTexture": "story-main.mp4",
+    "shadowQuality": "high"
+  },
+  "chapters": [
+    "Arrival",
+    "Craft",
+    "Detail",
+    "Finale"
+  ]
+}

@@ -14,7 +14,7 @@ import fs from 'fs';
 import path from 'path';
 
 type Props = {
-  params: { modelId: string }
+  params: Promise<{ modelId: string }>
 }
 
 function findModelName(slug: string) {
@@ -22,9 +22,10 @@ function findModelName(slug: string) {
 }
 
 export async function generateMetadata(
-  { params }: Props,
+  props: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
+  const params = await props.params;
   const modelName = findModelName(params.modelId);
 
   if (!modelName) {
@@ -39,7 +40,8 @@ export async function generateMetadata(
   }
 }
 
-export default async function ModelDetailPage({ params }: Props) {
+export default async function ModelDetailPage(props: Props) {
+    const params = await props.params;
     const locale = await getLocale();
     const modelName = findModelName(params.modelId);
 
@@ -60,7 +62,7 @@ export default async function ModelDetailPage({ params }: Props) {
       }
     }
 
-    let jsonPrompts = [];
+    let jsonPrompts: any[] = [];
     
     // Caso especial para Anthropic: combinar protocolos generales con herramientas de Chrome
     if (params.modelId === 'anthropic') {

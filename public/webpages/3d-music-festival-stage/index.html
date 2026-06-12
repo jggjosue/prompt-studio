@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Festival Musical 3D — Escenario Principal y Replay Clips</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <header id="topbar">
+      <div class="logo"><span class="logo-star">✦</span><span>Festival 3D</span></div>
+      <div class="topbar-actions">
+        <button id="angles-btn" class="btn btn-sm btn-outline">🎥 Ángulos</button>
+        <button id="stems-btn" class="btn btn-sm btn-outline">🎛 Stems</button>
+        <button id="reactions-btn" class="btn btn-sm btn-outline">🔥 Reacciones</button>
+        <button id="clips-btn" class="btn btn-sm btn-outline">🎬 Clips</button>
+        <button id="director-btn" class="btn btn-sm btn-outline">🎬 Director</button>
+        <button id="metrics-btn" class="btn btn-sm btn-outline">📊</button>
+      </div>
+    </header>
+
+    <div id="main">
+      <div id="scene-root" role="img" aria-label="Festival musical 3D con escenario y público virtual"></div>
+
+      <!-- Camera angles -->
+      <div id="angles-panel" class="hidden panel-left" role="dialog" aria-label="Ángulos de cámara">
+        <div class="panel-header"><h4>🎥 Ángulos</h4><button id="angles-close" class="btn btn-sm btn-outline">×</button></div>
+        <div id="angles-body" class="angles-body"></div>
+      </div>
+
+      <!-- Stems panel -->
+      <div id="stems-panel" class="hidden panel-left" role="dialog" aria-label="Control de stems">
+        <div class="panel-header"><h4>🎛 Stems</h4><button id="stems-close" class="btn btn-sm btn-outline">×</button></div>
+        <div id="stems-body" class="stems-body"></div>
+      </div>
+
+      <!-- Reactions panel -->
+      <div id="reactions-panel" class="hidden panel-right" role="dialog" aria-label="Reacciones">
+        <div class="panel-header"><h4>🔥 Reacciones</h4><button id="reactions-close" class="btn btn-sm btn-outline">×</button></div>
+        <div id="reactions-body" class="reactions-body"></div>
+      </div>
+
+      <!-- Clips gallery -->
+      <div id="clips-panel" class="hidden panel-right" role="dialog" aria-label="Galería de clips">
+        <div class="panel-header"><h4>🎬 Clips</h4><button id="clips-close" class="btn btn-sm btn-outline">×</button></div>
+        <div id="clips-body" class="clips-body"></div>
+      </div>
+
+      <!-- Director mode modal -->
+      <div id="director-modal" class="hidden overlay" role="dialog" aria-label="Modo director">
+        <div class="overlay-box" style="max-width:500px">
+          <h3>🎬 Modo Director</h3>
+          <video id="director-video" controls preload="metadata" playsinline style="width:100%;border-radius:6px"></video>
+          <div id="director-markers" class="director-markers"></div>
+          <button id="director-close" class="btn btn-primary" style="width:100%;margin-top:.3rem">Cerrar</button>
+        </div>
+      </div>
+
+      <!-- Metrics panel -->
+      <div id="metrics-panel" class="hidden panel-left" role="dialog" aria-label="Métricas">
+        <div class="panel-header"><h4>📊 Métricas</h4><button id="metrics-close" class="btn btn-sm btn-outline">×</button></div>
+        <div id="metrics-body" class="metrics-body"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="festival3d.js"></script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Financial Data Visualizer</title>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.159.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.159.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="scene"></div>
+
+  <main class="ui" aria-label="Financial dashboard controls and insights">
+    <header class="topbar glass">
+      <div>
+        <p class="eyebrow">Quarterly Intelligence</p>
+        <h1>3D Financial Narrative Center</h1>
+      </div>
+      <button id="toggle-split" class="btn">Split Camera: Off</button>
+    </header>
+
+    <section class="panel glass" aria-label="KPI widgets">
+      <h2>Widgets</h2>
+      <div id="widget-list" class="widget-list"></div>
+    </section>
+
+    <section class="insight glass" aria-label="Video insights section">
+      <h2 id="insight-title">Select a widget</h2>
+      <p id="insight-text">Choose a KPI card to sync video narrative with 3D and chart animations.</p>
+      <video id="insight-video" controls preload="metadata" poster="https://images.unsplash.com/photo-1559526324-593bc073d938?auto=format&fit=crop&w=1200&q=70">
+        <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4" type="video/mp4">
+        <track kind="captions" srclang="en" label="English" default src="assets/subtitles-en.vtt">
+      </video>
+      <label for="timeline" class="label">Timeline Sync</label>
+      <input id="timeline" class="timeline" type="range" min="0" max="100" value="0" step="0.1" aria-label="Scrub video and data timeline">
+    </section>
+
+    <section class="fallback glass" aria-label="Accessible table fallback">
+      <h2>2D Accessible Snapshot</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>KPI</th>
+              <th>Current</th>
+              <th>Previous</th>
+              <th>Delta</th>
+            </tr>
+          </thead>
+          <tbody id="kpi-table-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="finance3d.js"></script>
+</body>
+</html>

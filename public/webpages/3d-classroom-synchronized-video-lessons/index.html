@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Classroom Synchronized Lessons</title>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.159.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.159.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@500;700&family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="scene-root"></div>
+
+  <main class="ui">
+    <header class="top glass">
+      <div>
+        <p class="eyebrow">Synchronized Learning Studio</p>
+        <h1>Elegant 3D Classroom</h1>
+      </div>
+      <div class="controls">
+        <button id="btn-fallback" class="btn">2D Fallback</button>
+      </div>
+    </header>
+
+    <section class="lesson glass">
+      <h2>Physics Module</h2>
+      <video id="lesson-video" controls playsinline preload="metadata" crossorigin="anonymous">
+        <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+      </video>
+      <div class="speed-row">
+        <span>Speed</span>
+        <button class="speed-btn" data-speed="0.5">0.5x</button>
+        <button class="speed-btn active" data-speed="1">1x</button>
+        <button class="speed-btn" data-speed="1.5">1.5x</button>
+      </div>
+      <p id="subtitle">Video acts as master clock. Simulation follows chapter cues.</p>
+    </section>
+
+    <section class="sandbox glass">
+      <h2>Sandbox Variables</h2>
+      <label>Masa <input id="mass" type="range" min="1" max="20" value="8"></label>
+      <label>Friccion <input id="friction" type="range" min="0" max="100" value="35"></label>
+      <button id="export-json" class="btn">Export Session JSON</button>
+      <p id="result" class="result">Result: stable trajectory.</p>
+    </section>
+
+    <section id="fallback" class="fallback glass hidden"></section>
+  </main>
+
+  <script type="module" src="classroom.js"></script>
+</body>
+</html>

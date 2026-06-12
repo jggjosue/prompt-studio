@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feria Gastronómica 3D — Stands, Recetas y Reservas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <header id="topbar">
+      <div class="logo"><span class="logo-star">✦</span><span>Feria Gastronómica</span></div>
+      <div class="topbar-actions">
+        <div class="filter-group" id="filter-cuisine">
+          <button class="btn btn-sm btn-filter active" data-cuisine="all">Todas</button>
+          <button class="btn btn-sm btn-filter" data-cuisine="mexican">🇲🇽 Mexicana</button>
+          <button class="btn btn-sm btn-filter" data-cuisine="italian">🇮🇹 Italiana</button>
+          <button class="btn btn-sm btn-filter" data-cuisine="japanese">🇯🇵 Japonesa</button>
+          <button class="btn btn-sm btn-filter" data-cuisine="peruvian">🇵🇪 Peruana</button>
+        </div>
+        <button id="map-btn" class="btn btn-sm btn-outline">🗺 Mapa</button>
+        <button id="route-btn" class="btn btn-sm btn-outline">🍽 Ruta</button>
+        <button id="social-btn" class="btn btn-sm btn-outline">💬 Reviews</button>
+        <button id="metrics-btn" class="btn btn-sm btn-outline">📊</button>
+      </div>
+    </header>
+
+    <div id="main">
+      <div id="scene-root" role="img" aria-label="Feria gastronómica 3D con pasillos y stands"></div>
+
+      <!-- Map panel -->
+      <div id="map-panel" class="hidden panel-left" role="dialog" aria-label="Mapa de la feria">
+        <div class="panel-header"><h4>🗺 Mapa</h4><button id="map-close" class="btn btn-sm btn-outline">×</button></div>
+        <div id="map-body" class="map-body"></div>
+      </div>
+
+      <!-- Stand overlay -->
+      <div id="stand-overlay" class="hidden overlay" role="dialog" aria-label="Stand">
+        <div class="overlay-box">
+          <div class="ov-video-wrap">
+            <video id="stand-video" controls preload="metadata" playsinline></video>
+          </div>
+          <div id="stand-info" class="stand-info"></div>
+          <div id="stand-steps" class="stand-steps"></div>
+          <button id="download-steps" class="btn btn-sm btn-outline" style="margin:.1rem 0">📥 Pasos descargables</button>
+          <button id="stand-reserve" class="btn btn-primary" style="width:100%;margin-top:.15rem">📅 Reservar mesa</button>
+          <button id="stand-close-overlay" class="btn btn-sm btn-outline" style="width:100%;margin-top:.1rem">Cerrar</button>
+        </div>
+      </div>
+
+      <!-- Route panel -->
+      <div id="route-panel" class="hidden panel-left" role="dialog" aria-label="Ruta de degustación">
+        <div class="panel-header"><h4>🍽 Ruta de degustación</h4><button id="route-close" class="btn btn-sm btn-outline">×</button></div>
+        <div id="route-body" class="route-body"></div>
+      </div>
+
+      <!-- Social / reviews panel -->
+      <div id="social-panel" class="hidden panel-right" role="dialog" aria-label="Reviews en video">
+        <div class="panel-header"><h4>💬 Reviews</h4><button id="social-close" class="btn btn-sm btn-outline">×</button></div>
+        <div id="social-body" class="social-body">
+          <div id="reviews-list" class="reviews-list"></div>
+          <button id="record-review-btn" class="btn btn-outline btn-sm" style="width:100%;margin-top:.1rem">🎤 Grabar review</button>
+        </div>
+      </div>
+
+      <!-- Metrics panel -->
+      <div id="metrics-panel" class="hidden panel-left" role="dialog" aria-label="Métricas">
+        <div class="panel-header"><h4>📊 Métricas</h4><button id="metrics-close" class="btn btn-sm btn-outline">×</button></div>
+        <div id="metrics-body" class="metrics-body"></div>
+      </div>
+
+      <!-- Reservation toast -->
+      <div id="reserve-toast" class="hidden toast" role="status" aria-live="polite">✅ Mesa reservada</div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="foodfair3d.js"></script>
+</body>
+</html>

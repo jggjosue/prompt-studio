@@ -1,0 +1,37 @@
+Módulo 0: Péndulo Simple
+=========================
+Bienvenidos al estudio del péndulo simple.
+En esta lección aprenderemos cómo la masa, la longitud y la fricción afectan el período de oscilación.
+La ecuación fundamental es T = 2π √(L/g).
+Observa cómo al variar la longitud, el período cambia proporcionalmente a su raíz cuadrada.
+Ejercicio: Encuentra la configuración que produce un período exacto de 2.0 segundos.
+
+Parámetros:
+- Masa: 0.5 - 3.0 kg
+- Longitud: 1.0 - 3.0 m
+- Fricción: 0 - 0.5
+
+Módulo 1: Plano Inclinado
+==========================
+Estudio del plano inclinado.
+Las fuerzas que actúan son el peso, la normal y el rozamiento.
+La aceleración depende del ángulo y del coeficiente de rozamiento.
+Descomponemos el peso en componentes paralela y perpendicular al plano.
+Ejercicio: Encuentra el ángulo para una aceleración de 2.0 m/s².
+
+Parámetros:
+- Ángulo: 0 - 60°
+- Fricción: 0 - 0.5
+
+Módulo 2: Sistema Masa-Resorte
+===============================
+Estudio del sistema masa-resorte.
+La ley de Hooke establece F = -kx.
+La frecuencia angular es ω = √(k/m).
+El período es T = 2π √(m/k).
+Ejercicio: Encuentra la combinación que da ω = 2.0 rad/s.
+
+Parámetros:
+- Masa: 0.5 - 3.0 kg
+- Constante k: 0.5 - 5.0 N/m
+- Fricción: 0 - 0.5

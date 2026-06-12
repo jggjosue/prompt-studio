@@ -1,9 +1,10 @@
 import '@/app/globals.css';
-import { inter, spaceGrotesk } from '@/app/fonts';
+import { firaCode, firaSans } from '@/app/fonts';
 import { ServiceWorkerRegister } from '@/components/service-worker-register';
 import { SiteAnalytics } from '@/components/site-analytics';
 import { SubscriptionStatusProvider } from '@/components/subscription-status-provider';
 import { ThemeProvider } from '@/components/theme-provider';
+import { CustomCursor } from '@/components/ui/custom-cursor';
 import { Toaster } from '@/components/ui/toaster';
 import { ClerkProvider } from '@clerk/nextjs';
 import { clerkProviderProps } from '@/lib/clerk-config';
@@ -98,13 +99,13 @@ export default async function RootLayout({
   return (
     <html
       lang={locale}
-      className={`${inter.variable} ${spaceGrotesk.variable}`}
+      className={`${firaSans.variable} ${firaCode.variable} dark`}
       suppressHydrationWarning
     >
       <head>
         <meta name="google-adsense-account" content="ca-pub-7082864972330769" />
       </head>
-      <body className={`${inter.className} font-body antialiased`} suppressHydrationWarning>
+      <body className={`${firaSans.className} font-body antialiased bg-black`} suppressHydrationWarning>
         <ClerkProvider {...clerkProviderProps}>
         <Script
           async
@@ -130,10 +131,12 @@ export default async function RootLayout({
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
-            enableSystem
+            forcedTheme="dark"
+            enableSystem={false}
             disableTransitionOnChange
           >
             {children}
+            <CustomCursor />
             <Toaster />
             <SiteAnalytics />
             <ServiceWorkerRegister />
@@ -145,5 +148,3 @@ export default async function RootLayout({
     </html>
   );
 }
-
-    
