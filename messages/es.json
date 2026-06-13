@@ -34,7 +34,9 @@
     "startup": "Startup",
     "perMonth": "/mes",
     "perYear": "/año",
-    "forever": "/siempre"
+    "forever": "/siempre",
+    "buy": "Comprar",
+    "buyTooltip": "Para poder descargar los archivos de la pagina web"
   },
   "internalLinks": {
     "hubTitle": "Explora la biblioteca de prompts",
@@ -183,12 +185,11 @@
     "subscribePremium": "Suscribirse a Premium",
     "previewPremium": "Vista previa del contenido Premium",
     "startupDesc": "Premium más código fuente completo y guías de instalación para cada demo web.",
-    "installGuides": "desarrollo local, hosting estático y configuración del cargador refactory",
-    "installGuidesLabel": "Guías de instalación:",
+
     "upgradeStartup": "Mejorar a Startup",
     "subscribeStartup": "Suscribirse como Startup",
     "browseWebProjects": "Explorar proyectos web",
-    "bestForBuilders": "Ideal para desarrolladores",
+    "bestForBuilders": "Ideal para creadores",
     "footerNote": "El contenido gratis no requiere cuenta. Premium desbloquea todos los prompts Premium. Startup añade código fuente descargable e instrucciones de instalación por proyecto.",
     "clerkBillingTitle": "Suscríbete con Clerk",
     "clerkBillingSubtitle": "Pagos seguros con Stripe. Tras suscribirte, el contenido premium se desbloquea al instante.",
@@ -206,13 +207,11 @@
     "premiumFeatures": [
       "Acceso completo a todos los prompts Premium de la biblioteca",
       "Descarga cualquier prompt con la insignia Premium",
-      "Nuevos prompts por categoría cada semana",
       "Landing pages, imágenes, videos y prompts de modelos incluidos"
     ],
     "developerFeatures": [
       "Todo lo incluido en Gratis y Premium",
-      "Código fuente completo de cada proyecto y demo web",
-      "Instrucciones paso a paso de instalación por proyecto",
+      "Código fuente completo de cada proyecto",
       "Paquetes HTML/CSS (y JS cuando aplique) listos para clonar"
     ]
   },
@@ -285,6 +284,9 @@
     "currentPlan": "Plan actual",
     "nextBilling": "Próxima fecha de cobro",
     "downloadInvoice": "Descargar factura",
+    "cancelSubscription": "Cancelar suscripción",
+    "additionalPurchases": "Compras adicionales",
+    "additionalPurchasesDesc": "Elementos individuales que has adquirido.",
     "subscriptionFreeHint": "Suscríbete a Premium o Startup para desbloquear landing pages, prompts y demos.",
     "subscriptionActiveHint": "Tu suscripción está activa. Puedes explorar todo el contenido premium.",
     "browsePremiumContent": "Explorar contenido premium",

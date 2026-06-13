@@ -45,8 +45,38 @@ export async function POST(req: Request) {
     switch (event.type) {
       case 'checkout.session.completed': {
         const session = event.data.object as Stripe.Checkout.Session;
-        const clerkUserId = session.client_reference_id;
+        const clientRef = session.client_reference_id;
         const customerId = session.customer as string;
+
+        if (session.mode === 'payment' && clientRef) {
+          // One-time purchase
+          const [clerkUserId, pageId] = clientRef.split('___');
+          if (clerkUserId && pageId) {
+            const client = await clerkClient();
+            const user = await client.users.getUser(clerkUserId);
+            const meta = (user.privateMetadata || {}) as Partial<StripeUserMetadata> & { purchasedPages?: string[] };
+            const purchasedPages = Array.isArray(meta.purchasedPages) ? [...meta.purchasedPages] : [];
+            
+            if (!purchasedPages.includes(pageId)) {
+              purchasedPages.push(pageId);
+              await client.users.updateUserMetadata(clerkUserId, {
+                privateMetadata: {
+                  ...meta,
+                  purchasedPages,
+                },
+              });
+            }
+            
+            if (customerId && !meta.stripeCustomerId) {
+              await stripe.customers.update(customerId, {
+                metadata: { clerkUserId },
+              });
+            }
+          }
+          break;
+        }
+
+        const clerkUserId = clientRef;
         const subscriptionId = session.subscription as string;
 
         if (!clerkUserId || !customerId || !subscriptionId) break;

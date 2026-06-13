@@ -31,7 +31,7 @@ function mapImageEntry(image: RawImageEntry, index: number, locale: Locale | str
   const descriptionText = pickLocalized(image.description, locale);
   const imageHint = pickLocalized(image.imageHint, locale);
 
-  const { id: _sourceId, randomId: _randomId, imageUrl, ...rest } = image;
+  const { id: _sourceId, randomId: _randomId, imageUrl, membership: _membership, ...rest } = image;
   const cleanMetadata = {
     ...rest,
     title,

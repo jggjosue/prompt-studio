@@ -31,7 +31,7 @@ function mapVideoEntry(video: RawVideoEntry, index: number, locale: Locale | str
   const descriptionText = pickLocalized(video.description, locale);
   const imageHint = pickLocalized(video.imageHint, locale);
 
-  const { id: _sourceId, randomId: _randomId, imageUrl, ...rest } = video;
+  const { id: _sourceId, randomId: _randomId, imageUrl, membership: _membership, ...rest } = video;
   const cleanMetadata = {
     ...rest,
     title,

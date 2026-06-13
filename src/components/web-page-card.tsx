@@ -18,6 +18,7 @@ import { snapshotToBadgeReport } from '@/lib/landing-readability-badge';
 import type { LandingReadabilityPublicSnapshot } from '@/lib/landing-readability-store';
 import { getRefactoryLoaderUrl } from '@/lib/refactory-online';
 import type { WebPageEntry } from '@/lib/web-pages';
+import { useMembershipAccess } from '@/hooks/use-membership-access';
 import { ExternalLink, Globe, Tag } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
@@ -51,7 +52,13 @@ function WebPageCardComponent({
   const savedReport = savedReadability
     ? snapshotToBadgeReport(savedReadability)
     : null;
-  const displayedPrice = formatPrice(page.price);
+  const isFree = page.membership === 'Free';
+  const displayedPrice = isFree ? 'Free' : formatPrice(page.price);
+  const { ready, isSignedIn, plan } = useMembershipAccess();
+  const hasPremium =
+    ready &&
+    isSignedIn &&
+    (plan === 'premium' || plan === 'startup');
 
   return (
     <ParallaxReveal reverse={animationIndex % 2 === 1}>
@@ -67,7 +74,11 @@ function WebPageCardComponent({
               </p>
             </div>
             <div className="flex shrink-0 items-center gap-2">
-              {displayedPrice ? (
+              {hasPremium ? (
+                <span className="rounded-full border border-blue-500/40 bg-blue-500/10 px-3 py-1 text-sm font-semibold text-blue-400">
+                  Premium
+                </span>
+              ) : displayedPrice ? (
                 <span className="rounded-full border border-blue-500/40 bg-blue-500/10 px-3 py-1 text-sm font-semibold tabular-nums text-blue-400">
                   {displayedPrice}
                 </span>
@@ -108,7 +119,13 @@ function WebPageCardComponent({
         <CardFooter className="bg-muted/50 p-4 border-t flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2 flex-wrap">
             <WebPagePromptDialog page={page} />
-            <PremiumMembershipButton membership={page.membership} />
+            <PremiumMembershipButton
+              hasPremium={hasPremium}
+              pageId={page.id}
+              membership={page.membership}
+              price={page.price}
+              plan={plan}
+            />
           </div>
           {page.demoUrl ? (
             <Button
@@ -124,7 +141,7 @@ function WebPageCardComponent({
                 className="!bg-blue-600 !text-white hover:!bg-blue-700"
               >
                 <ExternalLink className="w-4 h-4 mr-2" />
-                Open demo
+                Open
               </PremiumAccessLink>
             </Button>
           ) : (
