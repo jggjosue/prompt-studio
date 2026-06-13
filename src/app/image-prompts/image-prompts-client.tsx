@@ -39,8 +39,8 @@ function ImagePromptsSkeleton() {
           <Skeleton className="h-10 w-40" />
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-        {Array.from({ length: 9 }).map((_, index) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 md:gap-8">
+        {Array.from({ length: 8 }).map((_, index) => (
           <Skeleton key={index} className="h-[420px] w-full rounded-lg" />
         ))}
       </div>
@@ -265,7 +265,7 @@ function ImagePromptsContent() {
               <>
                 <div
                   data-image-results
-                  className="grid min-w-0 grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-1 md:gap-8 lg:grid-cols-2 xl:grid-cols-3"
+                  className="grid min-w-0 grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-1 md:gap-8 lg:grid-cols-2"
                 >
                   {paginatedContent.map((item, index) => (
                     <PromptCatalogCard

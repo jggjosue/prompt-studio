@@ -11,6 +11,8 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import {
@@ -162,20 +164,22 @@ export default function HeaderClient() {
 
   const accountMenuItems = (
     <>
-      <DropdownMenuItem asChild className="p-0 focus:bg-transparent">
+      <DropdownMenuLabel>{tHeader('accountMenu', { defaultValue: 'My Account' })}</DropdownMenuLabel>
+      <DropdownMenuSeparator />
+      <DropdownMenuItem asChild className="cursor-pointer">
         <SignUpButton mode="redirect" forceRedirectUrl="/prices">
-          <span className="flex w-full cursor-pointer items-center gap-2.5 rounded-md px-3 py-2.5 text-sm font-medium transition-colors hover:bg-accent focus:bg-accent">
-            <UserPlus className="h-4 w-4 shrink-0" />
-            {tHeader('createAccount')}
-          </span>
+          <button className="w-full">
+            <UserPlus className="mr-2 size-4" />
+            <span>{tHeader('createAccount')}</span>
+          </button>
         </SignUpButton>
       </DropdownMenuItem>
-      <DropdownMenuItem asChild className="p-0 focus:bg-transparent">
+      <DropdownMenuItem asChild className="cursor-pointer">
         <SignInButton mode="redirect" forceRedirectUrl="/dashboard">
-          <span className="flex w-full cursor-pointer items-center gap-2.5 rounded-md px-3 py-2.5 text-sm font-medium transition-colors hover:bg-[#B08D57] hover:text-foreground focus:bg-[#B08D57] focus:text-foreground">
-            <LogIn className="h-4 w-4 shrink-0" />
-            {tHeader('signIn')}
-          </span>
+          <button className="w-full">
+            <LogIn className="mr-2 size-4" />
+            <span>{tHeader('signIn')}</span>
+          </button>
         </SignInButton>
       </DropdownMenuItem>
     </>
@@ -415,7 +419,7 @@ export default function HeaderClient() {
                       <User className="h-5 w-5" strokeWidth={1.75} />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-52 p-1.5">
+                  <DropdownMenuContent align="end" className="w-56">
                     {accountMenuItems}
                   </DropdownMenuContent>
                 </DropdownMenu>

@@ -3,6 +3,7 @@ import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
 import { BentoGrid, BentoGridItem } from '@/components/ui/bento-grid';
 import { CircularTestimonials } from '@/components/ui/circular-testimonials';
+import { GlowyWavesHero } from '@/components/ui/glowy-waves-hero-shadcnui';
 import { Scroll3D } from '@/components/ui/scroll-3d';
 import { Separator } from '@/components/ui/separator';
 import { getPlaceholderImages } from '@/lib/placeholder-images';
@@ -74,8 +75,9 @@ export default async function Home() {
         <Header />
       </Suspense>
       <main className="flex-1 overflow-x-hidden">
+        <GlowyWavesHero />
         <Scroll3D direction="right">
-          <section id="testimonials" className="w-full py-16 md:py-24 border-y border-zinc-900 bg-[#060507]">
+          <section id="testimonials" className="w-full py-16 md:py-24 border-y border-zinc-900 bg-background">
             <div className="container px-4 md:px-6">
             <div className="flex justify-center items-center relative w-full">
               <CircularTestimonials
@@ -168,9 +170,7 @@ export default async function Home() {
 
         <Separator className="my-8" />
 
-        <Scroll3D direction="right" intensity="soft">
-          <Faq />
-        </Scroll3D>
+        <Faq />
       </main>
       <Footer />
     </div>

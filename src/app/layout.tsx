@@ -4,7 +4,7 @@ import { ServiceWorkerRegister } from '@/components/service-worker-register';
 import { SiteAnalytics } from '@/components/site-analytics';
 import { SubscriptionStatusProvider } from '@/components/subscription-status-provider';
 import { ThemeProvider } from '@/components/theme-provider';
-import { CustomCursor } from '@/components/ui/custom-cursor';
+import { CustomCursorLoader } from '@/components/ui/custom-cursor-loader';
 import { Toaster } from '@/components/ui/toaster';
 import { ClerkProvider } from '@clerk/nextjs';
 import { clerkProviderProps } from '@/lib/clerk-config';
@@ -136,7 +136,7 @@ export default async function RootLayout({
             disableTransitionOnChange
           >
             {children}
-            <CustomCursor />
+            <CustomCursorLoader />
             <Toaster />
             <SiteAnalytics />
             <ServiceWorkerRegister />

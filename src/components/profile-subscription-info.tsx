@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Crown, Download, Loader2 } from 'lucide-react';
+import { Crown, Download, Loader2, X, Package } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
@@ -40,8 +40,9 @@ function formatAmount(cents: number, currency: string): string {
 export function ProfileSubscriptionInfo() {
   const t = useTranslations('profile');
   const tCommon = useTranslations('common');
-  const { plan, status, currentPeriodEnd, billingCycle, ready } = useStripeSubscription();
+  const { plan, status, currentPeriodEnd, billingCycle, ready, purchasedPages } = useStripeSubscription();
   const [downloading, setDownloading] = useState(false);
+  const [managing, setManaging] = useState(false);
 
   if (!ready) {
     return (
@@ -76,7 +77,25 @@ export function ProfileSubscriptionInfo() {
     }
   }
 
+  async function handleManageSubscription() {
+    setManaging(true);
+    try {
+      const res = await fetch('/api/subscription/portal', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ returnUrl: window.location.href }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.open(data.url, '_blank', 'noopener,noreferrer');
+      }
+    } finally {
+      setManaging(false);
+    }
+  }
+
   return (
+    <>
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2 font-headline">
@@ -112,22 +131,60 @@ export function ProfileSubscriptionInfo() {
               {t('nextBilling')}: <span className="text-foreground font-medium">{formatDate(currentPeriodEnd)}</span>
             </p>
           )}
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleDownload}
-            disabled={downloading}
-            className="gap-2"
-          >
-            {downloading ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <Download className="h-4 w-4" />
-            )}
-            {t('downloadInvoice')}
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleManageSubscription}
+              disabled={managing || downloading}
+              className="gap-2 text-destructive hover:text-destructive hover:bg-destructive/10 border-destructive/20"
+            >
+              {managing ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <X className="h-4 w-4" />
+              )}
+              {t('cancelSubscription')}
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleDownload}
+              disabled={downloading || managing}
+              className="gap-2"
+            >
+              {downloading ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Download className="h-4 w-4" />
+              )}
+              {t('downloadInvoice')}
+            </Button>
+          </div>
         </div>
       </CardContent>
     </Card>
+    {purchasedPages && purchasedPages.length > 0 && (
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 font-headline">
+            <Package className="h-5 w-5" />
+            {t('additionalPurchases')}
+          </CardTitle>
+          <CardDescription>{t('additionalPurchasesDesc')}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-col gap-2">
+            {purchasedPages.map((pageId) => (
+              <div key={pageId} className="flex items-center justify-between p-3 rounded-md border bg-muted/20">
+                <span className="font-medium font-mono text-sm">{pageId}</span>
+                <Badge variant="outline">{tCommon('view')}</Badge>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    )}
+    </>
   );
 }
