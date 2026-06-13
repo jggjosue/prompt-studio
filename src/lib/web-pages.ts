@@ -14,6 +14,7 @@ export type WebPageEntry = {
   stack: string[];
   tags: string[];
   membership: string;
+  price: string;
 };
 
 type RawWebPageEntry = {
@@ -26,6 +27,7 @@ type RawWebPageEntry = {
   stack: string[];
   tags: string[];
   membership: string;
+  price?: string;
 };
 
 const rawPages = data.webPages as RawWebPageEntry[];
@@ -62,6 +64,7 @@ function mapWebPage(page: RawWebPageEntry, index: number, locale: Locale | strin
     stack: page.stack,
     tags: page.tags,
     membership: page.membership,
+    price: page.price?.trim() ?? '',
   };
 }
 
