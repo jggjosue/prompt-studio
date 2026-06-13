@@ -29,6 +29,19 @@ type WebPageCardProps = {
   animationIndex?: number;
 };
 
+function formatPrice(price: string): string | null {
+  const normalizedPrice = price.trim();
+  if (!normalizedPrice) return null;
+
+  const numericPrice = Number(normalizedPrice.replace(/[$,\s]/g, ''));
+  if (Number.isFinite(numericPrice)) {
+    if (numericPrice === 0) return null;
+    return `$${numericPrice.toFixed(2)}`;
+  }
+
+  return normalizedPrice;
+}
+
 function WebPageCardComponent({
   page,
   savedReadability,
@@ -38,6 +51,7 @@ function WebPageCardComponent({
   const savedReport = savedReadability
     ? snapshotToBadgeReport(savedReadability)
     : null;
+  const displayedPrice = formatPrice(page.price);
 
   return (
     <ParallaxReveal reverse={animationIndex % 2 === 1}>
@@ -52,19 +66,26 @@ function WebPageCardComponent({
                 {page.stack.join(' · ')}
               </p>
             </div>
-            {savedReport ? (
-              <Link
-                href={`/dashboard/landing-editor?page=${encodeURIComponent(page.id)}`}
-                className="shrink-0"
-                title={tEditor('openSavedAnalysis')}
-              >
-                <ReadabilityBadge
-                  report={savedReport}
-                  compact
-                  savedAt={savedReadability?.updatedAt}
-                />
-              </Link>
-            ) : null}
+            <div className="flex shrink-0 items-center gap-2">
+              {displayedPrice ? (
+                <span className="rounded-full border border-blue-500/40 bg-blue-500/10 px-3 py-1 text-sm font-semibold tabular-nums text-blue-400">
+                  {displayedPrice}
+                </span>
+              ) : null}
+              {savedReport ? (
+                <Link
+                  href={`/dashboard/landing-editor?page=${encodeURIComponent(page.id)}`}
+                  className="shrink-0"
+                  title={tEditor('openSavedAnalysis')}
+                >
+                  <ReadabilityBadge
+                    report={savedReport}
+                    compact
+                    savedAt={savedReadability?.updatedAt}
+                  />
+                </Link>
+              ) : null}
+            </div>
           </div>
         </CardHeader>
         <CardContent className="p-6 pt-0 space-y-4 flex-grow">

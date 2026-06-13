@@ -295,7 +295,7 @@ export default function HeaderClient() {
                       </SheetClose>
                       <SheetClose asChild>
                         <SignInButton mode="redirect" forceRedirectUrl="/dashboard">
-                          <span className="flex w-full items-center justify-center gap-2 rounded-md bg-[#B08D57] px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-[#9a7a4b]">
+                          <span className="flex w-full items-center justify-center gap-2 rounded-md bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-700">
                             <LogIn className="h-4 w-4" />
                             {tHeader('signIn')}
                           </span>
