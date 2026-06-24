@@ -1,7 +1,7 @@
 'use client';
 
 import { PremiumMembershipButton } from '@/components/web-page-premium-button';
-import { WebPagePromptDialog } from '@/components/web-page-prompt-dialog';
+import { WebPagePromptDialog } from '@/components/web-page-prompt-dialog-new';
 import { ReadabilityBadge } from '@/components/readability-badge';
 import { OptimizedImage } from '@/components/optimized-image';
 import { Button } from '@/components/ui/button';
