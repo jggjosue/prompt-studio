@@ -13,11 +13,13 @@ import { copyToClipboard } from '@/lib/copy-to-clipboard';
 import type { WebPageEntry } from '@/lib/web-pages';
 import { Check, Copy, FileText, Wand2 } from 'lucide-react';
 import { useState } from 'react';
+import { FreeEmailGate } from './free-email-gate';
+import { normalizeMembership } from '@/lib/membership-access';
 import Link from 'next/link';
 
 export function WebPagePromptDialog({ page }: { page: WebPageEntry }) {
   const { toast } = useToast();
-  const { runWithAccess } = useMembershipAccess();
+  const { runWithAccess, isSignedIn } = useMembershipAccess();
   const [copied, setCopied] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -40,18 +42,44 @@ export function WebPagePromptDialog({ page }: { page: WebPageEntry }) {
     window.setTimeout(() => setCopied(false), 2000);
   };
 
+  const handleOpenPrompt = () => {
+    runWithAccess(page.membership, () => {
+      if (isSignedIn) {
+        (window as any).gtag?.('event', 'view_prompt', { page_title: page.title });
+      }
+      setOpen(true);
+    });
+  };
+
+  const isFree = normalizeMembership(page.membership) === 'free';
+
+  const triggerButton = (
+    <Button
+      size="sm"
+      variant="outline"
+      className="border-blue-500/35 text-blue-400 hover:border-blue-500/55 hover:bg-blue-500/10 hover:text-blue-300"
+      type="button"
+      onClick={isFree ? undefined : handleOpenPrompt}
+    >
+      <FileText className="w-4 h-4 mr-2" />
+      View prompt
+    </Button>
+  );
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <Button
-        size="sm"
-        variant="outline"
-        className="border-blue-500/35 text-blue-400 hover:border-blue-500/55 hover:bg-blue-500/10 hover:text-blue-300"
-        type="button"
-        onClick={() => runWithAccess(page.membership, () => setOpen(true))}
-      >
-        <FileText className="w-4 h-4 mr-2" />
-        View prompt
-      </Button>
+      {isFree ? (
+        <FreeEmailGate
+          title="Ver Prompt"
+          description="Ingresa tu correo electrónico para desbloquear este prompt gratuito."
+          submitText="Ver prompt ahora"
+          onSuccess={handleOpenPrompt}
+        >
+          {triggerButton}
+        </FreeEmailGate>
+      ) : (
+        triggerButton
+      )}
       <DialogContent className="w-[calc(100vw-2rem)] max-w-2xl max-h-[85vh] overflow-y-auto">
         <DialogHeader className="flex-row items-start justify-between gap-2 space-y-0 pr-8">
           <DialogTitle className="text-left leading-snug">{page.title}</DialogTitle>

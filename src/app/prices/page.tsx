@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   title: 'Prices | Prompt Studio',
   description:
     'Compare Free, Premium, and Developer plans. Download free prompts, unlock Premium content, or get full project source code and install guides.',
+  alternates: {
+    canonical: '/prices',
+  },
 };
 
 export default function PricesPage() {

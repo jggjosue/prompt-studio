@@ -24,10 +24,10 @@ const SubscriptionStatusContext =
 
 function syncSnapshot(
   isLoaded: boolean,
-  isSignedIn: boolean,
+  isSignedIn: boolean | undefined,
   userId: string | null | undefined
 ): SubscriptionStoreSnapshot {
-  return getStableSubscriptionSnapshot(isLoaded, isSignedIn, userId);
+  return getStableSubscriptionSnapshot(isLoaded, isSignedIn === true, userId);
 }
 
 export function SubscriptionStatusProvider({ children }: { children: ReactNode }) {

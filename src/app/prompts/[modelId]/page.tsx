@@ -37,6 +37,9 @@ export async function generateMetadata(
   return {
     title: `${modelName} AI Prompts | Prompt Studio`,
     description: `Explore curated AI prompts and examples for ${modelName}. Get inspired and create amazing content with ${modelName} models.`,
+    alternates: {
+      canonical: `/prompts/${params.modelId}`,
+    },
   }
 }
 

@@ -12,5 +12,5 @@ export async function hasMembershipAccess(membership?: string): Promise<boolean>
   const { isAuthenticated, has } = await auth();
   if (!isAuthenticated) return false;
 
-  return clerkGrantsMembership(has, true, tier);
+  return clerkGrantsMembership(has as Parameters<typeof clerkGrantsMembership>[0], true, tier);
 }

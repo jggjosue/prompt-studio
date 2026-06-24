@@ -24,8 +24,8 @@ import {
   filterItemsByMembership,
   filterItemsByStack,
   filterItemsByTag,
+  type WebCategoryWithCounts,
 } from '@/lib/catalog-tag-aggregation';
-import type { WebTagCategory } from '@/lib/web-tags-data';
 import {
   Building2,
   CheckCircle2,
@@ -192,7 +192,7 @@ function WebTagsContent() {
     observerTarget,
   } = useInfiniteScroll(displayPages, ITEMS_PER_PAGE);
 
-  const handleSelectFilter = (category: WebTagCategory, tagName: string) => {
+  const handleSelectFilter = (category: WebCategoryWithCounts, tagName: string) => {
     const applyFilter = () => {
       setFilter({
         kind: category.kind,
@@ -231,7 +231,7 @@ function WebTagsContent() {
     applyFilter();
   };
 
-  const isFilterActive = (category: WebTagCategory, tagName: string) =>
+  const isFilterActive = (category: WebCategoryWithCounts, tagName: string) =>
     filter?.kind === category.kind &&
     filter.value.toLowerCase() === tagName.toLowerCase();
 

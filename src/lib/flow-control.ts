@@ -17,7 +17,7 @@ export const THROTTLE_MS = {
   resize: 150,
 } as const;
 
-type DebouncedFn<T extends (...args: never[]) => void> = T & {
+type DebouncedFn<T extends (...args: any[]) => void> = T & {
   cancel: () => void;
   flush: () => void;
 };
@@ -25,7 +25,7 @@ type DebouncedFn<T extends (...args: never[]) => void> = T & {
 /**
  * Retrasa la ejecución hasta que pasen `waitMs` sin nuevas llamadas.
  */
-export function debounce<T extends (...args: never[]) => void>(
+export function debounce<T extends (...args: any[]) => void>(
   fn: T,
   waitMs: number
 ): DebouncedFn<T> {
@@ -62,14 +62,14 @@ export function debounce<T extends (...args: never[]) => void>(
   return debounced;
 }
 
-type ThrottledFn<T extends (...args: never[]) => void> = T & {
+type ThrottledFn<T extends (...args: any[]) => void> = T & {
   cancel: () => void;
 };
 
 /**
  * Limita la ejecución a como máximo una vez cada `waitMs`.
  */
-export function throttle<T extends (...args: never[]) => void>(
+export function throttle<T extends (...args: any[]) => void>(
   fn: T,
   waitMs: number
 ): ThrottledFn<T> {

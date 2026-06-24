@@ -211,7 +211,7 @@ export default function PromptEditorClient() {
 
   // Preferred API Provider States
   const [imageProvider, setImageProvider] = useState<'mock' | 'openai' | 'fal' | 'google'>('openai');
-  const [videoProvider, setVideoProvider] = useState<'mock' | 'runway' | 'veo'>('runway');
+  const [videoProvider, setVideoProvider] = useState<'mock' | 'runway' | 'veo' | 'anthropic' | 'fal' | 'google'>('runway');
   const [webProvider, setWebProvider] = useState<'mock' | 'anthropic' | 'openai' | 'google'>('openai');
   const [chatProvider, setChatProvider] = useState<'mock' | 'openai' | 'anthropic' | 'google'>('openai');
 
@@ -1037,7 +1037,7 @@ Respond ALWAYS in JSON format with exactly three fields:
           if (data && 'error' in data && data.error) {
             apiError = data.error;
           } else {
-            videoOutputUrl = data.videoUri || data.generatedVideos?.[0]?.video?.videoBytes || '';
+            videoOutputUrl = data.videoUri || '';
             if (videoOutputUrl && !videoOutputUrl.startsWith('http') && !videoOutputUrl.startsWith('data:')) {
               videoOutputUrl = `data:video/mp4;base64,${videoOutputUrl}`;
             }

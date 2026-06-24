@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: 'Video Prompts by Tags | Prompt Studio',
   description:
     'Explore AI-generated videos organized by unique tags across visual styles, subjects, and more.',
+  alternates: {
+    canonical: '/video-tags',
+  },
   keywords: [
     'AI Prompts',
     'Video Prompts',

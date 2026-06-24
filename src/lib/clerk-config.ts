@@ -11,6 +11,8 @@ if (!publishableKey) {
   );
 }
 
+const requiredPublishableKey = publishableKey;
+
 if (
   process.env.NODE_ENV === 'production' &&
   publishableKey.startsWith('pk_test_')
@@ -24,7 +26,7 @@ if (
 const clerkDomain = process.env.NEXT_PUBLIC_CLERK_DOMAIN?.trim();
 
 export const clerkProviderProps = {
-  publishableKey,
+  publishableKey: requiredPublishableKey,
   ...(clerkDomain ? { domain: clerkDomain } : {}),
   signInUrl: process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL ?? '/sign-in',
   signUpUrl: process.env.NEXT_PUBLIC_CLERK_SIGN_UP_URL ?? '/sign-up',
@@ -51,7 +53,7 @@ export function assertClerkProductionKeys(): void {
   if (!isProdBuild) return;
 
   const problems: string[] = [];
-  if (publishableKey.startsWith('pk_test_')) {
+  if (requiredPublishableKey.startsWith('pk_test_')) {
     problems.push('NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY es pk_test_*');
   }
   const secret = process.env.CLERK_SECRET_KEY;

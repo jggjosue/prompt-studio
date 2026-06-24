@@ -93,7 +93,11 @@ export async function listR2Buckets(): Promise<R2BucketSummary[]> {
       });
     }
 
-    cursor = page.result_info?.cursor ?? undefined;
+    cursor =
+      (page as { result_info?: { cursor?: string }; resultInfo?: { cursor?: string } })
+        .result_info?.cursor ??
+      (page as { resultInfo?: { cursor?: string } }).resultInfo?.cursor ??
+      undefined;
   } while (cursor);
 
   return buckets;

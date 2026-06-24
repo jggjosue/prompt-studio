@@ -27,6 +27,22 @@ function withEdgeHeaders(
 export default clerkMiddleware(async (auth, req) => {
   const pathname = req.nextUrl.pathname;
 
+  if (pathname === '/pricing' || pathname.startsWith('/pricing/')) {
+    return withEdgeHeaders(
+      NextResponse.redirect(new URL('/prices', req.url), 308),
+      req
+    );
+  }
+
+  if (
+    pathname.startsWith('/webpages/') &&
+    (pathname.endsWith('.html') || !/\.[a-z0-9]+$/i.test(pathname))
+  ) {
+    const response = NextResponse.next();
+    response.headers.set('X-Robots-Tag', 'noindex, follow');
+    return withEdgeHeaders(response, req);
+  }
+
   const disabledDashboardPaths = [
     '/dashboard',
     '/dashboard/',
@@ -69,6 +85,8 @@ export const config = {
   matcher: [
     // Clerk proxy (must run before static .js exclusion) — failed_to_load_clerk_js if missing
     '/__clerk(.*)',
+    '/pricing(.*)',
+    '/webpages/:path*',
     // Skip Next.js internals and static files (see Clerk docs)
     '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
     '/(api|trpc)(.*)',

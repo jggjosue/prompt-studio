@@ -32,9 +32,15 @@ export async function GET(
 
   const isFree = page.membership === 'Free';
   const subscription = await getServerSubscriptionStatus();
-  if (!isFree && !hasDownloadPlan(subscription)) {
+  
+  const canDownload = 
+    isFree || 
+    hasDownloadPlan(subscription) || 
+    subscription.purchasedPages.includes(pageId);
+
+  if (!canDownload) {
     return NextResponse.json(
-      { error: 'Se requiere una suscripción Premium activa.' },
+      { error: 'Se requiere una suscripción Premium activa o haber comprado este artículo.' },
       { status: 403 }
     );
   }
@@ -48,7 +54,7 @@ export async function GET(
       );
     }
 
-    return new Response(archive, {
+    return new Response(archive as unknown as BodyInit, {
       headers: {
         'Cache-Control': 'private, no-store',
         'Content-Disposition': `attachment; filename="${folder}.zip"`,

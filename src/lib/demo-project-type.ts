@@ -13,6 +13,7 @@ export type DemoProjectManifest = {
 export function getDemoProjectKind(stack: string[] = []): DemoProjectKind {
   const text = stack.join(' ').toLowerCase();
   if (/\bnext(\.js)?\b|nextjs/.test(text)) return 'next';
+  if (/\bhtml\b/.test(text)) return 'html';
   if (/\breact\b/.test(text)) return 'react';
   return 'html';
 }
