@@ -1,7 +1,8 @@
 'use client';
 
 import { useToast } from '@/hooks/use-toast';
-
+import { Button } from '@/components/ui/button';
+import { Download } from 'lucide-react';
 import { FreeEmailGate } from './free-email-gate';
 
 export function FreeDownloadDialog({ pageId, pageTitle }: { pageId: string; pageTitle?: string }) {
