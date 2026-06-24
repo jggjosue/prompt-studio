@@ -95,10 +95,11 @@ export function FreeEmailGate({
     // We clone the child element and attach the onSuccess handler to onClick.
     // If the child is an <a> tag with an href (like the Download button), 
     // we don't necessarily need an onClick, but for View Prompt we do.
-    return cloneElement(children as React.ReactElement<any>, {
+    const childElement = children as React.ReactElement<any>;
+    return cloneElement(childElement, {
       onClick: (e: React.MouseEvent) => {
-        if (children.props.onClick) {
-          children.props.onClick(e);
+        if (childElement.props.onClick) {
+          childElement.props.onClick(e);
         }
         if (!e.defaultPrevented) {
           e.preventDefault();
