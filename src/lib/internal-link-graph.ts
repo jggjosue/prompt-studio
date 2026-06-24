@@ -67,6 +67,13 @@ export const INTERNAL_LINK_NODES: InternalLinkNode[] = [
     parent: '/',
   },
   {
+    path: '/affiliate-program',
+    rank: 0.68,
+    tier: 1,
+    labelKey: 'footer.affiliateProgram',
+    parent: '/',
+  },
+  {
     path: '/image-tags',
     rank: 0.65,
     tier: 2,
