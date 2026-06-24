@@ -98,7 +98,8 @@
     "promptGenerator": "Prompt Generator",
     "legal": "Legal",
     "termsOfUse": "Terms of Use",
-    "privacyPolicy": "Privacy Policy"
+    "privacyPolicy": "Privacy Policy",
+    "affiliateProgram": "Affiliate Program"
   },
   "home": {
     "heroTitle": "Generate Your Next Vision",
@@ -451,5 +452,52 @@
     "openEditor": "Open landing editor",
     "savedBadgeHint": "Last saved analysis",
     "openSavedAnalysis": "Open saved readability analysis"
+  },
+  "affiliate": {
+    "hero": {
+      "badge": "Partner Network 2026",
+      "title": "Earn with the",
+      "highlight": "Affiliate Hub",
+      "subtitle": "Join developers, influencers, and agencies in our digital ecosystem. Earn recurring commissions on subscriptions and massive payouts on premium products.",
+      "cta": "Join the Network",
+      "secondaryCta": "View Commission Structure"
+    },
+    "stats": {
+      "recurring": "Recurring Subscriptions",
+      "products": "Product Sales",
+      "cookie": "Cookie Duration",
+      "days": "Days"
+    },
+    "dashboard": {
+      "title": "Live Earnings",
+      "earnings": "This Month",
+      "clicks": "Referral Clicks",
+      "recent": "Recent Commissions"
+    },
+    "features": {
+      "headline": "A Premium Referral Experience",
+      "subhead": "We give you the tools, dashboards, and tracking necessary to turn your audience into a recurring revenue machine.",
+      "commissions": {
+        "title": "High Ticket Commissions",
+        "desc": "Earn flat 20% on all single-product source code and landing page sales."
+      },
+      "recurring": {
+        "title": "Passive Subscription Income",
+        "desc": "Keep earning 30% month-over-month for every user that subscribes to Prompt Studio Premium or Startup."
+      },
+      "assets": {
+        "title": "Marketing Assets Included",
+        "desc": "Get access to our high-converting banners, cinematic videos, and email swipe copy."
+      },
+      "tracking": {
+        "title": "Real-time Tracking",
+        "desc": "Watch your clicks, conversions, and payouts update in real-time on your dashboard."
+      }
+    },
+    "cta": {
+      "title": "Ready to scale your income?",
+      "subtitle": "Our partner program is currently open for early access. Apply today to secure your spot.",
+      "button": "Apply to Partner Program"
+    }
   }
 }

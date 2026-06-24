@@ -98,7 +98,8 @@
     "promptGenerator": "Generador de prompts",
     "legal": "Legal",
     "termsOfUse": "Términos de uso",
-    "privacyPolicy": "Política de privacidad"
+    "privacyPolicy": "Política de privacidad",
+    "affiliateProgram": "Programa de Afiliados"
   },
   "home": {
     "heroTitle": "Genera tu próxima visión",
@@ -451,5 +452,52 @@
     "savedBadgeHint": "Último análisis guardado",
     "openSavedAnalysis": "Abrir análisis de legibilidad guardado",
     "test": ""
+  },
+  "affiliate": {
+    "hero": {
+      "badge": "Red de Partners 2026",
+      "title": "Gana con el",
+      "highlight": "Hub de Afiliados",
+      "subtitle": "Únete a desarrolladores, influencers y agencias en nuestro ecosistema digital. Gana comisiones recurrentes por suscripciones y pagos masivos por productos premium.",
+      "cta": "Unirse a la Red",
+      "secondaryCta": "Ver Estructura de Comisiones"
+    },
+    "stats": {
+      "recurring": "Suscripciones Recurrentes",
+      "products": "Ventas de Productos",
+      "cookie": "Duración de Cookie",
+      "days": "Días"
+    },
+    "dashboard": {
+      "title": "Ganancias en Vivo",
+      "earnings": "Este Mes",
+      "clicks": "Clics de Referidos",
+      "recent": "Comisiones Recientes"
+    },
+    "features": {
+      "headline": "Una Experiencia de Referidos Premium",
+      "subhead": "Te damos las herramientas, paneles y el seguimiento necesario para convertir a tu audiencia en una máquina de ingresos recurrentes.",
+      "commissions": {
+        "title": "Comisiones de Alto Valor",
+        "desc": "Gana un 20% fijo en todas las ventas individuales de código fuente y landing pages."
+      },
+      "recurring": {
+        "title": "Ingresos Pasivos por Suscripción",
+        "desc": "Sigue ganando el 30% mes a mes por cada usuario que se suscriba a Prompt Studio Premium o Startup."
+      },
+      "assets": {
+        "title": "Materiales de Marketing Incluidos",
+        "desc": "Obtén acceso a nuestros banners de alta conversión, videos cinematográficos y textos de email."
+      },
+      "tracking": {
+        "title": "Seguimiento en Tiempo Real",
+        "desc": "Observa cómo tus clics, conversiones y pagos se actualizan en tiempo real en tu panel."
+      }
+    },
+    "cta": {
+      "title": "¿Listo para escalar tus ingresos?",
+      "subtitle": "Nuestro programa de partners está abierto actualmente para acceso anticipado. Aplica hoy para asegurar tu lugar.",
+      "button": "Aplicar al Programa de Partners"
+    }
   }
 }
