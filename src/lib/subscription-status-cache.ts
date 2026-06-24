@@ -21,6 +21,7 @@ const FREE: SubscriptionStatusResponse = {
   status: null,
   currentPeriodEnd: null,
   billingCycle: null,
+  purchasedPages: [],
 };
 
 export type SubscriptionStoreSnapshot = SubscriptionStatusResponse & {

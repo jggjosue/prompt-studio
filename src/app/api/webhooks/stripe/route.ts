@@ -1,4 +1,4 @@
-import { stripe, extractSubscriptionMeta } from '@/lib/stripe';
+import { stripe, extractSubscriptionMeta, type StripeUserMetadata } from '@/lib/stripe';
 import { clerkClient } from '@clerk/nextjs/server';
 import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';

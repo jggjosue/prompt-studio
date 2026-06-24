@@ -17,6 +17,12 @@ export function PremiumAccessLink({
   ...props
 }: PremiumAccessLinkProps) {
   const { requestAccess } = useMembershipAccess();
+  const hrefForWindow =
+    typeof href === 'string'
+      ? href
+      : href instanceof URL
+        ? href.toString()
+        : href.pathname ?? '';
 
   return (
     <Link
@@ -35,7 +41,7 @@ export function PremiumAccessLink({
 
         if (target === '_blank') {
           e.preventDefault();
-          window.open(typeof href === 'string' ? href : href.pathname, '_blank', 'noopener,noreferrer');
+          window.open(hrefForWindow, '_blank', 'noopener,noreferrer');
         }
       }}
     />

@@ -6,7 +6,7 @@ import { useEffect, useMemo, useRef } from 'react';
 /**
  * Callback con debounce (p. ej. fetch de autocompletado al dejar de escribir).
  */
-export function useDebouncedCallback<T extends (...args: never[]) => void>(
+export function useDebouncedCallback<T extends (...args: any[]) => void>(
   callback: T,
   delayMs: number
 ): T & { cancel: () => void; flush: () => void } {

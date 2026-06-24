@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: 'Web Prompts by Tags | Prompt Studio',
   description:
     'Explore landing page prompts and HTML demos organized by tags, tech stack, and membership.',
+  alternates: {
+    canonical: '/web-tags',
+  },
   keywords: [
     'AI Prompts',
     'Landing Page',

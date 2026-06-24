@@ -6,8 +6,30 @@ import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import GalleryDetailClient from './gallery-detail-client';
 
+const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.prompstudio.com'
+).replace(/\/$/, '');
+
 type Props = {
   params: Promise<{ id: string }>
+}
+
+function absoluteUrl(pathOrUrl: string): string {
+  if (/^https?:\/\//i.test(pathOrUrl)) return pathOrUrl;
+  return `${SITE_URL}${pathOrUrl.startsWith('/') ? pathOrUrl : `/${pathOrUrl}`}`;
+}
+
+function jsonLdScript(data: unknown): string {
+  return JSON.stringify(data).replace(/</g, '\\u003c');
+}
+
+function promptDescription(description: string, fallback: string): string {
+  try {
+    const parsed = JSON.parse(description) as { description?: string };
+    return parsed.description || fallback;
+  } catch {
+    return description || fallback;
+  }
 }
 
 export async function generateMetadata(
@@ -55,6 +77,7 @@ export async function generateMetadata(
       canonical: canonicalPath,
     },
     openGraph: {
+      url: canonicalPath,
       title: item.title,
       description: displayDescription,
       images: openGraphImages,
@@ -73,5 +96,58 @@ export default async function GalleryDetailPage({ params }: Props) {
         notFound();
     }
 
-    return <GalleryDetailClient item={item} />;
+    const canonicalPath = `/gallery/${id}`;
+    const canonical = `${SITE_URL}${canonicalPath}`;
+    const description = promptDescription(item.description, item.title);
+    const image = absoluteUrl(resolveRenderableMediaUrl(item, locale) || item.imageUrl);
+    const category = item.type === 'video' ? 'Video Prompt' : 'Image Prompt';
+    const productSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      '@id': `${canonical}#product`,
+      name: item.title,
+      description,
+      image: [image],
+      category,
+      brand: {
+        '@type': 'Brand',
+        name: 'Prompt Studio',
+      },
+      offers: {
+        '@type': 'Offer',
+        url: canonical,
+        priceCurrency: 'USD',
+        price: '0.00',
+        availability: 'https://schema.org/InStock',
+        itemCondition: 'https://schema.org/NewCondition',
+      },
+    };
+    const breadcrumbSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: category,
+          item: `${SITE_URL}/category/${item.type === 'video' ? 'video-prompts' : 'image-prompts'}`,
+        },
+        { '@type': 'ListItem', position: 3, name: item.title, item: canonical },
+      ],
+    };
+
+    return (
+      <>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLdScript(productSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumbSchema) }}
+        />
+        <GalleryDetailClient item={item} />
+      </>
+    );
 }

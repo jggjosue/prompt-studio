@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: 'Landing Page Prompts | Prompt Studio',
   description:
     'Prompts and live demos for SaaS landing pages — Magzin Job, Loopline, HTML, Tailwind, and Next.js variants.',
+  alternates: {
+    canonical: '/landing-pages',
+  },
   keywords: [
     'landing page prompts',
     'SaaS landing page',

@@ -13,9 +13,17 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
 import Script from 'next/script';
 
+const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.prompstudio.com'
+).replace(/\/$/, '');
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: 'Prompt Studio',
   description: 'AI-powered image and video generation platform',
+  alternates: {
+    canonical: '/',
+  },
   manifest: '/manifest.webmanifest',
   appleWebApp: {
     capable: true,

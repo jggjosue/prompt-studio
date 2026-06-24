@@ -6,7 +6,7 @@ import { useEffect, useMemo, useRef } from 'react';
 /**
  * Callback con throttle (p. ej. scroll infinito o resize).
  */
-export function useThrottledCallback<T extends (...args: never[]) => void>(
+export function useThrottledCallback<T extends (...args: any[]) => void>(
   callback: T,
   waitMs: number
 ): T & { cancel: () => void } {

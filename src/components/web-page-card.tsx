@@ -19,6 +19,7 @@ import type { LandingReadabilityPublicSnapshot } from '@/lib/landing-readability
 import { getRefactoryLoaderUrl } from '@/lib/refactory-online';
 import type { WebPageEntry } from '@/lib/web-pages';
 import { useMembershipAccess } from '@/hooks/use-membership-access';
+import { normalizeMembership } from '@/lib/membership-access';
 import { ExternalLink, Globe, Tag } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
@@ -52,7 +53,8 @@ function WebPageCardComponent({
   const savedReport = savedReadability
     ? snapshotToBadgeReport(savedReadability)
     : null;
-  const isFree = page.membership === 'Free';
+  const normalizedMembership = normalizeMembership(page.membership);
+  const isFree = normalizedMembership === 'free';
   const displayedPrice = isFree ? 'Free' : formatPrice(page.price);
   const { ready, isSignedIn, plan } = useMembershipAccess();
   const hasPremium =
@@ -73,13 +75,17 @@ function WebPageCardComponent({
                 {page.stack.join(' · ')}
               </p>
             </div>
-            <div className="flex shrink-0 items-center gap-2">
-              {hasPremium ? (
-                <span className="rounded-full border border-blue-500/40 bg-blue-500/10 px-3 py-1 text-sm font-semibold text-blue-400">
+            <div className="flex shrink-0 items-center gap-2" suppressHydrationWarning>
+              {isFree ? (
+                <span suppressHydrationWarning className="rounded-full border border-blue-500/40 bg-blue-500/10 px-3 py-1 text-sm font-semibold text-blue-400">
+                  Free
+                </span>
+              ) : hasPremium ? (
+                <span suppressHydrationWarning className="rounded-full border border-blue-500/40 bg-blue-500/10 px-3 py-1 text-sm font-semibold text-blue-400">
                   Premium
                 </span>
               ) : displayedPrice ? (
-                <span className="rounded-full border border-blue-500/40 bg-blue-500/10 px-3 py-1 text-sm font-semibold tabular-nums text-blue-400">
+                <span suppressHydrationWarning className="rounded-full border border-blue-500/40 bg-blue-500/10 px-3 py-1 text-sm font-semibold tabular-nums text-blue-400">
                   {displayedPrice}
                 </span>
               ) : null}
@@ -125,6 +131,7 @@ function WebPageCardComponent({
               membership={page.membership}
               price={page.price}
               plan={plan}
+              pageTitle={page.title}
             />
           </div>
           {page.demoUrl ? (
@@ -139,6 +146,7 @@ function WebPageCardComponent({
                 target="_blank"
                 rel="noopener noreferrer"
                 className="!bg-blue-600 !text-white hover:!bg-blue-700"
+                onClick={() => (window as any).gtag?.('event', 'open', { page_title: page.title })}
               >
                 <ExternalLink className="w-4 h-4 mr-2" />
                 Open

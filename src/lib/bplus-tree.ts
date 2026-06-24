@@ -78,7 +78,7 @@ export class BPlusTree<V> {
    */
   rangeSearch(start: string, end: string): Array<{ key: string; value: V }> {
     const out: Array<{ key: string; value: V }> = [];
-    let leaf = this.findLeaf(start);
+    let leaf: LeafNode<V> | null = this.findLeaf(start);
     let i = lowerBound(leaf.keys, start);
 
     while (leaf) {
@@ -102,7 +102,7 @@ export class BPlusTree<V> {
 
   private scanAll(): Array<{ key: string; value: V }> {
     const out: Array<{ key: string; value: V }> = [];
-    let leaf = this.leftmostLeaf();
+    let leaf: LeafNode<V> | null = this.leftmostLeaf();
     while (leaf) {
       for (let i = 0; i < leaf.keys.length; i++) {
         out.push({ key: leaf.keys[i]!, value: leaf.values[i]! });

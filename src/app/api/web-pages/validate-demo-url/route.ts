@@ -26,10 +26,10 @@ export async function GET(request: Request) {
           page.stack ?? []
         );
         return {
+          ...validation,
           id: page.id,
           stack: page.stack ?? [],
           demoUrl: page.demoUrl ?? '',
-          ...validation,
         };
       })
     );
@@ -51,6 +51,7 @@ export async function GET(request: Request) {
   const slug = searchParams.get('slug');
 
   let demoUrl = '';
+  let stack: string[] = [];
 
   if (hasDemoUrl) {
     demoUrl = demoUrlParam?.trim() ?? '';
@@ -63,6 +64,7 @@ export async function GET(request: Request) {
       );
     }
     demoUrl = page.demoUrl?.trim() ?? '';
+    stack = page.stack ?? [];
   } else if (slug) {
     const page = getRawWebPageByDemoSlug(slug);
     if (!page) {
@@ -72,6 +74,7 @@ export async function GET(request: Request) {
       );
     }
     demoUrl = page.demoUrl?.trim() ?? '';
+    stack = page.stack ?? [];
   }
 
   if (!hasDemoUrl && !id && !slug) {

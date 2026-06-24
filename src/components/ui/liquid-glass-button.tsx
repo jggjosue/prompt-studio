@@ -101,11 +101,16 @@ function LiquidButton({
     asChild?: boolean
   }) {
   if (asChild && React.isValidElement(children)) {
+    const child = children as React.ReactElement<{
+      className?: string
+      children?: React.ReactNode
+    }>;
+
     return React.cloneElement(children as React.ReactElement<any>, {
       className: cn(
         "relative",
         liquidbuttonVariants({ variant, size, className }),
-        children.props.className
+        child.props.className
       ),
       ...props,
       children: (
@@ -120,7 +125,7 @@ function LiquidButton({
           />
 
           <div className="pointer-events-none z-10 ">
-            {children.props.children}
+            {child.props.children}
           </div>
           <GlassFilter />
         </>

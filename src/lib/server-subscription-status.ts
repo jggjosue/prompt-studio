@@ -27,6 +27,14 @@ const DEV_PREMIUM: ServerSubscriptionStatus = {
   purchasedPages: [],
 };
 
+const DEV_STARTUP: ServerSubscriptionStatus = {
+  plan: 'startup',
+  status: 'active',
+  currentPeriodEnd: null,
+  billingCycle: 'monthly',
+  purchasedPages: [],
+};
+
 const ACTIVE_STATUSES: StripeUserMetadata['stripeStatus'][] = [
   'active',
   'trialing',
@@ -53,8 +61,12 @@ export async function getServerSubscriptionStatus(): Promise<ServerSubscriptionS
   const userEmail = user.emailAddresses[0]?.emailAddress;
   const purchasedPages = Array.isArray(meta.purchasedPages) ? meta.purchasedPages : [];
 
-  if (process.env.DEV_CRED_JO && userEmail === process.env.DEV_CRED_JO) {
-    return DEV_PREMIUM;
+  if (process.env.PROMPT_STUDIO_PREMIUM_JO && userEmail === process.env.PROMPT_STUDIO_PREMIUM_JO) {
+    return { ...DEV_PREMIUM, purchasedPages };
+  }
+
+  if (process.env.PROMPT_STUDIO_STARTUP_JO && userEmail === process.env.PROMPT_STUDIO_STARTUP_JO) {
+    return { ...DEV_STARTUP, purchasedPages };
   }
 
   if (meta.stripeCustomerId) {

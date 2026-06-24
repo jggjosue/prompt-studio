@@ -3,6 +3,13 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Pricing | Prompt Studio',
   description: 'Choose your plan or buy credits to start creating videos and images.',
+  alternates: {
+    canonical: '/prices',
+  },
+  robots: {
+    index: false,
+    follow: true,
+  },
   keywords: [
     'Chatgpt',
     'chatgpt go bbva',

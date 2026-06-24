@@ -6,6 +6,9 @@ import { Loader2 } from 'lucide-react';
 export const metadata: Metadata = {
   title: 'AI Prompts Library | Prompt Studio',
   description: 'Explore our complete library of AI image and video prompts. Get inspired by thousands of community-crafted examples.',
+  alternates: {
+    canonical: '/prompts',
+  },
   keywords: [
     'AI Prompts',
     'Image Prompts',
