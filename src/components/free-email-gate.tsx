@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect, ReactNode, cloneElement, isValidElement } from 'react';
+import * as React from 'react';
+import { ReactNode, cloneElement, isValidElement } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Loader2 } from 'lucide-react';
@@ -32,19 +33,19 @@ export function FreeEmailGate({
   onSuccess,
 }: FreeEmailGateProps) {
   const { user } = useUser();
-  const [open, setOpen] = useState(false);
-  const [email, setEmail] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [hasSavedEmail, setHasSavedEmail] = useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [email, setEmail] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
+  const [hasSavedEmail, setHasSavedEmail] = React.useState(false);
   const { toast } = useToast();
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (user?.primaryEmailAddress?.emailAddress && !email) {
       setEmail(user.primaryEmailAddress.emailAddress);
     }
   }, [user, email]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (localStorage.getItem('prompt_studio_free_email_saved')) {
       setHasSavedEmail(true);
     }

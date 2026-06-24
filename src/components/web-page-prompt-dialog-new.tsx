@@ -12,7 +12,7 @@ import { useToast } from '@/hooks/use-toast';
 import { copyToClipboard } from '@/lib/copy-to-clipboard';
 import type { WebPageEntry } from '@/lib/web-pages';
 import { Check, Copy, FileText, Wand2 } from 'lucide-react';
-import { useState } from 'react';
+import * as React from 'react';
 import { FreeEmailGate } from './free-email-gate';
 import { normalizeMembership } from '@/lib/membership-access';
 import Link from 'next/link';
@@ -20,8 +20,8 @@ import Link from 'next/link';
 export function WebPagePromptDialog({ page }: { page: WebPageEntry }) {
   const { toast } = useToast();
   const { runWithAccess, isSignedIn } = useMembershipAccess();
-  const [copied, setCopied] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [copied, setCopied] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
 
   const handleCopy = async () => {
     const ok = await copyToClipboard(page.description);
