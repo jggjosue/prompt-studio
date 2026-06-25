@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
 import { GuidelinesReadability } from '@/app/publisher-guidelines/guidelines-readability';
@@ -6,6 +7,15 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CheckCircle2, FileText, Navigation, Pencil, RefreshCw, ShieldAlert } from 'lucide-react';
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
+
+export const metadata: Metadata = {
+  title: 'Quality Guidelines & UX | Prompt Studio',
+  description:
+    'Best practices and guidelines for maintaining original, high-quality AI prompt listings suitable for monetization and excellent user experience.',
+  alternates: {
+    canonical: '/publisher-guidelines',
+  },
+};
 
 const sections = [
   {

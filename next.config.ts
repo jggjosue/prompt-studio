@@ -9,6 +9,7 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 const isProd = process.env.NODE_ENV === 'production';
 
 const nextConfig: NextConfig = {
+  transpilePackages: ['framer-motion'],
   /** Gzip en `next start` (Brotli lo aplica Vercel en el edge + rutas API con http-compression). */
   compress: true,
   poweredByHeader: false,

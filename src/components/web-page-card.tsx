@@ -17,6 +17,7 @@ import { ParallaxReveal } from '@/components/ui/parallax-reveal';
 import { snapshotToBadgeReport } from '@/lib/landing-readability-badge';
 import type { LandingReadabilityPublicSnapshot } from '@/lib/landing-readability-store';
 import { getRefactoryLoaderUrl } from '@/lib/refactory-online';
+import { logFirebaseEvent } from '@/lib/firebase';
 import type { WebPageEntry } from '@/lib/web-pages';
 import { useMembershipAccess } from '@/hooks/use-membership-access';
 import { normalizeMembership } from '@/lib/membership-access';
@@ -146,7 +147,10 @@ function WebPageCardComponent({
                 target="_blank"
                 rel="noopener noreferrer"
                 className="!bg-blue-600 !text-white hover:!bg-blue-700"
-                onClick={() => (window as any).gtag?.('event', 'open', { page_title: page.title })}
+                onClick={() => {
+                  (window as any).gtag?.('event', 'web_open_demo_URL', { page_title: page.title });
+                  void logFirebaseEvent('web_open_demo_URL', { page_id: page.id, page_title: page.title });
+                }}
               >
                 <ExternalLink className="w-4 h-4 mr-2" />
                 Open

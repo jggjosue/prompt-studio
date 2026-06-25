@@ -18,8 +18,8 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
 const PLAN_PRICES = {
-  premium: { monthly: 10, annual: 100 },
-  startup: { monthly: 15, annual: 150 },
+  premium: { monthly: 15, annual: 162 },
+  startup: { monthly: 25, annual: 270 },
 } as const;
 
 function formatDate(unix: number): string {
@@ -96,95 +96,95 @@ export function ProfileSubscriptionInfo() {
 
   return (
     <>
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2 font-headline">
-          <Crown className="h-5 w-5" />
-          {t('subscriptionTitle')}
-        </CardTitle>
-        <CardDescription>{t('subscriptionActiveHint')}</CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="space-y-1">
-            <p className="text-sm text-muted-foreground">{t('currentPlan')}</p>
-            <div className="flex items-center gap-2">
-              <span className="font-semibold text-lg">{planLabel}</span>
-              <Badge variant="default" className="capitalize">
-                {status}
-              </Badge>
-            </div>
-          </div>
-          {price !== undefined && (
-            <div className="text-right">
-              <span className="text-2xl font-bold">${price}</span>
-              <span className="text-muted-foreground text-sm">{cycleLabel}</span>
-            </div>
-          )}
-        </div>
-
-        <Separator />
-
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          {currentPeriodEnd && (
-            <p className="text-sm text-muted-foreground">
-              {t('nextBilling')}: <span className="text-foreground font-medium">{formatDate(currentPeriodEnd)}</span>
-            </p>
-          )}
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleManageSubscription}
-              disabled={managing || downloading}
-              className="gap-2 text-destructive hover:text-destructive hover:bg-destructive/10 border-destructive/20"
-            >
-              {managing ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <X className="h-4 w-4" />
-              )}
-              {t('cancelSubscription')}
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleDownload}
-              disabled={downloading || managing}
-              className="gap-2"
-            >
-              {downloading ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Download className="h-4 w-4" />
-              )}
-              {t('downloadInvoice')}
-            </Button>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-    {purchasedPages && purchasedPages.length > 0 && (
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 font-headline">
-            <Package className="h-5 w-5" />
-            {t('additionalPurchases')}
+            <Crown className="h-5 w-5" />
+            {t('subscriptionTitle')}
           </CardTitle>
-          <CardDescription>{t('additionalPurchasesDesc')}</CardDescription>
+          <CardDescription>{t('subscriptionActiveHint')}</CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className="flex flex-col gap-2">
-            {purchasedPages.map((pageId) => (
-              <div key={pageId} className="flex items-center justify-between p-3 rounded-md border bg-muted/20">
-                <span className="font-medium font-mono text-sm">{pageId}</span>
-                <Badge variant="outline">{tCommon('view')}</Badge>
+        <CardContent className="space-y-4">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="space-y-1">
+              <p className="text-sm text-muted-foreground">{t('currentPlan')}</p>
+              <div className="flex items-center gap-2">
+                <span className="font-semibold text-lg">{planLabel}</span>
+                <Badge variant="default" className="capitalize">
+                  {status}
+                </Badge>
               </div>
-            ))}
+            </div>
+            {price !== undefined && (
+              <div className="text-right">
+                <span className="text-2xl font-bold">${price}</span>
+                <span className="text-muted-foreground text-sm">{cycleLabel}</span>
+              </div>
+            )}
+          </div>
+
+          <Separator />
+
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            {currentPeriodEnd && (
+              <p className="text-sm text-muted-foreground">
+                {t('nextBilling')}: <span className="text-foreground font-medium">{formatDate(currentPeriodEnd)}</span>
+              </p>
+            )}
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleManageSubscription}
+                disabled={managing || downloading}
+                className="gap-2 text-destructive hover:text-destructive hover:bg-destructive/10 border-destructive/20"
+              >
+                {managing ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <X className="h-4 w-4" />
+                )}
+                {t('cancelSubscription')}
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleDownload}
+                disabled={downloading || managing}
+                className="gap-2"
+              >
+                {downloading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Download className="h-4 w-4" />
+                )}
+                {t('downloadInvoice')}
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>
-    )}
+      {purchasedPages && purchasedPages.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 font-headline">
+              <Package className="h-5 w-5" />
+              {t('additionalPurchases')}
+            </CardTitle>
+            <CardDescription>{t('additionalPurchasesDesc')}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-col gap-2">
+              {purchasedPages.map((pageId) => (
+                <div key={pageId} className="flex items-center justify-between p-3 rounded-md border bg-muted/20">
+                  <span className="font-medium font-mono text-sm">{pageId}</span>
+                  <Badge variant="outline">{tCommon('view')}</Badge>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </>
   );
 }

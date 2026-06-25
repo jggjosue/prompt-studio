@@ -1,40 +1,40 @@
-import type { Metadata } from 'next';
-import AffiliateClient from './affiliate-client';
-import { Suspense } from 'react';
-import { Loader2 } from 'lucide-react';
-import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
+import Header from '@/components/layout/header';
+import type { Metadata } from 'next';
+import { getLocale, getTranslations } from 'next-intl/server';
+import { Suspense } from 'react';
+import AffiliateLoader from './affiliate-loader';
 
-export const metadata: Metadata = {
-  title: 'Affiliate Program | Prompt Studio',
-  description:
-    'Join the Prompt Studio Affiliate Program. Earn 30% recurring commissions by referring creators to our premium AI prompt and landing page resources.',
-  alternates: {
-    canonical: '/affiliate-program',
-  },
-  keywords: [
-    'affiliate program',
-    'referral program',
-    'prompt studio affiliates',
-    'earn commissions',
-    'SaaS affiliate',
-  ],
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('affiliate');
+  return {
+    title: t('pageTitle'),
+    description: t('pageDescription'),
+    alternates: {
+      canonical: '/affiliate-program',
+    },
+    keywords: [
+      'affiliate program',
+      'referral program',
+      'prompt studio affiliates',
+      'earn commissions',
+      'SaaS affiliate',
+    ],
+  };
+}
 
-export default function AffiliateProgramPage() {
+export default async function AffiliateProgramPage() {
+  const locale = await getLocale();
   return (
-    <>
-      <Header />
-      <Suspense
-        fallback={
-          <div className="flex h-screen w-full items-center justify-center">
-            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-          </div>
-        }
-      >
-        <AffiliateClient />
+    <div className="flex min-h-screen w-full flex-col bg-background">
+      <Suspense fallback={<div className="w-full h-16 border-b" />}>
+        <Header />
       </Suspense>
+      <main className="flex-1">
+        <AffiliateLoader locale={locale} />
+      </main>
       <Footer />
-    </>
+    </div>
   );
 }
+

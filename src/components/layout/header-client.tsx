@@ -29,7 +29,7 @@ import {
   UserButton,
   useAuth,
 } from '@clerk/nextjs';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ChevronDown,
   // Globe,
@@ -48,7 +48,6 @@ import { isNavActive } from '@/lib/app-routes';
 import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { LanguageToggle } from '../language-toggle';
 // import { ThemeToggle } from '../theme-toggle';
 import { SiteBreadcrumbs } from '@/components/site-breadcrumbs';
 import Logo from './logo';
@@ -81,79 +80,24 @@ export default function HeaderClient() {
   const tHeader = useTranslations('header');
   const tCommon = useTranslations('common');
 
-  const navLinks = [
+  const navLinks: Array<{
+    id: string;
+    href?: string;
+    label: string;
+    activePrefixes?: string[];
+    dropdown?: Array<{
+      href: string;
+      label: string;
+      description: string;
+      icon: React.ReactNode;
+    }>;
+  }> = [
     { id: 'home', href: '/', label: tNav('home') },
-    {
-      id: 'webs',
-      href: '/landing-pages',
-      label: tNav('webs'),
-      activePrefixes: ['/landing-pages', '/web-tags'],
-    },
-    {
-      id: 'library',
-      label: tNav('library'),
-      activePrefixes: ['/prompts', '/image-prompts', '/gallery', '/image-tags', '/video-prompts', '/gallery-videos', '/video-tags'],
-      dropdown: [
-        /*
-        {
-          href: '/prompts',
-          label: tNav('library'),
-          description: tNav('libraryDesc'),
-          icon: <LayoutGrid className="h-5 w-5" />,
-        },
-        */
-        {
-          href: '/image-prompts',
-          label: tNav('images'),
-          description: tNav('imageTagsDesc'),
-          icon: <ImageIcon className="h-5 w-5" />,
-        },
-        {
-          href: '/video-prompts',
-          label: tNav('videos'),
-          description: tNav('videoTagsDesc'),
-          icon: <Video className="h-5 w-5" />,
-        },
-      ],
-    },
-    /*
-    {
-      label: tNav('tags'),
-      activePrefixes: ['/video-tags', '/image-tags', '/web-tags'],
-      dropdown: [
-        {
-          href: '/video-tags',
-          label: tNav('videoTags'),
-          description: tNav('videoTagsDesc'),
-          icon: <Tag className="h-5 w-5" />,
-        },
-        {
-          href: '/image-tags',
-          label: tNav('imageTags'),
-          description: tNav('imageTagsDesc'),
-          icon: <Tag className="h-5 w-5" />,
-        },
-        {
-          href: '/web-tags',
-          label: tNav('webTags'),
-          description: tNav('webTagsDesc'),
-          icon: <Globe className="h-5 w-5" />,
-        },
-      ],
-    },
-    */
-    {
-      id: 'editor',
-      href: '/prompt/edit',
-      label: tNav('editor'),
-      activePrefixes: ['/prompt/edit'],
-    },
-    {
-      id: 'prices',
-      href: '/prices',
-      label: tNav('prices'),
-      activePrefixes: ['/prices', '/pricing'],
-    },
+    { id: 'marketplace', href: '/landing-pages', label: pathname === '/es' || pathname.startsWith('/es/') ? 'Plantillas' : 'Marketplace', activePrefixes: ['/landing-pages', '/web-tags'] },
+    { id: 'videos', href: '/video-prompts', label: tNav('videos'), activePrefixes: ['/video-prompts', '/gallery-videos', '/video-tags'] },
+    { id: 'images', href: '/image-prompts', label: tNav('images'), activePrefixes: ['/image-prompts', '/gallery', '/image-tags'] },
+    { id: 'membership', href: '/prices', label: tNav('prices'), activePrefixes: ['/prices', '/pricing'] },
+    { id: 'affiliate-program', href: '/affiliate-program', label: pathname === '/es' || pathname.startsWith('/es/') ? 'Afiliado' : 'Affiliate', activePrefixes: ['/affiliate-program', '/affiliate-program-terms'] },
   ];
 
   const linkClassName = (href?: string, activePrefixes?: string[]) =>
@@ -188,8 +132,8 @@ export default function HeaderClient() {
   return (
     <>
       <RoutePrefetchProvider />
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center gap-2 min-w-0">
+    <header className="sticky top-0 z-50 w-full px-2 sm:px-4 pt-2 sm:pt-4">
+      <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between rounded-2xl sm:rounded-3xl border border-white/10 bg-slate-950/70 px-3 sm:px-4 py-3 shadow-[0_20px_70px_rgba(0,0,0,0.32)] backdrop-blur-xl lg:px-6">
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="ghost" size="icon" className="md:hidden mr-2">
@@ -398,7 +342,6 @@ export default function HeaderClient() {
         </nav>
 
         <div className="flex items-center gap-2 ml-auto shrink-0">
-          <LanguageToggle />
           {/* Theme selector disabled: the site now always uses dark mode. */}
           {/* <ThemeToggle /> */}
           {(!mounted || !isLoaded) ? (
@@ -408,30 +351,42 @@ export default function HeaderClient() {
           ) : (
             <>
               <Show when="signed-out">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-9 w-9 rounded-full"
-                      aria-label={tHeader('accountMenu')}
-                    >
-                      <User className="h-5 w-5" strokeWidth={1.75} />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-56">
-                    {accountMenuItems}
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                <div className="hidden md:flex items-center gap-3">
+                  <SignInButton mode="redirect" forceRedirectUrl="/dashboard">
+                    <button className="rounded-full border border-cyan-200/25 px-5 py-2.5 text-sm font-semibold text-slate-100 transition hover:border-cyan-200/60">
+                      Sign In
+                    </button>
+                  </SignInButton>
+                  <SignUpButton mode="redirect" forceRedirectUrl="/prices">
+                    <button className="rounded-full bg-gradient-to-r from-blue-500 via-cyan-400 to-violet-500 px-5 py-2.5 text-sm font-bold text-white shadow-[0_0_32px_rgba(59,130,246,0.42)] transition hover:scale-[1.02]">
+                      Create Account
+                    </button>
+                  </SignUpButton>
+                </div>
+                <div className="flex md:hidden items-center">
+                  <SignInButton mode="redirect" forceRedirectUrl="/dashboard">
+                    <button className="rounded-full border border-cyan-200/25 px-3.5 py-1.5 text-xs font-semibold text-slate-100 transition hover:border-cyan-200/60">
+                      Sign In
+                    </button>
+                  </SignInButton>
+                </div>
               </Show>
               <Show when="signed-in">
-                <UserButton
-                  appearance={{
-                    elements: {
-                      avatarBox: 'h-9 w-9',
-                    },
-                  }}
-                />
+                <div className="flex items-center gap-3">
+                  <ClientLink
+                    href="/dashboard"
+                    className="hidden rounded-full border border-cyan-200/25 px-5 py-2.5 text-sm font-semibold text-slate-100 transition hover:border-cyan-200/60 sm:block"
+                  >
+                    Dashboard
+                  </ClientLink>
+                  <UserButton
+                    appearance={{
+                      elements: {
+                        avatarBox: 'h-9 w-9',
+                      },
+                    }}
+                  />
+                </div>
               </Show>
             </>
           )}

@@ -290,3 +290,45 @@ export async function listR2ProjectObjects(prefix: string): Promise<string[]> {
 
   return keys;
 }
+
+export async function listR2WebpageFolders(): Promise<string[]> {
+  const client = getR2S3Client();
+  if (!client) return [];
+
+  const folders = new Set<string>();
+
+  async function fetchPrefixes(basePrefix: string) {
+    let continuationToken: string | undefined;
+    do {
+      try {
+        const page = await client.send(
+          new ListObjectsV2Command({
+            Bucket: getR2BucketName(),
+            Prefix: basePrefix,
+            Delimiter: '/',
+            ContinuationToken: continuationToken,
+            MaxKeys: 100,
+          })
+        );
+        for (const prefix of page.CommonPrefixes ?? []) {
+          if (prefix.Prefix) {
+            const folderName = prefix.Prefix.substring(basePrefix.length).replace(/\/$/, '');
+            if (folderName && folderName !== 'refactory-online') {
+              folders.add(folderName);
+            }
+          }
+        }
+        continuationToken = page.IsTruncated ? page.NextContinuationToken : undefined;
+      } catch (err) {
+        console.error('Error fetching R2 prefixes for', basePrefix, err);
+        break;
+      }
+    } while (continuationToken);
+  }
+
+  await fetchPrefixes('webpages/');
+  await fetchPrefixes('');
+
+  return Array.from(folders);
+}
+

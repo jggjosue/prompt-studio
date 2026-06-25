@@ -99,7 +99,9 @@
     "legal": "Legal",
     "termsOfUse": "Términos de uso",
     "privacyPolicy": "Política de privacidad",
-    "affiliateProgram": "Programa de Afiliados"
+    "affiliateProgram": "Afiliado",
+    "affiliateTerms": "Términos del programa de afiliados",
+    "affiliateDisclosure": "Divulgación de Afiliados: Algunos de los enlaces en este sitio web son enlaces de afiliados. Esto significa que si haces clic en el enlace y compras el artículo, es posible que recibamos una comisión de afiliado sin costo adicional para ti."
   },
   "home": {
     "heroTitle": "Genera tu próxima visión",
@@ -175,7 +177,7 @@
     "title": "Precios",
     "subtitle": "Empieza gratis, desbloquea prompts Premium o elige Developer con código fuente e instrucciones de instalación.",
     "annualBilling": "Facturación anual",
-    "annualBillingHint": "Aplica a Premium y Developer. Premium: {premiumYear}/año (ahorra {premiumSave}). Startup: {devYear}/año (ahorra {devSave}).",
+    "annualBillingHint": "Aplica a Premium y Developer. Premium: ${premiumYear}/año (ahorra ${premiumSave}). Startup: ${devYear}/año (ahorra ${devSave}).",
     "freeDesc": "Todo lo que puedes descargar sin iniciar sesión.",
     "browseFree": "Explorar prompts gratis",
     "premiumDesc": "Todos los prompts Premium. Descarga el catálogo completo con una suscripción.",
@@ -186,7 +188,6 @@
     "subscribePremium": "Suscribirse a Premium",
     "previewPremium": "Vista previa del contenido Premium",
     "startupDesc": "Premium más código fuente completo y guías de instalación para cada demo web.",
-
     "upgradeStartup": "Mejorar a Startup",
     "subscribeStartup": "Suscribirse como Startup",
     "browseWebProjects": "Explorar proyectos web",
@@ -454,50 +455,395 @@
     "test": ""
   },
   "affiliate": {
+    "pageTitle": "Programa de Afiliados | Prompt Studio",
+    "pageDescription": "Únete al Programa de Afiliados de Prompt Studio. Promociona un producto digital de alto valor y gana comisiones transparentes por ventas calificadas.",
     "hero": {
-      "badge": "Red de Partners 2026",
-      "title": "Gana con el",
-      "highlight": "Hub de Afiliados",
-      "subtitle": "Únete a desarrolladores, influencers y agencias en nuestro ecosistema digital. Gana comisiones recurrentes por suscripciones y pagos masivos por productos premium.",
-      "cta": "Unirse a la Red",
-      "secondaryCta": "Ver Estructura de Comisiones"
+      "title": "Gana Comisiones Promocionando un Producto Digital que la Gente Quiere",
+      "subtitle": "Únete a nuestro programa de afiliados, comparte tu enlace de referido único y gana comisiones cada vez que alguien compre nuestro producto digital a través de tu recomendación.",
+      "ctaAffiliate": "Convertirte en Afiliado",
+      "ctaCommissions": "Ver Plan de Comisiones",
+      "ctaHowItWorks": "Cómo Funciona"
     },
-    "stats": {
-      "recurring": "Suscripciones Recurrentes",
-      "products": "Ventas de Productos",
-      "cookie": "Duración de Cookie",
-      "days": "Días"
+    "metrics": {
+      "commission": "Hasta 20% de Comisión",
+      "cookie": "Ventana de Cookie de 60 Días",
+      "product": "Producto Digital",
+      "payouts": "Pagos Mensuales",
+      "suffixCommission": "$",
+      "suffixCookie": " días",
+      "suffixProduct": " producto",
+      "suffixPayouts": " ciclos"
     },
-    "dashboard": {
-      "title": "Ganancias en Vivo",
-      "earnings": "Este Mes",
-      "clicks": "Clics de Referidos",
-      "recent": "Comisiones Recientes"
-    },
-    "features": {
-      "headline": "Una Experiencia de Referidos Premium",
-      "subhead": "Te damos las herramientas, paneles y el seguimiento necesario para convertir a tu audiencia en una máquina de ingresos recurrentes.",
-      "commissions": {
-        "title": "Comisiones de Alto Valor",
-        "desc": "Gana un 20% fijo en todas las ventas individuales de código fuente y landing pages."
+    "benefits": {
+      "title": "¿Por Qué Unirse a Nuestro Programa de Afiliados?",
+      "subtitle": "Promociona un producto digital útil con posicionamiento claro, comisiones generosas, materiales listos para usar y seguimiento transparente.",
+      "easy": {
+        "title": "Fácil de promocionar",
+        "desc": "Un producto enfocado con puntos de dolor claros y resultados prácticos."
       },
-      "recurring": {
-        "title": "Ingresos Pasivos por Suscripción",
-        "desc": "Sigue ganando el 30% mes a mes por cada usuario que se suscriba a Prompt Studio Premium o Startup."
+      "commission": {
+        "title": "Comisión atractiva",
+        "desc": "Gana hasta el 20% en cada venta calificada del producto digital."
+      },
+      "link": {
+        "title": "Enlace de afiliado único",
+        "desc": "Rastrea clics y ventas con tu propia URL de referido."
       },
       "assets": {
-        "title": "Materiales de Marketing Incluidos",
-        "desc": "Obtén acceso a nuestros banners de alta conversión, videos cinematográficos y textos de email."
+        "title": "Materiales listos",
+        "desc": "Lanza más rápido con copy, banners, scripts y ejemplos."
       },
-      "tracking": {
-        "title": "Seguimiento en Tiempo Real",
-        "desc": "Observa cómo tus clics, conversiones y pagos se actualizan en tiempo real en tu panel."
+      "payouts": {
+        "title": "Pagos mensuales claros",
+        "desc": "Ciclo de revisión y pago mensual simple."
+      },
+      "dashboard": {
+        "title": "Panel de partner",
+        "desc": "Monitorea clics, conversiones, ventas y comisiones."
       }
     },
-    "cta": {
-      "title": "¿Listo para escalar tus ingresos?",
-      "subtitle": "Nuestro programa de partners está abierto actualmente para acceso anticipado. Aplica hoy para asegurar tu lugar.",
-      "button": "Aplicar al Programa de Partners"
+    "product": {
+      "title": "Promociona un Producto Digital de Alto Valor",
+      "subtitle": "Marketplace digital especializado en la compra y venta de prompts para la creación de páginas web, videos e imágenes con inteligencia artificial. La plataforma permite a creadores, diseñadores, emprendedores y agencias publicar, vender y adquirir prompts de alta calidad para acelerar sus procesos creativos y productivos.\n\nAdemás, cuenta con un sistema de afiliados que permite a los usuarios promocionar productos mediante enlaces personalizados y ganar comisiones por cada venta generada. Es una solución ideal para monetizar prompts, descubrir recursos útiles y crear una comunidad enfocada en herramientas de IA, contenido digital y automatización creativa.",
+      "benefit1": "Prompts probados y optimizados para Midjourney, Runway, Luma y más.",
+      "benefit2": "Diseñado para creadores, agencias, diseñadores y desarrolladores.",
+      "benefit3": "Incluye prompts listos para copiar de páginas web, videos e imágenes.",
+      "benefit4": "Gana hasta el 20% de comisión por cada venta calificada.",
+      "ctaPreview": "Vista Previa del Producto",
+      "ctaLink": "Obtener Enlace de Afiliado",
+      "ebookLabel": "CATÁLOGO",
+      "ebookTitle": "Prompt Studio",
+      "dashboardLabel": "Panel de afiliados",
+      "templatesTitle": "Prompts",
+      "templatesDesc": "Páginas web, videos e imágenes"
+    },
+    "steps": {
+      "title": "Empieza a Ganar en 4 Pasos Simples",
+      "subtitle": "Un flujo de partner claro desde la solicitud hasta compartir el enlace, atribución de ventas y pagos de comisiones mensuales.",
+      "s1Title": "Solicita unirte al programa.",
+      "s1Desc": "Cuéntanos sobre tu audiencia y plan de promoción.",
+      "s2Title": "Obtén tu enlace de afiliado único.",
+      "s2Desc": "Usa tu enlace en los canales y campañas aprobados.",
+      "s3Title": "Comparte el producto digital.",
+      "s3Desc": "Recomienda el producto en el contenido en el que confía tu audiencia.",
+      "s4Title": "Gana comisiones.",
+      "s4Desc": "Recibe pagos de cada venta calificada que generes."
+    },
+    "commissions": {
+      "title": "Plan de Comisiones Simple y Transparente",
+      "subtitle": "Elige el nivel que coincida con tu audiencia y estrategia de promoción. Cada plan incluye revisión de ventas calificadas, pagos mensuales y recursos de partner.",
+      "tier1Name": "Afiliado por Producto",
+      "tier1Rate": "20%",
+      "tier1Desc": "Para creadores que empiezan con ofertas de afiliados.",
+      "tier2Name": "Afiliado Premium",
+      "tier2Rate": "20%",
+      "tier2Desc": "Para partners con contenido probado o listas comprometidas.",
+      "tier3Name": "Afiliado Startup",
+      "tier3Rate": "20%",
+      "tier3Desc": "Para partners de alto rendimiento y canales estratégicos.",
+      "featureQualified": "Ventas calificadas",
+      "featurePayout": "Pago mensual",
+      "featureCookie": "Cookie de 60 días",
+      "featureResources": "Recursos promocionales",
+      "applyBtn": "Solicitar Este Nivel"
+    },
+    "tracking": {
+      "title": "Rastrea Cada Clic, Venta y Comisión",
+      "subtitle": "Tu vista de afiliado te da las señales necesarias para mejorar campañas sin adivinar.",
+      "ctaDashboard": "Ver Demo del Panel",
+      "ctaTracking": "Aprender Sobre el Seguimiento",
+      "clicks": "Clics",
+      "conversion": "Conversión",
+      "sales": "Ventas",
+      "pending": "Pendiente",
+      "paid": "Pagado",
+      "topSource": "Fuente principal",
+      "topSourceValue": "Newsletter"
+    },
+    "resources": {
+      "title": "Todo lo que Necesitas para Promocionar más Rápido",
+      "subtitle": "Dale a tu campaña un inicio más rápido con recursos prácticos de partner, ejemplos y consejos de seguimiento.",
+      "preview": "Vista previa",
+      "download": "Descargar",
+      "downloadToast": "{name} descarga preparada.",
+      "items": [
+        {
+          "title": "Copy de email",
+          "desc": "Lanza una secuencia de email cálido en minutos."
+        },
+        {
+          "title": "Posts para redes sociales",
+          "desc": "Posts listos para editar en LinkedIn, X e Instagram."
+        },
+        {
+          "title": "Banners del producto",
+          "desc": "Banners promo limpios para páginas de recursos y sidebars."
+        },
+        {
+          "title": "Scripts de video corto",
+          "desc": "Hooks y scripts para reels, shorts y tutoriales."
+        },
+        {
+          "title": "Copy para landing page",
+          "desc": "Secciones enfocadas en conversión para tu página de recomendación."
+        },
+        {
+          "title": "Capturas del producto",
+          "desc": "Activos visuales para reseñas y newsletters."
+        },
+        {
+          "title": "Respuestas de FAQ",
+          "desc": "Respuestas simples a objeciones comunes de compradores."
+        },
+        {
+          "title": "Consejos de seguimiento",
+          "desc": "Recomendaciones de seguimiento con UTM y fuente."
+        }
+      ]
+    },
+    "audiences": {
+      "title": "¿Para Quién es Este Programa?",
+      "subtitle": "Diseñado para personas que ya educan, recomiendan, reseñan o apoyan a una audiencia que compra recursos digitales.",
+      "items": [
+        {
+          "title": "Creadores de contenido",
+          "desc": "Recomienda un producto digital que ayude a tu audiencia a lanzar más rápido."
+        },
+        {
+          "title": "Bloggers",
+          "desc": "Agrega un recurso práctico a artículos educativos evergreen."
+        },
+        {
+          "title": "YouTubers",
+          "desc": "Menciona el producto en tutoriales y resúmenes de herramientas."
+        },
+        {
+          "title": "Dueños de newsletters",
+          "desc": "Comparte un producto útil en recomendaciones curadas."
+        },
+        {
+          "title": "Coaches",
+          "desc": "Ofrece el playbook como siguiente paso para clientes."
+        },
+        {
+          "title": "Educadores",
+          "desc": "Apoya a estudiantes con plantillas y recursos estructurados."
+        },
+        {
+          "title": "Líderes de comunidad",
+          "desc": "Comparte un recurso verificado con tus miembros."
+        },
+        {
+          "title": "Marketers digitales",
+          "desc": "Promociona un producto digital listo para convertir."
+        }
+      ]
+    },
+    "promotion": {
+      "title": "Formas de Promocionar el Producto Digital",
+      "subtitle": "Elige la forma de campaña que se adapte a tu audiencia, estilo de contenido y fortalezas de conversión.",
+      "viewExample": "Ver Ejemplo",
+      "items": [
+        {
+          "title": "Artículo de reseña",
+          "difficulty": "Fácil",
+          "potential": "Alto",
+          "example": "Publica una reseña práctica con capturas y resultados clave."
+        },
+        {
+          "title": "Tutorial de YouTube",
+          "difficulty": "Medio",
+          "potential": "Alto",
+          "example": "Muestra cómo el producto ayuda a crear un sistema de lanzamiento."
+        },
+        {
+          "title": "Historia de Instagram",
+          "difficulty": "Fácil",
+          "potential": "Medio",
+          "example": "Comparte el problema, el logro rápido y el enlace de referido."
+        },
+        {
+          "title": "Short de TikTok",
+          "difficulty": "Medio",
+          "potential": "Medio",
+          "example": "Convierte una lección del producto en un clip rápido de antes/después."
+        },
+        {
+          "title": "Recomendación en newsletter",
+          "difficulty": "Fácil",
+          "potential": "Alto",
+          "example": "Coloca el producto en una lista semanal de recursos de confianza."
+        },
+        {
+          "title": "Mención en webinar",
+          "difficulty": "Medio",
+          "potential": "Alto",
+          "example": "Recomienda el producto después de enseñar un framework relacionado."
+        },
+        {
+          "title": "Página de recursos",
+          "difficulty": "Fácil",
+          "potential": "Medio",
+          "example": "Agrégalo a tu página de herramientas con una breve explicación."
+        },
+        {
+          "title": "Post en comunidad",
+          "difficulty": "Fácil",
+          "potential": "Medio",
+          "example": "Comparte un caso de uso práctico con tus miembros."
+        }
+      ]
+    },
+    "trust": {
+      "title": "Construido para Alianzas Claras, Justas y Confiables",
+      "subtitle": "Un programa de partners confiable depende de seguimiento transparente, reglas claras y promoción segura para la marca.",
+      "ctaGuidelines": "Leer Directrices del Partner",
+      "items": [
+        "Seguimiento transparente",
+        "Términos de pago claros",
+        "Proceso de aprobación de afiliados",
+        "Política anti-spam",
+        "Promoción segura para la marca",
+        "Soporte para partners"
+      ],
+      "termsNote": "Resumen de términos: sin afirmaciones engañosas, sin falsa escasez, sin descuentos no autorizados, y sin anuncios pagados en palabras clave de marca sin aprobación."
+    },
+    "testimonials": {
+      "title": "Los Partners lo Recomiendan Porque Resuelve un Problema Real",
+      "subtitle": "Opiniones ficticias de partners que muestran la experiencia prevista para creadores y educadores.",
+      "items": [
+        {
+          "quote": "El producto fue fácil de recomendar porque resolvió un problema real para mi audiencia.",
+          "name": "Maya Chen",
+          "role": "Fundadora de newsletter"
+        },
+        {
+          "quote": "El panel de afiliados hizo simple rastrear clics y comisiones.",
+          "name": "Jordan Lee",
+          "role": "Creador de cursos"
+        },
+        {
+          "quote": "Los recursos promocionales me ayudaron a lanzar mi primera campaña rápidamente.",
+          "name": "Ari Morgan",
+          "role": "Educador de marketing"
+        }
+      ]
+    },
+    "faq": {
+      "title": "Preguntas Frecuentes",
+      "subtitle": "Respuestas claras antes de solicitar, promocionar y empezar a rastrear ventas de afiliados.",
+      "items": [
+        {
+          "q": "¿Cómo me uno al programa de afiliados?",
+          "a": "Envía el formulario de solicitud. Revisamos la compatibilidad, la calidad de la audiencia y el plan de promoción antes de aprobar partners."
+        },
+        {
+          "q": "¿Cuánta comisión puedo ganar?",
+          "a": "Los partners aprobados pueden ganar 20% según el nivel y el rendimiento."
+        },
+        {
+          "q": "¿Cuándo se pagan las comisiones?",
+          "a": "Las comisiones se revisan y pagan mensualmente después de verificar devoluciones y elegibilidad."
+        },
+        {
+          "q": "¿Recibo un enlace de afiliado único?",
+          "a": "Sí. Cada afiliado aprobado recibe un enlace de referido único para rastrear clics y ventas."
+        },
+        {
+          "q": "¿Puedo promocionar con anuncios pagados?",
+          "a": "Los anuncios pagados están permitidos solo cuando siguen nuestras reglas de partner y evitan pujar por palabras clave de marca sin aprobación."
+        },
+        {
+          "q": "¿Cuál es la duración de la cookie?",
+          "a": "La ventana de cookie de referido es de 30 días desde el primer clic calificado."
+        },
+        {
+          "q": "¿Puedo promocionar este producto internacionalmente?",
+          "a": "Sí. Puedes promocionar internacionalmente siempre que tus mensajes sigan las reglas."
+        },
+        {
+          "q": "¿Qué pasa si un cliente hace una devolución?",
+          "a": "Las compras devueltas se eliminan de los totales de comisión pagables antes de los pagos mensuales."
+        }
+      ]
+    },
+    "apply": {
+      "title": "Solicita Convertirte en Afiliado",
+      "subtitle": "Cuéntanos sobre tu audiencia y cómo planeas promocionar el producto digital.",
+      "fieldName": "Nombre completo",
+      "fieldEmail": "Correo electrónico",
+      "fieldProfile": "Sitio web o perfil social",
+      "fieldAudience": "Tamaño de la audiencia",
+      "fieldChannel": "Canal principal de promoción",
+      "fieldExperience": "Experiencia con marketing de afiliados",
+      "fieldTier": "Nivel de comisión preferido",
+      "fieldPlan": "¿Cómo promocionarás este producto?",
+      "fieldMessage": "Mensaje",
+      "submit": "Enviar Solicitud",
+      "submitBtn": "Afiliarse aquí",
+      "successMsg": "Solicitud recibida. Este formulario simulado está listo para conectarse al backend.",
+      "errorName": "El nombre completo es obligatorio.",
+      "errorEmail": "Introduce un correo electrónico válido.",
+      "errorProfile": "Agrega un sitio web o perfil social.",
+      "errorChannel": "Elige tu canal principal de promoción.",
+      "errorPlan": "Cuéntanos cómo promocionarás el producto.",
+      "toastSubmit": "Solicitud enviada. Revisaremos tu compatibilidad como partner."
+    },
+    "snapshot": {
+      "title": "Resumen del partner",
+      "commissionRate": "Tasa de comisión",
+      "cookieDuration": "Duración de cookie",
+      "cookieValue": "60 días",
+      "payouts": "Pagos",
+      "payoutsValue": "Mensual",
+      "support": "Soporte para partner",
+      "supportValue": "Incluido",
+      "promoResources": "Recursos promocionales",
+      "promoValue": "Incluido"
+    },
+    "modal": {
+      "productTitle": "Vista Previa: Prompt Studio",
+      "productBody": "Un marketplace digital premium para la compra y venta de prompts optimizados para IA (páginas web, videos e imágenes), ideal para diseñadores, desarrolladores y creadores.",
+      "productItems": [
+        "Acceso a miles de prompts premium y gratis",
+        "Prompts optimizados para Midjourney, Runway, Luma, etc.",
+        "Código fuente descargable (versión Startup)",
+        "Actualizaciones regulares con nuevos prompts",
+        "Guías de instalación y tutoriales de uso"
+      ],
+      "dashboardTitle": "Demo del Panel de Afiliados",
+      "dashboardBody": "Un panel de partner simulado con atribución de clics, tasa de conversión, ventas, comisiones pendientes, comisiones pagadas y visibilidad de la fuente de tráfico principal.",
+      "dashboardItems": [
+        "Clics: 8.420",
+        "Tasa de conversión: 7,8%",
+        "Ventas: 312",
+        "Comisiones pendientes: $4.180",
+        "Comisiones pagadas: $18.940"
+      ],
+      "trackingTitle": "Cómo Funciona el Seguimiento",
+      "trackingBody": "Cada afiliado aprobado recibe un enlace de seguimiento único. Las ventas calificadas se atribuyen dentro de una ventana de cookie de 60 días y se revisan antes del ciclo de pago mensual.",
+      "trackingItems": [
+        "URL de referido única",
+        "Ventana de cookie de 60 días",
+        "Revisión de devoluciones antes del pago",
+        "Extracto de pago mensual"
+      ],
+      "guidelinesTitle": "Directrices del Partner",
+      "guidelinesBody": "Mantenemos el programa justo, conforme y seguro para la marca para que los partners puedan promocionar con confianza.",
+      "guidelinesItems": [
+        "Sin afirmaciones de ingresos engañosas",
+        "Sin falsa escasez o urgencia engañosa",
+        "Sin descuentos no autorizados",
+        "Sin anuncios pagados en palabras clave de marca sin aprobación",
+        "Sin spam ni listas de outreach recopiladas"
+      ],
+      "gotIt": "Entendido"
+    },
+    "canvas": {
+      "ariaLabel": "Escena 3D del panel de afiliados",
+      "share": "Compartir",
+      "sale": "Venta",
+      "commission": "Comisión"
     }
   }
 }

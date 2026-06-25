@@ -10,6 +10,7 @@ import {
 import { useMembershipAccess } from '@/hooks/use-membership-access';
 import { useToast } from '@/hooks/use-toast';
 import { copyToClipboard } from '@/lib/copy-to-clipboard';
+import { logFirebaseEvent } from '@/lib/firebase';
 import type { WebPageEntry } from '@/lib/web-pages';
 import { Check, Copy, FileText, Wand2 } from 'lucide-react';
 import * as React from 'react';
@@ -45,8 +46,9 @@ export function WebPagePromptDialog({ page }: { page: WebPageEntry }) {
   const handleOpenPrompt = () => {
     runWithAccess(page.membership, () => {
       if (isSignedIn) {
-        (window as any).gtag?.('event', 'view_prompt', { page_title: page.title });
+        (window as any).gtag?.('event', 'web_view_prompt', { page_title: page.title });
       }
+      void logFirebaseEvent('web_view_prompt', { page_id: page.id, page_title: page.title });
       setOpen(true);
     });
   };
