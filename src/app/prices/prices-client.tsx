@@ -16,6 +16,7 @@ import {
   getPremiumStripeCheckoutUrl,
   getStartupStripeCheckoutUrl,
 } from '@/lib/stripe-checkout';
+import { logFirebaseEvent } from '@/lib/firebase';
 import { SignInButton, SignUpButton, useAuth } from '@clerk/nextjs';
 import {
   Check,
@@ -30,10 +31,10 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useId, useRef, useState } from 'react';
 
-const PREMIUM_MONTHLY = 10;
-const PREMIUM_YEARLY = 100;
-const DEVELOPER_MONTHLY = 20;
-const DEVELOPER_YEARLY = 200;
+const PREMIUM_MONTHLY = 15;
+const PREMIUM_YEARLY = 162;
+const DEVELOPER_MONTHLY = 25;
+const DEVELOPER_YEARLY = 270;
 
 function formatMonthlyEquivalent(yearly: number) {
   return (yearly / 12).toFixed(2).replace(/\.00$/, '');
@@ -112,6 +113,12 @@ export default function PricesClient() {
 
   const premiumCheckoutUrl = getPremiumStripeCheckoutUrl(isAnnual, userId);
   const startupCheckoutUrl = getStartupStripeCheckoutUrl(isAnnual, userId);
+  const trackPlanBuy = (planName: 'premium' | 'startup') => {
+    void logFirebaseEvent('web_buy_button_premium', {
+      plan: planName,
+      billing_period: isAnnual ? 'yearly' : 'monthly',
+    });
+  };
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
@@ -146,8 +153,8 @@ export default function PricesClient() {
                   {t('annualBillingHint', {
                     premiumYear: PREMIUM_YEARLY,
                     premiumSave: annualSavingsPremium,
-                    devYear: 0,
-                    devSave: 0,
+                    devYear: DEVELOPER_YEARLY,
+                    devSave: annualSavingsDeveloper,
                   })}
                 </p>
               </div>
@@ -268,6 +275,7 @@ export default function PricesClient() {
                           href={premiumCheckoutUrl}
                           target="_blank"
                           rel="noopener noreferrer"
+                          onClick={() => trackPlanBuy('premium')}
                         >
                           {t('subscribePremium')}
                         </a>
@@ -369,7 +377,7 @@ export default function PricesClient() {
                           className="w-full bg-blue-600 hover:bg-blue-700 text-white"
                           asChild
                         >
-                          <a href={startupCheckoutUrl} target="_blank" rel="noopener noreferrer">
+                          <a href={startupCheckoutUrl} target="_blank" rel="noopener noreferrer" onClick={() => trackPlanBuy('startup')}>
                             {t('subscribeBelow')}
                           </a>
                         </Button>

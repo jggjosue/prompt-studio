@@ -1,4 +1,10 @@
+import type { Metadata } from 'next';
 import { SignUp } from '@clerk/nextjs';
+
+export const metadata: Metadata = {
+  title: 'Sign Up | Prompt Studio',
+  description: 'Create a Prompt Studio account to access curated collections of AI video prompts, generate custom templates, and elevate your creative assets.',
+};
 
 type Props = {
   searchParams: Promise<{ redirect_url?: string }>;

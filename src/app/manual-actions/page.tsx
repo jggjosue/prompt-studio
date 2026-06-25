@@ -1,7 +1,17 @@
+import type { Metadata } from 'next';
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CheckCircle2, ClipboardCheck, SearchCheck, ShieldAlert, Route, Code2, AlertTriangle } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: 'Google Manual Actions Checklist & Spam Recovery | Prompt Studio',
+  description:
+    'Step-by-step checklist and recovery plan for addressing manual actions, search console warnings, and recovering from search traffic issues.',
+  alternates: {
+    canonical: '/manual-actions',
+  },
+};
 
 const checklist = [
   'Revisar en Search Console si existe acción manual activa.',

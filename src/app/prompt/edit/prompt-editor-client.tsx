@@ -9,11 +9,11 @@ import { handleImageGeneration, proxyOpenAIImage, proxyOpenAIChat, proxyAnthropi
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
@@ -24,20 +24,20 @@ import { Input } from '@/components/ui/input';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Slider } from '@/components/ui/slider';
 import { useToast } from '@/hooks/use-toast';
-import { 
-  Clapperboard, 
-  ClipboardPaste, 
-  Image as ImageIcon, 
-  Loader2, 
-  Sparkles, 
-  Globe, 
-  Code, 
-  Eye, 
-  Copy, 
-  Check, 
-  Wand2, 
-  Sliders, 
-  Trash2, 
+import {
+  Clapperboard,
+  ClipboardPaste,
+  Image as ImageIcon,
+  Loader2,
+  Sparkles,
+  Globe,
+  Code,
+  Eye,
+  Copy,
+  Check,
+  Wand2,
+  Sliders,
+  Trash2,
   Play,
   Settings2,
   Tv,
@@ -63,16 +63,16 @@ const sampleVideos = [
 function generateMockLandingHTML(promptText: string, framework: string, theme: string, component: string, color: string): string {
   const title = promptText.split('.')[0]?.substring(0, 60) || "AI-Powered Landing Page";
   const desc = promptText.substring(0, 200) || "Experience the future of design and content creation. Render components instantly with state-of-the-art AI layouts.";
-  
-  const bgClass = theme === 'dark' ? 'bg-slate-950 text-slate-50' : 
-                  theme === 'neon' ? 'bg-black text-cyan-400 font-mono' :
-                  theme === 'glassmorphism' ? 'bg-gradient-to-br from-blue-950 via-slate-900 to-blue-950 text-white' :
-                  'bg-slate-50 text-slate-900';
+
+  const bgClass = theme === 'dark' ? 'bg-slate-950 text-slate-50' :
+    theme === 'neon' ? 'bg-black text-cyan-400 font-mono' :
+      theme === 'glassmorphism' ? 'bg-gradient-to-br from-blue-950 via-slate-900 to-blue-950 text-white' :
+        'bg-slate-50 text-slate-900';
 
   const accentColor = color === 'emerald' ? 'emerald-500' :
-                      color === 'rose' ? 'rose-500' :
-                      color === 'amber' ? 'amber-500' :
-                      'blue-500';
+    color === 'rose' ? 'rose-500' :
+      color === 'amber' ? 'amber-500' :
+        'blue-500';
 
   const textAccent = `text-${accentColor}`;
   const bgAccent = `bg-${accentColor}`;
@@ -186,7 +186,7 @@ function generateMockLandingHTML(promptText: string, framework: string, theme: s
 export default function PromptEditorClient() {
   const searchParams = useSearchParams();
   const initialPromptQuery = searchParams.get('prompt') || '';
-  
+
   // States
   const [rawPromptInput, setRawPromptInput] = useState(initialPromptQuery);
   const [editingText, setEditingText] = useState('');
@@ -300,7 +300,7 @@ export default function PromptEditorClient() {
       localStorage.setItem('ps_credits', credits.toString());
     }
   }, [credits]);
-  
+
   // Chat States
   type ChatMessage = {
     id: string;
@@ -327,7 +327,7 @@ export default function PromptEditorClient() {
     type: 'image' | 'video' | 'web' | 'general';
     timestamp: Date;
   }[]>([]);
-  
+
   // Parsed metadata from import detector
   const [importedMetadata, setImportedMetadata] = useState<{
     type: 'image' | 'video' | 'web' | 'text';
@@ -371,7 +371,7 @@ export default function PromptEditorClient() {
   const [localGenerating, setLocalGenerating] = useState(false);
   const [genProgress, setGenProgress] = useState(0);
   const [genStatus, setGenStatus] = useState('');
-  
+
   // Outputs
   const [outputImageUrl, setOutputImageUrl] = useState('');
   const [outputVideoUrl, setOutputVideoUrl] = useState('');
@@ -475,7 +475,7 @@ export default function PromptEditorClient() {
         const tags = parsed.tags || [];
         const stack = parsed.stack || [];
         const imageUrl = parsed.imageUrl || '';
-        
+
         let type: 'image' | 'video' | 'web' | 'text' = 'image';
         if (parsed.type === 'video' || tags.some((t: string) => t.toLowerCase() === 'video')) {
           type = 'video';
@@ -491,13 +491,13 @@ export default function PromptEditorClient() {
           tags,
           stack
         });
-        
+
         // Auto-fill active editor text with the extracted clean prompt
         const cleanDesc = stripTags(description);
         setBasePrompt(cleanDesc);
         setEditingText(description);
         setActiveTab(type === 'video' ? 'ai-video' : type === 'web' ? 'ai-web' : 'ai-image');
-        
+
         if (tags.length > 0) {
           // Pre-select styling match
           const matchedStyle = tags[0].toLowerCase();
@@ -514,7 +514,7 @@ export default function PromptEditorClient() {
     // 2. Plain text parsing rules
     const textLower = input.toLowerCase();
     let detectedType: 'image' | 'video' | 'web' | 'text' = 'text';
-    
+
     if (textLower.includes('video') || textLower.includes('motion') || textLower.includes('pan left') || textLower.includes('zoom in') || textLower.includes('fps')) {
       detectedType = 'video';
       setActiveTab('ai-video');
@@ -762,7 +762,7 @@ Respond ALWAYS in JSON format with exactly three fields:
     } else if (chatProvider === 'mock') {
       // Local mock / sandbox conversational simulator
       const lower = trimmed.toLowerCase();
-      
+
       if (lower.includes('hola') || lower.includes('buenos dias') || lower.includes('buenas tardes')) {
         reply = '¡Hola! ¿En qué puedo ayudarte hoy? Puedes hacerme preguntas, pedirme consejos sobre prompts o solicitarme que genere y optimice un prompt para ti.';
         promptType = 'general';
@@ -811,7 +811,7 @@ Respond ALWAYS in JSON format with exactly three fields:
     };
 
     setChatMessages(prev => [...prev, assistantMsg]);
-    
+
     if (enhanced) {
       setSuggestedPrompts(prev => [
         {
@@ -1000,12 +1000,12 @@ Respond ALWAYS in JSON format with exactly three fields:
             let completed = false;
             let attempts = 0;
             setGenStatus('Runway task queued. Polling video status...');
-            
+
             while (!completed && attempts < 10) {
               attempts++;
               setGenProgress(20 + attempts * 7);
               await new Promise(resolve => setTimeout(resolve, 3000));
-              
+
               try {
                 const pollData = await proxyRunwayPoll(runwayKey, taskId);
                 if (pollData && 'error' in pollData && pollData.error) {
@@ -1217,11 +1217,11 @@ Requirements:
         // Mock Sandbox mode execution
         setGenStatus('Applying Tailwind layouts & margins...');
         setGenProgress(40);
-        
+
         setTimeout(() => {
           setGenStatus('Beautifying colors & micro-interactions...');
           setGenProgress(75);
-          
+
           setTimeout(() => {
             setGenProgress(100);
             const htmlContent = generateMockLandingHTML(
@@ -1278,7 +1278,7 @@ Requirements:
       try {
         setGenStatus('Calling OpenAI DALL-E 3...');
         setGenProgress(30);
-        
+
         const data = await proxyOpenAIImage(openAIKey, finalPrompt, openAIImageModel);
         if (data && 'error' in data && data.error) {
           apiError = data.error;
@@ -1295,7 +1295,7 @@ Requirements:
       try {
         setGenStatus('Calling Fal.ai Flux...');
         setGenProgress(30);
-        
+
         const response = await fetch(`https://fal.run/${falModel}`, {
           method: 'POST',
           headers: {
@@ -1372,7 +1372,7 @@ Requirements:
       startTransition(async () => {
         const formData = new FormData();
         formData.append('prompt', finalPrompt);
-        
+
         const result = await handleImageGeneration({ message: '', imageUrl: '' }, formData);
         setGenProgress(100);
         if (result.imageUrl) {
@@ -1401,7 +1401,7 @@ Requirements:
       </Suspense>
       <main className="flex-1 py-6 md:py-10">
         <div className="container max-w-6xl px-4">
-          
+
           {/* Header Area */}
           <div className="flex flex-col items-center text-center mb-8 space-y-3">
             <h1 className="text-3xl font-extrabold tracking-tight sm:text-5xl font-headline text-balance bg-gradient-to-r from-foreground via-foreground/90 to-muted-foreground bg-clip-text text-transparent">
@@ -1462,13 +1462,13 @@ Requirements:
           {/* Two-Column Editor Layout */}
           <form onSubmit={handleGenerationSubmit}>
             <div className="grid lg:grid-cols-12 gap-8">
-              
+
               {/* Left Side: Options Column */}
               <div className="lg:col-span-7 space-y-6">
                 <Card className="shadow-lg border bg-card text-card-foreground overflow-hidden">
                   <CardContent className="p-0">
                     <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-                      
+
                       {/* Subtype tabs */}
                       <TabsList className="flex w-full rounded-none border-b h-auto min-h-14 bg-muted/30 p-0 flex-wrap sm:flex-nowrap">
                         <TabsTrigger value="pure-text" className="flex-1 data-[state=active]:bg-background rounded-none sm:border-r border-b sm:border-b-0 text-[10px] sm:text-xs md:text-sm font-semibold gap-1 h-14 min-w-[50%] sm:min-w-0">
@@ -1494,10 +1494,10 @@ Requirements:
                                 <MessageSquare className="h-5 w-5 text-blue-500" />
                                 <span className="font-bold text-sm text-foreground">AI Prompt Assistant Chat</span>
                               </div>
-                              <Button 
-                                type="button" 
-                                variant="ghost" 
-                                size="sm" 
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="sm"
                                 className="text-[10px] h-7 px-2 hover:bg-muted text-muted-foreground font-semibold"
                                 onClick={() => {
                                   setChatMessages([
@@ -1606,19 +1606,18 @@ Requirements:
                               {chatMessages.map((msg) => (
                                 <div key={msg.id} className="space-y-1">
                                   <div className={`flex items-start ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                                    <div className={`p-3 rounded-2xl max-w-[85%] text-sm ${
-                                      msg.sender === 'user' 
-                                        ? 'bg-blue-600 text-white rounded-tr-none shadow-sm font-semibold' 
+                                    <div className={`p-3 rounded-2xl max-w-[85%] text-sm ${msg.sender === 'user'
+                                        ? 'bg-blue-600 text-white rounded-tr-none shadow-sm font-semibold'
                                         : 'bg-muted/80 text-foreground border rounded-tl-none shadow-sm'
-                                    }`}>
+                                      }`}>
                                       <p className="whitespace-pre-line leading-relaxed">{msg.text}</p>
-                                      
+
                                       {msg.suggestedPrompt && (
                                         <div className="mt-3 p-3 rounded-lg bg-card text-card-foreground border border-border space-y-2 text-xs text-left">
                                           <p className="text-muted-foreground font-sans font-bold text-[10px] uppercase tracking-wider">Suggested Prompt:</p>
                                           <div className="whitespace-pre-wrap select-all font-mono leading-relaxed bg-muted/40 p-2 rounded border">{msg.suggestedPrompt}</div>
                                           <div className="flex flex-wrap gap-2 pt-1">
-                                            <Button 
+                                            <Button
                                               type="button"
                                               size="sm"
                                               variant="secondary"
@@ -1630,7 +1629,7 @@ Requirements:
                                             >
                                               <Copy className="h-3 w-3" /> Copy
                                             </Button>
-                                            <Button 
+                                            <Button
                                               type="button"
                                               size="sm"
                                               variant="default"
@@ -1667,10 +1666,10 @@ Requirements:
                                 placeholder="Refine, improve, or write a prompt..."
                                 className="min-h-[50px] max-h-[80px] flex-1 text-sm bg-background resize-none"
                               />
-                              <Button 
-                                type="button" 
-                                onClick={handleSendChatMessage} 
-                                size="icon" 
+                              <Button
+                                type="button"
+                                onClick={handleSendChatMessage}
+                                size="icon"
                                 className="h-10 w-10 shrink-0 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-sm"
                               >
                                 <Send className="h-4 w-4" />
@@ -1681,689 +1680,689 @@ Requirements:
                           <>
                             {/* Text Prompt input */}
                             <div className="space-y-2">
-                          <div className="flex items-center justify-between">
-                            <Label className="text-sm font-bold text-foreground">
-                              {activeTab === 'ai-image' ? 'Image Description' : activeTab === 'ai-video' ? 'Video Narrative & Motion' : 'Web Page Requirements'}
-                            </Label>
-                            <span className="text-xs text-muted-foreground">{editingText.length} characters</span>
-                          </div>
-                          <div className="relative">
-                            <Textarea
-                              name="prompt"
-                              value={editingText}
-                              onChange={(e) => {
-                                const val = e.target.value;
-                                setEditingText(val);
-                                setBasePrompt(stripTags(val));
-                              }}
-                              className="min-h-[140px] text-base p-4 pr-10 focus-visible:ring-1 bg-background resize-y leading-relaxed"
-                              placeholder={
-                                activeTab === 'ai-image' ? "Describe the image you want to create (e.g., 'A futuristic astronaut exploring digital artifacts on Mars...')" :
-                                activeTab === 'ai-video' ? "Describe the dynamic motion scene (e.g., 'Drone shot flying over tropical stream cascades in slow-motion...')" :
-                                "Define the landing page sections and purpose (e.g., 'Modern clean SaaS portfolio for a photographer showcasing abstract images...')"
-                              }
-                            />
-                            {editingText && (
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  setEditingText('');
-                                  setBasePrompt('');
-                                }}
-                                className="absolute top-3 right-3 text-muted-foreground hover:text-foreground p-1 rounded-md transition"
-                                title="Clear text"
-                              >
-                                <Trash2 className="h-4 w-4" />
-                              </button>
-                            )}
-                          </div>
-                        </div>
-
-                        {/* Interactive presets for instant styling options */}
-                        <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
-                          <div className="flex gap-2">
-                            <Button
-                              type="button"
-                              variant="outline"
-                              size="sm"
-                              className="text-xs font-semibold h-9"
-                              onClick={handlePasteClipboard}
-                            >
-                              <ClipboardPaste className="mr-1.5 h-3.5 w-3.5" />
-                              Import Clipboard
-                            </Button>
-                            <Button
-                              type="button"
-                              variant="secondary"
-                              size="sm"
-                              className="text-xs font-semibold h-9 gap-1.5"
-                              onClick={handleEnhancePrompt}
-                            >
-                              <Wand2 className="h-3.5 w-3.5 text-blue-500 animate-pulse" />
-                              Enhance Prompt
-                            </Button>
-                          </div>
-
-                        </div>
-
-                        {/* Options Accordions specific to each tab */}
-                        <Accordion type="single" collapsible defaultValue="options" className="w-full pt-4">
-                          <AccordionItem value="options" className="border-t border-b-0">
-                            <AccordionTrigger className="hover:no-underline py-3">
-                              <span className="flex items-center gap-2 text-sm font-extrabold text-foreground">
-                                <Settings2 className="h-4 w-4 text-blue-500" />
-                                Advanced Design Settings
-                              </span>
-                            </AccordionTrigger>
-                            <AccordionContent className="pt-2 pb-4 space-y-5">
-                              
-                              {/* --- IMAGE CONFIGURATIONS --- */}
-                              {activeTab === 'ai-image' && (
-                                <div className="space-y-4">
-                                  {/* Provider Select — always full width */}
-                                  <div className="space-y-1.5">
-                                    <Label className="text-xs font-bold text-blue-500 flex items-center gap-1.5">
-                                      <KeyRound className="h-3.5 w-3.5" />
-                                      Active API Provider / Model
-                                    </Label>
-                                    <Select
-                                      value={imageProvider === 'mock' ? 'mock' : `${imageProvider}:${imageProvider === 'openai' ? openAIImageModel : imageProvider === 'fal' ? falModel : googleWebModel}`}
-                                      onValueChange={(val) => {
-                                        if (val === 'mock') { setImageProvider('mock'); return; }
-                                        const [p, ...rest] = val.split(':'); const m = rest.join(':');
-                                        setImageProvider(p as any);
-                                        if (p === 'openai') setOpenAIImageModel(m);
-                                        else if (p === 'fal') setFalModel(m);
-                                        else if (p === 'google') setGoogleWebModel(m);
-                                      }}
-                                    >
-                                      <SelectTrigger className="text-xs h-9 bg-background font-semibold border-blue-500/30">
-                                        <SelectValue />
-                                      </SelectTrigger>
-                                      <SelectContent>
-                                        <SelectItem value="mock" className="text-xs font-semibold">✨ Mock Sandbox (Free)</SelectItem>
-                                        <SelectItem value="openai:dall-e-3" className="text-xs">🟢 OpenAI / dall-e-3</SelectItem>
-                                        <SelectItem value="openai:dall-e-2" className="text-xs">🟢 OpenAI / dall-e-2</SelectItem>
-                                        <SelectItem value="fal:fal-ai/flux/schnell" className="text-xs">🔥 Fal.ai / fal-ai/flux/schnell</SelectItem>
-                                        <SelectItem value="fal:fal-ai/flux/dev" className="text-xs">🔥 Fal.ai / fal-ai/flux/dev</SelectItem>
-                                        <SelectItem value="fal:fal-ai/flux-pro" className="text-xs">🔥 Fal.ai / fal-ai/flux-pro</SelectItem>
-                                        <SelectItem value="google:gemini-1.5-flash" className="text-xs">🔵 Google / gemini-1.5-flash</SelectItem>
-                                        <SelectItem value="google:gemini-1.5-pro" className="text-xs">🔵 Google / gemini-1.5-pro</SelectItem>
-                                        <SelectItem value="google:gemini-2.0-flash" className="text-xs">🔵 Google / gemini-2.0-flash</SelectItem>
-                                      </SelectContent>
-                                    </Select>
-                                  </div>
-
-                                  {/* API Key card — always visible */}
-                                  <div className="w-full rounded-lg border bg-muted/30 p-3 space-y-2">
-                                    <div className="flex items-center justify-between">
-                                      <Label className="text-xs font-bold flex items-center gap-1.5">
-                                        <KeyRound className="h-3 w-3 text-blue-500" />
-                                        {imageProvider === 'mock' && 'API Key'}
-                                        {imageProvider === 'openai' && 'OpenAI API Key'}
-                                        {imageProvider === 'fal' && 'Fal.ai API Key'}
-                                        {imageProvider === 'google' && 'Google Gemini API Key'}
-                                      </Label>
-                                      {imageProvider === 'mock' && <span className="text-[10px] text-muted-foreground">Not required for Mock</span>}
-                                      {imageProvider === 'openai' && (openAIKey ? <span className="text-[10px] font-semibold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full">✓ Active</span> : <a href="https://platform.openai.com/api-keys" target="_blank" rel="noreferrer" className="text-[10px] text-blue-500 hover:underline font-medium">Get API Key →</a>)}
-                                      {imageProvider === 'fal' && (replicateKey ? <span className="text-[10px] font-semibold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full">✓ Active</span> : <a href="https://fal.ai/dashboard/api-keys" target="_blank" rel="noreferrer" className="text-[10px] text-blue-500 hover:underline font-medium">Get API Key →</a>)}
-                                      {imageProvider === 'google' && (vertexKey ? <span className="text-[10px] font-semibold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full">✓ Active</span> : <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noreferrer" className="text-[10px] text-blue-500 hover:underline font-medium">Get API Key →</a>)}
-                                    </div>
-                                    {imageProvider === 'mock' && (
-                                      <p className="text-[11px] text-muted-foreground">Select a provider above to enter your API key.</p>
-                                    )}
-                                    {imageProvider === 'openai' && <Input type="password" placeholder="sk-proj-..." value={openAIKey} onChange={(e) => setOpenAIKey(e.target.value)} className="text-xs bg-background h-9 rounded-lg w-full" />}
-                                    {imageProvider === 'fal' && <Input type="password" placeholder="Key..." value={replicateKey} onChange={(e) => setReplicateKey(e.target.value)} className="text-xs bg-background h-9 rounded-lg w-full" />}
-                                    {imageProvider === 'google' && <Input type="password" placeholder="Google AI Studio key..." value={vertexKey} onChange={(e) => setVertexKey(e.target.value)} className="text-xs bg-background h-9 rounded-lg w-full" />}
-                                  </div>
-
-                                  {/* Settings fields in 2-col grid */}
-                                  <div className="grid sm:grid-cols-2 gap-4">
-                                    <Label className="text-xs font-semibold">Creative Preset</Label>
-                                    <Select value={imageStyle} onValueChange={setImageStyle}>
-                                      <SelectTrigger className="text-xs h-9 bg-background">
-                                        <SelectValue />
-                                      </SelectTrigger>
-                                      <SelectContent>
-                                        <SelectItem value="cinematic" className="text-xs">🎬 Cinematic (Realism)</SelectItem>
-                                        <SelectItem value="anime" className="text-xs">🎭 Anime Style</SelectItem>
-                                        <SelectItem value="surreal" className="text-xs">🌌 Surreal Art</SelectItem>
-                                        <SelectItem value="watercolor" className="text-xs">🖌️ Watercolor Painting</SelectItem>
-                                        <SelectItem value="photography" className="text-xs">📸 Photography Portrait</SelectItem>
-                                        <SelectItem value="sketch" className="text-xs">✏️ Sketch & Line Art</SelectItem>
-                                      </SelectContent>
-                                    </Select>
-                                  </div>
-
-                                  <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold">Aspect Ratio</Label>
-                                    <Select value={imageRatio} onValueChange={setImageRatio}>
-                                      <SelectTrigger className="text-xs h-9 bg-background">
-                                        <SelectValue />
-                                      </SelectTrigger>
-                                      <SelectContent>
-                                        <SelectItem value="1-1" className="text-xs">1:1 Square</SelectItem>
-                                        <SelectItem value="16-9" className="text-xs">16:9 Landscape</SelectItem>
-                                        <SelectItem value="9-16" className="text-xs">9:16 Portrait</SelectItem>
-                                        <SelectItem value="4-3" className="text-xs">4:3 Desktop</SelectItem>
-                                      </SelectContent>
-                                    </Select>
-                                  </div>
-
-                                  <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold">Lighting Dynamics</Label>
-                                    <Select value={imageLighting} onValueChange={setImageLighting}>
-                                      <SelectTrigger className="text-xs h-9 bg-background">
-                                        <SelectValue />
-                                      </SelectTrigger>
-                                      <SelectContent>
-                                        <SelectItem value="volumetric" className="text-xs">Volumetric Rays</SelectItem>
-                                        <SelectItem value="studio" className="text-xs">Studio Soft Lighting</SelectItem>
-                                        <SelectItem value="neon" className="text-xs">Cyberpunk Neon</SelectItem>
-                                        <SelectItem value="sunset" className="text-xs">Sunset Golden Hour</SelectItem>
-                                        <SelectItem value="moody" className="text-xs">Moody & Shadowy</SelectItem>
-                                      </SelectContent>
-                                    </Select>
-                                  </div>
-
-                                  <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold">Camera Shot Angle</Label>
-                                    <Select value={imageCamera} onValueChange={setImageCamera}>
-                                      <SelectTrigger className="text-xs h-9 bg-background">
-                                        <SelectValue />
-                                      </SelectTrigger>
-                                      <SelectContent>
-                                        <SelectItem value="eye-level" className="text-xs">Eye-level Normal</SelectItem>
-                                        <SelectItem value="close-up" className="text-xs">Extreme Close-up</SelectItem>
-                                        <SelectItem value="wide" className="text-xs">Wide Landscape Shot</SelectItem>
-                                        <SelectItem value="aerial" className="text-xs">Aerial Drone View</SelectItem>
-                                      </SelectContent>
-                                    </Select>
-                                  </div>
-
-                                  <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold">Output Quality</Label>
-                                    <div className="flex gap-2">
-                                      <Select value={imageRes} onValueChange={setImageRes}>
-                                        <SelectTrigger className="text-xs h-9 bg-background flex-1">
-                                          <SelectValue />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                          <SelectItem value="1k" className="text-xs">1K Resolution</SelectItem>
-                                          <SelectItem value="2k" className="text-xs">2K Ultra HD</SelectItem>
-                                          <SelectItem value="4k" className="text-xs">4K Print Quality</SelectItem>
-                                        </SelectContent>
-                                      </Select>
-                                      <Select value={imageFormat} onValueChange={setImageFormat}>
-                                        <SelectTrigger className="text-xs h-9 bg-background w-[80px]">
-                                          <SelectValue />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                          <SelectItem value="png" className="text-xs">PNG</SelectItem>
-                                          <SelectItem value="jpeg" className="text-xs">JPEG</SelectItem>
-                                        </SelectContent>
-                                      </Select>
-                                    </div>
-                                  </div>
-
-                                  <div className="space-y-2">
-                                    <div className="flex items-center justify-between">
-                                      <Label className="text-xs font-semibold">Guidance (CFG Scale): {imageCFG}</Label>
-                                      <Label className="text-xs font-semibold">Steps: {imageSteps}</Label>
-                                    </div>
-                                    <div className="grid grid-cols-2 gap-4">
-                                      <Slider
-                                        value={[imageCFG]}
-                                        min={1}
-                                        max={20}
-                                        step={0.5}
-                                        onValueChange={(val) => setImageCFG(val[0] || 7.5)}
-                                        className="py-2"
-                                      />
-                                      <Slider
-                                        value={[imageSteps]}
-                                        min={10}
-                                        max={150}
-                                        step={5}
-                                        onValueChange={(val) => setImageSteps(val[0] || 30)}
-                                        className="py-2"
-                                      />
-                                    </div>
-                                  </div>
-
-                                  {/* Negative Prompt — always full width */}
-                                  <div className="w-full space-y-1.5">
-                                    <Label className="text-xs font-semibold">Negative Prompt</Label>
-                                    <Input
-                                      value={imageNegative}
-                                      onChange={(e) => setImageNegative(e.target.value)}
-                                      placeholder="What to exclude from generation..."
-                                      className="text-xs bg-background w-full"
-                                    />
-                                  </div>
-                                </div>
-                              )}
-
-                              {/* --- VIDEO CONFIGURATIONS --- */}
-                              {activeTab === 'ai-video' && (
-                                <div className="grid sm:grid-cols-2 gap-4">
-                                  <div className="col-span-2 space-y-1.5">
-                                    <Label className="text-xs font-bold text-blue-500 flex items-center gap-1.5">
-                                      <KeyRound className="h-3.5 w-3.5" />
-                                      Active API Provider / Model
-                                    </Label>
-                                    <Select
-                                      value={videoProvider === 'mock' ? 'mock' : videoProvider === 'runway' ? 'runway' : videoProvider === 'veo' ? `veo:${googleVeoModel}` : videoProvider === 'anthropic' ? `anthropic:${anthropicModel}` : videoProvider === 'fal' ? `fal:${falModel}` : `google:${googleWebModel}`}
-                                      onValueChange={(val) => {
-                                        if (val === 'mock') { setVideoProvider('mock'); return; }
-                                        if (val === 'runway') { setVideoProvider('runway'); return; }
-                                        const [p, ...rest] = val.split(':'); const m = rest.join(':');
-                                        setVideoProvider(p as any);
-                                        if (p === 'veo') setGoogleVeoModel(m);
-                                        else if (p === 'anthropic') setAnthropicModel(m);
-                                        else if (p === 'fal') setFalModel(m);
-                                        else if (p === 'google') setGoogleWebModel(m);
-                                      }}
-                                    >
-                                      <SelectTrigger className="text-xs h-9 bg-background font-semibold border-blue-500/30">
-                                        <SelectValue />
-                                      </SelectTrigger>
-                                      <SelectContent>
-                                        <SelectItem value="mock" className="text-xs font-semibold">✨ Mock Sandbox (Free)</SelectItem>
-                                        <SelectItem value="runway" className="text-xs">🟣 Runway / Gen-3 Alpha</SelectItem>
-                                        <SelectItem value="veo:veo-2.0-generate-001" className="text-xs">🔵 Google Veo / veo-2.0-generate-001</SelectItem>
-                                      </SelectContent>
-                                    </Select>
-                                  </div>
-
-                                  {/* API Key card — always visible */}
-                                  <div className="col-span-2 w-full rounded-lg border bg-muted/30 p-3 space-y-2">
-                                    <div className="flex items-center justify-between">
-                                      <Label className="text-xs font-bold flex items-center gap-1.5">
-                                        <KeyRound className="h-3 w-3 text-blue-500" />
-                                        {videoProvider === 'mock' && 'API Key'}
-                                        {videoProvider === 'runway' && 'Runway API Key'}
-                                        {videoProvider === 'veo' && 'Google Veo API Key'}
-                                        {videoProvider === 'anthropic' && 'Anthropic API Key'}
-                                        {videoProvider === 'fal' && 'Fal.ai API Key'}
-                                        {videoProvider === 'google' && 'Google Gemini API Key'}
-                                      </Label>
-                                      {videoProvider === 'mock' && <span className="text-[10px] text-muted-foreground">Not required for Mock</span>}
-                                      {videoProvider === 'runway' && (runwayKey ? <span className="text-[10px] font-semibold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full">✓ Active</span> : <a href="https://developer.runwayml.com/" target="_blank" rel="noreferrer" className="text-[10px] text-blue-500 hover:underline font-medium">Get API Key →</a>)}
-                                      {videoProvider === 'veo' && (veoKey ? <span className="text-[10px] font-semibold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full">✓ Active</span> : <a href="https://console.cloud.google.com/vertex-ai" target="_blank" rel="noreferrer" className="text-[10px] text-blue-500 hover:underline font-medium">Get API Key →</a>)}
-                                      {videoProvider === 'anthropic' && (anthropicKey ? <span className="text-[10px] font-semibold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full">✓ Active</span> : <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noreferrer" className="text-[10px] text-blue-500 hover:underline font-medium">Get API Key →</a>)}
-                                      {videoProvider === 'fal' && (replicateKey ? <span className="text-[10px] font-semibold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full">✓ Active</span> : <a href="https://fal.ai/dashboard/api-keys" target="_blank" rel="noreferrer" className="text-[10px] text-blue-500 hover:underline font-medium">Get API Key →</a>)}
-                                      {videoProvider === 'google' && (vertexKey ? <span className="text-[10px] font-semibold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full">✓ Active</span> : <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noreferrer" className="text-[10px] text-blue-500 hover:underline font-medium">Get API Key →</a>)}
-                                    </div>
-                                    {videoProvider === 'mock' && (
-                                      <p className="text-[11px] text-muted-foreground">Select a provider above to enter your API key.</p>
-                                    )}
-                                    {videoProvider === 'runway' && <Input type="password" placeholder="runway-key-..." value={runwayKey} onChange={(e) => setRunwayKey(e.target.value)} className="text-xs bg-background h-9 rounded-lg w-full" />}
-                                    {videoProvider === 'veo' && <Input type="password" placeholder="Google Cloud / Vertex Veo Key..." value={veoKey} onChange={(e) => setVeoKey(e.target.value)} className="text-xs bg-background h-9 rounded-lg w-full" />}
-                                    {videoProvider === 'anthropic' && <Input type="password" placeholder="sk-ant-..." value={anthropicKey} onChange={(e) => setAnthropicKey(e.target.value)} className="text-xs bg-background h-9 rounded-lg w-full" />}
-                                    {videoProvider === 'fal' && <Input type="password" placeholder="Key..." value={replicateKey} onChange={(e) => setReplicateKey(e.target.value)} className="text-xs bg-background h-9 rounded-lg w-full" />}
-                                    {videoProvider === 'google' && <Input type="password" placeholder="Google AI Studio key..." value={vertexKey} onChange={(e) => setVertexKey(e.target.value)} className="text-xs bg-background h-9 rounded-lg w-full" />}
-                                  </div>
-
-                                  <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold">Motion Dynamics</Label>
-                                    <Select value={videoMotion} onValueChange={setVideoMotion}>
-                                      <SelectTrigger className="text-xs h-9 bg-background">
-                                        <SelectValue />
-                                      </SelectTrigger>
-                                      <SelectContent>
-                                        <SelectItem value="low" className="text-xs">Low (Static Objects/Wind)</SelectItem>
-                                        <SelectItem value="medium" className="text-xs">Medium (Cinematic Smooth)</SelectItem>
-                                        <SelectItem value="high" className="text-xs">High (Action & Speed)</SelectItem>
-                                      </SelectContent>
-                                    </Select>
-                                  </div>
-
-                                  <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold">Aspect Ratio / Orientation</Label>
-                                    <Select value={videoAspect} onValueChange={setVideoAspect}>
-                                      <SelectTrigger className="text-xs h-9 bg-background">
-                                        <SelectValue />
-                                      </SelectTrigger>
-                                      <SelectContent>
-                                        <SelectItem value="16-9" className="text-xs">📺 16:9 — Horizontal / Landscape</SelectItem>
-                                        <SelectItem value="9-16" className="text-xs">📱 9:16 — Vertical / Portrait</SelectItem>
-                                        <SelectItem value="1-1" className="text-xs">■ 1:1 — Square</SelectItem>
-                                        <SelectItem value="4-3" className="text-xs">💻 4:3 — Classic / Desktop</SelectItem>
-                                        <SelectItem value="21-9" className="text-xs">🎬 21:9 — Ultra-Wide / Cinematic</SelectItem>
-                                      </SelectContent>
-                                    </Select>
-                                  </div>
-
-                                  <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold">Camera Direction Vector</Label>
-                                    <Select value={videoCamera} onValueChange={setVideoCamera}>
-                                      <SelectTrigger className="text-xs h-9 bg-background">
-                                        <SelectValue />
-                                      </SelectTrigger>
-                                      <SelectContent>
-                                        <SelectItem value="none" className="text-xs">None (Fixed Camera)</SelectItem>
-                                        <SelectItem value="zoom-in" className="text-xs">🔍 Zoom In Slowly</SelectItem>
-                                        <SelectItem value="zoom-out" className="text-xs">🔍 Zoom Out Slowly</SelectItem>
-                                        <SelectItem value="pan-left" className="text-xs">◀ Pan Left</SelectItem>
-                                        <SelectItem value="pan-right" className="text-xs">▶ Pan Right</SelectItem>
-                                        <SelectItem value="orbit" className="text-xs">🔄 Orbit / Rotation</SelectItem>
-                                      </SelectContent>
-                                    </Select>
-                                  </div>
-
-                                  <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold">Style Influence</Label>
-                                    <Select value={videoStyle} onValueChange={setVideoStyle}>
-                                      <SelectTrigger className="text-xs h-9 bg-background">
-                                        <SelectValue />
-                                      </SelectTrigger>
-                                      <SelectContent>
-                                        <SelectItem value="photorealistic" className="text-xs">Photorealistic Cinematic</SelectItem>
-                                        <SelectItem value="3d-animation" className="text-xs">3D Pixar/Render</SelectItem>
-                                        <SelectItem value="anime-movie" className="text-xs">Ghibli Anime Movie</SelectItem>
-                                        <SelectItem value="surreal" className="text-xs">Liquid Abstract</SelectItem>
-                                      </SelectContent>
-                                    </Select>
-                                  </div>
-
-                                  <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold">Duration & Capture</Label>
-                                    <Select value={videoDuration} onValueChange={setVideoDuration}>
-                                      <SelectTrigger className="text-xs h-9 bg-background">
-                                        <SelectValue />
-                                      </SelectTrigger>
-                                      <SelectContent>
-                                        <SelectItem value="4" className="text-xs">4 Seconds (Fast)</SelectItem>
-                                        <SelectItem value="8" className="text-xs">8 Seconds (Standard)</SelectItem>
-                                        <SelectItem value="16" className="text-xs">16 Seconds (Pro)</SelectItem>
-                                      </SelectContent>
-                                    </Select>
-                                  </div>
-
-                                  <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold">FPS & Frame Rate</Label>
-                                    <Select value={videoFPS.toString()} onValueChange={(val) => setVideoFPS(parseInt(val))}>
-                                      <SelectTrigger className="text-xs h-9 bg-background">
-                                        <SelectValue />
-                                      </SelectTrigger>
-                                      <SelectContent>
-                                        <SelectItem value="24" className="text-xs">24 FPS Cinematic</SelectItem>
-                                        <SelectItem value="30" className="text-xs">30 FPS Standard</SelectItem>
-                                        <SelectItem value="60" className="text-xs">60 FPS Ultra-Smooth</SelectItem>
-                                      </SelectContent>
-                                    </Select>
-                                  </div>
-
-                                  <div className="col-span-2 flex items-center justify-between p-2.5 rounded-lg border bg-background mt-2">
-                                    <div className="space-y-0.5">
-                                      <Label className="text-xs font-bold">Flow Interpolation</Label>
-                                      <p className="text-[10px] text-muted-foreground">Interpolates frames for super-smooth motion kinetics.</p>
-                                    </div>
-                                    <Switch checked={videoInterpolation} onCheckedChange={setVideoInterpolation} />
-                                  </div>
-                                </div>
-                              )}
-
-                              {/* --- WEB DESIGN CONFIGURATIONS --- */}
-                              {activeTab === 'ai-web' && (
-                                <div className="grid sm:grid-cols-2 gap-4">
-                                  <div className="col-span-2 space-y-1.5">
-                                    <Label className="text-xs font-bold text-blue-500 flex items-center gap-1.5">
-                                      <KeyRound className="h-3.5 w-3.5" />
-                                      Active API Provider / Model
-                                    </Label>
-                                    <Select
-                                      value={webProvider === 'mock' ? 'mock' : `${webProvider}:${webProvider === 'openai' ? openAIChatModel : webProvider === 'anthropic' ? anthropicModel : googleWebModel}`}
-                                      onValueChange={(val) => {
-                                        if (val === 'mock') { setWebProvider('mock'); return; }
-                                        const [p, ...rest] = val.split(':'); const m = rest.join(':');
-                                        setWebProvider(p as any);
-                                        if (p === 'openai') setOpenAIChatModel(m);
-                                        else if (p === 'anthropic') setAnthropicModel(m);
-                                        else if (p === 'google') setGoogleWebModel(m);
-                                      }}
-                                    >
-                                      <SelectTrigger className="text-xs h-9 bg-background font-semibold border-blue-500/30">
-                                        <SelectValue />
-                                      </SelectTrigger>
-                                      <SelectContent>
-                                        <SelectItem value="mock" className="text-xs font-semibold">✨ Mock Sandbox (Free)</SelectItem>
-                                        <SelectItem value="openai:gpt-4o" className="text-xs">🟢 OpenAI / gpt-4o</SelectItem>
-                                        <SelectItem value="openai:gpt-4o-mini" className="text-xs">🟢 OpenAI / gpt-4o-mini</SelectItem>
-                                        <SelectItem value="openai:gpt-4-turbo" className="text-xs">🟢 OpenAI / gpt-4-turbo</SelectItem>
-                                        <SelectItem value="anthropic:claude-3-5-sonnet-20240620" className="text-xs">🔴 Anthropic / claude-3-5-sonnet-20240620</SelectItem>
-                                        <SelectItem value="anthropic:claude-3-opus-20240229" className="text-xs">🔴 Anthropic / claude-3-opus-20240229</SelectItem>
-                                        <SelectItem value="anthropic:claude-3-haiku-20240307" className="text-xs">🔴 Anthropic / claude-3-haiku-20240307</SelectItem>
-                                        <SelectItem value="google:gemini-1.5-flash" className="text-xs">🔵 Google / gemini-1.5-flash</SelectItem>
-                                        <SelectItem value="google:gemini-1.5-pro" className="text-xs">🔵 Google / gemini-1.5-pro</SelectItem>
-                                        <SelectItem value="google:gemini-2.0-flash" className="text-xs">🔵 Google / gemini-2.0-flash</SelectItem>
-                                      </SelectContent>
-                                    </Select>
-                                  </div>
-
-                                  {/* API Key card — always visible */}
-                                  <div className="col-span-2 w-full rounded-lg border bg-muted/30 p-3 space-y-2">
-                                    <div className="flex items-center justify-between">
-                                      <Label className="text-xs font-bold flex items-center gap-1.5">
-                                        <KeyRound className="h-3 w-3 text-blue-500" />
-                                        {webProvider === 'mock' && 'API Key'}
-                                        {webProvider === 'anthropic' && 'Anthropic API Key'}
-                                        {webProvider === 'openai' && 'OpenAI API Key'}
-                                        {webProvider === 'google' && 'Google Gemini API Key'}
-                                      </Label>
-                                      {webProvider === 'mock' && <span className="text-[10px] text-muted-foreground">Not required for Mock</span>}
-                                      {webProvider === 'anthropic' && (anthropicKey ? <span className="text-[10px] font-semibold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full">✓ Active</span> : <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noreferrer" className="text-[10px] text-blue-500 hover:underline font-medium">Get API Key →</a>)}
-                                      {webProvider === 'openai' && (openAIKey ? <span className="text-[10px] font-semibold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full">✓ Active</span> : <a href="https://platform.openai.com/api-keys" target="_blank" rel="noreferrer" className="text-[10px] text-blue-500 hover:underline font-medium">Get API Key →</a>)}
-                                      {webProvider === 'google' && (vertexKey ? <span className="text-[10px] font-semibold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full">✓ Active</span> : <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noreferrer" className="text-[10px] text-blue-500 hover:underline font-medium">Get API Key →</a>)}
-                                    </div>
-                                    {webProvider === 'mock' && (
-                                      <p className="text-[11px] text-muted-foreground">Select a provider above to enter your API key.</p>
-                                    )}
-                                    {webProvider === 'anthropic' && <Input type="password" placeholder="sk-ant-..." value={anthropicKey} onChange={(e) => setAnthropicKey(e.target.value)} className="text-xs bg-background h-9 rounded-lg w-full" />}
-                                    {webProvider === 'openai' && <Input type="password" placeholder="sk-proj-..." value={openAIKey} onChange={(e) => setOpenAIKey(e.target.value)} className="text-xs bg-background h-9 rounded-lg w-full" />}
-                                    {webProvider === 'google' && <Input type="password" placeholder="Google AI Studio key..." value={vertexKey} onChange={(e) => setVertexKey(e.target.value)} className="text-xs bg-background h-9 rounded-lg w-full" />}
-                                  </div>
-
-                                  <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold">Aesthetic Theme</Label>
-                                    <Select value={webTheme} onValueChange={setWebTheme}>
-                                      <SelectTrigger className="text-xs h-9 bg-background">
-                                        <SelectValue />
-                                      </SelectTrigger>
-                                      <SelectContent>
-                                        <SelectItem value="glassmorphism" className="text-xs">✨ Premium Glassmorphism</SelectItem>
-                                        <SelectItem value="dark" className="text-xs">🌑 Sleek Dark Mode</SelectItem>
-                                        <SelectItem value="light" className="text-xs">☀️ Clean Light Mode</SelectItem>
-                                        <SelectItem value="neon" className="text-xs">👾 Cyberpunk Retro Neon</SelectItem>
-                                      </SelectContent>
-                                    </Select>
-                                  </div>
-
-                                  <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold">Accent Palette</Label>
-                                    <Select value={webColor} onValueChange={setWebColor}>
-                                      <SelectTrigger className="text-xs h-9 bg-background">
-                                        <SelectValue />
-                                      </SelectTrigger>
-                                      <SelectContent>
-                                        <SelectItem value="blue" className="text-xs">🔵 Royal Blue</SelectItem>
-                                        <SelectItem value="emerald" className="text-xs">🟢 Tech Emerald / Green</SelectItem>
-                                        <SelectItem value="rose" className="text-xs">🔴 Vivid Rose / Crimson</SelectItem>
-                                        <SelectItem value="amber" className="text-xs">🟡 Warm Amber / Gold</SelectItem>
-                                      </SelectContent>
-                                    </Select>
-                                  </div>
-
-                                  <div className="space-y-1.5">
-                                    <Label className="text-xs font-semibold">Target Section Layout</Label>
-                                    <Select value={webComponent} onValueChange={setWebComponent}>
-                                      <SelectTrigger className="text-xs h-9 bg-background">
-                                        <SelectValue />
-                                      </SelectTrigger>
-                                      <SelectContent>
-                                        <SelectItem value="hero" className="text-xs">Hero Header Container</SelectItem>
-                                        <SelectItem value="pricing" className="text-xs">Features & Pricing Grid</SelectItem>
-                                        <SelectItem value="features" className="text-xs">Modern Service Outline</SelectItem>
-                                        <SelectItem value="full-page" className="text-xs">Full Page Layout Structure</SelectItem>
-                                      </SelectContent>
-                                    </Select>
-                                  </div>
-                                </div>
-                              )}
-
-                              {/* --- CHAT / PURE TEXT MODEL SELECTOR --- */}
-                              {activeTab === 'pure-text' && (
-                                <div className="space-y-3">
-                                  <div className="col-span-2 space-y-1.5">
-                                    <Label className="text-xs font-bold text-blue-500 flex items-center gap-1.5">
-                                      <KeyRound className="h-3.5 w-3.5" />
-                                      Active API Provider / Model
-                                    </Label>
-                                    <Select
-                                      value={chatProvider === 'mock' ? 'mock' : `${chatProvider === 'openai' ? 'openai-chat' : chatProvider}:${chatProvider === 'openai' ? openAIChatModel : chatProvider === 'anthropic' ? anthropicModel : googleWebModel}`}
-                                      onValueChange={(val) => {
-                                        if (val === 'mock') {
-                                          setChatProvider('mock');
-                                          return;
-                                        }
-                                        const [p, ...rest] = val.split(':'); const m = rest.join(':');
-                                        if (p === 'openai-chat') {
-                                          setChatProvider('openai');
-                                          setOpenAIChatModel(m);
-                                        }
-                                        else if (p === 'anthropic') {
-                                          setChatProvider('anthropic');
-                                          setAnthropicModel(m);
-                                        }
-                                        else if (p === 'google') {
-                                          setChatProvider('google');
-                                          setGoogleWebModel(m);
-                                        }
-                                      }}
-                                    >
-                                      <SelectTrigger className="text-xs h-9 bg-background font-semibold border-blue-500/30">
-                                        <SelectValue placeholder="✨ Mock Sandbox (Free)" />
-                                      </SelectTrigger>
-                                      <SelectContent>
-                                        <SelectItem value="mock" className="text-xs font-semibold">✨ Mock Sandbox (Free)</SelectItem>
-                                        <SelectItem value="openai-chat:gpt-4o" className="text-xs">🟢 OpenAI / gpt-4o</SelectItem>
-                                        <SelectItem value="openai-chat:gpt-4o-mini" className="text-xs">🟢 OpenAI / gpt-4o-mini</SelectItem>
-                                        <SelectItem value="openai-chat:gpt-4-turbo" className="text-xs">🟢 OpenAI / gpt-4-turbo</SelectItem>
-                                        <SelectItem value="anthropic:claude-3-5-sonnet-20240620" className="text-xs">🔴 Anthropic / claude-3-5-sonnet-20240620</SelectItem>
-                                        <SelectItem value="anthropic:claude-3-opus-20240229" className="text-xs">🔴 Anthropic / claude-3-opus-20240229</SelectItem>
-                                        <SelectItem value="anthropic:claude-3-haiku-20240307" className="text-xs">🔴 Anthropic / claude-3-haiku-20240307</SelectItem>
-                                        <SelectItem value="google:gemini-1.5-flash" className="text-xs">🔵 Google / gemini-1.5-flash</SelectItem>
-                                        <SelectItem value="google:gemini-1.5-pro" className="text-xs">🔵 Google / gemini-1.5-pro</SelectItem>
-                                        <SelectItem value="google:gemini-2.0-flash" className="text-xs">🔵 Google / gemini-2.0-flash</SelectItem>
-                                      </SelectContent>
-                                    </Select>
-
-                                    {/* Single contextual API key card — matches the selected provider */}
-                                    {(() => {
-                                      if (chatProvider === 'openai') return (
-                                        <div className="mt-3 rounded-lg border bg-muted/30 p-3 space-y-2">
-                                          <div className="flex items-center justify-between">
-                                            <Label className="text-xs font-bold flex items-center gap-1.5"><KeyRound className="h-3 w-3 text-blue-500" />OpenAI API Key</Label>
-                                            {openAIKey ? <span className="text-[10px] font-semibold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full">✓ Active</span> : <a href="https://platform.openai.com/api-keys" target="_blank" rel="noreferrer" className="text-[10px] text-blue-500 hover:underline font-medium">Get API Key →</a>}
-                                          </div>
-                                          <Input type="password" placeholder="sk-proj-..." value={openAIKey} onChange={(e) => setOpenAIKey(e.target.value)} className="text-xs bg-background h-9 rounded-lg" />
-                                        </div>
-                                      );
-                                      if (chatProvider === 'anthropic') return (
-                                        <div className="mt-3 rounded-lg border bg-muted/30 p-3 space-y-2">
-                                          <div className="flex items-center justify-between">
-                                            <Label className="text-xs font-bold flex items-center gap-1.5"><KeyRound className="h-3 w-3 text-blue-500" />Anthropic API Key</Label>
-                                            {anthropicKey ? <span className="text-[10px] font-semibold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full">✓ Active</span> : <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noreferrer" className="text-[10px] text-blue-500 hover:underline font-medium">Get API Key →</a>}
-                                          </div>
-                                          <Input type="password" placeholder="sk-ant-..." value={anthropicKey} onChange={(e) => setAnthropicKey(e.target.value)} className="text-xs bg-background h-9 rounded-lg" />
-                                        </div>
-                                      );
-                                      if (chatProvider === 'google') return (
-                                        <div className="mt-3 rounded-lg border bg-muted/30 p-3 space-y-2">
-                                          <div className="flex items-center justify-between">
-                                            <Label className="text-xs font-bold flex items-center gap-1.5"><KeyRound className="h-3 w-3 text-blue-500" />Google Gemini API Key</Label>
-                                            {vertexKey ? <span className="text-[10px] font-semibold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full">✓ Active</span> : <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noreferrer" className="text-[10px] text-blue-500 hover:underline font-medium">Get API Key →</a>}
-                                          </div>
-                                          <Input type="password" placeholder="Google AI Studio key..." value={vertexKey} onChange={(e) => setVertexKey(e.target.value)} className="text-xs bg-background h-9 rounded-lg" />
-                                        </div>
-                                      );
-                                      return null;
-                                    })()}
-                                  </div>
-                                </div>
-                              )}
-
-
-                            </AccordionContent>
-                          </AccordionItem>
-                        </Accordion>
-
-                        {/* Trigger button */}
-                        {(() => {
-                          const getButtonConfig = () => {
-                            if (activeTab === 'ai-video') {
-                              return {
-                                gradient: '!bg-gradient-to-r !from-blue-600 !to-cyan-500 hover:!from-blue-700 hover:!to-cyan-600 dark:!from-blue-500 dark:!to-cyan-400 dark:hover:!from-blue-600 dark:hover:!to-cyan-500',
-                                shadow: '!shadow-lg !shadow-blue-500/20 hover:!shadow-blue-500/40 dark:!shadow-blue-500/15 dark:hover:!shadow-cyan-500/30',
-                                icon: <Clapperboard className="h-4 w-4 !text-white animate-pulse" />,
-                                text: 'Generate AI Video',
-                                border: '!border !border-blue-500/20 dark:!border-cyan-400/30',
-                                ring: 'hover:!ring-2 hover:!ring-offset-2 hover:!ring-offset-background hover:!ring-blue-500/50 dark:hover:!ring-cyan-400/50'
-                              };
-                            }
-                            if (activeTab === 'ai-web') {
-                              return {
-                                gradient: '!bg-gradient-to-r !from-blue-600 !to-cyan-500 hover:!from-blue-700 hover:!to-cyan-600 dark:!from-blue-500 dark:!to-cyan-400 dark:hover:!from-blue-600 dark:hover:!to-cyan-500',
-                                shadow: '!shadow-lg !shadow-blue-500/20 hover:!shadow-blue-500/40 dark:!shadow-emerald-500/15 dark:hover:!shadow-emerald-500/35',
-                                icon: <Globe className="h-4 w-4 !text-white animate-pulse" />,
-                                text: 'Generate Landing Code',
-                                border: '!border !border-blue-500/20 dark:!border-emerald-400/30',
-                                ring: 'hover:!ring-2 hover:!ring-offset-2 hover:!ring-offset-background hover:!ring-blue-500/50 dark:hover:!ring-emerald-400/50'
-                              };
-                            }
-                            // Default to Image
-                            return {
-                              gradient: '!bg-gradient-to-r !from-blue-600 !to-blue-600 hover:!from-blue-700 hover:!to-blue-700 dark:!from-sky-400 dark:!to-blue-500 dark:hover:!from-sky-500 dark:hover:!to-blue-600',
-                              shadow: '!shadow-lg !shadow-blue-500/20 hover:!shadow-blue-500/40 dark:!shadow-sky-500/15 dark:hover:!shadow-sky-500/35',
-                                icon: <Sparkles className="h-4 w-4 !text-white animate-pulse" />,
-                              text: 'Generate AI Image',
-                              border: '!border !border-blue-500/20 dark:!border-sky-400/30',
-                              ring: 'hover:!ring-2 hover:!ring-offset-2 hover:!ring-offset-background hover:!ring-blue-500/50 dark:hover:!ring-sky-400/50'
-                            };
-                          };
-
-                          const btn = getButtonConfig();
-
-                          return (
-                            <div className="pt-2">
-                              <Button 
-                                type="submit" 
-                                disabled={true} 
-                                className={`relative group overflow-hidden w-full h-12 ${btn.gradient} !text-white font-extrabold gap-2.5 text-sm rounded-xl transition-all duration-300 ease-out hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center ${btn.shadow} ${btn.border} ${btn.ring}`}
-                              >
-                                {/* Inner glow overlay on hover */}
-                                <div className="absolute inset-0 w-full h-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-                                
-                                {isPending || localGenerating ? (
-                                  <>
-                                    <Loader2 className="h-4 w-4 animate-spin !text-white" />
-                                    <span className="!text-white z-10">{localGenerating ? genStatus : 'Synthesizing output...'}</span>
-                                  </>
-                                ) : (
-                                  <>
-                                    <span className="z-10 flex items-center gap-2.5">
-                                      {btn.icon}
-                                      <span className="!text-white tracking-wide font-extrabold">{btn.text}</span>
-                                    </span>
-                                  </>
+                              <div className="flex items-center justify-between">
+                                <Label className="text-sm font-bold text-foreground">
+                                  {activeTab === 'ai-image' ? 'Image Description' : activeTab === 'ai-video' ? 'Video Narrative & Motion' : 'Web Page Requirements'}
+                                </Label>
+                                <span className="text-xs text-muted-foreground">{editingText.length} characters</span>
+                              </div>
+                              <div className="relative">
+                                <Textarea
+                                  name="prompt"
+                                  value={editingText}
+                                  onChange={(e) => {
+                                    const val = e.target.value;
+                                    setEditingText(val);
+                                    setBasePrompt(stripTags(val));
+                                  }}
+                                  className="min-h-[140px] text-base p-4 pr-10 focus-visible:ring-1 bg-background resize-y leading-relaxed"
+                                  placeholder={
+                                    activeTab === 'ai-image' ? "Describe the image you want to create (e.g., 'A futuristic astronaut exploring digital artifacts on Mars...')" :
+                                      activeTab === 'ai-video' ? "Describe the dynamic motion scene (e.g., 'Drone shot flying over tropical stream cascades in slow-motion...')" :
+                                        "Define the landing page sections and purpose (e.g., 'Modern clean SaaS portfolio for a photographer showcasing abstract images...')"
+                                  }
+                                />
+                                {editingText && (
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      setEditingText('');
+                                      setBasePrompt('');
+                                    }}
+                                    className="absolute top-3 right-3 text-muted-foreground hover:text-foreground p-1 rounded-md transition"
+                                    title="Clear text"
+                                  >
+                                    <Trash2 className="h-4 w-4" />
+                                  </button>
                                 )}
-                              </Button>
+                              </div>
                             </div>
-                          );
-                        })()}
-                      </>
-                    )}
+
+                            {/* Interactive presets for instant styling options */}
+                            <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
+                              <div className="flex gap-2">
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="sm"
+                                  className="text-xs font-semibold h-9"
+                                  onClick={handlePasteClipboard}
+                                >
+                                  <ClipboardPaste className="mr-1.5 h-3.5 w-3.5" />
+                                  Import Clipboard
+                                </Button>
+                                <Button
+                                  type="button"
+                                  variant="secondary"
+                                  size="sm"
+                                  className="text-xs font-semibold h-9 gap-1.5"
+                                  onClick={handleEnhancePrompt}
+                                >
+                                  <Wand2 className="h-3.5 w-3.5 text-blue-500 animate-pulse" />
+                                  Enhance Prompt
+                                </Button>
+                              </div>
+
+                            </div>
+
+                            {/* Options Accordions specific to each tab */}
+                            <Accordion type="single" collapsible defaultValue="options" className="w-full pt-4">
+                              <AccordionItem value="options" className="border-t border-b-0">
+                                <AccordionTrigger className="hover:no-underline py-3">
+                                  <span className="flex items-center gap-2 text-sm font-extrabold text-foreground">
+                                    <Settings2 className="h-4 w-4 text-blue-500" />
+                                    Advanced Design Settings
+                                  </span>
+                                </AccordionTrigger>
+                                <AccordionContent className="pt-2 pb-4 space-y-5">
+
+                                  {/* --- IMAGE CONFIGURATIONS --- */}
+                                  {activeTab === 'ai-image' && (
+                                    <div className="space-y-4">
+                                      {/* Provider Select — always full width */}
+                                      <div className="space-y-1.5">
+                                        <Label className="text-xs font-bold text-blue-500 flex items-center gap-1.5">
+                                          <KeyRound className="h-3.5 w-3.5" />
+                                          Active API Provider / Model
+                                        </Label>
+                                        <Select
+                                          value={imageProvider === 'mock' ? 'mock' : `${imageProvider}:${imageProvider === 'openai' ? openAIImageModel : imageProvider === 'fal' ? falModel : googleWebModel}`}
+                                          onValueChange={(val) => {
+                                            if (val === 'mock') { setImageProvider('mock'); return; }
+                                            const [p, ...rest] = val.split(':'); const m = rest.join(':');
+                                            setImageProvider(p as any);
+                                            if (p === 'openai') setOpenAIImageModel(m);
+                                            else if (p === 'fal') setFalModel(m);
+                                            else if (p === 'google') setGoogleWebModel(m);
+                                          }}
+                                        >
+                                          <SelectTrigger className="text-xs h-9 bg-background font-semibold border-blue-500/30">
+                                            <SelectValue />
+                                          </SelectTrigger>
+                                          <SelectContent>
+                                            <SelectItem value="mock" className="text-xs font-semibold">✨ Mock Sandbox (Free)</SelectItem>
+                                            <SelectItem value="openai:dall-e-3" className="text-xs">🟢 OpenAI / dall-e-3</SelectItem>
+                                            <SelectItem value="openai:dall-e-2" className="text-xs">🟢 OpenAI / dall-e-2</SelectItem>
+                                            <SelectItem value="fal:fal-ai/flux/schnell" className="text-xs">🔥 Fal.ai / fal-ai/flux/schnell</SelectItem>
+                                            <SelectItem value="fal:fal-ai/flux/dev" className="text-xs">🔥 Fal.ai / fal-ai/flux/dev</SelectItem>
+                                            <SelectItem value="fal:fal-ai/flux-pro" className="text-xs">🔥 Fal.ai / fal-ai/flux-pro</SelectItem>
+                                            <SelectItem value="google:gemini-1.5-flash" className="text-xs">🔵 Google / gemini-1.5-flash</SelectItem>
+                                            <SelectItem value="google:gemini-1.5-pro" className="text-xs">🔵 Google / gemini-1.5-pro</SelectItem>
+                                            <SelectItem value="google:gemini-2.0-flash" className="text-xs">🔵 Google / gemini-2.0-flash</SelectItem>
+                                          </SelectContent>
+                                        </Select>
+                                      </div>
+
+                                      {/* API Key card — always visible */}
+                                      <div className="w-full rounded-lg border bg-muted/30 p-3 space-y-2">
+                                        <div className="flex items-center justify-between">
+                                          <Label className="text-xs font-bold flex items-center gap-1.5">
+                                            <KeyRound className="h-3 w-3 text-blue-500" />
+                                            {imageProvider === 'mock' && 'API Key'}
+                                            {imageProvider === 'openai' && 'OpenAI API Key'}
+                                            {imageProvider === 'fal' && 'Fal.ai API Key'}
+                                            {imageProvider === 'google' && 'Google Gemini API Key'}
+                                          </Label>
+                                          {imageProvider === 'mock' && <span className="text-[10px] text-muted-foreground">Not required for Mock</span>}
+                                          {imageProvider === 'openai' && (openAIKey ? <span className="text-[10px] font-semibold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full">✓ Active</span> : <a href="https://platform.openai.com/api-keys" target="_blank" rel="noreferrer" className="text-[10px] text-blue-500 hover:underline font-medium">Get API Key →</a>)}
+                                          {imageProvider === 'fal' && (replicateKey ? <span className="text-[10px] font-semibold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full">✓ Active</span> : <a href="https://fal.ai/dashboard/api-keys" target="_blank" rel="noreferrer" className="text-[10px] text-blue-500 hover:underline font-medium">Get API Key →</a>)}
+                                          {imageProvider === 'google' && (vertexKey ? <span className="text-[10px] font-semibold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full">✓ Active</span> : <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noreferrer" className="text-[10px] text-blue-500 hover:underline font-medium">Get API Key →</a>)}
+                                        </div>
+                                        {imageProvider === 'mock' && (
+                                          <p className="text-[11px] text-muted-foreground">Select a provider above to enter your API key.</p>
+                                        )}
+                                        {imageProvider === 'openai' && <Input type="password" placeholder="sk-proj-..." value={openAIKey} onChange={(e) => setOpenAIKey(e.target.value)} className="text-xs bg-background h-9 rounded-lg w-full" />}
+                                        {imageProvider === 'fal' && <Input type="password" placeholder="Key..." value={replicateKey} onChange={(e) => setReplicateKey(e.target.value)} className="text-xs bg-background h-9 rounded-lg w-full" />}
+                                        {imageProvider === 'google' && <Input type="password" placeholder="Google AI Studio key..." value={vertexKey} onChange={(e) => setVertexKey(e.target.value)} className="text-xs bg-background h-9 rounded-lg w-full" />}
+                                      </div>
+
+                                      {/* Settings fields in 2-col grid */}
+                                      <div className="grid sm:grid-cols-2 gap-4">
+                                        <Label className="text-xs font-semibold">Creative Preset</Label>
+                                        <Select value={imageStyle} onValueChange={setImageStyle}>
+                                          <SelectTrigger className="text-xs h-9 bg-background">
+                                            <SelectValue />
+                                          </SelectTrigger>
+                                          <SelectContent>
+                                            <SelectItem value="cinematic" className="text-xs">🎬 Cinematic (Realism)</SelectItem>
+                                            <SelectItem value="anime" className="text-xs">🎭 Anime Style</SelectItem>
+                                            <SelectItem value="surreal" className="text-xs">🌌 Surreal Art</SelectItem>
+                                            <SelectItem value="watercolor" className="text-xs">🖌️ Watercolor Painting</SelectItem>
+                                            <SelectItem value="photography" className="text-xs">📸 Photography Portrait</SelectItem>
+                                            <SelectItem value="sketch" className="text-xs">✏️ Sketch & Line Art</SelectItem>
+                                          </SelectContent>
+                                        </Select>
+                                      </div>
+
+                                      <div className="space-y-1.5">
+                                        <Label className="text-xs font-semibold">Aspect Ratio</Label>
+                                        <Select value={imageRatio} onValueChange={setImageRatio}>
+                                          <SelectTrigger className="text-xs h-9 bg-background">
+                                            <SelectValue />
+                                          </SelectTrigger>
+                                          <SelectContent>
+                                            <SelectItem value="1-1" className="text-xs">1:1 Square</SelectItem>
+                                            <SelectItem value="16-9" className="text-xs">16:9 Landscape</SelectItem>
+                                            <SelectItem value="9-16" className="text-xs">9:16 Portrait</SelectItem>
+                                            <SelectItem value="4-3" className="text-xs">4:3 Desktop</SelectItem>
+                                          </SelectContent>
+                                        </Select>
+                                      </div>
+
+                                      <div className="space-y-1.5">
+                                        <Label className="text-xs font-semibold">Lighting Dynamics</Label>
+                                        <Select value={imageLighting} onValueChange={setImageLighting}>
+                                          <SelectTrigger className="text-xs h-9 bg-background">
+                                            <SelectValue />
+                                          </SelectTrigger>
+                                          <SelectContent>
+                                            <SelectItem value="volumetric" className="text-xs">Volumetric Rays</SelectItem>
+                                            <SelectItem value="studio" className="text-xs">Studio Soft Lighting</SelectItem>
+                                            <SelectItem value="neon" className="text-xs">Cyberpunk Neon</SelectItem>
+                                            <SelectItem value="sunset" className="text-xs">Sunset Golden Hour</SelectItem>
+                                            <SelectItem value="moody" className="text-xs">Moody & Shadowy</SelectItem>
+                                          </SelectContent>
+                                        </Select>
+                                      </div>
+
+                                      <div className="space-y-1.5">
+                                        <Label className="text-xs font-semibold">Camera Shot Angle</Label>
+                                        <Select value={imageCamera} onValueChange={setImageCamera}>
+                                          <SelectTrigger className="text-xs h-9 bg-background">
+                                            <SelectValue />
+                                          </SelectTrigger>
+                                          <SelectContent>
+                                            <SelectItem value="eye-level" className="text-xs">Eye-level Normal</SelectItem>
+                                            <SelectItem value="close-up" className="text-xs">Extreme Close-up</SelectItem>
+                                            <SelectItem value="wide" className="text-xs">Wide Landscape Shot</SelectItem>
+                                            <SelectItem value="aerial" className="text-xs">Aerial Drone View</SelectItem>
+                                          </SelectContent>
+                                        </Select>
+                                      </div>
+
+                                      <div className="space-y-1.5">
+                                        <Label className="text-xs font-semibold">Output Quality</Label>
+                                        <div className="flex gap-2">
+                                          <Select value={imageRes} onValueChange={setImageRes}>
+                                            <SelectTrigger className="text-xs h-9 bg-background flex-1">
+                                              <SelectValue />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                              <SelectItem value="1k" className="text-xs">1K Resolution</SelectItem>
+                                              <SelectItem value="2k" className="text-xs">2K Ultra HD</SelectItem>
+                                              <SelectItem value="4k" className="text-xs">4K Print Quality</SelectItem>
+                                            </SelectContent>
+                                          </Select>
+                                          <Select value={imageFormat} onValueChange={setImageFormat}>
+                                            <SelectTrigger className="text-xs h-9 bg-background w-[80px]">
+                                              <SelectValue />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                              <SelectItem value="png" className="text-xs">PNG</SelectItem>
+                                              <SelectItem value="jpeg" className="text-xs">JPEG</SelectItem>
+                                            </SelectContent>
+                                          </Select>
+                                        </div>
+                                      </div>
+
+                                      <div className="space-y-2">
+                                        <div className="flex items-center justify-between">
+                                          <Label className="text-xs font-semibold">Guidance (CFG Scale): {imageCFG}</Label>
+                                          <Label className="text-xs font-semibold">Steps: {imageSteps}</Label>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-4">
+                                          <Slider
+                                            value={[imageCFG]}
+                                            min={1}
+                                            max={20}
+                                            step={0.5}
+                                            onValueChange={(val) => setImageCFG(val[0] || 7.5)}
+                                            className="py-2"
+                                          />
+                                          <Slider
+                                            value={[imageSteps]}
+                                            min={10}
+                                            max={150}
+                                            step={5}
+                                            onValueChange={(val) => setImageSteps(val[0] || 30)}
+                                            className="py-2"
+                                          />
+                                        </div>
+                                      </div>
+
+                                      {/* Negative Prompt — always full width */}
+                                      <div className="w-full space-y-1.5">
+                                        <Label className="text-xs font-semibold">Negative Prompt</Label>
+                                        <Input
+                                          value={imageNegative}
+                                          onChange={(e) => setImageNegative(e.target.value)}
+                                          placeholder="What to exclude from generation..."
+                                          className="text-xs bg-background w-full"
+                                        />
+                                      </div>
+                                    </div>
+                                  )}
+
+                                  {/* --- VIDEO CONFIGURATIONS --- */}
+                                  {activeTab === 'ai-video' && (
+                                    <div className="grid sm:grid-cols-2 gap-4">
+                                      <div className="col-span-2 space-y-1.5">
+                                        <Label className="text-xs font-bold text-blue-500 flex items-center gap-1.5">
+                                          <KeyRound className="h-3.5 w-3.5" />
+                                          Active API Provider / Model
+                                        </Label>
+                                        <Select
+                                          value={videoProvider === 'mock' ? 'mock' : videoProvider === 'runway' ? 'runway' : videoProvider === 'veo' ? `veo:${googleVeoModel}` : videoProvider === 'anthropic' ? `anthropic:${anthropicModel}` : videoProvider === 'fal' ? `fal:${falModel}` : `google:${googleWebModel}`}
+                                          onValueChange={(val) => {
+                                            if (val === 'mock') { setVideoProvider('mock'); return; }
+                                            if (val === 'runway') { setVideoProvider('runway'); return; }
+                                            const [p, ...rest] = val.split(':'); const m = rest.join(':');
+                                            setVideoProvider(p as any);
+                                            if (p === 'veo') setGoogleVeoModel(m);
+                                            else if (p === 'anthropic') setAnthropicModel(m);
+                                            else if (p === 'fal') setFalModel(m);
+                                            else if (p === 'google') setGoogleWebModel(m);
+                                          }}
+                                        >
+                                          <SelectTrigger className="text-xs h-9 bg-background font-semibold border-blue-500/30">
+                                            <SelectValue />
+                                          </SelectTrigger>
+                                          <SelectContent>
+                                            <SelectItem value="mock" className="text-xs font-semibold">✨ Mock Sandbox (Free)</SelectItem>
+                                            <SelectItem value="runway" className="text-xs">🟣 Runway / Gen-3 Alpha</SelectItem>
+                                            <SelectItem value="veo:veo-2.0-generate-001" className="text-xs">🔵 Google Veo / veo-2.0-generate-001</SelectItem>
+                                          </SelectContent>
+                                        </Select>
+                                      </div>
+
+                                      {/* API Key card — always visible */}
+                                      <div className="col-span-2 w-full rounded-lg border bg-muted/30 p-3 space-y-2">
+                                        <div className="flex items-center justify-between">
+                                          <Label className="text-xs font-bold flex items-center gap-1.5">
+                                            <KeyRound className="h-3 w-3 text-blue-500" />
+                                            {videoProvider === 'mock' && 'API Key'}
+                                            {videoProvider === 'runway' && 'Runway API Key'}
+                                            {videoProvider === 'veo' && 'Google Veo API Key'}
+                                            {videoProvider === 'anthropic' && 'Anthropic API Key'}
+                                            {videoProvider === 'fal' && 'Fal.ai API Key'}
+                                            {videoProvider === 'google' && 'Google Gemini API Key'}
+                                          </Label>
+                                          {videoProvider === 'mock' && <span className="text-[10px] text-muted-foreground">Not required for Mock</span>}
+                                          {videoProvider === 'runway' && (runwayKey ? <span className="text-[10px] font-semibold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full">✓ Active</span> : <a href="https://developer.runwayml.com/" target="_blank" rel="noreferrer" className="text-[10px] text-blue-500 hover:underline font-medium">Get API Key →</a>)}
+                                          {videoProvider === 'veo' && (veoKey ? <span className="text-[10px] font-semibold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full">✓ Active</span> : <a href="https://console.cloud.google.com/vertex-ai" target="_blank" rel="noreferrer" className="text-[10px] text-blue-500 hover:underline font-medium">Get API Key →</a>)}
+                                          {videoProvider === 'anthropic' && (anthropicKey ? <span className="text-[10px] font-semibold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full">✓ Active</span> : <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noreferrer" className="text-[10px] text-blue-500 hover:underline font-medium">Get API Key →</a>)}
+                                          {videoProvider === 'fal' && (replicateKey ? <span className="text-[10px] font-semibold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full">✓ Active</span> : <a href="https://fal.ai/dashboard/api-keys" target="_blank" rel="noreferrer" className="text-[10px] text-blue-500 hover:underline font-medium">Get API Key →</a>)}
+                                          {videoProvider === 'google' && (vertexKey ? <span className="text-[10px] font-semibold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full">✓ Active</span> : <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noreferrer" className="text-[10px] text-blue-500 hover:underline font-medium">Get API Key →</a>)}
+                                        </div>
+                                        {videoProvider === 'mock' && (
+                                          <p className="text-[11px] text-muted-foreground">Select a provider above to enter your API key.</p>
+                                        )}
+                                        {videoProvider === 'runway' && <Input type="password" placeholder="runway-key-..." value={runwayKey} onChange={(e) => setRunwayKey(e.target.value)} className="text-xs bg-background h-9 rounded-lg w-full" />}
+                                        {videoProvider === 'veo' && <Input type="password" placeholder="Google Cloud / Vertex Veo Key..." value={veoKey} onChange={(e) => setVeoKey(e.target.value)} className="text-xs bg-background h-9 rounded-lg w-full" />}
+                                        {videoProvider === 'anthropic' && <Input type="password" placeholder="sk-ant-..." value={anthropicKey} onChange={(e) => setAnthropicKey(e.target.value)} className="text-xs bg-background h-9 rounded-lg w-full" />}
+                                        {videoProvider === 'fal' && <Input type="password" placeholder="Key..." value={replicateKey} onChange={(e) => setReplicateKey(e.target.value)} className="text-xs bg-background h-9 rounded-lg w-full" />}
+                                        {videoProvider === 'google' && <Input type="password" placeholder="Google AI Studio key..." value={vertexKey} onChange={(e) => setVertexKey(e.target.value)} className="text-xs bg-background h-9 rounded-lg w-full" />}
+                                      </div>
+
+                                      <div className="space-y-1.5">
+                                        <Label className="text-xs font-semibold">Motion Dynamics</Label>
+                                        <Select value={videoMotion} onValueChange={setVideoMotion}>
+                                          <SelectTrigger className="text-xs h-9 bg-background">
+                                            <SelectValue />
+                                          </SelectTrigger>
+                                          <SelectContent>
+                                            <SelectItem value="low" className="text-xs">Low (Static Objects/Wind)</SelectItem>
+                                            <SelectItem value="medium" className="text-xs">Medium (Cinematic Smooth)</SelectItem>
+                                            <SelectItem value="high" className="text-xs">High (Action & Speed)</SelectItem>
+                                          </SelectContent>
+                                        </Select>
+                                      </div>
+
+                                      <div className="space-y-1.5">
+                                        <Label className="text-xs font-semibold">Aspect Ratio / Orientation</Label>
+                                        <Select value={videoAspect} onValueChange={setVideoAspect}>
+                                          <SelectTrigger className="text-xs h-9 bg-background">
+                                            <SelectValue />
+                                          </SelectTrigger>
+                                          <SelectContent>
+                                            <SelectItem value="16-9" className="text-xs">📺 16:9 — Horizontal / Landscape</SelectItem>
+                                            <SelectItem value="9-16" className="text-xs">📱 9:16 — Vertical / Portrait</SelectItem>
+                                            <SelectItem value="1-1" className="text-xs">■ 1:1 — Square</SelectItem>
+                                            <SelectItem value="4-3" className="text-xs">💻 4:3 — Classic / Desktop</SelectItem>
+                                            <SelectItem value="21-9" className="text-xs">🎬 21:9 — Ultra-Wide / Cinematic</SelectItem>
+                                          </SelectContent>
+                                        </Select>
+                                      </div>
+
+                                      <div className="space-y-1.5">
+                                        <Label className="text-xs font-semibold">Camera Direction Vector</Label>
+                                        <Select value={videoCamera} onValueChange={setVideoCamera}>
+                                          <SelectTrigger className="text-xs h-9 bg-background">
+                                            <SelectValue />
+                                          </SelectTrigger>
+                                          <SelectContent>
+                                            <SelectItem value="none" className="text-xs">None (Fixed Camera)</SelectItem>
+                                            <SelectItem value="zoom-in" className="text-xs">🔍 Zoom In Slowly</SelectItem>
+                                            <SelectItem value="zoom-out" className="text-xs">🔍 Zoom Out Slowly</SelectItem>
+                                            <SelectItem value="pan-left" className="text-xs">◀ Pan Left</SelectItem>
+                                            <SelectItem value="pan-right" className="text-xs">▶ Pan Right</SelectItem>
+                                            <SelectItem value="orbit" className="text-xs">🔄 Orbit / Rotation</SelectItem>
+                                          </SelectContent>
+                                        </Select>
+                                      </div>
+
+                                      <div className="space-y-1.5">
+                                        <Label className="text-xs font-semibold">Style Influence</Label>
+                                        <Select value={videoStyle} onValueChange={setVideoStyle}>
+                                          <SelectTrigger className="text-xs h-9 bg-background">
+                                            <SelectValue />
+                                          </SelectTrigger>
+                                          <SelectContent>
+                                            <SelectItem value="photorealistic" className="text-xs">Photorealistic Cinematic</SelectItem>
+                                            <SelectItem value="3d-animation" className="text-xs">3D Pixar/Render</SelectItem>
+                                            <SelectItem value="anime-movie" className="text-xs">Ghibli Anime Movie</SelectItem>
+                                            <SelectItem value="surreal" className="text-xs">Liquid Abstract</SelectItem>
+                                          </SelectContent>
+                                        </Select>
+                                      </div>
+
+                                      <div className="space-y-1.5">
+                                        <Label className="text-xs font-semibold">Duration & Capture</Label>
+                                        <Select value={videoDuration} onValueChange={setVideoDuration}>
+                                          <SelectTrigger className="text-xs h-9 bg-background">
+                                            <SelectValue />
+                                          </SelectTrigger>
+                                          <SelectContent>
+                                            <SelectItem value="4" className="text-xs">4 Seconds (Fast)</SelectItem>
+                                            <SelectItem value="8" className="text-xs">8 Seconds (Standard)</SelectItem>
+                                            <SelectItem value="16" className="text-xs">16 Seconds (Pro)</SelectItem>
+                                          </SelectContent>
+                                        </Select>
+                                      </div>
+
+                                      <div className="space-y-1.5">
+                                        <Label className="text-xs font-semibold">FPS & Frame Rate</Label>
+                                        <Select value={videoFPS.toString()} onValueChange={(val) => setVideoFPS(parseInt(val))}>
+                                          <SelectTrigger className="text-xs h-9 bg-background">
+                                            <SelectValue />
+                                          </SelectTrigger>
+                                          <SelectContent>
+                                            <SelectItem value="24" className="text-xs">24 FPS Cinematic</SelectItem>
+                                            <SelectItem value="30" className="text-xs">30 FPS Standard</SelectItem>
+                                            <SelectItem value="60" className="text-xs">60 FPS Ultra-Smooth</SelectItem>
+                                          </SelectContent>
+                                        </Select>
+                                      </div>
+
+                                      <div className="col-span-2 flex items-center justify-between p-2.5 rounded-lg border bg-background mt-2">
+                                        <div className="space-y-0.5">
+                                          <Label className="text-xs font-bold">Flow Interpolation</Label>
+                                          <p className="text-[10px] text-muted-foreground">Interpolates frames for super-smooth motion kinetics.</p>
+                                        </div>
+                                        <Switch checked={videoInterpolation} onCheckedChange={setVideoInterpolation} />
+                                      </div>
+                                    </div>
+                                  )}
+
+                                  {/* --- WEB DESIGN CONFIGURATIONS --- */}
+                                  {activeTab === 'ai-web' && (
+                                    <div className="grid sm:grid-cols-2 gap-4">
+                                      <div className="col-span-2 space-y-1.5">
+                                        <Label className="text-xs font-bold text-blue-500 flex items-center gap-1.5">
+                                          <KeyRound className="h-3.5 w-3.5" />
+                                          Active API Provider / Model
+                                        </Label>
+                                        <Select
+                                          value={webProvider === 'mock' ? 'mock' : `${webProvider}:${webProvider === 'openai' ? openAIChatModel : webProvider === 'anthropic' ? anthropicModel : googleWebModel}`}
+                                          onValueChange={(val) => {
+                                            if (val === 'mock') { setWebProvider('mock'); return; }
+                                            const [p, ...rest] = val.split(':'); const m = rest.join(':');
+                                            setWebProvider(p as any);
+                                            if (p === 'openai') setOpenAIChatModel(m);
+                                            else if (p === 'anthropic') setAnthropicModel(m);
+                                            else if (p === 'google') setGoogleWebModel(m);
+                                          }}
+                                        >
+                                          <SelectTrigger className="text-xs h-9 bg-background font-semibold border-blue-500/30">
+                                            <SelectValue />
+                                          </SelectTrigger>
+                                          <SelectContent>
+                                            <SelectItem value="mock" className="text-xs font-semibold">✨ Mock Sandbox (Free)</SelectItem>
+                                            <SelectItem value="openai:gpt-4o" className="text-xs">🟢 OpenAI / gpt-4o</SelectItem>
+                                            <SelectItem value="openai:gpt-4o-mini" className="text-xs">🟢 OpenAI / gpt-4o-mini</SelectItem>
+                                            <SelectItem value="openai:gpt-4-turbo" className="text-xs">🟢 OpenAI / gpt-4-turbo</SelectItem>
+                                            <SelectItem value="anthropic:claude-3-5-sonnet-20240620" className="text-xs">🔴 Anthropic / claude-3-5-sonnet-20240620</SelectItem>
+                                            <SelectItem value="anthropic:claude-3-opus-20240229" className="text-xs">🔴 Anthropic / claude-3-opus-20240229</SelectItem>
+                                            <SelectItem value="anthropic:claude-3-haiku-20240307" className="text-xs">🔴 Anthropic / claude-3-haiku-20240307</SelectItem>
+                                            <SelectItem value="google:gemini-1.5-flash" className="text-xs">🔵 Google / gemini-1.5-flash</SelectItem>
+                                            <SelectItem value="google:gemini-1.5-pro" className="text-xs">🔵 Google / gemini-1.5-pro</SelectItem>
+                                            <SelectItem value="google:gemini-2.0-flash" className="text-xs">🔵 Google / gemini-2.0-flash</SelectItem>
+                                          </SelectContent>
+                                        </Select>
+                                      </div>
+
+                                      {/* API Key card — always visible */}
+                                      <div className="col-span-2 w-full rounded-lg border bg-muted/30 p-3 space-y-2">
+                                        <div className="flex items-center justify-between">
+                                          <Label className="text-xs font-bold flex items-center gap-1.5">
+                                            <KeyRound className="h-3 w-3 text-blue-500" />
+                                            {webProvider === 'mock' && 'API Key'}
+                                            {webProvider === 'anthropic' && 'Anthropic API Key'}
+                                            {webProvider === 'openai' && 'OpenAI API Key'}
+                                            {webProvider === 'google' && 'Google Gemini API Key'}
+                                          </Label>
+                                          {webProvider === 'mock' && <span className="text-[10px] text-muted-foreground">Not required for Mock</span>}
+                                          {webProvider === 'anthropic' && (anthropicKey ? <span className="text-[10px] font-semibold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full">✓ Active</span> : <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noreferrer" className="text-[10px] text-blue-500 hover:underline font-medium">Get API Key →</a>)}
+                                          {webProvider === 'openai' && (openAIKey ? <span className="text-[10px] font-semibold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full">✓ Active</span> : <a href="https://platform.openai.com/api-keys" target="_blank" rel="noreferrer" className="text-[10px] text-blue-500 hover:underline font-medium">Get API Key →</a>)}
+                                          {webProvider === 'google' && (vertexKey ? <span className="text-[10px] font-semibold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full">✓ Active</span> : <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noreferrer" className="text-[10px] text-blue-500 hover:underline font-medium">Get API Key →</a>)}
+                                        </div>
+                                        {webProvider === 'mock' && (
+                                          <p className="text-[11px] text-muted-foreground">Select a provider above to enter your API key.</p>
+                                        )}
+                                        {webProvider === 'anthropic' && <Input type="password" placeholder="sk-ant-..." value={anthropicKey} onChange={(e) => setAnthropicKey(e.target.value)} className="text-xs bg-background h-9 rounded-lg w-full" />}
+                                        {webProvider === 'openai' && <Input type="password" placeholder="sk-proj-..." value={openAIKey} onChange={(e) => setOpenAIKey(e.target.value)} className="text-xs bg-background h-9 rounded-lg w-full" />}
+                                        {webProvider === 'google' && <Input type="password" placeholder="Google AI Studio key..." value={vertexKey} onChange={(e) => setVertexKey(e.target.value)} className="text-xs bg-background h-9 rounded-lg w-full" />}
+                                      </div>
+
+                                      <div className="space-y-1.5">
+                                        <Label className="text-xs font-semibold">Aesthetic Theme</Label>
+                                        <Select value={webTheme} onValueChange={setWebTheme}>
+                                          <SelectTrigger className="text-xs h-9 bg-background">
+                                            <SelectValue />
+                                          </SelectTrigger>
+                                          <SelectContent>
+                                            <SelectItem value="glassmorphism" className="text-xs">✨ Premium Glassmorphism</SelectItem>
+                                            <SelectItem value="dark" className="text-xs">🌑 Sleek Dark Mode</SelectItem>
+                                            <SelectItem value="light" className="text-xs">☀️ Clean Light Mode</SelectItem>
+                                            <SelectItem value="neon" className="text-xs">👾 Cyberpunk Retro Neon</SelectItem>
+                                          </SelectContent>
+                                        </Select>
+                                      </div>
+
+                                      <div className="space-y-1.5">
+                                        <Label className="text-xs font-semibold">Accent Palette</Label>
+                                        <Select value={webColor} onValueChange={setWebColor}>
+                                          <SelectTrigger className="text-xs h-9 bg-background">
+                                            <SelectValue />
+                                          </SelectTrigger>
+                                          <SelectContent>
+                                            <SelectItem value="blue" className="text-xs">🔵 Royal Blue</SelectItem>
+                                            <SelectItem value="emerald" className="text-xs">🟢 Tech Emerald / Green</SelectItem>
+                                            <SelectItem value="rose" className="text-xs">🔴 Vivid Rose / Crimson</SelectItem>
+                                            <SelectItem value="amber" className="text-xs">🟡 Warm Amber / Gold</SelectItem>
+                                          </SelectContent>
+                                        </Select>
+                                      </div>
+
+                                      <div className="space-y-1.5">
+                                        <Label className="text-xs font-semibold">Target Section Layout</Label>
+                                        <Select value={webComponent} onValueChange={setWebComponent}>
+                                          <SelectTrigger className="text-xs h-9 bg-background">
+                                            <SelectValue />
+                                          </SelectTrigger>
+                                          <SelectContent>
+                                            <SelectItem value="hero" className="text-xs">Hero Header Container</SelectItem>
+                                            <SelectItem value="pricing" className="text-xs">Features & Pricing Grid</SelectItem>
+                                            <SelectItem value="features" className="text-xs">Modern Service Outline</SelectItem>
+                                            <SelectItem value="full-page" className="text-xs">Full Page Layout Structure</SelectItem>
+                                          </SelectContent>
+                                        </Select>
+                                      </div>
+                                    </div>
+                                  )}
+
+                                  {/* --- CHAT / PURE TEXT MODEL SELECTOR --- */}
+                                  {activeTab === 'pure-text' && (
+                                    <div className="space-y-3">
+                                      <div className="col-span-2 space-y-1.5">
+                                        <Label className="text-xs font-bold text-blue-500 flex items-center gap-1.5">
+                                          <KeyRound className="h-3.5 w-3.5" />
+                                          Active API Provider / Model
+                                        </Label>
+                                        <Select
+                                          value={chatProvider === 'mock' ? 'mock' : `${chatProvider === 'openai' ? 'openai-chat' : chatProvider}:${chatProvider === 'openai' ? openAIChatModel : chatProvider === 'anthropic' ? anthropicModel : googleWebModel}`}
+                                          onValueChange={(val) => {
+                                            if (val === 'mock') {
+                                              setChatProvider('mock');
+                                              return;
+                                            }
+                                            const [p, ...rest] = val.split(':'); const m = rest.join(':');
+                                            if (p === 'openai-chat') {
+                                              setChatProvider('openai');
+                                              setOpenAIChatModel(m);
+                                            }
+                                            else if (p === 'anthropic') {
+                                              setChatProvider('anthropic');
+                                              setAnthropicModel(m);
+                                            }
+                                            else if (p === 'google') {
+                                              setChatProvider('google');
+                                              setGoogleWebModel(m);
+                                            }
+                                          }}
+                                        >
+                                          <SelectTrigger className="text-xs h-9 bg-background font-semibold border-blue-500/30">
+                                            <SelectValue placeholder="✨ Mock Sandbox (Free)" />
+                                          </SelectTrigger>
+                                          <SelectContent>
+                                            <SelectItem value="mock" className="text-xs font-semibold">✨ Mock Sandbox (Free)</SelectItem>
+                                            <SelectItem value="openai-chat:gpt-4o" className="text-xs">🟢 OpenAI / gpt-4o</SelectItem>
+                                            <SelectItem value="openai-chat:gpt-4o-mini" className="text-xs">🟢 OpenAI / gpt-4o-mini</SelectItem>
+                                            <SelectItem value="openai-chat:gpt-4-turbo" className="text-xs">🟢 OpenAI / gpt-4-turbo</SelectItem>
+                                            <SelectItem value="anthropic:claude-3-5-sonnet-20240620" className="text-xs">🔴 Anthropic / claude-3-5-sonnet-20240620</SelectItem>
+                                            <SelectItem value="anthropic:claude-3-opus-20240229" className="text-xs">🔴 Anthropic / claude-3-opus-20240229</SelectItem>
+                                            <SelectItem value="anthropic:claude-3-haiku-20240307" className="text-xs">🔴 Anthropic / claude-3-haiku-20240307</SelectItem>
+                                            <SelectItem value="google:gemini-1.5-flash" className="text-xs">🔵 Google / gemini-1.5-flash</SelectItem>
+                                            <SelectItem value="google:gemini-1.5-pro" className="text-xs">🔵 Google / gemini-1.5-pro</SelectItem>
+                                            <SelectItem value="google:gemini-2.0-flash" className="text-xs">🔵 Google / gemini-2.0-flash</SelectItem>
+                                          </SelectContent>
+                                        </Select>
+
+                                        {/* Single contextual API key card — matches the selected provider */}
+                                        {(() => {
+                                          if (chatProvider === 'openai') return (
+                                            <div className="mt-3 rounded-lg border bg-muted/30 p-3 space-y-2">
+                                              <div className="flex items-center justify-between">
+                                                <Label className="text-xs font-bold flex items-center gap-1.5"><KeyRound className="h-3 w-3 text-blue-500" />OpenAI API Key</Label>
+                                                {openAIKey ? <span className="text-[10px] font-semibold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full">✓ Active</span> : <a href="https://platform.openai.com/api-keys" target="_blank" rel="noreferrer" className="text-[10px] text-blue-500 hover:underline font-medium">Get API Key →</a>}
+                                              </div>
+                                              <Input type="password" placeholder="sk-proj-..." value={openAIKey} onChange={(e) => setOpenAIKey(e.target.value)} className="text-xs bg-background h-9 rounded-lg" />
+                                            </div>
+                                          );
+                                          if (chatProvider === 'anthropic') return (
+                                            <div className="mt-3 rounded-lg border bg-muted/30 p-3 space-y-2">
+                                              <div className="flex items-center justify-between">
+                                                <Label className="text-xs font-bold flex items-center gap-1.5"><KeyRound className="h-3 w-3 text-blue-500" />Anthropic API Key</Label>
+                                                {anthropicKey ? <span className="text-[10px] font-semibold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full">✓ Active</span> : <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noreferrer" className="text-[10px] text-blue-500 hover:underline font-medium">Get API Key →</a>}
+                                              </div>
+                                              <Input type="password" placeholder="sk-ant-..." value={anthropicKey} onChange={(e) => setAnthropicKey(e.target.value)} className="text-xs bg-background h-9 rounded-lg" />
+                                            </div>
+                                          );
+                                          if (chatProvider === 'google') return (
+                                            <div className="mt-3 rounded-lg border bg-muted/30 p-3 space-y-2">
+                                              <div className="flex items-center justify-between">
+                                                <Label className="text-xs font-bold flex items-center gap-1.5"><KeyRound className="h-3 w-3 text-blue-500" />Google Gemini API Key</Label>
+                                                {vertexKey ? <span className="text-[10px] font-semibold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full">✓ Active</span> : <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noreferrer" className="text-[10px] text-blue-500 hover:underline font-medium">Get API Key →</a>}
+                                              </div>
+                                              <Input type="password" placeholder="Google AI Studio key..." value={vertexKey} onChange={(e) => setVertexKey(e.target.value)} className="text-xs bg-background h-9 rounded-lg" />
+                                            </div>
+                                          );
+                                          return null;
+                                        })()}
+                                      </div>
+                                    </div>
+                                  )}
+
+
+                                </AccordionContent>
+                              </AccordionItem>
+                            </Accordion>
+
+                            {/* Trigger button */}
+                            {(() => {
+                              const getButtonConfig = () => {
+                                if (activeTab === 'ai-video') {
+                                  return {
+                                    gradient: '!bg-gradient-to-r !from-blue-600 !to-cyan-500 hover:!from-blue-700 hover:!to-cyan-600 dark:!from-blue-500 dark:!to-cyan-400 dark:hover:!from-blue-600 dark:hover:!to-cyan-500',
+                                    shadow: '!shadow-lg !shadow-blue-500/20 hover:!shadow-blue-500/40 dark:!shadow-blue-500/15 dark:hover:!shadow-cyan-500/30',
+                                    icon: <Clapperboard className="h-4 w-4 !text-white animate-pulse" />,
+                                    text: 'Generate AI Video',
+                                    border: '!border !border-blue-500/20 dark:!border-cyan-400/30',
+                                    ring: 'hover:!ring-2 hover:!ring-offset-2 hover:!ring-offset-background hover:!ring-blue-500/50 dark:hover:!ring-cyan-400/50'
+                                  };
+                                }
+                                if (activeTab === 'ai-web') {
+                                  return {
+                                    gradient: '!bg-gradient-to-r !from-blue-600 !to-cyan-500 hover:!from-blue-700 hover:!to-cyan-600 dark:!from-blue-500 dark:!to-cyan-400 dark:hover:!from-blue-600 dark:hover:!to-cyan-500',
+                                    shadow: '!shadow-lg !shadow-blue-500/20 hover:!shadow-blue-500/40 dark:!shadow-emerald-500/15 dark:hover:!shadow-emerald-500/35',
+                                    icon: <Globe className="h-4 w-4 !text-white animate-pulse" />,
+                                    text: 'Generate Landing Code',
+                                    border: '!border !border-blue-500/20 dark:!border-emerald-400/30',
+                                    ring: 'hover:!ring-2 hover:!ring-offset-2 hover:!ring-offset-background hover:!ring-blue-500/50 dark:hover:!ring-emerald-400/50'
+                                  };
+                                }
+                                // Default to Image
+                                return {
+                                  gradient: '!bg-gradient-to-r !from-blue-600 !to-blue-600 hover:!from-blue-700 hover:!to-blue-700 dark:!from-sky-400 dark:!to-blue-500 dark:hover:!from-sky-500 dark:hover:!to-blue-600',
+                                  shadow: '!shadow-lg !shadow-blue-500/20 hover:!shadow-blue-500/40 dark:!shadow-sky-500/15 dark:hover:!shadow-sky-500/35',
+                                  icon: <Sparkles className="h-4 w-4 !text-white animate-pulse" />,
+                                  text: 'Generate AI Image',
+                                  border: '!border !border-blue-500/20 dark:!border-sky-400/30',
+                                  ring: 'hover:!ring-2 hover:!ring-offset-2 hover:!ring-offset-background hover:!ring-blue-500/50 dark:hover:!ring-sky-400/50'
+                                };
+                              };
+
+                              const btn = getButtonConfig();
+
+                              return (
+                                <div className="pt-2">
+                                  <Button
+                                    type="submit"
+                                    disabled={true}
+                                    className={`relative group overflow-hidden w-full h-12 ${btn.gradient} !text-white font-extrabold gap-2.5 text-sm rounded-xl transition-all duration-300 ease-out hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center ${btn.shadow} ${btn.border} ${btn.ring}`}
+                                  >
+                                    {/* Inner glow overlay on hover */}
+                                    <div className="absolute inset-0 w-full h-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+
+                                    {isPending || localGenerating ? (
+                                      <>
+                                        <Loader2 className="h-4 w-4 animate-spin !text-white" />
+                                        <span className="!text-white z-10">{localGenerating ? genStatus : 'Synthesizing output...'}</span>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <span className="z-10 flex items-center gap-2.5">
+                                          {btn.icon}
+                                          <span className="!text-white tracking-wide font-extrabold">{btn.text}</span>
+                                        </span>
+                                      </>
+                                    )}
+                                  </Button>
+                                </div>
+                              );
+                            })()}
+                          </>
+                        )}
                       </div>
                     </Tabs>
                   </CardContent>
@@ -2373,7 +2372,7 @@ Requirements:
               {/* Right Side: Preview Column */}
               <div className="lg:col-span-5 flex flex-col h-full">
                 <Card className="shadow-lg border bg-card text-card-foreground flex flex-col flex-1 min-h-[480px] lg:min-h-0 overflow-hidden">
-                  
+
                   {/* Preview Headers */}
                   <div className="border-b bg-muted/20 px-4 py-3 flex items-center justify-between">
                     <span className="text-xs font-extrabold text-foreground flex items-center gap-1.5">
@@ -2389,19 +2388,19 @@ Requirements:
                     </span>
                     {activeTab === 'ai-web' && outputWebHTML && (
                       <div className="flex bg-muted p-0.5 rounded-lg border">
-                        <Button 
-                          type="button" 
-                          variant={outputWebTab === 'preview' ? 'secondary' : 'ghost'} 
-                          size="sm" 
+                        <Button
+                          type="button"
+                          variant={outputWebTab === 'preview' ? 'secondary' : 'ghost'}
+                          size="sm"
                           className="h-7 text-[10px] py-0 px-2.5 rounded-md font-semibold"
                           onClick={() => setOutputWebTab('preview')}
                         >
                           <Eye className="h-3 w-3 mr-1" /> Preview
                         </Button>
-                        <Button 
-                          type="button" 
-                          variant={outputWebTab === 'code' ? 'secondary' : 'ghost'} 
-                          size="sm" 
+                        <Button
+                          type="button"
+                          variant={outputWebTab === 'code' ? 'secondary' : 'ghost'}
+                          size="sm"
                           className="h-7 text-[10px] py-0 px-2.5 rounded-md font-semibold"
                           onClick={() => setOutputWebTab('code')}
                         >
@@ -2413,7 +2412,7 @@ Requirements:
 
                   {/* Render Container */}
                   <div className="p-4 flex-1 flex flex-col justify-center bg-muted/30 relative">
-                    
+
                     {/* Generative Loading Screen */}
                     {(isPending || localGenerating) && (
                       <div className="absolute inset-0 bg-background/95 flex flex-col items-center justify-center p-6 z-10 text-center space-y-4">
@@ -2430,8 +2429,8 @@ Requirements:
                           </p>
                         </div>
                         <div className="w-full max-w-[200px] h-1.5 bg-muted rounded-full overflow-hidden border">
-                          <div 
-                            className="bg-blue-600 h-full transition-all duration-300 rounded-full" 
+                          <div
+                            className="bg-blue-600 h-full transition-all duration-300 rounded-full"
                             style={{ width: `${localGenerating ? genProgress : 50}%` }}
                           />
                         </div>
@@ -2485,11 +2484,11 @@ Requirements:
                       <div className="w-full h-full flex flex-col justify-center items-center">
                         {outputVideoUrl ? (
                           <div className="w-full aspect-[16/9] rounded-xl overflow-hidden shadow-lg border bg-black relative">
-                            <video 
-                              src={outputVideoUrl} 
-                              controls 
-                              autoPlay 
-                              loop 
+                            <video
+                              src={outputVideoUrl}
+                              controls
+                              autoPlay
+                              loop
                               className="w-full h-full object-cover"
                             />
                             <div className="absolute top-3 left-3 px-2 py-0.5 bg-black/60 backdrop-blur-md rounded-full text-[10px] font-bold text-white border border-white/10 flex items-center gap-1">
@@ -2527,10 +2526,10 @@ Requirements:
                             <div className="w-full flex-grow min-h-[380px] flex flex-col rounded-xl overflow-hidden border bg-slate-950 text-slate-300 font-mono text-[11px] leading-relaxed relative shadow-md">
                               <div className="flex justify-between items-center bg-slate-900 border-b border-slate-800 px-4 py-2 text-slate-400">
                                 <span>output_component.html</span>
-                                <Button 
-                                  type="button" 
-                                  variant="ghost" 
-                                  size="sm" 
+                                <Button
+                                  type="button"
+                                  variant="ghost"
+                                  size="sm"
                                   className="h-7 text-[10px] text-slate-400 hover:text-white font-semibold"
                                   onClick={handleCopyCode}
                                 >
@@ -2582,14 +2581,13 @@ Requirements:
                             {suggestedPrompts.map((item) => (
                               <Card key={item.id} className="p-4 border bg-background/50 hover:bg-background/80 transition-colors">
                                 <div className="flex items-center justify-between mb-2">
-                                  <Badge 
-                                    variant="secondary" 
-                                    className={`text-[9px] uppercase tracking-wider ${
-                                      item.type === 'image' ? 'bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-500/20' :
-                                      item.type === 'video' ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20' :
-                                      item.type === 'web' ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20' :
-                                      'bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/20'
-                                    }`}
+                                  <Badge
+                                    variant="secondary"
+                                    className={`text-[9px] uppercase tracking-wider ${item.type === 'image' ? 'bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-500/20' :
+                                        item.type === 'video' ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20' :
+                                          item.type === 'web' ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20' :
+                                            'bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/20'
+                                      }`}
                                   >
                                     {item.type === 'image' ? 'AI Image' : item.type === 'video' ? 'AI Video' : item.type === 'web' ? 'Web Landing' : 'General'}
                                   </Badge>
@@ -2601,10 +2599,10 @@ Requirements:
                                   {item.text}
                                 </p>
                                 <div className="flex gap-2">
-                                  <Button 
+                                  <Button
                                     type="button"
-                                    variant="outline" 
-                                    size="sm" 
+                                    variant="outline"
+                                    size="sm"
                                     className="h-8 text-[11px] font-semibold flex-1 gap-1"
                                     onClick={() => {
                                       navigator.clipboard.writeText(item.text);
@@ -2613,10 +2611,10 @@ Requirements:
                                   >
                                     <Copy className="h-3 w-3" /> Copy
                                   </Button>
-                                  <Button 
+                                  <Button
                                     type="button"
-                                    variant="default" 
-                                    size="sm" 
+                                    variant="default"
+                                    size="sm"
                                     className="h-8 text-[11px] font-semibold flex-1 gap-1 bg-blue-600 hover:bg-blue-700 text-white border-0"
                                     onClick={() => handleLoadSuggestedPrompt(item.text, item.type)}
                                   >

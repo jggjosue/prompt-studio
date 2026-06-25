@@ -1,4 +1,10 @@
+import type { Metadata } from 'next';
 import { SignIn } from '@clerk/nextjs';
+
+export const metadata: Metadata = {
+  title: 'Sign In | Prompt Studio',
+  description: 'Sign in to your Prompt Studio account to access AI video prompts, collections, and custom prompt templates.',
+};
 
 export default function SignInPage() {
   return (

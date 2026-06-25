@@ -37,6 +37,7 @@ export function FreeEmailGate({
   const [email, setEmail] = React.useState('');
   const [loading, setLoading] = React.useState(false);
   const [hasSavedEmail, setHasSavedEmail] = React.useState(false);
+  const [acceptedTerms, setAcceptedTerms] = React.useState(false);
   const { toast } = useToast();
 
   React.useEffect(() => {
@@ -121,7 +122,7 @@ export function FreeEmailGate({
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-3">
             <Input
               type="email"
               placeholder="tu@correo.com"
@@ -131,9 +132,29 @@ export function FreeEmailGate({
               className="w-full"
               autoFocus
             />
+            <div className="flex items-center gap-2 px-1 text-sm">
+              <input
+                type="checkbox"
+                id="accept-terms"
+                checked={acceptedTerms}
+                onChange={(e) => setAcceptedTerms(e.target.checked)}
+                className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 bg-slate-900 border-white/10 cursor-pointer"
+              />
+              <label htmlFor="accept-terms" className="text-muted-foreground select-none cursor-pointer">
+                Acepto los{' '}
+                <a 
+                  href="/terms" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-blue-400 hover:text-blue-300 underline font-medium"
+                >
+                  términos y servicios
+                </a>
+              </label>
+            </div>
           </div>
           <DialogFooter className="sm:justify-start">
-            <Button type="submit" disabled={loading} className="w-full !bg-blue-600 !text-white hover:!bg-blue-700">
+            <Button type="submit" disabled={loading || !acceptedTerms} className="w-full !bg-blue-600 !text-white hover:!bg-blue-700">
               {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               {loading ? 'Procesando...' : submitText}
             </Button>

@@ -20,7 +20,7 @@ import { useFuzzyFilter } from '@/hooks/use-fuzzy-filter';
 import { Sparkles, Search, Tag, Wand2 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Suspense, useMemo, useState } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 import { Loader2 } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useTranslations } from 'next-intl';
@@ -73,7 +73,25 @@ function VideoPromptsContent() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const placeholderVideos = useLocalizedPlaceholderVideos();
-  const [filter, setFilter] = useState('all');
+  // Read initial filter from URL search params
+  const filterFromUrl = searchParams.get('filter') || 'all';
+  const [filter, setFilterState] = useState(filterFromUrl);
+
+  // Sync state with URL when search params change
+  useEffect(() => {
+    setFilterState(searchParams.get('filter') || 'all');
+  }, [searchParams]);
+
+  const setFilter = (value: string) => {
+    setFilterState(value);
+    const params = new URLSearchParams(searchParams.toString());
+    if (value === 'all') {
+      params.delete('filter');
+    } else {
+      params.set('filter', value);
+    }
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  };
 
   const facetTag = searchParams.get('tag')?.trim() || null;
 
@@ -98,8 +116,16 @@ function VideoPromptsContent() {
 
   const facetFiltered = useMemo(() => {
     if (filter !== 'nano-banana') return facetByTag;
+    
+    // Check if any videos are explicitly tagged
+    const explicitlyTagged = facetByTag.filter(item =>
+      item.tags.some(t => t.toLowerCase().includes('nano banana') || t.toLowerCase().includes('banana'))
+    );
+    if (explicitlyTagged.length > 0) return explicitlyTagged;
+
+    // Fallback: show a beautiful subset of videos for Nano Banana Pro (e.g. Surreal, Cyberpunk, Nature tags)
     return facetByTag.filter(item =>
-      item.tags.map(t => t.toLowerCase()).includes('nano banana')
+      item.tags.some(t => ['surreal', 'cyberpunk', 'nature'].includes(t.toLowerCase()))
     );
   }, [facetByTag, filter]);
 
@@ -174,6 +200,7 @@ function VideoPromptsContent() {
           )}
 
           <Tabs
+            value={filter}
             defaultValue="all"
             className="w-full max-w-md pt-4"
             onValueChange={value => setFilter(value)}

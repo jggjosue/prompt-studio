@@ -2,10 +2,11 @@
  * Service Worker — estrategias de caché:
  * - Cache-First: estáticos inmutables (_next/static, fuentes)
  * - Stale-While-Revalidate: JSON de catálogo, imágenes /api/webpages/assets
- * - Network-First: HTML (navegación) y APIs dinámicas
+ * - Network-only: HTML (navegación) para evitar hidratar contra HTML obsoleto
+ * - Network-First: APIs dinámicas
  */
 
-const CACHE_VERSION = 'ps-cache-v5';
+const CACHE_VERSION = 'ps-cache-v6';
 
 const CACHE = {
   static: `${CACHE_VERSION}-static`,
@@ -167,8 +168,18 @@ function pickStrategy(request) {
   if (!isSameOrigin(url)) return null;
 
   if (request.mode === 'navigate') {
-    return { name: 'network-first', cache: CACHE.pages, fallback: '/offline.html' };
+    return { name: 'network-only', fallback: '/offline.html' };
   }
+
+  // Next.js RSC / Data requests must be network-only to avoid stale cache on navigation
+  if (
+    url.searchParams.has('_rsc') ||
+    request.headers.get('RSC') === '1' ||
+    url.pathname.startsWith('/_next/data/')
+  ) {
+    return { name: 'network-only' };
+  }
+
 
   if (url.pathname.startsWith('/_next/static/')) {
     return { name: 'cache-first', cache: CACHE.static };
@@ -248,6 +259,22 @@ self.addEventListener('fetch', event => {
 
   if (strategy.name === 'stale-while-revalidate') {
     event.respondWith(staleWhileRevalidate(event.request, strategy.cache));
+    return;
+  }
+
+  if (strategy.name === 'network-only') {
+    event.respondWith(
+      fetch(event.request).catch(async () => {
+        if (strategy.fallback) {
+          const fallback = await caches.match(strategy.fallback);
+          if (fallback) return fallback;
+        }
+        return new Response('Offline', {
+          status: 503,
+          statusText: 'Offline',
+        });
+      })
+    );
     return;
   }
 

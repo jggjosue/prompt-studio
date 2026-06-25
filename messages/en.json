@@ -99,7 +99,9 @@
     "legal": "Legal",
     "termsOfUse": "Terms of Use",
     "privacyPolicy": "Privacy Policy",
-    "affiliateProgram": "Affiliate Program"
+    "affiliateProgram": "Affiliate",
+    "affiliateTerms": "Affiliate Program Terms",
+    "affiliateDisclosure": "Affiliate Disclosure: Some of the links on this website are affiliate links. This means if you click on the link and purchase the item, we may receive an affiliate commission at no extra cost to you."
   },
   "home": {
     "heroTitle": "Generate Your Next Vision",
@@ -175,7 +177,7 @@
     "title": "Prices",
     "subtitle": "Start free, unlock Premium prompts, or go Developer for full project source code and install guides.",
     "annualBilling": "Annual billing",
-    "annualBillingHint": "Applies to Premium and Developer. Premium: {premiumYear}/year (save {premiumSave}). Startup: {devYear}/year (save {devSave}).",
+    "annualBillingHint": "Applies to Premium and Developer. Premium: ${premiumYear}/year (save ${premiumSave}). Startup: ${devYear}/year (save ${devSave}).",
     "freeDesc": "Everything you can download without signing in.",
     "browseFree": "Browse free prompts",
     "premiumDesc": "All Premium prompts. Download the full catalog with a subscription.",
@@ -186,7 +188,6 @@
     "subscribePremium": "Subscribe to Premium",
     "previewPremium": "Preview Premium content",
     "startupDesc": "Premium plus full project code and install docs for every web demo.",
-
     "upgradeStartup": "Upgrade to Startup",
     "subscribeStartup": "Subscribe as Startup",
     "browseWebProjects": "Browse web projects",
@@ -454,50 +455,395 @@
     "openSavedAnalysis": "Open saved readability analysis"
   },
   "affiliate": {
+    "pageTitle": "Affiliate Partner Program | Prompt Studio",
+    "pageDescription": "Join the Prompt Studio Affiliate Partner Program. Promote a high-value digital product and earn transparent commissions from qualified sales.",
     "hero": {
-      "badge": "Partner Network 2026",
-      "title": "Earn with the",
-      "highlight": "Affiliate Hub",
-      "subtitle": "Join developers, influencers, and agencies in our digital ecosystem. Earn recurring commissions on subscriptions and massive payouts on premium products.",
-      "cta": "Join the Network",
-      "secondaryCta": "View Commission Structure"
+      "title": "Earn Commissions by Promoting a Digital Product People Actually Want",
+      "subtitle": "Join our affiliate program, share your unique referral link and earn commissions every time someone buys our digital product through your recommendation.",
+      "ctaAffiliate": "Become an Affiliate",
+      "ctaCommissions": "See Commission Plan",
+      "ctaHowItWorks": "How It Works"
     },
-    "stats": {
-      "recurring": "Recurring Subscriptions",
-      "products": "Product Sales",
-      "cookie": "Cookie Duration",
-      "days": "Days"
+    "metrics": {
+      "commission": "Up to 20% Commission",
+      "cookie": "60-Day Cookie Window",
+      "product": "Digital Product",
+      "payouts": "Monthly Payouts",
+      "suffixCommission": "$",
+      "suffixCookie": " days",
+      "suffixProduct": " product",
+      "suffixPayouts": " cycles"
     },
-    "dashboard": {
-      "title": "Live Earnings",
-      "earnings": "This Month",
-      "clicks": "Referral Clicks",
-      "recent": "Recent Commissions"
-    },
-    "features": {
-      "headline": "A Premium Referral Experience",
-      "subhead": "We give you the tools, dashboards, and tracking necessary to turn your audience into a recurring revenue machine.",
-      "commissions": {
-        "title": "High Ticket Commissions",
-        "desc": "Earn flat 20% on all single-product source code and landing page sales."
+    "benefits": {
+      "title": "Why Join Our Affiliate Program?",
+      "subtitle": "Promote one useful digital product with clear positioning, generous commissions, ready-to-use materials and transparent tracking.",
+      "easy": {
+        "title": "Easy to promote",
+        "desc": "A focused product with clear pain points and practical outcomes."
       },
-      "recurring": {
-        "title": "Passive Subscription Income",
-        "desc": "Keep earning 30% month-over-month for every user that subscribes to Prompt Studio Premium or Startup."
+      "commission": {
+        "title": "Attractive commission",
+        "desc": "Earn up to 20% on every qualifying digital product sale."
+      },
+      "link": {
+        "title": "Unique affiliate link",
+        "desc": "Track clicks and sales with your own referral URL."
       },
       "assets": {
-        "title": "Marketing Assets Included",
-        "desc": "Get access to our high-converting banners, cinematic videos, and email swipe copy."
+        "title": "Promo assets ready",
+        "desc": "Launch faster with copy, banners, scripts, and examples."
       },
-      "tracking": {
-        "title": "Real-time Tracking",
-        "desc": "Watch your clicks, conversions, and payouts update in real-time on your dashboard."
+      "payouts": {
+        "title": "Clear monthly payouts",
+        "desc": "Simple monthly review and payout cadence."
+      },
+      "dashboard": {
+        "title": "Partner dashboard",
+        "desc": "Monitor clicks, conversions, sales."
       }
     },
-    "cta": {
-      "title": "Ready to scale your income?",
-      "subtitle": "Our partner program is currently open for early access. Apply today to secure your spot.",
-      "button": "Apply to Partner Program"
+    "product": {
+      "title": "Promote a High-Value Digital Product",
+      "subtitle": "Digital marketplace specialized in the buying and selling of prompts for creating web pages, videos, and images with artificial intelligence. The platform allows creators, designers, entrepreneurs, and agencies to publish, sell, and acquire high-quality prompts to accelerate their creative and productive processes.\n\nAdditionally, it features an affiliate system that allows users to promote products through personalized links and earn commissions for each generated sale. It is an ideal solution for monetizing prompts, discovering useful resources, and building a community focused on AI tools, digital content, and creative automation.",
+      "benefit1": "Proven and optimized prompts for Midjourney, Runway, Luma, and more.",
+      "benefit2": "Designed for creators, agencies, designers, and developers.",
+      "benefit3": "Includes ready-to-copy prompts for web pages, videos, and images.",
+      "benefit4": "Earn up to 20% commission per qualified sale.",
+      "ctaPreview": "Product Preview",
+      "ctaLink": "Get Affiliate Link",
+      "ebookLabel": "CATALOG",
+      "ebookTitle": "Prompt Studio",
+      "dashboardLabel": "Affiliate dashboard",
+      "templatesTitle": "Prompts",
+      "templatesDesc": "Web pages, videos, and images"
+    },
+    "steps": {
+      "title": "Start Earning in 4 Simple Steps",
+      "subtitle": "A clear partner flow from application to link sharing, sales attribution and monthly commission payouts.",
+      "s1Title": "Apply to the program.",
+      "s1Desc": "Tell us about your audience and promotion plan.",
+      "s2Title": "Get your unique affiliate link.",
+      "s2Desc": "Use your link across approved channels and campaigns.",
+      "s3Title": "Share the digital product.",
+      "s3Desc": "Recommend the product in content your audience trusts.",
+      "s4Title": "Earn commissions.",
+      "s4Desc": "Get paid from every qualifying sale you generate."
+    },
+    "commissions": {
+      "title": "Simple and Transparent Commission Plan",
+      "subtitle": "Pick the tier that matches your audience and promotion strategy. Every plan includes qualified sales review, monthly payouts and partner resources.",
+      "tier1Name": "Product Affiliate",
+      "tier1Rate": "20%",
+      "tier1Desc": "For creators starting with affiliate offers.",
+      "tier2Name": "Premium Affiliate",
+      "tier2Rate": "20%",
+      "tier2Desc": "For partners with proven content or engaged lists.",
+      "tier3Name": "Startup Affiliate",
+      "tier3Rate": "20%",
+      "tier3Desc": "For high-performing partners and strategic channels.",
+      "featureQualified": "Qualified sales",
+      "featurePayout": "Monthly payout",
+      "featureCookie": "60-day cookie",
+      "featureResources": "Promotional resources",
+      "applyBtn": "Apply for This Tier"
+    },
+    "tracking": {
+      "title": "Track Every Click, Sale and Commission",
+      "subtitle": "Your affiliate view gives you the signal you need to improve campaigns without guessing.",
+      "ctaDashboard": "View Dashboard Demo",
+      "ctaTracking": "Learn About Tracking",
+      "clicks": "Clicks",
+      "conversion": "Conversion",
+      "sales": "Sales",
+      "pending": "Pending",
+      "paid": "Paid",
+      "topSource": "Top source",
+      "topSourceValue": "Newsletter"
+    },
+    "resources": {
+      "title": "Everything You Need to Promote Faster",
+      "subtitle": "Give your campaign a faster start with practical partner resources, examples and tracking tips.",
+      "preview": "Preview",
+      "download": "Download",
+      "downloadToast": "{name} download prepared.",
+      "items": [
+        {
+          "title": "Email swipe copy",
+          "desc": "Launch a warm email sequence in minutes."
+        },
+        {
+          "title": "Social media posts",
+          "desc": "Ready-to-edit posts for LinkedIn, X, and Instagram."
+        },
+        {
+          "title": "Product banners",
+          "desc": "Clean promo banners for resource pages and sidebars."
+        },
+        {
+          "title": "Short video scripts",
+          "desc": "Hooks and scripts for reels, shorts, and tutorials."
+        },
+        {
+          "title": "Landing page copy",
+          "desc": "Conversion-focused sections for your recommendation page."
+        },
+        {
+          "title": "Product screenshots",
+          "desc": "Visual proof assets for reviews and newsletters."
+        },
+        {
+          "title": "FAQ answers",
+          "desc": "Simple answers to common buyer objections."
+        },
+        {
+          "title": "Tracking tips",
+          "desc": "UTM and source tracking recommendations."
+        }
+      ]
+    },
+    "audiences": {
+      "title": "Who Is This Program For?",
+      "subtitle": "Built for people who already educate, recommend, review or support an audience that buys digital resources.",
+      "items": [
+        {
+          "title": "Content creators",
+          "desc": "Recommend a digital product that helps your audience launch faster."
+        },
+        {
+          "title": "Bloggers",
+          "desc": "Add a practical resource to evergreen educational articles."
+        },
+        {
+          "title": "YouTubers",
+          "desc": "Mention the product inside tutorials and tool roundups."
+        },
+        {
+          "title": "Newsletter owners",
+          "desc": "Share a useful product in curated recommendations."
+        },
+        {
+          "title": "Coaches",
+          "desc": "Offer the playbook as a next step for clients."
+        },
+        {
+          "title": "Educators",
+          "desc": "Support students with templates and structured resources."
+        },
+        {
+          "title": "Community leaders",
+          "desc": "Share a vetted resource with your members."
+        },
+        {
+          "title": "Digital marketers",
+          "desc": "Promote a conversion-ready digital product."
+        }
+      ]
+    },
+    "promotion": {
+      "title": "Ways to Promote the Digital Product",
+      "subtitle": "Choose a campaign shape that fits your audience, content style and conversion strengths.",
+      "viewExample": "View Example",
+      "items": [
+        {
+          "title": "Review article",
+          "difficulty": "Easy",
+          "potential": "High",
+          "example": "Publish a practical review with screenshots and key outcomes."
+        },
+        {
+          "title": "YouTube tutorial",
+          "difficulty": "Medium",
+          "potential": "High",
+          "example": "Show how the product helps create a launch system."
+        },
+        {
+          "title": "Instagram story",
+          "difficulty": "Easy",
+          "potential": "Medium",
+          "example": "Share the problem, quick win, and referral link."
+        },
+        {
+          "title": "TikTok short",
+          "difficulty": "Medium",
+          "potential": "Medium",
+          "example": "Turn one product lesson into a fast before/after clip."
+        },
+        {
+          "title": "Newsletter recommendation",
+          "difficulty": "Easy",
+          "potential": "High",
+          "example": "Place the product in a trusted weekly resource list."
+        },
+        {
+          "title": "Webinar mention",
+          "difficulty": "Medium",
+          "potential": "High",
+          "example": "Recommend the product after teaching a related framework."
+        },
+        {
+          "title": "Resource page",
+          "difficulty": "Easy",
+          "potential": "Medium",
+          "example": "Add it to your tools page with a short explanation."
+        },
+        {
+          "title": "Community post",
+          "difficulty": "Easy",
+          "potential": "Medium",
+          "example": "Share a practical use case with your members."
+        }
+      ]
+    },
+    "trust": {
+      "title": "Built for Clear, Fair and Reliable Partnerships",
+      "subtitle": "A trustworthy partner program depends on transparent tracking, clear rules and brand-safe promotion.",
+      "ctaGuidelines": "Read Partner Guidelines",
+      "items": [
+        "Transparent tracking",
+        "Clear payout terms",
+        "Affiliate approval process",
+        "No spam policy",
+        "Brand-safe promotion",
+        "Support for partners"
+      ],
+      "termsNote": "Terms summary: no misleading claims, no fake scarcity, no unauthorized discounts, and no branded-keyword paid ads unless approved."
+    },
+    "testimonials": {
+      "title": "Partners Recommend It Because It Solves a Real Problem",
+      "subtitle": "Fictitious partner feedback that shows the intended experience for creators and educators.",
+      "items": [
+        {
+          "quote": "The product was easy to recommend because it solved a real problem for my audience.",
+          "name": "Maya Chen",
+          "role": "Newsletter founder"
+        },
+        {
+          "quote": "The affiliate dashboard made it simple to track clicks and commissions.",
+          "name": "Jordan Lee",
+          "role": "Course creator"
+        },
+        {
+          "quote": "The promotional resources helped me launch my first campaign quickly.",
+          "name": "Ari Morgan",
+          "role": "Marketing educator"
+        }
+      ]
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "subtitle": "Clear answers before you apply, promote and start tracking affiliate sales.",
+      "items": [
+        {
+          "q": "How do I join the affiliate program?",
+          "a": "Submit the application form. We review fit, audience quality, and promotion plan before approving partners."
+        },
+        {
+          "q": "How much commission can I earn?",
+          "a": "Approved partners can earn 20% depending on tier and performance."
+        },
+        {
+          "q": "When are commissions paid?",
+          "a": "Commissions are reviewed and paid monthly after refunds and eligibility checks."
+        },
+        {
+          "q": "Do I get a unique affiliate link?",
+          "a": "Yes. Every approved affiliate receives a unique referral link for tracking clicks and sales."
+        },
+        {
+          "q": "Can I promote with paid ads?",
+          "a": "Paid ads are allowed only when they follow our partner rules and avoid branded-keyword bidding unless approved."
+        },
+        {
+          "q": "What is the cookie duration?",
+          "a": "The referral cookie window is 30 days from the first qualified click."
+        },
+        {
+          "q": "Can I promote this product internationally?",
+          "a": "Yes. You can promote internationally as long as your messaging follows the rules."
+        },
+        {
+          "q": "What happens if a customer refunds?",
+          "a": "Refunded purchases are removed from payable commission totals before monthly payouts."
+        }
+      ]
+    },
+    "apply": {
+      "title": "Apply to Become an Affiliate",
+      "subtitle": "Tell us about your audience and how you plan to promote the digital product.",
+      "fieldName": "Full Name",
+      "fieldEmail": "Email",
+      "fieldProfile": "Website or Social Profile",
+      "fieldAudience": "Audience Size",
+      "fieldChannel": "Main Promotion Channel",
+      "fieldExperience": "Experience with Affiliate Marketing",
+      "fieldTier": "Preferred Commission Tier",
+      "fieldPlan": "How will you promote this product?",
+      "fieldMessage": "Message",
+      "submit": "Submit Application",
+      "submitBtn": "Affiliate here",
+      "successMsg": "Application received. This simulated form is ready for backend wiring.",
+      "errorName": "Full name is required.",
+      "errorEmail": "Enter a valid email.",
+      "errorProfile": "Add a website or social profile.",
+      "errorChannel": "Choose your main promotion channel.",
+      "errorPlan": "Tell us how you will promote the product.",
+      "toastSubmit": "Application submitted. We will review your partner fit."
+    },
+    "snapshot": {
+      "title": "Partner snapshot",
+      "commissionRate": "Commission rate",
+      "cookieDuration": "Cookie duration",
+      "cookieValue": "60 days",
+      "payouts": "Payouts",
+      "payoutsValue": "Monthly",
+      "support": "Partner support",
+      "supportValue": "Included",
+      "promoResources": "Promotional resources",
+      "promoValue": "Included"
+    },
+    "modal": {
+      "productTitle": "Prompt Studio Preview",
+      "productBody": "A premium digital marketplace for buying and selling optimized AI prompts (web pages, videos, and images), ideal for designers, developers, and creators.",
+      "productItems": [
+        "Access to thousands of premium and free prompts",
+        "Optimized prompts for Midjourney, Runway, Luma, etc.",
+        "Downloadable source code (Startup version)",
+        "Regular updates with new prompts",
+        "Setup guides and usage tutorials"
+      ],
+      "dashboardTitle": "Affiliate Dashboard Demo",
+      "dashboardBody": "A simulated partner dashboard with click attribution, conversion rate, sales, pending commissions, paid commissions, and top traffic source visibility.",
+      "dashboardItems": [
+        "Clicks: 8,420",
+        "Conversion rate: 7.8%",
+        "Sales: 312",
+        "Pending commissions: $4,180",
+        "Paid commissions: $18,940"
+      ],
+      "trackingTitle": "How Tracking Works",
+      "trackingBody": "Each approved affiliate receives a unique tracking link. Qualified sales are attributed inside a 30-day cookie window and reviewed before the monthly payout cycle.",
+      "trackingItems": [
+        "Unique referral URL",
+        "30-day cookie window",
+        "Refund review before payout",
+        "Monthly payout statement"
+      ],
+      "guidelinesTitle": "Partner Guidelines",
+      "guidelinesBody": "We keep the program fair, compliant, and brand-safe so partners can promote with confidence.",
+      "guidelinesItems": [
+        "No misleading income claims",
+        "No fake scarcity or deceptive urgency",
+        "No unauthorized discounts",
+        "No paid ads on branded keywords without approval",
+        "No spam or scraped outreach lists"
+      ],
+      "gotIt": "Got it"
+    },
+    "canvas": {
+      "ariaLabel": "Affiliate dashboard 3D scene",
+      "share": "Share",
+      "sale": "Sale",
+      "commission": "Commission"
     }
   }
 }

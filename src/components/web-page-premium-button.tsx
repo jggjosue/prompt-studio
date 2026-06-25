@@ -22,6 +22,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { FreeDownloadDialog } from '@/components/free-download-dialog';
 import { normalizeMembership } from '@/lib/membership-access';
+import { logFirebaseEvent } from '@/lib/firebase';
 
 type PremiumMembershipButtonProps = {
   hasPremium: boolean;
@@ -71,6 +72,15 @@ export function PremiumMembershipButton({
   }
 
   const hasPurchased = purchasedPages?.includes(pageId) ?? false;
+  const trackBuy = () => {
+    (window as any).gtag?.('event', 'web_buy_button_premium', { page_title: pageTitle });
+    void logFirebaseEvent('web_buy_button_premium', { page_id: pageId, page_title: pageTitle });
+  };
+
+  const trackPremiumDownload = () => {
+    (window as any).gtag?.('event', 'web_download_premium', { page_title: pageTitle });
+    void logFirebaseEvent('web_download_premium', { page_id: pageId, page_title: pageTitle });
+  };
 
   if (isStartup || hasPurchased) {
     return (
@@ -82,7 +92,7 @@ export function PremiumMembershipButton({
       >
         <a 
           href={`/api/landing-pages/${encodeURIComponent(pageId)}/download`}
-          onClick={() => (window as any).gtag?.('event', 'download_premium', { page_title: pageTitle })}
+          onClick={trackPremiumDownload}
         >
           <Download className="mr-2 h-4 w-4" />
           Download
@@ -119,7 +129,7 @@ export function PremiumMembershipButton({
               target={isExternal ? '_blank' : undefined}
               rel={isExternal ? 'noopener noreferrer' : undefined}
               className="!border-blue-500/25 !text-blue-300 hover:!border-blue-500/40 hover:!bg-blue-500/10 hover:!text-blue-200"
-              onClick={() => (window as any).gtag?.('event', 'buy', { page_title: pageTitle })}
+              onClick={trackBuy}
             >
               {buttonContent}
             </a>
@@ -152,7 +162,7 @@ export function PremiumMembershipButton({
       </TooltipProvider>
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuItem asChild className="cursor-pointer">
-          <a href={itemCheckoutUrl} target={isExternal ? '_blank' : undefined} rel={isExternal ? 'noopener noreferrer' : undefined} onClick={() => (window as any).gtag?.('event', 'buy', { page_title: pageTitle })}>
+          <a href={itemCheckoutUrl} target={isExternal ? '_blank' : undefined} rel={isExternal ? 'noopener noreferrer' : undefined} onClick={trackBuy}>
             <Crown className="w-4 h-4 mr-2" />
             Buy {formattedPrice}
           </a>
