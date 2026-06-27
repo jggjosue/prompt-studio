@@ -11,6 +11,7 @@ import {
   isR2S3Configured,
   validateR2ProjectFolder,
 } from '@/lib/r2-storage';
+import { getRawWebPageByDemoSlug } from '@/lib/web-pages';
 
 const HTML_FILES = ['index.html', 'styles.css', 'script.js'] as const;
 const SLUG_RE = /^[a-z0-9][a-z0-9-]*$/i;
@@ -34,17 +35,13 @@ export function readLocalDemoBundle(
   folder: string,
   projectKind = getDemoProjectKind([])
 ): DemoBundle | null {
-  if (!SLUG_RE.test(folder) || folder === 'refactory-online') {
-    return null;
-  }
-
-  if (!isRefactoryPreviewable(projectKind)) {
+  // Relax SLUG_RE check for title-based folders which might have spaces
+  if (folder === 'refactory-online') {
     return null;
   }
 
   const dir = path.join(process.cwd(), 'public/webpages', folder);
-  const indexPath = path.join(dir, 'index.html');
-  if (!fs.existsSync(indexPath)) {
+  if (!fs.existsSync(dir)) {
     return null;
   }
 
@@ -53,14 +50,40 @@ export function readLocalDemoBundle(
   let css: string | null = null;
   let js: string | null = null;
 
-  for (const file of HTML_FILES) {
-    const filePath = path.join(dir, file);
-    if (!fs.existsSync(filePath)) continue;
-    components.push(file);
-    const content = fs.readFileSync(filePath, 'utf8');
-    if (file === 'index.html') html = content;
-    if (file === 'styles.css') css = content;
-    if (file === 'script.js') js = content;
+  if (projectKind === 'html') {
+    const indexPath = path.join(dir, 'index.html');
+    if (!fs.existsSync(indexPath)) return null;
+
+    for (const file of HTML_FILES) {
+      const filePath = path.join(dir, file);
+      if (!fs.existsSync(filePath)) continue;
+      components.push(file);
+      const content = fs.readFileSync(filePath, 'utf8');
+      if (file === 'index.html') html = content;
+      if (file === 'styles.css') css = content;
+      if (file === 'script.js') js = content;
+    }
+  } else {
+    const mainFiles = [
+      'package.json',
+      'app/page.tsx',
+      'app/page.jsx',
+      'src/App.tsx',
+      'pages/index.tsx',
+      'README.md',
+    ];
+    let hasEntry = false;
+    for (const file of mainFiles) {
+      const filePath = path.join(dir, file);
+      if (!fs.existsSync(filePath)) continue;
+      hasEntry = true;
+      components.push(file);
+      const content = fs.readFileSync(filePath, 'utf8');
+      if (!html) html = content;
+      else if (!js && file.match(/\.(tsx?|jsx?)$/)) js = content;
+      else if (!css && file.match(/\.json$/)) css = content;
+    }
+    if (!hasEntry) return null;
   }
 
   return {
@@ -70,7 +93,7 @@ export function readLocalDemoBundle(
     js,
     components,
     source: 'local',
-    projectKind: 'html',
+    projectKind,
   };
 }
 
@@ -125,19 +148,24 @@ export async function resolveDemoBundle(
 
   const projectKind = getDemoProjectKind(stack);
 
-  if (!isRefactoryPreviewable(projectKind)) {
-    return null;
-  }
-
   const cacheKey = `${folder}:${projectKind}:${stack.join(',')}`;
 
   return cacheGetOrSet(
     'demo-bundle',
     cacheKey,
     async () => {
-      const local = readLocalDemoBundle(folder, projectKind);
+      let local = readLocalDemoBundle(folder, projectKind);
       if (local) return local;
-      return readR2DemoBundle(folder, stack);
+
+      // Fallback: search by demoUrl
+      const page = getRawWebPageByDemoSlug(slug);
+      if (page && page.demoUrl) {
+        local = readLocalDemoBundle(page.demoUrl, projectKind);
+        if (local) return local;
+      }
+
+      // Wait, the user said "ya no las traigas de cloudflare" earlier, so let's skip R2 if requested
+      return null;
     },
     { ttlMs: 30 * 60 * 1000 }
   );
@@ -154,10 +182,11 @@ export async function isDemoProjectAvailable(
     return true;
   }
 
-  if (!isR2S3Configured()) {
-    return false;
+  // Fallback: search by demoUrl
+  const page = getRawWebPageByDemoSlug(folder); // folder is typically slug/demoUrl here
+  if (page && page.demoUrl) {
+    if (readLocalDemoBundle(page.demoUrl, projectKind)) return true;
   }
 
-  const validation = await validateR2ProjectFolder(folder, stack);
-  return validation.valid;
+  return false;
 }

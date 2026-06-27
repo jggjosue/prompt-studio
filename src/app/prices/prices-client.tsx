@@ -31,10 +31,10 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useId, useRef, useState } from 'react';
 
-const PREMIUM_MONTHLY = 15;
-const PREMIUM_YEARLY = 162;
-const DEVELOPER_MONTHLY = 25;
-const DEVELOPER_YEARLY = 270;
+const PREMIUM_MONTHLY = 25;
+const PREMIUM_YEARLY = 270;
+const DEVELOPER_MONTHLY = 1000;
+const DEVELOPER_YEARLY = 10000;
 
 function formatMonthlyEquivalent(yearly: number) {
   return (yearly / 12).toFixed(2).replace(/\.00$/, '');
@@ -161,7 +161,7 @@ export default function PricesClient() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {/* Free */}
             <Card className="flex flex-col border-muted-foreground/20 shadow-sm">
               <CardHeader className="pb-4">
@@ -315,7 +315,8 @@ export default function PricesClient() {
               </CardContent>
             </Card>
 
-            {/* Developer */}
+            {/* Developer / Startup */}
+            {/*
             <Card className="flex flex-col border-blue-500/50 shadow-lg relative overflow-hidden">
               <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-500" />
               <CardHeader className="pb-4 pt-8">
@@ -401,6 +402,7 @@ export default function PricesClient() {
                 </div>
               </CardContent>
             </Card>
+            */}
           </div>
 
           <p className="text-center text-sm text-muted-foreground mt-12 max-w-2xl mx-auto">

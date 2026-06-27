@@ -2,8 +2,8 @@ export type PlanId = 'free' | 'premium' | 'startup';
 export type BillingCycle = 'monthly' | 'annual';
 
 export const PLAN_PRICES = {
-  premium: { monthly: 15, annual: 162 },
-  startup: { monthly: 25, annual: 270 },
+  premium: { monthly: 25, annual: 270 },
+  startup: { monthly: 1000, annual: 10000 },
 } as const;
 
 export function getPlanPrice(plan: PlanId, cycle: BillingCycle): number {
