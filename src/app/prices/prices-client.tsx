@@ -32,7 +32,7 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect, useId, useRef, useState } from 'react';
 
 const PREMIUM_MONTHLY = 25;
-const PREMIUM_YEARLY = 270;
+const PREMIUM_YEARLY = 275;
 const DEVELOPER_MONTHLY = 1000;
 const DEVELOPER_YEARLY = 10000;
 
