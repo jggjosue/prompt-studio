@@ -45,7 +45,7 @@ npm install
 Create a `.env.local` file in the root of your project and copy the environment variables below into it. Replace the placeholder values with the actual credentials from your Kinde application.
 
 ```
-NEXT
+NEXT=
 ```
 
 ### 5. Run the Development Server
