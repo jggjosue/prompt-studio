@@ -177,7 +177,7 @@
     "title": "Precios",
     "subtitle": "Empieza gratis, desbloquea prompts Premium o elige Developer con código fuente e instrucciones de instalación.",
     "annualBilling": "Facturación anual",
-    "annualBillingHint": "Aplica a Premium y Developer. Premium: ${premiumYear}/año (ahorra ${premiumSave}). Startup: ${devYear}/año (ahorra ${devSave}).",
+    "annualBillingHint": "Aplica a Premium y Developer. Premium: ${premiumYear}/año (ahorra ${premiumSave}).",
     "freeDesc": "Todo lo que puedes descargar sin iniciar sesión.",
     "browseFree": "Explorar prompts gratis",
     "premiumDesc": "Todos los prompts Premium. Descarga el catálogo completo con una suscripción.",
