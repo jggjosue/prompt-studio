@@ -1,7 +1,0 @@
-1
-00:00:00,000 --> 00:00:08,000
-Tech Showroom 3D: explora los hotspots técnicos alrededor del producto para ver demos en video.
-
-2
-00:00:08,000 --> 00:00:16,000
-Cada hotspot incluye un snippet de código funcional que puedes copiar y probar en sandbox.
