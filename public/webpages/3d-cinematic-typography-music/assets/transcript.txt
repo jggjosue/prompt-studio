@@ -1,6 +1,0 @@
-Cinematic Typography Show — Transcript
-
-The typography reacts in real time to the music and atmospheric video backdrop.
-Select audio stems to alter animation and color grading.
-Mood presets: Calm (soft, floating) or Energetic (dynamic, intense).
-Use the scrubber to navigate the timeline and export frames for moodboards.
