@@ -28,7 +28,7 @@ import {
 } from 'lucide-react';
 import { motion, useInView, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { useTranslations } from 'next-intl';
-import { FormEvent, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { trackLoopsEvent } from '@/lib/loops-events';
 import {
   AFFILIATE_FIRST_REF_STORAGE_KEY,
@@ -444,22 +444,8 @@ export default function AffiliateClient() {
     },
   }), [t]);
 
-  // Los nombres de los tiers salen de traducciones para que el selector y la tarjeta usen la misma fuente.
-  const tier1Name = t('commissions.tier1Name');
   const tier2Name = t('commissions.tier2Name');
   const tier3Name = t('commissions.tier3Name');
-
-  const initialForm: FormState = useMemo(() => ({
-    name: '',
-    email: '',
-    profile: '',
-    audience: '',
-    channel: '',
-    experience: '',
-    tier: tier1Name,
-    plan: '',
-    message: '',
-  }), [tier1Name]);
 
   // Beneficios y recursos se mantienen traducidos para que el contenido comercial sea consistente en toda la página.
   const benefits = useMemo(() => [
@@ -509,11 +495,7 @@ export default function AffiliateClient() {
   const heroCanvasScale = useTransform(heroProgress, [0, 1], reduceMotion ? [1, 1] : [1, 0.94]);
 
   const [modal, setModal] = useState<ModalContent | null>(null);
-  const [toast, setToast] = useState('');
   const [openFaq, setOpenFaq] = useState(0);
-  const [form, setForm] = useState<FormState>(initialForm);
-  const [errors, setErrors] = useState<Partial<FormState>>({});
-  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -532,16 +514,6 @@ export default function AffiliateClient() {
     });
   }, []);
 
-  const showToast = (message: string) => {
-    setToast(message);
-    window.setTimeout(() => setToast(''), 2600);
-  };
-
-  const selectTier = (tier: string) => {
-    setForm(prev => ({ ...prev, tier }));
-    scrollToSection('apply');
-  };
-
   const trackAffiliateInterest = (source: string) => {
     void trackLoopsEvent('affiliate_interest', {
       source,
@@ -549,27 +521,6 @@ export default function AffiliateClient() {
       page: '/affiliate-program',
     });
   };
-
-  const validate = () => {
-    const next: Partial<FormState> = {};
-    if (!form.name.trim()) next.name = t('apply.errorName');
-    if (!/^\S+@\S+\.\S+$/.test(form.email)) next.email = t('apply.errorEmail');
-    if (!form.profile.trim()) next.profile = t('apply.errorProfile');
-    if (!form.channel.trim()) next.channel = t('apply.errorChannel');
-    if (!form.plan.trim()) next.plan = t('apply.errorPlan');
-    setErrors(next);
-    return Object.keys(next).length === 0;
-  };
-
-  const submit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!validate()) return;
-    setSubmitted(true);
-    showToast(t('apply.toastSubmit'));
-  };
-
-  // La tasa se deriva del tier seleccionado para mostrar el porcentaje correcto en la tarjeta Startup/Pro.
-  const commissionRate = form.tier === tier3Name ? t('commissions.tier3Rate') : form.tier === tier2Name ? t('commissions.tier2Rate') : t('commissions.tier1Rate');
 
   const metricsData = [
     { label: t('metrics.commission'), value: 20, suffix: t('metrics.suffixCommission'), Icon: DollarSign },
@@ -587,7 +538,6 @@ export default function AffiliateClient() {
 
   // Cada tarjeta de tier usa el mismo esquema: nombre, porcentaje y descripción de negocio.
   const tiersData = [
-    { name: tier1Name, rate: t('commissions.tier1Rate'), desc: t('commissions.tier1Desc') },
     { name: tier2Name, rate: t('commissions.tier2Rate'), desc: t('commissions.tier2Desc') },
     { name: tier3Name, rate: t('commissions.tier3Rate'), desc: t('commissions.tier3Desc') },
   ];
@@ -600,15 +550,6 @@ export default function AffiliateClient() {
     [t('tracking.pending'), '$4,180'],
     [t('tracking.paid'), '$18,940'],
     [t('tracking.topSource'), t('tracking.topSourceValue')],
-  ];
-
-  const formFields: [keyof FormState, string, string][] = [
-    ['name', t('apply.fieldName'), 'text'],
-    ['email', t('apply.fieldEmail'), 'email'],
-    ['profile', t('apply.fieldProfile'), 'text'],
-    ['audience', t('apply.fieldAudience'), 'text'],
-    ['channel', t('apply.fieldChannel'), 'text'],
-    ['experience', t('apply.fieldExperience'), 'text'],
   ];
 
   return (
@@ -652,7 +593,7 @@ export default function AffiliateClient() {
               <Button
                 onClick={() => {
                   trackAffiliateInterest('hero-cta-affiliate');
-                  scrollToSection('apply');
+                  scrollToSection('commissions');
                 }}
                 className="h-14 rounded-full bg-blue-600 px-8 text-base font-semibold text-slate-950 shadow-[0_0_36px_rgba(37,99,235,0.22)] hover:bg-blue-500 text-white"
               >
@@ -767,7 +708,7 @@ export default function AffiliateClient() {
                 <Button
                   onClick={() => {
                     trackAffiliateInterest('product-link');
-                    scrollToSection('apply');
+                    scrollToSection('commissions');
                   }}
                   variant="outline"
                   className="h-14 rounded-full border-white/15 bg-white/5 px-7 text-white hover:bg-white/10"
@@ -1072,102 +1013,8 @@ export default function AffiliateClient() {
           </div>
         </ParallaxSection>
 
-        {/* Apply Form */}
-        <ParallaxSection className="scroll-mt-28" tone="blue">
-          <div id="apply" className="mx-auto grid max-w-7xl scroll-mt-28 gap-10 lg:grid-cols-[1fr_0.42fr]">
-            <GlowCard className="p-6 md:p-10">
-              <h2 className="text-3xl font-semibold tracking-tight text-white md:text-5xl">
-                {t('apply.title')}
-              </h2>
-              <p className="mt-5 max-w-2xl leading-8 text-slate-300">
-                {t('apply.subtitle')}
-              </p>
-              <form onSubmit={submit} className="mt-10 grid gap-6 md:grid-cols-2">
-                {formFields.map(([key, label, type]) => (
-                  <label key={key} className="space-y-2">
-                    <span className="text-sm font-medium text-slate-200">{label}</span>
-                    <input
-                      type={type}
-                      value={form[key]}
-                      onChange={event => setForm(prev => ({ ...prev, [key]: event.target.value }))}
-                      disabled
-                      className="h-14 w-full rounded-2xl border border-white/10 bg-slate-950/60 px-4 text-white/50 outline-none transition placeholder:text-slate-600 cursor-not-allowed"
-                    />
-                    {errors[key] ? (
-                      <span className="text-xs text-rose-300">{errors[key]}</span>
-                    ) : null}
-                  </label>
-                ))}
-                <label className="space-y-2">
-                  <span className="text-sm font-medium text-slate-200">{t('apply.fieldTier')}</span>
-                  <select
-                    value={form.tier}
-                    onChange={event => setForm(prev => ({ ...prev, tier: event.target.value }))}
-                    disabled
-                    className="h-14 w-full rounded-2xl border border-white/10 bg-slate-950/60 px-4 text-white/50 outline-none transition cursor-not-allowed"
-                  >
-                    <option>{tier1Name}</option>
-                    <option>{tier2Name}</option>
-                    <option>{tier3Name}</option>
-                  </select>
-                </label>
-                <label className="space-y-2">
-                  <span className="text-sm font-medium text-slate-200">{t('apply.fieldPlan')}</span>
-                  <input
-                    value={form.plan}
-                    onChange={event => setForm(prev => ({ ...prev, plan: event.target.value }))}
-                    disabled
-                    className="h-14 w-full rounded-2xl border border-white/10 bg-slate-950/60 px-4 text-white/50 outline-none transition cursor-not-allowed"
-                  />
-                  {errors.plan ? <span className="text-xs text-rose-300">{errors.plan}</span> : null}
-                </label>
-                <label className="space-y-2 md:col-span-2">
-                  <span className="text-sm font-medium text-slate-200">{t('apply.fieldMessage')}</span>
-                  <textarea
-                    value={form.message}
-                    onChange={event => setForm(prev => ({ ...prev, message: event.target.value }))}
-                    rows={5}
-                    disabled
-                    className="w-full rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-4 text-white/50 outline-none transition cursor-not-allowed"
-                  />
-                </label>
-                <div className="md:col-span-2">
-                  <Button type="submit" disabled className="h-14 rounded-full bg-blue-600 px-9 text-base font-semibold text-slate-950 hover:bg-blue-500 text-white cursor-not-allowed opacity-50">
-                    {t('apply.submitBtn')}
-                  </Button>
-                  {submitted ? (
-                    <p className="mt-5 rounded-2xl border border-blue-500/20 bg-blue-500/10 p-4 text-sm text-blue-100">
-                      {t('apply.successMsg')}
-                    </p>
-                  ) : null}
-                </div>
-              </form>
-            </GlowCard>
-            <ParallaxFloat distance={65} className="h-fit">
-              {/* Resumen visual del tier seleccionado: la primera línea muestra la comisión activa y el resto la propuesta de valor. */}
-              <GlowCard className="h-fit p-8">
-                <h3 className="text-2xl font-semibold text-white">{t('snapshot.title')}</h3>
-                <div className="mt-8 space-y-5">
-                  {snapshotRows.map(([label, value], idx) => (
-                    <div key={label} className="flex items-center justify-between gap-5 border-b border-white/10 pb-4">
-                      <span className="text-sm text-slate-400">{label}</span>
-                      <span className="font-semibold text-white">
-                        {idx === 0 ? commissionRate : value}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </GlowCard>
-            </ParallaxFloat>
-          </div>
-        </ParallaxSection>
       </main>
 
-      {toast ? (
-        <div className="fixed bottom-6 left-1/2 z-[90] -translate-x-1/2 rounded-full border border-blue-500/20 bg-slate-950 px-5 py-3 text-sm text-blue-100 shadow-2xl">
-          {toast}
-        </div>
-      ) : null}
       <Modal content={modal} onClose={() => setModal(null)} gotItLabel={t('modal.gotIt')} />
     </div>
   );
