@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voyage Cruise Line 3D</title>
+    <meta name="description" content="Explore a premium 3D cruise experience with Voyage Cruise Line. Simulated booking and routes.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    
+    <!-- Fixed WebGL Canvas -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- Disclaimers (Fixed) -->
+    <div class="disclaimer-banner">
+        Cruises, prices and availability are simulated examples. This is a demo cruise booking experience. Routes and schedules may vary. Review official terms before booking any real cruise.
+    </div>
+
+    <!-- Main Navigation -->
+    <nav class="main-nav">
+        <div class="logo">VOYAGE <span class="badge">3D</span></div>
+        <div class="nav-links">
+            <a href="#hero">Home</a>
+            <a href="#deck">The Deck</a>
+            <a href="#cabins">Suites</a>
+            <a href="#booking">Book Now</a>
+        </div>
+    </nav>
+
+    <!-- Scroll Content Overlay -->
+    <main class="scroll-container">
+        
+        <section id="hero" class="section glass-section">
+            <div class="content-block">
+                <h1>The Ocean Is Calling</h1>
+                <p class="subtitle">Experience the ultimate premium cruise, rendered in breathtaking 3D.</p>
+                <button class="btn-primary" onclick="document.getElementById('deck').scrollIntoView({behavior: 'smooth'})">Embark</button>
+            </div>
+        </section>
+
+        <section id="deck" class="section side-section right">
+            <div class="content-block glass-panel">
+                <h2>Upper Deck Oasis</h2>
+                <p>Feel the breeze and soak in the sun. Our upper deck features infinity pools and world-class lounging areas designed for absolute relaxation.</p>
+                <ul class="feature-list">
+                    <li>3 Infinity Pools</li>
+                    <li>Sunset Bar</li>
+                    <li>Live Entertainment</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="cabins" class="section side-section left">
+            <div class="content-block glass-panel">
+                <h2>Ocean-View Suites</h2>
+                <p>Wake up to panoramic views of the horizon. Every suite is equipped with premium amenities, a private balcony, and 24/7 room service.</p>
+                <div class="stats-row">
+                    <div class="stat"><span>500+</span> Sq. Ft</div>
+                    <div class="stat"><span>24/7</span> Concierge</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="amenities" class="section center-section">
+            <div class="content-block glass-panel">
+                <h2>World-Class Amenities</h2>
+                <p>From our 5-star spa to gourmet dining across 10 restaurants, every moment on board is crafted for luxury.</p>
+                <div class="chips-container">
+                    <span class="chip">Spa & Wellness</span>
+                    <span class="chip">Fine Dining</span>
+                    <span class="chip">Casino</span>
+                    <span class="chip">Kids Club</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="ports" class="section side-section right">
+            <div class="content-block glass-panel">
+                <h2>Global Destinations</h2>
+                <p>Explore curated routes across the Mediterranean, Caribbean, and Alaska. We bring the world's most beautiful ports to your doorstep.</p>
+                <div class="route-map-fake">
+                    <div class="port-item">Miami</div>
+                    <div class="port-item">Nassau</div>
+                    <div class="port-item">Cozumel</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="booking" class="section glass-section">
+            <div class="content-block booking-panel">
+                <h2>Reserve Your Journey</h2>
+                <p>Simulated Checkout Experience</p>
+                
+                <form class="booking-form" onsubmit="event.preventDefault(); alert('Demo booking successful!');">
+                    <div class="form-group">
+                        <label>Destination</label>
+                        <select required>
+                            <option value="">Select a route</option>
+                            <option value="caribbean">Caribbean Grand (7 Nights)</option>
+                            <option value="med">Mediterranean Wonders (10 Nights)</option>
+                            <option value="alaska">Alaskan Glaciers (5 Nights)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Guests</label>
+                            <input type="number" min="1" max="6" value="2" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Suite Type</label>
+                            <select required>
+                                <option value="balcony">Balcony Suite</option>
+                                <option value="ocean">Ocean View</option>
+                                <option value="penthouse">Penthouse</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary full-width">Simulate Booking</button>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Application Logic -->
+    <script src="./app.js"></script>
+</body>
+</html>

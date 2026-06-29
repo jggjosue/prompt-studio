@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudCrystal Data 3D - The Next Generation Data Cloud</title>
+    <meta name="description" content="Explore CloudCrystal Data 3D, the modern enterprise platform for data warehouse, lakehouse, and data collaboration.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- 3D Canvas Background -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">CloudCrystal<span class="highlight">3D</span></div>
+        <div class="nav-links">
+            <a href="#platform">Platform</a>
+            <a href="#workloads">Workloads</a>
+            <a href="#marketplace">Marketplace</a>
+            <a href="#developers">Developers</a>
+        </div>
+        <div class="nav-actions">
+            <button class="btn-secondary">Log In</button>
+            <button class="btn-primary">Start for Free</button>
+        </div>
+    </nav>
+
+    <!-- Scrollable Content Sections -->
+    <main class="scroll-container">
+        
+        <!-- Section 1: Hero -->
+        <section class="panel hero" id="hero">
+            <div class="content-block" data-speed="0.8">
+                <h1 class="parallax-title">The Data Cloud, <br>Reimagined in <span class="highlight">3D</span></h1>
+                <p class="parallax-text">Unify your data warehouse, lakehouse, and data pipelines into one scalable, AI-ready platform.</p>
+                <div class="cta-group parallax-btn">
+                    <button class="btn-primary large">Start Free Trial</button>
+                    <button class="btn-secondary large outline">Request Demo</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Pipelines -->
+        <section class="panel pipelines" id="pipelines">
+            <div class="content-block align-right" data-speed="1.2">
+                <div class="glass-card">
+                    <h2>Seamless Data Pipelines</h2>
+                    <p>Connect thousands of data sources in real-time. Watch your data flow seamlessly into the core, transformed and ready for AI workloads.</p>
+                    <ul class="feature-list">
+                        <li><span>✓</span> Automated data ingestion</li>
+                        <li><span>✓</span> Real-time stream processing</li>
+                        <li><span>✓</span> Zero-maintenance architecture</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Warehouse / Queries -->
+        <section class="panel warehouse" id="warehouse">
+            <div class="content-block align-left" data-speed="0.9">
+                <div class="glass-card terminal-card">
+                    <div class="terminal-header">
+                        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                        <span class="title">SQL Editor - CloudCrystal</span>
+                    </div>
+                    <div class="terminal-body">
+                        <pre><code><span class="keyword">SELECT</span> customer_id, <span class="keyword">SUM</span>(revenue)
+<span class="keyword">FROM</span> global_sales_data
+<span class="keyword">WHERE</span> region = <span class="string">'EMEA'</span>
+  <span class="keyword">AND</span> is_ai_ready = <span class="keyword">TRUE</span>
+<span class="keyword">GROUP BY</span> customer_id
+<span class="keyword">ORDER BY</span> revenue <span class="keyword">DESC</span>
+<span class="keyword">LIMIT</span> 100;</code></pre>
+                        <div class="query-status">Query executing in 0.04s...</div>
+                    </div>
+                </div>
+                <div class="text-content">
+                    <h2>Infinite Scalability</h2>
+                    <p>Execute massive concurrent workloads without performance degradation. Our elastic compute engine scales instantly.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Analytics -->
+        <section class="panel analytics" id="analytics">
+            <div class="content-block center" data-speed="1.1">
+                <h2>AI-Ready Analytics & Dashboards</h2>
+                <p>Turn raw data into actionable insights instantly. Build dynamic dashboards natively or connect your favorite BI tools.</p>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <h3>99.99%</h3>
+                        <p>Uptime Guarantee</p>
+                    </div>
+                    <div class="metric-card">
+                        <h3>100PB+</h3>
+                        <p>Data Analyzed Daily</p>
+                    </div>
+                    <div class="metric-card">
+                        <h3>Zero</h3>
+                        <p>Concurrency Limits</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Governance & Marketplace -->
+        <section class="panel governance" id="governance">
+            <div class="content-block align-right" data-speed="0.85">
+                <div class="glass-card">
+                    <h2>Secure Collaboration & Marketplace</h2>
+                    <p>Share data across clouds without copying it. Enforce granular governance and explore our global dataset marketplace.</p>
+                    <button class="btn-primary mt-4">Explore Marketplace</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: CTA -->
+        <section class="panel conversion" id="conversion">
+            <div class="content-block center form-block" data-speed="1">
+                <h2>Ready to Enter the Data Cloud?</h2>
+                <p>Join thousands of enterprises scaling their data natively in CloudCrystal.</p>
+                <form class="signup-form">
+                    <input type="email" placeholder="Enter your work email" required>
+                    <button type="submit" class="btn-primary large">Start Your Free Trial</button>
+                </form>
+                <p class="terms">No credit card required. $400 in free credits.</p>
+            </div>
+        </section>
+        
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

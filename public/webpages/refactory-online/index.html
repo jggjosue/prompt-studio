@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refactory Online | AI Code Transformation Lab</title>
+    <meta name="description" content="Refactory Online: An immersive 3D platform for intelligent code refactoring, architecture improvement, and CI/CD automation.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Three.js and GSAP via CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+<body>
+
+    <!-- 3D Canvas Background -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- UI Overlay Navigation -->
+    <nav class="main-nav">
+        <div class="logo">REFACTORY_<span>ONLINE</span></div>
+        <div class="nav-links">
+            <a href="#import-analyze">Features</a>
+            <a href="#refactor">Workflow</a>
+            <a href="#signup">Pricing</a>
+            <a href="#signup" class="btn btn-outline">Request Demo</a>
+            <a href="#signup" class="btn btn-primary">Sign Up</a>
+        </div>
+    </nav>
+
+    <!-- Main Scrollable Content -->
+    <main class="scroll-container">
+        
+        <!-- Section 1: Hero -->
+        <section class="panel hero-panel" id="hero">
+            <div class="content-block" data-parallax="true">
+                <h1>Transform Code into <br><span class="gradient-text">Masterpieces</span></h1>
+                <p>Enter the 3D software engineering lab. Intelligent refactoring, static analysis, and automated CI/CD pipelines in one immersive platform.</p>
+                <div class="cta-group">
+                    <button class="btn btn-primary btn-large" onclick="document.getElementById('import-analyze').scrollIntoView({behavior: 'smooth'})">Start Refactoring</button>
+                    <button class="btn btn-outline btn-large" onclick="document.getElementById('signup').scrollIntoView({behavior: 'smooth'})">Request Demo</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Import & Analyze -->
+        <section class="panel feature-panel right-align" id="import-analyze">
+            <div class="content-block glass-card" data-parallax="true">
+                <div class="badge">Stage 01</div>
+                <h2>Import & Analyze</h2>
+                <p>Connect your repositories instantly. Our engine parses millions of lines of code, visualizing your file trees and architecture in real-time 3D space.</p>
+                <ul class="feature-list">
+                    <li><i class="icon">🔍</i> Deep Static Analysis</li>
+                    <li><i class="icon">🌳</i> 3D File Tree Visualization</li>
+                    <li><i class="icon">⚙️</i> Auto-detect Tech Debt</li>
+                </ul>
+            </div>
+            
+            <div class="floating-ui editor-mockup glass-card" data-speed="1.2">
+                <div class="editor-header">
+                    <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                    <span class="filename">main.py - Analysis Running...</span>
+                </div>
+                <pre><code class="language-python">def legacy_process(data):
+    # TODO: This is O(n^2), needs refactoring
+    result = []
+    for i in data:
+        for j in data:
+            if i.id == j.parent_id:
+                result.append(merge(i, j))
+    return result</code></pre>
+                <div class="analysis-alert warning">Tech Debt Detected: High Cyclomatic Complexity</div>
+            </div>
+        </section>
+
+        <!-- Section 3: Detect & Refactor -->
+        <section class="panel feature-panel left-align" id="refactor">
+            <div class="content-block glass-card" data-parallax="true">
+                <div class="badge">Stage 02</div>
+                <h2>Detect & Refactor</h2>
+                <p>Our AI suggests optimal architectural patterns. Apply smart refactoring rules to clean up code, improve performance, and eliminate technical debt.</p>
+                
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <span class="metric-value">98%</span>
+                        <span class="metric-label">Accuracy</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-value">10x</span>
+                        <span class="metric-label">Faster Reviews</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Compare & Test (Before/After) -->
+        <section class="panel center-panel" id="compare">
+            <div class="content-block full-width" data-parallax="true">
+                <div class="badge">Stage 03</div>
+                <h2>Compare & Validate</h2>
+                <p>Review the visual impact of your changes before deploying.</p>
+                
+                <div class="diff-viewer glass-card">
+                    <div class="diff-pane original">
+                        <div class="pane-title">Before (O(n^2))</div>
+                        <pre><code>for i in data:
+  for j in data:
+    if i.id == j.parent_id:
+      result.append(merge(i, j))</code></pre>
+                    </div>
+                    <div class="diff-pane refactored">
+                        <div class="pane-title">After (O(n))</div>
+                        <pre><code>hash_map = {item.id: item for item in data}
+for item in data:
+  if item.parent_id in hash_map:
+    result.append(merge(item, hash_map[item.parent_id]))</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: CI/CD & Deploy -->
+        <section class="panel feature-panel right-align" id="cicd">
+            <div class="content-block glass-card" data-parallax="true">
+                <div class="badge">Stage 04</div>
+                <h2>Automated CI/CD</h2>
+                <p>Merge with confidence. Automated testing, PR generation, and seamless deployment pipelines triggered on every intelligent refactor.</p>
+                <button class="btn btn-primary mt-4" onclick="alert('Integration modal opened!')">Integrate GitHub/GitLab</button>
+            </div>
+            
+            <div class="floating-ui pipeline-mockup glass-card" data-speed="0.8">
+                <div class="pipeline-step success">Build</div>
+                <div class="pipeline-connector"></div>
+                <div class="pipeline-step success">Unit Tests</div>
+                <div class="pipeline-connector"></div>
+                <div class="pipeline-step running">Security Scan <span class="spinner"></span></div>
+                <div class="pipeline-connector"></div>
+                <div class="pipeline-step pending">Deploy</div>
+            </div>
+        </section>
+
+        <!-- Section 6: Contact & Conversion -->
+        <section class="panel contact-panel" id="signup">
+            <div class="content-block glass-card form-container">
+                <h2>Join the Future of Engineering</h2>
+                <p>Start optimizing your codebase today.</p>
+                
+                <form id="signup-form" onsubmit="event.preventDefault(); alert('Form submitted successfully! Welcome to Refactory Online.');">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" required placeholder="Jane Doe">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Work Email</label>
+                        <input type="email" id="email" required placeholder="jane@company.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="plan">Select Plan</label>
+                        <select id="plan">
+                            <option value="startup">Startup</option>
+                            <option value="pro">Pro (Recommended)</option>
+                            <option value="enterprise">Enterprise</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Request Access</button>
+                </form>
+            </div>
+        </section>
+        
+        <footer class="main-footer">
+            <p>&copy; 2026 Refactory Online. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Documentation</a>
+            </div>
+        </footer>
+
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

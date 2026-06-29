@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BoardFlow - Trello Clone</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Background animated shapes for premium look -->
+    <div class="bg-shape bg-shape-1"></div>
+    <div class="bg-shape bg-shape-2"></div>
+
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar glass-panel">
+            <div class="logo">
+                <i class="fa-solid fa-layer-group"></i> BoardFlow
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="active"><i class="fa-solid fa-border-all"></i> Boards</a>
+                <a href="#"><i class="fa-solid fa-user-group"></i> Members</a>
+                <a href="#"><i class="fa-solid fa-gear"></i> Settings</a>
+            </nav>
+            <div class="sidebar-teams">
+                <h3>Your Teams</h3>
+                <ul>
+                    <li><span class="color-dot c-blue"></span> Design Team</li>
+                    <li><span class="color-dot c-purple"></span> Engineering</li>
+                    <li><span class="color-dot c-green"></span> Marketing</li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Header -->
+            <header class="top-header glass-panel">
+                <div class="board-info">
+                    <h1>Website Redesign</h1>
+                    <button class="btn-icon"><i class="fa-regular fa-star"></i></button>
+                    <span class="divider"></span>
+                    <div class="team-members">
+                        <img src="https://i.pravatar.cc/100?img=11" alt="Member" class="avatar">
+                        <img src="https://i.pravatar.cc/100?img=22" alt="Member" class="avatar">
+                        <img src="https://i.pravatar.cc/100?img=33" alt="Member" class="avatar">
+                        <button class="btn-circle"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                </div>
+                <div class="board-actions">
+                    <button class="btn-secondary"><i class="fa-solid fa-filter"></i> Filter</button>
+                    <button class="btn-primary"><i class="fa-solid fa-share-nodes"></i> Share</button>
+                </div>
+            </header>
+
+            <!-- Board Area -->
+            <div class="board-canvas">
+                
+                <!-- Column: To Do -->
+                <div class="board-column">
+                    <div class="column-header">
+                        <h2>To Do <span class="task-count">3</span></h2>
+                        <button class="btn-icon"><i class="fa-solid fa-ellipsis"></i></button>
+                    </div>
+                    <div class="column-cards">
+                        <!-- Card 1 -->
+                        <div class="card glass-card">
+                            <div class="card-labels">
+                                <span class="label l-high">High Priority</span>
+                                <span class="label l-design">Design</span>
+                            </div>
+                            <h3 class="card-title">Design new landing page heroes</h3>
+                            <p class="card-desc">Create 3 variations of the hero section for A/B testing.</p>
+                            <div class="card-footer">
+                                <div class="card-meta">
+                                    <span><i class="fa-regular fa-comment"></i> 4</span>
+                                    <span><i class="fa-solid fa-paperclip"></i> 2</span>
+                                </div>
+                                <div class="card-members">
+                                    <img src="https://i.pravatar.cc/100?img=11" alt="Member" class="avatar-sm">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="card glass-card">
+                            <div class="card-labels">
+                                <span class="label l-medium">Medium</span>
+                            </div>
+                            <h3 class="card-title">Update brand guidelines</h3>
+                            <div class="card-footer">
+                                <div class="card-meta">
+                                    <span><i class="fa-regular fa-clock"></i> Oct 24</span>
+                                </div>
+                                <div class="card-members">
+                                    <img src="https://i.pravatar.cc/100?img=44" alt="Member" class="avatar-sm">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="btn-add-card"><i class="fa-solid fa-plus"></i> Add a card</button>
+                    </div>
+                </div>
+
+                <!-- Column: In Progress -->
+                <div class="board-column">
+                    <div class="column-header">
+                        <h2>In Progress <span class="task-count">2</span></h2>
+                        <button class="btn-icon"><i class="fa-solid fa-ellipsis"></i></button>
+                    </div>
+                    <div class="column-cards">
+                        <!-- Card 3 -->
+                        <div class="card glass-card">
+                            <div class="card-cover" style="background: linear-gradient(135deg, #a855f7, #ec4899); height: 80px; border-radius: 8px 8px 0 0; margin: -16px -16px 12px -16px;"></div>
+                            <div class="card-labels">
+                                <span class="label l-dev">Development</span>
+                            </div>
+                            <h3 class="card-title">Implement authentication flow</h3>
+                            <div class="progress-bar-container">
+                                <div class="progress-info">
+                                    <span><i class="fa-solid fa-check-square"></i> 3/5</span>
+                                    <span>60%</span>
+                                </div>
+                                <div class="progress-bar"><div class="progress" style="width: 60%"></div></div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="card-meta">
+                                    <span><i class="fa-regular fa-comment"></i> 12</span>
+                                </div>
+                                <div class="card-members">
+                                    <img src="https://i.pravatar.cc/100?img=22" alt="Member" class="avatar-sm">
+                                    <img src="https://i.pravatar.cc/100?img=33" alt="Member" class="avatar-sm">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="btn-add-card"><i class="fa-solid fa-plus"></i> Add a card</button>
+                    </div>
+                </div>
+
+                <!-- Column: Review -->
+                <div class="board-column">
+                    <div class="column-header">
+                        <h2>Review <span class="task-count">1</span></h2>
+                        <button class="btn-icon"><i class="fa-solid fa-ellipsis"></i></button>
+                    </div>
+                    <div class="column-cards">
+                        <!-- Card 4 -->
+                        <div class="card glass-card">
+                            <div class="card-labels">
+                                <span class="label l-high">High Priority</span>
+                            </div>
+                            <h3 class="card-title">Fix mobile navigation bug</h3>
+                            <p class="card-desc">Menu doesn't close when clicking outside on iOS devices.</p>
+                            <div class="card-footer">
+                                <div class="card-meta time-warning">
+                                    <span><i class="fa-regular fa-clock"></i> Today</span>
+                                </div>
+                                <div class="card-members">
+                                    <img src="https://i.pravatar.cc/100?img=55" alt="Member" class="avatar-sm">
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn-add-card"><i class="fa-solid fa-plus"></i> Add a card</button>
+                    </div>
+                </div>
+
+                <!-- Add Column Button -->
+                <div class="add-column-wrapper">
+                    <button class="btn-add-column"><i class="fa-solid fa-plus"></i> Add another list</button>
+                </div>
+
+            </div>
+        </main>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>

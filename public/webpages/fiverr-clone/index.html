@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillMarket 3D - The Next-Gen Freelance Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        :root {
+            --primary: #00F0FF;
+            --secondary: #7000FF;
+            --dark: #0a0a0f;
+            --light: #ffffff;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+            overscroll-behavior: none;
+        }
+
+        /* 3D Canvas */
+        #webgl-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            outline: none;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(10, 10, 15, 0.5);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: color 0.3s;
+            opacity: 0.8;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+            opacity: 1;
+        }
+
+        .btn-join {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            color: white;
+            font-weight: 800;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn-join:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(112, 0, 255, 0.3);
+        }
+
+        /* Layout */
+        main {
+            position: relative;
+            z-index: 10;
+        }
+
+        section {
+            min-height: 100vh;
+            padding: 6rem 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Hero Section */
+        #hero {
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        h1 {
+            font-size: 5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        h1 span {
+            color: var(--primary);
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            opacity: 0.8;
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+
+        .search-container {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 1.5rem 2rem;
+            border-radius: 50px;
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            color: white;
+            font-size: 1.2rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .search-bar:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primary);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            color: var(--dark);
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Services/Categories */
+        #categories {
+            align-items: flex-start;
+        }
+
+        .section-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 3rem;
+            background: linear-gradient(90deg, #fff, rgba(255,255,255,0.5));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .cat-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .cat-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            backdrop-filter: blur(10px);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.4s;
+            cursor: pointer;
+        }
+
+        .cat-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            background: rgba(255,255,255,0.1);
+            border-color: var(--primary);
+        }
+
+        .cat-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cat-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cat-card p {
+            color: rgba(255,255,255,0.6);
+            font-weight: 300;
+        }
+
+        /* Gigs Marketplace */
+        #gigs {
+            align-items: flex-end;
+            text-align: right;
+        }
+
+        .gigs-container {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            width: 100%;
+            justify-content: flex-end;
+        }
+
+        .gig-card {
+            background: rgba(10,10,15,0.8);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            width: 300px;
+            overflow: hidden;
+            text-align: left;
+            backdrop-filter: blur(15px);
+        }
+
+        .gig-img {
+            height: 160px;
+            background: linear-gradient(45deg, #ff0055, #ff9900);
+            position: relative;
+        }
+
+        .gig-price {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.7);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .gig-info {
+            padding: 1.5rem;
+        }
+
+        .gig-seller {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .seller-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+
+        .gig-info h4 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .gig-rating {
+            color: #FFB800;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* Checkout/CTA */
+        #checkout {
+            align-items: center;
+            text-align: center;
+            justify-content: center;
+        }
+
+        .checkout-panel {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 4rem;
+            border-radius: 30px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            max-width: 600px;
+        }
+
+        .checkout-panel h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .checkout-panel p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 2rem;
+        }
+
+        .btn-large {
+            font-size: 1.2rem;
+            padding: 1.2rem 3rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .cat-grid { grid-template-columns: repeat(2, 1fr); }
+            h1 { font-size: 4rem; }
+        }
+        @media (max-width: 768px) {
+            nav { padding: 1.5rem 2rem; }
+            .nav-links { display: none; }
+            .cat-grid { grid-template-columns: 1fr; }
+            section { padding: 4rem 2rem; }
+            h1 { font-size: 3rem; }
+            .gigs-container { flex-direction: column; align-items: flex-end; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="webgl-canvas"></canvas>
+
+    <nav>
+        <div class="logo">SkillMarket 3D</div>
+        <div class="nav-links">
+            <a href="#categories">Explore</a>
+            <a href="#gigs">Pro Services</a>
+            <a href="#">Studio</a>
+        </div>
+        <button class="btn-join">Enter Hub</button>
+    </nav>
+
+    <main>
+        <section id="hero">
+            <div class="hero-content" class="gsap-reveal">
+                <h1>Find Top Talent in the <span>Digital Realm</span></h1>
+                <p class="hero-subtitle">Immersive 3D marketplace for next-gen freelancers.</p>
+                <div class="search-container">
+                    <input type="text" class="search-bar" placeholder="Search for 3D modeling, Web3, UI/UX...">
+                    <button class="search-btn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="categories">
+            <div>
+                <h2 class="section-title gsap-reveal">Explore Hubs</h2>
+                <div class="cat-grid">
+                    <div class="cat-card gsap-reveal">
+                        <div class="cat-icon">🎨</div>
+                        <h3>Spatial Design</h3>
+                        <p>AR/VR environments, 3D assets, UI/UX</p>
+                    </div>
+                    <div class="cat-card gsap-reveal" style="transition-delay: 0.1s;">
+                        <div class="cat-icon">💻</div>
+                        <h3>Web3 & Crypto</h3>
+                        <p>Smart contracts, dApps, blockchain dev</p>
+                    </div>
+                    <div class="cat-card gsap-reveal" style="transition-delay: 0.2s;">
+                        <div class="cat-icon">🎬</div>
+                        <h3>Motion & VFX</h3>
+                        <p>CGI, animation, immersive video</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="gigs">
+            <div>
+                <h2 class="section-title gsap-reveal">Trending Talents</h2>
+                <div class="gigs-container">
+                    <div class="gig-card gsap-reveal">
+                        <div class="gig-img" style="background: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop') center/cover;">
+                            <div class="gig-price">250 ETH</div>
+                        </div>
+                        <div class="gig-info">
+                            <div class="gig-seller">
+                                <div class="seller-avatar" style="background: url('https://i.pravatar.cc/100?img=33') center/cover;"></div>
+                                <span>NeonArchitect</span>
+                            </div>
+                            <h4>I will build a custom Metaverse gallery for your brand</h4>
+                            <div class="gig-rating">★ 4.9 (128)</div>
+                        </div>
+                    </div>
+                    <div class="gig-card gsap-reveal" style="transition-delay: 0.2s;">
+                        <div class="gig-img" style="background: url('https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=600&auto=format&fit=crop') center/cover;">
+                            <div class="gig-price">120 ETH</div>
+                        </div>
+                        <div class="gig-info">
+                            <div class="gig-seller">
+                                <div class="seller-avatar" style="background: url('https://i.pravatar.cc/100?img=47') center/cover;"></div>
+                                <span>CyberDev</span>
+                            </div>
+                            <h4>I will audit and deploy secure Web3 Smart Contracts</h4>
+                            <div class="gig-rating">★ 5.0 (342)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="checkout">
+            <div class="checkout-panel gsap-reveal">
+                <h2>Ready to Build?</h2>
+                <p>Hire verified experts and launch your next big project.</p>
+                <button class="btn-join btn-large">Start Hiring Now</button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Register ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
+
+        // --- THREE.JS SCENE SETUP ---
+        const canvas = document.querySelector('#webgl-canvas');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x0a0a0f, 0.015); // Match background var(--dark)
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        // Lights
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+        scene.add(ambientLight);
+
+        const pointLight1 = new THREE.PointLight(0x00F0FF, 2, 100);
+        pointLight1.position.set(5, 5, 5);
+        scene.add(pointLight1);
+
+        const pointLight2 = new THREE.PointLight(0x7000FF, 2, 100);
+        pointLight2.position.set(-5, -5, 5);
+        scene.add(pointLight2);
+
+        // Objects/Particles (The "Hub")
+        const group = new THREE.Group();
+        scene.add(group);
+
+        // Create abstract geometric floating structures representing "gigs/stalls"
+        const geometry1 = new THREE.IcosahedronGeometry(1, 0);
+        const material1 = new THREE.MeshStandardMaterial({ 
+            color: 0x00F0FF, 
+            wireframe: true,
+            transparent: true,
+            opacity: 0.5
+        });
+
+        const geometry2 = new THREE.BoxGeometry(1.5, 1.5, 1.5);
+        const material2 = new THREE.MeshPhysicalMaterial({ 
+            color: 0x7000FF, 
+            metalness: 0.9, 
+            roughness: 0.1,
+            clearcoat: 1.0,
+            transparent: true,
+            opacity: 0.8
+        });
+
+        // Add lots of floating objects
+        const objects = [];
+        for(let i = 0; i < 50; i++) {
+            const mesh = new THREE.Mesh(
+                Math.random() > 0.5 ? geometry1 : geometry2,
+                Math.random() > 0.5 ? material1 : material2
+            );
+            
+            mesh.position.x = (Math.random() - 0.5) * 40;
+            mesh.position.y = (Math.random() - 0.5) * 40 - 10; // Spread downwards
+            mesh.position.z = (Math.random() - 0.5) * 40;
+            
+            mesh.rotation.x = Math.random() * Math.PI;
+            mesh.rotation.y = Math.random() * Math.PI;
+            
+            const scale = Math.random() * 1.5 + 0.5;
+            mesh.scale.set(scale, scale, scale);
+            
+            group.add(mesh);
+            objects.push({
+                mesh: mesh,
+                rx: (Math.random() - 0.5) * 0.01,
+                ry: (Math.random() - 0.5) * 0.01
+            });
+        }
+
+        // Add a central "Core" for the hero section
+        const coreGeo = new THREE.TorusKnotGeometry(2, 0.5, 100, 16);
+        const coreMat = new THREE.MeshPhysicalMaterial({ 
+            color: 0x00F0FF,
+            emissive: 0x004455,
+            wireframe: true
+        });
+        const core = new THREE.Mesh(coreGeo, coreMat);
+        core.position.set(0, 0, -5);
+        scene.add(core);
+
+        camera.position.z = 5;
+
+        // Animation Loop
+        let clock = new THREE.Clock();
+        function animate() {
+            requestAnimationFrame(animate);
+            const elapsedTime = clock.getElapsedTime();
+
+            // Rotate core
+            core.rotation.y = elapsedTime * 0.2;
+            core.rotation.x = elapsedTime * 0.1;
+
+            // Rotate background objects gently
+            objects.forEach(obj => {
+                obj.mesh.rotation.x += obj.rx;
+                obj.mesh.rotation.y += obj.ry;
+            });
+
+            // Gentle floating based on mouse/scroll is handled by GSAP below
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Handle Resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // --- GSAP SCROLL ANIMATIONS ---
+
+        // HTML Elements Reveal
+        gsap.utils.toArray('.gsap-reveal').forEach(element => {
+            gsap.fromTo(element, 
+                { y: 50, opacity: 0 },
+                {
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 80%",
+                        end: "top 20%",
+                        scrub: 1,
+                    },
+                    y: 0,
+                    opacity: 1,
+                    duration: 1
+                }
+            );
+        });
+
+        // 3D Camera Path / Scene Animation tied to scroll
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: "main",
+                start: "top top",
+                end: "bottom bottom",
+                scrub: 1
+            }
+        });
+
+        // Sequence of camera movements
+        tl.to(camera.position, { z: 15, y: -5, duration: 1 }) // Move back and down slightly
+          .to(core.position, { x: 5, z: 0, duration: 1 }, "<") // Move core out of way
+          .to(group.rotation, { y: Math.PI / 2, duration: 2 }) // Rotate entire hub
+          .to(camera.position, { z: 5, y: -15, duration: 1 }) // Dive deeper
+          .to(camera.rotation, { x: 0.2, duration: 1 }, "<") // Tilt up
+          .to(pointLight1.color, { r: 1, g: 0, b: 1, duration: 1 }, 0) // Change light colors over time
+          .to(pointLight2.color, { r: 0, g: 1, b: 0, duration: 1 }, 0);
+
+        // Mouse Parallax for Core
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+            const mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+            
+            gsap.to(core.position, {
+                x: mouseX * 2,
+                y: mouseY * 2,
+                duration: 2,
+                ease: "power2.out"
+            });
+            
+            gsap.to(camera.position, {
+                x: mouseX * 0.5,
+                y: camera.position.y + mouseY * 0.5,
+                duration: 2,
+                ease: "power2.out"
+            });
+        });
+
+    </script>
+</body>
+</html>

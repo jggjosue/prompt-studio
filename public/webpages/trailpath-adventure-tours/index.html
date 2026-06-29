@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Explore TrailPath — Adventure Tours - a premium immersive 3D landing page.">
+  <title>TrailPath Adventure Tours</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Disclaimers Banner -->
+  <div class="disclaimer-banner">
+    <p><strong>Notice:</strong> This is a demo adventure tours platform. Tours, prices, and availability are simulated examples.</p>
+  </div>
+
+  <!-- 3D Canvas Background -->
+  <canvas id="webgl-canvas"></canvas>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-logo">
+      <div class="logo-mark">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 22h20L12 2z"/></svg>
+      </div>
+      <span>TrailPath</span>
+    </div>
+    <div class="nav-links">
+      <a href="#tours">Expeditions</a>
+      <a href="#gear">Gear</a>
+      <a href="#safety">Safety</a>
+      <a href="#booking" class="btn-primary">Book Now</a>
+    </div>
+  </nav>
+
+  <!-- Scroll Container -->
+  <main class="scroll-container">
+    
+    <!-- Hero Section -->
+    <section class="section hero-section" id="hero">
+      <div class="hero-content" data-parallax="0.2">
+        <div class="hero-badge">⛰️ Immersive 3D Experience</div>
+        <h1 class="hero-title">Beyond the<br><em>Horizon</em></h1>
+        <p class="hero-subtitle">Discover uncharted paths, breathtaking summits, and raw nature. Immerse yourself in our interactive 3D map.</p>
+        <div class="hero-actions">
+          <a href="#tours" class="btn-primary">Explore Routes</a>
+          <a href="#features" class="btn-outline">How it works</a>
+        </div>
+      </div>
+      <div class="scroll-indicator">
+        <span>Scroll to explore</span>
+        <div class="mouse"><div class="wheel"></div></div>
+      </div>
+    </section>
+
+    <!-- Tours / Map Viewpoint Section -->
+    <section class="section tours-section" id="tours">
+      <div class="section-content right-align" data-parallax="0.15">
+        <h2 class="section-title">Epic <em>Expeditions</em></h2>
+        <p class="section-desc">From misty valleys to volcanic craters. Choose your next great adventure.</p>
+        
+        <div class="tour-cards">
+          <!-- Card 1 -->
+          <div class="tour-card" data-parallax="0.05">
+            <div class="card-image bg-patagonia">
+              <span class="difficulty hard">Hard</span>
+            </div>
+            <div class="card-info">
+              <h3>Patagonia Peaks</h3>
+              <p class="duration">10 Days • Guided Trek</p>
+              <div class="card-bottom">
+                <span class="price">$2,490</span>
+                <button class="btn-sm">View Route</button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Card 2 -->
+          <div class="tour-card" data-parallax="0.1">
+            <div class="card-image bg-dolomites">
+              <span class="difficulty medium">Moderate</span>
+            </div>
+            <div class="card-info">
+              <h3>Dolomites Loop</h3>
+              <p class="duration">7 Days • Hut-to-Hut</p>
+              <div class="card-bottom">
+                <span class="price">$1,890</span>
+                <button class="btn-sm">View Route</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gear Checklist Section -->
+    <section class="section gear-section" id="gear">
+      <div class="section-content left-align" data-parallax="0.2">
+        <h2 class="section-title">The Right <em>Gear</em></h2>
+        <p class="section-desc">We provide the essentials. You bring the spirit. Review our recommended checklist.</p>
+        
+        <ul class="gear-checklist">
+          <li>
+            <div class="checkbox checked"></div>
+            <span>High-altitude Tent</span>
+            <span class="tag">Provided</span>
+          </li>
+          <li>
+            <div class="checkbox checked"></div>
+            <span>GPS Tracker & Compass</span>
+            <span class="tag">Provided</span>
+          </li>
+          <li>
+            <div class="checkbox"></div>
+            <span>GORE-TEX Hiking Boots</span>
+            <span class="tag outline">Required</span>
+          </li>
+          <li>
+            <div class="checkbox"></div>
+            <span>Merino Wool Base Layers</span>
+            <span class="tag outline">Required</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Safety / Disclaimers Section -->
+    <section class="section safety-section" id="safety">
+      <div class="section-content center-align" data-parallax="0.1">
+        <h2 class="section-title">Safety & <em>Responsibility</em></h2>
+        <div class="safety-grid">
+          <div class="safety-card">
+            <div class="icon">⚕️</div>
+            <h4>Expert Guides</h4>
+            <p>Our leaders are trained in Wilderness First Aid.</p>
+          </div>
+          <div class="safety-card">
+            <div class="icon">📡</div>
+            <h4>Connectivity</h4>
+            <p>Satellite communicators on every remote expedition.</p>
+          </div>
+          <div class="safety-card">
+            <div class="icon">⚠️</div>
+            <h4>Awareness</h4>
+            <p>Review local rules, weather and safety guidance before booking.</p>
+          </div>
+        </div>
+        <div class="disclaimer-text">
+          <p>Outdoor conditions may vary. We cannot promise absolute safety, perfect weather, or guaranteed access. Always prepare for the unexpected.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Booking CTA Section -->
+    <section class="section booking-section" id="booking">
+      <div class="booking-card" data-parallax="0.15">
+        <h2>Ready for the <em>Wild?</em></h2>
+        <p>Book your simulated adventure today.</p>
+        <form class="booking-form" onsubmit="event.preventDefault();">
+          <input type="text" placeholder="Select Destination" />
+          <input type="date" />
+          <button class="btn-primary large">Reserve Demo Activity</button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- External Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  
+  <!-- Custom Logic -->
+  <script src="app.js"></script>
+</body>
+</html>

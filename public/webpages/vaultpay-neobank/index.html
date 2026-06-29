@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VaultPay Neobank 3D</title>
+  <meta name="description" content="Demo banking experience only. Not a real bank account.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 3D Canvas Background -->
+  <canvas class="webgl"></canvas>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="logo">
+      <div class="logo-icon">V</div>
+      <span>VaultPay</span>
+    </div>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#security">Security</a>
+      <a href="#plans">Plans</a>
+    </div>
+    <button class="btn-primary nav-btn">Open Demo Account</button>
+  </nav>
+
+  <!-- Scrollable Content Overlay -->
+  <div class="content-wrapper">
+    <!-- Hero Section -->
+    <section class="section hero" id="home">
+      <div class="hero-content" data-parallax="true">
+        <div class="badge">Demo banking experience only</div>
+        <h1>Enter the <br><span class="text-gradient">Digital Vault</span></h1>
+        <p>A premium 3D visualization of next-generation finance. Explore simulated balances, transfers, and security like never before.</p>
+        <div class="hero-actions">
+          <button class="btn-primary">Explore Demo Vault</button>
+          <button class="btn-secondary">View Simulated Features</button>
+        </div>
+        <p class="disclaimer-sm">Balances and transactions are simulated. Not a real bank account.</p>
+      </div>
+    </section>
+
+    <!-- Card Showcase Section -->
+    <section class="section card-showcase" id="features">
+      <div class="section-content right-align" data-parallax="true">
+        <h2>Premium <span class="text-gradient">Metal Card</span></h2>
+        <p>Experience the weight of pure digital luxury. Your simulated 3D card reflects your financial goals.</p>
+        <ul class="feature-list">
+          <li>
+            <div class="feature-icon">✨</div>
+            <div>
+              <h3>Dynamic Shine</h3>
+              <p>Metallic reflections that react to the environment.</p>
+            </div>
+          </li>
+          <li>
+            <div class="feature-icon">🔒</div>
+            <div>
+              <h3>Holographic Security</h3>
+              <p>Advanced visual layers to protect your simulated assets.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- App / Dashboard Section -->
+    <section class="section dashboard-showcase" id="dashboard">
+      <div class="section-content left-align" data-parallax="true">
+        <h2>Intelligent <span class="text-gradient">Insights</span></h2>
+        <p>Visualize your spending and savings goals with immersive 3D capsules and luminous transfer lines.</p>
+        
+        <div class="dashboard-sim">
+          <div class="dash-card">
+            <span class="dash-label">Simulated Balance</span>
+            <span class="dash-value">$42,500.00</span>
+          </div>
+          <div class="dash-card">
+            <span class="dash-label">Monthly Savings Goal</span>
+            <div class="progress-bar"><div class="progress" style="width: 75%;"></div></div>
+            <span class="dash-sub">75% Achieved</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="section cta-section" id="plans">
+      <div class="cta-content" data-parallax="true">
+        <h2>Ready to <span class="text-gradient">Upgrade?</span></h2>
+        <p>Choose a premium simulated plan and start your journey into the future of digital finance.</p>
+        
+        <div class="plans-grid">
+          <div class="plan-card">
+            <h3>Standard</h3>
+            <div class="price">$0<span>/mo</span></div>
+            <ul>
+              <li>Virtual Card</li>
+              <li>Basic Insights</li>
+            </ul>
+            <button class="btn-secondary">Select Standard</button>
+          </div>
+          <div class="plan-card premium">
+            <div class="plan-badge">Most Popular</div>
+            <h3>Vault Premium</h3>
+            <div class="price">$15<span>/mo</span></div>
+            <ul>
+              <li>Metal 3D Card</li>
+              <li>Advanced 3D Insights</li>
+              <li>Priority Support</li>
+            </ul>
+            <button class="btn-primary">Select Premium</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Footer Disclaimers -->
+    <footer>
+      <div class="footer-content">
+        <div class="footer-logo">VaultPay 3D</div>
+        <p><strong>Important Notice:</strong> This is a fictional landing page created for demonstration purposes. Do not provide real personal or financial information.</p>
+        <p>Demo banking experience only. Balances and transactions are simulated. Not a real bank account. Financial products depend on region, eligibility and provider approval. Review terms before using any real financial service.</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

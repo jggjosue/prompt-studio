@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PromptStudio Experience | AI Creative Laboratory</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;900&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Three.js and GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+<body>
+    
+    <!-- 3D Canvas Background -->
+    <div id="canvas-container"></div>
+
+    <!-- UI Overlay container -->
+    <main class="experience-container">
+        
+        <!-- Entrance / Hero -->
+        <section class="chapter" id="hero">
+            <div class="content-block left">
+                <div class="badge">AI CREATIVE STUDIO</div>
+                <h1 class="mega-title" data-speed="0.8">PROMPT<br>STUDIO</h1>
+                <p class="subtitle" data-speed="1.1">Entra al laboratorio donde la inteligencia artificial toma forma. Diseña, prueba y organiza el futuro.</p>
+                <button class="primary-btn mt-4">Iniciar Experiencia <span class="arrow">→</span></button>
+            </div>
+        </section>
+
+        <!-- Editor & Library -->
+        <section class="chapter" id="editor">
+            <div class="content-block right holographic-panel" data-speed="0.9">
+                <h2>El Editor Central</h2>
+                <p>Escribe con precisión. Nuestros prompts flotan a tu alrededor como tarjetas luminosas. Visualiza cada ajuste en tiempo real.</p>
+                
+                <div class="glass-card mt-2">
+                    <div class="card-header">
+                        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                        <span class="title">Main_Prompt_v3.ai</span>
+                    </div>
+                    <div class="card-body">
+                        <code>/imagine prompt: A futuristic 3D studio, neon lights, glowing holograms, unreal engine 5, 8k resolution --ar 16:9</code>
+                    </div>
+                </div>
+
+                <div class="button-group mt-4">
+                    <button class="secondary-btn">Ver Biblioteca</button>
+                    <button class="primary-btn">Probar Prompt</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Workflows & Nodes -->
+        <section class="chapter" id="workflows">
+            <div class="content-block left glass-panel" data-speed="1.2">
+                <h2>Conecta las Ideas</h2>
+                <p>Organiza flujos de trabajo complejos. Visualiza cómo cada iteración se conecta con el siguiente modelo de IA. Nodos interactivos en tu canvas 3D.</p>
+                <div class="stats-grid mt-4">
+                    <div class="stat-box">
+                        <span class="stat-num">50+</span>
+                        <span class="stat-label">Modelos Integrados</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-num">∞</span>
+                        <span class="stat-label">Conexiones</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results & Versioning -->
+        <section class="chapter" id="results">
+            <div class="content-block center holographic-panel" data-speed="0.95">
+                <h2 class="text-center">Resultados Holográficos</h2>
+                <p class="text-center max-w-lg mx-auto">Compara versiones como capas dimensionales. A/B testing visual instantáneo.</p>
+                <div class="versions-mockup mt-4">
+                    <div class="v-layer layer-1">v1.0 - Base</div>
+                    <div class="v-layer layer-2">v1.2 - Lighting tweaks</div>
+                    <div class="v-layer layer-3">v2.0 - Final Render</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Marketplace & Teams -->
+        <section class="chapter" id="marketplace">
+            <div class="content-block right glass-panel" data-speed="1.1">
+                <h2>Colaboración Sin Límites</h2>
+                <p>Comparte tus cápsulas visuales con tu equipo o publícalas en el Marketplace simulado. Descubre los mejores prompts de la comunidad.</p>
+                <button class="primary-btn mt-4">Explorar Marketplace</button>
+            </div>
+        </section>
+
+        <!-- CTA / Registration -->
+        <section class="chapter" id="conversion">
+            <div class="content-block center climax-panel" data-speed="1">
+                <h2 class="mega-title small">Únete al Futuro</h2>
+                <p class="mb-4">Tu laboratorio creativo de Inteligencia Artificial te espera. Regístrate ahora y transforma tu flujo de trabajo.</p>
+                
+                <form class="register-form" onsubmit="event.preventDefault(); alert('Registro exitoso!');">
+                    <div class="input-group">
+                        <input type="email" placeholder="Ingresa tu correo profesional" required>
+                        <button type="submit" class="primary-btn glow-btn">Comenzar Gratis</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator">
+        <div class="mouse">
+            <div class="wheel"></div>
+        </div>
+        <span>Descubre el estudio</span>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

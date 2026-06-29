@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LetterNest 3D | Independent Publishing</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- 3D Canvas -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- UI Overlay -->
+    <main class="content-overlay">
+        
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="logo">LetterNest</div>
+            <div class="nav-links">
+                <a href="#discover">Discover</a>
+                <a href="#features">Features</a>
+                <a href="#writers">For Writers</a>
+                <a href="#pricing">Pricing</a>
+            </div>
+            <div class="nav-actions">
+                <button class="btn btn-ghost">Sign In</button>
+                <button class="btn btn-primary">Start Writing</button>
+            </div>
+        </nav>
+
+        <!-- Section 1: Hero -->
+        <section id="hero" class="scroll-section">
+            <div class="section-content hero-content text-center">
+                <h1 class="hero-title">Where ideas become <span class="italic-serif">letters</span></h1>
+                <p class="hero-subtitle">A premium platform for independent writers, essayists, and communities to thrive. Own your audience, monetize your craft.</p>
+                <div class="hero-cta">
+                    <button class="btn btn-primary btn-large">Start Publishing</button>
+                    <button class="btn btn-secondary btn-large">Explore Library</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Editor (Write) -->
+        <section id="write" class="scroll-section align-left">
+            <div class="section-content">
+                <div class="text-block">
+                    <h2 class="section-title">The Minimalist <span class="italic-serif">Canvas</span></h2>
+                    <p class="section-desc">Write without distractions. Our editor feels like a blank page waiting for your masterpiece, seamlessly blending text, images, and embeds.</p>
+                    <ul class="feature-list">
+                        <li><span>✦</span> Distraction-free writing mode</li>
+                        <li><span>✦</span> Rich media embeds</li>
+                        <li><span>✦</span> Auto-saving draft sync</li>
+                    </ul>
+                </div>
+                <!-- Interactive Editor Mockup -->
+                <div class="glass-panel editor-mockup">
+                    <div class="panel-header">
+                        <div class="dots"><span></span><span></span><span></span></div>
+                        <div class="panel-title">Draft - Untitiled</div>
+                    </div>
+                    <div class="panel-body">
+                        <h3 contenteditable="true" class="editor-title" placeholder="Title...">The Future of Independent Media</h3>
+                        <p contenteditable="true" class="editor-text" placeholder="Start writing...">It begins with a simple idea. We believe that writers should have total ownership of their relationship with their readers...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Publish & Grow (Analytics) -->
+        <section id="publish" class="scroll-section align-right">
+            <div class="section-content reverse-layout">
+                <div class="text-block">
+                    <h2 class="section-title">Grow your <span class="italic-serif">Community</span></h2>
+                    <p class="section-desc">Understand your readers with deep analytics. Turn casual readers into loyal, paying subscribers with flexible membership tiers.</p>
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <span class="stat-number">90%</span>
+                            <span class="stat-label">Revenue Share</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-number">10x</span>
+                            <span class="stat-label">Faster Growth</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Interactive Analytics Mockup -->
+                <div class="glass-panel analytics-mockup">
+                    <div class="analytics-header">
+                        <h4>Total Subscribers</h4>
+                        <div class="stat-big">14,208</div>
+                        <div class="stat-change positive">+12% this month</div>
+                    </div>
+                    <div class="chart-mockup">
+                        <div class="bar" style="height: 40%"></div>
+                        <div class="bar" style="height: 60%"></div>
+                        <div class="bar" style="height: 55%"></div>
+                        <div class="bar" style="height: 80%"></div>
+                        <div class="bar" style="height: 70%"></div>
+                        <div class="bar" style="height: 100%"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Discover (Newsletters) -->
+        <section id="discover" class="scroll-section center-layout">
+            <div class="section-content text-center">
+                <h2 class="section-title">Discover brilliant <span class="italic-serif">minds</span></h2>
+                <p class="section-desc centered-desc">Explore a rich ecosystem of newsletters, essays, and podcasts from top creators around the world.</p>
+                
+                <div class="cards-container">
+                    <div class="newsletter-card glass-panel">
+                        <div class="card-author">
+                            <div class="avatar" style="background: #e6b981;">E</div>
+                            <div>
+                                <h5>Elena's Essays</h5>
+                                <span>Culture & Art</span>
+                            </div>
+                        </div>
+                        <p class="card-excerpt">Exploring the intersection of modern art and digital culture...</p>
+                        <button class="btn btn-outline btn-full">Subscribe</button>
+                    </div>
+                    <div class="newsletter-card glass-panel">
+                        <div class="card-author">
+                            <div class="avatar" style="background: #819de6;">M</div>
+                            <div>
+                                <h5>Tech Macro</h5>
+                                <span>Technology</span>
+                            </div>
+                        </div>
+                        <p class="card-excerpt">Weekly deep dives into the macroeconomic shifts in the tech industry.</p>
+                        <button class="btn btn-outline btn-full">Subscribe</button>
+                    </div>
+                    <div class="newsletter-card glass-panel">
+                        <div class="card-author">
+                            <div class="avatar" style="background: #e68181;">D</div>
+                            <div>
+                                <h5>Design Diary</h5>
+                                <span>Design</span>
+                            </div>
+                        </div>
+                        <p class="card-excerpt">Notes on UX, typography, and building beautiful interfaces.</p>
+                        <button class="btn btn-outline btn-full">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer / CTA -->
+        <section id="cta" class="scroll-section">
+            <div class="section-content cta-content text-center glass-panel">
+                <h2 class="section-title">Ready to start your <span class="italic-serif">journey?</span></h2>
+                <p class="section-desc centered-desc">Join thousands of writers who have built their independent empires on LetterNest.</p>
+                <form class="registration-form">
+                    <input type="email" placeholder="Enter your email address" required>
+                    <button type="submit" class="btn btn-primary">Create Publication</button>
+                </form>
+            </div>
+            
+            <footer class="site-footer">
+                <div class="footer-links">
+                    <a href="#">Terms</a>
+                    <a href="#">Privacy</a>
+                    <a href="#">Help Center</a>
+                </div>
+                <div class="copyright">© 2026 LetterNest Inc. All rights reserved.</div>
+            </footer>
+        </section>
+
+    </main>
+
+    <!-- Three.js & GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Custom Logic -->
+    <script src="app.js"></script>
+</body>
+</html>

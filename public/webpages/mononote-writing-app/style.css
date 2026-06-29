@@ -1,0 +1,323 @@
+/* --- Variables & Theming --- */
+:root {
+    /* Light Mode (Default) */
+    --bg-color: #f5f5f5;
+    --text-color: #1a1a1a;
+    --text-muted: #666666;
+    --accent: #000000;
+    --nav-bg: rgba(245, 245, 245, 0.8);
+    --glass-bg: rgba(255, 255, 255, 0.5);
+    --glass-border: rgba(0, 0, 0, 0.05);
+    --button-bg: #000000;
+    --button-text: #ffffff;
+    --button-hover: #333333;
+}
+
+body.dark-mode {
+    /* Dark Mode (Focus Mode) */
+    --bg-color: #0f0f0f;
+    --text-color: #f5f5f5;
+    --text-muted: #a0a0a0;
+    --accent: #ffffff;
+    --nav-bg: rgba(15, 15, 15, 0.8);
+    --glass-bg: rgba(30, 30, 30, 0.5);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --button-bg: #ffffff;
+    --button-text: #000000;
+    --button-hover: #cccccc;
+}
+
+/* --- Base --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html.lenis {
+    height: auto;
+}
+
+.lenis.lenis-smooth {
+    scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+    overflow: hidden;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.8s ease, color 0.8s ease;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, .logo {
+    font-family: 'Outfit', sans-serif;
+}
+
+/* --- 3D Canvas --- */
+#webgl-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* --- UI Overlay --- */
+#app-container {
+    position: relative;
+    z-index: 1;
+}
+
+/* --- Navigation --- */
+.main-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1.5rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--nav-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--glass-border);
+    z-index: 100;
+    transition: all 0.5s ease;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.05em;
+}
+
+.nav-links a {
+    color: var(--text-color);
+    text-decoration: none;
+    margin: 0 1.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: opacity 0.3s;
+}
+
+.nav-links a:hover {
+    opacity: 0.6;
+}
+
+/* --- Buttons --- */
+button {
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: var(--button-bg);
+    color: var(--button-text);
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+}
+
+.btn-primary:hover {
+    background: var(--button-hover);
+    transform: translateY(-2px);
+}
+
+.btn-primary.large {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--text-color);
+    border: 1px solid var(--glass-border);
+    padding: 0.6rem 1.2rem;
+}
+
+.btn-secondary:hover {
+    background: var(--glass-bg);
+}
+
+.btn-secondary.large {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+}
+
+/* --- Sections --- */
+.section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 0 10%;
+    position: relative;
+}
+
+.content-block {
+    max-width: 600px;
+}
+
+.content-block.right {
+    margin-left: auto;
+}
+
+.content-block.center {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.hero-title {
+    font-size: 5vw;
+    line-height: 1.1;
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+    line-height: 1.6;
+    max-width: 80%;
+}
+
+.cta-group {
+    display: flex;
+    gap: 1rem;
+}
+
+.section-title {
+    font-size: 3.5rem;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+}
+
+.section-text {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+/* --- Specific Section Elements --- */
+.feature-list {
+    list-style: none;
+}
+
+.feature-list li {
+    font-size: 1.2rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--glass-border);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.feature-list li span {
+    font-family: 'Outfit';
+    color: var(--text-muted);
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+}
+
+.glass-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 500;
+    transition: transform 0.3s ease;
+}
+
+.glass-card:hover {
+    transform: translateY(-5px);
+}
+
+.signup-form {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.premium-input {
+    padding: 1rem 1.5rem;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    color: var(--text-color);
+    border-radius: 4px;
+    font-size: 1rem;
+    font-family: 'Inter';
+    width: 300px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.premium-input:focus {
+    border-color: var(--accent);
+}
+
+.footer-links {
+    margin-top: 4rem;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.footer-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.footer-links a:hover {
+    color: var(--text-color);
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 3rem;
+    }
+    .cta-group {
+        flex-direction: column;
+    }
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+    .signup-form {
+        flex-direction: column;
+    }
+    .premium-input {
+        width: 100%;
+    }
+    .nav-links {
+        display: none;
+    }
+}

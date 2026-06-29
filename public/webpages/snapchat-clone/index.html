@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SnapWave 3D - The Next Social Dimension</title>
+  <meta name="description" content="Enter a 3D social world built around a mobile camera. Capture, edit, share, and chat in SnapWave 3D.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 3D Canvas Background -->
+  <canvas id="webgl-canvas"></canvas>
+
+  <!-- Navigation -->
+  <nav class="glass-nav">
+    <div class="logo">SnapWave <span class="badge">3D</span></div>
+    <ul class="nav-links">
+      <li><a href="#capture">Capture</a></li>
+      <li><a href="#chat">Chat</a></li>
+      <li><a href="#discover">Discover</a></li>
+      <li><a href="#memories">Memories</a></li>
+    </ul>
+    <button class="btn-primary" onclick="document.getElementById('register').scrollIntoView({behavior: 'smooth'})">Join Now</button>
+  </nav>
+
+  <!-- Scroll Container for UI Overlays -->
+  <main id="scroll-container">
+    
+    <!-- Hero Section -->
+    <section id="hero" class="panel">
+      <div class="content-box glass parallax-element" data-speed="0.2">
+        <h1 class="gradient-text">Dive Into SnapWave</h1>
+        <p>The ultimate 3D social camera experience. Scroll down to enter the lens.</p>
+        <div class="actions">
+          <button class="btn-primary">Start Exploring</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Capture & Edit (AR Filters) -->
+    <section id="capture" class="panel">
+      <div class="content-row">
+        <div class="text-col glass parallax-element" data-speed="0.1">
+          <h2>Capture & Edit</h2>
+          <p>Immersive AR filters, "BlinkCam" creative lenses, and dynamic effects that transform your reality.</p>
+        </div>
+        <div class="cards-col">
+          <div class="filter-card glass hover-glow">
+            <div class="filter-img neon-pink"></div>
+            <h3>Neon Cyber</h3>
+          </div>
+          <div class="filter-card glass hover-glow">
+            <div class="filter-img neon-blue"></div>
+            <h3>Crystal Aura</h3>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Share & Chat -->
+    <section id="chat" class="panel right-aligned">
+      <div class="content-box glass parallax-element" data-speed="-0.15">
+        <h2>FlashLoop Chats</h2>
+        <p>Ephemeral messages, floating stories, and secure group chats. Your conversations, visualized.</p>
+        <div class="chat-bubbles">
+          <div class="bubble sent">Hey, check this out! 🚀</div>
+          <div class="bubble received">Whoa, is that a new Lensly filter?</div>
+          <div class="bubble sent">Yeah, it's called StoryPop! ✨</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Discover (Social Map) -->
+    <section id="discover" class="panel">
+      <div class="content-row reverse">
+        <div class="text-col glass parallax-element" data-speed="0.1">
+          <h2>Social Map</h2>
+          <p>See where your friends are, discover trending spots, and explore the 3D community globe.</p>
+        </div>
+        <div class="map-ui glass">
+          <div class="hotspot active"></div>
+          <div class="hotspot" style="top: 20%; left: 80%;"></div>
+          <div class="hotspot" style="top: 70%; left: 30%;"></div>
+          <p class="map-label">📍 Miami Beach - 5 Friends</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Memories -->
+    <section id="memories" class="panel center-aligned">
+      <div class="content-box glass parallax-element" data-speed="-0.1">
+        <h2>Memories Vault</h2>
+        <p>Your private, encrypted gallery of past snaps. Swipe back in time with fluid 3D transitions.</p>
+        <div class="memory-gallery">
+          <div class="memory-item m1"></div>
+          <div class="memory-item m2"></div>
+          <div class="memory-item m3"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Registration & Privacy -->
+    <section id="register" class="panel">
+      <div class="content-box glass dark">
+        <h2>Join the Wave</h2>
+        <p>Total privacy control. Messages disappear. You are in control.</p>
+        <form class="reg-form" onsubmit="event.preventDefault(); alert('Welcome to SnapWave!');">
+          <input type="text" placeholder="Choose a Username" required>
+          <input type="email" placeholder="Email Address" required>
+          <button type="submit" class="btn-primary w-full">Create Account</button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- GSAP & ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  
+  <!-- Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- App Script -->
+  <script src="app.js"></script>
+</body>
+</html>

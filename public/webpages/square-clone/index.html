@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BlockPay Commerce 3D</title>
+  <meta name="description" content="Explore BlockPay Commerce 3D - The modern platform that powers your entire business with immersive 3D POS, payments, and inventory management.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- WebGL Canvas Background -->
+  <canvas id="webgl-canvas"></canvas>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-logo">
+      <div class="bp-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor"/>
+          <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      BlockPay
+    </div>
+    <div class="nav-links">
+      <a href="#pos">POS</a>
+      <a href="#payments">Payments</a>
+      <a href="#inventory">Inventory</a>
+      <a href="#dashboard">Dashboard</a>
+    </div>
+    <div class="nav-actions">
+      <button class="btn-outline">Sign in</button>
+      <button class="btn-primary">Get Started</button>
+    </div>
+  </nav>
+
+  <!-- Scroll Containers -->
+  <main class="scroll-container">
+    
+    <!-- Hero Section -->
+    <section class="scroll-section hero-section" id="hero">
+      <div class="content-container text-center">
+        <div class="badge">Next-Gen Commerce</div>
+        <h1>The platform that powers<br>your entire business.</h1>
+        <p>Step into the future of payments. Manage sales, inventory, and analytics in a fully immersive ecosystem.</p>
+        <div class="hero-actions">
+          <button class="btn-primary">Start for free</button>
+          <button class="btn-outline">Explore 3D Demo</button>
+        </div>
+      </div>
+      <div class="scroll-indicator">
+        <div class="mouse"></div>
+        <span>Scroll to explore</span>
+      </div>
+    </section>
+
+    <!-- Point of Sale Section -->
+    <section class="scroll-section side-content" id="pos">
+      <div class="content-container">
+        <h2>Modern Point of Sale</h2>
+        <p>Transform your counter into a digital powerhouse. Our sleek hardware and software integrate seamlessly to provide a frictionless checkout experience.</p>
+        <ul class="feature-list">
+          <li>Customizable interfaces for any industry.</li>
+          <li>Real-time sync across all devices.</li>
+          <li>Offline mode capability.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Payments Section -->
+    <section class="scroll-section right-content" id="payments">
+      <div class="content-container">
+        <h2>Frictionless Payments</h2>
+        <p>Accept cards, mobile wallets, and crypto instantly. Watch your transactions turn into clear, actionable data the moment a card is tapped.</p>
+        <div class="payment-stats glass-panel">
+          <div class="stat">
+            <span class="stat-val">99.9%</span>
+            <span class="stat-lbl">Uptime</span>
+          </div>
+          <div class="stat">
+            <span class="stat-val">0.5s</span>
+            <span class="stat-lbl">Processing time</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Inventory Section -->
+    <section class="scroll-section side-content" id="inventory">
+      <div class="content-container">
+        <h2>Smart Inventory Management</h2>
+        <p>Keep track of every item in 3D space. Automated alerts and predictive restocking mean you never run out of your best-sellers.</p>
+        <button class="btn-primary mt-4">Explore Inventory Tools</button>
+      </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section class="scroll-section right-content" id="dashboard">
+      <div class="content-container">
+        <h2>Financial Command Center</h2>
+        <p>Visualize your success. Our immersive dashboard turns complex financial data into beautiful, easy-to-understand charts.</p>
+        <div class="glass-panel mt-4">
+          <h4>Today's Revenue</h4>
+          <div class="revenue-val">$12,450.00</div>
+          <div class="trend positive">+14% vs yesterday</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Registration Section -->
+    <section class="scroll-section center-content" id="register">
+      <div class="content-container glass-panel lg-panel">
+        <h2>Ready to upgrade your business?</h2>
+        <p>Join thousands of merchants using BlockPay to scale faster.</p>
+        <form class="register-form" onsubmit="event.preventDefault();">
+          <input type="email" placeholder="Enter your business email" required />
+          <button type="submit" class="btn-primary">Create Account</button>
+        </form>
+        <p class="terms">No credit card required. 14-day free trial.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- Optional GSAP for Animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignalBridge | Next-Gen Cloud Communications</title>
+    <meta name="description" content="Build immersive customer experiences with SignalBridge's API platform for SMS, Voice, Email, and OTP.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 3D Canvas Background -->
+    <div id="canvas-container"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <div class="brand-logo">
+                <div class="logo-node"></div>
+                <div class="logo-node"></div>
+                <div class="logo-line"></div>
+            </div>
+            <span>SignalBridge</span>
+        </div>
+        <div class="nav-links">
+            <a href="#channels">Channels</a>
+            <a href="#otp">Verification</a>
+            <a href="#flows">Studio</a>
+            <a href="#analytics">Logs</a>
+            <a href="#pricing">Pricing</a>
+        </div>
+        <div class="nav-actions">
+            <a href="#" class="btn btn-ghost">Log In</a>
+            <a href="#signup" class="btn btn-primary">Sign Up Free</a>
+        </div>
+    </nav>
+
+    <!-- Main Content Content -->
+    <main class="scroll-container">
+        
+        <!-- Hero Section -->
+        <section class="section hero" id="hero">
+            <div class="container glass-panel hero-content">
+                <div class="badge">Developer-First API</div>
+                <h1>Connect the World with <span class="text-gradient">SignalBridge</span></h1>
+                <p>The next generation of cloud communications. Send SMS, make voice calls, verify users, and build omnichannel flows with a few lines of code.</p>
+                
+                <div class="hero-actions">
+                    <button class="btn btn-primary btn-large">Start Building for Free</button>
+                    <button class="btn btn-secondary btn-large">Explore Documentation</button>
+                </div>
+                
+                <div class="code-snippet-window">
+                    <div class="window-header">
+                        <div class="dots"><span></span><span></span><span></span></div>
+                        <div class="title">send_message.js</div>
+                    </div>
+                    <pre><code><span class="keyword">import</span> { SignalClient } <span class="keyword">from</span> <span class="string">'signalbridge'</span>;
+
+<span class="keyword">const</span> client = <span class="keyword">new</span> SignalClient(API_KEY);
+
+<span class="keyword">await</span> client.messages.create({
+  <span class="property">to</span>: <span class="string">'+1234567890'</span>,
+  <span class="property">from</span>: <span class="string">'+0987654321'</span>,
+  <span class="property">body</span>: <span class="string">'Welcome to the future of communication! 🚀'</span>
+});</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Channels Section -->
+        <section class="section channels" id="channels">
+            <div class="container glass-panel row">
+                <div class="col text-content">
+                    <h2>Reach your customers on any channel</h2>
+                    <p>Deliver messages reliably across SMS, Voice, Chat, and Email. Our global routing engine ensures low latency and high delivery rates.</p>
+                    <ul class="feature-list">
+                        <li><i class="fa-solid fa-comment-sms"></i> Global Programmable SMS</li>
+                        <li><i class="fa-solid fa-phone"></i> High-Fidelity Voice APIs</li>
+                        <li><i class="fa-solid fa-envelope"></i> Transactional Email</li>
+                    </ul>
+                </div>
+                <div class="col interactive-demo">
+                    <div class="demo-phone">
+                        <div class="phone-screen">
+                            <div class="phone-header">Messages</div>
+                            <div class="chat-history" id="demo-chat">
+                                <div class="msg received">Hey, your package is arriving today!</div>
+                            </div>
+                            <div class="phone-input">
+                                <input type="text" id="demo-msg-input" placeholder="Type an API message...">
+                                <button id="demo-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- OTP Verification Section -->
+        <section class="section otp" id="otp">
+            <div class="container glass-panel row reverse">
+                <div class="col text-content">
+                    <h2>Frictionless User Verification</h2>
+                    <p>Secure your application with seamless OTP (One-Time Password) flows. Prevent fraud and onboard users faster with multichannel verification.</p>
+                    <button class="btn btn-outline" id="trigger-otp-btn">Simulate Verification</button>
+                </div>
+                <div class="col interactive-demo">
+                    <div class="otp-card">
+                        <div class="otp-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                        <h3>Enter Security Code</h3>
+                        <p>We've sent a 6-digit code to your device.</p>
+                        <div class="otp-inputs">
+                            <input type="text" maxlength="1" class="otp-input" disabled>
+                            <input type="text" maxlength="1" class="otp-input" disabled>
+                            <input type="text" maxlength="1" class="otp-input" disabled>
+                            <input type="text" maxlength="1" class="otp-input" disabled>
+                            <input type="text" maxlength="1" class="otp-input" disabled>
+                            <input type="text" maxlength="1" class="otp-input" disabled>
+                        </div>
+                        <div class="otp-status" id="otp-status-msg">Awaiting trigger...</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Flow Builder Section -->
+        <section class="section flows" id="flows">
+            <div class="container glass-panel text-center">
+                <h2>Build Automations Visually</h2>
+                <p>Drag and drop nodes to create complex IVR menus, chatbots, and routing logic without writing code.</p>
+                <div class="flow-builder-ui">
+                    <div class="flow-node trigger">Incoming Call</div>
+                    <div class="flow-arrow"><i class="fa-solid fa-arrow-down"></i></div>
+                    <div class="flow-row">
+                        <div class="flow-node action">Play Audio</div>
+                        <div class="flow-node condition">Gather Input</div>
+                    </div>
+                    <div class="flow-arrow"><i class="fa-solid fa-arrow-down"></i></div>
+                    <div class="flow-node connect">Connect to Agent</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Logs & Analytics Section -->
+        <section class="section analytics" id="analytics">
+            <div class="container glass-panel row">
+                <div class="col text-content">
+                    <h2>Deep Observability</h2>
+                    <p>Monitor your communication traffic in real-time. Access detailed logs, delivery receipts, and performance analytics.</p>
+                </div>
+                <div class="col terminal-container">
+                    <div class="terminal-window">
+                        <div class="window-header">
+                            <div class="dots"><span></span><span></span><span></span></div>
+                            <div class="title">API Terminal</div>
+                        </div>
+                        <div class="terminal-body" id="api-logs">
+                            <div><span class="time">[10:42:01]</span> <span class="info">INFO</span> Initializing connection...</div>
+                            <div><span class="time">[10:42:02]</span> <span class="success">200 OK</span> Connected to SignalBridge Edge.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing & Registration Section -->
+        <section class="section signup" id="pricing">
+            <div class="container glass-panel text-center">
+                <h2>Ready to Bridge the Gap?</h2>
+                <p>Join thousands of developers building on SignalBridge. Transparent pricing, pay-as-you-go.</p>
+                
+                <div class="pricing-cards">
+                    <div class="card">
+                        <h3>SMS</h3>
+                        <div class="price">$0.007<span>/msg</span></div>
+                        <p>Global delivery</p>
+                    </div>
+                    <div class="card featured">
+                        <h3>Voice</h3>
+                        <div class="price">$0.013<span>/min</span></div>
+                        <p>High-fidelity audio</p>
+                    </div>
+                    <div class="card">
+                        <h3>Verify</h3>
+                        <div class="price">$0.050<span>/auth</span></div>
+                        <p>Pay per success</p>
+                    </div>
+                </div>
+
+                <form class="signup-form" id="signup-form">
+                    <div class="form-group">
+                        <input type="email" placeholder="Work Email Address" required>
+                        <button type="submit" class="btn btn-primary">Create Free Account</button>
+                    </div>
+                    <p class="terms">No credit card required. $10 free credit on signup.</p>
+                </form>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="container">
+                <p>&copy; 2026 SignalBridge API Platform. Fictional project.</p>
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

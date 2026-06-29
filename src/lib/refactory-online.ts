@@ -29,7 +29,8 @@ export function slugFromDemoUrl(demoUrl: string): string | null {
 export function getRefactoryLoaderUrl(demoUrl: string): string {
   const folder = normalizeDemoFolder(demoUrl);
   if (folder) {
-    return `${LOADER_PATH}?demo=${encodeURIComponent(folder)}`;
+    // Apuntamos directamente a los estáticos locales en public/webpages/
+    return `/webpages/${encodeURIComponent(folder)}/index.html`;
   }
   if (/^https?:\/\//i.test(demoUrl.trim())) {
     return demoUrl.trim();

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury 3D Showroom Product Video</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+<body>
+    <!-- 3D Canvas Background -->
+    <div class="canvas-container">
+        <canvas id="webgl-canvas"></canvas>
+    </div>
+
+    <!-- UI Overlay container for scroll triggers -->
+    <main class="scroll-container">
+        
+        <!-- Section 0: Entrance -->
+        <section class="step" id="step-0">
+            <div class="content hero">
+                <h1 class="parallax-text" data-speed="0.5">The Obsidian Edition</h1>
+                <p class="subtitle parallax-text" data-speed="0.8">A masterpiece of engineering and design.</p>
+                <div class="scroll-indicator">
+                    <span>Scroll to enter</span>
+                    <div class="mouse"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 1: Reveal -->
+        <section class="step" id="step-1">
+            <div class="content right-align">
+                <h2 class="title" data-speed="0.3">Flawless Craftsmanship</h2>
+                <p class="desc" data-speed="0.5">Every angle reflects a dedication to absolute perfection. Forged in darkness, illuminated by passion.</p>
+            </div>
+        </section>
+
+        <!-- Section 2: Details / Hotspots -->
+        <section class="step" id="step-2">
+            <div class="content left-align hotspots-ui">
+                <h2 class="title" data-speed="0.2">Precision Details</h2>
+                <div class="hotspot-list">
+                    <div class="hotspot-item" data-hotspot="1">
+                        <h3>Aerospace Grade Alloy</h3>
+                        <p>Brushed to perfection for an unyielding finish.</p>
+                    </div>
+                    <div class="hotspot-item" data-hotspot="2">
+                        <h3>Sapphire Crystal</h3>
+                        <p>Anti-reflective and scratch resistant.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Absolute positioned hotspots that will be mapped to 3D -->
+            <div class="hotspot-marker" id="marker-1">1</div>
+            <div class="hotspot-marker" id="marker-2">2</div>
+        </section>
+
+        <!-- Section 3: Materials -->
+        <section class="step" id="step-3">
+            <div class="content center-align materials-ui">
+                <h2 class="title">Bespoke Customization</h2>
+                <div class="material-options">
+                    <button class="mat-btn active" data-mat="obsidian" style="--btn-color: #1a1a1a;">Obsidian</button>
+                    <button class="mat-btn" data-mat="platinum" style="--btn-color: #e5e4e2;">Platinum</button>
+                    <button class="mat-btn" data-mat="rose-gold" style="--btn-color: #b76e79;">Rose Gold</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: 360 / Gallery -->
+        <section class="step" id="step-4">
+            <div class="content bottom-align">
+                <div class="interaction-prompt">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    <span>Drag to explore 360°</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Checkout / Reserve -->
+        <section class="step" id="step-5">
+            <div class="content checkout-ui">
+                <div class="glass-card form-container">
+                    <h2>Reserve Yours</h2>
+                    <p>Limited to 500 pieces worldwide.</p>
+                    <form id="reservation-form">
+                        <div class="input-group">
+                            <input type="text" required placeholder="Full Name">
+                        </div>
+                        <div class="input-group">
+                            <input type="email" required placeholder="Email Address">
+                        </div>
+                        <button type="submit" class="btn-primary">Request Concierge</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Import Map for Three.js (Module usage) -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+    <script type="module" src="main.js"></script>
+</body>
+</html>

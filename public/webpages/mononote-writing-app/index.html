@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MonoNote - Premium Writing Studio</title>
+    <meta name="description" content="A modern, minimalist, elegant, immersive and functional writing app for markdown, journaling, and idea organization.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 3D Canvas -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- UI Overlay -->
+    <main id="app-container">
+        
+        <!-- Navigation -->
+        <nav class="main-nav">
+            <div class="logo">MonoNote.</div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#focus">Focus</a>
+                <a href="#pricing">Plans</a>
+            </div>
+            <button class="btn-primary" onclick="alert('Sign up coming soon!')">Get Started</button>
+        </nav>
+
+        <!-- Scroll Content -->
+        <div class="scroll-content">
+            
+            <!-- Hero Section -->
+            <section class="section hero" id="hero">
+                <div class="content-block">
+                    <h1 class="hero-title">The Silent<br>Writing Studio.</h1>
+                    <p class="hero-subtitle">Enter a monochromatic realm where ideas float and focus reigns. Your minimalist markdown editor and personal library.</p>
+                    <div class="cta-group">
+                        <button class="btn-primary large" onclick="document.getElementById('features').scrollIntoView({behavior: 'smooth'})">Explore the Editor</button>
+                        <button class="btn-secondary large" onclick="alert('Opening demo...')">Try Focus Mode</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Organize Section -->
+            <section class="section features" id="features">
+                <div class="content-block right">
+                    <h2 class="section-title">Organize with Elegance.</h2>
+                    <p class="section-text">Folders, notebooks, and tags that don't clutter. A spatial library for your mind.</p>
+                    <ul class="feature-list">
+                        <li><span>+</span> Smart Search</li>
+                        <li><span>+</span> Nested Folders</li>
+                        <li><span>+</span> Visual Bookmarks</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Focus Mode Section -->
+            <section class="section focus" id="focus">
+                <div class="content-block center">
+                    <h2 class="section-title dark-mode-text">Absolute Focus.</h2>
+                    <p class="section-text dark-mode-text">When it's time to write, everything else fades away. The UI disappears, leaving only your thoughts and the cursor.</p>
+                </div>
+            </section>
+
+            <!-- Templates & Export Section -->
+            <section class="section templates" id="templates">
+                <div class="content-block">
+                    <h2 class="section-title">Start Faster. Finish Better.</h2>
+                    <p class="section-text">Use powerful templates for journaling, essays, or code documentation. Export to PDF, Markdown, or Web effortlessly.</p>
+                    <div class="card-grid">
+                        <div class="glass-card">Journal Template</div>
+                        <div class="glass-card">Essay Template</div>
+                        <div class="glass-card">Meeting Notes</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Signup / Pricing Section -->
+            <section class="section signup" id="pricing">
+                <div class="content-block center">
+                    <h2 class="section-title">Ready to write?</h2>
+                    <p class="section-text">Join the creative productivity revolution. Private, synced, and yours.</p>
+                    
+                    <form class="signup-form" onsubmit="event.preventDefault(); alert('Welcome to MonoNote!');">
+                        <input type="email" placeholder="Your email address" required class="premium-input">
+                        <button type="submit" class="btn-primary large">Create Free Account</button>
+                    </form>
+                    
+                    <div class="footer-links">
+                        <a href="#">Privacy</a>
+                        <a href="#">Terms</a>
+                        <a href="#">Contact</a>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+    
+    <!-- Application Logic -->
+    <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AeroVista Vuelos 3D</title>
+  <meta name="description" content="A premium 3D flight booking experience.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  
+  <!-- Three.js Import Map -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.163.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+
+  <!-- 3D Canvas Background -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- UI Overlay container (Scrollable) -->
+  <main id="scroll-container">
+    
+    <!-- Section 1: Hero -->
+    <section id="hero" class="panel">
+      <div class="content-box glass">
+        <h1 class="title-3d">AeroVista<br>Vuelos 3D</h1>
+        <p class="subtitle">Experience the future of flight booking.</p>
+        
+        <div class="search-form">
+          <div class="input-group">
+            <label>From</label>
+            <input type="text" value="JFK - New York" readonly>
+          </div>
+          <div class="input-group">
+            <label>To</label>
+            <input type="text" value="NRT - Tokyo" readonly>
+          </div>
+          <button class="btn-primary">Search Flights</button>
+        </div>
+        
+        <p class="disclaimer">Flights, prices and availability are simulated examples. This is a demo flight search and booking experience.</p>
+      </div>
+    </section>
+
+    <!-- Section 2: Explore Routes -->
+    <section id="explore" class="panel">
+      <div class="content-box glass align-right">
+        <h2>Global Routes</h2>
+        <p>Watch as flights cross the globe in real-time 3D.</p>
+        <div class="stats">
+          <div class="stat-item">
+            <span class="num">12</span>
+            <span class="lbl">Active Routes</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Flight Details -->
+    <section id="details" class="panel">
+      <div class="content-box glass">
+        <h2>Flexible Calendar</h2>
+        <div class="calendar-widget">
+          <div class="cal-header">May 2024</div>
+          <div class="cal-grid">
+            <!-- Simulated calendar days -->
+            <div class="day price-low">12<br><span>$450</span></div>
+            <div class="day price-high">13<br><span>$620</span></div>
+            <div class="day price-low selected">14<br><span>$410</span></div>
+            <div class="day">15<br><span>$500</span></div>
+          </div>
+        </div>
+        
+        <div class="price-alert">
+          <span class="icon">🔔</span>
+          <div>
+            <strong>Price Alert</strong>
+            <p>Prices for NRT are dropping.</p>
+          </div>
+          <button class="btn-outline">Track</button>
+        </div>
+        <p class="disclaimer">Routes and schedules may vary.</p>
+      </div>
+    </section>
+
+    <!-- Section 4: Booking Flow -->
+    <section id="booking" class="panel">
+      <div class="content-box glass align-right">
+        <h2>Customize Flight</h2>
+        
+        <div class="booking-options">
+          <div class="option-card active">
+            <h3>Economy</h3>
+            <p>1 Carry-on bag</p>
+            <p class="price">+$0</p>
+          </div>
+          <div class="option-card">
+            <h3>Premium</h3>
+            <p>2 Checked bags, Priority Boarding</p>
+            <p class="price">+$150</p>
+          </div>
+        </div>
+        
+        <div class="seat-selection">
+          <h3>Select Seat</h3>
+          <div class="seat-map">
+            <!-- Simulated seats -->
+            <div class="seat occupied"></div>
+            <div class="seat available"></div>
+            <div class="seat selected"></div>
+            <div class="seat available"></div>
+          </div>
+        </div>
+        
+        <button class="btn-primary w-100">Continue to Checkout</button>
+      </div>
+    </section>
+
+    <!-- Section 5: Confirmation -->
+    <section id="confirmation" class="panel center-panel">
+      <div class="boarding-pass glass-premium">
+        <div class="bp-header">
+          <span class="airline">AEROVISTA</span>
+          <span class="flight-no">AV-842</span>
+        </div>
+        <div class="bp-body">
+          <div class="route">
+            <h2>JFK</h2>
+            <span class="plane-icon">✈️</span>
+            <h2>NRT</h2>
+          </div>
+          <div class="bp-details">
+            <div>
+              <label>Passenger</label>
+              <p>J. Doe</p>
+            </div>
+            <div>
+              <label>Seat</label>
+              <p>12A</p>
+            </div>
+            <div>
+              <label>Gate</label>
+              <p>G4</p>
+            </div>
+            <div>
+              <label>Boarding</label>
+              <p>09:45 AM</p>
+            </div>
+          </div>
+        </div>
+        <div class="bp-barcode">||| |||| | ||||| || |||</div>
+      </div>
+      
+      <p class="disclaimer final-disclaimer">Review official airline terms before booking any real flight.</p>
+    </section>
+
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

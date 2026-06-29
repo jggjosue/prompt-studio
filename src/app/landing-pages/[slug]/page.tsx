@@ -258,7 +258,7 @@ export default async function LandingPageDetailPage({ params }: PageProps) {
             </div>
             <div className="flex flex-wrap gap-3">
               <Button asChild>
-                <Link href={demoHref}>Open demo</Link>
+                <Link href={demoHref} target="_blank" rel="noopener noreferrer">Open demo</Link>
               </Button>
               <Button variant="outline" asChild>
                 <Link href="/landing-pages">All landing pages</Link>
