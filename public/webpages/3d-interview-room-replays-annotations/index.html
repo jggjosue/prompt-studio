@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Interview Room Replays Annotations</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-cube"></i> INTERVIEW REPLAY 3D
+        </div>
+        <nav class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#room">Room</a>
+            <a href="#replays">Replays</a>
+            <a href="#annotations">Annotations</a>
+            <a href="#insights">Insights</a>
+            <a href="#teams">Teams</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <button class="start-btn">Start Review</button>
+        <div class="hamburger">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+    </header>
+
+    <div id="canvas-container"></div>
+
+    <main class="content-container">
+        <section id="home" class="section hero-section">
+            <div class="text-content parallax-content" data-speed="0.5">
+                <h1 class="gradient-text">Immersive Interview Replays</h1>
+                <p>Step into the ultimate 3D digital interview room. Review, annotate, and analyze every conversation with unprecedented depth and clarity.</p>
+                <div class="action-buttons">
+                    <button class="primary-btn">Explore Room</button>
+                    <button class="secondary-btn">Watch Demo</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="room" class="section feature-section right-align">
+            <div class="text-content parallax-content" data-speed="0.8">
+                <h2>The 3D Interview Room</h2>
+                <p>Navigate the physical space of the interview. Switch between camera angles, focus on body language, and understand the context better than traditional video.</p>
+                <ul class="feature-list">
+                    <li><i class="fa-solid fa-video"></i> Multi-camera views</li>
+                    <li><i class="fa-solid fa-expand"></i> Spatial awareness</li>
+                    <li><i class="fa-solid fa-display"></i> Interactive monitors</li>
+                </ul>
+            </div>
+            <div class="ui-panel parallax-panel" data-speed="1.2">
+                <div class="panel-header">Camera Control</div>
+                <div class="panel-body">
+                    <div class="cam-btn active">Cam 1 (Wide)</div>
+                    <div class="cam-btn">Cam 2 (Candidate)</div>
+                    <div class="cam-btn">Cam 3 (Interviewer)</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="replays" class="section feature-section">
+            <div class="text-content parallax-content" data-speed="0.7">
+                <h2>Synchronized Replays & Timeline</h2>
+                <p>Pinpoint key moments instantly. Our advanced timeline syncs video, audio, and transcripts, allowing you to jump straight to the insights that matter.</p>
+            </div>
+            <div class="ui-panel timeline-panel parallax-panel" data-speed="1.1">
+                <div class="video-preview"></div>
+                <div class="timeline-scrubber">
+                    <div class="playhead"></div>
+                    <div class="marker highlight" style="left: 20%;"></div>
+                    <div class="marker issue" style="left: 45%;"></div>
+                    <div class="marker note" style="left: 75%;"></div>
+                </div>
+                <div class="transcript-snippet">
+                    "I believe my background in scalable systems makes me a great fit..."
+                </div>
+            </div>
+        </section>
+
+        <section id="annotations" class="section feature-section right-align">
+            <div class="text-content parallax-content" data-speed="0.9">
+                <h2>Floating Annotations & Feedback</h2>
+                <p>Drop contextual notes directly into the 3D space. Tag colleagues, link to scorecards, and build a comprehensive evaluation collaboratively.</p>
+            </div>
+            <div class="ui-panel floating-note parallax-panel" data-speed="1.5">
+                <div class="note-header">
+                    <img src="https://i.pravatar.cc/150?img=32" alt="User" class="avatar">
+                    <span>Sarah J.</span>
+                    <span class="timestamp">12:04</span>
+                </div>
+                <div class="note-body">
+                    Great answer on the system architecture question. Very clear communication.
+                </div>
+                <div class="note-footer">
+                    <i class="fa-solid fa-reply"></i> Reply
+                </div>
+            </div>
+        </section>
+
+        <section id="insights" class="section feature-section">
+            <div class="text-content parallax-content" data-speed="0.6">
+                <h2>Performance Dashboard & Coaching</h2>
+                <p>Turn interviews into actionable data. Evaluate candidates using dynamic scorecards and use replays for interviewer coaching and training.</p>
+            </div>
+            <div class="ui-panel dashboard-panel parallax-panel" data-speed="1.3">
+                <div class="score-card">
+                    <h3>Candidate Evaluation</h3>
+                    <div class="score-row">
+                        <span>Technical Skills</span>
+                        <div class="bar-container"><div class="bar" style="width: 85%;"></div></div>
+                    </div>
+                    <div class="score-row">
+                        <span>Communication</span>
+                        <div class="bar-container"><div class="bar" style="width: 90%;"></div></div>
+                    </div>
+                    <div class="score-row">
+                        <span>Problem Solving</span>
+                        <div class="bar-container"><div class="bar" style="width: 70%;"></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="teams" class="section cta-section">
+            <div class="text-content parallax-content" data-speed="0.8">
+                <h2>Ready to transform your hiring?</h2>
+                <p>Join top teams using 3D Interview Replays to make better, faster, and more objective decisions.</p>
+                <button class="primary-btn large">Get Started Today</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

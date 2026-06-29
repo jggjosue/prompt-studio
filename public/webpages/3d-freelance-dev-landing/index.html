@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Freelance Dev Landing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Fixed 3D Canvas Background -->
+  <div id="canvas-container"></div>
+
+  <!-- Header / Navbar -->
+  <header class="header">
+    <div class="logo">FREELANCE DEV 3D</div>
+    <nav class="nav">
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#stack">Stack</a></li>
+        <li><a href="#process">Process</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#availability">Availability</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <a href="#contact" class="btn btn-primary">Hire Me</a>
+    <button class="hamburger" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <!-- Scrollable Content -->
+  <main class="content">
+    
+    <section id="home" class="section hero">
+      <div class="section-content">
+        <h1 class="hero-title" data-parallax="0.2">Elevating Web Experiences</h1>
+        <p class="hero-subtitle" data-parallax="0.3">Freelance Full-Stack Developer & UI Engineer</p>
+        <div class="hero-actions" data-parallax="0.4">
+          <a href="#projects" class="btn btn-outline">View Work</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="services" class="section">
+      <div class="section-content right">
+        <h2 class="section-title">Services</h2>
+        <div class="card-grid">
+          <div class="card">
+            <h3>Frontend Development</h3>
+            <p>Creating immersive, high-performance user interfaces with React, Vue, and Three.js.</p>
+          </div>
+          <div class="card">
+            <h3>Backend Systems</h3>
+            <p>Building scalable APIs and robust architectures using Node.js, Python, and Go.</p>
+          </div>
+          <div class="card">
+            <h3>Web3 & 3D</h3>
+            <p>Integrating WebGL experiences and blockchain solutions into modern web apps.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="section">
+      <div class="section-content left">
+        <h2 class="section-title">Selected Projects</h2>
+        <div class="project-list">
+          <div class="project-card">
+            <div class="project-info">
+              <h3>DeFi Dashboard</h3>
+              <p>Real-time analytics platform.</p>
+            </div>
+          </div>
+          <div class="project-card">
+            <div class="project-info">
+              <h3>E-Commerce 3D Configurator</h3>
+              <p>Interactive product customization.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="stack" class="section">
+      <div class="section-content center">
+        <h2 class="section-title">Tech Stack</h2>
+        <div class="tech-icons">
+          <span>JavaScript</span>
+          <span>TypeScript</span>
+          <span>React</span>
+          <span>Three.js</span>
+          <span>Node.js</span>
+          <span>PostgreSQL</span>
+          <span>Docker</span>
+          <span>AWS</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="process" class="section">
+      <div class="section-content right">
+        <h2 class="section-title">Work Process</h2>
+        <ul class="process-list">
+          <li><strong>01. Discovery:</strong> Understanding goals and requirements.</li>
+          <li><strong>02. Design:</strong> Wireframes, UI/UX, and 3D concepting.</li>
+          <li><strong>03. Development:</strong> Agile coding with regular updates.</li>
+          <li><strong>04. Delivery:</strong> Testing, optimization, and launch.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="pricing" class="section">
+      <div class="section-content left">
+        <h2 class="section-title">Pricing & Packages</h2>
+        <div class="card-grid">
+          <div class="card pricing-card">
+            <h3>Consulting</h3>
+            <p class="price">$150/hr</p>
+            <p>Architecture review, code audits, and technical guidance.</p>
+          </div>
+          <div class="card pricing-card featured">
+            <h3>Full Project</h3>
+            <p class="price">Custom Quote</p>
+            <p>End-to-end development of complex web applications.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="availability" class="section">
+      <div class="section-content center">
+        <h2 class="section-title">Availability</h2>
+        <div class="availability-status">
+          <div class="status-indicator available"></div>
+          <p>Currently accepting new projects for Q4 2026.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="section-content center">
+        <h2 class="section-title">Let's Build Together</h2>
+        <form class="contact-form">
+          <input type="text" placeholder="Your Name" required>
+          <input type="email" placeholder="Your Email" required>
+          <textarea placeholder="Tell me about your project" rows="4" required></textarea>
+          <button type="submit" class="btn btn-primary">Send Message</button>
+        </form>
+      </div>
+    </section>
+    
+    <footer class="footer">
+      <p>&copy; 2026 FREELANCE DEV 3D. All rights reserved.</p>
+    </footer>
+  </main>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="dev3d.js"></script>
+</body>
+</html>

@@ -1,0 +1,2906 @@
+{
+  "version": 1,
+  "generatedAt": "2026-05-19T04:32:00.960Z",
+  "loaderUrl": "/webpages/refactory-online/loader.html",
+  "apiUrl": "/api/refactory-online",
+  "demos": {
+    "airtable-clone": {
+      "id": "89",
+      "title": {
+        "en": "Airtable Clone — Flexible Database",
+        "es": "Clon de Airtable: base de datos flexible"
+      },
+      "imageUrl": "/webpages/placeholder-web-89-airtable-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "artisanbox-handmade-market": {
+      "id": "233",
+      "title": {
+        "en": "ArtisanBox — Handmade marketplace",
+        "es": "ArtisanBox - Mercado hecho a mano"
+      },
+      "imageUrl": "/webpages/placeholder-web-233-artisanbox-handmade-market.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "breathspace-breathing": {
+      "id": "209",
+      "title": {
+        "en": "BreathSpace — Breathing exercises",
+        "es": "BreathSpace: ejercicios de respiración"
+      },
+      "imageUrl": "/webpages/placeholder-web-209-breathspace-breathing.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "buffer-clone": {
+      "id": "149",
+      "title": {
+        "en": "Buffer Clone — Social media scheduling",
+        "es": "Clon de búfer: programación de redes sociales"
+      },
+      "imageUrl": "/webpages/placeholder-web-149-buffer-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "cosplayhub-community": {
+      "id": "207",
+      "title": {
+        "en": "CosplayHub — Cosplay community",
+        "es": "CosplayHub — Comunidad de cosplay"
+      },
+      "imageUrl": "/webpages/placeholder-web-207-cosplayhub-community.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "crunchyroll-clone": {
+      "id": "146",
+      "title": {
+        "en": "Crunchyroll Clone — Anime streaming",
+        "es": "Clon de Crunchyroll — Transmisión de anime"
+      },
+      "imageUrl": "/webpages/placeholder-web-146-crunchyroll-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "cryptopulse-trading": {
+      "id": "236",
+      "title": {
+        "en": "CryptoPulse — Crypto trading platform",
+        "es": "CryptoPulse: plataforma de comercio de criptomonedas"
+      },
+      "imageUrl": "/webpages/placeholder-web-236-cryptopulse-trading.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "echocast-podcast-music": {
+      "id": "245",
+      "title": {
+        "en": "EchoCast — Music podcasts",
+        "es": "EchoCast: podcasts de música"
+      },
+      "imageUrl": "/webpages/placeholder-web-245-echocast-podcast-music.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "fiverr-clone": {
+      "id": "90",
+      "title": {
+        "en": "Fiverr Clone — Freelance marketplace",
+        "es": "Fiverr Clone: ​​mercado independiente"
+      },
+      "imageUrl": "/webpages/placeholder-web-90-fiverr-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "ledgerflow-accounting": {
+      "id": "235",
+      "title": {
+        "en": "LedgerFlow — B2B accounting platform",
+        "es": "LedgerFlow: plataforma de contabilidad B2B"
+      },
+      "imageUrl": "/webpages/placeholder-web-235-ledgerflow-accounting.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "lendwise-personal-loans": {
+      "id": "237",
+      "title": {
+        "en": "LendWise — Personal lending",
+        "es": "LendWise: préstamos personales"
+      },
+      "imageUrl": "/webpages/placeholder-web-237-lendwise-personal-loans.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "linea-design-studio": {
+      "id": "223",
+      "title": {
+        "en": "Linea — Minimal design studio",
+        "es": "Linea — Estudio de diseño minimalista."
+      },
+      "imageUrl": "/webpages/placeholder-web-223-linea-design-studio.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "mangashelf-digital-library": {
+      "id": "204",
+      "title": {
+        "en": "MangaShelf — Digital manga library",
+        "es": "MangaShelf — Biblioteca de manga digital"
+      },
+      "imageUrl": "/webpages/placeholder-web-204-mangashelf-digital-library.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "monday-clone": {
+      "id": "87",
+      "title": {
+        "en": "Monday.com Clone — Work OS",
+        "es": "Clon de Monday.com: sistema operativo de trabajo"
+      },
+      "imageUrl": "/webpages/placeholder-web-87-monday-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "mononote-writing-app": {
+      "id": "222",
+      "title": {
+        "en": "MonoNote — Minimal writing app",
+        "es": "MonoNote: aplicación de escritura mínima"
+      },
+      "imageUrl": "/webpages/placeholder-web-222-mononote-writing-app.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "salesforce-clone": {
+      "id": "86",
+      "title": {
+        "en": "Salesforce Clone — Customer 360",
+        "es": "Clon de Salesforce: Cliente 360"
+      },
+      "imageUrl": "/webpages/placeholder-web-86-salesforce-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "snapchat-clone": {
+      "id": "93",
+      "title": {
+        "en": "Snapchat Clone — Stories and AR",
+        "es": "Clon de Snapchat: Historias y AR"
+      },
+      "imageUrl": "/webpages/placeholder-web-93-snapchat-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "snowflake-clone": {
+      "id": "107",
+      "title": {
+        "en": "Snowflake Clone — Data Cloud",
+        "es": "Clon de copo de nieve: nube de datos"
+      },
+      "imageUrl": "/webpages/placeholder-web-107-snowflake-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "square-clone": {
+      "id": "92",
+      "title": {
+        "en": "Square Clone — Payments and POS",
+        "es": "Clon Square: Pagos y POS"
+      },
+      "imageUrl": "/webpages/placeholder-web-92-square-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "stillmind-meditation-app": {
+      "id": "208",
+      "title": {
+        "en": "StillMind — Meditation & mindfulness app",
+        "es": "StillMind: aplicación de meditación y atención plena"
+      },
+      "imageUrl": "/webpages/placeholder-web-208-stillmind-meditation-app.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "studioneko-anime-production": {
+      "id": "206",
+      "title": {
+        "en": "Studio Neko — Anime production studio",
+        "es": "Studio Neko — Estudio de producción de anime"
+      },
+      "imageUrl": "/webpages/placeholder-web-206-studioneko-anime-production.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "substack-clone": {
+      "id": "147",
+      "title": {
+        "en": "Substack Clone — Newsletters",
+        "es": "Clon de subpila: boletines"
+      },
+      "imageUrl": "/webpages/placeholder-web-147-substack-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "target-clone": {
+      "id": "144",
+      "title": {
+        "en": "Target Clone — Expect More",
+        "es": "Clon objetivo: espere más"
+      },
+      "imageUrl": "/webpages/placeholder-web-144-target-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "trello-clone": {
+      "id": "88",
+      "title": {
+        "en": "Trello Clone — Kanban Boards",
+        "es": "Clon de Trello: tableros Kanban"
+      },
+      "imageUrl": "/webpages/placeholder-web-88-trello-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "twilio-clone": {
+      "id": "106",
+      "title": {
+        "en": "Twilio Clone — Communication APIs",
+        "es": "Clon de Twilio: API de comunicación"
+      },
+      "imageUrl": "/webpages/placeholder-web-106-twilio-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "vaultpay-neobank": {
+      "id": "234",
+      "title": {
+        "en": "VaultPay — Digital neobank",
+        "es": "VaultPay — Neobanco digital"
+      },
+      "imageUrl": "/webpages/placeholder-web-234-vaultpay-neobank.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "magzin-job-dark": {
+      "id": "1",
+      "title": {
+        "en": "Job — Dark (HTML + Tailwind)",
+        "es": "Trabajo: oscuro (HTML + viento de cola)"
+      },
+      "imageUrl": "/webpages/placeholder-web-1-job-dark.png",
+      "stack": [
+        "HTML",
+        "Tailwind CDN"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "magzin-job-light": {
+      "id": "3",
+      "title": {
+        "en": "Magzin Job — Light Mode",
+        "es": "Trabajo Magzin – Modo ligero"
+      },
+      "imageUrl": "/webpages/placeholder-web-2-magzin-job-light.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "loopline-devtool": {
+      "id": "4",
+      "title": {
+        "en": "Loopline — DevTool SaaS",
+        "es": "Línea de bucle — DevTool SaaS"
+      },
+      "imageUrl": "/webpages/placeholder-web-4-loopline-devtool.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "magzin-job-html-css": {
+      "id": "6",
+      "title": {
+        "en": "Magzin Job — HTML + CSS",
+        "es": "Trabajo de Magzin: HTML + CSS"
+      },
+      "imageUrl": "/webpages/placeholder-web-6-magzin-job-html-css.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "estudio-tropic": {
+      "id": "11",
+      "title": {
+        "en": "Tropic Studio — Warm Latin American Modernism",
+        "es": "Tropic Studio — Cálido modernismo latinoamericano"
+      },
+      "imageUrl": "/webpages/placeholder-web-11-estudio-tropic.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "magzin-job-brutalist-sunshine": {
+      "id": "12",
+      "title": {
+        "en": "Magzin Job — Brutalist Sunshine",
+        "es": "Magzin Job - Sol brutalista"
+      },
+      "imageUrl": "/webpages/placeholder-web-12-magzin-job-brutalist-sunshine.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "magzin-job-glassmorphism-ocean": {
+      "id": "13",
+      "title": {
+        "en": "Magzin Job — Glassmorphism Ocean",
+        "es": "Magzin Job — Océano de morfismo de vidrio"
+      },
+      "imageUrl": "/webpages/placeholder-web-13-magzin-job-glassmorphism-ocean.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "magzin-job-editorial-minimal": {
+      "id": "14",
+      "title": {
+        "en": "Magzin Job — Editorial Minimal",
+        "es": "Trabajo Magzin — Editorial Mínimo"
+      },
+      "imageUrl": "/webpages/placeholder-web-14-magzin-job-editorial-minimal.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "magzin-job-cyberpunk-neon": {
+      "id": "15",
+      "title": {
+        "en": "Magzin Job — Cyberpunk Neon",
+        "es": "Trabajo Magzin - Cyberpunk Neón"
+      },
+      "imageUrl": "/webpages/placeholder-web-15-magzin-job-cyberpunk-neon.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "magzin-job-soft-pastel-friendly": {
+      "id": "16",
+      "title": {
+        "en": "Magzin Job — Soft Pastel Friendly",
+        "es": "Magzin Job – Apto para pasteles suaves"
+      },
+      "imageUrl": "/webpages/placeholder-web-16-magzin-job-soft-pastel-friendly.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "codenova-midnight-hacker": {
+      "id": "18",
+      "title": {
+        "en": "CodeNova — Midnight Hacker",
+        "es": "CodeNova: hacker de medianoche"
+      },
+      "imageUrl": "/webpages/placeholder-web-18-codenova-midnight-hacker.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "launchdev-sunrise-bootcamp": {
+      "id": "19",
+      "title": {
+        "en": "LaunchDev — Sunrise Bootcamp",
+        "es": "LaunchDev - Campamento de entrenamiento al amanecer"
+      },
+      "imageUrl": "/webpages/placeholder-web-19-launchdev-sunrise-bootcamp.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "logic-press-editorial-minimal": {
+      "id": "20",
+      "title": {
+        "en": "Logic Press — Editorial Minimal",
+        "es": "Prensa Lógica — Editorial Mínimo"
+      },
+      "imageUrl": "/webpages/placeholder-web-20-logic-press-editorial-minimal.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "pixelforge-cyber-y2k": {
+      "id": "21",
+      "title": {
+        "en": "PixelForge Academy — Cyber Y2K",
+        "es": "Academia PixelForge – Cibernético Y2K"
+      },
+      "imageUrl": "/webpages/placeholder-web-21-pixelforge-cyber-y2k.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "northwind-sunset-glassmorphism": {
+      "id": "23",
+      "title": {
+        "en": "Northwind — Sunset Gradient / Glassmorphism",
+        "es": "Northwind - Degradado del atardecer / Morfismo de vidrio"
+      },
+      "imageUrl": "/webpages/placeholder-web-23-northwind-sunset-glassmorphism.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "atlas-bank-corporate-blue": {
+      "id": "24",
+      "title": {
+        "en": "Atlas Bank — Corporate Blue / Financial Confidence",
+        "es": "Atlas Bank — Azul corporativo / Confianza financiera"
+      },
+      "imageUrl": "/webpages/placeholder-web-24-atlas-bank-corporate-blue.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "cipher-cyberpunk-neon": {
+      "id": "26",
+      "title": {
+        "en": "Cipher — Cyberpunk / Neon Glow",
+        "es": "Cifrado - Cyberpunk / Neón Resplandor"
+      },
+      "imageUrl": "/webpages/placeholder-web-26-cipher-cyberpunk-neon.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "canvas-studio-earthy-brutalist": {
+      "id": "27",
+      "title": {
+        "en": "Canvas Studio — Earthy / Editorial Brutalist",
+        "es": "Canvas Studio — Terroso / Editorial Brutalista"
+      },
+      "imageUrl": "/webpages/placeholder-web-27-canvas-studio-earthy-brutalist.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "carhub-marketplace-autos": {
+      "id": "30",
+      "title": {
+        "en": "CarHub — Used car marketplace",
+        "es": "CarHub: mercado de vehículos usados"
+      },
+      "imageUrl": "/webpages/placeholder-web-30-carhub-marketplace-autos.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "coworkly-espacios-coworking": {
+      "id": "32",
+      "title": {
+        "en": "Coworkly — Coworking spaces",
+        "es": "Coworkly — Espacios de coworking"
+      },
+      "imageUrl": "/webpages/placeholder-web-32-coworkly-espacios-coworking.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Leaflet"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "petpals-cuidado-mascotas": {
+      "id": "33",
+      "title": {
+        "en": "PetPals — Pet Sitting",
+        "es": "PetPals - Cuidado de mascotas"
+      },
+      "imageUrl": "/webpages/placeholder-web-33-petpals-cuidado-mascotas.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "eventloop-tickets-eventos": {
+      "id": "34",
+      "title": {
+        "en": "EventLoop — Local event tickets",
+        "es": "EventLoop: entradas para eventos locales"
+      },
+      "imageUrl": "/webpages/placeholder-web-34-eventloop-tickets-eventos.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "coursedeck-marketplace-cursos": {
+      "id": "36",
+      "title": {
+        "en": "CourseDeck — Online Course Marketplace",
+        "es": "CourseDeck: mercado de cursos en línea"
+      },
+      "imageUrl": "/webpages/placeholder-web-36-coursedeck-marketplace-cursos.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "gearlend-renta-equipo-outdoor": {
+      "id": "37",
+      "title": {
+        "en": "GearLend — Outdoor equipment rental",
+        "es": "GearLend — Alquiler de equipos para exteriores"
+      },
+      "imageUrl": "/webpages/placeholder-web-37-gearlend-renta-equipo-outdoor.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Leaflet"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "healmatch-terapias-wellness": {
+      "id": "38",
+      "title": {
+        "en": "HealMatch — Book therapies and wellness",
+        "es": "HealMatch — Libro de terapias y bienestar"
+      },
+      "imageUrl": "/webpages/placeholder-web-38-healmatch-terapias-wellness.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Leaflet"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "apple-music-clone-minimalista": {
+      "id": "41",
+      "title": {
+        "en": "Apple Music Clone — Dark minimalist with pink accent",
+        "es": "Apple Music Clone: ​​minimalista oscuro con acento rosa"
+      },
+      "imageUrl": "/webpages/placeholder-web-41-apple-music-clone-minimalista.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "deezer-clone-neon-futurista": {
+      "id": "45",
+      "title": {
+        "en": "Deezer Clone — Futuristic Neon Gradient",
+        "es": "Clon de Deezer: degradado de neón futurista"
+      },
+      "imageUrl": "/webpages/placeholder-web-45-deezer-clone-neon-futurista.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "disney-plus-clone": {
+      "id": "48",
+      "title": {
+        "en": "Disney+ Clone — Tabs and hero with video",
+        "es": "Clon de Disney+: pestañas y héroe con vídeo"
+      },
+      "imageUrl": "/webpages/placeholder-web-48-disney-plus-clone.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "spotify-clone": {
+      "id": "49",
+      "title": {
+        "en": "Spotify Clone — Plans and SVG Waves",
+        "es": "Clon de Spotify: planes y ondas SVG"
+      },
+      "imageUrl": "/webpages/placeholder-web-49-spotify-clone.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "hbo-max-clone": {
+      "id": "50",
+      "title": {
+        "en": "HBO Max Clone — Carousel and Timeline FAQ",
+        "es": "HBO Max Clone: ​​preguntas frecuentes sobre carrusel y línea de tiempo"
+      },
+      "imageUrl": "/webpages/placeholder-web-50-hbo-max-clone.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "apple-tv-plus-clone": {
+      "id": "51",
+      "title": {
+        "en": "Apple TV+ Clone — Minimalist Full-Bleed",
+        "es": "Clon de Apple TV+: minimalista y sin límites"
+      },
+      "imageUrl": "/webpages/placeholder-web-51-apple-tv-plus-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "notion-clone": {
+      "id": "53",
+      "title": {
+        "en": "Notion Clone — SaaS productivity",
+        "es": "Notion Clone: ​​productividad SaaS"
+      },
+      "imageUrl": "/webpages/placeholder-web-53-notion-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "linear-clone": {
+      "id": "54",
+      "title": {
+        "en": "Linear Clone — Dev tool aurora and metrics",
+        "es": "Clon lineal: herramienta de desarrollo Aurora y métricas"
+      },
+      "imageUrl": "/webpages/placeholder-web-54-linear-clone.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "duolingo-clone": {
+      "id": "55",
+      "title": {
+        "en": "Duolingo Clone — Pet and Languages",
+        "es": "Clon de Duolingo: mascotas e idiomas"
+      },
+      "imageUrl": "/webpages/placeholder-web-55-duolingo-clone.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "airbnb-clone-landing": {
+      "id": "56",
+      "title": {
+        "en": "Airbnb Clone — Pill Search and Categories",
+        "es": "Clon de Airbnb: búsqueda de píldoras y categorías"
+      },
+      "imageUrl": "/webpages/placeholder-web-56-airbnb-clone-landing.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "figma-clone": {
+      "id": "59",
+      "title": {
+        "en": "Figma Clone — Canvas and demos in browser",
+        "es": "Figma Clone: ​​lienzo y demostraciones en el navegador"
+      },
+      "imageUrl": "/webpages/placeholder-web-59-figma-clone.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "coinbase-clone": {
+      "id": "62",
+      "title": {
+        "en": "Coinbase Clone — Ticker and markets",
+        "es": "Clon de Coinbase: ticker y mercados"
+      },
+      "imageUrl": "/webpages/placeholder-web-62-coinbase-clone.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "dropbox-clone": {
+      "id": "63",
+      "title": {
+        "en": "Dropbox Clone — Collage and Blocks",
+        "es": "Clon de Dropbox: collage y bloques"
+      },
+      "imageUrl": "/webpages/placeholder-web-63-dropbox-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "discord-clone": {
+      "id": "64",
+      "title": {
+        "en": "Discord Clone — Gaming and Voice Chat",
+        "es": "Clon de Discord: juegos y chat de voz"
+      },
+      "imageUrl": "/webpages/placeholder-web-64-discord-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "pinterest-clone": {
+      "id": "65",
+      "title": {
+        "en": "Pinterest Clone — Masonry and Chips",
+        "es": "Clon de Pinterest: mampostería y astillas"
+      },
+      "imageUrl": "/webpages/placeholder-web-65-pinterest-clone.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "github-clone": {
+      "id": "68",
+      "title": {
+        "en": "GitHub Clone — Repos and Open Source",
+        "es": "Clon de GitHub: repositorios y código abierto"
+      },
+      "imageUrl": "/webpages/placeholder-web-68-github-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "canva-clone": {
+      "id": "69",
+      "title": {
+        "en": "Canva Clone — Design and Templates",
+        "es": "Clon de Canva: diseño y plantillas"
+      },
+      "imageUrl": "/webpages/placeholder-web-69-canva-clone.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "linkedin-clone": {
+      "id": "72",
+      "title": {
+        "en": "LinkedIn Clone — Professional Network",
+        "es": "Clon de LinkedIn: red profesional"
+      },
+      "imageUrl": "/webpages/placeholder-web-72-linkedin-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "asana-clone": {
+      "id": "74",
+      "title": {
+        "en": "Asana Clone — Projects and Boards",
+        "es": "Clon de Asana: proyectos y tableros"
+      },
+      "imageUrl": "/webpages/placeholder-web-74-asana-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "mailchimp-clone": {
+      "id": "75",
+      "title": {
+        "en": "Mailchimp Clone — Email marketing",
+        "es": "Clon de Mailchimp: marketing por correo electrónico"
+      },
+      "imageUrl": "/webpages/placeholder-web-75-mailchimp-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "adobe-clone": {
+      "id": "77",
+      "title": {
+        "en": "Adobe Clone — Creative Cloud",
+        "es": "Clon de Adobe: nube creativa"
+      },
+      "imageUrl": "/webpages/placeholder-web-77-adobe-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "google-workspace-clone": {
+      "id": "79",
+      "title": {
+        "en": "Google Workspace Clone — Productivity in the cloud",
+        "es": "Clon de Google Workspace: productividad en la nube"
+      },
+      "imageUrl": "/webpages/placeholder-web-79-google-workspace-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "meta-clone": {
+      "id": "80",
+      "title": {
+        "en": "Meta Clone — Red social",
+        "es": "Meta Clon - Red social"
+      },
+      "imageUrl": "/webpages/placeholder-web-80-meta-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "instagram-clone": {
+      "id": "81",
+      "title": {
+        "en": "Instagram Clone — Photos and reels",
+        "es": "Clon de Instagram: fotos y carretes"
+      },
+      "imageUrl": "/webpages/placeholder-web-81-instagram-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "amazon-clone": {
+      "id": "83",
+      "title": {
+        "en": "Amazon Clone — Global E-commerce",
+        "es": "Clon de Amazon: comercio electrónico global"
+      },
+      "imageUrl": "/webpages/placeholder-web-83-amazon-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "paypal-clone": {
+      "id": "84",
+      "title": {
+        "en": "PayPal Clone — Online Payments",
+        "es": "Clon de PayPal: pagos en línea"
+      },
+      "imageUrl": "/webpages/placeholder-web-84-paypal-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "hubspot-clone": {
+      "id": "85",
+      "title": {
+        "en": "HubSpot Clone — CRM inbound",
+        "es": "Clon de HubSpot: CRM entrante"
+      },
+      "imageUrl": "/webpages/placeholder-web-85-hubspot-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "upwork-clone": {
+      "id": "91",
+      "title": {
+        "en": "Upwork Clone — Global Talent",
+        "es": "Clon de Upwork - Talento global"
+      },
+      "imageUrl": "/webpages/placeholder-web-91-upwork-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "x-clone": {
+      "id": "95",
+      "title": {
+        "en": "X Clone — Real-time conversation",
+        "es": "X Clone: ​​conversación en tiempo real"
+      },
+      "imageUrl": "/webpages/placeholder-web-95-x-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "doordash-clone": {
+      "id": "97",
+      "title": {
+        "en": "DoorDash Clone — Food Delivery",
+        "es": "Clon de DoorDash: entrega de comida"
+      },
+      "imageUrl": "/webpages/placeholder-web-97-doordash-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "hulu-clone": {
+      "id": "98",
+      "title": {
+        "en": "Hulu Clone — Streaming TV",
+        "es": "Clon de Hulu: transmisión de TV"
+      },
+      "imageUrl": "/webpages/placeholder-web-98-hulu-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "calendly-clone": {
+      "id": "99",
+      "title": {
+        "en": "Calendly Clone — Schedule meetings",
+        "es": "Clon de Calendly: programar reuniones"
+      },
+      "imageUrl": "/webpages/placeholder-web-99-calendly-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "intercom-clone": {
+      "id": "100",
+      "title": {
+        "en": "Intercom Clone — Business Messaging",
+        "es": "Clon de intercomunicador: mensajería empresarial"
+      },
+      "imageUrl": "/webpages/placeholder-web-100-intercom-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "docusign-clone": {
+      "id": "101",
+      "title": {
+        "en": "DocuSign Clone — Electronic signature",
+        "es": "DocuSign Clone: ​​firma electrónica"
+      },
+      "imageUrl": "/webpages/placeholder-web-101-docusign-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "miro-clone": {
+      "id": "102",
+      "title": {
+        "en": "Miro Clone — Collaborative Whiteboard",
+        "es": "Miro Clone: ​​pizarra colaborativa"
+      },
+      "imageUrl": "/webpages/placeholder-web-102-miro-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "jira-clone": {
+      "id": "103",
+      "title": {
+        "en": "Jira Clone — Agile and Sprints",
+        "es": "Clon de Jira: ágil y sprints"
+      },
+      "imageUrl": "/webpages/placeholder-web-103-jira-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "gitlab-clone": {
+      "id": "104",
+      "title": {
+        "en": "GitLab Clone — DevOps platform",
+        "es": "Clon de GitLab: plataforma DevOps"
+      },
+      "imageUrl": "/webpages/placeholder-web-104-gitlab-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "paramount-clone": {
+      "id": "108",
+      "title": {
+        "en": "Paramount+ Clone — Streaming and Sports",
+        "es": "Clon Paramount+: streaming y deportes"
+      },
+      "imageUrl": "/webpages/placeholder-web-108-paramount-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "peacock-clone": {
+      "id": "109",
+      "title": {
+        "en": "Peacock Clone — NBCUniversal streaming",
+        "es": "Clon de pavo real – Transmisión de NBCUniversal"
+      },
+      "imageUrl": "/webpages/placeholder-web-109-peacock-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "grammarly-clone": {
+      "id": "110",
+      "title": {
+        "en": "Grammarly Clone — Writing with AI",
+        "es": "Clon gramatical: escritura con IA"
+      },
+      "imageUrl": "/webpages/placeholder-web-110-grammarly-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "box-clone": {
+      "id": "111",
+      "title": {
+        "en": "Box Clone — Enterprise Storage",
+        "es": "Clon de caja: almacenamiento empresarial"
+      },
+      "imageUrl": "/webpages/placeholder-web-111-box-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "evernote-clone": {
+      "id": "112",
+      "title": {
+        "en": "Evernote Clone — Organized Notes",
+        "es": "Clon de Evernote: notas organizadas"
+      },
+      "imageUrl": "/webpages/placeholder-web-112-evernote-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "lyft-clone": {
+      "id": "114",
+      "title": {
+        "en": "Lyft Clone — Rideshare",
+        "es": "Clon de Lyft: viaje compartido"
+      },
+      "imageUrl": "/webpages/placeholder-web-114-lyft-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "grubhub-clone": {
+      "id": "115",
+      "title": {
+        "en": "Grubhub Clone — Food Delivery",
+        "es": "Clon de Grubhub: entrega de comida"
+      },
+      "imageUrl": "/webpages/placeholder-web-115-grubhub-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "coursera-clone": {
+      "id": "116",
+      "title": {
+        "en": "Coursera Clone — Online Education",
+        "es": "Clon de Coursera: educación en línea"
+      },
+      "imageUrl": "/webpages/placeholder-web-116-coursera-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "headspace-clone": {
+      "id": "117",
+      "title": {
+        "en": "Headspace Clone — Meditation and Wellbeing",
+        "es": "Clon de Headspace: meditación y bienestar"
+      },
+      "imageUrl": "/webpages/placeholder-web-117-headspace-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "peloton-clone": {
+      "id": "118",
+      "title": {
+        "en": "Peloton Clone — Fitness at home",
+        "es": "Clon de Peloton: fitness en casa"
+      },
+      "imageUrl": "/webpages/placeholder-web-118-peloton-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "nike-clone": {
+      "id": "119",
+      "title": {
+        "en": "Nike Clone — Sport and style",
+        "es": "Nike Clone: ​​deporte y estilo"
+      },
+      "imageUrl": "/webpages/placeholder-web-119-nike-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "openai-clone": {
+      "id": "120",
+      "title": {
+        "en": "OpenAI Clone — AI Platform",
+        "es": "Clon de OpenAI: plataforma de IA"
+      },
+      "imageUrl": "/webpages/placeholder-web-120-openai-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "anthropic-clone": {
+      "id": "121",
+      "title": {
+        "en": "Anthropic Clone — Claude AI",
+        "es": "Clon antrópico - Claude AI"
+      },
+      "imageUrl": "/webpages/placeholder-web-121-anthropic-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "loom-clone": {
+      "id": "122",
+      "title": {
+        "en": "Loom Clone — Video async",
+        "es": "Clon de telar: vídeo asíncrono"
+      },
+      "imageUrl": "/webpages/placeholder-web-122-loom-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "datadog-clone": {
+      "id": "123",
+      "title": {
+        "en": "Datadog Clone — Observability",
+        "es": "Clon de Datadog: observabilidad"
+      },
+      "imageUrl": "/webpages/placeholder-web-123-datadog-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "mongodb-clone": {
+      "id": "124",
+      "title": {
+        "en": "MongoDB Clone — Document Database",
+        "es": "Clon de MongoDB: base de datos de documentos"
+      },
+      "imageUrl": "/webpages/placeholder-web-124-mongodb-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "cloudflare-clone": {
+      "id": "125",
+      "title": {
+        "en": "Cloudflare Clone — CDN and Security",
+        "es": "Clon de Cloudflare: CDN y seguridad"
+      },
+      "imageUrl": "/webpages/placeholder-web-125-cloudflare-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "databricks-clone": {
+      "id": "126",
+      "title": {
+        "en": "Databricks Clone — Lakehouse",
+        "es": "Clon de ladrillos de datos: Lakehouse"
+      },
+      "imageUrl": "/webpages/placeholder-web-126-databricks-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "booking-clone": {
+      "id": "129",
+      "title": {
+        "en": "Booking.com Clone — Travel Reservations",
+        "es": "Clon de Booking.com: reservas de viajes"
+      },
+      "imageUrl": "/webpages/placeholder-web-129-booking-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "expedia-clone": {
+      "id": "130",
+      "title": {
+        "en": "Expedia Clone — Travel & Packages",
+        "es": "Clon de Expedia: viajes y paquetes"
+      },
+      "imageUrl": "/webpages/placeholder-web-130-expedia-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "mastercard-clone": {
+      "id": "131",
+      "title": {
+        "en": "Mastercard Clone — Payment network",
+        "es": "Clon de Mastercard — Red de pagos"
+      },
+      "imageUrl": "/webpages/placeholder-web-131-mastercard-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "masterclass-clone": {
+      "id": "134",
+      "title": {
+        "en": "MasterClass Clone — Premium Learning",
+        "es": "Clon de MasterClass: aprendizaje premium"
+      },
+      "imageUrl": "/webpages/placeholder-web-134-masterclass-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "apple-clone": {
+      "id": "138",
+      "title": {
+        "en": "Apple Clone — Premium Products",
+        "es": "Clon de Apple: productos premium"
+      },
+      "imageUrl": "/webpages/placeholder-web-138-apple-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "ikea-clone": {
+      "id": "142",
+      "title": {
+        "en": "IKEA Clone — Accessible furniture",
+        "es": "Clon IKEA — Mobiliario accesible"
+      },
+      "imageUrl": "/webpages/placeholder-web-142-ikea-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "lego-clone": {
+      "id": "145",
+      "title": {
+        "en": "LEGO Clone — Creativity in blocks",
+        "es": "Clon LEGO: creatividad en bloques"
+      },
+      "imageUrl": "/webpages/placeholder-web-145-lego-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "medium-clone": {
+      "id": "148",
+      "title": {
+        "en": "Medium Clone — Reading and writing",
+        "es": "Clon medio: lectura y escritura"
+      },
+      "imageUrl": "/webpages/placeholder-web-148-medium-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "coda-clone": {
+      "id": "150",
+      "title": {
+        "en": "Coda Clone — Docs + apps",
+        "es": "Clon de Coda: Documentos y aplicaciones"
+      },
+      "imageUrl": "/webpages/placeholder-web-150-coda-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "framer-clone": {
+      "id": "151",
+      "title": {
+        "en": "Framer Clone — Web design",
+        "es": "Clon de Framer: diseño web"
+      },
+      "imageUrl": "/webpages/placeholder-web-151-framer-clone.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "ink-quarterly-magazine": {
+      "id": "153",
+      "title": {
+        "en": "Ink Quarterly — Fashion magazine editorial",
+        "es": "Ink Quarterly — Editorial de revista de moda"
+      },
+      "imageUrl": "/webpages/placeholder-web-153-ink-quarterly-magazine.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "monograph-architecture-journal": {
+      "id": "155",
+      "title": {
+        "en": "The Monograph — Architecture journal",
+        "es": "La Monografía — Revista de arquitectura"
+      },
+      "imageUrl": "/webpages/placeholder-web-155-monograph-architecture-journal.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "paper-signal-newsletter": {
+      "id": "157",
+      "title": {
+        "en": "Paper & Signal — Editorial newsletter",
+        "es": "Papel y Señal — Boletín editorial"
+      },
+      "imageUrl": "/webpages/placeholder-web-157-paper-signal-newsletter.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "edit-bureau-creative": {
+      "id": "158",
+      "title": {
+        "en": "Edit Bureau — Creative agency editorial",
+        "es": "Edit Bureau — Editorial agencia creativa"
+      },
+      "imageUrl": "/webpages/placeholder-web-158-edit-bureau-creative.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "column-studio-photography": {
+      "id": "159",
+      "title": {
+        "en": "Column Studio — Photography portfolio",
+        "es": "Column Studio — Portafolio de fotografía"
+      },
+      "imageUrl": "/webpages/placeholder-web-159-column-studio-photography.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "meridian-press-literary": {
+      "id": "160",
+      "title": {
+        "en": "Meridian Press — Literary journal",
+        "es": "Meridian Press - Revista literaria"
+      },
+      "imageUrl": "/webpages/placeholder-web-160-meridian-press-literary.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "halftone-design-zine": {
+      "id": "161",
+      "title": {
+        "en": "Halftone — Design zine",
+        "es": "Semitono — Revista de diseño"
+      },
+      "imageUrl": "/webpages/placeholder-web-161-halftone-design-zine.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "atelier-journal-luxury": {
+      "id": "162",
+      "title": {
+        "en": "Atelier Journal — Luxury fashion editorial",
+        "es": "Atelier Journal — Editorial de moda de lujo"
+      },
+      "imageUrl": "/webpages/placeholder-web-162-atelier-journal-luxury.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "broadsheet-tech-editorial": {
+      "id": "163",
+      "title": {
+        "en": "Broadsheet — Tech editorial newspaper",
+        "es": "Broadsheet - Periódico editorial tecnológico"
+      },
+      "imageUrl": "/webpages/placeholder-web-163-broadsheet-tech-editorial.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "grain-film-photography": {
+      "id": "164",
+      "title": {
+        "en": "Grain — Film photography editorial",
+        "es": "Grano — Editorial de fotografía cinematográfica"
+      },
+      "imageUrl": "/webpages/placeholder-web-164-grain-film-photography.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "forma-brutalist-editorial": {
+      "id": "165",
+      "title": {
+        "en": "Forma — Brutalist editorial grid",
+        "es": "Forma - Cuadrícula editorial brutalista"
+      },
+      "imageUrl": "/webpages/placeholder-web-165-forma-brutalist-editorial.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "lumen-art-gallery": {
+      "id": "166",
+      "title": {
+        "en": "Lumen — Art gallery editorial",
+        "es": "Lumen — Editorial galería de arte"
+      },
+      "imageUrl": "/webpages/placeholder-web-166-lumen-art-gallery.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "chronicle-history-journal": {
+      "id": "167",
+      "title": {
+        "en": "Chronicle — History & culture journal",
+        "es": "Crónica — Revista de historia y cultura"
+      },
+      "imageUrl": "/webpages/placeholder-web-167-chronicle-history-journal.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "pixelcraft-freelance-designer": {
+      "id": "168",
+      "title": {
+        "en": "PixelCraft — Freelance UI/UX designer",
+        "es": "PixelCraft: diseñador independiente de UI/UX"
+      },
+      "imageUrl": "/webpages/placeholder-web-168-pixelcraft-freelance-designer.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "codewave-freelance-developer": {
+      "id": "169",
+      "title": {
+        "en": "CodeWave — Freelance full-stack developer",
+        "es": "CodeWave: desarrollador independiente de pila completa"
+      },
+      "imageUrl": "/webpages/placeholder-web-169-codewave-freelance-developer.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "inkwell-freelance-writer": {
+      "id": "170",
+      "title": {
+        "en": "Inkwell — Freelance copywriter",
+        "es": "Inkwell - Redactor independiente"
+      },
+      "imageUrl": "/webpages/placeholder-web-170-inkwell-freelance-writer.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "lenshire-freelance-photographer": {
+      "id": "171",
+      "title": {
+        "en": "LensHire — Freelance photographer",
+        "es": "LensHire - Fotógrafo independiente"
+      },
+      "imageUrl": "/webpages/placeholder-web-171-lenshire-freelance-photographer.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "motionlab-freelance-video": {
+      "id": "173",
+      "title": {
+        "en": "MotionLab — Freelance video editor",
+        "es": "MotionLab: editor de vídeo independiente"
+      },
+      "imageUrl": "/webpages/placeholder-web-173-motionlab-freelance-video.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "assistly-freelance-va": {
+      "id": "175",
+      "title": {
+        "en": "Assistly — Freelance virtual assistant",
+        "es": "Assistly – Asistente virtual independiente"
+      },
+      "imageUrl": "/webpages/placeholder-web-175-assistly-freelance-va.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "brandmint-freelance-strategist": {
+      "id": "176",
+      "title": {
+        "en": "BrandMint — Freelance brand strategist",
+        "es": "BrandMint: estratega de marca independiente"
+      },
+      "imageUrl": "/webpages/placeholder-web-176-brandmint-freelance-strategist.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "illustrate-freelance-artist": {
+      "id": "177",
+      "title": {
+        "en": "Illustrate — Freelance illustrator",
+        "es": "Ilustrar — Ilustrador independiente"
+      },
+      "imageUrl": "/webpages/placeholder-web-177-illustrate-freelance-artist.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "devops-freelance-engineer": {
+      "id": "178",
+      "title": {
+        "en": "CloudPilot — Freelance DevOps engineer",
+        "es": "CloudPilot: ingeniero independiente de DevOps"
+      },
+      "imageUrl": "/webpages/placeholder-web-178-devops-freelance-engineer.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "marketfreelance-hub": {
+      "id": "179",
+      "title": {
+        "en": "TalentDock — Freelance talent marketplace",
+        "es": "TalentDock: mercado de talentos independientes"
+      },
+      "imageUrl": "/webpages/placeholder-web-179-marketfreelance-hub.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "collective-freelance-agency": {
+      "id": "180",
+      "title": {
+        "en": "The Collective — Freelance agency studio",
+        "es": "The Collective — Estudio de agencia independiente"
+      },
+      "imageUrl": "/webpages/placeholder-web-180-collective-freelance-agency.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "finfreelance-accountant": {
+      "id": "181",
+      "title": {
+        "en": "LedgerLink — Freelance accountant for creators",
+        "es": "LedgerLink: contador independiente para creadores"
+      },
+      "imageUrl": "/webpages/placeholder-web-181-finfreelance-accountant.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "arenalive-sports-events": {
+      "id": "186",
+      "title": {
+        "en": "ArenaLive — Sports & stadium events",
+        "es": "ArenaLive: eventos deportivos y de estadios"
+      },
+      "imageUrl": "/webpages/placeholder-web-186-arenalive-sports-events.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "galanight-charity-gala": {
+      "id": "187",
+      "title": {
+        "en": "GalaNight — Charity gala events",
+        "es": "GalaNight — Eventos de gala benéfica"
+      },
+      "imageUrl": "/webpages/placeholder-web-187-galanight-charity-gala.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "meetpoint-community-meetups": {
+      "id": "189",
+      "title": {
+        "en": "MeetPoint — Community meetups",
+        "es": "MeetPoint: reuniones comunitarias"
+      },
+      "imageUrl": "/webpages/placeholder-web-189-meetpoint-community-meetups.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "expotrade-industry-expo": {
+      "id": "190",
+      "title": {
+        "en": "ExpoTrade — Trade show & expo",
+        "es": "ExpoTrade — Feria y exposición"
+      },
+      "imageUrl": "/webpages/placeholder-web-190-expotrade-industry-expo.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "hackbay-hackathon": {
+      "id": "191",
+      "title": {
+        "en": "HackBay — Hackathon weekend",
+        "es": "HackBay - Fin de semana de hackathon"
+      },
+      "imageUrl": "/webpages/placeholder-web-191-hackbay-hackathon.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "corporateedge-business-events": {
+      "id": "195",
+      "title": {
+        "en": "CorporateEdge — Corporate events agency",
+        "es": "CorporateEdge — Agencia de eventos corporativos"
+      },
+      "imageUrl": "/webpages/placeholder-web-195-corporateedge-business-events.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "artwalk-culture-festival": {
+      "id": "196",
+      "title": {
+        "en": "ArtWalk — Art & culture festival",
+        "es": "ArtWalk - Festival de arte y cultura"
+      },
+      "imageUrl": "/webpages/placeholder-web-196-artwalk-culture-festival.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "nightmarket-food-events": {
+      "id": "197",
+      "title": {
+        "en": "NightMarket — Food & night market events",
+        "es": "NightMarket: eventos de comida y mercados nocturnos"
+      },
+      "imageUrl": "/webpages/placeholder-web-197-nightmarket-food-events.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "ironpulse-strength-gym": {
+      "id": "198",
+      "title": {
+        "en": "IronPulse — Strength & CrossFit gym",
+        "es": "IronPulse: gimnasio de fuerza y ​​crossfit"
+      },
+      "imageUrl": "/webpages/placeholder-web-198-ironpulse-strength-gym.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "flexflow-yoga-studio": {
+      "id": "199",
+      "title": {
+        "en": "FlexFlow — Yoga & pilates studio",
+        "es": "FlexFlow — Estudio de yoga y pilates"
+      },
+      "imageUrl": "/webpages/placeholder-web-199-flexflow-yoga-studio.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "fittrack-workout-app": {
+      "id": "201",
+      "title": {
+        "en": "FitTrack — Workout & fitness app",
+        "es": "FitTrack: aplicación de entrenamiento y fitness"
+      },
+      "imageUrl": "/webpages/placeholder-web-201-fittrack-workout-app.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "coreclub-boutique-fitness": {
+      "id": "202",
+      "title": {
+        "en": "CoreClub — Boutique fitness club",
+        "es": "CoreClub - Gimnasio boutique"
+      },
+      "imageUrl": "/webpages/placeholder-web-202-coreclub-boutique-fitness.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "aniwave-anime-streaming": {
+      "id": "203",
+      "title": {
+        "en": "AniWave — Anime streaming platform",
+        "es": "AniWave: plataforma de transmisión de anime"
+      },
+      "imageUrl": "/webpages/placeholder-web-203-aniwave-anime-streaming.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "otakucon-anime-convention": {
+      "id": "205",
+      "title": {
+        "en": "OtakuCon — Anime convention",
+        "es": "OtakuCon - Convención de anime"
+      },
+      "imageUrl": "/webpages/placeholder-web-205-otakucon-anime-convention.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "mindfulkids-family": {
+      "id": "212",
+      "title": {
+        "en": "MindfulKids — Meditation for families",
+        "es": "MindfulKids — Meditación para familias"
+      },
+      "imageUrl": "/webpages/placeholder-web-212-mindfulkids-family.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "pipelineforge-cicd": {
+      "id": "213",
+      "title": {
+        "en": "PipelineForge — CI/CD platform",
+        "es": "PipelineForge: plataforma CI/CD"
+      },
+      "imageUrl": "/webpages/placeholder-web-213-pipelineforge-cicd.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "kubefleet-kubernetes": {
+      "id": "214",
+      "title": {
+        "en": "KubeFleet — Kubernetes operations",
+        "es": "KubeFleet: operaciones de Kubernetes"
+      },
+      "imageUrl": "/webpages/placeholder-web-214-kubefleet-kubernetes.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "infrawatch-observability": {
+      "id": "215",
+      "title": {
+        "en": "InfraWatch — Observability & monitoring",
+        "es": "InfraWatch: observabilidad y seguimiento"
+      },
+      "imageUrl": "/webpages/placeholder-web-215-infrawatch-observability.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "embertable-steakhouse": {
+      "id": "218",
+      "title": {
+        "en": "EmberTable — Fine dining steakhouse",
+        "es": "EmberTable: restaurante de carnes de alta cocina"
+      },
+      "imageUrl": "/webpages/placeholder-web-218-embertable-steakhouse.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "pizzaalta-neapolitan": {
+      "id": "221",
+      "title": {
+        "en": "PizzaAlta — Neapolitan pizzeria",
+        "es": "PizzaAlta — Pizzería napolitana"
+      },
+      "imageUrl": "/webpages/placeholder-web-221-pizzaalta-neapolitan.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "bareform-builder": {
+      "id": "225",
+      "title": {
+        "en": "BareForm — Minimal form builder",
+        "es": "BareForm: creador de formularios mínimos"
+      },
+      "imageUrl": "/webpages/placeholder-web-225-bareform-builder.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "luxethread-fashion-store": {
+      "id": "226",
+      "title": {
+        "en": "LuxeThread — Fashion e-commerce",
+        "es": "LuxeThread — Comercio electrónico de moda"
+      },
+      "imageUrl": "/webpages/placeholder-web-226-luxethread-fashion-store.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "greenbasket-grocery": {
+      "id": "227",
+      "title": {
+        "en": "GreenBasket — Organic grocery delivery",
+        "es": "GreenBasket: entrega de comestibles orgánicos"
+      },
+      "imageUrl": "/webpages/placeholder-web-227-greenbasket-grocery.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "cozyloft-home-decor": {
+      "id": "229",
+      "title": {
+        "en": "CozyLoft — Home decor shop",
+        "es": "CozyLoft — Tienda de decoración del hogar"
+      },
+      "imageUrl": "/webpages/placeholder-web-229-cozyloft-home-decor.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "pawpark-pet-supplies": {
+      "id": "230",
+      "title": {
+        "en": "PawPark — Pet supplies store",
+        "es": "PawPark — Tienda de artículos para mascotas"
+      },
+      "imageUrl": "/webpages/placeholder-web-230-pawpark-pet-supplies.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "glowlab-beauty-shop": {
+      "id": "231",
+      "title": {
+        "en": "GlowLab — Beauty & skincare shop",
+        "es": "GlowLab — Tienda de belleza y cuidado de la piel"
+      },
+      "imageUrl": "/webpages/placeholder-web-231-glowlab-beauty-shop.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "insuregrid-insurtech": {
+      "id": "238",
+      "title": {
+        "en": "InsureGrid — Digital insurance",
+        "es": "InsureGrid — Seguros digitales"
+      },
+      "imageUrl": "/webpages/placeholder-web-238-insuregrid-insurtech.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "paybridge-payments-api": {
+      "id": "240",
+      "title": {
+        "en": "PayBridge — Payments infrastructure",
+        "es": "PayBridge: infraestructura de pagos"
+      },
+      "imageUrl": "/webpages/placeholder-web-240-paybridge-payments-api.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "beatforge-marketplace": {
+      "id": "244",
+      "title": {
+        "en": "BeatForge — Beat marketplace",
+        "es": "BeatForge - Mercado de ritmos"
+      },
+      "imageUrl": "/webpages/placeholder-web-244-beatforge-marketplace.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "amplive-concert-tickets": {
+      "id": "246",
+      "title": {
+        "en": "AmpLive — Concert tickets",
+        "es": "AmpLive — Entradas para conciertos"
+      },
+      "imageUrl": "/webpages/placeholder-web-246-amplive-concert-tickets.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "chorus-music-lessons": {
+      "id": "247",
+      "title": {
+        "en": "Chorus — Online music lessons",
+        "es": "Coro — Lecciones de música en línea"
+      },
+      "imageUrl": "/webpages/placeholder-web-247-chorus-music-lessons.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "pixelframe-photography-portfolio": {
+      "id": "248",
+      "title": {
+        "en": "PixelFrame — Photography portfolio",
+        "es": "PixelFrame — Portafolio de fotografía"
+      },
+      "imageUrl": "/webpages/placeholder-web-248-pixelframe-photography-portfolio.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "atelier-creative-studio-portfolio": {
+      "id": "249",
+      "title": {
+        "en": "Atelier — Creative studio portfolio",
+        "es": "Atelier — Portafolio de estudio creativo"
+      },
+      "imageUrl": "/webpages/placeholder-web-249-atelier-creative-studio-portfolio.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "caselab-ux-design-portfolio": {
+      "id": "250",
+      "title": {
+        "en": "CaseLab — UX design portfolio",
+        "es": "CaseLab: cartera de diseños de UX"
+      },
+      "imageUrl": "/webpages/placeholder-web-250-caselab-ux-design-portfolio.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "codecraft-developer-portfolio": {
+      "id": "251",
+      "title": {
+        "en": "CodeCraft — Developer portfolio",
+        "es": "CodeCraft: cartera de desarrolladores"
+      },
+      "imageUrl": "/webpages/placeholder-web-251-codecraft-developer-portfolio.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "inkwell-illustrator-portfolio": {
+      "id": "252",
+      "title": {
+        "en": "Inkwell — Illustrator portfolio",
+        "es": "Tintero — Portafolio de ilustrador"
+      },
+      "imageUrl": "/webpages/placeholder-web-252-inkwell-illustrator-portfolio.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "forma-architecture-portfolio": {
+      "id": "253",
+      "title": {
+        "en": "Forma — Architecture portfolio",
+        "es": "Forma — Portafolio de arquitectura"
+      },
+      "imageUrl": "/webpages/placeholder-web-253-forma-architecture-portfolio.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "framehaus-art-director-portfolio": {
+      "id": "254",
+      "title": {
+        "en": "Framehaus — Art director portfolio",
+        "es": "Framehaus — Portafolio del director de arte"
+      },
+      "imageUrl": "/webpages/placeholder-web-254-framehaus-art-director-portfolio.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "neonstrike-game-launch": {
+      "id": "255",
+      "title": {
+        "en": "NeonStrike — AAA game launch",
+        "es": "NeonStrike: lanzamiento del juego AAA"
+      },
+      "imageUrl": "/webpages/placeholder-web-255-neonstrike-game-launch.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "arenapulse-esports-platform": {
+      "id": "256",
+      "title": {
+        "en": "ArenaPulse — Esports platform",
+        "es": "ArenaPulse: plataforma de deportes electrónicos"
+      },
+      "imageUrl": "/webpages/placeholder-web-256-arenapulse-esports-platform.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "lootvault-game-marketplace": {
+      "id": "257",
+      "title": {
+        "en": "LootVault — Game marketplace",
+        "es": "LootVault - Mercado de juegos"
+      },
+      "imageUrl": "/webpages/placeholder-web-257-lootvault-game-marketplace.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "guildforge-mmo-community": {
+      "id": "259",
+      "title": {
+        "en": "GuildForge — MMO community",
+        "es": "GuildForge: comunidad MMO"
+      },
+      "imageUrl": "/webpages/placeholder-web-259-guildforge-mmo-community.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "pixelshelf-indie-game-store": {
+      "id": "260",
+      "title": {
+        "en": "PixelShelf — Indie game store",
+        "es": "PixelShelf: tienda de juegos independientes"
+      },
+      "imageUrl": "/webpages/placeholder-web-260-pixelshelf-indie-game-store.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "horizon-luxury-hotels": {
+      "id": "263",
+      "title": {
+        "en": "Horizon — Luxury hotels",
+        "es": "Horizonte — Hoteles de lujo"
+      },
+      "imageUrl": "/webpages/placeholder-web-263-horizon-luxury-hotels.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "trailpath-adventure-tours": {
+      "id": "264",
+      "title": {
+        "en": "TrailPath — Adventure tours",
+        "es": "TrailPath — Tours de aventura"
+      },
+      "imageUrl": "/webpages/placeholder-web-264-trailpath-adventure-tours.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "nomadstay-budget-hostels": {
+      "id": "265",
+      "title": {
+        "en": "NomadStay — Budget hostels",
+        "es": "NomadStay — Hostales económicos"
+      },
+      "imageUrl": "/webpages/placeholder-web-265-nomadstay-budget-hostels.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "voyage-cruise-line": {
+      "id": "266",
+      "title": {
+        "en": "Voyage — Cruise line",
+        "es": "Viaje — Línea de cruceros"
+      },
+      "imageUrl": "/webpages/placeholder-web-266-voyage-cruise-line.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "terraguide-local-experiences": {
+      "id": "267",
+      "title": {
+        "en": "TerraGuide — Local experiences",
+        "es": "TerraGuide — Experiencias locales"
+      },
+      "imageUrl": "/webpages/placeholder-web-267-terraguide-local-experiences.png",
+      "stack": [
+        "HTML",
+        "CSS"
+      ],
+      "components": [
+        "index.html"
+      ]
+    },
+    "skyroute-flight-deals": {
+      "id": "268",
+      "title": {
+        "en": "SkyRoute — Flight deals",
+        "es": "SkyRoute — Ofertas de vuelos"
+      },
+      "imageUrl": "/webpages/placeholder-web-268-skyroute-flight-deals.png",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "components": [
+        "index.html"
+      ]
+    }
+  }
+}

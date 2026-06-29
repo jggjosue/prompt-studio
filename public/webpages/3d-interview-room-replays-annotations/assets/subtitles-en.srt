@@ -1,0 +1,11 @@
+1
+00:00:00,000 --> 00:00:05,000
+3D Interview Room — Video Replays & Synchronized Annotations
+
+2
+00:00:05,000 --> 00:00:12,000
+Review recorded interviews in an elegant 3D environment with synchronized annotations.
+
+3
+00:00:12,000 --> 00:00:20,000
+Click on a card to play the replay. Annotations appear in sync with the video timeline.

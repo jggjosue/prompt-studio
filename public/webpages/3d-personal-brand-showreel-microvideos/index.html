@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BRAND REEL 3D | Showreel Microvideos</title>
+    <meta name="description" content="Personal Brand Showreel Microvideos. 3D immersive experience.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- 3D Canvas Container -->
+    <div id="canvas-container"></div>
+
+    <!-- Header / Navbar -->
+    <header class="navbar">
+        <div class="logo">BRAND REEL 3D</div>
+        <nav class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#showreel">Showreel</a>
+            <a href="#microvideos">Microvideos</a>
+            <a href="#topics">Topics</a>
+            <a href="#services">Services</a>
+            <a href="#results">Results</a>
+            <a href="#booking">Booking</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <button class="cta-btn booking-btn">Book a Call</button>
+    </header>
+
+    <!-- Scrollable Content Overlay -->
+    <main class="content-overlay">
+        
+        <section id="home" class="section hero-section">
+            <div class="content-block" data-speed="1.2">
+                <h1 class="parallax-text">Elevate Your Digital Authority</h1>
+                <p class="parallax-text subtitle">An immersive 3D showreel experience for creators, founders, and thought leaders.</p>
+                <div class="hero-metrics">
+                    <div class="metric"><span>10M+</span> Views</div>
+                    <div class="metric"><span>500K</span> Community</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="showreel" class="section right-align">
+            <div class="content-block glass-card" data-speed="0.8">
+                <h2>The Cinematic Showreel</h2>
+                <p>Scroll to explore the narrative through floating microvideos. A fully interactive 3D audiovisual timeline.</p>
+            </div>
+        </section>
+        
+        <section id="microvideos" class="section left-align">
+            <div class="content-block glass-card" data-speed="1.1">
+                <h2>Short-Form Mastery</h2>
+                <p>High-retention hooks and storytelling designed for the modern algorithm. Captivate your audience in seconds.</p>
+            </div>
+        </section>
+
+        <section id="topics" class="section center-align">
+            <div class="content-block">
+                <h2>Content Categories</h2>
+                <div class="tags">
+                    <span class="tag">#Educational</span>
+                    <span class="tag">#Storytelling</span>
+                    <span class="tag">#Authority</span>
+                    <span class="tag">#SocialClips</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="section left-align">
+            <div class="content-block glass-card">
+                <h2>Premium Services</h2>
+                <ul class="services-list">
+                    <li>1:1 Consulting</li>
+                    <li>Full Video Production</li>
+                    <li>Content Strategy</li>
+                    <li>Speaker Coaching</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="booking" class="section center-align footer-section">
+            <div class="content-block giant-cta">
+                <h2>Ready to scale your brand?</h2>
+                <p>Let's build your authority together.</p>
+                <button class="cta-btn large-btn">Schedule a Strategy Call</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Scripts -->
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- App Logic -->
+    <script src="app.js"></script>
+</body>
+</html>

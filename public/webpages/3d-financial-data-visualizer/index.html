@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Explore 3D Financial Data Visualizer - a premium, immersive digital investment & risk intelligence center built with Three.js.">
+  <meta name="keywords" content="3d finance, data visualization, three.js, fintech, investment, portfolio, risk forecast, stock markets">
+  <title>3D Financial Data Visualizer</title>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.159.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.159.0/examples/jsm/"
+      }
+    }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- 3D Canvas Container -->
+  <div id="scene" aria-hidden="true"></div>
+
+  <!-- Header / Navbar -->
+  <header class="header glass" id="navbar">
+    <div class="header-container">
+      <a href="#home" class="logo">
+        <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="20" x2="18" y2="10"></line>
+          <line x1="12" y1="20" x2="12" y2="4"></line>
+          <line x1="6" y1="20" x2="6" y2="14"></line>
+        </svg>
+        <span>FINANCE VISUALIZER 3D</span>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="nav-desktop" aria-label="Main Navigation">
+        <a href="#home" class="nav-link active">Home</a>
+        <a href="#dashboard" class="nav-link">Dashboard</a>
+        <a href="#markets" class="nav-link">Markets</a>
+        <a href="#portfolio" class="nav-link">Portfolio</a>
+        <a href="#risk" class="nav-link">Risk</a>
+        <a href="#forecast" class="nav-link">Forecast</a>
+        <a href="#reports" class="nav-link">Reports</a>
+        <a href="#pricing" class="nav-link">Pricing</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button id="btn-launch" class="btn btn-primary">Launch Visualizer</button>
+        <button id="menu-toggle" class="menu-toggle" aria-label="Toggle Navigation Menu">
+          <svg class="burger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" y1="12" x2="20" y2="12" class="line-mid"></line>
+            <line x1="4" y1="6" x2="20" y2="6" class="line-top"></line>
+            <line x1="4" y1="18" x2="20" y2="18" class="line-bot"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Nav -->
+    <nav class="nav-mobile" id="mobile-menu" aria-label="Mobile Navigation">
+      <a href="#home" class="mobile-nav-link">Home</a>
+      <a href="#dashboard" class="mobile-nav-link">Dashboard</a>
+      <a href="#markets" class="mobile-nav-link">Markets</a>
+      <a href="#portfolio" class="mobile-nav-link">Portfolio</a>
+      <a href="#risk" class="mobile-nav-link">Risk</a>
+      <a href="#forecast" class="mobile-nav-link">Forecast</a>
+      <a href="#reports" class="mobile-nav-link">Reports</a>
+      <a href="#pricing" class="mobile-nav-link">Pricing</a>
+      <a href="#contact" class="mobile-nav-link">Contact</a>
+      <button id="mobile-btn-launch" class="btn btn-primary w-full">Launch Visualizer</button>
+    </nav>
+  </header>
+
+  <!-- Main Scrolling Sections -->
+  <main class="content-wrapper">
+
+    <!-- 1. Home Section -->
+    <section id="home" class="section hero-section">
+      <div class="container hero-container">
+        <div class="hero-text animate-fade-up">
+          <span class="badge">
+            <span class="badge-dot"></span> Next-Gen Analytics
+          </span>
+          <h1>Unveil the Hidden Depth of Your Assets</h1>
+          <p class="hero-subtitle">
+            Enter a premium financial universe. Synthesize portfolios, model market risks, and project cash flows inside an interactive, scroll-driven 3D command center.
+          </p>
+          <div class="hero-actions">
+            <a href="#dashboard" class="btn btn-primary btn-lg">Explore Dashboard</a>
+            <a href="#contact" class="btn btn-secondary btn-lg">Request Demo</a>
+          </div>
+        </div>
+        <div class="scroll-down-wrapper">
+          <a href="#dashboard" class="scroll-down" aria-label="Scroll to Dashboard">
+            <span class="scroll-mouse">
+              <span class="scroll-wheel"></span>
+            </span>
+            <span class="scroll-text">Scroll to explore</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Dashboard Section -->
+    <section id="dashboard" class="section">
+      <div class="container grid-2">
+        <div class="section-info">
+          <span class="section-eyebrow">Enterprise Intel</span>
+          <h2 class="section-title">Q2 Executive Dashboard</h2>
+          <p class="section-desc">
+            Toggle between core financial metrics to focus the interactive 3D spatial visualizer. Hover or click to analyze key performance deltas and inspect operational breakdowns.
+          </p>
+          
+          <div id="widget-list" class="widget-grid">
+            <!-- Rendered dynamically by JS -->
+          </div>
+
+          <div class="timeline-controls glass">
+            <div class="timeline-header">
+              <span class="label">Historical Timeline Scrub</span>
+              <span id="timeline-value" class="timeline-percentage">0% (Q1 Entry)</span>
+            </div>
+            <input id="timeline" type="range" class="timeline-slider" min="0" max="100" value="0" step="1">
+          </div>
+        </div>
+        <div class="interaction-card glass align-self-center">
+          <div class="card-header">
+            <svg class="card-icon text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+              <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+            </svg>
+            <h3 id="insight-title">Select a KPI</h3>
+          </div>
+          <p id="insight-text" class="card-body">
+            Interact with any card on the left to align the camera viewport and render detailed quarterly commentary.
+          </p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Metric Name</th>
+                  <th>Current</th>
+                  <th>Previous</th>
+                  <th>Q/Q Delta</th>
+                </tr>
+              </thead>
+              <tbody id="kpi-table-body">
+                <!-- Rendered dynamically by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Markets Section -->
+    <section id="markets" class="section">
+      <div class="container grid-2">
+        <div class="interaction-card glass order-mobile-2">
+          <div class="trading-header">
+            <div>
+              <span class="badge badge-success">Live Feed</span>
+              <h3>XBT/USD Candlestick Sim</h3>
+            </div>
+            <div class="price-ticker">
+              <span class="ticker-label">Index Price</span>
+              <span id="ticker-price" class="ticker-val text-success">$67,240.50</span>
+            </div>
+          </div>
+          <div class="order-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="trade-amount">Order Size (USD)</label>
+                <input type="number" id="trade-amount" class="form-control" value="1000" min="10" step="50">
+              </div>
+              <div class="form-group">
+                <label for="trade-leverage">Leverage</label>
+                <select id="trade-leverage" class="form-control">
+                  <option value="1">1x (Spot)</option>
+                  <option value="5">5x Cross</option>
+                  <option value="10">10x Max</option>
+                </select>
+              </div>
+            </div>
+            <div class="btn-group-row">
+              <button id="btn-buy" class="btn btn-success w-full">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="btn-icon">
+                  <polyline points="18 15 12 9 6 15"></polyline>
+                </svg>
+                Simulate Long
+              </button>
+              <button id="btn-sell" class="btn btn-danger w-full">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="btn-icon">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+                Simulate Short
+              </button>
+            </div>
+          </div>
+          <div class="trade-log glass-dark">
+            <div class="log-title">Simulation Feed</div>
+            <div id="trade-feed" class="log-entries">
+              <div class="log-entry system">System initialized. Awaiting orders...</div>
+            </div>
+          </div>
+        </div>
+        <div class="section-info order-mobile-1">
+          <span class="section-eyebrow">Visual Trading</span>
+          <h2 class="section-title">Immersive Market Depth</h2>
+          <p class="section-desc">
+            Explore pricing activity in a three-dimensional Candlestick view. Run simulated trades on the dashboard terminal to generate spatial order-flow signals that fly through the visualizer canvas.
+          </p>
+          <ul class="bullet-list">
+            <li>
+              <div class="bullet-icon">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+              </div>
+              <div>
+                <strong>Realtime Tick Simulation:</strong> Fluctuates in 3D to match order updates.
+              </div>
+            </li>
+            <li>
+              <div class="bullet-icon">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+              </div>
+              <div>
+                <strong>Volume Pillars:</strong> Height reflects simulated order size in spatial layout.
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Portfolio Section -->
+    <section id="portfolio" class="section">
+      <div class="container grid-2">
+        <div class="section-info">
+          <span class="section-eyebrow">Asset Allocation</span>
+          <h2 class="section-title">Interactive Portfolio Optimization</h2>
+          <p class="section-desc">
+            Shift weights dynamically across asset classes and watch the 3D split-torus rotate and scale. Analyze the instant yield impact and modern portfolio boundary modifications.
+          </p>
+          
+          <div class="allocation-panel glass">
+            <div class="slider-group">
+              <div class="slider-header">
+                <span>Equities (US/EU)</span>
+                <span id="val-equities">40%</span>
+              </div>
+              <input type="range" id="slide-equities" class="alloc-slider" min="0" max="100" value="40">
+            </div>
+
+            <div class="slider-group">
+              <div class="slider-header">
+                <span>Fixed Income</span>
+                <span id="val-bonds">30%</span>
+              </div>
+              <input type="range" id="slide-bonds" class="alloc-slider" min="0" max="100" value="30">
+            </div>
+
+            <div class="slider-group">
+              <div class="slider-header">
+                <span>Digital Assets</span>
+                <span id="val-crypto">15%</span>
+              </div>
+              <input type="range" id="slide-crypto" class="alloc-slider" min="0" max="100" value="15">
+            </div>
+
+            <div class="slider-group">
+              <div class="slider-header">
+                <span>Cash Reserve</span>
+                <span id="val-cash">15%</span>
+              </div>
+              <input type="range" id="slide-cash" class="alloc-slider" min="0" max="100" value="15">
+            </div>
+
+            <div class="allocation-status">
+              <span>Total Weight:</span>
+              <span id="alloc-total" class="text-success">100%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="interaction-card glass align-self-center">
+          <h3>Optimization Statistics</h3>
+          <div class="stats-grid">
+            <div class="stat-box">
+              <span class="stat-label">Expected Return</span>
+              <span id="stat-return" class="stat-val">8.45%</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-label">Sharpe Ratio</span>
+              <span id="stat-sharpe" class="stat-val">2.14</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-label">Beta vs SPX</span>
+              <span id="stat-beta" class="stat-val">1.08</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-label">Value-at-Risk (95%)</span>
+              <span id="stat-var" class="stat-val">3.12%</span>
+            </div>
+          </div>
+          <div class="optimization-actions">
+            <button id="btn-rebalance" class="btn btn-secondary w-full">Optimize Weights (Max Sharpe)</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Risk Section -->
+    <section id="risk" class="section">
+      <div class="container grid-2">
+        <div class="interaction-card glass order-mobile-2">
+          <div class="alert-box-header">
+            <svg class="alert-icon text-warning" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+              <line x1="12" y1="9" x2="12" y2="13"></line>
+              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+            <h4>Live Volatility Alert Center</h4>
+          </div>
+          <div class="alerts-list">
+            <div class="alert-item warning">
+              <div class="alert-meta">
+                <span class="alert-tag">SYS-WARN</span>
+                <span class="alert-time">Just now</span>
+              </div>
+              <p>Risk grid spikes detected in sector 4. Volatility above 25% boundary.</p>
+            </div>
+            <div class="alert-item info">
+              <div class="alert-meta">
+                <span class="alert-tag">CORR-OK</span>
+                <span class="alert-time">4m ago</span>
+              </div>
+              <p>Asset correlations re-hedged. Risk vector calibrated.</p>
+            </div>
+          </div>
+          <div class="risk-controls">
+            <label class="label">Simulate Stress Level</label>
+            <div class="btn-group-row">
+              <button id="btn-stress-low" class="btn w-full btn-stress active">Low Volatility</button>
+              <button id="btn-stress-med" class="btn w-full btn-stress">Moderate Stress</button>
+              <button id="btn-stress-high" class="btn w-full btn-stress">Black Swan Event</button>
+            </div>
+          </div>
+        </div>
+        <div class="section-info order-mobile-1">
+          <span class="section-eyebrow">Threat Matrix</span>
+          <h2 class="section-title">Spatial Risk Heatmaps</h2>
+          <p class="section-desc">
+            Visualize portfolio exposure on an undulating 3D Volatility surface. As stress levels rise, the 3D surface warps, shifting color coordinates to represent critical risk vectors.
+          </p>
+          <ul class="bullet-list">
+            <li>
+              <div class="bullet-icon bg-danger-subtle text-danger">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+              </div>
+              <div>
+                <strong>Value-at-Risk Thresholds:</strong> Dynamic 3D boundaries alert users before stress events breach portfolio parameters.
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Forecast Section -->
+    <section id="forecast" class="section">
+      <div class="container grid-2">
+        <div class="section-info">
+          <span class="section-eyebrow">Predictive Analytics</span>
+          <h2 class="section-title">Dynamic Growth Projections</h2>
+          <p class="section-desc">
+            Model cash generation over time using Monte Carlo simulations. Tweak growth factors on the fly and watch the future path extend in 3D alongside its confidence margin boundaries.
+          </p>
+          
+          <div class="forecast-panel glass">
+            <div class="slider-group">
+              <div class="slider-header">
+                <span>Annual Growth Rate</span>
+                <span id="val-growth">12%</span>
+              </div>
+              <input type="range" id="slide-growth" class="alloc-slider" min="-10" max="40" value="12">
+            </div>
+
+            <div class="slider-group">
+              <div class="slider-header">
+                <span>Simulation Horizon</span>
+                <span id="val-years">8 Years</span>
+              </div>
+              <input type="range" id="slide-years" class="alloc-slider" min="1" max="15" value="8">
+            </div>
+
+            <div class="slider-group">
+              <div class="slider-header">
+                <span>Confidence Band Width</span>
+                <span id="val-confidence">95%</span>
+              </div>
+              <input type="range" id="slide-confidence" class="alloc-slider" min="50" max="99" value="95">
+            </div>
+          </div>
+        </div>
+
+        <div class="interaction-card glass align-self-center">
+          <h3>Simulation Yields</h3>
+          <div class="projection-results">
+            <div class="proj-row">
+              <span>Optimistic Case (Upper 95%)</span>
+              <strong id="val-proj-high" class="text-success">$56.8M</strong>
+            </div>
+            <div class="proj-row">
+              <span>Median Forecast</span>
+              <strong id="val-proj-med">$38.4M</strong>
+            </div>
+            <div class="proj-row">
+              <span>Conservative Case (Lower 95%)</span>
+              <strong id="val-proj-low" class="text-danger">$22.1M</strong>
+            </div>
+          </div>
+          <div class="forecast-note">
+            <p>Monte Carlo algorithm simulated over 10,000 runs using historical asset variance and current allocation vectors.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Reports Section -->
+    <section id="reports" class="section">
+      <div class="container">
+        <div class="section-center text-center max-w-3xl">
+          <span class="section-eyebrow">Audit & Compliance</span>
+          <h2 class="section-title">Executive Reporting Suite</h2>
+          <p class="section-desc">
+            Download granular compliance papers, risk reviews, and portfolio statements. View historical documentation or generate immediate Q2 summaries below.
+          </p>
+        </div>
+
+        <div class="reports-grid">
+          <div class="report-card glass">
+            <div class="report-icon-wrapper">
+              <svg class="report-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+            </div>
+            <h4>Q2 Portfolio Digest</h4>
+            <p>Comprehensive overview of asset yields, Sharpe optimization adjustments, and capital shifts.</p>
+            <button class="btn btn-secondary w-full btn-download" data-report="Q2 Portfolio Digest">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              Download PDF
+            </button>
+          </div>
+
+          <div class="report-card glass">
+            <div class="report-icon-wrapper">
+              <svg class="report-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+            </div>
+            <h4>Volatility Stress Audit</h4>
+            <p>Audit trail simulating Black Swan scenarios and expected value-at-risk breaches.</p>
+            <button class="btn btn-secondary w-full btn-download" data-report="Volatility Stress Audit">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              Download PDF
+            </button>
+          </div>
+
+          <div class="report-card glass">
+            <div class="report-icon-wrapper">
+              <svg class="report-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+            </div>
+            <h4>Forecast & Runway Ledger</h4>
+            <p>Monte Carlo projection ledger mapping 15-year targets for runway calculations.</p>
+            <button class="btn btn-secondary w-full btn-download" data-report="Forecast Runway Ledger">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              Download PDF
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. Pricing Section -->
+    <section id="pricing" class="section">
+      <div class="container">
+        <div class="section-center text-center max-w-3xl">
+          <span class="section-eyebrow">Pricing Model</span>
+          <h2 class="section-title">Select Your Visual Workspace</h2>
+          <p class="section-desc">
+            Choose a professional package tailored to your firm. Every tier includes full access to our 3D spatial visualizer.
+          </p>
+        </div>
+
+        <div class="pricing-grid">
+          <!-- Starter -->
+          <div class="pricing-card glass">
+            <div class="pricing-header">
+              <h3>Starter</h3>
+              <div class="price">
+                <span class="price-val">$180</span>
+                <span class="price-term">/mo</span>
+              </div>
+              <p>For independent researchers and high-net-worth desks.</p>
+            </div>
+            <ul class="pricing-features">
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="feature-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Core 3D Spatial Dashboards
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="feature-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Standard Portfolio Optimization
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="feature-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Weekly CSV Imports
+              </li>
+              <li class="disabled">
+                Monte Carlo Forecasting
+              </li>
+              <li class="disabled">
+                Custom API Stress Feeds
+              </li>
+            </ul>
+            <button class="btn btn-secondary w-full btn-price" data-tier="Starter">Subscribe Starter</button>
+          </div>
+
+          <!-- Professional -->
+          <div class="pricing-card glass premium">
+            <div class="premium-badge">Most Popular</div>
+            <div class="pricing-header">
+              <h3>Professional</h3>
+              <div class="price">
+                <span class="price-val">$450</span>
+                <span class="price-term">/mo</span>
+              </div>
+              <p>For proprietary desks, asset offices, and boutique firms.</p>
+            </div>
+            <ul class="pricing-features">
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="feature-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Full Multi-view 3D Scenes
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="feature-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Sharpe Optimization Engine
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="feature-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Real-Time Tick Integrations
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="feature-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Monte Carlo Simulation Horizon
+              </li>
+              <li class="disabled">
+                Custom API Stress Feeds
+              </li>
+            </ul>
+            <button class="btn btn-primary w-full btn-price" data-tier="Professional">Subscribe Professional</button>
+          </div>
+
+          <!-- Enterprise -->
+          <div class="pricing-card glass">
+            <div class="pricing-header">
+              <h3>Enterprise</h3>
+              <div class="price">
+                <span class="price-val">Custom</span>
+              </div>
+              <p>For investment banks, asset managers, and institutional clients.</p>
+            </div>
+            <ul class="pricing-features">
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="feature-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Bespoke Visual WebGL Pipelines
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="feature-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Unlimited Portfolio Segments
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="feature-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Dedicated Cluster Deployment
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="feature-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Monte Carlo Simulation Horizon
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="feature-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Custom API Stress Feeds
+              </li>
+            </ul>
+            <button class="btn btn-secondary w-full btn-price" data-tier="Enterprise">Contact Sales</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. Contact Section -->
+    <section id="contact" class="section">
+      <div class="container grid-2">
+        <div class="section-info">
+          <span class="section-eyebrow">Get in Touch</span>
+          <h2 class="section-title">Request an Institutional Trial</h2>
+          <p class="section-desc">
+            Deploy the 3D Financial Data Visualizer across your asset research team. Book a private workshop and customize WebGL integration workflows with our engineering group.
+          </p>
+          <div class="contact-details">
+            <div class="contact-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="contact-icon"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+              <span>institutional-sales@financevisualizer3d.com</span>
+            </div>
+            <div class="contact-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="contact-icon"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+              <span>+1 (800) 555-DATA</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="interaction-card glass align-self-center">
+          <form id="contact-form" class="contact-form">
+            <div class="form-group">
+              <label for="form-name">Full Name</label>
+              <input type="text" id="form-name" class="form-control" required placeholder="e.g. Sarah Jenkins">
+            </div>
+            <div class="form-group">
+              <label for="form-email">Work Email</label>
+              <input type="email" id="form-email" class="form-control" required placeholder="e.g. sjenkins@institution.com">
+            </div>
+            <div class="form-group">
+              <label for="form-firm">Company Name</label>
+              <input type="text" id="form-firm" class="form-control" required placeholder="e.g. Apex Asset Management">
+            </div>
+            <div class="form-group">
+              <label for="form-message">Describe integration parameters</label>
+              <textarea id="form-message" class="form-control" rows="4" placeholder="Briefly detail what data sources and visual pipelines you require..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary w-full">Request Beta Key</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer glass-dark">
+    <div class="container footer-container">
+      <div class="footer-brand">
+        <a href="#home" class="logo">
+          <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="18" y1="20" x2="18" y2="10"></line>
+            <line x1="12" y1="20" x2="12" y2="4"></line>
+            <line x1="6" y1="20" x2="6" y2="14"></line>
+          </svg>
+          <span>FINANCE VISUALIZER 3D</span>
+        </a>
+        <p>Premium 3D simulation platforms and spatial interfaces for modern institutional research desks.</p>
+      </div>
+      <div class="footer-links">
+        <div class="links-column">
+          <h5>Product</h5>
+          <a href="#dashboard">Dashboard</a>
+          <a href="#markets">Markets</a>
+          <a href="#portfolio">Allocation</a>
+          <a href="#risk">Stress Testing</a>
+        </div>
+        <div class="links-column">
+          <h5>Security</h5>
+          <a href="#risk">FCA Compliant</a>
+          <a href="#reports">Audit Reports</a>
+          <a href="#pricing">SLA Terms</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container flex-row-between">
+        <span>&copy; 2026 Finance Visualizer 3D. All rights reserved.</span>
+        <div class="legal-links">
+          <a href="#pricing">Terms of Service</a>
+          <a href="#risk">Privacy Directive</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="finance3d.js"></script>
+</body>
+</html>

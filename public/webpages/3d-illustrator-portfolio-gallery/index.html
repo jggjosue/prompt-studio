@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Illustrator Portfolio Gallery</title>
+    <meta name="description" content="A modern, interactive 3D portfolio gallery for an illustrator or digital artist.">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- 3D Canvas Background -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- Header / Navbar -->
+    <header class="header">
+        <div class="logo">ILLUSTRATOR 3D</div>
+        <nav class="nav">
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#works">Works</a></li>
+                <li><a href="#process">Process</a></li>
+                <li><a href="#commissions">Commissions</a></li>
+                <li><a href="#shop">Shop</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        <a href="#commissions" class="btn btn-primary">Commission Artwork</a>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+
+    <!-- Main Content Overlay -->
+    <main class="content-overlay">
+        <!-- Hero Section -->
+        <section id="home" class="section hero-section">
+            <div class="hero-content" data-parallax>
+                <h1 class="hero-title">Step Into The <span>Digital Canvas</span></h1>
+                <p class="hero-subtitle">Exploring the boundaries of imagination through concept art and illustration.</p>
+                <a href="#gallery" class="btn btn-secondary">Explore Gallery</a>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="gallery" class="section gallery-section">
+            <div class="section-content" data-parallax>
+                <h2>Featured Gallery</h2>
+                <p>Scroll to navigate through the 3D exhibition space.</p>
+            </div>
+        </section>
+
+        <!-- Works Section -->
+        <section id="works" class="section works-section">
+            <div class="section-content" data-parallax>
+                <h2>Selected Works</h2>
+                <div class="works-grid">
+                    <div class="work-card"><h3>Character Design</h3></div>
+                    <div class="work-card"><h3>Environment Art</h3></div>
+                    <div class="work-card"><h3>Editorial</h3></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Process Section -->
+        <section id="process" class="section process-section">
+            <div class="section-content" data-parallax>
+                <h2>Creative Process</h2>
+                <p>From rough sketches to final renders.</p>
+            </div>
+        </section>
+
+        <!-- Commissions Section -->
+        <section id="commissions" class="section commissions-section">
+            <div class="section-content" data-parallax>
+                <h2>Commissions Open</h2>
+                <p>Let's bring your vision to life.</p>
+                <a href="#contact" class="btn btn-primary">Book Now</a>
+            </div>
+        </section>
+
+        <!-- Shop Section -->
+        <section id="shop" class="section shop-section">
+            <div class="section-content" data-parallax>
+                <h2>Prints & Assets</h2>
+                <p>Get high-quality prints and digital resources.</p>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section about-section">
+            <div class="section-content" data-parallax>
+                <h2>About the Artist</h2>
+                <p>A passionate creator bridging the gap between traditional techniques and modern digital workflows.</p>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section contact-section">
+            <div class="section-content" data-parallax>
+                <h2>Get in Touch</h2>
+                <p>Available for freelance opportunities and studio work.</p>
+                <a href="mailto:hello@example.com" class="btn btn-secondary">hello@example.com</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Scripts -->
+    <!-- GSAP for animations and scroll tracking -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Three.js for 3D Gallery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- Custom Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/scene.js"></script>
+</body>
+</html>

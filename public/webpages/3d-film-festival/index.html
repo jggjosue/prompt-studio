@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="3D Film Festival is a premium immersive landing page for premieres, screenings, awards, jury, press, and tickets.">
+  <meta name="keywords" content="3D film festival, cinema landing page, immersive festival, premiere, tickets, screenings">
+  <title>3D Film Festival</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="grain"></div>
+  <header class="header">
+    <div class="brand">
+      <span class="brand-mark">FILM FEST 3D</span>
+      <span class="brand-sub">Immersive cinema premiere experience</span>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu">Menu</button>
+    <nav class="nav" id="nav">
+      <a href="#home">Home</a>
+      <a href="#festival">Festival</a>
+      <a href="#films">Films</a>
+      <a href="#schedule">Schedule</a>
+      <a href="#awards">Awards</a>
+      <a href="#jury">Jury</a>
+      <a href="#tickets">Tickets</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="btn btn-accent" data-scroll="#tickets">Get Tickets</button>
+  </header>
+
+  <main>
+    <section id="home" class="hero section">
+      <div class="hero-copy">
+        <p class="eyebrow">International premiere week · red carpet · screenings · awards</p>
+        <h1>Step Into an Immersive 3D Film Festival</h1>
+        <p class="lede">Explore premieres, official selections, screenings, awards, directors, trailers, and red carpet moments through a cinematic 3D festival experience.</p>
+        <div class="hero-actions">
+          <button class="btn btn-accent" id="enterFestival">Enter Festival</button>
+          <button class="btn btn-ghost" data-scroll="#films">View Films</button>
+          <button class="btn btn-ghost" data-scroll="#tickets">Buy Tickets</button>
+        </div>
+        <div class="hero-stats">
+          <div><strong>42</strong><span>selected titles</span></div>
+          <div><strong>7</strong><span>days of screenings</span></div>
+          <div><strong>3</strong><span>venues, press, awards</span></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-badge">Red Carpet Premiere</div>
+        <div class="floating-card card-a">Official Selection</div>
+        <div class="floating-card card-b">Press Lounge</div>
+        <div class="floating-card card-c">Awards Night</div>
+        <div class="hero-canvas-wrap">
+          <div id="festivalCanvas" aria-label="3D film festival scene"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="festival" class="section reveal">
+      <div class="section-heading">
+        <p class="eyebrow">Festival overview</p>
+        <h2>A Cinematic Festival Experience Built for Film Lovers</h2>
+      </div>
+      <div class="grid grid-4">
+        <article class="glass card">
+          <h3>Red Carpet Premieres</h3><p>Arrivals, flashes, and premiere energy from the entrance to the main stage.</p>
+        </article>
+        <article class="glass card">
+          <h3>Official Selection</h3><p>Editorial film cards with country, duration, genre, and status.</p>
+        </article>
+        <article class="glass card">
+          <h3>Director Q&A Sessions</h3><p>Audience questions, behind-the-scenes stories, and creative process.</p>
+        </article>
+        <article class="glass card">
+          <h3>Awards Ceremony</h3><p>Laurels, nominees, trophies, and the final night celebration.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="films" class="section reveal">
+      <div class="section-heading">
+        <p class="eyebrow">Official selection</p>
+        <h2>Films in Competition</h2>
+      </div>
+      <div class="grid grid-4" id="filmGrid"></div>
+    </section>
+
+    <section class="section reveal">
+      <div class="section-heading">
+        <p class="eyebrow">Trailer showcase</p>
+        <h2>Watch the Festival Trailers</h2>
+      </div>
+      <div class="grid grid-3" id="trailerGrid"></div>
+    </section>
+
+    <section id="schedule" class="section reveal">
+      <div class="section-heading">
+        <p class="eyebrow">Schedule</p>
+        <h2>Festival Program Timeline</h2>
+      </div>
+      <div class="timeline" id="scheduleList"></div>
+    </section>
+
+    <section class="section reveal">
+      <div class="section-heading">
+        <p class="eyebrow">Venues</p>
+        <h2>Screening Rooms and Festival Spaces</h2>
+      </div>
+      <div class="grid grid-3" id="venueGrid"></div>
+    </section>
+
+    <section id="awards" class="section reveal">
+      <div class="section-heading">
+        <p class="eyebrow">Awards</p>
+        <h2>Golden Laurels and Nominee Categories</h2>
+      </div>
+      <div class="grid grid-4" id="awardGrid"></div>
+    </section>
+
+    <section id="jury" class="section reveal">
+      <div class="section-heading">
+        <p class="eyebrow">Jury</p>
+        <h2>Meet the Festival Jury</h2>
+      </div>
+      <div class="grid grid-3" id="juryGrid"></div>
+    </section>
+
+    <section class="section reveal">
+      <div class="section-heading">
+        <p class="eyebrow">Director Q&A</p>
+        <h2>Conversation, Craft, and Audience Questions</h2>
+      </div>
+      <div class="feature-split glass">
+        <div>
+          <p>Film discussion, audience questions, behind-the-scenes stories, creative process, and production notes come together in a live-format talkback room.</p>
+          <ul class="check-list">
+            <li>Curated question prompts</li>
+            <li>Reserved seats and sign-in flow</li>
+            <li>Flexible microphone and stage layout</li>
+          </ul>
+        </div>
+        <button class="btn btn-accent" data-scroll="#tickets">Reserve Q&A Seat</button>
+      </div>
+    </section>
+
+    <section class="section reveal">
+      <div class="section-heading">
+        <p class="eyebrow">Press and media</p>
+        <h2>Press Kit, Accreditation, and Interview Access</h2>
+      </div>
+      <div class="grid grid-3">
+        <article class="glass card"><h3>Press Kit</h3><p>Festival fact sheet, stills, and programming notes.</p><button class="btn btn-ghost action" data-alert="Press kit downloaded">Download Press Kit</button></article>
+        <article class="glass card"><h3>Interview Requests</h3><p>Secure time with directors, programmers, and jurors.</p><button class="btn btn-ghost action" data-alert="Interview request sent">Request Interview</button></article>
+        <article class="glass card"><h3>Media Accreditation</h3><p>Apply for red carpet access and screening coverage.</p><button class="btn btn-ghost action" data-alert="Accreditation application opened">Apply for Accreditation</button></article>
+      </div>
+    </section>
+
+    <section id="tickets" class="section reveal">
+      <div class="section-heading">
+        <p class="eyebrow">Tickets</p>
+        <h2>Choose Your Access Pass</h2>
+      </div>
+      <div class="grid grid-3" id="ticketGrid"></div>
+    </section>
+
+    <section id="contact" class="section reveal contact">
+      <div class="section-heading">
+        <p class="eyebrow">Contact</p>
+        <h2>Join the premiere list</h2>
+      </div>
+      <form class="glass contact-form" id="contactForm">
+        <input type="text" name="name" placeholder="Your name" required>
+        <input type="email" name="email" placeholder="Email address" required>
+        <button class="btn btn-accent" type="submit">Subscribe to Updates</button>
+      </form>
+    </section>
+  </main>
+
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="modal-panel glass">
+      <button class="modal-close" id="modalClose" aria-label="Close modal">×</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" aria-live="polite"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="filmfest3d.js"></script>
+</body>
+</html>

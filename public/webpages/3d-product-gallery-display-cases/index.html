@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Product Gallery Display Cases</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #050505;
+            --text-main: #f5f5f7;
+            --text-muted: #86868b;
+            --accent-gold: #c5a059;
+            --accent-gold-hover: #e8c67a;
+            --glass-bg: rgba(20, 20, 22, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.08);
+
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-serif: 'Playfair Display', serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* WebGL Canvas fixed background */
+        #webgl-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+            /* Let clicks pass through to HTML if not interacting with 3D */
+        }
+
+        /* Interactive 3D layer for raycasting */
+        #interaction-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 10;
+            pointer-events: none;
+            /* We will enable pointer events dynamically if needed, or handle via document */
+        }
+
+        /* Header / Navbar */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 4vw;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 100;
+            transition: all 0.4s ease;
+        }
+
+        .logo {
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-main);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span {
+            color: var(--accent-gold);
+        }
+
+        nav.desktop-nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav.desktop-nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav.desktop-nav a:hover,
+        nav.desktop-nav a.active {
+            color: var(--text-main);
+        }
+
+        nav.desktop-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0%;
+            height: 1px;
+            background: var(--accent-gold);
+            transition: width 0.3s ease;
+        }
+
+        nav.desktop-nav a:hover::after,
+        nav.desktop-nav a.active::after {
+            width: 100%;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .btn-primary {
+            background: var(--accent-gold);
+            color: #000;
+            border: none;
+            padding: 10px 24px;
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-gold-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(197, 160, 89, 0.3);
+        }
+
+        .btn-icon {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.3s;
+        }
+
+        .btn-icon:hover {
+            color: var(--accent-gold);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 101;
+        }
+
+        .mobile-menu-btn span {
+            width: 24px;
+            height: 2px;
+            background: var(--text-main);
+            transition: 0.3s;
+        }
+
+        @media (max-width: 1024px) {
+            nav.desktop-nav {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .header-actions .btn-primary {
+                display: none;
+            }
+        }
+
+        /* Scroll Sections */
+        main {
+            position: relative;
+            z-index: 10;
+        }
+
+        .section {
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 8vw;
+            position: relative;
+            pointer-events: none;
+            /* Let scroll pass, enable on specific elements */
+        }
+
+        .section-content {
+            pointer-events: auto;
+            max-width: 600px;
+        }
+
+        /* Section Specifics */
+        #home {
+            align-items: center;
+            text-align: center;
+        }
+
+        #home .section-content {
+            max-width: 800px;
+        }
+
+        .subtitle {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        h1.hero-title {
+            font-family: var(--font-serif);
+            font-size: clamp(3rem, 6vw, 5.5rem);
+            font-weight: 400;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        p.hero-desc {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-inline: auto;
+        }
+
+        #gallery {
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        h2.section-title {
+            font-family: var(--font-serif);
+            font-size: clamp(2.5rem, 4vw, 4rem);
+            font-weight: 400;
+            margin-bottom: 1rem;
+        }
+
+        .product-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 2rem;
+            border-radius: 8px;
+            backdrop-filter: blur(12px);
+            margin-top: 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-family: var(--font-serif);
+            color: var(--accent-gold);
+            margin: 1rem 0;
+        }
+
+        .flex-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--glass-border);
+            padding: 10px 24px;
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+        #products {
+            align-items: flex-end;
+            text-align: right;
+        }
+
+        #details {
+            align-items: flex-start;
+        }
+
+        #collections {
+            align-items: center;
+            text-align: center;
+        }
+
+        /* Hotspots */
+        .hotspot {
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            pointer-events: auto;
+            transform: translate(-50%, -50%);
+            z-index: 20;
+            opacity: 0;
+            /* Managed by JS */
+        }
+
+        .hotspot::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .hotspot:hover {
+            background: rgba(197, 160, 89, 0.2);
+            border-color: var(--accent-gold);
+            transform: translate(-50%, -50%) scale(1.2);
+        }
+
+        .hotspot:hover::before {
+            background: var(--accent-gold);
+        }
+
+        .hotspot-tooltip {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            backdrop-filter: blur(8px);
+        }
+
+        .hotspot:hover .hotspot-tooltip {
+            opacity: 1;
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            opacity: 0.7;
+            z-index: 50;
+            pointer-events: none;
+        }
+
+        .scroll-text {
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scroll-line::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: var(--accent-gold);
+            animation: scrollDown 2s infinite cubic-bezier(0.65, 0, 0.35, 1);
+        }
+
+        @keyframes scrollDown {
+            0% {
+                transform: translateY(-100%);
+            }
+
+            100% {
+                transform: translateY(200%);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- WebGL Canvas -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- Hotspots container -->
+    <div id="interaction-layer"></div>
+
+    <!-- Header -->
+    <header>
+        <a href="#" class="logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-gold);">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                <polyline points="2 17 12 22 22 17"></polyline>
+                <polyline points="2 12 12 17 22 12"></polyline>
+            </svg>
+            Display Cases <span>3D</span>
+        </a>
+
+        <nav class="desktop-nav">
+            <a href="#home" class="active">Home</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#products">Products</a>
+            <a href="#details">Details</a>
+            <a href="#collections">Collections</a>
+        </nav>
+
+        <div class="header-actions">
+            <button class="btn-icon" title="Search">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+            </button>
+            <button class="btn-icon" title="Wishlist">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                    </path>
+                </svg>
+            </button>
+            <button class="btn-icon" title="Cart">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
+            </button>
+            <a href="#gallery" class="btn-primary">Explore Gallery</a>
+        </div>
+
+        <button class="mobile-menu-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <div class="scroll-indicator">
+        <span class="scroll-text">Scroll</span>
+        <div class="scroll-line"></div>
+    </div>
+
+    <!-- Scroll Sections -->
+    <main>
+        <section id="home" class="section">
+            <div class="section-content parallax-element">
+                <span class="subtitle">Premium Exhibition</span>
+                <h1 class="hero-title">The Art of<br>Showcasing</h1>
+                <p class="hero-desc">Step into an immersive 3D gallery where every product is treated as a masterpiece.
+                    Experience crystal clear display cases, museum lighting, and meticulous details.</p>
+                <a href="#gallery" class="btn-primary" style="display: inline-block;">Enter Showroom</a>
+            </div>
+        </section>
+
+        <section id="gallery" class="section">
+            <div class="section-content parallax-element" data-speed="0.8">
+                <span class="subtitle">Curated Selection</span>
+                <h2 class="section-title">The Prestige<br>Collection</h2>
+                <p>Discover our meticulously crafted display cases featuring advanced optics, floating pedestals, and
+                    dynamic lighting.</p>
+
+                <div class="product-card gs-reveal">
+                    <h3>Aero Zenith Watch</h3>
+                    <div class="product-price">$12,500</div>
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">Sapphire crystal case with floating magnetic
+                        suspension display.</p>
+                    <div class="flex-buttons">
+                        <button class="btn-primary">Add to Cart</button>
+                        <button class="btn-outline">View Details</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="products" class="section">
+            <div class="section-content parallax-element" data-speed="1.2">
+                <span class="subtitle">Precision Engineering</span>
+                <h2 class="section-title">Flawless<br>Execution</h2>
+                <p>Every curve and material is rendered with breathtaking realism. Rotate the view to inspect the
+                    craftsmanship.</p>
+
+                <div class="product-card gs-reveal">
+                    <h3>Lumina Perfume</h3>
+                    <div class="product-price">$450</div>
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">Gold plated accents inside a tempered glass
+                        monolith.</p>
+                    <div class="flex-buttons">
+                        <button class="btn-primary">Pre-order</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="details" class="section">
+            <div class="section-content parallax-element" data-speed="0.9">
+                <span class="subtitle">Material Focus</span>
+                <h2 class="section-title">Uncompromising<br>Quality</h2>
+                <p>From brushed titanium bases to ultra-clear glass, we bring the premium retail experience directly to
+                    your screen.</p>
+            </div>
+        </section>
+
+        <section id="collections" class="section" style="min-height: 120vh;">
+            <div class="section-content parallax-element">
+                <span class="subtitle">Exclusive</span>
+                <h2 class="section-title">Complete The<br>Experience</h2>
+                <p>Reserve your exclusive exhibition module today.</p>
+                <div style="margin-top: 2rem;">
+                    <button class="btn-primary" style="padding: 15px 40px; font-size: 1rem;">Reserve Now</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- App Logic -->
+    <script type="module">
+        import * as THREE from 'three';
+        import { RectAreaLightUniformsLib } from 'three/addons/lights/RectAreaLightUniformsLib.js';
+
+        // --- 1. Scene Setup ---
+        const canvas = document.querySelector('#webgl-canvas');
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.2;
+
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x050505);
+        scene.fog = new THREE.FogExp2(0x050505, 0.03);
+
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+
+        // Initial Camera Setup
+        const initialCameraPos = new THREE.Vector3(0, 1.5, 12);
+        camera.position.copy(initialCameraPos);
+
+        // --- 2. Lighting ---
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+        scene.add(ambientLight);
+
+        // RectAreaLights for Museum Vibe
+        RectAreaLightUniformsLib.init();
+
+        // Main overhead gallery light
+        const mainLight = new THREE.SpotLight(0xfff5e6, 50);
+        mainLight.position.set(0, 10, 5);
+        mainLight.angle = Math.PI / 4;
+        mainLight.penumbra = 0.5;
+        mainLight.castShadow = true;
+        mainLight.shadow.bias = -0.0001;
+        mainLight.shadow.mapSize.width = 2048;
+        mainLight.shadow.mapSize.height = 2048;
+        scene.add(mainLight);
+
+        // --- 3. Objects & Materials ---
+
+        // Floor
+        const floorGeo = new THREE.PlaneGeometry(50, 50);
+        const floorMat = new THREE.MeshStandardMaterial({
+            color: 0x111111,
+            roughness: 0.1,
+            metalness: 0.5
+        });
+        const floor = new THREE.Mesh(floorGeo, floorMat);
+        floor.rotation.x = -Math.PI / 2;
+        floor.receiveShadow = true;
+        scene.add(floor);
+
+        // Display Case Material (Glass)
+        const glassMat = new THREE.MeshPhysicalMaterial({
+            color: 0xffffff,
+            metalness: 0.1,
+            roughness: 0.05,
+            transmission: 0.95,
+            thickness: 0.1,
+            transparent: true,
+            opacity: 1,
+            side: THREE.DoubleSide
+        });
+
+        // Frame Material (Dark metal/gold)
+        const frameMat = new THREE.MeshStandardMaterial({
+            color: 0x1a1a1a,
+            metalness: 0.8,
+            roughness: 0.2
+        });
+
+        const goldMat = new THREE.MeshStandardMaterial({
+            color: 0xc5a059,
+            metalness: 1.0,
+            roughness: 0.2
+        });
+
+        const displayCases = [];
+
+        // Helper to create a display case
+        function createDisplayCase(x, z, rotationY, scale = 1, productType = 'box') {
+            const group = new THREE.Group();
+            group.position.set(x, 0, z);
+            group.rotation.y = rotationY;
+            group.scale.setScalar(scale);
+
+            // Pedestal
+            const pedGeo = new THREE.BoxGeometry(2, 1, 2);
+            const ped = new THREE.Mesh(pedGeo, frameMat);
+            ped.position.y = 0.5;
+            ped.castShadow = true;
+            ped.receiveShadow = true;
+            group.add(ped);
+
+            // Gold trim
+            const trimGeo = new THREE.BoxGeometry(2.05, 0.05, 2.05);
+            const trim = new THREE.Mesh(trimGeo, goldMat);
+            trim.position.y = 1.025;
+            group.add(trim);
+
+            // Glass Cover
+            const glassGeo = new THREE.BoxGeometry(1.9, 2.5, 1.9);
+            const glass = new THREE.Mesh(glassGeo, glassMat);
+            glass.position.y = 2.3;
+            glass.castShadow = false;
+            group.add(glass);
+
+            // Inner Pedestal
+            const innerPedGeo = new THREE.CylinderGeometry(0.5, 0.6, 0.2, 32);
+            const innerPed = new THREE.Mesh(innerPedGeo, frameMat);
+            innerPed.position.y = 1.15;
+            innerPed.receiveShadow = true;
+            group.add(innerPed);
+
+            // Product (Abstract representation for now)
+            let product;
+            if (productType === 'ring') {
+                product = new THREE.Mesh(new THREE.TorusGeometry(0.3, 0.08, 16, 100), goldMat);
+                product.position.y = 1.6;
+                product.rotation.x = Math.PI / 2;
+            } else if (productType === 'perfume') {
+                const geom = new THREE.BoxGeometry(0.4, 0.8, 0.4);
+                const mat = new THREE.MeshPhysicalMaterial({ color: 0xeecc88, transmission: 0.8, roughness: 0.1 });
+                product = new THREE.Mesh(geom, mat);
+                product.position.y = 1.65;
+            } else {
+                product = new THREE.Mesh(new THREE.IcosahedronGeometry(0.4, 1), goldMat);
+                product.position.y = 1.65;
+            }
+
+            product.castShadow = true;
+            group.add(product);
+
+            // Internal Case Light
+            const caseLight = new THREE.PointLight(0xffeedd, 2, 4);
+            caseLight.position.set(0, 3.2, 0);
+            group.add(caseLight);
+
+            scene.add(group);
+
+            return { group, product, glass };
+        }
+
+        // Create Exhibition Layout
+        // Home View (Looking forward)
+        const case1 = createDisplayCase(0, 0, 0, 1, 'ring'); // Center
+        // Gallery View
+        const case2 = createDisplayCase(6, -8, -Math.PI / 6, 1.2, 'perfume');
+        // Products View
+        const case3 = createDisplayCase(-7, -18, Math.PI / 4, 1.1, 'box');
+        // Details View
+        const case4 = createDisplayCase(4, -28, -Math.PI / 8, 1, 'ring');
+
+        displayCases.push(case1, case2, case3, case4);
+
+        // Floating particles
+        const particlesGeo = new THREE.BufferGeometry();
+        const particlesCount = 300;
+        const posArray = new Float32Array(particlesCount * 3);
+        for (let i = 0; i < particlesCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 30;
+        }
+        particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particlesMat = new THREE.PointsMaterial({
+            size: 0.05,
+            color: 0xc5a059,
+            transparent: true,
+            opacity: 0.4,
+            blending: THREE.AdditiveBlending
+        });
+        const particles = new THREE.Points(particlesGeo, particlesMat);
+        scene.add(particles);
+
+        // --- 4. Scroll Animations (GSAP) ---
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Camera Path setup
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: "main",
+                start: "top top",
+                end: "bottom bottom",
+                scrub: 1.5, // Smooth scrubbing
+            }
+        });
+
+        // Sequence of camera movements matching sections
+        // Section 1 -> 2 (Home to Gallery)
+        tl.to(camera.position, { x: 3, y: 2, z: -3, ease: "power1.inOut" }, 0)
+            .to(camera.rotation, { y: Math.PI / 12, ease: "power1.inOut" }, 0);
+
+        // Section 2 -> 3 (Gallery to Products)
+        tl.to(camera.position, { x: -4, y: 1.8, z: -14, ease: "power1.inOut" }, 1)
+            .to(camera.rotation, { y: -Math.PI / 8, ease: "power1.inOut" }, 1);
+
+        // Section 3 -> 4 (Products to Details)
+        tl.to(camera.position, { x: 1, y: 1.2, z: -25, ease: "power1.inOut" }, 2)
+            .to(camera.rotation, { y: Math.PI / 16, ease: "power1.inOut" }, 2);
+
+        // Section 4 -> 5 (Details to Collections)
+        tl.to(camera.position, { x: 0, y: 3, z: -35, ease: "power1.inOut" }, 3)
+            .to(camera.rotation, { x: -Math.PI / 8, y: 0, ease: "power1.inOut" }, 3);
+
+        // HTML Parallax Elements
+        const parallaxElements = document.querySelectorAll('.parallax-element');
+        parallaxElements.forEach(el => {
+            const speed = el.dataset.speed || 1;
+            gsap.to(el, {
+                y: -100 * speed,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: el.parentElement,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+        });
+
+        // Fade in UI elements
+        const reveals = document.querySelectorAll('.gs-reveal');
+        reveals.forEach(el => {
+            gsap.to(el, {
+                y: 0,
+                opacity: 1,
+                duration: 1,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: el,
+                    start: "top 80%",
+                }
+            });
+        });
+
+        // --- 5. Render Loop ---
+        const clock = new THREE.Clock();
+
+        // Mouse movement for subtle parallax on camera and HTML
+        let mouseX = 0;
+        let mouseY = 0;
+        let targetX = 0;
+        let targetY = 0;
+
+        const windowHalfX = window.innerWidth / 2;
+        const windowHalfY = window.innerHeight / 2;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX - windowHalfX);
+            mouseY = (e.clientY - windowHalfY);
+        });
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const elapsedTime = clock.getElapsedTime();
+
+            // Subtle camera parallax based on mouse
+            targetX = mouseX * 0.001;
+            targetY = mouseY * 0.001;
+
+            // camera.position.x += 0.02 * (targetX - camera.position.x + (camera.position.x)); 
+
+            // Animate products
+            displayCases.forEach((c, i) => {
+                c.product.rotation.y += 0.01;
+                c.product.position.y = 1.6 + Math.sin(elapsedTime * 2 + i) * 0.05; // floating effect
+            });
+
+            // Animate particles
+            particles.rotation.y = elapsedTime * 0.02;
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // --- 6. Resize Handler ---
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Update active nav based on scroll
+        const sections = document.querySelectorAll('.section');
+        const navLinks = document.querySelectorAll('.desktop-nav a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

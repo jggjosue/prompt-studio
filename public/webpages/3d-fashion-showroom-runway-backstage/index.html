@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="3D Fashion Showroom Runway Backstage is a premium immersive landing page for runway, backstage, collection, VIP and booking experiences.">
+  <meta name="keywords" content="fashion, runway, backstage, showroom, 3d, luxury, editorial, collection, vip, booking">
+  <title>3D Fashion Showroom Runway Backstage</title>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.159.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.159.0/examples/jsm/"
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="ambient ambient-a" aria-hidden="true"></div>
+  <div class="ambient ambient-b" aria-hidden="true"></div>
+  <div id="scene-root" aria-hidden="true"></div>
+
+  <header class="topbar glass">
+    <a href="#home" class="brand">BACKSTAGE RUNWAY 3D</a>
+    <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav id="site-nav" class="nav">
+      <a href="#home">Home</a>
+      <a href="#runway">Runway</a>
+      <a href="#backstage">Backstage</a>
+      <a href="#collection">Collection</a>
+      <a href="#looks">Looks</a>
+      <a href="#designers">Designers</a>
+      <a href="#vip">VIP</a>
+      <a href="#booking">Booking</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="primary" data-action="enter-backstage">Enter Backstage</button>
+  </header>
+
+  <main class="page">
+    <section id="home" class="hero section-snap">
+      <div class="hero-copy parallax-layer">
+        <p class="eyebrow">Editorial Luxury Experience</p>
+        <h1>Experience the Runway and Backstage in Immersive 3D</h1>
+        <p class="lede">Step inside a premium digital fashion showroom where runway lights, designer looks, backstage preparation, styling details and VIP appointments come alive through cinematic 3D.</p>
+        <div class="hero-actions">
+          <button class="primary" data-action="enter-backstage">Enter Backstage</button>
+          <a class="secondary" href="#collection">View Collection</a>
+          <a class="secondary" href="#booking">Book Private Viewing</a>
+        </div>
+        <div class="hero-metrics">
+          <span>9 interactive hotspots</span>
+          <span>Runway to backstage camera fly-through</span>
+          <span>Wishlist and booking flow</span>
+        </div>
+      </div>
+      <div class="hero-panel glass parallax-layer">
+        <div class="hero-card">
+          <span>Showroom Entry</span>
+          <strong>Front row to fitting room</strong>
+          <p>Scroll to move through the floor plan, spotlight, styling table and VIP lounge.</p>
+        </div>
+        <div class="hero-card">
+          <span>Live Focus</span>
+          <strong>Guided 3D camera</strong>
+          <p>Activate the backstage pass to sweep from the showroom into the dressing zone.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene-copy section-snap">
+      <div class="section-heading">
+        <p class="eyebrow">Canvas Experience</p>
+        <h2>Runway Backstage Experience</h2>
+        <p>Hover the canvas hotspots to inspect the main runway, backstage rack, makeup station, styling table, fitting room, designer notes, VIP viewing and booking point.</p>
+      </div>
+      <div class="hotspot-row" id="hotspot-row"></div>
+    </section>
+
+    <section id="runway" class="content-section section-snap">
+      <div class="section-heading">
+        <p class="eyebrow">Runway</p>
+        <h2>A Cinematic Runway Built for Digital Fashion</h2>
+        <p>Editorial lighting, reflective flooring and a precise camera path turn the collection reveal into a premium fashion film.</p>
+      </div>
+      <div class="grid four">
+        <article class="glass card reveal"><h3>Editorial Lighting</h3><p>Sculpted highlights and soft shadows shape each look.</p></article>
+        <article class="glass card reveal"><h3>Interactive Runway</h3><p>Scroll advances the dolly shot through the central aisle.</p></article>
+        <article class="glass card reveal"><h3>Front Row Experience</h3><p>Elegant seating and camera flashes frame the audience.</p></article>
+        <article class="glass card reveal"><h3>Collection Reveal</h3><p>Product cards and look labels appear in sequence.</p></article>
+      </div>
+    </section>
+
+    <section id="backstage" class="content-section section-snap">
+      <div class="section-heading">
+        <p class="eyebrow">Backstage</p>
+        <h2>Behind the Curtain: The Creative Process</h2>
+        <p>Every area can be opened from the cards below or from the 3D scene hotspots.</p>
+      </div>
+      <div class="grid four">
+        <article class="glass card action-card" data-focus="backstage-rack"><h3>Styling Rack</h3><button>Explore Backstage Area</button></article>
+        <article class="glass card action-card" data-focus="makeup"><h3>Makeup Station</h3><button>Explore Backstage Area</button></article>
+        <article class="glass card action-card" data-focus="styling"><h3>Styling Table</h3><button>Explore Backstage Area</button></article>
+        <article class="glass card action-card" data-focus="fitting"><h3>Fitting Room</h3><button>Explore Backstage Area</button></article>
+      </div>
+    </section>
+
+    <section id="collection" class="content-section section-snap">
+      <div class="section-heading">
+        <p class="eyebrow">Collection</p>
+        <h2>Runway Pieces and Accessories</h2>
+        <p>Each look can be previewed, saved and focused in the 3D scene.</p>
+      </div>
+      <div class="grid collection-grid" id="collection-grid"></div>
+    </section>
+
+    <section id="looks" class="content-section section-snap">
+      <div class="section-heading">
+        <p class="eyebrow">Featured Looks</p>
+        <h2>Magazine-Style Lookboard</h2>
+      </div>
+      <div class="grid four" id="looks-grid"></div>
+    </section>
+
+    <section class="content-section section-snap">
+      <div class="section-heading">
+        <p class="eyebrow">Styling Table</p>
+        <h2>Build the Outfit, Save the Look</h2>
+      </div>
+      <div class="glass styling-table">
+        <div id="styling-preview" class="styling-preview"></div>
+        <div class="styling-actions">
+          <button class="secondary" id="change-styling">Change Styling</button>
+          <button class="primary" id="save-look">Save Look</button>
+          <button class="secondary" id="view-outfit">View Full Outfit</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section section-snap">
+      <div class="section-heading">
+        <p class="eyebrow">Fabric & Beauty</p>
+        <h2>Texture, Makeup and Hair Direction</h2>
+      </div>
+      <div class="grid four" id="fabric-grid"></div>
+      <div class="grid four" id="beauty-grid"></div>
+    </section>
+
+    <section id="designers" class="content-section section-snap">
+      <div class="section-heading">
+        <p class="eyebrow">Designer Notes</p>
+        <h2>Notes from the Studio</h2>
+      </div>
+      <div class="grid four" id="designer-grid"></div>
+    </section>
+
+    <section class="content-section section-snap">
+      <div class="section-heading">
+        <p class="eyebrow">Runway Schedule</p>
+        <h2>Editorial Timeline</h2>
+      </div>
+      <div class="timeline glass" id="timeline"></div>
+    </section>
+
+    <section id="vip" class="content-section section-snap">
+      <div class="section-heading">
+        <p class="eyebrow">VIP Experience</p>
+        <h2>Private Access and Concierge Booking</h2>
+      </div>
+      <div class="grid four" id="vip-grid"></div>
+    </section>
+
+    <section id="booking" class="content-section section-snap booking">
+      <div class="glass booking-panel">
+        <p class="eyebrow">Booking</p>
+        <h2>Reserve a Private Viewing</h2>
+        <p>Secure a backstage walkthrough, designer consultation or VIP fitting appointment.</p>
+        <form id="booking-form" class="booking-form">
+          <input required name="name" placeholder="Name">
+          <input required type="email" name="email" placeholder="Email">
+          <select name="type">
+            <option>Private Viewing</option>
+            <option>Designer Consultation</option>
+            <option>VIP Styling Appointment</option>
+          </select>
+          <button class="primary" type="submit">Request Booking</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="contact" class="content-section footer-contact section-snap">
+      <div class="glass contact-card">
+        <p class="eyebrow">Contact</p>
+        <h2>Enter the conversation</h2>
+        <p>For collection access, press previews and private styling sessions, the team is ready.</p>
+        <button class="secondary" data-action="book-appointment">Book Appointment</button>
+      </div>
+    </section>
+  </main>
+
+  <section id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-card glass">
+      <button id="modal-close" class="modal-close" aria-label="Close modal">Close</button>
+      <p class="eyebrow" id="modal-kicker"></p>
+      <h3 id="modal-title"></h3>
+      <p id="modal-body"></p>
+      <div id="modal-meta" class="modal-meta"></div>
+    </div>
+  </section>
+
+  <script type="module" src="fashion.js"></script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Luxury Product Storytelling</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- 3D Canvas Background -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- Header / Navbar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo">LUXE STORY 3D</div>
+            <nav class="desktop-menu">
+                <a href="#home">Home</a>
+                <a href="#story">Story</a>
+                <a href="#materials">Materials</a>
+                <a href="#craft">Craft</a>
+                <a href="#details">Details</a>
+                <a href="#collection">Collection</a>
+                <a href="#contact">Contact</a>
+            </nav>
+            <div class="nav-actions">
+                <button class="reserve-btn">Reserve Now</button>
+                <button class="hamburger-btn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Scrollable Content -->
+    <main class="story-container">
+        <!-- Intro Hook -->
+        <section id="home" class="scene hero-scene">
+            <div class="content-wrapper text-center parallax-text">
+                <p class="subtitle">Introducing</p>
+                <h1 class="title">The Epoch Collection</h1>
+                <p class="description">Where time stops and beauty remains eternal.</p>
+                <div class="scroll-indicator">
+                    <span>Discover</span>
+                    <div class="line"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chapter 1: Story -->
+        <section id="story" class="scene left-aligned">
+            <div class="content-wrapper parallax-text">
+                <span class="chapter">Chapter I</span>
+                <h2 class="section-title">The Origin</h2>
+                <p class="section-text">Born from the collision of celestial bodies, forged in the heart of distant stars. Every curve tells a story of cosmic patience and uncompromising vision.</p>
+            </div>
+        </section>
+
+        <!-- Chapter 2: Materials -->
+        <section id="materials" class="scene right-aligned">
+            <div class="content-wrapper parallax-text">
+                <span class="chapter">Chapter II</span>
+                <h2 class="section-title">Rare Materials</h2>
+                <p class="section-text">We sought the corners of the earth to find elements worthy of your touch. Unblemished aurum, crystalline sapphire, and obsidian shadow woven into a singular masterpiece.</p>
+                <ul class="material-list">
+                    <li><span>Aurum</span> - Flawless shine</li>
+                    <li><span>Sapphire</span> - Absolute clarity</li>
+                    <li><span>Obsidian</span> - Deepest night</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Chapter 3: Craftsmanship -->
+        <section id="craft" class="scene left-aligned">
+            <div class="content-wrapper parallax-text">
+                <span class="chapter">Chapter III</span>
+                <h2 class="section-title">Artisan Craft</h2>
+                <p class="section-text">Over 400 hours of meticulous hand-polishing. Our master artisans breathe life into raw elements, ensuring that no two pieces are ever exactly alike. A testament to human perfection.</p>
+            </div>
+        </section>
+
+        <!-- Chapter 4: Details -->
+        <section id="details" class="scene right-aligned">
+            <div class="content-wrapper parallax-text">
+                <span class="chapter">Chapter IV</span>
+                <h2 class="section-title">Microscopic Precision</h2>
+                <p class="section-text">Look closer. What appears as a smooth surface reveals an intricate dance of micro-engravings. Precision measured not in millimeters, but in microns.</p>
+            </div>
+        </section>
+
+        <!-- Climax CTA -->
+        <section id="collection" class="scene center-aligned final-scene">
+            <div class="content-wrapper parallax-text">
+                <h2 class="title">Own The Eternal</h2>
+                <p class="description">Limited to 999 pieces worldwide.</p>
+                <button class="reserve-btn large">Reserve Your Piece</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.27/bundled/lenis.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

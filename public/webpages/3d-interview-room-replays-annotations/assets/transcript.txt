@@ -1,0 +1,16 @@
+Interview Transcripts — 3D Interview Room
+
+UX Research — Ana López
+- Tema: Usabilidad plataforma educativa
+- Duración: 12 min
+- Notas: Dudas en menú principal, sugiere iconos más grandes, tiempo de carga aceptable.
+
+Product — Carlos Méndez
+- Tema: Roadmap Q3-Q4
+- Duración: 15 min
+- Notas: Analytics en Q3, preocupación por deuda técnica, sprint de estabilización.
+
+Engineering — Elena Rivas
+- Tema: Arquitectura microservicios
+- Duración: 18 min
+- Notas: Migración gradual, API Gateway prioritario, monitoreo con OTEL.

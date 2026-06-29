@@ -1,0 +1,9 @@
+{
+  "period": "Q2 2026",
+  "kpis": [
+    { "id": "revenue", "current": 18.4, "previous": 16.2 },
+    { "id": "margin", "current": 67.5, "previous": 63.1 },
+    { "id": "opex", "current": 5.8, "previous": 6.3 },
+    { "id": "cashflow", "current": 4.2, "previous": 2.9 }
+  ]
+}
