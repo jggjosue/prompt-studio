@@ -89,13 +89,13 @@ async function main() {
   }
 
   if (results.length === 0) {
-    console.log('[precompress] Nada que comprimir (archivos < 1KB o sin extensiones válidas).');
+    //console.log('[precompress] Nada que comprimir (archivos < 1KB o sin extensiones válidas).');
     return;
   }
 
-  console.log(`[precompress] ${results.length} archivo(s) en public/:`);
+  //console.log(`[precompress] ${results.length} archivo(s) en public/:`);
   for (const r of results) {
-    console.log(
+    //console.log(
       `  ${r.file}: ${r.original} B → br ${r.brotli} B (-${r.ratioBr}%), gzip ${r.gzip} B (-${r.ratioGz}%)`
     );
   }

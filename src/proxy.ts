@@ -39,6 +39,8 @@ export default clerkMiddleware(async (auth, req) => {
     (pathname.endsWith('.html') || !/\.[a-z0-9]+$/i.test(pathname))
   ) {
     const response = NextResponse.next();
+    // Keep raw demo HTML out of the index so the canonical `/landing-pages/[slug]`
+    // route is the only indexable version of each demo.
     response.headers.set('X-Robots-Tag', 'noindex, follow');
     return withEdgeHeaders(response, req);
   }

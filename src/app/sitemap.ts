@@ -4,14 +4,11 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { PlaceHolderVideos } from '@/lib/placeholder-videos';
 import { PROMPT_EDIT_ENABLED } from '@/lib/prompt-edit';
 import { normalizeDemoFolder } from '@/lib/refactory-online';
-import { listR2WebpageFolders } from '@/lib/r2-storage';
 import {
   getIndexableTagPages,
   getProgrammaticCategories,
 } from '@/lib/seo/programmatic-seo';
 import { getRawWebPages } from '@/lib/web-pages';
-import fs from 'fs';
-import path from 'path';
 
 const SITE_URL = (
   process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.prompstudio.com'
@@ -84,23 +81,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     slugPath('/tags', tag.slug)
   );
 
-  const publicWebpagesDir = path.join(process.cwd(), 'public', 'webpages');
-  let directWebpagePaths: Array<`/${string}`> = [];
-  try {
-    if (fs.existsSync(publicWebpagesDir)) {
-      const webpageFolders = fs.readdirSync(publicWebpagesDir, { withFileTypes: true })
-        .filter(dirent => dirent.isDirectory() && !dirent.name.startsWith('.') && dirent.name !== 'refactory-online')
-        .map(dirent => dirent.name);
-      
-      directWebpagePaths = webpageFolders.map(folder => `/webpages/${folder}/` as `/${string}`);
-    }
-  } catch (error) {
-    console.error('Error reading public/webpages for sitemap:', error);
-  }
-
-  const r2Folders = await listR2WebpageFolders();
-  const r2WebpagePaths = r2Folders.map(folder => `/webpages/${folder}/` as `/${string}`);
-
   return uniquePaths([
     ...staticPaths,
     ...categoryPaths,
@@ -108,8 +88,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...landingPagePaths,
     ...galleryImagePaths,
     ...galleryVideoPaths,
-    ...directWebpagePaths,
-    ...r2WebpagePaths,
   ]).map(path => {
     const changeFrequency: ChangeFrequency =
       path === '/' || path.includes('prompts') ? 'daily' : 'weekly';

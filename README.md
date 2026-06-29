@@ -83,6 +83,44 @@ The sitemap is dynamically generated in `src/app/sitemap.ts` and served at `/sit
 
 Current sitemap coverage: 405 URLs.
 
+## SEO Validation
+
+Use these commands before deploying when you want to verify indexation, catalog coverage, and live HTTP behavior:
+
+```bash
+npm run seo:validate-all
+```
+
+That command runs every SEO check in sequence:
+
+- `npm run seo:audit-webpages`
+- `npm run seo:validate-canonicals`
+- `npm run seo:validate-sitemap`
+- `npm run seo:validate-robots`
+- `npm run seo:validate-metadata`
+- `npm run seo:validate-schema`
+- `npm run seo:validate-internal-links`
+- `npm run seo:validate-duplicates`
+- `npm run seo:validate-performance`
+- `npm run seo:validate-catalog-coverage`
+- `npm run seo:validate-search-console`
+- `npm run seo:validate-live-sitemap-http`
+
+What each one checks:
+
+- `seo:audit-webpages` compares `public/webpages` against `web-pages.json`
+- `seo:validate-canonicals` checks canonical routing and noindex rules
+- `seo:validate-sitemap` verifies sitemap composition
+- `seo:validate-robots` verifies robots and `X-Robots-Tag`
+- `seo:validate-metadata` checks title, description, and social metadata
+- `seo:validate-schema` checks Product and Breadcrumb JSON-LD
+- `seo:validate-internal-links` checks internal linking coverage
+- `seo:validate-duplicates` flags similar titles, descriptions, and semantic competition
+- `seo:validate-performance` checks SEO-related performance signals
+- `seo:validate-catalog-coverage` checks disk vs catalog coverage and catalog field quality
+- `seo:validate-search-console` prepares URLs to inspect in Search Console after deploys
+- `seo:validate-live-sitemap-http` checks the live production URLs from the sitemap return HTTP 200
+
 ### Static pages
 
 - `/`

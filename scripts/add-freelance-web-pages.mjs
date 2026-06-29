@@ -321,7 +321,7 @@ async function generatePreviews(pages) {
     await tab.waitForTimeout(500);
     await tab.screenshot({ path: pngPath, type: 'png' });
     await tab.close();
-    console.log(`preview: ${path.basename(pngPath)}`);
+    //console.log(`preview: ${path.basename(pngPath)}`);
   }
 
   await browser.close();
@@ -334,7 +334,7 @@ async function main() {
 
   for (const page of freelancePages) {
     if (existingIds.has(page.id)) {
-      console.log(`skip id ${page.id} (already exists)`);
+      //console.log(`skip id ${page.id} (already exists)`);
       continue;
     }
 
@@ -346,11 +346,11 @@ async function main() {
     );
 
     added.push(page);
-    console.log(`html: ${page.slug}/index.html`);
+    //console.log(`html: ${page.slug}/index.html`);
   }
 
   if (added.length === 0) {
-    console.log('No new entries to add.');
+    //console.log('No new entries to add.');
     return;
   }
 
@@ -370,7 +370,7 @@ async function main() {
 
   data.webPages.push(...newEntries);
   fs.writeFileSync(jsonPath, JSON.stringify(data, null, 2) + '\n');
-  console.log(`Added ${newEntries.length} entries to web-pages.json`);
+  //console.log(`Added ${newEntries.length} entries to web-pages.json`);
 }
 
 main().catch(err => {

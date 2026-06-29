@@ -7,9 +7,11 @@ import AffiliateLoader from './affiliate-loader';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('affiliate');
+  const title = t('pageTitle');
+  const description = t('pageDescription');
   return {
-    title: t('pageTitle'),
-    description: t('pageDescription'),
+    title,
+    description,
     alternates: {
       canonical: '/affiliate-program',
     },
@@ -20,6 +22,18 @@ export async function generateMetadata(): Promise<Metadata> {
       'earn commissions',
       'SaaS affiliate',
     ],
+    openGraph: {
+      title,
+      description,
+      url: '/affiliate-program',
+      siteName: 'Prompt Studio',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
   };
 }
 
@@ -37,4 +51,3 @@ export default async function AffiliateProgramPage() {
     </div>
   );
 }
-

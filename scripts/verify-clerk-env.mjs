@@ -52,10 +52,10 @@ function fail(msg) {
 }
 
 function pass(msg) {
-  console.log(`✓ ${msg}`);
+  //console.log(`✓ ${msg}`);
 }
 
-console.log(`\nClerk — verificación (${mode})\n`);
+//console.log(`\nClerk — verificación (${mode})\n`);
 
 if (!pk) {
   fail('Falta NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY');
@@ -110,7 +110,7 @@ for (const [name, fallback] of routes) {
 }
 
 if (mode === 'production') {
-  console.log(`
+  //console.log(`
 Checklist Clerk Dashboard (https://dashboard.clerk.com):
   1. Instancia Production (no Development)
   2. Configure → Domains: añade tu dominio (ej. promptstudio.com, www)
@@ -123,5 +123,5 @@ Vercel → Settings → Environment Variables (solo entorno Production):
 `);
 }
 
-console.log(ok ? '\nListo.\n' : '\nCorrige los errores antes de desplegar.\n');
+//console.log(ok ? '\nListo.\n' : '\nCorrige los errores antes de desplegar.\n');
 process.exit(ok ? 0 : 1);

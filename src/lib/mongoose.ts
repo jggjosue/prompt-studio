@@ -6,9 +6,6 @@ const MONGODB_PASSWORD = process.env.MONGODB_PASSWORD?.trim();
 if (!MONGODB_USERNAME || !MONGODB_PASSWORD) {
   throw new Error('Please define the MONGODB_USERNAME and MONGODB_PASSWORD environment variables inside .env');
 }
-
-const MONGODB_URI = `mongodb+srv://${encodeURIComponent(MONGODB_USERNAME)}:${encodeURIComponent(MONGODB_PASSWORD)}@cluster0.lhpykjw.mongodb.net/prompt-studio?retryWrites=true&w=majority`;
-
 /**
  * Global is used here to maintain a cached connection across hot reloads
  * in development. This prevents connections growing exponentially
@@ -30,8 +27,8 @@ async function connectToDatabase() {
       bufferCommands: false,
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI || '', opts).then((mongoose) => {
-      console.log('Successfully connected to MongoDB');
+    cached.promise = mongoose.connect(process.env.MONGODB_URI || '', opts).then((mongoose) => {
+      //console.log('Successfully connected to MongoDB');
       return mongoose;
     });
   }
@@ -40,7 +37,7 @@ async function connectToDatabase() {
     cached.conn = await cached.promise;
   } catch (e) {
     cached.promise = null;
-    console.error('Error connecting to MongoDB:', e);
+    //console.error('Error connecting to MongoDB:', e);
     throw e;
   }
 

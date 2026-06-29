@@ -157,6 +157,7 @@ function WebPageCardComponent({
               alt={page.title}
               fill
               priority={animationIndex < 2}
+              lazyAdaptive={animationIndex >= 2}
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               className="object-cover"
               data-ai-hint={page.imageHint}
@@ -176,26 +177,33 @@ function WebPageCardComponent({
             />
           </div>
           {page.demoUrl ? (
-            <Button
-              size="sm"
-              className="!bg-blue-600 !text-white shadow-md shadow-blue-950/20 hover:!bg-blue-700"
-              asChild
-            >
-              <Link
-                href={`/webpages/${page.demoUrl}/index.html?auth=${isSignedIn ? '1' : '0'}&checkout=${encodeURIComponent(itemCheckoutUrl)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="!bg-blue-600 !text-white hover:!bg-blue-700"
-                onClick={() => {
-                  trackClick('demo');
-                  (window as any).gtag?.('event', 'web_open_demo_URL', { page_title: page.title });
-                  void logFirebaseEvent('web_open_demo_URL', { page_id: page.id, page_title: page.title });
-                }}
+            <div className="flex flex-wrap items-center gap-2">
+              <Button variant="outline" size="sm" asChild>
+                <Link href={`/landing-pages/${encodeURIComponent(page.demoUrl)}`}>
+                  View landing
+                </Link>
+              </Button>
+              <Button
+                size="sm"
+                className="!bg-blue-600 !text-white shadow-md shadow-blue-950/20 hover:!bg-blue-700"
+                asChild
               >
-                <ExternalLink className="w-4 h-4 mr-2" />
-                Open
-              </Link>
-            </Button>
+                <Link
+                  href={`/webpages/${page.demoUrl}/index.html?auth=${isSignedIn ? '1' : '0'}&checkout=${encodeURIComponent(itemCheckoutUrl)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="!bg-blue-600 !text-white hover:!bg-blue-700"
+                  onClick={() => {
+                    trackClick('demo');
+                    (window as any).gtag?.('event', 'web_open_demo_URL', { page_title: page.title });
+                    void logFirebaseEvent('web_open_demo_URL', { page_id: page.id, page_title: page.title });
+                  }}
+                >
+                  <ExternalLink className="w-4 h-4 mr-2" />
+                  Open
+                </Link>
+              </Button>
+            </div>
           ) : (
             <Button size="sm" variant="secondary" disabled>
               <Globe className="w-4 h-4 mr-2" />

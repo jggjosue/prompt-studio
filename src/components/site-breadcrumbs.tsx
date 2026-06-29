@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils';
 import { ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
+import { safeJsonLd } from '@/lib/json-ld';
 
 type SiteBreadcrumbsProps = {
   pathname: string;
@@ -40,7 +41,7 @@ export function SiteBreadcrumbs({ pathname, className }: SiteBreadcrumbsProps) {
     >
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
       />
       <ol className="container flex flex-wrap items-center gap-1.5 py-2 min-h-9">
         {trail.map((crumb, i) => {

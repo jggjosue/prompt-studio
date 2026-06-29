@@ -76,4 +76,4 @@ const manifest = {
 
 fs.mkdirSync(path.dirname(outPath), { recursive: true });
 fs.writeFileSync(outPath, JSON.stringify(manifest, null, 2) + '\n');
-console.log(`manifest: ${Object.keys(scanned).length} demos → ${outPath}`);
+//console.log(`manifest: ${Object.keys(scanned).length} demos → ${outPath}`);
