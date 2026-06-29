@@ -1,12 +1,14 @@
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { RelatedTemplates } from '@/components/related-templates';
+import { AffiliatePageViewTracker } from '@/components/affiliate-page-view-tracker';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { pickLocalized } from '@/lib/localized-string';
 import { resolveWebPageImageUrl } from '@/lib/web-page-media';
 import { getRawWebPageByDemoSlug, getRawWebPages } from '@/lib/web-pages';
 import { getRefactoryLoaderUrl, normalizeDemoFolder } from '@/lib/refactory-online';
+import { normalizeMembership } from '@/lib/membership-access';
 import type { Metadata } from 'next';
 import { getLocale } from 'next-intl/server';
 import Link from 'next/link';
@@ -19,6 +21,11 @@ const SITE_URL = (
 type PageProps = {
   params: Promise<{
     slug: string;
+  }>;
+  searchParams: Promise<{
+    ref?: string;
+    product?: string;
+    source?: string;
   }>;
 };
 
@@ -48,6 +55,37 @@ function normalizedPrice(price: string | undefined): string {
 
 function landingPageCanonical(slug: string): string {
   return `${SITE_URL}/landing-pages/${encodeURIComponent(slug)}`;
+}
+
+function buildCheckoutUrl(params: {
+  slug: string;
+  ref?: string;
+  product?: string;
+  source?: string;
+}): string | null {
+  const base = process.env.NEXT_PUBLIC_STRIPE_WEB_PAGE_UNIQUE;
+  if (!base) return null;
+
+  const url = new URL(base);
+  const productId = params.product?.trim() || params.slug;
+  const ref = params.ref?.trim();
+
+  url.searchParams.set('client_reference_id', `${ref ? 'guest' : 'guest'}___${productId}`);
+  url.searchParams.set('affiliate_product_id', productId);
+  url.searchParams.set('pageId', productId);
+  url.searchParams.set('productId', productId);
+  url.searchParams.set('productName', params.slug.replace(/-/g, ' '));
+  url.searchParams.set('page_name', params.slug.replace(/-/g, ' '));
+  if (ref) {
+    url.searchParams.set('affiliate_ref', ref);
+    url.searchParams.set('affiliate_first_ref', ref);
+    url.searchParams.set('affiliate_last_touch_ref', ref);
+  }
+  if (params.source?.trim()) {
+    url.searchParams.set('source', params.source.trim());
+  }
+
+  return url.toString();
 }
 
 async function getLandingPageSeoData(
@@ -153,8 +191,9 @@ export async function generateMetadata({
   };
 }
 
-export default async function LandingPageDetailPage({ params }: PageProps) {
+export default async function LandingPageDetailPage({ params, searchParams }: PageProps) {
   const { slug } = await params;
+  const resolvedSearchParams = await searchParams;
   const locale = await getLocale();
   const page = getRawWebPageByDemoSlug(slug);
 
@@ -171,6 +210,22 @@ export default async function LandingPageDetailPage({ params }: PageProps) {
     page.tags[0] ||
     page.stack[0] ||
     'Landing Page';
+  const checkoutUrl = buildCheckoutUrl({
+    slug,
+    ref: resolvedSearchParams.ref,
+    product: resolvedSearchParams.product,
+    source: resolvedSearchParams.source,
+  });
+  const productId = resolvedSearchParams.product?.trim() || page.id || slug;
+  const productPriceCents = Math.round(Number(normalizedPrice(page.price)) * 100);
+
+  const normalizedMembership = normalizeMembership(page.membership);
+  const isFree = normalizedMembership === 'free';
+  const displayPrice = isFree
+    ? 'Free'
+    : page.price && Number.parseFloat(page.price) > 0
+    ? `$${normalizedPrice(page.price)}`
+    : null;
   const productSchema = seo
     ? {
         '@context': 'https://schema.org',
@@ -227,6 +282,13 @@ export default async function LandingPageDetailPage({ params }: PageProps) {
 
   return (
     <div className="min-h-screen bg-background">
+      {resolvedSearchParams.ref?.trim() ? (
+        <AffiliatePageViewTracker
+          productId={productId}
+          productName={title}
+          productPriceCents={Number.isFinite(productPriceCents) ? productPriceCents : null}
+        />
+      ) : null}
       {productSchema ? (
         <script
           type="application/ld+json"
@@ -252,6 +314,11 @@ export default async function LandingPageDetailPage({ params }: PageProps) {
               <h1 className="max-w-4xl text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
                 {title}
               </h1>
+              {displayPrice ? (
+                <div className="inline-block rounded-full border border-blue-500/40 bg-blue-500/10 px-3 py-1 text-sm font-semibold text-blue-400">
+                  {displayPrice}
+                </div>
+              ) : null}
               <p className="max-w-3xl text-base leading-7 text-muted-foreground md:text-lg">
                 {description}
               </p>
@@ -260,6 +327,13 @@ export default async function LandingPageDetailPage({ params }: PageProps) {
               <Button asChild>
                 <Link href={demoHref} target="_blank" rel="noopener noreferrer">Open demo</Link>
               </Button>
+              {checkoutUrl ? (
+                <Button asChild className="bg-blue-600 text-white hover:bg-blue-700">
+                  <Link href={checkoutUrl} target="_blank" rel="noopener noreferrer">
+                    Comprar ahora{displayPrice ? ` · ${displayPrice}` : ''}
+                  </Link>
+                </Button>
+              ) : null}
               <Button variant="outline" asChild>
                 <Link href="/landing-pages">All landing pages</Link>
               </Button>

@@ -23,6 +23,8 @@ import { useInfiniteScroll } from '@/hooks/use-infinite-scroll';
 import { useMediaCatalogHashBundle } from '@/hooks/use-catalog-hash-bundle';
 import { CatalogFacetBar } from '@/components/catalog-facet-bar';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
+import { useUser } from '@clerk/nextjs';
 
 const ITEMS_PER_PAGE = 18;
 
@@ -38,6 +40,7 @@ function PromptsContent() {
   const t = useTranslations('prompts');
   const tFacets = useTranslations('facets');
   const router = useRouter();
+  const { isSignedIn } = useUser();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -93,6 +96,15 @@ function PromptsContent() {
       scroll: false,
     });
   }, [pathname, router, searchParams]);
+
+  useEffect(() => {
+    if (!isSignedIn) return;
+    void fetch('/api/interests/track', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ interest: 'prompts' }),
+    }).catch(() => {});
+  }, [isSignedIn]);
 
   return (
     <div className="space-y-12">

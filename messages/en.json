@@ -223,6 +223,7 @@
     "create": "Create",
     "creations": "Creations",
     "myCreations": "My Creations",
+    "campaigns": "Campaigns",
     "favorites": "Favorites",
     "settings": "Settings",
     "billing": "Billing",
@@ -234,7 +235,8 @@
     "managePlan": "Manage plan",
     "navLabel": "Dashboard navigation",
     "profile": "Profile",
-    "analytics": "Analytics"
+    "analytics": "Analytics",
+    "campaignsDesc": "Premium web products ready for campaigns and tracking."
   },
   "dashboardAnalytics": {
     "title": "Analytics",
@@ -273,7 +275,9 @@
   },
   "profile": {
     "title": "Profile",
-    "subtitle": "Manage your account and subscription with Clerk Billing.",
+    "subtitle": "Manage your account and subscription.",
+    "profileTab": "Profile",
+    "affiliateTab": "Affiliate",
     "member": "Member",
     "accountTitle": "Account information",
     "accountDesc": "Your profile is managed through your sign-in provider.",
@@ -327,7 +331,26 @@
     "cardExpiryInvalid": "Enter expiry as MM/YY.",
     "cardCvcInvalid": "Enter a valid security code.",
     "cardNameRequired": "Enter the name on the card.",
-    "saving": "Saving..."
+    "saving": "Saving...",
+    "affiliateTitle": "Affiliate",
+    "affiliateDesc": "Review your sales, earnings, and unique link.",
+    "affiliateLink": "Your affiliate link",
+    "affiliateLinkHint": "Each user gets a unique link tied to the current session ID so sales can be tracked per account.",
+    "copyLink": "Copy link",
+    "copied": "Copied",
+    "moneyEarned": "Total earned",
+    "conversionRate": "Conversion rate",
+    "clicks": "Clicks",
+    "salesTitle": "Sales by product",
+    "salesDesc": "Sold products, purchase date, and commission status.",
+    "saleAmount": "Amount",
+    "performanceTitle": "Charts",
+    "performanceDesc": "Visual summary of product performance.",
+    "totalTracked": "Tracked sales",
+    "stripeStatus": "Stripe status",
+    "affiliateSummary": "Affiliate summary",
+    "summaryLine1": "The dashboard combines the current user session with Stripe subscription state to generate one unique panel per account.",
+    "summaryLine2": "Recorded sales data."
   },
   "prompts": {
     "title": "The Prompt Library",

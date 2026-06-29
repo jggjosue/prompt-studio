@@ -1,46 +1,12 @@
 import type { ReactNode } from 'react';
 import type React from 'react';
-import Link from 'next/link';
 import { SidebarNavLink } from '@/components/dashboard/sidebar-nav-link';
-import {
-  Bell,
-  Home,
-  LineChart,
-  Package,
-  Package2,
-  Settings,
-  ShoppingCart,
-  Users,
-  LayoutGrid,
-  Image,
-  Clapperboard,
-  Heart,
-  CreditCard,
-  UserCircle,
-} from 'lucide-react';
-
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { ShoppingCart, UserCircle } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import Logo from '@/components/layout/logo';
 import Header from '@/components/layout/header';
 import { DashboardMobileNav } from '@/components/dashboard/dashboard-mobile-nav';
 import { DashboardUpgradeCard } from '@/components/dashboard/dashboard-upgrade-card';
+import { DashboardShell } from '@/components/dashboard/dashboard-shell';
 import { getTranslations } from 'next-intl/server';
 
 export default async function DashboardLayout({
@@ -49,8 +15,6 @@ export default async function DashboardLayout({
   children: ReactNode;
 }) {
   const t = await getTranslations('dashboard');
-  const tHeader = await getTranslations('header');
-
   // const navItems = [
   //   { href: '/dashboard', icon: <LayoutGrid className="h-4 w-4" />, label: t('dashboard') },
   //   { href: '/dashboard/analytics', icon: <LineChart className="h-4 w-4" />, label: t('analytics') },
@@ -62,20 +26,15 @@ export default async function DashboardLayout({
   
   const settingsNavItems = [
     { href: '/dashboard/profile', icon: <UserCircle className="h-4 w-4" />, label: t('profile') },
+    { href: '/dashboard/campaigns', icon: <ShoppingCart className="h-4 w-4" />, label: t('campaigns') },
     // { href: '/dashboard/settings', icon: <Settings className="h-4 w-4" />, label: t('settings') },
     // { href: '/dashboard/billing', icon: <CreditCard className="h-4 w-4" />, label: t('billing') },
   ];
 
   return (
-    <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
-      <div className="hidden border-r bg-muted/40 md:block">
-        <div className="flex h-full max-h-screen flex-col gap-2">
-          <div className="flex h-16 items-center border-b px-4 lg:h-[60px] lg:px-6">
-            <Link href="/" className="flex items-center gap-2 font-semibold">
-              <Logo />
-              <span className="">{tHeader('brand')}</span>
-            </Link>
-          </div>
+    <DashboardShell
+      sidebar={
+        <div className="flex h-full min-h-0 flex-col gap-2">
           <div className="flex-1">
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
               {navItems.map(item => (
@@ -94,16 +53,28 @@ export default async function DashboardLayout({
               <h3 className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                 {t('settingsSection')}
               </h3>
-              <nav className="grid items-start text-sm font-medium">
+              <nav className="grid gap-2 items-start text-sm font-medium">
                 {settingsNavItems.map(item => (
-                    <Link
+                  <SidebarNavLink
                     key={item.label}
                     href={item.href}
-                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-                    >
-                    {item.icon}
-                    {item.label}
-                    </Link>
+                    className="group rounded-2xl border border-transparent px-4 py-3.5 font-medium transition-all hover:border-blue-500/25 hover:bg-blue-500/5"
+                    activePrefixes={item.href === '/dashboard/profile' ? ['/dashboard/profile', '/dashboard/billing'] : [item.href]}
+                  >
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-background/70 text-muted-foreground transition-colors group-hover:border-blue-500/20 group-hover:bg-blue-500/10 group-hover:text-blue-400">
+                      {item.icon}
+                    </span>
+                    <span className="flex min-w-0 flex-col">
+                      <span className="text-[0.92rem] font-semibold leading-tight text-foreground">
+                        {item.label}
+                      </span>
+                      <span className="text-xs font-normal text-muted-foreground">
+                        {item.href === '/dashboard/profile'
+                          ? 'Cuenta y afiliación'
+                          : 'Campañas y ventas'}
+                      </span>
+                    </span>
+                    </SidebarNavLink>
                 ))}
               </nav>
             </div>
@@ -112,7 +83,28 @@ export default async function DashboardLayout({
             <DashboardUpgradeCard />
           </div>
         </div>
-      </div>
+      }
+      compactSidebar={
+        <div className="flex flex-col items-center gap-3 py-5">
+          <span className="text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground [writing-mode:vertical-rl]">
+            {t('settingsSection')}
+          </span>
+          <nav className="grid gap-2">
+            {settingsNavItems.map(item => (
+              <SidebarNavLink
+                key={item.label}
+                href={item.href}
+                className="h-11 w-11 justify-center rounded-xl border border-border/60 p-0"
+                activePrefixes={item.href === '/dashboard/profile' ? ['/dashboard/profile', '/dashboard/billing'] : [item.href]}
+              >
+                {item.icon}
+                <span className="sr-only">{item.label}</span>
+              </SidebarNavLink>
+            ))}
+          </nav>
+        </div>
+      }
+    >
       <div className="flex min-w-0 flex-col">
         <Header />
         <DashboardMobileNav />
@@ -120,6 +112,6 @@ export default async function DashboardLayout({
           {children}
         </main>
       </div>
-    </div>
+    </DashboardShell>
   );
 }

@@ -62,7 +62,7 @@ export function buildCompressedResponse(
     headers.set('Vary', 'Accept-Encoding');
   }
 
-  return new Response(compressed, {
+  return new Response(new Uint8Array(compressed), {
     status: init?.status ?? 200,
     statusText: init?.statusText,
     headers,
@@ -77,9 +77,6 @@ export function compressedJsonResponse(
   const payload = Buffer.from(JSON.stringify(data), 'utf8');
   const headers = new Headers(init?.headers);
   headers.set('Content-Type', 'application/json; charset=utf-8');
-  if (init?.status) {
-    // buildCompressedResponse uses init.status
-  }
   return buildCompressedResponse(request, payload, { ...init, headers });
 }
 

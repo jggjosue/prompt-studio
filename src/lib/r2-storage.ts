@@ -294,6 +294,7 @@ export async function listR2ProjectObjects(prefix: string): Promise<string[]> {
 export async function listR2WebpageFolders(): Promise<string[]> {
   const client = getR2S3Client();
   if (!client) return [];
+  const s3Client = client;
 
   const folders = new Set<string>();
 
@@ -301,7 +302,7 @@ export async function listR2WebpageFolders(): Promise<string[]> {
     let continuationToken: string | undefined;
     do {
       try {
-        const page = await client.send(
+        const page = await s3Client.send(
           new ListObjectsV2Command({
             Bucket: getR2BucketName(),
             Prefix: basePrefix,
@@ -331,4 +332,3 @@ export async function listR2WebpageFolders(): Promise<string[]> {
 
   return Array.from(folders);
 }
-

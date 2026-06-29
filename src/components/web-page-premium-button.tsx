@@ -15,14 +15,40 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useTranslations } from 'next-intl';
-import { useAuth, SignUpButton } from '@clerk/nextjs';
+import { useAuth } from '@clerk/nextjs';
 import { useStripeSubscription } from '@/hooks/use-stripe-subscription';
-import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { FreeDownloadDialog } from '@/components/free-download-dialog';
 import { normalizeMembership } from '@/lib/membership-access';
 import { logFirebaseEvent } from '@/lib/firebase';
+import { trackLoopsEvent } from '@/lib/loops-events';
+import { trackAffiliateClick } from '@/lib/affiliate-client';
+import {
+  AFFILIATE_FIRST_REF_STORAGE_KEY,
+  AFFILIATE_LAST_TOUCH_STORAGE_KEY,
+  AFFILIATE_OWNER_STORAGE_KEY,
+} from '@/lib/affiliate';
+
+function buildCheckoutUrl(baseUrl: string | undefined, pageId: string, userId?: string | null): string {
+  if (!baseUrl) return '#';
+  const affiliateRef = typeof window !== 'undefined' ? window.localStorage.getItem(AFFILIATE_OWNER_STORAGE_KEY) : null;
+  const firstAffiliateRef = typeof window !== 'undefined' ? window.localStorage.getItem(AFFILIATE_FIRST_REF_STORAGE_KEY) : null;
+  const lastTouchAffiliateRef = typeof window !== 'undefined' ? window.localStorage.getItem(AFFILIATE_LAST_TOUCH_STORAGE_KEY) : null;
+  const url = new URL(baseUrl);
+  url.searchParams.set('client_reference_id', `${userId ?? 'guest'}___${pageId}`);
+  url.searchParams.set('affiliate_product_id', pageId);
+  if (affiliateRef && affiliateRef !== userId) {
+    url.searchParams.set('affiliate_ref', affiliateRef);
+  }
+  if (firstAffiliateRef && firstAffiliateRef !== userId) {
+    url.searchParams.set('affiliate_first_ref', firstAffiliateRef);
+  }
+  if (lastTouchAffiliateRef && lastTouchAffiliateRef !== userId) {
+    url.searchParams.set('affiliate_last_touch_ref', lastTouchAffiliateRef);
+  }
+  return url.toString();
+}
 
 type PremiumMembershipButtonProps = {
   hasPremium: boolean;
@@ -43,7 +69,6 @@ export function PremiumMembershipButton({
 }: PremiumMembershipButtonProps) {
   const t = useTranslations('common');
   const { userId, isLoaded } = useAuth();
-  const pathname = usePathname();
   const { purchasedPages, ready } = useStripeSubscription();
   const [mounted, setMounted] = useState(false);
 
@@ -63,23 +88,40 @@ export function PremiumMembershipButton({
 
   const isStartup = plan === 'startup';
   const stripeUrl = process.env.NEXT_PUBLIC_STRIPE_WEB_PAGE_UNIQUE;
-  
-  let itemCheckoutUrl = stripeUrl || '#';
-  if (stripeUrl && userId) {
-    const url = new URL(stripeUrl);
-    url.searchParams.set('client_reference_id', `${userId}___${pageId}`);
-    itemCheckoutUrl = url.toString();
-  }
+  const itemCheckoutUrl = buildCheckoutUrl(stripeUrl, pageId, userId);
+  const trackAffiliateBuyClick = () => {
+    void trackAffiliateClick({
+      productId: pageId,
+      productName: pageTitle ?? pageId,
+      productPriceCents: price ? Math.round(Number(price) * 100) : null,
+      source: 'buy-button',
+      buyerKey: userId,
+    });
+  };
 
   const hasPurchased = purchasedPages?.includes(pageId) ?? false;
   const trackBuy = () => {
     (window as any).gtag?.('event', 'web_buy_button_premium', { page_title: pageTitle });
     void logFirebaseEvent('web_buy_button_premium', { page_id: pageId, page_title: pageTitle });
+    void trackLoopsEvent('upgrade', {
+      pageId,
+      pageTitle,
+      plan,
+      membership,
+      source: 'premium-button',
+    });
   };
 
   const trackPremiumDownload = () => {
     (window as any).gtag?.('event', 'web_download_premium', { page_title: pageTitle });
     void logFirebaseEvent('web_download_premium', { page_id: pageId, page_title: pageTitle });
+    void trackLoopsEvent('upgrade', {
+      pageId,
+      pageTitle,
+      plan,
+      membership,
+      source: 'premium-download',
+    });
   };
 
   if (isStartup || hasPurchased) {
@@ -124,13 +166,16 @@ export function PremiumMembershipButton({
             className="border border-blue-500/25 text-blue-300 hover:border-blue-500/40 hover:bg-blue-500/10 hover:text-blue-200"
             asChild
           >
-            <a
-              href={itemCheckoutUrl}
-              target={isExternal ? '_blank' : undefined}
-              rel={isExternal ? 'noopener noreferrer' : undefined}
-              className="!border-blue-500/25 !text-blue-300 hover:!border-blue-500/40 hover:!bg-blue-500/10 hover:!text-blue-200"
-              onClick={trackBuy}
-            >
+              <a
+                href={itemCheckoutUrl}
+                target={isExternal ? '_blank' : undefined}
+                rel={isExternal ? 'noopener noreferrer' : undefined}
+                className="!border-blue-500/25 !text-blue-300 hover:!border-blue-500/40 hover:!bg-blue-500/10 hover:!text-blue-200"
+              onClick={() => {
+                trackAffiliateBuyClick();
+                trackBuy();
+              }}
+              >
               {buttonContent}
             </a>
           </Button>
@@ -162,7 +207,15 @@ export function PremiumMembershipButton({
       </TooltipProvider>
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuItem asChild className="cursor-pointer">
-          <a href={itemCheckoutUrl} target={isExternal ? '_blank' : undefined} rel={isExternal ? 'noopener noreferrer' : undefined} onClick={trackBuy}>
+          <a
+            href={itemCheckoutUrl}
+            target={isExternal ? '_blank' : undefined}
+            rel={isExternal ? 'noopener noreferrer' : undefined}
+            onClick={() => {
+              trackAffiliateBuyClick();
+              trackBuy();
+            }}
+          >
             <Crown className="w-4 h-4 mr-2" />
             Buy {formattedPrice}
           </a>
@@ -175,23 +228,6 @@ export function PremiumMembershipButton({
       </DropdownMenuContent>
     </DropdownMenu>
   );
-
-  if (!userId) {
-    return (
-      <SignUpButton mode="redirect" forceRedirectUrl={pathname}>
-        <span className="inline-block cursor-pointer">
-          <Button
-            size="sm"
-            variant="secondary"
-            title={t('buyTooltip')}
-            className="pointer-events-none border border-blue-500/25 text-blue-300 hover:border-blue-500/40 hover:bg-blue-500/10 hover:text-blue-200"
-          >
-            {buttonContent}
-          </Button>
-        </span>
-      </SignUpButton>
-    );
-  }
 
   return loggedInButton;
 }

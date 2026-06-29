@@ -1,4 +1,17 @@
 import { stripe, extractSubscriptionMeta, type StripeUserMetadata } from '@/lib/stripe';
+import {
+  appendUniqueCommission,
+  AFFILIATE_COMMISSION_RATE,
+  createCommissionRecord,
+  normalizeCommissionRecords,
+  type AffiliatePrivateMetadata,
+} from '@/lib/affiliate';
+import {
+  syncAffiliateDashboardStats,
+  upsertAffiliateSaleFromCommission,
+} from '@/lib/affiliate-mongo';
+import { registerAffiliateConversion } from '@/lib/affiliate-referral';
+import { sendLoopsEvent } from '@/lib/loops';
 import { clerkClient } from '@clerk/nextjs/server';
 import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
@@ -11,8 +24,13 @@ async function updateUserSubscription(
 ) {
   const client = await clerkClient();
   const plan = (subscription.metadata?.plan as 'premium' | 'startup') ?? 'premium';
+  const user = await client.users.getUser(clerkUserId);
+  const meta = user.privateMetadata as AffiliatePrivateMetadata;
   await client.users.updateUserMetadata(clerkUserId, {
-    privateMetadata: extractSubscriptionMeta(subscription, stripeCustomerId, plan),
+    privateMetadata: {
+      ...meta,
+      ...extractSubscriptionMeta(subscription, stripeCustomerId, plan),
+    },
   });
 }
 
@@ -20,6 +38,94 @@ async function getClerkUserIdFromCustomer(customerId: string): Promise<string | 
   const customer = await stripe.customers.retrieve(customerId);
   if (customer.deleted) return null;
   return (customer.metadata?.clerkUserId as string) ?? null;
+}
+
+async function recordAffiliateCommission(params: {
+  buyerUserId: string;
+  referrerUserId: string;
+  originalReferrerUserId?: string | null;
+  affiliateProductId?: string | null;
+  productId: string;
+  productName: string;
+  amountPaidCents: number;
+  currency: string;
+  source: 'checkout' | 'invoice';
+  stripeCustomerId?: string | null;
+  stripeSubscriptionId?: string | null;
+  stripeCheckoutSessionId?: string | null;
+  stripeInvoiceId?: string | null;
+}) {
+  const client = await clerkClient();
+  const user = await client.users.getUser(params.referrerUserId);
+  const meta = user.privateMetadata as AffiliatePrivateMetadata;
+  const commission = createCommissionRecord({
+    ...params,
+    commissionRate: AFFILIATE_COMMISSION_RATE,
+    status: params.source === 'invoice' ? 'paid' : 'pending_settlement',
+  });
+  const updatedCommissions = appendUniqueCommission(
+    normalizeCommissionRecords(meta.affiliateCommissions),
+    commission
+  );
+  await client.users.updateUserMetadata(params.referrerUserId, {
+    privateMetadata: {
+      ...meta,
+      affiliateReferralCode: meta.affiliateReferralCode ?? params.referrerUserId,
+      affiliateCommissions: updatedCommissions,
+      affiliateOriginalReferrerId:
+        params.originalReferrerUserId ?? meta.affiliateReferrerId ?? null,
+    },
+  });
+  await upsertAffiliateSaleFromCommission(commission);
+  await registerAffiliateConversion({
+    clerkUserId: params.referrerUserId,
+    referralCode: meta.affiliateReferralCode ?? params.referrerUserId,
+    productId: params.productId,
+    productName: params.productName,
+    amountPaidCents: params.amountPaidCents,
+    commissionCents: commission.commissionCents,
+    source: params.source,
+    priceCents: params.amountPaidCents,
+  });
+  await syncAffiliateDashboardStats(params.referrerUserId, meta.affiliateReferralCode ?? params.referrerUserId);
+}
+
+async function sendCartAbandonmentReminder(params: {
+  email: string;
+  userId?: string | null;
+  pageId?: string | null;
+  pageName?: string | null;
+  sessionId: string;
+}) {
+  await sendLoopsEvent(
+    {
+      email: params.email,
+      userId: params.userId ?? undefined,
+      eventName: 'prompt_studio_cart_abandonment',
+      eventProperties: {
+        source: 'stripe-checkout',
+        pageId: params.pageId ?? null,
+        pageName: params.pageName ?? null,
+        discountPercent: 10,
+        reminderCopy: 'Olvidaste terminar tu compra. Aquí tienes un 10% de descuento.',
+        stripeCheckoutSessionId: params.sessionId,
+      },
+      mailingLists: {
+        promotions: true,
+        upsells: true,
+      },
+    },
+    params.sessionId
+  );
+}
+
+function parseClientReference(value: string | null | undefined): { buyerKey: string | null; productId: string | null } {
+  if (!value) return { buyerKey: null, productId: null };
+  const [buyerKey, productId] = value.split('___');
+  return {
+    buyerKey: buyerKey?.trim() || null,
+    productId: productId?.trim() || null,
+  };
 }
 
 export async function POST(req: Request) {
@@ -45,13 +151,33 @@ export async function POST(req: Request) {
     switch (event.type) {
       case 'checkout.session.completed': {
         const session = event.data.object as Stripe.Checkout.Session;
-        const clientRef = session.client_reference_id;
         const customerId = session.customer as string;
+        const sessionAny = session as Stripe.Checkout.Session & { metadata?: Record<string, string>; payment_intent_data?: { metadata?: Record<string, string> } };
+        const affiliateRef =
+          sessionAny.metadata?.affiliate_ref ||
+          sessionAny.metadata?.affiliateRef ||
+          sessionAny.metadata?.affiliate_last_touch_ref ||
+          sessionAny.payment_intent_data?.metadata?.affiliate_ref;
+        const originalAffiliateRef =
+          sessionAny.metadata?.affiliate_first_ref ||
+          sessionAny.payment_intent_data?.metadata?.affiliate_first_ref;
+        const sharedAffiliateProductId =
+          sessionAny.metadata?.affiliate_product_id ||
+          sessionAny.payment_intent_data?.metadata?.affiliate_product_id;
+        const clientRef = parseClientReference(session.client_reference_id);
+        const inferredProductId =
+          clientRef.productId ||
+          sharedAffiliateProductId ||
+          sessionAny.metadata?.pageId ||
+          sessionAny.metadata?.productId ||
+          null;
+        const buyerKey = clientRef.buyerKey || 'guest';
 
-        if (session.mode === 'payment' && clientRef) {
+        if (session.mode === 'payment' && inferredProductId) {
           // One-time purchase
-          const [clerkUserId, pageId] = clientRef.split('___');
-          if (clerkUserId && pageId) {
+          const pageId = inferredProductId;
+          if (buyerKey !== 'guest') {
+            const clerkUserId = buyerKey;
             const client = await clerkClient();
             const user = await client.users.getUser(clerkUserId);
             const meta = (user.privateMetadata || {}) as Partial<StripeUserMetadata> & { purchasedPages?: string[] };
@@ -69,25 +195,123 @@ export async function POST(req: Request) {
             
             if (customerId && !meta.stripeCustomerId) {
               await stripe.customers.update(customerId, {
-                metadata: { clerkUserId },
+                metadata: {
+                  clerkUserId,
+                  ...(affiliateRef ? { affiliateReferrerId: affiliateRef } : {}),
+                  ...(originalAffiliateRef ? { affiliateOriginalReferrerId: originalAffiliateRef } : {}),
+                  ...(sharedAffiliateProductId ? { affiliateProductId: sharedAffiliateProductId } : {}),
+                },
+              });
+            }
+            const referrerToRecord = affiliateRef || originalAffiliateRef;
+            if (referrerToRecord && referrerToRecord !== clerkUserId && inferredProductId === pageId) {
+              await recordAffiliateCommission({
+                buyerUserId: clerkUserId,
+                referrerUserId: referrerToRecord,
+                originalReferrerUserId: originalAffiliateRef ?? affiliateRef,
+                affiliateProductId: inferredProductId,
+                productId: pageId,
+                productName: pageId,
+                amountPaidCents: session.amount_total ?? 0,
+                currency: session.currency ?? 'usd',
+                source: 'checkout',
+                stripeCustomerId: customerId ?? null,
+                stripeCheckoutSessionId: session.id,
+              });
+            }
+          } else {
+            const referrerToRecord = affiliateRef || originalAffiliateRef;
+            const guestBuyerId = session.customer_email || sessionAny.customer_details?.email || customerId || session.id;
+            if (
+              referrerToRecord &&
+              inferredProductId === pageId &&
+              referrerToRecord !== guestBuyerId
+            ) {
+              await recordAffiliateCommission({
+                buyerUserId: guestBuyerId,
+                referrerUserId: referrerToRecord,
+                originalReferrerUserId: originalAffiliateRef ?? affiliateRef,
+                affiliateProductId: inferredProductId,
+                productId: pageId,
+                productName: sessionAny.metadata?.productName ?? pageId,
+                amountPaidCents: session.amount_total ?? 0,
+                currency: session.currency ?? 'usd',
+                source: 'checkout',
+                stripeCustomerId: customerId ?? null,
+                stripeCheckoutSessionId: session.id,
               });
             }
           }
           break;
         }
 
-        const clerkUserId = clientRef;
+        const clerkUserId = clientRef.buyerKey;
         const subscriptionId = session.subscription as string;
 
         if (!clerkUserId || !customerId || !subscriptionId) break;
 
         // Tag the Stripe customer with the Clerk user ID for future events
         await stripe.customers.update(customerId, {
-          metadata: { clerkUserId },
+          metadata: {
+            clerkUserId,
+            ...(affiliateRef ? { affiliateReferrerId: affiliateRef } : {}),
+            ...(originalAffiliateRef ? { affiliateOriginalReferrerId: originalAffiliateRef } : {}),
+            ...(sharedAffiliateProductId ? { affiliateProductId: sharedAffiliateProductId } : {}),
+          },
         });
 
         const subscription = await stripe.subscriptions.retrieve(subscriptionId);
         await updateUserSubscription(clerkUserId, subscription, customerId);
+        const referrerToRecord = affiliateRef || originalAffiliateRef;
+        const purchasedProductId = subscription.metadata?.productId ?? subscription.metadata?.plan ?? 'subscription';
+        if (
+          referrerToRecord &&
+          referrerToRecord !== clerkUserId &&
+          (!inferredProductId || inferredProductId === purchasedProductId)
+        ) {
+          await recordAffiliateCommission({
+            buyerUserId: clerkUserId,
+            referrerUserId: referrerToRecord,
+            originalReferrerUserId: originalAffiliateRef ?? affiliateRef,
+            affiliateProductId: inferredProductId,
+            productId: purchasedProductId,
+            productName: subscription.metadata?.productName ?? subscription.metadata?.plan ?? 'Subscription',
+            amountPaidCents: session.amount_total ?? 0,
+            currency: session.currency ?? 'usd',
+            source: 'checkout',
+            stripeCustomerId: customerId,
+            stripeSubscriptionId: subscriptionId,
+            stripeCheckoutSessionId: session.id,
+          });
+        }
+        break;
+      }
+
+      case 'checkout.session.expired':
+      case 'checkout.session.async_payment_failed': {
+        const session = event.data.object as Stripe.Checkout.Session;
+        const sessionAny = session as Stripe.Checkout.Session & {
+          metadata?: Record<string, string>;
+          customer_details?: { email?: string | null };
+        };
+        const clientRef = session.client_reference_id;
+        if (!clientRef) break;
+        const [clerkUserId, pageId] = clientRef.split('___');
+        const email =
+          sessionAny.customer_details?.email ??
+          session.customer_email ??
+          null;
+        if (!email) break;
+
+        await sendCartAbandonmentReminder({
+          email,
+          userId: clerkUserId || null,
+          pageId: pageId || null,
+          pageName: sessionAny.metadata?.page_name ?? pageId ?? null,
+          sessionId: session.id,
+        }).catch(error => {
+          console.error('Failed to send cart abandonment reminder to Loops:', error);
+        });
         break;
       }
 
@@ -106,6 +330,37 @@ export async function POST(req: Request) {
         const clerkUserId = await getClerkUserIdFromCustomer(customerId);
         if (!clerkUserId) break;
         await updateUserSubscription(clerkUserId, subscription, customerId);
+        break;
+      }
+
+      case 'invoice.paid': {
+        const invoice = event.data.object as Stripe.Invoice;
+        const invoiceAny = invoice as Stripe.Invoice & { subscription?: string | null };
+        const customerId = invoice.customer as string;
+        const clerkUserId = await getClerkUserIdFromCustomer(customerId);
+        if (!clerkUserId) break;
+        const customer = await stripe.customers.retrieve(customerId);
+        if (customer.deleted) break;
+        const affiliateReferrerId = customer.metadata?.affiliateReferrerId as string | undefined;
+        const affiliateOriginalReferrerId = customer.metadata?.affiliateOriginalReferrerId as string | undefined;
+        const affiliateProductId = customer.metadata?.affiliateProductId as string | undefined;
+        const purchasedProductId = invoiceAny.subscription ? String(invoiceAny.subscription) : invoice.id;
+        if (!affiliateReferrerId || affiliateReferrerId === clerkUserId) break;
+        if (affiliateProductId && affiliateProductId !== purchasedProductId) break;
+        await recordAffiliateCommission({
+          buyerUserId: clerkUserId,
+          referrerUserId: affiliateReferrerId,
+          originalReferrerUserId: affiliateOriginalReferrerId ?? affiliateReferrerId,
+          affiliateProductId: affiliateProductId ?? null,
+          productId: purchasedProductId,
+          productName: invoice.lines.data[0]?.description ?? 'Subscription renewal',
+          amountPaidCents: invoice.amount_paid ?? 0,
+          currency: invoice.currency ?? 'usd',
+          source: 'invoice',
+          stripeCustomerId: customerId,
+          stripeSubscriptionId: invoiceAny.subscription ? String(invoiceAny.subscription) : null,
+          stripeInvoiceId: invoice.id,
+        });
         break;
       }
     }

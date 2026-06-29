@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { BarChart3, ExternalLink } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 
@@ -27,7 +27,14 @@ export default async function DashboardAnalyticsPage() {
     <div className="flex flex-col gap-6 max-w-4xl">
       <div>
         <h1 className="text-lg font-semibold md:text-2xl font-headline flex items-center gap-2">
-          <BarChart3 className="h-6 w-6 text-primary" />
+          <span
+            aria-hidden="true"
+            className="inline-flex h-6 w-6 items-end justify-between rounded-sm border border-primary/30 bg-primary/10 p-1"
+          >
+            <span className="h-2 w-0.5 rounded-full bg-primary/70" />
+            <span className="h-3 w-0.5 rounded-full bg-primary" />
+            <span className="h-4 w-0.5 rounded-full bg-primary/80" />
+          </span>
           {t('title')}
         </h1>
         <p className="text-sm text-muted-foreground mt-1">{t('subtitle')}</p>

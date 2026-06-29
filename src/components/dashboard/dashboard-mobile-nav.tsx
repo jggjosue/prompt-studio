@@ -30,6 +30,7 @@ export function DashboardMobileNav() {
     { href: '/dashboard/profile', label: t('profile'), icon: UserCircle },
     // { href: '/dashboard/settings', label: t('settings'), icon: Settings },
     // { href: '/dashboard/billing', label: t('billing'), icon: CreditCard },
+    { href: '/dashboard/campaigns', label: t('campaigns'), icon: CreditCard },
   ];
 
   return (
@@ -37,16 +38,16 @@ export function DashboardMobileNav() {
       className="md:hidden border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
       aria-label={t('navLabel')}
     >
-      <div className="flex gap-1 overflow-x-auto px-3 py-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div className="flex gap-2 overflow-x-auto px-3 py-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {links.map(({ href, label, icon: Icon }) => {
           const active =
             pathname === href ||
             (href !== '/dashboard' && pathname.startsWith(href));
           const className = cn(
-            'flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-colors',
+            'flex shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-all',
             active
-              ? 'bg-primary text-primary-foreground'
-              : 'bg-muted text-muted-foreground hover:text-foreground'
+              ? 'border-blue-500/30 bg-blue-600/15 text-blue-400 shadow-[0_0_0_1px_rgba(37,99,235,0.12)]'
+              : 'border-border/60 bg-background/70 text-muted-foreground hover:border-blue-500/20 hover:bg-blue-500/5 hover:text-foreground'
           );
 
           if (isPromptEditHref(href)) {
@@ -60,7 +61,7 @@ export function DashboardMobileNav() {
 
           return (
             <Link key={href} href={href} className={className}>
-              <Icon className="h-3.5 w-3.5" />
+              <Icon className="h-4 w-4" />
               {label}
             </Link>
           );
