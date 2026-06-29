@@ -1,17 +1,14 @@
-import { Fira_Code, Fira_Sans } from 'next/font/google';
+import localFont from 'next/font/local';
 
-/** Fuentes auto-hospedadas en el build → servidas desde el POP Anycast de Vercel */
-export const firaCode = Fira_Code({
-  subsets: ['latin'],
+// Use local font files shipped with Next.js to avoid external font fetches at build time.
+export const firaCode = localFont({
+  src: '../../node_modules/next/dist/next-devtools/server/font/geist-mono-latin.woff2',
   variable: '--font-fira-code',
   display: 'swap',
-  preload: true,
 });
 
-export const firaSans = Fira_Sans({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
+export const firaSans = localFont({
+  src: '../../node_modules/next/dist/next-devtools/server/font/geist-latin.woff2',
   variable: '--font-fira-sans',
   display: 'swap',
-  preload: true,
 });
