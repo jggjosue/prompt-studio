@@ -1,6 +1,5 @@
 import { getRawWebPageByCatalogId } from '@/lib/web-pages';
 import { pickLocalized } from '@/lib/localized-string';
-import { readLocalDemoBundle } from '@/lib/refactory-bundle';
 import { NextResponse } from 'next/server';
 
 const PAGE_ID_RE = /^wp-\d+$/;
@@ -25,8 +24,15 @@ export async function GET(
 
   let html = '';
   if (includeHtml && raw.demoUrl) {
-    const bundle = readLocalDemoBundle(raw.demoUrl);
-    html = bundle?.html ?? '';
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000');
+      const res = await fetch(`${baseUrl}/webpages/${raw.demoUrl}/index.html`);
+      if (res.ok) {
+        html = await res.text();
+      }
+    } catch (e) {
+      console.error('Failed to fetch demo html', e);
+    }
   }
 
   return NextResponse.json({
