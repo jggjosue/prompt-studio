@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="description" content="A corporate 3D hub representing a compliance audit center with interactive database panels and security logs.">
+  <meta name="keywords" content="3d, compliance, audit center, finance, corporate, dashboard">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Compliance Audit Center</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Fira+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- GSAP & Three.js via Import Maps for Modules -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.158.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+  <style>
+    :root {
+      --bg-dark: #020617;
+      --panel-bg: rgba(15, 23, 42, 0.6);
+      --panel-border: rgba(51, 65, 85, 0.5);
+      --accent: #CA8A04; /* Premium Gold */
+      --accent-glow: rgba(202, 138, 4, 0.4);
+      --cyan: #06b6d4;
+      --cyan-glow: rgba(6, 182, 212, 0.4);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      
+      --font-body: 'Fira Sans', sans-serif;
+      --font-mono: 'Fira Code', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* 3D Canvas Background */
+    #canvas-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Liquid Glass Utility */
+    .glass-panel {
+      background: var(--panel-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--panel-border);
+      border-radius: 16px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .glass-panel::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    }
+
+    /* Navbar */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 80px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 4%;
+      z-index: 100;
+      background: rgba(2, 6, 23, 0.7);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: all 0.3s ease;
+    }
+    .logo {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 1.2rem;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-main);
+      text-decoration: none;
+    }
+    .logo-icon {
+      width: 24px;
+      height: 24px;
+      background: var(--accent);
+      border-radius: 4px;
+      box-shadow: 0 0 15px var(--accent-glow);
+      display: inline-block;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover {
+      color: var(--text-main);
+    }
+    .cta-btn {
+      background: linear-gradient(135deg, #CA8A04, #a16207);
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 15px var(--accent-glow);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--accent-glow);
+    }
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+    }
+    .hamburger span {
+      width: 24px;
+      height: 2px;
+      background: white;
+      transition: 0.3s;
+    }
+
+    @media (max-width: 992px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .cta-btn { display: none; }
+    }
+
+    /* Scroll Container & Sections */
+    #content-layer {
+      position: relative;
+      z-index: 10;
+    }
+
+    section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 100px 8%;
+      position: relative;
+    }
+
+    h1, h2, h3 {
+      font-family: var(--font-mono);
+      font-weight: 700;
+    }
+
+    .section-label {
+      color: var(--accent);
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 1rem;
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(202, 138, 4, 0.1);
+      border: 1px solid rgba(202, 138, 4, 0.2);
+      border-radius: 20px;
+    }
+
+    /* --- Hero Section --- */
+    #hero {
+      justify-content: center;
+      text-align: center;
+      flex-direction: column;
+    }
+    #hero h1 {
+      font-size: clamp(3rem, 5vw, 5rem);
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(to right, #fff, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      max-width: 900px;
+    }
+    #hero p {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin-bottom: 2.5rem;
+      line-height: 1.6;
+    }
+    .hero-stats {
+      display: flex;
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    .stat-card {
+      padding: 1.5rem;
+      min-width: 160px;
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 2.5rem;
+      font-family: var(--font-mono);
+      color: var(--cyan);
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 15px var(--cyan-glow);
+    }
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* --- Common Layouts --- */
+    .split-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      width: 100%;
+    }
+    .split-content h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .split-content p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+    .visual-wrapper {
+      position: relative;
+      width: 100%;
+      height: 400px;
+      perspective: 1000px;
+    }
+
+    @media (max-width: 992px) {
+      .split-layout {
+        grid-template-columns: 1fr;
+      }
+      .visual-wrapper {
+        height: 300px;
+      }
+    }
+
+    /* --- Control Room (Sala de control) --- */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      height: 100%;
+      transform: rotateY(-10deg) rotateX(5deg);
+      transform-style: preserve-3d;
+    }
+    .dash-widget {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s;
+    }
+    .dash-widget:hover {
+      transform: translateZ(20px);
+    }
+    .widget-title {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .widget-chart {
+      height: 60px;
+      background: linear-gradient(90deg, transparent, var(--cyan-glow));
+      border-bottom: 2px solid var(--cyan);
+      margin-top: 1rem;
+      position: relative;
+    }
+    .widget-chart::after {
+      content: '';
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 4px; height: 100%;
+      background: var(--cyan);
+      box-shadow: 0 0 10px var(--cyan);
+    }
+
+    /* --- Risk Panel --- */
+    .risk-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      transform: rotateY(10deg);
+    }
+    .risk-card {
+      padding: 1.5rem;
+      border-left: 3px solid #ef4444; /* Critical red */
+    }
+    .risk-card.high { border-color: #f97316; }
+    .risk-card.med { border-color: #f59e0b; }
+    .risk-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      font-family: var(--font-mono);
+    }
+    .risk-score { font-size: 1.5rem; font-weight: bold; }
+    .risk-desc { font-size: 0.9rem; color: var(--text-muted); }
+
+    /* --- Document Vault --- */
+    .vault-visual {
+      position: relative;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .doc-item {
+      position: absolute;
+      width: 180px;
+      height: 240px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      gap: 1rem;
+    }
+    .doc-item svg { width: 40px; height: 40px; color: var(--accent); }
+    .doc-1 { transform: translate(-80px, -40px) rotate(-5deg) translateZ(30px); z-index: 3;}
+    .doc-2 { transform: translate(60px, 20px) rotate(8deg) translateZ(10px); z-index: 2;}
+    .doc-3 { transform: translate(0px, 80px) rotate(-2deg) translateZ(50px); z-index: 4;}
+
+    /* --- Audit Flow --- */
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 2px;
+      background: rgba(255,255,255,0.1);
+    }
+    .tl-item {
+      position: relative;
+      margin-bottom: 3rem;
+      padding-left: 2rem;
+    }
+    .tl-item::before {
+      content: '';
+      position: absolute;
+      left: -25px; top: 5px;
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: var(--bg-dark);
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .tl-title { font-family: var(--font-mono); font-size: 1.2rem; margin-bottom: 0.5rem; }
+    .tl-desc { color: var(--text-muted); font-size: 0.95rem; }
+
+    /* --- Report Center --- */
+    .report-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    .report-card {
+      padding: 2rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .report-card svg { width: 48px; height: 48px; color: var(--cyan); }
+    .dl-btn {
+      padding: 8px 20px;
+      background: transparent;
+      border: 1px solid var(--cyan);
+      color: var(--cyan);
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .dl-btn:hover {
+      background: var(--cyan);
+      color: var(--bg-dark);
+    }
+    
+    @media (max-width: 768px) {
+      .report-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--panel-border);
+      padding: 4rem 8%;
+      background: var(--bg-dark);
+      text-align: center;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- 3D Background -->
+  <div id="canvas-container"></div>
+
+  <!-- Navigation -->
+  <nav id="navbar">
+    <a href="#" class="logo">
+      <span class="logo-icon"></span>
+      AUDIT CENTER 3D
+    </a>
+    <div class="nav-links">
+      <a href="#hero">Home</a>
+      <a href="#control-room">Compliance</a>
+      <a href="#risk-panel">Risk</a>
+      <a href="#audit-flow">Audit Flow</a>
+      <a href="#document-vault">Evidence</a>
+      <a href="#report-center">Reports</a>
+    </div>
+    <button class="cta-btn">Start Audit</button>
+    <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+
+  <!-- Scrollable Content -->
+  <div id="content-layer">
+
+    <!-- 1. Hero -->
+    <section id="hero">
+      <span class="section-label" style="opacity: 0; transform: translateY(20px);">Enterprise Security</span>
+      <h1 style="opacity: 0; transform: translateY(20px);">3D Compliance<br>Audit Center</h1>
+      <p style="opacity: 0; transform: translateY(20px);">Immersive operations center for corporate governance, risk management, and continuous cybersecurity auditing.</p>
+      <div class="hero-stats" style="opacity: 0; transform: translateY(20px);">
+        <div class="glass-panel stat-card">
+          <div class="stat-value">99.9%</div>
+          <div class="stat-label">Uptime Monitored</div>
+        </div>
+        <div class="glass-panel stat-card">
+          <div class="stat-value">0ms</div>
+          <div class="stat-label">Alert Latency</div>
+        </div>
+        <div class="glass-panel stat-card" style="border-color: rgba(202, 138, 4, 0.5);">
+          <div class="stat-value" style="color: var(--accent); text-shadow: 0 0 15px var(--accent-glow);">A+</div>
+          <div class="stat-label">Audit Rating</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Control Room -->
+    <section id="control-room">
+      <div class="split-layout">
+        <div class="split-content gs-reveal-left">
+          <span class="section-label">Command Center</span>
+          <h2>Centralized Control Room</h2>
+          <p>Gain absolute visibility into your corporate infrastructure. Our 3D telemetry engine pulls real-time metrics across all servers, endpoints, and cloud deployments, rendering them in an intuitive spatial dashboard.</p>
+          <button class="dl-btn">Explore Metrics</button>
+        </div>
+        <div class="visual-wrapper gs-reveal-right">
+          <div class="dashboard-grid">
+            <div class="glass-panel dash-widget">
+              <span class="widget-title">NET_TRAFFIC (TB/s)</span>
+              <div class="stat-value" style="font-size: 1.8rem;">1.24</div>
+              <div class="widget-chart"></div>
+            </div>
+            <div class="glass-panel dash-widget">
+              <span class="widget-title">ACTIVE_NODES</span>
+              <div class="stat-value" style="font-size: 1.8rem;">4,892</div>
+              <div class="widget-chart" style="border-color: var(--accent); background: linear-gradient(90deg, transparent, var(--accent-glow));"></div>
+            </div>
+            <div class="glass-panel dash-widget" style="grid-column: span 2;">
+              <span class="widget-title">GLOBAL_COMPLIANCE_SCORE</span>
+              <div style="display:flex; align-items:flex-end; gap: 15px; margin-top: 1rem;">
+                <span style="font-size: 3rem; color: var(--accent); font-family: var(--font-mono); font-weight: 700; line-height: 1;">98</span>
+                <span style="color: var(--text-muted); font-family: var(--font-mono); margin-bottom: 5px;">/ 100</span>
+              </div>
+              <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 1rem; overflow: hidden;">
+                <div style="width: 98%; height: 100%; background: var(--accent); box-shadow: 0 0 10px var(--accent-glow);"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Risk Panel -->
+    <section id="risk-panel">
+      <div class="split-layout">
+        <div class="visual-wrapper gs-reveal-left">
+          <div class="risk-grid">
+            <div class="glass-panel risk-card">
+              <div class="risk-header">
+                <span>CVE-2024-102</span>
+                <span class="risk-score" style="color: #ef4444;">9.8</span>
+              </div>
+              <div class="risk-desc">Critical vulnerability detected in authentication module. Action required.</div>
+            </div>
+            <div class="glass-panel risk-card high" style="transform: translateY(30px);">
+              <div class="risk-header">
+                <span>Data Exp.</span>
+                <span class="risk-score" style="color: #f97316;">7.4</span>
+              </div>
+              <div class="risk-desc">Unencrypted traffic detected between DB-02 and Cache layer.</div>
+            </div>
+            <div class="glass-panel risk-card med">
+              <div class="risk-header">
+                <span>Policy Gap</span>
+                <span class="risk-score" style="color: #f59e0b;">5.2</span>
+              </div>
+              <div class="risk-desc">MFA not enforced for 14 privileged administrative accounts.</div>
+            </div>
+            <div class="glass-panel risk-card high" style="transform: translateY(30px);">
+              <div class="risk-header">
+                <span>API Rate</span>
+                <span class="risk-score" style="color: #f97316;">6.8</span>
+              </div>
+              <div class="risk-desc">Rate limiting threshold exceeded on public endpoints.</div>
+            </div>
+          </div>
+        </div>
+        <div class="split-content gs-reveal-right">
+          <span class="section-label">Risk Management</span>
+          <h2>Dynamic Risk Profiling</h2>
+          <p>Instantly evaluate systemic vulnerabilities. Our AI-driven risk engine categorizes threats in real-time, mapping them to specific nodes in your infrastructure and calculating potential blast radius.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Document Vault & 5. Evidence Board -->
+    <section id="document-vault">
+      <div class="split-layout">
+        <div class="split-content gs-reveal-left">
+          <span class="section-label">Evidence & Documents</span>
+          <h2>Secure Document Vault</h2>
+          <p>Store, retrieve, and cryptographically verify audit evidence. The vault employs immutable ledger technology to ensure that once a policy document or log file is stored, it cannot be tampered with.</p>
+        </div>
+        <div class="visual-wrapper vault-visual gs-reveal-right">
+          <div class="glass-panel doc-item doc-1">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            <span style="font-family: var(--font-mono); font-size: 0.8rem;">SOC2_Report.pdf</span>
+            <span style="font-size: 0.7rem; color: #22c55e;">Verified ✓</span>
+          </div>
+          <div class="glass-panel doc-item doc-2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <span style="font-family: var(--font-mono); font-size: 0.8rem;">Access_Logs.csv</span>
+            <span style="font-size: 0.7rem; color: #22c55e;">Sealed ✓</span>
+          </div>
+          <div class="glass-panel doc-item doc-3" style="border-color: var(--accent);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            <span style="font-family: var(--font-mono); font-size: 0.8rem;">ISO_27001.cert</span>
+            <span style="font-size: 0.7rem; color: var(--accent);">Active</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Audit Flow -->
+    <section id="audit-flow">
+      <div class="split-layout">
+        <div class="visual-wrapper gs-reveal-left">
+          <div class="timeline">
+            <div class="tl-item">
+              <div class="tl-title">Phase 1: Discovery</div>
+              <div class="tl-desc">Automated scanning of endpoints, network topologies, and access control matrices.</div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-title">Phase 2: Gap Analysis</div>
+              <div class="tl-desc">Comparing current state against selected compliance frameworks (SOC2, HIPAA, GDPR).</div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-title">Phase 3: Evidence Collection</div>
+              <div class="tl-desc">Aggregating logs, policies, and configuration files into the immutable vault.</div>
+            </div>
+            <div class="tl-item" style="margin-bottom: 0;">
+              <div class="tl-title" style="color: var(--accent);">Phase 4: Reporting</div>
+              <div class="tl-desc">Generating interactive 3D dashboards and board-ready PDF exports.</div>
+            </div>
+          </div>
+        </div>
+        <div class="split-content gs-reveal-right">
+          <span class="section-label">Workflow</span>
+          <h2>Automated Audit Flow</h2>
+          <p>Transform grueling manual audits into a streamlined, automated pipeline. Our continuous auditing framework ensures you are always prepared, reducing audit preparation time by 80%.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. Report Center -->
+    <section id="report-center" style="flex-direction: column; justify-content: center; text-align: center;">
+      <span class="section-label gs-reveal-up">Deliverables</span>
+      <h2 class="gs-reveal-up" style="font-size: 3rem; margin-bottom: 1rem;">Report Center</h2>
+      <p class="gs-reveal-up" style="max-width: 600px; color: var(--text-muted); margin: 0 auto 2rem;">Export comprehensive audit trails, executive summaries, and technical remediation guides with a single click.</p>
+      
+      <div class="report-grid w-100 gs-reveal-up">
+        <div class="glass-panel report-card">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          <div>
+            <h3 style="margin-bottom: 0.5rem; font-size: 1.1rem;">Executive Summary</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">High-level overview for board members.</p>
+          </div>
+          <button class="dl-btn">Download PDF</button>
+        </div>
+        <div class="glass-panel report-card" style="border-color: rgba(202, 138, 4, 0.5);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--accent);"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+          <div>
+            <h3 style="margin-bottom: 0.5rem; font-size: 1.1rem; color: var(--accent);">Full Audit Ledger</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Complete technical breakdown and metrics.</p>
+          </div>
+          <button class="dl-btn" style="border-color: var(--accent); color: var(--accent);">Export CSV</button>
+        </div>
+        <div class="glass-panel report-card">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <div>
+            <h3 style="margin-bottom: 0.5rem; font-size: 1.1rem;">Remediation Plan</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Step-by-step guide to fix identified risks.</p>
+          </div>
+          <button class="dl-btn">Generate</button>
+        </div>
+      </div>
+      
+      <div style="margin-top: 5rem;" class="gs-reveal-up">
+        <h2 style="margin-bottom: 1.5rem; font-size: 2.5rem;">Ready to secure your enterprise?</h2>
+        <button class="cta-btn" style="font-size: 1.1rem; padding: 16px 36px;">Start Automated Audit</button>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    <p>&copy; 2026 AuditCore 3D. All rights reserved. SOC2 Type II Certified.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script type="module">
+    import * as THREE from 'three';
+
+    // GSAP Setup
+    gsap.registerPlugin(ScrollTrigger);
+
+    // ─── THREE.JS SETUP ────────────────────────────────────────────────────────
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x020617, 0.02);
+
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 2, 0);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
+
+    // Lights
+    const ambient = new THREE.AmbientLight(0x0f172a, 2);
+    scene.add(ambient);
+    
+    const blueLight = new THREE.PointLight(0x06b6d4, 3, 50);
+    blueLight.position.set(5, 5, -10);
+    scene.add(blueLight);
+
+    const goldLight = new THREE.PointLight(0xca8a04, 3, 50);
+    goldLight.position.set(-5, -5, -20);
+    scene.add(goldLight);
+
+    // Grid Floor
+    const gridHelper = new THREE.GridHelper(200, 100, 0x06b6d4, 0x1e293b);
+    gridHelper.position.y = -4;
+    gridHelper.material.opacity = 0.2;
+    gridHelper.material.transparent = true;
+    scene.add(gridHelper);
+
+    // Data Nodes (Cubes) & Particles
+    const nodesGroup = new THREE.Group();
+    scene.add(nodesGroup);
+
+    const nodeGeo = new THREE.BoxGeometry(0.8, 0.8, 0.8);
+    const nodeMatBlue = new THREE.MeshBasicMaterial({ color: 0x06b6d4, wireframe: true, transparent: true, opacity: 0.3 });
+    const nodeMatGold = new THREE.MeshBasicMaterial({ color: 0xca8a04, wireframe: true, transparent: true, opacity: 0.3 });
+
+    // Create a tunnel of nodes
+    const nodeCount = 150;
+    for (let i = 0; i < nodeCount; i++) {
+      const isGold = Math.random() > 0.8;
+      const mesh = new THREE.Mesh(nodeGeo, isGold ? nodeMatGold : nodeMatBlue);
+      
+      // Position along Z axis to create depth
+      const z = -(i * 2) - 5;
+      // Spread out on X and Y, keeping center clear for camera
+      const angle = Math.random() * Math.PI * 2;
+      const radius = 4 + Math.random() * 10;
+      const x = Math.cos(angle) * radius;
+      const y = Math.sin(angle) * radius;
+
+      mesh.position.set(x, y, z);
+      
+      // Random rotation
+      mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
+      
+      // Add subtle random animation data
+      mesh.userData = {
+        rotSpeed: (Math.random() - 0.5) * 0.02,
+        floatSpeed: Math.random() * 0.02 + 0.01,
+        yOffset: Math.random() * Math.PI * 2
+      };
+
+      nodesGroup.add(mesh);
+    }
+
+    // Connecting Lines
+    const lineMat = new THREE.LineBasicMaterial({ color: 0x334155, transparent: true, opacity: 0.2 });
+    for (let i = 0; i < nodeCount; i += 3) {
+      if (i + 2 >= nodeCount) break;
+      const p1 = nodesGroup.children[i].position;
+      const p2 = nodesGroup.children[i+1].position;
+      const p3 = nodesGroup.children[i+2].position;
+      
+      const pts = [p1, p2, p3, p1];
+      const lineGeo = new THREE.BufferGeometry().setFromPoints(pts);
+      const line = new THREE.Line(lineGeo, lineMat);
+      nodesGroup.add(line);
+    }
+
+    // Resize handler
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // Render loop
+    const clock = new THREE.Clock();
+    function animate() {
+      requestAnimationFrame(animate);
+      
+      const time = clock.getElapsedTime();
+      
+      // Animate nodes gently
+      nodesGroup.children.forEach(child => {
+        if (child.isMesh) {
+          child.rotation.x += child.userData.rotSpeed;
+          child.rotation.y += child.userData.rotSpeed;
+          child.position.y += Math.sin(time * child.userData.floatSpeed + child.userData.yOffset) * 0.005;
+        }
+      });
+
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // ─── GSAP SCROLL ANIMATIONS ────────────────────────────────────────────────
+
+    // 1. Animate Three.js Camera on Scroll
+    // We want the camera to fly forward through the nodes as we scroll down
+    ScrollTrigger.create({
+      trigger: "#content-layer",
+      start: "top top",
+      end: "bottom bottom",
+      scrub: 1,
+      onUpdate: (self) => {
+        // Move camera forward on Z axis
+        const maxZ = -(nodeCount * 2) + 20; // Maximum depth to travel
+        camera.position.z = self.progress * maxZ;
+        
+        // Add subtle rotation based on scroll to make it cinematic
+        camera.rotation.z = Math.sin(self.progress * Math.PI * 2) * 0.05;
+        camera.rotation.y = Math.cos(self.progress * Math.PI) * 0.05;
+      }
+    });
+
+    // 2. Animate HTML Elements
+    
+    // Hero Intro
+    const tlHero = gsap.timeline();
+    tlHero.to("#hero .section-label", { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" })
+          .to("#hero h1", { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.6")
+          .to("#hero p", { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.6")
+          .to("#hero .hero-stats", { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.4");
+
+    // Reveal from Left
+    gsap.utils.toArray('.gs-reveal-left').forEach(elem => {
+      gsap.fromTo(elem, 
+        { opacity: 0, x: -50 }, 
+        { 
+          scrollTrigger: {
+            trigger: elem,
+            start: "top 80%",
+          },
+          opacity: 1, x: 0, duration: 1, ease: "power2.out"
+        }
+      );
+    });
+
+    // Reveal from Right
+    gsap.utils.toArray('.gs-reveal-right').forEach(elem => {
+      gsap.fromTo(elem, 
+        { opacity: 0, x: 50 }, 
+        { 
+          scrollTrigger: {
+            trigger: elem,
+            start: "top 80%",
+          },
+          opacity: 1, x: 0, duration: 1, ease: "power2.out"
+        }
+      );
+    });
+
+    // Reveal Up (Reports)
+    gsap.utils.toArray('.gs-reveal-up').forEach((elem, i) => {
+      gsap.fromTo(elem, 
+        { opacity: 0, y: 40 }, 
+        { 
+          scrollTrigger: {
+            trigger: "#report-center",
+            start: "top 70%",
+          },
+          opacity: 1, y: 0, duration: 0.8, delay: i * 0.1, ease: "power2.out"
+        }
+      );
+    });
+
+    // Parallax Vault Documents
+    gsap.to(".doc-1", {
+      yPercent: -50,
+      ease: "none",
+      scrollTrigger: { trigger: "#document-vault", start: "top bottom", end: "bottom top", scrub: true }
+    });
+    gsap.to(".doc-2", {
+      yPercent: 30,
+      ease: "none",
+      scrollTrigger: { trigger: "#document-vault", start: "top bottom", end: "bottom top", scrub: true }
+    });
+    gsap.to(".doc-3", {
+      yPercent: -20,
+      ease: "none",
+      scrollTrigger: { trigger: "#document-vault", start: "top bottom", end: "bottom top", scrub: true }
+    });
+
+    // Navbar blur effect on scroll
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        nav.style.background = 'rgba(2, 6, 23, 0.9)';
+        nav.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.3)';
+      } else {
+        nav.style.background = 'rgba(2, 6, 23, 0.7)';
+        nav.style.boxShadow = 'none';
+      }
+    });
+
+  </script>
+</body>
+</html>

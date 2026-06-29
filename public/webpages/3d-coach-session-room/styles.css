@@ -1,0 +1,340 @@
+:root {
+  --font-primary: 'Outfit', sans-serif;
+  --color-bg: #0a0c10;
+  --color-text: #f0f4f8;
+  --color-primary: #d4af37; /* Soft gold */
+  --color-primary-hover: #c19b26;
+  --color-glass: rgba(255, 255, 255, 0.05);
+  --color-glass-border: rgba(255, 255, 255, 0.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-primary);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  overflow-x: hidden;
+  /* Smooth scroll for anchor links */
+  scroll-behavior: smooth;
+}
+
+/* 3D Canvas container fixed behind content */
+#canvas-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none; /* Let clicks pass through to content */
+}
+
+/* Glassmorphism Header */
+#navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 3rem;
+  background: rgba(10, 12, 16, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-glass-border);
+  z-index: 100;
+  transition: all 0.3s ease;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--color-text);
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav-links a {
+  color: var(--color-text);
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 400;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: var(--color-primary);
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.8rem 1.8rem;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: none;
+  font-size: 1rem;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #000;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.menu-toggle span {
+  display: block;
+  width: 25px;
+  height: 2px;
+  background-color: var(--color-text);
+  margin: 5px 0;
+  transition: 0.3s;
+}
+
+/* Utilities */
+.mobile-only {
+    display: none !important;
+}
+
+/* Sections */
+main {
+  position: relative;
+  z-index: 1;
+}
+
+.panel {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 6rem 10%;
+  pointer-events: none; /* Make section itself not catch clicks */
+}
+
+.content-block {
+  pointer-events: auto; /* Re-enable clicks for actual content */
+  max-width: 600px;
+}
+
+.align-right {
+  justify-content: flex-end;
+}
+
+.align-right .content-block {
+  text-align: left; /* Keep text left aligned but container on right */
+}
+
+.center-align {
+  justify-content: center;
+  text-align: center;
+}
+
+.center-align .content-block {
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 4rem;
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+}
+
+h2 {
+  font-size: 3rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.benefits-list {
+    list-style: none;
+    margin-bottom: 2rem;
+}
+
+.benefits-list li {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.benefits-list li::before {
+    content: "✦";
+    color: var(--color-primary);
+}
+
+/* Glass Cards */
+.glass-card {
+  background: var(--color-glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--color-glass-border);
+  border-radius: 20px;
+  padding: 3rem;
+}
+
+/* Testimonials */
+.testimonial-text {
+    font-size: 1.5rem;
+    font-style: italic;
+}
+.testimonial-author {
+    color: var(--color-primary);
+    font-weight: 600;
+    display: block;
+}
+
+/* Pricing */
+.pricing-cards {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+.pricing-card {
+    flex: 1;
+    min-width: 250px;
+    padding: 2rem;
+}
+.pricing-card h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+.pricing-card.highlighted {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
+}
+.pricing-card .price {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 1rem 0;
+}
+
+/* Forms */
+.booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: left;
+}
+.booking-form input, .booking-form select {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--color-glass-border);
+    color: var(--color-text);
+    font-family: var(--font-primary);
+    font-size: 1rem;
+}
+.booking-form input:focus, .booking-form select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+}
+.booking-form select option {
+    background: var(--color-bg);
+    color: var(--color-text);
+}
+.full-width {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.site-footer {
+    text-align: center;
+    padding: 2rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.9rem;
+    pointer-events: auto;
+}
+
+/* Parallax elements initial state */
+.parallax-text {
+  opacity: 0;
+  transform: translateY(50px);
+}
+
+/* Mobile Responsive */
+@media (max-width: 992px) {
+  h1 { font-size: 3rem; }
+  h2 { font-size: 2.5rem; }
+  .panel { padding: 5rem 5%; }
+}
+
+@media (max-width: 768px) {
+  #navbar {
+    padding: 1rem 1.5rem;
+  }
+  
+  .nav-links {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background: rgba(10, 12, 16, 0.95);
+    backdrop-filter: blur(10px);
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2rem 0;
+    transform: translateY(-150%);
+    transition: transform 0.3s ease;
+    border-bottom: 1px solid var(--color-glass-border);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .nav-links.active {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+  
+  .desktop-only {
+      display: none !important;
+  }
+  .mobile-only {
+      display: inline-block !important;
+  }
+
+  .pricing-cards {
+      flex-direction: column;
+  }
+}

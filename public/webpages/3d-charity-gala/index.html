@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="description" content="Immersive virtual 3D event space designed for a charity gala, complete with interactive tables, stages, and donation portals.">
+  <meta name="keywords" content="3d, charity, gala, event, interactive, virtual space, webgl">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Charity Gala</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  
+  <!-- 3D Canvas Background -->
+  <canvas id="webgl-canvas"></canvas>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <span class="logo-text">GALA 3D</span>
+      </div>
+      <div class="menu-toggle" id="mobile-menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="#hero" class="nav-link">Home</a></li>
+        <li><a href="#mission" class="nav-link">Mission</a></li>
+        <li><a href="#event" class="nav-link">Event</a></li>
+        <li><a href="#impact" class="nav-link">Impact</a></li>
+        <li><a href="#auction" class="nav-link">Auction</a></li>
+        <li><a href="#sponsors" class="nav-link">Sponsors</a></li>
+        <li><a href="#tickets" class="nav-link">Tickets</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+        <li><a href="#donate" class="btn btn-donate">Donate Now</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Content Overlay -->
+  <main class="content">
+    
+    <section id="hero" class="panel">
+      <div class="hero-content" data-parallax="true">
+        <h1 class="title">An Immersive Charity Gala for a Greater Cause</h1>
+        <p class="subtitle">Experience an unforgettable evening. Your presence changes lives.</p>
+        <a href="#donate" class="btn btn-primary btn-large">Join the Gala</a>
+      </div>
+    </section>
+
+    <section id="mission" class="panel align-left">
+      <div class="card glass" data-parallax="true">
+        <h2 class="section-title">Our Mission</h2>
+        <p>Step onto the virtual red carpet. We are dedicated to providing education, resources, and hope to communities in need across the globe.</p>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <h3>50K+</h3>
+            <p>Lives Impacted</p>
+          </div>
+          <div class="stat-item">
+            <h3>120</h3>
+            <p>Communities Served</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="event" class="panel align-right">
+      <div class="card glass" data-parallax="true">
+        <h2 class="section-title">The Grand Event</h2>
+        <p>A night of elegance, entertainment, and philanthropy. Explore our virtual gala hall, enjoy exclusive performances, and network with global changemakers.</p>
+        <ul class="event-highlights">
+          <li>✨ Live Orchestral Performances</li>
+          <li>✨ Keynote by Visionary Leaders</li>
+          <li>✨ Exclusive VIP Lounges</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="impact" class="panel align-center">
+      <div class="card glass wide" data-parallax="true">
+        <h2 class="section-title">Your Impact</h2>
+        <p>Every contribution builds a foundation for a better tomorrow. Witness the stories of those whose lives have been transformed.</p>
+        <div class="impact-gallery">
+          <div class="impact-video-placeholder">▶ Play Story</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="auction" class="panel align-left">
+      <div class="card glass" data-parallax="true">
+        <h2 class="section-title">Charity Auction</h2>
+        <p>Bid on exclusive items, experiences, and art pieces. 100% of the proceeds go directly to our mission funds.</p>
+        <div class="auction-items">
+          <div class="auction-item">
+            <h4>Private Chef Dinner</h4>
+            <p>Current Bid: $1,200</p>
+            <button class="btn btn-outline">Bid Now</button>
+          </div>
+          <div class="auction-item">
+            <h4>Original Oil Canvas</h4>
+            <p>Current Bid: $3,500</p>
+            <button class="btn btn-outline">Bid Now</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="sponsors" class="panel align-center">
+      <div class="card glass wide" data-parallax="true">
+        <h2 class="section-title">Our Generous Sponsors</h2>
+        <p>We extend our deepest gratitude to the visionary organizations making this night possible.</p>
+        <div class="sponsors-grid">
+          <div class="sponsor-logo">Acme Corp</div>
+          <div class="sponsor-logo">Global Foundation</div>
+          <div class="sponsor-logo">Tech Cares</div>
+          <div class="sponsor-logo">Horizon Ventures</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tickets" class="panel align-right">
+      <div class="card glass" data-parallax="true">
+        <h2 class="section-title">Reserve Your Seat</h2>
+        <p>Secure your ticket to the most anticipated philanthropic event of the year.</p>
+        <div class="ticket-tiers">
+          <div class="tier">
+            <h4>Standard Access</h4>
+            <p class="price">$500</p>
+            <button class="btn btn-primary">Select</button>
+          </div>
+          <div class="tier vip">
+            <h4>VIP Experience</h4>
+            <p class="price">$2,500</p>
+            <button class="btn btn-primary">Select</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="donate" class="panel align-center">
+      <div class="card glass wide" data-parallax="true">
+        <h2 class="section-title">Make a Difference</h2>
+        <p>If you cannot attend, your generous donation still echoes through the lives you touch.</p>
+        <div class="donate-form">
+          <div class="amount-options">
+            <button class="amount-btn">$100</button>
+            <button class="amount-btn active">$500</button>
+            <button class="amount-btn">$1,000</button>
+            <button class="amount-btn">Custom</button>
+          </div>
+          <button class="btn btn-donate btn-large mt-4">Donate Now</button>
+        </div>
+      </div>
+    </section>
+
+    <footer id="contact" class="footer">
+      <p>&copy; 2026 3D Charity Gala. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="#">Contact Us</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  
+  <!-- Main Logic -->
+  <script src="gala3d.js"></script>
+</body>
+</html>

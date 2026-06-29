@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="3D Conference Room Stream is a premium virtual event landing page with interactive 3D storytelling, live demo controls, agenda, speakers, analytics, and registration.">
+  <meta name="keywords" content="3D conference, virtual event, live stream, webinar, hybrid event, corporate meeting">
+  <title>3D Conference Room Stream</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <span class="brand-mark">◈</span>
+      <span>STREAM ROOM 3D</span>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+    <nav class="site-nav" id="site-nav">
+      <a href="#home">Home</a>
+      <a href="#stream-room">Room</a>
+      <a href="#features">Features</a>
+      <a href="#live-demo">Live Demo</a>
+      <a href="#agenda">Agenda</a>
+      <a href="#speakers">Speakers</a>
+      <a href="#analytics">Analytics</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#register">Register</a>
+      <a href="#contact">Contact</a>
+      <button class="btn btn-primary nav-cta" data-scroll="#live-demo">Join Stream</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero section" id="home">
+      <div class="hero-copy">
+        <div class="eyebrow">Premium corporate streaming · hybrid events · executive meetings</div>
+        <h1>Host Premium Conference Streams in a 3D Room</h1>
+        <p>Create immersive virtual conferences, executive meetings and hybrid events with synchronized video, live
+          chat, speaker panels and cinematic 3D presentation rooms.</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" id="enter-stream">Enter Stream Room</button>
+          <button class="btn btn-secondary" data-scroll="#features">View Features</button>
+          <button class="btn btn-secondary" data-scroll="#register">Register Now</button>
+        </div>
+        <div class="hero-stats">
+          <div><strong>2.4K</strong><span>Live viewers</span></div>
+          <div><strong>94%</strong><span>Stream stability</span></div>
+          <div><strong>320</strong><span>Questions asked</span></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="room-frame">
+          <canvas id="conference-canvas" aria-label="Interactive 3D conference room stream"></canvas>
+          <div class="live-badge">LIVE</div>
+          <div class="hotspot-layer">
+            <button class="hotspot" data-hotspot="Live Stream">Live Stream</button>
+            <button class="hotspot" data-hotspot="Speaker Screen">Speaker Screen</button>
+            <button class="hotspot" data-hotspot="Audience Chat">Audience Chat</button>
+            <button class="hotspot" data-hotspot="Stream Controls">Stream Controls</button>
+            <button class="hotspot" data-hotspot="Agenda Panel">Agenda Panel</button>
+            <button class="hotspot" data-hotspot="Analytics">Analytics</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section story-strip" id="stream-room">
+      <div class="section-heading">
+        <span class="section-kicker">Stream Room</span>
+        <h2>A Virtual Conference Room Built for Live Events</h2>
+        <p>The room combines streaming, collaboration, presentations and networking inside a premium 3D environment that
+          responds to scroll and guided actions.</p>
+      </div>
+      <div class="card-grid three-up">
+        <article class="glass-card reveal">
+          <span class="icon">🎥</span>
+          <h3>Live Conference Streaming</h3>
+          <p>Deliver polished broadcasts with cinematic lighting, audience layers, and a clear stage hierarchy.</p>
+        </article>
+        <article class="glass-card reveal">
+          <span class="icon">🧑‍💼</span>
+          <h3>Remote Speaker Panels</h3>
+          <p>Bring remote speakers forward with synchronized screens, expressive overlays, and guided camera motion.</p>
+        </article>
+        <article class="glass-card reveal">
+          <span class="icon">💬</span>
+          <h3>Interactive Audience Layer</h3>
+          <p>Chat, Q&A, reactions, and prompts sit alongside analytics to keep the event feeling alive.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="sponsors">
+      <div class="section-heading" style="text-align: center;">
+        <span class="section-kicker">Trusted by</span>
+      </div>
+      <div class="sponsors-grid">
+        <div class="sponsor-logo">Acme Corp</div>
+        <div class="sponsor-logo">Globex</div>
+        <div class="sponsor-logo">Soylent</div>
+        <div class="sponsor-logo">Initech</div>
+        <div class="sponsor-logo">Umbrella</div>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="section-heading">
+        <span class="section-kicker">Features</span>
+        <h2>Built for premium production teams</h2>
+      </div>
+      <div class="feature-grid">
+        <article class="glass-card reveal">HD Live Stream</article>
+        <article class="glass-card reveal">Speaker Grid</article>
+        <article class="glass-card reveal">Live Chat &amp; Q&amp;A</article>
+        <article class="glass-card reveal">Screen Sharing</article>
+        <article class="glass-card reveal">Event Agenda</article>
+        <article class="glass-card reveal">Audience Analytics</article>
+        <article class="glass-card reveal">Sponsor Placement</article>
+        <article class="glass-card reveal">Session Recording</article>
+      </div>
+    </section>
+
+    <section class="section demo-section" id="live-demo">
+      <div class="section-heading">
+        <span class="section-kicker">Live Demo</span>
+        <h2>Simulated stream experience with real controls</h2>
+      </div>
+      <div class="demo-layout">
+        <div class="player-shell glass-card">
+          <div class="player-topbar">
+            <span class="live-dot">● LIVE</span>
+            <span id="viewer-count">2,450 viewers</span>
+          </div>
+          <div class="player-screen" id="player-screen">
+            <div class="player-overlay">
+              <div class="player-title">Executive keynote in progress</div>
+              <div class="player-meter"><span></span></div>
+            </div>
+          </div>
+          <div class="player-controls">
+            <button class="btn btn-primary" id="play-toggle">Pause</button>
+            <button class="btn btn-secondary" id="ask-question">Ask Question</button>
+            <button class="btn btn-secondary" id="share-stream">Share Stream</button>
+          </div>
+        </div>
+        <aside class="side-panel glass-card">
+          <h3>Stream Snapshot</h3>
+          <p>Audience activity, speaker timing, and agenda highlights update as the page story progresses.</p>
+          <div class="mini-bars">
+            <div><span>Engagement</span><i style="--v:87%"></i></div>
+            <div><span>Stability</span><i style="--v:94%"></i></div>
+            <div><span>Q&amp;A</span><i style="--v:78%"></i></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="agenda">
+      <div class="section-heading">
+        <span class="section-kicker">Agenda</span>
+        <h2>Event timeline</h2>
+      </div>
+      <div class="timeline">
+        <button class="timeline-item glass-card reveal" data-session="Welcome & Opening Stream">09:00 — Welcome &amp;
+          Opening Stream</button>
+        <button class="timeline-item glass-card reveal" data-session="Executive Keynote">10:00 — Executive
+          Keynote</button>
+        <button class="timeline-item glass-card reveal" data-session="Remote Expert Panel">11:30 — Remote Expert
+          Panel</button>
+        <button class="timeline-item glass-card reveal" data-session="Networking Break">13:00 — Networking
+          Break</button>
+        <button class="timeline-item glass-card reveal" data-session="Product Demo Stream">15:00 — Product Demo
+          Stream</button>
+        <button class="timeline-item glass-card reveal" data-session="Closing Session">17:00 — Closing Session</button>
+      </div>
+    </section>
+
+    <section class="section" id="speakers">
+      <div class="section-heading">
+        <span class="section-kicker">Speakers</span>
+        <h2>Executive speakers and production leads</h2>
+      </div>
+      <div class="card-grid four-up">
+        <button class="glass-card speaker-card reveal" data-speaker="Sofia Grant — Digital Events Strategist">Sofia
+          Grant</button>
+        <button class="glass-card speaker-card reveal" data-speaker="Marcus Lee — Enterprise Collaboration Lead">Marcus
+          Lee</button>
+        <button class="glass-card speaker-card reveal" data-speaker="Elena Ruiz — Hybrid Experience Producer">Elena
+          Ruiz</button>
+        <button class="glass-card speaker-card reveal" data-speaker="Noah Carter — Streaming Technology Director">Noah
+          Carter</button>
+      </div>
+    </section>
+
+    <section class="section" id="collaboration">
+      <div class="section-heading">
+        <span class="section-kicker">Collaboration</span>
+        <h2>Tools that keep the event interactive</h2>
+      </div>
+      <div class="card-grid three-up">
+        <button class="glass-card tool-card reveal" data-tool="Live Polls">Live Polls</button>
+        <button class="glass-card tool-card reveal" data-tool="Q&A Queue">Q&amp;A Queue</button>
+        <button class="glass-card tool-card reveal" data-tool="Breakout Rooms">Breakout Rooms</button>
+        <button class="glass-card tool-card reveal" data-tool="Shared Notes">Shared Notes</button>
+        <button class="glass-card tool-card reveal" data-tool="Whiteboard">Whiteboard</button>
+        <button class="glass-card tool-card reveal" data-tool="Audience Reactions">Audience Reactions</button>
+      </div>
+    </section>
+
+    <section class="section" id="analytics">
+      <div class="section-heading">
+        <span class="section-kicker">Analytics</span>
+        <h2>Live audience intelligence</h2>
+      </div>
+      <div class="analytics-grid">
+        <div class="glass-card metric"><strong>2,450</strong><span>Live viewers</span></div>
+        <div class="glass-card metric"><strong>87%</strong><span>Engagement rate</span></div>
+        <div class="glass-card metric"><strong>320</strong><span>Questions asked</span></div>
+        <div class="glass-card metric"><strong>94%</strong><span>Stream stability</span></div>
+      </div>
+      <button class="btn btn-secondary" id="view-analytics">View Analytics</button>
+    </section>
+
+    <section class="section" id="pricing">
+      <div class="section-heading">
+        <span class="section-kicker">Pricing</span>
+        <h2>Choose a plan that matches the scale of your event</h2>
+      </div>
+      <div class="card-grid four-up">
+        <button class="glass-card plan-card reveal" data-plan="Webinar Room">Webinar Room</button>
+        <button class="glass-card plan-card reveal" data-plan="Pro Conference">Pro Conference</button>
+        <button class="glass-card plan-card reveal" data-plan="Enterprise Stream">Enterprise Stream</button>
+        <button class="glass-card plan-card reveal" data-plan="Hybrid Event Suite">Hybrid Event Suite</button>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="section-heading">
+        <span class="section-kicker">FAQ</span>
+        <h2>Common questions</h2>
+      </div>
+      <div class="faq-list">
+        <details class="glass-card faq-item reveal">
+          <summary>How many attendees can join a stream?</summary>
+          <p>Our Enterprise plan supports up to 10,000 concurrent live viewers with ultra-low latency. Webinar plans
+            support up to 500.</p>
+        </details>
+        <details class="glass-card faq-item reveal">
+          <summary>Can I customize the 3D room design?</summary>
+          <p>Yes, Pro and Enterprise plans allow custom branding, materials, and lighting to match your corporate
+            identity.</p>
+        </details>
+        <details class="glass-card faq-item reveal">
+          <summary>Is there a limit to remote speakers?</summary>
+          <p>You can have up to 12 active remote speakers on the panel at the same time.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="section" id="register">
+      <div class="section-heading">
+        <span class="section-kicker">Register</span>
+        <h2>Reserve a demo stream</h2>
+      </div>
+      <div class="form-grid">
+        <form class="glass-card form-card" id="register-form">
+          <input name="name" placeholder="Name" required>
+          <input name="email" type="email" placeholder="Email" required>
+          <input name="company" placeholder="Company" required>
+          <input name="role" placeholder="Role" required>
+          <select name="eventType" required>
+            <option value="">Event Type</option>
+            <option>Webinar</option>
+            <option>Executive Meeting</option>
+            <option>Hybrid Event</option>
+          </select>
+          <button class="btn btn-primary" type="submit">Register for Demo Stream</button>
+          <p class="form-message" id="register-message"></p>
+        </form>
+        <div class="glass-card summary-card">
+          <h3>Selected demo</h3>
+          <p id="selected-plan">Hybrid Event Suite</p>
+          <p>3D conference room, live chat, agenda, analytics, and interactive speaker panels.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="testimonials">
+      <div class="section-heading">
+        <span class="section-kicker">Testimonials</span>
+        <h2>Organizers love the immersive finish</h2>
+      </div>
+      <div class="card-grid three-up">
+        <article class="glass-card reveal">“Our virtual conference finally felt premium and immersive.”</article>
+        <article class="glass-card reveal">“The 3D room made remote speakers feel present and connected.”</article>
+        <article class="glass-card reveal">“The stream analytics and audience tools were exactly what we needed.”
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="section-heading">
+        <span class="section-kicker">Contact</span>
+        <h2>Request a custom stream setup</h2>
+      </div>
+      <div class="form-grid">
+        <form class="glass-card form-card" id="contact-form">
+          <input name="name" placeholder="Name" required>
+          <input name="email" type="email" placeholder="Email" required>
+          <input name="company" placeholder="Company" required>
+          <input name="need" placeholder="Streaming Need" required>
+          <textarea name="message" placeholder="Message" rows="4" required></textarea>
+          <button class="btn btn-primary" type="submit">Request Stream Setup</button>
+          <p class="form-message" id="contact-message"></p>
+        </form>
+        <div class="glass-card summary-card">
+          <h3>Contact</h3>
+          <p>hello@streamroom3d.com</p>
+          <p>+1 (555) 013-2048</p>
+          <p>Monterrey, Mexico / Remote worldwide</p>
+          <p>LinkedIn · YouTube · X</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal" id="app-modal" style="display: none;">
+    <div class="glass-card modal-card">
+      <button class="modal-close" id="modal-close" aria-label="Close modal">&times;</button>
+      <h3 id="modal-title"></h3>
+      <p id="modal-body"></p>
+      <div class="modal-actions" id="modal-actions"></div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="conference3d.js"></script>
+</body>
+
+</html>

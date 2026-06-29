@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="keywords" content="3d, cinematic, scene, short film, timeline, gsap, animation">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="3D Cinematic Scene Short Film Timeline - An interactive, immersive web experience.">
+    <title>3D Cinematic Scene Short Film Timeline</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- 3D Canvas Container -->
+    <div id="canvas-container"></div>
+
+    <!-- Header / Navbar -->
+    <header id="navbar">
+        <div class="nav-container">
+            <div class="logo">CINE 3D</div>
+            
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <nav id="nav-menu">
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#story-intro">Story</a></li>
+                    <li><a href="#timeline">Timeline</a></li>
+                    <li><a href="#scenes">Scenes</a></li>
+                    <li><a href="#characters">Characters</a></li>
+                    <li><a href="#behind-the-scenes">Behind the Scenes</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="watch-trailer-btn">Watch Trailer</button>
+        </div>
+    </header>
+
+    <!-- Main ContentOverlay -->
+    <main class="content-overlay">
+
+        <!-- 1. Hero Section -->
+        <section id="home" class="panel hero-panel">
+            <div class="hero-content">
+                <h1 class="parallax-text" data-speed="0.5">The Void<br>Awakens</h1>
+                <p class="subtitle parallax-text" data-speed="0.8">An Interactive 3D Cinematic Journey</p>
+                <div class="scroll-indicator">
+                    <span>Scroll to explore</span>
+                    <div class="line"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Story / Cinematic Timeline Sections -->
+        <!-- We break the story into different scrolling phases -->
+        
+        <section id="story-intro" class="panel story-panel">
+            <div class="narrative-card glass">
+                <div class="timeline-marker">01 // Intro</div>
+                <h2>The Awakening</h2>
+                <p>In the silence of the void, a spark ignites. The universe begins its slow dance of creation. What once was dark is now illuminated by the faint pulse of life.</p>
+            </div>
+        </section>
+
+        <section id="story-conflict" class="panel story-panel align-right">
+            <div class="narrative-card glass">
+                <div class="timeline-marker">02 // Conflict</div>
+                <h2>The Convergence</h2>
+                <p>Forces collide. The delicate balance is disrupted as chaos infiltrates the order. A battle of light and shadow unfolds in the deep expanse.</p>
+            </div>
+        </section>
+
+        <section id="story-discovery" class="panel story-panel">
+            <div class="narrative-card glass">
+                <div class="timeline-marker">03 // Discovery</div>
+                <h2>The Artifact</h2>
+                <p>Amidst the turmoil, a hidden truth is revealed. An ancient artifact resonates with untold power, shifting the tide of the cosmic struggle.</p>
+            </div>
+        </section>
+
+        <section id="story-climax" class="panel story-panel align-right">
+            <div class="narrative-card glass">
+                <div class="timeline-marker">04 // Climax</div>
+                <h2>The Supernova</h2>
+                <p>The breaking point. Energy surges as the conflict reaches its peak, resulting in a blinding explosion of raw, untamed power.</p>
+            </div>
+        </section>
+
+        <section id="story-ending" class="panel story-panel">
+            <div class="narrative-card glass">
+                <div class="timeline-marker">05 // Ending</div>
+                <h2>The New Dawn</h2>
+                <p>From the ashes of the climax, a new reality forms. The dust settles, leaving behind a tranquil, transformed universe.</p>
+            </div>
+        </section>
+
+        <!-- 3. Timeline Overview -->
+        <section id="timeline" class="panel">
+            <div class="container">
+                <h2 class="section-title">Timeline Overview</h2>
+                <div class="timeline-visual glass">
+                    <div class="timeline-point"><span class="point-num">01</span><span class="point-label">Intro</span></div>
+                    <div class="timeline-point"><span class="point-num">02</span><span class="point-label">Conflict</span></div>
+                    <div class="timeline-point"><span class="point-num">03</span><span class="point-label">Discovery</span></div>
+                    <div class="timeline-point"><span class="point-num">04</span><span class="point-label">Climax</span></div>
+                    <div class="timeline-point"><span class="point-num">05</span><span class="point-label">Ending</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Scenes -->
+        <section id="scenes" class="panel">
+            <div class="container">
+                <h2 class="section-title">Key Scenes</h2>
+                <div class="grid">
+                    <div class="grid-item glass">
+                        <h3>Scene I: The Nebula</h3>
+                        <p>Detailed render of the birth of the galaxy.</p>
+                    </div>
+                    <div class="grid-item glass">
+                        <h3>Scene II: Dark Matter</h3>
+                        <p>The infiltration of the dark forces.</p>
+                    </div>
+                    <div class="grid-item glass">
+                        <h3>Scene III: Resolution</h3>
+                        <p>The final equilibrium state.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Characters / Elements -->
+        <section id="characters" class="panel">
+            <div class="container">
+                <h2 class="section-title">Entities</h2>
+                <div class="grid cards-layout">
+                    <div class="card glass">
+                        <div class="card-img" style="background: linear-gradient(45deg, #0f2027, #203a43, #2c5364);"></div>
+                        <div class="card-content">
+                            <h3>The Light</h3>
+                            <p>The source of creation.</p>
+                        </div>
+                    </div>
+                    <div class="card glass">
+                        <div class="card-img" style="background: linear-gradient(45deg, #141e30, #243b55);"></div>
+                        <div class="card-content">
+                            <h3>The Shadow</h3>
+                            <p>The force of destruction.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Behind the Scenes -->
+        <section id="behind-the-scenes" class="panel">
+            <div class="container">
+                <h2 class="section-title">Behind the Scenes</h2>
+                <div class="glass glass-panel p-lg">
+                    <p>Crafting this cinematic experience involved complex 3D modeling, dynamic lighting simulations, and advanced web technologies including WebGL via Three.js and GSAP for scroll-driven narratives.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. Contact -->
+        <section id="contact" class="panel">
+            <div class="container text-center">
+                <h2 class="section-title">Stay Connected</h2>
+                <p class="contact-desc">Join our newsletter to get updates on the official release.</p>
+                <form class="contact-form glass">
+                    <input type="email" placeholder="Enter your email address" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </section>
+
+        <footer class="footer glass">
+            <p>&copy; 2026 CINE 3D. All rights reserved.</p>
+        </footer>
+
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

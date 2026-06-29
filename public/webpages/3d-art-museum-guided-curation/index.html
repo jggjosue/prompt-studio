@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="keywords" content="3d, art, museum, guided curation, interactive, gallery, three.js">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Art Museum Guided Curation</title>
+  <meta name="description" content="Step into an immersive 3D art museum with guided curation, cinematic scroll storytelling, interactive hotspots, collections, artists, tickets, and visit requests.">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "./assets/three.module.js"
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+
+  <header class="site-header" id="top">
+    <a class="brand" href="#home" aria-label="MUSEUM 3D home">
+      <span class="brand-mark"></span>
+      <span>MUSEUM 3D</span>
+    </a>
+    <nav class="nav" id="primary-nav" aria-label="Primary navigation">
+      <a href="#home">Home</a>
+      <a href="#exhibition">Exhibition</a>
+      <a href="#guided-tour">Guided Tour</a>
+      <a href="#collections">Collections</a>
+      <a href="#artists">Artists</a>
+      <a href="#tickets">Tickets</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+    </button>
+    <button class="header-cta" data-tour-start type="button">Start Guided Tour</button>
+  </header>
+
+  <main>
+    <section class="hero section" id="home" data-room="0">
+      <div class="hero-copy parallax-layer" data-speed="-0.08">
+        <h1>Step Into a Curated 3D Art Museum</h1>
+        <p>Explore immersive exhibitions, digital collections, and guided art experiences through cinematic 3D scroll storytelling.</p>
+        <div class="hero-actions">
+          <button class="btn primary" data-tour-start type="button">Start Guided Tour</button>
+          <a class="btn ghost" href="#collections">Explore Collections</a>
+          <a class="btn quiet" href="#tickets">Book a Visit</a>
+        </div>
+      </div>
+
+      <div class="museum-stage" aria-label="Interactive 3D museum walkthrough">
+        <div id="scene-root"></div>
+        <button class="hotspot hotspot-one" data-hotspot="0" type="button" aria-label="Open artwork note for Lumen Archive">
+          <span></span>
+        </button>
+        <button class="hotspot hotspot-two" data-hotspot="1" type="button" aria-label="Open artwork note for Memory Atrium">
+          <span></span>
+        </button>
+        <button class="hotspot hotspot-three" data-hotspot="2" type="button" aria-label="Open sculpture note for Echo Form">
+          <span></span>
+        </button>
+        <div class="tour-state" id="tour-state">Scroll to move through the gallery</div>
+      </div>
+    </section>
+
+    <section class="story-strip section" id="guided-tour" data-room="1">
+      <div class="section-copy reveal">
+        <h2>A Guided Journey Through Art and Space</h2>
+        <p>Each room is composed as a visual chapter. The camera advances through architecture, light, sculpture, and layered artwork while curator notes reveal the emotional thread behind every collection.</p>
+      </div>
+      <div class="feature-grid">
+        <article class="feature-card reveal">
+          <span class="icon">01</span>
+          <h3>Curated Exhibitions</h3>
+          <p>Rooms are sequenced around material, mood, and spatial rhythm so every transition feels intentional.</p>
+        </article>
+        <article class="feature-card reveal">
+          <span class="icon">02</span>
+          <h3>Immersive Storytelling</h3>
+          <p>Scroll-led camera motion, parallax text, and changing light make the visit feel guided rather than browsed.</p>
+        </article>
+        <article class="feature-card reveal">
+          <span class="icon">03</span>
+          <h3>Interactive Art Notes</h3>
+          <p>Hotspots surface artist, collection, year, and curator notes without breaking the cinematic flow.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="exhibition section" id="exhibition" data-room="2">
+      <div class="exhibition-visual reveal parallax-layer" data-speed="0.05">
+        <div class="gallery-render">
+          <div class="render-wall"></div>
+          <div class="render-work render-work-one"></div>
+          <div class="render-work render-work-two"></div>
+          <div class="render-sculpture"></div>
+          <div class="render-floor"></div>
+        </div>
+      </div>
+      <div class="section-copy reveal">
+        <h2>Light, Form &amp; Memory</h2>
+        <p>A fictional collection about luminous architecture, spatial silence, and the way digital objects can feel remembered before they are seen.</p>
+        <button class="btn primary" data-detail="exhibition" type="button">View Exhibition</button>
+      </div>
+    </section>
+
+    <section class="collections section" id="collections" data-room="3">
+      <div class="section-heading reveal">
+        <h2>Collections</h2>
+        <p>Four rooms, each shaped by a distinct relationship between material, light, and perception.</p>
+      </div>
+      <div class="collection-grid">
+        <article class="collection-card reveal" data-collection="Modern Abstractions">
+          <div class="art art-abstract"></div>
+          <h3>Modern Abstractions</h3>
+          <p>Color fields, fractured geometry, and quiet tension arranged in a white-room sequence.</p>
+          <button class="text-btn" type="button">View Collection</button>
+        </article>
+        <article class="collection-card reveal" data-collection="Digital Sculptures">
+          <div class="art art-sculpt"></div>
+          <h3>Digital Sculptures</h3>
+          <p>Floating forms and metallic studies that respond to the virtual gallery light.</p>
+          <button class="text-btn" type="button">View Collection</button>
+        </article>
+        <article class="collection-card reveal" data-collection="Architectural Dreams">
+          <div class="art art-arch"></div>
+          <h3>Architectural Dreams</h3>
+          <p>Imagined corridors, impossible atriums, and spatial sketches rendered as memory.</p>
+          <button class="text-btn" type="button">View Collection</button>
+        </article>
+        <article class="collection-card reveal" data-collection="Light Installations">
+          <div class="art art-light"></div>
+          <h3>Light Installations</h3>
+          <p>Soft halos, projected planes, and warm-gold studies of illumination as a medium.</p>
+          <button class="text-btn" type="button">View Collection</button>
+        </article>
+      </div>
+    </section>
+
+    <section class="artists section" id="artists" data-room="4">
+      <div class="section-heading reveal">
+        <h2>Artists &amp; Curators</h2>
+        <p>The museum experience is shaped by digital makers, spatial sculptors, and curators of light.</p>
+      </div>
+      <div class="artist-row">
+        <article class="artist-card reveal">
+          <div class="portrait portrait-one"></div>
+          <h3>Elena Marquez</h3>
+          <p>Digital Installation Artist</p>
+        </article>
+        <article class="artist-card reveal">
+          <div class="portrait portrait-two"></div>
+          <h3>Theo Laurent</h3>
+          <p>Spatial Sculptor</p>
+        </article>
+        <article class="artist-card reveal">
+          <div class="portrait portrait-three"></div>
+          <h3>Amara Voss</h3>
+          <p>Light &amp; Form Curator</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="tickets section" id="tickets" data-room="5">
+      <div class="section-heading reveal">
+        <h2>Tickets &amp; Visit</h2>
+        <p>Choose a way to enter the museum: preview, guided digital tour, or a private curator session.</p>
+      </div>
+      <div class="plan-grid">
+        <article class="plan reveal">
+          <h3>Free Virtual Preview</h3>
+          <strong>$0</strong>
+          <p>Gallery preview, collection overview, and selected hotspot notes.</p>
+          <button class="btn ghost" data-plan="Free Virtual Preview" type="button">Reserve Preview</button>
+        </article>
+        <article class="plan featured reveal">
+          <h3>Guided Digital Tour</h3>
+          <strong>$24</strong>
+          <p>Full scroll-led tour, curator narration, exhibition notes, and replay access.</p>
+          <button class="btn primary" data-plan="Guided Digital Tour" type="button">Book Tour</button>
+        </article>
+        <article class="plan reveal">
+          <h3>Private Curator Session</h3>
+          <strong>$120</strong>
+          <p>Private walkthrough, artist context, collection strategy, and custom Q&amp;A.</p>
+          <button class="btn ghost" data-plan="Private Curator Session" type="button">Request Session</button>
+        </article>
+      </div>
+    </section>
+
+    <section class="contact section" id="contact" data-room="6">
+      <div class="contact-info reveal">
+        <h2>Request Guided Tour</h2>
+        <p>MUSEUM 3D Digital Gallery<br>88 Lumen Court, Virtual Arts District<br>contact@museum3d.example</p>
+      </div>
+      <form class="contact-form reveal" id="contact-form" novalidate>
+        <label>
+          Name
+          <input id="name" name="name" type="text" autocomplete="name" required>
+        </label>
+        <label>
+          Email
+          <input id="email" name="email" type="email" autocomplete="email" required>
+        </label>
+        <label>
+          Visit Type
+          <select id="visit-type" name="visit-type" required>
+            <option value="">Select a visit</option>
+            <option>Free Virtual Preview</option>
+            <option>Guided Digital Tour</option>
+            <option>Private Curator Session</option>
+          </select>
+        </label>
+        <label>
+          Message
+          <textarea id="message" name="message" rows="4" required></textarea>
+        </label>
+        <button class="btn primary" type="submit">Request Guided Tour</button>
+        <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+
+  <div class="modal" id="detail-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-card">
+      <button class="modal-close" id="modal-close" type="button" aria-label="Close details">Close</button>
+      <p class="modal-kicker" id="modal-kicker">Curator Note</p>
+      <h2 id="modal-title"></h2>
+      <p id="modal-body"></p>
+      <dl id="modal-meta"></dl>
+    </div>
+  </div>
+
+  <script type="module" src="museum.js"></script>
+</body>
+</html>

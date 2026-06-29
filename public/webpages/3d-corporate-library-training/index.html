@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="3D Corporate Library Training is a premium corporate learning library for courses, certifications, mentoring, and team progress.">
+  <title>3D Corporate Library Training</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="#home" aria-label="Library Training 3D home">
+        <span class="brand-mark">LT3D</span>
+        <span>LIBRARY TRAINING 3D</span>
+      </a>
+      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="navMenu">Menu</button>
+      <nav class="nav" id="navMenu">
+        <a href="#home">Home</a>
+        <a href="#library">Library</a>
+        <a href="#courses">Courses</a>
+        <a href="#paths">Learning Paths</a>
+        <a href="#certs">Certifications</a>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a class="cta cta-small" href="#contact">Start Training</a>
+    </header>
+
+    <main>
+      <section class="hero section" id="home">
+        <div class="hero-copy reveal">
+          <span class="eyebrow">Corporate learning library</span>
+          <h1>Build a Smarter Workforce Through a 3D Corporate Learning Library</h1>
+          <p>Explore a premium training hub where employees access courses, resources, certifications, and learning paths inside an immersive 3D corporate library.</p>
+          <div class="hero-actions">
+            <button class="cta" data-action="enter-library">Enter Library</button>
+            <a class="ghost-btn" href="#courses">Explore Courses</a>
+            <a class="ghost-btn" href="#contact">Request Demo</a>
+          </div>
+          <div class="hero-stats">
+            <div><strong>18</strong><span>Departments enrolled</span></div>
+            <div><strong>320</strong><span>Certificates earned</span></div>
+            <div><strong>94%</strong><span>Knowledge pass rate</span></div>
+          </div>
+        </div>
+        <div class="hero-visual reveal">
+          <canvas id="libraryCanvas" width="960" height="720" aria-label="Corporate library 3D canvas"></canvas>
+          <div class="hotspots" id="hotspots"></div>
+          <div class="hero-floating">
+            <span>Learning Paths</span>
+            <span>Course Catalog</span>
+            <span>Resource Vault</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section library-section" id="library">
+        <div class="section-heading reveal">
+          <span class="eyebrow">Library</span>
+          <h2>A Centralized Knowledge Hub for Every Team</h2>
+          <p>Bring resources, videos, guides, documents, and certifications into a single learning environment that feels organized, modern, and easy to navigate.</p>
+        </div>
+        <div class="card-grid three-up">
+          <article class="info-card reveal"><h3>Digital Resource Library</h3><p>Keep playbooks, SOPs, and onboarding material in one searchable place.</p></article>
+          <article class="info-card reveal"><h3>Role-Based Learning</h3><p>Deliver targeted paths for sales, HR, operations, technology, and leadership.</p></article>
+          <article class="info-card reveal"><h3>Company Knowledge Base</h3><p>Help teams find trusted answers fast with curated internal learning content.</p></article>
+        </div>
+      </section>
+
+      <section class="section" id="courses">
+        <div class="section-heading reveal">
+          <span class="eyebrow">Courses</span>
+          <h2>Training Programs Designed for Real Business Impact</h2>
+        </div>
+        <div class="card-grid course-grid" id="courseGrid"></div>
+      </section>
+
+      <section class="section" id="paths">
+        <div class="section-heading reveal">
+          <span class="eyebrow">Learning Paths</span>
+          <h2>Guided Routes for Onboarding, Leadership, and Upskilling</h2>
+        </div>
+        <div class="timeline" id="pathGrid"></div>
+      </section>
+
+      <section class="section" id="certs">
+        <div class="section-heading reveal">
+          <span class="eyebrow">Certifications</span>
+          <h2>Visible Achievement That Encourages Progress</h2>
+        </div>
+        <div class="card-grid cert-grid" id="certGrid"></div>
+      </section>
+
+      <section class="section" id="dashboard">
+        <div class="section-heading reveal">
+          <span class="eyebrow">Dashboard</span>
+          <h2>Training Metrics Leadership Can Act On</h2>
+        </div>
+        <div class="dashboard-panel reveal">
+          <div class="kpi-row" id="kpiRow"></div>
+          <div class="dashboard-charts">
+            <div class="chart-block">
+              <div class="chart-title">Department Completion</div>
+              <div class="bars" id="deptBars"></div>
+            </div>
+            <div class="chart-block">
+              <div class="chart-title">Skill Gaps</div>
+              <div class="radial">
+                <div class="radial-core">6</div>
+                <p>Priority gaps identified</p>
+              </div>
+            </div>
+          </div>
+          <button class="ghost-btn inline" data-action="view-dashboard">View Dashboard</button>
+        </div>
+      </section>
+
+      <section class="section" id="resources">
+        <div class="section-heading reveal">
+          <span class="eyebrow">Resource Vault</span>
+          <h2>Filters That Surface the Right Material Instantly</h2>
+        </div>
+        <div class="filter-row" id="resourceFilters"></div>
+        <div class="card-grid resource-grid" id="resourceGrid"></div>
+      </section>
+
+      <section class="section mentorship" id="mentorship">
+        <div class="section-heading reveal">
+          <span class="eyebrow">Mentorship</span>
+          <h2>Warm, Human Coaching for Continued Growth</h2>
+        </div>
+        <div class="mentorship-panel reveal">
+          <div>
+            <h3>Mentor profiles</h3>
+            <p>Book sessions with experienced leaders and subject matter experts.</p>
+          </div>
+          <div>
+            <h3>Session topics</h3>
+            <p>Performance coaching, career planning, and leadership feedback loops.</p>
+          </div>
+          <button class="cta" data-action="book-mentorship">Book Mentorship</button>
+        </div>
+      </section>
+
+      <section class="section" id="team">
+        <div class="section-heading reveal">
+          <span class="eyebrow">Team Progress</span>
+          <h2>See Completion, Engagement, and Readiness Across Departments</h2>
+        </div>
+        <div class="progress-grid reveal">
+          <div class="progress-card" id="teamProgress"></div>
+          <div class="progress-card">
+            <h3>Recommended next courses</h3>
+            <ul class="list" id="nextCourses"></ul>
+            <button class="ghost-btn inline" data-action="analyze-team">Analyze Team Progress</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="pricing">
+        <div class="section-heading reveal">
+          <span class="eyebrow">Pricing</span>
+          <h2>Plans for Teams of Every Size</h2>
+        </div>
+        <div class="card-grid pricing-grid" id="pricingGrid"></div>
+      </section>
+
+      <section class="section testimonials" id="testimonials">
+        <div class="section-heading reveal">
+          <span class="eyebrow">Testimonials</span>
+          <h2>Trusted by HR, Managers, and Learners</h2>
+        </div>
+        <div class="card-grid three-up" id="testimonialGrid"></div>
+      </section>
+
+      <section class="section contact-section" id="contact">
+        <div class="section-heading reveal">
+          <span class="eyebrow">Contact</span>
+          <h2>Request a Training Demo</h2>
+        </div>
+        <div class="contact-grid">
+          <form class="contact-form reveal" id="demoForm">
+            <div class="form-grid">
+              <label><span>Name</span><input name="name" required></label>
+              <label><span>Email</span><input name="email" type="email" required></label>
+              <label><span>Company</span><input name="company" required></label>
+              <label><span>Team Size</span><input name="teamSize" required></label>
+              <label><span>Training Need</span><input name="need" required></label>
+              <label class="full"><span>Message</span><textarea name="message" rows="4" required></textarea></label>
+            </div>
+            <button class="cta" type="submit">Request Training Demo</button>
+            <p class="form-message" id="formMessage" aria-live="polite"></p>
+          </form>
+          <div class="contact-card reveal">
+            <h3>Corporate contact</h3>
+            <p>Email: hello@librarytraining3d.com</p>
+            <p>Phone: +1 (555) 017-2048</p>
+            <p>Office: 88 Innovation Ave, Suite 1400</p>
+            <div class="socials">
+              <a href="#home">LinkedIn</a>
+              <a href="#home">X</a>
+              <a href="#home">YouTube</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="modal hidden" id="infoModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-card">
+        <button class="modal-close" data-close="modal">×</button>
+        <div id="modalContent"></div>
+      </div>
+    </div>
+    <div class="toast hidden" id="toast" aria-live="polite"></div>
+  </div>
+  <script src="corpLibrary3d.js"></script>
+</body>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="3D Conference Main Stage is a premium immersive landing page with cinematic scroll storytelling, interactive speakers, agenda, sponsors, tickets and venue details.">
+  <meta name="keywords" content="3D conference, main stage, event landing page, keynote, agenda, sponsors, tickets">
+  <title>3D Conference Main Stage</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="#home">STAGE 3D</a>
+      <button class="menu-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+      <nav id="nav" class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#stage">Stage</a>
+        <a href="#speakers">Speakers</a>
+        <a href="#agenda">Agenda</a>
+        <a href="#sponsors">Sponsors</a>
+        <a href="#tickets">Tickets</a>
+        <a href="#venue">Venue</a>
+        <a href="#contact">Contact</a>
+        <a class="nav-cta" href="#tickets">Get Tickets</a>
+      </nav>
+    </header>
+
+    <main>
+      <section id="home" class="hero section">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">Premium conference experience</p>
+          <h1>Step Into the Main Stage Experience</h1>
+          <p class="hero-subtitle">Explore an immersive 3D conference stage with keynote sessions, live panels, speakers, sponsors and event moments brought to life through cinematic scroll.</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" data-action="enter-stage">Enter Main Stage</button>
+            <a class="btn btn-secondary" href="#agenda">View Agenda</a>
+            <a class="btn btn-secondary" href="#tickets">Get Tickets</a>
+          </div>
+          <div class="hero-points">
+            <span>3D canvas scene</span>
+            <span>Scroll storytelling</span>
+            <span>Hotspots and modals</span>
+          </div>
+        </div>
+        <div class="hero-stage">
+          <div class="canvas-frame">
+            <canvas id="stage-canvas" aria-label="Interactive 3D conference stage"></canvas>
+            <div class="canvas-hud">
+              <button data-hotspot="keynote">Keynote Stage</button>
+              <button data-hotspot="podium">Speaker Podium</button>
+              <button data-hotspot="panel">Live Panel</button>
+              <button data-hotspot="agenda">Agenda Screen</button>
+              <button data-hotspot="sponsor">Sponsor Wall</button>
+              <button data-hotspot="tickets">Tickets</button>
+            </div>
+          </div>
+          <div class="stage-orbit reveal">
+            <div>
+              <strong>4500+</strong>
+              <span>attendees</span>
+            </div>
+            <div>
+              <strong>24</strong>
+              <span>sessions</span>
+            </div>
+            <div>
+              <strong>18</strong>
+              <span>sponsors</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="story" class="story-strip section">
+        <div class="story-card reveal">Entrance</div>
+        <div class="story-card reveal">Auditorium</div>
+        <div class="story-card reveal">Main Stage</div>
+        <div class="story-card reveal">Agenda</div>
+        <div class="story-card reveal">Sponsors</div>
+        <div class="story-card reveal">Tickets</div>
+      </section>
+
+      <section id="highlights" class="section content-grid">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Event highlights</p>
+          <h2>A Conference Designed for Impact</h2>
+        </div>
+        <div class="cards-grid">
+          <article class="info-card reveal"><h3>Main Keynotes</h3><p>Big-stage product stories, visionary speakers, and cinematic LED walls.</p></article>
+          <article class="info-card reveal"><h3>Expert Panels</h3><p>Live discussion formats with audience-aware lighting and motion.</p></article>
+          <article class="info-card reveal"><h3>Live Networking</h3><p>Elegant lounge moments designed for meaningful introductions.</p></article>
+          <article class="info-card reveal"><h3>Interactive Sessions</h3><p>Agenda blocks and venue hotspots that respond to every click.</p></article>
+        </div>
+      </section>
+
+      <section id="stage" class="section content-grid">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Conference main stage</p>
+          <h2>Built like a real production set</h2>
+        </div>
+        <div class="feature-layout">
+          <div class="feature-copy reveal">
+            <p>The canvas animates a premium venue with LED walls, podium light, audience depth, and floating stage labels. Use the buttons to jump to hotspots or let scroll drive the camera through the space.</p>
+            <div class="mini-list">
+              <span>LED Wall Presentations</span>
+              <span>Live Camera Coverage</span>
+              <span>Hybrid Streaming</span>
+              <span>Interactive Q&A</span>
+            </div>
+          </div>
+          <div class="feature-card reveal">
+            <h3>Stage systems</h3>
+            <p>Spotlights, sponsor banners, glass panels, and ambient motion for a cinematic event feel.</p>
+            <button class="btn btn-secondary" data-action="focus-stage">Focus Stage</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="speakers" class="section content-grid">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Speakers</p>
+          <h2>Voices shaping the future of events</h2>
+        </div>
+        <div class="speaker-grid">
+          <article class="speaker-card reveal" data-talk="Maya Chen"><div class="avatar">MC</div><h3>Maya Chen</h3><p>AI Product Leader</p><span>Keynote on intelligent event experiences.</span><button class="btn btn-secondary" data-action="talk">View Talk</button></article>
+          <article class="speaker-card reveal" data-talk="David Romero"><div class="avatar">DR</div><h3>David Romero</h3><p>Creative Technology Director</p><span>How immersive visuals elevate live production.</span><button class="btn btn-secondary" data-action="talk">View Talk</button></article>
+          <article class="speaker-card reveal" data-talk="Aisha Bennett"><div class="avatar">AB</div><h3>Aisha Bennett</h3><p>Future of Work Strategist</p><span>Hybrid formats that keep audiences engaged.</span><button class="btn btn-secondary" data-action="talk">View Talk</button></article>
+          <article class="speaker-card reveal" data-talk="Leo Nakamura"><div class="avatar">LN</div><h3>Leo Nakamura</h3><p>Immersive Experience Designer</p><span>Designing stage worlds with depth and motion.</span><button class="btn btn-secondary" data-action="talk">View Talk</button></article>
+        </div>
+      </section>
+
+      <section id="agenda" class="section content-grid">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Agenda</p>
+          <h2>A live timeline that drives the LED wall</h2>
+        </div>
+        <div class="agenda-grid">
+          <button class="agenda-item reveal" data-slot="registration"><strong>09:00</strong><span>Registration & Welcome</span><em>Add to Schedule</em></button>
+          <button class="agenda-item reveal" data-slot="keynote"><strong>10:00</strong><span>Opening Keynote</span><em>View Details</em></button>
+          <button class="agenda-item reveal" data-slot="panel"><strong>11:30</strong><span>Innovation Panel</span><em>Add to Schedule</em></button>
+          <button class="agenda-item reveal" data-slot="lunch"><strong>13:00</strong><span>Networking Lunch</span><em>View Details</em></button>
+          <button class="agenda-item reveal" data-slot="breakouts"><strong>15:00</strong><span>Breakout Sessions</span><em>Add to Schedule</em></button>
+          <button class="agenda-item reveal" data-slot="closing"><strong>17:00</strong><span>Closing Talk</span><em>View Details</em></button>
+        </div>
+      </section>
+
+      <section id="sponsors" class="section content-grid">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Sponsors</p>
+          <h2>A sponsor wall with premium presence</h2>
+        </div>
+        <div class="sponsor-grid">
+          <div class="sponsor-tile reveal">Northstar</div>
+          <div class="sponsor-tile reveal">Vector One</div>
+          <div class="sponsor-tile reveal">Luma Labs</div>
+          <div class="sponsor-tile reveal">FutureGrid</div>
+          <div class="sponsor-tile reveal">Pulse Media</div>
+          <div class="sponsor-tile reveal">Community+</div>
+        </div>
+        <button class="btn btn-primary reveal" data-action="sponsor">Become a Sponsor</button>
+      </section>
+
+      <section id="tickets" class="section content-grid">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Tickets</p>
+          <h2>Choose the experience that fits your team</h2>
+        </div>
+        <div class="ticket-grid">
+          <article class="ticket-card reveal" data-ticket="Online Pass"><h3>Online Pass</h3><strong>$49</strong><p>Livestream access, recordings, and speaker recaps.</p><button class="btn btn-secondary" data-action="ticket">Select Ticket</button></article>
+          <article class="ticket-card reveal" data-ticket="General Admission"><h3>General Admission</h3><strong>$199</strong><p>Main stage access, panels, and networking lounge.</p><button class="btn btn-secondary" data-action="ticket">Select Ticket</button></article>
+          <article class="ticket-card reveal" data-ticket="VIP Experience"><h3>VIP Experience</h3><strong>$499</strong><p>Priority seating, private lounge, and speaker access.</p><button class="btn btn-secondary" data-action="ticket">Select Ticket</button></article>
+          <article class="ticket-card reveal" data-ticket="Team Package"><h3>Team Package</h3><strong>$899</strong><p>Five passes with collaborative perks and sponsor meetups.</p><button class="btn btn-secondary" data-action="ticket">Select Ticket</button></article>
+        </div>
+      </section>
+
+      <section id="venue" class="section content-grid">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Venue</p>
+          <h2>Aurora Convention Center, Future City</h2>
+        </div>
+        <div class="venue-layout">
+          <div class="venue-card reveal">
+            <p><strong>Date:</strong> November 14-15</p>
+            <p><strong>Format:</strong> In-person + Livestream</p>
+            <p><strong>Venue:</strong> Aurora Convention Center</p>
+            <p><strong>City:</strong> Future City</p>
+            <button class="btn btn-secondary" data-action="location">View Location</button>
+          </div>
+          <div class="venue-map reveal">
+            <span>Main Hall</span>
+            <span>Lobby</span>
+            <span>Stage Wing</span>
+            <span>Networking Lounge</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="networking" class="section content-grid">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Networking</p>
+          <h2>Meet, connect, and keep the energy flowing</h2>
+        </div>
+        <div class="cards-grid glass-grid">
+          <article class="info-card reveal"><h3>Meet industry leaders.</h3></article>
+          <article class="info-card reveal"><h3>Join curated roundtables.</h3></article>
+          <article class="info-card reveal"><h3>Connect with speakers.</h3></article>
+          <article class="info-card reveal"><h3>Access private lounge sessions.</h3></article>
+        </div>
+      </section>
+
+      <section id="testimonials" class="section content-grid">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Testimonials</p>
+          <h2>Audience reactions that feel as premium as the set</h2>
+        </div>
+        <div class="cards-grid">
+          <article class="quote-card reveal">"The main stage experience felt world-class."</article>
+          <article class="quote-card reveal">"The talks, networking and production quality were outstanding."</article>
+          <article class="quote-card reveal">"A premium conference that truly felt immersive."</article>
+        </div>
+      </section>
+
+      <section id="contact" class="section content-grid">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Contact / Registration</p>
+          <h2>Register interest for the event</h2>
+        </div>
+        <div class="contact-layout">
+          <form id="interest-form" class="contact-form reveal">
+            <label>Name <input name="name" type="text" required></label>
+            <label>Email <input name="email" type="email" required></label>
+            <label>Company <input name="company" type="text" required></label>
+            <label>Role <input name="role" type="text" required></label>
+            <label>Ticket Interest
+              <select name="ticketInterest" required>
+                <option value="">Select one</option>
+                <option>Online Pass</option>
+                <option>General Admission</option>
+                <option>VIP Experience</option>
+                <option>Team Package</option>
+              </select>
+            </label>
+            <label>Message <textarea name="message" rows="4" required></textarea></label>
+            <button class="btn btn-primary" type="submit">Register Interest</button>
+            <p class="form-status" aria-live="polite"></p>
+          </form>
+          <aside class="contact-aside reveal">
+            <p><strong>Email:</strong> hello@stage3d.events</p>
+            <p><strong>Venue:</strong> Aurora Convention Center</p>
+            <p><strong>Date:</strong> November 14-15</p>
+            <p><strong>Social:</strong> @stage3dconference</p>
+          </aside>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-panel">
+      <button id="modal-close" class="modal-close" aria-label="Close dialog">Close</button>
+      <p id="modal-kicker" class="eyebrow"></p>
+      <h3 id="modal-title"></h3>
+      <p id="modal-body"></p>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="conference3d.js"></script>
+</body>
+</html>

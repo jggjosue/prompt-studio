@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="3D Coworking Lobby is a premium immersive landing page for coworking, memberships, events, and room bookings.">
+  <meta name="keywords" content="3D coworking, coworking lobby, premium landing page, memberships, events, booking">
+  <title>3D Coworking Lobby</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header" id="site-header">
+      <a class="brand" href="#home" aria-label="COWORK 3D home">
+        <span class="brand-mark">C</span>
+        <span class="brand-copy">
+          <strong>COWORK 3D</strong>
+          <span>Lobby Experience</span>
+        </span>
+      </a>
+      <button class="mobile-toggle" id="mobile-toggle" aria-expanded="false" aria-controls="primary-nav">Menu</button>
+      <nav class="primary-nav" id="primary-nav">
+        <a href="#home">Home</a>
+        <a href="#lobby">Lobby</a>
+        <a href="#spaces">Spaces</a>
+        <a href="#memberships">Memberships</a>
+        <a href="#amenities">Amenities</a>
+        <a href="#events">Events</a>
+        <a href="#community">Community</a>
+        <a href="#book-tour">Book Tour</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a class="btn btn-primary" href="#book-tour">Book a Tour</a>
+    </header>
+
+    <main>
+      <section class="hero section" id="home">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">Premium coworking and flexible office experience</p>
+          <h1>Step Into a Modern 3D Coworking Lobby</h1>
+          <p class="hero-text">Explore flexible workspaces, meeting rooms, networking lounges and premium amenities through an immersive 3D coworking experience.</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" id="enter-lobby">Enter Lobby</button>
+            <a class="btn btn-secondary" href="#spaces">Explore Spaces</a>
+            <a class="btn btn-secondary" href="#book-tour">Book a Tour</a>
+          </div>
+          <div class="hero-metrics">
+            <div><strong>12</strong><span>zones in the tour</span></div>
+            <div><strong>24/7</strong><span>member access</span></div>
+            <div><strong>100+</strong><span>community events</span></div>
+          </div>
+        </div>
+        <div class="hero-visual reveal">
+          <div class="canvas-frame">
+            <div id="lobby-canvas" aria-label="3D coworking lobby canvas"></div>
+            <div class="canvas-hint">Drag to orbit • Scroll to travel • Hotspots are clickable</div>
+          </div>
+          <div class="floating-card card-a">Reception open now</div>
+          <div class="floating-card card-b">Coffee bar serving specialty blends</div>
+          <div class="floating-card card-c">Meeting rooms available today</div>
+        </div>
+      </section>
+
+      <section class="section section-band" id="lobby">
+        <div class="section-head reveal">
+          <p class="eyebrow">Lobby story</p>
+          <h2>A Lobby Designed for Focus, Connection and First Impressions</h2>
+          <p>From the entrance to the terrace, the experience is built to feel warm, premium, and efficient. Every zone supports welcoming guests, deep work, and spontaneous collaboration.</p>
+        </div>
+        <div class="feature-grid">
+          <article class="info-card reveal"><span>Warm Welcome</span><p>A polished reception sets the tone with hospitality, orientation, and quick member support.</p></article>
+          <article class="info-card reveal"><span>Flexible Work Areas</span><p>Hot desks, dedicated tables, and quiet corners adapt to solo work or shared team rhythms.</p></article>
+          <article class="info-card reveal"><span>Community Energy</span><p>Soft signals, visual boards, and lounge seating create natural moments for networking.</p></article>
+          <article class="info-card reveal"><span>Premium Interior Design</span><p>Glass, wood, warm light, and clean materials keep the lobby calm, modern, and aspirational.</p></article>
+        </div>
+      </section>
+
+      <section class="section" id="spaces">
+        <div class="section-head reveal">
+          <p class="eyebrow">Spaces</p>
+          <h2>Explore the workspace mix</h2>
+        </div>
+        <div class="space-grid" id="space-grid"></div>
+      </section>
+
+      <section class="section" id="memberships">
+        <div class="section-head reveal">
+          <p class="eyebrow">Memberships</p>
+          <h2>Plans that flex with your team</h2>
+        </div>
+        <div class="pricing-grid" id="membership-grid"></div>
+      </section>
+
+      <section class="section" id="amenities">
+        <div class="section-head reveal">
+          <p class="eyebrow">Amenities</p>
+          <h2>Everything the modern workday needs</h2>
+        </div>
+        <div class="amenity-grid" id="amenity-grid"></div>
+      </section>
+
+      <section class="section" id="events">
+        <div class="section-head reveal">
+          <p class="eyebrow">Events</p>
+          <h2>A living board of community moments</h2>
+        </div>
+        <div class="events-layout">
+          <div class="events-board reveal" id="events-board"></div>
+          <div class="availability-card reveal">
+            <div class="availability-header">
+              <div>
+                <p class="eyebrow">Availability</p>
+                <h3>Room booking</h3>
+              </div>
+              <div class="filters" id="availability-filters"></div>
+            </div>
+            <div id="availability-list"></div>
+            <button class="btn btn-primary" id="reserve-room">Reserve Room</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="community">
+        <div class="section-head reveal">
+          <p class="eyebrow">Community</p>
+          <h2>Founders, creators, and remote teams under one roof</h2>
+        </div>
+        <div class="community-grid" id="community-grid"></div>
+        <div class="section-actions reveal">
+          <button class="btn btn-secondary" id="meet-community">Meet the Community</button>
+        </div>
+      </section>
+
+      <section class="section" id="book-tour">
+        <div class="book-tour-grid">
+          <div class="tour-form-panel reveal">
+            <div class="section-head left">
+              <p class="eyebrow">Book tour</p>
+              <h2>Schedule a coworking visit</h2>
+            </div>
+            <form id="tour-form" class="form-grid">
+              <label>Name<input name="name" required></label>
+              <label>Email<input name="email" type="email" required></label>
+              <label>Company<input name="company" required></label>
+              <label>Team Size<input name="teamSize" type="number" min="1" required></label>
+              <label>Preferred Date<input name="preferredDate" type="date" required></label>
+              <label>Workspace Interest
+                <select name="interest" required>
+                  <option value="">Select one</option>
+                  <option>Hot desks</option>
+                  <option>Dedicated desk</option>
+                  <option>Private office</option>
+                  <option>Meeting room</option>
+                </select>
+              </label>
+              <button class="btn btn-primary" type="submit">Schedule Coworking Tour</button>
+              <p class="form-status" id="tour-status" aria-live="polite"></p>
+            </form>
+          </div>
+          <aside class="summary-panel reveal">
+            <p class="eyebrow">Visit summary</p>
+            <h3 id="selected-summary-title">Choose a plan or space</h3>
+            <p id="selected-summary-copy">Your selected plan, room, or interest will appear here and help guide the tour booking flow.</p>
+            <div class="summary-box" id="selected-summary-box"></div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section testimonial-band" id="testimonials">
+        <div class="testimonial-grid">
+          <article class="testimonial reveal">“The lobby feels like the perfect mix of productivity and community.”</article>
+          <article class="testimonial reveal">“I booked a desk for one day and ended up joining for the month.”</article>
+          <article class="testimonial reveal">“The meeting rooms and networking events helped our small team grow.”</article>
+        </div>
+      </section>
+
+      <section class="section" id="location">
+        <div class="location-grid">
+          <div class="location-card reveal">
+            <p class="eyebrow">Location</p>
+            <h2>Downtown Creative District</h2>
+            <p>Easy transit access, nearby cafés and restaurants, parking, and bike storage make the commute simple.</p>
+            <button class="btn btn-secondary" id="view-location">View Location</button>
+          </div>
+          <div class="map-card reveal">
+            <div class="map-grid">
+              <span>Transit</span><span>Cafés</span><span>Parking</span><span>Bike</span><span>Park</span><span>City</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="contact">
+        <div class="contact-grid">
+          <div class="contact-copy reveal">
+            <p class="eyebrow">Contact</p>
+            <h2>Talk to the coworking team</h2>
+            <p>Email: hello@cowork3d.com<br>Phone: +1 (555) 014-2033<br>Location: Downtown Creative District<br>Opening hours: Mon-Fri 8:00 - 20:00<br>Social: Instagram, LinkedIn, X</p>
+          </div>
+          <form id="contact-form" class="contact-form reveal">
+            <label>Name<input name="name" required></label>
+            <label>Email<input name="email" type="email" required></label>
+            <label>Inquiry Type
+              <select name="type" required>
+                <option value="">Select one</option>
+                <option>Membership</option>
+                <option>Room booking</option>
+                <option>Tour</option>
+                <option>Events</option>
+              </select>
+            </label>
+            <label>Message<textarea name="message" rows="4" required></textarea></label>
+            <button class="btn btn-primary" type="submit">Contact Coworking Team</button>
+            <p class="form-status" id="contact-status" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal hidden" id="detail-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-card">
+      <button class="modal-close" id="modal-close" aria-label="Close modal">×</button>
+      <p class="eyebrow" id="modal-kicker">Details</p>
+      <h3 id="modal-title"></h3>
+      <p id="modal-copy"></p>
+      <div class="modal-meta" id="modal-meta"></div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="modal-action">Confirm</button>
+        <button class="btn btn-secondary" id="modal-secondary">Keep browsing</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="lobby3d.js"></script>
+</body>
+</html>

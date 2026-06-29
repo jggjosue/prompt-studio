@@ -1,0 +1,11 @@
+1
+00:00:00,000 --> 00:00:06,000
+Welcome to the study of the simple pendulum. In this lesson we learn how mass, length and friction affect the oscillation period.
+
+2
+00:00:06,000 --> 00:00:12,000
+The fundamental equation is T = 2π √(L/g). Observe how changing the length changes the period proportionally to its square root.
+
+3
+00:00:12,000 --> 00:00:18,000
+Exercise: Find the configuration that produces an exact period of 2.0 seconds.

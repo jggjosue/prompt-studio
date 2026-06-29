@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A premium 3D corporate campus light tour with immersive scroll storytelling, interactive canvas exploration, and functional booking and contact flows.">
+  <meta name="keywords" content="3D corporate campus, light tour, architecture, innovation campus, corporate landing page">
+  <title>3D Corporate Campus Light Tour</title>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.159.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.159.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="scene-root" aria-hidden="true"></div>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+
+  <header class="topbar">
+    <a class="brand" href="#home">CAMPUS LIGHT 3D</a>
+    <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav class="nav" id="site-nav">
+      <a href="#home">Home</a>
+      <a href="#tour">Tour</a>
+      <a href="#zones">Campus Zones</a>
+      <a href="#innovation">Innovation</a>
+      <a href="#sustainability">Sustainability</a>
+      <a href="#amenities">Amenities</a>
+      <a href="#security">Security</a>
+      <a href="#visit">Visit</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="cta cta-top" id="start-light-tour">Start Light Tour</button>
+  </header>
+
+  <main>
+    <section class="hero section" id="home">
+      <div class="hero-copy">
+        <p class="kicker">Corporate architecture · Night narrative · Interactive 3D</p>
+        <h1>Explore a Corporate Campus Through an Immersive 3D Light Tour</h1>
+        <p class="lede">Experience a premium business campus at night with cinematic lighting, architectural depth, innovation spaces, smart facilities and interactive 3D navigation.</p>
+        <div class="hero-actions">
+          <button class="cta" id="hero-start-tour">Start Light Tour</button>
+          <a class="cta ghost" href="#zones">Explore Campus</a>
+          <a class="cta ghost" href="#visit">Schedule a Visit</a>
+        </div>
+        <div class="hero-points">
+          <span>Glass towers</span>
+          <span>LED pathways</span>
+          <span>Smart security</span>
+          <span>Green plazas</span>
+        </div>
+      </div>
+      <div class="hero-stage">
+        <div class="stage-frame">
+          <div class="stage-labels">
+            <span>Main Entrance</span>
+            <span>Innovation Hub</span>
+            <span>Executive Offices</span>
+          </div>
+          <div class="stage-note">Scroll to move through the campus story. Click hotspots to focus the tour.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section tour" id="tour">
+      <div class="section-heading">
+        <p class="section-kicker">Canvas 3D / Corporate Campus Light Tour</p>
+        <h2>Night illumination that makes the campus feel alive.</h2>
+      </div>
+      <div class="tour-layout">
+        <div class="tour-canvas-wrap">
+          <canvas id="campus-canvas" aria-label="Interactive 3D campus canvas"></canvas>
+          <div class="hotspots" id="hotspot-list"></div>
+        </div>
+        <aside class="tour-panel glass">
+          <h3 id="hotspot-title">Main Entrance</h3>
+          <p id="hotspot-copy">The tour begins at a luminous entry court framed by glass towers, planted medians, and a confident arrival sequence.</p>
+          <div class="hotspot-meta" id="hotspot-meta">Focus: Welcome zone</div>
+          <div class="tour-actions">
+            <button class="mini" data-focus="Main Entrance">Main Entrance</button>
+            <button class="mini" data-focus="Innovation Hub">Innovation Hub</button>
+            <button class="mini" data-focus="Executive Offices">Executive Offices</button>
+            <button class="mini" data-focus="Event Auditorium">Event Auditorium</button>
+            <button class="mini" data-focus="Green Plaza">Green Plaza</button>
+            <button class="mini" data-focus="Smart Parking">Smart Parking</button>
+            <button class="mini" data-focus="Data Center">Data Center</button>
+            <button class="mini" data-focus="Schedule Visit">Schedule Visit</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="zones">
+      <div class="section-heading">
+        <p class="section-kicker">Campus Zones</p>
+        <h2>A Connected Campus Designed for Modern Teams</h2>
+      </div>
+      <div class="card-grid">
+        <article class="info-card glass"><h3>Main Lobby</h3><p>Arrival, reception, and orientation with concierge energy and premium materials.</p><button class="mini zone-open" data-zone="Main Lobby">Explore Zone</button></article>
+        <article class="info-card glass"><h3>Innovation Hub</h3><p>Rapid prototyping, research collaboration, and data-driven product exploration.</p><button class="mini zone-open" data-zone="Innovation Hub">Explore Zone</button></article>
+        <article class="info-card glass"><h3>Executive Offices</h3><p>Quiet leadership floors with skyline views, privacy, and refined control.</p><button class="mini zone-open" data-zone="Executive Offices">Explore Zone</button></article>
+        <article class="info-card glass"><h3>Collaboration Lounge</h3><p>Informal meeting energy with comfortable seating, writable walls, and soft light.</p><button class="mini zone-open" data-zone="Collaboration Lounge">Explore Zone</button></article>
+        <article class="info-card glass"><h3>Event Auditorium</h3><p>Large-format presentations, launches, and internal gatherings in a cinematic room.</p><button class="mini zone-open" data-zone="Event Auditorium">Explore Zone</button></article>
+        <article class="info-card glass"><h3>Green Plaza</h3><p>Landscape-forward paths, open air seating, and restorative circulation space.</p><button class="mini zone-open" data-zone="Green Plaza">Explore Zone</button></article>
+        <article class="info-card glass"><h3>Smart Parking</h3><p>Guided access, lighting indicators, and efficient arrival control for visitors.</p><button class="mini zone-open" data-zone="Smart Parking">Explore Zone</button></article>
+        <article class="info-card glass"><h3>Data Center</h3><p>Secure infrastructure with visible resilience, monitoring, and climate control.</p><button class="mini zone-open" data-zone="Data Center">Explore Zone</button></article>
+      </div>
+    </section>
+
+    <section class="section" id="light-design">
+      <div class="section-heading">
+        <p class="section-kicker">Light Design</p>
+        <h2>Lighting That Guides the Experience</h2>
+      </div>
+      <div class="feature-grid">
+        <article class="feature glass"><h3>Pathway Lighting</h3><p>Directional LEDs define safe circulation and create a graceful nocturnal rhythm.</p></article>
+        <article class="feature glass"><h3>Architectural Facade Glow</h3><p>Clean façade lighting gives the buildings depth without overwhelming the scene.</p></article>
+        <article class="feature glass"><h3>Smart Signage</h3><p>Wayfinding panels animate the route and reduce friction between destinations.</p></article>
+        <article class="feature glass"><h3>Ambient Plaza Illumination</h3><p>Soft overhead layers build atmosphere and keep the central plaza calm and elegant.</p></article>
+      </div>
+    </section>
+
+    <section class="section" id="innovation">
+      <div class="section-heading">
+        <p class="section-kicker">Innovation</p>
+        <h2>Spaces Built for Research, Strategy, and Prototype Velocity</h2>
+      </div>
+      <div class="card-grid dense">
+        <article class="info-card glass"><h3>AI Research Lab</h3><p>Advanced experimentation with data visualization and model collaboration.</p><button class="mini innovation-open" data-innovation="AI Research Lab">View Innovation Space</button></article>
+        <article class="info-card glass"><h3>Product Strategy Rooms</h3><p>Decision rooms for leadership alignment and roadmap clarity.</p><button class="mini innovation-open" data-innovation="Product Strategy Rooms">View Innovation Space</button></article>
+        <article class="info-card glass"><h3>Prototype Studio</h3><p>Material testing, physical mockups, and fast iteration in one place.</p><button class="mini innovation-open" data-innovation="Prototype Studio">View Innovation Space</button></article>
+        <article class="info-card glass"><h3>Hybrid Collaboration Spaces</h3><p>Flexible team clusters for in-person and remote sessions.</p><button class="mini innovation-open" data-innovation="Hybrid Collaboration Spaces">View Innovation Space</button></article>
+        <article class="info-card glass"><h3>Data Visualization Center</h3><p>Operations views, live dashboards, and executive storytelling surfaces.</p><button class="mini innovation-open" data-innovation="Data Visualization Center">View Innovation Space</button></article>
+      </div>
+    </section>
+
+    <section class="section" id="sustainability">
+      <div class="section-heading">
+        <p class="section-kicker">Sustainability</p>
+        <h2>Designed to Perform with Less Energy and More Life</h2>
+      </div>
+      <div class="metric-row">
+        <div class="metric glass"><strong>40%</strong><span>Lower Energy Use</span></div>
+        <div class="metric glass"><strong>30%</strong><span>Green Area Coverage</span></div>
+        <div class="metric glass"><strong>75%</strong><span>Smart Lighting Efficiency</span></div>
+      </div>
+      <div class="feature-grid">
+        <article class="feature glass"><h3>Solar Energy</h3><p>Roof-mounted generation supports daytime operations and reduces grid pressure.</p></article>
+        <article class="feature glass"><h3>Smart Climate Control</h3><p>Responsive systems tune temperature and usage according to occupancy.</p></article>
+        <article class="feature glass"><h3>Green Roofs</h3><p>Planting layers soften the skyline and improve thermal performance.</p></article>
+        <article class="feature glass"><h3>Water Recycling</h3><p>Re-use systems support landscape irrigation and efficient operations.</p></article>
+        <article class="feature glass"><h3>Walkable Campus</h3><p>Compact planning makes movement easy and reduces car dependency.</p></article>
+        <article class="feature glass"><h3>Low-Energy Lighting</h3><p>Carefully tuned light levels keep the campus bright without waste.</p></article>
+      </div>
+    </section>
+
+    <section class="section" id="amenities">
+      <div class="section-heading">
+        <p class="section-kicker">Amenities</p>
+        <h2>Everyday Comforts That Keep Teams Present and Productive</h2>
+      </div>
+      <div class="card-grid dense">
+        <article class="info-card glass"><h3>Cafeteria Premium</h3><p>Flexible dining with warm finishes and a calm social energy.</p><button class="mini amenity-open" data-amenity="Cafeteria Premium">View Amenity</button></article>
+        <article class="info-card glass"><h3>Fitness Studio</h3><p>Wellness support for focused workdays and healthy routines.</p><button class="mini amenity-open" data-amenity="Fitness Studio">View Amenity</button></article>
+        <article class="info-card glass"><h3>Wellness Room</h3><p>Quiet recovery space for reset, reflection, or short breaks.</p><button class="mini amenity-open" data-amenity="Wellness Room">View Amenity</button></article>
+        <article class="info-card glass"><h3>Outdoor Seating</h3><p>Shaded and illuminated spots for casual meetings and fresh air.</p><button class="mini amenity-open" data-amenity="Outdoor Seating">View Amenity</button></article>
+        <article class="info-card glass"><h3>Conference Rooms</h3><p>Adaptable spaces for workshops, client meetings, and strategy sessions.</p><button class="mini amenity-open" data-amenity="Conference Rooms">View Amenity</button></article>
+        <article class="info-card glass"><h3>Visitor Lounge</h3><p>Comfortable waiting with a premium first impression.</p><button class="mini amenity-open" data-amenity="Visitor Lounge">View Amenity</button></article>
+        <article class="info-card glass"><h3>EV Charging</h3><p>Clean arrival support for visitors and staff mobility.</p><button class="mini amenity-open" data-amenity="EV Charging">View Amenity</button></article>
+        <article class="info-card glass"><h3>Bike Storage</h3><p>Efficient access for micromobility and everyday commuting.</p><button class="mini amenity-open" data-amenity="Bike Storage">View Amenity</button></article>
+      </div>
+    </section>
+
+    <section class="section" id="security">
+      <div class="section-heading">
+        <p class="section-kicker">Security & Access</p>
+        <h2>Trustworthy Access That Feels Calm, Smart, and Invisible</h2>
+      </div>
+      <div class="feature-grid">
+        <article class="feature glass"><h3>Smart Badge Entry</h3><p>Badge-based access keeps entry fast while protecting sensitive areas.</p></article>
+        <article class="feature glass"><h3>Visitor Check-In</h3><p>Simple registration makes arrivals smooth and professional.</p></article>
+        <article class="feature glass"><h3>Secure Data Zones</h3><p>Protected infrastructure areas separate public movement from critical systems.</p></article>
+        <article class="feature glass"><h3>Camera Monitoring</h3><p>Continuous visibility supports a safe environment without visual aggression.</p></article>
+        <article class="feature glass"><h3>Emergency Guidance</h3><p>Clear, illuminated paths help people orient quickly when needed.</p></article>
+        <article class="feature glass"><h3>Night Path Safety</h3><p>Low-glare lighting and smart landmarks keep the campus easy to navigate.</p></article>
+      </div>
+      <button class="cta secondary" id="view-access-flow">View Access Flow</button>
+    </section>
+
+    <section class="section" id="map">
+      <div class="section-heading">
+        <p class="section-kicker">Interactive Campus Map</p>
+        <h2>Filter the Campus and Highlight What Matters Most</h2>
+      </div>
+      <div class="map-shell glass">
+        <div class="map-controls">
+          <button class="mini map-filter active" data-filter="all">Reset View</button>
+          <button class="mini map-filter" data-filter="offices">Offices</button>
+          <button class="mini map-filter" data-filter="innovation">Innovation</button>
+          <button class="mini map-filter" data-filter="amenities">Amenities</button>
+          <button class="mini map-filter" data-filter="parking">Parking</button>
+          <button class="mini map-filter" data-filter="green">Green Areas</button>
+          <button class="mini map-filter" data-filter="security">Security</button>
+        </div>
+        <div class="map-visual">
+          <div class="map-node offices">Executive Offices</div>
+          <div class="map-node innovation">Innovation Hub</div>
+          <div class="map-node amenities">Amenities Wing</div>
+          <div class="map-node parking">Smart Parking</div>
+          <div class="map-node green">Green Plaza</div>
+          <div class="map-node security">Security Core</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="visit">
+      <div class="section-heading">
+        <p class="section-kicker">Visit / Booking</p>
+        <h2>Schedule a Campus Visit</h2>
+      </div>
+      <div class="form-layout">
+        <form class="glass form" id="visit-form">
+          <label>Choose Visit Type<select name="type" required><option value="">Select</option><option>Executive Tour</option><option>Partner Visit</option><option>Investor Walkthrough</option></select></label>
+          <label>Select Date<input type="date" name="date" required></label>
+          <label>Select Time<input type="time" name="time" required></label>
+          <label>Add Contact Info<input type="text" name="contact" placeholder="Name or email" required></label>
+          <button class="cta" type="submit">Schedule Campus Visit</button>
+          <p class="form-status" id="visit-status" aria-live="polite"></p>
+        </form>
+        <aside class="glass summary">
+          <h3>Visit Summary</h3>
+          <p id="visit-summary">Choose a visit type, date, and time to preview your booking.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="testimonials">
+      <div class="section-heading">
+        <p class="section-kicker">Testimonials</p>
+        <h2>What Visitors Notice First</h2>
+      </div>
+      <div class="card-grid">
+        <article class="quote glass">“The campus tour felt immersive, clear and premium.”</article>
+        <article class="quote glass">“The lighting and navigation made the whole environment feel safe and futuristic.”</article>
+        <article class="quote glass">“This campus communicates innovation from the moment you enter.”</article>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="section-heading">
+        <p class="section-kicker">Contact</p>
+        <h2>Request Campus Information</h2>
+      </div>
+      <div class="form-layout contact-layout">
+        <form class="glass form" id="contact-form">
+          <label>Name<input type="text" name="name" required></label>
+          <label>Email<input type="email" name="email" required></label>
+          <label>Company<input type="text" name="company" required></label>
+          <label>Visit Interest<input type="text" name="interest" required></label>
+          <label>Message<textarea name="message" rows="4" required></textarea></label>
+          <button class="cta" type="submit">Request Campus Information</button>
+          <p class="form-status" id="contact-status" aria-live="polite"></p>
+        </form>
+        <aside class="glass contact-card">
+          <h3>Campus Light 3D</h3>
+          <p>Email: hello@campuslight3d.example</p>
+          <p>Phone: +1 (555) 018-2048</p>
+          <p>Location: 100 Innovation Loop, Corporate District</p>
+          <p>Social: LinkedIn, Instagram, YouTube</p>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal" id="detail-modal" aria-hidden="true">
+    <div class="modal-card glass" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+      <h3 id="modal-title">Campus Detail</h3>
+      <p id="modal-copy"></p>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

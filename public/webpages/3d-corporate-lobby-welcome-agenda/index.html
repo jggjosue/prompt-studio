@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Premium immersive 3D corporate lobby welcome agenda landing page." />
+  <meta name="keywords" content="3D, corporate lobby, welcome, agenda, check-in, meeting rooms, host directory" />
+  <title>3D Corporate Lobby Welcome Agenda</title>
+  <script type="importmap">
+    {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.158.0/examples/jsm/"}}
+  </script>
+  <style>
+    :root{
+      --bg:#05070c;
+      --bg2:#0a1222;
+      --panel:rgba(10,16,30,.72);
+      --panel-strong:rgba(10,16,30,.9);
+      --line:rgba(160,186,255,.18);
+      --text:#f4f7fb;
+      --muted:#9aa7bb;
+      --accent:#8bb4ff;
+      --accent2:#66e3c4;
+      --gold:#f5c66a;
+      --shadow:0 18px 60px rgba(0,0,0,.38);
+      --radius:24px;
+      --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:var(--font);
+      background:
+        radial-gradient(circle at 20% 10%, rgba(139,180,255,.16), transparent 24%),
+        radial-gradient(circle at 80% 0%, rgba(102,227,196,.12), transparent 20%),
+        linear-gradient(180deg, #04070d 0%, #07101d 36%, #04070d 100%);
+      color:var(--text);
+      overflow-x:hidden;
+    }
+    a{color:inherit;text-decoration:none}
+    button,input,select,textarea{font:inherit}
+
+    #hero{
+      position:relative;
+      min-height:100vh;
+      overflow:hidden;
+      isolation:isolate;
+    }
+    #hero::before{
+      content:"";
+      position:absolute;inset:0;
+      background:
+        linear-gradient(180deg, rgba(4,7,13,.15), rgba(4,7,13,.85)),
+        radial-gradient(circle at 50% 28%, rgba(255,255,255,.14), transparent 32%);
+      pointer-events:none;
+      z-index:1;
+    }
+    #canvas-wrap{
+      position:absolute;inset:0;
+      z-index:0;
+    }
+    #lobby-canvas{
+      width:100%;height:100%;display:block;
+    }
+
+    .topbar{
+      position:fixed;left:0;right:0;top:0;z-index:30;
+      display:flex;align-items:center;gap:18px;
+      padding:16px 24px;
+      background:rgba(7,11,20,.42);
+      border-bottom:1px solid rgba(160,186,255,.12);
+      backdrop-filter: blur(18px);
+    }
+    .brand{
+      display:flex;align-items:center;gap:12px;
+      font-weight:800;letter-spacing:.18em;text-transform:uppercase;
+      white-space:nowrap;
+    }
+    .brand-mark{
+      width:36px;height:36px;border-radius:12px;
+      background:linear-gradient(135deg, rgba(139,180,255,.95), rgba(102,227,196,.95));
+      box-shadow:0 0 30px rgba(139,180,255,.28);
+      display:grid;place-items:center;color:#05101a;font-weight:900;
+    }
+    .nav{
+      margin-left:auto;
+      display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+    }
+    .nav a,.nav button{
+      background:transparent;border:0;color:var(--muted);
+      cursor:pointer;padding:10px 0;font-size:.85rem;
+      transition:color .2s ease, transform .2s ease;
+    }
+    .nav a:hover,.nav button:hover{color:var(--text);transform:translateY(-1px)}
+    .nav-cta{
+      padding:11px 18px !important;
+      border-radius:999px;
+      background:linear-gradient(135deg, rgba(139,180,255,.2), rgba(102,227,196,.16));
+      border:1px solid rgba(139,180,255,.25) !important;
+      color:var(--text) !important;
+      box-shadow:0 10px 30px rgba(0,0,0,.18);
+    }
+    .menu-toggle{
+      display:none;
+      margin-left:auto;
+      width:44px;height:44px;border-radius:14px;
+      border:1px solid rgba(160,186,255,.14);
+      background:rgba(10,16,30,.6);
+      color:var(--text);
+    }
+    .mobile-drawer{
+      display:none;
+      position:fixed;top:72px;left:16px;right:16px;z-index:29;
+      padding:16px;border-radius:20px;
+      background:rgba(7,11,20,.9);
+      border:1px solid rgba(160,186,255,.16);
+      backdrop-filter: blur(18px);
+      box-shadow:var(--shadow);
+    }
+    .mobile-drawer.open{display:grid;gap:8px}
+    .mobile-drawer a,.mobile-drawer button{
+      border:1px solid rgba(160,186,255,.12);
+      background:rgba(255,255,255,.03);
+      color:var(--text);
+      text-align:left;
+      padding:12px 14px;
+      border-radius:14px;
+    }
+
+    .hero-inner{
+      position:relative;z-index:2;
+      min-height:100vh;
+      display:grid;
+      grid-template-columns:minmax(0, 1.2fr) minmax(320px, .8fr);
+      gap:28px;
+      align-items:end;
+      padding:110px 24px 48px;
+      max-width:1320px;margin:0 auto;
+    }
+    .hero-copy{
+      max-width:820px;
+      padding:24px 0 60px;
+      transform-style:preserve-3d;
+    }
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:10px;
+      padding:9px 14px;border-radius:999px;
+      background:rgba(139,180,255,.12);
+      border:1px solid rgba(139,180,255,.2);
+      color:#dbe7ff;font-size:.75rem;font-weight:700;
+      letter-spacing:.14em;text-transform:uppercase;
+    }
+    h1{
+      margin:18px 0 14px;
+      font-size:clamp(3rem, 6vw, 6.4rem);
+      line-height:.94;
+      letter-spacing:-.06em;
+      text-wrap:balance;
+      max-width:12ch;
+      transform:translateZ(40px);
+    }
+    .hero-copy p{
+      max-width:64ch;
+      font-size:clamp(1rem, 1.5vw, 1.18rem);
+      line-height:1.75;
+      color:#c3cfdf;
+      margin:0 0 22px;
+    }
+    .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+    .btn{
+      border:0;border-radius:999px;
+      padding:14px 20px;
+      cursor:pointer;
+      font-weight:700;
+      transition:transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+    .btn:hover{transform:translateY(-2px)}
+    .btn.primary{
+      background:linear-gradient(135deg, #dbe8ff, #8bb4ff);
+      color:#08111f;
+      box-shadow:0 14px 40px rgba(139,180,255,.28);
+    }
+    .btn.secondary{
+      background:rgba(255,255,255,.04);
+      color:var(--text);
+      border:1px solid rgba(160,186,255,.16);
+    }
+    .hero-aside{
+      align-self:end;
+      display:grid;
+      gap:14px;
+      padding-bottom:24px;
+    }
+    .glass-card{
+      background:var(--panel);
+      border:1px solid rgba(160,186,255,.14);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+    .floating-board{
+      padding:18px;
+      transform:translateZ(20px);
+    }
+    .floating-board h3{margin:0 0 10px;font-size:1rem}
+    .floating-board .meta{
+      display:grid;gap:10px;
+      color:#c7d1df;font-size:.9rem;
+    }
+    .pill-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+    .pill{
+      padding:8px 10px;border-radius:999px;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(160,186,255,.12);
+      font-size:.76rem;color:#dce5f1;
+    }
+    .stat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .stat{
+      padding:14px;border-radius:18px;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(160,186,255,.11);
+    }
+    .stat strong{display:block;font-size:1.15rem;margin-bottom:4px}
+    .stat span{color:var(--muted);font-size:.82rem}
+
+    .section{
+      max-width:1320px;
+      margin:0 auto;
+      padding:90px 24px;
+      position:relative;
+    }
+    .section-header{
+      display:flex;justify-content:space-between;align-items:end;gap:18px;
+      margin-bottom:24px;flex-wrap:wrap;
+    }
+    .section-header h2{
+      margin:0;font-size:clamp(2rem, 3vw, 3.2rem);
+      letter-spacing:-.05em;line-height:1;
+    }
+    .section-header p{margin:0;color:var(--muted);max-width:70ch;line-height:1.7}
+
+    .grid{
+      display:grid;gap:16px;
+    }
+    .cards-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+    .cards-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .cards-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+
+    .card{
+      padding:20px;
+      border-radius:24px;
+      background:linear-gradient(180deg, rgba(15,21,39,.96), rgba(7,11,20,.9));
+      border:1px solid rgba(160,186,255,.12);
+      box-shadow:var(--shadow);
+      transform:translateY(18px);
+      opacity:0;
+      transition:transform .7s ease, opacity .7s ease, border-color .2s ease;
+    }
+    .card.in-view{transform:translateY(0);opacity:1}
+    .card:hover{border-color:rgba(139,180,255,.3)}
+    .icon{
+      width:44px;height:44px;border-radius:16px;
+      display:grid;place-items:center;
+      background:linear-gradient(135deg, rgba(139,180,255,.18), rgba(102,227,196,.14));
+      border:1px solid rgba(160,186,255,.16);
+      margin-bottom:14px;
+      font-size:1.15rem;
+    }
+    .card h3,.card h4{margin:0 0 8px}
+    .card p{margin:0;color:var(--muted);line-height:1.7}
+
+    .lobby-metrics{
+      display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;
+      margin-top:18px;
+    }
+
+    .agenda-wrap{
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:18px;
+      align-items:start;
+    }
+    .timeline{display:grid;gap:14px}
+    .agenda-item{
+      padding:18px;border-radius:22px;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(160,186,255,.12);
+      display:grid;gap:10px;
+    }
+    .agenda-head{display:flex;justify-content:space-between;gap:12px;align-items:start;flex-wrap:wrap}
+    .agenda-time{font-size:1.1rem;font-weight:800;color:#dbe7ff}
+    .agenda-tag{
+      font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+      color:#08111f;background:linear-gradient(135deg, #dbe8ff, #8bb4ff);
+      padding:7px 10px;border-radius:999px;
+    }
+    .agenda-controls{display:flex;flex-wrap:wrap;gap:10px}
+    .small-btn{
+      border-radius:999px;border:1px solid rgba(160,186,255,.16);
+      background:rgba(255,255,255,.03);color:var(--text);
+      padding:10px 14px;cursor:pointer;
+    }
+    .mini-panel{
+      padding:18px;border-radius:24px;
+      background:linear-gradient(180deg, rgba(20,28,49,.98), rgba(7,11,20,.94));
+      border:1px solid rgba(160,186,255,.12);
+      position:sticky;top:92px;
+    }
+    .mini-screen{
+      height:190px;border-radius:18px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(139,180,255,.25), transparent 38%),
+        radial-gradient(circle at 70% 20%, rgba(102,227,196,.18), transparent 26%),
+        linear-gradient(180deg, rgba(11,18,32,.94), rgba(5,8,14,.98));
+      border:1px solid rgba(160,186,255,.12);
+      margin-bottom:14px;
+      padding:18px;
+      display:flex;flex-direction:column;justify-content:space-between;
+    }
+    .screen-title{font-size:1.05rem;font-weight:800}
+    .screen-list{display:grid;gap:10px;color:#d6e1ef;font-size:.88rem}
+    .screen-pill{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:8px 12px;border-radius:999px;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(160,186,255,.1);
+      width:max-content;
+    }
+
+    form{
+      display:grid;gap:14px;
+    }
+    .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+    input,select,textarea{
+      width:100%;
+      background:rgba(255,255,255,.04);
+      color:var(--text);
+      border:1px solid rgba(160,186,255,.14);
+      border-radius:16px;
+      padding:14px 14px;
+      outline:none;
+    }
+    textarea{min-height:140px;resize:vertical}
+    input:focus,select:focus,textarea:focus{border-color:rgba(139,180,255,.45);box-shadow:0 0 0 4px rgba(139,180,255,.09)}
+    .form-actions{display:flex;flex-wrap:wrap;gap:10px}
+    .helper{font-size:.88rem;color:var(--muted);line-height:1.6}
+
+    .map-wrap{
+      display:grid;grid-template-columns:1fr .9fr;gap:18px;align-items:start;
+    }
+    .map{
+      min-height:420px;
+      border-radius:28px;
+      background:
+        linear-gradient(180deg, rgba(8,13,24,.8), rgba(12,18,32,.96)),
+        radial-gradient(circle at 50% 50%, rgba(139,180,255,.12), transparent 34%);
+      border:1px solid rgba(160,186,255,.12);
+      padding:18px;
+      position:relative;
+      overflow:hidden;
+    }
+    .map-grid{
+      position:absolute;inset:18px;
+      display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(3,1fr);
+      gap:10px;
+    }
+    .zone{
+      border-radius:18px;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(160,186,255,.11);
+      padding:14px;
+      display:flex;align-items:end;justify-content:space-between;
+      min-height:100px;
+      transition:transform .2s ease, border-color .2s ease, background .2s ease;
+    }
+    .zone.active{
+      background:rgba(139,180,255,.12);
+      border-color:rgba(139,180,255,.4);
+      transform:translateY(-2px) scale(1.01);
+    }
+    .zone span{font-weight:700}
+    .route-line{
+      position:absolute;left:50%;top:14%;width:2px;height:72%;
+      background:linear-gradient(180deg, rgba(102,227,196,.8), rgba(139,180,255,.05));
+      transform-origin:top;
+      animation:pulse 2.2s ease-in-out infinite;
+      box-shadow:0 0 30px rgba(102,227,196,.4);
+    }
+    @keyframes pulse{
+      0%,100%{opacity:.7;transform:translateX(-50%) scaleY(.95)}
+      50%{opacity:1;transform:translateX(-50%) scaleY(1)}
+    }
+
+    .modal{
+      position:fixed;inset:0;z-index:60;
+      background:rgba(2,4,8,.7);
+      display:none;align-items:center;justify-content:center;
+      padding:20px;
+    }
+    .modal.open{display:flex}
+    .modal-card{
+      width:min(720px,100%);
+      background:linear-gradient(180deg, rgba(15,21,39,.98), rgba(7,11,20,.98));
+      border:1px solid rgba(160,186,255,.14);
+      border-radius:28px;
+      box-shadow:var(--shadow);
+      padding:22px;
+    }
+    .modal-head{display:flex;justify-content:space-between;gap:12px;align-items:start;margin-bottom:16px}
+    .modal-head h3{margin:0;font-size:1.45rem}
+    .close{
+      width:42px;height:42px;border-radius:14px;
+      border:1px solid rgba(160,186,255,.14);
+      background:rgba(255,255,255,.04);color:var(--text);cursor:pointer;
+    }
+    .toast{
+      position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(16px);
+      opacity:0;z-index:70;
+      background:rgba(10,16,30,.95);
+      border:1px solid rgba(160,186,255,.14);
+      color:var(--text);
+      padding:12px 16px;border-radius:999px;
+      box-shadow:var(--shadow);
+      transition:opacity .25s ease, transform .25s ease;
+      pointer-events:none;
+    }
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+    .footer{
+      padding:20px 24px 42px;
+      max-width:1320px;margin:0 auto;
+      color:var(--muted);
+      display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;
+    }
+    .footer strong{color:var(--text)}
+
+    @media (max-width: 1100px){
+      .hero-inner,.agenda-wrap,.map-wrap{grid-template-columns:1fr}
+      .hero-aside{padding-bottom:0}
+      .mini-panel{position:relative;top:auto}
+      .cards-4,.cards-3{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .lobby-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+    }
+    @media (max-width: 760px){
+      .topbar{padding:14px 16px}
+      .nav{display:none}
+      .menu-toggle{display:block}
+      .hero-inner{padding:100px 16px 34px}
+      .section{padding:72px 16px}
+      .cards-4,.cards-3,.cards-2,.form-grid,.lobby-metrics{grid-template-columns:1fr}
+      h1{max-width:11ch}
+      .map-grid{grid-template-columns:1fr 1fr;grid-template-rows:repeat(5,1fr)}
+    }
+    @media (prefers-reduced-motion: reduce){
+      html{scroll-behavior:auto}
+      .card,.toast,.zone{transition:none}
+      .route-line{animation:none}
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><div class="brand-mark">3D</div>LOBBY 3D</div>
+    <nav class="nav" aria-label="Primary">
+      <a href="#hero">Home</a>
+      <a href="#welcome">Welcome</a>
+      <a href="#agenda">Agenda</a>
+      <a href="#checkin">Check-In</a>
+      <a href="#rooms">Rooms</a>
+      <a href="#map">Directions</a>
+      <a href="#hosts">Hosts</a>
+      <a href="#contact">Contact</a>
+      <button class="nav-cta" id="start-welcome-nav">Start Welcome</button>
+    </nav>
+    <button class="menu-toggle" id="menu-toggle" aria-label="Open menu">☰</button>
+  </header>
+  <div class="mobile-drawer" id="mobile-drawer">
+    <a href="#hero">Home</a>
+    <a href="#welcome">Welcome</a>
+    <a href="#agenda">Agenda</a>
+    <a href="#checkin">Check-In</a>
+    <a href="#rooms">Rooms</a>
+    <a href="#map">Directions</a>
+    <a href="#hosts">Hosts</a>
+    <a href="#contact">Contact</a>
+    <button id="start-welcome-mobile">Start Welcome</button>
+  </div>
+
+  <main>
+    <section id="hero">
+      <div id="canvas-wrap"><canvas id="lobby-canvas"></canvas></div>
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <span class="eyebrow">Premium digital reception experience</span>
+          <h1>Welcome Guests Through an Immersive 3D Corporate Lobby</h1>
+          <p>Guide visitors, clients and teams through a premium lobby experience with personalized welcome screens, agenda cards, room directions and interactive check-in.</p>
+          <div class="actions">
+            <button class="btn primary" id="enter-lobby">Enter Lobby</button>
+            <button class="btn secondary" id="view-agenda">View Agenda</button>
+            <button class="btn secondary" id="start-checkin">Start Check-In</button>
+          </div>
+          <div class="lobby-metrics">
+            <div class="stat"><strong>8</strong><span>interactive zones</span></div>
+            <div class="stat"><strong>Live</strong><span>agenda updates</span></div>
+            <div class="stat"><strong>3D</strong><span>scroll narration</span></div>
+            <div class="stat"><strong>Secure</strong><span>visitor flow</span></div>
+          </div>
+        </div>
+        <aside class="hero-aside">
+          <div class="glass-card floating-board">
+            <h3>Today at the lobby</h3>
+            <div class="meta">
+              <div class="screen-pill">09:00 Executive Welcome</div>
+              <div class="screen-pill">10:30 Product Demo</div>
+              <div class="screen-pill">13:00 Networking Lunch</div>
+              <div class="screen-pill">16:30 Closing Session</div>
+            </div>
+          </div>
+          <div class="glass-card floating-board">
+            <h3>Fast arrival, clear direction</h3>
+            <div class="stat-grid">
+              <div class="stat"><strong>Check-In</strong><span>2 min flow</span></div>
+              <div class="stat"><strong>Hosts</strong><span>Instant alerts</span></div>
+              <div class="stat"><strong>Maps</strong><span>Live routes</span></div>
+              <div class="stat"><strong>Rooms</strong><span>Assigned guidance</span></div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="welcome" class="section">
+      <div class="section-header">
+        <div>
+          <h2>A Personalized Welcome for Every Visitor</h2>
+          <p>The lobby experience adapts to guests, clients, employees, candidates and partners with branded screens, guided directions and contextual prompts.</p>
+        </div>
+      </div>
+      <div class="grid cards-4">
+        <article class="card"><div class="icon">👋</div><h3>Guest Greeting</h3><p>Warm, personalized welcomes that match the visitor's reason for arriving.</p></article>
+        <article class="card"><div class="icon">🏢</div><h3>Company Branding</h3><p>Premium visual language, signage and illuminated identity across the lobby.</p></article>
+        <article class="card"><div class="icon">🧭</div><h3>Reception Guidance</h3><p>Guided navigation for check-in, hosts, rooms and the right next step.</p></article>
+        <article class="card"><div class="icon">🪪</div><h3>Visitor Context</h3><p>Meeting, event and onboarding context shown in a clear and elegant format.</p></article>
+      </div>
+    </section>
+
+    <section id="agenda" class="section">
+      <div class="section-header">
+        <div>
+          <h2>Executive Agenda</h2>
+          <p>Scroll through the day and update the lobby screen by choosing any session. Each block can reveal more details in a modal.</p>
+        </div>
+      </div>
+      <div class="agenda-wrap">
+        <div class="timeline">
+          <div class="agenda-item card">
+            <div class="agenda-head"><div><div class="agenda-time">09:00</div><h3>Executive Welcome</h3></div><div class="agenda-tag">Main Hall</div></div>
+            <p>Host: Sarah Chen. Status: Live welcome reception for arriving guests.</p>
+            <div class="agenda-controls"><button class="small-btn details-btn" data-title="Executive Welcome" data-room="Main Hall" data-desc="Opening greetings, badge pickup and premium arrival guidance." data-host="Sarah Chen">View Details</button></div>
+          </div>
+          <div class="agenda-item card">
+            <div class="agenda-head"><div><div class="agenda-time">09:30</div><h3>Strategy Briefing</h3></div><div class="agenda-tag">Boardroom Alpha</div></div>
+            <p>Host: Daniel Ruiz. Status: Briefing deck and room directions now active.</p>
+            <div class="agenda-controls"><button class="small-btn details-btn" data-title="Strategy Briefing" data-room="Boardroom Alpha" data-desc="Leadership strategy update with live room guidance." data-host="Daniel Ruiz">View Details</button></div>
+          </div>
+          <div class="agenda-item card">
+            <div class="agenda-head"><div><div class="agenda-time">10:30</div><h3>Product Demo</h3></div><div class="agenda-tag">Innovation Lab</div></div>
+            <p>Host: Maya Chen. Status: Demo space prepared with a guided visitor track.</p>
+            <div class="agenda-controls"><button class="small-btn details-btn" data-title="Product Demo" data-room="Innovation Lab" data-desc="Interactive showcase for clients and internal teams." data-host="Maya Chen">View Details</button></div>
+          </div>
+          <div class="agenda-item card">
+            <div class="agenda-head"><div><div class="agenda-time">11:30</div><h3>Boardroom Meeting</h3></div><div class="agenda-tag">Executive Suite</div></div>
+            <p>Host: Noah Bennett. Status: Private meeting access and direct routing.</p>
+            <div class="agenda-controls"><button class="small-btn details-btn" data-title="Boardroom Meeting" data-room="Executive Suite" data-desc="Private client meeting with secure access support." data-host="Noah Bennett">View Details</button></div>
+          </div>
+          <div class="agenda-item card">
+            <div class="agenda-head"><div><div class="agenda-time">13:00</div><h3>Networking Lunch</h3></div><div class="agenda-tag">Client Lounge</div></div>
+            <p>Host: Emma Clarke. Status: Hospitality lounge and refreshment flow enabled.</p>
+            <div class="agenda-controls"><button class="small-btn details-btn" data-title="Networking Lunch" data-room="Client Lounge" data-desc="Relaxed hospitality area with premium visitor experience." data-host="Emma Clarke">View Details</button></div>
+          </div>
+          <div class="agenda-item card">
+            <div class="agenda-head"><div><div class="agenda-time">15:00</div><h3>Innovation Lab Tour</h3></div><div class="agenda-tag">Tour Route</div></div>
+            <p>Host: Maya Chen. Status: Guided route with directions and updates.</p>
+            <div class="agenda-controls"><button class="small-btn details-btn" data-title="Innovation Lab Tour" data-room="Innovation Lab" data-desc="Walking tour through the innovation floor and live demos." data-host="Maya Chen">View Details</button></div>
+          </div>
+          <div class="agenda-item card">
+            <div class="agenda-head"><div><div class="agenda-time">16:30</div><h3>Closing Session</h3></div><div class="agenda-tag">Main Hall</div></div>
+            <p>Host: Sarah Chen. Status: Day close and visitor check-out reminder.</p>
+            <div class="agenda-controls"><button class="small-btn details-btn" data-title="Closing Session" data-room="Main Hall" data-desc="Wrap-up, thank-you message and departure guidance." data-host="Sarah Chen">View Details</button></div>
+          </div>
+        </div>
+        <div class="mini-panel glass-card">
+          <div class="mini-screen">
+            <div>
+              <div class="screen-title" id="lobby-screen-title">Welcome Screen</div>
+              <div class="helper" id="lobby-screen-copy">Select a session to update the lobby display and change the visual narrative.</div>
+            </div>
+            <div class="screen-list" id="lobby-screen-list">
+              <div>Visitor check-in active</div>
+              <div>Agenda highlights on screen</div>
+              <div>Room directions updated live</div>
+            </div>
+          </div>
+          <p class="helper">The canvas scene and this panel respond together to create a guided, premium lobby storytelling flow.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="checkin" class="section">
+      <div class="section-header">
+        <div>
+          <h2>Visitor Check-In</h2>
+          <p>Quick registration with validation and a badge confirmation state. The buttons below update the flow without leaving the page.</p>
+        </div>
+      </div>
+      <div class="grid cards-2">
+        <div class="card">
+          <form id="checkin-form">
+            <div class="form-grid">
+              <input id="visitor-name" placeholder="Visitor Name" required />
+              <input id="visitor-company" placeholder="Company" required />
+              <input id="visitor-email" type="email" placeholder="Email" required />
+              <input id="visitor-meeting" placeholder="Meeting With" required />
+            </div>
+            <select id="visit-type" required>
+              <option value="">Visit Type</option>
+              <option>Client Meeting</option>
+              <option>Onboarding</option>
+              <option>Executive Visit</option>
+              <option>Event Guest</option>
+            </select>
+            <div class="form-actions">
+              <button class="btn primary" type="submit">Complete Check-In</button>
+              <button class="btn secondary" type="button" data-checkin-action="Print Badge">Print Badge</button>
+              <button class="btn secondary" type="button" data-checkin-action="Notify Host">Notify Host</button>
+              <button class="btn secondary" type="button" data-checkin-action="Get Directions">Get Directions</button>
+            </div>
+          </form>
+        </div>
+        <div class="card">
+          <div class="icon">🪪</div>
+          <h3>Badge Preview</h3>
+          <p id="badge-state">No visitor registered yet. Complete the form to activate the welcome badge and arrival confirmation.</p>
+          <div class="glass-card" style="margin-top:16px;padding:18px;border-radius:20px">
+            <div class="screen-pill" id="badge-name">Visitor: Pending</div>
+            <div class="screen-pill" id="badge-company" style="margin-top:10px">Company: Pending</div>
+            <div class="screen-pill" id="badge-host" style="margin-top:10px">Host: Pending</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="rooms" class="section">
+      <div class="section-header">
+        <div>
+          <h2>Meeting Rooms</h2>
+          <p>Premium room cards with capacity, location and amenities. The selected room also updates the lobby screen narrative.</p>
+        </div>
+      </div>
+      <div class="grid cards-3">
+        <article class="card room-card"><div class="icon">A</div><h3>Boardroom Alpha</h3><p>12 seats · Floor 2 · Display, conferencing, and secure access.</p><button class="small-btn room-btn" data-room="Boardroom Alpha">View Room</button></article>
+        <article class="card room-card"><div class="icon">I</div><h3>Innovation Lab</h3><p>18 seats · Floor 3 · Demo wall, prototypes, and flexible seating.</p><button class="small-btn room-btn" data-room="Innovation Lab">View Room</button></article>
+        <article class="card room-card"><div class="icon">E</div><h3>Executive Suite</h3><p>8 seats · Floor 4 · Private lounge, polished table, and concierge support.</p><button class="small-btn room-btn" data-room="Executive Suite">View Room</button></article>
+        <article class="card room-card"><div class="icon">C</div><h3>Client Lounge</h3><p>20 seats · Ground floor · Hospitality, refreshments, and informal meetings.</p><button class="small-btn room-btn" data-room="Client Lounge">View Room</button></article>
+        <article class="card room-card"><div class="icon">T</div><h3>Training Room</h3><p>24 seats · Floor 1 · Workshop projection and modular desks.</p><button class="small-btn room-btn" data-room="Training Room">View Room</button></article>
+        <article class="card room-card"><div class="icon">S</div><h3>Strategy Room</h3><p>10 seats · Floor 4 · Planning wall, video link, and quiet focus.</p><button class="small-btn room-btn" data-room="Strategy Room">View Room</button></article>
+      </div>
+    </section>
+
+    <section id="map" class="section">
+      <div class="section-header">
+        <div>
+          <h2>Directions & Building Map</h2>
+          <p>Choose a destination to highlight the route. The layout is deliberately clean, with visual emphasis on the reception-to-room journey.</p>
+        </div>
+      </div>
+      <div class="map-wrap">
+        <div class="map">
+          <div class="route-line"></div>
+          <div class="map-grid">
+            <div class="zone active" data-zone="Reception"><span>Reception</span><small>Lobby start</small></div>
+            <div class="zone" data-zone="Meeting Rooms"><span>Meeting Rooms</span><small>2F - 4F</small></div>
+            <div class="zone" data-zone="Elevators"><span>Elevators</span><small>Central core</small></div>
+            <div class="zone" data-zone="Lounge"><span>Lounge</span><small>Hospitality</small></div>
+            <div class="zone" data-zone="Cafeteria"><span>Cafeteria</span><small>Refreshments</small></div>
+            <div class="zone" data-zone="Restrooms"><span>Restrooms</span><small>North wing</small></div>
+            <div class="zone" data-zone="Parking"><span>Parking</span><small>Level B1</small></div>
+            <div class="zone" data-zone="Security"><span>Security</span><small>Access control</small></div>
+            <div class="zone" data-zone="Map Reset"><span>Reset Map</span><small>Restore view</small></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="icon">🗺️</div>
+          <h3 id="map-title">Reception</h3>
+          <p id="map-copy">Highlighted route starts at the welcome desk and guides visitors to the main lobby flow.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="hosts" class="section">
+      <div class="section-header">
+        <div>
+          <h2>Host Directory</h2>
+          <p>Meet the team guiding the lobby experience. Contact actions trigger instant confirmations.</p>
+        </div>
+      </div>
+      <div class="grid cards-4">
+        <article class="card host-card"><div class="icon">EC</div><h3>Emma Clarke</h3><p>Executive Host · Boardroom Alpha</p><button class="small-btn host-btn" data-host="Emma Clarke">Contact Host</button></article>
+        <article class="card host-card"><div class="icon">DR</div><h3>Daniel Ruiz</h3><p>Product Lead · Strategy Room</p><button class="small-btn host-btn" data-host="Daniel Ruiz">Contact Host</button></article>
+        <article class="card host-card"><div class="icon">MC</div><h3>Maya Chen</h3><p>Innovation Director · Innovation Lab</p><button class="small-btn host-btn" data-host="Maya Chen">Contact Host</button></article>
+        <article class="card host-card"><div class="icon">NB</div><h3>Noah Bennett</h3><p>Client Success Manager · Executive Suite</p><button class="small-btn host-btn" data-host="Noah Bennett">Contact Host</button></article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h2>Visitor Experience</h2>
+          <p>Premium waiting and guidance features designed to reduce friction and elevate brand perception.</p>
+        </div>
+      </div>
+      <div class="grid cards-3">
+        <article class="card"><div class="icon">⏱️</div><h3>Reduce waiting time</h3><p>Guests see exactly what happens next and where to go.</p></article>
+        <article class="card"><div class="icon">📣</div><h3>Notify hosts instantly</h3><p>Check-in and room selection trigger immediate visibility for hosts.</p></article>
+        <article class="card"><div class="icon">✨</div><h3>Create a premium arrival</h3><p>Warm visuals, calm navigation and refined details build trust immediately.</p></article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h2>Security & Access</h2>
+          <p>Security feels clear and supportive rather than intimidating, with badges, approvals and room routing.</p>
+        </div>
+      </div>
+      <div class="grid cards-3">
+        <article class="card"><div class="icon">🔐</div><h3>Digital Visitor Badge</h3><p>Temporary identity for guests, tied to the day’s agenda and host assignment.</p></article>
+        <article class="card"><div class="icon">✅</div><h3>Access Approval</h3><p>Approvals and route guidance keep the lobby secure and smooth.</p></article>
+        <article class="card"><div class="icon">📝</div><h3>NDA Reminder</h3><p>Reminders appear at the right moment without interrupting the welcome flow.</p></article>
+      </div>
+      <div class="actions" style="margin-top:16px">
+        <button class="btn secondary" id="view-access-flow">View Access Flow</button>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h2>Lounge / Waiting Area</h2>
+          <p>The waiting space balances hospitality and productivity, with calm lighting and clear amenities.</p>
+        </div>
+      </div>
+      <div class="grid cards-3">
+        <article class="card"><div class="icon">🛋️</div><h3>Lounge seating</h3><p>Comfortable seating arranged for relaxed arrivals and informal meetings.</p></article>
+        <article class="card"><div class="icon">☕</div><h3>Welcome drinks</h3><p>Simple hospitality that adds a polished, human touch.</p></article>
+        <article class="card"><div class="icon">📺</div><h3>Company video wall</h3><p>Display brand story, agenda highlights and wayfinding content.</p></article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="glass-card" style="padding:28px">
+        <div class="section-header" style="margin-bottom:0">
+          <div>
+            <h2>Transform Every Visit Into a Premium Corporate Experience</h2>
+            <p>Create a lobby that welcomes, informs, guides and connects every visitor from the moment they arrive.</p>
+          </div>
+          <div class="actions">
+            <button class="btn primary" id="start-welcome-cta">Start Welcome Flow</button>
+            <button class="btn secondary" id="request-demo-scroll">Request Lobby Demo</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="section-header">
+        <div>
+          <h2>Contact</h2>
+          <p>Request a demo or configure the lobby for corporate events, onboarding, client visits and executive receptions.</p>
+        </div>
+      </div>
+      <div class="grid cards-2">
+        <div class="card">
+          <form id="contact-form">
+            <div class="form-grid">
+              <input id="name" placeholder="Name" required />
+              <input id="email" type="email" placeholder="Email" required />
+              <input id="company" placeholder="Company" required />
+              <select id="use-case" required>
+                <option value="">Lobby Use Case</option>
+                <option>Executive Reception</option>
+                <option>Client Visit</option>
+                <option>Onboarding Event</option>
+                <option>Internal Summit</option>
+              </select>
+            </div>
+            <textarea id="message" placeholder="Message" required></textarea>
+            <div class="form-actions">
+              <button class="btn primary" type="submit">Request Lobby Demo</button>
+            </div>
+          </form>
+        </div>
+        <div class="card">
+          <div class="icon">📞</div>
+          <h3>Contact details</h3>
+          <p>Email: hello@lobby3d.example</p>
+          <p>Phone: +1 (555) 012-2048</p>
+          <p class="helper">Use the form to simulate a premium demo request. We keep the interaction self-contained so every button still performs a visible action.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div>
+          <h3 id="modal-title">Details</h3>
+          <p class="helper" id="modal-subtitle"></p>
+        </div>
+        <button class="close" id="modal-close">✕</button>
+      </div>
+      <p id="modal-copy" class="helper"></p>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <footer class="footer">
+    <div><strong>3D Corporate Lobby Welcome Agenda</strong><br/>Premium reception flow with interactive 3D storytelling.</div>
+    <div>Built as a self-contained demo page for prompt-studio.</div>
+  </footer>
+
+  <script type="module">
+    import * as THREE from 'three';
+
+    const qs = (s) => document.querySelector(s);
+    const toast = (msg) => {
+      const el = qs('#toast');
+      el.textContent = msg;
+      el.classList.add('show');
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
+    };
+    const scrollToId = (id) => document.querySelector(id)?.scrollIntoView({behavior:'smooth', block:'start'});
+
+    const modal = qs('#modal');
+    const openModal = (title, subtitle, copy) => {
+      qs('#modal-title').textContent = title;
+      qs('#modal-subtitle').textContent = subtitle;
+      qs('#modal-copy').textContent = copy;
+      modal.classList.add('open');
+    };
+    qs('#modal-close').addEventListener('click', () => modal.classList.remove('open'));
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('open'); });
+
+    const mobileDrawer = qs('#mobile-drawer');
+    qs('#menu-toggle').addEventListener('click', () => mobileDrawer.classList.toggle('open'));
+    mobileDrawer.querySelectorAll('a,button').forEach((el) => el.addEventListener('click', () => mobileDrawer.classList.remove('open')));
+
+    const lobbyState = {
+      title: 'Welcome Screen',
+      copy: 'Select a session to update the lobby display and change the visual narrative.',
+      zone: 'Reception',
+      cameraTarget: new THREE.Vector3(0, 1.7, 0),
+      cameraPos: new THREE.Vector3(0, 3.2, 10),
+      progress: 0.2
+    };
+
+    const canvas = qs('#lobby-canvas');
+    const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(46, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.set(0, 3, 11);
+
+    const root = new THREE.Group();
+    scene.add(root);
+
+    scene.add(new THREE.AmbientLight(0xbfd2ff, 1.6));
+    const hemi = new THREE.HemisphereLight(0xcde0ff, 0x06101b, 1.8);
+    scene.add(hemi);
+    const key = new THREE.SpotLight(0xd7e7ff, 220, 55, Math.PI / 6, 0.35, 1.1);
+    key.position.set(0, 9, 8);
+    key.target.position.set(0, 1.3, -6);
+    scene.add(key, key.target);
+    const accent1 = new THREE.PointLight(0x8bb4ff, 65, 30);
+    accent1.position.set(-5, 3, -2);
+    scene.add(accent1);
+    const accent2 = new THREE.PointLight(0x66e3c4, 45, 22);
+    accent2.position.set(5, 2.2, 0);
+    scene.add(accent2);
+
+    const floor = new THREE.Mesh(
+      new THREE.PlaneGeometry(30, 24),
+      new THREE.MeshStandardMaterial({color:0x08111d, roughness:0.32, metalness:0.62})
+    );
+    floor.rotation.x = -Math.PI / 2;
+    root.add(floor);
+
+    const wallMat = new THREE.MeshStandardMaterial({color:0x0a1423, roughness:0.9, metalness:0.08});
+    const back = new THREE.Mesh(new THREE.PlaneGeometry(24, 10), wallMat);
+    back.position.set(0, 5, -10);
+    root.add(back);
+    const left = new THREE.Mesh(new THREE.PlaneGeometry(24, 10), wallMat.clone());
+    left.rotation.y = Math.PI / 2; left.position.set(-12, 5, 0); root.add(left);
+    const right = new THREE.Mesh(new THREE.PlaneGeometry(24, 10), wallMat.clone());
+    right.rotation.y = -Math.PI / 2; right.position.set(12, 5, 0); root.add(right);
+
+    const desk = new THREE.Group();
+    desk.position.set(0, 0, 0);
+    const deskBody = new THREE.Mesh(
+      new THREE.BoxGeometry(5.8, 1.05, 1.7),
+      new THREE.MeshStandardMaterial({color:0x0e1b2f, roughness:0.45, metalness:0.55})
+    );
+    deskBody.position.y = 0.52;
+    desk.add(deskBody);
+    const deskTop = new THREE.Mesh(
+      new THREE.BoxGeometry(6.05, .1, 1.85),
+      new THREE.MeshStandardMaterial({color:0x1d2c4b, roughness:0.16, metalness:0.82})
+    );
+    deskTop.position.y = 1.08;
+    desk.add(deskTop);
+    const deskGlow = new THREE.Mesh(
+      new THREE.BoxGeometry(5.6, .05, .06),
+      new THREE.MeshBasicMaterial({color:0x8bb4ff})
+    );
+    deskGlow.position.set(0, .52, .85);
+    desk.add(deskGlow);
+    root.add(desk);
+
+    const screen = new THREE.Mesh(
+      new THREE.PlaneGeometry(6.5, 3.4),
+      new THREE.MeshBasicMaterial({color:0x1a2e53})
+    );
+    screen.position.set(0, 4.2, -9.9);
+    root.add(screen);
+    const logo = new THREE.Mesh(
+      new THREE.BoxGeometry(2.4, .35, .2),
+      new THREE.MeshBasicMaterial({color:0xdbe8ff})
+    );
+    logo.position.set(0, 6.1, -9.85);
+    root.add(logo);
+
+    const lobbyObjects = [];
+    const makePillar = (x, z) => {
+      const p = new THREE.Mesh(
+        new THREE.CylinderGeometry(.25, .3, 7.8, 18),
+        new THREE.MeshStandardMaterial({color:0x10213b, roughness:0.38, metalness:0.55})
+      );
+      p.position.set(x, 3.9, z);
+      root.add(p);
+      lobbyObjects.push(p);
+    };
+    [-5, 5].forEach((x) => [-5, 3].forEach((z) => makePillar(x, z)));
+
+    const cards = [];
+    for (let i = 0; i < 6; i++) {
+      const card = new THREE.Mesh(
+        new THREE.PlaneGeometry(1.5, .9),
+        new THREE.MeshStandardMaterial({color:0x12233d, roughness:0.35, metalness:0.2, emissive:0x0a1322, emissiveIntensity:0.25})
+      );
+      card.position.set(-5.6 + i * 2.2, 2.25 + (i % 2) * .35, -3.2 - i * .3);
+      card.rotation.y = (i - 2.5) * 0.08;
+      root.add(card);
+      cards.push(card);
+    }
+
+    const floatingLight = new THREE.Mesh(
+      new THREE.SphereGeometry(.28, 18, 18),
+      new THREE.MeshBasicMaterial({color:0x66e3c4})
+    );
+    floatingLight.position.set(5.2, 6.3, -4.5);
+    root.add(floatingLight);
+
+    const agendaData = {
+      'Executive Welcome': ['Visitor greetings', 'Badge pickup', 'Lobby screen update'],
+      'Strategy Briefing': ['Leadership briefing', 'Room directions', 'Host availability'],
+      'Product Demo': ['Live demo', 'Client context', 'Interactive guidance'],
+      'Boardroom Meeting': ['Private access', 'Secure route', 'Quiet arrival'],
+      'Networking Lunch': ['Hospitality', 'Guest lounge', 'Refreshments'],
+      'Innovation Lab Tour': ['Guided tour', 'Live floor map', 'Team showcase'],
+      'Closing Session': ['Day wrap-up', 'Departure guidance', 'Check-out flow']
+    };
+
+    const setLobbyState = (title, copy, zone, progress) => {
+      lobbyState.title = title;
+      lobbyState.copy = copy;
+      lobbyState.zone = zone;
+      lobbyState.progress = progress;
+      qs('#lobby-screen-title').textContent = title;
+      qs('#lobby-screen-copy').textContent = copy;
+      qs('#map-title').textContent = zone;
+      qs('#map-copy').textContent = copy;
+    };
+
+    qs('#enter-lobby').addEventListener('click', () => {
+      lobbyState.cameraPos.set(0, 2.6, 5.2);
+      lobbyState.cameraTarget.set(0, 1.6, -3.8);
+      setLobbyState('Welcome Screen', 'Camera moves from the main entry to the reception desk and screen wall.', 'Reception', 0.42);
+      toast('Lobby entrance animation activated');
+    });
+    qs('#view-agenda').addEventListener('click', () => scrollToId('#agenda'));
+    qs('#start-checkin').addEventListener('click', () => scrollToId('#checkin'));
+    qs('#start-welcome-nav').addEventListener('click', () => scrollToId('#welcome'));
+    qs('#start-welcome-mobile').addEventListener('click', () => scrollToId('#welcome'));
+    qs('#start-welcome-cta').addEventListener('click', () => scrollToId('#checkin'));
+    qs('#request-demo-scroll').addEventListener('click', () => scrollToId('#contact'));
+    qs('#view-access-flow').addEventListener('click', () => openModal('Access Flow', 'Security that feels calm and supportive', 'Visitor badge, host approval, NDA reminder and secure room direction steps appear in sequence to keep the lobby secure while remaining welcoming.'));
+
+    document.querySelectorAll('.details-btn').forEach((btn) => btn.addEventListener('click', () => {
+      const title = btn.dataset.title;
+      setLobbyState(title, btn.dataset.desc, btn.dataset.room, 0.62);
+      openModal(title, `Host: ${btn.dataset.host}`, `${agendaData[title]?.join(' • ') || 'Agenda details updated in the lobby screen.'} ${btn.dataset.desc}`);
+    }));
+
+    document.querySelectorAll('.room-btn').forEach((btn) => btn.addEventListener('click', () => {
+      const room = btn.dataset.room;
+      setLobbyState(room, `${room} highlighted on the building map and lobby screen.`, room, 0.72);
+      toast(`${room} selected`);
+    }));
+
+    document.querySelectorAll('.host-btn').forEach((btn) => btn.addEventListener('click', () => {
+      openModal(`${btn.dataset.host}`, 'Host contact confirmed', 'A confirmation toast is displayed and the host directory card becomes the active reference for the visitor.');
+      toast(`Contact sent to ${btn.dataset.host}`);
+    }));
+
+    document.querySelectorAll('.zone').forEach((zone) => zone.addEventListener('click', () => {
+      const name = zone.dataset.zone;
+      document.querySelectorAll('.zone').forEach((z) => z.classList.remove('active'));
+      zone.classList.add('active');
+      if (name === 'Map Reset') {
+        document.querySelector('[data-zone="Reception"]').classList.add('active');
+        setLobbyState('Reception', 'Highlighted route starts at the welcome desk and guides visitors to the main lobby flow.', 'Reception', 0.2);
+        toast('Map reset');
+        return;
+      }
+      const mapCopy = {
+        Reception: 'Highlighted route starts at the welcome desk and guides visitors to the main lobby flow.',
+        'Meeting Rooms': 'A clean path to boardrooms, innovation rooms and executive suites.',
+        Elevators: 'Central vertical circulation keeps routes intuitive and premium.',
+        Lounge: 'The waiting lounge is calm, warm and hospitality focused.',
+        Cafeteria: 'Refreshment area for visitors and teams during longer stays.',
+        Restrooms: 'Clearly marked service areas for comfort and convenience.',
+        Parking: 'Wayfinding includes parking support for arrivals and departures.',
+        Security: 'Access control points are visible without feeling intimidating.'
+      };
+      setLobbyState(name, mapCopy[name] || name, name, 0.5);
+      toast(`${name} highlighted`);
+    }));
+
+    qs('#checkin-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = qs('#visitor-name').value.trim();
+      const company = qs('#visitor-company').value.trim();
+      const email = qs('#visitor-email').value.trim();
+      const meeting = qs('#visitor-meeting').value.trim();
+      const visitType = qs('#visit-type').value.trim();
+      if (!name || !company || !email || !meeting || !visitType) {
+        toast('Please complete all check-in fields');
+        return;
+      }
+      qs('#badge-state').textContent = `${name} from ${company} has completed a ${visitType.toLowerCase()} check-in.`;
+      qs('#badge-name').textContent = `Visitor: ${name}`;
+      qs('#badge-company').textContent = `Company: ${company}`;
+      qs('#badge-host').textContent = `Host: ${meeting}`;
+      setLobbyState('Visitor Check-In', `Badge created for ${name} from ${company}. Host ${meeting} has been notified.`, 'Security Access', 0.78);
+      toast('Check-in completed successfully');
+    });
+
+    document.querySelectorAll('[data-checkin-action]').forEach((btn) => btn.addEventListener('click', () => toast(`${btn.dataset.checkinAction} action triggered`)));
+
+    qs('#contact-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = qs('#name').value.trim();
+      const email = qs('#email').value.trim();
+      const company = qs('#company').value.trim();
+      const useCase = qs('#use-case').value.trim();
+      const message = qs('#message').value.trim();
+      if (!name || !email || !company || !useCase || !message) {
+        toast('Please complete the contact form');
+        return;
+      }
+      toast('Demo request sent');
+      openModal('Request Received', `${name} · ${company}`, `Thanks for the ${useCase.toLowerCase()} inquiry. We captured the request from ${email} and will follow up with a premium lobby demo plan.`);
+      e.target.reset();
+    });
+
+    const cardsToObserve = document.querySelectorAll('.card');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add('in-view');
+      });
+    }, { threshold: 0.16 });
+    cardsToObserve.forEach((card) => observer.observe(card));
+
+    const clock = new THREE.Clock();
+    function animate() {
+      const t = clock.getElapsedTime();
+      renderer.setSize(window.innerWidth, window.innerHeight, false);
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+
+      const scroll = window.scrollY / Math.max(1, document.body.scrollHeight - window.innerHeight);
+      const goalPos = lobbyState.cameraPos.clone();
+      const goalTgt = lobbyState.cameraTarget.clone();
+      camera.position.lerp(goalPos, 0.035);
+      camera.lookAt(goalTgt);
+
+      root.rotation.y = Math.sin(t * .08) * 0.03;
+      desk.position.y = Math.sin(t * 1.1) * 0.03;
+      floatingLight.position.y = 6.15 + Math.sin(t * 1.8) * 0.22;
+      cards.forEach((card, i) => {
+        card.position.y += Math.sin(t * 1.2 + i) * 0.0015;
+        card.rotation.z = Math.sin(t * .6 + i) * 0.02;
+      });
+
+      renderer.render(scene, camera);
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+    });
+  </script>
+</body>
+</html>

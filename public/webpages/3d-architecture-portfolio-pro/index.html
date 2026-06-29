@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta name="description" content="Professional 3D architecture portfolio template for displaying high-end designs, towers, and layout structures with interactive lighting.">
+  <meta name="keywords" content="3d, architecture, portfolio, three.js, webgl, interactive, design, template">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atelier Volumetrika | Arquitectura 3D Premium</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <canvas id="architecture-canvas" aria-label="Escena interactiva de arquitectura 3D con torres, planos, luces y profundidad"></canvas>
+
+  <div class="scene-overlay" aria-hidden="true"></div>
+
+  <header class="site-header" data-header>
+    <a class="brand" href="#inicio" aria-label="Atelier Volumetrika inicio">
+      <span class="brand-mark">AV</span>
+      <span>Atelier Volumetrika</span>
+    </a>
+    <nav class="nav-links" aria-label="Navegación principal">
+      <a href="#inicio">Inicio</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#proyectos">Proyectos</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <button class="nav-cta" type="button" data-scroll-target="#contacto">Agendar llamada</button>
+  </header>
+
+  <main>
+    <section id="inicio" class="hero section-shell">
+      <div class="hero-content reveal">
+        <span class="eyebrow">Estudio de arquitectura 3D y visualización inmersiva</span>
+        <h1>Diseñamos renders, recorridos y mundos 3D que venden espacios antes de construirlos.</h1>
+        <p>
+          Creamos visuales arquitectónicos premium para desarrolladores, interioristas y estudios que necesitan presentar
+          proyectos con precisión, emoción y una experiencia interactiva memorable.
+        </p>
+        <div class="hero-actions" aria-label="Acciones principales">
+          <button class="btn btn-primary" type="button" data-scroll-target="#proyectos">Ver proyectos</button>
+          <button class="btn btn-secondary" type="button" data-scroll-target="#contacto">Contactar</button>
+          <button class="btn btn-ghost" type="button" id="explore-3d">Explorar en 3D</button>
+        </div>
+      </div>
+
+      <aside class="hero-panel reveal" aria-label="Indicadores del estudio">
+        <div class="metric">
+          <strong>42</strong>
+          <span>proyectos visualizados</span>
+        </div>
+        <div class="metric">
+          <strong>4K</strong>
+          <span>renders y recorridos</span>
+        </div>
+        <div class="metric">
+          <strong>360</strong>
+          <span>experiencias inmersivas</span>
+        </div>
+      </aside>
+    </section>
+
+    <section id="servicios" class="section-shell content-section">
+      <div class="section-heading reveal">
+        <span class="eyebrow">Servicios</span>
+        <h2>Producción visual para arquitectura de alto impacto.</h2>
+        <p>Desde el concepto hasta la venta, transformamos planos técnicos en una narrativa visual clara, elegante y convincente.</p>
+      </div>
+      <div class="service-grid">
+        <article class="glass-card reveal">
+          <span class="card-index">01</span>
+          <h3>Renders hiperrealistas</h3>
+          <p>Imágenes interiores y exteriores con iluminación física, materiales premium y dirección de arte para campañas inmobiliarias.</p>
+        </article>
+        <article class="glass-card reveal">
+          <span class="card-index">02</span>
+          <h3>Recorridos 3D</h3>
+          <p>Animaciones suaves, cámaras cinematográficas y fly-throughs para presentar escala, circulación, paisaje y atmósfera.</p>
+        </article>
+        <article class="glass-card reveal">
+          <span class="card-index">03</span>
+          <h3>Experiencias interactivas</h3>
+          <p>Showrooms WebGL, configuradores, hotspots y escenas navegables para que tus clientes exploren el proyecto en tiempo real.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="proyectos" class="section-shell content-section projects-section">
+      <div class="section-heading reveal">
+        <span class="eyebrow">Proyectos 3D</span>
+        <h2>Portafolio diseñado para cerrar decisiones.</h2>
+        <p>Conceptos residenciales, torres corporativas y espacios culturales renderizados con profundidad, luz y contexto comercial.</p>
+      </div>
+      <div class="project-grid">
+        <article class="project-card reveal" data-focus-project="0">
+          <div class="project-preview tower"></div>
+          <div>
+            <span>Residencial vertical</span>
+            <h3>Torre Aurora</h3>
+            <p>Lobby, amenidades, fachada nocturna y recorrido de preventa.</p>
+          </div>
+        </article>
+        <article class="project-card reveal" data-focus-project="1">
+          <div class="project-preview villa"></div>
+          <div>
+            <span>Vivienda premium</span>
+            <h3>Casa Bruma</h3>
+            <p>Visualización interior con iluminación cálida, patios y materialidad natural.</p>
+          </div>
+        </article>
+        <article class="project-card reveal" data-focus-project="2">
+          <div class="project-preview museum"></div>
+          <div>
+            <span>Equipamiento cultural</span>
+            <h3>Museo Prisma</h3>
+            <p>Volúmenes monumentales, plaza pública y secuencia de acceso.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="proceso" class="section-shell content-section">
+      <div class="section-heading reveal">
+        <span class="eyebrow">Proceso de trabajo</span>
+        <h2>Un flujo preciso, visual y colaborativo.</h2>
+      </div>
+      <div class="process-list">
+        <div class="process-item reveal">
+          <strong>Brief y planos</strong>
+          <p>Revisamos archivos CAD, moodboards, objetivos comerciales y ángulos clave para definir la dirección visual.</p>
+        </div>
+        <div class="process-item reveal">
+          <strong>Modelo, materiales y luz</strong>
+          <p>Construimos la escena 3D, aplicamos materiales realistas y calibramos la iluminación según el carácter del proyecto.</p>
+        </div>
+        <div class="process-item reveal">
+          <strong>Render final e interacción</strong>
+          <p>Entregamos imágenes, video, recorridos o experiencia WebGL optimizada para web, venta y presentaciones.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="testimonios" class="section-shell content-section testimonials">
+      <div class="section-heading reveal">
+        <span class="eyebrow">Testimonios</span>
+        <h2>Visuales que elevan la conversación con clientes e inversionistas.</h2>
+      </div>
+      <div class="testimonial-grid">
+        <blockquote class="glass-card reveal">
+          <p>"La escena interactiva nos ayudó a explicar el proyecto en una reunión de diez minutos. El cliente entendió escala, luz y valor inmediatamente."</p>
+          <cite>Marina Soler, Directora Creativa</cite>
+        </blockquote>
+        <blockquote class="glass-card reveal">
+          <p>"Los renders parecían una producción editorial. Se convirtieron en el centro de nuestra campaña de preventa."</p>
+          <cite>Iván Duarte, Desarrollador inmobiliario</cite>
+        </blockquote>
+      </div>
+    </section>
+
+    <section id="contacto" class="section-shell content-section contact-section">
+      <div class="contact-copy reveal">
+        <span class="eyebrow">Contacto</span>
+        <h2>Cuéntanos qué espacio quieres vender, presentar o imaginar.</h2>
+        <p>Preparamos una propuesta visual con alcance, tiempos y entregables para tu proyecto arquitectónico.</p>
+      </div>
+      <form class="contact-form reveal">
+        <label>
+          Nombre
+          <input type="text" name="name" placeholder="Tu nombre" autocomplete="name">
+        </label>
+        <label>
+          Email
+          <input type="email" name="email" placeholder="correo@estudio.com" autocomplete="email">
+        </label>
+        <label>
+          Proyecto
+          <textarea name="project" rows="4" placeholder="Render exterior, recorrido, showroom 3D..."></textarea>
+        </label>
+        <button class="btn btn-primary" type="submit">Solicitar propuesta</button>
+      </form>
+    </section>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="arch3d.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+1
+00:00:00,000 --> 00:00:08,000
+Dashboard de análisis de datos en 3D. Cada widget muestra una métrica clave con barras animadas.
+
+2
+00:00:08,000 --> 00:00:16,000
+Selecciona un widget para ver un video insight narrado que explica la tendencia subyacente.
+
+3
+00:00:16,000 --> 00:00:24,000
+Usa el comparador para ver dos periodos lado a lado con videos sincronizados y diferencias visuales.

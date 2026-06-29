@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="keywords" content="3d, architecture, walkthrough, three.js, webgl, simulation, tour">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Premium interactive 3D architecture walkthrough landing page for luxury real estate, architecture studios, and visualization teams.">
+  <title>3D Architecture Walkthrough | ARCHWALK 3D</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header" id="home">
+    <a class="brand" href="#home" aria-label="ARCHWALK 3D home">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span>ARCHWALK <strong>3D</strong></span>
+    </a>
+    <button class="menu-toggle" id="menu-toggle" aria-label="Open navigation" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
+      <a href="#home">Home</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#contact">Contact</a>
+      <button class="nav-cta" data-action="start-tour">Start Tour</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero section-pad" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <h1 id="hero-title">Experience Architecture Before It’s Built</h1>
+        <p>Explore immersive 3D walkthroughs, architectural visualizations, and interactive spaces designed for modern studios, developers, and premium real estate projects.</p>
+        <div class="hero-actions" aria-label="Primary actions">
+          <button class="btn btn-primary" data-action="start-tour">
+            <span>Start 3D Walkthrough</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-5 5 5-5 5"/></svg>
+          </button>
+          <button class="btn btn-secondary" data-scroll="#projects">View Projects</button>
+          <button class="btn btn-ghost" data-scroll="#contact">Contact Us</button>
+        </div>
+      </div>
+
+      <div class="walkthrough-shell" id="walkthrough" aria-label="Interactive 3D architecture walkthrough">
+        <canvas id="arch-canvas"></canvas>
+        <div class="canvas-vignette" aria-hidden="true"></div>
+        <div class="hotspot-layer" id="hotspot-layer"></div>
+        <div class="scene-status">
+          <span id="tour-status">Manual exploration</span>
+          <strong>Drag to orbit</strong>
+        </div>
+        <div class="scene-controls" aria-label="Scene controls">
+          <button class="control-btn active" data-camera="exterior">Exterior</button>
+          <button class="control-btn" data-camera="interior">Interior</button>
+          <button class="control-btn" data-camera="plans">Plans</button>
+          <button class="control-btn icon-btn" data-action="reset-view" aria-label="Reset 3D view">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v6h6"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="experience section-pad" id="experience" aria-labelledby="experience-title">
+      <div class="section-heading">
+        <h2 id="experience-title">Immersive Visualization for Decisive Presentations</h2>
+        <p>Turn drawings, models, and unfinished concepts into a cinematic exploration that clients can understand instantly.</p>
+      </div>
+      <div class="value-grid">
+        <article class="value-card reveal">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 7v10l8 4 8-4V7l-8-4Zm0 0v18M4 7l8 4 8-4"/></svg>
+          <h3>Immersive Visualization</h3>
+          <p>Photoreal architectural scenes with scale, proportion, materials, and atmosphere visible in one interactive space.</p>
+        </article>
+        <article class="value-card reveal">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 8-8M4 12h8l4-4M12 20v-4"/></svg>
+          <h3>Real-Time Exploration</h3>
+          <p>Let stakeholders orbit, inspect, and move through the project while you control the story and focal details.</p>
+        </article>
+        <article class="value-card reveal">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H4zM8 20h8M12 16v4"/></svg>
+          <h3>Client-Ready Presentations</h3>
+          <p>Elegant browser-based walkthroughs built for pitches, pre-sales galleries, investor previews, and design reviews.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="projects section-pad" id="projects" aria-labelledby="projects-title">
+      <div class="section-heading split">
+        <div>
+          <h2 id="projects-title">Featured Architectural Walkthroughs</h2>
+          <p>Conceptual showcases for residential, commercial, and interior visualization experiences.</p>
+        </div>
+      </div>
+      <div class="project-grid">
+        <article class="project-card reveal" data-project="villa">
+          <div class="project-render villa-render" role="img" aria-label="Luxury villa night render"></div>
+          <div class="project-body">
+            <h3>Luxury Villa Walkthrough</h3>
+            <p>Private coastal residence with cinematic arrival, interior reveal, and pool terrace lighting.</p>
+            <button class="text-btn" data-details="villa">View Details</button>
+          </div>
+        </article>
+        <article class="project-card reveal" data-project="tower">
+          <div class="project-render tower-render" role="img" aria-label="Urban residential tower render"></div>
+          <div class="project-body">
+            <h3>Urban Residential Tower</h3>
+            <p>High-rise presentation with facade rhythm, lobby navigation, and dusk skyline atmosphere.</p>
+            <button class="text-btn" data-details="tower">View Details</button>
+          </div>
+        </article>
+        <article class="project-card reveal" data-project="apartment">
+          <div class="project-render apartment-render" role="img" aria-label="Modern interior apartment render"></div>
+          <div class="project-body">
+            <h3>Modern Interior Apartment</h3>
+            <p>Minimalist interiors with material toggles, lighting scenarios, and spatial flow previews.</p>
+            <button class="text-btn" data-details="apartment">View Details</button>
+          </div>
+        </article>
+        <article class="project-card reveal" data-project="commercial">
+          <div class="project-render commercial-render" role="img" aria-label="Commercial concept space render"></div>
+          <div class="project-body">
+            <h3>Commercial Concept Space</h3>
+            <p>Flexible retail and hospitality visualization with circulation, signage, and branded lighting.</p>
+            <button class="text-btn" data-details="commercial">View Details</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="services section-pad" id="services" aria-labelledby="services-title">
+      <div class="section-heading">
+        <h2 id="services-title">Services Built for Premium Architecture Teams</h2>
+        <p>Everything needed to transform a concept into an interactive, client-facing web presentation.</p>
+      </div>
+      <div class="service-grid">
+        <article class="service-card reveal"><h3>3D Architectural Walkthroughs</h3><p>Cinematic pathing, spatial hierarchy, and guided tours for planned environments.</p></article>
+        <article class="service-card reveal"><h3>Interior Visualization</h3><p>Precise furniture, finishes, lighting concepts, and atmospheres for interior approvals.</p></article>
+        <article class="service-card reveal"><h3>Exterior Rendering</h3><p>Facade studies, landscape context, dusk scenes, and premium real estate hero visuals.</p></article>
+        <article class="service-card reveal"><h3>Real Estate Virtual Tours</h3><p>Interactive sales experiences that help buyers understand lifestyle, scale, and value.</p></article>
+        <article class="service-card reveal"><h3>Conceptual Architecture</h3><p>Early massing, design language, and visual storytelling before construction documents.</p></article>
+        <article class="service-card reveal"><h3>Interactive Web Presentations</h3><p>Fast, responsive walkthrough pages for investor decks, launches, and portfolio showcases.</p></article>
+      </div>
+    </section>
+
+    <section class="process section-pad" id="process" aria-labelledby="process-title">
+      <div class="section-heading">
+        <h2 id="process-title">A Clear Process from Brief to Walkthrough</h2>
+        <p>Structured collaboration keeps the visual experience precise, beautiful, and ready for presentation.</p>
+      </div>
+      <div class="timeline">
+        <article class="step reveal"><span>01</span><h3>Step 1: Project Brief</h3><p>Goals, audience, references, plans, assets, and presentation needs are mapped into a visual direction.</p></article>
+        <article class="step reveal"><span>02</span><h3>Step 2: 3D Modeling</h3><p>Architectural geometry, interiors, key volumes, and camera paths are built with clean spatial logic.</p></article>
+        <article class="step reveal"><span>03</span><h3>Step 3: Materials & Lighting</h3><p>Surfaces, reflections, day-night ambience, and focal contrast are tuned for premium perception.</p></article>
+        <article class="step reveal"><span>04</span><h3>Step 4: Interactive Walkthrough</h3><p>The scene becomes a responsive browser experience with hotspots, controls, and guided movement.</p></article>
+        <article class="step reveal"><span>05</span><h3>Step 5: Final Presentation</h3><p>Delivery is polished for stakeholders, sales teams, investors, or public project launches.</p></article>
+      </div>
+    </section>
+
+    <section class="testimonials section-pad" aria-labelledby="testimonials-title">
+      <div class="section-heading split">
+        <div>
+          <h2 id="testimonials-title">Trusted by Design-Led Teams</h2>
+          <p>Professional presentation quality for moments when drawings are not enough.</p>
+        </div>
+      </div>
+      <div class="testimonial-grid">
+        <blockquote class="testimonial reveal">
+          <p>“The walkthrough helped our client feel the scale and light of the project before the first slab was poured.”</p>
+          <cite>Elena Marquez, Principal Architect</cite>
+        </blockquote>
+        <blockquote class="testimonial reveal">
+          <p>“Investors understood the tower faster than in any previous pitch. The interactive facade and lobby views changed the conversation.”</p>
+          <cite>Daniel Foster, Real Estate Developer</cite>
+        </blockquote>
+        <blockquote class="testimonial reveal">
+          <p>“Material choices became easier to approve because clients could explore every finish in context.”</p>
+          <cite>Nora Ishikawa, Interior Design Director</cite>
+        </blockquote>
+      </div>
+    </section>
+
+    <section class="contact section-pad" id="contact" aria-labelledby="contact-title">
+      <div class="contact-copy">
+        <h2 id="contact-title">Request a 3D Walkthrough</h2>
+        <p>Share your project details and our studio will prepare a tailored visualization proposal.</p>
+        <div class="contact-lines">
+          <span>studio@archwalk3d.com</span>
+          <span>+1 (305) 555-0198</span>
+          <span>Miami · New York · Remote</span>
+        </div>
+      </div>
+      <form class="contact-form" id="contact-form" novalidate>
+        <label>Name <input name="name" type="text" autocomplete="name" required></label>
+        <label>Email <input name="email" type="email" autocomplete="email" required></label>
+        <label>Project Type
+          <select name="projectType" required>
+            <option value="">Select a project type</option>
+            <option>Luxury Residential</option>
+            <option>Commercial Space</option>
+            <option>Interior Visualization</option>
+            <option>Real Estate Launch</option>
+          </select>
+        </label>
+        <label>Budget Range
+          <select name="budget" required>
+            <option value="">Select budget range</option>
+            <option>$8k - $15k</option>
+            <option>$15k - $35k</option>
+            <option>$35k - $75k</option>
+            <option>$75k+</option>
+          </select>
+        </label>
+        <label class="full">Message <textarea name="message" rows="5" required></textarea></label>
+        <button class="btn btn-primary full" type="submit">Request a 3D Walkthrough</button>
+        <p class="form-message" id="form-message" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+
+  <div class="modal" id="project-modal" hidden role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-panel">
+      <button class="modal-close" id="modal-close" aria-label="Close project details">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+      <div class="modal-render" id="modal-render"></div>
+      <div>
+        <h2 id="modal-title"></h2>
+        <p id="modal-description"></p>
+        <ul id="modal-list"></ul>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="arch3d.js"></script>
+</body>
+</html>

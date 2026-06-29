@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="description" content="Synchronized 3D classroom platform mapping video lectures to interactive educational components in WebGL.">
+  <meta name="keywords" content="3d, classroom, video lessons, synchronized, education, webgl">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYNC CLASS 3D - Synchronized Video Lessons</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <canvas id="bg-canvas"></canvas>
+
+    <header class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-cube"></i> SYNC CLASS 3D
+        </div>
+        <nav class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#lessons">Lessons</a>
+            <a href="#sync-features">Sync Features</a>
+            <a href="#classroom">Classroom</a>
+            <a href="#demo">Demo</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <div class="nav-actions">
+            <button class="btn primary">Launch Lesson</button>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <div class="mobile-menu">
+        <a href="#home">Home</a>
+        <a href="#lessons">Lessons</a>
+        <a href="#sync-features">Sync Features</a>
+        <a href="#classroom">Classroom</a>
+        <a href="#demo">Demo</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contact">Contact</a>
+    </div>
+
+    <main class="smooth-scroll-wrapper">
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <span class="badge">Next-Gen Education</span>
+                <h1 class="parallax-text" data-speed="0.5">The Future of <br><span class="gradient-text">Immersive Learning</span></h1>
+                <p class="parallax-text" data-speed="0.8">Experience synchronized video, interactive whiteboards, and real-time 3D models in a fully connected virtual classroom.</p>
+                <div class="hero-buttons parallax-text" data-speed="1">
+                    <button class="btn primary glowing">Start Free Trial <i class="fa-solid fa-arrow-right"></i></button>
+                    <button class="btn secondary"><i class="fa-solid fa-play"></i> Watch Video</button>
+                </div>
+            </div>
+            
+            <div class="hero-visuals">
+                <div class="floating-panel video-panel parallax-box" data-speed="-0.5">
+                    <div class="panel-header">
+                        <div class="dots"><span></span><span></span><span></span></div>
+                        <span>Live Lesson: Quantum Physics</span>
+                    </div>
+                    <div class="panel-body video-mock">
+                        <i class="fa-solid fa-play play-icon"></i>
+                        <div class="progress-bar"><div></div></div>
+                    </div>
+                </div>
+                <div class="floating-panel whiteboard-panel parallax-box" data-speed="-1.2">
+                    <div class="panel-header">Interactive Whiteboard</div>
+                    <div class="panel-body">
+                        <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Atom Model" class="mock-img">
+                        <p>E = mc²</p>
+                    </div>
+                </div>
+                <div class="floating-panel quiz-panel parallax-box" data-speed="-0.8">
+                    <h4>Pop Quiz</h4>
+                    <p>What is the main concept here?</p>
+                    <button class="quiz-btn">Relativity</button>
+                    <button class="quiz-btn">Thermodynamics</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="sync-features" class="features">
+            <div class="section-header parallax-text" data-speed="0.3">
+                <h2>Real-Time <span class="gradient-text">Synchronization</span></h2>
+                <p>Every element in the classroom connects instantly between teachers and students.</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card parallax-box" data-speed="0.4">
+                    <div class="icon-wrapper"><i class="fa-solid fa-video"></i></div>
+                    <h3>Synced Video</h3>
+                    <p>HD video streaming perfectly timed with interactive elements. No more "what slide are we on?"</p>
+                </div>
+                <div class="feature-card parallax-box" data-speed="0.6">
+                    <div class="icon-wrapper"><i class="fa-solid fa-pen-ruler"></i></div>
+                    <h3>Digital Whiteboard</h3>
+                    <p>Collaborative canvas where teachers and students can draw, highlight, and annotate together.</p>
+                </div>
+                <div class="feature-card parallax-box" data-speed="0.8">
+                    <div class="icon-wrapper"><i class="fa-solid fa-cubes"></i></div>
+                    <h3>3D Model Integration</h3>
+                    <p>Rotate, zoom, and explore complex 3D models embedded directly into the lesson flow.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Classroom Interactive Section -->
+        <section id="classroom" class="classroom">
+            <div class="classroom-container">
+                <div class="classroom-info parallax-text" data-speed="0.5">
+                    <h2>Immersive <br>3D Classroom</h2>
+                    <p>Step into a virtual environment designed to maximize focus and engagement. The UI adapts to the lesson context.</p>
+                    <ul class="feature-list">
+                        <li><i class="fa-solid fa-check"></i> Spatial Audio</li>
+                        <li><i class="fa-solid fa-check"></i> Dynamic Lighting</li>
+                        <li><i class="fa-solid fa-check"></i> Focus Mode</li>
+                    </ul>
+                </div>
+                <div class="classroom-visual parallax-box" data-speed="-0.5">
+                    <div class="glass-dashboard">
+                        <div class="dash-sidebar">
+                            <div class="avatar"></div>
+                            <div class="nav-item active"></div>
+                            <div class="nav-item"></div>
+                            <div class="nav-item"></div>
+                        </div>
+                        <div class="dash-main">
+                            <div class="dash-video"></div>
+                            <div class="dash-widgets">
+                                <div class="widget"></div>
+                                <div class="widget"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section parallax-box" data-speed="0.2">
+            <div class="cta-content glass-panel">
+                <h2>Ready to transform your teaching?</h2>
+                <p>Join thousands of educators building the classrooms of tomorrow.</p>
+                <button class="btn primary glowing lg">Start Your Free Trial Now</button>
+            </div>
+        </section>
+
+        <footer id="contact">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo"><i class="fa-solid fa-cube"></i> SYNC CLASS 3D</div>
+                    <p>Empowering education through immersive, synchronized technology.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h4>Platform</h4>
+                        <a href="#">Classroom</a>
+                        <a href="#">Whiteboard</a>
+                        <a href="#">3D Models</a>
+                    </div>
+                    <div class="link-group">
+                        <h4>Company</h4>
+                        <a href="#">About Us</a>
+                        <a href="#">Careers</a>
+                        <a href="#">Contact</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Sync Class 3D. All rights reserved.</p>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

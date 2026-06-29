@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="3D Corporate Library Training Pro: a premium immersive corporate learning library with courses, certifications, AI mentor, analytics and enterprise training paths.">
+  <meta name="keywords" content="corporate training, 3D library, LMS, enterprise learning, certifications, analytics, upskilling">
+  <title>3D Corporate Library Training Pro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="#home" aria-label="Library Pro 3D home">
+        <span class="brand-mark">◼</span>
+        <span>LIBRARY PRO 3D</span>
+      </a>
+      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="siteNav">Menu</button>
+      <nav class="site-nav" id="siteNav">
+        <a href="#home">Home</a>
+        <a href="#library">Library</a>
+        <a href="#courses">Courses</a>
+        <a href="#paths">Learning Paths</a>
+        <a href="#certifications">Certifications</a>
+        <a href="#mentor">AI Mentor</a>
+        <a href="#analytics">Analytics</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a class="cta cta-primary" href="#contact" id="startTrainingTop">Start Training</a>
+    </header>
+
+    <main>
+      <section class="hero section" id="home">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">Enterprise learning library</p>
+          <h1>Train High-Performing Teams Inside a 3D Corporate Learning Library</h1>
+          <p class="lede">A premium 3D training platform where employees explore courses, learning paths, certifications, resources, mentorship and performance analytics in one immersive corporate library.</p>
+          <div class="hero-actions">
+            <button class="cta cta-primary" data-action="enter-library">Enter Pro Library</button>
+            <a class="cta cta-secondary" href="#courses">Explore Courses</a>
+            <a class="cta cta-tertiary" href="#contact">Request Enterprise Demo</a>
+          </div>
+          <div class="hero-stats">
+            <div><strong>92%</strong><span>Completion lift</span></div>
+            <div><strong>24</strong><span>Learning tracks</span></div>
+            <div><strong>SSO</strong><span>Enterprise ready</span></div>
+          </div>
+        </div>
+        <div class="hero-canvas-panel reveal delay-1">
+          <div class="canvas-labels">
+            <button class="hotspot" data-hotspot="Course Catalog">Course Catalog</button>
+            <button class="hotspot" data-hotspot="Learning Paths">Learning Paths</button>
+            <button class="hotspot" data-hotspot="AI Mentor">AI Mentor</button>
+            <button class="hotspot" data-hotspot="Employee Analytics">Employee Analytics</button>
+          </div>
+          <canvas id="libraryCanvas" aria-label="Corporate library 3D scene"></canvas>
+          <div class="canvas-callout" id="canvasCallout">Reception, learning paths and training modules glow with data-rich guidance.</div>
+        </div>
+      </section>
+
+      <section class="section split section-lux" id="library">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Knowledge hub</p>
+          <h2>A Premium Knowledge Hub for Every Department</h2>
+          <p>Centralize courses, documents, videos, SOPs, playbooks, certifications and role-based learning recommendations in one secure enterprise library.</p>
+        </div>
+        <div class="card-grid four reveal delay-1">
+          <article class="glass-card"><span class="card-icon">KB</span><h3>Enterprise Knowledge Base</h3><p>Organize internal knowledge with a premium information architecture that feels clear, searchable and trusted.</p></article>
+          <article class="glass-card"><span class="card-icon">RB</span><h3>Role-Based Content</h3><p>Deliver targeted learning for leaders, sales, HR, operations, finance and technology teams.</p></article>
+          <article class="glass-card"><span class="card-icon">SV</span><h3>Secure Resource Vault</h3><p>Protect policies, templates and internal manuals in a polished resource vault with controlled access.</p></article>
+          <article class="glass-card"><span class="card-icon">AI</span><h3>Personalized Learning Recommendations</h3><p>Surface next-best content using a recommendation engine tuned to employee goals and skill gaps.</p></article>
+        </div>
+      </section>
+
+      <section class="section" id="courses">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Training catalog</p>
+          <h2>Professional Courses Built for Enterprise Growth</h2>
+          <p>Each course opens a detail panel with duration, level, format and a guided next step.</p>
+        </div>
+        <div class="card-grid courses reveal delay-1" id="courseGrid"></div>
+      </section>
+
+      <section class="section section-alt" id="paths">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Guided progression</p>
+          <h2>Learning Paths by Role, Goal and Department</h2>
+        </div>
+        <div class="path-layout">
+          <article class="path-panel reveal">
+            <h3>Selected path</h3>
+            <div id="pathDetail" class="path-detail"></div>
+            <button class="cta cta-primary" id="startPathBtn">Start Path</button>
+          </article>
+          <div class="path-list reveal delay-1" id="pathList"></div>
+        </div>
+      </section>
+
+      <section class="section" id="certifications">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Credibility wall</p>
+          <h2>Certification Wall, Dashboard and Learning Momentum</h2>
+        </div>
+        <div class="three-up">
+          <article class="glass-card reveal"><h3>Certification Wall</h3><p>Digital badges and executive-ready certificates reinforce progress and recognition.</p><button class="mini-btn" data-action="view-certificate">View Certificate</button></article>
+          <article class="glass-card reveal delay-1"><h3>View Dashboard</h3><p>Track completion, skill gaps, readiness and ROI by team with smooth KPI cards.</p><button class="mini-btn" data-action="view-dashboard">View Dashboard</button></article>
+          <article class="glass-card reveal delay-2"><h3>Enterprise Features</h3><p>SSO, permissions, department dashboards, compliance tracking and audit-ready reporting.</p></article>
+        </div>
+      </section>
+
+      <section class="section section-alt" id="mentor">
+        <div class="split two-col">
+          <div class="reveal">
+            <p class="eyebrow">AI mentor</p>
+            <h2>A Human-Like Coaching Layer for Every Employee</h2>
+            <p>The mentor can recommend next steps, answer questions, and surface tailored guidance for onboarding, compliance, leadership and productivity.</p>
+            <button class="cta cta-primary" data-action="ask-mentor">Ask AI Mentor</button>
+          </div>
+          <div class="mentor-card reveal delay-1">
+            <p class="mentor-pulse">Live guidance</p>
+            <strong id="mentorAnswer">“I can suggest a course based on your team role and current skill gaps.”</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="analytics">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Team intelligence</p>
+          <h2>Team Analytics that Leaders and HR Can Trust</h2>
+        </div>
+        <div class="metrics reveal delay-1" id="metrics"></div>
+        <div class="chart-row reveal delay-2">
+          <button class="cta cta-secondary" data-action="analyze-team">Analyze Team Progress</button>
+          <div class="chart-panel" id="chartPanel"></div>
+        </div>
+      </section>
+
+      <section class="section section-alt" id="resource-vault">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Resource vault</p>
+          <h2>Curated Assets for High-Performing Teams</h2>
+        </div>
+        <div class="filter-row reveal" id="vaultFilters"></div>
+        <div class="card-grid vault reveal delay-1" id="vaultGrid"></div>
+      </section>
+
+      <section class="section" id="pricing">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Plans</p>
+          <h2>Pricing Built for Teams of Every Size</h2>
+        </div>
+        <div class="card-grid pricing reveal delay-1" id="pricingGrid"></div>
+      </section>
+
+      <section class="section testimonials">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Testimonials</p>
+          <h2>Trusted by learning leaders and managers</h2>
+        </div>
+        <div class="three-up reveal delay-1" id="testimonialGrid"></div>
+      </section>
+
+      <section class="section section-alt" id="contact">
+        <div class="contact-layout">
+          <div class="reveal">
+            <p class="eyebrow">Demo request</p>
+            <h2>Request Training Pro Demo</h2>
+            <p>See how the 3D learning library can organize onboarding, compliance, leadership development and analytics in one premium experience.</p>
+            <div class="contact-details">
+              <span>Email: hello@librarypro3d.com</span>
+              <span>Phone: +1 (555) 240-3300</span>
+              <span>Office: Austin, Texas</span>
+            </div>
+          </div>
+          <form class="contact-form reveal delay-1" id="demoForm">
+            <div class="field-grid">
+              <label>Name <input name="name" required></label>
+              <label>Email <input name="email" type="email" required></label>
+              <label>Company <input name="company" required></label>
+              <label>Team Size <input name="teamSize" required></label>
+              <label>Training Need <input name="trainingNeed" required></label>
+              <label>Preferred Plan <select name="preferredPlan" id="planSelect"></select></label>
+            </div>
+            <label>Message <textarea name="message" rows="4" required></textarea></label>
+            <button class="cta cta-primary" type="submit">Request Training Pro Demo</button>
+            <p class="form-status" id="formStatus" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" id="modalClose" aria-label="Close dialog">×</button>
+      <h3 id="modalTitle"></h3>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="corpLibraryPro.js"></script>
+</body>
+</html>
