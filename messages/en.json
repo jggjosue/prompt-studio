@@ -757,7 +757,7 @@
       "items": [
         {
           "q": "How do I join the affiliate program?",
-          "a": "Submit the application form. We review fit, audience quality, and promotion plan before approving partners."
+          "a": "Log in, copy the link of the product you want to promote or become affiliated with, and share it with your friends, contacts, or social network."
         },
         {
           "q": "How much commission can I earn?",
@@ -765,7 +765,7 @@
         },
         {
           "q": "When are commissions paid?",
-          "a": "Commissions are reviewed and paid monthly after refunds and eligibility checks."
+          "a": "Commissions are reviewed and paid monthly after eligibility is verified."
         },
         {
           "q": "Do I get a unique affiliate link?",
@@ -777,7 +777,7 @@
         },
         {
           "q": "What is the cookie duration?",
-          "a": "The referral cookie window is 30 days from the first qualified click."
+          "a": "The referral cookie window is 60 days from the first qualified click."
         },
         {
           "q": "Can I promote this product internationally?",

@@ -758,7 +758,7 @@
       "items": [
         {
           "q": "¿Cómo me uno al programa de afiliados?",
-          "a": "Envía el formulario de solicitud. Revisamos la compatibilidad, la calidad de la audiencia y el plan de promoción antes de aprobar partners."
+          "a": "Inicia sesión, copia el enlace del producto que deseas promocionar o afiliar, y compártelo con tus amigos, contactos o redes sociales."
         },
         {
           "q": "¿Cuánta comisión puedo ganar?",
@@ -766,7 +766,7 @@
         },
         {
           "q": "¿Cuándo se pagan las comisiones?",
-          "a": "Las comisiones se revisan y pagan mensualmente después de verificar devoluciones y elegibilidad."
+          "a": "Las comisiones se revisan y pagan mensualmente después de verificar la elegibilidad."
         },
         {
           "q": "¿Recibo un enlace de afiliado único?",
@@ -778,7 +778,7 @@
         },
         {
           "q": "¿Cuál es la duración de la cookie?",
-          "a": "La ventana de cookie de referido es de 30 días desde el primer clic calificado."
+          "a": "La ventana de cookie de referido es de 60 días desde el primer clic calificado."
         },
         {
           "q": "¿Puedo promocionar este producto internacionalmente?",
