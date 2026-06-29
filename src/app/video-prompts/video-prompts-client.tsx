@@ -24,6 +24,7 @@ import { Suspense, useEffect, useMemo, useState } from 'react';
 import { Loader2 } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useTranslations } from 'next-intl';
+import { useUser } from '@clerk/nextjs';
 
 const ITEMS_PER_PAGE = 18;
 
@@ -70,6 +71,7 @@ function VideoPromptsContent() {
   const tFacets = useTranslations('facets');
   const tCommon = useTranslations('common');
   const router = useRouter();
+  const { isSignedIn } = useUser();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const placeholderVideos = useLocalizedPlaceholderVideos();
@@ -81,6 +83,15 @@ function VideoPromptsContent() {
   useEffect(() => {
     setFilterState(searchParams.get('filter') || 'all');
   }, [searchParams]);
+
+  useEffect(() => {
+    if (!isSignedIn) return;
+    void fetch('/api/interests/track', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ interest: 'video-prompts' }),
+    }).catch(() => {});
+  }, [isSignedIn]);
 
   const setFilter = (value: string) => {
     setFilterState(value);

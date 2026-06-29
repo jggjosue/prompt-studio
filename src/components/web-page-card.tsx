@@ -18,9 +18,15 @@ import { snapshotToBadgeReport } from '@/lib/landing-readability-badge';
 import type { LandingReadabilityPublicSnapshot } from '@/lib/landing-readability-store';
 import { getRefactoryLoaderUrl } from '@/lib/refactory-online';
 import { logFirebaseEvent } from '@/lib/firebase';
+import { trackAffiliateClick } from '@/lib/affiliate-client';
 import type { WebPageEntry } from '@/lib/web-pages';
 import { useMembershipAccess } from '@/hooks/use-membership-access';
 import { normalizeMembership } from '@/lib/membership-access';
+import {
+  AFFILIATE_FIRST_REF_STORAGE_KEY,
+  AFFILIATE_LAST_TOUCH_STORAGE_KEY,
+  AFFILIATE_OWNER_STORAGE_KEY,
+} from '@/lib/affiliate';
 import { ExternalLink, Globe, Tag } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
@@ -46,6 +52,26 @@ function formatPrice(price: string): string | null {
   return normalizedPrice;
 }
 
+function buildCheckoutUrl(baseUrl: string | undefined, pageId: string, userId?: string | null): string {
+  if (!baseUrl) return '#';
+  const affiliateRef = typeof window !== 'undefined' ? window.localStorage.getItem(AFFILIATE_OWNER_STORAGE_KEY) : null;
+  const firstAffiliateRef = typeof window !== 'undefined' ? window.localStorage.getItem(AFFILIATE_FIRST_REF_STORAGE_KEY) : null;
+  const lastTouchAffiliateRef = typeof window !== 'undefined' ? window.localStorage.getItem(AFFILIATE_LAST_TOUCH_STORAGE_KEY) : null;
+  const url = new URL(baseUrl);
+  url.searchParams.set('client_reference_id', `${userId ?? 'guest'}___${pageId}`);
+  url.searchParams.set('affiliate_product_id', pageId);
+  if (affiliateRef && affiliateRef !== userId) {
+    url.searchParams.set('affiliate_ref', affiliateRef);
+  }
+  if (firstAffiliateRef && firstAffiliateRef !== userId) {
+    url.searchParams.set('affiliate_first_ref', firstAffiliateRef);
+  }
+  if (lastTouchAffiliateRef && lastTouchAffiliateRef !== userId) {
+    url.searchParams.set('affiliate_last_touch_ref', lastTouchAffiliateRef);
+  }
+  return url.toString();
+}
+
 function WebPageCardComponent({
   page,
   savedReadability,
@@ -66,12 +92,16 @@ function WebPageCardComponent({
     (plan === 'premium' || plan === 'startup');
 
   const stripeUrl = process.env.NEXT_PUBLIC_STRIPE_WEB_PAGE_UNIQUE;
-  let itemCheckoutUrl = stripeUrl || '#';
-  if (stripeUrl && userId) {
-    const url = new URL(stripeUrl);
-    url.searchParams.set('client_reference_id', `${userId}___${page.id}`);
-    itemCheckoutUrl = url.toString();
-  }
+  const itemCheckoutUrl = buildCheckoutUrl(stripeUrl, page.id, userId);
+  const trackClick = (source: 'campaign-card' | 'demo') => {
+    void trackAffiliateClick({
+      productId: page.id,
+      productName: page.title,
+      productPriceCents: page.price ? Math.round(Number(page.price) * 100) : null,
+      source,
+      buyerKey: userId,
+    });
+  };
 
   return (
     <ParallaxReveal reverse={animationIndex % 2 === 1}>
@@ -157,6 +187,7 @@ function WebPageCardComponent({
                 rel="noopener noreferrer"
                 className="!bg-blue-600 !text-white hover:!bg-blue-700"
                 onClick={() => {
+                  trackClick('demo');
                   (window as any).gtag?.('event', 'web_open_demo_URL', { page_title: page.title });
                   void logFirebaseEvent('web_open_demo_URL', { page_id: page.id, page_title: page.title });
                 }}

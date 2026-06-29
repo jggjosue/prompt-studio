@@ -11,6 +11,7 @@ import { useMembershipAccess } from '@/hooks/use-membership-access';
 import { useToast } from '@/hooks/use-toast';
 import { copyToClipboard } from '@/lib/copy-to-clipboard';
 import { logFirebaseEvent } from '@/lib/firebase';
+import { trackLoopsEvent } from '@/lib/loops-events';
 import type { WebPageEntry } from '@/lib/web-pages';
 import { Check, Copy, FileText, Wand2 } from 'lucide-react';
 import * as React from 'react';
@@ -40,6 +41,11 @@ export function WebPagePromptDialog({ page }: { page: WebPageEntry }) {
       title: 'Copiado',
       description: 'Prompt copiado al portapapeles.',
     });
+    void trackLoopsEvent('prompts', {
+      pageId: page.id,
+      pageTitle: page.title,
+      action: 'copy',
+    });
     window.setTimeout(() => setCopied(false), 2000);
   };
 
@@ -49,6 +55,11 @@ export function WebPagePromptDialog({ page }: { page: WebPageEntry }) {
         (window as any).gtag?.('event', 'web_view_prompt', { page_title: page.title });
       }
       void logFirebaseEvent('web_view_prompt', { page_id: page.id, page_title: page.title });
+      void trackLoopsEvent('resources', {
+        pageId: page.id,
+        pageTitle: page.title,
+        action: 'open-prompt',
+      });
       setOpen(true);
     });
   };

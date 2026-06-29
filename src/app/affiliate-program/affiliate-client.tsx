@@ -29,6 +29,13 @@ import {
 import { motion, useInView, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import { FormEvent, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import { trackLoopsEvent } from '@/lib/loops-events';
+import {
+  AFFILIATE_FIRST_REF_STORAGE_KEY,
+  AFFILIATE_LAST_TOUCH_STORAGE_KEY,
+  AFFILIATE_REF_STORAGE_KEY,
+  AFFILIATE_OWNER_STORAGE_KEY,
+} from '@/lib/affiliate';
 
 type ModalContent = {
   title: string;
@@ -411,6 +418,7 @@ function Modal({
 
 export default function AffiliateClient() {
   const t = useTranslations('affiliate');
+  const [affiliateRef, setAffiliateRef] = useState<string | null>(null);
 
   // Build modal content from translations
   const modalCopy = useMemo(() => ({
@@ -436,7 +444,7 @@ export default function AffiliateClient() {
     },
   }), [t]);
 
-  // Build tier names from translations (used for form tier values)
+  // Los nombres de los tiers salen de traducciones para que el selector y la tarjeta usen la misma fuente.
   const tier1Name = t('commissions.tier1Name');
   const tier2Name = t('commissions.tier2Name');
   const tier3Name = t('commissions.tier3Name');
@@ -453,7 +461,7 @@ export default function AffiliateClient() {
     message: '',
   }), [tier1Name]);
 
-  // Benefits data driven by translations
+  // Beneficios y recursos se mantienen traducidos para que el contenido comercial sea consistente en toda la página.
   const benefits = useMemo(() => [
     [t('benefits.easy.title'), t('benefits.easy.desc'), BookOpen],
     [t('benefits.commission.title'), t('benefits.commission.desc'), DollarSign],
@@ -477,6 +485,7 @@ export default function AffiliateClient() {
 
   const faqItems = t.raw('faq.items') as { q: string; a: string }[];
 
+  // Esta mini tabla resume la oferta del plan actual; la primera fila se reemplaza por la comisión del tier seleccionado.
   const snapshotRows = useMemo(() => [
     [t('snapshot.commissionRate'), ''],
     [t('snapshot.cookieDuration'), t('snapshot.cookieValue')],
@@ -506,6 +515,23 @@ export default function AffiliateClient() {
   const [errors, setErrors] = useState<Partial<FormState>>({});
   const [submitted, setSubmitted] = useState(false);
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get('ref')?.trim();
+    if (!ref) return;
+    setAffiliateRef(ref);
+    localStorage.setItem(AFFILIATE_REF_STORAGE_KEY, ref);
+    localStorage.setItem(AFFILIATE_OWNER_STORAGE_KEY, ref);
+    if (!localStorage.getItem(AFFILIATE_FIRST_REF_STORAGE_KEY)) {
+      localStorage.setItem(AFFILIATE_FIRST_REF_STORAGE_KEY, ref);
+    }
+    localStorage.setItem(AFFILIATE_LAST_TOUCH_STORAGE_KEY, ref);
+    void trackLoopsEvent('affiliate_interest', {
+      ref,
+      source: 'affiliate-program-landing',
+    });
+  }, []);
+
   const showToast = (message: string) => {
     setToast(message);
     window.setTimeout(() => setToast(''), 2600);
@@ -514,6 +540,14 @@ export default function AffiliateClient() {
   const selectTier = (tier: string) => {
     setForm(prev => ({ ...prev, tier }));
     scrollToSection('apply');
+  };
+
+  const trackAffiliateInterest = (source: string) => {
+    void trackLoopsEvent('affiliate_interest', {
+      source,
+      ref: affiliateRef,
+      page: '/affiliate-program',
+    });
   };
 
   const validate = () => {
@@ -534,7 +568,7 @@ export default function AffiliateClient() {
     showToast(t('apply.toastSubmit'));
   };
 
-  // Commission rate by tier
+  // La tasa se deriva del tier seleccionado para mostrar el porcentaje correcto en la tarjeta Startup/Pro.
   const commissionRate = form.tier === tier3Name ? t('commissions.tier3Rate') : form.tier === tier2Name ? t('commissions.tier2Rate') : t('commissions.tier1Rate');
 
   const metricsData = [
@@ -551,12 +585,14 @@ export default function AffiliateClient() {
     { num: '04', title: t('steps.s4Title'), text: t('steps.s4Desc') },
   ];
 
+  // Cada tarjeta de tier usa el mismo esquema: nombre, porcentaje y descripción de negocio.
   const tiersData = [
     { name: tier1Name, rate: t('commissions.tier1Rate'), desc: t('commissions.tier1Desc') },
     { name: tier2Name, rate: t('commissions.tier2Rate'), desc: t('commissions.tier2Desc') },
     { name: tier3Name, rate: t('commissions.tier3Rate'), desc: t('commissions.tier3Desc') },
   ];
 
+  // Métricas demo del panel de tracking que ayudan a vender el programa antes de registrarse.
   const trackingStats = [
     [t('tracking.clicks'), '8,420'],
     [t('tracking.conversion'), '7.8%'],
@@ -614,21 +650,30 @@ export default function AffiliateClient() {
             </p>
             <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
               <Button
-                onClick={() => scrollToSection('apply')}
+                onClick={() => {
+                  trackAffiliateInterest('hero-cta-affiliate');
+                  scrollToSection('apply');
+                }}
                 className="h-14 rounded-full bg-blue-600 px-8 text-base font-semibold text-slate-950 shadow-[0_0_36px_rgba(37,99,235,0.22)] hover:bg-blue-500 text-white"
               >
                 {t('hero.ctaAffiliate')}
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
               <Button
-                onClick={() => scrollToSection('commissions')}
+                onClick={() => {
+                  trackAffiliateInterest('hero-cta-commissions');
+                  scrollToSection('commissions');
+                }}
                 variant="outline"
                 className="h-14 rounded-full border-white/15 bg-white/5 px-8 text-base text-white hover:bg-white/10"
               >
                 {t('hero.ctaCommissions')}
               </Button>
               <Button
-                onClick={() => scrollToSection('steps')}
+                onClick={() => {
+                  trackAffiliateInterest('hero-cta-how-it-works');
+                  scrollToSection('steps');
+                }}
                 variant="ghost"
                 className="h-14 rounded-full px-8 text-base text-cyan-200 hover:bg-cyan-300/10 hover:text-cyan-100"
               >
@@ -711,13 +756,19 @@ export default function AffiliateClient() {
               </div>
               <div className="mt-10 flex flex-col gap-4 sm:flex-row">
                 <Button
-                  onClick={() => setModal(modalCopy.product)}
+                  onClick={() => {
+                    trackAffiliateInterest('product-preview');
+                    setModal(modalCopy.product);
+                  }}
                   className="h-14 rounded-full bg-cyan-400 px-7 text-slate-950 hover:bg-cyan-300"
                 >
                   {t('product.ctaPreview')}
                 </Button>
                 <Button
-                  onClick={() => scrollToSection('apply')}
+                  onClick={() => {
+                    trackAffiliateInterest('product-link');
+                    scrollToSection('apply');
+                  }}
                   variant="outline"
                   className="h-14 rounded-full border-white/15 bg-white/5 px-7 text-white hover:bg-white/10"
                 >
@@ -802,9 +853,13 @@ export default function AffiliateClient() {
             {tiersData.map(({ name, rate, desc }, index) => (
               <ParallaxFloat key={name} distance={20 + index * 15} className="h-full">
                 <GlowCard className="p-8 h-full">
+                  {/* Nombre del plan de afiliado, por ejemplo Startup, para que el usuario identifique el tier al instante. */}
                   <p className="text-sm font-medium uppercase tracking-[0.2em] text-cyan-200">{name}</p>
+                  {/* Porcentaje principal de comisión que destaca visualmente dentro de la tarjeta. */}
                   <p className="mt-8 text-6xl font-semibold text-blue-400">{rate}</p>
+                  {/* Descripción corta del perfil ideal para este nivel de afiliado. */}
                   <p className="mt-5 min-h-16 leading-7 text-slate-300">{desc}</p>
+                  {/* Lista de beneficios comunes para mantener el mensaje comercial consistente entre tiers. */}
                   <ul className="mt-8 space-y-3 text-sm text-slate-300">
                     {[
                       t('commissions.featureQualified'),
@@ -834,10 +889,10 @@ export default function AffiliateClient() {
                 align="left"
               />
               <div className="flex flex-col gap-4 sm:flex-row">
-                <Button onClick={() => setModal(modalCopy.dashboard)} className="rounded-full bg-cyan-400 text-slate-950 hover:bg-cyan-300">
+                <Button onClick={() => { trackAffiliateInterest('tracking-dashboard'); setModal(modalCopy.dashboard); }} className="rounded-full bg-cyan-400 text-slate-950 hover:bg-cyan-300">
                   {t('tracking.ctaDashboard')}
                 </Button>
-                <Button onClick={() => setModal(modalCopy.tracking)} variant="outline" className="rounded-full border-white/15 bg-white/5 text-white hover:bg-white/10">
+                <Button onClick={() => { trackAffiliateInterest('tracking-metrics'); setModal(modalCopy.tracking); }} variant="outline" className="rounded-full border-white/15 bg-white/5 text-white hover:bg-white/10">
                   {t('tracking.ctaTracking')}
                 </Button>
               </div>
@@ -946,7 +1001,7 @@ export default function AffiliateClient() {
                 subtitle={t('trust.subtitle')}
                 align="left"
               />
-              <Button onClick={() => setModal(modalCopy.guidelines)} className="rounded-full bg-cyan-400 text-slate-950 hover:bg-cyan-300">
+              <Button onClick={() => { trackAffiliateInterest('trust-guidelines'); setModal(modalCopy.guidelines); }} className="rounded-full bg-cyan-400 text-slate-950 hover:bg-cyan-300">
                 {t('trust.ctaGuidelines')}
               </Button>
             </div>
@@ -1089,6 +1144,7 @@ export default function AffiliateClient() {
               </form>
             </GlowCard>
             <ParallaxFloat distance={65} className="h-fit">
+              {/* Resumen visual del tier seleccionado: la primera línea muestra la comisión activa y el resto la propuesta de valor. */}
               <GlowCard className="h-fit p-8">
                 <h3 className="text-2xl font-semibold text-white">{t('snapshot.title')}</h3>
                 <div className="mt-8 space-y-5">

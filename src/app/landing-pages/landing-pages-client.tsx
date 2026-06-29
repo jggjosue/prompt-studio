@@ -19,7 +19,14 @@ import { Search, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { Suspense, useMemo } from 'react';
+import { Suspense, useEffect, useMemo } from 'react';
+import { useUser } from '@clerk/nextjs';
+import {
+  AFFILIATE_FIRST_REF_STORAGE_KEY,
+  AFFILIATE_LAST_TOUCH_STORAGE_KEY,
+  AFFILIATE_OWNER_STORAGE_KEY,
+  AFFILIATE_REF_STORAGE_KEY,
+} from '@/lib/affiliate';
 
 const ITEMS_PER_PAGE = 30;
 
@@ -33,6 +40,7 @@ function LandingPagesContent() {
   const facetStack = searchParams.get('stack')?.trim() || null;
 
   const webPages = useLocalizedWebPages();
+  const { isSignedIn } = useUser();
   const { snapshots: readabilityByPageId } = useLandingReadabilityIndex();
   const allPages = useMemo(() => webPages.filter(p => p.imageUrl), [webPages]);
 
@@ -71,6 +79,30 @@ function LandingPagesContent() {
     page => [page.title, ...page.tags, ...page.stack],
     page => page.id
   );
+
+  useEffect(() => {
+    void fetch('/api/activity/ping', { method: 'POST' }).catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    const ref = searchParams.get('ref')?.trim();
+    if (!ref) return;
+    window.localStorage.setItem(AFFILIATE_REF_STORAGE_KEY, ref);
+    window.localStorage.setItem(AFFILIATE_OWNER_STORAGE_KEY, ref);
+    if (!window.localStorage.getItem(AFFILIATE_FIRST_REF_STORAGE_KEY)) {
+      window.localStorage.setItem(AFFILIATE_FIRST_REF_STORAGE_KEY, ref);
+    }
+    window.localStorage.setItem(AFFILIATE_LAST_TOUCH_STORAGE_KEY, ref);
+  }, [searchParams]);
+
+  useEffect(() => {
+    if (!isSignedIn) return;
+    void fetch('/api/interests/track', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ interest: 'landing-pages' }),
+    }).catch(() => {});
+  }, [isSignedIn]);
 
   const {
     visibleItems: paginatedPages,

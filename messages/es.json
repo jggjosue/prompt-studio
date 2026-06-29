@@ -222,6 +222,7 @@
     "create": "Crear",
     "creations": "Creaciones",
     "myCreations": "Mis creaciones",
+    "campaigns": "Campañas",
     "favorites": "Favoritos",
     "settings": "Configuración",
     "billing": "Facturación",
@@ -233,7 +234,8 @@
     "managePlan": "Gestionar plan",
     "navLabel": "Navegación del panel",
     "profile": "Perfil",
-    "analytics": "Analítica"
+    "analytics": "Analítica",
+    "campaignsDesc": "Productos web Premium listos para campañas y seguimiento."
   },
   "dashboardAnalytics": {
     "title": "Analítica",
@@ -272,7 +274,9 @@
   },
   "profile": {
     "title": "Perfil",
-    "subtitle": "Administra tu cuenta y suscripción con Clerk Billing.",
+    "subtitle": "Administra tu cuenta y suscripción.",
+    "profileTab": "Perfil",
+    "affiliateTab": "Afiliación",
     "member": "Miembro",
     "accountTitle": "Información de la cuenta",
     "accountDesc": "Tu perfil se gestiona a través de tu proveedor de inicio de sesión.",
@@ -327,7 +331,26 @@
     "cardExpiryInvalid": "Introduce el vencimiento como MM/AA.",
     "cardCvcInvalid": "Introduce un código de seguridad válido.",
     "cardNameRequired": "Introduce el nombre en la tarjeta.",
-    "saving": "Guardando..."
+    "saving": "Guardando...",
+    "affiliateTitle": "Afiliación",
+    "affiliateDesc": "Revisa tus ventas, ingresos y enlace único.",
+    "affiliateLink": "Tu link de afiliación",
+    "affiliateLinkHint": "Cada usuario obtiene un enlace único con su ID de sesión para rastrear sus ventas.",
+    "copyLink": "Copiar link",
+    "copied": "Copiado",
+    "moneyEarned": "Dinero acumulado",
+    "conversionRate": "Conversión",
+    "clicks": "Clics",
+    "salesTitle": "Ventas por producto",
+    "salesDesc": "Productos vendidos, fecha de compra y estatus de comisión.",
+    "saleAmount": "Monto",
+    "performanceTitle": "Gráficas",
+    "performanceDesc": "Resumen visual del rendimiento por producto.",
+    "totalTracked": "Ventas registradas",
+    "stripeStatus": "Estado Stripe",
+    "affiliateSummary": "Resumen de afiliado",
+    "summaryLine1": "La información combina la sesión actual del usuario con el estado de suscripción de Stripe para generar un panel único por cuenta.",
+    "summaryLine2": "Datos de ventas registradas."
   },
   "prompts": {
     "title": "Biblioteca de prompts",

@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Download } from 'lucide-react';
 import { FreeEmailGate } from './free-email-gate';
 import { logFirebaseEvent } from '@/lib/firebase';
+import { trackLoopsEvent } from '@/lib/loops-events';
 
 export function FreeDownloadDialog({ pageId, pageTitle }: { pageId: string; pageTitle?: string }) {
   const { toast } = useToast();
@@ -12,6 +13,11 @@ export function FreeDownloadDialog({ pageId, pageTitle }: { pageId: string; page
   const handleSuccess = () => {
     (window as any).gtag?.('event', 'web_download_free', { page_title: pageTitle });
     void logFirebaseEvent('web_download_free', { page_id: pageId, page_title: pageTitle });
+    void trackLoopsEvent('download', {
+      pageId,
+      pageTitle,
+      source: 'free-download-dialog',
+    });
     
     // Trigger the actual download programmatically
     const downloadUrl = `/api/landing-pages/${encodeURIComponent(pageId)}/download`;

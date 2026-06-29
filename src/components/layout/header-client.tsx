@@ -218,19 +218,6 @@ export default function HeaderClient() {
               )}
               {mounted && (
                 <>
-                  <Show when="signed-in">
-                    <SheetClose asChild>
-                      <ClientLink
-                        href="/dashboard/profile"
-                        className={cn(
-                          'text-lg font-medium hover:text-foreground/80 transition-colors',
-                          isNavItemActive(pathname, '/dashboard/profile', ['/dashboard']) && 'text-foreground font-semibold'
-                        )}
-                      >
-                        {tHeader('profile')}
-                      </ClientLink>
-                    </SheetClose>
-                  </Show>
                   <Show when="signed-out">
                     <div className="mt-6 flex flex-col gap-2 border-t pt-6">
                       <SheetClose asChild>
@@ -327,17 +314,6 @@ export default function HeaderClient() {
                 </DropdownMenuContent>
               </DropdownMenu>
             )
-          )}
-          {mounted && (
-            <Show when="signed-in">
-              <ClientLink
-                href="/dashboard/profile"
-                className={linkClassName('/dashboard/profile', ['/dashboard'])}
-                aria-current={isNavItemActive(pathname, '/dashboard/profile', ['/dashboard']) ? 'page' : undefined}
-              >
-                {tHeader('profile')}
-              </ClientLink>
-            </Show>
           )}
         </nav>
 
