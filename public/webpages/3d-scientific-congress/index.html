@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Scientific Congress</title>
+  <meta name="description" content="Experience the premier 3D Scientific Congress. An immersive, interactive event for research, academia, and innovation.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Fixed 3D Canvas Background -->
+  <canvas id="bg-canvas" role="presentation"></canvas>
+
+  <!-- Sticky Header -->
+  <header id="topbar">
+    <div class="logo"><span class="logo-star">✦</span><span>3D Scientific Congress</span></div>
+    <nav class="topbar-nav">
+      <a href="#hero" class="nav-link">Inicio</a>
+      <a href="#auditorium" class="nav-link">Auditorio</a>
+      <a href="#posters" class="nav-link">Pósters</a>
+      <a href="#networking" class="nav-link">Networking</a>
+      <a href="#agenda" class="nav-link">Agenda</a>
+      <a href="#registration" class="btn btn-sm btn-primary">Registro</a>
+    </nav>
+  </header>
+
+  <!-- Scrolling Content -->
+  <main id="scroll-container">
+    
+    <!-- Hero Section -->
+    <section id="hero" class="section glass-section">
+      <div class="container text-center">
+        <div class="hero-content gs-reveal">
+          <div class="badge">Simposio Internacional 2026</div>
+          <h1 class="parallax-text">El Futuro de la Ciencia <br><span class="text-gradient">Innovación y Descubrimiento</span></h1>
+          <p class="subtitle">Únete a la experiencia inmersiva más avanzada en investigación y academia.</p>
+          <div class="hero-actions">
+            <a href="#registration" class="btn btn-primary btn-lg">Asegura tu lugar</a>
+            <a href="#auditorium" class="btn btn-outline btn-lg">Explorar Centro</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Auditorium Section -->
+    <section id="auditorium" class="section right-align">
+      <div class="container">
+        <div class="card glass-card gs-reveal">
+          <h2 class="parallax-heading">Auditorio Principal</h2>
+          <p>Conferencias magistrales con líderes globales en biotecnología, física cuántica y medicina personalizada. Transmisiones en alta definición con paneles interactivos de preguntas y respuestas en tiempo real.</p>
+          <ul class="feature-list">
+            <li>🎙️ +50 Keynote Speakers</li>
+            <li>🌐 Traducción simultánea 3D</li>
+            <li>💬 Sesiones de Q&A integradas</li>
+          </ul>
+          <button class="btn btn-outline mt-4">Ver Ponentes</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Posters Section -->
+    <section id="posters" class="section left-align">
+      <div class="container">
+        <div class="card glass-card gs-reveal">
+          <h2 class="parallax-heading">Exhibición de Pósters</h2>
+          <p>Navega a través de investigaciones de vanguardia. Interactúa con modelos moleculares, datos en tiempo real y discute directamente con los autores en nuestras salas virtuales.</p>
+          <div class="poster-grid">
+            <div class="poster-item">
+              <span class="topic biology">Biología</span>
+              <h4>CRISPR-Cas9</h4>
+              <p class="author">Dra. María López</p>
+            </div>
+            <div class="poster-item">
+              <span class="topic physics">Física</span>
+              <h4>Fusión Confinada</h4>
+              <p class="author">Dr. Carlos Ruiz</p>
+            </div>
+          </div>
+          <button class="btn btn-primary mt-4 w-full">Explorar Galería</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Networking Section -->
+    <section id="networking" class="section right-align">
+      <div class="container">
+        <div class="card glass-card gs-reveal">
+          <h2 class="parallax-heading">Zona de Networking</h2>
+          <p>Conecta con instituciones líderes, patrocinadores y colegas investigadores. Visita los stands virtuales y agenda reuniones 1-a-1 en entornos inmersivos.</p>
+          <div class="sponsor-logos">
+            <div class="sponsor-logo">BayerLabs</div>
+            <div class="sponsor-logo">QuantumTech</div>
+            <div class="sponsor-logo">GenoSeq</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Agenda Section -->
+    <section id="agenda" class="section center-align glass-section">
+      <div class="container">
+        <div class="gs-reveal">
+          <h2 class="text-center parallax-heading">Agenda del Congreso</h2>
+          <div class="agenda-timeline">
+            <div class="agenda-item">
+              <div class="time">09:00 AM</div>
+              <div class="details">
+                <h4>Ceremonia de Apertura</h4>
+                <p>Auditorio Central</p>
+              </div>
+            </div>
+            <div class="agenda-item">
+              <div class="time">11:00 AM</div>
+              <div class="details">
+                <h4>Panel: IA en Medicina</h4>
+                <p>Sala Paralela A</p>
+              </div>
+            </div>
+            <div class="agenda-item">
+              <div class="time">02:00 PM</div>
+              <div class="details">
+                <h4>Sesión de Pósters Interactivos</h4>
+                <p>Pabellón de Investigación</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Registration Section -->
+    <section id="registration" class="section form-section">
+      <div class="container">
+        <div class="card glass-card form-card gs-reveal">
+          <h2>Registro Institucional</h2>
+          <p class="mb-4">Asegura tu acceso premium a todas las salas, ponencias y zona de networking.</p>
+          <form id="reg-form" onsubmit="event.preventDefault(); alert('Registro completado exitosamente.');">
+            <div class="form-group">
+              <label for="name">Nombre Completo</label>
+              <input type="text" id="name" required placeholder="Ej. Dra. Ana Torres">
+            </div>
+            <div class="form-group">
+              <label for="institution">Institución / Universidad</label>
+              <input type="text" id="institution" required placeholder="Universidad Central">
+            </div>
+            <div class="form-group">
+              <label for="email">Correo Institucional</label>
+              <input type="email" id="email" required placeholder="ana@universidad.edu">
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg w-full mt-2">Completar Registro</button>
+          </form>
+          <p class="trust-badge mt-4 text-center">🔒 Pago seguro y certificado por SSL</p>
+        </div>
+      </div>
+    </section>
+    
+    <footer class="footer">
+      <p>&copy; 2026 3D Scientific Congress. Todos los derechos reservados.</p>
+    </footer>
+  </main>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="congress3d.js"></script>
+</body>
+</html>

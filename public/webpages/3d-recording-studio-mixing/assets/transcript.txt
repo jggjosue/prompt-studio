@@ -1,0 +1,21 @@
+Recording Studio — Session Transcripts
+
+Guitarra (take 3)
+- Grabación de guitarra eléctrica con amp sim.
+- Distorsión suave, dinámica controlada.
+- Nivel recomendado: 70%
+
+Voz (take principal)
+- Micrófono condensador, compresión ligera.
+- Take principal con corrección de tono mínima.
+- Nivel recomendado: 50%
+
+Batería (sala live)
+- Batería acústica, overheads + room mic.
+- Grabación en sala con tratamiento acústico.
+- Nivel recomendado: 80%
+
+Teclado (pads + arpegio)
+- Sintetizador analógico, capa de pads.
+- Arpegio secuenciado en tiempo real.
+- Nivel recomendado: 40%

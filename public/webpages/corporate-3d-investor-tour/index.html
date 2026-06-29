@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corporate 3D Investor Tour</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="canvas-container"></div>
+    
+    <div id="scroll-container">
+        <!-- Section 1: Hero / Lobby -->
+        <section id="hero" class="panel">
+            <div class="content-block glass hero-glass">
+                <h1>Welcome to NextGen Corp</h1>
+                <p>Pioneering the Future. An exclusive tour for our valued investors.</p>
+                <button class="cta-btn primary">Start Tour</button>
+            </div>
+        </section>
+
+        <!-- Section 2: Metrics Gallery -->
+        <section id="metrics" class="panel right-align">
+            <div class="content-block glass parallax-element" data-speed="1.2">
+                <h2>Q3 Performance</h2>
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <span class="kpi-value">$24M</span>
+                        <span class="kpi-label">Revenue</span>
+                    </div>
+                    <div class="kpi-card">
+                        <span class="kpi-value">42%</span>
+                        <span class="kpi-label">YOY Growth</span>
+                    </div>
+                    <div class="kpi-card">
+                        <span class="kpi-value">12.5M</span>
+                        <span class="kpi-label">Active Users</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Strategy Room -->
+        <section id="strategy" class="panel left-align">
+            <div class="content-block glass parallax-element" data-speed="0.8">
+                <h2>Strategic Vision 2030</h2>
+                <p>Expanding into new global markets and doubling down on AI integration.</p>
+                <ul class="bullet-list">
+                    <li>Market Expansion in APAC</li>
+                    <li>Launch of Enterprise AI Suite</li>
+                    <li>Carbon Neutral by 2028</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 4: Financial Dashboard -->
+        <section id="financial" class="panel right-align">
+            <div class="content-block glass parallax-element" data-speed="1.1">
+                <h2>Financial Dashboard</h2>
+                <div class="chart-placeholder">
+                    <div class="bar" style="height: 40%"></div>
+                    <div class="bar" style="height: 60%"></div>
+                    <div class="bar" style="height: 80%"></div>
+                    <div class="bar" style="height: 100%"></div>
+                </div>
+                <p>Consistent quarter-over-quarter revenue growth.</p>
+            </div>
+        </section>
+
+        <!-- Section 5: Growth Map & Business Units -->
+        <section id="growth" class="panel center-align">
+            <div class="content-block glass parallax-element" data-speed="0.9">
+                <h2>Business Units</h2>
+                <div class="units-grid">
+                    <div class="unit-card">
+                        <h3>Consumer Tech</h3>
+                        <p>45% of Revenue</p>
+                    </div>
+                    <div class="unit-card">
+                        <h3>Enterprise Solutions</h3>
+                        <p>35% of Revenue</p>
+                    </div>
+                    <div class="unit-card">
+                        <h3>Emerging Markets</h3>
+                        <p>20% of Revenue</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Executive Team & Roadmap -->
+        <section id="team" class="panel left-align">
+            <div class="content-block glass parallax-element" data-speed="1.2">
+                <h2>Executive Team</h2>
+                <div class="team-list">
+                    <div class="team-member">
+                        <div class="avatar"></div>
+                        <div>
+                            <h4>Sarah Jenkins</h4>
+                            <p>Chief Executive Officer</p>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <div class="avatar"></div>
+                        <div>
+                            <h4>David Chen</h4>
+                            <p>Chief Financial Officer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 7: Data Room & Conversion -->
+        <section id="data-room" class="panel center-align">
+            <div class="content-block glass">
+                <h2>Investor Data Room</h2>
+                <p>Access our detailed reports and financial models.</p>
+                <div class="document-list">
+                    <button class="doc-btn">Q3 2026 Earnings Report.pdf</button>
+                    <button class="doc-btn">Strategic Roadmap.pdf</button>
+                    <button class="doc-btn">Cap Table Overview.xlsx</button>
+                </div>
+                <button class="cta-btn primary meeting-btn mt-4">Schedule a Meeting</button>
+            </div>
+        </section>
+        
+        <!-- Extra space to allow scrolling -->
+        <div style="height: 100vh;"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

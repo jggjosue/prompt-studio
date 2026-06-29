@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D SaaS Product Video Demo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Error Handler for Debugging -->
+    <script>
+        window.addEventListener('error', function(event) {
+            const errorDiv = document.createElement('div');
+            errorDiv.style.position = 'fixed';
+            errorDiv.style.top = '10px';
+            errorDiv.style.left = '10px';
+            errorDiv.style.zIndex = '999999';
+            errorDiv.style.background = 'red';
+            errorDiv.style.color = 'white';
+            errorDiv.style.padding = '20px';
+            errorDiv.style.fontSize = '16px';
+            errorDiv.style.fontFamily = 'monospace';
+            errorDiv.innerText = 'JS Error: ' + event.message + '\nFile: ' + event.filename + '\nLine: ' + event.lineno;
+            document.body.appendChild(errorDiv);
+            
+            // Also hide the loader forcefully so we can at least see if the rest of the page loaded
+            document.getElementById('loader').style.display = 'none';
+        });
+        window.addEventListener('unhandledrejection', function(event) {
+            const errorDiv = document.createElement('div');
+            errorDiv.style.position = 'fixed';
+            errorDiv.style.top = '80px';
+            errorDiv.style.left = '10px';
+            errorDiv.style.zIndex = '999999';
+            errorDiv.style.background = 'orange';
+            errorDiv.style.color = 'white';
+            errorDiv.style.padding = '20px';
+            errorDiv.style.fontSize = '16px';
+            errorDiv.style.fontFamily = 'monospace';
+            errorDiv.innerText = 'Promise Error: ' + (event.reason && event.reason.message ? event.reason.message : event.reason);
+            document.body.appendChild(errorDiv);
+            
+            document.getElementById('loader').style.display = 'none';
+        });
+    </script>
+    
+    <!-- GSAP & Three.js -->
+    <script async src="https://unpkg.com/es-module-shims@1.8.0/dist/es-module-shims.js"></script>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/",
+                "gsap": "https://esm.sh/gsap@3.12.5",
+                "ScrollTrigger": "https://esm.sh/gsap@3.12.5/ScrollTrigger"
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="loader">
+        <div class="spinner"></div>
+        <div style="color: var(--text-muted); font-family: var(--font-heading); letter-spacing: 2px;">INITIALIZING SCENE...</div>
+    </div>
+
+    <!-- WebGL Background -->
+    <div id="webgl-container"></div>
+
+    <header>
+        <div class="logo">SaaS<span>.</span>Vision</div>
+        <nav class="nav-links">
+            <a href="#problem">Product</a>
+            <a href="#features">Features</a>
+            <a href="#pricing">Pricing</a>
+        </nav>
+        <a href="#demo" class="btn primary">Start Free Trial</a>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero">
+            <h1 class="section-title parallax-el" data-speed="1.2">The Future of <br>Cloud Intelligence.</h1>
+            <p class="section-subtitle parallax-el" data-speed="1.1">Unleash the power of real-time analytics and autonomous infrastructure management in a unified, immersive platform.</p>
+            <div class="parallax-el" data-speed="1.05">
+                <a href="#demo" class="btn primary">Watch Interactive Demo</a>
+                <a href="#features" class="btn" style="margin-left: 1rem;">Explore Features</a>
+            </div>
+        </section>
+
+        <!-- Problem / Solution -->
+        <section id="problem">
+            <div class="split-layout">
+                <div class="split-content">
+                    <h2 class="section-title parallax-el" data-speed="1.2">Stop flying blind.</h2>
+                    <p class="section-subtitle parallax-el" data-speed="1.1">Traditional dashboards fail to provide the context needed for modern distributed systems. Latency spikes and security breaches get lost in the noise of 2D charts.</p>
+                </div>
+                <div class="split-visual">
+                    <!-- 3D camera will focus on chaotic nodes here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Guided Video Demo -->
+        <section id="demo" style="align-items: center; text-align: center;">
+            <h2 class="section-title parallax-el" data-speed="1.2">Experience the Platform.</h2>
+            <p class="section-subtitle parallax-el" data-speed="1.1" style="margin: 0 auto 3rem;">Take a guided tour of our revolutionary interface.</p>
+            
+            <div class="video-container parallax-el" data-speed="1.05">
+                <video id="product-video" loop muted playsinline poster="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80">
+                    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                </video>
+                <div class="video-overlay" id="video-overlay">
+                    <div class="play-button" id="play-btn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Grid -->
+        <section id="features">
+            <h2 class="section-title parallax-el" data-speed="1.2" style="text-align: center;">Enterprise Grade Features</h2>
+            <div class="features-grid">
+                <div class="feature-card parallax-el" data-speed="1.1">
+                    <div class="feature-icon parallax-el" data-speed="0.95">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                    </div>
+                    <h3 class="feature-title">Real-time Analytics</h3>
+                    <p>Process millions of events with sub-millisecond latency. Instant insights across your entire stack.</p>
+                </div>
+                <div class="feature-card parallax-el" data-speed="1.15">
+                    <div class="feature-icon parallax-el" data-speed="0.95">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    </div>
+                    <h3 class="feature-title">Neural Security</h3>
+                    <p>AI-driven threat detection that learns and adapts to your infrastructure's unique patterns automatically.</p>
+                </div>
+                <div class="feature-card parallax-el" data-speed="1.2">
+                    <div class="feature-icon parallax-el" data-speed="0.95">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                    </div>
+                    <h3 class="feature-title">Global Topology</h3>
+                    <p>Visualize your entire network globally. Scale resources seamlessly across multiple regions.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results / Metrics -->
+        <section id="metrics">
+            <h2 class="section-title parallax-el" data-speed="1.2" style="text-align: center;">Proven Results</h2>
+            <div class="metrics-grid">
+                <div class="metric-card parallax-el" data-speed="1.1">
+                    <div class="metric-val" data-target="99.99">0</div><span class="metric-unit">%</span>
+                    <p class="metric-label">Uptime SLA</p>
+                </div>
+                <div class="metric-card parallax-el" data-speed="1.15">
+                    <div class="metric-val" data-target="10">0</div><span class="metric-unit">x</span>
+                    <p class="metric-label">Faster Resolution</p>
+                </div>
+                <div class="metric-card parallax-el" data-speed="1.05">
+                    <div class="metric-val" data-target="500">0</div><span class="metric-unit">M+</span>
+                    <p class="metric-label">Daily Events</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Integrations -->
+        <section id="integrations">
+            <h2 class="section-title parallax-el" data-speed="1.2" style="text-align: center;">Seamless Integrations</h2>
+            <p class="section-subtitle parallax-el" data-speed="1.1" style="margin: 0 auto 3rem; text-align: center;">Connects with the tools your team already uses.</p>
+            <div class="integrations-grid parallax-el" data-speed="1.05">
+                <div class="integration-logo">AWS</div>
+                <div class="integration-logo">Slack</div>
+                <div class="integration-logo">GitHub</div>
+                <div class="integration-logo">Docker</div>
+                <div class="integration-logo">Jira</div>
+                <div class="integration-logo">PagerDuty</div>
+            </div>
+        </section>
+
+        <!-- Pricing -->
+        <section id="pricing">
+            <h2 class="section-title parallax-el" data-speed="1.2" style="text-align: center;">Transparent Pricing</h2>
+            <p class="section-subtitle parallax-el" data-speed="1.1" style="margin: 0 auto; text-align: center;">Scale your infrastructure without breaking the bank.</p>
+            
+            <div class="pricing-grid">
+                <div class="price-card parallax-el" data-speed="1.05">
+                    <h3>Starter</h3>
+                    <div class="price-val">$49<span>/mo</span></div>
+                    <p style="color: var(--text-muted)">Perfect for small teams and startups.</p>
+                    <ul class="price-features">
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Up to 5 users</li>
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> 100GB Data ingestion</li>
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> 24h Data retention</li>
+                    </ul>
+                    <a href="#" class="btn" style="width: 100%; justify-content: center;">Start Free Trial</a>
+                </div>
+                
+                <div class="price-card popular parallax-el" data-speed="1.1">
+                    <div class="popular-badge">POPULAR</div>
+                    <h3>Pro</h3>
+                    <div class="price-val">$199<span>/mo</span></div>
+                    <p style="color: var(--text-muted)">For growing businesses with complex needs.</p>
+                    <ul class="price-features">
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Unlimited users</li>
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> 1TB Data ingestion</li>
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> 30-day Data retention</li>
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Priority support</li>
+                    </ul>
+                    <a href="#" class="btn primary" style="width: 100%; justify-content: center;">Start Free Trial</a>
+                </div>
+
+                <div class="price-card parallax-el" data-speed="1.15">
+                    <h3>Enterprise</h3>
+                    <div class="price-val">Custom</div>
+                    <p style="color: var(--text-muted)">Advanced security and custom deployments.</p>
+                    <ul class="price-features">
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Unlimited everything</li>
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Custom data retention</li>
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Dedicated account manager</li>
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> On-premise deployment</li>
+                    </ul>
+                    <a href="#" class="btn" style="width: 100%; justify-content: center;">Contact Sales</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section id="testimonials">
+            <h2 class="section-title parallax-el" data-speed="1.2" style="text-align: center;">Trusted by Engineering Teams</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card parallax-el" data-speed="1.1">
+                    <p class="quote">"This platform revolutionized how we monitor our microservices. The 3D global topology view is a game changer for spotting bottlenecks."</p>
+                    <div class="author">
+                        <div class="author-avatar">S</div>
+                        <div class="author-info">
+                            <h4>Sarah Jenkins</h4>
+                            <span>CTO at TechFlow</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card parallax-el" data-speed="1.15">
+                    <p class="quote">"We reduced our MTTR by 80% within the first month. The neural security insights found vulnerabilities we didn't know existed."</p>
+                    <div class="author">
+                        <div class="author-avatar">D</div>
+                        <div class="author-info">
+                            <h4>David Chen</h4>
+                            <span>Lead DevOps, CloudScale</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq">
+            <h2 class="section-title parallax-el" data-speed="1.2" style="text-align: center;">Frequently Asked Questions</h2>
+            <div class="faq-container parallax-el" data-speed="1.1">
+                <div class="faq-item">
+                    <div class="faq-question">How hard is the initial setup? <span class="faq-icon">+</span></div>
+                    <div class="faq-answer">Setup typically takes less than 15 minutes. We provide single-command installation scripts for Kubernetes, Docker, and bare-metal environments.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Is my data secure and compliant? <span class="faq-icon">+</span></div>
+                    <div class="faq-answer">Absolutely. We are SOC2 Type II, GDPR, and HIPAA compliant. All data is encrypted at rest and in transit using military-grade protocols.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Can I deploy this on-premise? <span class="faq-icon">+</span></div>
+                    <div class="faq-answer">Yes, our Enterprise tier includes full support for air-gapped and on-premise deployments across your own infrastructure.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Registration / Form -->
+        <section id="contact" style="padding-bottom: 10rem;">
+            <div class="form-container parallax-el" data-speed="1.1">
+                <h2 class="section-title" style="font-size: 2.5rem; text-align: center; margin-bottom: 2rem;">Ready to upgrade your stack?</h2>
+                <form id="trial-form">
+                    <div class="form-group">
+                        <label>Work Email</label>
+                        <input type="email" class="form-control" required placeholder="name@company.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Company Size</label>
+                        <select class="form-control">
+                            <option>1-50</option>
+                            <option>51-200</option>
+                            <option>201-1000</option>
+                            <option>1000+</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn primary" style="width: 100%; justify-content: center; margin-top: 1rem; padding: 1rem;">Request Demo Access</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <script type="module" src="main.js"></script>
+</body>
+</html>

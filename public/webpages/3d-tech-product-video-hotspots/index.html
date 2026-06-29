@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Tech Product Video Hotspots | Next-Gen Innovation</title>
+    <meta name="description" content="Experience our new tech product through an immersive 3D presentation and interactive video hotspots.">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- 3D Background Canvas -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="glass-nav">
+        <div class="logo">TECH<span>NOVA</span></div>
+        <ul class="nav-links">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#demo">Demo</a></li>
+            <li><a href="#specs">Specs</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+        </ul>
+        <button class="btn-primary" onclick="document.getElementById('pricing').scrollIntoView()">Pre-order</button>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="hero-section">
+            <div class="hero-content" data-parallax="true">
+                <h1 class="glitch" data-text="The Future is Here">The Future is Here</h1>
+                <p class="subtitle">Experience unparalleled performance with our next-generation quantum core.</p>
+                <div class="cta-group">
+                    <button class="btn-primary large" onclick="document.getElementById('demo').scrollIntoView()">Explore 3D Demo</button>
+                    <button class="btn-secondary large">Watch Trailer</button>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                <span>Scroll to discover</span>
+                <div class="mouse">
+                    <div class="wheel"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Video Demo with Hotspots Section -->
+        <section id="demo" class="demo-section">
+            <div class="section-header">
+                <h2>Interactive Demo</h2>
+                <p>Click the pulsing hotspots to reveal internal components.</p>
+            </div>
+            
+            <div class="video-container glass-panel">
+                <!-- Placeholder for interactive video -->
+                <div class="video-placeholder">
+                    <div class="hotspot" style="top: 30%; left: 40%;" data-info="Quantum Processor: 10x faster processing speeds with neural AI integration.">
+                        <div class="pulse"></div>
+                        <div class="core"></div>
+                    </div>
+                    <div class="hotspot" style="top: 60%; left: 70%;" data-info="Thermal Sync: Advanced liquid cooling system maintains optimal temperatures.">
+                        <div class="pulse"></div>
+                        <div class="core"></div>
+                    </div>
+                    <div class="hotspot" style="top: 75%; left: 25%;" data-info="Haptic Engine: High-fidelity tactile feedback for immersive interaction.">
+                        <div class="pulse"></div>
+                        <div class="core"></div>
+                    </div>
+                    
+                    <div class="info-card hidden" id="hotspot-info">
+                        <h4 id="info-title">Component</h4>
+                        <p id="info-desc">Description goes here.</p>
+                        <button class="btn-close" id="close-info">×</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Parallax Section -->
+        <section id="features" class="features-section">
+            <div class="feature-row">
+                <div class="feature-text parallax-text" data-speed="1.2">
+                    <div class="badge">Performance</div>
+                    <h2>Unmatched Speed</h2>
+                    <p>Powered by our proprietary silicon, expect lightning-fast rendering and zero latency. Multitasking redefined.</p>
+                </div>
+                <div class="feature-visual parallax-visual" data-speed="0.8">
+                    <div class="glass-card">
+                        <div class="stat">
+                            <span class="number">99.9%</span>
+                            <span class="label">Efficiency</span>
+                        </div>
+                        <div class="stat">
+                            <span class="number">0.1ms</span>
+                            <span class="label">Latency</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="feature-row reverse">
+                <div class="feature-text parallax-text" data-speed="1.2">
+                    <div class="badge">Design</div>
+                    <h2>Aerospace Grade</h2>
+                    <p>Forged from titanium and carbon fiber. Incredibly light, incredibly strong. A design that feels like the future.</p>
+                </div>
+                <div class="feature-visual parallax-visual" data-speed="0.8">
+                    <div class="glass-card">
+                       <p>Material analysis</p>
+                       <div class="progress-bar"><div class="fill" style="width: 85%;">Titanium</div></div>
+                       <div class="progress-bar"><div class="fill" style="width: 15%;">Carbon</div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tech Specs Section -->
+        <section id="specs" class="specs-section">
+            <div class="section-header">
+                <h2>Technical Specifications</h2>
+            </div>
+            <div class="specs-grid">
+                <div class="spec-card glass-panel hover-glow">
+                    <h3>Processor</h3>
+                    <p>A15 Bionic Core</p>
+                    <p>16-core Neural Engine</p>
+                </div>
+                <div class="spec-card glass-panel hover-glow">
+                    <h3>Display</h3>
+                    <p>6.7" OLED</p>
+                    <p>120Hz ProMotion</p>
+                </div>
+                <div class="spec-card glass-panel hover-glow">
+                    <h3>Battery</h3>
+                    <p>4500mAh</p>
+                    <p>Fast Charge 65W</p>
+                </div>
+                <div class="spec-card glass-panel hover-glow">
+                    <h3>Connectivity</h3>
+                    <p>Wi-Fi 6E</p>
+                    <p>5G Ultra Wideband</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing / CTA Section -->
+        <section id="pricing" class="pricing-section">
+            <div class="glass-panel pricing-card">
+                <h2>Ready to upgrade?</h2>
+                <p>Join the revolution today.</p>
+                <div class="price">
+                    <span class="currency">$</span><span class="amount">999</span>
+                </div>
+                
+                <form id="preorder-form" class="preorder-form">
+                    <input type="email" placeholder="Enter your email" required>
+                    <button type="submit" class="btn-primary pulse-btn">Reserve Now</button>
+                </form>
+                <p class="form-message" id="form-message"></p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="logo">TECH<span>NOVA</span></div>
+            <p>© 2026 TechNova Inc. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

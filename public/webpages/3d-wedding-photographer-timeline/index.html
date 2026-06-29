@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Wedding Photographer Timeline | Premium Storytelling</title>
+    <meta name="description" content="Experience your wedding day as a cinematic 3D timeline. Premium wedding photography services that capture every emotional moment.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 3D Canvas Background -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="main-nav glass">
+        <div class="logo">Lumina Weddings</div>
+        <ul class="nav-links">
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#timeline">Timeline</a></li>
+            <li><a href="#packages">Packages</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+        </ul>
+        <a href="#book" class="btn btn-primary">Book Now</a>
+    </nav>
+
+    <!-- Main Content overlaying 3D Canvas -->
+    <main class="scroll-container">
+        
+        <!-- Hero Section -->
+        <section id="hero" class="scene-section hero-custom">
+            <div class="hero-bg"></div>
+            <div class="content-wrapper text-center hero-content">
+                <h1 class="parallax-text" data-speed="1.5">Your Story,<br>Cinematically Told</h1>
+                <p class="subtitle parallax-text" data-speed="1.2">Step into a 3D journey of your most precious moments.</p>
+                <div class="scroll-indicator">
+                    <span>Scroll to Begin</span>
+                    <div class="mouse"><div class="wheel"></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Timeline Sections -->
+        <div id="timeline">
+            <!-- Getting Ready -->
+            <section id="getting-ready" class="scene-section timeline-step">
+                <div class="content-wrapper align-left">
+                    <div class="text-card glass parallax-element" data-speed="1.1">
+                        <span class="time-label">09:00 AM</span>
+                        <h2>Getting Ready</h2>
+                        <p>The quiet anticipation. The delicate details of the dress, the rings, and the final touches of makeup in a soft morning light.</p>
+                        <div class="photo-gallery">
+                            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=400&q=80" alt="Wedding Dress" class="gallery-img">
+                            <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=400&q=80" alt="Rings" class="gallery-img">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- First Look -->
+            <section id="first-look" class="scene-section timeline-step">
+                <div class="content-wrapper align-right">
+                    <div class="text-card glass parallax-element" data-speed="1.2">
+                        <span class="time-label">12:30 PM</span>
+                        <h2>The First Look</h2>
+                        <p>A private moment of pure emotion. Just the two of you, before the world joins in to celebrate your love.</p>
+                        <div class="photo-gallery">
+                            <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80" alt="First Look" class="gallery-img full-width">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Ceremony -->
+            <section id="ceremony" class="scene-section timeline-step">
+                <div class="content-wrapper align-left">
+                    <div class="text-card glass parallax-element" data-speed="1.15">
+                        <span class="time-label">03:00 PM</span>
+                        <h2>The Ceremony</h2>
+                        <p>Vows exchanged under the altar, surrounded by the warm embrace of family and friends. The beginning of forever.</p>
+                        <div class="photo-gallery">
+                            <img src="https://images.unsplash.com/photo-1469371670807-013ccf25f16a?auto=format&fit=crop&w=400&q=80" alt="Ceremony" class="gallery-img">
+                            <img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=400&q=80" alt="Vows" class="gallery-img">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Reception -->
+            <section id="reception" class="scene-section timeline-step">
+                <div class="content-wrapper align-right">
+                    <div class="text-card glass parallax-element" data-speed="1.3">
+                        <span class="time-label">06:00 PM</span>
+                        <h2>Reception & Toasts</h2>
+                        <p>Candlelight, heartfelt speeches, and the clinking of glasses. We capture the laughter and the tears of joy.</p>
+                        <div class="photo-gallery">
+                            <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=400&q=80" alt="Reception Table" class="gallery-img">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Party -->
+            <section id="party" class="scene-section timeline-step">
+                <div class="content-wrapper align-left">
+                    <div class="text-card glass parallax-element" data-speed="1.1">
+                        <span class="time-label">09:00 PM</span>
+                        <h2>The Party</h2>
+                        <p>Dynamic lights, the first dance, and a night of unforgettable celebration. Let loose, we've got the moments covered.</p>
+                        <div class="photo-gallery">
+                            <img src="https://images.unsplash.com/photo-1549417229-aa67d3263c09?auto=format&fit=crop&w=800&q=80" alt="First Dance" class="gallery-img full-width">
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Packages -->
+        <section id="packages" class="standard-section">
+            <div class="content-wrapper text-center">
+                <h2 class="section-title">Investment Options</h2>
+                <p class="section-subtitle">Curated collections to perfectly suit your celebration.</p>
+                
+                <div class="packages-grid">
+                    <div class="package-card glass">
+                        <h3>The Essential</h3>
+                        <div class="price">$2,500</div>
+                        <ul>
+                            <li>6 Hours Coverage</li>
+                            <li>1 Photographer</li>
+                            <li>High-Res Digital Gallery</li>
+                            <li>Print Release</li>
+                        </ul>
+                        <button class="btn btn-outline" onclick="selectPackage('Essential')">Select Plan</button>
+                    </div>
+                    
+                    <div class="package-card glass highlight">
+                        <div class="badge">Most Popular</div>
+                        <h3>The Storyteller</h3>
+                        <div class="price">$4,200</div>
+                        <ul>
+                            <li>10 Hours Coverage</li>
+                            <li>2 Photographers</li>
+                            <li>Engagement Session</li>
+                            <li>Premium Wedding Album</li>
+                        </ul>
+                        <button class="btn btn-primary" onclick="selectPackage('Storyteller')">Select Plan</button>
+                    </div>
+                    
+                    <div class="package-card glass">
+                        <h3>The Cinematic</h3>
+                        <div class="price">$6,500</div>
+                        <ul>
+                            <li>Full Day Coverage</li>
+                            <li>3 Photographers</li>
+                            <li>Luxury Album Suite</li>
+                            <li>Next-Day Sneak Peeks</li>
+                        </ul>
+                        <button class="btn btn-outline" onclick="selectPackage('Cinematic')">Select Plan</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section id="testimonials" class="standard-section">
+            <div class="content-wrapper text-center">
+                <h2 class="section-title">Love Stories</h2>
+                <div class="testimonial-slider">
+                    <div class="testimonial glass">
+                        <p class="quote">"They didn't just take photos; they captured the exact feeling of our day. Looking through our album is like reliving the magic all over again."</p>
+                        <div class="author">
+                            <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=100&q=80" alt="Sarah & James">
+                            <div class="author-info">
+                                <strong>Sarah & James</strong>
+                                <span>Tuscany, Italy</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Booking & Calendar -->
+        <section id="book" class="standard-section">
+            <div class="content-wrapper">
+                <div class="booking-container glass">
+                    <div class="booking-info">
+                        <h2>Reserve Your Date</h2>
+                        <p>We take on a limited number of weddings each year to ensure the highest quality of service. Check our availability and let's start planning.</p>
+                        
+                        <div class="calendar-widget">
+                            <div class="calendar-header">
+                                <button class="cal-btn" aria-label="Previous Month">&lt;</button>
+                                <span>October 2026</span>
+                                <button class="cal-btn" aria-label="Next Month">&gt;</button>
+                            </div>
+                            <div class="calendar-grid">
+                                <div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div>
+                                <div class="disabled">27</div><div class="disabled">28</div><div class="disabled">29</div><div class="disabled">30</div><div class="disabled">1</div><div>2</div><div>3</div>
+                                <div>4</div><div>5</div><div>6</div><div class="booked">7</div><div>8</div><div>9</div><div class="booked">10</div>
+                                <div>11</div><div>12</div><div>13</div><div>14</div><div>15</div><div>16</div><div class="booked">17</div>
+                                <div>18</div><div>19</div><div>20</div><div>21</div><div>22</div><div>23</div><div class="booked">24</div>
+                                <div>25</div><div>26</div><div>27</div><div>28</div><div>29</div><div>30</div><div class="booked">31</div>
+                            </div>
+                            <div class="legend">
+                                <span class="dot booked"></span> Booked
+                                <span class="dot available"></span> Available
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <form class="booking-form" onsubmit="event.preventDefault(); alert('Inquiry sent successfully!');">
+                        <div class="form-group">
+                            <label for="name">Names</label>
+                            <input type="text" id="name" required placeholder="e.g. Emma & Noah">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" required placeholder="hello@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="date">Wedding Date</label>
+                            <input type="date" id="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="venue">Venue / Location</label>
+                            <input type="text" id="venue" placeholder="Where is the magic happening?">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Tell us about your day</label>
+                            <textarea id="message" rows="4" required placeholder="What is the vibe you are going for?"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary full-width">Send Inquiry</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-content content-wrapper">
+                <div class="footer-brand">
+                    <h2>Lumina</h2>
+                    <p>Capturing the poetry of your love story.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#">Instagram</a>
+                    <a href="#">Pinterest</a>
+                    <a href="#">Vimeo</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Lumina Weddings. All rights reserved.</p>
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- Scripts -->
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Main JS -->
+    <script src="main.js"></script>
+    
+    <script>
+        function selectPackage(name) {
+            alert(`You selected the ${name} package. Scroll down to book your date!`);
+            document.getElementById('book').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

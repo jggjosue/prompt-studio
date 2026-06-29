@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Tech Showroom Hotspots | Premium Experience</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- 3D Canvas Background -->
+    <canvas class="webgl"></canvas>
+
+    <!-- Hotspot Information Panels (UI Overlay) -->
+    <div class="hotspot-ui-container">
+        <!-- Panel 1 -->
+        <div class="hotspot-panel" id="panel-1">
+            <button class="close-btn">&times;</button>
+            <div class="panel-content">
+                <span class="badge">Nuevo</span>
+                <h3>Módulo Quantum Data</h3>
+                <p>Procesamiento hiperrápido con arquitectura neural avanzada. Ideal para análisis predictivo.</p>
+                <ul class="features-list">
+                    <li>Latencia < 1ms</li>
+                    <li>Seguridad Cuántica</li>
+                </ul>
+                <button class="cta-small">Ver Demo Técnica</button>
+            </div>
+        </div>
+        <!-- Panel 2 -->
+        <div class="hotspot-panel" id="panel-2">
+            <button class="close-btn">&times;</button>
+            <div class="panel-content">
+                <span class="badge ai">SaaS IA</span>
+                <h3>Plataforma Synapse</h3>
+                <p>Integración de agentes inteligentes en todos tus flujos de trabajo con monitoreo en tiempo real.</p>
+                <div class="stats-row">
+                    <div class="stat"><span>+300%</span> Productividad</div>
+                </div>
+                <button class="cta-small outline">Solicitar Acceso</button>
+            </div>
+        </div>
+        <!-- Panel 3 -->
+        <div class="hotspot-panel" id="panel-3">
+            <button class="close-btn">&times;</button>
+            <div class="panel-content">
+                <span class="badge hw">Hardware</span>
+                <h3>HoloScreen Pro</h3>
+                <p>Pantallas holográficas interactivas para presentaciones inmersivas sin necesidad de gafas.</p>
+                <button class="cta-small">Comprar Ahora</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Scroll Content -->
+    <main class="scroll-content">
+        
+        <!-- Section 1: Hero -->
+        <section class="section hero" id="hero">
+            <div class="content-wrapper">
+                <h1 class="glitch-text" data-text="El Futuro del Tech Showroom">El Futuro del Tech Showroom</h1>
+                <p class="subtitle">Explora ecosistemas digitales, hardware de próxima generación y soluciones SaaS en un entorno 3D inmersivo e interactivo.</p>
+                <div class="cta-group">
+                    <button class="cta-primary" onclick="document.getElementById('showroom').scrollIntoView({behavior: 'smooth'})">Iniciar Exploración 3D</button>
+                    <button class="cta-secondary" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">Agendar Reunión</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Features Parallax -->
+        <section class="section features" id="features">
+            <div class="content-wrapper right-align">
+                <h2 class="parallax-text">Innovación Tangible</h2>
+                <p>Descubre capas técnicas y casos de uso interactuando directamente con los módulos.</p>
+                <div class="glass-card">
+                    <div class="icon">🚀</div>
+                    <h4>Rendimiento Absoluto</h4>
+                    <p>Optimizado para escalar con tus necesidades de datos.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Interactive Showroom (Hotspots active here) -->
+        <section class="section showroom" id="showroom">
+            <div class="content-wrapper center-align">
+                <h2>Explora el Showroom</h2>
+                <p>Gira la cámara, haz clic en los indicadores (hotspots) parpadeantes sobre los dispositivos para revelar especificaciones técnicas.</p>
+                <div class="interaction-hint">
+                    <span class="pulse-dot"></span> Haz clic en los objetos 3D brillantes
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Pricing -->
+        <section class="section pricing" id="pricing">
+            <div class="content-wrapper">
+                <h2>Planes de Implementación</h2>
+                <div class="pricing-grid">
+                    <div class="price-card">
+                        <h3>Starter</h3>
+                        <div class="price">$999<span>/mes</span></div>
+                        <ul>
+                            <li>Acceso a plataforma base</li>
+                            <li>Soporte 24/7</li>
+                        </ul>
+                        <button class="cta-primary full-width">Elegir Starter</button>
+                    </div>
+                    <div class="price-card premium">
+                        <div class="popular-tag">Más Popular</div>
+                        <h3>Enterprise 3D</h3>
+                        <div class="price">$2,499<span>/mes</span></div>
+                        <ul>
+                            <li>Entornos 3D personalizados</li>
+                            <li>Agentes IA dedicados</li>
+                            <li>Analíticas avanzadas</li>
+                        </ul>
+                        <button class="cta-primary full-width">Elegir Enterprise</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Contact -->
+        <section class="section contact" id="contact">
+            <div class="content-wrapper">
+                <div class="contact-container glass-panel">
+                    <h2>Inicia tu Prueba</h2>
+                    <p>Contacta a nuestro equipo comercial para un demo personalizado.</p>
+                    <form id="contact-form">
+                        <div class="input-group">
+                            <input type="text" id="name" required placeholder="Tu Nombre">
+                        </div>
+                        <div class="input-group">
+                            <input type="email" id="email" required placeholder="Tu Correo Corporativo">
+                        </div>
+                        <div class="input-group">
+                            <select id="interest" required>
+                                <option value="" disabled selected>Área de Interés</option>
+                                <option value="saas">SaaS & IA</option>
+                                <option value="hardware">Hardware & Pantallas</option>
+                                <option value="full">Solución Completa</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="cta-primary submit-btn">Solicitar Demo</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2026 Tech Showroom Inc. Diseñado para el futuro.</p>
+        </footer>
+
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

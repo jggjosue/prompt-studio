@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EchoCast - 3D Landing Page</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="canvas-container"></div>
+  
+  <div id="scroll-container">
+    <nav class="navbar">
+      <div class="logo">
+        <div class="logo-icon"></div>
+        EchoCast
+      </div>
+      <div class="links">
+        <span>Episodes</span>
+        <span>Artists</span>
+        <span>Community</span>
+      </div>
+      <button class="btn-sub">Subscribe</button>
+    </nav>
+
+    <!-- Scroll Sections -->
+    <section class="section hero">
+      <div class="pill">Premium Musical Podcasts</div>
+      <h1>Enter the <br><span>Studio</span> Experience</h1>
+      <p>Explore episodes, artist interviews, live sessions, and the stories behind the music.</p>
+      <button class="btn-play">Start Listening</button>
+    </section>
+
+    <section class="section player">
+      <div class="player-card">
+        <h3>Now Playing</h3>
+        <div class="player-info">
+          <div class="album-art"></div>
+          <div>
+            <h2>The Art of Synth</h2>
+            <p>Ep. 42 • Featuring Daft Legends</p>
+          </div>
+        </div>
+        <div class="waveform">
+          <!-- Procedurally filled in CSS -->
+          <div class="bar h1"></div><div class="bar h2"></div><div class="bar h3"></div>
+          <div class="bar h4"></div><div class="bar h5"></div><div class="bar h2"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section community">
+      <h2>Join the <br>Live Sessions</h2>
+      <p>Get exclusive access to intimate recording sessions, live Q&As, and vinyl giveaways.</p>
+      <div class="events">
+        <div class="event-card">
+          <div class="event-info">
+            <h4>Live Studio Session #1</h4>
+            <p>Friday, 8:00 PM EST</p>
+          </div>
+          <button class="btn-rsvp">RSVP</button>
+        </div>
+        <div class="event-card">
+          <div class="event-info">
+            <h4>Live Studio Session #2</h4>
+            <p>Next Friday, 8:00 PM EST</p>
+          </div>
+          <button class="btn-rsvp">RSVP</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section footer">
+      <h2>Never Miss a Beat</h2>
+      <p>Subscribe to our newsletter for weekly episode drops, backstage passes, and exclusive merch discounts.</p>
+      <div class="subscribe-form">
+        <input type="email" placeholder="Enter your email">
+        <button class="btn-sub">Subscribe</button>
+      </div>
+    </section>
+  </div>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>

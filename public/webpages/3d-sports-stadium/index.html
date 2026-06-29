@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Sports Stadium | Experiencia Premium</title>
+  <meta name="description"
+    content="Explora nuestro estadio en 3D. Entradas, zonas VIP, tienda oficial y calendario de partidos en una experiencia inmersiva.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="logo">
+      <span class="logo-icon">🏟️</span>
+      <span class="logo-text">STADIUM<span class="highlight">3D</span></span>
+    </div>
+    <div class="nav-links">
+      <a href="#hero">Inicio</a>
+      <a href="#tickets">Tickets</a>
+      <a href="#vip">Zona VIP</a>
+      <a href="#store">Tienda</a>
+    </div>
+    <button class="btn btn-primary nav-btn">Comprar Tickets</button>
+  </nav>
+
+  <!-- Fixed 3D Canvas Background -->
+  <div id="canvas-container"></div>
+
+  <!-- Scrolling Content -->
+  <div id="scroll-content">
+
+    <!-- Hero Section -->
+    <section id="hero" class="panel">
+      <div class="content-wrapper">
+        <h1 class="parallax-text" data-speed="0.8">
+          EL TEMPLO<br>
+          <span class="highlight text-glow">DEL FÚTBOL</span>
+        </h1>
+        <p class="subtitle parallax-text" data-speed="0.95">
+          Vive la pasión desde adentro. Explora el estadio, elige tu asiento y prepárate para el gran partido.
+        </p>
+        <div class="hero-actions parallax-text" data-speed="1.1">
+          <button class="btn btn-primary btn-lg">Explorar Estadio</button>
+          <button class="btn btn-outline btn-lg">Ver Calendario</button>
+        </div>
+      </div>
+      <div class="scroll-indicator">
+        <span>Scroll para descubrir</span>
+        <div class="mouse">
+          <div class="wheel"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Calendar Section -->
+    <section id="calendar" class="panel right-align">
+      <div class="content-wrapper glass-card">
+        <h2>Próximos Partidos</h2>
+        <div class="match-list">
+          <div class="match-item">
+            <div class="date">Oct 15</div>
+            <div class="teams">Local FC vs. Titanes</div>
+            <button class="btn btn-sm btn-primary">Tickets</button>
+          </div>
+          <div class="match-item">
+            <div class="date">Oct 22</div>
+            <div class="teams">Local FC vs. Real City</div>
+            <button class="btn btn-sm btn-primary">Tickets</button>
+          </div>
+          <div class="match-item">
+            <div class="date">Nov 05</div>
+            <div class="teams">Local FC vs. United Stars</div>
+            <button class="btn btn-sm btn-primary">Tickets</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tickets Section -->
+    <section id="tickets" class="panel">
+      <div class="content-wrapper glass-card">
+        <h2>Selección de Asientos</h2>
+        <p>Encuentra el lugar perfecto para vivir la emoción. Disfruta de la mejor vista al campo.</p>
+        <div class="ticket-options">
+          <div class="ticket-card">
+            <h3>Grada Norte</h3>
+            <p class="price">$50</p>
+            <button class="btn btn-primary w-full">Seleccionar</button>
+          </div>
+          <div class="ticket-card featured">
+            <div class="badge">Recomendado</div>
+            <h3>Tribuna Central</h3>
+            <p class="price">$120</p>
+            <button class="btn btn-primary w-full">Seleccionar</button>
+          </div>
+          <div class="ticket-card">
+            <h3>Grada Sur</h3>
+            <p class="price">$50</p>
+            <button class="btn btn-primary w-full">Seleccionar</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIP Section -->
+    <section id="vip" class="panel center-align">
+      <div class="content-wrapper glass-card premium">
+        <h2 class="text-gold">Experiencia VIP</h2>
+        <p>Catering exclusivo, asientos premium y acceso a los vestuarios antes del partido. Eleva tu experiencia al
+          siguiente nivel.</p>
+        <ul class="vip-perks">
+          <li>✨ Asientos reclinables de cuero</li>
+          <li>🥂 Bebidas y comida ilimitada</li>
+          <li>🚗 Estacionamiento privado</li>
+          <li>🏆 Meet & Greet con leyendas</li>
+        </ul>
+        <button class="btn btn-gold btn-lg mt-4">Adquirir Membresía VIP</button>
+      </div>
+    </section>
+
+    <!-- Store Section -->
+    <section id="store" class="panel left-align">
+      <div class="content-wrapper glass-card">
+        <h2>Tienda Oficial</h2>
+        <p>Vístete con los colores del equipo. Jerseys, bufandas y accesorios oficiales.</p>
+        <div class="store-grid">
+          <div class="product">
+            <div class="product-img jersey">👕</div>
+            <h4>Jersey Local 24/25</h4>
+            <p class="price">$89.99</p>
+            <button class="btn btn-outline w-full">Añadir al Carrito</button>
+          </div>
+          <div class="product">
+            <div class="product-img ball">⚽</div>
+            <h4>Balón Oficial</h4>
+            <p class="price">$320.00</p>
+            <button class="btn btn-outline w-full">Añadir al Carrito</button>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-lg mt-4">Ver toda la tienda</button>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <h2>STADIUM<span class="highlight">3D</span></h2>
+        <p>La experiencia inmersiva definitiva para los verdaderos fans.</p>
+        <div class="socials">
+          <a href="#">X</a>
+          <a href="#">IG</a>
+          <a href="#">FB</a>
+        </div>
+        <p class="copyright">© 2026 3D Sports Stadium. Todos los derechos reservados.</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- GSAP Core & ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="sports3d.js"></script>
+</body>
+
+</html>

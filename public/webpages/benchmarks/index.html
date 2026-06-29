@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta name="description" content="Laboratorio de rendimiento 3D. Explora benchmarks, comparativas de rendimiento, rankings, métricas y análisis de velocidad de modelos, hardware y APIs con la mayor precisión.">
+    <meta name="keywords" content="benchmarks, rendimiento, 3D, comparativa, rankings, métricas, dashboards, APIs, hardware, SaaS">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Benchmarks 3D | Rendimiento y Precisión</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+    
+    <!-- Three.js (Vanilla) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  </head>
+  <body>
+    <div class="app">
+      <!-- Contenedor del Canvas 3D -->
+      <div id="canvas-container" class="canvas-container"></div>
+      
+      <!-- Overlay de la interfaz (sustituye a LandingOverlay.jsx) -->
+      <div class="landing-overlay" id="landing-overlay">
+        
+        <!-- Section 1: Hero -->
+        <section class="section hero">
+          <div class="hero-content fade-up" id="hero-content">
+            <div class="chip fade-up" style="--delay: 0.2s">
+              NUEVA PLATAFORMA V2.0
+            </div>
+            <h1 class="fade-up" style="--delay: 0.3s">
+              Benchmarks <span>3D</span>
+            </h1>
+            <p class="fade-up" style="--delay: 0.4s">
+              Laboratorio de rendimiento inmersivo. Analiza velocidad, eficiencia, latencia y escalabilidad en tiempo real.
+            </p>
+            <div class="hero-actions fade-up" style="--delay: 0.5s">
+              <button class="btn primary">Explorar Resultados</button>
+              <button class="btn secondary">Ver Arquitectura</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 2: Metrics -->
+        <section class="section metrics">
+          <div class="metrics-grid">
+            <div class="metric-card glass scroll-animate" style="--delay: 0s">
+              <div class="icon neon-green">⚡</div>
+              <h3>Latencia Ultrabaja</h3>
+              <div class="metric-value">12<span>ms</span></div>
+              <p>Respuesta instantánea para APIs críticas.</p>
+            </div>
+            <div class="metric-card glass scroll-animate" style="--delay: 0.2s">
+              <div class="icon neon-blue">🚀</div>
+              <h3>Throughput</h3>
+              <div class="metric-value">45k<span>req/s</span></div>
+              <p>Capacidad masiva de procesamiento.</p>
+            </div>
+            <div class="metric-card glass scroll-animate" style="--delay: 0.4s">
+              <div class="icon neon-purple">🛡️</div>
+              <h3>Estabilidad</h3>
+              <div class="metric-value">99.99<span>%</span></div>
+              <p>Disponibilidad garantizada en SLAs.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 3: Dashboards -->
+        <section class="section dashboard-section">
+          <div class="dashboard-container glass scroll-animate-scale">
+            <div class="dashboard-header">
+              <h2>Rendimiento Global de Modelos</h2>
+              <div class="filters">
+                <button class="filter-btn active">LLMs</button>
+                <button class="filter-btn">Visión</button>
+                <button class="filter-btn">Audio</button>
+              </div>
+            </div>
+            <div class="dashboard-content" id="dashboard-content">
+              <!-- Fake bars representing charts -->
+              <div class="bar-row">
+                <div class="bar-label">Model Alpha X</div>
+                <div class="bar-track">
+                  <div class="bar-fill scroll-animate-width" style="background-color: #00f3ff; --target-width: 95%; --delay: 0.2s"></div>
+                </div>
+                <div class="bar-score">95</div>
+              </div>
+              <div class="bar-row">
+                <div class="bar-label">Neural V2</div>
+                <div class="bar-track">
+                  <div class="bar-fill scroll-animate-width" style="background-color: #7b2cbf; --target-width: 82%; --delay: 0.3s"></div>
+                </div>
+                <div class="bar-score">82</div>
+              </div>
+              <div class="bar-row">
+                <div class="bar-label">OptiGen 4</div>
+                <div class="bar-track">
+                  <div class="bar-fill scroll-animate-width" style="background-color: #00ff9d; --target-width: 78%; --delay: 0.4s"></div>
+                </div>
+                <div class="bar-score">78</div>
+              </div>
+              <div class="bar-row">
+                <div class="bar-label">Legacy Net</div>
+                <div class="bar-track">
+                  <div class="bar-fill scroll-animate-width" style="background-color: #ff3366; --target-width: 45%; --delay: 0.5s"></div>
+                </div>
+                <div class="bar-score">45</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 4: Contact/Report -->
+        <section class="section contact">
+          <div class="contact-box glass scroll-animate">
+            <h2>Solicitar un Benchmark</h2>
+            <p>¿Tienes un modelo o sistema que deseas evaluar en nuestro laboratorio 3D?</p>
+            <form class="benchmark-form" onsubmit="event.preventDefault()">
+              <div class="form-group">
+                <label>Nombre del Producto</label>
+                <input type="text" placeholder="Ej: GPT-4 Turbo" />
+              </div>
+              <div class="form-group">
+                <label>Tipo de Evaluación</label>
+                <select>
+                  <option>Latencia & Throughput</option>
+                  <option>Precisión (Accuracy)</option>
+                  <option>Eficiencia de Costos</option>
+                </select>
+              </div>
+              <button class="btn primary full-width">Enviar Solicitud</button>
+            </form>
+          </div>
+        </section>
+
+      </div>
+    </div>
+    <script src="./script.js"></script>
+  </body>
+</html>

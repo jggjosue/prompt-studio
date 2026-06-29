@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="3D UX Designer Walkthrough - Un recorrido inmersivo por el proceso de diseño UX.">
+  <title>UX Designer | 3D Walkthrough</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- UI Overlay fijo (Header) -->
+  <header class="topbar">
+    <div class="logo">
+      <div class="logo-icon">UX</div>
+      <span>Studio</span>
+    </div>
+    <nav class="nav-links">
+      <a href="#hero">Inicio</a>
+      <a href="#research">Proceso</a>
+      <a href="#cases">Casos</a>
+      <a href="#booking" class="btn btn-outline">Reservar Sesión</a>
+    </nav>
+  </header>
+
+  <!-- Contenedor del Canvas 3D (Fijo en el fondo) -->
+  <div id="canvas-container"></div>
+
+  <!-- Contenedor principal de scroll -->
+  <main class="scroll-container">
+    
+    <!-- Hero / Inicio -->
+    <section id="hero" class="panel">
+      <div class="content-box glass">
+        <div class="badge">UX / UI Designer</div>
+        <h1 class="parallax-text">Diseñando <br><span class="gradient-text">Experiencias</span></h1>
+        <p class="parallax-text delay-1">Un recorrido inmersivo por mi laboratorio de diseño. Descubre cómo transformo problemas complejos en soluciones usables y medibles.</p>
+        <div class="actions parallax-text delay-2">
+          <a href="#research" class="btn btn-primary">Iniciar Walkthrough</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Research -->
+    <section id="research" class="panel align-right">
+      <div class="content-box glass">
+        <h2 class="parallax-text">01. Research & Discovery</h2>
+        <p class="parallax-text delay-1">El diseño comienza entendiendo a las personas. Analizamos comportamientos, necesidades y puntos de dolor reales.</p>
+        <ul class="feature-list parallax-text delay-2">
+          <li>Entrevistas a usuarios</li>
+          <li>Creación de Personas</li>
+          <li>Análisis Competitivo</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- User Journey -->
+    <section id="journey" class="panel align-left">
+      <div class="content-box glass">
+        <h2 class="parallax-text">02. User Journey & Flows</h2>
+        <p class="parallax-text delay-1">Mapeamos cada paso del usuario para asegurar que el camino hacia su objetivo sea intuitivo y sin fricciones.</p>
+        <div class="insight-card parallax-text delay-2">
+          <span class="insight-icon">🎯</span>
+          <p>"Reducir los pasos cognitivos aumenta la conversión en un 40%."</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Wireframes -->
+    <section id="wireframes" class="panel align-right">
+      <div class="content-box glass">
+        <h2 class="parallax-text">03. Wireframes & Arquitectura</h2>
+        <p class="parallax-text delay-1">Estructuramos la información antes de añadir estética. Priorizamos jerarquía y funcionalidad.</p>
+        <button class="btn btn-secondary parallax-text delay-2 interactive-btn" data-action="toggle-wireframe">Ver Blueprint</button>
+      </div>
+    </section>
+
+    <!-- Prototypes -->
+    <section id="prototypes" class="panel align-left">
+      <div class="content-box glass">
+        <h2 class="parallax-text">04. Prototipado Interactivo</h2>
+        <p class="parallax-text delay-1">Damos vida a las ideas. Creamos prototipos de alta fidelidad que se sienten como el producto final.</p>
+        <div class="interaction-hint parallax-text delay-2">
+          <span>👇 Mueve el cursor sobre el entorno 3D</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Usability Testing -->
+    <section id="testing" class="panel align-right">
+      <div class="content-box glass">
+        <h2 class="parallax-text">05. Usability Testing</h2>
+        <p class="parallax-text delay-1">Validamos nuestras hipótesis con usuarios reales, identificando errores antes del desarrollo.</p>
+        <ul class="feature-list parallax-text delay-2">
+          <li>A/B Testing</li>
+          <li>Mapas de calor</li>
+          <li>Tests Moderados</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Metrics -->
+    <section id="metrics" class="panel align-left">
+      <div class="content-box glass">
+        <h2 class="parallax-text">06. Analytics & Métricas</h2>
+        <p class="parallax-text delay-1">El buen diseño es medible. Cuantificamos el impacto en negocio a través de KPIs de UX.</p>
+        <div class="stats-grid parallax-text delay-2">
+          <div class="stat">
+            <h4>+120%</h4>
+            <span>Engagement</span>
+          </div>
+          <div class="stat">
+            <h4>-35%</h4>
+            <span>Bounce Rate</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Design System -->
+    <section id="design-system" class="panel align-right">
+      <div class="content-box glass">
+        <h2 class="parallax-text">07. Design Systems</h2>
+        <p class="parallax-text delay-1">Construimos librerías de componentes escalables para mantener coherencia en toda la plataforma y acelerar el desarrollo.</p>
+        <button class="btn btn-secondary parallax-text delay-2 interactive-btn" data-action="explode-system">Explorar Componentes</button>
+      </div>
+    </section>
+
+    <!-- Case Studies -->
+    <section id="cases" class="panel center-align">
+      <div class="content-box glass wide">
+        <h2 class="parallax-text">Casos de Estudio</h2>
+        <p class="parallax-text delay-1">Proyectos donde el diseño transformó la experiencia y el negocio.</p>
+        <div class="cases-grid parallax-text delay-2">
+          <div class="case-card">
+            <div class="case-icon">💰</div>
+            <h3>Fintech App</h3>
+            <p>Rediseño de onboarding logrando 3x en retención.</p>
+          </div>
+          <div class="case-card">
+            <div class="case-icon">🛍️</div>
+            <h3>E-commerce</h3>
+            <p>Optimización de checkout, reduciendo el abandono un 25%.</p>
+          </div>
+          <div class="case-card">
+            <div class="case-icon">📊</div>
+            <h3>SaaS Dashboard</h3>
+            <p>Arquitectura de datos para análisis financieros complejos.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Booking -->
+    <section id="booking" class="panel center-align last-panel">
+      <div class="content-box glass">
+        <h2 class="parallax-text">Iniciemos tu proyecto</h2>
+        <p class="parallax-text delay-1">Agenda una sesión para descubrir cómo la experiencia de usuario puede potenciar tu producto.</p>
+        <form class="booking-form parallax-text delay-2" id="booking-form">
+          <div class="form-group">
+            <input type="text" placeholder="Tu Nombre" required>
+          </div>
+          <div class="form-group">
+            <input type="email" placeholder="Tu Email" required>
+          </div>
+          <div class="form-group">
+            <select required>
+              <option value="" disabled selected>Tipo de proyecto...</option>
+              <option value="app">Aplicación Móvil</option>
+              <option value="web">Web App / SaaS</option>
+              <option value="consulting">Consultoría UX</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary w-full">Solicitar Sesión</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>© 2026 UX Studio. 3D Walkthrough Experience.</p>
+    </footer>
+
+  </main>
+
+  <!-- Elemento UI Flotante que se mostrará/ocultará vía JS -->
+  <div id="tooltip-3d" class="tooltip hidden"></div>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="ux3d.js"></script>
+</body>
+</html>

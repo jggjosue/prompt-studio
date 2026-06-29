@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Writer Library Readings</title>
+    <meta name="description" content="Una biblioteca interactiva 3D para explorar la obra, lecturas y eventos de tu autor favorito.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 3D Canvas Background -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- Overlay UI -->
+    <nav class="navbar">
+        <div class="logo">E.A. Poe</div>
+        <ul class="nav-links">
+            <li><a href="#hero">Inicio</a></li>
+            <li><a href="#obra">Obra</a></li>
+            <li><a href="#lecturas">Lecturas</a></li>
+            <li><a href="#eventos">Eventos</a></li>
+            <li><a href="#comunidad">Comunidad</a></li>
+        </ul>
+        <button class="nav-btn">Suscribirse</button>
+    </nav>
+
+    <!-- Scrollable Content Container -->
+    <div class="scroll-container">
+        
+        <!-- Section: Hero -->
+        <section id="hero" class="panel">
+            <div class="content-block hero-content" data-parallax="0.2">
+                <h1>El Universo de las Palabras</h1>
+                <p class="subtitle">Adéntrate en mi biblioteca personal. Explora manuscritos, escucha capítulos inéditos y acompáñame en mi viaje literario.</p>
+                <a href="#obra" class="btn primary-btn">Comenzar Exploración</a>
+            </div>
+            <div class="scroll-indicator">
+                <p>Haz scroll para avanzar</p>
+                <div class="arrow"></div>
+            </div>
+        </section>
+
+        <!-- Section: Obra -->
+        <section id="obra" class="panel right-align">
+            <div class="content-block" data-parallax="0.15">
+                <h2>Obras y Manuscritos</h2>
+                <p>Descubre el proceso creativo detrás de cada novela. Fragmentos flotantes y libros que cobran vida.</p>
+                <div class="book-grid">
+                    <div class="book-card">
+                        <h3>Ecos del Mañana</h3>
+                        <p>Novela de ficción especulativa, ganadora del premio Nebula.</p>
+                        <button class="btn secondary-btn">Leer Fragmento</button>
+                    </div>
+                    <div class="book-card">
+                        <h3>La Sombra del Tintero</h3>
+                        <p>Ensayo sobre el terror y la soledad del escritor moderno.</p>
+                        <button class="btn secondary-btn">Comprar Libro</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Lecturas y Audio -->
+        <section id="lecturas" class="panel left-align">
+            <div class="content-block" data-parallax="0.1">
+                <h2>Lecturas en Voz Alta</h2>
+                <p>Sumérgete en la narración inmersiva de capítulos seleccionados.</p>
+                
+                <div class="audio-player">
+                    <div class="track-info">
+                        <h4>Capítulo 1: El Despertar</h4>
+                        <span class="time">00:00 / 04:35</span>
+                    </div>
+                    <div class="controls">
+                        <button class="play-btn">▶</button>
+                        <div class="progress-bar">
+                            <div class="progress"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="audio-player">
+                    <div class="track-info">
+                        <h4>Poema: Susurros de Papel</h4>
+                        <span class="time">00:00 / 02:10</span>
+                    </div>
+                    <div class="controls">
+                        <button class="play-btn">▶</button>
+                        <div class="progress-bar">
+                            <div class="progress"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Eventos -->
+        <section id="eventos" class="panel right-align">
+            <div class="content-block" data-parallax="0.2">
+                <h2>Agenda Literaria</h2>
+                <p>Únete a mis próximas firmas de libros y lecturas en vivo.</p>
+                
+                <ul class="event-list">
+                    <li>
+                        <div class="date"><span>15</span> Nov</div>
+                        <div class="event-details">
+                            <h4>Lectura de "Ecos del Mañana"</h4>
+                            <p>Librería Central, Madrid - 19:00 hrs</p>
+                        </div>
+                        <button class="btn small-btn">Reservar</button>
+                    </li>
+                    <li>
+                        <div class="date"><span>02</span> Dic</div>
+                        <div class="event-details">
+                            <h4>Masterclass de Escritura</h4>
+                            <p>Online (Vía Zoom) - 17:00 hrs</p>
+                        </div>
+                        <button class="btn small-btn">Inscribirse</button>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section: Comunidad y Final -->
+        <section id="comunidad" class="panel center-align">
+            <div class="content-block final-room" data-parallax="0.1">
+                <h2>Sé parte de la historia</h2>
+                <p>Suscríbete para recibir manuscritos exclusivos, invitaciones a eventos privados y acceso al club de lectura.</p>
+                
+                <form class="subscribe-form" onsubmit="event.preventDefault(); alert('¡Gracias por suscribirte!');">
+                    <input type="email" placeholder="Tu correo electrónico" required>
+                    <button type="submit" class="btn primary-btn">Unirme a la comunidad</button>
+                </form>
+            </div>
+        </section>
+        
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

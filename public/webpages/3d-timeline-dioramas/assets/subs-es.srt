@@ -1,0 +1,11 @@
+1
+00:00:00,000 --> 00:00:08,000
+Bienvenidos a este recorrido por los hitos más importantes de la innovación tecnológica.
+
+2
+00:00:08,000 --> 00:00:16,000
+Cada capítulo presenta un diorama 3D y un video narrado con los detalles históricos.
+
+3
+00:00:16,000 --> 00:00:24,000
+Puedes navegar usando la línea de tiempo, las flechas del teclado o el modo curador automático.

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Tech Showroom Pro</title>
+    <meta name="description" content="Explora nuestro showroom tecnológico 3D inmersivo. Productos, SaaS, Inteligencia Artificial y mucho más.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 3D Canvas Background -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- UI Overlay / Hotspots -->
+    <div id="ui-layer">
+        
+        <!-- Navigation -->
+        <nav class="glass-nav">
+            <div class="logo">TECH<span>SHOWROOM</span></div>
+            <ul class="nav-links">
+                <li><a href="#lobby">Lobby</a></li>
+                <li><a href="#saas">SaaS & Cloud</a></li>
+                <li><a href="#hardware">Hardware</a></li>
+                <li><a href="#dashboards">Analytics</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+            </ul>
+            <button class="btn-primary" onclick="document.getElementById('booking').scrollIntoView({behavior: 'smooth'})">Book Demo</button>
+        </nav>
+
+        <!-- Sections -->
+        <main>
+            <!-- Lobby -->
+            <section id="lobby" class="section-container">
+                <div class="content-box parallax-element" data-speed="0.5">
+                    <h1 class="glitch" data-text="Welcome to the Future">Welcome to the Future</h1>
+                    <p class="subtitle">An immersive 3D experience exploring enterprise solutions, AI, and smart hardware.</p>
+                    <div class="scroll-indicator">
+                        <span>Scroll to Explore</span>
+                        <div class="mouse"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SaaS Modules -->
+            <section id="saas" class="section-container align-right">
+                <div class="content-box glass-panel parallax-element" data-speed="0.8">
+                    <h2>Cloud & SaaS Ecosystem</h2>
+                    <p>Scalable infrastructure powering the next generation of business intelligence.</p>
+                    <ul class="feature-list">
+                        <li><span class="icon">⚡</span> Real-time Processing</li>
+                        <li><span class="icon">🔒</span> Enterprise Security</li>
+                        <li><span class="icon">🌐</span> Global CDN</li>
+                    </ul>
+                    <button class="btn-secondary">Explore Modules</button>
+                </div>
+                <!-- HTML Hotspot positioned in 3D via JS tracking -->
+                <div class="hotspot" id="hs-saas" data-title="Cloud Core" data-desc="Centralized data processing unit.">
+                    <div class="hotspot-dot"></div>
+                </div>
+            </section>
+
+            <!-- Hardware & AI -->
+            <section id="hardware" class="section-container align-left">
+                <div class="content-box glass-panel parallax-element" data-speed="1.2">
+                    <h2>Next-Gen Hardware & AI</h2>
+                    <p>Neural processing units and smart sensors designed for edge computing and automation.</p>
+                    <div class="stats-grid">
+                        <div class="stat">
+                            <h3>99.9%</h3>
+                            <span>Uptime</span>
+                        </div>
+                        <div class="stat">
+                            <h3>0.2ms</h3>
+                            <span>Latency</span>
+                        </div>
+                    </div>
+                </div>
+                 <div class="hotspot" id="hs-ai" data-title="Neural Engine" data-desc="Advanced AI processing chip.">
+                    <div class="hotspot-dot"></div>
+                </div>
+            </section>
+
+            <!-- Dashboards & Analytics -->
+            <section id="dashboards" class="section-container align-center">
+                <div class="content-box glass-panel wide-panel parallax-element" data-speed="0.6">
+                    <h2>Advanced Analytics & Dashboards</h2>
+                    <p>Visualize your data with interactive holographic panels. Gain insights faster than ever.</p>
+                    <div class="dashboard-mockup parallax-inner" data-speed="1.5">
+                        <div class="chart-bar" style="height: 40%"></div>
+                        <div class="chart-bar" style="height: 70%"></div>
+                        <div class="chart-bar" style="height: 50%"></div>
+                        <div class="chart-bar" style="height: 90%"></div>
+                        <div class="chart-bar" style="height: 65%"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pricing -->
+            <section id="pricing" class="section-container">
+                <div class="pricing-grid">
+                    <div class="pricing-card glass-panel parallax-element" data-speed="0.9">
+                        <h3>Starter</h3>
+                        <div class="price">$99<span>/mo</span></div>
+                        <ul>
+                            <li>Basic Analytics</li>
+                            <li>Standard Support</li>
+                            <li>Up to 5 Users</li>
+                        </ul>
+                        <button class="btn-secondary">Get Started</button>
+                    </div>
+                    <div class="pricing-card glass-panel premium parallax-element" data-speed="1.1">
+                        <div class="badge">Most Popular</div>
+                        <h3>Enterprise Pro</h3>
+                        <div class="price">$499<span>/mo</span></div>
+                        <ul>
+                            <li>Advanced AI Models</li>
+                            <li>24/7 Priority Support</li>
+                            <li>Unlimited Users</li>
+                            <li>Custom Integrations</li>
+                        </ul>
+                        <button class="btn-primary">Choose Pro</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Booking / Form -->
+            <section id="booking" class="section-container align-center">
+                <div class="content-box glass-panel parallax-element" data-speed="0.7">
+                    <h2>Ready to transform your business?</h2>
+                    <p>Book a personalized demo with our tech experts today.</p>
+                    <form id="demo-form" class="modern-form" onsubmit="event.preventDefault(); alert('Demo Booked Successfully!');">
+                        <div class="input-group">
+                            <input type="text" id="name" required placeholder=" ">
+                            <label for="name">Full Name</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="email" id="email" required placeholder=" ">
+                            <label for="email">Work Email</label>
+                        </div>
+                        <div class="input-group">
+                            <select id="interest" required>
+                                <option value="" disabled selected>Select Area of Interest</option>
+                                <option value="saas">SaaS & Cloud</option>
+                                <option value="ai">Hardware & AI</option>
+                                <option value="analytics">Data Analytics</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-primary w-full">Schedule Demo</button>
+                    </form>
+                </div>
+            </section>
+        </main>
+        
+        <!-- Footer -->
+        <footer class="glass-footer">
+            <p>&copy; 2026 TechShowroom Pro. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#">Twitter</a>
+                <a href="#">LinkedIn</a>
+                <a href="#">GitHub</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Hotspot Tooltip Template -->
+    <div id="hotspot-tooltip" class="glass-tooltip hidden">
+        <h4 id="hs-title">Title</h4>
+        <p id="hs-desc">Description goes here.</p>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="techshowPro.js"></script>
+</body>
+</html>
