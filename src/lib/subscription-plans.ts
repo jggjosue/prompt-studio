@@ -2,7 +2,7 @@ export type PlanId = 'free' | 'premium' | 'startup';
 export type BillingCycle = 'monthly' | 'annual';
 
 export const PLAN_PRICES = {
-  premium: { monthly: 50, annual: 500 },
+  premium: { monthly: 50, annual: 300 },
   startup: { monthly: 1000, annual: 10000 },
 } as const;
 
