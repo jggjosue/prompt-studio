@@ -84,7 +84,10 @@ export async function GET(
     try {
       const { join } = await import('path');
       const { readFile } = await import('fs/promises');
-      const localPath = join(process.cwd(), 'public', 'webpages', filename);
+      const basePath = process.cwd();
+      const publicDir = 'public';
+      const webpagesDir = 'webpages';
+      const localPath = join(basePath, publicDir, webpagesDir, filename);
       bytes = await readFile(localPath);
     } catch {
       // ignore
