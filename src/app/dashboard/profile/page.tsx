@@ -1,7 +1,7 @@
 import { auth, currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { clerkClient } from '@clerk/nextjs/server';
-import { syncAffiliateDashboardStats } from '@/lib/affiliate-mongo';
+import { syncAffiliateDashboardStats, type AffiliateDashboardStats } from '@/lib/affiliate-mongo';
 import connectToDatabase from '@/lib/mongoose';
 import AffiliatePayoutAccount from '@/models/AffiliatePayoutAccount';
 import ProfileClient from './profile-client';
@@ -20,9 +20,31 @@ export default async function ProfilePage() {
     affiliateReferralCode?: string;
     affiliatePaypalEmail?: string | null;
   };
-  await connectToDatabase();
-  const payoutAccount = await AffiliatePayoutAccount.findOne({ clerkUserId: userId }).lean<{ email?: string | null }>();
-  const affiliate = await syncAffiliateDashboardStats(userId, meta.affiliateReferralCode ?? user?.id ?? '');
+  const emptyAffiliate: AffiliateDashboardStats = {
+    clerkUserId: userId,
+    referralCode: meta.affiliateReferralCode ?? user?.id ?? '',
+    totalRevenueCents: 0,
+    paidRevenueCents: 0,
+    availablePayoutCents: 0,
+    canRequestManualPayout: false,
+    clicks: 0,
+    salesRegistered: 0,
+    conversionRate: 0,
+    productClicks: [],
+    commissions: [],
+    history: [],
+  };
+
+  let payoutAccount: { email?: string | null } | null = null;
+  let affiliate: AffiliateDashboardStats = emptyAffiliate;
+
+  try {
+    await connectToDatabase();
+    payoutAccount = await AffiliatePayoutAccount.findOne({ clerkUserId: userId }).lean<{ email?: string | null }>();
+    affiliate = await syncAffiliateDashboardStats(userId, meta.affiliateReferralCode ?? user?.id ?? '');
+  } catch (error) {
+    console.error('Profile page Mongo fallback:', error);
+  }
 
   return (
     <ProfileClient
