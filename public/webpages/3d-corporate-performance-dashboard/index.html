@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="3D Corporate Performance Dashboard is a premium interactive landing page for executive analytics, KPIs, forecasting, and business intelligence." />
+  <meta name="keywords" content="3D dashboard, corporate performance, executive analytics, KPI, forecasting, business intelligence" />
+  <title>3D Corporate Performance Dashboard</title>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.158.0/examples/jsm/"
+      }
+    }
+  </script>
+  <style>
+    :root{
+      --bg:#050816;
+      --bg2:#08111f;
+      --panel:rgba(9,15,28,.72);
+      --panel-strong:rgba(11,19,36,.92);
+      --line:rgba(139,164,211,.16);
+      --text:#ecf5ff;
+      --muted:#91a5c7;
+      --accent:#69b7ff;
+      --accent2:#8f7bff;
+      --good:#3ddc97;
+      --warn:#f6c66b;
+      --bad:#ff7b8f;
+      --shadow:0 30px 80px rgba(0,0,0,.45);
+      --radius:22px;
+      --radius-sm:16px;
+      --max:1180px;
+      --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:var(--font);
+      color:var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(105,183,255,.18), transparent 30%),
+        radial-gradient(circle at top right, rgba(143,123,255,.15), transparent 26%),
+        linear-gradient(180deg, #040712 0%, #07101d 42%, #050816 100%);
+      overflow-x:hidden;
+    }
+    body::before{
+      content:"";
+      position:fixed; inset:0;
+      background-image:linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size:52px 52px;
+      mask-image:linear-gradient(180deg, rgba(0,0,0,.55), transparent 72%);
+      pointer-events:none;
+      z-index:-1;
+    }
+    a{color:inherit; text-decoration:none}
+    button{font:inherit}
+    .container{width:min(var(--max), calc(100% - 32px)); margin:0 auto}
+    .glass{
+      background:linear-gradient(180deg, rgba(15,24,44,.75), rgba(8,13,24,.62));
+      border:1px solid rgba(160,185,230,.14);
+      backdrop-filter:blur(18px);
+      box-shadow:var(--shadow);
+    }
+    .eyebrow{
+      display:inline-flex; align-items:center; gap:10px;
+      font-size:.74rem; letter-spacing:.16em; text-transform:uppercase;
+      color:var(--muted);
+    }
+    .eyebrow::before{
+      content:"";
+      width:44px; height:1px; background:linear-gradient(90deg, var(--accent), transparent);
+    }
+    h1,h2,h3,p{margin:0}
+    .section{position:relative; padding:104px 0}
+    .section-head{max-width:760px; margin-bottom:28px}
+    .section h2{font-size:clamp(2rem, 4vw, 4rem); line-height:.95; letter-spacing:-.06em; margin:12px 0 16px}
+    .section p.lead{font-size:1.02rem; line-height:1.7; color:var(--muted); max-width:70ch}
+    .chip{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 12px; border-radius:999px;
+      border:1px solid rgba(160,185,230,.16);
+      background:rgba(255,255,255,.03);
+      color:#d7e7ff; font-size:.82rem;
+    }
+    .btn-row{display:flex; flex-wrap:wrap; gap:12px; margin-top:28px}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      border:1px solid rgba(160,185,230,.18);
+      border-radius:999px; padding:14px 18px;
+      background:rgba(255,255,255,.03); color:var(--text);
+      transition:transform .2s ease, border-color .2s ease, background .2s ease, box-shadow .2s ease;
+      cursor:pointer;
+    }
+    .btn:hover{transform:translateY(-2px); border-color:rgba(105,183,255,.5); box-shadow:0 18px 40px rgba(0,0,0,.25)}
+    .btn.primary{background:linear-gradient(135deg, rgba(105,183,255,.96), rgba(143,123,255,.96)); color:#04111d; font-weight:800; border-color:transparent}
+    .btn.ghost{background:transparent}
+    .nav{
+      position:fixed; top:0; left:0; right:0; z-index:50;
+      display:flex; align-items:center; min-height:76px;
+      background:rgba(5,8,22,.72); border-bottom:1px solid rgba(160,185,230,.12);
+      backdrop-filter:blur(20px);
+    }
+    .nav-inner{display:flex; align-items:center; gap:18px}
+    .brand{display:flex; align-items:center; gap:12px; font-weight:900; letter-spacing:.12em; text-transform:uppercase}
+    .brand-mark{
+      width:34px; height:34px; border-radius:12px;
+      background:linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow:0 12px 30px rgba(105,183,255,.28);
+      display:grid; place-items:center; color:#04111d;
+    }
+    .nav-links{display:flex; align-items:center; gap:10px; margin-left:auto}
+    .nav-links a{
+      font-size:.84rem; color:#bfd0ed; padding:10px 12px; border-radius:999px;
+      transition:background .2s ease, color .2s ease;
+    }
+    .nav-links a:hover{background:rgba(255,255,255,.05); color:#fff}
+    .nav-cta{margin-left:8px}
+    .menu-btn{display:none; margin-left:auto}
+    .hero{
+      position:relative;
+      padding:132px 0 80px;
+      min-height:100vh;
+      overflow:hidden;
+    }
+    .hero-grid{
+      display:grid; grid-template-columns:1.08fr .92fr; gap:28px; align-items:center;
+      position:relative; z-index:2;
+    }
+    .hero-copy h1{
+      font-size:clamp(3.2rem, 7vw, 6.9rem); line-height:.92; letter-spacing:-.08em;
+      margin:18px 0 18px;
+      max-width:12ch;
+    }
+    .hero-copy p{
+      max-width:66ch;
+      color:#d5e2f5;
+      line-height:1.8;
+      font-size:1.03rem;
+    }
+    .hero-metrics{
+      display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:30px;
+    }
+    .metric{
+      padding:18px; border-radius:18px; background:rgba(255,255,255,.04);
+      border:1px solid rgba(160,185,230,.12);
+    }
+    .metric .value{font-size:1.55rem; font-weight:900; letter-spacing:-.05em}
+    .metric .label{margin-top:8px; font-size:.8rem; color:var(--muted)}
+    .hero-stage{
+      position:relative; min-height:720px; border-radius:32px; overflow:hidden;
+      border:1px solid rgba(160,185,230,.15);
+      background:
+        radial-gradient(circle at 25% 20%, rgba(105,183,255,.22), transparent 28%),
+        radial-gradient(circle at 75% 25%, rgba(143,123,255,.20), transparent 22%),
+        linear-gradient(180deg, rgba(9,17,34,.96), rgba(5,8,22,.94));
+      box-shadow:var(--shadow);
+    }
+    #sceneCanvas{
+      position:absolute; inset:0; width:100%; height:100%;
+    }
+    .stage-overlay{
+      position:absolute; inset:0;
+      background:
+        linear-gradient(180deg, rgba(5,8,22,.18), rgba(5,8,22,.78) 90%),
+        radial-gradient(circle at center, transparent 30%, rgba(5,8,22,.45) 100%);
+      pointer-events:none;
+    }
+    .floating-card{
+      position:absolute; border-radius:18px; padding:14px 16px; background:rgba(7,13,25,.72);
+      border:1px solid rgba(160,185,230,.16); backdrop-filter:blur(14px); box-shadow:0 14px 40px rgba(0,0,0,.35);
+      width:210px;
+    }
+    .floating-card small{display:block; color:var(--muted); margin-bottom:8px}
+    .floating-card strong{font-size:1.08rem}
+    .floating-card:nth-child(2){top:16%; left:6%}
+    .floating-card:nth-child(3){top:15%; right:8%}
+    .floating-card:nth-child(4){bottom:14%; left:10%}
+    .floating-card:nth-child(5){bottom:12%; right:6%}
+    .scroll-indicator{
+      position:absolute; left:50%; bottom:26px; transform:translateX(-50%);
+      display:flex; flex-direction:column; align-items:center; gap:10px;
+      color:#bfd0ed; font-size:.78rem; letter-spacing:.12em; text-transform:uppercase;
+    }
+    .scroll-indicator span{
+      width:1px; height:54px; background:linear-gradient(180deg, rgba(105,183,255,0), rgba(105,183,255,.95), rgba(105,183,255,0));
+      animation: drift 1.7s ease-in-out infinite;
+    }
+    @keyframes drift{50%{transform:translateY(8px)}}
+    .scroll-section{
+      transform:translateY(14px);
+      opacity:0;
+      transition:opacity .8s ease, transform .8s ease;
+    }
+    .scroll-section.in-view{transform:translateY(0); opacity:1}
+    .grid-4{display:grid; grid-template-columns:repeat(4,1fr); gap:16px}
+    .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
+    .grid-2{display:grid; grid-template-columns:repeat(2,1fr); gap:16px}
+    .card{
+      position:relative; padding:22px; border-radius:var(--radius);
+      background:linear-gradient(180deg, rgba(10,17,33,.92), rgba(10,17,33,.76));
+      border:1px solid rgba(160,185,230,.14);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      transition:transform .25s ease, border-color .25s ease;
+    }
+    .card:hover{transform:translateY(-4px); border-color:rgba(105,183,255,.46)}
+    .card h3{font-size:1.08rem; margin:10px 0 8px}
+    .card p{color:var(--muted); line-height:1.7; font-size:.94rem}
+    .card .icon{
+      width:42px; height:42px; border-radius:14px;
+      display:grid; place-items:center; font-size:1.05rem;
+      background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.08);
+    }
+    .canvas-panel{
+      border-radius:32px; overflow:hidden; min-height:520px;
+      background:linear-gradient(180deg, rgba(7,13,25,.96), rgba(9,15,29,.88));
+      border:1px solid rgba(160,185,230,.14);
+      box-shadow:var(--shadow);
+      position:relative;
+    }
+    .canvas-panel canvas{position:absolute; inset:0; width:100%; height:100%}
+    .panel-caption{
+      position:absolute; left:18px; bottom:18px; right:18px;
+      padding:14px 16px; border-radius:18px; background:rgba(5,8,22,.75);
+      border:1px solid rgba(160,185,230,.12); color:#d9e6fb; font-size:.88rem;
+    }
+    .kpi-card, .analysis-card, .team-card, .ops-card, .forecast-card, .alert-card, .report-card, .integration-node, .security-card, .pricing-card{
+      min-height:100%;
+    }
+    .kpi-meta{
+      display:flex; align-items:center; justify-content:space-between; margin-top:14px; gap:10px;
+    }
+    .kpi-value{font-size:2rem; font-weight:900; letter-spacing:-.06em}
+    .delta{font-size:.82rem; font-weight:700}
+    .delta.good{color:var(--good)}
+    .delta.warn{color:var(--warn)}
+    .delta.bad{color:var(--bad)}
+    .mini-chart{
+      height:64px; margin:16px 0 14px; border-radius:16px;
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+      border:1px solid rgba(255,255,255,.06);
+      position:relative; overflow:hidden;
+    }
+    .mini-chart::before{
+      content:""; position:absolute; inset:20% 8% 18% 8%;
+      background:linear-gradient(90deg, rgba(105,183,255,.0), rgba(105,183,255,.7), rgba(143,123,255,.8), rgba(105,183,255,.0));
+      filter:blur(8px); opacity:.8; transform:skewX(-24deg);
+    }
+    .action-btn{
+      margin-top:14px;
+      width:100%;
+    }
+    .tag-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px}
+    .tag{
+      padding:7px 10px; border-radius:999px; font-size:.76rem; color:#d7e7ff;
+      background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.07);
+    }
+    .progress{
+      height:10px; border-radius:999px; overflow:hidden; background:rgba(255,255,255,.06); margin:12px 0 8px;
+    }
+    .progress > span{display:block; height:100%; border-radius:999px; background:linear-gradient(90deg, var(--accent), var(--accent2))}
+    .timeline{
+      display:grid; gap:12px;
+    }
+    .status-pill{
+      display:inline-flex; align-items:center; gap:8px; padding:7px 10px; border-radius:999px;
+      font-size:.78rem; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.07);
+    }
+    .status-dot{width:8px; height:8px; border-radius:50%; background:var(--good); box-shadow:0 0 18px currentColor}
+    .forecast-switch{
+      display:flex; gap:10px; flex-wrap:wrap; margin:16px 0 18px;
+    }
+    .forecast-switch button{
+      padding:10px 14px; border-radius:999px; background:rgba(255,255,255,.03); color:#d8e5fa;
+      border:1px solid rgba(160,185,230,.12); cursor:pointer;
+    }
+    .forecast-switch button.active{background:rgba(105,183,255,.14); border-color:rgba(105,183,255,.46)}
+    .modal{
+      position:fixed; inset:0; z-index:80; display:none; place-items:center; padding:20px;
+      background:rgba(4,8,18,.72); backdrop-filter:blur(12px);
+    }
+    .modal.open{display:grid}
+    .modal-card{
+      width:min(760px, 100%); border-radius:28px; background:var(--panel-strong); border:1px solid rgba(160,185,230,.16);
+      box-shadow:var(--shadow); padding:22px;
+    }
+    .modal-head{display:flex; align-items:center; gap:14px; justify-content:space-between; margin-bottom:18px}
+    .close{
+      border:none; background:rgba(255,255,255,.04); color:#fff; border-radius:999px; width:42px; height:42px; cursor:pointer;
+    }
+    .modal-body{color:#d9e6fb; line-height:1.8}
+    .muted{color:var(--muted)}
+    .footer-cta{
+      padding:84px 0 110px;
+    }
+    .pricing-card .price{font-size:2.2rem; font-weight:900; letter-spacing:-.06em; margin:10px 0}
+    .pricing-card ul{margin:14px 0 0; padding:0; list-style:none; display:grid; gap:10px; color:#d9e6fb}
+    .pricing-card li::before{content:""; display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--accent); margin-right:10px}
+    .footer-note{margin-top:14px; color:var(--muted); font-size:.92rem}
+    .integration-grid{
+      display:grid; grid-template-columns:repeat(4,1fr); gap:14px;
+    }
+    .integration-node{min-height:140px; text-align:center; display:grid; place-items:center}
+    .integration-node strong{display:block; margin-top:10px}
+    .kicker{font-size:.9rem; color:var(--muted)}
+    .mesh-lines::after{
+      content:""; position:absolute; inset:0;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(105,183,255,.18), transparent 4%),
+        radial-gradient(circle at 64% 24%, rgba(143,123,255,.18), transparent 4%),
+        radial-gradient(circle at 76% 64%, rgba(61,220,151,.14), transparent 5%);
+      opacity:.85; pointer-events:none;
+    }
+    @media (max-width: 1100px){
+      .hero-grid,.grid-4,.grid-3,.grid-2,.integration-grid{grid-template-columns:1fr 1fr}
+      .hero-copy h1{max-width:none}
+      .hero-stage{min-height:620px}
+    }
+    @media (max-width: 760px){
+      .section{padding:82px 0}
+      .hero{padding-top:110px}
+      .hero-grid,.grid-4,.grid-3,.grid-2,.integration-grid{grid-template-columns:1fr}
+      .hero-metrics{grid-template-columns:1fr}
+      .nav-links{display:none}
+      .menu-btn{display:inline-flex}
+      .nav.open .nav-links{
+        display:flex; position:absolute; top:76px; left:16px; right:16px; flex-direction:column; align-items:stretch;
+        padding:14px; border-radius:22px; background:rgba(5,8,22,.95); border:1px solid rgba(160,185,230,.12);
+      }
+      .nav.open .nav-links a{padding:14px 12px}
+      .floating-card{display:none}
+      .hero-copy h1{font-size:clamp(2.8rem, 14vw, 4.6rem)}
+    }
+    @media (prefers-reduced-motion: reduce){
+      html{scroll-behavior:auto}
+      .scroll-section,.btn,.card,.nav-links a{transition:none}
+      .scroll-indicator span{animation:none}
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#home">
+        <span class="brand-mark">3D</span>
+        <span>PERFORMANCE 3D</span>
+      </a>
+      <button class="btn menu-btn" id="menuBtn" aria-label="Toggle menu">Menu</button>
+      <nav class="nav-links" id="navLinks">
+        <a href="#home">Home</a>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#kpis">KPIs</a>
+        <a href="#analytics">Analytics</a>
+        <a href="#reports">Reports</a>
+        <a href="#teams">Teams</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contact">Contact</a>
+        <a class="btn primary nav-cta" href="#dashboard">View Dashboard</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">Executive intelligence center</span>
+          <h1>Visualize Corporate Performance in Immersive 3D</h1>
+          <p>
+            Track revenue, operations, productivity, team performance and executive KPIs through a cinematic 3D dashboard experience built for modern decision-makers.
+          </p>
+          <div class="btn-row">
+            <button class="btn primary" data-action="launch">Launch Dashboard</button>
+            <a class="btn ghost" href="#kpis">Explore KPIs</a>
+            <a class="btn ghost" href="#contact">Request Demo</a>
+          </div>
+          <div class="hero-metrics">
+            <div class="metric"><div class="value">+18.4%</div><div class="label">YoY revenue growth</div></div>
+            <div class="metric"><div class="value">99.97%</div><div class="label">Platform uptime</div></div>
+            <div class="metric"><div class="value">42</div><div class="label">Executive KPIs tracked</div></div>
+          </div>
+        </div>
+        <div class="hero-stage mesh-lines">
+          <canvas id="sceneCanvas"></canvas>
+          <div class="stage-overlay"></div>
+          <div class="floating-card"><small>Revenue Pulse</small><strong>$4.2M</strong><div class="kicker">Q4 executive summary</div></div>
+          <div class="floating-card"><small>Forecast Confidence</small><strong>91%</strong><div class="kicker">Next quarter outlook</div></div>
+          <div class="floating-card"><small>Operations Score</small><strong>Healthy</strong><div class="kicker">SLA risk low</div></div>
+          <div class="floating-card"><small>Team Delivery</small><strong>97%</strong><div class="kicker">On track across squads</div></div>
+          <div class="scroll-indicator"><span></span>Scroll to explore</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="dashboard" class="section scroll-section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Dashboard</span>
+          <h2>One Executive View for Business Performance</h2>
+          <p class="lead">A single command center for finance, sales, operations, teams, and strategy. The 3D canvas acts as the heart of the narrative while the scroll path reveals each business layer with depth and focus.</p>
+        </div>
+        <div class="grid-4">
+          <article class="card">
+            <div class="icon">◉</div>
+            <h3>Executive KPI View</h3>
+            <p>Highlight the metrics leadership needs to act fast with a premium, board-ready overview.</p>
+          </article>
+          <article class="card">
+            <div class="icon">▣</div>
+            <h3>Real-Time Business Metrics</h3>
+            <p>Live metric cards surface revenue, operational health, and performance signals in context.</p>
+          </article>
+          <article class="card">
+            <div class="icon">△</div>
+            <h3>Department Performance</h3>
+            <p>Compare teams and divisions through progress bars, badges, and score trends.</p>
+          </article>
+          <article class="card">
+            <div class="icon">✦</div>
+            <h3>Decision-Ready Insights</h3>
+            <p>Use recommendations, alerts, and forecast narratives to move from monitoring to action.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="kpis" class="section scroll-section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">KPIs</span>
+          <h2>Executive Metrics That Stay Alive</h2>
+          <p class="lead">Each KPI card includes current value, trend, status, a mini chart, and a detail action that opens a functional modal.</p>
+        </div>
+        <div class="grid-4" id="kpiGrid"></div>
+      </div>
+    </section>
+
+    <section class="section scroll-section">
+      <div class="container">
+        <div class="canvas-panel">
+          <canvas id="dashboardCanvas"></canvas>
+          <div class="panel-caption">Scroll-driven 3D story: overview, finance, teams, operations, forecast, alerts, and reports.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="analytics" class="section scroll-section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Analytics</span>
+          <h2>Advanced Analysis for Faster Decisions</h2>
+          <p class="lead">Trend analysis, forecasting, department comparison, cost optimization, growth opportunities, and risk indicators with simulated insight panels.</p>
+        </div>
+        <div class="grid-3" id="analyticsGrid"></div>
+      </div>
+    </section>
+
+    <section id="teams" class="section scroll-section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Team Performance</span>
+          <h2>How the Organization Is Moving</h2>
+          <p class="lead">Team cards use progress, score bands, and trend indicators to visualize execution across the business.</p>
+        </div>
+        <div class="grid-3" id="teamGrid"></div>
+      </div>
+    </section>
+
+    <section class="section scroll-section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Operations</span>
+          <h2>Operational Health and Execution Speed</h2>
+          <p class="lead">Inspect delivery speed, resource utilization, quality, and SLA compliance with action-driven cards.</p>
+        </div>
+        <div class="grid-3" id="opsGrid"></div>
+      </div>
+    </section>
+
+    <section class="section scroll-section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Forecast</span>
+          <h2>What Happens Next Quarter?</h2>
+          <p class="lead">Scenario-based forecasting updates the visual output and the projected metrics in place.</p>
+        </div>
+        <div class="grid-2">
+          <article class="card forecast-card" id="forecastCard">
+            <span class="status-pill"><span class="status-dot"></span>Live scenario</span>
+            <h3>Next Quarter Revenue Forecast</h3>
+            <p class="muted" id="forecastText">Conservative view: strong base revenue with limited expansion.</p>
+            <div class="forecast-switch">
+              <button class="active" data-scenario="conservative">Conservative</button>
+              <button data-scenario="expected">Expected</button>
+              <button data-scenario="aggressive">Aggressive</button>
+            </div>
+            <div class="kpi-meta">
+              <div><div class="kpi-value" id="forecastValue">$4.5M</div><div class="muted">Projected revenue</div></div>
+              <div class="delta good" id="forecastDelta">+7.8%</div>
+            </div>
+            <div class="progress"><span id="forecastProgress" style="width:62%"></span></div>
+            <button class="btn primary action-btn" id="runForecast">Run Forecast</button>
+          </article>
+          <article class="card">
+            <h3>Scenario Output</h3>
+            <p id="forecastBullets" class="muted">Hiring capacity: moderate. Budget projection: stable. Demand trend: positive. Growth scenario: balanced expansion.</p>
+            <div class="tag-row" id="forecastTags"></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section scroll-section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Alerts</span>
+          <h2>Smart Alerts With Clear Priorities</h2>
+          <p class="lead">Corporate-grade alert cards use restrained color, severity labels, and review actions to keep the interface calm but actionable.</p>
+        </div>
+        <div class="grid-2" id="alertGrid"></div>
+      </div>
+    </section>
+
+    <section id="reports" class="section scroll-section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Reports</span>
+          <h2>Executive Reporting That Feels Board-Ready</h2>
+          <p class="lead">Preview report cards simulate PDF surfaces, charts, and tables for leadership, finance, and board updates.</p>
+        </div>
+        <div class="grid-3" id="reportGrid"></div>
+      </div>
+    </section>
+
+    <section class="section scroll-section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Integrations</span>
+          <h2>Connected to the Corporate Stack</h2>
+          <p class="lead">CRM, ERP, finance, HR, project systems, spreadsheets, data warehouse tools, and API connectors all sit inside one network.</p>
+        </div>
+        <div class="integration-grid" id="integrationGrid"></div>
+      </div>
+    </section>
+
+    <section class="section scroll-section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Security & Trust</span>
+          <h2>Built for Executive Confidence</h2>
+          <p class="lead">Role-based access, encrypted data, audit logs, and compliance-ready reporting support the premium positioning.</p>
+        </div>
+        <div class="grid-3" id="securityGrid"></div>
+      </div>
+    </section>
+
+    <section id="pricing" class="section scroll-section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Pricing</span>
+          <h2>Choose the Right Executive Fit</h2>
+          <p class="lead">All plans are fictional and fully interactive, with the chosen plan routing directly toward contact.</p>
+        </div>
+        <div class="grid-4" id="pricingGrid"></div>
+      </div>
+    </section>
+
+    <section id="contact" class="footer-cta scroll-section">
+      <div class="container">
+        <div class="card">
+          <span class="eyebrow">Contact</span>
+          <h2 style="margin-top:12px">Request a Premium Demo</h2>
+          <p class="lead">This experience is designed as an executive sales surface. Use the CTAs to explore details or open the demo modal.</p>
+          <div class="btn-row">
+            <button class="btn primary" data-action="demo">Request Demo</button>
+            <button class="btn ghost" data-action="security">View Security</button>
+            <button class="btn ghost" data-action="integrations">View Integrations</button>
+          </div>
+          <div class="footer-note">Performance 3D is a premium prototype concept for corporate analytics, reporting, and operational intelligence.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal" id="modal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div>
+          <div class="eyebrow" id="modalKicker">Insight</div>
+          <h3 id="modalTitle" style="font-size:1.6rem; margin-top:8px">Title</h3>
+        </div>
+        <button class="close" id="modalClose">✕</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import * as THREE from "three";
+
+    const kpis = [
+      {name:"Revenue Growth", value:"$4.2M", delta:"+18.4%", status:"healthy", chart:"Sales momentum is expanding with stronger enterprise renewals."},
+      {name:"Gross Margin", value:"71%", delta:"+2.1%", status:"good", chart:"Margin improved from lower fulfillment and smarter pricing."},
+      {name:"Operating Efficiency", value:"88%", delta:"+5.3%", status:"good", chart:"Efficiency gains are visible in workflow and capacity use."},
+      {name:"Customer Retention", value:"93%", delta:"+1.4%", status:"good", chart:"Retention continues to strengthen across core cohorts."},
+      {name:"Sales Pipeline", value:"$12.8M", delta:"+9.7%", status:"healthy", chart:"Pipeline depth is strong ahead of next quarter."},
+      {name:"Team Productivity", value:"97%", delta:"+6.2%", status:"good", chart:"Delivery velocity is improving across squads."},
+      {name:"Project Delivery", value:"94%", delta:"+3.1%", status:"healthy", chart:"Projects are closing on time with fewer blockers."},
+      {name:"Forecast Accuracy", value:"91%", delta:"+2.8%", status:"good", chart:"Prediction confidence is rising with cleaner data."}
+    ];
+    const analytics = [
+      {title:"Trend Analysis", icon:"↗", text:"Detect patterns in revenue, utilization, and execution speed.", action:"Analyze"},
+      {title:"Forecasting", icon:"◎", text:"Project quarter-end outcomes with scenario-based views.", action:"Analyze"},
+      {title:"Department Comparison", icon:"▤", text:"Compare sales, finance, product, and operations performance.", action:"Analyze"},
+      {title:"Cost Optimization", icon:"◌", text:"Surface spend efficiencies and budget control opportunities.", action:"Analyze"},
+      {title:"Growth Opportunities", icon:"✦", text:"Reveal expansion pockets by region, product, and channel.", action:"Analyze"},
+      {title:"Risk Indicators", icon:"⚑", text:"Track alerts and signal changes before they affect results.", action:"Analyze"}
+    ];
+    const teams = [
+      {title:"Sales Team", prog:92, trend:"+14%", tasks:"8 open tasks"},
+      {title:"Operations", prog:89, trend:"+9%", tasks:"5 open tasks"},
+      {title:"Customer Success", prog:95, trend:"+12%", tasks:"4 open tasks"},
+      {title:"Finance", prog:90, trend:"+7%", tasks:"6 open tasks"},
+      {title:"Product", prog:88, trend:"+11%", tasks:"9 open tasks"},
+      {title:"Marketing", prog:84, trend:"+10%", tasks:"11 open tasks"}
+    ];
+    const ops = [
+      {title:"Delivery Speed", status:"Healthy", value:"96%", note:"Cycle times are down 11%."},
+      {title:"Process Efficiency", status:"Improving", value:"91%", note:"Automation is reducing manual work."},
+      {title:"Resource Utilization", status:"Warning", value:"82%", note:"Capacity should be balanced across sprints."},
+      {title:"SLA Compliance", status:"Healthy", value:"99.4%", note:"Service thresholds are stable."},
+      {title:"Cost Per Operation", status:"Improving", value:"$14.20", note:"Per-unit cost is trending down."},
+      {title:"Quality Score", status:"Healthy", value:"97%", note:"Error rates remain low."}
+    ];
+    const alerts = [
+      {title:"Revenue target at risk.", sev:"Critical", detail:"Pipeline coverage dipped in one region. Review late-stage deals and renewals.", action:"Review Alert"},
+      {title:"Operations efficiency improved 12%.", sev:"Positive", detail:"Automation and throughput gains created immediate gains in cycle time.", action:"Review Alert"},
+      {title:"Customer churn increased in Segment B.", sev:"Warning", detail:"A small retention dip suggests a follow-up on onboarding and support.", action:"Review Alert"},
+      {title:"Budget usage above forecast.", sev:"Warning", detail:"Spend moved above forecast in two cost centers. Check allocations.", action:"Review Alert"}
+    ];
+    const reports = [
+      "CEO Performance Brief","Monthly Business Review","Sales Pipeline Report","Operations Efficiency Report","Forecast Summary","Board Update"
+    ];
+    const integrations = ["CRM","ERP","Finance Tools","HR Systems","Project Management","Data Warehouse","Spreadsheets","API Connectors"];
+    const security = [
+      {title:"Role-Based Access", text:"Executive, manager, and analyst permissions with clean data boundaries."},
+      {title:"Encrypted Data", text:"Secure-by-default data transport and storage to protect sensitive metrics."},
+      {title:"Audit Logs", text:"Track changes, access, and report exports across the platform."},
+      {title:"Compliance Ready", text:"Designed to support governance and executive reporting workflows."},
+      {title:"Secure Reporting", text:"Controlled visibility for board and leadership distribution."},
+      {title:"Executive Permissions", text:"Granular approval flow for confident sharing."}
+    ];
+    const plans = [
+      {title:"Performance Starter", price:"$49", users:"up to 10 users", features:["Core KPI dashboard","Standard reports","5 integrations"]},
+      {title:"Business Dashboard Pro", price:"$129", users:"up to 50 users", features:["All analytics modules","Forecast scenarios","15 integrations"]},
+      {title:"Enterprise Intelligence", price:"$249", users:"up to 200 users", features:["Advanced security","Board reporting","Unlimited analytics"]},
+      {title:"Custom Executive Suite", price:"Custom", users:"Enterprise scale", features:["Custom canvas scene","Dedicated support","Tailored stack"]},
+    ];
+
+    const modal = document.getElementById("modal");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalBody = document.getElementById("modalBody");
+    const modalKicker = document.getElementById("modalKicker");
+    const modalClose = document.getElementById("modalClose");
+    const nav = document.querySelector(".nav");
+    const navLinks = document.getElementById("navLinks");
+    document.getElementById("menuBtn").addEventListener("click", () => nav.classList.toggle("open"));
+    modalClose.addEventListener("click", () => modal.classList.remove("open"));
+    modal.addEventListener("click", (e) => { if(e.target === modal) modal.classList.remove("open"); });
+
+    const openModal = (title, body, kicker = "Insight") => {
+      modalKicker.textContent = kicker;
+      modalTitle.textContent = title;
+      modalBody.innerHTML = body;
+      modal.classList.add("open");
+    };
+
+    const bindJump = () => {
+      document.querySelectorAll('[data-action="launch"]').forEach(btn => btn.addEventListener("click", () => openModal(
+        "Launch Dashboard",
+        "The guided dashboard animation starts with a wide executive view and moves into a tighter KPI cluster, then sweeps across analytics, operations, and forecast panels.",
+        "3D action"
+      )));
+      document.querySelectorAll('[data-action="demo"]').forEach(btn => btn.addEventListener("click", () => openModal(
+        "Request Demo",
+        "Your request would be routed to the contact section in a real product flow. In this concept, the modal confirms the executive demo experience and surfaces the premium narrative.",
+        "Conversion"
+      )));
+      document.querySelectorAll('[data-action="security"]').forEach(btn => btn.addEventListener("click", () => openModal(
+        "Security & Trust",
+        "Role-based access, encrypted transport, audit logs, and secure reporting are represented here as a trust-first executive layer.",
+        "Security"
+      )));
+      document.querySelectorAll('[data-action="integrations"]').forEach(btn => btn.addEventListener("click", () => openModal(
+        "Integrations",
+        "CRM, ERP, finance, HR, project, warehouse, spreadsheet, and API connectors are shown as a connected data ecosystem.",
+        "Network"
+      )));
+    };
+    bindJump();
+
+    const createCards = (grid, items, renderer) => {
+      grid.innerHTML = items.map(renderer).join("");
+    };
+
+    createCards(document.getElementById("kpiGrid"), kpis, (k) => `
+      <article class="card kpi-card">
+        <div class="chip">${k.status}</div>
+        <h3>${k.name}</h3>
+        <div class="kpi-meta">
+          <div class="kpi-value">${k.value}</div>
+          <div class="delta ${k.delta.includes("-") ? "bad" : "good"}">${k.delta}</div>
+        </div>
+        <div class="mini-chart"></div>
+        <p>${k.chart}</p>
+        <button class="btn action-btn" data-kpi="${k.name}">View KPI</button>
+      </article>
+    `);
+    createCards(document.getElementById("analyticsGrid"), analytics, (a) => `
+      <article class="card analysis-card">
+        <div class="icon">${a.icon}</div>
+        <h3>${a.title}</h3>
+        <p>${a.text}</p>
+        <button class="btn action-btn" data-analysis="${a.title}">${a.action}</button>
+      </article>
+    `);
+    createCards(document.getElementById("teamGrid"), teams, (t) => `
+      <article class="card team-card">
+        <div class="chip">${t.trend}</div>
+        <h3>${t.title}</h3>
+        <div class="progress"><span style="width:${t.prog}%"></span></div>
+        <p>${t.prog}% goal completion</p>
+        <div class="tag-row"><span class="tag">${t.tasks}</span><span class="tag">Productivity high</span></div>
+        <button class="btn action-btn" data-team="${t.title}">View Team</button>
+      </article>
+    `);
+    createCards(document.getElementById("opsGrid"), ops, (o) => `
+      <article class="card ops-card">
+        <span class="status-pill"><span class="status-dot" style="background:${o.status === "Warning" ? "var(--warn)" : o.status === "Improving" ? "var(--accent)" : "var(--good)"}"></span>${o.status}</span>
+        <h3>${o.title}</h3>
+        <div class="kpi-meta"><div class="kpi-value">${o.value}</div></div>
+        <p>${o.note}</p>
+        <button class="btn action-btn" data-op="${o.title}">Inspect Metric</button>
+      </article>
+    `);
+    createCards(document.getElementById("alertGrid"), alerts, (a) => `
+      <article class="card alert-card">
+        <span class="chip">${a.sev}</span>
+        <h3>${a.title}</h3>
+        <p>${a.detail}</p>
+        <button class="btn action-btn" data-alert="${a.title}">${a.action}</button>
+      </article>
+    `);
+    createCards(document.getElementById("reportGrid"), reports, (r) => `
+      <article class="card report-card">
+        <div class="icon">PDF</div>
+        <h3>${r}</h3>
+        <p>A premium report preview with charts, tables, and export-ready structure.</p>
+        <button class="btn action-btn" data-report="${r}">Preview Report</button>
+      </article>
+    `);
+    createCards(document.getElementById("integrationGrid"), integrations, (i) => `
+      <article class="card integration-node">
+        <div class="icon">◌</div>
+        <strong>${i}</strong>
+      </article>
+    `);
+    createCards(document.getElementById("securityGrid"), security, (s) => `
+      <article class="card security-card">
+        <div class="icon">⛨</div>
+        <h3>${s.title}</h3>
+        <p>${s.text}</p>
+      </article>
+    `);
+    createCards(document.getElementById("pricingGrid"), plans, (p) => `
+      <article class="card pricing-card">
+        <span class="chip">${p.users}</span>
+        <h3>${p.title}</h3>
+        <div class="price">${p.price}</div>
+        <ul>${p.features.map(f => `<li>${f}</li>`).join("")}</ul>
+        <button class="btn primary action-btn" data-plan="${p.title}">Choose Plan</button>
+      </article>
+    `);
+
+    const forecastData = {
+      conservative: {
+        value: "$4.5M", delta: "+7.8%", text: "Conservative view: strong base revenue with limited expansion.", bullets: "Hiring capacity: moderate. Budget projection: stable. Demand trend: positive. Growth scenario: balanced expansion.", tags: ["Lower risk", "Tight budget", "Stable demand"], prog: "62%"
+      },
+      expected: {
+        value: "$4.9M", delta: "+12.3%", text: "Expected view: healthy execution and reliable pipeline conversion.", bullets: "Hiring capacity: expanding. Budget projection: controlled growth. Demand trend: strong. Growth scenario: on-plan acceleration.", tags: ["Balanced growth", "Pipeline confidence", "Execution on track"], prog: "76%"
+      },
+      aggressive: {
+        value: "$5.4M", delta: "+18.9%", text: "Aggressive view: strong market capture with expanded sales and product push.", bullets: "Hiring capacity: fast expansion. Budget projection: higher investment. Demand trend: surging. Growth scenario: upside capture.", tags: ["High upside", "More hiring", "Bigger spend"], prog: "88%"
+      }
+    };
+    const forecastButtons = document.querySelectorAll(".forecast-switch button");
+    const forecastValue = document.getElementById("forecastValue");
+    const forecastDelta = document.getElementById("forecastDelta");
+    const forecastText = document.getElementById("forecastText");
+    const forecastBullets = document.getElementById("forecastBullets");
+    const forecastTags = document.getElementById("forecastTags");
+    const forecastProgress = document.getElementById("forecastProgress");
+    let forecastScenario = "conservative";
+    function setForecast(s) {
+      forecastScenario = s;
+      const d = forecastData[s];
+      forecastValue.textContent = d.value;
+      forecastDelta.textContent = d.delta;
+      forecastText.textContent = d.text;
+      forecastBullets.textContent = d.bullets;
+      forecastTags.innerHTML = d.tags.map(t => `<span class="tag">${t}</span>`).join("");
+      forecastProgress.style.width = d.prog;
+      forecastButtons.forEach(b => b.classList.toggle("active", b.dataset.scenario === s));
+    }
+    forecastButtons.forEach(btn => btn.addEventListener("click", () => setForecast(btn.dataset.scenario)));
+    setForecast("conservative");
+    document.getElementById("runForecast").addEventListener("click", () => {
+      const next = forecastScenario === "conservative" ? "expected" : forecastScenario === "expected" ? "aggressive" : "conservative";
+      setForecast(next);
+      openModal("Forecast Run Complete", `Scenario updated to <strong>${next}</strong> with projected revenue ${forecastData[next].value} and confidence at ${forecastData[next].prog}.`, "Forecast");
+    });
+
+    document.body.addEventListener("click", (e) => {
+      const t = e.target.closest("button");
+      if(!t) return;
+      if(t.dataset.kpi) openModal(t.dataset.kpi, "This KPI detail view would expand to show trend lines, benchmark context, and recommended action steps.", "KPI");
+      if(t.dataset.analysis) openModal(t.dataset.analysis, "Simulated insight panel: identify the key driver, provide one recommendation, and suggest the next action.", "Analytics");
+      if(t.dataset.team) openModal(t.dataset.team, "Team breakdown: goal completion, productivity score, open tasks, and trend remain visible in this modal.", "Team");
+      if(t.dataset.op) openModal(t.dataset.op, "Operational inspection: this metric can be highlighted, reviewed, and acted on with a follow-up workflow.", "Operations");
+      if(t.dataset.alert) openModal(t.dataset.alert, "Alert reviewed. The interface could mark the signal as acknowledged and move it into a resolved state.", "Alerts");
+      if(t.dataset.report) openModal(t.dataset.report, "Report preview: PDF-style surface, summary chart, executive table, and export action in a premium layout.", "Reports");
+      if(t.dataset.plan) openModal(t.dataset.plan, "Selected plan will route toward the contact experience and demo request flow.", "Pricing");
+    });
+
+    const sections = document.querySelectorAll(".scroll-section");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add("in-view"); });
+    }, {threshold:.15});
+    sections.forEach(sec => observer.observe(sec));
+
+    // Three.js scene
+    const sceneCanvas = document.getElementById("sceneCanvas");
+    const renderer = new THREE.WebGLRenderer({ canvas: sceneCanvas, antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(sceneCanvas.clientWidth, sceneCanvas.clientHeight, false);
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.2;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+    camera.position.set(0, 2.6, 13);
+    scene.add(camera);
+
+    const ambient = new THREE.AmbientLight(0xb9d4ff, 1.8);
+    scene.add(ambient);
+    const key = new THREE.DirectionalLight(0xffffff, 2.8);
+    key.position.set(4, 8, 10);
+    scene.add(key);
+    const accent = new THREE.PointLight(0x69b7ff, 4, 24);
+    accent.position.set(-3, 2, 6);
+    scene.add(accent);
+    const accent2 = new THREE.PointLight(0x8f7bff, 3.4, 24);
+    accent2.position.set(4, -1, 8);
+    scene.add(accent2);
+
+    const group = new THREE.Group();
+    scene.add(group);
+
+    const mat = new THREE.MeshStandardMaterial({ color: 0x101b33, metalness: .65, roughness: .24 });
+    const glow = new THREE.MeshStandardMaterial({ color: 0x69b7ff, emissive: 0x69b7ff, emissiveIntensity: 1.25, metalness: .2, roughness: .35 });
+
+    const base = new THREE.Mesh(new THREE.BoxGeometry(8.4, .5, 5.2), mat);
+    base.position.y = -1.4;
+    group.add(base);
+
+    const screen = new THREE.Mesh(new THREE.BoxGeometry(5.4, 3.2, .18), mat);
+    screen.position.set(0, .8, 0);
+    group.add(screen);
+
+    const screenFace = new THREE.Mesh(new THREE.PlaneGeometry(5.2, 3.0), new THREE.MeshStandardMaterial({ color: 0x07101e, emissive: 0x0c1c34, emissiveIntensity: .8, metalness: .2, roughness: .3 }));
+    screenFace.position.set(0, .8, .12);
+    group.add(screenFace);
+
+    const cards = [];
+    for(let i = 0; i < 8; i++){
+      const c = new THREE.Mesh(new THREE.BoxGeometry(1.1, .62, .1), i % 2 ? glow : mat);
+      c.position.set((i - 3.5) * 1.45, 2.2 + (i % 2) * .1, -1.1 - (i % 3) * .2);
+      c.rotation.z = (i - 3.5) * .05;
+      group.add(c);
+      cards.push(c);
+    }
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(2.9, .08, 10, 48), glow);
+    ring.rotation.x = Math.PI / 2;
+    ring.position.y = .1;
+    group.add(ring);
+
+    const points = new THREE.BufferGeometry();
+    const positions = [];
+    for(let i = 0; i < 220; i++){
+      positions.push((Math.random() - .5) * 26, (Math.random() - .5) * 16, (Math.random() - .5) * 22);
+    }
+    points.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+    const stars = new THREE.Points(points, new THREE.PointsMaterial({ color: 0x7ea8ff, size: .03, transparent: true, opacity: .7 }));
+    scene.add(stars);
+
+    const scrollState = { y: 0, target: 0 };
+    window.addEventListener("scroll", () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      scrollState.target = max ? window.scrollY / max : 0;
+    }, { passive: true });
+
+    let launchMode = false;
+    document.querySelector('[data-action="launch"]').addEventListener("click", () => { launchMode = true; });
+
+    function resize() {
+      const w = sceneCanvas.clientWidth;
+      const h = sceneCanvas.clientHeight;
+      if(!w || !h) return;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    const raycaster = new THREE.Raycaster();
+    const pointer = new THREE.Vector2();
+    const hotspots = [
+      { name:"Revenue KPIs", x:-2.5, y:1.4, z:0.2 },
+      { name:"Team Performance", x:1.8, y:1.2, z:0.2 },
+      { name:"Operations Score", x:-1.7, y:-.4, z:0.2 },
+      { name:"Forecast Panel", x:2.0, y:-.6, z:0.2 },
+      { name:"Executive Reports", x:0, y:2.2, z:0.2 },
+      { name:"Smart Alerts", x:3.0, y:.4, z:0.2 },
+      { name:"Request Demo", x:0, y:-1.4, z:0.2 }
+    ];
+    const hotspotMarkers = hotspots.map((h) => {
+      const m = new THREE.Mesh(new THREE.SphereGeometry(.08, 16, 16), glow);
+      m.position.set(h.x, h.y, h.z);
+      m.userData.hotspot = h.name;
+      group.add(m);
+      return m;
+    });
+    window.addEventListener("pointermove", (e) => {
+      pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
+      pointer.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    });
+    window.addEventListener("click", () => {
+      raycaster.setFromCamera(pointer, camera);
+      const hit = raycaster.intersectObjects(hotspotMarkers)[0];
+      if(hit) openModal(hit.object.userData.hotspot, `${hit.object.userData.hotspot} exposes a short executive summary, quick drill-down, and a clear next-step action in the dashboard story.`, "Hotspot");
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const viewport = window.innerHeight || 1;
+      const heroProgress = Math.max(0, Math.min(1, window.scrollY / (viewport * 1.2)));
+      scrollState.y += (scrollState.target - scrollState.y) * 0.08;
+      const scrollY = scrollState.y;
+      const progress = launchMode ? 1 : scrollY;
+
+      group.rotation.y = 0.35 + progress * 1.05;
+      group.rotation.x = -0.06 + progress * 0.18;
+      group.position.y = Math.sin(performance.now() * 0.0006) * .06;
+      cards.forEach((c, i) => {
+        c.position.y = 2.2 + Math.sin(performance.now() * 0.001 + i) * .06;
+        c.rotation.z = (i - 3.5) * .04 + progress * .08;
+      });
+      ring.rotation.z += 0.004;
+      stars.rotation.y += 0.0008;
+      camera.position.z = 13 - progress * 3.1;
+      camera.position.x = Math.sin(progress * Math.PI * 1.2) * 1.2;
+      camera.position.y = 2.6 + Math.cos(progress * Math.PI) * .4;
+      camera.lookAt(0, .4, 0);
+
+      document.querySelectorAll(".floating-card").forEach((el, idx) => {
+        el.style.transform = `translate3d(${Math.sin(progress * 4 + idx) * 10}px, ${Math.cos(progress * 3 + idx) * 8}px, 0) scale(${1 + progress * .03})`;
+      });
+      screenFace.material.emissiveIntensity = 0.75 + progress * .6;
+      accent.intensity = 4 + progress * 2;
+      accent2.intensity = 3.4 + progress * 1.4;
+
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // Scroll-driven 2D parallax on cards
+    const parallaxEls = document.querySelectorAll(".card, .canvas-panel");
+    window.addEventListener("scroll", () => {
+      const top = window.scrollY;
+      parallaxEls.forEach((el, idx) => {
+        const offset = Math.sin((top / 180) + idx) * 6;
+        el.style.transform = `translateY(${offset * 0.12}px)`;
+      });
+    }, { passive: true });
+  </script>
+</body>
+</html>

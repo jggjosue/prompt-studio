@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="keywords" content="3d, architecture, portfolio, walkthrough, interactive, three.js, gsap">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Immersive 3D architecture portfolio walkthrough for premium visualization studios.">
+  <title>3D Architecture Portfolio Walkthrough</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header" id="top">
+    <a class="brand" href="#home" aria-label="ARCH 3D home">
+      <span class="brand-mark"></span>
+      <span>ARCH 3D</span>
+    </a>
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <a href="#home">Home</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#walkthrough">Walkthrough</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="btn btn-primary header-cta" data-start-walkthrough>Start Walkthrough</button>
+    <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <nav class="mobile-nav" aria-label="Mobile navigation">
+    <a href="#home">Home</a>
+    <a href="#portfolio">Portfolio</a>
+    <a href="#walkthrough">Walkthrough</a>
+    <a href="#services">Services</a>
+    <a href="#contact">Contact</a>
+    <button class="btn btn-primary" data-start-walkthrough>Start Walkthrough</button>
+  </nav>
+
+  <main>
+    <section class="hero section" id="home">
+      <div class="hero-copy">
+        <h1>Immersive 3D Architecture Portfolio</h1>
+        <p>Explore architectural spaces, projects, and visualizations through an interactive 3D walkthrough experience.</p>
+        <div class="hero-actions" aria-label="Hero actions">
+          <button class="btn btn-primary" data-start-walkthrough>Start Walkthrough</button>
+          <a class="btn btn-secondary" href="#portfolio">View Portfolio</a>
+          <a class="btn btn-ghost" href="#contact">Contact Studio</a>
+        </div>
+      </div>
+
+      <div class="hero-stage" id="walkthrough" aria-label="Interactive 3D architecture walkthrough">
+        <div class="canvas-shell">
+          <canvas id="arch-canvas"></canvas>
+          <div class="hotspot-layer" id="hotspot-layer"></div>
+          <div class="scene-toolbar" aria-label="3D scene controls">
+            <button class="tool-button active" type="button" data-camera="gallery" title="Gallery view">Gallery</button>
+            <button class="tool-button" type="button" data-camera="urban" title="Urban model view">Urban</button>
+            <button class="tool-button" type="button" data-camera="interior" title="Interior view">Interior</button>
+          </div>
+          <div class="scene-status" id="scene-status">Camera ready</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="portfolio section" id="portfolio">
+      <div class="section-heading split">
+        <div>
+          <h2>Portfolio</h2>
+          <p>Selected architecture visualizations composed for sales galleries, investor previews, and digital launch experiences.</p>
+        </div>
+      </div>
+      <div class="project-grid">
+        <article class="project-card" data-project-card="villa">
+          <div class="project-render villa-render" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="project-content">
+            <h3>Modern Villa Visualization</h3>
+            <p>Glass, stone, and warm evening light for a private residence presentation.</p>
+            <button class="text-button" type="button" data-project="villa">View Details</button>
+          </div>
+        </article>
+        <article class="project-card" data-project-card="tower">
+          <div class="project-render tower-render" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="project-content">
+            <h3>Urban Tower Concept</h3>
+            <p>Mixed-use skyline massing with facade studies and public-realm context.</p>
+            <button class="text-button" type="button" data-project="tower">View Details</button>
+          </div>
+        </article>
+        <article class="project-card" data-project-card="interior">
+          <div class="project-render interior-render" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="project-content">
+            <h3>Luxury Interior Walkthrough</h3>
+            <p>Material-rich lobby, lounge, and residential interiors with guided camera paths.</p>
+            <button class="text-button" type="button" data-project="interior">View Details</button>
+          </div>
+        </article>
+        <article class="project-card" data-project-card="center">
+          <div class="project-render center-render" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="project-content">
+            <h3>Futuristic Cultural Center</h3>
+            <p>Sculptural civic architecture with atrium light, plaza movement, and night scenes.</p>
+            <button class="text-button" type="button" data-project="center">View Details</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="services section" id="services">
+      <div class="section-heading">
+        <h2>Services</h2>
+        <p>Production-ready visuals and interactive presentation systems for architecture, interiors, and real estate launches.</p>
+      </div>
+      <div class="service-grid">
+        <article><h3>3D Architectural Visualization</h3><p>Photoreal exterior imagery, concept studies, and cinematic project frames.</p></article>
+        <article><h3>Interior Rendering</h3><p>Materials, furniture, lighting, and atmosphere tuned for premium decision-making.</p></article>
+        <article><h3>Virtual Walkthroughs</h3><p>Guided and free-camera experiences for sales suites, investor decks, and web launches.</p></article>
+        <article><h3>Concept Design</h3><p>Early architectural language, massing, forms, and visual narratives for proposals.</p></article>
+        <article><h3>Real Estate Presentation</h3><p>Interactive assets for listings, launch campaigns, and high-value property showcases.</p></article>
+        <article><h3>Interactive Web Experiences</h3><p>WebGL portfolios, hotspots, modals, and productized 3D storytelling interfaces.</p></article>
+      </div>
+    </section>
+
+    <section class="process section">
+      <div class="section-heading split">
+        <div>
+          <h2>Walkthrough Process</h2>
+          <p>A clear production flow from references to a polished interactive presentation.</p>
+        </div>
+      </div>
+      <ol class="process-list">
+        <li><span>01</span><h3>Concept &amp; References</h3><p>Define atmosphere, project goals, architectural cues, and visual direction.</p></li>
+        <li><span>02</span><h3>3D Modeling</h3><p>Build clean architecture, context, interior volumes, and presentation geometry.</p></li>
+        <li><span>03</span><h3>Materials &amp; Lighting</h3><p>Refine surfaces, realism, sunlight, artificial lighting, and cinematic depth.</p></li>
+        <li><span>04</span><h3>Interactive Walkthrough</h3><p>Connect camera paths, hotspots, project details, and guided navigation.</p></li>
+        <li><span>05</span><h3>Final Presentation</h3><p>Deliver optimized web, render, and pitch-ready assets for client review.</p></li>
+      </ol>
+    </section>
+
+    <section class="testimonials section">
+      <div class="section-heading">
+        <h2>Client Notes</h2>
+      </div>
+      <div class="testimonial-grid">
+        <figure>
+          <blockquote>The interactive walkthrough helped our buyers understand scale, light, and finishes before the model apartment was built.</blockquote>
+          <figcaption>Elena Marlow, Real Estate Director</figcaption>
+        </figure>
+        <figure>
+          <blockquote>ARCH 3D translated a complex cultural concept into a presentation our board could feel immediately.</blockquote>
+          <figcaption>Mateo Voss, Studio Principal</figcaption>
+        </figure>
+        <figure>
+          <blockquote>The interior renders and web experience became the centerpiece of our luxury hospitality pitch.</blockquote>
+          <figcaption>Priya Anders, Interior Design Lead</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="contact section" id="contact">
+      <div class="contact-panel">
+        <div class="contact-copy">
+          <h2>Contact Studio</h2>
+          <p>Share the project type, timeline, and presentation goals. The studio will respond with a scoped visualization plan.</p>
+          <div class="contact-lines">
+            <a href="mailto:hello@arch3dstudio.example">hello@arch3dstudio.example</a>
+            <a href="tel:+12125550184">+1 212 555 0184</a>
+            <span>Hudson Yards, New York</span>
+          </div>
+        </div>
+        <form class="contact-form" id="contact-form" novalidate>
+          <label>
+            <span>Name</span>
+            <input type="text" name="name" autocomplete="name" required>
+          </label>
+          <label>
+            <span>Email</span>
+            <input type="email" name="email" autocomplete="email" required>
+          </label>
+          <label>
+            <span>Project Type</span>
+            <select name="type" required>
+              <option value="">Select a service</option>
+              <option>3D Architectural Visualization</option>
+              <option>Interior Rendering</option>
+              <option>Virtual Walkthrough</option>
+              <option>Interactive Web Experience</option>
+            </select>
+          </label>
+          <label>
+            <span>Message</span>
+            <textarea name="message" rows="5" required></textarea>
+          </label>
+          <button class="btn btn-primary" type="submit">Send Message</button>
+          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal" id="project-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
+    <div class="modal-card">
+      <button class="modal-close" type="button" aria-label="Close project details">&times;</button>
+      <div class="modal-render" id="modal-render" aria-hidden="true"></div>
+      <div class="modal-copy">
+        <h2 id="modal-title"></h2>
+        <p id="modal-description"></p>
+        <dl>
+          <div><dt>Scope</dt><dd id="modal-scope"></dd></div>
+          <div><dt>Deliverables</dt><dd id="modal-deliverables"></dd></div>
+          <div><dt>Timeline</dt><dd id="modal-timeline"></dd></div>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <script src="arch3d.js" defer></script>
+</body>
+</html>

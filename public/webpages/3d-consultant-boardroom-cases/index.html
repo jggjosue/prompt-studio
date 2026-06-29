@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="3D Consultant Boardroom Cases is a premium executive consulting landing page with immersive boardroom storytelling, cases, services, results, and booking flow.">
+  <meta name="keywords" content="3D consultant, boardroom, strategy, consulting, cases, executive advisory, transformation">
+  <title>3D Consultant Boardroom Cases</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+  <div class="bg-grid"></div>
+
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="BOARDROOM 3D home">
+      <span class="brand-mark">◫</span>
+      <span>BOARDROOM 3D</span>
+    </a>
+    <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="siteNav">Menu</button>
+    <nav class="nav" id="siteNav">
+      <a href="#home">Home</a>
+      <a href="#boardroom">Boardroom</a>
+      <a href="#cases">Cases</a>
+      <a href="#services">Services</a>
+      <a href="#method">Method</a>
+      <a href="#results">Results</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="btn btn-primary" href="#contact" data-scroll>Book Consultation</a>
+  </header>
+
+  <main>
+    <section class="hero section" id="home">
+      <div class="hero-copy reveal">
+        <div class="eyebrow">Executive transformation • strategic boardroom storytelling</div>
+        <h1>Strategic Consulting Cases Inside a 3D Boardroom</h1>
+        <p>Explore business strategy, transformation cases, financial insights and executive decisions through an immersive 3D boardroom experience.</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" data-enter-boardroom>Enter Boardroom</button>
+          <a class="btn btn-secondary" href="#cases" data-scroll>View Case Studies</a>
+          <a class="btn btn-ghost" href="#contact" data-scroll>Book Consultation</a>
+        </div>
+        <div class="hero-metrics">
+          <div><strong>$12M</strong><span>impact modeled</span></div>
+          <div><strong>42%</strong><span>revenue growth</span></div>
+          <div><strong>3.5x</strong><span>ROI target</span></div>
+        </div>
+      </div>
+      <div class="hero-visual reveal">
+        <div class="canvas-shell">
+          <div class="canvas-caption">Interactive boardroom canvas</div>
+          <canvas id="boardroomCanvas" aria-label="3D consultant boardroom scene"></canvas>
+          <div class="hotspots" aria-hidden="false">
+            <button class="hotspot" data-hotspot="Strategy Deck">Strategy Deck</button>
+            <button class="hotspot" data-hotspot="Case Study">Case Study</button>
+            <button class="hotspot" data-hotspot="Financial Dashboard">Financial Dashboard</button>
+            <button class="hotspot" data-hotspot="Growth Map">Growth Map</button>
+            <button class="hotspot" data-hotspot="Decision Board">Decision Board</button>
+            <button class="hotspot" data-hotspot="ROI Results">ROI Results</button>
+            <button class="hotspot" data-scroll="#contact">Book Consultation</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section boardroom" id="boardroom">
+      <div class="section-heading reveal">
+        <div class="eyebrow">Boardroom immersion</div>
+        <h2>A Strategic Room for Executive Decisions</h2>
+        <p>This experience frames consulting as a premium boardroom conversation where data, leadership alignment, and measurable outcomes stay in the same room.</p>
+      </div>
+      <div class="feature-grid">
+        <article class="glass-card reveal">
+          <h3>Executive Strategy</h3>
+          <p>Align stakeholders, clarify the objective, and turn a vague mandate into a decision-ready plan.</p>
+        </article>
+        <article class="glass-card reveal">
+          <h3>Data-Driven Decisions</h3>
+          <p>Diagnose the business with dashboards, operating metrics, and signal-rich executive reporting.</p>
+        </article>
+        <article class="glass-card reveal">
+          <h3>Measurable Business Impact</h3>
+          <p>Track revenue, efficiency, ROI, retention, and execution speed from the first workshop onward.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section cases" id="cases">
+      <div class="section-heading reveal">
+        <div class="eyebrow">Case studies</div>
+        <h2>Consulting cases with executive-level clarity</h2>
+      </div>
+      <div class="cards-grid cases-grid">
+        <article class="case-card reveal">
+          <h3>Revenue Growth Strategy</h3>
+          <p><strong>Client:</strong> Aurora Retail Group</p>
+          <p><strong>Problem:</strong> Flat conversion and weak funnel visibility.</p>
+          <p><strong>Solution:</strong> New offer architecture, pipeline redesign, and sales enablement.</p>
+          <p><strong>Result:</strong> +42% revenue, +18% lead-to-close lift.</p>
+          <button class="btn btn-secondary view-case" data-case="Revenue Growth Strategy">View Case</button>
+        </article>
+        <article class="case-card reveal">
+          <h3>Operational Efficiency Program</h3>
+          <p><strong>Client:</strong> Northline Logistics</p>
+          <p><strong>Problem:</strong> Fragmented workflows and high operating cost.</p>
+          <p><strong>Solution:</strong> Process simplification, automation, and KPI ownership.</p>
+          <p><strong>Result:</strong> -18% cost base, 31% faster cycle time.</p>
+          <button class="btn btn-secondary view-case" data-case="Operational Efficiency Program">View Case</button>
+        </article>
+        <article class="case-card reveal">
+          <h3>Digital Transformation Roadmap</h3>
+          <p><strong>Client:</strong> Vertex Health</p>
+          <p><strong>Problem:</strong> Legacy tools blocking scale.</p>
+          <p><strong>Solution:</strong> Platform roadmap, governance model, and adoption plan.</p>
+          <p><strong>Result:</strong> 2.8x faster reporting, stronger data confidence.</p>
+          <button class="btn btn-secondary view-case" data-case="Digital Transformation Roadmap">View Case</button>
+        </article>
+        <article class="case-card reveal">
+          <h3>Market Expansion Case</h3>
+          <p><strong>Client:</strong> Summit Studio</p>
+          <p><strong>Problem:</strong> Growth stalled in core market.</p>
+          <p><strong>Solution:</strong> Segment selection, channel strategy, and launch playbook.</p>
+          <p><strong>Result:</strong> 24 markets analyzed, 6 prioritized expansion lanes.</p>
+          <button class="btn btn-secondary view-case" data-case="Market Expansion Case">View Case</button>
+        </article>
+        <article class="case-card reveal">
+          <h3>Cost Optimization Initiative</h3>
+          <p><strong>Client:</strong> Meridian Manufacturing</p>
+          <p><strong>Problem:</strong> Margin erosion across procurement and delivery.</p>
+          <p><strong>Solution:</strong> Spend mapping, vendor redesign, and control tower.</p>
+          <p><strong>Result:</strong> 9% savings identified in the first quarter.</p>
+          <button class="btn btn-secondary view-case" data-case="Cost Optimization Initiative">View Case</button>
+        </article>
+        <article class="case-card reveal">
+          <h3>Customer Experience Redesign</h3>
+          <p><strong>Client:</strong> Horizon Services</p>
+          <p><strong>Problem:</strong> Low retention and inconsistent service quality.</p>
+          <p><strong>Solution:</strong> Journey mapping, service standards, and response SLAs.</p>
+          <p><strong>Result:</strong> 92% retention and improved NPS trend.</p>
+          <button class="btn btn-secondary view-case" data-case="Customer Experience Redesign">View Case</button>
+        </article>
+      </div>
+    </section>
+
+    <section class="section featured" id="featured">
+      <div class="featured-panel reveal">
+        <div class="eyebrow">Featured breakdown</div>
+        <h2>Revenue growth turns into a boardroom narrative</h2>
+        <div class="timeline">
+          <div class="timeline-step"><strong>Challenge</strong><span>Growth had plateaued and the funnel was leaking.</span></div>
+          <div class="timeline-step"><strong>Diagnosis</strong><span>Low conversion, fragmented processes, and weak ownership.</span></div>
+          <div class="timeline-step"><strong>Strategy</strong><span>New funnel, automation, and operating redesign.</span></div>
+          <div class="timeline-step"><strong>Execution</strong><span>90-day roadmap, leadership rituals, and dashboard cadence.</span></div>
+          <div class="timeline-step"><strong>Result</strong><span>+42% revenue growth, -18% operating cost, 3.5x ROI.</span></div>
+        </div>
+        <button class="btn btn-primary" data-open-breakdown>Explore Full Breakdown</button>
+      </div>
+    </section>
+
+    <section class="section" id="services">
+      <div class="section-heading reveal">
+        <div class="eyebrow">Services</div>
+        <h2>Advisory offers built for executive teams</h2>
+      </div>
+      <div class="cards-grid services-grid">
+        <article class="glass-card reveal"><h3>Business Strategy Consulting</h3><p>Clarify direction, priorities, and the next best move.</p><button class="btn btn-ghost learn-more" data-more="Strategy consulting packages frame growth choices, tradeoffs, and decision rights.">Learn More</button></article>
+        <article class="glass-card reveal"><h3>Digital Transformation</h3><p>Modernize systems, workflows, and leadership visibility.</p><button class="btn btn-ghost learn-more" data-more="Transformation work covers platform selection, change management, and roadmap design.">Learn More</button></article>
+        <article class="glass-card reveal"><h3>Financial Planning</h3><p>Build decision support around budgets, margin, and investment cases.</p><button class="btn btn-ghost learn-more" data-more="Financial planning connects scenarios, operating assumptions, and executive reporting.">Learn More</button></article>
+        <article class="glass-card reveal"><h3>Operations Optimization</h3><p>Reduce waste and improve speed without losing control.</p><button class="btn btn-ghost learn-more" data-more="Operations work identifies bottlenecks, handoffs, and measurable process gains.">Learn More</button></article>
+        <article class="glass-card reveal"><h3>Market Research</h3><p>Map demand, segments, and growth opportunities.</p><button class="btn btn-ghost learn-more" data-more="Research helps prioritize markets, customers, channels, and product bets.">Learn More</button></article>
+        <article class="glass-card reveal"><h3>Executive Advisory</h3><p>Support leadership alignment and high-stakes choices.</p><button class="btn btn-ghost learn-more" data-more="Advisory sessions accelerate decision quality and team alignment.">Learn More</button></article>
+        <article class="glass-card reveal"><h3>Growth Strategy</h3><p>Unlock new revenue paths and commercial focus.</p><button class="btn btn-ghost learn-more" data-more="Growth strategy blends funnel design, offer clarity, and channel planning.">Learn More</button></article>
+        <article class="glass-card reveal"><h3>KPI Dashboard Design</h3><p>Turn noise into an executive command center.</p><button class="btn btn-ghost learn-more" data-more="Dashboard design creates shared metrics, ownership, and visible progress.">Learn More</button></article>
+      </div>
+    </section>
+
+    <section class="section method" id="method">
+      <div class="section-heading reveal">
+        <div class="eyebrow">Methodology</div>
+        <h2>Consulting methodology in six executive steps</h2>
+      </div>
+      <div class="method-grid">
+        <button class="method-step reveal" data-method="Discover"><strong>01 Discover</strong><span>Understand the context of the business.</span></button>
+        <button class="method-step reveal" data-method="Diagnose"><strong>02 Diagnose</strong><span>Detect problems and opportunities.</span></button>
+        <button class="method-step reveal" data-method="Design"><strong>03 Design</strong><span>Construct the strategy and solution.</span></button>
+        <button class="method-step reveal" data-method="Execute"><strong>04 Execute</strong><span>Implement the roadmap with momentum.</span></button>
+        <button class="method-step reveal" data-method="Measure"><strong>05 Measure</strong><span>Track KPIs and progress clearly.</span></button>
+        <button class="method-step reveal" data-method="Scale"><strong>06 Scale</strong><span>Optimize, expand, and institutionalize wins.</span></button>
+      </div>
+    </section>
+
+    <section class="section results" id="results">
+      <div class="section-heading reveal">
+        <div class="eyebrow">Results dashboard</div>
+        <h2>Metrics that make the boardroom measurable</h2>
+      </div>
+      <div class="results-grid">
+        <article class="metric-card reveal"><span>$12M</span><p>Revenue Impact</p></article>
+        <article class="metric-card reveal"><span>38%</span><p>Process Efficiency Gain</p></article>
+        <article class="metric-card reveal"><span>4.2x</span><p>Average ROI</p></article>
+        <article class="metric-card reveal"><span>120+</span><p>Strategic Workshops</p></article>
+        <article class="metric-card reveal"><span>24</span><p>Markets Analyzed</p></article>
+        <article class="metric-card reveal"><span>92%</span><p>Client Retention</p></article>
+      </div>
+      <div class="mini-dashboard reveal">
+        <div class="dash-row"><span>Revenue</span><div class="bar"><i style="width:82%"></i></div><em>82%</em></div>
+        <div class="dash-row"><span>Efficiency</span><div class="bar"><i style="width:67%"></i></div><em>67%</em></div>
+        <div class="dash-row"><span>Adoption</span><div class="bar"><i style="width:74%"></i></div><em>74%</em></div>
+      </div>
+      <button class="btn btn-primary" data-view-results>View Results</button>
+    </section>
+
+    <section class="section industries" id="industries">
+      <div class="section-heading reveal">
+        <div class="eyebrow">Industries</div>
+        <h2>Built for multi-sector advisory work</h2>
+      </div>
+      <div class="badge-cloud">
+        <span class="badge reveal">SaaS</span>
+        <span class="badge reveal">Retail</span>
+        <span class="badge reveal">Finance</span>
+        <span class="badge reveal">Healthcare</span>
+        <span class="badge reveal">Real Estate</span>
+        <span class="badge reveal">Manufacturing</span>
+        <span class="badge reveal">Education</span>
+        <span class="badge reveal">Professional Services</span>
+      </div>
+    </section>
+
+    <section class="section testimonials" id="testimonials">
+      <div class="section-heading reveal">
+        <div class="eyebrow">Testimonials</div>
+        <h2>Leadership teams respond to clarity</h2>
+      </div>
+      <div class="cards-grid">
+        <article class="quote-card reveal">“The boardroom sessions turned vague goals into a clear growth plan.”</article>
+        <article class="quote-card reveal">“We finally understood where the business was leaking margin.”</article>
+        <article class="quote-card reveal">“The strategic roadmap gave our leadership team confidence and focus.”</article>
+      </div>
+    </section>
+
+    <section class="section pricing" id="pricing">
+      <div class="section-heading reveal">
+        <div class="eyebrow">Engagement models</div>
+        <h2>Flexible ways to work together</h2>
+      </div>
+      <div class="cards-grid pricing-grid">
+        <article class="price-card reveal"><h3>Strategy Sprint</h3><p>2 weeks</p><strong>$9,500</strong><button class="btn btn-secondary choose-engagement" data-plan="Strategy Sprint">Choose Engagement</button></article>
+        <article class="price-card reveal"><h3>Monthly Advisory</h3><p>Ongoing support</p><strong>Custom Quote</strong><button class="btn btn-secondary choose-engagement" data-plan="Monthly Advisory">Choose Engagement</button></article>
+        <article class="price-card reveal"><h3>Transformation Project</h3><p>8-12 weeks</p><strong>$42,000</strong><button class="btn btn-secondary choose-engagement" data-plan="Transformation Project">Choose Engagement</button></article>
+        <article class="price-card reveal"><h3>Executive Boardroom Retainer</h3><p>Quarterly partnership</p><strong>Custom Quote</strong><button class="btn btn-secondary choose-engagement" data-plan="Executive Boardroom Retainer">Choose Engagement</button></article>
+      </div>
+    </section>
+
+    <section class="section contact" id="contact">
+      <div class="section-heading reveal">
+        <div class="eyebrow">Booking</div>
+        <h2>Book a strategy consultation</h2>
+      </div>
+      <div class="contact-layout">
+        <form class="contact-form reveal" id="bookingForm" novalidate>
+          <div class="form-grid">
+            <label>Name<input name="name" type="text" required></label>
+            <label>Email<input name="email" type="email" required></label>
+            <label>Company<input name="company" type="text" required></label>
+            <label>Role<input name="role" type="text" required></label>
+            <label class="full">Business Challenge<textarea name="challenge" rows="4" required></textarea></label>
+            <label>Preferred Engagement
+              <select name="engagement" required>
+                <option value="">Select an engagement</option>
+                <option>Strategy Sprint</option>
+                <option>Monthly Advisory</option>
+                <option>Transformation Project</option>
+                <option>Executive Boardroom Retainer</option>
+              </select>
+            </label>
+            <label class="full">Message<textarea name="message" rows="4" required></textarea></label>
+          </div>
+          <button class="btn btn-primary" type="submit">Book Strategy Consultation</button>
+          <p class="form-note" id="formNote">We will confirm the next available boardroom session after you submit the form.</p>
+        </form>
+        <aside class="contact-side reveal">
+          <div class="glass-card">
+            <h3>Consultation summary</h3>
+            <p>Strategy review, case framing, dashboard walkthrough, and next-step recommendation.</p>
+            <ul class="contact-list">
+              <li><strong>Email</strong><span>hello@boardroom3d.example</span></li>
+              <li><strong>Phone</strong><span>+1 (555) 014-3321</span></li>
+              <li><strong>Office</strong><span>New York, Miami, London</span></li>
+              <li><strong>Social</strong><span>@boardroom3d</span></li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal" id="infoModal" aria-hidden="true">
+    <div class="modal-panel">
+      <button class="modal-close" data-close-modal aria-label="Close dialog">×</button>
+      <div class="eyebrow" id="modalKicker">Executive detail</div>
+      <h3 id="modalTitle"></h3>
+      <p id="modalBody"></p>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="modalAction">Continue</button>
+        <button class="btn btn-ghost" data-close-modal>Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="consult3d.js"></script>
+</body>
+</html>

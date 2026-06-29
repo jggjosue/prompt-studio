@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="description" content="Interactive step-by-step breakdown of a 3D artist asset pipeline, showing stages from modeling to final rendering.">
+  <meta name="keywords" content="3d, artist, pipeline, breakdown, animation, workflow, developer">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Artist Pipeline Breakdown</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Fixed WebGL Canvas -->
+  <canvas id="webgl-canvas"></canvas>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">PIPELINE 3D</div>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#pipeline">Pipeline</a></li>
+      <li><a href="#breakdown">Breakdown</a></li>
+      <li><a href="#tools">Tools</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#start" class="btn-primary">Start Breakdown</a>
+    <div class="hamburger">
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+    </div>
+  </nav>
+
+  <!-- Scrollable Content -->
+  <main class="scroll-container">
+    
+    <section id="home" class="hero section">
+      <div class="content parallax-content">
+        <h1>Explore the Full <br><span class="gradient-text">3D Artist Pipeline</span></h1>
+        <p>A guided, interactive journey from initial concept to the final cinematic render. Scroll down to experience the breakdown.</p>
+      </div>
+      <div class="scroll-indicator">
+        <div class="mouse"></div>
+        <p>Scroll to explore</p>
+      </div>
+    </section>
+
+    <!-- Pipeline Stages -->
+    <section id="stage-idea" class="stage section">
+      <div class="content align-left">
+        <div class="stage-tag">Stage 01</div>
+        <h2>Idea & Concept</h2>
+        <p>Everything starts with a spark. Defining the mood, the story, and the core vision before any polygons are pushed.</p>
+      </div>
+    </section>
+
+    <section id="stage-references" class="stage section">
+      <div class="content align-right">
+        <div class="stage-tag">Stage 02</div>
+        <h2>References</h2>
+        <p>Gathering real-world references, mood boards, and concept art to ensure accuracy, believability, and a strong visual foundation.</p>
+      </div>
+    </section>
+
+    <section id="stage-blocking" class="stage section">
+      <div class="content align-left">
+        <div class="stage-tag">Stage 03</div>
+        <h2>Blocking</h2>
+        <p>Creating the initial low-poly proxy shapes to establish scale, proportions, and the overall composition of the scene.</p>
+      </div>
+    </section>
+
+    <section id="stage-modeling" class="stage section">
+      <div class="content align-right">
+        <div class="stage-tag">Stage 04</div>
+        <h2>Modeling</h2>
+        <p>Refining the blocked shapes into proper topology. Hard surface modeling and defining the structural details of the assets.</p>
+      </div>
+    </section>
+
+    <section id="stage-sculpting" class="stage section">
+      <div class="content align-left">
+        <div class="stage-tag">Stage 05</div>
+        <h2>Sculpting</h2>
+        <p>Adding high-resolution organic details, wrinkles, damages, and micro-surface imperfections using digital sculpting tools.</p>
+      </div>
+    </section>
+
+    <section id="stage-uvs" class="stage section">
+      <div class="content align-right">
+        <div class="stage-tag">Stage 06</div>
+        <h2>UV Mapping</h2>
+        <p>Unwrapping the 3D model into 2D space to prepare it for precise texture projection and painting.</p>
+      </div>
+    </section>
+
+    <section id="stage-texturing" class="stage section">
+      <div class="content align-left">
+        <div class="stage-tag">Stage 07</div>
+        <h2>Texturing</h2>
+        <p>Painting base colors, roughness maps, metallic maps, and normal details to give the surfaces their real-world characteristics.</p>
+      </div>
+    </section>
+
+    <section id="stage-materials" class="stage section">
+      <div class="content align-right">
+        <div class="stage-tag">Stage 08</div>
+        <h2>Materials & Shaders</h2>
+        <p>Setting up complex shader networks to dictate how light interacts with the textures—making glass look refractive and metal look shiny.</p>
+      </div>
+    </section>
+
+    <section id="stage-lighting" class="stage section">
+      <div class="content align-left">
+        <div class="stage-tag">Stage 09</div>
+        <h2>Lighting</h2>
+        <p>Painting with light. Establishing key lights, fill lights, and rim lights to enhance depth, mood, and cinematic quality.</p>
+      </div>
+    </section>
+
+    <section id="stage-rigging" class="stage section">
+      <div class="content align-right">
+        <div class="stage-tag">Stage 10</div>
+        <h2>Rigging</h2>
+        <p>Building the digital skeleton and control systems that will allow animators to bring characters and mechanical parts to life.</p>
+      </div>
+    </section>
+
+    <section id="stage-animation" class="stage section">
+      <div class="content align-left">
+        <div class="stage-tag">Stage 11</div>
+        <h2>Animation</h2>
+        <p>Breathing life into the scene. Creating keyframes, defining timing, weight, and realistic movement for the models.</p>
+      </div>
+    </section>
+
+    <section id="stage-render" class="stage section">
+      <div class="content align-right">
+        <div class="stage-tag">Stage 12</div>
+        <h2>Render</h2>
+        <p>The computer calculates the complex physics of light bouncing off materials, turning the 3D scene into high-quality 2D image sequences.</p>
+      </div>
+    </section>
+
+    <section id="stage-comp" class="stage section finale">
+      <div class="content center">
+        <div class="stage-tag">Final Stage</div>
+        <h2>Final Composition</h2>
+        <p>Combining all render passes, adding color grading, lens flares, depth of field, and final post-processing magic to achieve the ultimate cinematic look.</p>
+        <a href="#home" class="btn-primary mt-4">Restart Breakdown</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  
+  <!-- Custom Logic -->
+  <script src="pipeline3d.js"></script>
+</body>
+</html>

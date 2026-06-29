@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="3D Coworking Seating Map is a premium interactive landing page to explore desks, meeting rooms, availability, memberships, and bookings inside a modern coworking space.">
+  <meta name="keywords" content="3D coworking seating map, coworking booking, hot desks, private offices, meeting rooms, availability, reserve a seat">
+  <title>3D Coworking Seating Map</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#ece5da; --bg2:#f8f4ed; --card:rgba(255,255,255,.68); --card2:rgba(16,20,30,.72);
+      --text:#121521; --muted:#5f645f; --line:rgba(18,21,33,.12); --accent:#0f4c5c; --accent2:#d97844;
+      --good:#4ea56f; --warn:#d2a24c; --bad:#d66a63; --info:#4eb6cf; --shadow:0 24px 70px rgba(18,21,33,.14);
+      --radius:24px; --radius-sm:16px;
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:Manrope,sans-serif;color:var(--text);background:
+      radial-gradient(circle at top left, rgba(255,255,255,.9), transparent 40%),
+      radial-gradient(circle at 80% 20%, rgba(78,182,207,.22), transparent 28%),
+      linear-gradient(180deg, var(--bg2), var(--bg)); overflow-x:hidden}
+    body:before{content:"";position:fixed;inset:0;background:
+      linear-gradient(135deg, rgba(255,255,255,.2) 0 2px, transparent 2px 100px),
+      linear-gradient(45deg, rgba(18,21,33,.03) 0 1px, transparent 1px 80px);
+      mask:linear-gradient(#000,transparent 82%);pointer-events:none;opacity:.55}
+    a{color:inherit;text-decoration:none} button,input,select,textarea{font:inherit}
+    .shell{max-width:1440px;margin:0 auto;padding:0 20px}
+    header{position:fixed;inset:16px 0 auto;z-index:1000}
+    .nav{display:flex;align-items:center;gap:14px;padding:14px 18px;border:1px solid rgba(255,255,255,.55);
+      border-radius:999px;background:rgba(255,255,255,.55);backdrop-filter:blur(18px);box-shadow:0 12px 40px rgba(18,21,33,.08)}
+    .brand{display:flex;align-items:center;gap:10px;font-family:"Space Grotesk",sans-serif;font-weight:700;letter-spacing:.08em}
+    .brand-badge{width:34px;height:34px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),#163949);color:#fff}
+    .links{display:flex;gap:18px;flex:1;justify-content:center;flex-wrap:wrap}
+    .links a,.menu-btn{font-size:13px;color:#2a2f3a}
+    .cta,.ghost,.mini,.chip,.filter,.space-btn,.select-btn,.confirm-btn,.choose-btn,.reserve-btn,.view-btn,.rsvp-btn,.amenity-btn,.location-btn,.community-btn{border:0;border-radius:999px;cursor:pointer;transition:.25s ease;transform:translateY(0)}
+    .cta,.confirm-btn,.reserve-btn{background:linear-gradient(135deg,var(--accent),#163949);color:#fff;padding:14px 18px;font-weight:700;box-shadow:0 16px 30px rgba(15,76,92,.25)}
+    .ghost{padding:14px 18px;background:rgba(255,255,255,.6)}
+    .menu-btn{display:none;background:transparent;padding:10px 12px}
+    .hero{padding:126px 0 40px;min-height:100svh;display:grid;align-items:center}
+    .hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:28px;align-items:center}
+    .eyebrow{display:inline-flex;gap:8px;align-items:center;padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.75);font-size:13px}
+    h1,h2,h3,.brand{font-family:"Space Grotesk",sans-serif}
+    h1{font-size:clamp(3rem,6vw,6.2rem);line-height:.94;margin:.38em 0 .2em;letter-spacing:-.05em}
+    .lead{font-size:1.07rem;max-width:58ch;color:var(--muted);line-height:1.75}
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin:28px 0 18px}
+    .stat-row{display:flex;gap:14px;flex-wrap:wrap}
+    .stat{min-width:150px;padding:14px 16px;border-radius:18px;background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.75)}
+    .stat strong{display:block;font-size:1.2rem}
+    .hero-panel{position:relative;min-height:640px;border-radius:34px;padding:18px;background:linear-gradient(180deg, rgba(18,21,33,.95), rgba(24,29,42,.82));box-shadow:var(--shadow);overflow:hidden}
+    .hero-panel:before,.hero-panel:after{content:"";position:absolute;border-radius:50%;filter:blur(10px);opacity:.75}
+    .hero-panel:before{width:240px;height:240px;background:rgba(78,182,207,.28);top:22px;right:14px}
+    .hero-panel:after{width:300px;height:300px;background:rgba(210,162,76,.22);bottom:-70px;left:-80px}
+    #scene{width:100%;height:410px;border-radius:24px;overflow:hidden;background:radial-gradient(circle at 50% 20%, #28364d, #101521 70%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+    .floating-card{position:absolute;right:24px;bottom:24px;width:min(350px,calc(100% - 48px));background:rgba(255,255,255,.09);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.14);border-radius:24px;padding:18px;color:#eef1f7}
+    .floating-card small{color:rgba(238,241,247,.68)}
+    .floating-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+    .floating-item{padding:12px;border-radius:16px;background:rgba(255,255,255,.07)}
+    section{padding:84px 0} .section-head{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:28px}
+    .section-head p{max-width:70ch;color:var(--muted);line-height:1.7;margin:0}
+    .eyebrow2{font-size:13px;text-transform:uppercase;letter-spacing:.18em;color:var(--accent)}
+    .grid-4,.grid-3,.grid-2{display:grid;gap:18px}
+    .grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}.grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .card{background:rgba(255,255,255,.72);border:1px solid rgba(255,255,255,.9);box-shadow:var(--shadow);border-radius:var(--radius);padding:20px;backdrop-filter:blur(16px)}
+    .card h3{margin:10px 0 8px;font-size:1.1rem}.card p{margin:0;color:var(--muted);line-height:1.65}
+    .pill{display:inline-flex;align-items:center;gap:8px;font-size:12px;padding:8px 12px;border-radius:999px;background:rgba(15,76,92,.08);color:var(--accent);font-weight:700}
+    .canvas-wrap{position:relative;overflow:hidden;border-radius:34px;background:linear-gradient(180deg, rgba(255,255,255,.8), rgba(236,229,218,.96));border:1px solid rgba(255,255,255,.95);box-shadow:var(--shadow)}
+    .canvas-top{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:18px 18px 0}
+    .legend{display:flex;gap:8px;flex-wrap:wrap}
+    .chip{padding:8px 12px;background:rgba(18,21,33,.06);font-size:12px}
+    .scene-area{position:relative;height:520px}
+    #mapCanvas{width:100%;height:100%;display:block}
+    .hotspots{position:absolute;inset:0;pointer-events:none}
+    .hotspot{position:absolute;pointer-events:auto;min-width:132px;padding:10px 12px;border-radius:16px;background:rgba(255,255,255,.82);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.95);box-shadow:0 16px 30px rgba(18,21,33,.12);font-size:12px}
+    .hotspot b{display:block;margin-bottom:2px}.hotspot small{color:var(--muted)}
+    .spot-1{left:7%;top:16%}.spot-2{left:22%;top:30%}.spot-3{left:49%;top:22%}.spot-4{right:12%;top:18%}.spot-5{right:7%;bottom:20%}
+    .spot-6{left:40%;bottom:10%}.spot-7{left:10%;bottom:17%}.spot-8{left:43%;top:52%}
+    .toolbar{display:flex;gap:10px;flex-wrap:wrap;padding:0 18px 18px}
+    .filter,.mini,.space-btn,.view-btn,.choose-btn,.select-btn,.confirm-btn,.reserve-btn,.amenity-btn,.location-btn,.community-btn,.rsvp-btn{padding:12px 16px;background:rgba(18,21,33,.06);font-weight:700}
+    .filter.active{background:linear-gradient(135deg,var(--accent),#163949);color:#fff}
+    .boards{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
+    .metric{padding:16px;border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.88),rgba(255,255,255,.6));border:1px solid rgba(255,255,255,.8)}
+    .metric strong{display:block;font-size:1.8rem;margin-bottom:2px}
+    .seat-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:14px}
+    .seat{padding:12px;border-radius:14px;background:rgba(18,21,33,.06);font-size:12px}
+    .seat[data-state="Available"]{outline:1px solid color-mix(in srgb,var(--good) 45%, transparent)}
+    .seat[data-state="Reserved"]{outline:1px solid color-mix(in srgb,var(--warn) 45%, transparent)}
+    .seat[data-state="Occupied"]{outline:1px solid color-mix(in srgb,var(--bad) 45%, transparent)}
+    .seat.selected{background:linear-gradient(135deg, rgba(78,182,207,.18), rgba(15,76,92,.12));outline:2px solid var(--info)}
+    .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+    .field{display:flex;flex-direction:column;gap:7px}
+    input,select,textarea{padding:14px 16px;border-radius:16px;border:1px solid rgba(18,21,33,.12);background:rgba(255,255,255,.72)}
+    textarea{min-height:130px;resize:vertical}.summary{position:sticky;top:110px}
+    .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);background:#111827;color:#fff;padding:14px 18px;border-radius:999px;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:.35s ease;z-index:2000}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+    .modal{position:fixed;inset:0;background:rgba(7,10,16,.52);display:none;place-items:center;z-index:1500;padding:20px}
+    .modal.open{display:grid}.modal-card{max-width:720px;width:min(720px,100%);background:rgba(255,255,255,.96);border-radius:28px;padding:24px;box-shadow:var(--shadow)}
+    .close{float:right;border:0;background:transparent;font-size:28px;cursor:pointer}
+    .reveal{opacity:0;transform:translateY(26px) scale(.98);transition:opacity .7s ease, transform .7s ease} .reveal.in{opacity:1;transform:none}
+    .space-card{display:flex;flex-direction:column;gap:12px;min-height:100%}
+    .space-card ul,.member ul,.amenity ul,.event ul,.community ul{padding-left:18px;margin:0;color:var(--muted);line-height:1.7}
+    .tag{display:inline-flex;padding:6px 10px;border-radius:999px;background:rgba(15,76,92,.08);color:var(--accent);font-size:12px;font-weight:700}
+    .footer{padding:32px 0 44px;color:var(--muted)} .foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid rgba(18,21,33,.1);padding-top:18px}
+    .mobile-panel{display:none}
+    @media (max-width: 1024px){.hero-grid,.boards,.grid-4,.grid-3{grid-template-columns:1fr 1fr}.summary{position:static}.section-head{flex-direction:column;align-items:start}.scene-area{height:450px}}
+    @media (max-width: 760px){
+      header{inset:10px 0 auto}.nav{border-radius:24px;flex-wrap:wrap}.links,.desktop-cta{display:none}.menu-btn{display:inline-flex;margin-left:auto}
+      .mobile-panel{display:none;width:100%;padding-top:8px;gap:10px;flex-direction:column}.mobile-panel.open{display:flex}
+      .hero{padding-top:112px}.hero-grid,.boards,.grid-4,.grid-3,.grid-2,.form-grid{grid-template-columns:1fr}.scene-area{height:400px}.spot-5,.spot-4{display:none}
+      h1{font-size:clamp(2.45rem,11vw,4rem)} .hero-panel{min-height:auto}
+    }
+    @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="shell">
+      <div class="nav">
+        <div class="brand"><span class="brand-badge">3D</span><span>SEATMAP 3D</span></div>
+        <nav class="links" id="desktopNav">
+          <a href="#home">Home</a><a href="#map">Seating Map</a><a href="#workspaces">Workspaces</a><a href="#availability">Availability</a><a href="#memberships">Memberships</a><a href="#amenities">Amenities</a><a href="#booking">Book Seat</a><a href="#contact">Contact</a>
+        </nav>
+        <a class="cta desktop-cta" href="#booking">Reserve a Seat</a>
+        <button class="menu-btn" id="menuBtn">☰</button>
+        <div class="mobile-panel" id="mobilePanel">
+          <a href="#home">Home</a><a href="#map">Seating Map</a><a href="#workspaces">Workspaces</a><a href="#availability">Availability</a><a href="#memberships">Memberships</a><a href="#amenities">Amenities</a><a href="#booking">Book Seat</a><a href="#contact">Contact</a><a class="cta" href="#booking">Reserve a Seat</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="hero">
+      <div class="shell hero-grid">
+        <div>
+          <div class="eyebrow">Interactive 3D seating intelligence for modern coworking spaces</div>
+          <h1>Find and Reserve Your Perfect Coworking Seat in 3D</h1>
+          <p class="lead">Explore hot desks, dedicated desks, private offices, meeting rooms and focus booths through an interactive 3D seating map designed to make availability, community and reservation flow feel effortless.</p>
+          <div class="hero-actions">
+            <button class="cta" id="openMapBtn">Open 3D Seating Map</button>
+            <a class="ghost" href="#availability">View Availability</a>
+            <a class="ghost" href="#booking">Reserve a Seat</a>
+          </div>
+          <div class="stat-row">
+            <div class="stat"><strong>48</strong><span>available seats</span></div>
+            <div class="stat"><strong>12</strong><span>reserved desks</span></div>
+            <div class="stat"><strong>8</strong><span>meeting rooms</span></div>
+          </div>
+        </div>
+        <div class="hero-panel reveal">
+          <div id="scene"></div>
+          <div class="floating-card">
+            <small>Live seating snapshot</small>
+            <h3 style="margin:6px 0 0">Downtown Creative District</h3>
+            <p style="margin:8px 0 0;color:rgba(238,241,247,.76);line-height:1.6">Guided camera, light parallax, smooth hotspots, and stateful reservation controls built to mirror a premium workplace booking product.</p>
+            <div class="floating-grid">
+              <div class="floating-item"><b>Hot Desk A-12</b><br><small>Available now</small></div>
+              <div class="floating-item"><b>Private Office C-2</b><br><small>Reserved until 4 PM</small></div>
+              <div class="floating-item"><b>Meeting Room 3</b><br><small>Free in 18 min</small></div>
+              <div class="floating-item"><b>Quiet Zone</b><br><small>Selected for focus</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="map">
+      <div class="shell">
+        <div class="section-head">
+          <div><div class="eyebrow2">Seating map</div><h2 style="margin:.15em 0 0;font-size:clamp(2rem,4vw,3.4rem)">Explore the Workspace Layout Before You Arrive</h2></div>
+          <p>Use the 3D map to compare zones, see the spatial flow, and jump between reception, hot desks, dedicated desks, meeting rooms, phone booths, quiet zones and the coffee bar.</p>
+        </div>
+        <div class="canvas-wrap reveal">
+          <div class="canvas-top">
+            <div class="legend">
+              <span class="chip">Available</span><span class="chip">Occupied</span><span class="chip">Reserved</span><span class="chip">Selected</span>
+            </div>
+            <button class="mini" id="refreshBtn">Refresh Availability</button>
+          </div>
+          <div class="scene-area">
+            <canvas id="mapCanvas"></canvas>
+            <div class="hotspots">
+              <button class="hotspot spot-1" data-zone="Hot Desk Area"><b>Hot Desk Area</b><small>12 seats open now</small></button>
+              <button class="hotspot spot-2" data-zone="Dedicated Desks"><b>Dedicated Desks</b><small>Reserved for members</small></button>
+              <button class="hotspot spot-3" data-zone="Private Offices"><b>Private Offices</b><small>Quiet and enclosed</small></button>
+              <button class="hotspot spot-4" data-zone="Meeting Rooms"><b>Meeting Rooms</b><small>8 rooms on the grid</small></button>
+              <button class="hotspot spot-5" data-zone="Coffee Bar"><b>Coffee Bar</b><small>Community energy hub</small></button>
+              <button class="hotspot spot-6" data-zone="Quiet Zone"><b>Quiet Zone</b><small>Focus-first seating</small></button>
+              <button class="hotspot spot-7" data-zone="Phone Booths"><b>Phone Booths</b><small>Sound isolated pods</small></button>
+              <button class="hotspot spot-8" data-zone="Reserve Seat"><b>Reserve Seat</b><small>Jump to booking</small></button>
+            </div>
+          </div>
+          <div class="toolbar">
+            <button class="filter active" data-filter="All Spaces">All Spaces</button>
+            <button class="filter" data-filter="Hot Desks">Hot Desks</button>
+            <button class="filter" data-filter="Dedicated Desks">Dedicated Desks</button>
+            <button class="filter" data-filter="Meeting Rooms">Meeting Rooms</button>
+            <button class="filter" data-filter="Private Offices">Private Offices</button>
+            <button class="filter" data-filter="Phone Booths">Phone Booths</button>
+            <button class="filter" data-filter="Quiet Zone">Quiet Zone</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="availability">
+      <div class="shell">
+        <div class="section-head">
+          <div><div class="eyebrow2">Availability</div><h2 style="margin:.15em 0 0;font-size:clamp(2rem,4vw,3.2rem)">Real-time seat states, simulated for the demo</h2></div>
+          <p>Switch between space categories to highlight the map and compare live-style seat status. The refreshed snapshot updates visual emphasis and seat selection state.</p>
+        </div>
+        <div class="boards">
+          <div class="card reveal">
+            <div class="grid-2">
+              <div class="metric"><strong>48</strong><span>Available Seats</span></div>
+              <div class="metric"><strong>12</strong><span>Reserved Desks</span></div>
+              <div class="metric"><strong>8</strong><span>Meeting Rooms</span></div>
+              <div class="metric"><strong>5</strong><span>Phone Booths</span></div>
+            </div>
+            <div class="seat-row" id="seatRow"></div>
+          </div>
+          <div class="card reveal summary">
+            <span class="pill">Availability panel</span>
+            <h3>Selected zone: <span id="activeZone">All Spaces</span></h3>
+            <p id="zoneNote">The map highlights the full coworking floor and keeps the selected focus area in view.</p>
+            <div style="display:grid;gap:12px;margin:18px 0">
+              <div class="metric"><strong id="liveCount">48</strong><span>Available seats in focus</span></div>
+              <div class="metric"><strong>12</strong><span>Seats reserved by members</span></div>
+            </div>
+            <button class="confirm-btn" id="openBookingFromAvail">Reserve a Seat</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="workspaces">
+      <div class="shell">
+        <div class="section-head"><div><div class="eyebrow2">Workspaces</div><h2 style="margin:.15em 0 0;font-size:clamp(2rem,4vw,3.2rem)">Workspace types designed for different rhythms of work</h2></div><p>Each card can highlight the map and open a details modal so the user can preview fit, capacity and pricing before reserving.</p></div>
+        <div class="grid-4">
+          <article class="card space-card reveal"><span class="tag">Hot Desk</span><h3>Flexible drop-in seating</h3><ul><li>Capacity: 24</li><li>Ideal for: Freelancers</li><li>Availability: 12 open</li><li>Price: $19/day</li></ul><button class="view-btn" data-space="Hot Desk">View Space</button></article>
+          <article class="card space-card reveal"><span class="tag">Dedicated Desk</span><h3>Your own daily base</h3><ul><li>Capacity: 18</li><li>Ideal for: Regular members</li><li>Availability: 6 open</li><li>Price: $249/month</li></ul><button class="view-btn" data-space="Dedicated Desk">View Space</button></article>
+          <article class="card space-card reveal"><span class="tag">Private Office</span><h3>Focus and privacy</h3><ul><li>Capacity: 8 suites</li><li>Ideal for: Teams</li><li>Availability: 2 open</li><li>Price: $890/month</li></ul><button class="view-btn" data-space="Private Office">View Space</button></article>
+          <article class="card space-card reveal"><span class="tag">Meeting Room</span><h3>Client-ready rooms</h3><ul><li>Capacity: 8 people</li><li>Ideal for: Calls and workshops</li><li>Availability: 3 open</li><li>Price: $48/hour</li></ul><button class="view-btn" data-space="Meeting Room">View Space</button></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="memberships">
+      <div class="shell">
+        <div class="section-head"><div><div class="eyebrow2">Memberships</div><h2 style="margin:.15em 0 0;font-size:clamp(2rem,4vw,3.2rem)">Premium plans for individuals and teams</h2></div><p>Choose a plan and the booking flow will sync the selected membership, then take the user toward the reservation form.</p></div>
+        <div class="grid-3">
+          <article class="card member reveal"><h3>Day Pass</h3><p>$19 per day</p><ul><li>All-day coworking access</li><li>Wi-Fi, coffee and lounge</li><li>Choose when you arrive</li></ul><button class="choose-btn">Choose Plan</button></article>
+          <article class="card member reveal"><h3>Flex Desk</h3><p>$249 per month</p><ul><li>Hot desk priority</li><li>Meeting room credits</li><li>Perfect for hybrid work</li></ul><button class="choose-btn">Choose Plan</button></article>
+          <article class="card member reveal"><h3>Enterprise Workspace</h3><p>Custom pricing</p><ul><li>Private floor planning</li><li>Team access controls</li><li>Dedicated success support</li></ul><button class="choose-btn">Choose Plan</button></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="amenities">
+      <div class="shell">
+        <div class="section-head"><div><div class="eyebrow2">Amenities</div><h2 style="margin:.15em 0 0;font-size:clamp(2rem,4vw,3.2rem)">Amenities that make the workplace feel complete</h2></div><p>Tap any card to open an amenity detail modal. The layout is styled to feel warm, glassy and premium.</p></div>
+        <div class="grid-4">
+          <article class="card amenity reveal"><h3>High-Speed Wi-Fi</h3><p>Low-latency connectivity for teams and calls.</p><button class="amenity-btn">View Amenity</button></article>
+          <article class="card amenity reveal"><h3>Specialty Coffee</h3><p>Barista-style drinks and a social coffee bar.</p><button class="amenity-btn">View Amenity</button></article>
+          <article class="card amenity reveal"><h3>Phone Booths</h3><p>Sound-isolated pods for calls and interviews.</p><button class="amenity-btn">View Amenity</button></article>
+          <article class="card amenity reveal"><h3>Wellness Corner</h3><p>Quiet reset space with plants and soft lighting.</p><button class="amenity-btn">View Amenity</button></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="booking">
+      <div class="shell">
+        <div class="section-head"><div><div class="eyebrow2">Book seat</div><h2 style="margin:.15em 0 0;font-size:clamp(2rem,4vw,3.2rem)">Reserve your workspace in a few guided steps</h2></div><p>Validate the form, pick a zone, and confirm the reservation. The selected seat state is mirrored in the map and the summary card.</p></div>
+        <div class="boards">
+          <form class="card reveal" id="bookingForm">
+            <div class="form-grid">
+              <label class="field"><span>Name</span><input required name="name"></label>
+              <label class="field"><span>Email</span><input required type="email" name="email"></label>
+              <label class="field"><span>Workspace Type</span><select name="workspace"><option>Hot Desk</option><option>Dedicated Desk</option><option>Private Office</option><option>Meeting Room</option></select></label>
+              <label class="field"><span>Preferred Zone</span><select name="zone"><option>Quiet Zone</option><option>Hot Desk Area</option><option>Private Offices</option><option>Meeting Rooms</option></select></label>
+              <label class="field"><span>Date</span><input required type="date" name="date"></label>
+              <label class="field"><span>Time</span><input required type="time" name="time"></label>
+            </div>
+            <label class="field" style="margin-top:14px"><span>Notes</span><textarea name="notes" placeholder="Tell us about your preferred setup, team size or any accessibility needs."></textarea></label>
+            <div class="hero-actions" style="margin-top:16px">
+              <button type="button" class="select-btn" id="selectSeatBtn">Select Seat</button>
+              <button type="button" class="ghost" id="changeSeatBtn">Change Seat</button>
+              <button type="submit" class="confirm-btn">Confirm Reservation</button>
+            </div>
+          </form>
+          <aside class="card reveal summary">
+            <span class="pill">Reservation summary</span>
+            <h3 id="summarySeat">Selected Seat: A-12</h3>
+            <p id="summaryType">Workspace Type: Hot Desk</p>
+            <p id="summaryDate">Date: --</p>
+            <p id="summaryTime">Time: --</p>
+            <p id="summaryPrice">Price: $19/day</p>
+            <div class="metric" style="margin-top:14px"><strong id="selectedState">Available</strong><span>Current seat state</span></div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="community">
+      <div class="shell">
+        <div class="section-head"><div><div class="eyebrow2">Community</div><h2 style="margin:.15em 0 0;font-size:clamp(2rem,4vw,3.2rem)">A coworking community with different work styles</h2></div><p>Meet the founders, freelancers, designers, developers, consultants and remote teams that make the space feel alive.</p></div>
+        <div class="grid-3">
+          <article class="card community reveal"><h3>Founders</h3><p>Fast-moving teams building from idea to launch.</p><button class="community-btn">Meet the Community</button></article>
+          <article class="card community reveal"><h3>Designers</h3><p>Visual thinkers who value beautiful, quiet work zones.</p><button class="community-btn">Meet the Community</button></article>
+          <article class="card community reveal"><h3>Remote Teams</h3><p>Distributed groups using the space for sync days.</p><button class="community-btn">Meet the Community</button></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="events">
+      <div class="shell">
+        <div class="section-head"><div><div class="eyebrow2">Events</div><h2 style="margin:.15em 0 0;font-size:clamp(2rem,4vw,3.2rem)">A 3D-style board for networking and learning</h2></div><p>Tap RSVP to simulate a confirmation and use the board as a visual community anchor.</p></div>
+        <div class="grid-4">
+          <article class="card event reveal"><h3>Startup Breakfast</h3><ul><li>Thu 8:30 AM</li><li>Lobby lounge</li></ul><button class="rsvp-btn">RSVP</button></article>
+          <article class="card event reveal"><h3>Design Meetup</h3><ul><li>Fri 6:00 PM</li><li>Meeting room 2</li></ul><button class="rsvp-btn">RSVP</button></article>
+          <article class="card event reveal"><h3>AI Productivity Workshop</h3><ul><li>Wed 4:30 PM</li><li>Event zone</li></ul><button class="rsvp-btn">RSVP</button></article>
+          <article class="card event reveal"><h3>Networking Hour</h3><ul><li>Mon 5:45 PM</li><li>Coffee bar</li></ul><button class="rsvp-btn">RSVP</button></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="location">
+      <div class="shell">
+        <div class="section-head"><div><div class="eyebrow2">Location</div><h2 style="margin:.15em 0 0;font-size:clamp(2rem,4vw,3.2rem)">Downtown Creative District</h2></div><p>Close to transit, parking, cafés and the kind of foot traffic that makes an office feel connected to the city.</p></div>
+        <div class="grid-2">
+          <article class="card reveal"><h3>Walkable access</h3><p>Subway, bus, bike parking and nearby garages.</p><button class="location-btn">View Location</button></article>
+          <article class="card reveal"><h3>Neighborhood scene</h3><p>Coffee shops, lunch spots and creative studios nearby.</p><button class="location-btn">View Location</button></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="shell">
+        <div class="section-head"><div><div class="eyebrow2">Contact</div><h2 style="margin:.15em 0 0;font-size:clamp(2rem,4vw,3.2rem)">Talk to the coworking team</h2></div><p>Send an inquiry about memberships, enterprise workspace, event bookings or seat reservations.</p></div>
+        <div class="boards">
+          <form class="card reveal" id="contactForm">
+            <div class="form-grid">
+              <label class="field"><span>Name</span><input required name="name"></label>
+              <label class="field"><span>Email</span><input required type="email" name="email"></label>
+              <label class="field"><span>Inquiry Type</span><select name="type"><option>Memberships</option><option>Bookings</option><option>Events</option><option>Enterprise</option></select></label>
+              <label class="field"><span>Preferred Contact</span><select name="contact"><option>Email</option><option>Phone</option></select></label>
+            </div>
+            <label class="field" style="margin-top:14px"><span>Message</span><textarea required name="message"></textarea></label>
+            <button class="confirm-btn" type="submit">Contact Coworking Team</button>
+          </form>
+          <aside class="card reveal">
+            <h3>Studio details</h3>
+            <p>Email: hello@seatmap3d.demo</p><p>Phone: +1 (555) 014-3321</p><p>Location: Downtown Creative District</p><p>Hours: Mon-Fri 8:00 AM - 8:00 PM</p>
+            <div class="hero-actions"><button class="mini">Instagram</button><button class="mini">LinkedIn</button><button class="mini">X</button></div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="footer">
+    <div class="shell"><div class="foot"><span>SEATMAP 3D</span><span>Premium coworking experience</span></div></div>
+  </div>
+
+  <div class="modal" id="modal"><div class="modal-card"><button class="close" id="closeModal">×</button><div id="modalContent"></div></div></div>
+  <div class="toast" id="toast">Saved</div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    const toast = (msg) => { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(window.__toast); window.__toast = setTimeout(()=>t.classList.remove('show'), 2200); };
+    const modal = document.getElementById('modal'), modalContent = document.getElementById('modalContent');
+    const openModal = (html) => { modalContent.innerHTML = html; modal.classList.add('open'); };
+    document.getElementById('closeModal').onclick = () => modal.classList.remove('open');
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('open'); });
+
+    const mobilePanel = document.getElementById('mobilePanel');
+    document.getElementById('menuBtn').onclick = () => mobilePanel.classList.toggle('open');
+    mobilePanel.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobilePanel.classList.remove('open')));
+
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.Fog(0x101521, 8, 20);
+    const camera = new THREE.PerspectiveCamera(36, 1, 0.1, 100);
+    camera.position.set(0, 7.2, 9.8);
+    camera.lookAt(0, 0.4, 0);
+    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('mapCanvas'), antialias: true, alpha: true });
+    renderer.shadowMap.enabled = true;
+    const hemi = new THREE.HemisphereLight(0xffffff, 0x314050, 1.4); scene.add(hemi);
+    const dir = new THREE.DirectionalLight(0xfff3dd, 1.2); dir.position.set(5, 10, 6); dir.castShadow = true; scene.add(dir);
+    const floor = new THREE.Mesh(new THREE.PlaneGeometry(22, 14), new THREE.MeshStandardMaterial({ color: 0xe8decb, roughness: 0.95 })); floor.rotation.x = -Math.PI/2; floor.receiveShadow = true; scene.add(floor);
+    const rug = new THREE.Mesh(new THREE.PlaneGeometry(18, 10), new THREE.MeshStandardMaterial({ color: 0xf4f0e8, roughness: 0.9 })); rug.rotation.x = -Math.PI/2; rug.position.y = .01; scene.add(rug);
+    const zones = [];
+    const addZone = (x,z,w,d,color,label) => {
+      const g = new THREE.Group(); g.position.set(x, 0.03, z);
+      const base = new THREE.Mesh(new THREE.BoxGeometry(w, .18, d), new THREE.MeshStandardMaterial({ color, roughness: .55 })); base.position.y = .09; base.castShadow = true; g.add(base);
+      const top = new THREE.Mesh(new THREE.BoxGeometry(w*.92, .1, d*.92), new THREE.MeshStandardMaterial({ color: 0xffffff, transparent:true, opacity:.2 })); top.position.y = .18; g.add(top);
+      const labelPlane = new THREE.Mesh(new THREE.PlaneGeometry(Math.max(1.4, label.length*.12), .34), new THREE.MeshBasicMaterial({ color: 0x111827, transparent:true, opacity:.72 }));
+      labelPlane.position.set(0, .52, 0); labelPlane.rotation.x = -Math.PI/2; g.add(labelPlane);
+      g.userData = { label, x, z, w, d };
+      scene.add(g); zones.push(g); return g;
+    };
+    addZone(-5.8,-3.2,4.2,2.2,0xd8c3a5,'Reception');
+    addZone(-1.2,-2.8,5.2,2.3,0xa8cbb5,'Hot Desks');
+    addZone(4.6,-2.6,3.5,2.0,0xb6c8e1,'Dedicated');
+    addZone(-4.1,2.1,4.0,2.2,0xd8b08c,'Meeting Rooms');
+    addZone(0.4,2.5,2.2,1.5,0x9ec9d9,'Phone Booths');
+    addZone(4.8,2.2,4.0,2.0,0xc8b8eb,'Private Offices');
+    addZone(0,-0.2,5.5,1.4,0xe8dca8,'Coffee Bar');
+    const target = { x:0,y:7.2,z:9.8 }, guidedTargets = [
+      { x:0, y:8.3, z:11.5 }, { x:-6.2, y:6.9, z:8.8 }, { x:-1.6, y:6.3, z:7.8 }, { x:4.2, y:6.2, z:7.4 }, { x:0.5, y:5.8, z:5.9 }
+    ];
+    let guided = 0, selectedSeat = 'A-12', seatState = 'Available', activeFilter = 'All Spaces';
+
+    function resize(){
+      const el = document.getElementById('scene'); const w = el.clientWidth, h = el.clientHeight;
+      camera.aspect = w/h; camera.updateProjectionMatrix(); renderer.setSize(w,h,false);
+    }
+    window.addEventListener('resize', resize); resize();
+
+    const seats = [
+      { label:'A-12', state:'Available' }, { label:'B-03', state:'Occupied' }, { label:'C-02', state:'Reserved' },
+      { label:'D-08', state:'Available' }, { label:'E-11', state:'Available' }, { label:'F-01', state:'Selected' }
+    ];
+    const seatRow = document.getElementById('seatRow');
+    const renderSeats = () => { seatRow.innerHTML=''; seats.forEach(s => { const d=document.createElement('div'); d.className='seat'+(s.state==='Selected'?' selected':''); d.dataset.state=s.state; d.innerHTML=`<b>${s.label}</b><div>${s.state}</div>`; d.onclick=()=>{ seats.forEach(x=>x.state=x.label===s.label?'Selected':(x.state==='Selected'?'Available':x.state)); selectedSeat=s.label; seatState='Selected'; syncSummary(); renderSeats(); toast(`Seat ${s.label} selected`); }; seatRow.appendChild(d); }); };
+    const syncSummary = () => {
+      document.getElementById('summarySeat').textContent = `Selected Seat: ${selectedSeat}`;
+      document.getElementById('selectedState').textContent = seatState;
+      document.getElementById('summaryType').textContent = `Workspace Type: ${document.querySelector('#bookingForm [name="workspace"]').value}`;
+    };
+    renderSeats(); syncSummary();
+    const syncSeatVisual = () => {
+      seats.forEach(s => {
+        if (s.label === selectedSeat) {
+          s.state = seatState === 'Reserved' ? 'Reserved' : 'Selected';
+        } else if (s.state === 'Selected') {
+          s.state = 'Available';
+        }
+      });
+      renderSeats();
+    };
+
+    const updateAvailability = (zone) => {
+      document.getElementById('activeZone').textContent = zone;
+      document.getElementById('zoneNote').textContent = zone === 'All Spaces' ? 'The full floor is in view and all areas are represented in the 3D scene.' : `The ${zone.toLowerCase()} area is highlighted and ready for quick review.`;
+      document.getElementById('liveCount').textContent = zone === 'Hot Desks' ? '12' : zone === 'Dedicated Desks' ? '6' : zone === 'Meeting Rooms' ? '3' : zone === 'Private Offices' ? '2' : zone === 'Phone Booths' ? '5' : zone === 'Quiet Zone' ? '3' : '48';
+    };
+    document.querySelectorAll('.filter').forEach(btn => btn.onclick = () => { document.querySelectorAll('.filter').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); activeFilter = btn.dataset.filter; updateAvailability(activeFilter); guided = ['All Spaces','Hot Desks','Dedicated Desks','Meeting Rooms','Private Offices','Phone Booths','Quiet Zone'].indexOf(activeFilter); toast(`Filter: ${activeFilter}`); });
+    document.getElementById('refreshBtn').onclick = () => { toast('Availability refreshed'); guided = (guided + 1) % guidedTargets.length; };
+    document.getElementById('openMapBtn').onclick = () => { guided = 0; toast('Guided 3D map started'); };
+    document.getElementById('openBookingFromAvail').onclick = () => location.hash = '#booking';
+    document.getElementById('selectSeatBtn').onclick = () => { seatState = 'Selected'; syncSeatVisual(); syncSummary(); toast(`Seat ${selectedSeat} selected`); };
+    document.getElementById('changeSeatBtn').onclick = () => { selectedSeat = selectedSeat === 'A-12' ? 'F-01' : 'A-12'; seatState = 'Selected'; syncSeatVisual(); syncSummary(); toast(`Changed to ${selectedSeat}`); };
+    document.querySelector('#bookingForm [name="workspace"]').onchange = syncSummary;
+    document.querySelector('#bookingForm [name="date"]').onchange = syncSummary;
+    document.querySelector('#bookingForm [name="time"]').onchange = syncSummary;
+
+    document.getElementById('bookingForm').onsubmit = (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      if (![fd.get('name'), fd.get('email'), fd.get('workspace'), fd.get('zone'), fd.get('date'), fd.get('time')].every(v => String(v || '').trim())) return toast('Please complete the booking fields');
+      seatState = 'Reserved'; syncSeatVisual(); syncSummary();
+      openModal(`<h3>Reservation confirmed</h3><p>Your workspace is reserved with the following summary:</p><p><b>${fd.get('name')}</b>, ${fd.get('workspace')} in ${fd.get('zone')} on ${fd.get('date')} at ${fd.get('time')}.</p><p>Selected seat: <b>${selectedSeat}</b></p>`);
+      toast('Reservation confirmed');
+      e.target.reset();
+    };
+    document.getElementById('contactForm').onsubmit = (e) => { e.preventDefault(); if (!e.target.reportValidity()) return; openModal('<h3>Message sent</h3><p>Thanks. The coworking team will reply shortly with membership and booking details.</p>'); toast('Contact request sent'); e.target.reset(); };
+    document.querySelectorAll('.view-btn').forEach(btn => btn.onclick = () => openModal(`<h3>${btn.dataset.space}</h3><p>This space can be highlighted inside the 3D seating map and used to guide the visitor toward a reservation decision.</p>`));
+    document.querySelectorAll('.choose-btn').forEach((btn,i) => btn.onclick = () => { document.querySelector('#bookingForm [name="workspace"]').value = ['Hot Desk','Dedicated Desk','Private Office'][i] || 'Hot Desk'; syncSummary(); location.hash = '#booking'; toast('Plan selected'); });
+    document.querySelectorAll('.amenity-btn').forEach(btn => btn.onclick = () => openModal('<h3>Amenity details</h3><p>This amenity card expands with supporting copy, practical benefits and visual emphasis in the premium experience.</p>'));
+    document.querySelectorAll('.community-btn').forEach(btn => btn.onclick = () => location.hash = '#events');
+    document.querySelectorAll('.rsvp-btn').forEach(btn => btn.onclick = () => openModal('<h3>RSVP confirmed</h3><p>You are on the list. A confirmation email would normally follow in a live product.</p>'));
+    document.querySelectorAll('.location-btn').forEach(btn => btn.onclick = () => openModal('<h3>Downtown Creative District</h3><p>Transit nearby, parking available, and a strong café ecosystem around the office.</p>'));
+    document.querySelectorAll('.hotspot').forEach(btn => btn.onclick = () => { const zone = btn.dataset.zone; if (zone === 'Reserve Seat') location.hash = '#booking'; else openModal(`<h3>${zone}</h3><p>Hover and click hotspots to inspect the coworking layout and move through the guided 3D story.</p>`); });
+    document.getElementById('refreshBtn').onclick = () => { toast('Availability refreshed'); guided = (guided + 1) % guidedTargets.length; };
+
+    const raycaster = new THREE.Raycaster(), pointer = new THREE.Vector2();
+    const floorData = zones.map((g, i) => ({ mesh: g, name: g.userData.label, pos: new THREE.Vector3(g.position.x, .2, g.position.z) }));
+    window.addEventListener('pointermove', (ev) => {
+      const r = renderer.domElement.getBoundingClientRect();
+      pointer.x = ((ev.clientX - r.left) / r.width) * 2 - 1;
+      pointer.y = -((ev.clientY - r.top) / r.height) * 2 + 1;
+    });
+    renderer.domElement.addEventListener('click', () => {
+      raycaster.setFromCamera(pointer, camera);
+      const hit = raycaster.intersectObjects(zones, true)[0];
+      if (hit) openModal(`<h3>${hit.object.parent.userData.label}</h3><p>This area is part of the premium seating map. The camera can highlight it, and the booking flow can jump here as a selected zone.</p>`);
+    });
+
+    function animate(){
+      requestAnimationFrame(animate);
+      const t = performance.now() * 0.0004;
+      zones.forEach((z, i) => { z.rotation.y = Math.sin(t + i) * 0.04; z.position.y = 0.03 + Math.sin(t*2 + i) * 0.02; });
+      camera.position.x += (target.x - camera.position.x) * 0.03;
+      camera.position.y += (target.y - camera.position.y) * 0.03;
+      camera.position.z += (target.z - camera.position.z) * 0.03;
+      if (guidedTargets[guided]) {
+        target.x += (guidedTargets[guided].x - target.x) * 0.02;
+        target.y += (guidedTargets[guided].y - target.y) * 0.02;
+        target.z += (guidedTargets[guided].z - target.z) * 0.02;
+      }
+      camera.lookAt(0, 0.4, 0);
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    const reveal = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }), { threshold: .16 });
+    document.querySelectorAll('.reveal').forEach(el => reveal.observe(el));
+
+    updateAvailability('All Spaces');
+  </script>
+</body>
+</html>

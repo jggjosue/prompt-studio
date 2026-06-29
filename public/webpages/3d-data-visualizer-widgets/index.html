@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="3D Data Visualizer Widgets, a premium interactive landing page for analytics, dashboards, and business intelligence widgets.">
+  <meta name="keywords" content="3D Data Visualizer Widgets, analytics, dashboard, KPI, BI, business intelligence, three.js, interactive landing page">
+  <title>3D Data Visualizer Widgets</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head>
+<body>
+  <div class="page-shell">
+    <div id="scene-root" aria-hidden="true"></div>
+    <header class="site-header">
+      <a class="brand" href="#home">
+        <span class="brand-mark">DW3D</span>
+        <span>DATA WIDGETS 3D</span>
+      </a>
+      <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      <nav class="site-nav" id="site-nav">
+        <a href="#home">Home</a>
+        <a href="#widgets">Widgets</a>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#analytics">Analytics</a>
+        <a href="#templates">Templates</a>
+        <a href="#integrations">Integrations</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button class="cta cta-primary" data-scroll="#visualizer">Launch Visualizer</button>
+    </header>
+
+    <main id="home">
+      <section class="hero section" data-depth="1">
+        <div class="eyebrow">Immersive business intelligence system</div>
+        <h1>Visualize Data Through Interactive 3D Widgets</h1>
+        <p class="hero-copy">Build immersive dashboards with modular KPI cards, animated charts, smart alerts, forecasting panels and real-time data visualization widgets.</p>
+        <div class="hero-actions">
+          <button class="cta cta-primary" data-action="launch-visualizer">Launch Visualizer</button>
+          <button class="cta cta-secondary" data-scroll="#widgets">Explore Widgets</button>
+          <button class="cta cta-ghost" data-scroll="#contact">Request Demo</button>
+        </div>
+        <div class="hero-metrics">
+          <div><strong>42</strong><span>Live widgets</span></div>
+          <div><strong>12</strong><span>Data sources</span></div>
+          <div><strong>98.7%</strong><span>Uptime</span></div>
+        </div>
+      </section>
+
+      <section id="visualizer" class="visualizer section">
+        <div class="section-heading">
+          <span>Canvas</span>
+          <h2>Data visualizer lab</h2>
+        </div>
+        <div class="visualizer-layout">
+          <div class="visualizer-stage">
+            <canvas id="data-canvas"></canvas>
+            <div class="hotspot-panel" id="hotspot-panel" aria-live="polite"></div>
+          </div>
+          <aside class="visualizer-inspector glass">
+            <h3>Live orchestration</h3>
+            <p>Move through the dashboard story, preview widget groups, and guide the camera into the most relevant insight zone.</p>
+            <div class="inspector-list" id="inspector-list"></div>
+            <button class="cta cta-primary full" data-action="launch-visualizer">Launch guided scan</button>
+          </aside>
+        </div>
+      </section>
+
+      <section id="widgets" class="section">
+        <div class="section-heading">
+          <span>Library</span>
+          <h2>A Modular Library of Data Visualization Widgets</h2>
+        </div>
+        <div class="widget-grid" id="widget-grid"></div>
+      </section>
+
+      <section id="dashboard" class="section split-layout">
+        <div class="section-heading">
+          <span>Builder</span>
+          <h2>Dashboard Builder</h2>
+        </div>
+        <div class="builder-panel glass">
+          <div class="builder-toolbar">
+            <button class="cta cta-secondary" id="add-widget-btn">Add Widget</button>
+            <button class="cta cta-primary" id="save-dashboard-btn">Save Dashboard</button>
+            <button class="cta cta-ghost" id="reset-layout-btn">Reset Layout</button>
+          </div>
+          <div class="dashboard-canvas" id="dashboard-canvas"></div>
+        </div>
+      </section>
+
+      <section id="analytics" class="section">
+        <div class="section-heading">
+          <span>Insights</span>
+          <h2>Analytics modules for leadership teams</h2>
+        </div>
+        <div class="analytics-grid" id="analytics-grid"></div>
+      </section>
+
+      <section class="section metrics-section">
+        <div class="section-heading">
+          <span>Performance</span>
+          <h2>Real-Time Metrics</h2>
+        </div>
+        <div class="metrics-grid" id="metrics-grid"></div>
+      </section>
+
+      <section class="section alerts-section">
+        <div class="section-heading">
+          <span>Signals</span>
+          <h2>Smart Alerts</h2>
+        </div>
+        <div class="alerts-grid" id="alerts-grid"></div>
+      </section>
+
+      <section id="templates" class="section">
+        <div class="section-heading">
+          <span>Templates</span>
+          <h2>Dashboard templates</h2>
+        </div>
+        <div class="template-grid" id="template-grid"></div>
+      </section>
+
+      <section id="integrations" class="section">
+        <div class="section-heading">
+          <span>Network</span>
+          <h2>Data sources and integrations</h2>
+        </div>
+        <div class="integration-cloud glass" id="integration-cloud"></div>
+      </section>
+
+      <section class="section customization-section">
+        <div class="section-heading">
+          <span>Controls</span>
+          <h2>Customization</h2>
+        </div>
+        <div class="customization-layout">
+          <div class="custom-controls glass" id="custom-controls"></div>
+          <div class="custom-preview glass" id="custom-preview"></div>
+        </div>
+        <div class="section-actions">
+          <button class="cta cta-primary" id="apply-customization-btn">Apply Customization</button>
+          <button class="cta cta-secondary" id="view-security-btn">View Security Details</button>
+        </div>
+      </section>
+
+      <section id="security" class="section">
+        <div class="section-heading">
+          <span>Trust</span>
+          <h2>Security & Reliability</h2>
+        </div>
+        <div class="security-grid" id="security-grid"></div>
+      </section>
+
+      <section id="pricing" class="section">
+        <div class="section-heading">
+          <span>Plans</span>
+          <h2>Pricing</h2>
+        </div>
+        <div class="pricing-grid" id="pricing-grid"></div>
+      </section>
+
+      <section class="section testimonials-section">
+        <div class="section-heading">
+          <span>Proof</span>
+          <h2>Testimonials</h2>
+        </div>
+        <div class="testimonial-grid" id="testimonial-grid"></div>
+      </section>
+
+      <section id="contact" class="section contact-section">
+        <div class="section-heading">
+          <span>Demo</span>
+          <h2>Request a data visualizer demo</h2>
+        </div>
+        <div class="contact-layout">
+          <form id="demo-form" class="contact-form glass">
+            <div class="field-grid">
+              <label>Name<input name="name" required></label>
+              <label>Email<input name="email" type="email" required></label>
+              <label>Company<input name="company" required></label>
+              <label>Role<input name="role" required></label>
+            </div>
+            <label>Data Visualization Need<textarea name="need" rows="3" required></textarea></label>
+            <label>Message<textarea name="message" rows="4" required></textarea></label>
+            <button class="cta cta-primary full" type="submit">Request Data Visualizer Demo</button>
+            <div class="form-status" id="form-status"></div>
+          </form>
+          <aside class="contact-card glass">
+            <h3>Contact</h3>
+            <p id="contact-copy"></p>
+            <div class="contact-details" id="contact-details"></div>
+          </aside>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal hidden" id="modal" role="dialog" aria-modal="true">
+    <div class="modal-card glass">
+      <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+      <div id="modal-title" class="modal-title"></div>
+      <div id="modal-body" class="modal-body"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" aria-live="polite"></div>
+  <script src="data3d.js"></script>
+</body>
+</html>
