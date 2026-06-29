@@ -1,10 +1,9 @@
 import mongoose from 'mongoose';
 
-const MONGODB_USERNAME = process.env.MONGODB_USERNAME?.trim();
-const MONGODB_PASSWORD = process.env.MONGODB_PASSWORD?.trim();
+const MONGODB_URI = process.env.MONGODB_URI?.trim();
 
-if (!MONGODB_USERNAME || !MONGODB_PASSWORD) {
-  throw new Error('Please define the MONGODB_USERNAME and MONGODB_PASSWORD environment variables inside .env');
+if (!MONGODB_URI) {
+  throw new Error('Please define the MONGODB_URI environment variable inside .env');
 }
 /**
  * Global is used here to maintain a cached connection across hot reloads
@@ -27,7 +26,7 @@ async function connectToDatabase() {
       bufferCommands: false,
     };
 
-    cached.promise = mongoose.connect(process.env.MONGODB_URI || '', opts).then((mongoose) => {
+    cached.promise = mongoose.connect(MONGODB_URI as string, opts).then((mongoose) => {
       //console.log('Successfully connected to MongoDB');
       return mongoose;
     });
