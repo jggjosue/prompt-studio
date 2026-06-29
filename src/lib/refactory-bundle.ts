@@ -66,6 +66,13 @@ export function readLocalDemoBundle(
       if (file === 'styles.css') css = content;
       if (file === 'script.js') js = content;
     }
+
+    // Include video files in the components list so the IDE knows about them
+    for (const item of fs.readdirSync(dir)) {
+      if (item.toLowerCase().endsWith('.mp4') || item.toLowerCase().endsWith('.webm')) {
+        components.push(item);
+      }
+    }
   } else {
     const mainFiles = [
       'package.json',
