@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buffer Clone 3D | Social Media Control Center</title>
+    <meta name="description" content="Plan, schedule, and analyze your social media content in a modern 3D control center.">
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- 3D Background Canvas -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- Main Scroll Container -->
+    <main class="scroll-container">
+        
+        <!-- Navigation -->
+        <header class="navbar">
+            <div class="logo">BufferClone<span>3D</span></div>
+            <nav class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#analytics">Analytics</a>
+                <a href="#collaboration">Collaboration</a>
+                <a href="#pricing">Pricing</a>
+            </nav>
+            <div class="nav-actions">
+                <button class="btn btn-outline">Log In</button>
+                <button class="btn btn-primary">Get Started</button>
+            </div>
+        </header>
+
+        <!-- Section 1: Hero -->
+        <section class="section hero" id="hero">
+            <div class="container">
+                <div class="hero-content parallax-element" data-speed="0.2">
+                    <div class="badge">Social Media Reimagined</div>
+                    <h1>Enter the <span class="gradient-text">Control Center</span> for your Brand.</h1>
+                    <p>Plan posts, schedule content, and analyze results across all channels in an immersive workspace designed for modern creators and teams.</p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary btn-large">Start Free Trial</button>
+                        <button class="btn btn-secondary btn-large">Watch Demo</button>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                <span>Scroll to explore</span>
+                <div class="arrow"></div>
+            </div>
+        </section>
+
+        <!-- Section 2: Planning & Scheduling (Calendar/Queue) -->
+        <section class="section features" id="features">
+            <div class="container layout-grid">
+                <div class="text-content parallax-element" data-speed="0.1">
+                    <h2>Organize your <br> <span class="gradient-text">Editorial Calendar</span></h2>
+                    <p>Visually plan your week or month across Instagram, Twitter, LinkedIn, and TikTok. Drag and drop posts, manage your queue, and ensure a consistent flow of content.</p>
+                    <ul class="feature-list">
+                        <li>Multi-channel scheduling</li>
+                        <li>Automated publishing queues</li>
+                        <li>Visual drag-and-drop calendar</li>
+                    </ul>
+                </div>
+                <div class="visual-content parallax-element" data-speed="-0.15">
+                    <!-- HTML representation of UI floating above 3D -->
+                    <div class="glass-card calendar-card">
+                        <div class="card-header">
+                            <h3>October Content</h3>
+                            <span class="status-dot">Live</span>
+                        </div>
+                        <div class="calendar-grid">
+                            <!-- Simulated days and posts -->
+                            <div class="day"><div class="post-pill ig">IG Post</div></div>
+                            <div class="day"><div class="post-pill tw">Tweet</div></div>
+                            <div class="day"></div>
+                            <div class="day"><div class="post-pill li">LinkedIn</div></div>
+                            <div class="day"><div class="post-pill tk">TikTok</div></div>
+                            <div class="day"></div>
+                            <div class="day"><div class="post-pill ig">IG Reel</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Analytics & Growth -->
+        <section class="section analytics" id="analytics">
+            <div class="container layout-grid reverse">
+                <div class="text-content parallax-element" data-speed="0.15">
+                    <h2>Measure what matters with <span class="gradient-text">Advanced Analytics</span></h2>
+                    <p>Track your growth across all platforms in one dashboard. Understand engagement, reach, and audience demographics to optimize your strategy.</p>
+                    <button class="btn btn-outline">View Sample Report</button>
+                </div>
+                <div class="visual-content parallax-element" data-speed="-0.2">
+                    <div class="glass-card dashboard-card">
+                        <div class="metric-row">
+                            <div class="metric">
+                                <span class="label">Total Reach</span>
+                                <span class="value">2.4M</span>
+                                <span class="trend positive">+14%</span>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Engagement</span>
+                                <span class="value">8.5%</span>
+                                <span class="trend positive">+2.1%</span>
+                            </div>
+                        </div>
+                        <div class="chart-mockup">
+                            <!-- CSS drawn chart -->
+                            <div class="bar h-40"></div>
+                            <div class="bar h-70"></div>
+                            <div class="bar h-50"></div>
+                            <div class="bar h-90"></div>
+                            <div class="bar h-60"></div>
+                            <div class="bar h-100"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Collaboration & Approvals -->
+        <section class="section collaboration" id="collaboration">
+            <div class="container">
+                <div class="center-content parallax-element" data-speed="0.05">
+                    <h2>Seamless <span class="gradient-text">Team Collaboration</span></h2>
+                    <p>Work together effortlessly. Draft posts, request approvals, and leave comments without leaving the platform.</p>
+                    
+                    <div class="collab-visual parallax-element" data-speed="0.2">
+                        <div class="glass-card approval-card">
+                            <div class="post-preview">
+                                <div class="avatar-placeholder"></div>
+                                <div class="post-text">Excited to announce our new product launch! 🚀 #LaunchDay</div>
+                            </div>
+                            <div class="approval-actions">
+                                <button class="btn btn-approve">✓ Approve</button>
+                                <button class="btn btn-reject">✗ Reject</button>
+                            </div>
+                            <div class="comment-thread">
+                                <div class="comment"><strong>Alex:</strong> Looks great, let's schedule for 10 AM.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Conversion & Form -->
+        <section class="section pricing" id="pricing">
+            <div class="container layout-grid">
+                <div class="text-content parallax-element" data-speed="0.1">
+                    <h2>Ready to take control?</h2>
+                    <p>Join thousands of brands growing their audience with Buffer Clone 3D.</p>
+                </div>
+                <div class="form-content parallax-element" data-speed="-0.1">
+                    <form class="glass-form" id="signupForm">
+                        <h3>Create your Workspace</h3>
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" required placeholder="Jane Doe">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Work Email</label>
+                            <input type="email" id="email" required placeholder="jane@company.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="role">Role</label>
+                            <select id="role">
+                                <option>Social Media Manager</option>
+                                <option>Agency Owner</option>
+                                <option>Content Creator</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Start 14-Day Free Trial</button>
+                        <p class="form-footer">No credit card required.</p>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="container footer-content">
+                <div class="logo">BufferClone<span>3D</span></div>
+                <div class="footer-links">
+                    <a href="#">Terms</a>
+                    <a href="#">Privacy</a>
+                    <a href="#">Help Center</a>
+                </div>
+                <p>&copy; 2026 Buffer Clone 3D. All rights reserved.</p>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Main Script -->
+    <script src="script.js"></script>
+</body>
+</html>

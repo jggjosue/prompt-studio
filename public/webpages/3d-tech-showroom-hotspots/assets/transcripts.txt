@@ -1,0 +1,17 @@
+TECH SHOWROOM — TRANSCRIPCIONES
+================================
+
+API de Autenticación
+- Flujo OAuth 2.0 Authorization Code + PKCE
+- JWT con refresh token rotativo
+- Snippet: login con email/password
+
+WebSocket en Tiempo Real
+- Conexión bidireccional
+- Auto-reconnect con backoff exponencial
+- Heartbeat cada 30s
+
+Edge Computing
+- Funciones serverless en 35+ regiones
+- Latencia <10ms
+- V8 isolates con arranque en frío <5ms

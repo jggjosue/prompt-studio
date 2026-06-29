@@ -1,0 +1,277 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Inter:wght@400;500;700&display=swap');
+
+:root {
+  --bg-color: #05010d;
+  --text-color: #ffffff;
+  --accent-1: #ff2a5f;
+  --accent-2: #ff7e40;
+  --accent-3: #9d4edd;
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  margin: 0;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+}
+
+#canvas-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: none; /* Let clicks pass to scroll container if needed, but actually we want scroll on the body */
+}
+
+/* UI Overlay */
+#scroll-container {
+  position: relative;
+  z-index: 10;
+  pointer-events: none; /* Allow pointer events only on specific elements */
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 2rem 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  pointer-events: auto;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.logo-icon {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  border-radius: 8px;
+}
+
+.links {
+  display: flex;
+  gap: 2rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.links span {
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.links span:hover {
+  color: white;
+}
+
+.btn-sub {
+  background: var(--accent-1);
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 50px;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.btn-sub:hover {
+  transform: scale(1.05);
+}
+
+/* Sections */
+.section {
+  position: relative;
+  height: 100vh;
+  padding: 0 10vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  pointer-events: auto; /* Buttons inside sections need to be clickable */
+}
+
+.hero {
+  align-items: flex-start;
+}
+
+.pill {
+  background: rgba(255, 42, 95, 0.1);
+  border: 1px solid rgba(255, 42, 95, 0.3);
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  color: var(--accent-1);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.hero h1 {
+  font-size: 5rem;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.hero h1 span {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--accent-2);
+}
+
+.hero p {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 2rem;
+  max-width: 400px;
+  line-height: 1.6;
+}
+
+.btn-play {
+  background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(255, 42, 95, 0.3);
+}
+
+.player {
+  align-items: flex-end;
+}
+
+.player-card {
+  width: 40vw;
+  background: rgba(20, 20, 30, 0.6);
+  backdrop-filter: blur(10px);
+  padding: 2rem;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.player-card h3 {
+  color: var(--accent-3);
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.player-info {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.album-art {
+  width: 80px;
+  height: 80px;
+  background: var(--accent-2);
+  border-radius: 12px;
+}
+
+.waveform {
+  display: flex;
+  gap: 4px;
+  height: 40px;
+  align-items: center;
+}
+
+.bar {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+}
+.bar.h1 { height: 40%; background: var(--accent-1); }
+.bar.h2 { height: 80%; background: var(--accent-1); }
+.bar.h3 { height: 60%; background: var(--accent-1); }
+.bar.h4 { height: 100%; }
+.bar.h5 { height: 30%; }
+
+
+.community {
+  align-items: flex-start;
+}
+
+.community h2 {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+}
+
+.events {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 45vw;
+}
+
+.event-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.5rem;
+  border-radius: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-rsvp {
+  background: transparent;
+  border: 1px solid var(--accent-3);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.footer {
+  align-items: center;
+  text-align: center;
+}
+
+.footer h2 {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.subscribe-form {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+.subscribe-form input {
+  flex: 1;
+  padding: 1rem 1.5rem;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-size: 1rem;
+  outline: none;
+}

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Wellness Garden Meditation</title>
+    <meta name="description" content="Una experiencia inmersiva de bienestar, meditación y mindfulness.">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- 3D Canvas Background -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- Overlay UI for ambient audio (optional) -->
+    <div class="audio-controls">
+        <button id="toggle-audio" aria-label="Toggle ambient sound">
+            <i class="fas fa-volume-mute"></i>
+        </button>
+        <audio id="ambient-audio" loop>
+            <!-- A real audio source would go here -->
+            <source src="#" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <!-- Main Content -->
+    <main class="scroll-container">
+        
+        <!-- Section 1: Pausa (Entrada Natural) -->
+        <section id="pausa" class="step-section">
+            <div class="content-glass">
+                <h1 class="parallax-text">Pausa</h1>
+                <p>Respira profundo. Estás a punto de entrar a tu santuario.</p>
+                <div class="scroll-indicator">
+                    <span>Desliza para avanzar</span>
+                    <div class="mouse"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Respiración -->
+        <section id="respiracion" class="step-section right-align">
+            <div class="content-glass">
+                <h2 class="parallax-text">Respiración</h2>
+                <p>Sincroniza tu ritmo con el entorno. Inhala calma, exhala tensión.</p>
+                
+                <div class="breathing-circle-container">
+                    <div class="breathing-circle"></div>
+                    <div class="breathing-text">Inhala</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Meditación -->
+        <section id="meditacion" class="step-section left-align">
+            <div class="content-glass">
+                <h2 class="parallax-text">Meditación</h2>
+                <p>Encuentra tu centro en nuestro pabellón virtual. Un espacio libre de distracciones.</p>
+                <button class="primary-btn">Iniciar Sesión Guiada <i class="fas fa-play"></i></button>
+            </div>
+        </section>
+
+        <!-- Section 4: Movimiento (Yoga) -->
+        <section id="movimiento" class="step-section">
+            <div class="content-glass">
+                <h2 class="parallax-text">Movimiento</h2>
+                <p>Yoga suave para reconectar cuerpo y mente.</p>
+                <div class="cards-container horizontal-scroll">
+                    <div class="session-card">
+                        <div class="card-icon"><i class="fas fa-om"></i></div>
+                        <h3>Hatha Básico</h3>
+                        <p>30 min - Nivel Inicial</p>
+                    </div>
+                    <div class="session-card">
+                        <div class="card-icon"><i class="fas fa-water"></i></div>
+                        <h3>Vinyasa Flow</h3>
+                        <p>45 min - Nivel Medio</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Restauración -->
+        <section id="restauracion" class="step-section right-align">
+            <div class="content-glass">
+                <h2 class="parallax-text">Restauración</h2>
+                <p>Retiros holísticos y terapias que renuevan tu energía vital.</p>
+                <button class="primary-btn">Descubrir Retiros</button>
+            </div>
+        </section>
+
+        <!-- Section 6: Hábitos -->
+        <section id="habitos" class="step-section left-align">
+            <div class="content-glass">
+                <h2 class="parallax-text">Hábitos</h2>
+                <p>Construye una rutina de bienestar duradera.</p>
+                <ul class="habits-list">
+                    <li><i class="fas fa-check"></i> Mindfulness Diario</li>
+                    <li><i class="fas fa-check"></i> Alimentación Consciente</li>
+                    <li><i class="fas fa-check"></i> Descanso Profundo</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 7: Comunidad (Testimonios) -->
+        <section id="comunidad" class="step-section">
+            <div class="content-glass">
+                <h2 class="parallax-text">Comunidad</h2>
+                <div class="testimonial">
+                    <p>"Un oasis de calma en medio de mi rutina diaria."</p>
+                    <span>- Elena M.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 8: Reserva y Contacto -->
+        <section id="reserva" class="step-section">
+            <div class="content-glass booking-glass">
+                <h2 class="parallax-text">Reserva tu Experiencia</h2>
+                <p>Da el siguiente paso hacia tu bienestar.</p>
+                <form id="contact-form" class="wellness-form">
+                    <div class="input-group">
+                        <input type="text" id="name" required placeholder="Tu Nombre">
+                    </div>
+                    <div class="input-group">
+                        <input type="email" id="email" required placeholder="Tu Correo Electrónico">
+                    </div>
+                    <div class="input-group">
+                        <select id="service" required>
+                            <option value="">Selecciona un servicio...</option>
+                            <option value="meditation">Sesión de Meditación</option>
+                            <option value="yoga">Clase de Yoga</option>
+                            <option value="retreat">Retiro de Fin de Semana</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="primary-btn">Agendar Ahora</button>
+                </form>
+                <div id="form-message" class="hidden">¡Gracias! Nos pondremos en contacto pronto.</div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

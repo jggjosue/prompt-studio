@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elegant 3D Corporate Lobby</title>
+    <meta name="description" content="Bienvenido a nuestro Lobby Corporativo 3D. Explora nuestros servicios, equipo y reserva una reunión en nuestro espacio ejecutivo.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- 3D Canvas Background -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- UI Overlay -->
+    <main class="content-overlay">
+        
+        <!-- Navbar -->
+        <header class="navbar">
+            <div class="logo">CORP<span>LOBBY</span></div>
+            <nav>
+                <ul>
+                    <li><a href="#services">Servicios</a></li>
+                    <li><a href="#agenda">Agenda</a></li>
+                    <li><a href="#team">Equipo</a></li>
+                    <li><a href="#contact" class="btn-primary">Contactar Ventas</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Sections -->
+        <section id="hero" class="panel">
+            <div class="glass-card text-center" data-parallax="true">
+                <h1 class="title">Bienvenido a la Excelencia</h1>
+                <p class="subtitle">Adéntrate en nuestro centro de negocios virtual. Innovación y prestigio en cada detalle.</p>
+                <div class="actions">
+                    <a href="#services" class="btn-primary">Explorar Servicios</a>
+                    <a href="#contact" class="btn-secondary">Reservar Visita</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="panel">
+            <div class="glass-card" data-parallax="true">
+                <h2 class="section-title">Servicios Exclusivos</h2>
+                <div class="grid-cards">
+                    <div class="card stagger-item">
+                        <div class="card-icon">🏛️</div>
+                        <h3>Salas de Juntas Premium</h3>
+                        <p>Espacios ejecutivos de alto nivel equipados con pantallas interactivas 8K, acústica insonorizada y servicio de concierge privado para sus reuniones más críticas.</p>
+                    </div>
+                    <div class="card stagger-item">
+                        <div class="card-icon">🍸</div>
+                        <h3>Lounge Ejecutivo</h3>
+                        <p>Un ambiente sofisticado diseñado para el networking de alto impacto. Disfrute de nuestra selección de café de especialidad y vistas panorámicas de la ciudad.</p>
+                    </div>
+                    <div class="card stagger-item">
+                        <div class="card-icon">💻</div>
+                        <h3>Suites Privadas</h3>
+                        <p>Estaciones de trabajo ergonómicas en oficinas privadas de cristal. Diseñadas para maximizar el enfoque y la confidencialidad de sus operaciones diarias.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="agenda" class="panel">
+            <div class="glass-card" data-parallax="true">
+                <h2 class="section-title">Agenda de Reuniones</h2>
+                <div class="agenda-list">
+                    <div class="agenda-item">
+                        <span class="time">09:00 AM</span>
+                        <div class="details">
+                            <h4>Junta Directiva</h4>
+                            <p>Sala de Juntas Principal</p>
+                        </div>
+                    </div>
+                    <div class="agenda-item">
+                        <span class="time">11:30 AM</span>
+                        <div class="details">
+                            <h4>Presentación de Proyecto</h4>
+                            <p>Auditorio A</p>
+                        </div>
+                    </div>
+                    <div class="agenda-item">
+                        <span class="time">02:00 PM</span>
+                        <div class="details">
+                            <h4>Sesión de Consultoría</h4>
+                            <p>Oficina Ejecutiva 3</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="team" class="panel">
+            <div class="glass-card" data-parallax="true">
+                <h2 class="section-title">Nuestro Liderazgo</h2>
+                <div class="grid-cards">
+                    <div class="profile-card stagger-item">
+                        <img src="assets/avatar_elena_1782591667806.png" alt="Elena Rojas, CEO" class="avatar">
+                        <h3>Elena Rojas</h3>
+                        <p class="role">Chief Executive Officer</p>
+                        <p class="bio">Con más de 20 años en bienes raíces corporativos, Elena lidera nuestra visión hacia el futuro del trabajo.</p>
+                    </div>
+                    <div class="profile-card stagger-item">
+                        <img src="assets/avatar_david_1782591678004.png" alt="David Chen, CFO" class="avatar">
+                        <h3>David Chen</h3>
+                        <p class="role">Chief Financial Officer</p>
+                        <p class="bio">Estratega financiero enfocado en maximizar el valor de las inversiones de nuestros socios globales.</p>
+                    </div>
+                    <div class="profile-card stagger-item">
+                        <img src="assets/avatar_sofia_1782591687538.png" alt="Sofía Garza, Directora de Innovación" class="avatar">
+                        <h3>Sofía Garza</h3>
+                        <p class="role">Directora de Innovación</p>
+                        <p class="bio">Pionera en la integración de tecnología inmersiva e IA para crear espacios corporativos del mañana.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="panel">
+            <div class="glass-card" data-parallax="true">
+                <h2 class="section-title">Solicitar una Reunión</h2>
+                <form class="contact-form" onsubmit="event.preventDefault(); alert('Solicitud enviada exitosamente.');">
+                    <div class="input-group">
+                        <label for="name">Nombre Completo</label>
+                        <input type="text" id="name" required placeholder="Ej. Juan Pérez">
+                    </div>
+                    <div class="input-group">
+                        <label for="email">Correo Corporativo</label>
+                        <input type="email" id="email" required placeholder="juan@empresa.com">
+                    </div>
+                    <div class="input-group">
+                        <label for="message">Motivo de la Reunión</label>
+                        <textarea id="message" rows="3" required placeholder="Detalle su solicitud..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary w-full">Agendar Reunión</button>
+                </form>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p>&copy; 2026 Elegant Corporate Lobby. Todos los derechos reservados.</p>
+        </footer>
+    </main>
+
+    <!-- Libraries -->
+    <!-- Three.js for 3D graphics -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- GSAP for Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Main Logic -->
+    <script src="main.js"></script>
+</body>
+</html>

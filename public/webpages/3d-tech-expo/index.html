@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Tech Expo - The Future of Innovation</title>
+  <meta name="description" content="Únete a la expo tecnológica más innovadora. Explora stands, asiste a keynotes y conecta con startups en un entorno 3D inmersivo.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Fondo 3D persistente -->
+  <div id="canvas-container"></div>
+  
+  <!-- UI fija -->
+  <nav class="navbar">
+    <div class="logo">
+      <span class="logo-icon">⚡</span>
+      <span class="logo-text">3D TECH EXPO</span>
+    </div>
+    <div class="nav-links">
+      <a href="#lobby">Lobby</a>
+      <a href="#keynote">Keynotes</a>
+      <a href="#demos">Demos</a>
+      <a href="#startups">Startups</a>
+      <a href="#networking">Sponsors</a>
+    </div>
+    <a href="#tickets" class="btn btn-primary">Obtener Tickets</a>
+  </nav>
+
+  <!-- Indicador de Scroll -->
+  <div class="scroll-indicator">
+    <div class="mouse">
+      <div class="wheel"></div>
+    </div>
+    <span>Scroll para explorar</span>
+  </div>
+
+  <!-- Contenido desplazable (Scroller) -->
+  <div class="scroll-container">
+    
+    <!-- Sección 1: Lobby / Hero -->
+    <section id="lobby" class="step">
+      <div class="content-block glass-panel fade-in-up">
+        <div class="badge">Evento Global 2026</div>
+        <h1 class="glitch-text" data-text="EL FUTURO ESTÁ AQUÍ">EL FUTURO ESTÁ AQUÍ</h1>
+        <p class="subtitle">Explora la expo tecnológica del mañana hoy. IA, Robótica, SaaS y más en una experiencia inmersiva.</p>
+        <div class="stats-grid">
+          <div class="stat">
+            <span class="stat-num">500+</span>
+            <span class="stat-label">Expositores</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">50k</span>
+            <span class="stat-label">Asistentes</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">3 Días</span>
+            <span class="stat-label">De Innovación</span>
+          </div>
+        </div>
+        <div class="actions">
+          <a href="#keynote" class="btn btn-secondary">Explorar Agenda</a>
+          <a href="#tickets" class="btn btn-primary">Registrarse Ahora</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección 2: Keynote Stage -->
+    <section id="keynote" class="step">
+      <div class="content-block glass-panel align-right fade-in-up">
+        <div class="badge neon-blue">Escenario Principal</div>
+        <h2>Keynotes Visionarios</h2>
+        <p>Aprende de los líderes de la industria que están dando forma al ecosistema tecnológico mundial.</p>
+        
+        <div class="schedule-list">
+          <div class="schedule-item">
+            <div class="time">09:00 AM</div>
+            <div class="details">
+              <h4>El Futuro de la IA Generativa</h4>
+              <p>Elena Rostova, CEO de Neuralink</p>
+            </div>
+          </div>
+          <div class="schedule-item">
+            <div class="time">11:30 AM</div>
+            <div class="details">
+              <h4>Computación Cuántica Aplicada</h4>
+              <p>Dr. James Chen, Quantum Tech</p>
+            </div>
+          </div>
+          <div class="schedule-item">
+            <div class="time">14:00 PM</div>
+            <div class="details">
+              <h4>El Próximo Billón de Usuarios</h4>
+              <p>Sarah Jenkins, VP Growth</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección 3: Salas de Demo -->
+    <section id="demos" class="step">
+      <div class="content-block glass-panel fade-in-up">
+        <div class="badge neon-purple">Innovation Labs</div>
+        <h2>Salas de Demo</h2>
+        <p>Interactúa con prototipos, prueba software de última generación y experimenta el hardware del futuro.</p>
+        
+        <div class="cards-grid">
+          <div class="demo-card">
+            <div class="card-icon">🤖</div>
+            <h3>Robótica Avanzada</h3>
+            <p>Conoce los androides de asistencia y automatización industrial.</p>
+            <button class="btn btn-sm btn-outline">Ver Horarios</button>
+          </div>
+          <div class="demo-card">
+            <div class="card-icon">🥽</div>
+            <h3>Realidad Mixta</h3>
+            <p>Sumérgete en entornos virtuales con hardware de última generación.</p>
+            <button class="btn btn-sm btn-outline">Ver Horarios</button>
+          </div>
+          <div class="demo-card">
+            <div class="card-icon">⚡</div>
+            <h3>Movilidad EV</h3>
+            <p>Los vehículos autónomos y eléctricos que dominarán las calles.</p>
+            <button class="btn btn-sm btn-outline">Ver Horarios</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección 4: Startups -->
+    <section id="startups" class="step">
+      <div class="content-block glass-panel align-right fade-in-up">
+        <div class="badge neon-green">Startup Village</div>
+        <h2>Zona de Startups</h2>
+        <p>Descubre a los próximos unicornios tecnológicos. Conecta con fundadores, inversores y talentos emergentes.</p>
+        <div class="startup-logos">
+          <div class="s-logo">NexGen AI</div>
+          <div class="s-logo">DataFlow</div>
+          <div class="s-logo">CyberShield</div>
+          <div class="s-logo">CloudX</div>
+          <div class="s-logo">QuantumLeap</div>
+          <div class="s-logo">BioTech</div>
+        </div>
+        <button class="btn btn-outline" style="margin-top: 1.5rem;">Ver Mapa del Startup Village</button>
+      </div>
+    </section>
+
+    <!-- Sección 5: Networking & Sponsors -->
+    <section id="networking" class="step">
+      <div class="content-block glass-panel fade-in-up">
+        <div class="badge neon-orange">Conexiones</div>
+        <h2>Networking & Sponsors</h2>
+        <p>Un agradecimiento especial a nuestros patrocinadores que hacen posible este evento de clase mundial.</p>
+        
+        <div class="sponsor-tiers">
+          <div class="tier">
+            <h4>Titanium Sponsors</h4>
+            <div class="sponsors-grid titan">
+              <div class="sponsor-box">TechCorp</div>
+              <div class="sponsor-box">GlobalSystems</div>
+            </div>
+          </div>
+          <div class="tier">
+            <h4>Gold Sponsors</h4>
+            <div class="sponsors-grid gold">
+              <div class="sponsor-box">InnovateInc</div>
+              <div class="sponsor-box">FutureDev</div>
+              <div class="sponsor-box">DataCore</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección 6: Tickets / Registro -->
+    <section id="tickets" class="step">
+      <div class="content-block glass-panel center fade-in-up">
+        <div class="badge">Registro</div>
+        <h2>Asegura tu Lugar</h2>
+        <p>Los cupos son limitados. Selecciona tu pase para la expo de este año.</p>
+        
+        <div class="pricing-cards">
+          <div class="price-card">
+            <h3>Pase General</h3>
+            <div class="price">$299</div>
+            <ul>
+              <li>Acceso al piso de exhibición</li>
+              <li>Salas de demo regulares</li>
+              <li>Bolsa de regalos virtual</li>
+            </ul>
+            <button class="btn btn-outline">Seleccionar</button>
+          </div>
+          <div class="price-card featured">
+            <div class="recommended-badge">Recomendado</div>
+            <h3>Pase VIP</h3>
+            <div class="price">$899</div>
+            <ul>
+              <li>Acceso total a Keynotes</li>
+              <li>Networking Lounge exclusivo</li>
+              <li>Fiesta de clausura</li>
+              <li>Grabaciones on-demand</li>
+            </ul>
+            <button class="btn btn-primary">Comprar VIP</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Footer spacer -->
+    <section class="step footer-step">
+      <div class="footer-content">
+        <p>© 2026 3D Tech Expo. Todos los derechos reservados.</p>
+        <div class="footer-links">
+          <a href="#">Términos</a>
+          <a href="#">Privacidad</a>
+          <a href="#">Contacto</a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="expo3d.js"></script>
+</body>
+</html>

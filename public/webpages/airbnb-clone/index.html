@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airbnb Clone</title>
+    <style>
+        :root {
+            --primary-color: #ff385c;
+            --text-color: #222222;
+            --text-light: #717171;
+            --border-color: #dddddd;
+            --bg-color: #ffffff;
+            --hover-bg: #f7f7f7;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            background: var(--bg-color);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 80px;
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            color: var(--primary-color);
+            font-size: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .host-link {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            font-size: 14px;
+            padding: 12px;
+            border-radius: 24px;
+            transition: background 0.2s ease;
+        }
+
+        .host-link:hover {
+            background: var(--hover-bg);
+        }
+
+        .profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            padding: 8px 12px;
+            background: white;
+            cursor: pointer;
+            transition: box-shadow 0.2s ease;
+        }
+
+        .profile-btn:hover {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
+        }
+
+        /* Categories */
+        .categories {
+            padding: 20px 80px;
+            display: flex;
+            gap: 32px;
+            overflow-x: auto;
+            max-width: 1440px;
+            margin: 0 auto;
+            scrollbar-width: none;
+        }
+
+        .categories::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-light);
+            cursor: pointer;
+            min-width: max-content;
+            padding-bottom: 10px;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .category.active {
+            color: var(--text-color);
+            border-bottom-color: var(--text-color);
+        }
+
+        .category:hover {
+            color: var(--text-color);
+            border-bottom-color: var(--border-color);
+        }
+
+        /* Listings Grid */
+        .listings {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            padding: 24px 80px 48px;
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+
+        .listing-card {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .image-container {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .listing-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .listing-card:hover .listing-image {
+            transform: scale(1.05);
+        }
+
+        .favorite-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            color: rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s ease;
+        }
+
+        .favorite-btn:active {
+            transform: scale(0.9);
+        }
+
+        .favorite-btn svg {
+            fill: rgba(0, 0, 0, 0.5);
+            stroke: white;
+            stroke-width: 2px;
+        }
+
+        .favorite-btn.active svg {
+            fill: var(--primary-color);
+            stroke: white;
+        }
+
+        .listing-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .listing-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .listing-title {
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .listing-rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 15px;
+        }
+
+        .listing-details {
+            color: var(--text-light);
+            font-size: 15px;
+        }
+
+        .listing-price {
+            margin-top: 4px;
+            font-size: 15px;
+        }
+
+        .price-bold {
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+
+            .header-content,
+            .categories,
+            .listings {
+                padding-left: 24px;
+                padding-right: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-content">
+            <a href="#" class="logo">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="var(--primary-color)">
+                    <path
+                        d="M16 1.923c-8.214 0-14.885 6.671-14.885 14.885S7.786 31.692 16 31.692s14.885-6.671 14.885-14.884S24.214 1.923 16 1.923zm0 2.227c6.983 0 12.658 5.674 12.658 12.657 0 6.984-5.675 12.658-12.658 12.658-6.983 0-12.657-5.674-12.657-12.658 0-6.983 5.674-12.657 12.657-12.657zm0 6.425a5.539 5.539 0 00-5.538 5.538c0 3.053 2.485 5.538 5.538 5.538s5.538-2.485 5.538-5.538a5.539 5.539 0 00-5.538-5.538zm0 2.227a3.312 3.312 0 013.311 3.311 3.312 3.312 0 01-3.311 3.311 3.312 3.312 0 01-3.311-3.311 3.312 3.312 0 013.311-3.311z">
+                    </path>
+                </svg>
+                airbnb
+            </a>
+
+
+
+            <div class="user-menu">
+                <a href="#" class="host-link">Pon tu espacio en Airbnb</a>
+                <button class="profile-btn">
+                    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"
+                        style="display:block;fill:none;height:16px;width:16px;stroke:currentColor;stroke-width:3;overflow:visible">
+                        <g fill="none">
+                            <path d="M2 16h28M2 24h28M2 8h28"></path>
+                        </g>
+                    </svg>
+                    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"
+                        style="display:block;height:30px;width:30px;fill:var(--text-light)">
+                        <path
+                            d="m16 .7c-8.437 0-15.3 6.863-15.3 15.3s6.863 15.3 15.3 15.3 15.3-6.863 15.3-15.3-6.863-15.3-15.3-15.3zm0 28c-4.021 0-7.605-1.884-9.933-4.81a12.425 12.425 0 0 1 6.451-4.4 6.507 6.507 0 0 1 -3.018-5.49c0-3.584 2.916-6.5 6.5-6.5s6.5 2.916 6.5 6.5a6.513 6.513 0 0 1 -3.019 5.491 12.42 12.42 0 0 1 6.452 4.4c-2.328 2.925-5.912 4.809-9.933 4.809z">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="categories" id="categories-container">
+            <!-- Categories injected via JS -->
+        </div>
+
+        <div class="listings" id="listings-container">
+            <!-- Listings injected via JS -->
+        </div>
+    </main>
+
+    <script>
+        // Sample Data for Categories
+        const categories = [
+            { icon: '🏖️', name: 'Playa', active: true },
+            { icon: '🏰', name: 'Castillos', active: false },
+            { icon: '🏊‍♂️', name: 'Piscinas increíbles', active: false },
+            { icon: '🏔️', name: 'Vistas', active: false },
+            { icon: '🏡', name: 'Casas pequeñas', active: false },
+            { icon: '🔥', name: 'Populares', active: false },
+            { icon: '🌲', name: 'Cabañas', active: false },
+            { icon: '❄️', name: 'Ártico', active: false },
+            { icon: '🌴', name: 'Tropical', active: false }
+        ];
+
+        // Generate Categories
+        const categoriesContainer = document.getElementById('categories-container');
+        categories.forEach(cat => {
+            const div = document.createElement('div');
+            div.className = `category ${cat.active ? 'active' : ''}`;
+            div.innerHTML = `
+                <span style="font-size: 24px;">${cat.icon}</span>
+                <span style="font-size: 14px; font-weight: 500;">${cat.name}</span>
+            `;
+
+            div.addEventListener('click', () => {
+                document.querySelectorAll('.category').forEach(c => c.classList.remove('active'));
+                div.classList.add('active');
+            });
+
+            categoriesContainer.appendChild(div);
+        });
+
+        // Sample Data for Listings
+        const listings = [
+            {
+                id: 1,
+                image: 'https://images.unsplash.com/photo-1510798831971-661eb04b3739?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                location: 'Santorini, Grecia',
+                distance: 'A 8.432 km de distancia',
+                dates: '2 - 7 jul',
+                price: 150,
+                rating: 4.95
+            },
+            {
+                id: 2,
+                image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                location: 'Bali, Indonesia',
+                distance: 'A 15.201 km de distancia',
+                dates: '10 - 15 ago',
+                price: 85,
+                rating: 4.88
+            },
+            {
+                id: 3,
+                image: './paris.png',
+                location: 'París, Francia',
+                distance: 'A 9.102 km de distancia',
+                dates: '12 - 18 sep',
+                price: 210,
+                rating: 4.98
+            },
+            {
+                id: 4,
+                image: 'https://images.unsplash.com/photo-1518780664697-55e3ad937233?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                location: 'Tulum, México',
+                distance: 'A 3.450 km de distancia',
+                dates: '5 - 10 nov',
+                price: 120,
+                rating: 4.75
+            },
+            {
+                id: 5,
+                image: 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                location: 'Guanacaste, Costa Rica',
+                distance: 'A 4.100 km de distancia',
+                dates: '1 - 6 dic',
+                price: 195,
+                rating: 4.92
+            },
+            {
+                id: 6,
+                image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                location: 'Los Ángeles, EE. UU.',
+                distance: 'A 1.200 km de distancia',
+                dates: '14 - 20 oct',
+                price: 350,
+                rating: 4.81
+            },
+            {
+                id: 7,
+                image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                location: 'Roma, Italia',
+                distance: 'A 9.500 km de distancia',
+                dates: '22 - 27 ago',
+                price: 180,
+                rating: 4.89
+            },
+            {
+                id: 8,
+                image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                location: 'Kioto, Japón',
+                distance: 'A 10.300 km de distancia',
+                dates: '3 - 8 abr',
+                price: 220,
+                rating: 4.96
+            }
+        ];
+
+        // Generate Listings
+        const listingsContainer = document.getElementById('listings-container');
+        listings.forEach(listing => {
+            const article = document.createElement('article');
+            article.className = 'listing-card';
+
+            article.innerHTML = `
+                <div class="image-container">
+                    <img src="${listing.image}" alt="${listing.location}" class="listing-image" loading="lazy">
+                    <button class="favorite-btn" onclick="toggleFavorite(event, this)">
+                        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                            <path d="M16 28c7-4.73 14-10 14-17a6.98 6.98 0 0 0-7-7c-1.8 0-3.58.68-4.95 2.05L16 8.1l-2.05-2.05a6.98 6.98 0 0 0-9.9 0A6.98 6.98 0 0 0 2 11c0 7 7 12.27 14 17z"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="listing-info">
+                    <div class="listing-header">
+                        <span class="listing-title">${listing.location}</span>
+                        <span class="listing-rating">★ ${listing.rating}</span>
+                    </div>
+                    <span class="listing-details">${listing.distance}</span>
+                    <span class="listing-details">${listing.dates}</span>
+                    <span class="listing-price"><span class="price-bold">$${listing.price}</span> noche</span>
+                </div>
+            `;
+
+            listingsContainer.appendChild(article);
+        });
+
+        // Favorite Toggle Function
+        function toggleFavorite(event, button) {
+            event.stopPropagation();
+            button.classList.toggle('active');
+        }
+
+
+    </script>
+</body>
+
+</html>

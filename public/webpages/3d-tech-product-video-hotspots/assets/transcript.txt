@@ -1,0 +1,16 @@
+Tech Product — Demo Transcripts
+
+Integración API REST
+- Endpoints RESTful con autenticación.
+- Listar, crear y actualizar recursos.
+- SDK cliente con tipado completo.
+
+Dashboard en tiempo real
+- Visualización de métricas en vivo.
+- WebSockets para actualización continua.
+- Gráficos interactivos con eventos.
+
+Autenticación y permisos
+- Login con OAuth2 y MFA.
+- Roles y permisos granulares.
+- Verificación en cada operación.

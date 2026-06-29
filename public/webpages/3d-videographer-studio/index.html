@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Videographer Studio | Cinematic Production</title>
+    <meta name="description" content="Estudio de videografía premium. Producción audiovisual, cine, edición y eventos. Explora nuestro estudio 3D interactivo.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+    <!-- 3D Canvas Background -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Overlay Content UI -->
+    <main class="ui-layer">
+        
+        <!-- Header / Nav -->
+        <header>
+            <div class="logo">V-STUDIO</div>
+            <nav>
+                <a href="#hero">Inicio</a>
+                <a href="#services-pre">Proceso</a>
+                <a href="#portfolio">Reels</a>
+                <a href="#booking" class="btn-primary">Booking</a>
+            </nav>
+        </header>
+
+        <!-- Secciones de Scroll -->
+        <div class="scroll-container">
+            
+            <section id="hero" class="panel">
+                <div class="content flex-center text-center">
+                    <h1 class="parallax-text title-main">Cinematic<br><span class="accent">Vision</span></h1>
+                    <p class="subtitle parallax-text">Eleva tu marca con producción audiovisual de alto nivel.</p>
+                    <div class="scroll-indicator">
+                        <span>Scroll para explorar el estudio</span>
+                        <div class="mouse"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="services-pre" class="panel align-left">
+                <div class="content glass-panel parallax-layer">
+                    <h2 class="section-title">Preproducción</h2>
+                    <p>Conceptualización, guiones, y storyboarding. Diseñamos cada toma antes de encender la cámara.</p>
+                    <ul class="features">
+                        <li>Dirección de Arte</li>
+                        <li>Scouting de Locaciones</li>
+                        <li>Casting</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="services-shoot" class="panel align-right">
+                <div class="content glass-panel parallax-layer">
+                    <h2 class="section-title">Grabación</h2>
+                    <p>Cámaras de cine, iluminación profesional y operadores expertos. Capturamos la esencia en 4K/8K.</p>
+                    <ul class="features">
+                        <li>Cinematografía</li>
+                        <li>Operación de Drone / Gimbal</li>
+                        <li>Grabación de Sonido Directo</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="services-post" class="panel align-left">
+                <div class="content glass-panel parallax-layer">
+                    <h2 class="section-title">Postproducción</h2>
+                    <p>Donde la magia ocurre. Edición precisa, color grading de Hollywood y diseño sonoro inmersivo.</p>
+                    <ul class="features">
+                        <li>Edición Offline / Online</li>
+                        <li>Color Grading</li>
+                        <li>VFX y Motion Graphics</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="portfolio" class="panel align-center flex-col">
+                <div class="content full-width text-center">
+                    <h2 class="section-title">Nuestros Reels</h2>
+                    <div class="gallery-grid">
+                        <div class="video-card parallax-element">
+                            <div class="video-placeholder flex-center">Comercial Auto</div>
+                            <h3>Spot Publicitario</h3>
+                        </div>
+                        <div class="video-card parallax-element">
+                            <div class="video-placeholder flex-center">Videoclip</div>
+                            <h3>Música & Arte</h3>
+                        </div>
+                        <div class="video-card parallax-element">
+                            <div class="video-placeholder flex-center">Evento Corp</div>
+                            <h3>Cobertura Premium</h3>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="booking" class="panel align-center">
+                <div class="content glass-panel parallax-layer contact-form-container">
+                    <h2 class="section-title text-center">Inicia tu Proyecto</h2>
+                    <p class="text-center">Reserva tu fecha de grabación o solicita una cotización.</p>
+                    <form class="contact-form" onsubmit="event.preventDefault(); alert('Solicitud enviada!');">
+                        <div class="form-group">
+                            <input type="text" placeholder="Nombre completo" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" placeholder="Correo electrónico" required>
+                        </div>
+                        <div class="form-group">
+                            <select required>
+                                <option value="" disabled selected>Tipo de Proyecto</option>
+                                <option value="comercial">Comercial</option>
+                                <option value="evento">Evento Corporativo</option>
+                                <option value="reel">Reels / RRSS</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea placeholder="Cuéntanos sobre tu visión..." rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn-submit">Enviar Solicitud</button>
+                    </form>
+                </div>
+            </section>
+
+            <footer class="panel footer-panel">
+                <div class="content text-center">
+                    <h2>V-STUDIO</h2>
+                    <p>&copy; 2026 3D Videographer Studio. All rights reserved.</p>
+                </div>
+            </footer>
+
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CosplayHub — 3D Community</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 3D Canvas Background -->
+  <canvas id="webgl-canvas"></canvas>
+
+  <!-- Navigation -->
+  <nav class="glass-nav">
+    <div class="nav-logo">
+      <div class="logo-icon"></div>
+      <span>CosplayHub</span>
+    </div>
+    <div class="nav-links">
+      <a href="#creators">Creators</a>
+      <a href="#events">Events</a>
+      <a href="#marketplace">Marketplace</a>
+    </div>
+    <div class="nav-actions">
+      <button class="btn ghost">Sign In</button>
+      <button class="btn primary">Join Hub</button>
+    </div>
+  </nav>
+
+  <!-- Scroll Container for UI Overlays -->
+  <main class="scroll-container">
+    
+    <!-- Hero Section -->
+    <section class="section hero" id="hero">
+      <div class="content">
+        <div class="badge">🚀 Welcome to the Digital Hub</div>
+        <h1 class="glitch-text" data-text="Enter the Cosplay Metaverse">Enter the Cosplay Metaverse</h1>
+        <p>A 3D immersive space for creators, makers, photographers, and fans. Scroll to explore the convention floor.</p>
+        <div class="actions">
+          <button class="btn primary large">Explore 3D Hub</button>
+          <button class="btn outline large">Browse Profiles</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Profiles / Showcase Section -->
+    <section class="section showcase" id="creators">
+      <div class="content">
+        <h2>Creator Showcase</h2>
+        <p>Discover top-tier armor smiths, wig stylists, and character performers.</p>
+        <div class="card-grid">
+          <div class="glass-card parallax-card" data-speed="1.2">
+            <div class="card-img" style="background: linear-gradient(135deg, #f9a8d4, #f472b6);"></div>
+            <div class="card-info">
+              <h3>Armor Forging</h3>
+              <p>Mastercrafter • 50+ Commissions</p>
+              <button class="btn small">View Profile</button>
+            </div>
+          </div>
+          <div class="glass-card parallax-card" data-speed="0.8">
+            <div class="card-img" style="background: linear-gradient(135deg, #a78bfa, #8b5cf6);"></div>
+            <div class="card-info">
+              <h3>Pro Photography</h3>
+              <p>Studio & Convention Shoots</p>
+              <button class="btn small">Book Now</button>
+            </div>
+          </div>
+          <div class="glass-card parallax-card" data-speed="1.1">
+            <div class="card-img" style="background: linear-gradient(135deg, #2dd4bf, #14b8a6);"></div>
+            <div class="card-info">
+              <h3>Custom Wigs</h3>
+              <p>Gravity-defying styles</p>
+              <button class="btn small">Commission</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Events Section -->
+    <section class="section events" id="events">
+      <div class="content right-align">
+        <h2>Upcoming Events</h2>
+        <p>Digital conventions, virtual photo booths, and online contests.</p>
+        <div class="event-list">
+          <div class="event-item glass-card parallax-item">
+            <div class="date"><span>OCT</span> 24</div>
+            <div class="details">
+              <h4>Neon City Cyber-Con</h4>
+              <p>Virtual 3D Meetup & Contest</p>
+            </div>
+            <button class="btn primary">Register</button>
+          </div>
+          <div class="event-item glass-card parallax-item">
+            <div class="date"><span>NOV</span> 12</div>
+            <div class="details">
+              <h4>Armor Craft Workshop</h4>
+              <p>Live stream tutorial (Foam & Worbla)</p>
+            </div>
+            <button class="btn primary">Join Stream</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Marketplace Section -->
+    <section class="section marketplace" id="marketplace">
+      <div class="content center-align">
+        <h2>Community Marketplace</h2>
+        <p>Buy, sell, and trade props, fabrics, and pre-loved cosplays.</p>
+        <div class="chips">
+          <span class="chip active">All</span>
+          <span class="chip">Props</span>
+          <span class="chip">Fabrics</span>
+          <span class="chip">Electronics</span>
+          <span class="chip">Patterns</span>
+        </div>
+        <div class="marketplace-grid">
+          <div class="market-item glass-card">
+            <div class="price">$150</div>
+            <h4>LED Cyber Katana</h4>
+            <button class="btn outline small">View Details</button>
+          </div>
+          <div class="market-item glass-card">
+            <div class="price">$45</div>
+            <h4>EVA Foam Bundle</h4>
+            <button class="btn outline small">View Details</button>
+          </div>
+          <div class="market-item glass-card">
+            <div class="price">$20</div>
+            <h4>Armor Pattern PDF</h4>
+            <button class="btn outline small">View Details</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer / Registration -->
+    <section class="section footer-section">
+      <div class="glass-footer">
+        <h2>Ready to join the hub?</h2>
+        <p>Create your profile, set up your booth, and connect with the community.</p>
+        <form class="register-form" onsubmit="event.preventDefault();">
+          <input type="email" placeholder="Enter your email" required />
+          <button type="submit" class="btn primary">Start Creating</button>
+        </form>
+        <div class="footer-links">
+          <a href="#">Terms</a>
+          <a href="#">Privacy</a>
+          <a href="#">Help Center</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

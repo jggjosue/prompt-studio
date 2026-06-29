@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="description" content="Explore BeatForge — Beat Marketplace - a premium high-fidelity clone and interactive webpage template built with modern web design practices, available on Prompt Studio.">
+  <meta name="keywords" content="beatforge marketplace, clone, design, three.js, webgl, interactive, template, landing page, prompt studio">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BeatForge — Beat Marketplace</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+
+<!-- Three.js and GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:transparent;--text:#fef3c7;--muted:#d6d3d1;--accent:#f97316;--accent2:#ea580c;--border:#2a1e10;--card:rgba(34,24,8,0.7);--font:'Inter',system-ui,sans-serif}
+body{font-family:var(--font);background:#0f0904;color:var(--text);overflow-x:hidden}
+
+/* 3D Canvas */
+#bg-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* UI Wrapper */
+.content-wrapper {
+  position: relative;
+  z-index: 1;
+}
+
+nav{background:rgba(24,18,11,0.6);border-bottom:1px solid var(--border);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.nav-logo{font-weight:900;font-size:1.15rem;color:var(--text);display:flex;align-items:center;gap:8px}
+.logo-mark{width:28px;height:28px;background:linear-gradient(135deg,var(--accent2),var(--accent));border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.9rem}
+.nav-links{display:flex;gap:1.75rem}
+.nav-links a{font-size:0.875rem;font-weight:400;color:var(--muted);text-decoration:none;opacity:0.8}
+.nav-links a:hover{color:var(--text);opacity:1}
+.btn-accent{background:var(--accent);color:#fff;border:none;padding:9px 20px;border-radius:6px;font-size:0.875rem;font-weight:700;cursor:pointer;transition:transform 0.2s, background 0.2s}
+.btn-accent:hover{transform:scale(1.05);background:var(--accent2)}
+
+.hero{padding:7rem 2rem 6.5rem;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+@media(max-width:768px){.hero{grid-template-columns:1fr;gap:2.5rem;padding:5rem 2rem}}
+.hero-pill{display:inline-flex;align-items:center;background:rgba(249,115,22,0.12);border:1px solid rgba(249,115,22,0.3);color:var(--accent);font-size:0.75rem;font-weight:600;letter-spacing:0.04em;padding:5px 14px;border-radius:99px;margin-bottom:1.5rem;backdrop-filter:blur(4px)}
+.hero h1{font-size:clamp(2.5rem,5vw,4.5rem);font-weight:900;color:var(--text);line-height:1.05;letter-spacing:-1.5px;margin-bottom:1.25rem}
+.hero h1 em{color:var(--accent);font-style:italic}
+.hero p{font-size:1.125rem;color:var(--muted);max-width:440px;line-height:1.65;margin-bottom:2.5rem;opacity:0.9}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn-hero{background:var(--accent);color:#fff;border:none;padding:15px 32px;border-radius:6px;font-size:1.05rem;font-weight:700;cursor:pointer;transition:all 0.2s}
+.btn-hero:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(249,115,22,0.3)}
+.btn-hero-ghost{background:rgba(255,255,255,0.05);border:1.5px solid var(--border);color:var(--text);padding:14px 28px;border-radius:6px;font-size:1.05rem;font-weight:600;cursor:pointer;transition:all 0.2s;backdrop-filter:blur(4px)}
+.btn-hero-ghost:hover{background:rgba(255,255,255,0.1)}
+
+/* WAVEFORM PLAYER MOCKUP */
+.player-wrap{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,0.5);backdrop-filter:blur(10px);transform-style:preserve-3d}
+.beat-row{display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.2s}
+.beat-row:hover{background:rgba(249,115,22,0.08)}
+.beat-row.playing{background:rgba(249,115,22,0.12)}
+.beat-play{width:36px;height:36px;border-radius:50%;background:var(--accent);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.8rem;flex-shrink:0;transition:transform 0.2s}
+.beat-play:hover{transform:scale(1.1)}
+.beat-play.outline{background:transparent;border:1.5px solid var(--border);color:var(--muted)}
+.beat-info{flex:1;min-width:0}
+.beat-title{font-size:0.9rem;font-weight:700;color:var(--text);margin-bottom:4px}
+.beat-meta{font-size:0.75rem;color:var(--muted);display:flex;gap:8px;align-items:center}
+.beat-tag{font-size:0.65rem;font-weight:700;padding:3px 8px;border-radius:4px;background:rgba(249,115,22,0.15);color:var(--accent)}
+.beat-bpm{font-size:0.75rem;color:var(--muted)}
+.waveform{flex:1;height:32px;display:flex;gap:2px;align-items:center;padding:0 8px}
+.wbar{flex:1;border-radius:2px;background:rgba(254,243,199,0.15);transition:height 0.2s ease}
+.wbar.played{background:var(--accent)}
+.beat-row:hover .wbar{background:rgba(254,243,199,0.25)}
+.beat-row:hover .wbar.played{background:var(--accent2)}
+.beat-price{font-size:0.9rem;font-weight:800;color:var(--accent);flex-shrink:0}
+.player-footer{padding:14px 18px;background:rgba(0,0,0,0.2);border-top:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.player-controls{display:flex;gap:10px;align-items:center}
+.ctrl{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.08);border:none;color:var(--text);cursor:pointer;font-size:0.8rem;transition:all 0.2s}
+.ctrl:hover{background:rgba(255,255,255,0.15)}
+.ctrl.play{background:var(--accent);color:#fff;width:40px;height:40px;font-size:1rem}
+.ctrl.play:hover{transform:scale(1.05);background:var(--accent2)}
+.vol-bar{flex:1;height:4px;background:var(--border);border-radius:2px;position:relative;cursor:pointer}
+.vol-fill{width:70%;height:100%;background:var(--accent);border-radius:2px}
+
+/* CHIPS */
+.chips-section{padding:4rem 2rem;background:linear-gradient(to bottom, rgba(255,255,255,0.01), rgba(0,0,0,0.3));text-align:center;border-top:1px solid rgba(255,255,255,0.05);position:relative}
+.chips-label{font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:var(--muted);margin-bottom:1.5rem}
+.chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.chip{padding:10px 22px;border-radius:8px;border:1px solid var(--border);color:var(--muted);font-size:0.95rem;font-weight:600;cursor:pointer;background:rgba(34,24,8,0.6);transition:all 0.2s;backdrop-filter:blur(4px)}
+.chip:hover,.chip.active{background:var(--accent);color:#fff;border-color:var(--accent);transform:translateY(-2px);box-shadow:0 5px 15px rgba(249,115,22,0.2)}
+
+/* FEATURES */
+.features{padding:6rem 2rem;text-align:center;position:relative}
+.features h2{font-size:2.5rem;font-weight:900;color:var(--text);margin-bottom:1rem;letter-spacing:-0.5px}
+.features p.sub{color:var(--muted);max-width:520px;margin:0 auto 4rem;font-size:1.1rem;line-height:1.6}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem;max-width:1000px;margin:0 auto}
+.feat{background:rgba(34,24,8,0.6);border:1px solid rgba(255,255,255,0.05);border-radius:12px;padding:2.5rem 2rem;text-align:left;backdrop-filter:blur(8px);transition:transform 0.3s, border-color 0.3s}
+.feat:hover{transform:translateY(-5px);border-color:rgba(249,115,22,0.3);box-shadow:0 10px 30px rgba(0,0,0,0.4)}
+.feat-label{display:inline-block;background:rgba(249,115,22,0.15);color:var(--accent);font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;padding:4px 10px;border-radius:4px;margin-bottom:1rem}
+.feat h4{font-size:1.25rem;font-weight:800;color:var(--text);margin-bottom:0.75rem}
+.feat p{font-size:0.95rem;color:var(--muted);line-height:1.6;opacity:0.9}
+.feat-meta{font-size:0.8rem;color:var(--accent);margin-top:1.25rem;font-weight:600}
+
+/* STATS */
+.stats{background:linear-gradient(135deg,rgba(234,88,12,0.9),rgba(249,115,22,0.9));padding:5rem 2rem;text-align:center;position:relative;overflow:hidden}
+.stats::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPC9zdmc+') repeat;opacity:0.5}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:2.5rem;max-width:800px;margin:0 auto;position:relative;z-index:2}
+.stat-val{font-size:3rem;font-weight:900;color:#fff;text-shadow:0 4px 10px rgba(0,0,0,0.2)}
+.stat-label{font-size:1rem;font-weight:600;color:rgba(255,255,255,0.9);margin-top:5px;text-transform:uppercase;letter-spacing:0.05em}
+
+footer{background:#0a0603;border-top:1px solid rgba(255,255,255,0.05);padding:5rem 2rem 3rem;position:relative;z-index:1}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:3rem;max-width:1000px;margin:0 auto 3rem}
+.footer-col h5{font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:rgba(254,243,199,0.4);margin-bottom:1.25rem}
+.footer-col a{display:block;font-size:0.95rem;color:var(--muted);text-decoration:none;margin-bottom:10px;opacity:0.8;transition:all 0.2s}
+.footer-col a:hover{color:var(--text);opacity:1;transform:translateX(3px)}
+.email-row{display:flex;gap:0;margin-top:1rem}
+.email-row input{flex:1;padding:12px 16px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);color:var(--text);border-right:none;font-size:0.9rem;outline:none;border-radius:6px 0 0 6px;font-family:var(--font);transition:border-color 0.2s}
+.email-row input:focus{border-color:var(--accent)}
+.email-row button{padding:12px 20px;background:var(--accent);color:#fff;border:none;font-size:0.9rem;font-weight:700;cursor:pointer;border-radius:0 6px 6px 0;transition:background 0.2s}
+.email-row button:hover{background:var(--accent2)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.05);padding-top:2rem;text-align:center;font-size:0.85rem;color:rgba(255,255,255,0.3);max-width:1000px;margin:0 auto}
+</style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<div class="content-wrapper">
+  <nav class="gsap-nav">
+    <div class="nav-logo"><div class="logo-mark">🎛️</div>BeatForge</div>
+    <div class="nav-links"><a href="#">Beats</a><a href="#">Licenses</a><a href="#">Sell</a></div>
+    <button class="btn-accent">Browse beats</button>
+  </nav>
+
+  <section class="gsap-hero">
+    <div class="hero">
+      <div class="hero-text-wrap" data-speed="0.8">
+        <div class="hero-pill">🎚️ Lease · Exclusive · Stems</div>
+        <h1>Find your next <br><em>hit</em> right here</h1>
+        <p>80,000+ premium beats from the world's best producers. License instantly, download today, record tomorrow.</p>
+        <div class="hero-actions">
+          <button class="btn-hero">Browse beats</button>
+          <button class="btn-hero-ghost">Explore catalog</button>
+        </div>
+      </div>
+      <div class="hero-player-wrap" data-speed="1.1">
+        <div class="player-wrap">
+          <div class="beat-row playing">
+            <button class="beat-play">⏸</button>
+            <div class="beat-info"><div class="beat-title">Midnight Drip</div><div class="beat-meta"><span class="beat-tag">Trap</span><span class="beat-bpm">140 BPM · Cm</span></div></div>
+            <div class="waveform">
+              <div class="wbar played" style="height:55%"></div><div class="wbar played" style="height:80%"></div>
+              <div class="wbar played" style="height:60%"></div><div class="wbar" style="height:90%"></div>
+              <div class="wbar" style="height:50%"></div><div class="wbar" style="height:70%"></div>
+              <div class="wbar" style="height:40%"></div><div class="wbar" style="height:65%"></div>
+            </div>
+            <span class="beat-price">$49</span>
+          </div>
+          <div class="beat-row">
+            <button class="beat-play outline">▶</button>
+            <div class="beat-info"><div class="beat-title">Lagos Heat</div><div class="beat-meta"><span class="beat-tag">Afrobeat</span><span class="beat-bpm">97 BPM · Dm</span></div></div>
+            <div class="waveform">
+              <div class="wbar" style="height:45%"></div><div class="wbar" style="height:75%"></div>
+              <div class="wbar" style="height:55%"></div><div class="wbar" style="height:85%"></div>
+              <div class="wbar" style="height:60%"></div><div class="wbar" style="height:40%"></div>
+              <div class="wbar" style="height:70%"></div><div class="wbar" style="height:50%"></div>
+            </div>
+            <span class="beat-price">$39</span>
+          </div>
+          <div class="beat-row">
+            <button class="beat-play outline">▶</button>
+            <div class="beat-info"><div class="beat-title">Velvet Touch</div><div class="beat-meta"><span class="beat-tag">R&B</span><span class="beat-bpm">78 BPM · Bbm</span></div></div>
+            <div class="waveform">
+              <div class="wbar" style="height:60%"></div><div class="wbar" style="height:40%"></div>
+              <div class="wbar" style="height:80%"></div><div class="wbar" style="height:55%"></div>
+              <div class="wbar" style="height:70%"></div><div class="wbar" style="height:45%"></div>
+              <div class="wbar" style="height:60%"></div><div class="wbar" style="height:75%"></div>
+            </div>
+            <span class="beat-price">$29</span>
+          </div>
+          <div class="player-footer">
+            <div class="player-controls"><button class="ctrl">⏮</button><button class="ctrl play">⏸</button><button class="ctrl">⏭</button></div>
+            <div class="vol-bar"><div class="vol-fill"></div></div>
+            <span style="font-size:0.8rem;color:var(--muted)">🔈</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="chips-section gsap-fade">
+    <div class="chips-label">Browse by genre</div>
+    <div class="chips">
+      <span class="chip active">Trap</span><span class="chip">Drill</span><span class="chip">R&B</span><span class="chip">Afrobeat</span><span class="chip">Boom Bap</span><span class="chip">Pop</span>
+    </div>
+  </section>
+
+  <section class="features">
+    <h2 class="gsap-fade">License the right way</h2>
+    <p class="sub gsap-fade">From streaming singles to full exclusives — BeatForge has every license type covered. Simple, transparent, and instantly delivered.</p>
+    <div class="features-grid">
+      <div class="feat gsap-stagger">
+        <div class="feat-label">Lease</div>
+        <h4>MP3 lease</h4>
+        <p>From $29. Good for up to 50,000 streams. Instant download, no approval needed — start recording today.</p>
+        <div class="feat-meta">From $29 · 50k streams · instant DL</div>
+      </div>
+      <div class="feat gsap-stagger">
+        <div class="feat-label">Excl</div>
+        <h4>Exclusive rights</h4>
+        <p>WAV + trackout stems, one buyer forever. The beat is removed from the marketplace once you purchase.</p>
+        <div class="feat-meta">WAV + stems · 1 buyer · from $299</div>
+      </div>
+      <div class="feat gsap-stagger">
+        <div class="feat-label">Sell</div>
+        <h4>Producer storefront</h4>
+        <p>Keep 70% of every sale. Real-time analytics, weekly payouts, and your own branded producer page.</p>
+        <div class="feat-meta">70% rev share · analytics · payout weekly</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="stats-grid">
+      <div class="gsap-stat"><div class="stat-val">80k+</div><div class="stat-label">Beats available</div></div>
+      <div class="gsap-stat"><div class="stat-val">15k</div><div class="stat-label">Producers</div></div>
+      <div class="gsap-stat"><div class="stat-val">$29</div><div class="stat-label">Starting price</div></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-col"><h5>Buy</h5><a href="#">Beats</a><a href="#">Licenses</a><a href="#">Stems</a></div>
+      <div class="footer-col"><h5>Sell</h5><a href="#">Start selling</a><a href="#">Pricing</a><a href="#">Payouts</a></div>
+      <div class="footer-col"><h5>Company</h5><a href="#">About</a><a href="#">Blog</a><a href="#">Careers</a></div>
+      <div class="footer-col">
+        <h5>Newsletter</h5>
+        <div class="email-row"><input type="email" placeholder="your@email.com"/><button>Subscribe</button></div>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2024 BeatForge Inc. All rights reserved.</div>
+  </footer>
+</div>
+
+<script>
+  // 1. Initialize Three.js Scene
+  const canvas = document.querySelector('#bg-canvas');
+  const scene = new THREE.Scene();
+  // We want a subtle fog to add depth
+  scene.fog = new THREE.FogExp2(0x0f0904, 0.002);
+
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  // Add Lights
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+  scene.add(ambientLight);
+  
+  const pointLight1 = new THREE.PointLight(0xf97316, 1.5, 100);
+  pointLight1.position.set(5, 5, 5);
+  scene.add(pointLight1);
+  
+  const pointLight2 = new THREE.PointLight(0x4f46e5, 1, 100);
+  pointLight2.position.set(-5, -5, -5);
+  scene.add(pointLight2);
+
+  // Add 3D Elements (Floating blocks mimicking MIDI pads / sound waves)
+  const group = new THREE.Group();
+  scene.add(group);
+
+  const geometry = new THREE.BoxGeometry(1, 1, 1);
+  const material = new THREE.MeshPhysicalMaterial({ 
+    color: 0x222222,
+    metalness: 0.8,
+    roughness: 0.2,
+    emissive: 0xf97316,
+    emissiveIntensity: 0.1,
+    clearcoat: 1.0
+  });
+
+  const numObjects = 80;
+  for(let i=0; i<numObjects; i++) {
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.position.x = (Math.random() - 0.5) * 40;
+    mesh.position.y = (Math.random() - 0.5) * 40;
+    mesh.position.z = (Math.random() - 0.5) * 40;
+    
+    // Random rotation and scale
+    mesh.rotation.x = Math.random() * Math.PI;
+    mesh.rotation.y = Math.random() * Math.PI;
+    const scale = Math.random() * 0.5 + 0.1;
+    // Flatten some to look like discs or pads
+    if(Math.random() > 0.5) {
+      mesh.scale.set(scale*3, scale*0.2, scale*3);
+    } else {
+      mesh.scale.set(scale, scale*2, scale);
+    }
+    
+    // Store random rotation speeds
+    mesh.userData = {
+      rx: (Math.random() - 0.5) * 0.02,
+      ry: (Math.random() - 0.5) * 0.02,
+      rz: (Math.random() - 0.5) * 0.02,
+      startY: mesh.position.y
+    };
+    
+    group.add(mesh);
+  }
+
+  // Create particles (dust/stars)
+  const particleGeo = new THREE.BufferGeometry();
+  const particleCount = 1000;
+  const posArray = new Float32Array(particleCount * 3);
+  for(let i=0; i<particleCount*3; i++) {
+    posArray[i] = (Math.random() - 0.5) * 60;
+  }
+  particleGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+  const particleMat = new THREE.PointsMaterial({
+    size: 0.05,
+    color: 0xfef3c7,
+    transparent: true,
+    opacity: 0.4
+  });
+  const particles = new THREE.Points(particleGeo, particleMat);
+  scene.add(particles);
+
+  camera.position.z = 15;
+  camera.position.y = 2;
+  camera.lookAt(0,0,0);
+
+  // Animation Loop
+  const clock = new THREE.Clock();
+  let scrollY = window.scrollY;
+  
+  function animate() {
+    requestAnimationFrame(animate);
+    const time = clock.getElapsedTime();
+
+    // Slowly rotate the entire group
+    group.rotation.y = time * 0.05;
+    particles.rotation.y = time * 0.02;
+
+    // Bobbing effect for objects
+    group.children.forEach(mesh => {
+      mesh.rotation.x += mesh.userData.rx;
+      mesh.rotation.y += mesh.userData.ry;
+      mesh.rotation.z += mesh.userData.rz;
+      mesh.position.y = mesh.userData.startY + Math.sin(time + mesh.position.x) * 0.5;
+    });
+
+    // Move camera based on scroll
+    // Interpolate camera position for smooth parallax
+    const targetZ = 15 - (scrollY * 0.005);
+    const targetY = 2 + (scrollY * 0.002);
+    
+    camera.position.z += (targetZ - camera.position.z) * 0.05;
+    camera.position.y += (targetY - camera.position.y) * 0.05;
+
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  // Handle Resize
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+
+  // Track scroll for Three.js
+  window.addEventListener('scroll', () => {
+    scrollY = window.scrollY;
+  });
+
+  // 2. Initialize GSAP ScrollTrigger
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Intro animations
+  const tl = gsap.timeline();
+  tl.from(".nav-logo", { y: -20, opacity: 0, duration: 0.6, ease: "power3.out" })
+    .from(".nav-links a", { y: -20, opacity: 0, duration: 0.6, stagger: 0.1, ease: "power3.out" }, "-=0.4")
+    .from(".btn-accent", { scale: 0.8, opacity: 0, duration: 0.6, ease: "back.out(1.7)" }, "-=0.4")
+    .from(".hero-pill", { y: 20, opacity: 0, duration: 0.6, ease: "power3.out" }, "-=0.2")
+    .from(".hero h1", { y: 30, opacity: 0, duration: 0.8, ease: "power3.out" }, "-=0.4")
+    .from(".hero p", { y: 20, opacity: 0, duration: 0.6, ease: "power3.out" }, "-=0.6")
+    .from(".hero-actions button", { y: 20, opacity: 0, duration: 0.6, stagger: 0.1, ease: "power3.out" }, "-=0.4")
+    .from(".player-wrap", { x: 50, opacity: 0, rotationY: -15, duration: 1, ease: "power3.out" }, "-=1");
+
+  // Parallax elements
+  gsap.utils.toArray('[data-speed]').forEach(el => {
+    const speed = parseFloat(el.getAttribute('data-speed'));
+    gsap.to(el, {
+      y: (i, target) => -ScrollTrigger.maxScroll(window) * speed * 0.1,
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".content-wrapper",
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 1
+      }
+    });
+  });
+
+  // Fade up sections
+  gsap.utils.toArray('.gsap-fade').forEach(el => {
+    gsap.from(el, {
+      y: 40,
+      opacity: 0,
+      duration: 0.8,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: el,
+        start: "top 85%"
+      }
+    });
+  });
+
+  // Staggered features
+  gsap.from(".gsap-stagger", {
+    y: 50,
+    opacity: 0,
+    duration: 0.8,
+    stagger: 0.15,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: ".features-grid",
+      start: "top 80%"
+    }
+  });
+
+  // Stats pop
+  gsap.from(".gsap-stat", {
+    scale: 0.8,
+    opacity: 0,
+    duration: 0.8,
+    stagger: 0.2,
+    ease: "back.out(1.5)",
+    scrollTrigger: {
+      trigger: ".stats-grid",
+      start: "top 85%"
+    }
+  });
+</script>
+</body>
+</html>

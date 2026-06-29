@@ -1,0 +1,476 @@
+/* CSS Custom Properties for Premium Aesthetic */
+:root {
+    --bg-color: #05050a;
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0b0;
+    --accent-glow: rgba(0, 212, 255, 0.6);
+    --accent-color: #00d4ff;
+    --accent-hover: #00b0ff;
+    --panel-bg: rgba(15, 15, 25, 0.7);
+    --panel-border: rgba(255, 255, 255, 0.1);
+    --neon-purple: #b537f2;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+/* 3D Canvas Background */
+.webgl {
+    position: fixed;
+    top: 0;
+    left: 0;
+    outline: none;
+    z-index: -1;
+}
+
+/* Typography */
+h1, h2, h3, h4 {
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+
+h1 {
+    font-size: clamp(3rem, 5vw, 5rem);
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+h2 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+}
+
+p {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+}
+
+/* Scroll Content Container */
+.scroll-content {
+    position: relative;
+    z-index: 1;
+}
+
+/* Sections */
+.section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 2rem 5%;
+    position: relative;
+}
+
+.content-wrapper {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.center-align {
+    text-align: center;
+}
+
+.right-align {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+}
+
+.right-align p {
+    max-width: 500px;
+}
+
+/* Buttons */
+.cta-group {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+button, .cta-primary, .cta-secondary {
+    display: inline-block;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.cta-primary {
+    background: var(--accent-color);
+    color: #000;
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+}
+
+.cta-primary:hover {
+    background: var(--accent-hover);
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.6);
+    transform: translateY(-2px);
+}
+
+.cta-secondary {
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--panel-border);
+    backdrop-filter: blur(10px);
+}
+
+.cta-secondary:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.cta-small {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    background: var(--accent-color);
+    color: #000;
+    border-radius: 6px;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.cta-small.outline {
+    background: transparent;
+    color: var(--accent-color);
+    border: 1px solid var(--accent-color);
+}
+
+.full-width {
+    width: 100%;
+}
+
+/* Glitch Text Effect */
+.glitch-text {
+    position: relative;
+    text-shadow: 0 0 10px rgba(255,255,255,0.3);
+}
+
+/* Glassmorphism Cards & Panels */
+.glass-card, .glass-panel {
+    background: var(--panel-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--panel-border);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.glass-card {
+    max-width: 400px;
+    margin-top: 2rem;
+}
+
+.icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Interactive Showroom Section */
+.showroom {
+    pointer-events: none; /* Let clicks pass through to 3D canvas by default */
+}
+.showroom .content-wrapper {
+    pointer-events: auto; /* Only make text interactive */
+    background: rgba(5, 5, 10, 0.6);
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 16px;
+    border: 1px solid var(--panel-border);
+    display: inline-block;
+}
+
+.interaction-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+}
+
+.pulse-dot {
+    width: 10px;
+    height: 10px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--accent-color);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(0, 212, 255, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 212, 255, 0); }
+}
+
+/* Pricing Section */
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.price-card {
+    background: rgba(20, 20, 30, 0.6);
+    border: 1px solid var(--panel-border);
+    border-radius: 16px;
+    padding: 2.5rem;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.price-card:hover {
+    transform: translateY(-10px);
+}
+
+.price-card.premium {
+    background: linear-gradient(145deg, rgba(30, 30, 50, 0.8), rgba(15, 15, 25, 0.8));
+    border-color: rgba(0, 212, 255, 0.3);
+    box-shadow: 0 10px 40px rgba(0, 212, 255, 0.1);
+}
+
+.popular-tag {
+    position: absolute;
+    top: -12px;
+    right: 20px;
+    background: var(--accent-color);
+    color: #000;
+    font-size: 0.8rem;
+    font-weight: 800;
+    padding: 4px 12px;
+    border-radius: 20px;
+    text-transform: uppercase;
+}
+
+.price {
+    font-size: 3rem;
+    font-weight: 800;
+    margin: 1.5rem 0;
+    color: #fff;
+}
+
+.price span {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+
+.price-card ul {
+    list-style: none;
+    margin-bottom: 2rem;
+}
+
+.price-card li {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.price-card li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--accent-color);
+}
+
+/* Contact Form */
+.contact-container {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+form {
+    margin-top: 2rem;
+    text-align: left;
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+input, select {
+    width: 100%;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    color: #fff;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+select option {
+    background: #1a1a24;
+    color: #fff;
+}
+
+.submit-btn {
+    width: 100%;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-secondary);
+    border-top: 1px solid var(--panel-border);
+    background: rgba(0,0,0,0.5);
+}
+
+/* Hotspot UI Overlays */
+.hotspot-ui-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Let clicks pass through unless on a panel */
+    z-index: 10;
+}
+
+.hotspot-panel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    background: var(--panel-bg);
+    backdrop-filter: blur(25px);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    width: 320px;
+    padding: 1.5rem;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: auto;
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+}
+
+.hotspot-panel.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+.close-btn:hover {
+    color: #fff;
+}
+
+.panel-content h3 {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+}
+
+.panel-content p {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.badge {
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    border-radius: 4px;
+    background: rgba(0, 212, 255, 0.2);
+    color: var(--accent-color);
+    border: 1px solid var(--accent-color);
+}
+
+.badge.ai {
+    background: rgba(181, 55, 242, 0.2);
+    color: var(--neon-purple);
+    border-color: var(--neon-purple);
+}
+
+.badge.hw {
+    background: rgba(255, 170, 0, 0.2);
+    color: #ffaa00;
+    border-color: #ffaa00;
+}
+
+.features-list {
+    list-style: none;
+    font-size: 0.85rem;
+    color: #ddd;
+    margin-bottom: 1rem;
+}
+
+.features-list li {
+    margin-bottom: 4px;
+}
+.features-list li::before {
+    content: '→ ';
+    color: var(--accent-color);
+}
+
+.stats-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    background: rgba(0,0,0,0.3);
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.stat span {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--neon-purple);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .cta-group {
+        flex-direction: column;
+    }
+    .right-align {
+        align-items: flex-start;
+        text-align: left;
+    }
+}
