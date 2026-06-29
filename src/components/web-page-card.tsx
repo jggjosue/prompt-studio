@@ -25,6 +25,7 @@ import { ExternalLink, Globe, Tag } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { memo } from 'react';
+import { useAuth } from '@clerk/nextjs';
 
 type WebPageCardProps = {
   page: WebPageEntry;
@@ -58,10 +59,19 @@ function WebPageCardComponent({
   const isFree = normalizedMembership === 'free';
   const displayedPrice = isFree ? 'Free' : formatPrice(page.price);
   const { ready, isSignedIn, plan } = useMembershipAccess();
+  const { userId } = useAuth();
   const hasPremium =
     ready &&
     isSignedIn &&
     (plan === 'premium' || plan === 'startup');
+
+  const stripeUrl = process.env.NEXT_PUBLIC_STRIPE_WEB_PAGE_UNIQUE;
+  let itemCheckoutUrl = stripeUrl || '#';
+  if (stripeUrl && userId) {
+    const url = new URL(stripeUrl);
+    url.searchParams.set('client_reference_id', `${userId}___${page.id}`);
+    itemCheckoutUrl = url.toString();
+  }
 
   return (
     <ParallaxReveal reverse={animationIndex % 2 === 1}>
@@ -142,7 +152,7 @@ function WebPageCardComponent({
               asChild
             >
               <Link
-                href={getRefactoryLoaderUrl(page.demoUrl)}
+                href={`/webpages/${page.demoUrl}/index.html?auth=${isSignedIn ? '1' : '0'}&checkout=${encodeURIComponent(itemCheckoutUrl)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="!bg-blue-600 !text-white hover:!bg-blue-700"

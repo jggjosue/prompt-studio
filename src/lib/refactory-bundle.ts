@@ -40,7 +40,10 @@ export function readLocalDemoBundle(
     return null;
   }
 
-  const dir = path.join(process.cwd(), 'public/webpages', folder);
+  const basePath = process.cwd();
+  const publicDir = 'public';
+  const webpagesDir = 'webpages';
+  const dir = path.join(basePath, publicDir, webpagesDir, folder);
   if (!fs.existsSync(dir)) {
     return null;
   }

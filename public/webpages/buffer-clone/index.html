@@ -202,5 +202,32 @@
     
     <!-- Main Script -->
     <script src="script.js"></script>
+
+<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+  <stripe-buy-button
+    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
+    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
+  >
+  </stripe-buy-button>
+  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
+  <script>
+    var overlay = document.getElementById('stripe-auth-overlay');
+    if (overlay) {
+      overlay.onclick = function() {
+        var params = new URLSearchParams(window.location.search);
+        if (params.get('auth') === '1') {
+          var checkoutUrl = params.get('checkout');
+          if (checkoutUrl) {
+            window.location.href = checkoutUrl;
+          }
+        } else {
+          window.location.href = '/sign-in';
+        }
+      };
+    }
+  </script>
+</div>
+
 </body>
 </html>
