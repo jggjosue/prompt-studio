@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="3D Fashion Showroom Runway is a premium immersive fashion landing page with a live 3D showroom, collection lookbook, booking flow, VIP membership, and editorial storytelling.">
+  <meta name="theme-color" content="#0b0b10">
+  <title>3D Fashion Showroom Runway</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="#home" aria-label="RUNWAY 3D home">
+        <span class="brand-mark">RUNWAY</span>
+        <span class="brand-sub">3D FASHION SHOWROOM</span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span></span><span></span>
+      </button>
+
+      <nav class="site-nav" id="site-nav">
+        <a href="#home">Home</a>
+        <a href="#runway">Runway</a>
+        <a href="#collection">Collection</a>
+        <a href="#lookbook">Lookbook</a>
+        <a href="#showroom">Showroom</a>
+        <a href="#designers">Designers</a>
+        <a href="#booking">Booking</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <a class="btn btn-primary" href="#booking">Enter Runway</a>
+    </header>
+
+    <main>
+      <section class="hero section" id="home">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">Luxury digital runway experience</p>
+          <h1>Step Into a 3D Fashion Showroom Runway</h1>
+          <p class="lede">Explore a premium virtual runway where fashion collections, editorial looks, fabric details and showroom experiences come alive in immersive 3D.</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" type="button" data-focus="runway">Enter Runway</button>
+            <a class="btn btn-secondary" href="#collection">View Collection</a>
+            <a class="btn btn-ghost" href="#booking">Book Private Viewing</a>
+          </div>
+          <div class="hero-points">
+            <span>Canvas 3D showroom</span>
+            <span>Scroll storytelling</span>
+            <span>Interactive hotspots</span>
+          </div>
+        </div>
+
+        <div class="hero-canvas reveal">
+          <div class="canvas-frame">
+            <canvas id="fashion-canvas" aria-label="3D fashion showroom runway scene"></canvas>
+            <div class="canvas-hud">
+              <div>
+                <strong>Live Runway</strong>
+                <span>Scroll to move through the showroom</span>
+              </div>
+              <button class="chip" type="button" id="camera-reset">Reset View</button>
+            </div>
+            <div class="hotspot-panel" id="hotspot-panel" aria-live="polite">
+              <span class="hotspot-title">Main Runway</span>
+              <span class="hotspot-copy">Hover or click a hotspot to reveal a detail.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section narrative" id="runway">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Runway</p>
+          <h2>A Cinematic Runway Experience for Digital Fashion</h2>
+          <p>Scroll-driven camera movement carries you from the entrance, across the illuminated runway, through backstage details and into the VIP viewing zone.</p>
+        </div>
+        <div class="card-grid four">
+          <article class="info-card reveal">
+            <span class="icon">01</span>
+            <h3>Immersive Runway</h3>
+            <p>Present the collection in a central fashion path with reflective surfaces, soft shadows and theatrical lighting.</p>
+          </article>
+          <article class="info-card reveal">
+            <span class="icon">02</span>
+            <h3>Editorial Lighting</h3>
+            <p>Golden spotlights, flashes and ambient fills shape a premium, magazine-worthy atmosphere.</p>
+          </article>
+          <article class="info-card reveal">
+            <span class="icon">03</span>
+            <h3>Interactive Looks</h3>
+            <p>Click garments, accessories and hotspots to focus the canvas and reveal product detail.</p>
+          </article>
+          <article class="info-card reveal">
+            <span class="icon">04</span>
+            <h3>Private Showroom Access</h3>
+            <p>Invite buyers and VIP clients to book a guided viewing with confirmation and follow-up context.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="collection">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Collection</p>
+          <h2>Signature Pieces From the Digital Atelier</h2>
+          <p>Luxury garments and accessories are presented as editorial cards with working state changes and detail previews.</p>
+        </div>
+        <div class="card-grid collection-grid" id="collection-grid"></div>
+      </section>
+
+      <section class="section split-panel" id="lookbook">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Lookbook</p>
+          <h2>Magazine Pages With Motion and Depth</h2>
+          <p>Each lookbook panel opens a preview modal with a stylistic snapshot, like turning the page of a premium fashion journal.</p>
+        </div>
+        <div class="lookbook-layout">
+          <div class="lookbook-stack" id="lookbook-stack"></div>
+          <aside class="detail-panel reveal" id="lookbook-detail">
+            <p class="panel-kicker">Open Lookbook</p>
+            <h3>Eveningwear</h3>
+            <p>Choose a panel to open a simulated editorial preview with full outfit context.</p>
+            <button class="btn btn-secondary" type="button" data-modal="lookbook">Open Lookbook</button>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section" id="fabric">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Fabric Details</p>
+          <h2>Material Studies With Texture and Shine</h2>
+          <p>Silk, wool, leather and embellishment cards reveal a larger texture view when selected.</p>
+        </div>
+        <div class="card-grid material-grid" id="material-grid"></div>
+      </section>
+
+      <section class="section" id="accessories">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Accessories</p>
+          <h2>Objects That Complete the Runway Language</h2>
+          <p>Preview handbags, shoes and jewelry with subtle 3D hover treatment and saved-state feedback.</p>
+        </div>
+        <div class="card-grid accessory-grid" id="accessory-grid"></div>
+      </section>
+
+      <section class="section" id="showroom">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Showroom Experience</p>
+          <h2>Designed for Buyers, Editors and Private Clients</h2>
+          <p>Experience cards route visitors toward the booking flow and reinforce the premium showroom narrative.</p>
+        </div>
+        <div class="card-grid four" id="experience-grid"></div>
+      </section>
+
+      <section class="section" id="designers">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Designer Notes</p>
+          <h2>Notes From the House</h2>
+        </div>
+        <div class="editorial-notes">
+          <div class="note-card reveal">
+            <p>“Inspired by architectural silhouettes.”</p>
+          </div>
+          <div class="note-card reveal">
+            <p>“Built around contrast between softness and structure.”</p>
+          </div>
+          <div class="note-card reveal">
+            <p>“Designed for movement, confidence and presence.”</p>
+          </div>
+          <div class="note-card reveal">
+            <p>“Luxury materials with modern minimalism.”</p>
+          </div>
+        </div>
+        <div class="center-actions">
+          <button class="btn btn-secondary" type="button" data-modal="concept">Read Full Concept</button>
+        </div>
+      </section>
+
+      <section class="section backstage" id="backstage">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Backstage</p>
+          <h2>The Machinery Behind the Show</h2>
+          <p>Styling, makeup, fittings and scheduling are represented as useful backstage touchpoints.</p>
+        </div>
+        <div class="card-grid four" id="backstage-grid"></div>
+      </section>
+
+      <section class="section booking" id="booking">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Booking</p>
+          <h2>Reserve a Private Viewing</h2>
+          <p>Book a virtual showroom tour, private runway preview or styling consultation with a fully functional form.</p>
+        </div>
+        <div class="booking-layout">
+          <form class="form-card reveal" id="booking-form">
+            <div class="form-row">
+              <label>Name <input name="name" type="text" required></label>
+              <label>Email <input name="email" type="email" required></label>
+            </div>
+            <div class="form-row">
+              <label>Preferred Date <input name="date" type="date" required></label>
+              <label>Collection Interest
+                <select name="interest" required>
+                  <option value="">Select collection</option>
+                  <option>Eveningwear</option>
+                  <option>Tailoring</option>
+                  <option>Minimal Luxury</option>
+                  <option>Accessories</option>
+                </select>
+              </label>
+            </div>
+            <div class="form-row">
+              <label>Appointment Type
+                <select name="type" required>
+                  <option value="">Select type</option>
+                  <option>Virtual Showroom Tour</option>
+                  <option>Private Runway Preview</option>
+                  <option>Styling Consultation</option>
+                  <option>Buyer Appointment</option>
+                </select>
+              </label>
+              <label>Message <textarea name="message" rows="4" required></textarea></label>
+            </div>
+            <button class="btn btn-primary" type="submit">Book Private Viewing</button>
+            <p class="form-status" id="booking-status" aria-live="polite"></p>
+          </form>
+
+          <div class="detail-panel reveal">
+            <p class="panel-kicker">VIP List</p>
+            <h3>Membership Access</h3>
+            <p>Early collection access, private runway previews, designer consultations and invite-only events.</p>
+            <button class="btn btn-secondary" type="button" id="vip-button">Join VIP List</button>
+            <div class="mini-list">
+              <span>Early access collections</span>
+              <span>Private runway previews</span>
+              <span>Personal styling</span>
+              <span>Invite-only events</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section testimonials" id="testimonials">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Testimonials</p>
+          <h2>What Buyers Say</h2>
+        </div>
+        <div class="card-grid three">
+          <article class="quote-card reveal"><p>“The 3D runway made the collection feel alive before the physical show.”</p></article>
+          <article class="quote-card reveal"><p>“Every garment detail felt premium, editorial and interactive.”</p></article>
+          <article class="quote-card reveal"><p>“A beautiful way to present fashion to buyers and private clients.”</p></article>
+        </div>
+      </section>
+
+      <section class="section contact" id="contact">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Contact</p>
+          <h2>Fashion Team and Showroom Details</h2>
+        </div>
+        <div class="contact-layout">
+          <form class="form-card reveal" id="contact-form">
+            <div class="form-row">
+              <label>Name <input name="name" type="text" required></label>
+              <label>Email <input name="email" type="email" required></label>
+            </div>
+            <label>Inquiry Type
+              <select name="type" required>
+                <option value="">Select inquiry</option>
+                <option>Press</option>
+                <option>Buyers</option>
+                <option>Styling</option>
+                <option>Partnerships</option>
+              </select>
+            </label>
+            <label>Message <textarea name="message" rows="4" required></textarea></label>
+            <button class="btn btn-primary" type="submit">Contact Fashion Team</button>
+            <p class="form-status" id="contact-status" aria-live="polite"></p>
+          </form>
+
+          <div class="detail-panel reveal">
+            <p class="panel-kicker">Studio</p>
+            <h3>Showroom Contacts</h3>
+            <p>Email: showroom@runway3d.example</p>
+            <p>Location: 88 Atelier Avenue, New York, NY</p>
+            <p>Press: press@runway3d.example</p>
+            <p>Social: Instagram, Pinterest, TikTok</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button class="modal-close" type="button" data-close-modal aria-label="Close modal">×</button>
+      <p class="panel-kicker" id="modal-kicker">Preview</p>
+      <h3 id="modal-title">Modal Title</h3>
+      <p id="modal-copy"></p>
+      <div class="modal-actions" id="modal-actions"></div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="fashion3d.js"></script>
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Innovation Garden Tours</title>
+    <meta name="description" content="Experience a futuristic 3D innovation garden. Book your tour today.">
+    <!-- Modern typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Three.js and GSAP via CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+<body>
+    <!-- 3D Canvas Background -->
+    <div id="canvas-container">
+        <canvas id="webgl-canvas"></canvas>
+    </div>
+
+    <!-- Header / Navbar -->
+    <header class="glass-header">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-text">INNOVATION TOURS <span class="accent-3d">3D</span></span>
+            </div>
+            <nav class="desktop-nav">
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#tours">Tours</a></li>
+                    <li><a href="#garden">Garden</a></li>
+                    <li><a href="#stations">Stations</a></li>
+                    <li><a href="#labs">Labs</a></li>
+                    <li><a href="#schedule">Schedule</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <a href="#booking" class="cta-button nav-btn">Book Tour</a>
+            <div class="hamburger-menu">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay">
+        <nav class="mobile-nav">
+             <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#tours">Tours</a></li>
+                <li><a href="#garden">Garden</a></li>
+                <li><a href="#stations">Stations</a></li>
+                <li><a href="#labs">Labs</a></li>
+                <li><a href="#schedule">Schedule</a></li>
+                <li><a href="#booking">Booking</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main Content Sections -->
+    <main class="scroll-container">
+        
+        <!-- Home Section -->
+        <section id="home" class="panel hero-section">
+            <div class="content-wrapper parallax-hero">
+                <h1 class="hero-title">Step Into The <br><span class="gradient-text glow">Innovation Ecosystem</span></h1>
+                <p class="hero-subtitle">Embark on a guided 3D journey through our creative campus, tech park, and transformation labs.</p>
+                <div class="hero-actions">
+                    <a href="#booking" class="cta-button primary glowing">Start Your Journey</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tours Section -->
+        <section id="tours" class="panel right-align">
+            <div class="content-wrapper parallax-card">
+                <div class="glass-card premium">
+                    <h2>Guided Innovation Tours</h2>
+                    <p>Navigate luminous paths through our tech park. Each tour is crafted to inspire, educate, and transform your vision from ideation to prototype.</p>
+                    <ul class="feature-list">
+                        <li><span class="icon">✦</span> Ideation & Strategy</li>
+                        <li><span class="icon">✦</span> Prototype Development</li>
+                        <li><span class="icon">✦</span> Ecosystem Networking</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Garden Section -->
+        <section id="garden" class="panel left-align">
+            <div class="content-wrapper parallax-text">
+                 <div class="glass-card outline-only">
+                    <h2>The 3D Tech Garden</h2>
+                    <p>Wander through digital forests where knowledge trees grow and data flows like water. A true synthesis of organic growth and artificial intelligence.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stations Section -->
+        <section id="stations" class="panel center-align">
+            <div class="content-wrapper">
+                <h2 class="section-title text-glow">Innovation Stations</h2>
+                <div class="bento-grid">
+                    <div class="bento-item glass-card hover-lift">
+                        <h3>Idea Greenhouses</h3>
+                        <p>Where raw concepts are nurtured.</p>
+                    </div>
+                    <div class="bento-item glass-card hover-lift">
+                        <h3>Strategy Pavilions</h3>
+                        <p>Architecting the future.</p>
+                    </div>
+                    <div class="bento-item glass-card hover-lift">
+                        <h3>Mentorship Zones</h3>
+                        <p>Guidance from industry leaders.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Labs Section -->
+        <section id="labs" class="panel right-align">
+             <div class="content-wrapper parallax-card">
+                <div class="glass-card premium">
+                    <h2>Prototyping Labs</h2>
+                    <p>Experience our open laboratories. Turn concepts into tangible prototypes using our state-of-the-art immersive ecosystem tools.</p>
+                    <a href="#booking" class="cta-button secondary outline">Discover the Labs</a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Schedule Section -->
+        <section id="schedule" class="panel left-align">
+             <div class="content-wrapper parallax-text">
+                <div class="glass-card">
+                    <h2>Tour Schedule</h2>
+                    <div class="schedule-list">
+                        <div class="schedule-item">
+                            <span class="time">10:00 AM</span>
+                            <div class="details">
+                                <h4>Morning Vision Tour</h4>
+                                <p>Focus on ideation and strategy pavilions.</p>
+                            </div>
+                        </div>
+                        <div class="schedule-item">
+                            <span class="time">02:00 PM</span>
+                            <div class="details">
+                                <h4>Tech Prototyping Route</h4>
+                                <p>Deep dive into labs and maker spaces.</p>
+                            </div>
+                        </div>
+                        <div class="schedule-item">
+                            <span class="time">06:00 PM</span>
+                            <div class="details">
+                                <h4>Twilight Networking</h4>
+                                <p>Community gathering at the data fountains.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Booking Section -->
+        <section id="booking" class="panel center-align">
+             <div class="content-wrapper parallax-card">
+                 <div class="glass-card premium booking-card">
+                    <h2>Reserve Your Spot</h2>
+                    <p>Spaces in the Innovation Garden are limited. Secure your guided tour today.</p>
+                    <form class="booking-form" onsubmit="event.preventDefault();">
+                        <input type="text" placeholder="Full Name" required>
+                        <input type="email" placeholder="Email Address" required>
+                        <select required>
+                            <option value="" disabled selected>Select a Tour...</option>
+                            <option value="morning">Morning Vision Tour</option>
+                            <option value="afternoon">Tech Prototyping Route</option>
+                            <option value="evening">Twilight Networking</option>
+                        </select>
+                        <button class="cta-button primary glowing submit-btn">Book Now</button>
+                    </form>
+                 </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="panel center-align footer-panel">
+             <div class="content-wrapper">
+                <h2 class="text-glow">Join The Community</h2>
+                <p class="footer-desc">Be part of an ecosystem that shapes the future of technology and sustainability.</p>
+                <div class="social-links">
+                    <a href="#">Twitter</a>
+                    <a href="#">LinkedIn</a>
+                    <a href="#">Discord</a>
+                </div>
+                <p class="copyright">&copy; 2026 Innovation Tours 3D. All rights reserved.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="js/scene.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Hybrid Event Venue</title>
+    <meta name="description" content="Experience the future of events with our premium 3D hybrid event venue.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- 3D Canvas Background -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- Header / Navbar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">HYBRID VENUE 3D</a>
+            <nav class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#venue">Venue</a>
+                <a href="#stage">Stage</a>
+                <a href="#streaming">Streaming</a>
+                <a href="#agenda">Agenda</a>
+                <a href="#networking">Networking</a>
+                <a href="#tickets">Tickets</a>
+                <a href="#contact">Contact</a>
+            </nav>
+            <a href="#tickets" class="btn-primary">Register Now</a>
+            <button class="mobile-menu-btn" aria-label="Toggle Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Overlay -->
+    <main class="content-overlay">
+        
+        <!-- Hero Section -->
+        <section id="home" class="hero-section panel">
+            <div class="hero-content" data-speed="0.5">
+                <h1 class="glitch" data-text="THE FUTURE OF EVENTS">THE FUTURE OF EVENTS</h1>
+                <p class="subtitle">Immersive 3D Hybrid Experiences</p>
+                <div class="hero-buttons">
+                    <a href="#venue" class="btn-outline">Explore Venue</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Venue Section -->
+        <section id="venue" class="venue-section panel">
+            <div class="section-content" data-speed="0.8">
+                <h2>Virtual & Physical Spaces</h2>
+                <p>Seamlessly blending in-person and digital audiences in a premium 3D environment.</p>
+                <div class="feature-cards">
+                    <div class="card parallax-card">
+                        <h3>Main Auditorium</h3>
+                        <p>Capacity for 10,000+ virtual attendees with high-fidelity streaming.</p>
+                    </div>
+                    <div class="card parallax-card">
+                        <h3>Breakout Rooms</h3>
+                        <p>Interactive sessions with seamless transitions.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stage Section -->
+        <section id="stage" class="stage-section panel">
+            <div class="section-content right-align" data-speed="0.6">
+                <h2>State-of-the-Art Stage</h2>
+                <p>LED screens, dynamic lighting, and cinematic camera angles.</p>
+            </div>
+        </section>
+
+        <!-- Streaming Section -->
+        <section id="streaming" class="streaming-section panel">
+            <div class="section-content left-align" data-speed="0.7">
+                <h2>Pro Broadcasting Control</h2>
+                <p>Ultra-low latency streaming and multi-camera live switching.</p>
+            </div>
+        </section>
+
+        <!-- Agenda Section -->
+        <section id="agenda" class="agenda-section panel">
+            <div class="section-content">
+                <h2>Event Agenda</h2>
+                <div class="agenda-timeline">
+                    <div class="agenda-item">
+                        <span class="time">09:00 AM</span>
+                        <div class="details">
+                            <h4>Keynote: The Metaverse</h4>
+                            <p>Main Stage</p>
+                        </div>
+                    </div>
+                    <div class="agenda-item">
+                        <span class="time">11:00 AM</span>
+                        <div class="details">
+                            <h4>Panel: Hybrid Networking</h4>
+                            <p>Breakout Room A</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tickets Section -->
+        <section id="tickets" class="tickets-section panel">
+            <div class="section-content">
+                <h2>Get Your Pass</h2>
+                <div class="pricing-cards">
+                    <div class="ticket-card">
+                        <h3>Virtual Pass</h3>
+                        <div class="price">$49</div>
+                        <ul>
+                            <li>Full access to livestreams</li>
+                            <li>Virtual networking lounge</li>
+                        </ul>
+                        <button class="btn-primary">Buy Now</button>
+                    </div>
+                    <div class="ticket-card premium">
+                        <h3>Hybrid Pass</h3>
+                        <div class="price">$299</div>
+                        <ul>
+                            <li>In-person VIP seating</li>
+                            <li>Exclusive after-party</li>
+                            <li>All virtual features</li>
+                        </ul>
+                        <button class="btn-primary">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer id="contact">
+            <div class="footer-content">
+                <h2>Ready to host your event?</h2>
+                <a href="mailto:contact@hybridvenue.com" class="btn-outline">Contact Sales</a>
+                <p>&copy; 2026 Hybrid Venue 3D. All rights reserved.</p>
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- Scripts -->
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- App Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/scene.js"></script>
+    <script src="js/animations.js"></script>
+</body>
+</html>

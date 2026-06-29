@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Personal Brand Cube</title>
+    <meta name="description" content="Welcome to the universe of a professional expert.">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="glass-nav">
+        <div class="nav-container">
+            <div class="logo">PERSONAL CUBE 3D</div>
+            <nav class="desktop-menu">
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#expertise">Expertise</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#content">Content</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <a href="#contact" class="btn-primary">Book a Call</a>
+            <div class="hamburger">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- 3D Canvas Background -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- Main Content Layout -->
+    <main class="content-wrapper">
+        <section id="home" class="section hero-section">
+            <div class="container hero-content parallax-element">
+                <h1 class="hero-title">Enter My Universe</h1>
+                <p class="hero-subtitle">Exploring the dimensions of expertise, creativity, and professional storytelling.</p>
+                <div class="hero-cta">
+                    <a href="#expertise" class="btn-secondary">Explore My Facets</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="section about-section">
+            <div class="container parallax-element">
+                <h2>About Me</h2>
+                <div class="grid-2col">
+                    <div class="text-content">
+                        <p>I am a multifaceted professional dedicated to creating impactful experiences. My journey is built on a foundation of continuous learning, strategic thinking, and innovative execution.</p>
+                        <p>Every side of this cube represents a core pillar of my professional identity. Scroll to discover more.</p>
+                    </div>
+                    <div class="visual-placeholder glass-card">
+                        <!-- Space for conceptual portrait or data visualization -->
+                        <h3>Vision & Mission</h3>
+                        <p>Empowering others through shared knowledge and premium solutions.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="expertise" class="section expertise-section">
+            <div class="container parallax-element">
+                <h2>Expertise</h2>
+                <p class="section-desc">Mastering the skills that drive success in a modern digital landscape.</p>
+                <div class="skills-grid">
+                    <div class="skill-card glass-card">
+                        <h4>Strategy</h4>
+                        <p>Long-term planning and actionable roadmaps.</p>
+                    </div>
+                    <div class="skill-card glass-card">
+                        <h4>Design</h4>
+                        <p>Crafting premium, user-centric interfaces.</p>
+                    </div>
+                    <div class="skill-card glass-card">
+                        <h4>Technology</h4>
+                        <p>Implementing cutting-edge solutions like WebGL.</p>
+                    </div>
+                    <div class="skill-card glass-card">
+                        <h4>Leadership</h4>
+                        <p>Guiding teams to exceed their potential.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="section projects-section">
+            <div class="container parallax-element">
+                <h2>Featured Projects</h2>
+                <div class="projects-list">
+                    <div class="project-item glass-card">
+                        <div class="project-info">
+                            <h3>Next-Gen Platform</h3>
+                            <p>A transformative web application scaling to millions of users.</p>
+                        </div>
+                    </div>
+                    <div class="project-item glass-card">
+                        <div class="project-info">
+                            <h3>Immersive Brand Activation</h3>
+                            <p>Interactive 3D experiences that elevate brand perception.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="content" class="section content-section">
+            <div class="container parallax-element">
+                <h2>Content & Insights</h2>
+                <p class="section-desc">Sharing thoughts on design, code, and leadership.</p>
+                <div class="content-grid">
+                    <article class="article-card glass-card">
+                        <h4>The Future of Web3D</h4>
+                        <a href="#">Read Article &rarr;</a>
+                    </article>
+                    <article class="article-card glass-card">
+                        <h4>Building Premium Brands</h4>
+                        <a href="#">Read Article &rarr;</a>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="section services-section">
+            <div class="container parallax-element">
+                <h2>Services</h2>
+                <div class="services-wrapper grid-2col">
+                    <div class="service-card glass-card">
+                        <h3>Consulting</h3>
+                        <p>1-on-1 strategic advice to elevate your business.</p>
+                    </div>
+                    <div class="service-card glass-card">
+                        <h3>Development</h3>
+                        <p>End-to-end creation of premium web experiences.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="section contact-section">
+            <div class="container parallax-element text-center">
+                <h2>Let's Collaborate</h2>
+                <p>Ready to build something amazing together? Reach out and let's start the conversation.</p>
+                <form class="contact-form glass-card">
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Your Email" required>
+                    <textarea placeholder="Tell me about your project" rows="4" required></textarea>
+                    <button type="submit" class="btn-primary">Send Message</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Application Logic -->
+    <script src="app.js"></script>
+</body>
+</html>

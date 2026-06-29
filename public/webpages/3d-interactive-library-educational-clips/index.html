@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Interactive Library Educational Clips</title>
+  <meta name="description" content="Explore a modern, educational, immersive and interactive 3D digital library of educational clips and micro-lessons.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Three.js Import Map -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.159.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.159.0/examples/jsm/"
+      }
+    }
+  </script>
+
+  <!-- GSAP & ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+<body>
+
+  <!-- Fixed 3D Canvas Background -->
+  <div id="canvas-container"></div>
+
+  <!-- Header / Navbar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="logo">EDU CLIPS LIBRARY 3D</div>
+      
+      <button class="mobile-menu-btn" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#library">Library</a>
+        <a href="#clips">Clips</a>
+        <a href="#categories">Categories</a>
+        <a href="#playlists">Playlists</a>
+        <a href="#teachers">Teachers</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      
+      <a href="#start" class="btn-primary">Start Learning</a>
+    </div>
+  </nav>
+
+  <!-- Scrollable Content Overlays -->
+  <main class="scroll-content">
+    
+    <section id="home" class="section hero">
+      <div class="content-block parallax-element" data-speed="0.8">
+        <h1>Welcome to the Future of Learning</h1>
+        <p>Step into an immersive 3D digital library containing thousands of educational clips and micro-lessons.</p>
+        <div class="search-bar">
+          <input type="text" placeholder="Search biology, algebra, history...">
+          <button class="btn-search">Search</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="library" class="section">
+      <div class="content-block parallax-element left" data-speed="1.2">
+        <h2>Interactive 3D Library</h2>
+        <p>Scroll to explore aisles of knowledge. Every shelf contains interactive resources tailored to your learning pace.</p>
+      </div>
+    </section>
+
+    <section id="clips" class="section">
+      <div class="content-block parallax-element right" data-speed="1.5">
+        <h2>Microlearning Clips</h2>
+        <p>Bite-sized visual explanations and fast guides to master complex concepts in minutes.</p>
+        <div class="stats">
+          <div class="stat-item">
+            <span class="number">10k+</span>
+            <span class="label">Video Clips</span>
+          </div>
+          <div class="stat-item">
+            <span class="number">500+</span>
+            <span class="label">Categories</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="playlists" class="section">
+      <div class="content-block parallax-element center" data-speed="0.9">
+        <h2>Curated Playlists</h2>
+        <p>Follow structured learning paths created by expert teachers and track your progress.</p>
+        <a href="#explore" class="btn-secondary">Explore Playlists</a>
+      </div>
+    </section>
+    <section id="categories" class="section">
+      <div class="content-block parallax-element left" data-speed="1.3">
+        <h2>Explore by Categories</h2>
+        <p>From deep-sea biology to astrophysics, find specifically curated 3D holographic exhibits.</p>
+        <a href="#explore" class="btn-secondary">Browse Categories</a>
+      </div>
+    </section>
+
+    <section id="teachers" class="section">
+      <div class="content-block parallax-element right" data-speed="1.1">
+        <h2>Expert Teachers</h2>
+        <p>Learn directly from industry professionals guiding you through holographic step-by-step micro-lessons.</p>
+      </div>
+    </section>
+
+    <section id="pricing" class="section">
+      <div class="content-block parallax-element left" data-speed="1.4">
+        <h2>Unlock the Full Library</h2>
+        <p>Get unlimited access to all 3D clips, downloadable resources, and priority support.</p>
+        <a href="#premium" class="btn-primary">View Pricing</a>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="content-block parallax-element center" data-speed="1.2">
+        <h2>Need Assistance?</h2>
+        <p>Our support team is here 24/7 to help you navigate your educational journey.</p>
+        <a href="#support" class="btn-secondary">Contact Us</a>
+      </div>
+    </section>
+    
+    <section id="end" class="section">
+      <div class="content-block parallax-element" data-speed="1.1">
+        <h2>Ready to Master New Skills?</h2>
+        <p>Join thousands of students in the most immersive educational platform.</p>
+        <a href="#start" class="btn-primary large">Start Learning Now</a>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="library3d.js"></script>
+  <script>
+    // Simple Mobile Menu Toggle
+    document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+      document.querySelector('.nav-links').classList.toggle('active');
+    });
+  </script>
+</body>
+</html>

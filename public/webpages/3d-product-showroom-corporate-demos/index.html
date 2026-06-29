@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>3D Product Showroom Corporate Demos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <!-- GSAP & ScrollTrigger -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #03060a; --surf: rgba(12, 20, 34, 0.7); --bdr: rgba(79, 156, 249, 0.2);
+      --txt: #f0f4f8; --muted: #8a9bb3; --accent: #4f9cf9;
+      --ff: 'Outfit', system-ui, sans-serif;
+    }
+    html, body { width: 100%; height: 100%; background: var(--bg); color: var(--txt); font-family: var(--ff); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    
+    /* 3D CANVAS */
+    #c { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+    
+    /* UI LAYER */
+    #ui-layer { position: relative; z-index: 10; width: 100%; }
+    
+    /* NAVBAR */
+    #nav { position: fixed; top: 0; left: 0; right: 0; height: 70px; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; background: rgba(3, 6, 10, 0.7); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .brand { font-size: 1.2rem; font-weight: 800; letter-spacing: 0.05em; display: flex; align-items: center; gap: 8px; }
+    .brand-icon { color: var(--accent); }
+    .nav-links { display: flex; gap: 24px; align-items: center; }
+    .nav-link { color: var(--txt); text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: color 0.2s; cursor: pointer; }
+    .nav-link:hover { color: var(--accent); }
+    .btn-nav { background: var(--accent); color: #fff; padding: 10px 20px; border-radius: 6px; font-weight: 600; font-size: 0.85rem; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; border: none; cursor: pointer; }
+    .btn-nav:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(79, 156, 249, 0.4); }
+    
+    @media (max-width: 900px) { .nav-links { display: none; } }
+    
+    /* SECTIONS */
+    .section { position: relative; width: 100%; min-height: 120vh; display: flex; align-items: center; justify-content: space-between; padding: 0 8vw; pointer-events: none; }
+    .section > * { pointer-events: auto; }
+    
+    .panel { background: var(--surf); backdrop-filter: blur(16px); border: 1px solid var(--bdr); border-radius: 16px; padding: 32px; max-width: 480px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+    .panel-badge { display: inline-block; padding: 4px 12px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; border-radius: 99px; margin-bottom: 16px; }
+    .panel-title { font-size: 2.5rem; font-weight: 700; line-height: 1.1; margin-bottom: 12px; }
+    .panel-desc { font-size: 1.05rem; color: var(--muted); line-height: 1.6; margin-bottom: 24px; }
+    
+    .features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+    .feature { display: flex; flex-direction: column; gap: 4px; }
+    .feature-val { font-size: 1.4rem; font-weight: 700; color: #fff; }
+    .feature-lbl { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    
+    .panel-ctas { display: flex; gap: 12px; }
+    .btn-primary { flex: 1; background: var(--accent); color: #fff; border: none; padding: 12px; border-radius: 8px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: opacity 0.2s; text-align: center; }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-outline { flex: 1; background: transparent; border: 1px solid var(--muted); color: var(--txt); padding: 12px; border-radius: 8px; font-size: 0.95rem; font-weight: 500; cursor: pointer; transition: border-color 0.2s; text-align: center; }
+    .btn-outline:hover { border-color: var(--txt); }
+    
+    /* SPECIFIC ALIGNMENTS */
+    #hero { justify-content: center; text-align: center; height: 100vh; min-height: 100vh; }
+    #hero .panel { max-width: 700px; background: transparent; border: none; box-shadow: none; backdrop-filter: none; }
+    #hero .panel-title { font-size: 4rem; text-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+    
+    #sec-analytics { justify-content: flex-start; }
+    #sec-cloud { justify-content: flex-end; }
+    #sec-ai { justify-content: flex-start; }
+    
+    #footer { min-height: 60vh; justify-content: center; text-align: center; }
+    
+    /* SCROLL INDICATOR */
+    .scroll-indicator { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; animation: bounce 2s infinite; opacity: 0.6; }
+    .scroll-indicator span { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
+    .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--txt), transparent); }
+    @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); } 40% { transform: translateY(-10px) translateX(-50%); } 60% { transform: translateY(-5px) translateX(-50%); } }
+    
+    /* FLOATING WIDGETS PARALLAX */
+    .widget { position: absolute; background: var(--surf); backdrop-filter: blur(10px); border: 1px solid var(--bdr); border-radius: 12px; padding: 16px; display: flex; align-items: center; gap: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); pointer-events: none; }
+    .widget-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+    .widget-info { display: flex; flex-direction: column; }
+    .w-title { font-size: 0.8rem; color: var(--muted); }
+    .w-val { font-size: 1rem; font-weight: 700; color: #fff; }
+    
+    @media (max-width: 768px) {
+      .section { justify-content: center !important; padding: 0 20px; }
+      .panel { max-width: 100%; margin-top: 20vh; }
+      .widget { display: none; }
+      #hero .panel-title { font-size: 2.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="c"></canvas>
+
+<nav id="nav">
+  <div class="brand">
+    <span class="brand-icon">&#11035;</span>
+    CORPORATE DEMO 3D
+  </div>
+  <div class="nav-links">
+    <a class="nav-link">Home</a>
+    <a class="nav-link">Showroom</a>
+    <a class="nav-link">Solutions</a>
+    <a class="nav-link">Use Cases</a>
+    <a class="nav-link">Pricing</a>
+  </div>
+  <button class="btn-nav">Book a Demo</button>
+</nav>
+
+<div id="ui-layer">
+  
+  <section class="section" id="hero">
+    <div class="panel" data-speed="0.8">
+      <div class="panel-badge" style="background:rgba(255,255,255,0.1);color:#fff;">Immersive Experience</div>
+      <h1 class="panel-title">The Future of B2B Demos</h1>
+      <p class="panel-desc" style="font-size:1.2rem;">Step into our interactive corporate showroom. Experience enterprise solutions like never before through real-time 3D environments.</p>
+    </div>
+    <div class="scroll-indicator">
+      <span>Scroll to explore</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+  
+  <section class="section" id="sec-analytics">
+    <div class="panel" data-speed="1.1">
+      <div class="panel-badge" style="background:rgba(79,156,249,0.15);color:#4f9cf9;border:1px solid rgba(79,156,249,0.3);">Data & Analytics</div>
+      <h2 class="panel-title">DataPulse Analytics</h2>
+      <p class="panel-desc">Enterprise analytics platform processing 50M+ events daily with sub-100ms query latency, powering live dashboards and predictive AI forecasting.</p>
+      <div class="features-grid">
+        <div class="feature"><span class="feature-val">99.99%</span><span class="feature-lbl">Uptime SLA</span></div>
+        <div class="feature"><span class="feature-val"><100ms</span><span class="feature-lbl">Latency</span></div>
+        <div class="feature"><span class="feature-val">50M+</span><span class="feature-lbl">Events / Day</span></div>
+        <div class="feature"><span class="feature-val">Real-time</span><span class="feature-lbl">WebSockets</span></div>
+      </div>
+      <div class="panel-ctas">
+        <button class="btn-primary" style="background:#4f9cf9;">View Interactive Demo</button>
+        <button class="btn-outline">Read Case Study</button>
+      </div>
+    </div>
+    
+    <!-- Parallax Widgets -->
+    <div class="widget" data-speed="1.4" style="right: 15%; top: 25%;">
+      <div class="widget-icon" style="background: rgba(79,156,249,0.2); color: #4f9cf9;">📈</div>
+      <div class="widget-info"><span class="w-title">Live Queries</span><span class="w-val">24,592 / sec</span></div>
+    </div>
+    <div class="widget" data-speed="0.7" style="right: 20%; bottom: 30%;">
+      <div class="widget-icon" style="background: rgba(52,211,153,0.2); color: #34d399;">✅</div>
+      <div class="widget-info"><span class="w-title">System Status</span><span class="w-val">All Systems Operational</span></div>
+    </div>
+  </section>
+  
+  <section class="section" id="sec-cloud">
+    <div class="panel" data-speed="0.9">
+      <div class="panel-badge" style="background:rgba(52,211,153,0.15);color:#34d399;border:1px solid rgba(52,211,153,0.3);">Infrastructure</div>
+      <h2 class="panel-title">NexusCloud Suite</h2>
+      <p class="panel-desc">Deploy and manage infrastructure across AWS, GCP, and Azure through a single unified API. Zero to production in minutes.</p>
+      <div class="features-grid">
+        <div class="feature"><span class="feature-val">Multi</span><span class="feature-lbl">Cloud Native</span></div>
+        <div class="feature"><span class="feature-val">Auto</span><span class="feature-lbl">Scaling</span></div>
+        <div class="feature"><span class="feature-val">Zero</span><span class="feature-lbl">Downtime</span></div>
+        <div class="feature"><span class="feature-val">GitOps</span><span class="feature-lbl">Integrated</span></div>
+      </div>
+      <div class="panel-ctas">
+        <button class="btn-primary" style="background:#34d399;color:#000;">Deploy Architecture</button>
+        <button class="btn-outline">View Docs</button>
+      </div>
+    </div>
+    
+    <!-- Parallax Widgets -->
+    <div class="widget" data-speed="1.5" style="left: 10%; top: 35%;">
+      <div class="widget-icon" style="background: rgba(52,211,153,0.2); color: #34d399;">⚡</div>
+      <div class="widget-info"><span class="w-title">Auto-scaling</span><span class="w-val">Spinning up 40 nodes...</span></div>
+    </div>
+  </section>
+  
+  <section class="section" id="sec-ai">
+    <div class="panel" data-speed="1.1">
+      <div class="panel-badge" style="background:rgba(245,158,11,0.15);color:#f59e0b;border:1px solid rgba(245,158,11,0.3);">Artificial Intelligence</div>
+      <h2 class="panel-title">SynthAI Hub</h2>
+      <p class="panel-desc">End-to-end AI pipeline from prompt to production. Orchestrate models, build RAG systems, and monitor everything in one secure environment.</p>
+      <div class="features-grid">
+        <div class="feature"><span class="feature-val">50+</span><span class="feature-lbl">LLM Models</span></div>
+        <div class="feature"><span class="feature-val">Vector</span><span class="feature-lbl">Databases</span></div>
+        <div class="feature"><span class="feature-val">RAG</span><span class="feature-lbl">Pipelines</span></div>
+        <div class="feature"><span class="feature-val">SOC2</span><span class="feature-lbl">Compliant</span></div>
+      </div>
+      <div class="panel-ctas">
+        <button class="btn-primary" style="background:#f59e0b;color:#000;">Start Building</button>
+        <button class="btn-outline">Compare Models</button>
+      </div>
+    </div>
+    
+    <!-- Parallax Widgets -->
+    <div class="widget" data-speed="1.3" style="right: 12%; top: 30%;">
+      <div class="widget-icon" style="background: rgba(245,158,11,0.2); color: #f59e0b;">🧠</div>
+      <div class="widget-info"><span class="w-title">Model Accuracy</span><span class="w-val">98.4% Confidence</span></div>
+    </div>
+  </section>
+  
+  <section class="section" id="footer">
+    <div class="panel" data-speed="0.9" style="max-width: 600px; text-align: center;">
+      <h2 class="panel-title">Ready to transform your workflow?</h2>
+      <p class="panel-desc">Join leading enterprises building the next generation of scalable platforms with our suite of corporate tools.</p>
+      <button class="btn-primary" style="padding: 16px 32px; font-size: 1.1rem; width: auto; margin: 0 auto;">Schedule a Technical Demo</button>
+    </div>
+  </section>
+
+</div>
+
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js"}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+
+gsap.registerPlugin(ScrollTrigger);
+
+// ── RENDERER SETUP ───────────────────────────────────────────────────────────
+const canvas = document.getElementById('c');
+const R = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+R.setPixelRatio(Math.min(devicePixelRatio, 2));
+R.setSize(innerWidth, innerHeight);
+R.shadowMap.enabled = true;
+R.shadowMap.type = THREE.PCFSoftShadowMap;
+R.toneMapping = THREE.ACESFilmicToneMapping;
+R.toneMappingExposure = 1.0;
+R.outputColorSpace = THREE.SRGBColorSpace;
+
+const scene = new THREE.Scene();
+scene.fog = new THREE.Fog(0x03060a, 5, 40);
+
+// Camera and Target for GSAP
+const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.1, 100);
+const camTarget = new THREE.Vector3(0, 1.5, 0);
+
+// ── LIGHTS ───────────────────────────────────────────────────────────────────
+scene.add(new THREE.AmbientLight(0x0c1a30, 2.0));
+const sun = new THREE.DirectionalLight(0xd0e8ff, 1.5);
+sun.position.set(8, 20, 10);
+sun.castShadow = true;
+sun.shadow.mapSize.set(2048, 2048);
+sun.shadow.camera.near = 0.5;
+sun.shadow.camera.far = 50;
+sun.shadow.camera.left = -15;
+sun.shadow.camera.right = 15;
+sun.shadow.camera.top = 15;
+sun.shadow.camera.bottom = -15;
+sun.shadow.bias = -0.0001;
+scene.add(sun);
+const fill = new THREE.DirectionalLight(0x203060, 1.5);
+fill.position.set(-10, 5, -10);
+scene.add(fill);
+
+// ── ENVIRONMENT ──────────────────────────────────────────────────────────────
+const groundMat = new THREE.MeshStandardMaterial({ color: 0x03060a, roughness: 0.8, metalness: 0.2 });
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(100, 100), groundMat);
+ground.rotation.x = -Math.PI / 2;
+ground.receiveShadow = true;
+scene.add(ground);
+
+const grid = new THREE.GridHelper(100, 100, 0x0a1525, 0x050a12);
+grid.position.y = 0.01;
+scene.add(grid);
+
+// ── PRODUCT BUILDERS ──────────────────────────────────────────────────────────
+function buildAnalytics(col) {
+  const grp = new THREE.Group();
+  const screen = new THREE.Mesh(
+    new THREE.BoxGeometry(1.8, 1.1, 0.08),
+    new THREE.MeshStandardMaterial({ color: 0x09142a, roughness: 0.2, metalness: 0.6 })
+  );
+  screen.position.y = 0.7;
+  screen.castShadow = true;
+  grp.add(screen);
+  
+  const edgeGeo = new THREE.EdgesGeometry(new THREE.BoxGeometry(1.82, 1.12, 0.1));
+  const edgeLine = new THREE.LineSegments(edgeGeo, new THREE.LineBasicMaterial({ color: col, transparent: true, opacity: 0.5 }));
+  edgeLine.position.y = 0.7;
+  grp.add(edgeLine);
+  
+  const bars = [];
+  const barCols = [col, 0x34d399, 0xf59e0b, 0xe74c3c, 0xa78bfa];
+  const baseH = [0.3, 0.5, 0.4, 0.6, 0.45];
+  for (let i = 0; i < 5; i++) {
+    const bh = baseH[i];
+    const bar = new THREE.Mesh(
+      new THREE.BoxGeometry(0.2, bh, 0.04),
+      new THREE.MeshStandardMaterial({ color: barCols[i], emissive: barCols[i], emissiveIntensity: 0.5 })
+    );
+    const bottom = 0.2;
+    bar.position.set(-0.5 + i * 0.25, bottom + bh / 2, 0.12);
+    bar.castShadow = true;
+    grp.add(bar);
+    bars.push({ mesh: bar, baseH: bh, bottom });
+  }
+  
+  const stand = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.08, 0.2, 0.5, 12),
+    new THREE.MeshStandardMaterial({ color: 0x1a2a4a, metalness: 0.8, roughness: 0.2 })
+  );
+  stand.position.y = -0.15;
+  stand.castShadow = true;
+  grp.add(stand);
+  
+  grp._bars = bars;
+  grp._edgeLine = edgeLine;
+  return grp;
+}
+
+function buildCloud(col) {
+  const grp = new THREE.Group();
+  const hubY = 0.7;
+  const hub = new THREE.Mesh(
+    new THREE.SphereGeometry(0.25, 32, 32),
+    new THREE.MeshStandardMaterial({ color: col, emissive: col, emissiveIntensity: 0.3, roughness: 0.1, metalness: 0.8 })
+  );
+  hub.position.y = hubY;
+  hub.castShadow = true;
+  grp.add(hub);
+  
+  const nodes = [];
+  for(let i=0; i<4; i++) {
+    const angle = i * (Math.PI / 2);
+    const node = new THREE.Mesh(
+      new THREE.SphereGeometry(0.12, 16, 16),
+      new THREE.MeshStandardMaterial({ color: col, emissive: col, emissiveIntensity: 0.2 })
+    );
+    node.castShadow = true;
+    grp.add(node);
+    nodes.push({ mesh: node, angle, r: 0.7 });
+  }
+  
+  const ring = new THREE.Mesh(
+    new THREE.TorusGeometry(0.85, 0.015, 16, 64),
+    new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.4 })
+  );
+  ring.position.y = hubY;
+  grp.add(ring);
+  
+  grp._hub = hub;
+  grp._nodes = nodes;
+  grp._ring = ring;
+  return grp;
+}
+
+function buildAI(col) {
+  const grp = new THREE.Group();
+  const octY = 0.7;
+  const oct = new THREE.Mesh(
+    new THREE.OctahedronGeometry(0.45, 0),
+    new THREE.MeshStandardMaterial({ color: col, emissive: col, emissiveIntensity: 0.3, roughness: 0.1, metalness: 0.8 })
+  );
+  oct.position.y = octY;
+  oct.castShadow = true;
+  grp.add(oct);
+  
+  const wire = new THREE.LineSegments(
+    new THREE.WireframeGeometry(new THREE.OctahedronGeometry(0.48, 0)),
+    new THREE.LineBasicMaterial({ color: col, transparent: true, opacity: 0.6 })
+  );
+  wire.position.y = octY;
+  grp.add(wire);
+  
+  const r1 = new THREE.Mesh(
+    new THREE.TorusGeometry(0.7, 0.015, 16, 64),
+    new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.5 })
+  );
+  r1.position.y = octY;
+  r1.rotation.x = Math.PI / 4;
+  grp.add(r1);
+  
+  const r2 = new THREE.Mesh(
+    new THREE.TorusGeometry(0.85, 0.015, 16, 64),
+    new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.3 })
+  );
+  r2.position.y = octY;
+  r2.rotation.x = -Math.PI / 3;
+  grp.add(r2);
+  
+  grp._oct = oct;
+  grp._wire = wire;
+  grp._r1 = r1;
+  grp._r2 = r2;
+  return grp;
+}
+
+// ── SHOWCASES ────────────────────────────────────────────────────────────────
+const PRODUCTS = [
+  { id: 'analytics', col: 0x4f9cf9, px: 3, pz: -8, build: buildAnalytics },
+  { id: 'cloud',     col: 0x34d399, px: -3, pz: -24, build: buildCloud },
+  { id: 'ai',        col: 0xf59e0b, px: 3, pz: -40, build: buildAI }
+];
+
+const showcases = [];
+
+PRODUCTS.forEach(p => {
+  const grp = new THREE.Group();
+  grp.position.set(p.px, 0, p.pz);
+  
+  // Pedestal
+  const ped = new THREE.Mesh(
+    new THREE.CylinderGeometry(1.4, 1.6, 0.5, 32),
+    new THREE.MeshStandardMaterial({ color: 0x081220, roughness: 0.2, metalness: 0.8 })
+  );
+  ped.position.y = 0.25;
+  ped.castShadow = true;
+  ped.receiveShadow = true;
+  grp.add(ped);
+  
+  const ring = new THREE.Mesh(
+    new THREE.TorusGeometry(1.42, 0.03, 16, 64),
+    new THREE.MeshBasicMaterial({ color: p.col, transparent: true, opacity: 0.6 })
+  );
+  ring.position.y = 0.5;
+  ring.rotation.x = Math.PI / 2;
+  grp.add(ring);
+  
+  // Model
+  const model = p.build(p.col);
+  model.position.y = 0.5;
+  grp.add(model);
+  
+  // Walls
+  const wallH = 2.4, wallW = 2.4, wallT = 0.04;
+  const wallConfigs = [
+    { pos: [0, wallH/2+0.5, wallW/2], size: [wallW, wallH, wallT], dir: [0,0,1] },
+    { pos: [0, wallH/2+0.5, -wallW/2], size: [wallW, wallH, wallT], dir: [0,0,-1] },
+    { pos: [-wallW/2, wallH/2+0.5, 0], size: [wallT, wallH, wallW], dir: [-1,0,0] },
+    { pos: [wallW/2, wallH/2+0.5, 0], size: [wallT, wallH, wallW], dir: [1,0,0] },
+    { pos: [0, wallH+0.5, 0], size: [wallW, wallT, wallW], dir: [0,1.2,0] }
+  ];
+  
+  const walls = [];
+  wallConfigs.forEach(cfg => {
+    const w = new THREE.Mesh(
+      new THREE.BoxGeometry(...cfg.size),
+      new THREE.MeshStandardMaterial({ color: 0x8abcf5, transparent: true, opacity: 0.15, roughness: 0.1, metalness: 0.3 })
+    );
+    w.position.set(...cfg.pos);
+    w._basePos = w.position.clone();
+    w._dir = cfg.dir;
+    
+    const edge = new THREE.LineSegments(
+      new THREE.EdgesGeometry(new THREE.BoxGeometry(...cfg.size)),
+      new THREE.LineBasicMaterial({ color: p.col, transparent: true, opacity: 0.3 })
+    );
+    w.add(edge);
+    w._edge = edge;
+    
+    grp.add(w);
+    walls.push(w);
+  });
+  
+  // Light
+  const pt = new THREE.PointLight(p.col, 0, 8);
+  pt.position.set(0, 2, 0);
+  grp.add(pt);
+  
+  scene.add(grp);
+  
+  showcases.push({ grp, model, walls, pt, id: p.id, baseScale: 1, openProgress: 0 });
+});
+
+// ── SCROLL ANIMATIONS ─────────────────────────────────────────────────────────
+
+// Initial Camera Setup
+camera.position.set(0, 3, 5);
+camTarget.set(0, 1.5, -10);
+
+const tl = gsap.timeline({
+  scrollTrigger: {
+    trigger: "#ui-layer",
+    start: "top top",
+    end: "bottom bottom",
+    scrub: 1.5
+  }
+});
+
+// Camera Path
+// 1. Move to Analytics
+tl.to(camera.position, { x: 0.5, y: 2, z: -4, duration: 1, ease: "power1.inOut" }, 0);
+tl.to(camTarget, { x: 3, y: 1.5, z: -8, duration: 1, ease: "power1.inOut" }, 0);
+
+// 2. Move to Cloud
+tl.to(camera.position, { x: -0.5, y: 2.2, z: -20, duration: 1, ease: "power1.inOut" }, 1);
+tl.to(camTarget, { x: -3, y: 1.5, z: -24, duration: 1, ease: "power1.inOut" }, 1);
+
+// 3. Move to AI
+tl.to(camera.position, { x: 0.5, y: 2, z: -36, duration: 1, ease: "power1.inOut" }, 2);
+tl.to(camTarget, { x: 3, y: 1.5, z: -40, duration: 1, ease: "power1.inOut" }, 2);
+
+// 4. Move to Footer
+tl.to(camera.position, { x: 0, y: 4, z: -50, duration: 1, ease: "power1.inOut" }, 3);
+tl.to(camTarget, { x: 0, y: 1.5, z: -60, duration: 1, ease: "power1.inOut" }, 3);
+
+// Case Opening Animations
+function setupCaseAnimation(sc, startIdx) {
+  tl.to(sc, {
+    openProgress: 1,
+    duration: 0.6,
+    ease: "power2.out",
+    onUpdate: () => {
+      const p = sc.openProgress;
+      // Walls expand & fade
+      sc.walls.forEach(w => {
+        w.position.x = w._basePos.x + w._dir[0] * p * 1.2;
+        w.position.y = w._basePos.y + w._dir[1] * p * 1.2;
+        w.position.z = w._basePos.z + w._dir[2] * p * 1.2;
+        w.material.opacity = 0.15 - p * 0.12;
+        w._edge.material.opacity = 0.3 + p * 0.3;
+      });
+      // Light increases
+      sc.pt.intensity = p * 6;
+      // Model scales up
+      const s = 1 + p * 0.2;
+      sc.model.scale.set(s, s, s);
+    }
+  }, startIdx - 0.2); // Open slightly before arriving
+  
+  // Close it as we leave
+  tl.to(sc, {
+    openProgress: 0,
+    duration: 0.6,
+    ease: "power2.in",
+    onUpdate: () => {
+      const p = sc.openProgress;
+      sc.walls.forEach(w => {
+        w.position.x = w._basePos.x + w._dir[0] * p * 1.2;
+        w.position.y = w._basePos.y + w._dir[1] * p * 1.2;
+        w.position.z = w._basePos.z + w._dir[2] * p * 1.2;
+        w.material.opacity = 0.15 - p * 0.12;
+        w._edge.material.opacity = 0.3 + p * 0.3;
+      });
+      sc.pt.intensity = p * 6;
+      const s = 1 + p * 0.2;
+      sc.model.scale.set(s, s, s);
+    }
+  }, startIdx + 0.4);
+}
+
+setupCaseAnimation(showcases[0], 1);
+setupCaseAnimation(showcases[1], 2);
+setupCaseAnimation(showcases[2], 3);
+
+
+// ── PARALLAX HTML ELEMENTS ────────────────────────────────────────────────────
+gsap.utils.toArray('[data-speed]').forEach(el => {
+  const speed = parseFloat(el.getAttribute('data-speed'));
+  gsap.to(el, {
+    y: (i, target) => -ScrollTrigger.maxScroll(window) * (speed - 1) * 0.1,
+    ease: "none",
+    scrollTrigger: {
+      trigger: el.closest('.section'),
+      start: "top bottom",
+      end: "bottom top",
+      scrub: 1
+    }
+  });
+});
+
+// ── RENDER LOOP ──────────────────────────────────────────────────────────────
+const clock = new THREE.Clock();
+
+function loop() {
+  requestAnimationFrame(loop);
+  const t = clock.getElapsedTime();
+  
+  camera.lookAt(camTarget);
+  
+  // Internal Product Animations
+  showcases.forEach(sc => {
+    const m = sc.model;
+    const isActive = sc.openProgress > 0.1;
+    const speed = isActive ? 1.5 : 0.5;
+    
+    if (sc.id === 'analytics') {
+      m._bars.forEach((b, j) => {
+        const wave = 0.15 * Math.sin(t * 1.5 * speed + j);
+        const scale = isActive ? (0.6 + sc.openProgress * 0.4 + wave) : (0.8 + wave * 0.3);
+        b.mesh.scale.y = scale;
+        b.mesh.position.y = b.bottom + (b.baseH * scale) / 2;
+      });
+      m._edgeLine.material.opacity = isActive ? 0.5 + 0.3 * Math.sin(t * 3) : 0.3;
+    }
+    
+    if (sc.id === 'cloud') {
+      m._nodes.forEach(n => {
+        n.angle += 0.01 * speed;
+        const radius = isActive ? 0.6 + sc.openProgress * 0.2 : 0.7;
+        n.mesh.position.x = Math.cos(n.angle) * radius;
+        n.mesh.position.z = Math.sin(n.angle) * radius;
+      });
+      m._hub.rotation.y = t * 0.5 * speed;
+      m._ring.rotation.z = t * 0.3 * speed;
+    }
+    
+    if (sc.id === 'ai') {
+      m._oct.rotation.y = t * 0.4 * speed;
+      m._oct.rotation.x = t * 0.2 * speed;
+      m._wire.rotation.y = -t * 0.5 * speed;
+      m._r1.rotation.z = t * 0.6 * speed;
+      m._r2.rotation.z = -t * 0.4 * speed;
+      m._r2.rotation.x = Math.sin(t * 0.3) * 0.4 - Math.PI / 3;
+    }
+    
+    // Float the whole showcase slightly
+    sc.grp.position.y = Math.sin(t + sc.grp.position.z) * 0.1;
+  });
+
+  R.render(scene, camera);
+}
+loop();
+
+// ── RESIZE ───────────────────────────────────────────────────────────────────
+window.addEventListener('resize', () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  R.setSize(innerWidth, innerHeight);
+  ScrollTrigger.refresh();
+});
+
+</script>
+</body>
+</html>

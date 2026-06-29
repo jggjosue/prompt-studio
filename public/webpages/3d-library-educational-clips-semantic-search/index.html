@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Semantic Edu Library</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <!-- 3D Canvas Background -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- UI Overlay / Scrollable Content -->
+    <div id="scroll-container">
+        
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="logo">
+                <i class="ri-book-open-line"></i>
+                <span>SEMANTIC EDU LIBRARY 3D</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#search">Search</a></li>
+                <li><a href="#clips">Clips</a></li>
+                <li><a href="#categories">Categories</a></li>
+                <li><a href="#paths">Learning Paths</a></li>
+                <li><a href="#teachers">Teachers</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+            </ul>
+            <a href="#contact" class="btn-contact">Contact</a>
+        </nav>
+
+        <!-- Hero Section -->
+        <section id="home" class="hero-section">
+            <div class="hero-content" data-parallax="true">
+                <div class="badge">Next-Gen Learning</div>
+                <h1 class="title">Search by Meaning,<br>Not Just Keywords.</h1>
+                <p class="subtitle">Enter the futuristic 3D educational library. Find clips, micro-lessons, and academic resources through intelligent semantic search.</p>
+                
+                <div class="semantic-search-bar">
+                    <i class="ri-sparkling-fill ai-icon"></i>
+                    <input type="text" placeholder="e.g. 'Explain quantum entanglement simply' or 'How do black holes form?'">
+                    <button class="btn-search"><i class="ri-search-line"></i> Explore</button>
+                </div>
+                <div class="search-suggestions">
+                    <span>Try:</span>
+                    <button class="suggestion">Physics basics</button>
+                    <button class="suggestion">Machine Learning concepts</button>
+                    <button class="suggestion">History of Rome</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Explore Library Section -->
+        <section id="clips" class="explore-section">
+            <div class="section-header">
+                <h2>Immersive Learning Paths</h2>
+                <p>Navigate through digital bookshelves and discover contextual results.</p>
+            </div>
+            
+            <div class="glass-dashboard">
+                <div class="dashboard-sidebar">
+                    <h3>Filters</h3>
+                    <ul>
+                        <li class="active">All Topics</li>
+                        <li>Science</li>
+                        <li>Technology</li>
+                        <li>Mathematics</li>
+                        <li>Arts</li>
+                    </ul>
+                </div>
+                <div class="dashboard-content">
+                    <div class="result-card">
+                        <div class="video-placeholder"><i class="ri-play-circle-fill"></i></div>
+                        <div class="card-info">
+                            <h4>Quantum Mechanics 101</h4>
+                            <p>Visual explanation of superposition.</p>
+                            <span class="tag">Physics</span>
+                        </div>
+                    </div>
+                    <div class="result-card">
+                        <div class="video-placeholder"><i class="ri-play-circle-fill"></i></div>
+                        <div class="card-info">
+                            <h4>Neural Networks</h4>
+                            <p>How do AI models learn?</p>
+                            <span class="tag">AI</span>
+                        </div>
+                    </div>
+                    <div class="result-card">
+                        <div class="video-placeholder"><i class="ri-play-circle-fill"></i></div>
+                        <div class="card-info">
+                            <h4>Calculus Foundations</h4>
+                            <p>Derivatives explained visually.</p>
+                            <span class="tag">Math</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Progress Section -->
+        <section id="paths" class="progress-section">
+            <div class="progress-container glass-panel">
+                <div class="progress-text">
+                    <h2>Track Your Journey</h2>
+                    <p>Build custom playlists and monitor your micro-learning progress visually.</p>
+                    <button class="btn-primary">View Dashboard</button>
+                </div>
+                <div class="progress-stats">
+                    <div class="stat-circle">
+                        <svg viewBox="0 0 36 36" class="circular-chart blue">
+                          <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                          <path class="circle" stroke-dasharray="75, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                          <text x="18" y="20.35" class="percentage">75%</text>
+                        </svg>
+                        <span>Clips Watched</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <footer>
+            <div class="footer-content">
+                <div class="logo">
+                    <i class="ri-book-open-line"></i>
+                    <span>SEMANTIC EDU LIBRARY 3D</span>
+                </div>
+                <p>&copy; 2026 Semantic Edu Library. All rights reserved.</p>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Custom Script -->
+    <script src="script.js"></script>
+</body>
+</html>

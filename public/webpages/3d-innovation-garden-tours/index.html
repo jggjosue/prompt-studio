@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta name="description" content="Explore Jardín de Innovación 3D — Tours y Proyectos - a premium high-fidelity clone and interactive webpage template built with modern web design practices, available on Prompt Studio.">
+  <meta name="keywords" content="3d innovation garden tours, clone, design, three.js, webgl, interactive, template, landing page, prompt studio">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jardín de Innovación 3D — Tours y Proyectos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <header id="topbar">
+      <div class="logo"><span class="logo-icon">◈</span><span>Innovación Tours 3D</span></div>
+      <nav class="route-nav" id="route-nav">
+        <button class="route-btn active" data-route="all">🌳 Todas</button>
+        <button class="route-btn" data-route="0">🤖 IA</button>
+        <button class="route-btn" data-route="1">🌱 Sostenibilidad</button>
+        <button class="route-btn" data-route="2">❤️ Salud</button>
+      </nav>
+      <div class="topbar-actions">
+        <button id="tour-btn" class="btn btn-sm btn-outline" title="Tour automático">🎬 Tour</button>
+        <button id="share-btn" class="btn btn-sm btn-outline" title="Compartir waypoint">🔗</button>
+        <button id="curator-btn" class="btn btn-sm btn-outline" title="Playlist">📋</button>
+        <button id="analytics-btn" class="btn btn-sm btn-outline" title="Analytics">📊</button>
+        <button id="fallback-btn" class="btn btn-sm btn-outline">♿</button>
+      </div>
+    </header>
+
+    <div id="main">
+      <!-- Fixed 3D Background -->
+      <div id="scene-root" role="img" aria-label="Jardín 3D de innovación con parcelas temáticas"></div>
+
+      <!-- Scrollable Layer -->
+      <div class="scroll-layer" id="scroll-container">
+        
+        <!-- SECTION 1: Intro -->
+        <section class="parallax-section" id="section-intro">
+          <div class="glass-panel section-card">
+            <h1>Explora el Futuro</h1>
+            <p>Descubre nuestros proyectos de innovación interactiva. Desplázate hacia abajo para viajar por el ecosistema 3D y conocer más sobre nuestras rutas principales.</p>
+            <div class="intro-stats" style="margin-top: 1.5rem;">
+              <div class="stat"><strong>9</strong><span>Proyectos</span></div>
+              <div class="stat"><strong>3</strong><span>Rutas</span></div>
+              <div class="stat"><strong>+10k</strong><span>Visitas</span></div>
+            </div>
+            <div class="scroll-indicator">
+              <span>Desplaza hacia abajo</span>
+              <div class="arrow-down">↓</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 2: Inteligencia Artificial -->
+        <section class="parallax-section align-right" id="section-ai">
+          <div class="glass-panel section-card theme-green">
+            <div class="section-icon">🤖</div>
+            <h2>Inteligencia Artificial</h2>
+            <p>Modelos de Deep Learning, visión artificial y procesamiento de lenguaje natural transformando industrias. Interactuamos con redes neuronales a gran escala para optimizar recursos y automatizar decisiones complejas.</p>
+            <ul class="feature-list">
+              <li>✓ Chatbots con GPT-4</li>
+              <li>✓ Detección con YOLOv8</li>
+              <li>✓ Pipelines MLOps</li>
+            </ul>
+            <button class="btn btn-outline" style="margin-top:1rem;">Ver Proyectos</button>
+          </div>
+        </section>
+
+        <!-- SECTION 3: Sostenibilidad -->
+        <section class="parallax-section align-left" id="section-eco">
+          <div class="glass-panel section-card theme-blue">
+            <div class="section-icon">🌱</div>
+            <h2>Sostenibilidad</h2>
+            <p>Nuestra ruta verde. Desarrollamos hardware IoT y sensores inteligentes para mitigar el impacto ambiental. Monitoreo solar, reciclaje inteligente automatizado y preservación de ecosistemas acuáticos.</p>
+            <ul class="feature-list">
+              <li>✓ Paneles Solares IoT</li>
+              <li>✓ Reciclaje Inteligente</li>
+              <li>✓ Filtración de Agua</li>
+            </ul>
+            <button class="btn btn-outline" style="margin-top:1rem;">Ver Proyectos</button>
+          </div>
+        </section>
+
+        <!-- SECTION 4: Salud -->
+        <section class="parallax-section align-right" id="section-health">
+          <div class="glass-panel section-card theme-orange">
+            <div class="section-icon">❤️</div>
+            <h2>Salud y Bienestar</h2>
+            <p>La tecnología al servicio de la vida. Dispositivos wearables, telemedicina descentralizada y análisis genómico asistido por inteligencia artificial para medicina preventiva y personalizada.</p>
+            <ul class="feature-list">
+              <li>✓ Telemedicina Segura</li>
+              <li>✓ Wearables Cardíacos</li>
+              <li>✓ Genómica y ML</li>
+            </ul>
+            <button class="btn btn-outline" style="margin-top:1rem;">Ver Proyectos</button>
+          </div>
+        </section>
+
+        <!-- SECTION 5: Estadísticas / CTA -->
+        <section class="parallax-section align-center" id="section-stats">
+          <div class="glass-panel section-card large-card">
+            <h2>Únete a la Innovación</h2>
+            <p style="text-align:center;">El futuro se construye hoy. Sé parte de nuestra comunidad de investigadores y desarrolladores impulsando proyectos de alto impacto global.</p>
+            <div class="cta-actions">
+              <button class="btn btn-primary">Registrarse Ahora</button>
+              <button class="btn btn-outline">Contactar al Equipo</button>
+            </div>
+          </div>
+        </section>
+        
+      </div>
+    </div>
+
+    <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+      <div class="modal-content">
+        <button id="modal-close" class="modal-close">&times;</button>
+        <div id="modal-body" class="modal-body"></div>
+      </div>
+    </div>
+
+    <div id="fallback-section" class="hidden" aria-live="polite">
+      <div class="fallback-inner"><h2>🌳 Jardín de Innovación — Versión 2D</h2><div id="fb-grid" class="fb-grid"></div></div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="innovationGardenTours.js"></script>
+</body>
+</html>

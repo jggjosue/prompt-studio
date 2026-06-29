@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Product Gallery Light Filters</title>
+  <meta name="description" content="A modern, elegant, bright, and immersive 3D gallery of products where you can explore premium items through light filters.">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.159.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.159.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="scene-root"></div>
+
+  <nav class="navbar glassmorphism">
+    <div class="logo">LIGHT FILTER GALLERY 3D</div>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#filters">Filters</a></li>
+      <li><a href="#products">Products</a></li>
+      <li><a href="#materials">Materials</a></li>
+      <li><a href="#compare">Compare</a></li>
+      <li><a href="#shop">Shop</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="btn btn-primary" id="explore-btn">Explore Gallery</button>
+  </nav>
+
+  <main class="content">
+    <section id="hero" class="panel">
+      <div class="hero-text">
+        <h1 class="parallax-text">Experience Lighting</h1>
+        <p class="parallax-text">Discover premium products under different lighting conditions in a digital showroom.</p>
+        <button class="btn btn-outline parallax-text">Start Exploring</button>
+      </div>
+    </section>
+
+    <section id="filter-section" class="panel">
+      <div class="filter-panel glassmorphism">
+        <h2>Light Filters</h2>
+        <p>Change the visual mood of the gallery.</p>
+        <div class="filter-buttons">
+          <button class="btn filter-btn active" data-light="natural">Natural Light</button>
+          <button class="btn filter-btn" data-light="warm">Warm Light</button>
+          <button class="btn filter-btn" data-light="cool">Cool Light</button>
+          <button class="btn filter-btn" data-light="studio">Studio Light</button>
+          <button class="btn filter-btn" data-light="dramatic">Dramatic Light</button>
+          <button class="btn filter-btn" data-light="night">Night Light</button>
+          <button class="btn filter-btn" data-light="gallery">Gallery Light</button>
+          <button class="btn filter-btn" data-light="color">Color Light</button>
+          <button class="btn filter-btn" data-light="spotlight">Premium Spotlight</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="product-details" class="panel">
+      <div class="product-card glassmorphism">
+        <h3 id="current-product-title">Premium Product</h3>
+        <p id="current-product-desc">High-quality materials designed for longevity and aesthetics.</p>
+        <div class="action-buttons">
+          <button class="btn btn-icon">♡ Wishlist</button>
+          <button class="btn btn-icon">🛒 Shop</button>
+          <button class="btn btn-icon">⚖ Compare</button>
+        </div>
+      </div>
+    </section>
+    
+    <section id="featured-collections" class="panel feature-panel">
+      <div class="collections-header hero-text parallax-text">
+        <h2>Premium Collections</h2>
+        <p>Explore the finest items curated for aesthetic and functional perfection.</p>
+      </div>
+      <div class="collections-grid">
+        <div class="collection-card glassmorphism gs-reveal">
+          <div class="card-img-wrapper">
+            <img src="assets/cosmetic_product_1782622750466.png" alt="Cosmetic">
+          </div>
+          <div class="card-content">
+            <h3>Lumina Botanique</h3>
+            <p>Age-Reverse Serum with soft warm glow.</p>
+            <button class="btn btn-outline">View Details</button>
+          </div>
+        </div>
+        <div class="collection-card glassmorphism gs-reveal">
+          <div class="card-img-wrapper">
+            <img src="assets/smart_device_1782622761083.png" alt="Smart Device">
+          </div>
+          <div class="card-content">
+            <h3>Aura Smart Hub</h3>
+            <p>Ambient lighting and environmental control.</p>
+            <button class="btn btn-outline">View Details</button>
+          </div>
+        </div>
+        <div class="collection-card glassmorphism gs-reveal">
+          <div class="card-img-wrapper">
+            <img src="assets/headphones_1782622770197.png" alt="Headphones">
+          </div>
+          <div class="card-content">
+            <h3>Aetneris Audio</h3>
+            <p>High-fidelity over-ear headphones with dramatic profile.</p>
+            <button class="btn btn-outline">View Details</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section id="footer-section" class="panel">
+      <div class="hero-text">
+        <h2>Ready to upgrade your collection?</h2>
+        <button class="btn btn-primary">View Full Catalog</button>
+      </div>
+    </section>
+  </main>
+
+
+
+  <script type="module" src="gallery3d.js"></script>
+</body>
+</html>

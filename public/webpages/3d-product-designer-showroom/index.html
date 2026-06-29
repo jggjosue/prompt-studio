@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Product Designer Showroom</title>
+  <meta name="description" content="Futuristic 3D showroom for product design, UX/UI, and digital strategies.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Fixed UI Header -->
+  <header class="glass-header">
+    <div class="logo">PRODUCT SHOWROOM 3D</div>
+    <nav class="main-nav">
+      <a href="#home">Home</a>
+      <a href="#showroom">Showroom</a>
+      <a href="#case-studies">Case Studies</a>
+      <a href="#process">Process</a>
+      <a href="#systems">Systems</a>
+      <a href="#services">Services</a>
+      <a href="#booking">Booking</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="cta-button">Book Design Call</button>
+  </header>
+
+  <!-- 3D WebGL Canvas Background -->
+  <canvas id="webgl-canvas"></canvas>
+
+  <!-- Scroll Containers for GSAP Triggers -->
+  <main class="scroll-container">
+    <section id="home" class="step">
+      <div class="content-block">
+        <h1 class="hero-title">Digital Product<br>Design Showroom</h1>
+        <p class="hero-subtitle">Crafting immersive experiences, interactive prototypes, and strategic design solutions.</p>
+      </div>
+    </section>
+    
+    <section id="showroom" class="step">
+      <div class="content-block right-aligned glass-panel">
+        <h2>Interactive Prototypes</h2>
+        <p>Explore high-fidelity user flows, mobile apps, and web dashboards directly in a futuristic 3D space. Hover over elements to see micro-interactions.</p>
+      </div>
+    </section>
+
+    <section id="case-studies" class="step">
+      <div class="content-block left-aligned glass-panel">
+        <h2>Case Studies</h2>
+        <p>Deep dives into user research, business strategy, and successful UX/UI implementations across multiple industries.</p>
+      </div>
+    </section>
+
+    <section id="process" class="step">
+      <div class="content-block right-aligned glass-panel">
+        <h2>Design Process</h2>
+        <p>From initial wireframes and user journey maps to final polished UI components. Every step is carefully engineered to maximize conversion.</p>
+      </div>
+    </section>
+
+    <section id="systems" class="step">
+      <div class="content-block left-aligned glass-panel">
+        <h2>Design Systems</h2>
+        <p>Scalable, robust, and beautifully documented design tokens, component libraries, and modular UI architectures.</p>
+      </div>
+    </section>
+
+    <section id="conversion" class="step">
+      <div class="content-block center-aligned glass-card">
+        <h2>Ready to elevate your product?</h2>
+        <p>Let's build something extraordinary together. Schedule a call to discuss your next big digital initiative.</p>
+        <button class="cta-button large">Book Your Design Call</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="showroom.js"></script>
+</body>
+</html>

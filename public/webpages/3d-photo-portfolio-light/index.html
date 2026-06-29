@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Photo Portfolio Light</title>
+  <meta name="description" content="Premium 3D Photography Portfolio Landing Page">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  
+  <!-- 3D Canvas Background -->
+  <div id="canvas-container"></div>
+
+  <!-- Header / Navbar -->
+  <header class="header">
+    <div class="header-container">
+      <div class="logo">
+        <a href="#home">PHOTO LIGHT 3D</a>
+      </div>
+      
+      <nav class="desktop-nav">
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="#collections">Collections</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#process">Process</a></li>
+          <li><a href="#booking">Booking</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      
+      <div class="header-actions">
+        <a href="#booking" class="btn btn-primary">Book Session</a>
+        <button class="mobile-menu-btn" aria-label="Toggle Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Menu Overlay -->
+  <div class="mobile-menu-overlay">
+    <nav class="mobile-nav">
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#collections">Collections</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#process">Process</a></li>
+        <li><a href="#booking">Booking</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Main Scrollable Content Overlays -->
+  <main class="scroll-content">
+    
+    <section id="home" class="section hero-section">
+      <div class="container parallax-text" data-speed="0.2">
+        <h1 class="hero-title">Visual Poetry<br>in Light & Space</h1>
+        <p class="hero-subtitle">Editorial Photography & Creative Direction.</p>
+        <div class="hero-cta">
+          <a href="#portfolio" class="btn btn-outline">Explore Gallery</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="portfolio" class="section">
+      <div class="container parallax-text" data-speed="0.1">
+        <h2 class="section-title">Selected Works</h2>
+        <p class="section-desc">A curated selection of editorial, portrait, and lifestyle photography.</p>
+      </div>
+    </section>
+
+    <section id="collections" class="section">
+      <div class="container parallax-text" data-speed="0.15">
+        <h2 class="section-title">Collections</h2>
+        <div class="grid-content">
+          <div class="card glass-card">
+            <h3>Editorial</h3>
+            <p>Fashion and lifestyle narratives crafted for magazines and brands.</p>
+          </div>
+          <div class="card glass-card">
+            <h3>Portraits</h3>
+            <p>Intimate, naturally lit sessions capturing the essence of the subject.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="services" class="section">
+      <div class="container parallax-text" data-speed="0.1">
+        <h2 class="section-title">Our Services</h2>
+        <p class="section-desc">Premium visual content creation for brands and individuals.</p>
+        <ul class="services-list">
+          <li>Editorial Photography</li>
+          <li>Brand Campaigns</li>
+          <li>Product Styling & Shooting</li>
+          <li>Creative Direction</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="process" class="section">
+      <div class="container parallax-text" data-speed="0.2">
+        <h2 class="section-title">The Process</h2>
+        <div class="process-steps">
+          <div class="step">
+            <span class="step-num">01</span>
+            <h4>Discovery</h4>
+            <p>Understanding your vision and aesthetic goals.</p>
+          </div>
+          <div class="step">
+            <span class="step-num">02</span>
+            <h4>Concept</h4>
+            <p>Moodboards, location scouting, and lighting plans.</p>
+          </div>
+          <div class="step">
+            <span class="step-num">03</span>
+            <h4>Production</h4>
+            <p>The shoot day, executed with precision and creativity.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="booking" class="section booking-section">
+      <div class="container parallax-text" data-speed="0.1">
+        <div class="glass-panel">
+          <h2 class="section-title">Book a Session</h2>
+          <p>Let's create something beautiful together.</p>
+          <form class="booking-form">
+            <input type="text" placeholder="Name" required>
+            <input type="email" placeholder="Email" required>
+            <select required>
+              <option value="">Select Service</option>
+              <option value="editorial">Editorial</option>
+              <option value="portrait">Portrait</option>
+              <option value="commercial">Commercial</option>
+            </select>
+            <button type="submit" class="btn btn-primary btn-block">Inquire Now</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section id="reviews" class="section">
+      <div class="container parallax-text" data-speed="0.15">
+        <h2 class="section-title">Client Stories</h2>
+        <div class="review-carousel">
+          <div class="review-card glass-card">
+            <p class="quote">"An incredible eye for light and composition. The final images exceeded all our expectations."</p>
+            <p class="author">— Vogue Editor</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section footer-section">
+      <div class="container">
+        <h2 class="section-title">Get in Touch</h2>
+        <p>studio@photolight3d.com</p>
+        <div class="social-links">
+          <a href="#">Instagram</a>
+          <a href="#">Behance</a>
+          <a href="#">Pinterest</a>
+        </div>
+        <p class="copyright">© 2026 Photo Light 3D. All rights reserved.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <!-- Lenis for smooth scrolling -->
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
+  <script src="photo3d.js"></script>
+</body>
+</html>

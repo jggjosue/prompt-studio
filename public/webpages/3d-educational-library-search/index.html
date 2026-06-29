@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="3D Educational Library Search is a premium immersive landing page for discovering books, articles, courses, videos, and study resources inside an interactive 3D library.">
+  <meta name="keywords" content="3D educational library search, EdTech landing page, academic search, study guides, teacher resources, premium landing page">
+  <title>3D Educational Library Search</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header">
+      <div class="brand">
+        <div class="brand-mark">EDU</div>
+        <div>
+          <div class="brand-name">EDU LIBRARY 3D</div>
+          <div class="brand-subtitle">Immersive Academic Search</div>
+        </div>
+      </div>
+
+      <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
+
+      <nav class="site-nav" id="site-nav">
+        <a href="#home">Home</a>
+        <a href="#search">Search</a>
+        <a href="#categories">Categories</a>
+        <a href="#resources">Resources</a>
+        <a href="#recommendations">Recommendations</a>
+        <a href="#teachers">For Teachers</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <button class="cta-pill" data-action="enter-library">Start Searching</button>
+    </header>
+
+    <main>
+      <section class="hero section" id="home">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">Premium EdTech experience</p>
+          <h1>Search Educational Resources Inside an Immersive 3D Library</h1>
+          <p class="lede">Explore books, articles, courses, videos, study guides and academic materials through a beautiful 3D search experience designed for students, teachers and lifelong learners.</p>
+          <div class="hero-actions">
+            <button class="button primary" data-action="enter-library">Enter Library</button>
+            <button class="button secondary" data-scroll="#search">Search Resources</button>
+            <button class="button ghost" data-scroll="#categories">Explore Categories</button>
+          </div>
+          <div class="hero-points">
+            <span>3D canvas</span>
+            <span>Smart filters</span>
+            <span>Teacher packs</span>
+          </div>
+        </div>
+
+        <div class="hero-stage reveal">
+          <div class="stage-panel">
+            <div class="stage-label">Live library scan</div>
+            <canvas id="library-canvas" aria-label="Interactive 3D library canvas"></canvas>
+            <div class="stage-float stage-float-a">Search Bar</div>
+            <div class="stage-float stage-float-b">Recommended Reads</div>
+            <div class="stage-float stage-float-c">Teacher Resources</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section search-section" id="search">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Search Experience</p>
+          <h2>Find books, courses, and study support in seconds</h2>
+        </div>
+        <div class="search-card reveal">
+          <div class="search-row">
+            <input id="search-input" type="text" placeholder="Search books, topics, authors, courses or study guides..." aria-label="Search educational resources">
+            <button class="button primary" id="search-btn">Search Library</button>
+            <button class="button secondary" id="clear-search-btn">Clear Search</button>
+          </div>
+          <div class="filter-row" id="filter-row">
+            <button class="chip is-active" data-filter="All">All</button>
+            <button class="chip" data-filter="Books">Books</button>
+            <button class="chip" data-filter="Articles">Articles</button>
+            <button class="chip" data-filter="Videos">Videos</button>
+            <button class="chip" data-filter="Courses">Courses</button>
+            <button class="chip" data-filter="Study Guides">Study Guides</button>
+            <button class="chip" data-filter="Worksheets">Worksheets</button>
+            <button class="chip" data-filter="Teachers">Teachers</button>
+            <button class="chip" data-filter="Grade Level">Grade Level</button>
+          </div>
+          <div class="results-grid" id="search-results"></div>
+        </div>
+      </section>
+
+      <section class="section" id="categories">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Categories</p>
+          <h2>Explore knowledge by category</h2>
+        </div>
+        <div class="card-grid" id="category-grid"></div>
+      </section>
+
+      <section class="section" id="resources">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Study Guides</p>
+          <h2>Quick learning paths and structured notes</h2>
+        </div>
+        <div class="resource-columns">
+          <div class="resource-panel reveal">
+            <h3>Study Guides</h3>
+            <div class="card-grid compact" id="study-guide-grid"></div>
+          </div>
+          <div class="resource-panel reveal">
+            <h3>Reading Preview</h3>
+            <div class="preview-box" id="reading-preview"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="recommendations">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Recommendations</p>
+          <h2>Personalized suggestions for students and teachers</h2>
+        </div>
+        <div class="toolbar reveal">
+          <button class="button secondary" id="refresh-recommendations">Refresh Recommendations</button>
+        </div>
+        <div class="recommendation-rail" id="recommendation-rail"></div>
+      </section>
+
+      <section class="section" id="teachers">
+        <div class="section-heading reveal">
+          <p class="eyebrow">For Teachers</p>
+          <h2>Build lesson plans, worksheets, and classroom packs</h2>
+        </div>
+        <div class="teacher-layout">
+          <div class="card-grid compact" id="teacher-grid"></div>
+          <div class="teacher-cta reveal">
+            <h3>Build a Class Resource Pack</h3>
+            <p>Create a curated bundle of lesson plans, rubrics, slides, and reading lists for a unit or grade level.</p>
+            <button class="button primary" id="build-pack-btn">Build a Class Resource Pack</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="dashboard">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Learning Dashboard</p>
+          <h2>Track progress with lightweight analytics</h2>
+        </div>
+        <div class="stats-grid" id="stats-grid"></div>
+      </section>
+
+      <section class="section" id="pricing">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Pricing</p>
+          <h2>Choose the access plan that fits your library workflow</h2>
+        </div>
+        <div class="pricing-grid" id="pricing-grid"></div>
+      </section>
+
+      <section class="section contact-section" id="contact">
+        <div class="contact-card reveal">
+          <p class="eyebrow">Contact</p>
+          <h2>Ready to turn search into a guided learning journey?</h2>
+          <p>Use the immersive demo, save resources, and preview teaching packs before you commit to a plan.</p>
+          <button class="button primary" data-action="enter-library">Launch Library Tour</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal hidden" id="resource-modal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <button class="modal-close" id="modal-close" aria-label="Close modal">×</button>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="library3d.js"></script>
+</body>
+</html>
