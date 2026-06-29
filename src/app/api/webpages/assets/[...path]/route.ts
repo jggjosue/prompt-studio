@@ -115,6 +115,16 @@ export async function GET(
   }
 
   const assetKey = webAssetCacheKey(filename, width, quality, format);
+  const isVideo = filename.toLowerCase().match(/\.(mp4|webm|avi|mov)$/);
+
+  if (isVideo) {
+    return new NextResponse(new Uint8Array(bytes), {
+      headers: {
+        'Content-Type': contentTypeForAsset(filename),
+        ...cdnCacheHeaders('staleWhileRevalidate'),
+      },
+    });
+  }
 
   try {
     const { buffer, contentType } = await cacheGetOrSet(
