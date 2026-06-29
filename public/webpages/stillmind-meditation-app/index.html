@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StillMind Meditation App</title>
+  <meta name="description" content="Discover serenity with StillMind. A 3D digital sanctuary for meditation, guided breathing, mindfulness, and sleep.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+<body>
+
+  <!-- 3D Background Canvas -->
+  <canvas id="webgl-canvas"></canvas>
+
+  <div class="scroll-container">
+    
+    <!-- Navigation -->
+    <nav class="glass-nav">
+      <div class="logo">StillMind</div>
+      <div class="nav-links">
+        <a href="#explore">Explore</a>
+        <a href="#breathe">Breathe</a>
+        <a href="#sleep">Sleep</a>
+        <a href="#progress">Progress</a>
+      </div>
+      <a href="#join" class="btn btn-outline">Sign In</a>
+    </nav>
+
+    <!-- 1. Hero Section -->
+    <section id="hero" class="panel">
+      <div class="content hero-content" data-parallax="0.2">
+        <div class="badge">Find your center</div>
+        <h1 class="title">Enter your digital sanctuary</h1>
+        <p class="subtitle">Experience calm through immersive 3D environments, guided breathing, and soothing sounds.</p>
+        <div class="actions">
+          <a href="#breathe" class="btn btn-primary">Start Journey</a>
+          <button class="btn btn-secondary" onclick="playAmbientSound()">Play Ambient Sound</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Breathing Sphere Section -->
+    <section id="breathe" class="panel align-right">
+      <div class="content glass-card" data-parallax="0.1">
+        <h2>Guided Breathing</h2>
+        <p>Sync your breath with the expanding sphere. Inhale calmness, exhale tension.</p>
+        <div class="hotspot-container">
+          <button class="hotspot pulse-btn" id="start-breathing">Begin Exercise</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Zen Garden / Sessions -->
+    <section id="explore" class="panel align-left">
+      <div class="content glass-card" data-parallax="-0.1">
+        <h2>Calm Programs</h2>
+        <p>Explore our library of wellness routines and mindfulness sessions.</p>
+        
+        <div class="cards-grid">
+          <div class="session-card">
+            <span class="tag">10 Min</span>
+            <h3>Morning Clarity</h3>
+            <p>Start your day with focus.</p>
+            <button class="btn btn-small">Listen</button>
+          </div>
+          <div class="session-card">
+            <span class="tag">15 Min</span>
+            <h3>Anxiety Relief</h3>
+            <p>Gentle body scan.</p>
+            <button class="btn btn-small">Listen</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Lake / Sleep & Progress -->
+    <section id="sleep" class="panel align-right">
+      <div class="content glass-card" data-parallax="0.15">
+        <h2>Deep Sleep & Progress</h2>
+        <p>Drift away with serene lake ripples and track your emotional wellness journey over time.</p>
+        
+        <div class="dashboard-preview">
+          <div class="stat">
+            <div class="stat-value">12</div>
+            <div class="stat-label">Day Streak</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">4.5h</div>
+            <div class="stat-label">Mindful Mins</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Registration CTA & Footer -->
+    <section id="join" class="panel center-panel">
+      <div class="content cta-content glass-card">
+        <h2>Join the Tranquil Community</h2>
+        <p>Unlock premium plans, save routines, and set daily reminders.</p>
+        
+        <form class="register-form" onsubmit="event.preventDefault(); alert('Registration simulated successfully.');">
+          <input type="email" placeholder="Enter your email" required class="input-field">
+          <button type="submit" class="btn btn-primary">Unlock Premium</button>
+        </form>
+        <p class="terms-text">By joining, you agree to our terms. You can cancel anytime.</p>
+      </div>
+    </section>
+    
+    <footer class="footer">
+      <div class="disclaimers">
+        <p><strong>Important Notice:</strong></p>
+        <p>Wellness content is for general wellbeing only.</p>
+        <p>Not a substitute for professional medical or mental health care.</p>
+        <p>If you need support, contact a qualified professional.</p>
+      </div>
+      <div class="footer-links">
+        <span>© 2024 StillMind Meditation App</span>
+        <a href="#">Contact Us</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

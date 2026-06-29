@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InsightPulse 3D | AI Customer Intelligence</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="insightpulse.css">
+    
+    <!-- GSAP & Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+<body>
+
+    <!-- 3D Canvas Background -->
+    <div id="canvas-container"></div>
+
+    <!-- UI Overlay Layer -->
+    <div id="ui-layer">
+        
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <div class="logo-icon"></div>
+                    <span>InsightPulse</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#features">Features</a>
+                    <a href="#dashboards">Dashboards</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="#" class="btn btn-secondary">Log In</a>
+                    <a href="#demo" class="btn btn-primary">Book Demo</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Section 1: Hero -->
+        <section id="hero" class="scroll-section">
+            <div class="hero-content">
+                <div class="badge">Next-Gen Customer Intelligence</div>
+                <h1>Transform Noise into <span class="text-gradient">Decisions</span></h1>
+                <p>Welcome to the 3D lab of customer insights. We use AI to automatically classify feedback, detect sentiment, and prioritize opportunities across all your channels.</p>
+                <div class="hero-actions">
+                    <a href="#demo" class="btn btn-primary btn-lg">Start Free Trial</a>
+                    <a href="#features" class="btn btn-outline btn-lg">Explore the Lab</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: AI Processing -->
+        <section id="features" class="scroll-section">
+            <div class="feature-content align-right">
+                <div class="glass-card">
+                    <h2>AI Sentiment & Topic Detection</h2>
+                    <p>Watch as thousands of chaotic comments are instantly analyzed, colored by emotion, and grouped into distinct actionable topics without manual tagging.</p>
+                    <ul class="feature-list">
+                        <li><span>✓</span> Qualitative research at scale</li>
+                        <li><span>✓</span> Automatic sentiment scoring</li>
+                        <li><span>✓</span> Trend tracking over time</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Dashboards -->
+        <section id="dashboards" class="scroll-section">
+            <div class="feature-content align-left">
+                <div class="glass-card dashboard-card">
+                    <div class="dash-header">
+                        <h2>Executive Report</h2>
+                        <div class="dash-actions"><button class="btn btn-sm btn-outline">Export</button></div>
+                    </div>
+                    <div class="dash-grid">
+                        <div class="dash-metric">
+                            <span class="label">Total Feedback</span>
+                            <span class="value">124,592</span>
+                        </div>
+                        <div class="dash-metric">
+                            <span class="label">Avg Sentiment</span>
+                            <span class="value positive">+8.4</span>
+                        </div>
+                        <div class="dash-metric">
+                            <span class="label">Top Opportunity</span>
+                            <span class="value text-gradient">Checkout Flow</span>
+                        </div>
+                    </div>
+                    <p class="dash-summary"><strong>AI Summary:</strong> Users are highly satisfied with the new UI update, but 15% report friction during the payment step on mobile devices.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: CTA -->
+        <section id="demo" class="scroll-section cta-section">
+            <div class="cta-content">
+                <h2>Ready to power your product with AI insights?</h2>
+                <p>Connect your feedback sources in minutes and get an executive dashboard on day one.</p>
+                
+                <form class="glass-card demo-form" onsubmit="event.preventDefault();">
+                    <div class="form-group">
+                        <label>Work Email</label>
+                        <input type="email" placeholder="you@company.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Role</label>
+                        <select required>
+                            <option value="">Select Role...</option>
+                            <option value="pm">Product Manager</option>
+                            <option value="researcher">UX Researcher</option>
+                            <option value="founder">Founder / Exec</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary btn-full" type="submit">Get Your Custom Demo</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="logo">
+                    <div class="logo-icon"></div>
+                    <span>InsightPulse</span>
+                </div>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Contact</a>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="scene.js"></script>
+    <script src="animations.js"></script>
+</body>
+</html>

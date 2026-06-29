@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MangaShelf Digital Library</title>
+    <meta name="description" content="Experience the future of digital manga reading in a fully immersive 3D library environment.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-pink: #ff2a6d;
+            --neon-blue: #05d9e8;
+            --neon-purple: #9d4edd;
+            --bg-dark: #0a0a0f;
+            --glass-bg: rgba(15, 15, 25, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8f9fa;
+            --text-muted: #adb5bd;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            overscroll-behavior: none;
+        }
+
+        /* 3D Canvas */
+        #webgl-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: auto; /* Allow interactions with 3D objects later */
+        }
+
+        /* UI Overlay Layer */
+        #ui-layer {
+            position: relative;
+            z-index: 10;
+            pointer-events: none; /* Let clicks pass through to 3D when not on UI */
+        }
+
+        .interactive {
+            pointer-events: auto;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: linear-gradient(to bottom, rgba(10,10,15,0.9), transparent);
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-main);
+            text-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        .logo-icon {
+            width: 30px;
+            height: 30px;
+            background: var(--neon-blue);
+            border-radius: 4px;
+            box-shadow: 0 0 15px var(--neon-blue);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--neon-pink);
+            text-shadow: 0 0 8px var(--neon-pink);
+        }
+
+        .btn {
+            background: transparent;
+            border: 1px solid var(--neon-blue);
+            color: var(--neon-blue);
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 10px rgba(5, 217, 232, 0.2);
+        }
+
+        .btn:hover {
+            background: var(--neon-blue);
+            color: var(--bg-dark);
+            box-shadow: 0 0 20px var(--neon-blue);
+        }
+
+        .btn-primary {
+            background: var(--neon-pink);
+            border: none;
+            color: white;
+            box-shadow: 0 0 15px var(--neon-pink);
+        }
+        
+        .btn-primary:hover {
+            background: #ff4d85;
+            box-shadow: 0 0 25px var(--neon-pink);
+            color: white;
+        }
+
+        /* Scroll Sections */
+        .section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 10vw;
+            position: relative;
+        }
+
+        .hero-section {
+            align-items: flex-start;
+        }
+
+        .hero-content {
+            max-width: 600px;
+        }
+
+        h1 {
+            font-size: 5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff, var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.1));
+        }
+
+        h1 span {
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+            max-width: 500px;
+        }
+
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        /* Reader Section */
+        .reader-section {
+            align-items: flex-end;
+            text-align: right;
+        }
+
+        .reader-ui {
+            width: 100%;
+            max-width: 800px;
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .reader-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--glass-border);
+            background: rgba(0,0,0,0.5);
+        }
+
+        .reader-title {
+            font-weight: 800;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .reader-controls {
+            display: flex;
+            gap: 15px;
+        }
+
+        .control-btn {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .control-btn:hover {
+            background: var(--neon-blue);
+            color: black;
+        }
+
+        .reader-body {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: #000;
+        }
+
+        .manga-page-mockup {
+            width: 80%;
+            height: 90%;
+            background: #fff;
+            border-radius: 4px;
+            display: grid;
+            grid-template-rows: 1fr 1fr;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px;
+            padding: 5px;
+        }
+
+        .manga-panel {
+            background: #eee;
+            border: 2px solid #333;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .panel-1 { grid-column: 1 / 3; }
+        .panel-2 { grid-column: 1 / 2; }
+        .panel-3 { grid-column: 2 / 3; }
+
+        .sketch-line {
+            position: absolute;
+            background: #ccc;
+            height: 2px;
+            width: 80%;
+            top: 50%;
+            left: 10%;
+            transform: rotate(-10deg);
+        }
+
+        .sketch-circle {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid #ccc;
+            border-radius: 50%;
+            top: 20%;
+            right: 20%;
+        }
+
+        /* Collections Section */
+        .collections-section {
+            align-items: center;
+            text-align: center;
+        }
+
+        .collections-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            width: 100%;
+            max-width: 1000px;
+            margin-top: 3rem;
+        }
+
+        .collection-card {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .collection-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(157, 78, 221, 0.2);
+            border-color: var(--neon-purple);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 10px var(--neon-purple));
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Membership Section */
+        .membership-section {
+            align-items: center;
+        }
+
+        .pricing-table {
+            display: flex;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .price-card {
+            width: 320px;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .price-card.premium {
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 30px rgba(255, 42, 109, 0.2);
+        }
+
+        .premium-badge {
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: var(--neon-pink);
+            color: white;
+            padding: 5px 40px;
+            transform: rotate(45deg);
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .price-header {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+        }
+
+        .price-amount {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--neon-blue);
+            margin-bottom: 1.5rem;
+        }
+        
+        .premium .price-amount {
+            color: var(--neon-pink);
+        }
+
+        .price-amount span {
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .feature-list li {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .feature-list li::before {
+            content: "✦";
+            color: var(--neon-blue);
+        }
+        
+        .premium .feature-list li::before {
+            color: var(--neon-pink);
+        }
+
+        .price-card .btn {
+            width: 100%;
+        }
+
+        /* Footer */
+        footer {
+            background: #050508;
+            padding: 4rem 10vw 2rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+            z-index: 10;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-col h4 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .footer-col a {
+            display: block;
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-bottom: 0.8rem;
+            transition: color 0.3s;
+        }
+
+        .footer-col a:hover {
+            color: var(--neon-blue);
+        }
+        
+        .form-group {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .form-group input {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 10px 15px;
+            border-radius: 8px;
+            color: white;
+            outline: none;
+            flex: 1;
+        }
+        
+        .form-group input:focus {
+            border-color: var(--neon-purple);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        /* 3D Loading Overlay */
+        #loader {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: var(--bg-dark);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: opacity 1s;
+        }
+        
+        .loader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top-color: var(--neon-pink);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        @media (max-width: 1024px) {
+            .pricing-table {
+                flex-direction: column;
+            }
+            .collections-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 3.5rem; }
+            .nav-links { display: none; }
+            .section { padding: 0 5vw; }
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 3D Loading Screen -->
+    <div id="loader">
+        <div class="loader-spinner"></div>
+        <h2 style="font-weight:800; letter-spacing:2px; text-transform:uppercase;">Loading Library...</h2>
+    </div>
+
+    <!-- WebGL Canvas for Three.js -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="interactive">
+        <div class="logo">
+            <div class="logo-icon"></div>
+            MangaShelf
+        </div>
+        <div class="nav-links">
+            <a href="#discover">Discover</a>
+            <a href="#reader">Reader</a>
+            <a href="#collections">Collections</a>
+            <a href="#membership">Membership</a>
+        </div>
+        <div class="nav-actions">
+            <button class="btn">Sign In</button>
+            <button class="btn btn-primary">Join Now</button>
+        </div>
+    </nav>
+
+    <!-- Main UI Overlay -->
+    <div id="ui-layer">
+        
+        <section class="section hero-section" id="discover">
+            <div class="hero-content interactive glass-panel" data-speed="0.5">
+                <h1>Enter the <span>Digital Manga</span> Realm</h1>
+                <p class="subtitle">An infinite 3D library of fictional worlds, holographic covers, and immersive stories. Scroll down to dive into the stacks.</p>
+                <div style="display:flex; gap:1rem;">
+                    <button class="btn btn-primary">Start Exploring</button>
+                    <button class="btn">View Genres</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="section reader-section" id="reader">
+            <div class="reader-ui glass-panel interactive" data-speed="0.8">
+                <div class="reader-header">
+                    <div class="reader-title">
+                        <span style="color:var(--neon-blue);">✦</span> 
+                        Chronicles of the Neon Void - Ch. 42
+                    </div>
+                    <div class="reader-controls">
+                        <button class="control-btn" title="Settings">⚙</button>
+                        <button class="control-btn" title="Bookmark">🔖</button>
+                        <button class="control-btn" title="Close">✕</button>
+                    </div>
+                </div>
+                <div class="reader-body">
+                    <div class="manga-page-mockup">
+                        <div class="manga-panel panel-1">
+                            <div class="sketch-line"></div>
+                            <div style="position:absolute; bottom:10px; left:10px; font-weight:800; font-size:1.5rem; color:#333;">"IT'S HAPPENING..."</div>
+                        </div>
+                        <div class="manga-panel panel-2">
+                            <div class="sketch-circle"></div>
+                        </div>
+                        <div class="manga-panel panel-3">
+                            <div class="sketch-line" style="transform:rotate(45deg); width:100%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="reader-header" style="justify-content:center; gap:2rem; background:rgba(0,0,0,0.8);">
+                    <button class="btn" style="padding: 0.3rem 1rem;">← Prev</button>
+                    <span style="font-weight:600;">Page 12 / 45</span>
+                    <button class="btn" style="padding: 0.3rem 1rem;">Next →</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="section collections-section" id="collections">
+            <div style="max-width:800px;">
+                <h2>Curated Collections</h2>
+                <p class="subtitle" style="margin: 1rem auto;">Hand-picked selections for every mood. From cyberpunk thrillers to slice-of-life holograms.</p>
+            </div>
+            
+            <div class="collections-grid interactive" data-speed="1.2">
+                <div class="collection-card glass-panel">
+                    <div class="card-icon">🦾</div>
+                    <h3 class="card-title">Cybernetic Futures</h3>
+                    <p style="color:var(--text-muted); font-size:0.9rem;">Dystopian tech, rogue AI, and neon-drenched cities.</p>
+                </div>
+                <div class="collection-card glass-panel">
+                    <div class="card-icon">⚔️</div>
+                    <h3 class="card-title">Astral Warriors</h3>
+                    <p style="color:var(--text-muted); font-size:0.9rem;">Epic battles across dimensions and galaxy-spanning empires.</p>
+                </div>
+                <div class="collection-card glass-panel">
+                    <div class="card-icon">🌸</div>
+                    <h3 class="card-title">Ethereal Romance</h3>
+                    <p style="color:var(--text-muted); font-size:0.9rem;">Love stories that transcend time and digital space.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section membership-section" id="membership">
+            <h2>Unlock the Vault</h2>
+            <p class="subtitle" style="text-align:center;">Choose your access tier and join a community of digital readers.</p>
+            
+            <div class="pricing-table interactive">
+                <div class="price-card glass-panel" data-speed="1">
+                    <div class="price-header">Wanderer</div>
+                    <div class="price-amount">$0<span>/mo</span></div>
+                    <ul class="feature-list">
+                        <li>Access to rotating free chapters</li>
+                        <li>Standard reader functionality</li>
+                        <li>Community forum access</li>
+                    </ul>
+                    <button class="btn">Sign Up Free</button>
+                </div>
+                
+                <div class="price-card glass-panel premium" data-speed="1.1">
+                    <div class="premium-badge">POPULAR</div>
+                    <div class="price-header">Librarian</div>
+                    <div class="price-amount">$9.99<span>/mo</span></div>
+                    <ul class="feature-list">
+                        <li>Unlimited access to all series</li>
+                        <li>Offline holographic downloads</li>
+                        <li>No advertisements</li>
+                        <li>Early access to new releases</li>
+                    </ul>
+                    <button class="btn btn-primary">Start 7-Day Trial</button>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="interactive">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="logo" style="margin-bottom:1rem; font-size:1.2rem;">
+                    <div class="logo-icon" style="width:20px; height:20px;"></div>
+                    MangaShelf
+                </div>
+                <p style="color:var(--text-muted); font-size:0.9rem; line-height:1.6;">
+                    The ultimate 3D digital manga library. Discover fictional worlds in a deeply immersive virtual environment.
+                </p>
+            </div>
+            <div class="footer-col">
+                <h4>Library</h4>
+                <a href="#">Browse All</a>
+                <a href="#">New Arrivals</a>
+                <a href="#">Top Rated</a>
+                <a href="#">Genres</a>
+            </div>
+            <div class="footer-col">
+                <h4>Community</h4>
+                <a href="#">Forums</a>
+                <a href="#">Discord</a>
+                <a href="#">Creator Blog</a>
+            </div>
+            <div class="footer-col">
+                <h4>Newsletter</h4>
+                <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:10px;">Get updates on new fictional releases.</p>
+                <div class="form-group">
+                    <input type="email" placeholder="Your email">
+                    <button class="btn btn-primary" style="padding: 10px;">➔</button>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 MangaShelf Digital Library. A fictional Web3D project. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <script>
+        // Register GSAP ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
+
+        // --- THREE.JS SETUP ---
+        const canvas = document.querySelector('#webgl-canvas');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x0a0a0f, 0.03);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 2, 15);
+
+        const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        // --- LIGHTING ---
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+        scene.add(ambientLight);
+
+        const pinkLight = new THREE.PointLight(0xff2a6d, 2, 50);
+        pinkLight.position.set(-5, 5, 5);
+        scene.add(pinkLight);
+
+        const blueLight = new THREE.PointLight(0x05d9e8, 2, 50);
+        blueLight.position.set(5, -2, 5);
+        scene.add(blueLight);
+
+        const purpleLight = new THREE.PointLight(0x9d4edd, 2, 50);
+        purpleLight.position.set(0, 10, -10);
+        scene.add(purpleLight);
+
+        // --- PROCEDURAL LIBRARY GENERATION ---
+        // Books & Shelves Materials
+        const shelfMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0x111115, 
+            roughness: 0.8,
+            metalness: 0.2
+        });
+
+        const bookMaterials = [
+            new THREE.MeshStandardMaterial({ color: 0xff2a6d, roughness: 0.3, emissive: 0xff2a6d, emissiveIntensity: 0.1 }),
+            new THREE.MeshStandardMaterial({ color: 0x05d9e8, roughness: 0.3, emissive: 0x05d9e8, emissiveIntensity: 0.1 }),
+            new THREE.MeshStandardMaterial({ color: 0x9d4edd, roughness: 0.3, emissive: 0x9d4edd, emissiveIntensity: 0.1 }),
+            new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5 })
+        ];
+
+        const libraryGroup = new THREE.Group();
+        scene.add(libraryGroup);
+
+        // Generate Shelves Corridor
+        const shelfCount = 10;
+        const shelfDepth = 5;
+        const corridorWidth = 6;
+
+        for (let i = 0; i < shelfCount; i++) {
+            const zPos = -i * shelfDepth;
+            
+            // Left Shelf
+            const leftShelf = new THREE.Mesh(new THREE.BoxGeometry(2, 10, 4), shelfMaterial);
+            leftShelf.position.set(-corridorWidth/2 - 1, 0, zPos);
+            libraryGroup.add(leftShelf);
+
+            // Right Shelf
+            const rightShelf = new THREE.Mesh(new THREE.BoxGeometry(2, 10, 4), shelfMaterial);
+            rightShelf.position.set(corridorWidth/2 + 1, 0, zPos);
+            libraryGroup.add(rightShelf);
+
+            // Populate Books on Shelves
+            for (let j = 0; j < 15; j++) {
+                // Randomize Book
+                const bookGeo = new THREE.BoxGeometry(0.3 + Math.random()*0.2, 1.2 + Math.random()*0.4, 0.8);
+                const mat = bookMaterials[Math.floor(Math.random() * bookMaterials.length)];
+                const book = new THREE.Mesh(bookGeo, mat);
+
+                // Left Shelf books
+                book.position.set(
+                    -corridorWidth/2 - 0.5 + (Math.random() * 1 - 0.5), 
+                    -4 + Math.random() * 8, 
+                    zPos + (Math.random() * 3 - 1.5)
+                );
+                // Slight tilt
+                book.rotation.z = (Math.random() - 0.5) * 0.4;
+                book.rotation.y = (Math.random() - 0.5) * 0.2;
+                libraryGroup.add(book);
+
+                // Right Shelf books
+                const book2 = new THREE.Mesh(bookGeo, mat);
+                book2.position.set(
+                    corridorWidth/2 + 0.5 + (Math.random() * 1 - 0.5), 
+                    -4 + Math.random() * 8, 
+                    zPos + (Math.random() * 3 - 1.5)
+                );
+                book2.rotation.z = (Math.random() - 0.5) * 0.4;
+                book2.rotation.y = (Math.random() - 0.5) * 0.2;
+                libraryGroup.add(book2);
+            }
+        }
+
+        // Floating 'Hero' Volumes
+        const floatingGroup = new THREE.Group();
+        scene.add(floatingGroup);
+        
+        const floatBooks = [];
+        for(let i=0; i<8; i++) {
+            const mat = bookMaterials[i % 3];
+            const book = new THREE.Mesh(new THREE.BoxGeometry(1.5, 2.2, 0.4), mat);
+            book.position.set(
+                (Math.random() - 0.5) * 8,
+                (Math.random() - 0.5) * 8,
+                5 - Math.random() * 10
+            );
+            book.rotation.set(Math.random()*Math.PI, Math.random()*Math.PI, 0);
+            
+            // Custom properties for animation
+            book.userData = {
+                rotSpeed: { x: (Math.random()-0.5)*0.02, y: (Math.random()-0.5)*0.02 },
+                floatSpeed: 0.005 + Math.random()*0.01,
+                initY: book.position.y
+            };
+            
+            floatingGroup.add(book);
+            floatBooks.push(book);
+        }
+
+        // Particles
+        const particlesGeo = new THREE.BufferGeometry();
+        const particlesCount = 700;
+        const posArray = new Float32Array(particlesCount * 3);
+
+        for(let i = 0; i < particlesCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 40;
+        }
+        
+        particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particlesMat = new THREE.PointsMaterial({
+            size: 0.05,
+            color: 0x05d9e8,
+            transparent: true,
+            opacity: 0.5,
+            blending: THREE.AdditiveBlending
+        });
+        
+        const particlesMesh = new THREE.Points(particlesGeo, particlesMat);
+        scene.add(particlesMesh);
+
+        // --- SCROLL ANIMATIONS (GSAP) ---
+        
+        // 1. Camera moving through the library corridor
+        gsap.to(camera.position, {
+            z: -40,
+            y: 0,
+            ease: "none",
+            scrollTrigger: {
+                trigger: "body",
+                start: "top top",
+                end: "bottom bottom",
+                scrub: 1 // smooth scrubbing
+            }
+        });
+
+        // 2. Camera slight rotation for dynamic feel
+        gsap.to(camera.rotation, {
+            y: -0.1,
+            z: 0.05,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".reader-section",
+                start: "top center",
+                end: "bottom center",
+                scrub: 1
+            }
+        });
+        
+        gsap.to(camera.rotation, {
+            y: 0.1,
+            z: -0.05,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".collections-section",
+                start: "top center",
+                end: "bottom center",
+                scrub: 1
+            }
+        });
+
+        // 3. UI Parallax Effects
+        document.querySelectorAll('[data-speed]').forEach(el => {
+            const speed = el.getAttribute('data-speed');
+            gsap.to(el, {
+                y: () => (1 - parseFloat(speed)) * (window.innerHeight / 2),
+                ease: "none",
+                scrollTrigger: {
+                    trigger: el,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: 1
+                }
+            });
+        });
+
+        // --- MOUSE PARALLAX ---
+        let mouseX = 0;
+        let mouseY = 0;
+        let targetX = 0;
+        let targetY = 0;
+        const windowHalfX = window.innerWidth / 2;
+        const windowHalfY = window.innerHeight / 2;
+
+        document.addEventListener('mousemove', (event) => {
+            mouseX = (event.clientX - windowHalfX);
+            mouseY = (event.clientY - windowHalfY);
+        });
+
+        // --- ANIMATION LOOP ---
+        const clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = clock.getElapsedTime();
+
+            // Smooth Mouse Parallax for Camera
+            targetX = mouseX * 0.001;
+            targetY = mouseY * 0.001;
+            
+            // Apply slight rotation to camera group (simulated by rotating library)
+            libraryGroup.rotation.y += 0.05 * (targetX - libraryGroup.rotation.y);
+            libraryGroup.rotation.x += 0.05 * (targetY - libraryGroup.rotation.x);
+            
+            floatingGroup.rotation.y += 0.02 * (targetX - floatingGroup.rotation.y);
+
+            // Animate Floating Books
+            floatBooks.forEach((book, i) => {
+                book.rotation.x += book.userData.rotSpeed.x;
+                book.rotation.y += book.userData.rotSpeed.y;
+                book.position.y = book.userData.initY + Math.sin(time * 2 + i) * 0.2;
+            });
+            
+            // Animate Particles
+            particlesMesh.rotation.y = time * 0.02;
+
+            renderer.render(scene, camera);
+        }
+
+        // --- RESIZE HANDLER ---
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Remove Loader when ready
+        window.onload = () => {
+            const loader = document.getElementById('loader');
+            loader.style.opacity = '0';
+            setTimeout(() => {
+                loader.style.display = 'none';
+                animate(); // Start animation loop after load
+            }, 1000);
+        };
+    </script>
+</body>
+</html>

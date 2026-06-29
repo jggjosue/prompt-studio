@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudPilot CRM | 3D Commercial Operations</title>
+    <meta name="description" content="Enter the new dimension of commercial management. A 3D operations center for leads, pipelines, and revenue.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+    <!-- 3D Canvas Background -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- UI Overlay -->
+    <div id="ui-layer">
+        
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="logo">
+                <div class="logo-icon"></div>
+                <span>CloudPilot CRM</span>
+            </div>
+            <div class="nav-links">
+                <a href="#platform">Platform</a>
+                <a href="#pipeline">Pipeline</a>
+                <a href="#support">Support</a>
+                <a href="#analytics">Analytics</a>
+            </div>
+            <div class="nav-actions">
+                <button class="btn-secondary">Log In</button>
+                <button class="btn-primary" onclick="document.getElementById('demo-section').scrollIntoView({behavior: 'smooth'})">Get Demo</button>
+            </div>
+        </nav>
+
+        <!-- Main Content Scroll Container -->
+        <main class="content">
+            
+            <!-- Hero / Attract -->
+            <section id="hero" class="section glass-section">
+                <div class="container">
+                    <h1 class="animate-text">Enter the Next Dimension<br>of Sales Operations</h1>
+                    <p class="subtitle animate-text delay-1">Visualize your entire commercial universe. Connect leads, accelerate pipelines, and scale revenue with a fully immersive 3D CRM experience.</p>
+                    <div class="cta-group animate-text delay-2">
+                        <button class="btn-primary large" onclick="document.getElementById('demo-section').scrollIntoView({behavior: 'smooth'})">Start Free Trial</button>
+                        <button class="btn-outline large">Explore Modules</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Qualify & Convert -->
+            <section id="platform" class="section right-align">
+                <div class="container glass-card">
+                    <div class="badge">Lead Intelligence</div>
+                    <h2>Qualify at the Speed of Light</h2>
+                    <p>Our automation nodes instantly score incoming leads, connecting data points to reveal the most valuable opportunities in your orbit.</p>
+                    <ul class="feature-list">
+                        <li><span>✦</span> AI-Driven Scoring Models</li>
+                        <li><span>✦</span> Instant Enrichment</li>
+                        <li><span>✦</span> Automated Routing</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Pipeline / Opportunities -->
+            <section id="pipeline" class="section left-align">
+                <div class="container glass-card">
+                    <div class="badge">Dynamic Pipeline</div>
+                    <h2>Navigate Your Revenue Stream</h2>
+                    <p>Drag, drop, and propel deals through your sales stages. Watch your forecasted revenue update in real-time as opportunities advance.</p>
+                    <div class="interactive-demo">
+                        <div class="deal-card">
+                            <span class="deal-name">Acme Corp Enterprise</span>
+                            <span class="deal-value">$120,000</span>
+                            <button class="btn-sm btn-advance">Advance Deal</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Support & Tickets -->
+            <section id="support" class="section right-align">
+                <div class="container glass-card">
+                    <div class="badge">Customer Orbit</div>
+                    <h2>360° Customer Support</h2>
+                    <p>Resolve issues before they escalate. View every customer interaction, ticket, and health score in a unified 3D account map.</p>
+                    <div class="ticket-form-preview">
+                        <input type="text" placeholder="Issue Subject" disabled>
+                        <button class="btn-secondary btn-sm" disabled>Create Ticket</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analytics & Forecast -->
+            <section id="analytics" class="section center-align">
+                <div class="container">
+                    <h2 class="glow-text">Predict the Future</h2>
+                    <p class="large-p">Turn raw data into strategic intelligence with interactive 3D dashboards.</p>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-box glass-card">
+                            <h3>$4.2M</h3>
+                            <p>Q3 Pipeline Value</p>
+                        </div>
+                        <div class="stat-box glass-card">
+                            <h3>84%</h3>
+                            <p>Win Rate (Enterprise)</p>
+                        </div>
+                        <div class="stat-box glass-card">
+                            <h3>12ms</h3>
+                            <p>Query Latency</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Demo / Registration -->
+            <section id="demo-section" class="section center-align glass-section end-section">
+                <div class="container form-container">
+                    <h2>Ready for Liftoff?</h2>
+                    <p>Request a personalized tour of CloudPilot CRM.</p>
+                    
+                    <form id="demo-form" class="glass-form" onsubmit="event.preventDefault(); alert('Demo requested! Our team will contact you.');">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" required placeholder="Jane Doe">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Work Email</label>
+                            <input type="email" id="email" required placeholder="jane@company.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="company">Company Size</label>
+                            <select id="company" required>
+                                <option value="">Select Size...</option>
+                                <option value="1-50">1 - 50 Employees</option>
+                                <option value="51-200">51 - 200 Employees</option>
+                                <option value="201+">201+ Employees</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-primary large full-width">Launch Demo Setup</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer>
+                <div class="footer-content">
+                    <div class="footer-brand">
+                        <div class="logo-icon small"></div>
+                        <span>CloudPilot CRM</span>
+                    </div>
+                    <div class="footer-links">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Security</a>
+                    </div>
+                </div>
+                <p class="copyright">© 2026 CloudPilot Technologies Inc. All rights reserved.</p>
+            </footer>
+
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <!-- Three.js Core -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- GSAP for Animations & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Custom Application Logic -->
+    <script src="app.js"></script>
+</body>
+</html>

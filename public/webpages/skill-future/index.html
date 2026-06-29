@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skill Future | Master the Future of Technology</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- WebGL Canvas for 3D Background -->
+  <canvas id="webgl-canvas"></canvas>
+
+  <!-- Main Navigation -->
+  <header class="glass-nav">
+    <div class="nav-container">
+      <a href="#" class="logo">
+        <span class="logo-icon"></span>
+        Skill Future
+      </a>
+      <nav>
+        <ul>
+          <li><a href="#hero">Campus</a></li>
+          <li><a href="#skills">Skills Map</a></li>
+          <li><a href="#courses">Courses</a></li>
+          <li><a href="#community">Community</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <button class="btn btn-outline" onclick="alert('Login functionality coming soon!')">Log In</button>
+        <button class="btn btn-primary" onclick="alert('Enrollment form opening...')">Enroll Now</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Scrollable Content -->
+  <main class="scroll-container">
+    
+    <!-- Hero Section -->
+    <section id="hero" class="scene">
+      <div class="content-wrapper">
+        <h1 class="glitch-text" data-text="ENTER THE FUTURE">ENTER THE FUTURE</h1>
+        <p class="subtitle">Welcome to the digital campus. Your journey to mastering AI, Data, and Code begins here.</p>
+        <div class="hero-stats parallax-element">
+          <div class="stat"><span>50+</span> Future Skills</div>
+          <div class="stat"><span>10k+</span> Students</div>
+          <div class="stat"><span>24/7</span> AI Mentors</div>
+        </div>
+        <button class="btn btn-primary btn-large scroll-indicator" onclick="document.getElementById('skills').scrollIntoView({behavior: 'smooth'})">
+          Begin Journey <span class="arrow">↓</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Skills Map Section -->
+    <section id="skills" class="scene">
+      <div class="content-wrapper align-right">
+        <div class="glass-panel parallax-element">
+          <h2 class="neon-text">Skill Pathways</h2>
+          <p>Navigate through interconnected nodes of knowledge. Choose your destiny in the technological landscape.</p>
+          <ul class="skill-list">
+            <li><span class="dot color-ai"></span> Artificial Intelligence</li>
+            <li><span class="dot color-data"></span> Data Engineering</li>
+            <li><span class="dot color-dev"></span> Full-Stack Web3</li>
+            <li><span class="dot color-auto"></span> Automation & Cloud</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Courses Section -->
+    <section id="courses" class="scene">
+      <div class="content-wrapper">
+        <h2 class="text-center">Holographic Modules</h2>
+        <div class="course-grid">
+          <div class="course-card parallax-element">
+            <div class="card-glow"></div>
+            <h3>Neural Networks 101</h3>
+            <p>Build your first AI model from scratch using PyTorch.</p>
+            <button class="btn btn-outline btn-sm" onclick="alert('Opening course syllabus...')">View Module</button>
+          </div>
+          <div class="course-card parallax-element delay-1">
+            <div class="card-glow"></div>
+            <h3>Advanced Automation</h3>
+            <p>Master CI/CD pipelines and infrastructure as code.</p>
+            <button class="btn btn-outline btn-sm" onclick="alert('Opening course syllabus...')">View Module</button>
+          </div>
+          <div class="course-card parallax-element delay-2">
+            <div class="card-glow"></div>
+            <h3>Data Visualization 3D</h3>
+            <p>Turn complex data into interactive WebGL experiences.</p>
+            <button class="btn btn-outline btn-sm" onclick="alert('Opening course syllabus...')">View Module</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Certifications & Enrollment Section -->
+    <section id="community" class="scene">
+      <div class="content-wrapper align-center">
+        <div class="glass-panel large parallax-element">
+          <h2 class="neon-text">Join the Vanguard</h2>
+          <p>Earn verifiable digital badges, connect with mentors, and start building the future today.</p>
+          <form class="enroll-form" onsubmit="event.preventDefault(); alert('Application submitted successfully!');">
+            <input type="email" placeholder="Enter your neural-link (Email)" required>
+            <select required>
+              <option value="" disabled selected>Select your Path</option>
+              <option value="ai">AI & Machine Learning</option>
+              <option value="data">Data Science</option>
+              <option value="web">Advanced Web Development</option>
+            </select>
+            <button type="submit" class="btn btn-primary btn-block">Initialize Enrollment</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- External Libraries -->
+  <!-- Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <!-- Application Logic -->
+  <script src="app.js"></script>
+</body>
+</html>

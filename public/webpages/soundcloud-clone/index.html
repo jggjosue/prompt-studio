@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WaveCloud 3D - The Future of Sound</title>
+  <meta name="description" content="WaveCloud 3D - A premium, immersive audio streaming platform and social network for creators and listeners.">
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <!-- Three.js and GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+<body>
+
+  <!-- 3D Canvas Background -->
+  <canvas id="webgl-canvas"></canvas>
+
+  <!-- NAVBAR -->
+  <nav class="navbar glass">
+    <div class="nav-left">
+      <a href="#" class="logo">
+        <svg viewBox="0 0 50 30" xmlns="http://www.w3.org/2000/svg" class="logo-icon">
+          <path fill="url(#grad1)" d="M2 20c0-2 1-3 2-3v6c-1 0-2-1-2-3zm4-5c0-1 1-2 2-2v11c-1 0-2-1-2-2v-7zm4-2c0-1 1-2 2-2v15c-1 0-2-1-2-2V13zm4-3c1-1 2 0 2 1v17c-1 0-2-1-2-2V10zm4-2c0-1 1-2 2-2v21c-1 0-2-1-2-2V8zm4-2c1 0 2 1 2 2v17c-1 1-2 0-2-1V6zm5 2c4-1 9 1 11 5 1-1 3-2 4-2 4 0 7 3 7 7s-3 7-7 7H27c-2 0-3-1-3-2V8z"/>
+          <defs>
+            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#00f2fe;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#4facfe;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <span class="brand-text">WaveCloud</span>
+      </a>
+      <div class="search-bar glass-input">
+        <input type="text" placeholder="Search tracks, artists, vibes...">
+      </div>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#discover">Discover</a></li>
+      <li><a href="#creators">Creators</a></li>
+      <li><a href="#premium">Premium</a></li>
+      <li><a href="#register" class="btn btn-outline">Sign In</a></li>
+      <li><a href="#register" class="btn btn-primary">Sign Up</a></li>
+    </ul>
+  </nav>
+
+  <!-- CONTENT OVERLAY -->
+  <main class="scroll-container">
+    
+    <!-- HERO SECTION -->
+    <section class="section hero" id="hero">
+      <div class="content-wrapper text-center">
+        <h1 class="glitch-text" data-text="Feel The Sound">Feel The Sound</h1>
+        <p class="subtitle">Enter the 3D dimension of audio streaming. Discover, share, and monetize your music in an immersive digital soundscape.</p>
+        <div class="cta-group">
+          <button class="btn btn-primary btn-lg">Start Exploring</button>
+          <button class="btn btn-glass btn-lg">Upload Your Vibe</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- DISCOVER SECTION -->
+    <section class="section discover" id="discover">
+      <div class="content-wrapper row">
+        <div class="col-half">
+          <h2 class="section-title">Trending Tracks</h2>
+          <div class="track-list">
+            <!-- Track Card -->
+            <div class="track-card glass">
+              <div class="track-art" style="background: linear-gradient(45deg, #ff0844 0%, #ffb199 100%);"></div>
+              <div class="track-info">
+                <h3>Neon Skyline</h3>
+                <p>Kavinsky Vibes • 1.2M plays</p>
+                <div class="mini-waveform"></div>
+              </div>
+              <button class="btn-icon play-btn">▶</button>
+            </div>
+            <!-- Track Card -->
+            <div class="track-card glass">
+              <div class="track-art" style="background: linear-gradient(45deg, #43e97b 0%, #38f9d7 100%);"></div>
+              <div class="track-info">
+                <h3>Liquid Bass</h3>
+                <p>DJ Abstract • 850K plays</p>
+                <div class="mini-waveform"></div>
+              </div>
+              <button class="btn-icon play-btn">▶</button>
+            </div>
+            <!-- Track Card -->
+            <div class="track-card glass">
+              <div class="track-art" style="background: linear-gradient(45deg, #a18cd1 0%, #fbc2eb 100%);"></div>
+              <div class="track-info">
+                <h3>Lo-Fi Chill 3D</h3>
+                <p>Zen Masters • 2.5M plays</p>
+                <div class="mini-waveform"></div>
+              </div>
+              <button class="btn-icon play-btn">▶</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-half flex-center">
+          <!-- 3D placeholder space -> The WebGL canvas will provide the visual here -->
+          <div class="floating-hologram-placeholder">
+            <p>Interactive 3D Visualizer</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STUDIO / PLAYER SECTION -->
+    <section class="section studio" id="studio">
+      <div class="content-wrapper">
+        <h2 class="section-title text-center">Global Player & Community</h2>
+        <div class="player-dashboard glass">
+          <div class="player-header">
+            <div class="player-art" style="background: url('https://picsum.photos/400/400?random=1') center/cover;"></div>
+            <div class="player-meta">
+              <h2>Midnight Drive 3D (Spatial Audio)</h2>
+              <p>by <a href="#" class="artist-link">Synthwave Collective</a></p>
+            </div>
+          </div>
+          <div class="waveform-container">
+            <!-- Simulated Waveform & Comments -->
+            <div class="waveform-bar" style="height: 40%"></div>
+            <div class="waveform-bar" style="height: 60%"></div>
+            <div class="waveform-bar" style="height: 80%"></div>
+            <div class="waveform-bar" style="height: 100%"></div>
+            <div class="waveform-bar" style="height: 90%"></div>
+            <div class="waveform-bar" style="height: 50%"></div>
+            <div class="waveform-bar" style="height: 30%"></div>
+            <div class="waveform-bar" style="height: 70%"></div>
+            <div class="waveform-bar" style="height: 60%"></div>
+            <div class="waveform-bar" style="height: 40%"></div>
+            <!-- Timestamps -->
+            <div class="comment-timestamp" style="left: 20%;">
+              <img src="https://picsum.photos/30/30?random=2" alt="Avatar">
+              <span class="tooltip">"This drop is insane!"</span>
+            </div>
+            <div class="comment-timestamp" style="left: 75%;">
+              <img src="https://picsum.photos/30/30?random=3" alt="Avatar">
+              <span class="tooltip">"Perfect vibes 🌌"</span>
+            </div>
+          </div>
+          <div class="player-controls">
+            <button class="btn-icon">⏮</button>
+            <button class="btn-icon play-large">▶</button>
+            <button class="btn-icon">⏭</button>
+            <span class="time-display">01:24 / 04:12</span>
+            <div class="actions-right">
+              <button class="btn-icon">♡</button>
+              <button class="btn-icon">↪</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CREATORS & UPLOAD SECTION -->
+    <section class="section creators" id="creators">
+      <div class="content-wrapper row">
+        <div class="col-half">
+          <div class="upload-box glass">
+            <h3>Upload a Track</h3>
+            <div class="drop-zone">
+              <span class="upload-icon">⬆</span>
+              <p>Drag & Drop your audio file here</p>
+              <button class="btn btn-outline">Browse Files</button>
+            </div>
+            <small>Supports WAV, FLAC, MP3 up to 2GB</small>
+          </div>
+        </div>
+        <div class="col-half">
+          <div class="stats-dashboard glass">
+            <h3>Creator Analytics</h3>
+            <div class="stat-grid">
+              <div class="stat-item">
+                <span class="stat-value">245.5K</span>
+                <span class="stat-label">Total Plays</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value">$1,240</span>
+                <span class="stat-label">Est. Revenue</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value">12.3K</span>
+                <span class="stat-label">Followers</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value">845</span>
+                <span class="stat-label">Saves</span>
+              </div>
+            </div>
+            <div class="chart-placeholder">
+              <!-- Animated bars simulating a chart -->
+              <div class="chart-bar" style="height:40%"></div>
+              <div class="chart-bar" style="height:70%"></div>
+              <div class="chart-bar" style="height:50%"></div>
+              <div class="chart-bar" style="height:90%"></div>
+              <div class="chart-bar" style="height:60%"></div>
+              <div class="chart-bar" style="height:80%"></div>
+              <div class="chart-bar" style="height:100%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REGISTER SECTION -->
+    <section class="section register" id="register">
+      <div class="content-wrapper text-center">
+        <h2 class="section-title">Join the Next Generation of Audio</h2>
+        <div class="form-container glass mx-auto">
+          <form onsubmit="event.preventDefault();">
+            <div class="input-group">
+              <input type="email" placeholder="Your Email Address" required>
+            </div>
+            <div class="input-group">
+              <input type="password" placeholder="Create a Password" required>
+            </div>
+            <button class="btn btn-primary btn-block">Create Account</button>
+            <p class="mt-4 text-sm text-gray">Or connect with</p>
+            <div class="social-login">
+              <button class="btn btn-glass">Google</button>
+              <button class="btn btn-glass">Apple</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer glass">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>WaveCloud 3D</h4>
+          <ul>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Blog</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Plans</h4>
+          <ul>
+            <li><a href="#">Free</a></li>
+            <li><a href="#">Premium</a></li>
+            <li><a href="#">Creator Pro</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Community</h4>
+          <ul>
+            <li><a href="#">Artists</a></li>
+            <li><a href="#">Developers</a></li>
+            <li><a href="#">Guidelines</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Cookies</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 WaveCloud Interactive. Fictional platform design.</p>
+      </div>
+    </footer>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -31,13 +31,23 @@ export async function getFirebaseAnalytics(): Promise<Analytics | null> {
     return null;
   }
 
-  const supported = await isSupported();
-
-  if (!supported) {
+  // Prevent initialization if the browser is offline
+  if (typeof navigator !== 'undefined' && !navigator.onLine) {
     return null;
   }
 
-  return getAnalytics(getFirebaseApp());
+  try {
+    const supported = await isSupported();
+
+    if (!supported) {
+      return null;
+    }
+
+    return getAnalytics(getFirebaseApp());
+  } catch (error) {
+    console.warn('Firebase Analytics failed to initialize:', error);
+    return null;
+  }
 }
 
 export async function logFirebaseEvent(

@@ -1,0 +1,347 @@
+/* 
+  AeroVista Vuelos 3D - Styles
+*/
+
+:root {
+  --bg-color: #050510;
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --accent-blue: #00d4ff;
+  --accent-pink: #ff69b4;
+  --glass-bg: rgba(15, 20, 35, 0.4);
+  --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  /* Allow scrolling for GSAP ScrollTrigger */
+}
+
+/* ── 3D Canvas ── */
+#bg-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none; /* Let clicks pass through to UI if needed, though OrbitControls might need it if we wanted interaction. For scroll storytelling, we usually disable pointer on canvas or manage it carefully. */
+}
+
+/* ── UI Overlay Container ── */
+#scroll-container {
+  position: relative;
+  z-index: 10;
+}
+
+.panel {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5vw 10vw;
+  position: relative;
+}
+
+.center-panel {
+  align-items: center;
+}
+
+/* ── Typography ── */
+h1, h2, h3 {
+  font-family: 'Outfit', sans-serif;
+}
+
+.title-3d {
+  font-size: 4rem;
+  font-weight: 800;
+  line-height: 1.1;
+  background: linear-gradient(135deg, #fff 0%, var(--accent-blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+/* ── Glassmorphism Components ── */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 3rem;
+  max-width: 500px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+}
+
+.glass-premium {
+  background: linear-gradient(145deg, rgba(30, 40, 60, 0.6), rgba(15, 20, 35, 0.8));
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+  padding: 3rem;
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.align-right {
+  margin-left: auto;
+}
+
+/* ── Forms & Inputs ── */
+.search-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.input-group label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.input-group input {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem;
+  border-radius: 12px;
+  color: white;
+  font-size: 1.1rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.input-group input:focus {
+  border-color: var(--accent-blue);
+}
+
+/* ── Buttons ── */
+button {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-blue), #0077ff);
+  color: white;
+  box-shadow: 0 10px 20px rgba(0, 212, 255, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 25px rgba(0, 212, 255, 0.4);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--accent-blue);
+  color: var(--accent-blue);
+}
+
+.btn-outline:hover {
+  background: rgba(0, 212, 255, 0.1);
+}
+
+.w-100 {
+  width: 100%;
+}
+
+/* ── Disclaimers ── */
+.disclaimer {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+  margin-top: 1.5rem;
+  line-height: 1.5;
+}
+
+.final-disclaimer {
+  margin-top: 3rem;
+  text-align: center;
+}
+
+/* ── Specific UI Elements ── */
+.stats {
+  margin-top: 2rem;
+}
+.stat-item .num {
+  font-size: 3rem;
+  font-weight: 300;
+  color: var(--accent-blue);
+  display: block;
+}
+.stat-item .lbl {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.calendar-widget {
+  background: rgba(0,0,0,0.2);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+}
+.cal-header {
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+.day {
+  background: rgba(255,255,255,0.05);
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.day:hover { background: rgba(255,255,255,0.1); }
+.day span { display: block; font-size: 0.75rem; margin-top: 4px; color: var(--text-secondary); }
+.day.price-low span { color: #00ff88; }
+.day.price-high span { color: #ff4444; }
+.day.selected { background: var(--accent-blue); color: #000; }
+.day.selected span { color: rgba(0,0,0,0.7); }
+
+.price-alert {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  padding: 1rem;
+  border-radius: 12px;
+}
+.price-alert .icon { font-size: 1.5rem; }
+.price-alert p { font-size: 0.85rem; color: var(--text-secondary); }
+
+.booking-options {
+  display: flex;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+.option-card {
+  flex: 1;
+  background: rgba(0,0,0,0.2);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 1.5rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.option-card:hover { border-color: rgba(255,255,255,0.3); }
+.option-card.active {
+  border-color: var(--accent-blue);
+  background: rgba(0, 212, 255, 0.05);
+}
+.option-card h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+.option-card p { font-size: 0.85rem; color: var(--text-secondary); }
+.option-card .price { margin-top: 1rem; font-weight: 600; color: white; }
+
+.seat-selection { margin-bottom: 2rem; }
+.seat-map {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 1rem;
+  max-width: 200px;
+}
+.seat {
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.2);
+  cursor: pointer;
+}
+.seat.available { background: rgba(255,255,255,0.1); }
+.seat.available:hover { background: rgba(255,255,255,0.2); }
+.seat.occupied { background: rgba(255,0,0,0.2); border-color: transparent; cursor: not-allowed; }
+.seat.selected { background: var(--accent-blue); border-color: var(--accent-blue); }
+
+/* ── Boarding Pass ── */
+.boarding-pass {
+  width: 100%;
+  max-width: 600px;
+}
+.bp-header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px dashed rgba(255,255,255,0.2);
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.bp-header .airline { font-weight: 800; letter-spacing: 2px; }
+.bp-header .flight-no { color: var(--accent-blue); font-family: monospace; font-size: 1.2rem; }
+.bp-body .route {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+.route h2 { font-size: 3rem; margin: 0; }
+.route .plane-icon { font-size: 2rem; opacity: 0.7; }
+.bp-details {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+.bp-details label { font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; }
+.bp-details p { font-size: 1.2rem; font-weight: 600; }
+.bp-barcode {
+  margin-top: 2rem;
+  font-family: monospace;
+  font-size: 2rem;
+  letter-spacing: -2px;
+  text-align: center;
+  color: rgba(255,255,255,0.5);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .panel { padding: 2rem; }
+  .glass { max-width: 100%; }
+  .title-3d { font-size: 3rem; }
+}

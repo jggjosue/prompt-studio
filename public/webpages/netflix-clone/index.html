@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreamVerse 3D | The Cinematic Experience</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Three.js & GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+<body>
+
+    <!-- 3D Background Canvas -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- Overlay UI -->
+    <div id="ui-container">
+        
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="logo">StreamVerse<span class="highlight">3D</span></div>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#catalog">Catalog</a>
+                <a href="#plans">Plans</a>
+            </div>
+            <div class="nav-actions">
+                <button class="btn-icon"><i class="fas fa-search"></i></button>
+                <div class="profile-avatar" onclick="toggleProfileMenu()"></div>
+            </div>
+        </nav>
+
+        <!-- Profile Menu Dropdown -->
+        <div class="profile-dropdown" id="profileDropdown">
+            <div class="profile-item"><div class="avatar-small"></div> User 1</div>
+            <div class="profile-item"><div class="avatar-small a2"></div> User 2</div>
+            <div class="profile-item" onclick="openRegistration()"><i class="fas fa-plus"></i> New Profile</div>
+        </div>
+
+        <!-- Scroll Content -->
+        <div class="scroll-content">
+            
+            <!-- Section 1: Hero -->
+            <section id="home" class="hero-section">
+                <div class="hero-content">
+                    <h1 class="hero-title">Step into the <br><span>Cinema.</span></h1>
+                    <p class="hero-subtitle">Experience stories like never before in our immersive 3D universe. Scroll to dive in.</p>
+                    <div class="hero-buttons">
+                        <button class="btn-primary" onclick="openPlayer()">Explore Now</button>
+                        <button class="btn-secondary">My List</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2: Catalog Area -->
+            <section id="catalog" class="catalog-section">
+                <div class="section-header">
+                    <h2>Trending in the Verse</h2>
+                    <div class="filters">
+                        <span class="active">All</span>
+                        <span>Sci-Fi</span>
+                        <span>Thriller</span>
+                        <span>Animation</span>
+                    </div>
+                </div>
+                <!-- Posters are rendered in 3D, but we place a structural div to create scroll height -->
+                <div class="spacer-3d">
+                    <p class="scroll-hint">Keep scrolling to travel deeper...</p>
+                </div>
+            </section>
+
+            <!-- Section 3: Subscription Plans -->
+            <section id="plans" class="plans-section">
+                <h2>Choose Your Reality</h2>
+                <div class="plans-grid">
+                    <div class="plan-card">
+                        <h3>Standard</h3>
+                        <div class="price">$9.99<span>/mo</span></div>
+                        <ul>
+                            <li><i class="fas fa-check"></i> HD Resolution</li>
+                            <li><i class="fas fa-check"></i> 2 Devices</li>
+                            <li><i class="fas fa-times"></i> 3D Cinematic Lobby</li>
+                        </ul>
+                        <button class="btn-outline">Select Plan</button>
+                    </div>
+                    <div class="plan-card premium">
+                        <div class="badge">Most Popular</div>
+                        <h3>Immersive</h3>
+                        <div class="price">$15.99<span>/mo</span></div>
+                        <ul>
+                            <li><i class="fas fa-check"></i> 4K Ultra HD</li>
+                            <li><i class="fas fa-check"></i> 4 Devices</li>
+                            <li><i class="fas fa-check"></i> 3D Cinematic Lobby</li>
+                        </ul>
+                        <button class="btn-primary">Select Plan</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="footer-content">
+                    <div class="logo">StreamVerse<span class="highlight">3D</span></div>
+                    <p>Contact Support | Terms | Privacy</p>
+                    <p class="small">&copy; 2026 StreamVerse Inc. Original Fictional Platform.</p>
+                </div>
+            </footer>
+        </div>
+
+    </div>
+
+    <!-- Modals -->
+    <div id="detailsModal" class="modal">
+        <div class="modal-content glass-panel">
+            <span class="close-btn" onclick="closeModals()">&times;</span>
+            <div class="modal-body">
+                <div class="modal-image" id="modalImage"></div>
+                <div class="modal-info">
+                    <h2 id="modalTitle">Title</h2>
+                    <div class="meta">
+                        <span class="match">98% Match</span>
+                        <span>2026</span>
+                        <span class="age">16+</span>
+                        <span>Sci-Fi / Thriller</span>
+                    </div>
+                    <p id="modalDesc">An epic journey through the digital expanse where reality and fiction blur.</p>
+                    <div class="modal-actions">
+                        <button class="btn-primary" onclick="openPlayer()"><i class="fas fa-play"></i> Play Trailer</button>
+                        <button class="btn-icon"><i class="fas fa-plus"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="playerModal" class="modal player-modal">
+        <div class="player-container">
+            <span class="close-btn player-close" onclick="closeModals()">&times;</span>
+            <div class="video-placeholder">
+                <i class="fas fa-play-circle fa-4x pulse"></i>
+                <p>Simulated Trailer Playback</p>
+            </div>
+            <div class="player-controls">
+                <div class="progress-bar"><div class="progress"></div></div>
+                <div class="control-buttons">
+                    <i class="fas fa-play"></i>
+                    <i class="fas fa-volume-up"></i>
+                    <span class="time">0:00 / 2:30</span>
+                    <i class="fas fa-expand ml-auto"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="registrationModal" class="modal">
+        <div class="modal-content glass-panel form-panel">
+            <span class="close-btn" onclick="closeModals()">&times;</span>
+            <h2>Join the Verse</h2>
+            <form onsubmit="event.preventDefault(); alert('Registration successful! Welcome to StreamVerse.'); closeModals();">
+                <div class="form-group">
+                    <input type="text" placeholder="Full Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" placeholder="Email Address" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn-primary full-width">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

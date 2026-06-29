@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LedgerFlow Accounting</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+<body>
+    <canvas id="bg-canvas"></canvas>
+
+    <nav class="navbar">
+        <div class="logo">LedgerFlow</div>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#dashboard">Dashboard</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#contact" class="btn btn-primary">Request Demo</a>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <h1 class="parallax-text" data-speed="0.5">Next-Gen <br><span class="gradient-text">Accounting</span></h1>
+                <p class="parallax-text" data-speed="0.8">Automate your finances, organize your books, and visualize your cash flow in a 3D digital workspace.</p>
+                <div class="hero-buttons parallax-text" data-speed="1.2">
+                    <button class="btn btn-primary">Start for free</button>
+                    <button class="btn btn-secondary">Explore Modules</button>
+                </div>
+            </div>
+            <div class="floating-elements">
+                <!-- Abstract floating elements representing invoices, etc., handled by CSS/JS -->
+                <div class="glass-card float-1" data-speed="1.5">
+                    <h3>Q3 Revenue</h3>
+                    <p class="positive">+$45,231.00</p>
+                </div>
+                <div class="glass-card float-2" data-speed="2">
+                    <h3>Pending Invoices</h3>
+                    <p>12 Unpaid</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="features" id="features">
+            <div class="section-header">
+                <h2>Complete Financial Control</h2>
+                <p>Everything you need to manage your business effectively.</p>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-card parallax-card" data-speed="1">
+                    <div class="icon">📊</div>
+                    <h3>Smart Dashboards</h3>
+                    <p>Real-time insights into your cash flow and balances.</p>
+                </div>
+                <div class="feature-card parallax-card" data-speed="1.2">
+                    <div class="icon">🏦</div>
+                    <h3>Bank Reconciliation</h3>
+                    <p>Connect your banks and automate transaction matching.</p>
+                </div>
+                <div class="feature-card parallax-card" data-speed="1.4">
+                    <div class="icon">🧾</div>
+                    <h3>Invoice Management</h3>
+                    <p>Create, send, and track beautiful invoices instantly.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="dashboard-preview" id="dashboard">
+            <div class="dashboard-container">
+                <div class="dashboard-ui glass-panel parallax-card" data-speed="0.8">
+                    <div class="dash-header">
+                        <h2>Financial Overview</h2>
+                        <button class="btn btn-small">Download Report</button>
+                    </div>
+                    <div class="dash-metrics">
+                        <div class="metric">
+                            <span>Cash Flow</span>
+                            <h4>$124,500</h4>
+                        </div>
+                        <div class="metric">
+                            <span>Expenses</span>
+                            <h4>$32,100</h4>
+                        </div>
+                    </div>
+                    <div class="chart-placeholder">
+                        <div class="bar" style="height: 60%;"></div>
+                        <div class="bar" style="height: 80%;"></div>
+                        <div class="bar" style="height: 40%;"></div>
+                        <div class="bar" style="height: 90%;"></div>
+                        <div class="bar" style="height: 70%;"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="disclaimer-section">
+            <div class="disclaimer-content glass-card">
+                <p><strong>Important Notice:</strong> Financial and tax information should be reviewed by a qualified professional. Use accounting automation responsibly.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">LedgerFlow Accounting</div>
+            <div class="footer-links">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Security</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

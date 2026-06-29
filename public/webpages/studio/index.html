@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Studio 3D — Premium Creative Studio</title>
+  <meta name="description" content="A premium 3D creative studio specializing in branding, UI/UX, motion graphics, and digital campaigns.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- GSAP & Three.js libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+<body>
+
+  <!-- 3D Canvas Background -->
+  <canvas id="webgl-canvas"></canvas>
+
+  <!-- Sticky Header -->
+  <header class="header">
+    <div class="logo">STUDIO<span>3D</span></div>
+    <nav class="nav">
+      <a href="#hero" class="nav-link">Inicio</a>
+      <a href="#services" class="nav-link">Servicios</a>
+      <a href="#portfolio" class="nav-link">Proyectos</a>
+      <a href="#process" class="nav-link">Proceso</a>
+      <a href="#booking" class="nav-btn">Reservar Llamada</a>
+    </nav>
+  </header>
+
+  <!-- Scroll Container -->
+  <main class="scroll-container">
+    
+    <!-- Hero Section -->
+    <section id="hero" class="section hero">
+      <div class="content-wrapper">
+        <h1 class="hero-title" data-parallax="0.2">Entra a nuestra<br>Galería Digital.</h1>
+        <p class="hero-subtitle" data-parallax="0.1">Estrategia, Diseño y Producción Audiovisual de Alto Nivel.</p>
+        <div class="hero-ctas" data-parallax="0.05">
+          <a href="#portfolio" class="btn btn-primary">Explorar Estudio</a>
+          <a href="#booking" class="btn btn-secondary">Contactar</a>
+        </div>
+      </div>
+      <div class="scroll-indicator">
+        <span>Scroll</span>
+        <div class="mouse"><div class="wheel"></div></div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="section services">
+      <div class="content-wrapper align-right">
+        <h2 class="section-title">Nuestra Experiencia</h2>
+        <div class="services-list">
+          <div class="service-card" data-parallax="0.1">
+            <h3>Branding & Identidad</h3>
+            <p>Construimos marcas memorables con propósito y dirección visual.</p>
+          </div>
+          <div class="service-card" data-parallax="0.2">
+            <h3>UI/UX & Web 3D</h3>
+            <p>Experiencias digitales inmersivas y funcionales centradas en el usuario.</p>
+          </div>
+          <div class="service-card" data-parallax="0.3">
+            <h3>Motion Graphics</h3>
+            <p>Animaciones dinámicas, storytelling audiovisual y producción 3D.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Portfolio / Showroom Section -->
+    <section id="portfolio" class="section portfolio">
+      <div class="content-wrapper">
+        <h2 class="section-title text-center">Proyectos Destacados</h2>
+        <div class="portfolio-grid">
+          <!-- Portfolio items will align with 3D elements behind them -->
+          <div class="portfolio-item glass-panel" data-parallax="0.15">
+            <h3>Campaña Global</h3>
+            <p>Dirección de arte y 3D.</p>
+            <button class="btn btn-outline" onclick="alert('Abriendo caso de estudio...')">Ver Caso</button>
+          </div>
+          <div class="portfolio-item glass-panel" data-parallax="0.25">
+            <h3>Fintech App UI</h3>
+            <p>Diseño de interfaz y sistema.</p>
+            <button class="btn btn-outline" onclick="alert('Abriendo caso de estudio...')">Ver Caso</button>
+          </div>
+          <div class="portfolio-item glass-panel" data-parallax="0.1">
+            <h3>Rebranding</h3>
+            <p>Identidad y estrategia.</p>
+            <button class="btn btn-outline" onclick="alert('Abriendo caso de estudio...')">Ver Caso</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Process Timeline Section -->
+    <section id="process" class="section process">
+      <div class="content-wrapper">
+        <h2 class="section-title">Proceso Creativo</h2>
+        <div class="timeline">
+          <div class="timeline-step">
+            <div class="step-num">01</div>
+            <h4>Descubrimiento</h4>
+            <p>Briefing y estrategia inicial.</p>
+          </div>
+          <div class="timeline-step">
+            <div class="step-num">02</div>
+            <h4>Dirección de Arte</h4>
+            <p>Moodboards y prototipado.</p>
+          </div>
+          <div class="timeline-step">
+            <div class="step-num">03</div>
+            <h4>Producción</h4>
+            <p>Desarrollo, diseño y renders.</p>
+          </div>
+          <div class="timeline-step">
+            <div class="step-num">04</div>
+            <h4>Entrega</h4>
+            <p>Lanzamiento y revisión final.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Booking / Contact Section -->
+    <section id="booking" class="section booking">
+      <div class="content-wrapper center">
+        <div class="booking-panel glass-panel">
+          <h2 class="section-title">Iniciemos tu proyecto</h2>
+          <p>Reserva una llamada estratégica o envíanos tu brief.</p>
+          <form id="contact-form" class="contact-form">
+            <input type="text" placeholder="Tu Nombre" required>
+            <input type="email" placeholder="Tu Email" required>
+            <select required>
+              <option value="" disabled selected>Selecciona un servicio</option>
+              <option value="branding">Branding</option>
+              <option value="web">Diseño Web / 3D</option>
+              <option value="motion">Motion Graphics</option>
+              <option value="other">Otro</option>
+            </select>
+            <textarea placeholder="Cuéntanos sobre tu proyecto..." rows="4" required></textarea>
+            <button type="submit" class="btn btn-primary btn-block">Enviar Brief</button>
+          </form>
+          <div id="form-success" class="hidden" style="margin-top:20px; color: #4ade80;">¡Mensaje enviado con éxito! Nos contactaremos pronto.</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flowday 3D - The Work OS</title>
+  <meta name="description" content="A premium 3D landing page for Flowday 3D work management platform.">
+  <link rel="stylesheet" href="style.css" />
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- 3D Canvas Background -->
+  <div id="webgl-container"></div>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <span class="logo-icon">💠</span> Flowday 3D
+    </div>
+    <div class="nav-links">
+      <a href="#plan">Plan</a>
+      <a href="#collaborate">Collaborate</a>
+      <a href="#automate">Automate</a>
+      <a href="#scale">Scale</a>
+    </div>
+    <div class="nav-actions">
+      <button class="btn-ghost">Log in</button>
+      <button class="btn-primary">Get Started</button>
+    </div>
+  </nav>
+
+  <!-- Scrollable Content overlaying the 3D scene -->
+  <main id="scroll-content">
+    
+    <!-- Hero Section -->
+    <section class="section hero" id="home">
+      <div class="content-wrapper">
+        <h1 class="hero-title" data-speed="1.2">Your Work, <br><span class="gradient-text">Fully Dimensional</span></h1>
+        <p class="hero-subtitle" data-speed="1.1">Step into the next generation of team collaboration. Plan, assign, and execute in a living 3D workspace.</p>
+        <div class="hero-cta" data-speed="1">
+          <input type="email" placeholder="Enter your work email" class="input-field" />
+          <button class="btn-primary">Start Free Trial</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Plan Section -->
+    <section class="section features" id="plan">
+      <div class="content-wrapper align-left">
+        <div class="glass-panel" data-speed="1.3">
+          <div class="panel-header">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+            <span class="panel-title">Planning Phase</span>
+          </div>
+          <div class="panel-body">
+            <h2>Plan with Precision</h2>
+            <p>Map out your entire project structure with interactive boards. Break down complex goals into manageable tasks.</p>
+            <ul class="feature-list">
+              <li>✨ Intuitive Board Views</li>
+              <li>📅 Dynamic Timelines</li>
+              <li>🎯 Goal Tracking</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Assign & Collaborate Section -->
+    <section class="section features" id="collaborate">
+      <div class="content-wrapper align-right">
+        <div class="glass-panel" data-speed="1.2">
+          <div class="panel-header">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+            <span class="panel-title">Team Collaboration</span>
+          </div>
+          <div class="panel-body">
+            <h2>Assign & Collaborate</h2>
+            <p>Connect your team in real-time. Assign tasks, leave comments, and attach files directly within context.</p>
+            <div class="avatar-group">
+              <div class="avatar" style="background:#FF3D57">JD</div>
+              <div class="avatar" style="background:#00CA72">AL</div>
+              <div class="avatar" style="background:#0073EA">MK</div>
+              <div class="avatar" style="background:#FFC542">+5</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Visualize & Automate Section -->
+    <section class="section features" id="automate">
+      <div class="content-wrapper align-left">
+        <div class="glass-panel" data-speed="1.4">
+          <div class="panel-header">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+            <span class="panel-title">Automations</span>
+          </div>
+          <div class="panel-body">
+            <h2>Visualize & Automate</h2>
+            <p>Set up rules that work for you. Connect nodes to trigger actions, update statuses, and notify teams instantly.</p>
+            <button class="btn-outline">Explore Automations →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Measure & Scale Section -->
+    <section class="section features center-align" id="scale">
+      <div class="content-wrapper">
+        <h2 class="section-title">Measure & Scale</h2>
+        <p class="section-subtitle">Gain actionable insights from high-level dashboards and scale your operations effortlessly.</p>
+        <div class="dashboard-mockup glass-panel">
+          <div class="dash-row">
+            <div class="dash-widget widget-chart">
+              <div class="bar" style="height: 60%"></div>
+              <div class="bar" style="height: 80%"></div>
+              <div class="bar" style="height: 40%"></div>
+              <div class="bar" style="height: 90%"></div>
+            </div>
+            <div class="dash-widget widget-stats">
+              <h3>85%</h3>
+              <p>Task Completion</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer CTA -->
+    <section class="section cta-section">
+      <div class="content-wrapper">
+        <h2>Ready to transform your workflow?</h2>
+        <p>Join thousands of teams already building the future of work.</p>
+        <button class="btn-primary btn-large">Join Flowday 3D Now</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- External Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  
+  <!-- Custom Script -->
+  <script src="main.js"></script>
+</body>
+</html>

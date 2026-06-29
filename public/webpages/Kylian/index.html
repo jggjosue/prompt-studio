@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta name="keywords"
+    content="Kylian, clone, design, three.js, webgl, interactive, template, landing page, prompt studio">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Experiencia cinematográfica dedicada a la velocidad y potencia de Kylian Mbappé." />
+  <meta name="theme-color" content="#020305" />
+  <title>Kylian Mbappé — Velocidad pura</title>
+  <link rel="preload" as="image" href="assets/mbappe-poster.webp" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <canvas class="kinetic-field" aria-hidden="true"></canvas>
+
+  <header class="site-header" data-scroll-ui>
+    <a class="monogram" href="#inicio" aria-label="Volver al inicio">KM</a>
+    <nav aria-label="Navegación principal">
+      <a class="nav-link is-active" href="#inicio">Inicio</a>
+      <a class="nav-link" href="#velocidad">Velocidad</a>
+      <a class="nav-link" href="#potencia">Potencia</a>
+    </nav>
+    <button class="sound-toggle" type="button" aria-label="Activar sonido" aria-pressed="false">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <main>
+    <section class="hero-scroll" id="inicio" aria-label="Experiencia de apertura">
+      <div class="hero">
+        <div class="ambient ambient-blue" aria-hidden="true"></div>
+        <div class="ambient ambient-red" aria-hidden="true"></div>
+
+        <div class="hero-media" aria-hidden="true">
+          <img class="hero-poster" src="assets/mbappe-poster.webp" alt="" width="1920" height="1080" />
+          <img class="hero-motion" data-src="assets/mbappe-sprint.webp" alt="" width="1280" height="720" />
+          <div class="media-vignette"></div>
+        </div>
+
+        <div class="hero-copy hero-copy-left">
+          <h1>
+            <span>Kylian</span>
+            <strong>Mbappé</strong>
+          </h1>
+          <div class="tricolor-line" aria-hidden="true">
+            <i></i><i></i><i></i>
+          </div>
+          <p>France / 10 / Attaquant</p>
+        </div>
+
+        <div class="hero-copy hero-copy-right">
+          <h2>Velocidad pura</h2>
+          <i class="copy-rule" aria-hidden="true"></i>
+          <p>
+            Aceleración biomecánica, potencia reactiva y control absoluto en cada zancada.
+          </p>
+        </div>
+
+        <a class="cta cta-ghost" href="#velocidad">
+          <span>Descubrir</span>
+          <svg viewBox="0 0 32 16" aria-hidden="true">
+            <path d="M1 8h28M22 1l7 7-7 7" />
+          </svg>
+        </a>
+
+        <button class="cta cta-solid" type="button" data-activate>
+          <span>Ver secuencia</span>
+          <svg viewBox="0 0 32 16" aria-hidden="true">
+            <path d="M1 8h28M22 1l7 7-7 7" />
+          </svg>
+        </button>
+
+        <div class="scroll-cue" aria-hidden="true">
+          <span class="mouse"><i></i></span>
+          <p>Desliza para activar</p>
+        </div>
+
+        <div class="progress-rail" aria-hidden="true">
+          <span></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="performance" id="velocidad">
+      <div class="section-number" aria-hidden="true">01</div>
+      <div class="performance-copy">
+        <p class="section-label">Aceleración</p>
+        <h2>El primer metro cambia todo.</h2>
+        <p>
+          Una salida baja, una transferencia de fuerza instantánea y una frecuencia de
+          zancada capaz de romper la línea defensiva antes de que exista reacción.
+        </p>
+      </div>
+      <figure class="performance-frame">
+        <img src="images/Kylian_Mbappé_sprinting_at_full_202606091606_4.jpeg"
+          alt="Mbappé acelerando entre chispas y estelas de luz" />
+        <figcaption>
+          <span>0—30 m</span>
+          <strong>Explosión</strong>
+        </figcaption>
+      </figure>
+    </section>
+
+    <section class="power" id="potencia">
+      <div class="power-line" aria-hidden="true"></div>
+      <p>Potencia reactiva</p>
+      <h2>Movimiento convertido en impacto.</h2>
+      <a href="#inicio">Repetir experiencia</a>
+    </section>
+  </main>
+
+  <noscript>
+    <p class="noscript">Activa JavaScript para experimentar la secuencia completa.</p>
+  </noscript>
+</body>
+
+</html>

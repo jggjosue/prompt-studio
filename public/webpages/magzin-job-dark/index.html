@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DarkHire - Premium Job Portal</title>
+    <meta name="description" content="Discover premium career opportunities in our immersive 3D job portal.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- 3D Canvas Background -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- Overlay UI Header -->
+    <header class="main-header">
+        <div class="logo">DarkHire.</div>
+        <nav>
+            <ul>
+                <li><a href="#jobs">Jobs</a></li>
+                <li><a href="#companies">Companies</a></li>
+                <li><a href="#editorial">Editorial</a></li>
+            </ul>
+        </nav>
+        <button class="btn-primary">Sign In</button>
+    </header>
+
+    <!-- Scroll Content -->
+    <main class="scroll-container">
+        
+        <!-- Hero Section -->
+        <section class="section hero">
+            <div class="hero-content" data-parallax="true">
+                <h1 class="hero-title">Elevate your <br> <span class="italic-serif">career</span> trajectory.</h1>
+                <p class="hero-subtitle">Step into the future of professional opportunities. Explore, connect, and grow in our immersive job marketplace.</p>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search roles, skills, or companies...">
+                    <button class="btn-search">Explore</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categories & Filters -->
+        <section class="section categories" id="jobs">
+            <div class="container">
+                <h2 class="section-title">Explore by <span class="italic-serif">Category</span></h2>
+                <div class="category-grid">
+                    <div class="category-card">
+                        <h3>Engineering</h3>
+                        <p>1,240 open roles</p>
+                    </div>
+                    <div class="category-card">
+                        <h3>Design</h3>
+                        <p>850 open roles</p>
+                    </div>
+                    <div class="category-card">
+                        <h3>Product</h3>
+                        <p>620 open roles</p>
+                    </div>
+                    <div class="category-card">
+                        <h3>Marketing</h3>
+                        <p>430 open roles</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Companies -->
+        <section class="section companies" id="companies">
+            <div class="container">
+                <h2 class="section-title">Top <span class="italic-serif">Workplaces</span></h2>
+                <div class="company-grid">
+                    <!-- Cards will be styled to look like floating glass panels -->
+                    <div class="company-card">
+                        <div class="company-logo bg-gradient-1"></div>
+                        <h3>Nexus Corp</h3>
+                        <p>Innovating AI Solutions</p>
+                        <a href="#" class="link-btn">View Profile</a>
+                    </div>
+                    <div class="company-card">
+                        <div class="company-logo bg-gradient-2"></div>
+                        <h3>Quantum Dynamics</h3>
+                        <p>Next-gen computing</p>
+                        <a href="#" class="link-btn">View Profile</a>
+                    </div>
+                    <div class="company-card">
+                        <div class="company-logo bg-gradient-3"></div>
+                        <h3>Stellar UI</h3>
+                        <p>Crafting digital experiences</p>
+                        <a href="#" class="link-btn">View Profile</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Editorial / Career Content -->
+        <section class="section editorial" id="editorial">
+            <div class="container">
+                <h2 class="section-title">Career <span class="italic-serif">Insights</span></h2>
+                <div class="category-grid">
+                    <div class="category-card">
+                        <h3>The Future of Remote Work in 2027</h3>
+                        <p>How top tier companies are adapting to hybrid environments.</p>
+                        <a href="#" class="link-btn">Read Article</a>
+                    </div>
+                    <div class="category-card">
+                        <h3>Mastering the Technical Interview</h3>
+                        <p>A comprehensive guide to standing out in FAANG interviews.</p>
+                        <a href="#" class="link-btn">Read Article</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Application Board -->
+        <section class="section application-board">
+            <div class="container flex-row">
+                <div class="col-left">
+                    <h2 class="section-title">Seamless <span class="italic-serif">Application</span></h2>
+                    <p>Drag and drop your CV to instantly apply to matched roles across our network.</p>
+                    <div class="cv-dropzone">
+                        <p>Drop your resume here (PDF)</p>
+                        <span>or click to browse</span>
+                    </div>
+                </div>
+                <div class="col-right">
+                    <!-- Interactive 3D mockups will float here -->
+                    <div class="floating-doc doc-1">Senior Dev - Accepted</div>
+                    <div class="floating-doc doc-2">Product Manager - Pending</div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Scripts -->
+    <!-- Lenis for Smooth Scroll -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <script src="scene.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

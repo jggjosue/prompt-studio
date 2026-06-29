@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAGZIN | Premium Digital Editorial</title>
+    <meta name="description" content="Experience the future of editorial with MAGZIN, an immersive 3D digital publication.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 3D Canvas Background -->
+    <div class="canvas-container">
+        <canvas id="webgl-canvas"></canvas>
+    </div>
+
+    <!-- UI Overlay -->
+    <div class="ui-layer">
+        
+        <header class="header">
+            <div class="logo">MAGZIN</div>
+            <nav class="nav">
+                <a href="#featured">Featured</a>
+                <a href="#categories">Categories</a>
+                <a href="#subscribe">Subscribe</a>
+            </nav>
+            <button class="btn btn-outline subscribe-btn">Join</button>
+        </header>
+
+        <main>
+            <section class="section hero" id="hero">
+                <div class="hero-content">
+                    <h2 class="subtitle">Issue No. 42</h2>
+                    <h1 class="title">The Art of<br>Dimension</h1>
+                    <p class="description">Step into a new era of digital storytelling. An immersive editorial experience crafted for the modern reader.</p>
+                    <button class="btn btn-primary">Read the Cover Story</button>
+                </div>
+                <div class="scroll-indicator">
+                    <span>Scroll to explore</span>
+                    <div class="line"></div>
+                </div>
+            </section>
+
+            <section class="section featured" id="featured">
+                <div class="section-content">
+                    <h2 class="section-title">Featured Articles</h2>
+                    <div class="card-grid">
+                        <article class="editorial-card parallax-el" data-speed="1.1">
+                            <div class="card-meta">Architecture</div>
+                            <h3 class="card-title">Concrete Dreams in Brutalist Spaces</h3>
+                            <p class="card-excerpt">Exploring the resurgence of monumental forms in modern urban landscapes.</p>
+                            <span class="card-author">By Elena Rostova</span>
+                        </article>
+                        <article class="editorial-card parallax-el" data-speed="0.9">
+                            <div class="card-meta">Technology</div>
+                            <h3 class="card-title">The Silence of the Chips</h3>
+                            <p class="card-excerpt">How the new wave of silent computing is changing our relationship with machines.</p>
+                            <span class="card-author">By Marcus Chen</span>
+                        </article>
+                        <article class="editorial-card parallax-el" data-speed="1.2">
+                            <div class="card-meta">Lifestyle</div>
+                            <h3 class="card-title">Minimalism as a Rebellion</h3>
+                            <p class="card-excerpt">Why having less is the ultimate statement in an age of hyper-consumption.</p>
+                            <span class="card-author">By Sarah Jenkins</span>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section categories" id="categories">
+                <div class="section-content">
+                    <h2 class="section-title">Explore Topics</h2>
+                    <ul class="category-list">
+                        <li><a href="#" class="parallax-el" data-speed="1.05">Design & Culture</a></li>
+                        <li><a href="#" class="parallax-el" data-speed="0.95">Future Tech</a></li>
+                        <li><a href="#" class="parallax-el" data-speed="1.1">Modern Living</a></li>
+                        <li><a href="#" class="parallax-el" data-speed="0.9">Visual Arts</a></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="section subscription" id="subscribe">
+                <div class="subscription-box">
+                    <h2 class="title">Join the Inner Circle</h2>
+                    <p>Get exclusive access to premium essays, early drops, and our weekly digest.</p>
+                    <form class="subscribe-form">
+                        <input type="email" placeholder="Your email address" required>
+                        <button type="submit" class="btn btn-primary">Subscribe</button>
+                    </form>
+                </div>
+            </section>
+        </main>
+        
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="logo">MAGZIN</div>
+                <div class="footer-links">
+                    <a href="#">About Us</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy</a>
+                    <a href="#">Terms</a>
+                </div>
+                <p class="copyright">&copy; 2026 MAGZIN Digital Publication. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Main Logic -->
+    <script src="main.js"></script>
+</body>
+</html>

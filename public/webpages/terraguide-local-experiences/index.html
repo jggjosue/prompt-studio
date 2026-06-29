@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TerraGuide Local Experiences</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 3D Canvas Background -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- UI Overlay -->
+    <main class="ui-layer">
+        
+        <!-- Hero Section -->
+        <section class="section hero-section" id="hero">
+            <div class="hero-content parallax-element" data-speed="0.5">
+                <div class="demo-badge">This is a demo local experiences platform.</div>
+                <h1 class="title">TerraGuide<br>Local Experiences</h1>
+                <p class="subtitle">Dive into authentic local journeys.</p>
+                <div class="scroll-indicator">
+                    <span>Scroll to explore</span>
+                    <div class="mouse">
+                        <div class="wheel"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experiences / Map Section -->
+        <section class="section experiences-section" id="experiences">
+            <div class="content-container">
+                <h2 class="section-title parallax-element" data-speed="0.8">Curated Journeys</h2>
+                <div class="cards-grid">
+                    <!-- Experience Card 1 -->
+                    <div class="experience-card parallax-element" data-speed="1.2">
+                        <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1517400508447-f8dd518b86db?auto=format&fit=crop&q=80&w=800');"></div>
+                        <div class="card-content">
+                            <h3>Kyoto Artisanal Workshops</h3>
+                            <p class="guide-info">Hosted by Kenji • 4.9 ★</p>
+                            <p class="price">¥12,000 / person</p>
+                            <button class="btn-primary">View Details</button>
+                        </div>
+                    </div>
+                    <!-- Experience Card 2 -->
+                    <div class="experience-card parallax-element" data-speed="0.9">
+                        <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1533050487297-09b450131914?auto=format&fit=crop&q=80&w=800');"></div>
+                        <div class="card-content">
+                            <h3>Tuscan Culinary Route</h3>
+                            <p class="guide-info">Hosted by Maria • 4.8 ★</p>
+                            <p class="price">€85 / person</p>
+                            <button class="btn-primary">View Details</button>
+                        </div>
+                    </div>
+                     <!-- Experience Card 3 -->
+                    <div class="experience-card parallax-element" data-speed="1.1">
+                        <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1542317148-8b4bdccb33ea?auto=format&fit=crop&q=80&w=800');"></div>
+                        <div class="card-content">
+                            <h3>Patagonia Hiking Trails</h3>
+                            <p class="guide-info">Hosted by Diego • 5.0 ★</p>
+                            <p class="price">$120 / person</p>
+                            <button class="btn-primary">View Details</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Booking / Final Section -->
+        <section class="section booking-section" id="booking">
+            <div class="booking-panel parallax-element" data-speed="0.6">
+                <h2>Build Your Itinerary</h2>
+                <p>Select your dates and experiences to generate a simulated booking.</p>
+                <form class="booking-form" onsubmit="event.preventDefault();">
+                    <div class="form-group">
+                        <label for="destination">Destination</label>
+                        <select id="destination">
+                            <option>Kyoto, Japan</option>
+                            <option>Tuscany, Italy</option>
+                            <option>Patagonia, Chile</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Date</label>
+                        <input type="date" id="date">
+                    </div>
+                    <button type="submit" class="btn-primary btn-large">Simulate Booking</button>
+                </form>
+                
+                <!-- Mandatory Warnings -->
+                <div class="legal-warnings">
+                    <p>Experiences, prices and availability are simulated examples.</p>
+                    <p>Travel conditions may vary. Review local rules before booking.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Scripts -->
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Custom App Logic -->
+    <script src="app.js"></script>
+</body>
+</html>

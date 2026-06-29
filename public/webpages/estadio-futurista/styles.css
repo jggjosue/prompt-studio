@@ -1,0 +1,409 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap');
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #0a0a0a;
+  color: #ffffff;
+}
+
+/* ===== LOADING / HERO SCREEN ===== */
+#loading-screen {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+#loading-screen.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hero-bg {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: brightness(0.6) saturate(1.1);
+  transition: filter 1.5s ease;
+}
+
+#loading-screen.hidden .hero-bg {
+  filter: brightness(0.3) saturate(0.5) blur(4px);
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 50%, transparent 40%, rgba(10,10,10,0.6) 100%),
+    linear-gradient(180deg, rgba(10,10,10,0.3) 0%, transparent 30%, transparent 70%, rgba(10,10,10,0.7) 100%);
+  pointer-events: none;
+}
+
+/* Center vertical axis is sacred — no content in the middle */
+.hero-left {
+  position: absolute;
+  left: 6vw;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  text-align: left;
+}
+
+.title-main {
+  font-size: clamp(3rem, 10vw, 8rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 0.9;
+  color: #ffffff;
+  text-shadow: 0 0 40px rgba(120, 0, 255, 0.3);
+}
+
+.title-sub {
+  margin-top: 1rem;
+  font-size: clamp(0.75rem, 1.2vw, 1rem);
+  font-weight: 300;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+}
+
+.hero-right {
+  position: absolute;
+  right: 6vw;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  text-align: right;
+  max-width: 320px;
+}
+
+.tagline {
+  font-size: clamp(0.75rem, 1.1vw, 0.95rem);
+  font-weight: 300;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 0.02em;
+}
+
+.tagline-accent {
+  color: #a855f7;
+  font-weight: 600;
+}
+
+/* Scroll indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0.6;
+  animation: float 2s ease-in-out infinite;
+}
+
+.scroll-indicator span {
+  font-size: 0.6rem;
+  font-weight: 400;
+  letter-spacing: 0.25em;
+  color: rgba(255,255,255,0.4);
+}
+
+.scroll-arrow {
+  width: 1px;
+  height: 30px;
+  background: linear-gradient(180deg, #a855f7, #06b6d4, transparent);
+  animation: scrollPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-6px); }
+}
+
+@keyframes scrollPulse {
+  0% { opacity: 1; height: 30px; }
+  50% { opacity: 0.3; height: 50px; }
+  100% { opacity: 1; height: 30px; }
+}
+
+/* ===== ANIMATED SECTION (post-scroll) ===== */
+#animated-section {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 1.5s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+#animated-section.active {
+  opacity: 1;
+}
+
+.animation-layer {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  animation: crossfade 16s ease-in-out infinite;
+  filter: brightness(0.7) saturate(1.2) contrast(1.05);
+}
+
+#anim1 { background-image: url('images/Dron_FPV_sobrevolando_estadio_fu…_202606091528.jpeg'); animation-delay: 0s; }
+#anim2 { background-image: url('images/Dron_FPV_sobrevolando_estadio_fu…_202606091528_2.jpeg'); animation-delay: 4s; }
+#anim3 { background-image: url('images/Fans_celebrating_in_stadium_202606091528.jpeg'); animation-delay: 8s; }
+#anim4 { background-image: url('images/Futuristic_stadium_event_light_202606091528.jpeg'); animation-delay: 12s; }
+
+@keyframes crossfade {
+  0%, 20% { opacity: 0; }
+  25%, 45% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+.animation-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 60%, transparent 30%, rgba(80, 0, 150, 0.15) 60%, rgba(10,10,10,0.5) 100%),
+    linear-gradient(180deg, rgba(10,10,10,0.2) 0%, transparent 40%, transparent 60%, rgba(10,10,10,0.6) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Side text layers (left/right, sync with crossfade) */
+.side-layer {
+  position: absolute;
+  top: 22%;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  opacity: 0;
+  animation: sideFade 16s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.side-left {
+  left: 6vw;
+  text-align: left;
+  align-items: flex-start;
+}
+
+.side-right {
+  right: 6vw;
+  text-align: right;
+  align-items: flex-end;
+}
+
+#sideL1, #sideR1 { animation-delay: 0s; }
+#sideL2, #sideR2 { animation-delay: 4s; }
+#sideL3, #sideR3 { animation-delay: 8s; }
+#sideL4, #sideR4 { animation-delay: 12s; }
+
+.side-value {
+  font-size: clamp(1.2rem, 2.5vw, 2.2rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  text-shadow: 0 0 30px rgba(168, 85, 247, 0.3);
+}
+
+.side-right .side-value {
+  color: #06b6d4;
+  text-shadow: 0 0 30px rgba(6, 182, 212, 0.3);
+}
+
+.side-desc {
+  font-size: clamp(0.55rem, 0.8vw, 0.7rem);
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+@keyframes sideFade {
+  0%, 18% { opacity: 0; transform: translateY(6px); }
+  23%, 43% { opacity: 1; transform: translateY(0); }
+  48%, 100% { opacity: 0; transform: translateY(-6px); }
+}
+
+/* Caption text layers (sync with crossfade) */
+.caption-layer {
+  position: absolute;
+  bottom: 6rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  opacity: 0;
+  animation: captionFade 16s ease-in-out infinite;
+  pointer-events: none;
+}
+
+#caption1 { animation-delay: 0s; }
+#caption2 { animation-delay: 4s; }
+#caption3 { animation-delay: 8s; }
+#caption4 { animation-delay: 12s; }
+
+.caption-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.4em;
+  color: #a855f7;
+  text-shadow: 0 0 12px rgba(168, 85, 247, 0.5);
+}
+
+.caption-text {
+  font-size: 0.8rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.05em;
+}
+
+@keyframes captionFade {
+  0%, 18% { opacity: 0; transform: translateX(-50%) translateY(8px); }
+  23%, 43% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  48%, 100% { opacity: 0; transform: translateX(-50%) translateY(-8px); }
+}
+
+/* Holographic HUD accents */
+.hud-left, .hud-right {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  opacity: 0;
+  transition: opacity 1s ease 0.5s;
+}
+
+#animated-section.active .hud-left,
+#animated-section.active .hud-right {
+  opacity: 1;
+}
+
+.hud-left { left: 3vw; }
+.hud-right { right: 3vw; }
+
+.hud-left span, .hud-right span {
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  writing-mode: vertical-rl;
+  color: rgba(168, 85, 247, 0.6);
+}
+
+.hud-line {
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(180deg, transparent, rgba(168, 85, 247, 0.4), transparent);
+}
+
+.hud-bottom {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 1s ease 1s;
+}
+
+#animated-section.active .hud-bottom {
+  opacity: 1;
+}
+
+.hud-bottom span {
+  font-size: 0.55rem;
+  font-weight: 400;
+  letter-spacing: 0.4em;
+  color: rgba(6, 182, 212, 0.5);
+  animation: blink 2s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* Particles overlay */
+.particles-container {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: #a855f7;
+  border-radius: 50%;
+  opacity: 0;
+  animation: particleFloat linear infinite;
+}
+
+.particle:nth-child(odd) {
+  background: #06b6d4;
+  box-shadow: 0 0 4px #06b6d4;
+}
+
+@keyframes particleFloat {
+  0% { opacity: 0; transform: translateY(100%) translateX(0); }
+  10% { opacity: 0.8; }
+  90% { opacity: 0.8; }
+  100% { opacity: 0; transform: translateY(-100vh) translateX(calc(var(--drift) * 1px)); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-left {
+    left: 5vw;
+    top: 35%;
+  }
+  .hero-right {
+    right: 5vw;
+    top: auto;
+    bottom: 20%;
+    transform: none;
+    max-width: 200px;
+  }
+  .title-main {
+    font-size: clamp(2.5rem, 15vw, 4rem);
+  }
+}

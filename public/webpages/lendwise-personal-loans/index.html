@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LendWise Personal Loans - Premium Financial Services</title>
+    <meta name="description" content="Calculate, simulate, and apply for personal loans securely and transparently.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 3D Background Canvas -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- Main Content -->
+    <main id="scroll-container">
+        <!-- Navigation -->
+        <nav class="glass-nav">
+            <div class="logo">Lend<span>Wise</span></div>
+            <div class="nav-links">
+                <a href="#calculator">Calculator</a>
+                <a href="#process">Process</a>
+                <a href="#education">Education</a>
+                <a href="#apply" class="btn-primary-sm">Apply Now</a>
+            </div>
+        </nav>
+
+        <!-- Section 1: Hero & Calculator -->
+        <section id="calculator" class="step-section">
+            <div class="content-box glass-panel">
+                <span class="step-badge">Step 1</span>
+                <h1>Simulate Your Personal Loan</h1>
+                <p class="subtitle">Enter the amount and term to review estimated fictitious rates.</p>
+                
+                <div class="calculator-form">
+                    <div class="input-group">
+                        <label for="amount">Loan Amount: $<span id="amount-val">15000</span></label>
+                        <input type="range" id="amount" min="1000" max="50000" step="500" value="15000">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="term">Term: <span id="term-val">36</span> Months</label>
+                        <input type="range" id="term" min="12" max="60" step="12" value="36">
+                    </div>
+                    
+                    <div class="results-dashboard">
+                        <div class="result-item">
+                            <span class="label">Estimated APR</span>
+                            <span class="value">8.99%*</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Estimated Monthly</span>
+                            <span class="value" id="monthly-val">$477</span>
+                        </div>
+                    </div>
+                    
+                    <p class="disclaimer warning-text">
+                        *Rates and terms are examples only. Loan approval is not guaranteed.
+                    </p>
+                    
+                    <button class="btn-primary" id="btn-simulate">Simulate Approval</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Review Conditions & Education -->
+        <section id="process" class="step-section right-align">
+            <div class="content-box glass-panel">
+                <span class="step-badge">Step 2</span>
+                <h2>Understand Your Payments</h2>
+                <p class="subtitle">Review terms before accepting any loan offer.</p>
+                
+                <div class="financial-cards">
+                    <div class="card">
+                        <h3>No Hidden Fees</h3>
+                        <p>What you see is what you pay. We pride ourselves on transparency.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Flexible Terms</h3>
+                        <p>Choose a plan that aligns with your financial goals.</p>
+                    </div>
+                </div>
+                
+                <p class="disclaimer warning-text">Borrow responsibly. Review all terms carefully.</p>
+            </div>
+        </section>
+
+        <!-- Section 3: Document Upload -->
+        <section id="documents" class="step-section">
+            <div class="content-box glass-panel">
+                <span class="step-badge">Step 3</span>
+                <h2>Secure Document Management</h2>
+                <p class="subtitle">Upload necessary documents to check eligibility.</p>
+                
+                <div class="upload-area" id="drop-zone">
+                    <div class="upload-icon">📄</div>
+                    <p>Drag & Drop your ID and Proof of Income here</p>
+                    <button class="btn-secondary">Browse Files</button>
+                </div>
+                
+                <div class="security-badges">
+                    <span class="badge">🔒 Bank-level Encryption</span>
+                    <span class="badge">🛡️ Secure Verification</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Application Dashboard -->
+        <section id="apply" class="step-section center-align">
+            <div class="content-box glass-panel large-panel">
+                <span class="step-badge">Step 4</span>
+                <h2>Complete Your Application</h2>
+                <p class="subtitle">You are one step closer. Finalize your request below.</p>
+                
+                <form id="application-form" class="application-form">
+                    <div class="form-row">
+                        <input type="text" placeholder="First Name" required>
+                        <input type="text" placeholder="Last Name" required>
+                    </div>
+                    <div class="form-row">
+                        <input type="email" placeholder="Email Address" required>
+                        <input type="tel" placeholder="Phone Number" required>
+                    </div>
+                    
+                    <div class="approval-timeline">
+                        <div class="timeline-step active">Request</div>
+                        <div class="timeline-step">Review</div>
+                        <div class="timeline-step">Decision</div>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary w-100">Submit Secure Application</button>
+                    <p class="disclaimer warning-text text-center mt-2">
+                        By submitting, you agree to our Terms of Service. Loan approval is not guaranteed.
+                    </p>
+                </form>
+            </div>
+        </section>
+        
+        <footer class="glass-footer">
+            <div class="footer-content">
+                <div class="brand">LendWise</div>
+                <div class="links">
+                    <a href="#">Terms of Use</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Financial Education</a>
+                </div>
+            </div>
+            <p class="copyright">&copy; 2026 LendWise Personal Loans. All rights reserved. Borrow responsibly.</p>
+        </footer>
+    </main>
+
+    <!-- External Scripts for 3D and Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

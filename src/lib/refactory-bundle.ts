@@ -164,7 +164,9 @@ export async function resolveDemoBundle(
         if (local) return local;
       }
 
-      // Wait, the user said "ya no las traigas de cloudflare" earlier, so let's skip R2 if requested
+      // Ya no buscamos en R2 (por petición del usuario)
+      return null;
+
       return null;
     },
     { ttlMs: 30 * 60 * 1000 }

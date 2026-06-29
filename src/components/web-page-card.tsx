@@ -141,8 +141,7 @@ function WebPageCardComponent({
               className="!bg-blue-600 !text-white shadow-md shadow-blue-950/20 hover:!bg-blue-700"
               asChild
             >
-              <PremiumAccessLink
-                membership={page.membership}
+              <Link
                 href={getRefactoryLoaderUrl(page.demoUrl)}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -154,7 +153,7 @@ function WebPageCardComponent({
               >
                 <ExternalLink className="w-4 h-4 mr-2" />
                 Open
-              </PremiumAccessLink>
+              </Link>
             </Button>
           ) : (
             <Button size="sm" variant="secondary" disabled>
