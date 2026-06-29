@@ -2,6 +2,7 @@ import { getImageById, type ImagePlaceholder } from '@/lib/placeholder-images';
 import { getVideoById, type VideoProp } from '@/lib/placeholder-videos';
 import { getLocale } from 'next-intl/server';
 import { resolveRenderableMediaUrl } from '@/lib/media-resolver';
+import { safeJsonLd } from '@/lib/json-ld';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import GalleryDetailClient from './gallery-detail-client';
@@ -17,10 +18,6 @@ type Props = {
 function absoluteUrl(pathOrUrl: string): string {
   if (/^https?:\/\//i.test(pathOrUrl)) return pathOrUrl;
   return `${SITE_URL}${pathOrUrl.startsWith('/') ? pathOrUrl : `/${pathOrUrl}`}`;
-}
-
-function jsonLdScript(data: unknown): string {
-  return JSON.stringify(data).replace(/</g, '\\u003c');
 }
 
 function promptDescription(description: string, fallback: string): string {
@@ -141,11 +138,11 @@ export default async function GalleryDetailPage({ params }: Props) {
       <>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: jsonLdScript(productSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(productSchema) }}
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
         />
         <GalleryDetailClient item={item} />
       </>

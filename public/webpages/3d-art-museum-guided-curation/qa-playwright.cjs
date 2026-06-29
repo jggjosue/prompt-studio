@@ -109,7 +109,7 @@ function serve(root) {
       out[cfg.name] = { first, modalOpen, collectionY, plan, form, errors };
       await page.close();
     }
-    console.log(JSON.stringify(out, null, 2));
+    //console.log(JSON.stringify(out, null, 2));
   } finally {
     if (browser) await browser.close();
     if (server) server.close();

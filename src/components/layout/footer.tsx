@@ -25,6 +25,21 @@ export default function Footer() {
     link => link.path !== '/affiliate-program'
   );
 
+  const socialLinks = [
+    {
+      href: 'https://www.instagram.com/',
+      label: 'Instagram',
+    },
+    {
+      href: 'https://www.tiktok.com/',
+      label: 'TikTok',
+    },
+    {
+      href: 'https://www.pinterest.com/',
+      label: 'Pinterest',
+    },
+  ];
+
   const legalLinks = [
     { href: '/terms', label: t('termsOfUse') },
     { href: '/privacy', label: t('privacyPolicy') },
@@ -40,8 +55,19 @@ export default function Footer() {
             <p className="text-sm leading-6 text-muted-foreground max-w-xs">
               {t('tagline')}
             </p>
-            <div className="flex space-x-6 text-muted-foreground">
-              {/* Social links placeholder if any */}
+            <div className="flex flex-wrap gap-4 text-muted-foreground">
+              {socialLinks.map(link => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm leading-6 hover:text-foreground transition-colors"
+                  aria-label={`Open ${link.label}`}
+                >
+                  {link.label}
+                </a>
+              ))}
             </div>
           </div>
           <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0 md:grid-cols-4">

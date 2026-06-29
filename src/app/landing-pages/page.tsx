@@ -19,6 +19,20 @@ export const metadata: Metadata = {
     'Loopline',
     'HTML CSS landing',
   ],
+  openGraph: {
+    title: 'Landing Page Prompts | Prompt Studio',
+    description:
+      'Prompts and live demos for SaaS landing pages — Magzin Job, Loopline, HTML, Tailwind, and Next.js variants.',
+    url: '/landing-pages',
+    siteName: 'Prompt Studio',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Landing Page Prompts | Prompt Studio',
+    description:
+      'Prompts and live demos for SaaS landing pages — Magzin Job, Loopline, HTML, Tailwind, and Next.js variants.',
+  },
 };
 
 export default function LandingPagesPage() {

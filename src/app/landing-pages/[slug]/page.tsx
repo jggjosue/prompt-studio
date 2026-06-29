@@ -4,11 +4,13 @@ import { RelatedTemplates } from '@/components/related-templates';
 import { AffiliatePageViewTracker } from '@/components/affiliate-page-view-tracker';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { OptimizedImage } from '@/components/optimized-image';
 import { pickLocalized } from '@/lib/localized-string';
 import { resolveWebPageImageUrl } from '@/lib/web-page-media';
 import { getRawWebPageByDemoSlug, getRawWebPages } from '@/lib/web-pages';
 import { getRefactoryLoaderUrl, normalizeDemoFolder } from '@/lib/refactory-online';
 import { normalizeMembership } from '@/lib/membership-access';
+import { safeJsonLd } from '@/lib/json-ld';
 import type { Metadata } from 'next';
 import { getLocale } from 'next-intl/server';
 import Link from 'next/link';
@@ -42,10 +44,6 @@ type LandingPageSeoData = {
 function absoluteUrl(pathOrUrl: string): string {
   if (/^https?:\/\//i.test(pathOrUrl)) return pathOrUrl;
   return `${SITE_URL}${pathOrUrl.startsWith('/') ? pathOrUrl : `/${pathOrUrl}`}`;
-}
-
-function jsonLdScript(data: unknown): string {
-  return JSON.stringify(data).replace(/</g, '\\u003c');
 }
 
 function normalizedPrice(price: string | undefined): string {
@@ -292,12 +290,12 @@ export default async function LandingPageDetailPage({ params, searchParams }: Pa
       {productSchema ? (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: jsonLdScript(productSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(productSchema) }}
         />
       ) : null}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumbSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
       />
       <Header />
       <main className="container py-10 md:py-16">
@@ -342,10 +340,13 @@ export default async function LandingPageDetailPage({ params, searchParams }: Pa
 
           {image ? (
             <div className="overflow-hidden rounded-lg border bg-muted">
-              <img
+              <OptimizedImage
                 src={image}
                 alt={title}
+                priority
                 className="aspect-[4/3] h-auto w-full object-cover"
+                sizes="(max-width: 1024px) 100vw, 900px"
+                lazyAdaptive={false}
               />
             </div>
           ) : null}

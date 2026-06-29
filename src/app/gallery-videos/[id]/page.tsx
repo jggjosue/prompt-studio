@@ -1,6 +1,7 @@
 
 import { getVideoById } from '@/lib/placeholder-videos';
 import { getLocale } from 'next-intl/server';
+import { safeJsonLd } from '@/lib/json-ld';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import GalleryVideoDetailClient from './gallery-video-detail-client';
@@ -16,10 +17,6 @@ type Props = {
 function absoluteUrl(pathOrUrl: string): string {
   if (/^https?:\/\//i.test(pathOrUrl)) return pathOrUrl;
   return `${SITE_URL}${pathOrUrl.startsWith('/') ? pathOrUrl : `/${pathOrUrl}`}`;
-}
-
-function jsonLdScript(data: unknown): string {
-  return JSON.stringify(data).replace(/</g, '\\u003c');
 }
 
 function promptDescription(description: string, fallback: string): string {
@@ -115,11 +112,11 @@ export default async function GalleryVideoDetailPage({ params }: Props) {
       <>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: jsonLdScript(productSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(productSchema) }}
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
         />
         <GalleryVideoDetailClient item={item} />
       </>

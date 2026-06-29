@@ -103,7 +103,7 @@ async function main() {
     if (r) {
       jsCount += 1;
       const pct = ((1 - r.after / r.before) * 100).toFixed(1);
-      console.log(
+      //console.log(
         `[minify-public] JS ${path.relative(ROOT, file)}: ${r.before} → ${r.after} B (-${pct}%)`
       );
     }
@@ -114,16 +114,16 @@ async function main() {
     if (r) {
       cssCount += 1;
       const pct = ((1 - r.after / r.before) * 100).toFixed(1);
-      console.log(
+      //console.log(
         `[minify-public] CSS ${path.relative(ROOT, file)}: ${r.before} → ${r.after} B (-${pct}%)`
       );
     }
   }
 
   if (jsCount === 0 && cssCount === 0) {
-    console.log('[minify-public] Sin archivos JS/CSS que reducir en public/.');
+    //console.log('[minify-public] Sin archivos JS/CSS que reducir en public/.');
   } else {
-    console.log(`[minify-public] Listo: ${jsCount} JS, ${cssCount} CSS.`);
+    //console.log(`[minify-public] Listo: ${jsCount} JS, ${cssCount} CSS.`);
   }
 }
 

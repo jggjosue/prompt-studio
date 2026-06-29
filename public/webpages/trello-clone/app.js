@@ -1,7 +1,7 @@
 // Basic functionality for the new BoardFlow Trello Clone UI
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('BoardFlow initialized.');
+    //console.log('BoardFlow initialized.');
 
     // Simple add card interaction
     const addCardButtons = document.querySelectorAll('.btn-add-card');

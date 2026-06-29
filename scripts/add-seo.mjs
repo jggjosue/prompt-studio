@@ -53,7 +53,7 @@ function processFolder(folderName) {
   }
 
   fs.writeFileSync(indexPath, html, 'utf8');
-  console.log(`Updated SEO for: ${folderName}`);
+  //console.log(`Updated SEO for: ${folderName}`);
 }
 
 // Read directory
