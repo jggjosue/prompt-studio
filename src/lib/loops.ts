@@ -44,6 +44,10 @@ async function loopsRequest<T>(
     body: JSON.stringify(body),
   });
 
+  if (response.status === 409 && options?.idempotencyKey) {
+    return { success: true } as T;
+  }
+
   if (!response.ok) {
     const message = await response.text().catch(() => '');
     throw new Error(`Loops API error (${response.status}): ${message || response.statusText}`);

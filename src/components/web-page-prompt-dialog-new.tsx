@@ -17,18 +17,28 @@ import { Check, Copy, FileText, Wand2 } from 'lucide-react';
 import * as React from 'react';
 import { FreeEmailGate } from './free-email-gate';
 import { normalizeMembership } from '@/lib/membership-access';
+import { pickLocalized, type LocalizedField } from '@/lib/localized-string';
 import Link from 'next/link';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 export function WebPagePromptDialog({ page }: { page: WebPageEntry }) {
   const t = useTranslations('landingPages');
+  const locale = useLocale();
   const { toast } = useToast();
   const { runWithAccess, isSignedIn } = useMembershipAccess();
   const [copied, setCopied] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+  const pageTitle = pickLocalized(
+    page.title as unknown as LocalizedField,
+    locale
+  );
+  const pageDescription = pickLocalized(
+    page.description as unknown as LocalizedField,
+    locale
+  );
 
   const handleCopy = async () => {
-    const ok = await copyToClipboard(page.description);
+    const ok = await copyToClipboard(pageDescription);
     if (!ok) {
       toast({
         title: t('copyFailed'),
@@ -56,9 +66,9 @@ export function WebPagePromptDialog({ page }: { page: WebPageEntry }) {
       if (isSignedIn) {
         trackAnalyticsEvent('web_view_prompt', {
           page_id: page.id,
-          page_title: page.title,
+          page_title: pageTitle,
           item_id: page.id,
-          item_name: page.title,
+          item_name: pageTitle,
           item_category: 'landing-page-prompt',
           membership: page.membership,
           action_source: 'prompt-dialog',
@@ -66,7 +76,7 @@ export function WebPagePromptDialog({ page }: { page: WebPageEntry }) {
       }
       void trackLoopsEvent('resources', {
         pageId: page.id,
-        pageTitle: page.title,
+        pageTitle,
         action: 'open-prompt',
       });
       setOpen(true);
@@ -104,7 +114,7 @@ export function WebPagePromptDialog({ page }: { page: WebPageEntry }) {
       )}
       <DialogContent className="w-[calc(100vw-2rem)] max-w-2xl max-h-[85vh] overflow-y-auto">
         <DialogHeader className="flex-row items-start justify-between gap-2 space-y-0 pr-8">
-          <DialogTitle className="text-left leading-snug">{page.title}</DialogTitle>
+          <DialogTitle className="text-left leading-snug">{pageTitle}</DialogTitle>
           <div className="flex items-center gap-2 shrink-0">
             <Button
               type="button"
@@ -127,8 +137,8 @@ export function WebPagePromptDialog({ page }: { page: WebPageEntry }) {
             >
               <Link href={`/prompt/edit?prompt=${encodeURIComponent(JSON.stringify({
                 type: 'web',
-                title: page.title,
-                description: page.description,
+                title: pageTitle,
+                description: pageDescription,
                 imageUrl: page.imageUrl,
                 stack: page.stack,
                 tags: page.tags
@@ -140,7 +150,7 @@ export function WebPagePromptDialog({ page }: { page: WebPageEntry }) {
           </div>
         </DialogHeader>
         <pre className="whitespace-pre-wrap text-sm text-muted-foreground font-sans select-all">
-          {page.description}
+          {pageDescription}
         </pre>
       </DialogContent>
     </Dialog>

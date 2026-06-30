@@ -1,7 +1,26 @@
 import type { Locale } from '@/i18n/config';
 
+type RichLocalizedValue = Record<string, unknown>;
+
 /** Plain string (legacy) or bilingual object from catalog JSON. */
-export type LocalizedField = string | { en: string; es?: string };
+export type LocalizedField =
+  | string
+  | RichLocalizedValue
+  | {
+      en: string | RichLocalizedValue;
+      es?: string | RichLocalizedValue;
+    };
+
+function localizedValueToString(value: unknown): string {
+  if (value == null) return '';
+  if (typeof value === 'string') return value;
+  if (typeof value !== 'object') return String(value);
+
+  const record = value as RichLocalizedValue;
+  if (typeof record.prompt === 'string') return record.prompt;
+
+  return JSON.stringify(record, null, 2);
+}
 
 export function pickLocalized(
   field: LocalizedField | undefined | null,
@@ -10,7 +29,9 @@ export function pickLocalized(
   if (field == null) return '';
   if (typeof field === 'string') return field;
   const key = locale === 'es' ? 'es' : 'en';
-  return field[key] ?? field.en ?? field.es ?? '';
+  const value = field[key] ?? field.en ?? field.es ?? field;
+
+  return localizedValueToString(value);
 }
 
 export function localizeFields<T extends Record<string, unknown>>(
@@ -31,11 +52,13 @@ export function localizeFields<T extends Record<string, unknown>>(
   return out;
 }
 
-function isLocalizedObject(value: unknown): value is { en: string; es?: string } {
+function isLocalizedObject(
+  value: unknown
+): value is { en: string | RichLocalizedValue; es?: string | RichLocalizedValue } {
   return (
     typeof value === 'object' &&
     value !== null &&
     'en' in value &&
-    typeof (value as { en: unknown }).en === 'string'
+    ['string', 'object'].includes(typeof (value as { en: unknown }).en)
   );
 }
