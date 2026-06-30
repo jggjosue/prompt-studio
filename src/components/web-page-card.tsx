@@ -20,6 +20,7 @@ import { getRefactoryLoaderUrl } from '@/lib/refactory-online';
 import { trackAnalyticsEvent } from '@/lib/analytics';
 import { trackAffiliateClick } from '@/lib/affiliate-client';
 import type { WebPageEntry } from '@/lib/web-pages';
+import { resolveWebPageImageUrl } from '@/lib/web-page-media';
 import { useMembershipAccess } from '@/hooks/use-membership-access';
 import { normalizeMembership } from '@/lib/membership-access';
 import {
@@ -111,9 +112,11 @@ function WebPageCardComponent({
         <CardHeader>
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0 flex-1">
-              <CardTitle className="font-headline text-xl">
-                {page.title}
-              </CardTitle>
+              <Link href={`/landing-pages/${page.demoUrl}`} className="hover:underline focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-sm inline-block">
+                <CardTitle className="font-headline text-xl">
+                  {page.title}
+                </CardTitle>
+              </Link>
               <p className="text-xs text-muted-foreground mt-1">
                 {page.stack.join(' · ')}
               </p>
@@ -153,9 +156,9 @@ function WebPageCardComponent({
             <Tag className="w-4 h-4 shrink-0" />
             <span className="truncate">{page.tags.join(', ')}</span>
           </div>
-          <div className="relative aspect-video rounded-md overflow-hidden border">
+          <Link href={`/landing-pages/${page.demoUrl}`} className="relative aspect-video rounded-md overflow-hidden border block group-hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
             <OptimizedImage
-              src={page.imageUrl}
+              src={resolveWebPageImageUrl(page.imageUrl)}
               alt={page.title}
               fill
               priority={animationIndex < 2}
@@ -164,7 +167,7 @@ function WebPageCardComponent({
               className="object-cover"
               data-ai-hint={page.imageHint}
             />
-          </div>
+          </Link>
         </CardContent>
         <CardFooter className="bg-muted/50 p-4 border-t flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2 flex-wrap">

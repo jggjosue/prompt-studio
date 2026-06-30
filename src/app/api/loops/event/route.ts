@@ -42,13 +42,13 @@ export async function POST(req: Request) {
           eventKey === 'startup_offer' ||
           eventKey === 'upgrade' ||
           eventKey === 'affiliate_interest',
-      upsells:
-        eventKey === 'premium_offer' ||
-        eventKey === 'startup_offer' ||
-        eventKey === 'upgrade' ||
-        eventKey === 'cart_abandonment' ||
-        eventKey === 'inactive_30d',
-    },
+        upsells:
+          eventKey === 'premium_offer' ||
+          eventKey === 'startup_offer' ||
+          eventKey === 'upgrade' ||
+          eventKey === 'cart_abandonment' ||
+          eventKey === 'inactive_30d',
+      },
     },
     `${userId}:${eventKey}`
   );
