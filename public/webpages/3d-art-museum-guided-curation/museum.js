@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-const sceneRoot = document.getElementById('scene-root');
+const sceneRoot = document.getElementById('scroll-scene-root');
 const nav = document.getElementById('primary-nav');
 const navToggle = document.getElementById('nav-toggle');
 const tourState = document.getElementById('tour-state');
@@ -328,6 +328,46 @@ for (let i = 0; i < 5; i += 1) {
   group.add(mesh);
 }
 
+const dustCount = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 260 : 850;
+const dustPositions = new Float32Array(dustCount * 3);
+for (let i = 0; i < dustCount; i += 1) {
+  dustPositions[i * 3] = (Math.random() - 0.5) * 9;
+  dustPositions[i * 3 + 1] = Math.random() * 3;
+  dustPositions[i * 3 + 2] = 4 - Math.random() * 18;
+}
+const dustGeometry = new THREE.BufferGeometry();
+dustGeometry.setAttribute('position', new THREE.BufferAttribute(dustPositions, 3));
+const museumDust = new THREE.Points(
+  dustGeometry,
+  new THREE.PointsMaterial({
+    color: 0xe7c87b,
+    size: 0.018,
+    transparent: true,
+    opacity: 0.58,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending
+  })
+);
+group.add(museumDust);
+
+const portalFrames = [];
+for (let i = 0; i < 6; i += 1) {
+  const portal = new THREE.Mesh(
+    new THREE.TorusGeometry(1.8, 0.018, 6, 72),
+    new THREE.MeshBasicMaterial({
+      color: i % 2 ? 0x6d8fc5 : 0xd8ad62,
+      transparent: true,
+      opacity: 0.24,
+      blending: THREE.AdditiveBlending
+    })
+  );
+  portal.scale.y = 1.2;
+  portal.position.set(0, 1.45, 1.2 - i * 2.25);
+  portal.rotation.z = i * 0.08;
+  portalFrames.push(portal);
+  group.add(portal);
+}
+
 const rooms = [
   { camera: [0, 1.35, 6.4], target: [0, 0.9, -1.5], label: 'Scroll to move through the gallery' },
   { camera: [-1.3, 1.42, 2.15], target: [-3.7, 1.35, 0.3], label: 'Room 01: warm light and first works' },
@@ -335,6 +375,7 @@ const rooms = [
   { camera: [0, 1.62, -2.2], target: [0, 0.9, -3.2], label: 'Atrium: Echo Form sculpture' },
   { camera: [-1.15, 1.55, -5.25], target: [-3.7, 1.34, -4.0], label: 'Collection corridor: modern abstractions' },
   { camera: [1.15, 1.55, -7.05], target: [1.1, 1.52, -8.2], label: 'Private route: floating frames' },
+  { camera: [-0.9, 1.68, -8.35], target: [-1.4, 1.45, -9.25], label: 'Curator archive: stories behind the rooms' },
   { camera: [0, 1.72, -9.35], target: [0, 1.3, -10.7], label: 'Final room: book a guided visit' }
 ];
 
@@ -413,6 +454,11 @@ function animate(time) {
   floatingFrames.forEach((mesh, index) => {
     mesh.position.y += Math.sin(t + index) * 0.0008;
     mesh.rotation.y += 0.0015;
+  });
+  museumDust.rotation.y = t * 0.018;
+  portalFrames.forEach((portal, index) => {
+    portal.rotation.z += (index % 2 ? -1 : 1) * 0.0008;
+    portal.material.opacity = 0.18 + Math.sin(t + index) * 0.07;
   });
   keyLight.intensity = 1.8 + Math.sin(scrollProgress() * Math.PI) * 0.55;
   goldLight.intensity = 1.1 + Math.sin(t * 0.8) * 0.18;

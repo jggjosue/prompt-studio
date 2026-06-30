@@ -180,11 +180,6 @@ function WebPageCardComponent({
           </div>
           {page.demoUrl ? (
             <div className="flex flex-wrap items-center gap-2">
-              <Button variant="outline" size="sm" asChild>
-                <Link href={`/landing-pages/${encodeURIComponent(page.demoUrl)}`}>
-                  {tLanding('viewLanding')}
-                </Link>
-              </Button>
               <Button
                 size="sm"
                 className="!bg-blue-600 !text-white shadow-md shadow-blue-950/20 hover:!bg-blue-700"

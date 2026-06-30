@@ -114,9 +114,25 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
+        source: '/',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'private, no-cache, no-store, max-age=0, must-revalidate',
+          },
+          {
+            key: 'CDN-Cache-Control',
+            value: 'private, no-store',
+          },
+          {
+            key: 'Vercel-CDN-Cache-Control',
+            value: 'private, no-store',
+          },
+        ],
+      },
+      {
         source: '/:path*',
         headers: [
-          { key: 'Vary', value: 'Accept-Encoding' },
           { key: 'X-DNS-Prefetch-Control', value: 'on' },
         ],
       },

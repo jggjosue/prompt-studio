@@ -57,8 +57,8 @@
         "program",
         "marketing landing page"
       ],
-      "membership": "Premium",
-      "price": "20.00"
+      "membership": "Free",
+      "price": "0.00"
     },
     {
       "id": "350",
@@ -117,8 +117,8 @@
         "interactive",
         "3d"
       ],
-      "membership": "Premium",
-      "price": "20.00"
+      "membership": "Free",
+      "price": "0.00"
     },
     {
       "id": "331",
@@ -445,7 +445,7 @@
         "en": "Auto-generated landing page for Kylian.",
         "es": "Página generada automáticamente para Kylian."
       },
-      "imageUrl": "https://raw.githubusercontent.com/jggjosue/Prompts-images/refs/heads/main/webpages/kylian.png",
+      "imageUrl": "/webpages/kylian/assets/design-concept.png",
       "imageHint": {
         "en": "Kylian",
         "es": "Kylian"
@@ -1019,8 +1019,8 @@
         "app",
         "sleep"
       ],
-      "membership": "Premium",
-      "price": "20.00"
+      "membership": "Free",
+      "price": "0.00"
     },
     {
       "id": "209",
@@ -1648,8 +1648,8 @@
         "WebGL",
         "storytelling"
       ],
-      "membership": "Premium",
-      "price": "20.00"
+      "membership": "Free",
+      "price": "0.00"
     },
     {
       "id": "256",
@@ -2947,8 +2947,8 @@
         "WebGL",
         "Draco"
       ],
-      "membership": "Premium",
-      "price": "20.00"
+      "membership": "Free",
+      "price": "0.00"
     },
     {
       "id": "284",
@@ -3163,8 +3163,8 @@
         "postprocessing",
         "live"
       ],
-      "membership": "Premium",
-      "price": "20.00"
+      "membership": "Free",
+      "price": "0.00"
     },
     {
       "id": "289",
@@ -3205,8 +3205,8 @@
         "GSAP",
         "WebGL"
       ],
-      "membership": "Premium",
-      "price": "20.00"
+      "membership": "Free",
+      "price": "0.00"
     },
     {
       "id": "297",
@@ -3247,8 +3247,8 @@
         "WebGL",
         "GSAP"
       ],
-      "membership": "Premium",
-      "price": "20.00"
+      "membership": "Free",
+      "price": "0.00"
     },
     {
       "id": "294",
@@ -3292,8 +3292,8 @@
         "WebGL",
         "GSAP"
       ],
-      "membership": "Premium",
-      "price": "20.00"
+      "membership": "Free",
+      "price": "0.00"
     },
     {
       "id": "293",
@@ -3335,8 +3335,8 @@
         "GSAP",
         "WebGL"
       ],
-      "membership": "Premium",
-      "price": "20.00"
+      "membership": "Free",
+      "price": "0.00"
     },
     {
       "id": "295",
@@ -3423,8 +3423,8 @@
         "WebGL",
         "GSAP"
       ],
-      "membership": "Premium",
-      "price": "20.00"
+      "membership": "Free",
+      "price": "0.00"
     },
     {
       "id": "291",
@@ -4731,8 +4731,8 @@
         "culture",
         "education"
       ],
-      "membership": "Premium",
-      "price": "20.00"
+      "membership": "Free",
+      "price": "0.00"
     },
     {
       "id": "311",

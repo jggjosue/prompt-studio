@@ -27,8 +27,37 @@ body {
   margin: 0;
   font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
   color: var(--ink);
-  background: var(--paper);
+  background: #0b1018;
   overflow-x: hidden;
+}
+
+#scroll-scene-root {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: #0b1018;
+}
+
+#scroll-scene-root::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(5, 8, 12, 0.72), transparent 42%, rgba(5, 8, 12, 0.28)),
+    radial-gradient(circle at 65% 32%, transparent 0, rgba(5, 8, 12, 0.2) 70%);
+}
+
+#scroll-scene-root canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+main,
+.site-header {
+  position: relative;
+  z-index: 2;
 }
 
 button,
@@ -213,7 +242,7 @@ a {
   background:
     linear-gradient(90deg, rgba(9, 13, 19, 0.96) 0%, rgba(9, 13, 19, 0.78) 38%, rgba(9, 13, 19, 0.24) 100%),
     radial-gradient(circle at 78% 24%, rgba(200, 161, 95, 0.22), transparent 28%),
-    linear-gradient(135deg, #080b10, #172235 62%, #0d1016);
+    linear-gradient(135deg, rgba(8, 11, 16, 0.94), rgba(23, 34, 53, 0.62) 62%, rgba(13, 16, 22, 0.5));
   overflow: hidden;
 }
 
@@ -274,18 +303,6 @@ h1 {
   box-shadow: var(--shadow);
 }
 
-#scene-root {
-  position: absolute;
-  inset: 0;
-  background: #0b1018;
-}
-
-#scene-root canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
 .hotspot {
   position: absolute;
   z-index: 4;
@@ -339,6 +356,134 @@ h1 {
 .story-strip {
   color: var(--ink);
   background: linear-gradient(180deg, var(--paper), #fffaf1 44%, var(--paper-soft));
+}
+
+.story-strip,
+.collections,
+.tickets {
+  background: linear-gradient(180deg, rgba(244, 241, 234, 0.94), rgba(255, 250, 241, 0.9));
+}
+
+.exhibition,
+.artists,
+.contact {
+  background: linear-gradient(135deg, rgba(9, 13, 19, 0.91), rgba(17, 25, 35, 0.84));
+}
+
+.archive {
+  min-height: 110svh;
+  color: #fffaf1;
+  background:
+    radial-gradient(circle at 75% 20%, rgba(200, 161, 95, 0.16), transparent 34%),
+    linear-gradient(135deg, rgba(7, 10, 15, 0.9), rgba(17, 26, 38, 0.78));
+}
+
+.archive .section-heading {
+  max-width: 760px;
+}
+
+.eyebrow,
+.archive-meta {
+  color: var(--gold);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.archive-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 52px;
+  perspective: 1200px;
+}
+
+.archive-card {
+  position: relative;
+  min-height: 460px;
+  padding: 28px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  background: rgba(8, 12, 18, 0.62);
+  backdrop-filter: blur(16px);
+  transform-style: preserve-3d;
+}
+
+.archive-card.reveal {
+  transform: perspective(1100px) translateY(70px) rotateX(12deg) rotateY(8deg) scale(0.92);
+}
+
+.archive-card:nth-child(even).reveal {
+  transform: perspective(1100px) translateY(70px) rotateX(12deg) rotateY(-8deg) scale(0.92);
+}
+
+.archive-card.reveal.is-visible {
+  transform: perspective(1100px) translateY(0) rotateX(0) rotateY(0) scale(1);
+}
+
+.archive-index {
+  color: rgba(255, 250, 241, 0.42);
+  font-family: Georgia, serif;
+  font-size: 0.86rem;
+}
+
+.archive-orbit {
+  width: 138px;
+  aspect-ratio: 1;
+  margin: 32px auto;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  box-shadow: inset 0 0 34px currentColor, 0 0 40px color-mix(in srgb, currentColor 30%, transparent);
+  animation: archive-float 5s ease-in-out infinite;
+}
+
+.orbit-gold { color: #d8ad62; }
+.orbit-blue { color: #6d8fc5; animation-delay: -1.5s; }
+.orbit-silver { color: #d9d6cf; animation-delay: -3s; }
+
+.archive-card h3 {
+  margin: 8px 0 12px;
+  font-size: 2rem;
+}
+
+.archive-card > p:not(.archive-meta) {
+  color: rgba(255, 250, 241, 0.7);
+  line-height: 1.65;
+}
+
+.archive-card dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 7px 14px;
+  margin-top: 24px;
+  font-size: 0.78rem;
+}
+
+.archive-card dt { color: rgba(255, 250, 241, 0.46); }
+.archive-card dd { margin: 0; text-align: right; }
+
+.archive-timeline {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 44px;
+  color: rgba(255, 250, 241, 0.62);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.archive-timeline i {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold), rgba(255, 255, 255, 0.12));
+}
+
+@keyframes archive-float {
+  0%, 100% { transform: translateY(0) rotateY(0); }
+  50% { transform: translateY(-12px) rotateY(18deg); }
 }
 
 .section-copy {
@@ -801,8 +946,13 @@ textarea:focus {
   .feature-grid,
   .collection-grid,
   .artist-row,
-  .plan-grid {
+  .plan-grid,
+  .archive-grid {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .archive-card:last-child {
+    grid-column: 1 / -1;
   }
 }
 
@@ -846,8 +996,24 @@ textarea:focus {
   .feature-grid,
   .collection-grid,
   .artist-row,
-  .plan-grid {
+  .plan-grid,
+  .archive-grid {
     grid-template-columns: 1fr;
+  }
+
+  .archive-card:last-child {
+    grid-column: auto;
+  }
+
+  .archive-timeline {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .archive-timeline i {
+    width: 1px;
+    min-height: 26px;
+    flex: none;
   }
 
   .art,
