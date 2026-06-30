@@ -1,13 +1,16 @@
 import type { ReactNode } from 'react';
 import type React from 'react';
+import { auth, clerkClient } from '@clerk/nextjs/server';
 import { SidebarNavLink } from '@/components/dashboard/sidebar-nav-link';
-import { ShoppingCart, UserCircle } from 'lucide-react';
+import { ShoppingCart, UserCircle, UsersRound } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import Header from '@/components/layout/header';
 import { DashboardMobileNav } from '@/components/dashboard/dashboard-mobile-nav';
 import { DashboardUpgradeCard } from '@/components/dashboard/dashboard-upgrade-card';
 import { DashboardShell } from '@/components/dashboard/dashboard-shell';
 import { getTranslations } from 'next-intl/server';
+import connectToDatabase from '@/lib/mongoose';
+import AffiliateApplication from '@/models/AffiliateApplication';
 
 export default async function DashboardLayout({
   children,
@@ -15,6 +18,37 @@ export default async function DashboardLayout({
   children: ReactNode;
 }) {
   const t = await getTranslations('dashboard');
+  const { userId } = await auth();
+  let isAffiliate = false;
+  let isPremiumJoAdmin = false;
+  let pendingAffiliateApplications = 0;
+
+  if (userId) {
+    try {
+      const client = await clerkClient();
+      const user = await client.users.getUser(userId);
+      const meta = (user.privateMetadata ?? {}) as { affiliateReferralCode?: string };
+      isAffiliate = Boolean(meta.affiliateReferralCode);
+      const adminEmail = process.env.PROMPT_STUDIO_PREMIUM_JO?.trim().toLowerCase();
+      const userEmail = user.primaryEmailAddress?.emailAddress?.trim().toLowerCase();
+      isPremiumJoAdmin = Boolean(adminEmail && userEmail === adminEmail);
+
+      if (userEmail) {
+        await connectToDatabase();
+        const approvedApplication = await AffiliateApplication.exists({
+          email: userEmail,
+          status: 'approved',
+        });
+        isAffiliate = isAffiliate || Boolean(approvedApplication);
+
+        if (isPremiumJoAdmin) {
+          pendingAffiliateApplications = await AffiliateApplication.countDocuments({ status: 'pending' });
+        }
+      }
+    } catch (error) {
+      console.error('Failed to load dashboard role metadata:', error);
+    }
+  }
   // const navItems = [
   //   { href: '/dashboard', icon: <LayoutGrid className="h-4 w-4" />, label: t('dashboard') },
   //   { href: '/dashboard/analytics', icon: <LineChart className="h-4 w-4" />, label: t('analytics') },
@@ -24,9 +58,36 @@ export default async function DashboardLayout({
   // ];
   const navItems: { href: string; icon: React.ReactNode; label: string; badge?: string }[] = [];
   
-  const settingsNavItems = [
-    { href: '/dashboard/profile', icon: <UserCircle className="h-4 w-4" />, label: t('profile') },
-    { href: '/dashboard/campaigns', icon: <ShoppingCart className="h-4 w-4" />, label: t('campaigns') },
+  const settingsNavItems: {
+    href: string;
+    icon: React.ReactNode;
+    label: string;
+    description: string;
+    badge?: string;
+  }[] = [
+    {
+      href: '/dashboard/profile',
+      icon: <UserCircle className="h-4 w-4" />,
+      label: t('profile'),
+      description: t('profileDesc'),
+    },
+    ...(isPremiumJoAdmin
+      ? [{
+          href: '/dashboard/affiliate-applications',
+          icon: <UsersRound className="h-4 w-4" />,
+          label: t('partners'),
+          description: t('partnersDesc'),
+          badge: pendingAffiliateApplications > 0 ? String(pendingAffiliateApplications) : undefined,
+        }]
+      : []),
+    ...(isAffiliate
+      ? [{
+          href: '/dashboard/campaigns',
+          icon: <ShoppingCart className="h-4 w-4" />,
+          label: t('campaigns'),
+          description: t('campaignsDesc'),
+        }]
+      : []),
     // { href: '/dashboard/settings', icon: <Settings className="h-4 w-4" />, label: t('settings') },
     // { href: '/dashboard/billing', icon: <CreditCard className="h-4 w-4" />, label: t('billing') },
   ];
@@ -69,11 +130,14 @@ export default async function DashboardLayout({
                         {item.label}
                       </span>
                       <span className="text-xs font-normal text-muted-foreground">
-                        {item.href === '/dashboard/profile'
-                          ? 'Cuenta y afiliación'
-                          : 'Campañas y ventas'}
+                        {item.description}
                       </span>
                     </span>
+                    {item.badge && (
+                      <Badge className="ml-auto flex h-6 min-w-6 shrink-0 items-center justify-center rounded-full bg-blue-600 px-2 text-white">
+                        {item.badge}
+                      </Badge>
+                    )}
                     </SidebarNavLink>
                 ))}
               </nav>
@@ -94,11 +158,16 @@ export default async function DashboardLayout({
               <SidebarNavLink
                 key={item.label}
                 href={item.href}
-                className="h-11 w-11 justify-center rounded-xl border border-border/60 p-0"
+                className="relative h-11 w-11 justify-center rounded-xl border border-border/60 p-0"
                 activePrefixes={item.href === '/dashboard/profile' ? ['/dashboard/profile', '/dashboard/billing'] : [item.href]}
               >
                 {item.icon}
                 <span className="sr-only">{item.label}</span>
+                {item.badge && (
+                  <Badge className="absolute -right-1.5 -top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-blue-600 px-1 text-[0.65rem] text-white">
+                    {item.badge}
+                  </Badge>
+                )}
               </SidebarNavLink>
             ))}
           </nav>
@@ -107,7 +176,11 @@ export default async function DashboardLayout({
     >
       <div className="flex min-w-0 flex-col">
         <Header />
-        <DashboardMobileNav />
+        <DashboardMobileNav
+          isAffiliate={isAffiliate}
+          isPremiumJoAdmin={isPremiumJoAdmin}
+          pendingAffiliateApplications={pendingAffiliateApplications}
+        />
         <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 bg-muted/20 min-w-0">
           {children}
         </main>

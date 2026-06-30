@@ -21,7 +21,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { FreeDownloadDialog } from '@/components/free-download-dialog';
 import { normalizeMembership } from '@/lib/membership-access';
-import { logFirebaseEvent } from '@/lib/firebase';
+import { trackAnalyticsEvent } from '@/lib/analytics';
 import { trackLoopsEvent } from '@/lib/loops-events';
 import { trackAffiliateClick } from '@/lib/affiliate-client';
 import {
@@ -101,8 +101,17 @@ export function PremiumMembershipButton({
 
   const hasPurchased = purchasedPages?.includes(pageId) ?? false;
   const trackBuy = () => {
-    (window as any).gtag?.('event', 'web_buy_button_premium', { page_title: pageTitle });
-    void logFirebaseEvent('web_buy_button_premium', { page_id: pageId, page_title: pageTitle });
+    trackAnalyticsEvent('web_buy_button_premium', {
+      page_id: pageId,
+      page_title: pageTitle ?? pageId,
+      item_id: pageId,
+      item_name: pageTitle ?? pageId,
+      item_category: 'landing-page',
+      membership,
+      value: price ? Number(price.replace(/[$,\s]/g, '')) || undefined : undefined,
+      currency: 'USD',
+      action_source: 'premium-buy-button',
+    });
     void trackLoopsEvent('upgrade', {
       pageId,
       pageTitle,
@@ -113,8 +122,15 @@ export function PremiumMembershipButton({
   };
 
   const trackPremiumDownload = () => {
-    (window as any).gtag?.('event', 'web_download_premium', { page_title: pageTitle });
-    void logFirebaseEvent('web_download_premium', { page_id: pageId, page_title: pageTitle });
+    trackAnalyticsEvent('web_download_premium', {
+      page_id: pageId,
+      page_title: pageTitle ?? pageId,
+      item_id: pageId,
+      item_name: pageTitle ?? pageId,
+      item_category: 'landing-page',
+      membership,
+      action_source: 'premium-download-button',
+    });
     void trackLoopsEvent('upgrade', {
       pageId,
       pageTitle,

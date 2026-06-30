@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import { clerkClient } from '@clerk/nextjs/server';
 import { syncAffiliateDashboardStats, type AffiliateDashboardStats } from '@/lib/affiliate-mongo';
 import connectToDatabase from '@/lib/mongoose';
+import AffiliateApplication from '@/models/AffiliateApplication';
 import AffiliatePayoutAccount from '@/models/AffiliatePayoutAccount';
 import ProfileClient from './profile-client';
 
@@ -20,6 +21,9 @@ export default async function ProfilePage() {
     affiliateReferralCode?: string;
     affiliatePaypalEmail?: string | null;
   };
+  const premiumJoEmail = process.env.PROMPT_STUDIO_PREMIUM_JO?.trim() ?? '';
+  const userEmail = user?.primaryEmailAddress?.emailAddress?.trim().toLowerCase() ?? '';
+  const isPremiumJo = Boolean(premiumJoEmail) && userEmail === premiumJoEmail.toLowerCase();
   const emptyAffiliate: AffiliateDashboardStats = {
     clerkUserId: userId,
     referralCode: meta.affiliateReferralCode ?? user?.id ?? '',
@@ -37,10 +41,29 @@ export default async function ProfilePage() {
 
   let payoutAccount: { email?: string | null } | null = null;
   let affiliate: AffiliateDashboardStats = emptyAffiliate;
+  let hasApprovedAffiliateApplication = false;
+  let hasPendingAffiliateApplication = false;
+  let pendingAffiliateApplicationsCount = 0;
 
   try {
     await connectToDatabase();
     payoutAccount = await AffiliatePayoutAccount.findOne({ clerkUserId: userId }).lean<{ email?: string | null }>();
+    if (userEmail) {
+      const approvedApplication = await AffiliateApplication.findOne({
+        email: userEmail,
+        status: 'approved',
+      }).lean<{ _id: unknown } | null>();
+      hasApprovedAffiliateApplication = Boolean(approvedApplication);
+      if (!hasApprovedAffiliateApplication) {
+        hasPendingAffiliateApplication = Boolean(
+          await AffiliateApplication.findOne({
+            email: userEmail,
+            status: { $in: ['pending', 'reviewed'] },
+          }).lean<{ _id: unknown } | null>()
+        );
+      }
+      pendingAffiliateApplicationsCount = await AffiliateApplication.countDocuments({ status: 'pending' });
+    }
     affiliate = await syncAffiliateDashboardStats(userId, meta.affiliateReferralCode ?? user?.id ?? '');
   } catch (error) {
     console.error('Profile page Mongo fallback:', error);
@@ -59,6 +82,9 @@ export default async function ProfilePage() {
           user?.primaryEmailAddress?.emailAddress ||
           'Miembro',
       }}
+      isPremiumJo={isPremiumJo}
+      hasPendingAffiliateApplication={hasPendingAffiliateApplication}
+      pendingAffiliateApplicationsCount={pendingAffiliateApplicationsCount}
       affiliate={affiliate}
       affiliatePaypalEmail={payoutAccount?.email ?? meta.affiliatePaypalEmail ?? null}
     />

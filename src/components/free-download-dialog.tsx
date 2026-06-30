@@ -4,15 +4,22 @@ import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Download } from 'lucide-react';
 import { FreeEmailGate } from './free-email-gate';
-import { logFirebaseEvent } from '@/lib/firebase';
+import { trackAnalyticsEvent } from '@/lib/analytics';
 import { trackLoopsEvent } from '@/lib/loops-events';
 
 export function FreeDownloadDialog({ pageId, pageTitle }: { pageId: string; pageTitle?: string }) {
   const { toast } = useToast();
 
   const handleSuccess = () => {
-    (window as any).gtag?.('event', 'web_download_free', { page_title: pageTitle });
-    void logFirebaseEvent('web_download_free', { page_id: pageId, page_title: pageTitle });
+    trackAnalyticsEvent('web_download_free', {
+      page_id: pageId,
+      page_title: pageTitle ?? pageId,
+      item_id: pageId,
+      item_name: pageTitle ?? pageId,
+      item_category: 'landing-page',
+      membership: 'free',
+      action_source: 'free-download-dialog',
+    });
     void trackLoopsEvent('download', {
       pageId,
       pageTitle,

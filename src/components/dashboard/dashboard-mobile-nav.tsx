@@ -12,12 +12,23 @@ import {
   // Image,
   // LayoutGrid,
   // LineChart,
-  Settings,
   UserCircle,
+  UsersRound,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { Badge } from '@/components/ui/badge';
 
-export function DashboardMobileNav() {
+type DashboardMobileNavProps = {
+  isAffiliate: boolean;
+  isPremiumJoAdmin: boolean;
+  pendingAffiliateApplications: number;
+};
+
+export function DashboardMobileNav({
+  isAffiliate,
+  isPremiumJoAdmin,
+  pendingAffiliateApplications,
+}: DashboardMobileNavProps) {
   const pathname = usePathname();
   const t = useTranslations('dashboard');
 
@@ -28,9 +39,19 @@ export function DashboardMobileNav() {
     // { href: '/dashboard/creations', label: t('creations'), icon: Image },
     // { href: '/dashboard/favorites', label: t('favorites'), icon: Heart },
     { href: '/dashboard/profile', label: t('profile'), icon: UserCircle },
+    ...(isPremiumJoAdmin
+      ? [{
+          href: '/dashboard/affiliate-applications',
+          label: t('partners'),
+          icon: UsersRound,
+          badge: pendingAffiliateApplications,
+        }]
+      : []),
     // { href: '/dashboard/settings', label: t('settings'), icon: Settings },
     // { href: '/dashboard/billing', label: t('billing'), icon: CreditCard },
-    { href: '/dashboard/campaigns', label: t('campaigns'), icon: CreditCard },
+    ...(isAffiliate
+      ? [{ href: '/dashboard/campaigns', label: t('campaigns'), icon: CreditCard }]
+      : []),
   ];
 
   return (
@@ -39,7 +60,7 @@ export function DashboardMobileNav() {
       aria-label={t('navLabel')}
     >
       <div className="flex gap-2 overflow-x-auto px-3 py-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        {links.map(({ href, label, icon: Icon }) => {
+        {links.map(({ href, label, icon: Icon, badge }) => {
           const active =
             pathname === href ||
             (href !== '/dashboard' && pathname.startsWith(href));
@@ -63,6 +84,11 @@ export function DashboardMobileNav() {
             <Link key={href} href={href} className={className}>
               <Icon className="h-4 w-4" />
               {label}
+              {badge ? (
+                <Badge className="ml-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-blue-600 px-1.5 text-[0.65rem] text-white">
+                  {badge}
+                </Badge>
+              ) : null}
             </Link>
           );
         })}

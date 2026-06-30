@@ -22,13 +22,14 @@ import {
   TabsTrigger,
 } from '@/components/ui/tabs';
 import { useStripeSubscription } from '@/hooks/use-stripe-subscription';
-import { Copy, LineChart, Link2, Package, Sparkles, User } from 'lucide-react';
+import { CheckCircle2, ChevronRight, Clock3, Copy, LineChart, Link2, Package, Sparkles, User } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
 import { getSiteUrl } from '@/lib/site-url';
 import type { AffiliateDashboardStats } from '@/lib/affiliate-mongo';
 import { AFFILIATE_MIN_PAYOUT_CENTS } from '@/lib/affiliate';
+import { useRouter } from 'next/navigation';
 
 type ProfileUser = {
   id: string;
@@ -48,6 +49,9 @@ type AffiliateSale = {
 
 type ProfileClientProps = {
   user: ProfileUser;
+  isPremiumJo: boolean;
+  hasPendingAffiliateApplication: boolean;
+  pendingAffiliateApplicationsCount: number;
   affiliate: AffiliateDashboardStats;
   affiliatePaypalEmail?: string | null;
 };
@@ -65,15 +69,16 @@ function relativeLink(userId: string): string {
   return `${SITE_URL}/landing-pages?ref=${encodeURIComponent(userId)}`;
 }
 
-export default function ProfileClient({ user, affiliate, affiliatePaypalEmail }: ProfileClientProps) {
+export default function ProfileClient({ user, isPremiumJo, hasPendingAffiliateApplication, pendingAffiliateApplicationsCount, affiliate, affiliatePaypalEmail }: ProfileClientProps) {
   const t = useTranslations('profile');
+  const router = useRouter();
   const { plan, status, purchasedPages, ready } = useStripeSubscription();
   const [copied, setCopied] = useState(false);
   const [chartMode, setChartMode] = useState<'day' | 'week'>('day');
   const [paypalEmail, setPaypalEmail] = useState(affiliatePaypalEmail ?? '');
   const [savingPaypal, setSavingPaypal] = useState(false);
   const [paypalSaved, setPaypalSaved] = useState(false);
-
+  const [showApplicationStatus, setShowApplicationStatus] = useState(false);
   const displayName =
     user.fullName || user.email || t('member');
 
@@ -227,9 +232,29 @@ export default function ProfileClient({ user, affiliate, affiliatePaypalEmail }:
       </div>
 
       <Tabs defaultValue="profile" className="space-y-6">
-        <TabsList className="grid w-full max-w-sm grid-cols-2">
+        <TabsList
+          className={cn(
+            'grid w-full max-w-lg',
+            isPremiumJo ? 'grid-cols-3' : 'grid-cols-2'
+          )}
+        >
           <TabsTrigger value="profile">{t('profileTab')}</TabsTrigger>
           <TabsTrigger value="affiliate">{t('affiliateTab')}</TabsTrigger>
+          {isPremiumJo ? (
+            <TabsTrigger
+              value="applications"
+              onClick={() => router.push('/dashboard/affiliate-applications')}
+            >
+              <span className="inline-flex items-center gap-2">
+                {t('partnersTab')}
+                {pendingAffiliateApplicationsCount > 0 ? (
+                  <span className="inline-flex min-w-6 items-center justify-center rounded-full bg-blue-500 px-2 py-0.5 text-[11px] font-semibold text-white">
+                    {pendingAffiliateApplicationsCount}
+                  </span>
+                ) : null}
+              </span>
+            </TabsTrigger>
+          ) : null}
         </TabsList>
 
         <TabsContent value="profile" className="space-y-6">
@@ -294,6 +319,88 @@ export default function ProfileClient({ user, affiliate, affiliatePaypalEmail }:
                 </div>
               </div>
               <p className="text-xs text-muted-foreground">{t('accountManaged')}</p>
+              {hasPendingAffiliateApplication ? (
+                <div className="overflow-hidden rounded-2xl border border-amber-500/20 bg-gradient-to-br from-amber-500/10 via-amber-500/5 to-transparent">
+                  <div className="flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="flex items-start gap-3">
+                      <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-amber-400/25 bg-amber-500/10 text-amber-300">
+                        <Clock3 className="h-4 w-4" aria-hidden="true" />
+                      </span>
+                      <div>
+                        <p className="text-xs uppercase tracking-[0.22em] text-amber-300">
+                          {t('applicationSentTitle')}
+                        </p>
+                        <p className="mt-1.5 max-w-xl text-sm leading-6 text-muted-foreground">
+                          {t('applicationPendingBody')}
+                        </p>
+                      </div>
+                    </div>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="shrink-0 border-amber-500/25 bg-background/50 hover:border-amber-400/40 hover:bg-amber-500/10"
+                      aria-expanded={showApplicationStatus}
+                      aria-controls="affiliate-application-status"
+                      onClick={() => setShowApplicationStatus(current => !current)}
+                    >
+                      {showApplicationStatus ? t('hideApplicationStatus') : t('viewApplicationStatus')}
+                      <ChevronRight
+                        className={cn(
+                          'ml-2 h-4 w-4 transition-transform duration-300',
+                          showApplicationStatus && 'rotate-90'
+                        )}
+                        aria-hidden="true"
+                      />
+                    </Button>
+                  </div>
+
+                  {showApplicationStatus ? (
+                    <div
+                      id="affiliate-application-status"
+                      className="border-t border-amber-500/15 bg-background/30 px-4 py-5 sm:px-6"
+                    >
+                      <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+                        <div>
+                          <p className="font-semibold text-foreground">{t('applicationStatusTitle')}</p>
+                          <p className="mt-1 text-sm text-muted-foreground">{t('applicationStatusDesc')}</p>
+                        </div>
+                        <Badge className="border border-amber-400/25 bg-amber-500/10 text-amber-200 hover:bg-amber-500/10">
+                          {t('applicationPendingLabel')}
+                        </Badge>
+                      </div>
+
+                      <div className="grid gap-3 sm:grid-cols-3">
+                        <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-3">
+                          <CheckCircle2 className="h-5 w-5 text-emerald-400" aria-hidden="true" />
+                          <p className="mt-3 text-sm font-medium">{t('applicationReceivedStep')}</p>
+                        </div>
+                        <div className="rounded-xl border border-amber-500/25 bg-amber-500/10 p-3">
+                          <Clock3 className="h-5 w-5 animate-pulse text-amber-300" aria-hidden="true" />
+                          <p className="mt-3 text-sm font-medium">{t('applicationReviewStep')}</p>
+                        </div>
+                        <div className="rounded-xl border border-border/60 bg-background/40 p-3 text-muted-foreground">
+                          <Link2 className="h-5 w-5" aria-hidden="true" />
+                          <p className="mt-3 text-sm font-medium">{t('applicationAccessStep')}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
+              ) : null}
+              {isPremiumJo ? (
+                <div className="rounded-2xl border border-amber-500/20 bg-amber-500/5 p-4">
+                  <p className="text-xs uppercase tracking-[0.22em] text-amber-300">Acceso especial</p>
+                  <div className="mt-3 space-y-2">
+                    <p className="text-sm font-semibold text-foreground">Solicitudes de afiliados</p>
+                    <p className="text-sm text-muted-foreground">
+                      Revisa, aprueba o rechaza las solicitudes recibidas desde el formulario de afiliados.
+                    </p>
+                    <Button asChild className="mt-2 w-fit">
+                      <a href="/dashboard/affiliate-applications">Ver solicitudes</a>
+                    </Button>
+                  </div>
+                </div>
+              ) : null}
             </CardContent>
           </Card>
 

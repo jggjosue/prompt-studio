@@ -275,3 +275,33 @@ body {
     transform: scale(2.2);
   }
 }
+
+@keyframes social-premium-glow {
+  0%,
+  100% {
+    opacity: 0.16;
+    transform: scale(0.94);
+  }
+  50% {
+    opacity: 0.42;
+    transform: scale(1.05);
+  }
+}
+
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .social-premium-glow::after {
+    position: absolute;
+    z-index: -1;
+    inset: 12%;
+    border-radius: inherit;
+    background: var(--social-glow);
+    filter: blur(18px);
+    content: '';
+    pointer-events: none;
+    animation: social-premium-glow 3.6s ease-in-out var(--social-glow-delay, 0s) infinite;
+  }
+
+  .social-premium-glow:hover::after {
+    animation-duration: 1.8s;
+  }
+}

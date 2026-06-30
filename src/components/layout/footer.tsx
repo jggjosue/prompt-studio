@@ -6,6 +6,8 @@ import { PromptEditLink } from '@/components/prompt-edit-link';
 import { getFooterLinkGroups } from '@/lib/internal-link-graph';
 import { useTranslations } from 'next-intl';
 import { LanguageToggle } from '@/components/language-toggle';
+import { Facebook, Instagram } from 'lucide-react';
+import type { CSSProperties } from 'react';
 import Logo from './logo';
 
 const COPYRIGHT_YEAR = 2026;
@@ -27,16 +29,54 @@ export default function Footer() {
 
   const socialLinks = [
     {
-      href: 'https://www.instagram.com/',
+      href: 'https://www.instagram.com/prompstudio/',
       label: 'Instagram',
+      icon: Instagram,
+      accent: 'from-fuchsia-500/20 via-pink-500/15 to-amber-500/10',
+      hover: 'hover:border-fuchsia-400/45 hover:shadow-[0_18px_45px_rgba(236,72,153,0.22)] hover:shadow-fuchsia-500/15',
+      hoverRing: 'group-hover:border-fuchsia-300/40 group-hover:bg-fuchsia-500/10',
+      glowColor: 'rgba(236, 72, 153, 0.5)',
     },
     {
-      href: 'https://www.tiktok.com/',
+      href: 'https://www.tiktok.com/@promptstudio',
       label: 'TikTok',
+      icon: () => (
+        <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4">
+          <path
+            fill="currentColor"
+            d="M16.6 3c.5 2.9 2.3 4.7 4.7 4.9v3c-1.6.1-3.1-.4-4.6-1.3v6.6c0 4.4-3.1 7.8-7.7 7.8S1.3 20.6 1.3 16.2s3.2-7.8 7.7-7.8c.4 0 .9 0 1.3.1v3.2c-.4-.1-.8-.2-1.3-.2-2.5 0-4.4 1.8-4.4 4.7s1.9 4.6 4.4 4.6c2.7 0 4.5-2 4.5-4.8V1.2h3.1c0 .6 0 1.2.1 1.8Z"
+          />
+        </svg>
+      ),
+      accent: 'from-cyan-500/15 via-blue-500/15 to-violet-500/10',
+      hover: 'hover:border-cyan-400/45 hover:shadow-[0_18px_45px_rgba(34,211,238,0.20)] hover:shadow-cyan-500/15',
+      hoverRing: 'group-hover:border-cyan-300/40 group-hover:bg-cyan-500/10',
+      glowColor: 'rgba(34, 211, 238, 0.45)',
     },
     {
-      href: 'https://www.pinterest.com/',
+      href: 'https://www.pinterest.com/prompstudio/',
       label: 'Pinterest',
+      icon: () => (
+        <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4">
+          <path
+            fill="currentColor"
+            d="M12 2.2A9.8 9.8 0 0 0 8.4 21c-.1-.7-.2-1.8 0-2.6l1.6-6.7s-.4-.8-.4-2c0-1.9 1.1-3.3 2.5-3.3 1.2 0 1.8.9 1.8 1.9 0 1.2-.8 3-1.2 4.6-.3 1.3.7 2.4 2 2.4 2.4 0 4.2-2.5 4.2-6.2 0-3.2-2.2-5.5-5.4-5.5-3.7 0-5.9 2.8-5.9 5.8 0 1.2.5 2.5 1.1 3.2.1.1.1.2.1.4l-.4 1.5c-.1.5-.4.6-.8.4-1.6-.7-2.6-2.8-2.6-4.6 0-3.8 2.8-7.2 8.1-7.2 4.2 0 7.5 3 7.5 7 0 4.2-2.6 7.6-6.3 7.6-1.2 0-2.3-.6-2.7-1.3l-.7 2.7c-.2.8-.7 1.8-1.1 2.4A9.8 9.8 0 1 0 12 2.2Z"
+          />
+        </svg>
+      ),
+      accent: 'from-rose-500/15 via-red-500/15 to-orange-500/10',
+      hover: 'hover:border-rose-400/45 hover:shadow-[0_18px_45px_rgba(244,63,94,0.22)] hover:shadow-rose-500/15',
+      hoverRing: 'group-hover:border-rose-300/40 group-hover:bg-rose-500/10',
+      glowColor: 'rgba(244, 63, 94, 0.48)',
+    },
+    {
+      href: 'https://www.facebook.com/prompt.stuudio/',
+      label: 'Facebook',
+      icon: Facebook,
+      accent: 'from-blue-500/15 via-sky-500/15 to-cyan-500/10',
+      hover: 'hover:border-blue-400/45 hover:shadow-[0_18px_45px_rgba(59,130,246,0.22)] hover:shadow-blue-500/15',
+      hoverRing: 'group-hover:border-blue-300/40 group-hover:bg-blue-500/10',
+      glowColor: 'rgba(59, 130, 246, 0.48)',
     },
   ];
 
@@ -55,17 +95,25 @@ export default function Footer() {
             <p className="text-sm leading-6 text-muted-foreground max-w-xs">
               {t('tagline')}
             </p>
-            <div className="flex flex-wrap gap-4 text-muted-foreground">
-              {socialLinks.map(link => (
+            <div className="flex flex-wrap gap-3 text-muted-foreground">
+              {socialLinks.map((link, index) => (
                 <a
                   key={link.href}
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm leading-6 hover:text-foreground transition-colors"
-                  aria-label={`Open ${link.label}`}
+                  className={`social-premium-glow group relative isolate inline-flex h-12 w-12 items-center justify-center rounded-full border border-border/60 bg-gradient-to-br ${link.accent} text-foreground/80 shadow-[0_10px_30px_rgba(0,0,0,0.12)] transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-105 hover:text-foreground ${link.hover}`}
+                  style={{
+                    '--social-glow': link.glowColor,
+                    '--social-glow-delay': `${index * 0.55}s`,
+                  } as CSSProperties}
+                  aria-label={`Abrir ${link.label}`}
+                  title={link.label}
                 >
-                  {link.label}
+                  <span className={`inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-background/70 text-foreground/90 transition-all duration-300 ease-out group-hover:scale-110 group-hover:rotate-[-6deg] ${link.hoverRing}`}>
+                    {'icon' in link && typeof link.icon === 'function' ? <link.icon className="h-5 w-5" /> : null}
+                  </span>
+                  <span className="sr-only">{link.label}</span>
                 </a>
               ))}
             </div>

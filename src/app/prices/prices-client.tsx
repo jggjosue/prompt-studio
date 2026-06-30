@@ -16,7 +16,7 @@ import {
   getPremiumStripeCheckoutUrl,
   getStartupStripeCheckoutUrl,
 } from '@/lib/stripe-checkout';
-import { logFirebaseEvent } from '@/lib/firebase';
+import { trackAnalyticsEvent } from '@/lib/analytics';
 import { SignInButton, SignUpButton, useAuth } from '@clerk/nextjs';
 import {
   Check,
@@ -114,9 +114,16 @@ export default function PricesClient() {
   const premiumCheckoutUrl = getPremiumStripeCheckoutUrl(isAnnual, userId);
   const startupCheckoutUrl = getStartupStripeCheckoutUrl(isAnnual, userId);
   const trackPlanBuy = (planName: 'premium' | 'startup') => {
-    void logFirebaseEvent('web_buy_button_premium', {
+    trackAnalyticsEvent('web_buy_button_premium', {
+      page_id: `plan-${planName}`,
+      page_title: `${planName === 'premium' ? 'Premium' : 'Startup'} plan`,
+      item_id: `plan-${planName}`,
+      item_name: `${planName === 'premium' ? 'Premium' : 'Startup'} plan`,
+      item_category: 'subscription',
       plan: planName,
       billing_period: isAnnual ? 'yearly' : 'monthly',
+      currency: 'USD',
+      action_source: 'pricing-page',
     });
   };
 
