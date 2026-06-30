@@ -45,7 +45,7 @@ if (!content.includes('import DisplayCards')) {
   );
   
   fs.writeFileSync(filePath, content, 'utf8');
-  console.log('Updated image-tags-client.tsx');
+  //console.log('Updated image-tags-client.tsx');
 } else {
-  console.log('Already updated image-tags-client.tsx');
+  //console.log('Already updated image-tags-client.tsx');
 }

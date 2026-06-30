@@ -37,12 +37,14 @@ function getActualTags(arr) {
 const actualVideoTags = getActualTags(videosJson);
 const actualImageTags = getActualTags(imagesJson);
 
-console.log("Missing Video Tags:");
+//console.log("Missing Video Tags:");
 for (const tag of actualVideoTags) {
-  if (!definedVideoTags.has(tag)) console.log(tag);
+  if (!definedVideoTags.has(tag)) { //console.log(tag); 
+  }
 }
 
-console.log("\nMissing Image Tags:");
+//console.log("\nMissing Image Tags:");
 for (const tag of actualImageTags) {
-  if (!definedImageTags.has(tag)) console.log(tag);
+  if (!definedImageTags.has(tag)) { //console.log(tag); 
+  }
 }

@@ -53,7 +53,7 @@
   video.crossOrigin = 'anonymous';
   video.loop = true;
   video.muted = true;
-  video.play().catch(e => console.log('Video autoplay blocked, using color fallback.'));
+  video.play().catch(e => { /* console.log('Video autoplay blocked, using color fallback.') */ });
   
   const videoTexture = new THREE.VideoTexture(video);
   videoTexture.minFilter = THREE.LinearFilter;

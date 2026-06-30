@@ -226,7 +226,7 @@ btnCloseVideo.addEventListener('click', () => {
 
 function openVideoPanel() {
   videoPanel.classList.add('active');
-  productVideo.play().catch(e => console.log("Video play error:", e));
+  productVideo.play().catch(e => { /* console.log("Video play error:", e) */ });
 }
 
 function closeVideoPanel() {

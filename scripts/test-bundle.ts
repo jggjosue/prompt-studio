@@ -7,7 +7,7 @@ async function main() {
     const res = await resolveDemoBundle('3d-architecture-portfolio-pro');
     //console.log(res ? 'Success' : 'Returned null');
   } catch (err) {
-    console.error('ERROR:', err);
+    //console.error('ERROR:', err);
   }
 }
 main();

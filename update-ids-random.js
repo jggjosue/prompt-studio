@@ -12,4 +12,4 @@ data.placeholderImages = data.placeholderImages.map(item => ({
 }));
 
 fs.writeFileSync(filePath, JSON.stringify(data, null, 2) + '\n');
-console.log('IDs de placeholderImages actualizados con hashes aleatorios de 16 caracteres.');
+//console.log('IDs de placeholderImages actualizados con hashes aleatorios de 16 caracteres.');

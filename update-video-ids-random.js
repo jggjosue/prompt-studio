@@ -11,4 +11,4 @@ data.placeholderVideos = data.placeholderVideos.map(item => ({
 }));
 
 fs.writeFileSync(filePath, JSON.stringify(data, null, 2) + '\n');
-console.log('IDs de placeholderVideos actualizados con hashes aleatorios de 16 caracteres.');
+//console.log('IDs de placeholderVideos actualizados con hashes aleatorios de 16 caracteres.');

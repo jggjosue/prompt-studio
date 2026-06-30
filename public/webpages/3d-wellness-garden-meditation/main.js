@@ -204,7 +204,7 @@ audioBtn.addEventListener('click', () => {
         audioIcon.classList.add('fa-volume-mute');
     } else {
         // Try to play
-        audio.play().catch(e => console.log("Audio play blocked by browser", e));
+        audio.play().catch(e => { /* console.log("Audio play blocked by browser", e) */ });
         audioIcon.classList.remove('fa-volume-mute');
         audioIcon.classList.add('fa-volume-up');
     }

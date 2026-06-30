@@ -104,8 +104,8 @@ async function main() {
       jsCount += 1;
       const pct = ((1 - r.after / r.before) * 100).toFixed(1);
       //console.log(
-        `[minify-public] JS ${path.relative(ROOT, file)}: ${r.before} → ${r.after} B (-${pct}%)`
-      );
+      //  `[minify-public] JS ${path.relative(ROOT, file)}: ${r.before} → ${r.after} B (-${pct}%)`
+      //);
     }
   }
 
@@ -115,8 +115,8 @@ async function main() {
       cssCount += 1;
       const pct = ((1 - r.after / r.before) * 100).toFixed(1);
       //console.log(
-        `[minify-public] CSS ${path.relative(ROOT, file)}: ${r.before} → ${r.after} B (-${pct}%)`
-      );
+      //  `[minify-public] CSS ${path.relative(ROOT, file)}: ${r.before} → ${r.after} B (-${pct}%)`
+      //);
     }
   }
 

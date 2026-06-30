@@ -138,7 +138,7 @@
     dom.demoTitle.textContent = hs.title;
     dom.demoVideo.src = hs.videoUrl;
     dom.demoVideo.load();
-    dom.demoVideo.play().catch(() => {});
+    dom.demoVideo.play().catch(() => { });
     dom.demoDesc.textContent = hs.desc;
     dom.snippetCode.textContent = hs.snippet;
     if (window.Prism) Prism.highlightElement(dom.snippetCode);
