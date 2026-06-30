@@ -3,7 +3,6 @@
 import { motion, type Variants } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { useEffect, useRef } from "react";
-import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 
@@ -18,6 +17,21 @@ interface WaveConfig {
   frequency: number;
   color: string;
   opacity: number;
+}
+
+export interface GlowyWavesHeroCopy {
+  ariaLabel: string;
+  headlinePrefix: string;
+  headlineAccent: string;
+  description: string;
+  explore: string;
+  generate: string;
+  pills: [string, string, string];
+  stats: [
+    { label: string; value: string },
+    { label: string; value: string },
+    { label: string; value: string },
+  ];
 }
 
 const containerVariants: Variants = {
@@ -47,19 +61,8 @@ const statsVariants: Variants = {
   },
 };
 
-export function GlowyWavesHero() {
-  const t = useTranslations("home");
+export function GlowyWavesHero({ copy }: { copy: GlowyWavesHeroCopy }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const highlightPills = [
-    t("heroPills.images"),
-    t("heroPills.videos"),
-    t("heroPills.webPages"),
-  ];
-  const heroStats = [
-    { label: t("heroStats.community"), value: "10k+" },
-    { label: t("heroStats.models"), value: "25+" },
-    { label: t("heroStats.generations"), value: "50k+" },
-  ];
   const mouseRef = useRef<Point>({ x: 0, y: 0 });
   const targetMouseRef = useRef<Point>({ x: 0, y: 0 });
 
@@ -294,7 +297,7 @@ export function GlowyWavesHero() {
     <section
       className="relative isolate flex min-h-screen w-full items-center justify-center overflow-hidden bg-background"
       role="region"
-      aria-label={t("heroAriaLabel")}
+      aria-label={copy.ariaLabel}
     >
       <canvas
         ref={canvasRef}
@@ -327,9 +330,9 @@ export function GlowyWavesHero() {
             variants={itemVariants}
             className="mb-6 text-4xl font-semibold tracking-tight text-foreground md:text-6xl lg:text-7xl"
           >
-            {t("heroHeadlinePrefix")}{" "}
+            {copy.headlinePrefix}{" "}
             <span className="bg-gradient-to-r from-primary via-primary/60 to-foreground/80 bg-clip-text text-transparent">
-              {t("heroHeadlineAccent")}
+              {copy.headlineAccent}
             </span>
           </motion.h1>
 
@@ -337,7 +340,7 @@ export function GlowyWavesHero() {
             variants={itemVariants}
             className="mx-auto mb-10 max-w-3xl text-lg text-foreground/70 md:text-2xl"
           >
-            {t("heroDescription")}
+            {copy.description}
           </motion.p>
 
           <motion.div
@@ -348,7 +351,7 @@ export function GlowyWavesHero() {
               size="lg"
               className="group gap-2 rounded-full px-8 text-base tracking-[0.1em]"
             >
-              {t("heroExplore")}
+              {copy.explore}
               <ArrowRight
                 className="h-4 w-4 transition-transform group-hover:translate-x-1"
                 aria-hidden="true"
@@ -359,7 +362,7 @@ export function GlowyWavesHero() {
               variant="outline"
               className="rounded-full border-border/40 bg-background/60 px-8 text-base text-foreground/80 backdrop-blur transition-all hover:border-border/60 hover:bg-background/70 dark:border-border/50 dark:bg-background/40 dark:text-foreground/70 dark:hover:border-border/70 dark:hover:bg-background/50"
             >
-              {t("heroGenerate")}
+              {copy.generate}
             </Button>
           </motion.div>
 
@@ -367,7 +370,7 @@ export function GlowyWavesHero() {
             variants={itemVariants}
             className="mb-12 flex flex-wrap items-center justify-center gap-3 text-xs uppercase tracking-[0.2em] text-foreground/70 dark:text-foreground/80"
           >
-            {highlightPills.map((pill) => (
+            {copy.pills.map((pill) => (
               <li
                 key={pill}
                 className="rounded-full border border-border/40 bg-background/60 px-4 py-2 backdrop-blur dark:border-border/60 dark:bg-background/70"
@@ -381,7 +384,7 @@ export function GlowyWavesHero() {
             variants={statsVariants}
             className="grid gap-4 rounded-2xl border border-border/30 bg-background/60 p-6 backdrop-blur-sm dark:border-border/60 dark:bg-background/70 sm:grid-cols-3"
           >
-            {heroStats.map((stat) => (
+            {copy.stats.map((stat) => (
               <motion.div
                 key={stat.label}
                 variants={itemVariants}

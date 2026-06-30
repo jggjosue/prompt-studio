@@ -58,6 +58,22 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see your application.
 
+## Domains and Public URLs
+
+### Application
+
+- **Production**: [https://www.prompstudio.com](https://www.prompstudio.com)
+- **Local development**: [http://localhost:3011](http://localhost:3011)
+
+Configure these URLs through `DOMAIN_PROD` and `DOMAIN_DEV`. If the local development server uses another port, update `DOMAIN_DEV` accordingly.
+
+### Official social profiles
+
+- **Instagram**: [https://www.instagram.com/prompstudio/](https://www.instagram.com/prompstudio/)
+- **TikTok**: [https://www.tiktok.com/@promptstudio](https://www.tiktok.com/@promptstudio)
+- **Pinterest**: [https://www.pinterest.com/prompstudio/](https://www.pinterest.com/prompstudio/)
+- **Facebook**: [https://www.facebook.com/prompt.stuudio/](https://www.facebook.com/prompt.stuudio/)
+
 ## Learn More
 
 To learn more about the technologies used in this project, take a look at the following resources:
@@ -462,9 +478,31 @@ These are generated from tags with at least 3 related catalog items.
 - Video gallery pages: `/gallery-videos/v-1` through `/gallery-videos/v-97`
 
 ## Analytics Tags
-The application uses Google Analytics to track user interactions. The following tags (events) are configured:
-- `web_open_demo_URL` - Triggered when a user clicks the "Open" (demo URL) link.
-- `web_buy_button_premium` - Triggered when a user clicks the "Buy" button for a premium component.
-- `web_view_prompt` - Triggered when a logged-in user clicks "View prompt".
-- `web_download_free` - Triggered when a user downloads a free component (or submits the email form).
-- `web_download_premium` - Triggered when a premium/startup user directly downloads a component they have access to.
+
+The application sends the same interaction context to Google Analytics 4 and Firebase Analytics. The following events are configured:
+
+- `web_open_demo_URL` - Triggered when a user opens a demo.
+- `web_buy_button_premium` - Triggered when a user starts a Premium component or subscription checkout. This measures purchase intent, not a confirmed payment.
+- `web_view_prompt` - Triggered when a logged-in user opens a prompt.
+- `web_download_free` - Triggered when a user unlocks and downloads a free component.
+- `web_download_premium` - Triggered when a Premium or Startup user downloads an available component.
+
+Every catalog interaction includes:
+
+- `page_id` and `page_title` - Internal ID and visible product/page title.
+- `item_id` and `item_name` - GA4-friendly product dimensions for ranking content.
+- `item_category` - Content type, such as `landing-page`, `landing-page-prompt`, or `subscription`.
+- `membership` - Access level associated with the product when available.
+- `value` and `currency` - Displayed checkout value for individual Premium products.
+- `action_source` - UI location that generated the event.
+- `document_title` - Browser document title at the time of the interaction.
+- `page_path` and `page_location` - Route and complete URL where the event occurred.
+
+### Recommended GA4 reports
+
+- **Most visited pages**: use the standard `page_view` event and break it down by `Page title` or `Page path`.
+- **Most opened demos**: filter by `web_open_demo_URL` and break down by `item_name`.
+- **Products with the most purchase intent**: filter by `web_buy_button_premium` and break down by `item_name`.
+- **Most downloaded products**: combine `web_download_free` and `web_download_premium`, then break down by `item_name`.
+
+Register `item_name`, `item_category`, `membership`, `action_source`, and `document_title` as event-scoped custom dimensions in GA4 if they are not available in the report builder. Confirmed purchases and revenue should come from the Stripe success webhook or a GA4 `purchase` event after payment confirmation; do not treat `web_buy_button_premium` as a completed sale.

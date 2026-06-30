@@ -96,7 +96,15 @@ export default function Footer() {
               {t('tagline')}
             </p>
             <div className="flex flex-wrap gap-3 text-muted-foreground">
-              {socialLinks.map((link, index) => {
+              {!mounted
+                ? socialLinks.map(link => (
+                    <span
+                      key={link.href}
+                      className="inline-flex h-14 w-14 animate-pulse rounded-full border border-white/10 bg-white/5"
+                      aria-hidden="true"
+                    />
+                  ))
+                : socialLinks.map((link, index) => {
                 const SocialIcon = link.icon;
 
                 return (
@@ -119,7 +127,7 @@ export default function Footer() {
                     <span className="sr-only">{link.label}</span>
                   </a>
                 );
-              })}
+                  })}
             </div>
           </div>
           <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0 md:grid-cols-4">

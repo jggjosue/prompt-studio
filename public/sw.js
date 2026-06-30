@@ -6,7 +6,7 @@
  * - Network-First: APIs dinámicas
  */
 
-const CACHE_VERSION = 'ps-cache-v6';
+const CACHE_VERSION = 'ps-cache-disabled-v8';
 
 const CACHE = {
   static: `${CACHE_VERSION}-static`,
@@ -227,10 +227,7 @@ function pickStrategy(request) {
 
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches
-      .open(CACHE.static)
-      .then(cache => cache.addAll(PRECACHE_URLS))
-      .then(() => self.skipWaiting())
+    self.skipWaiting()
   );
 });
 
@@ -238,17 +235,14 @@ self.addEventListener('activate', event => {
   event.waitUntil(
     (async () => {
       const keys = await caches.keys();
-      await Promise.all(
-        keys
-          .filter(key => !Object.values(CACHE).includes(key))
-          .map(key => caches.delete(key))
-      );
-      await self.clients.claim();
+      await Promise.all(keys.map(key => caches.delete(key)));
+      await self.registration.unregister();
     })()
   );
 });
 
 self.addEventListener('fetch', event => {
+  if (CACHE_VERSION === 'ps-cache-disabled-v8') return;
   const strategy = pickStrategy(event.request);
   if (!strategy) return;
 

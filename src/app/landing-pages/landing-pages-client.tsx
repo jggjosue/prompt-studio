@@ -29,6 +29,28 @@ import {
 } from '@/lib/affiliate';
 
 const ITEMS_PER_PAGE = 30;
+const PRICE_FACETS = [5, 10, 15, 20, 35, 50] as const;
+
+function numericPrice(price?: string): number {
+  const value = Number.parseFloat(price?.replace(/[^\d.]/g, '') ?? '');
+  return Number.isFinite(value) ? value : 0;
+}
+
+function matchesCommercialFacet(
+  page: { membership?: string; price?: string },
+  facet: string
+): boolean | null {
+  const membership = page.membership?.trim().toLowerCase() ?? '';
+  const price = numericPrice(page.price);
+
+  if (facet === 'Premium') return membership === 'premium';
+  if (facet === 'Free') return membership === 'free' || price === 0;
+
+  const priceMatch = facet.match(/^\$(\d+(?:\.\d+)?) USD$/);
+  if (priceMatch) return price === Number(priceMatch[1]);
+
+  return null;
+}
 
 function LandingPagesContent() {
   const tFacets = useTranslations('facets');
@@ -53,7 +75,12 @@ function LandingPagesContent() {
   const facetFiltered = useMemo(() => {
     if (!facetTag && !facetStack) return allPages;
     return allPages.filter(page => {
-      const matchTag = facetTag ? page.tags.includes(facetTag) : true;
+      const commercialMatch = facetTag
+        ? matchesCommercialFacet(page, facetTag)
+        : null;
+      const matchTag = facetTag
+        ? commercialMatch ?? page.tags.includes(facetTag)
+        : true;
       const matchStack = facetStack ? page.stack?.includes(facetStack) : true;
       return matchTag && matchStack;
     });
@@ -69,11 +96,50 @@ function LandingPagesContent() {
       'Popular Tags': t('facetGroups.popularTags'),
     };
 
-    return categories.map(cat => ({
-      label: categoryLabels[cat.name] ?? cat.name,
-      entries: cat.tags.map(t => ({ key: t.name, count: t.count })),
-    }));
-  }, [categories, t]);
+    const membershipEntries = [
+      {
+        key: 'Premium',
+        count: allPages.filter(page => matchesCommercialFacet(page, 'Premium')).length,
+      },
+      {
+        key: 'Free',
+        count: allPages.filter(page => matchesCommercialFacet(page, 'Free')).length,
+      },
+      ...PRICE_FACETS.map(price => {
+        const key = `$${price} USD`;
+        return {
+          key,
+          count: allPages.filter(page => matchesCommercialFacet(page, key)).length,
+        };
+      }),
+    ];
+
+    const result = categories
+      .filter(category => category.name !== 'Membership')
+      .map(category => ({
+        label: categoryLabels[category.name] ?? category.name,
+        entries: category.tags.map(tag => ({
+          key: tag.name,
+          count: tag.count,
+        })),
+      }));
+
+    const popularTagsIndex = categories.findIndex(
+      category => category.name === 'Popular Tags'
+    );
+    const membershipCategory = {
+      label: categoryLabels.Membership ?? 'Membership',
+      entries: membershipEntries,
+    };
+
+    if (popularTagsIndex >= 0) {
+      result.splice(Math.min(popularTagsIndex, result.length), 0, membershipCategory);
+    } else {
+      result.push(membershipCategory);
+    }
+
+    return result;
+  }, [allPages, categories, t]);
 
   const {
     input: searchInput,

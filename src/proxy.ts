@@ -11,7 +11,6 @@ function withEdgeHeaders(
   response: NextResponse,
   req?: { headers: Headers }
 ): NextResponse {
-  response.headers.set('Vary', 'Accept-Encoding');
   response.headers.set('X-DNS-Prefetch-Control', 'on');
 
   const country = req?.headers.get('x-vercel-ip-country');

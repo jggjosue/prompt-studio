@@ -12,7 +12,12 @@ camera.position.set(0, 5, 20);
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.outputColorSpace = THREE.SRGBColorSpace;
 container.appendChild(renderer.domElement);
+
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const pointerTarget = new THREE.Vector2();
+const pointerCurrent = new THREE.Vector2();
 
 // 2. Lighting (Futuristic Educational Vibe)
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -25,6 +30,10 @@ scene.add(blueLight);
 const purpleLight = new THREE.PointLight(0x8b5cf6, 50, 100);
 purpleLight.position.set(-5, 5, -10);
 scene.add(purpleLight);
+
+const cyanLight = new THREE.PointLight(0x22d3ee, 35, 90);
+cyanLight.position.set(0, 3, 12);
+scene.add(cyanLight);
 
 // 3. Build the Library Environment (Aisles and Shelves)
 const libraryGroup = new THREE.Group();
@@ -125,6 +134,57 @@ const gridHelper = new THREE.GridHelper(200, 50, 0x3b82f6, 0x1e293b);
 gridHelper.position.y = 0;
 scene.add(gridHelper);
 
+const particleCount = reducedMotion ? 350 : 1100;
+const particlePositions = new Float32Array(particleCount * 3);
+for (let i = 0; i < particleCount; i++) {
+    particlePositions[i * 3] = (Math.random() - 0.5) * 36;
+    particlePositions[i * 3 + 1] = Math.random() * 18 - 2;
+    particlePositions[i * 3 + 2] = 24 - Math.random() * 390;
+}
+const particleGeometry = new THREE.BufferGeometry();
+particleGeometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+const particles = new THREE.Points(
+    particleGeometry,
+    new THREE.PointsMaterial({
+        color: 0x7dd3fc,
+        size: 0.055,
+        transparent: true,
+        opacity: 0.72,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+    })
+);
+scene.add(particles);
+
+const portals = [];
+for (let i = 0; i < 10; i++) {
+    const portal = new THREE.Group();
+    const ring = new THREE.Mesh(
+        new THREE.TorusGeometry(5.2, 0.045, 8, 96),
+        new THREE.MeshBasicMaterial({
+            color: i % 2 ? 0x8b5cf6 : 0x38bdf8,
+            transparent: true,
+            opacity: 0.55,
+            blending: THREE.AdditiveBlending
+        })
+    );
+    const innerRing = new THREE.Mesh(
+        new THREE.TorusGeometry(4.45, 0.018, 8, 96),
+        ring.material.clone()
+    );
+    innerRing.material.opacity = 0.32;
+    portal.add(ring, innerRing);
+    portal.position.set((i % 2 ? 1 : -1) * 0.7, 5.4, 5 - i * 38);
+    portal.rotation.z = i * 0.16;
+    scene.add(portal);
+    portals.push(portal);
+}
+
+window.addEventListener('pointermove', (event) => {
+    pointerTarget.x = (event.clientX / window.innerWidth - 0.5) * 2;
+    pointerTarget.y = (event.clientY / window.innerHeight - 0.5) * 2;
+}, { passive: true });
+
 // 4. Animation Loop
 const clock = new THREE.Clock();
 
@@ -134,8 +194,18 @@ function animate() {
 
     // Floating animation for screens
     screens.forEach((screen, index) => {
-        screen.position.y += Math.sin(time * 2 + index) * 0.005;
-        screen.rotation.y += Math.sin(time + index) * 0.002;
+        screen.position.y += Math.sin(time * 1.4 + index) * 0.003;
+        screen.rotation.y += Math.sin(time * 0.7 + index) * 0.0015;
+    });
+
+    pointerCurrent.lerp(pointerTarget, reducedMotion ? 0.02 : 0.055);
+    camera.rotation.y += ((-pointerCurrent.x * 0.035) - camera.rotation.y) * 0.035;
+    camera.rotation.x += ((pointerCurrent.y * 0.02) - camera.rotation.x) * 0.035;
+    particles.rotation.y = time * 0.006;
+    portals.forEach((portal, index) => {
+        portal.rotation.z += (index % 2 ? -1 : 1) * (reducedMotion ? 0.0002 : 0.0012);
+        const pulse = 1 + Math.sin(time * 1.2 + index) * 0.035;
+        portal.scale.setScalar(pulse);
     });
 
     renderer.render(scene, camera);
@@ -159,21 +229,28 @@ const tl = gsap.timeline({
         trigger: ".scroll-content",
         start: "top top",
         end: "bottom bottom",
-        scrub: 1, // Smooth scrubbing
+        scrub: reducedMotion ? 0 : 1.2,
     }
 });
 
 // Animate Camera Z position
 tl.to(camera.position, {
-    z: -350, // Move deep into the library
+    z: -350,
     ease: "none"
-});
-
-// Animate Camera Y position slightly for dynamic feel
-tl.to(camera.position, {
-    y: 3,
-    ease: "power1.inOut"
-}, "<0.5"); // Start halfway through
+}, 0)
+.to(camera.position, {
+    keyframes: [
+        { x: -2.2, y: 6.4 },
+        { x: 2.7, y: 4.2 },
+        { x: -1.8, y: 7.2 },
+        { x: 0, y: 4.8 }
+    ],
+    ease: "sine.inOut"
+}, 0)
+.to(libraryGroup.rotation, {
+    y: Math.PI * 0.08,
+    ease: "sine.inOut"
+}, 0);
 
 // Parallax for HTML UI elements
 const parallaxElements = document.querySelectorAll('.parallax-element');
@@ -184,11 +261,17 @@ parallaxElements.forEach((el) => {
     gsap.fromTo(el, 
         { 
             y: 100, 
-            opacity: 0 
+            opacity: 0,
+            rotateX: 8,
+            rotateY: el.classList.contains('left') ? -7 : 7,
+            scale: 0.94
         },
         {
             y: -50 * speed,
             opacity: 1,
+            rotateX: 0,
+            rotateY: 0,
+            scale: 1,
             ease: "none",
             scrollTrigger: {
                 trigger: el,

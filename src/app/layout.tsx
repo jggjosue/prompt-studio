@@ -141,7 +141,6 @@ export default async function RootLayout({
                 defaultTheme="dark"
                 forcedTheme="dark"
                 enableSystem={false}
-                disableTransitionOnChange
               >
                 {children}
                 <CustomCursorLoader />

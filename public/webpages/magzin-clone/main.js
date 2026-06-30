@@ -23,6 +23,9 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.outputEncoding = THREE.sRGBEncoding;
+
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // 2. Lighting
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -85,7 +88,7 @@ for (let i = 0; i < 25; i++) {
         scale = 0.5;
     }
 
-    const mesh = new THREE.Mesh(material, geometry);
+    const mesh = new THREE.Mesh(geometry, material);
     mesh.scale.set(scale, scale, scale);
     
     // Spread objects across the scrollable area
@@ -108,6 +111,49 @@ for (let i = 0; i < 25; i++) {
         originalRot: mesh.rotation.clone()
     });
 }
+
+// Editorial frames form a gallery tunnel through the entire page.
+const frameGroup = new THREE.Group();
+const frameMaterial = new THREE.MeshBasicMaterial({
+    color: 0xd4af37,
+    transparent: true,
+    opacity: 0.22,
+    blending: THREE.AdditiveBlending
+});
+for (let i = 0; i < 14; i++) {
+    const frame = new THREE.Mesh(
+        new THREE.TorusGeometry(4.8 + (i % 3) * 0.35, 0.025, 6, 96),
+        frameMaterial.clone()
+    );
+    frame.scale.y = 1.25;
+    frame.position.set((i % 2 ? 1 : -1) * 0.5, 1 - i * 2.6, -2 - i * 1.4);
+    frame.rotation.z = i * 0.11;
+    frameGroup.add(frame);
+}
+scene.add(frameGroup);
+
+// Fine gold dust gives the black background a premium physical texture.
+const dustCount = reducedMotion ? 300 : 1000;
+const dustPositions = new Float32Array(dustCount * 3);
+for (let i = 0; i < dustCount; i++) {
+    dustPositions[i * 3] = (Math.random() - 0.5) * 22;
+    dustPositions[i * 3 + 1] = 8 - Math.random() * 38;
+    dustPositions[i * 3 + 2] = -Math.random() * 18;
+}
+const dustGeometry = new THREE.BufferGeometry();
+dustGeometry.setAttribute('position', new THREE.BufferAttribute(dustPositions, 3));
+const dust = new THREE.Points(
+    dustGeometry,
+    new THREE.PointsMaterial({
+        color: 0xd4af37,
+        size: 0.035,
+        transparent: true,
+        opacity: 0.65,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending
+    })
+);
+scene.add(dust);
 
 // 4. Animation Loop
 const clock = new THREE.Clock();
@@ -138,6 +184,11 @@ const tick = () => {
         obj.mesh.rotation.x = obj.originalRot.x + Math.sin(elapsedTime * 0.2 + i) * 0.05;
         obj.mesh.rotation.y = obj.originalRot.y + Math.cos(elapsedTime * 0.1 + i) * 0.05;
     });
+    frameGroup.children.forEach((frame, index) => {
+        frame.rotation.z += (index % 2 ? -1 : 1) * (reducedMotion ? 0.0001 : 0.0008);
+        frame.material.opacity = 0.16 + Math.sin(elapsedTime + index) * 0.07;
+    });
+    dust.rotation.y = elapsedTime * 0.008;
 
     renderer.render(scene, camera);
     window.requestAnimationFrame(tick);
@@ -171,14 +222,24 @@ const tl = gsap.timeline({
         trigger: "body",
         start: "top top",
         end: "bottom bottom",
-        scrub: 1.5 // Smooth scrubbing
+        scrub: reducedMotion ? 0 : 1.5
     }
 });
 
 tl.to(camera.position, {
-    y: -15, // Move camera down through the scene
-    z: 2,
+    y: -16,
+    z: 1.5,
     ease: "power1.inOut"
+}, 0);
+
+tl.to(camera.position, {
+    keyframes: [
+        { x: 1.8 },
+        { x: -2.4 },
+        { x: 1.2 },
+        { x: 0 }
+    ],
+    ease: "sine.inOut"
 }, 0);
 
 tl.to(group.rotation, {
@@ -187,19 +248,55 @@ tl.to(group.rotation, {
     ease: "power1.inOut"
 }, 0);
 
+tl.to(frameGroup.rotation, {
+    y: -Math.PI * 0.22,
+    x: Math.PI * 0.04,
+    ease: "sine.inOut"
+}, 0);
+
 // Specific section animations (e.g., reveal cards)
 gsap.utils.toArray('.editorial-card').forEach((card, i) => {
-    gsap.from(card, {
+    gsap.fromTo(card, {
+        y: 90,
+        opacity: 0,
+        rotateX: 14,
+        rotateY: i % 2 ? -12 : 12,
+        z: -100,
+        scale: 0.9
+    }, {
         scrollTrigger: {
             trigger: card,
             start: "top 80%",
+            end: "top 45%",
+            scrub: reducedMotion ? false : 0.8
         },
-        y: 50,
-        opacity: 0,
-        duration: 0.8,
-        delay: i * 0.1,
+        y: 0,
+        opacity: 1,
+        rotateX: 0,
+        rotateY: 0,
+        z: 0,
+        scale: 1,
         ease: "power2.out"
     });
+});
+
+gsap.fromTo('.subscription-box', {
+    opacity: 0,
+    rotateX: 12,
+    z: -140,
+    scale: 0.88
+}, {
+    opacity: 1,
+    rotateX: 0,
+    z: 0,
+    scale: 1,
+    ease: 'power2.out',
+    scrollTrigger: {
+        trigger: '.subscription-box',
+        start: 'top 88%',
+        end: 'top 52%',
+        scrub: reducedMotion ? false : 0.8
+    }
 });
 
 // Resize handler

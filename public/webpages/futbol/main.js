@@ -12,6 +12,11 @@ camera.position.set(0, 5, 50);
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.outputEncoding = THREE.sRGBEncoding;
+
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const pointerTarget = new THREE.Vector2();
+const pointerCurrent = new THREE.Vector2();
 
 // --- 3D Objects ---
 
@@ -71,16 +76,48 @@ createLightTower(-30, 20);
 createLightTower(30, 20);
 scene.add(lightGroup);
 
+// Stadium rings create a visible arena silhouette around the pitch.
+const stadiumGroup = new THREE.Group();
+for (let level = 0; level < 5; level++) {
+    const ring = new THREE.Mesh(
+        new THREE.TorusGeometry(38 + level * 3.4, 0.16, 8, 128),
+        new THREE.MeshBasicMaterial({
+            color: level % 2 ? 0x00ff88 : 0xffffff,
+            transparent: true,
+            opacity: 0.12 + level * 0.025,
+            blending: THREE.AdditiveBlending
+        })
+    );
+    ring.rotation.x = Math.PI / 2;
+    ring.position.y = 3 + level * 2.8;
+    stadiumGroup.add(ring);
+}
+scene.add(stadiumGroup);
+
+// Abstract goals anchor both ends of the virtual field.
+function createGoal(z, rotationY) {
+    const goal = new THREE.Group();
+    const material = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, transparent: true, opacity: 0.4 });
+    const frame = new THREE.Mesh(new THREE.BoxGeometry(14, 6, 0.25), material);
+    frame.position.y = 1;
+    goal.add(frame);
+    goal.position.z = z;
+    goal.rotation.y = rotationY;
+    scene.add(goal);
+    return goal;
+}
+const goals = [createGoal(-48, 0), createGoal(48, Math.PI)];
+
 // Ambient Light
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 scene.add(ambientLight);
 
 // 4. Particles (Fans / Atmosphere)
 const particlesGeometry = new THREE.BufferGeometry();
-const particlesCount = 2000;
+const particlesCount = reducedMotion ? 700 : 2200;
 const posArray = new Float32Array(particlesCount * 3);
 
-for(let i = 0; i < particlesCount * 3; i++) {
+for(let i = 0; i < particlesCount; i++) {
     // Distribute particles mainly on the sides (stands)
     const x = (Math.random() - 0.5) * 150;
     const y = Math.random() * 50;
@@ -108,6 +145,34 @@ const particlesMaterial = new THREE.PointsMaterial({
 const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
 scene.add(particlesMesh);
 
+// Bright trails sweep through the arena like match-day light ribbons.
+const trails = [];
+for (let i = 0; i < 7; i++) {
+    const curve = new THREE.CatmullRomCurve3([
+        new THREE.Vector3(-35, 5 + i * 1.1, 35),
+        new THREE.Vector3((i - 3) * 3, 13 + i, 4),
+        new THREE.Vector3(35, 4 + i * 0.8, -40)
+    ]);
+    const trail = new THREE.Mesh(
+        new THREE.TubeGeometry(curve, 80, 0.025 + i * 0.006, 6, false),
+        new THREE.MeshBasicMaterial({
+            color: i % 2 ? 0x00ff88 : 0xff4444,
+            transparent: true,
+            opacity: 0.3,
+            blending: THREE.AdditiveBlending
+        })
+    );
+    scene.add(trail);
+    trails.push(trail);
+}
+
+window.addEventListener('pointermove', (event) => {
+    pointerTarget.set(
+        (event.clientX / window.innerWidth - 0.5) * 2,
+        (event.clientY / window.innerHeight - 0.5) * 2
+    );
+}, { passive: true });
+
 // --- Animation Loop ---
 const clock = new THREE.Clock();
 
@@ -125,6 +190,16 @@ function animate() {
 
     // Slowly rotate particles
     particlesMesh.rotation.y = elapsedTime * 0.05;
+    pointerCurrent.lerp(pointerTarget, reducedMotion ? 0.02 : 0.06);
+    stadiumGroup.rotation.y = elapsedTime * (reducedMotion ? 0.002 : 0.012);
+    trails.forEach((trail, index) => {
+        trail.material.opacity = 0.2 + Math.sin(elapsedTime * 1.4 + index) * 0.12;
+    });
+    goals.forEach((goal, index) => {
+        goal.position.y = Math.sin(elapsedTime * 0.8 + index * Math.PI) * 0.2;
+    });
+    camera.rotation.z += ((-pointerCurrent.x * 0.012) - camera.rotation.z) * 0.04;
+    camera.rotation.x += ((pointerCurrent.y * 0.018) - camera.rotation.x) * 0.04;
 
     renderer.render(scene, camera);
 }
@@ -146,15 +221,24 @@ const tl = gsap.timeline({
         trigger: "body",
         start: "top top",
         end: "bottom bottom",
-        scrub: 1, // Smooth scrubbing
+        scrub: reducedMotion ? 0 : 1.15,
     }
 });
 
 // Camera moves forward into the stadium
 tl.to(camera.position, {
-    z: -30, // move past the ball
-    y: 2,
+    z: -42,
     ease: "power1.inOut"
+}, 0);
+
+tl.to(camera.position, {
+    keyframes: [
+        { x: -8, y: 8 },
+        { x: 9, y: 3 },
+        { x: -6, y: 11 },
+        { x: 0, y: 4 }
+    ],
+    ease: "sine.inOut"
 }, 0);
 
 // Camera looks around slightly
@@ -194,6 +278,29 @@ parallaxElements.forEach(el => {
             start: "top bottom",
             end: "bottom top",
             scrub: true
+        }
+    });
+});
+
+document.querySelectorAll('.glass-card').forEach((card, index) => {
+    gsap.fromTo(card, {
+        opacity: 0,
+        rotateX: 12,
+        rotateY: index % 2 ? -10 : 10,
+        z: -90,
+        scale: 0.92
+    }, {
+        opacity: 1,
+        rotateX: 0,
+        rotateY: 0,
+        z: 0,
+        scale: 1,
+        ease: "power2.out",
+        scrollTrigger: {
+            trigger: card,
+            start: "top 88%",
+            end: "top 48%",
+            scrub: reducedMotion ? false : 0.8
         }
     });
 });

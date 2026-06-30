@@ -11,6 +11,9 @@ import { getPlaceholderVideos } from '@/lib/placeholder-videos';
 import { Bot, Clapperboard, Lightbulb } from 'lucide-react';
 import { getLocale, getTranslations } from 'next-intl/server';
 import { Suspense } from 'react';
+
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   const t = await getTranslations('home');
   const locale = await getLocale();
@@ -75,7 +78,26 @@ export default async function Home() {
         <Header />
       </Suspense>
       <main className="flex-1 overflow-x-hidden">
-        <GlowyWavesHero />
+        <GlowyWavesHero
+          copy={{
+            ariaLabel: t('heroAriaLabel'),
+            headlinePrefix: t('heroHeadlinePrefix'),
+            headlineAccent: t('heroHeadlineAccent'),
+            description: t('heroDescription'),
+            explore: t('heroExplore'),
+            generate: t('heroGenerate'),
+            pills: [
+              t('heroPills.images'),
+              t('heroPills.videos'),
+              t('heroPills.webPages'),
+            ],
+            stats: [
+              { label: t('heroStats.community'), value: '10k+' },
+              { label: t('heroStats.models'), value: '25+' },
+              { label: t('heroStats.generations'), value: '50k+' },
+            ],
+          }}
+        />
         <Scroll3D direction="right">
           <section id="testimonials" className="w-full py-16 md:py-24 border-y border-zinc-900 bg-background">
             <div className="container px-4 md:px-6">
@@ -176,4 +198,3 @@ export default async function Home() {
     </div>
   );
 }
-

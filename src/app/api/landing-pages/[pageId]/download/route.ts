@@ -30,7 +30,7 @@ export async function GET(
     );
   }
 
-  const isFree = page.membership === 'Free';
+  const isFree = page.membership?.trim().toLowerCase() === 'free';
   const subscription = await getServerSubscriptionStatus();
   
   const canDownload = 

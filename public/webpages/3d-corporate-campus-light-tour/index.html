@@ -14,7 +14,7 @@
       }
     }
   </script>
-  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -289,31 +289,214 @@
 
   <script type="module" src="app.js"></script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
+
+
+
+<div style="position:fixed;right:20px;bottom:20px;z-index:99999;display:flex;align-items:center;gap:12px;background:#0d0d0d;padding:8px;border-radius:24px;border:1px solid #262626;box-shadow:0 16px 40px rgba(0,0,0,0.5)">
+  <a
+    href="#"
+    data-prompt-trigger
+    aria-label="Ver prompt"
+    style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:1px solid #3b82f6;border-radius:16px;background:rgba(59,130,246,0.1);color:#60a5fa;font:500 14px/1 system-ui,sans-serif;text-decoration:none;transition:all 0.2s"
+    onmouseover="this.style.background='rgba(59,130,246,0.2)'"
+    onmouseout="this.style.background='rgba(59,130,246,0.1)'"
   >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
-        } else {
-          window.location.href = '/sign-in';
-        }
-      };
-    }
-  </script>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+    Ver prompt
+  </a>
+  <a
+    href="/api/landing-pages/281/download"
+    data-free-download-trigger
+    aria-label="Descargar 3D Light Mode Corporate Campus Tour with Explanatory Videos"
+    style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:1px solid transparent;border-radius:16px;background:#1a1a1a;color:#d4d4d8;font:500 14px/1 system-ui,sans-serif;text-decoration:none;transition:all 0.2s"
+    onmouseover="this.style.background='#27272a';this.style.color='#fff'"
+    onmouseout="this.style.background='#1a1a1a';this.style.color='#d4d4d8'"
+  >
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+    Descargar
+  </a>
 </div>
 
+<div data-free-download-modal hidden style="position:fixed;inset:0;z-index:100000;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.78);backdrop-filter:blur(8px)">
+  <div role="dialog" aria-modal="true" aria-labelledby="free-download-title" style="position:relative;width:min(620px,100%);border:1px solid #303030;border-radius:24px;background:#050505;padding:clamp(28px,5vw,48px);color:#fff;box-shadow:0 30px 100px rgba(0,0,0,.7);font-family:system-ui,sans-serif">
+    <button type="button" data-free-download-close aria-label="Cerrar" style="position:absolute;right:22px;top:18px;border:0;background:transparent;color:#aaa;font-size:34px;cursor:pointer">&times;</button>
+    <h2 id="free-download-title" style="margin:0 0 10px;font-size:clamp(28px,5vw,38px);line-height:1.1">Descargar componente</h2>
+    <p style="margin:0 0 28px;color:#aaa;font-size:clamp(17px,3vw,22px);line-height:1.5">Ingresa tu correo electrónico para comenzar la descarga gratuita.</p>
+    <form data-free-download-form>
+      <input data-free-download-email type="email" required autocomplete="email" placeholder="tu-correo@ejemplo.com" style="width:100%;height:58px;border:2px solid #2563eb;border-radius:16px;background:#050505;padding:0 18px;color:#fff;font-size:18px;outline:none;box-shadow:0 0 0 5px rgba(37,99,235,.28)">
+      <label style="display:flex;align-items:flex-start;gap:12px;margin:26px 6px;color:#aaa;font-size:17px;line-height:1.4">
+        <input data-free-download-terms type="checkbox" required style="width:23px;height:23px;margin:0;accent-color:#2563eb">
+        <span>Acepto los <a href="/terms" target="_blank" rel="noopener noreferrer" style="color:#60a5fa">términos y servicios</a></span>
+      </label>
+      <button data-free-download-submit type="submit" disabled style="width:100%;height:58px;border:0;border-radius:16px;background:#1e3a8a;color:#9ca3af;font-size:18px;font-weight:700;cursor:not-allowed">Descargar ahora</button>
+      <p data-free-download-error role="alert" style="min-height:20px;margin:14px 0 0;color:#f87171"></p>
+    </form>
+  </div>
+</div>
+
+<div data-prompt-display-modal hidden style="position:fixed;inset:0;z-index:100000;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.78);backdrop-filter:blur(8px)">
+  <div role="dialog" aria-modal="true" style="position:relative;width:min(800px,100%);max-height:85vh;display:flex;flex-direction:column;border:1px solid #303030;border-radius:24px;background:#050505;padding:clamp(28px,5vw,48px);color:#fff;box-shadow:0 30px 100px rgba(0,0,0,.7);font-family:system-ui,sans-serif">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+      <h2 style="margin:0;font-size:clamp(24px,4vw,32px);line-height:1.1">3D Light Mode Corporate Campus Tour with Explanatory Videos</h2>
+      <div style="display:flex;gap:12px;">
+        <button data-prompt-copy type="button" style="padding:8px 16px;border:1px solid #303030;border-radius:8px;background:#1a1a1a;color:#fff;font-size:14px;cursor:pointer;transition:all 0.2s">Copiar prompt</button>
+        <button data-prompt-close type="button" aria-label="Cerrar" style="width:36px;height:36px;border:0;background:transparent;color:#aaa;font-size:28px;cursor:pointer;line-height:1;padding:0;display:flex;align-items:center;justify-content:center;">&times;</button>
+      </div>
+    </div>
+    <div style="flex-grow:1;overflow-y:auto;padding-right:10px;border-radius:8px;background:#111;border:1px solid #222;">
+      <pre data-prompt-content style="margin:0;padding:20px;white-space:pre-wrap;font-family:monospace;font-size:14px;color:#ccc;line-height:1.6">Build a light mode 3D corporate campus tour with a luminous minimal palette, pale gold and sky blue accents, and soft global HDRI daylight illumination. The GLB campus model is segmented by semantic zones: lobby, auditorium, lab, terrace, cafeteria. Each zone has a translucent spherical 3D hotspot with subtle border and projected shadow. Camera starts in a wide aerial view with a floating "Start tour" button.
+
+**Deliverables:** index.html, styles.css, app.js, assets/ folder with GLB models, HDR textures, MP4 videos, SRT subtitles.
+
+**Stack:** Three.js (CDN), GSAP for transitions, HTML5 video as textures, Draco for GLB compression, IntersectionObserver for lazy-load.
+
+**Description:** A bright, minimal 3D tour of a corporate headquarters with 5 semantic zones. Clicking a hotspot triggers a cinematic fly-to (GSAP, 800-1200ms) and loads an explanatory video in a semi-transparent white overlay panel with rounded corners. Video includes synchronized SRT subtitles and a toggle between 3D texture projection and HTML overlay. Animated metrics appear on the hotspot during playback.
+
+**Interactions:** Drag to rotate, scroll/pinch to zoom, number keys 1-5 for predefined views. Auto-tour mode with voiceover and chapter markers. Progressive video loading (WebP thumbnails, 720p H.264, 480p fallback). LOD for buildings, culling for vegetation.
+
+**Accessibility &amp; fallback:** SRT subtitles, downloadable transcript, role="dialog" on video panel, prefers-reduced-motion reduces fly-to. 2D fallback with hero video and chapters.</pre>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const storageKey = 'prompt_studio_free_email_saved';
+  const downloadTrigger = document.querySelector('[data-free-download-trigger]');
+  const promptTrigger = document.querySelector('[data-prompt-trigger]');
+  
+  const authModal = document.querySelector('[data-free-download-modal]');
+  const closeAuth = authModal?.querySelector('[data-free-download-close]');
+  const form = authModal?.querySelector('[data-free-download-form]');
+  const email = authModal?.querySelector('[data-free-download-email]');
+  const terms = authModal?.querySelector('[data-free-download-terms]');
+  const submit = authModal?.querySelector('[data-free-download-submit]');
+  const error = authModal?.querySelector('[data-free-download-error]');
+  const title = authModal?.querySelector('#free-download-title');
+
+  const promptModal = document.querySelector('[data-prompt-display-modal]');
+  const closePrompt = promptModal?.querySelector('[data-prompt-close]');
+  const copyPromptBtn = promptModal?.querySelector('[data-prompt-copy]');
+  
+  let currentAction = 'download';
+  const downloadUrl = downloadTrigger?.href || '';
+
+  const startDownload = () => {
+    if (!downloadUrl || downloadUrl === '#') return;
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.download = '';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  };
+
+  const showPrompt = () => {
+    if (!promptModal) return;
+    promptModal.hidden = false;
+    promptModal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  };
+
+  const setAuthOpen = (open) => {
+    if (!authModal) return;
+    authModal.hidden = !open;
+    authModal.style.display = open ? 'flex' : 'none';
+    document.body.style.overflow = open ? 'hidden' : '';
+    if (open) setTimeout(() => email?.focus(), 0);
+  };
+  
+  const syncSubmit = () => {
+    const enabled = Boolean(email?.validity.valid && terms?.checked);
+    if (!submit) return;
+    submit.disabled = !enabled;
+    submit.style.background = enabled ? '#2563eb' : '#1e3a8a';
+    submit.style.color = enabled ? '#fff' : '#9ca3af';
+    submit.style.cursor = enabled ? 'pointer' : 'not-allowed';
+  };
+
+  downloadTrigger?.addEventListener('click', (event) => {
+    event.preventDefault();
+    currentAction = 'download';
+    if (title) title.textContent = 'Descargar componente';
+    if (submit) submit.textContent = 'Descargar ahora';
+    if (localStorage.getItem(storageKey)) startDownload();
+    else setAuthOpen(true);
+  });
+
+  promptTrigger?.addEventListener('click', (event) => {
+    event.preventDefault();
+    currentAction = 'prompt';
+    if (title) title.textContent = 'Ver prompt';
+    if (submit) submit.textContent = 'Ver prompt ahora';
+    if (localStorage.getItem(storageKey)) showPrompt();
+    else setAuthOpen(true);
+  });
+
+  closeAuth?.addEventListener('click', () => setAuthOpen(false));
+  authModal?.addEventListener('click', (event) => {
+    if (event.target === authModal) setAuthOpen(false);
+  });
+  
+  closePrompt?.addEventListener('click', () => {
+    promptModal.hidden = true;
+    promptModal.style.display = 'none';
+    document.body.style.overflow = '';
+  });
+  promptModal?.addEventListener('click', (event) => {
+    if (event.target === promptModal) {
+      promptModal.hidden = true;
+      promptModal.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+  });
+  
+  if (copyPromptBtn) {
+    copyPromptBtn.addEventListener('click', () => {
+      const text = document.querySelector('[data-prompt-content]')?.textContent || '';
+      navigator.clipboard.writeText(text).then(() => {
+        const originalText = copyPromptBtn.textContent;
+        copyPromptBtn.textContent = '¡Copiado!';
+        setTimeout(() => copyPromptBtn.textContent = originalText, 2000);
+      });
+    });
+  }
+
+  email?.addEventListener('input', syncSubmit);
+  terms?.addEventListener('change', syncSubmit);
+  
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    syncSubmit();
+    if (!email?.validity.valid || !terms?.checked || !submit) return;
+    submit.disabled = true;
+    submit.textContent = 'Procesando...';
+    if (error) error.textContent = '';
+    try {
+      const response = await fetch('/api/new-users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.value.trim() })
+      });
+      if (!response.ok) throw new Error('No fue posible registrar el correo.');
+      localStorage.setItem(storageKey, 'true');
+      localStorage.setItem('prompt_studio_free_email', email.value.trim());
+      setAuthOpen(false);
+      
+      if (currentAction === 'download') {
+        startDownload();
+      } else {
+        showPrompt();
+      }
+    } catch (requestError) {
+      if (error) error.textContent = requestError instanceof Error ? requestError.message : 'Error de conexión.';
+      submit.textContent = currentAction === 'download' ? 'Descargar ahora' : 'Ver prompt ahora';
+      syncSubmit();
+    } finally {
+      syncSubmit();
+    }
+  });
+})();
+</script>
 </body>
 </html>

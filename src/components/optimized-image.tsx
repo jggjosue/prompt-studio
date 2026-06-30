@@ -31,6 +31,8 @@ export function OptimizedImage({
   priority,
   lazyAdaptive,
   fill,
+  width,
+  height,
   className,
   onLoad,
   onError,
@@ -57,6 +59,10 @@ export function OptimizedImage({
   });
 
   const shouldLoad = !useAdaptiveLazy || isNearView;
+  const fallbackDimensions =
+    !fill && width == null && height == null
+      ? { width: 1200, height: 900 }
+      : { width, height };
 
   useEffect(() => {
     setIsReady(false);
@@ -70,6 +76,8 @@ export function OptimizedImage({
           {...props}
           src={src}
           fill={fill}
+          width={fallbackDimensions.width}
+          height={fallbackDimensions.height}
           priority={priority}
           loading={priority ? undefined : 'lazy'}
           quality={quality}

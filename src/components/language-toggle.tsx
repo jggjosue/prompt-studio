@@ -9,7 +9,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { setLocaleCookie } from '@/lib/locale';
 import { useLocale, useTranslations } from 'next-intl';
-import { useRouter } from 'next/navigation';
 import type { Locale } from '@/i18n/config';
 
 const localeOptions: Array<{ value: Locale; labelKey: 'english' | 'spanish' }> = [
@@ -54,12 +53,12 @@ function CheckIcon({ className }: { className?: string }) {
 export function LanguageToggle() {
   const locale = useLocale() as Locale;
   const t = useTranslations('language');
-  const router = useRouter();
 
   const switchLocale = (nextLocale: Locale) => {
     if (nextLocale === locale) return;
     setLocaleCookie(nextLocale);
-    router.refresh();
+    // A full navigation keeps the HTML and RSC payload on the same locale.
+    window.location.reload();
   };
 
   return (
