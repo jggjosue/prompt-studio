@@ -69,7 +69,7 @@ const PRECACHE_URLS = ['/offline.html'];
 const NO_CACHE_HOSTS = [
   'clerk.com',
   'clerk.accounts.dev',
-  'clerk.promptstudio.com',
+  'clerk.prompstudio.com',
   'googletagmanager.com',
   'google-analytics.com',
   'googlesyndication.com',
@@ -119,7 +119,7 @@ async function staleWhileRevalidate(request, cacheName) {
 
   if (cached) {
     touchLru(cacheName, request.url);
-    networkFetch.catch(() => {});
+    networkFetch.catch(() => { });
     return cached;
   }
 

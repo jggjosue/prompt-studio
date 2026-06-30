@@ -10,8 +10,8 @@ const navLinks = [
   { label: 'Marketplace', href: '/landing-pages' },
   { label: 'Membership', href: '/prices' },
   { label: 'Affiliate', href: '/affiliate-program' },
-  { label: 'Terms of Use', href: 'https://promptstudio.com/terms' },
-  { label: 'Privacy Policy', href: 'https://promptstudio.com/privacy' },
+  { label: 'Terms of Use', href: 'https://prompstudio.com/terms' },
+  { label: 'Privacy Policy', href: 'https://prompstudio.com/privacy' },
   { label: 'Contact', href: '#contact' },
 ];
 

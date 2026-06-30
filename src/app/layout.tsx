@@ -14,7 +14,7 @@ import { getLocale, getMessages } from 'next-intl/server';
 import Script from 'next/script';
 
 const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.prompstudio.com'
+  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://prompstudio.com'
 ).replace(/\/$/, '');
 
 export const metadata: Metadata = {
@@ -115,42 +115,42 @@ export default async function RootLayout({
       </head>
       <body className={`${firaSans.className} font-body antialiased bg-black`} suppressHydrationWarning>
         <ClerkProvider {...clerkProviderProps}>
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7082864972330769"
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-8S22HHJK76"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
+          <Script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7082864972330769"
+            crossOrigin="anonymous"
+            strategy="afterInteractive"
+          />
+          <Script
+            src="https://www.googletagmanager.com/gtag/js?id=G-8S22HHJK76"
+            strategy="afterInteractive"
+          />
+          <Script id="google-analytics" strategy="afterInteractive">
+            {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
 
             gtag('config', 'G-8S22HHJK76');
           `}
-        </Script>
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          <SubscriptionStatusProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            forcedTheme="dark"
-            enableSystem={false}
-            disableTransitionOnChange
-          >
-            {children}
-            <CustomCursorLoader />
-            <Toaster />
-            <SiteAnalytics />
-            <ServiceWorkerRegister />
-          </ThemeProvider>
-          </SubscriptionStatusProvider>
-        </NextIntlClientProvider>
+          </Script>
+          <NextIntlClientProvider locale={locale} messages={messages}>
+            <SubscriptionStatusProvider>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="dark"
+                forcedTheme="dark"
+                enableSystem={false}
+                disableTransitionOnChange
+              >
+                {children}
+                <CustomCursorLoader />
+                <Toaster />
+                <SiteAnalytics />
+                <ServiceWorkerRegister />
+              </ThemeProvider>
+            </SubscriptionStatusProvider>
+          </NextIntlClientProvider>
         </ClerkProvider>
       </body>
     </html>

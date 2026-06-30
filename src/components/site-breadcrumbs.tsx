@@ -22,7 +22,7 @@ export function SiteBreadcrumbs({ pathname, className }: SiteBreadcrumbsProps) {
 
   if (trail.length === 0) return null;
 
-  const siteOrigin = 'https://www.prompstudio.com';
+  const siteOrigin = 'https://prompstudio.com';
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',

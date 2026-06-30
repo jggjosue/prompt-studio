@@ -20,6 +20,10 @@
     "copy": "Copy",
     "copied": "Copied!",
     "copyPrompt": "Copy prompt",
+    "copyFailed": "Could not copy",
+    "copyFailedDescription": "Try selecting the text manually.",
+    "copied": "Copied",
+    "copiedDescription": "Prompt copied to the clipboard.",
     "back": "Back",
     "search": "Search",
     "noResults": "No results found.",
@@ -36,7 +40,17 @@
     "perYear": "/year",
     "forever": "/forever",
     "buy": "Buy",
-    "buyTooltip": "To download the web page files"
+    "buyTooltip": "To download the web page files",
+    "emailPlaceholder": "you@email.com",
+    "acceptTerms": "I accept the",
+    "termsAndServices": "terms and services",
+    "processing": "Processing...",
+    "invalidEmail": "Invalid email",
+    "invalidEmailDescription": "Please enter a valid email address.",
+    "error": "Error",
+    "connectionError": "There was a connection problem. Please try again.",
+    "previousTestimonial": "Previous testimonial",
+    "nextTestimonial": "Next testimonial"
   },
   "internalLinks": {
     "hubTitle": "Explore the prompt library",
@@ -51,6 +65,8 @@
   },
   "nav": {
     "home": "Home",
+    "marketplace": "Marketplace",
+    "affiliateProgram": "Affiliate",
     "editor": "Studio",
     "library": "Prompts",
     "libraryDesc": "Browse all AI prompts",
@@ -101,9 +117,26 @@
     "privacyPolicy": "Privacy Policy",
     "affiliateProgram": "Affiliate",
     "affiliateTerms": "Affiliate Program Terms",
-    "affiliateDisclosure": "Affiliate Disclosure: Some of the links on this website are affiliate links. This means if you click on the link and purchase the item, we may receive an affiliate commission at no extra cost to you."
+    "affiliateDisclosure": "Affiliate Disclosure: Some of the links on this website are affiliate links. This means if you click on the link and purchase the item, we may receive an affiliate commission at no extra cost to you.",
+    "openSocial": "Open {network}"
   },
   "home": {
+    "heroAriaLabel": "Prompt Studio hero section",
+    "heroHeadlinePrefix": "Unlimited AI",
+    "heroHeadlineAccent": "creative prompts",
+    "heroDescription": "Discover thousands of community-curated prompts for AI image, video, and web generation. Create stunning visuals, responsive web components, and dynamic animations in seconds.",
+    "heroExplore": "Explore prompts",
+    "heroGenerate": "Generate UI",
+    "heroPills": {
+      "images": "Images",
+      "videos": "Videos",
+      "webPages": "Web pages"
+    },
+    "heroStats": {
+      "community": "Community prompts",
+      "models": "Supported models",
+      "generations": "Daily generations"
+    },
     "heroTitle": "Generate Your Next Vision",
     "heroSubtitle": "Unleash your creativity with our AI-powered prompt generator. Type in your ideas and watch them come to life.",
     "videoExamplesTitle": "Video Examples",
@@ -140,9 +173,56 @@
       "A high-speed chase with hovercrafts through a dense asteroid field, sci-fi, action"
     ]
   },
+  "landingPages": {
+    "title": "Landing Page Prompts",
+    "subtitle": "Prompts and live HTML demos for SaaS landing pages, including dark, light, Next.js, and developer-tool variants.",
+    "searchPlaceholder": "Search by title, tag, or stack…",
+    "noResults": "No results found",
+    "resultsCount": "{count, plural, one {# result} other {# results}}",
+    "forQuery": "for \"{query}\"",
+    "tagLabel": "tag",
+    "stackLabel": "stack",
+    "noMatchingPages": "No pages match your search.",
+    "clearSearch": "Clear search",
+    "viewLanding": "View landing",
+    "open": "Open",
+    "promptOnly": "Prompt only",
+    "viewPrompt": "View prompt",
+    "unlockPromptDescription": "Enter your email address to unlock this free prompt.",
+    "viewPromptNow": "View prompt now",
+    "copyPrompt": "Copy prompt",
+    "usePrompt": "Use prompt",
+    "download": "Download",
+    "downloadComponent": "Download component",
+    "downloadDescription": "Enter your email address to start the free download.",
+    "downloadNow": "Download now",
+    "downloadStarted": "Download started!",
+    "downloadStartedDescription": "Your file is downloading.",
+    "openDemo": "Open demo",
+    "buyNow": "Buy now",
+    "allLandingPages": "All landing pages",
+    "free": "Free",
+    "relatedTemplates": "Related templates",
+    "moreTemplates": "More {category} templates",
+    "viewCategory": "View category",
+    "notFoundTitle": "Landing page not found",
+    "notFoundDescription": "This landing page prompt is not available.",
+    "detailSeoTitle": "{title} | {category} Landing Page Prompt",
+    "homeLabel": "Home",
+    "landingPagesLabel": "Landing pages",
+    "facetGroups": {
+      "pageType": "Page type",
+      "styleTheme": "Style and theme",
+      "industryUseCase": "Industry and use case",
+      "techStack": "Tech stack",
+      "membership": "Membership",
+      "popularTags": "Popular tags"
+    }
+  },
   "faq": {
     "title": "Frequently Asked Questions",
     "subtitle": "Everything you need to know about AI video and image prompts",
+    "questionLabel": "Question",
     "items": [
       {
         "question": "What is Prompt Studio?",
@@ -166,7 +246,7 @@
       },
       {
         "question": "How do I contact support?",
-        "answer": "You can contact our support team by emailing support@promptstudio.com. We are always happy to help!"
+        "answer": "You can contact our support team by emailing support@prompstudio.com. We are always happy to help!"
       }
     ]
   },

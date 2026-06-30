@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import { ArrowLeft as FaArrowLeft, ArrowRight as FaArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslations } from "next-intl";
 
 interface Testimonial {
   quote: string;
@@ -53,6 +54,7 @@ export const CircularTestimonials = ({
   colors = {},
   fontSizes = {},
 }: CircularTestimonialsProps) => {
+  const t = useTranslations("common");
   // Color & font config
   const colorName = colors.name ?? "#000";
   const colorDesignation = colors.designation ?? "#6b7280";
@@ -272,7 +274,7 @@ export const CircularTestimonials = ({
               }}
               onMouseEnter={() => setHoverPrev(true)}
               onMouseLeave={() => setHoverPrev(false)}
-              aria-label="Previous testimonial"
+              aria-label={t("previousTestimonial")}
             >
               <FaArrowLeft size={20} color={colorArrowFg} />
             </button>
@@ -284,7 +286,7 @@ export const CircularTestimonials = ({
               }}
               onMouseEnter={() => setHoverNext(true)}
               onMouseLeave={() => setHoverNext(false)}
-              aria-label="Next testimonial"
+              aria-label={t("nextTestimonial")}
             >
               <FaArrowRight size={20} color={colorArrowFg} />
             </button>

@@ -192,15 +192,15 @@ function VideoTagsContent() {
             key={category.name}
             className={cn(
               'p-6 md:p-8',
-              index === 0 &&
+              index % 5 === 0 &&
                 'bg-blue-50/20 dark:bg-blue-950/20 border-blue-200/50 dark:border-blue-800/50',
-              index === 1 &&
+              index % 5 === 1 &&
                 'bg-green-50/20 dark:bg-green-950/20 border-green-200/50 dark:border-green-800/50',
-              index === 2 &&
-                'bg-blue-50/20 dark:bg-blue-950/20 border-blue-200/50 dark:border-blue-800/50',
-              index === 3 &&
+              index % 5 === 2 &&
+                'bg-purple-50/20 dark:bg-purple-950/20 border-purple-200/50 dark:border-purple-800/50',
+              index % 5 === 3 &&
                 'bg-red-50/20 dark:bg-red-950/20 border-red-200/50 dark:border-red-800/50',
-              index === 4 &&
+              index % 5 === 4 &&
                 'bg-yellow-50/20 dark:bg-yellow-950/20 border-yellow-200/50 dark:border-yellow-800/50'
             )}
           >
@@ -208,15 +208,15 @@ function VideoTagsContent() {
               <div
                 className={cn(
                   'p-2 rounded-full',
-                  index === 0 &&
+                  index % 5 === 0 &&
                     'bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300',
-                  index === 1 &&
+                  index % 5 === 1 &&
                     'bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300',
-                  index === 2 &&
-                    'bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300',
-                  index === 3 &&
+                  index % 5 === 2 &&
+                    'bg-purple-100 text-purple-700 dark:bg-purple-900/50 dark:text-purple-300',
+                  index % 5 === 3 &&
                     'bg-red-100 text-red-700 dark:bg-red-900/50 dark:text-red-300',
-                  index === 4 &&
+                  index % 5 === 4 &&
                     'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/50 dark:text-yellow-300'
                 )}
               >

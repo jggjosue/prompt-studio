@@ -7,7 +7,7 @@ import { notFound } from 'next/navigation';
 import GalleryVideoDetailClient from './gallery-video-detail-client';
 
 const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.prompstudio.com'
+  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://prompstudio.com'
 ).replace(/\/$/, '');
 
 type Props = {
@@ -62,63 +62,83 @@ export async function generateMetadata(
 }
 
 export default async function GalleryVideoDetailPage({ params }: Props) {
-    const { id } = await params;
-    const locale = await getLocale();
-    const item = getVideoById(id, locale);
+  const { id } = await params;
+  const locale = await getLocale();
+  const item = getVideoById(id, locale);
 
-    if (!item) {
-        notFound();
-    }
+  if (!item) {
+    notFound();
+  }
 
-    const canonical = `${SITE_URL}/gallery-videos/${id}`;
-    const description = promptDescription(item.description, item.title);
-    const productSchema = {
-      '@context': 'https://schema.org',
-      '@type': 'Product',
-      '@id': `${canonical}#product`,
-      name: item.title,
-      description,
-      image: [absoluteUrl(item.imageUrl)],
-      category: 'Video Prompt',
-      brand: {
-        '@type': 'Brand',
-        name: 'Prompt Studio',
+  const canonical = `${SITE_URL}/gallery-videos/${id}`;
+  const description = promptDescription(item.description, item.title);
+  const images = (await import('@/lib/placeholder-images')).getPlaceholderImages(locale);
+  const thumbnailItem = images.find(img => img.title === item.title);
+  const thumbnailUrl = thumbnailItem ? absoluteUrl(thumbnailItem.imageUrl) : `${SITE_URL}/og-image.png`;
+
+  const productSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    '@id': `${canonical}#product`,
+    name: item.title,
+    description,
+    image: [thumbnailUrl],
+    category: 'Video Prompt',
+    brand: {
+      '@type': 'Brand',
+      name: 'Prompt Studio',
+    },
+    offers: {
+      '@type': 'Offer',
+      url: canonical,
+      priceCurrency: 'USD',
+      price: '0.00',
+      availability: 'https://schema.org/InStock',
+      itemCondition: 'https://schema.org/NewCondition',
+    },
+  };
+
+  const videoSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'VideoObject',
+    name: item.title,
+    description,
+    thumbnailUrl: [thumbnailUrl],
+    uploadDate: new Date('2024-01-01').toISOString(),
+    contentUrl: absoluteUrl(item.imageUrl),
+    embedUrl: canonical,
+  };
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Video Prompts',
+        item: `${SITE_URL}/category/video-prompts`,
       },
-      offers: {
-        '@type': 'Offer',
-        url: canonical,
-        priceCurrency: 'USD',
-        price: '0.00',
-        availability: 'https://schema.org/InStock',
-        itemCondition: 'https://schema.org/NewCondition',
-      },
-    };
-    const breadcrumbSchema = {
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
-        {
-          '@type': 'ListItem',
-          position: 2,
-          name: 'Video Prompts',
-          item: `${SITE_URL}/category/video-prompts`,
-        },
-        { '@type': 'ListItem', position: 3, name: item.title, item: canonical },
-      ],
-    };
+      { '@type': 'ListItem', position: 3, name: item.title, item: canonical },
+    ],
+  };
 
-    return (
-      <>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: safeJsonLd(productSchema) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
-        />
-        <GalleryVideoDetailClient item={item} />
-      </>
-    );
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(productSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(videoSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
+      />
+      <GalleryVideoDetailClient item={item} />
+    </>
+  );
 }

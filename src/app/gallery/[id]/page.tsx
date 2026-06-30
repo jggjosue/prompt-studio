@@ -8,7 +8,7 @@ import { notFound } from 'next/navigation';
 import GalleryDetailClient from './gallery-detail-client';
 
 const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.prompstudio.com'
+  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://prompstudio.com'
 ).replace(/\/$/, '');
 
 type Props = {
@@ -44,13 +44,13 @@ export async function generateMetadata(
       title: 'Content Not Found | Prompt Studio',
       description: 'The content you are looking for could not be found.',
       keywords: [
-    'Chatgpt',
-    'AI Prompts',
-    'Video Prompts',
-    'Image Prompts',
-    'AI Video Generator',
-    'AI Image Generator',
-  ],
+        'Chatgpt',
+        'AI Prompts',
+        'Video Prompts',
+        'Image Prompts',
+        'AI Video Generator',
+        'AI Image Generator',
+      ],
     }
   }
 
@@ -83,68 +83,90 @@ export async function generateMetadata(
 }
 
 export default async function GalleryDetailPage({ params }: Props) {
-    const { id } = await params;
-    const locale = await getLocale();
-    const imageItem = getImageById(id, locale);
-    const videoItem = getVideoById(id, locale);
-    const item: ImagePlaceholder | VideoProp | undefined = imageItem || videoItem;
+  const { id } = await params;
+  const locale = await getLocale();
+  const imageItem = getImageById(id, locale);
+  const videoItem = getVideoById(id, locale);
+  const item: ImagePlaceholder | VideoProp | undefined = imageItem || videoItem;
 
-    if (!item) {
-        notFound();
-    }
+  if (!item) {
+    notFound();
+  }
 
-    const canonicalPath = `/gallery/${id}`;
-    const canonical = `${SITE_URL}${canonicalPath}`;
-    const description = promptDescription(item.description, item.title);
-    const image = absoluteUrl(resolveRenderableMediaUrl(item, locale) || item.imageUrl);
-    const category = item.type === 'video' ? 'Video Prompt' : 'Image Prompt';
-    const productSchema = {
-      '@context': 'https://schema.org',
-      '@type': 'Product',
-      '@id': `${canonical}#product`,
-      name: item.title,
-      description,
-      image: [image],
-      category,
-      brand: {
-        '@type': 'Brand',
-        name: 'Prompt Studio',
+  const canonicalPath = `/gallery/${id}`;
+  const canonical = `${SITE_URL}${canonicalPath}`;
+  const description = promptDescription(item.description, item.title);
+  const image = absoluteUrl(resolveRenderableMediaUrl(item, locale) || item.imageUrl);
+  const category = item.type === 'video' ? 'Video Prompt' : 'Image Prompt';
+
+  // For thumbnails, we use the image preview from the resolver, or a fallback.
+  const thumbnailUrl = image;
+
+  const productSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    '@id': `${canonical}#product`,
+    name: item.title,
+    description,
+    image: [thumbnailUrl],
+    category,
+    brand: {
+      '@type': 'Brand',
+      name: 'Prompt Studio',
+    },
+    offers: {
+      '@type': 'Offer',
+      url: canonical,
+      priceCurrency: 'USD',
+      price: '0.00',
+      availability: 'https://schema.org/InStock',
+      itemCondition: 'https://schema.org/NewCondition',
+    },
+  };
+
+  const videoSchema = item.type === 'video' ? {
+    '@context': 'https://schema.org',
+    '@type': 'VideoObject',
+    name: item.title,
+    description,
+    thumbnailUrl: [thumbnailUrl],
+    uploadDate: new Date('2024-01-01').toISOString(),
+    contentUrl: absoluteUrl(item.imageUrl),
+    embedUrl: canonical,
+  } : null;
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: category,
+        item: `${SITE_URL}/category/${item.type === 'video' ? 'video-prompts' : 'image-prompts'}`,
       },
-      offers: {
-        '@type': 'Offer',
-        url: canonical,
-        priceCurrency: 'USD',
-        price: '0.00',
-        availability: 'https://schema.org/InStock',
-        itemCondition: 'https://schema.org/NewCondition',
-      },
-    };
-    const breadcrumbSchema = {
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
-        {
-          '@type': 'ListItem',
-          position: 2,
-          name: category,
-          item: `${SITE_URL}/category/${item.type === 'video' ? 'video-prompts' : 'image-prompts'}`,
-        },
-        { '@type': 'ListItem', position: 3, name: item.title, item: canonical },
-      ],
-    };
+      { '@type': 'ListItem', position: 3, name: item.title, item: canonical },
+    ],
+  };
 
-    return (
-      <>
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(productSchema) }}
+      />
+      {videoSchema && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: safeJsonLd(productSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(videoSchema) }}
         />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
-        />
-        <GalleryDetailClient item={item} />
-      </>
-    );
+      )}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
+      />
+      <GalleryDetailClient item={item} />
+    </>
+  );
 }

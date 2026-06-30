@@ -32,6 +32,7 @@ const ITEMS_PER_PAGE = 30;
 
 function LandingPagesContent() {
   const tFacets = useTranslations('facets');
+  const t = useTranslations('landingPages');
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -59,11 +60,20 @@ function LandingPagesContent() {
   }, [allPages, facetTag, facetStack]);
 
   const customCategories = useMemo(() => {
+    const categoryLabels: Record<string, string> = {
+      'Page Type': t('facetGroups.pageType'),
+      'Style & Theme': t('facetGroups.styleTheme'),
+      'Industry & Use Case': t('facetGroups.industryUseCase'),
+      'Tech Stack': t('facetGroups.techStack'),
+      Membership: t('facetGroups.membership'),
+      'Popular Tags': t('facetGroups.popularTags'),
+    };
+
     return categories.map(cat => ({
-      label: cat.name,
+      label: categoryLabels[cat.name] ?? cat.name,
       entries: cat.tags.map(t => ({ key: t.name, count: t.count })),
     }));
-  }, [categories]);
+  }, [categories, t]);
 
   const {
     input: searchInput,
@@ -139,16 +149,15 @@ function LandingPagesContent() {
       <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-[240px_1fr] md:gap-x-8 lg:grid-cols-[280px_1fr]">
         <div className="flex flex-col items-center space-y-4 text-center md:col-span-2">
           <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
-            Landing Page Prompts
+            {t('title')}
           </h1>
           <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-            Prompts and live HTML demos for SaaS landing pages — dark, light,
-            Next.js, and DevTool variants.
+            {t('subtitle')}
           </p>
 
           <SearchInput
             className="max-w-md mt-2"
-            placeholder="Search by title, tag, or stack…"
+            placeholder={t('searchPlaceholder')}
             value={searchInput}
             onValueChange={setSearchInput}
             isPending={isSearchPending}
@@ -156,13 +165,10 @@ function LandingPagesContent() {
 
           {(debouncedQuery || facetTag || facetStack) && (
             <p className="text-sm text-muted-foreground">
-              {pages.length === 0
-                ? 'No results found'
-                : `${pages.length} result${pages.length !== 1 ? 's' : ''}${
-                    debouncedQuery ? ` for "${debouncedQuery}"` : ''
-                  }${facetTag ? ` · tag: ${facetTag}` : ''}${
-                    facetStack ? ` · stack: ${facetStack}` : ''
-                  }`}
+              {pages.length === 0 ? t('noResults') : t('resultsCount', { count: pages.length })}
+              {pages.length > 0 && debouncedQuery ? ` ${t('forQuery', { query: debouncedQuery })}` : ''}
+              {pages.length > 0 && facetTag ? ` · ${t('tagLabel')}: ${facetTag}` : ''}
+              {pages.length > 0 && facetStack ? ` · ${t('stackLabel')}: ${facetStack}` : ''}
             </p>
           )}
         </div>
@@ -204,12 +210,12 @@ function LandingPagesContent() {
           {paginatedPages.length === 0 && (
             <div className="flex flex-col items-center justify-center py-24 text-center text-muted-foreground gap-3">
               <Search className="w-10 h-10 opacity-30" />
-              <p className="text-base font-medium">No pages match your search.</p>
+              <p className="text-base font-medium">{t('noMatchingPages')}</p>
               <button
                 onClick={clearSearch}
                 className="text-sm underline underline-offset-4 hover:text-foreground transition-colors"
               >
-                Clear search
+                {t('clearSearch')}
               </button>
             </div>
           )}

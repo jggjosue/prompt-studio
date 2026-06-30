@@ -12,12 +12,12 @@ import { getRefactoryLoaderUrl, normalizeDemoFolder } from '@/lib/refactory-onli
 import { normalizeMembership } from '@/lib/membership-access';
 import { safeJsonLd } from '@/lib/json-ld';
 import type { Metadata } from 'next';
-import { getLocale } from 'next-intl/server';
+import { getLocale, getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.prompstudio.com'
+  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://prompstudio.com'
 ).replace(/\/$/, '');
 
 type PageProps = {
@@ -138,11 +138,12 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const seo = await getLandingPageSeoData(slug);
+  const t = await getTranslations('landingPages');
 
   if (!seo) {
     return {
-      title: 'Landing Page Not Found | Prompt Studio',
-      description: 'This landing page prompt is not available.',
+      title: `${t('notFoundTitle')} | Prompt Studio`,
+      description: t('notFoundDescription'),
       robots: {
         index: false,
         follow: false,
@@ -151,7 +152,10 @@ export async function generateMetadata({
   }
 
   const canonical = landingPageCanonical(seo.slug);
-  const seoTitle = `${seo.title} | ${seo.category} Landing Page Prompt`;
+  const seoTitle = t('detailSeoTitle', {
+    title: seo.title,
+    category: seo.category,
+  });
 
   return {
     title: seoTitle,
@@ -193,6 +197,7 @@ export default async function LandingPageDetailPage({ params, searchParams }: Pa
   const { slug } = await params;
   const resolvedSearchParams = await searchParams;
   const locale = await getLocale();
+  const t = await getTranslations('landingPages');
   const page = getRawWebPageByDemoSlug(slug);
 
   if (!page) notFound();
@@ -220,37 +225,37 @@ export default async function LandingPageDetailPage({ params, searchParams }: Pa
   const normalizedMembership = normalizeMembership(page.membership);
   const isFree = normalizedMembership === 'free';
   const displayPrice = isFree
-    ? 'Free'
+    ? t('free')
     : page.price && Number.parseFloat(page.price) > 0
-    ? `$${normalizedPrice(page.price)}`
-    : null;
+      ? `$${normalizedPrice(page.price)}`
+      : null;
   const productSchema = seo
     ? {
-        '@context': 'https://schema.org',
-        '@type': 'Product',
-        '@id': `${canonical}#product`,
-        name: seo.title,
-        description: seo.description,
-        image: [seo.image],
-        category: seo.category,
-        brand: {
-          '@type': 'Brand',
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      '@id': `${canonical}#product`,
+      name: seo.title,
+      description: seo.description,
+      image: [seo.image],
+      category: seo.category,
+      brand: {
+        '@type': 'Brand',
+        name: 'Prompt Studio',
+      },
+      offers: {
+        '@type': 'Offer',
+        url: canonical,
+        priceCurrency: 'USD',
+        price: seo.price,
+        availability: 'https://schema.org/InStock',
+        itemCondition: 'https://schema.org/NewCondition',
+        seller: {
+          '@type': 'Organization',
           name: 'Prompt Studio',
+          url: SITE_URL,
         },
-        offers: {
-          '@type': 'Offer',
-          url: canonical,
-          priceCurrency: 'USD',
-          price: seo.price,
-          availability: 'https://schema.org/InStock',
-          itemCondition: 'https://schema.org/NewCondition',
-          seller: {
-            '@type': 'Organization',
-            name: 'Prompt Studio',
-            url: SITE_URL,
-          },
-        },
-      }
+      },
+    }
     : null;
 
   const breadcrumbSchema = {
@@ -260,13 +265,13 @@ export default async function LandingPageDetailPage({ params, searchParams }: Pa
       {
         '@type': 'ListItem',
         position: 1,
-        name: 'Home',
+        name: t('homeLabel'),
         item: SITE_URL,
       },
       {
         '@type': 'ListItem',
         position: 2,
-        name: 'Landing Pages',
+        name: t('landingPagesLabel'),
         item: `${SITE_URL}/landing-pages`,
       },
       {
@@ -323,17 +328,17 @@ export default async function LandingPageDetailPage({ params, searchParams }: Pa
             </div>
             <div className="flex flex-wrap gap-3">
               <Button asChild>
-                <Link href={demoHref} target="_blank" rel="noopener noreferrer">Open demo</Link>
+                <Link href={demoHref} target="_blank" rel="noopener noreferrer">{t('openDemo')}</Link>
               </Button>
               {checkoutUrl ? (
                 <Button asChild className="bg-blue-600 text-white hover:bg-blue-700">
                   <Link href={checkoutUrl} target="_blank" rel="noopener noreferrer">
-                    Comprar ahora{displayPrice ? ` · ${displayPrice}` : ''}
+                    {t('buyNow')}{displayPrice ? ` · ${displayPrice}` : ''}
                   </Link>
                 </Button>
               ) : null}
               <Button variant="outline" asChild>
-                <Link href="/landing-pages">All landing pages</Link>
+                <Link href="/landing-pages">{t('allLandingPages')}</Link>
               </Button>
             </div>
           </section>

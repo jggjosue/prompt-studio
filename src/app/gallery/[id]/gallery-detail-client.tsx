@@ -33,7 +33,6 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
   const placeholderImages = useLocalizedPlaceholderImages();
   const placeholderVideos = useLocalizedPlaceholderVideos();
   const [otherItems, setOtherItems] = useState<Array<ImagePlaceholder | VideoProp>>([]);
-  const [leftRandomImage, setLeftRandomImage] = useState<ImagePlaceholder | null>(null);
 
   useEffect(() => {
     const pool = [
@@ -57,16 +56,6 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
       nextOtherItems = withoutMechanicalHeart.slice(0, 3);
     }
     setOtherItems(nextOtherItems);
-
-    const imagePool = placeholderImages.filter(
-      p => p.id !== item.id && p.imageUrl && !isRenderableVideoUrl(p.imageUrl, p.type)
-    );
-    if (imagePool.length === 0) {
-      setLeftRandomImage(null);
-      return;
-    }
-    const idx = Math.floor(Math.random() * imagePool.length);
-    setLeftRandomImage(imagePool[idx]);
   }, [item.id, placeholderImages, placeholderVideos]);
   
   const { toast } = useToast();
@@ -194,29 +183,6 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                   </>
                 )}
               </div>
-              {leftRandomImage && (
-                <div className="space-y-3">
-                  <h3 className="text-xl font-bold font-headline">Imagen aleatoria</h3>
-                  <Link href={`/gallery/${leftRandomImage.id}`} className="group block">
-                    <Card className="overflow-hidden">
-                      <CardContent className="p-0">
-                        <div className="relative aspect-[3/4]">
-                          <OptimizedImage
-                            src={leftRandomImage.imageUrl}
-                            alt={leftRandomImage.title}
-                            fill
-                            className="object-cover transition-transform group-hover:scale-105"
-                          />
-                        </div>
-                        <div className="p-4">
-                          <p className="font-semibold line-clamp-1">{leftRandomImage.title}</p>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </Link>
-                </div>
-              )}
-
               <Accordion type="single" collapsible defaultValue="item-1">
                 <AccordionItem value="item-1">
                   <AccordionTrigger className="text-lg font-semibold font-headline">

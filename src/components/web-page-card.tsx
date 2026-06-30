@@ -78,12 +78,14 @@ function WebPageCardComponent({
   animationIndex = 0,
 }: WebPageCardProps) {
   const tEditor = useTranslations('landingEditor');
+  const tLanding = useTranslations('landingPages');
+  const tCommon = useTranslations('common');
   const savedReport = savedReadability
     ? snapshotToBadgeReport(savedReadability)
     : null;
   const normalizedMembership = normalizeMembership(page.membership);
   const isFree = normalizedMembership === 'free';
-  const displayedPrice = isFree ? 'Free' : formatPrice(page.price);
+  const displayedPrice = isFree ? tCommon('free') : formatPrice(page.price);
   const { ready, isSignedIn, plan } = useMembershipAccess();
   const { userId } = useAuth();
   const hasPremium =
@@ -180,7 +182,7 @@ function WebPageCardComponent({
             <div className="flex flex-wrap items-center gap-2">
               <Button variant="outline" size="sm" asChild>
                 <Link href={`/landing-pages/${encodeURIComponent(page.demoUrl)}`}>
-                  View landing
+                  {tLanding('viewLanding')}
                 </Link>
               </Button>
               <Button
@@ -207,14 +209,14 @@ function WebPageCardComponent({
                   }}
                 >
                   <ExternalLink className="w-4 h-4 mr-2" />
-                  Open
+                  {tLanding('open')}
                 </Link>
               </Button>
             </div>
           ) : (
             <Button size="sm" variant="secondary" disabled>
               <Globe className="w-4 h-4 mr-2" />
-              Prompt only
+              {tLanding('promptOnly')}
             </Button>
           )}
         </CardFooter>

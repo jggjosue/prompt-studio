@@ -20,6 +20,10 @@
     "copy": "Copiar",
     "copied": "¡Copiado!",
     "copyPrompt": "Copiar prompt",
+    "copyFailed": "No se pudo copiar",
+    "copyFailedDescription": "Intenta seleccionar el texto manualmente.",
+    "copied": "Copiado",
+    "copiedDescription": "Prompt copiado al portapapeles.",
     "back": "Volver",
     "search": "Buscar",
     "noResults": "No se encontraron resultados.",
@@ -36,7 +40,17 @@
     "perYear": "/año",
     "forever": "/siempre",
     "buy": "Comprar",
-    "buyTooltip": "Para poder descargar los archivos de la pagina web"
+    "buyTooltip": "Para poder descargar los archivos de la pagina web",
+    "emailPlaceholder": "tu@correo.com",
+    "acceptTerms": "Acepto los",
+    "termsAndServices": "términos y servicios",
+    "processing": "Procesando...",
+    "invalidEmail": "Correo inválido",
+    "invalidEmailDescription": "Por favor, ingresa un correo electrónico válido.",
+    "error": "Error",
+    "connectionError": "Hubo un problema de conexión. Intenta de nuevo.",
+    "previousTestimonial": "Testimonio anterior",
+    "nextTestimonial": "Siguiente testimonio"
   },
   "internalLinks": {
     "hubTitle": "Explora la biblioteca de prompts",
@@ -51,6 +65,8 @@
   },
   "nav": {
     "home": "Inicio",
+    "marketplace": "Plantillas",
+    "affiliateProgram": "Afiliado",
     "editor": "Studio",
     "library": "Prompts",
     "libraryDesc": "Explora todos los prompts de IA",
@@ -101,9 +117,26 @@
     "privacyPolicy": "Política de privacidad",
     "affiliateProgram": "Afiliado",
     "affiliateTerms": "Términos del programa de afiliados",
-    "affiliateDisclosure": "Divulgación de Afiliados: Algunos de los enlaces en este sitio web son enlaces de afiliados. Esto significa que si haces clic en el enlace y compras el artículo, es posible que recibamos una comisión de afiliado sin costo adicional para ti."
+    "affiliateDisclosure": "Divulgación de Afiliados: Algunos de los enlaces en este sitio web son enlaces de afiliados. Esto significa que si haces clic en el enlace y compras el artículo, es posible que recibamos una comisión de afiliado sin costo adicional para ti.",
+    "openSocial": "Abrir {network}"
   },
   "home": {
+    "heroAriaLabel": "Presentación principal de Prompt Studio",
+    "heroHeadlinePrefix": "Prompts creativos",
+    "heroHeadlineAccent": "ilimitados con IA",
+    "heroDescription": "Descubre miles de prompts seleccionados por la comunidad para generar imágenes, videos y páginas web con IA. Crea imágenes impactantes, componentes web responsivos y animaciones dinámicas en segundos.",
+    "heroExplore": "Explorar prompts",
+    "heroGenerate": "Generar interfaz",
+    "heroPills": {
+      "images": "Imágenes",
+      "videos": "Videos",
+      "webPages": "Páginas web"
+    },
+    "heroStats": {
+      "community": "Prompts de la comunidad",
+      "models": "Modelos compatibles",
+      "generations": "Generaciones diarias"
+    },
     "heroTitle": "Genera tu próxima visión",
     "heroSubtitle": "Libera tu creatividad con nuestro generador de prompts con IA. Escribe tus ideas y míralas cobrar vida.",
     "videoExamplesTitle": "Ejemplos de video",
@@ -140,9 +173,56 @@
       "Una persecución a alta velocidad con aerodeslizadores en un campo de asteroides, ciencia ficción, acción"
     ]
   },
+  "landingPages": {
+    "title": "Prompts para landing pages",
+    "subtitle": "Prompts y demos HTML en vivo para landing pages SaaS, con variantes oscuras, claras, Next.js y herramientas para desarrolladores.",
+    "searchPlaceholder": "Buscar por título, etiqueta o stack…",
+    "noResults": "No se encontraron resultados",
+    "resultsCount": "{count, plural, one {# resultado} other {# resultados}}",
+    "forQuery": "para \"{query}\"",
+    "tagLabel": "etiqueta",
+    "stackLabel": "stack",
+    "noMatchingPages": "Ninguna página coincide con tu búsqueda.",
+    "clearSearch": "Limpiar búsqueda",
+    "viewLanding": "Ver landing",
+    "open": "Abrir",
+    "promptOnly": "Solo prompt",
+    "viewPrompt": "Ver prompt",
+    "unlockPromptDescription": "Ingresa tu correo electrónico para desbloquear este prompt gratuito.",
+    "viewPromptNow": "Ver prompt ahora",
+    "copyPrompt": "Copiar prompt",
+    "usePrompt": "Usar prompt",
+    "download": "Descargar",
+    "downloadComponent": "Descargar componente",
+    "downloadDescription": "Ingresa tu correo electrónico para comenzar la descarga gratuita.",
+    "downloadNow": "Descargar ahora",
+    "downloadStarted": "¡Descarga iniciada!",
+    "downloadStartedDescription": "Tu archivo se está descargando.",
+    "openDemo": "Abrir demo",
+    "buyNow": "Comprar ahora",
+    "allLandingPages": "Todas las landing pages",
+    "free": "Gratis",
+    "relatedTemplates": "Plantillas relacionadas",
+    "moreTemplates": "Más plantillas de {category}",
+    "viewCategory": "Ver categoría",
+    "notFoundTitle": "Landing page no encontrada",
+    "notFoundDescription": "Este prompt de landing page no está disponible.",
+    "detailSeoTitle": "{title} | Prompt de landing page {category}",
+    "homeLabel": "Inicio",
+    "landingPagesLabel": "Landing pages",
+    "facetGroups": {
+      "pageType": "Tipo de página",
+      "styleTheme": "Estilo y tema",
+      "industryUseCase": "Industria y caso de uso",
+      "techStack": "Stack tecnológico",
+      "membership": "Membresía",
+      "popularTags": "Etiquetas populares"
+    }
+  },
   "faq": {
     "title": "Preguntas frecuentes",
     "subtitle": "Todo lo que necesitas saber sobre prompts de video e imagen con IA",
+    "questionLabel": "Pregunta",
     "items": [
       {
         "question": "¿Qué es Prompt Studio?",
@@ -166,7 +246,7 @@
       },
       {
         "question": "¿Cómo contacto al soporte?",
-        "answer": "Puedes escribir a support@promptstudio.com. ¡Estamos encantados de ayudarte!"
+        "answer": "Puedes escribir a support@prompstudio.com. ¡Estamos encantados de ayudarte!"
       }
     ]
   },
