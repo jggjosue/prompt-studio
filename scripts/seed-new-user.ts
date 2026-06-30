@@ -22,7 +22,7 @@ async function seed() {
     //console.log(`Successfully inserted example email (${testEmail}) into new_users collection.`);
     process.exit(0);
   } catch (error) {
-    console.error('Error seeding data:', error);
+    //console.error('Error seeding data:', error);
     process.exit(1);
   }
 }

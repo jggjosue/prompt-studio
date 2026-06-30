@@ -108,7 +108,7 @@ panelData.forEach((data, i) => {
       roughness: 0.4
     });
     // Play video
-    data.src.play().catch(e => console.log('Autoplay prevented:', e));
+    data.src.play().catch(e => { /* console.log('Autoplay prevented:', e) */ });
   } else {
     // Placeholder for image
     mat = new THREE.MeshStandardMaterial({ 

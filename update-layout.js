@@ -32,5 +32,5 @@ for (const file of filesToUpdate) {
   content = content.replace(/<Footer \/>\s*<\/div>/, '</SidebarLayout>');
 
   fs.writeFileSync(filePath, content, 'utf8');
-  console.log('Updated', file);
+  //console.log('Updated', file);
 }

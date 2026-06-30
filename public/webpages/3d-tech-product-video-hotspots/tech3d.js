@@ -20,7 +20,7 @@ const created = await api.create({
   type: 'production'
 });
 
-//console.log(created.id);`,
+console.log(created.id);`,
     sandbox: 'https://codesandbox.io/s/example',
     cam: [-2.2, 1.6, 2.2],
     look: [0, 0.6, 0],
@@ -44,7 +44,7 @@ dash.addChart('requests', {
 });
 
 dash.on('point:click', (p) => {
-  //console.log('Selected:', p);
+  console.log('Selected:', p);
 });`,
     sandbox: 'https://codesandbox.io/s/example',
     cam: [2.2, 1.6, 2.2],
@@ -257,7 +257,7 @@ copyBtn.addEventListener('click', async () => {
     await navigator.clipboard.writeText(text);
     copyBtn.textContent = '✅ Copiado';
     setTimeout(() => { copyBtn.textContent = '📋 Copiar snippet'; }, 2000);
-  } catch {}
+  } catch { }
 });
 
 window.addEventListener('keydown', (event) => {

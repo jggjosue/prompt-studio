@@ -96,12 +96,12 @@ async function main() {
   //console.log(`[precompress] ${results.length} archivo(s) en public/:`);
   for (const r of results) {
     //console.log(
-      `  ${r.file}: ${r.original} B → br ${r.brotli} B (-${r.ratioBr}%), gzip ${r.gzip} B (-${r.ratioGz}%)`
-    );
+    //  `  ${r.file}: ${r.original} B → br ${r.brotli} B (-${r.ratioBr}%), gzip ${r.gzip} B (-${r.ratioGz}%)`
+    //);
   }
 }
 
 main().catch(err => {
-  console.error('[precompress] Error:', err);
+  //console.error('[precompress] Error:', err);
   process.exit(1);
 });

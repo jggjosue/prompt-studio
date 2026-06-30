@@ -1932,7 +1932,7 @@ function log( ...params ) {
 
 	} else {
 
-		console.log( message, ...params );
+		//console.log( message, ...params );
 
 	}
 
@@ -43486,7 +43486,7 @@ function isBlobURL( key ) {
  *
  * ```js
  * const manager = new THREE.LoadingManager();
- * manager.onLoad = () => console.log( 'Loading complete!' );
+ * manager.onLoad = () => { /* console.log( 'Loading complete!' ) */ };
  *
  * const loader1 = new OBJLoader( manager );
  * const loader2 = new ColladaLoader( manager );

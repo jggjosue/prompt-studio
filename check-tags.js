@@ -45,18 +45,21 @@ const actualVideoTags = getActualTags(videosFile);
 const actualImageTags = getActualTags(imagesFile);
 const actualWebTags = getActualTags(webPagesFile);
 
-console.log("Missing Video Tags:");
+//console.log("Missing Video Tags:");
 for (const tag of actualVideoTags) {
-  if (!definedVideoTags.has(tag)) console.log(tag);
+  if (!definedVideoTags.has(tag)) { //console.log(tag); 
+  }
 }
 
-console.log("\nMissing Image Tags:");
+//console.log("\nMissing Image Tags:");
 for (const tag of actualImageTags) {
-  if (!definedImageTags.has(tag)) console.log(tag);
+  if (!definedImageTags.has(tag)) { //console.log(tag); 
+  }
 }
 
-console.log("\nMissing Web Tags:");
+//console.log("\nMissing Web Tags:");
 for (const tag of actualWebTags) {
-  if (!definedWebTags.has(tag)) console.log(tag);
+  if (!definedWebTags.has(tag)) { //console.log(tag); 
+  }
 }
 
