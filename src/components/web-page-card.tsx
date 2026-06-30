@@ -17,7 +17,7 @@ import { ParallaxReveal } from '@/components/ui/parallax-reveal';
 import { snapshotToBadgeReport } from '@/lib/landing-readability-badge';
 import type { LandingReadabilityPublicSnapshot } from '@/lib/landing-readability-store';
 import { getRefactoryLoaderUrl } from '@/lib/refactory-online';
-import { logFirebaseEvent } from '@/lib/firebase';
+import { trackAnalyticsEvent } from '@/lib/analytics';
 import { trackAffiliateClick } from '@/lib/affiliate-client';
 import type { WebPageEntry } from '@/lib/web-pages';
 import { useMembershipAccess } from '@/hooks/use-membership-access';
@@ -195,8 +195,15 @@ function WebPageCardComponent({
                   className="!bg-blue-600 !text-white hover:!bg-blue-700"
                   onClick={() => {
                     trackClick('demo');
-                    (window as any).gtag?.('event', 'web_open_demo_URL', { page_title: page.title });
-                    void logFirebaseEvent('web_open_demo_URL', { page_id: page.id, page_title: page.title });
+                    trackAnalyticsEvent('web_open_demo_URL', {
+                      page_id: page.id,
+                      page_title: page.title,
+                      item_id: page.id,
+                      item_name: page.title,
+                      item_category: 'landing-page',
+                      membership: page.membership,
+                      action_source: 'catalog-demo-button',
+                    });
                   }}
                 >
                   <ExternalLink className="w-4 h-4 mr-2" />

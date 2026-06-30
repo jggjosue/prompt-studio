@@ -28,7 +28,7 @@ import {
 } from 'lucide-react';
 import { motion, useInView, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { useTranslations } from 'next-intl';
-import { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import { type ChangeEvent, type FormEvent, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { trackLoopsEvent } from '@/lib/loops-events';
 import {
   AFFILIATE_FIRST_REF_STORAGE_KEY,
@@ -54,6 +54,8 @@ type FormState = {
   plan: string;
   message: string;
 };
+
+type FormErrors = Partial<Record<keyof FormState, string>>;
 
 function scrollToSection(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -419,6 +421,24 @@ function Modal({
 export default function AffiliateClient() {
   const t = useTranslations('affiliate');
   const [affiliateRef, setAffiliateRef] = useState<string | null>(null);
+  const apply = t.raw('apply') as {
+    title: string;
+    subtitle: string;
+    fieldName: string;
+    fieldEmail: string;
+    fieldProfile: string;
+    fieldAudience: string;
+    fieldChannel: string;
+    fieldExperience: string;
+    fieldTier: string;
+    fieldPlan: string;
+    fieldMessage: string;
+    submitBtn: string;
+    submitting: string;
+    successMsg: string;
+    errorRequired: string;
+    errorEmail: string;
+  };
 
   // Build modal content from translations
   const modalCopy = useMemo(() => ({
@@ -496,6 +516,22 @@ export default function AffiliateClient() {
 
   const [modal, setModal] = useState<ModalContent | null>(null);
   const [openFaq, setOpenFaq] = useState(0);
+  const [formState, setFormState] = useState<FormState>({
+    name: '',
+    email: '',
+    profile: '',
+    audience: '',
+    channel: '',
+    experience: '',
+    tier: t('commissions.tier2Name'),
+    plan: '',
+    message: '',
+  });
+  const [formStatus, setFormStatus] = useState<{ type: 'idle' | 'loading' | 'success' | 'error'; message: string }>({
+    type: 'idle',
+    message: '',
+  });
+  const [formErrors, setFormErrors] = useState<FormErrors>({});
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -551,6 +587,116 @@ export default function AffiliateClient() {
     [t('tracking.paid'), '$18,940'],
     [t('tracking.topSource'), t('tracking.topSourceValue')],
   ];
+
+  const handleApplyChange = (field: keyof FormState) => (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { value } = event.target;
+    setFormState(prev => ({ ...prev, [field]: value }));
+    setFormErrors(prev => {
+      if (!prev[field]) return prev;
+      const next = { ...prev };
+      delete next[field];
+      return next;
+    });
+    if (formStatus.type === 'error') {
+      setFormStatus({ type: 'idle', message: '' });
+    }
+  };
+
+  const submitAffiliateApplication = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const requiredFields: (keyof FormState)[] = [
+      'name',
+      'email',
+      'profile',
+      'audience',
+      'channel',
+      'experience',
+      'tier',
+      'plan',
+      'message',
+    ];
+    const errors: FormErrors = {};
+
+    for (const field of requiredFields) {
+      if (!formState[field].trim()) {
+        errors[field] = apply.errorRequired;
+      }
+    }
+
+    if (formState.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formState.email.trim())) {
+      errors.email = apply.errorEmail;
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      setFormStatus({ type: 'error', message: apply.errorRequired });
+      const firstInvalidField = requiredFields.find(field => errors[field]);
+      if (firstInvalidField) {
+        document.getElementById(`affiliate-${firstInvalidField}`)?.focus();
+      }
+      return;
+    }
+
+    setFormErrors({});
+    setFormStatus({ type: 'loading', message: '' });
+
+    try {
+      const response = await fetch('/api/affiliate/applications', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fullName: formState.name,
+          email: formState.email,
+          profile: formState.profile,
+          audience: formState.audience,
+          channel: formState.channel,
+          experience: formState.experience,
+          tier: formState.tier,
+          plan: formState.plan,
+          message: formState.message,
+        }),
+      });
+
+      const data = (await response.json().catch(() => null)) as { error?: string; ok?: boolean } | null;
+
+      if (!response.ok) {
+        throw new Error(data?.error || 'No se pudo enviar la solicitud.');
+      }
+
+      setFormStatus({ type: 'success', message: apply.successMsg });
+      setFormErrors({});
+      setFormState({
+        name: '',
+        email: '',
+        profile: '',
+        audience: '',
+        channel: '',
+        experience: '',
+        tier: t('commissions.tier2Name'),
+        plan: '',
+        message: '',
+      });
+    } catch (error) {
+      setFormStatus({
+        type: 'error',
+        message: error instanceof Error ? error.message : 'No se pudo enviar la solicitud.',
+      });
+    }
+  };
+
+  const applyFieldClass = (field: keyof FormState, multiline = false) =>
+    `${multiline ? 'rounded-3xl px-4 py-4' : 'h-12 rounded-2xl px-4'} border bg-slate-950/70 text-white outline-none transition ${
+      formErrors[field]
+        ? 'border-rose-400/70 focus:border-rose-300 focus:ring-2 focus:ring-rose-400/15'
+        : 'border-white/10 focus:border-cyan-300/60 focus:ring-2 focus:ring-cyan-300/10'
+    }`;
+
+  const fieldError = (field: keyof FormState) =>
+    formErrors[field] ? (
+      <span id={`affiliate-${field}-error`} className="text-xs font-medium text-rose-300" role="alert">
+        {formErrors[field]}
+      </span>
+    ) : null;
 
   return (
     <div ref={pageRef} className="relative min-h-screen overflow-hidden bg-[#020816] text-white">
@@ -978,6 +1124,190 @@ export default function AffiliateClient() {
                 </div>
               </GlowCard>
             ))}
+          </div>
+        </ParallaxSection>
+
+        {/* Apply */}
+        <ParallaxSection tone="cyan">
+          <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1.15fr_0.85fr]">
+            <GlowCard className="p-8 md:p-10">
+              <h2 className="text-3xl font-semibold tracking-tight text-white md:text-5xl">{apply.title}</h2>
+              <p className="mt-5 max-w-2xl text-base leading-8 text-slate-300">{apply.subtitle}</p>
+              <form onSubmit={submitAffiliateApplication} noValidate className="mt-10 grid gap-5 md:grid-cols-2">
+                <label className="grid gap-2">
+                  <span className="text-sm font-medium text-slate-200">{apply.fieldName}</span>
+                  <input
+                    id="affiliate-name"
+                    value={formState.name}
+                    onChange={handleApplyChange('name')}
+                    required
+                    aria-invalid={Boolean(formErrors.name)}
+                    aria-describedby={formErrors.name ? 'affiliate-name-error' : undefined}
+                    className={applyFieldClass('name')}
+                    placeholder={apply.fieldName}
+                  />
+                  {fieldError('name')}
+                </label>
+                <label className="grid gap-2">
+                  <span className="text-sm font-medium text-slate-200">{apply.fieldEmail}</span>
+                  <input
+                    id="affiliate-email"
+                    type="email"
+                    value={formState.email}
+                    onChange={handleApplyChange('email')}
+                    required
+                    aria-invalid={Boolean(formErrors.email)}
+                    aria-describedby={formErrors.email ? 'affiliate-email-error' : undefined}
+                    className={applyFieldClass('email')}
+                    placeholder={apply.fieldEmail}
+                  />
+                  {fieldError('email')}
+                </label>
+                <label className="grid gap-2">
+                  <span className="text-sm font-medium text-slate-200">{apply.fieldProfile}</span>
+                  <input
+                    id="affiliate-profile"
+                    value={formState.profile}
+                    onChange={handleApplyChange('profile')}
+                    required
+                    aria-invalid={Boolean(formErrors.profile)}
+                    aria-describedby={formErrors.profile ? 'affiliate-profile-error' : undefined}
+                    className={applyFieldClass('profile')}
+                    placeholder={apply.fieldProfile}
+                  />
+                  {fieldError('profile')}
+                </label>
+                <label className="grid gap-2">
+                  <span className="text-sm font-medium text-slate-200">{apply.fieldAudience}</span>
+                  <input
+                    id="affiliate-audience"
+                    value={formState.audience}
+                    onChange={handleApplyChange('audience')}
+                    required
+                    aria-invalid={Boolean(formErrors.audience)}
+                    aria-describedby={formErrors.audience ? 'affiliate-audience-error' : undefined}
+                    className={applyFieldClass('audience')}
+                    placeholder={apply.fieldAudience}
+                  />
+                  {fieldError('audience')}
+                </label>
+                <label className="grid gap-2">
+                  <span className="text-sm font-medium text-slate-200">{apply.fieldChannel}</span>
+                  <input
+                    id="affiliate-channel"
+                    value={formState.channel}
+                    onChange={handleApplyChange('channel')}
+                    required
+                    aria-invalid={Boolean(formErrors.channel)}
+                    aria-describedby={formErrors.channel ? 'affiliate-channel-error' : undefined}
+                    className={applyFieldClass('channel')}
+                    placeholder={apply.fieldChannel}
+                  />
+                  {fieldError('channel')}
+                </label>
+                <label className="grid gap-2">
+                  <span className="text-sm font-medium text-slate-200">{apply.fieldExperience}</span>
+                  <input
+                    id="affiliate-experience"
+                    value={formState.experience}
+                    onChange={handleApplyChange('experience')}
+                    required
+                    aria-invalid={Boolean(formErrors.experience)}
+                    aria-describedby={formErrors.experience ? 'affiliate-experience-error' : undefined}
+                    className={applyFieldClass('experience')}
+                    placeholder={apply.fieldExperience}
+                  />
+                  {fieldError('experience')}
+                </label>
+                <label className="grid gap-2 md:col-span-1">
+                  <span className="text-sm font-medium text-slate-200">{apply.fieldTier}</span>
+                  <select
+                    id="affiliate-tier"
+                    value={formState.tier}
+                    onChange={handleApplyChange('tier')}
+                    required
+                    aria-invalid={Boolean(formErrors.tier)}
+                    aria-describedby={formErrors.tier ? 'affiliate-tier-error' : undefined}
+                    className={applyFieldClass('tier')}
+                  >
+                    {[t('commissions.tier2Name'), t('commissions.tier3Name')].map(option => (
+                      <option key={option} value={option} className="bg-slate-950">
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                  {fieldError('tier')}
+                </label>
+                <label className="grid gap-2 md:col-span-1">
+                  <span className="text-sm font-medium text-slate-200">{apply.fieldPlan}</span>
+                  <input
+                    id="affiliate-plan"
+                    value={formState.plan}
+                    onChange={handleApplyChange('plan')}
+                    required
+                    aria-invalid={Boolean(formErrors.plan)}
+                    aria-describedby={formErrors.plan ? 'affiliate-plan-error' : undefined}
+                    className={applyFieldClass('plan')}
+                    placeholder={apply.fieldPlan}
+                  />
+                  {fieldError('plan')}
+                </label>
+                <label className="grid gap-2 md:col-span-2">
+                  <span className="text-sm font-medium text-slate-200">{apply.fieldMessage}</span>
+                  <textarea
+                    id="affiliate-message"
+                    value={formState.message}
+                    onChange={handleApplyChange('message')}
+                    rows={6}
+                    required
+                    aria-invalid={Boolean(formErrors.message)}
+                    aria-describedby={formErrors.message ? 'affiliate-message-error' : undefined}
+                    className={applyFieldClass('message', true)}
+                    placeholder={apply.fieldMessage}
+                  />
+                  {fieldError('message')}
+                </label>
+                <div className="md:col-span-2 flex flex-col gap-3">
+                  <Button
+                    type="submit"
+                    disabled={formStatus.type === 'loading'}
+                    className="h-14 rounded-full bg-blue-600 px-8 text-base font-semibold text-white hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    {formStatus.type === 'loading' ? apply.submitting : apply.submitBtn}
+                  </Button>
+                  {formStatus.message ? (
+                    <p className={'text-sm ' + (formStatus.type === 'error' ? 'text-rose-300' : 'text-emerald-300')}>
+                      {formStatus.message}
+                    </p>
+                  ) : null}
+                </div>
+              </form>
+            </GlowCard>
+            <GlowCard className="p-8 md:p-10">
+              <p className="text-sm font-semibold uppercase tracking-[0.22em] text-cyan-200">Resumen del partner</p>
+              <div className="mt-8 space-y-5 text-sm text-slate-300">
+                <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                  <span>Tasa de comisión</span>
+                  <span className="font-semibold text-white">20%</span>
+                </div>
+                <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                  <span>Duración de cookie</span>
+                  <span className="font-semibold text-white">60 días</span>
+                </div>
+                <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                  <span>Pagos</span>
+                  <span className="font-semibold text-white">Mensual</span>
+                </div>
+                <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                  <span>Soporte para partner</span>
+                  <span className="font-semibold text-white">Incluido</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span>Recursos promocionales</span>
+                  <span className="font-semibold text-white">Incluido</span>
+                </div>
+              </div>
+            </GlowCard>
           </div>
         </ParallaxSection>
 

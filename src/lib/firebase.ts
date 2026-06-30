@@ -10,7 +10,7 @@ export type FirebaseAnalyticsEvent =
   | 'web_download_free'
   | 'web_download_premium';
 
-type FirebaseAnalyticsParams = Record<string, string | number | boolean | null | undefined>;
+export type FirebaseAnalyticsParams = Record<string, string | number | boolean | null | undefined>;
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDMcrtnjWsFm_psMPkbdKMh4kiwP85WFvE',
