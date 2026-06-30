@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
 import { useUser } from '@clerk/nextjs';
+import { useTranslations } from 'next-intl';
 
 type FreeEmailGateProps = {
   children: ReactNode;
@@ -32,6 +33,7 @@ export function FreeEmailGate({
   submitText,
   onSuccess,
 }: FreeEmailGateProps) {
+  const t = useTranslations('common');
   const { user } = useUser();
   const [open, setOpen] = React.useState(false);
   const [email, setEmail] = React.useState('');
@@ -56,8 +58,8 @@ export function FreeEmailGate({
     e.preventDefault();
     if (!email || !email.includes('@')) {
       toast({
-        title: 'Correo inválido',
-        description: 'Por favor, ingresa un correo electrónico válido.',
+        title: t('invalidEmail'),
+        description: t('invalidEmailDescription'),
         variant: 'destructive',
       });
       return;
@@ -83,8 +85,8 @@ export function FreeEmailGate({
       onSuccess();
     } catch (error) {
       toast({
-        title: 'Error',
-        description: 'Hubo un problema de conexión. Intenta de nuevo.',
+        title: t('error'),
+        description: t('connectionError'),
         variant: 'destructive',
       });
     } finally {
@@ -125,7 +127,7 @@ export function FreeEmailGate({
           <div className="flex flex-col gap-3">
             <Input
               type="email"
-              placeholder="tu@correo.com"
+              placeholder={t('emailPlaceholder')}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -141,14 +143,14 @@ export function FreeEmailGate({
                 className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 bg-slate-900 border-white/10 cursor-pointer"
               />
               <label htmlFor="accept-terms" className="text-muted-foreground select-none cursor-pointer">
-                Acepto los{' '}
+                {t('acceptTerms')}{' '}
                 <a 
                   href="/terms" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="text-blue-400 hover:text-blue-300 underline font-medium"
                 >
-                  términos y servicios
+                  {t('termsAndServices')}
                 </a>
               </label>
             </div>
@@ -156,7 +158,7 @@ export function FreeEmailGate({
           <DialogFooter className="sm:justify-start">
             <Button type="submit" disabled={loading || !acceptedTerms} className="w-full !bg-blue-600 !text-white hover:!bg-blue-700">
               {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              {loading ? 'Procesando...' : submitText}
+              {loading ? t('processing') : submitText}
             </Button>
           </DialogFooter>
         </form>

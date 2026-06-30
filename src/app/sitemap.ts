@@ -11,7 +11,7 @@ import {
 import { getRawWebPages } from '@/lib/web-pages';
 
 const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.prompstudio.com'
+  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://prompstudio.com'
 ).replace(/\/$/, '');
 
 type SitemapEntry = MetadataRoute.Sitemap[number];

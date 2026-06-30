@@ -93,11 +93,11 @@ export default function HeaderClient() {
     }>;
   }> = [
     { id: 'home', href: '/', label: tNav('home') },
-    { id: 'marketplace', href: '/landing-pages', label: pathname === '/es' || pathname.startsWith('/es/') ? 'Plantillas' : 'Marketplace', activePrefixes: ['/landing-pages', '/web-tags'] },
+    { id: 'marketplace', href: '/landing-pages', label: tNav('marketplace'), activePrefixes: ['/landing-pages', '/web-tags'] },
     { id: 'videos', href: '/video-prompts', label: tNav('videos'), activePrefixes: ['/video-prompts', '/gallery-videos', '/video-tags'] },
     { id: 'images', href: '/image-prompts', label: tNav('images'), activePrefixes: ['/image-prompts', '/gallery', '/image-tags'] },
     { id: 'membership', href: '/prices', label: tNav('prices'), activePrefixes: ['/prices', '/pricing'] },
-    { id: 'affiliate-program', href: '/affiliate-program', label: pathname === '/es' || pathname.startsWith('/es/') ? 'Afiliado' : 'Affiliate', activePrefixes: ['/affiliate-program', '/affiliate-program-terms'] },
+    { id: 'affiliate-program', href: '/affiliate-program', label: tNav('affiliateProgram'), activePrefixes: ['/affiliate-program', '/affiliate-program-terms'] },
   ];
 
   const linkClassName = (href?: string, activePrefixes?: string[]) =>
@@ -330,19 +330,19 @@ export default function HeaderClient() {
                 <div className="hidden md:flex items-center gap-3">
                   <SignInButton mode="redirect" forceRedirectUrl="/dashboard">
                     <button className="rounded-full border border-cyan-200/25 px-5 py-2.5 text-sm font-semibold text-slate-100 transition hover:border-cyan-200/60">
-                      Sign In
+                      {tHeader('signIn')}
                     </button>
                   </SignInButton>
                   <SignUpButton mode="redirect" forceRedirectUrl="/prices">
                     <button className="rounded-full bg-gradient-to-r from-blue-500 via-cyan-400 to-violet-500 px-5 py-2.5 text-sm font-bold text-white shadow-[0_0_32px_rgba(59,130,246,0.42)] transition hover:scale-[1.02]">
-                      Create Account
+                      {tHeader('createAccount')}
                     </button>
                   </SignUpButton>
                 </div>
                 <div className="flex md:hidden items-center">
                   <SignInButton mode="redirect" forceRedirectUrl="/dashboard">
                     <button className="rounded-full border border-cyan-200/25 px-3.5 py-1.5 text-xs font-semibold text-slate-100 transition hover:border-cyan-200/60">
-                      Sign In
+                      {tHeader('signIn')}
                     </button>
                   </SignInButton>
                 </div>

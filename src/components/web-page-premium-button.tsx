@@ -68,6 +68,7 @@ export function PremiumMembershipButton({
   pageTitle,
 }: PremiumMembershipButtonProps) {
   const t = useTranslations('common');
+  const tLanding = useTranslations('landingPages');
   const { userId, isLoaded } = useAuth();
   const { purchasedPages, ready } = useStripeSubscription();
   const [mounted, setMounted] = useState(false);
@@ -153,7 +154,7 @@ export function PremiumMembershipButton({
           onClick={trackPremiumDownload}
         >
           <Download className="mr-2 h-4 w-4" />
-          Download
+          {tLanding('download')}
         </a>
       </Button>
     );

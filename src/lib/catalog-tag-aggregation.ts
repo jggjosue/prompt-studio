@@ -55,9 +55,25 @@ export function aggregateMediaTagCategoriesFromTable(
     };
   });
 
+  const popularTags = hashTopK(tagCounts, {
+    minCount: 1,
+    limit: 500,
+    excludeKeys: catalogTagNames,
+  }).map(({ key, count }) => ({ name: key, count }));
+
+  if (popularTags.length > 0) {
+    categories.push({
+      name: 'Other Tags',
+      description: 'More frequently used tags in prompts',
+      icon: 'Tag',
+      tags: popularTags,
+      count: hashSum(popularTags),
+    });
+  }
+
   return {
     categories,
-    totalUniqueTags: catalogTagNames.size,
+    totalUniqueTags: tagCounts.size,
   };
 }
 
@@ -123,13 +139,13 @@ export function aggregateWebTagCategoriesFromTables(
   const popularTags = buildPopularWebTags(
     tagCounts,
     assignedTags,
-    options?.popularMinCount ?? 2,
-    options?.popularLimit ?? 24
+    options?.popularMinCount ?? 1,
+    options?.popularLimit ?? 500
   );
 
   if (popularTags.length > 0) {
     categories.push({
-      name: 'Popular Tags',
+      name: 'Other Tags',
       description: 'Frequently used tags across landing page prompts',
       icon: 'Tag',
       kind: 'tag',

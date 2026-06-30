@@ -6,9 +6,11 @@ import { Download } from 'lucide-react';
 import { FreeEmailGate } from './free-email-gate';
 import { trackAnalyticsEvent } from '@/lib/analytics';
 import { trackLoopsEvent } from '@/lib/loops-events';
+import { useTranslations } from 'next-intl';
 
 export function FreeDownloadDialog({ pageId, pageTitle }: { pageId: string; pageTitle?: string }) {
   const { toast } = useToast();
+  const t = useTranslations('landingPages');
 
   const handleSuccess = () => {
     trackAnalyticsEvent('web_download_free', {
@@ -36,16 +38,16 @@ export function FreeDownloadDialog({ pageId, pageTitle }: { pageId: string; page
     document.body.removeChild(link);
     
     toast({
-      title: '¡Descarga iniciada!',
-      description: 'Tu archivo se está descargando.',
+      title: t('downloadStarted'),
+      description: t('downloadStartedDescription'),
     });
   };
 
   return (
     <FreeEmailGate
-      title="Descargar Componente"
-      description="Ingresa tu correo electrónico para comenzar la descarga gratuita."
-      submitText="Descargar ahora"
+      title={t('downloadComponent')}
+      description={t('downloadDescription')}
+      submitText={t('downloadNow')}
       onSuccess={handleSuccess}
     >
       <Button
@@ -54,7 +56,7 @@ export function FreeDownloadDialog({ pageId, pageTitle }: { pageId: string; page
         className="border border-blue-500/25 text-blue-300 hover:border-blue-500/40 hover:bg-blue-500/10 hover:text-blue-200"
       >
         <Download className="mr-2 h-4 w-4" />
-        Download
+        {t('download')}
       </Button>
     </FreeEmailGate>
   );

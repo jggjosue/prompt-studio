@@ -2,38 +2,42 @@ import type { Metadata } from 'next';
 import LandingPagesClient from './landing-pages-client';
 import { Suspense } from 'react';
 import { Loader2 } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
 
-export const metadata: Metadata = {
-  title: 'Landing Page Prompts | Prompt Studio',
-  description:
-    'Prompts and live demos for SaaS landing pages — Magzin Job, Loopline, HTML, Tailwind, and Next.js variants.',
-  alternates: {
-    canonical: '/landing-pages',
-  },
-  keywords: [
-    'landing page prompts',
-    'SaaS landing page',
-    'Tailwind landing',
-    'Next.js landing',
-    'Magzin Job',
-    'Loopline',
-    'HTML CSS landing',
-  ],
-  openGraph: {
-    title: 'Landing Page Prompts | Prompt Studio',
-    description:
-      'Prompts and live demos for SaaS landing pages — Magzin Job, Loopline, HTML, Tailwind, and Next.js variants.',
-    url: '/landing-pages',
-    siteName: 'Prompt Studio',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Landing Page Prompts | Prompt Studio',
-    description:
-      'Prompts and live demos for SaaS landing pages — Magzin Job, Loopline, HTML, Tailwind, and Next.js variants.',
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('landingPages');
+  const title = `${t('title')} | Prompt Studio`;
+  const description = t('subtitle');
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: '/landing-pages',
+    },
+    keywords: [
+      'landing page prompts',
+      'SaaS landing page',
+      'Tailwind landing',
+      'Next.js landing',
+      'Magzin Job',
+      'Loopline',
+      'HTML CSS landing',
+    ],
+    openGraph: {
+      title,
+      description,
+      url: '/landing-pages',
+      siteName: 'Prompt Studio',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
+  };
+}
 
 export default function LandingPagesPage() {
   return (

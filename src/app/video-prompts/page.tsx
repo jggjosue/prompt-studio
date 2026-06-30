@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import VideoPromptsClient from './video-prompts-client';
+import { getPlaceholderVideos } from '@/lib/placeholder-videos';
+import imagesData from '../../../public/prompts/placeholder-images.json';
 
 export const metadata: Metadata = {
   title: 'AI Video Prompts | Prompt Studio',
@@ -45,5 +47,53 @@ export const metadata: Metadata = {
 };
 
 export default function VideoPromptsPage() {
-  return <VideoPromptsClient />;
+  const videos = getPlaceholderVideos('en');
+  const images = imagesData.placeholderImages;
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: videos.map((video, index) => {
+      // Find matching image by title for the thumbnail
+      const matchingImg = images.find(
+        (img) => img.title.en === video.title || img.title.es === video.title
+      );
+
+      // Parse the JSON stringified description to get the plain text description
+      let descriptionText = video.title;
+      try {
+        const parsed = JSON.parse(video.description);
+        if (parsed && parsed.description) {
+          descriptionText = parsed.description;
+        }
+      } catch (e) {
+        // Fallback
+      }
+
+      const defaultThumbnail = 'https://prompstudio.com/og-image.png';
+
+      return {
+        '@type': 'ListItem',
+        position: index + 1,
+        item: {
+          '@type': 'VideoObject',
+          name: video.title,
+          description: descriptionText,
+          contentUrl: video.imageUrl,
+          thumbnailUrl: matchingImg?.imageUrl || defaultThumbnail,
+          uploadDate: new Date('2024-01-01').toISOString(), // fallback date for SEO validation
+        },
+      };
+    }),
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <VideoPromptsClient />
+    </>
+  );
 }

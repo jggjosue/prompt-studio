@@ -50,7 +50,6 @@ type FormState = {
   audience: string;
   channel: string;
   experience: string;
-  tier: string;
   plan: string;
   message: string;
 };
@@ -430,7 +429,6 @@ export default function AffiliateClient() {
     fieldAudience: string;
     fieldChannel: string;
     fieldExperience: string;
-    fieldTier: string;
     fieldPlan: string;
     fieldMessage: string;
     submitBtn: string;
@@ -523,7 +521,6 @@ export default function AffiliateClient() {
     audience: '',
     channel: '',
     experience: '',
-    tier: t('commissions.tier2Name'),
     plan: '',
     message: '',
   });
@@ -588,7 +585,7 @@ export default function AffiliateClient() {
     [t('tracking.topSource'), t('tracking.topSourceValue')],
   ];
 
-  const handleApplyChange = (field: keyof FormState) => (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleApplyChange = (field: keyof FormState) => (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { value } = event.target;
     setFormState(prev => ({ ...prev, [field]: value }));
     setFormErrors(prev => {
@@ -611,7 +608,6 @@ export default function AffiliateClient() {
       'audience',
       'channel',
       'experience',
-      'tier',
       'plan',
       'message',
     ];
@@ -651,7 +647,6 @@ export default function AffiliateClient() {
           audience: formState.audience,
           channel: formState.channel,
           experience: formState.experience,
-          tier: formState.tier,
           plan: formState.plan,
           message: formState.message,
         }),
@@ -672,7 +667,6 @@ export default function AffiliateClient() {
         audience: '',
         channel: '',
         experience: '',
-        tier: t('commissions.tier2Name'),
         plan: '',
         message: '',
       });
@@ -1191,7 +1185,7 @@ export default function AffiliateClient() {
                   />
                   {fieldError('audience')}
                 </label>
-                <label className="grid gap-2">
+                <label className="grid gap-2 md:col-span-2">
                   <span className="text-sm font-medium text-slate-200">{apply.fieldChannel}</span>
                   <input
                     id="affiliate-channel"
@@ -1205,49 +1199,32 @@ export default function AffiliateClient() {
                   />
                   {fieldError('channel')}
                 </label>
-                <label className="grid gap-2">
+                <label className="grid gap-2 md:col-span-2">
                   <span className="text-sm font-medium text-slate-200">{apply.fieldExperience}</span>
-                  <input
+                  <textarea
                     id="affiliate-experience"
                     value={formState.experience}
                     onChange={handleApplyChange('experience')}
+                    rows={4}
                     required
                     aria-invalid={Boolean(formErrors.experience)}
                     aria-describedby={formErrors.experience ? 'affiliate-experience-error' : undefined}
-                    className={applyFieldClass('experience')}
+                    className={applyFieldClass('experience', true)}
                     placeholder={apply.fieldExperience}
                   />
                   {fieldError('experience')}
                 </label>
-                <label className="grid gap-2 md:col-span-1">
-                  <span className="text-sm font-medium text-slate-200">{apply.fieldTier}</span>
-                  <select
-                    id="affiliate-tier"
-                    value={formState.tier}
-                    onChange={handleApplyChange('tier')}
-                    required
-                    aria-invalid={Boolean(formErrors.tier)}
-                    aria-describedby={formErrors.tier ? 'affiliate-tier-error' : undefined}
-                    className={applyFieldClass('tier')}
-                  >
-                    {[t('commissions.tier2Name'), t('commissions.tier3Name')].map(option => (
-                      <option key={option} value={option} className="bg-slate-950">
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                  {fieldError('tier')}
-                </label>
-                <label className="grid gap-2 md:col-span-1">
+                <label className="grid gap-2 md:col-span-2">
                   <span className="text-sm font-medium text-slate-200">{apply.fieldPlan}</span>
-                  <input
+                  <textarea
                     id="affiliate-plan"
                     value={formState.plan}
                     onChange={handleApplyChange('plan')}
+                    rows={4}
                     required
                     aria-invalid={Boolean(formErrors.plan)}
                     aria-describedby={formErrors.plan ? 'affiliate-plan-error' : undefined}
-                    className={applyFieldClass('plan')}
+                    className={applyFieldClass('plan', true)}
                     placeholder={apply.fieldPlan}
                   />
                   {fieldError('plan')}

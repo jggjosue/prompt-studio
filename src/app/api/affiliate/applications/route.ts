@@ -19,7 +19,7 @@ export async function POST(request: Request) {
   const audience = safeString(body?.audience);
   const channel = safeString(body?.channel);
   const experience = safeString(body?.experience);
-  const tier = safeString(body?.tier);
+  const tier = safeString(body?.tier) || 'standard';
   const plan = safeString(body?.plan);
   const message = safeString(body?.message);
 
@@ -45,10 +45,6 @@ export async function POST(request: Request) {
 
   if (!experience) {
     return NextResponse.json({ error: 'Describe tu experiencia con marketing de afiliados.' }, { status: 400 });
-  }
-
-  if (!tier) {
-    return NextResponse.json({ error: 'Selecciona un nivel de comisión.' }, { status: 400 });
   }
 
   if (!plan) {

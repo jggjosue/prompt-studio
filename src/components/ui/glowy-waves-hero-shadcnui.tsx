@@ -3,6 +3,7 @@
 import { motion, type Variants } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 
@@ -18,18 +19,6 @@ interface WaveConfig {
   color: string;
   opacity: number;
 }
-
-const highlightPills = [
-  "Images",
-  "Videos",
-  "Web Pages",
-] as const;
-
-const heroStats: { label: string; value: string }[] = [
-  { label: "Community Prompts", value: "10k+" },
-  { label: "Supported Models", value: "25+" },
-  { label: "Daily Generations", value: "50k+" },
-];
 
 const containerVariants: Variants = {
   hidden: { opacity: 0, y: 24 },
@@ -59,7 +48,18 @@ const statsVariants: Variants = {
 };
 
 export function GlowyWavesHero() {
+  const t = useTranslations("home");
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const highlightPills = [
+    t("heroPills.images"),
+    t("heroPills.videos"),
+    t("heroPills.webPages"),
+  ];
+  const heroStats = [
+    { label: t("heroStats.community"), value: "10k+" },
+    { label: t("heroStats.models"), value: "25+" },
+    { label: t("heroStats.generations"), value: "50k+" },
+  ];
   const mouseRef = useRef<Point>({ x: 0, y: 0 });
   const targetMouseRef = useRef<Point>({ x: 0, y: 0 });
 
@@ -294,7 +294,7 @@ export function GlowyWavesHero() {
     <section
       className="relative isolate flex min-h-screen w-full items-center justify-center overflow-hidden bg-background"
       role="region"
-      aria-label="Glowing waves hero section"
+      aria-label={t("heroAriaLabel")}
     >
       <canvas
         ref={canvasRef}
@@ -327,9 +327,9 @@ export function GlowyWavesHero() {
             variants={itemVariants}
             className="mb-6 text-4xl font-semibold tracking-tight text-foreground md:text-6xl lg:text-7xl"
           >
-            Unlimited AI{" "}
+            {t("heroHeadlinePrefix")}{" "}
             <span className="bg-gradient-to-r from-primary via-primary/60 to-foreground/80 bg-clip-text text-transparent">
-              creative prompts
+              {t("heroHeadlineAccent")}
             </span>
           </motion.h1>
 
@@ -337,7 +337,7 @@ export function GlowyWavesHero() {
             variants={itemVariants}
             className="mx-auto mb-10 max-w-3xl text-lg text-foreground/70 md:text-2xl"
           >
-            Discover thousands of community-curated prompts for AI image, video, and web generation. Create stunning visuals, responsive web components, and dynamic animations in seconds.
+            {t("heroDescription")}
           </motion.p>
 
           <motion.div
@@ -348,7 +348,7 @@ export function GlowyWavesHero() {
               size="lg"
               className="group gap-2 rounded-full px-8 text-base tracking-[0.1em]"
             >
-              Explore Prompts
+              {t("heroExplore")}
               <ArrowRight
                 className="h-4 w-4 transition-transform group-hover:translate-x-1"
                 aria-hidden="true"
@@ -359,7 +359,7 @@ export function GlowyWavesHero() {
               variant="outline"
               className="rounded-full border-border/40 bg-background/60 px-8 text-base text-foreground/80 backdrop-blur transition-all hover:border-border/60 hover:bg-background/70 dark:border-border/50 dark:bg-background/40 dark:text-foreground/70 dark:hover:border-border/70 dark:hover:bg-background/50"
             >
-              Generate UI
+              {t("heroGenerate")}
             </Button>
           </motion.div>
 

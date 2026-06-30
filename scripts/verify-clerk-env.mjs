@@ -111,16 +111,16 @@ for (const [name, fallback] of routes) {
 
 if (mode === 'production') {
   //console.log(`
-Checklist Clerk Dashboard (https://dashboard.clerk.com):
-  1. Instancia Production (no Development)
-  2. Configure → Domains: añade tu dominio (ej. promptstudio.com, www)
-  3. Paths: /sign-in y /sign-up coinciden con las URLs de arriba
-  4. Tras cambiar variables en Vercel → Redeploy sin caché de build
+  //Checklist Clerk Dashboard(https://dashboard.clerk.com):
+  //1. Instancia Production(no Development)
+  //2. Configure → Domains: añade tu dominio(ej.prompstudio.com, www)
+  //3. Paths: /sign-in y /sign - up coinciden con las URLs de arriba
+  //4. Tras cambiar variables en Vercel → Redeploy sin caché de build
 
-Vercel → Settings → Environment Variables (solo entorno Production):
-  NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY = pk_live_...
-  CLERK_SECRET_KEY = sk_live_...
-`);
+  //Vercel → Settings → Environment Variables(solo entorno Production):
+  //NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY = pk_live_...
+  //CLERK_SECRET_KEY = sk_live_...
+  //`);
 }
 
 //console.log(ok ? '\nListo.\n' : '\nCorrige los errores antes de desplegar.\n');

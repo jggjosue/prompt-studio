@@ -18,8 +18,10 @@ import * as React from 'react';
 import { FreeEmailGate } from './free-email-gate';
 import { normalizeMembership } from '@/lib/membership-access';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 export function WebPagePromptDialog({ page }: { page: WebPageEntry }) {
+  const t = useTranslations('landingPages');
   const { toast } = useToast();
   const { runWithAccess, isSignedIn } = useMembershipAccess();
   const [copied, setCopied] = React.useState(false);
@@ -29,8 +31,8 @@ export function WebPagePromptDialog({ page }: { page: WebPageEntry }) {
     const ok = await copyToClipboard(page.description);
     if (!ok) {
       toast({
-        title: 'No se pudo copiar',
-        description: 'Intenta seleccionar el texto manualmente.',
+        title: t('copyFailed'),
+        description: t('copyFailedDescription'),
         variant: 'destructive',
       });
       return;
@@ -38,8 +40,8 @@ export function WebPagePromptDialog({ page }: { page: WebPageEntry }) {
 
     setCopied(true);
     toast({
-      title: 'Copiado',
-      description: 'Prompt copiado al portapapeles.',
+      title: t('copied'),
+      description: t('copiedDescription'),
     });
     void trackLoopsEvent('prompts', {
       pageId: page.id,
@@ -82,7 +84,7 @@ export function WebPagePromptDialog({ page }: { page: WebPageEntry }) {
       onClick={isFree ? undefined : handleOpenPrompt}
     >
       <FileText className="w-4 h-4 mr-2" />
-      View prompt
+      {t('viewPrompt')}
     </Button>
   );
 
@@ -90,9 +92,9 @@ export function WebPagePromptDialog({ page }: { page: WebPageEntry }) {
     <Dialog open={open} onOpenChange={setOpen}>
       {isFree ? (
         <FreeEmailGate
-          title="Ver Prompt"
-          description="Ingresa tu correo electrónico para desbloquear este prompt gratuito."
-          submitText="Ver prompt ahora"
+          title={t('viewPrompt')}
+          description={t('unlockPromptDescription')}
+          submitText={t('viewPromptNow')}
           onSuccess={handleOpenPrompt}
         >
           {triggerButton}
@@ -110,7 +112,7 @@ export function WebPagePromptDialog({ page }: { page: WebPageEntry }) {
               size="icon"
               className="h-9 w-9"
               onClick={handleCopy}
-              aria-label="Copy prompt"
+              aria-label={t('copyPrompt')}
             >
               {copied ? (
                 <Check className="h-4 w-4 text-green-500" />
@@ -132,7 +134,7 @@ export function WebPagePromptDialog({ page }: { page: WebPageEntry }) {
                 tags: page.tags
               }))}`}>
                 <Wand2 className="h-3.5 w-3.5 mr-1.5" />
-                Use prompt
+                {t('usePrompt')}
               </Link>
             </Button>
           </div>

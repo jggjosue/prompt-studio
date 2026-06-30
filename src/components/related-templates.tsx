@@ -4,7 +4,7 @@ import { pickLocalized } from '@/lib/localized-string';
 import { normalizeDemoFolder } from '@/lib/refactory-online';
 import { resolveWebPageImageUrl } from '@/lib/web-page-media';
 import { getRawWebPages } from '@/lib/web-pages';
-import { getLocale } from 'next-intl/server';
+import { getLocale, getTranslations } from 'next-intl/server';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -46,6 +46,7 @@ export async function RelatedTemplates({
   limit = 6,
 }: RelatedTemplatesProps) {
   const locale = await getLocale();
+  const t = await getTranslations('landingPages');
   const normalizedCurrentSlug = normalizeCategory(currentSlug);
   const normalizedCategory = normalizeCategory(category);
 
@@ -86,18 +87,18 @@ export async function RelatedTemplates({
       <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
-            Related templates
+            {t('relatedTemplates')}
           </p>
           <h2
             id="related-templates-heading"
             className="text-2xl font-bold tracking-tight font-headline"
           >
-            More {category} templates
+            {t('moreTemplates', { category })}
           </h2>
         </div>
         <Button variant="outline" asChild>
           <Link href={`/web-tags?tag=${encodeURIComponent(category)}`}>
-            View category
+            {t('viewCategory')}
           </Link>
         </Button>
       </div>

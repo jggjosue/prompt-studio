@@ -5,7 +5,7 @@ export default function LandingPagesLoading() {
     <div
       className="container py-8 space-y-6"
       aria-busy="true"
-      aria-label="Cargando landing pages"
+      aria-label="Landing pages"
     >
       <Skeleton className="h-10 w-64 max-w-full" />
       <Skeleton className="h-4 w-96 max-w-full" />

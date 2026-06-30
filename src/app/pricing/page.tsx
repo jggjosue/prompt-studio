@@ -61,7 +61,7 @@ const faqs = [
   {
     question: 'How do I contact billing support?',
     answer:
-      'You can contact our billing support team by emailing billing@promptstudio.com.',
+      'You can contact our billing support team by emailing support@promptstudio.com.',
   },
 ];
 
@@ -138,7 +138,7 @@ export default function PricingPage() {
       ],
     },
   ];
-  
+
   const [credits, setCredits] = useState(4000);
   const creditPrice = credits / 100;
 
@@ -217,7 +217,7 @@ export default function PricingPage() {
                           {feature.text}
                         </span>
                         {feature.tooltip && (
-                           <Info className="w-4 h-4 text-muted-foreground" />
+                          <Info className="w-4 h-4 text-muted-foreground" />
                         )}
                       </li>
                     ))}
@@ -235,39 +235,39 @@ export default function PricingPage() {
               </Card>
             ))}
           </div>
-          
+
           <div className="mt-20">
-             <Card className="p-8 bg-muted/30">
-               <div className="grid md:grid-cols-2 gap-8 items-center">
-                  <div>
-                    <h2 className="text-3xl font-bold font-headline mb-2">On-Demand Credits</h2>
-                    <p className="text-muted-foreground">Flexible credits for any time. Never expire.</p>
+            <Card className="p-8 bg-muted/30">
+              <div className="grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                  <h2 className="text-3xl font-bold font-headline mb-2">On-Demand Credits</h2>
+                  <p className="text-muted-foreground">Flexible credits for any time. Never expire.</p>
+                </div>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-primary font-bold text-3xl">${creditPrice.toFixed(2)}</span>
+                    <span className="font-semibold text-xl">{credits.toLocaleString()} credits</span>
                   </div>
-                  <div className="space-y-4">
-                     <div className="flex justify-between items-center">
-                        <span className="text-primary font-bold text-3xl">${creditPrice.toFixed(2)}</span>
-                        <span className="font-semibold text-xl">{credits.toLocaleString()} credits</span>
-                     </div>
-                     <Slider 
-                        defaultValue={[4000]} 
-                        max={20000} 
-                        min={2000}
-                        step={100}
-                        onValueChange={(value) => setCredits(value[0])}
-                     />
-                     <div className="flex justify-between text-xs text-muted-foreground">
-                        <span>2,000</span>
-                        <span>4,000</span>
-                        <span>8,000</span>
-                        <span>10,000</span>
-                        <span>12,000</span>
-                        <span>16,000</span>
-                        <span>20,000</span>
-                     </div>
-                     <Button className="w-full">Create now and use them anytime</Button>
+                  <Slider
+                    defaultValue={[4000]}
+                    max={20000}
+                    min={2000}
+                    step={100}
+                    onValueChange={(value) => setCredits(value[0])}
+                  />
+                  <div className="flex justify-between text-xs text-muted-foreground">
+                    <span>2,000</span>
+                    <span>4,000</span>
+                    <span>8,000</span>
+                    <span>10,000</span>
+                    <span>12,000</span>
+                    <span>16,000</span>
+                    <span>20,000</span>
                   </div>
-               </div>
-             </Card>
+                  <Button className="w-full">Create now and use them anytime</Button>
+                </div>
+              </div>
+            </Card>
           </div>
 
           <div className="mt-20 max-w-4xl mx-auto">
