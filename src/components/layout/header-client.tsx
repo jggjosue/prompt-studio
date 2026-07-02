@@ -34,10 +34,12 @@ import {
   ChevronDown,
   // Globe,
   ImageIcon,
+  LayoutTemplate,
   // LayoutGrid,
   LogIn,
   Menu,
   Tag,
+  Sparkles,
   User,
   UserPlus,
   Video,
@@ -93,9 +95,51 @@ export default function HeaderClient() {
     }>;
   }> = [
     { id: 'home', href: '/', label: tNav('home') },
-    { id: 'marketplace', href: '/landing-pages', label: tNav('marketplace'), activePrefixes: ['/landing-pages', '/web-tags'] },
-    { id: 'videos', href: '/video-prompts', label: tNav('videos'), activePrefixes: ['/video-prompts', '/gallery-videos', '/video-tags'] },
-    { id: 'images', href: '/image-prompts', label: tNav('images'), activePrefixes: ['/image-prompts', '/gallery', '/image-tags'] },
+    {
+      id: 'webs',
+      label: tNav('webs'),
+      activePrefixes: ['/landing-pages', '/web-animations', '/web-tags'],
+      dropdown: [
+        {
+          href: '/landing-pages',
+          label: tNav('templates'),
+          description: tNav('templatesDesc'),
+          icon: <LayoutTemplate className="h-4 w-4" />,
+        },
+        {
+          href: '/web-animations',
+          label: tNav('animations'),
+          description: tNav('animationsDesc'),
+          icon: <Sparkles className="h-4 w-4" />,
+        },
+      ],
+    },
+    {
+      id: 'multimedia',
+      label: tNav('multimedia'),
+      activePrefixes: [
+        '/video-prompts',
+        '/gallery-videos',
+        '/video-tags',
+        '/image-prompts',
+        '/gallery',
+        '/image-tags',
+      ],
+      dropdown: [
+        {
+          href: '/video-prompts',
+          label: tNav('videos'),
+          description: tNav('videosDesc'),
+          icon: <Video className="h-4 w-4" />,
+        },
+        {
+          href: '/image-prompts',
+          label: tNav('images'),
+          description: tNav('imagesDesc'),
+          icon: <ImageIcon className="h-4 w-4" />,
+        },
+      ],
+    },
     { id: 'membership', href: '/prices', label: tNav('prices'), activePrefixes: ['/prices', '/pricing'] },
     { id: 'affiliate-program', href: '/affiliate-program', label: tNav('affiliateProgram'), activePrefixes: ['/affiliate-program', '/affiliate-program-terms'] },
   ];
@@ -193,17 +237,17 @@ export default function HeaderClient() {
                               <ClientLink
                                 href={item.href}
                                 className={cn(
-                                  'flex items-start gap-3 p-2 rounded-md hover:bg-accent',
+                                  'group flex items-start gap-3 rounded-lg p-3 transition-all duration-200 hover:bg-blue-600 hover:text-white hover:shadow-lg hover:shadow-blue-600/25',
                                   pathMatchesPrefix(pathname, item.href) &&
-                                    'bg-accent'
+                                    'bg-blue-600 text-white shadow-lg shadow-blue-600/20'
                                 )}
                               >
-                                <div className="bg-blue-500/10 text-blue-500 p-2 rounded-md">
+                                <div className="rounded-md bg-blue-500/10 p-2 text-blue-500 transition-colors group-hover:bg-white/15 group-hover:text-white">
                                   {item.icon}
                                 </div>
                                 <div>
                                   <p className="font-semibold">{item.label}</p>
-                                  <p className="text-xs text-muted-foreground">
+                                  <p className="text-xs text-muted-foreground transition-colors group-hover:text-blue-100">
                                     {item.description}
                                   </p>
                                 </div>
@@ -284,13 +328,17 @@ export default function HeaderClient() {
                 <DropdownMenuContent className="w-64">
                   <div className="grid grid-cols-1 gap-2 p-1">
                     {link.dropdown?.map(item => (
-                      <DropdownMenuItem key={item.label} asChild>
+                      <DropdownMenuItem
+                        key={item.label}
+                        asChild
+                        className="p-0 focus:bg-transparent"
+                      >
                         <ClientLink
                           href={item.href}
                           className={cn(
-                            'flex items-start gap-3 p-2 rounded-md hover:bg-accent',
+                            'group flex w-full items-start gap-3 rounded-lg p-3 transition-all duration-200 hover:bg-blue-600 hover:text-white hover:shadow-lg hover:shadow-blue-600/25 focus:bg-blue-600 focus:text-white',
                             pathMatchesPrefix(pathname, item.href) &&
-                              'bg-accent'
+                              'bg-blue-600 text-white shadow-lg shadow-blue-600/20'
                           )}
                           aria-current={
                             pathMatchesPrefix(pathname, item.href)
@@ -298,12 +346,12 @@ export default function HeaderClient() {
                               : undefined
                           }
                         >
-                          <div className="bg-blue-500/10 text-blue-500 p-2 rounded-md">
+                          <div className="rounded-md bg-blue-500/10 p-2 text-blue-500 transition-colors group-hover:bg-white/15 group-hover:text-white group-focus:bg-white/15 group-focus:text-white">
                             {item.icon}
                           </div>
                           <div>
                             <p className="font-semibold">{item.label}</p>
-                            <p className="text-xs text-muted-foreground">
+                            <p className="text-xs text-muted-foreground transition-colors group-hover:text-blue-100 group-focus:text-blue-100">
                               {item.description}
                             </p>
                           </div>

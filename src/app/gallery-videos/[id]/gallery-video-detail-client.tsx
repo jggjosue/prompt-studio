@@ -14,6 +14,8 @@ import { Button } from '@/components/ui/button';
 import { LiquidButton } from '@/components/ui/liquid-glass-button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
+import { useDailyCopyLimit } from '@/hooks/use-daily-copy-limit';
+import { copyToClipboard } from '@/lib/copy-to-clipboard';
 import type { VideoProp } from '@/lib/placeholder-videos';
 import { useLocalizedPlaceholderVideos } from '@/hooks/use-localized-catalog';
 import { ArrowLeft, Copy, Wand2 } from 'lucide-react';
@@ -28,14 +30,18 @@ export default function GalleryVideoDetailClient({ item }: { item: VideoProp }) 
   );
   
   const { toast } = useToast();
+  const { copyWithDailyLimit } = useDailyCopyLimit();
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(item.description).then(() => {
+  const handleCopy = async () => {
+    const result = await copyWithDailyLimit(() =>
+      copyToClipboard(item.description)
+    );
+    if (result === 'copied') {
         toast({
             title: "Copied!",
             description: "Prompt copied to clipboard.",
         });
-    });
+    }
   };
 
   return (

@@ -58,14 +58,20 @@ export async function getServerSubscriptionStatus(): Promise<ServerSubscriptionS
   const client = await clerkClient();
   const user = await client.users.getUser(userId);
   const meta = user.privateMetadata as Partial<StripeUserMetadata> & { purchasedPages?: string[] };
-  const userEmail = user.emailAddresses[0]?.emailAddress;
+  const userEmail = user.emailAddresses[0]?.emailAddress?.trim().toLowerCase();
+  const premiumJoEmail = process.env.PROMPT_STUDIO_PREMIUM_JO
+    ?.trim()
+    .toLowerCase();
+  const startupJoEmail = process.env.PROMPT_STUDIO_STARTUP_JO
+    ?.trim()
+    .toLowerCase();
   const purchasedPages = Array.isArray(meta.purchasedPages) ? meta.purchasedPages : [];
 
-  if (process.env.PROMPT_STUDIO_PREMIUM_JO && userEmail === process.env.PROMPT_STUDIO_PREMIUM_JO) {
+  if (premiumJoEmail && userEmail === premiumJoEmail) {
     return { ...DEV_PREMIUM, purchasedPages };
   }
 
-  if (process.env.PROMPT_STUDIO_STARTUP_JO && userEmail === process.env.PROMPT_STUDIO_STARTUP_JO) {
+  if (startupJoEmail && userEmail === startupJoEmail) {
     return { ...DEV_STARTUP, purchasedPages };
   }
 

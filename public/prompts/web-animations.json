@@ -1,0 +1,1438 @@
+{
+  "title_es": "Animaciones web ",
+  "title_en": "web animations",
+  "description_es": "Cada instrucción está pensada para generar una animación dentro de un contenedor cuando sea necesario.",
+  "description_en": "Each instruction is designed to generate an animation inside a container when needed.",
+  "animations": [
+    {
+      "id": 1,
+      "name": {
+        "es": "Animación de entrada con fade in",
+        "en": "Fade-in entrance animation"
+      },
+      "prompt": {
+        "es": "Crea una animación web dentro de un contenedor. El elemento debe aparecer suavemente con efecto fade in, pasando de opacidad 0 a opacidad 1. El contenedor debe incluir un título, una descripción corta y un botón. Usa clases claras, diseño responsive, estilo moderno y transición fluida.",
+        "en": "Create a web animation inside a container. The element should smoothly appear with a fade-in effect, transitioning from opacity 0 to opacity 1. The container should include a title, a short description, and a button. Use clear classes, responsive design, modern styling, and smooth transitions."
+      }
+    },
+    {
+      "id": 2,
+      "name": {
+        "es": "Animación de salida con fade out",
+        "en": "Fade-out exit animation"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor. El contenedor debe mostrar una tarjeta con texto y un botón. Al hacer clic en el botón, la tarjeta debe desaparecer suavemente con efecto fade out, reduciendo su opacidad hasta 0 y luego ocultándose completamente.",
+        "en": "Create an animation inside a container. The container should display a card with text and a button. When the button is clicked, the card should smoothly disappear with a fade-out effect, reducing its opacity to 0 and then hiding completely."
+      }
+    },
+    {
+      "id": 3,
+      "name": {
+        "es": "Slide desde la izquierda",
+        "en": "Slide in from the left"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor donde una tarjeta aparezca deslizándose desde la izquierda hasta su posición final. La animación debe combinar movimiento horizontal y opacidad progresiva. El diseño debe ser moderno, centrado y responsive.",
+        "en": "Create an animation inside a container where a card appears by sliding in from the left to its final position. The animation should combine horizontal movement and progressive opacity. The design should be modern, centered, and responsive."
+      }
+    },
+    {
+      "id": 4,
+      "name": {
+        "es": "Slide desde la derecha",
+        "en": "Slide in from the right"
+      },
+      "prompt": {
+        "es": "Crea una animación web dentro de un contenedor donde un bloque de contenido aparezca deslizándose desde la derecha. El elemento debe empezar fuera de pantalla, entrar suavemente y quedar centrado. Incluye título, texto y botón.",
+        "en": "Create a web animation inside a container where a content block appears by sliding in from the right. The element should start off-screen, enter smoothly, and remain centered. Include a title, text, and a button."
+      }
+    },
+    {
+      "id": 5,
+      "name": {
+        "es": "Slide desde arriba",
+        "en": "Slide in from the top"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor donde una notificación o tarjeta aparezca desde la parte superior con movimiento suave. El contenedor debe entrar con opacidad progresiva, sombra suave y bordes redondeados.",
+        "en": "Create an animation inside a container where a notification or card appears from the top with smooth movement. The container should enter with progressive opacity, soft shadow, and rounded corners."
+      }
+    },
+    {
+      "id": 6,
+      "name": {
+        "es": "Slide desde abajo",
+        "en": "Slide in from the bottom"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor donde una tarjeta aparezca desde abajo hacia arriba. La tarjeta debe iniciar con opacidad 0 y transform translateY positivo, luego subir suavemente hasta su posición normal. Diseño responsive y elegante.",
+        "en": "Create an animation inside a container where a card appears from the bottom upward. The card should start with opacity 0 and a positive translateY transform, then smoothly move up to its normal position. Use an elegant responsive design."
+      }
+    },
+    {
+      "id": 7,
+      "name": {
+        "es": "Zoom in",
+        "en": "Zoom-in animation"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor. El elemento debe aparecer haciendo zoom in, empezando pequeño con escala 0.5 y opacidad 0 hasta llegar a escala 1 y opacidad 1. Incluye una tarjeta con título, texto e icono.",
+        "en": "Create an animation inside a container. The element should appear with a zoom-in effect, starting small at scale 0.5 and opacity 0, then reaching scale 1 and opacity 1. Include a card with a title, text, and icon."
+      }
+    },
+    {
+      "id": 8,
+      "name": {
+        "es": "Zoom out",
+        "en": "Zoom-out animation"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor. El contenedor debe contener una tarjeta visible. Al hacer clic en un botón, la tarjeta debe reducirse con efecto zoom out, bajar su opacidad y ocultarse suavemente.",
+        "en": "Create an animation inside a container. The container should contain a visible card. When a button is clicked, the card should shrink with a zoom-out effect, reduce its opacity, and hide smoothly."
+      }
+    },
+    {
+      "id": 9,
+      "name": {
+        "es": "Rotación 360 grados",
+        "en": "360-degree rotation animation"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor. El contenedor debe contener un icono o círculo que gire 360 grados de forma continua. La animación debe ser suave, infinita y configurable. El elemento debe estar centrado en pantalla.",
+        "en": "Create an animation inside a container. The container should contain an icon or circle that continuously rotates 360 degrees. The animation should be smooth, infinite, and easy to configure. Center the element on the screen."
+      }
+    },
+    {
+      "id": 10,
+      "name": {
+        "es": "Rebote",
+        "en": "Bounce animation"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor. El elemento principal debe rebotar suavemente hacia arriba y hacia abajo en bucle. Incluye un botón o icono animado. El efecto debe parecer natural, moderno y no demasiado exagerado.",
+        "en": "Create an animation inside a container. The main element should gently bounce up and down in a loop. Include an animated button or icon. The effect should feel natural, modern, and not too exaggerated."
+      }
+    },
+    {
+      "id": 11,
+      "name": {
+        "es": "Pulso",
+        "en": "Pulse animation"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor. El contenedor debe contener un botón o círculo que haga efecto pulse, aumentando ligeramente su escala y su sombra en bucle. El diseño debe ser moderno y útil para llamar la atención del usuario.",
+        "en": "Create an animation inside a container. The container should contain a button or circle with a pulse effect, slightly increasing its scale and shadow in a loop. The design should be modern and useful for drawing user attention."
+      }
+    },
+    {
+      "id": 12,
+      "name": {
+        "es": "Sacudida",
+        "en": "Shake animation"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor. El contenedor debe contener un formulario simple con un botón. Cuando el usuario haga clic en el botón sin completar el campo, el input debe sacudirse horizontalmente para indicar error.",
+        "en": "Create an animation inside a container. The container should contain a simple form with a button. When the user clicks the button without completing the field, the input should shake horizontally to indicate an error."
+      }
+    },
+    {
+      "id": 13,
+      "name": {
+        "es": "Vibración",
+        "en": "Vibration animation"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor. El elemento debe vibrar rápidamente durante unos segundos al pasar el mouse sobre él. Usa un icono, botón o tarjeta pequeña. La animación debe sentirse como una alerta o llamada de atención.",
+        "en": "Create an animation inside a container. The element should vibrate quickly for a few seconds when hovered. Use an icon, button, or small card. The animation should feel like an alert or attention-grabbing effect."
+      }
+    },
+    {
+      "id": 14,
+      "name": {
+        "es": "Flip horizontal",
+        "en": "Horizontal flip animation"
+      },
+      "prompt": {
+        "es": "Crea una tarjeta animada dentro de un contenedor. La tarjeta debe girar horizontalmente al pasar el mouse, mostrando un frente y un reverso. El frente debe tener título e imagen, y el reverso debe tener descripción y botón.",
+        "en": "Create an animated card inside a container. The card should flip horizontally on hover, showing a front and back side. The front should include a title and image, and the back should include a description and button."
+      }
+    },
+    {
+      "id": 15,
+      "name": {
+        "es": "Flip vertical",
+        "en": "Vertical flip animation"
+      },
+      "prompt": {
+        "es": "Crea una tarjeta dentro de un contenedor. La tarjeta debe hacer flip vertical al pasar el mouse, girando sobre el eje X. Debe tener una cara frontal con icono y título, y una cara trasera con información adicional.",
+        "en": "Create a card inside a container. The card should flip vertically on hover, rotating on the X axis. It should have a front side with an icon and title, and a back side with additional information."
+      }
+    },
+    {
+      "id": 16,
+      "name": {
+        "es": "Tilt 3D con el mouse",
+        "en": "3D mouse tilt animation"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor. La tarjeta debe inclinarse en 3D siguiendo la posición del mouse. Incluye efecto de luz suave, sombra dinámica y transición al salir el cursor. El código debe estar limpio y ser responsive.",
+        "en": "Create an animation inside a container. The card should tilt in 3D following the mouse position. Include a soft light effect, dynamic shadow, and a transition when the cursor leaves. The code should be clean and responsive."
+      }
+    },
+    {
+      "id": 17,
+      "name": {
+        "es": "Tarjeta hover elevada",
+        "en": "Elevated hover card animation"
+      },
+      "prompt": {
+        "es": "Crea una tarjeta dentro de un contenedor. Al pasar el mouse, la tarjeta debe elevarse suavemente, aumentar ligeramente de tamaño y mostrar una sombra más intensa. Incluye título, texto, icono y botón.",
+        "en": "Create a card inside a container. On hover, the card should smoothly rise, slightly increase in size, and show a stronger shadow. Include a title, text, icon, and button."
+      }
+    },
+    {
+      "id": 18,
+      "name": {
+        "es": "Sombra dinámica",
+        "en": "Dynamic shadow animation"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor. El contenedor debe contener una tarjeta cuya sombra cambie dinámicamente según la posición del mouse. El efecto debe dar sensación de profundidad y movimiento realista.",
+        "en": "Create an animation inside a container. The container should contain a card whose shadow changes dynamically based on mouse position. The effect should create a realistic sense of depth and movement."
+      }
+    },
+    {
+      "id": 19,
+      "name": {
+        "es": "Borde luminoso",
+        "en": "Glowing border animation"
+      },
+      "prompt": {
+        "es": "Crea una tarjeta dentro de un contenedor. La tarjeta debe tener un borde luminoso animado con efecto glow. El borde debe brillar suavemente en bucle. Incluye título, descripción y botón con diseño oscuro y moderno.",
+        "en": "Create a card inside a container. The card should have an animated glowing border effect. The border should softly glow in a loop. Include a title, description, and button with a dark modern design."
+      }
+    },
+    {
+      "id": 20,
+      "name": {
+        "es": "Borde giratorio",
+        "en": "Rotating border animation"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor. El contenedor debe tener una tarjeta con un borde animado que parezca girar alrededor del contenedor. Usa pseudo-elementos si es necesario. El interior debe mantenerse limpio, con texto y botón.",
+        "en": "Create an animation inside a container. The container should contain a card with an animated border that appears to rotate around the container. Use pseudo-elements if necessary. Keep the interior clean, with text and a button."
+      }
+    },
+    {
+      "id": 21,
+      "name": {
+        "es": "Fondo degradado animado",
+        "en": "Animated gradient background"
+      },
+      "prompt": {
+        "es": "Crea una sección dentro de un contenedor. El fondo debe tener un degradado animado que cambie lentamente de posición y colores. Encima del fondo debe haber un título, subtítulo y botón. El diseño debe ser responsive.",
+        "en": "Create a section inside a container. The background should have an animated gradient that slowly changes position and colors. On top of the background, include a title, subtitle, and button. The design should be responsive."
+      }
+    },
+    {
+      "id": 22,
+      "name": {
+        "es": "Partículas flotantes",
+        "en": "Floating particles animation"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor. El fondo del contenedor debe tener partículas flotantes que se muevan lentamente en distintas direcciones. El contenido principal debe estar centrado encima de las partículas.",
+        "en": "Create an animation inside a container. The container background should contain floating particles that move slowly in different directions. The main content should be centered above the particles."
+      }
+    },
+    {
+      "id": 23,
+      "name": {
+        "es": "Burbujas subiendo",
+        "en": "Rising bubbles animation"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor. Deben aparecer varias burbujas desde la parte inferior del contenedor y subir lentamente hasta desaparecer. Las burbujas deben tener tamaños, velocidades y opacidades diferentes.",
+        "en": "Create an animation inside a container usando HTML and CSS. Several bubbles should appear from the bottom of the container and slowly rise until they disappear. The bubbles should have different sizes, speeds, and opacity levels."
+      }
+    },
+    {
+      "id": 24,
+      "name": {
+        "es": "Lluvia digital estilo Matrix",
+        "en": "Matrix-style digital rain animation"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor. El fondo debe mostrar caracteres cayendo verticalmente como lluvia digital estilo Matrix. Encima debe haber un texto centrado visible. El efecto debe ser fluido y ocupar todo el contenedor.",
+        "en": "Create an animation inside a container. The background should show characters falling vertically like Matrix-style digital rain. A visible centered text should appear above it. The effect should be smooth and fill the entire container."
+      }
+    },
+    {
+      "id": 25,
+      "name": {
+        "es": "Estrellas en movimiento",
+        "en": "Moving stars animation"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor. El fondo debe simular un cielo con estrellas moviéndose lentamente. Algunas estrellas deben parpadear suavemente. El contenedor debe servir como sección hero con texto encima.",
+        "en": "Create an animation inside a container. The background should simulate a sky with stars moving slowly. Some stars should softly twinkle. The container should work as a hero section with text on top."
+      }
+    },
+    {
+      "id": 26,
+      "name": {
+        "es": "Ondas de agua",
+        "en": "Water waves animation"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor. El fondo debe tener ondas suaves que se muevan horizontalmente como agua. Incluye contenido centrado encima del efecto. El diseño debe ser limpio, moderno y responsive.",
+        "en": "Create an animation inside a container. The background should have soft waves moving horizontally like water. Include centered content above the effect. The design should be clean, modern, and responsive."
+      }
+    },
+    {
+      "id": 27,
+      "name": {
+        "es": "Ripple al hacer clic",
+        "en": "Click ripple animation"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor. El contenedor debe contener un botón con efecto ripple. Al hacer clic, una onda circular debe expandirse desde el punto exacto del clic y desaparecer suavemente.",
+        "en": "Create an animation inside a container. The container should contain a button with a ripple effect. When clicked, a circular wave should expand from the exact click point and fade smoothly."
+      }
+    },
+    {
+      "id": 28,
+      "name": {
+        "es": "Botón con carga",
+        "en": "Loading button animation"
+      },
+      "prompt": {
+        "es": "Crea un botón animado dentro de un contenedor. Al hacer clic, el botón debe cambiar a estado de carga, mostrar un spinner pequeño, deshabilitarse temporalmente y luego mostrar el texto “Completado”.",
+        "en": "Create an animated button inside a container. When clicked, the button should switch to a loading state, show a small spinner, temporarily disable itself, and then display the text “Completed”."
+      }
+    },
+    {
+      "id": 29,
+      "name": {
+        "es": "Botón con icono desplazado",
+        "en": "Button with sliding icon animation"
+      },
+      "prompt": {
+        "es": "Crea un botón dentro de un contenedor. El botón debe tener texto e icono. Al pasar el mouse, el icono debe desplazarse suavemente hacia la derecha y el fondo del botón debe cambiar con transición elegante.",
+        "en": "Create a button inside a container. The button should include text and an icon. On hover, the icon should smoothly move to the right and the button background should change with an elegant transition."
+      }
+    },
+    {
+      "id": 30,
+      "name": {
+        "es": "Botón neón",
+        "en": "Neon button animation"
+      },
+      "prompt": {
+        "es": "Crea un botón dentro de un contenedor. El botón debe tener estilo neón con fondo oscuro, borde brillante y sombra luminosa. Al pasar el mouse, el brillo debe intensificarse con una animación suave.",
+        "en": "Create a button inside a container. The button should have a neon style with a dark background, glowing border, and luminous shadow. On hover, the glow should intensify with a smooth animation."
+      }
+    },
+    {
+      "id": 31,
+      "name": {
+        "es": "Texto máquina de escribir",
+        "en": "Typewriter text animation"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor. El texto debe escribirse letra por letra como una máquina de escribir. Debe incluir un cursor parpadeante al final y permitir cambiar fácilmente el texto",
+        "en": "Create an animation inside a container. The text should be typed letter by letter like a typewriter. Include a blinking cursor at the end and make the text easy to change"
+      }
+    },
+    {
+      "id": 32,
+      "name": {
+        "es": "Texto neón parpadeante",
+        "en": "Blinking neon text animation"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor. El texto debe tener efecto neón y parpadear suavemente como un letrero luminoso. Usa fondo oscuro, sombra de texto y animación infinita.",
+        "en": "Create an animation inside a container. The text should have a neon effect and softly blink like a glowing sign. Use a dark background, text shadow, and infinite animation."
+      }
+    },
+    {
+      "id": 33,
+      "name": {
+        "es": "Letras saltando",
+        "en": "Jumping letters animation"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor. Una palabra debe separarse en letras individuales, y cada letra debe saltar de forma secuencial. La animación debe repetirse en bucle y ser visualmente divertida.",
+        "en": "Create an animation inside a container. A word should be split into individual letters, and each letter should jump sequentially. The animation should loop and feel visually playful."
+      }
+    },
+    {
+      "id": 34,
+      "name": {
+        "es": "Texto con gradiente en movimiento",
+        "en": "Moving gradient text animation"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor. El texto principal debe tener un gradiente animado que se mueva horizontalmente. Usa background-clip text para que el color se vea dentro de las letras. Diseño moderno y responsive.",
+        "en": "Create an animation inside a container. The main text should have an animated gradient that moves horizontally. Use background-clip text so the color appears inside the letters. Use a modern and responsive design."
+      }
+    },
+    {
+      "id": 35,
+      "name": {
+        "es": "Texto revelado con máscara",
+        "en": "Masked text reveal animation"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor. El texto debe revelarse con una máscara que se mueva de izquierda a derecha. La animación debe iniciar automáticamente al cargar la página y verse profesional.",
+        "en": "Create an animation inside a container. The text should be revealed with a mask moving from left to right. The animation should start automatically when the page loads and look professional."
+      }
+    },
+    {
+      "id": 36,
+      "name": {
+        "es": "Imagen con zoom hover",
+        "en": "Image zoom on hover animation"
+      },
+      "prompt": {
+        "es": "Crea una imagen dentro de un contenedor. Al pasar el mouse sobre la imagen, debe hacer zoom suavemente sin salirse del contenedor. El contenedor debe tener overflow hidden, bordes redondeados y sombra moderna.",
+        "en": "Create an image inside a container. When hovering over the image, it should smoothly zoom without leaving the container. The container should use overflow hidden, rounded corners, and a modern shadow."
+      }
+    },
+    {
+      "id": 37,
+      "name": {
+        "es": "Imagen con efecto parallax",
+        "en": "Image parallax animation"
+      },
+      "prompt": {
+        "es": "Crea una sección dentro de un contenedor. El fondo debe tener una imagen con efecto parallax suave al hacer scroll. El contenido encima debe incluir título, texto y botón. El efecto debe ser responsive.",
+        "en": "Create a section inside a container. The background should have an image with a smooth parallax effect on scroll. The content above it should include a title, text, and button. The effect should be responsive."
+      }
+    },
+    {
+      "id": 38,
+      "name": {
+        "es": "Imagen revelada de izquierda a derecha",
+        "en": "Left-to-right image reveal animation"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor. Una imagen debe revelarse de izquierda a derecha usando una máscara animada cuando el usuario llegue a esa sección con scroll.",
+        "en": "Create an animation inside a container. An image should be revealed from left to right using an animated mask when the user reaches that section while scrolling."
+      }
+    },
+    {
+      "id": 39,
+      "name": {
+        "es": "Carrusel automático",
+        "en": "Automatic carousel animation"
+      },
+      "prompt": {
+        "es": "Crea un carrusel automático dentro de un contenedor. El carrusel debe mostrar varias tarjetas que se deslizan horizontalmente cada 3 segundos. Incluye botones de anterior y siguiente, diseño responsive y transición suave.",
+        "en": "Create an automatic carousel inside a container. The carousel should show several cards that slide horizontally every 3 seconds. Include previous and next buttons, responsive design, and smooth transitions."
+      }
+    },
+    {
+      "id": 40,
+      "name": {
+        "es": "Slider con transición suave",
+        "en": "Smooth transition slider animation"
+      },
+      "prompt": {
+        "es": "Crea un slider dentro de un contenedor. El slider debe cambiar entre imágenes o tarjetas con transición suave de opacidad y desplazamiento. Incluye indicadores inferiores y controles de navegación.",
+        "en": "Create a slider inside a container. The slider should switch between images or cards with a smooth opacity and movement transition. Include bottom indicators and navigation controls."
+      }
+    },
+    {
+      "id": 41,
+      "name": {
+        "es": "Tabs con fade",
+        "en": "Fade tabs animation"
+      },
+      "prompt": {
+        "es": "Crea un componente de tabs dentro de un contenedor. Al hacer clic en cada tab, el contenido correspondiente debe aparecer con efecto fade in. Usa botones accesibles, estado activo y diseño responsive.",
+        "en": "Create a tabs component inside a container. When each tab is clicked, the corresponding content should appear with a fade-in effect. Use accessible buttons, an active state, and responsive design."
+      }
+    },
+    {
+      "id": 42,
+      "name": {
+        "es": "Acordeón desplegable",
+        "en": "Expandable accordion animation"
+      },
+      "prompt": {
+        "es": "Crea un acordeón dentro de un contenedor. Cada sección debe abrirse y cerrarse con transición suave de altura. Incluye icono + que cambie a - al abrir. El diseño debe ser limpio y responsive.",
+        "en": "Create an accordion inside a container. Each section should open and close with a smooth height transition. Include a + icon that changes to - when opened. The design should be clean and responsive."
+      }
+    },
+    {
+      "id": 43,
+      "name": {
+        "es": "Modal con escala",
+        "en": "Scale modal animation"
+      },
+      "prompt": {
+        "es": "Crea un modal animado dentro de un contenedor. Al abrirse, el modal debe aparecer con escala desde 0.8 a 1 y opacidad progresiva. Incluye fondo oscuro transparente, botón cerrar y animación al cerrar.",
+        "en": "Create an animated modal inside a container usando HTML, CSS, and JavaScript. When opened, the modal should appear by scaling from 0.8 to 1 with progressive opacity. Include a transparent dark overlay, close button, and closing animation."
+      }
+    },
+    {
+      "id": 44,
+      "name": {
+        "es": "Notificación toast",
+        "en": "Toast notification animation"
+      },
+      "prompt": {
+        "es": "Crea una notificación toast dentro de un contenedor. Al presionar un botón, la notificación debe entrar desde la esquina inferior derecha, permanecer 3 segundos y salir suavemente. Usa diseño moderno.",
+        "en": "Create a toast notification inside a container usando HTML, CSS, and JavaScript. When a button is pressed, the notification should enter from the bottom-right corner, stay for 3 seconds, and exit smoothly. Use a modern design."
+      }
+    },
+    {
+      "id": 45,
+      "name": {
+        "es": "Loader circular",
+        "en": "Circular loader animation"
+      },
+      "prompt": {
+        "es": "Crea un loader circular dentro de un contenedor. El loader debe girar infinitamente con un borde parcialmente coloreado o degradado. Debe estar centrado en el contenedor y tener tamaño adaptable.",
+        "en": "Create a circular loader inside a container usando HTML and CSS. The loader should spin infinitely with a partially colored or gradient border. It should be centered inside the container and have an adaptable size."
+      }
+    },
+    {
+      "id": 46,
+      "name": {
+        "es": "Loader de puntos saltando",
+        "en": "Jumping dots loader animation"
+      },
+      "prompt": {
+        "es": "Crea un loader dentro de un contenedor. El loader debe tener tres puntos que saltan uno después del otro de forma secuencial. La animación debe ser infinita, suave y centrada.",
+        "en": "Create a loader inside a container. The loader should have three dots that jump one after another sequentially. The animation should be infinite, smooth, and centered."
+      }
+    },
+    {
+      "id": 47,
+      "name": {
+        "es": "Skeleton loading shimmer",
+        "en": "Skeleton loading shimmer animation"
+      },
+      "prompt": {
+        "es": "Crea una animación de skeleton loading dentro de un contenedor. Debe mostrar tres tarjetas simulando contenido cargando, con rectángulos grises y efecto shimmer que se mueva horizontalmente. Diseño responsive.",
+        "en": "Create a skeleton loading animation inside a container. It should show three cards simulating loading content, with gray rectangles and a shimmer effect moving horizontally. Use responsive design."
+      }
+    },
+    {
+      "id": 48,
+      "name": {
+        "es": "Contador numérico",
+        "en": "Animated number counter"
+      },
+      "prompt": {
+        "es": "Crea una sección de estadísticas dentro de un contenedor. Debe contener tres contadores que aumenten desde 0 hasta su valor final cuando la sección sea visible en pantalla.",
+        "en": "Create a statistics section inside a container. It should contain three counters that increase from 0 to their final values when the section becomes visible on screen."
+      }
+    },
+    {
+      "id": 49,
+      "name": {
+        "es": "Barra de progreso",
+        "en": "Animated progress bar"
+      },
+      "prompt": {
+        "es": "Crea una barra de progreso animada dentro de un contenedor. La barra debe llenarse desde 0% hasta un porcentaje definido, mostrando el número actualizado en tiempo real. Debe activarse al aparecer en pantalla.",
+        "en": "Create an animated progress bar inside a container usando HTML, CSS, and JavaScript. The bar should fill from 0% to a defined percentage, showing the updated number in real time. It should activate when it appears on screen."
+      }
+    },
+    {
+      "id": 50,
+      "name": {
+        "es": "Aparición al hacer scroll con Intersection Observer",
+        "en": "Scroll reveal animation with Intersection Observer"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor. Varios elementos deben aparecer cuando entren en pantalla, usando opacidad progresiva y desplazamiento desde abajo. La animación debe aplicarse de forma escalonada.",
+        "en": "Create an animation inside a container. Several elements should appear when they enter the viewport, using progressive opacity and movement from the bottom. The animation should be applied in a staggered way."
+      }
+    },
+    {
+      "id": 51,
+      "name": {
+        "es": "Escena 3D con cubo flotante",
+        "en": "3D scene with floating cube"
+      },
+      "prompt": {
+        "es": "Crea una animación web dentro de un contenedor. Debe mostrarse un cubo 3D flotando lentamente, rotando sobre sus ejes X e Y, con luz suave, sombras y fondo oscuro moderno. El cubo debe reaccionar ligeramente al movimiento del mouse y mantenerse responsive.",
+        "en": "Create a web animation inside a container. Display a 3D cube floating slowly, rotating on its X and Y axes, with soft lighting, shadows, and a modern dark background. The cube should react slightly to mouse movement and remain responsive."
+      }
+    },
+    {
+      "id": 52,
+      "name": {
+        "es": "Scroll 3D con tarjetas en profundidad",
+        "en": "3D scroll with depth cards"
+      },
+      "prompt": {
+        "es": "Crea una sección dentro de un contenedor. Al hacer scroll, varias tarjetas deben moverse en profundidad usando transformaciones 3D, como si el usuario estuviera avanzando dentro de un túnel de tarjetas. Usa perspectiva, escala, opacidad y z-index.",
+        "en": "Create a section inside a container. On scroll, several cards should move in depth using 3D transforms, as if the user were moving through a tunnel of cards. Use perspective, scale, opacity, and z-index."
+      }
+    },
+    {
+      "id": 53,
+      "name": {
+        "es": "Galería 3D circular",
+        "en": "Circular 3D gallery"
+      },
+      "prompt": {
+        "es": "Crea una galería 3D dentro de un contenedor donde varias imágenes estén organizadas en un carrusel circular. El usuario debe poder girar la galería con botones o arrastrando el mouse. Usa perspectiva 3D, transición suave y diseño responsive.",
+        "en": "Create a 3D gallery inside a container where several images are arranged in a circular carousel. The user should be able to rotate the gallery with buttons or by dragging the mouse. Use 3D perspective, smooth transitions, and responsive design."
+      }
+    },
+    {
+      "id": 54,
+      "name": {
+        "es": "Planeta 3D interactivo",
+        "en": "Interactive 3D planet"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor. Debe mostrarse un planeta 3D rotando lentamente, con textura simulada, atmósfera luminosa y estrellas de fondo. El planeta debe poder moverse ligeramente con el mouse y verse bien en escritorio y móvil.",
+        "en": "Create an animation inside a container. Display a slowly rotating 3D planet with a simulated texture, glowing atmosphere, and background stars. The planet should move slightly with the mouse and look good on desktop and mobile."
+      }
+    },
+    {
+      "id": 55,
+      "name": {
+        "es": "Hero con modelo 3D flotante",
+        "en": "Hero section with floating 3D model"
+      },
+      "prompt": {
+        "es": "Crea una sección hero dentro de un contenedor con un modelo 3D flotante al lado derecho y texto al lado izquierdo. El modelo debe rotar suavemente en bucle y reaccionar al movimiento del cursor. Incluye título, subtítulo y botón principal. Diseño oscuro, moderno y responsive.",
+        "en": "Create a hero section inside a container with a floating 3D model on the right and text on the left. The model should rotate smoothly in a loop and react to cursor movement. Include a title, subtitle, and main button. Use a dark, modern, responsive design."
+      }
+    },
+    {
+      "id": 56,
+      "name": {
+        "es": "Scroll 3D tipo túnel espacial",
+        "en": "3D space tunnel scroll"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor. Al hacer scroll, el usuario debe avanzar por un túnel espacial 3D con partículas, estrellas y luces. El movimiento debe estar sincronizado con el scroll y tener sensación de profundidad.",
+        "en": "Create an animation inside a container. On scroll, the user should move through a 3D space tunnel with particles, stars, and lights. The motion should be synchronized with scrolling and create a strong sense of depth."
+      }
+    },
+    {
+      "id": 57,
+      "name": {
+        "es": "Texto 3D que gira con scroll",
+        "en": "3D text rotating on scroll"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor donde un texto grande en 3D gire y cambie de escala mientras el usuario hace scroll. El diseño debe parecer una portada moderna de landing page.",
+        "en": "Create an animation inside a container where large 3D text rotates and changes scale as the user scrolls. The design should feel like a modern landing page cover."
+      }
+    },
+    {
+      "id": 58,
+      "name": {
+        "es": "Imagen 3D con efecto profundidad",
+        "en": "3D image with depth effect"
+      },
+      "prompt": {
+        "es": "Crea una tarjeta dentro de un contenedor con una imagen dividida en varias capas. Al mover el mouse, las capas deben desplazarse a distintas velocidades para crear efecto de profundidad 3D.",
+        "en": "Create a card inside a container with an image divided into several layers. When the mouse moves, the layers should move at different speeds to create a 3D depth effect."
+      }
+    },
+    {
+      "id": 59,
+      "name": {
+        "es": "Objeto 3D wireframe",
+        "en": "3D wireframe object"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor. Debe mostrarse un objeto 3D en estilo wireframe rotando lentamente, con líneas brillantes, fondo oscuro y partículas suaves alrededor. El objeto debe estar centrado y ser responsive.",
+        "en": "Create an animation inside a container. Display a slowly rotating 3D wireframe object with glowing lines, a dark background, and soft surrounding particles. The object should be centered and responsive."
+      }
+    },
+    {
+      "id": 60,
+      "name": {
+        "es": "Grid 3D con hover magnético",
+        "en": "3D grid with magnetic hover"
+      },
+      "prompt": {
+        "es": "Crea un grid de cards dentro de un contenedor. Cada card debe tener efecto hover magnético, inclinación 3D, brillo dinámico y movimiento suave según la posición del mouse.",
+        "en": "Create a card grid inside a container. Each card should have a magnetic hover effect, 3D tilt, dynamic glow, and smooth movement based on mouse position."
+      }
+    },
+    {
+      "id": 61,
+      "name": {
+        "es": "Scroll horizontal con profundidad 3D",
+        "en": "Horizontal scroll with 3D depth"
+      },
+      "prompt": {
+        "es": "Crea una sección dentro de un contenedor donde el scroll vertical controle un carrusel horizontal. Las tarjetas deben moverse lateralmente y también cambiar escala, rotación Y y profundidad 3D.",
+        "en": "Create a section inside a container where vertical scrolling controls a horizontal carousel. The cards should move sideways and also change scale, Y rotation, and 3D depth."
+      }
+    },
+    {
+      "id": 62,
+      "name": {
+        "es": "Landing con transición entre escenas 3D",
+        "en": "Landing page with transitions between 3D scenes"
+      },
+      "prompt": {
+        "es": "Crea una landing dentro de un contenedor con tres escenas 3D. Al hacer scroll, la cámara debe moverse de una escena a otra usando GSAP y ScrollTrigger. Incluye objetos 3D simples como esfera, cubo y torus, con luces y fondo oscuro.",
+        "en": "Create a landing page inside a container with three 3D scenes. On scroll, the camera should move from one scene to another using GSAP and ScrollTrigger. Include simple 3D objects such as a sphere, cube, and torus, with lights and a dark background."
+      }
+    },
+    {
+      "id": 63,
+      "name": {
+        "es": "Esfera de partículas interactiva",
+        "en": "Interactive particle sphere"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor. Debe mostrarse una esfera formada por partículas pequeñas. La esfera debe rotar suavemente y deformarse ligeramente al mover el mouse. Usa colores brillantes sobre fondo oscuro.",
+        "en": "Create an animation inside a container. Display a sphere made of small particles. The sphere should rotate smoothly and deform slightly when the mouse moves. Use bright colors on a dark background."
+      }
+    },
+    {
+      "id": 64,
+      "name": {
+        "es": "Cursor 3D con estela",
+        "en": "3D cursor with trail"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor donde el cursor tenga una estela 3D o luminosa. La estela debe seguir el movimiento del mouse con retraso suave, escala variable y opacidad decreciente.",
+        "en": "Create an animation inside a container where the cursor has a 3D or glowing trail. The trail should follow mouse movement with smooth delay, variable scale, and decreasing opacity."
+      }
+    },
+    {
+      "id": 65,
+      "name": {
+        "es": "Botón magnético premium",
+        "en": "Premium magnetic button"
+      },
+      "prompt": {
+        "es": "Crea un botón dentro de un contenedor. El botón debe seguir ligeramente el cursor cuando el mouse se acerca, generar un efecto magnético, brillar al hover y volver suavemente a su posición original.",
+        "en": "Create a button inside a container. The button should slightly follow the cursor when the mouse gets close, create a magnetic effect, glow on hover, and smoothly return to its original position."
+      }
+    },
+    {
+      "id": 66,
+      "name": {
+        "es": "Cards con efecto stack 3D al scroll",
+        "en": "Cards with 3D stack effect on scroll"
+      },
+      "prompt": {
+        "es": "Crea una sección dentro de un contenedor con varias cards apiladas. Al hacer scroll, cada card debe pegarse temporalmente en pantalla y luego desplazarse, creando un efecto stack 3D con escala, sombra y rotación suave.",
+        "en": "Create a section inside a container with several stacked cards. On scroll, each card should temporarily pin to the screen and then move away, creating a 3D stack effect with scale, shadow, and smooth rotation."
+      }
+    },
+    {
+      "id": 67,
+      "name": {
+        "es": "Sección con reveal diagonal",
+        "en": "Section with diagonal reveal"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor donde el contenido se revele con una máscara diagonal al hacer scroll. Incluye título, imagen, texto y botón. El efecto debe ser fluido, elegante y responsive.",
+        "en": "Create an animation inside a container where the content is revealed with a diagonal mask on scroll. Include a title, image, text, and button. The effect should be smooth, elegant, and responsive."
+      }
+    },
+    {
+      "id": 68,
+      "name": {
+        "es": "Transición líquida entre secciones",
+        "en": "Liquid transition between sections"
+      },
+      "prompt": {
+        "es": "Crea una transición animada dentro de un contenedor. Entre dos secciones debe aparecer una forma líquida que se expande y se contrae, funcionando como transición visual. Usa colores modernos y movimiento orgánico.",
+        "en": "Create an animated transition inside a container. Between two sections, a liquid shape should expand and contract as a visual transition. Use modern colors and organic movement."
+      }
+    },
+    {
+      "id": 69,
+      "name": {
+        "es": "Morphing de formas SVG",
+        "en": "SVG shape morphing"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor MorphSVGPlugin o Anime.js. Una forma SVG debe transformarse suavemente en otra forma, como círculo a estrella, estrella a onda y onda a círculo. Incluye controles para iniciar y pausar.",
+        "en": "Create an animation inside a container MorphSVGPlugin or Anime.js. One SVG shape should smoothly transform into another, such as circle to star, star to wave, and wave to circle. Include controls to start and pause."
+      }
+    },
+    {
+      "id": 70,
+      "name": {
+        "es": "Ilustración animada con Lottie",
+        "en": "Animated illustration with Lottie"
+      },
+      "prompt": {
+        "es": "Crea un componente dentro de un contenedor usando Lottie Web. Debe cargar una animación Lottie desde un archivo JSON, reproducirse en bucle, pausar al pasar el mouse y reiniciarse al hacer clic. Incluye estructura HTML, CSS y JavaScript.",
+        "en": "Create a component inside a container using Lottie Web. It should load a Lottie animation from a JSON file, play in a loop, pause on hover, and restart on click. Include HTML, CSS, and JavaScript structure."
+      }
+    },
+    {
+      "id": 71,
+      "name": {
+        "es": "Animación interactiva con Rive",
+        "en": "Interactive animation with Rive"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor usando Rive. Debe cargar una animación.riv, mostrarla centrada y permitir interacción al hacer hover o clic. Incluye ejemplo de estados como idle, hover y active, con diseño responsive.",
+        "en": "Create an animation inside a container using Rive. It should load a.riv animation, display it centered, and allow interaction on hover or click. Include example states such as idle, hover, and active, with responsive design."
+      }
+    },
+    {
+      "id": 72,
+      "name": {
+        "es": "Preloader 3D con logo",
+        "en": "3D logo preloader"
+      },
+      "prompt": {
+        "es": "Crea un preloader dentro de un contenedor. Debe mostrar un logo 3D o texto 3D rotando mientras carga la página. Al finalizar, el preloader debe desaparecer con fade out y escala suave.",
+        "en": "Create a preloader inside a container. It should show a rotating 3D logo or 3D text while the page loads. When finished, the preloader should disappear with a fade-out and smooth scale animation."
+      }
+    },
+    {
+      "id": 73,
+      "name": {
+        "es": "Transición de página tipo wipe",
+        "en": "Wipe page transition"
+      },
+      "prompt": {
+        "es": "Crea una transición de página dentro de un contenedor usando Barba.js y GSAP. Al navegar entre rutas, debe aparecer una capa oscura que cubra la pantalla con efecto wipe horizontal, luego revele la nueva página suavemente.",
+        "en": "Create a page transition inside a container using Barba.js and GSAP. When navigating between routes, a dark layer should cover the screen with a horizontal wipe effect, then smoothly reveal the new page."
+      }
+    },
+    {
+      "id": 74,
+      "name": {
+        "es": "Imagen con distorsión WebGL",
+        "en": "Image with WebGL distortion"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor donde una imagen tenga distorsión WebGL al mover el mouse. El efecto debe parecer líquido o cristal. Usa Three.js, Curtains.js o PixiJS, shaders simples, transición suave y fallback básico si WebGL no está disponible.",
+        "en": "Create an animation inside a container where an image has WebGL distortion when the mouse moves. The effect should look like liquid or glass. Use Three.js, Curtains.js, or PixiJS, simple shaders, smooth transitions, and a basic fallback if WebGL is unavailable."
+      }
+    },
+    {
+      "id": 75,
+      "name": {
+        "es": "Slider con distorsión entre imágenes",
+        "en": "Slider with image distortion transitions"
+      },
+      "prompt": {
+        "es": "Crea un slider dentro de un contenedor. Al cambiar de imagen, debe aplicarse una transición de distorsión tipo displacement map. Incluye controles, indicadores y diseño responsive.",
+        "en": "Create a slider inside a container. When changing images, apply a displacement-map style distortion transition. Include controls, indicators, and responsive design."
+      }
+    },
+    {
+      "id": 76,
+      "name": {
+        "es": "Scroll con cámara 3D",
+        "en": "Scroll-controlled 3D camera"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor , GSAP y ScrollTrigger. Al hacer scroll, la cámara 3D debe desplazarse alrededor de varios objetos flotantes, cambiando posición, rotación y zoom según la sección visible.",
+        "en": "Create an animation inside a container , GSAP, and ScrollTrigger. On scroll, the 3D camera should move around several floating objects, changing position, rotation, and zoom according to the visible section."
+      }
+    },
+    {
+      "id": 77,
+      "name": {
+        "es": "Timeline 3D vertical",
+        "en": "Vertical 3D timeline"
+      },
+      "prompt": {
+        "es": "Crea un timeline vertical dentro de un contenedor donde cada evento aparezca como una tarjeta 3D. Al hacer scroll, las tarjetas deben rotar suavemente, acercarse a cámara y fijarse por un momento antes de continuar. Usa GSAP, ScrollTrigger y CSS 3D.",
+        "en": "Create a vertical timeline inside a container where each event appears as a 3D card. On scroll, the cards should rotate smoothly, move closer to the camera, and pin for a moment before continuing. Use GSAP, ScrollTrigger, and CSS 3D."
+      }
+    },
+    {
+      "id": 78,
+      "name": {
+        "es": "Menú circular 3D",
+        "en": "Circular 3D menu"
+      },
+      "prompt": {
+        "es": "Crea un menú circular dentro de un contenedor usando HTML, CSS y GSAP. Al hacer clic en el botón central, los enlaces deben expandirse en círculo con profundidad 3D, rotación y rebote suave. Debe cerrarse al volver a hacer clic.",
+        "en": "Create a circular menu inside a container using HTML, CSS, and GSAP. When clicking the central button, the links should expand in a circle with 3D depth, rotation, and a soft bounce. It should close when clicked again."
+      }
+    },
+    {
+      "id": 79,
+      "name": {
+        "es": "Hero con partículas que forman texto",
+        "en": "Hero with particles forming text"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor donde cientos de partículas formen una palabra. Al mover el mouse, las partículas deben dispersarse ligeramente y luego regresar a formar el texto. Usa fondo oscuro y colores brillantes.",
+        "en": "Create an animation inside a container where hundreds of particles form a word. When the mouse moves, the particles should slightly disperse and then return to form the text. Use a dark background and bright colors."
+      }
+    },
+    {
+      "id": 80,
+      "name": {
+        "es": "Cursor con deformación de imagen",
+        "en": "Cursor with image deformation"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor donde al mover el cursor sobre una imagen se cree una deformación circular alrededor del puntero. Usa GSAP para seguir el cursor y WebGL o CSS para simular el efecto de lente.",
+        "en": "Create an animation inside a container where moving the cursor over an image creates a circular deformation around the pointer. Use GSAP to follow the cursor and WebGL or CSS to simulate a lens effect."
+      }
+    },
+    {
+      "id": 81,
+      "name": {
+        "es": "Carrusel infinito con efecto 3D coverflow",
+        "en": "Infinite carousel with 3D coverflow effect"
+      },
+      "prompt": {
+        "es": "Crea un carrusel dentro de un contenedor con efecto coverflow 3D usando GSAP o Swiper.js. La tarjeta central debe verse grande y las laterales deben verse inclinadas, más pequeñas y con opacidad reducida. Incluye navegación, autoplay y soporte responsive.",
+        "en": "Create a carousel inside a container with a 3D coverflow effect using GSAP or Swiper.js. The central card should appear large, while side cards should be tilted, smaller, and less opaque. Include navigation, autoplay, and responsive support."
+      }
+    },
+    {
+      "id": 82,
+      "name": {
+        "es": "Scroll reveal con blur progresivo",
+        "en": "Scroll reveal with progressive blur"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor donde los elementos aparezcan al hacer scroll pasando de blur fuerte a imagen nítida. Combina opacidad, translateY y filter blur.",
+        "en": "Create an animation inside a container where elements appear on scroll by moving from heavy blur to sharp clarity. Combine opacity, translateY, and filter blur."
+      }
+    },
+    {
+      "id": 83,
+      "name": {
+        "es": "Texto dividido por palabras con stagger",
+        "en": "Text split by words with stagger"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor usando GSAP y SplitType. El título debe dividirse en palabras o letras, y cada una debe aparecer con stagger, movimiento vertical, opacidad y rotación ligera. El efecto debe activarse al cargar.",
+        "en": "Create an animation inside a container using GSAP and SplitType. The title should be split into words or letters, and each one should appear with stagger, vertical movement, opacity, and slight rotation. The effect should trigger on page load."
+      }
+    },
+    {
+      "id": 84,
+      "name": {
+        "es": "Scroll con pin de sección y zoom",
+        "en": "Pinned scroll section with zoom"
+      },
+      "prompt": {
+        "es": "Crea una sección dentro de un contenedor usando GSAP y ScrollTrigger. La sección debe quedarse fija mientras el usuario hace scroll, y una imagen central debe hacer zoom progresivo hasta ocupar toda la pantalla. Luego debe revelar el siguiente contenido.",
+        "en": "Create a section inside a container using GSAP and ScrollTrigger. The section should remain pinned while the user scrolls, and a central image should progressively zoom until it fills the entire screen. Then it should reveal the next content."
+      }
+    },
+    {
+      "id": 85,
+      "name": {
+        "es": "Galería masonry con entrada animada",
+        "en": "Masonry gallery with animated entrance"
+      },
+      "prompt": {
+        "es": "Crea una galería masonry dentro de un contenedor con imágenes de diferentes tamaños. Al cargar, cada imagen debe aparecer con escala, opacidad y desplazamiento usando stagger. Al hacer hover, debe inclinarse suavemente en 3D. Usa GSAP y Masonry opcional.",
+        "en": "Create a masonry gallery inside a container with images of different sizes. On load, each image should appear with scale, opacity, and movement using stagger. On hover, it should tilt smoothly in 3D. Use GSAP and optional Masonry."
+      }
+    },
+    {
+      "id": 86,
+      "name": {
+        "es": "Cards con física y colisiones",
+        "en": "Cards with physics and collisions"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor usando Matter.js. Varias tarjetas o círculos deben caer con gravedad, rebotar y colisionar dentro del contenedor. El usuario debe poder arrastrar los elementos con el mouse.",
+        "en": "Create an animation inside a container using Matter.js. Several cards or circles should fall with gravity, bounce, and collide inside the container. The user should be able to drag the elements with the mouse."
+      }
+    },
+    {
+      "id": 87,
+      "name": {
+        "es": "Objetos flotantes con física suave",
+        "en": "Floating objects with soft physics"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor usando Matter.js y GSAP. Varios objetos flotantes deben moverse lentamente, chocar suavemente y reaccionar al cursor. El diseño debe parecer una sección creativa e interactiva.",
+        "en": "Create an animation inside a container using Matter.js and GSAP. Several floating objects should move slowly, collide softly, and react to the cursor. The design should feel like a creative and interactive section."
+      }
+    },
+    {
+      "id": 88,
+      "name": {
+        "es": "Fondo de ondas con shader",
+        "en": "Shader wave background"
+      },
+      "prompt": {
+        "es": "Crea un fondo animado dentro de un contenedor y shaders. El fondo debe mostrar ondas fluidas que cambien con el tiempo y reaccionen al movimiento del mouse. Encima debe haber texto legible y botones.",
+        "en": "Create an animated background inside a container and shaders. The background should display fluid waves that change over time and react to mouse movement. Place readable text and buttons above it."
+      }
+    },
+    {
+      "id": 89,
+      "name": {
+        "es": "Esfera metálica reflectante",
+        "en": "Reflective metallic sphere"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor. Debe mostrarse una esfera metálica reflectante rotando lentamente, con iluminación HDR simulada, fondo oscuro y sombras suaves. La esfera debe responder al movimiento del mouse.",
+        "en": "Create an animation inside a container. Display a slowly rotating reflective metallic sphere with simulated HDR lighting, a dark background, and soft shadows. The sphere should respond to mouse movement."
+      }
+    },
+    {
+      "id": 90,
+      "name": {
+        "es": "Scroll 3D con capas parallax",
+        "en": "3D scroll with parallax layers"
+      },
+      "prompt": {
+        "es": "Crea una sección dentro de un contenedor con varias capas parallax en 3D. Al hacer scroll, las capas deben moverse a diferentes velocidades y profundidades usando translateZ, scale y opacity.",
+        "en": "Create a section inside a container with several 3D parallax layers. On scroll, the layers should move at different speeds and depths using translateZ, scale, and opacity."
+      }
+    },
+    {
+      "id": 91,
+      "name": {
+        "es": "Mapa 3D de puntos conectados",
+        "en": "3D connected points map"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor. Debe mostrarse una red de puntos 3D conectados por líneas. La red debe moverse lentamente, reaccionar al mouse y tener apariencia tecnológica.",
+        "en": "Create an animation inside a container. Display a 3D network of points connected by lines. The network should move slowly, react to the mouse, and have a technological appearance."
+      }
+    },
+    {
+      "id": 92,
+      "name": {
+        "es": "Menú fullscreen con animación escalonada",
+        "en": "Fullscreen menu with staggered animation"
+      },
+      "prompt": {
+        "es": "Crea un menú fullscreen dentro de un contenedor. Al abrirse, el fondo debe expandirse con una animación circular y los enlaces deben aparecer uno por uno con stagger, opacidad y movimiento vertical.",
+        "en": "Create a fullscreen menu inside a container. When opened, the background should expand with a circular animation and the links should appear one by one with stagger, opacity, and vertical movement."
+      }
+    },
+    {
+      "id": 93,
+      "name": {
+        "es": "Hero con texto cinemático",
+        "en": "Hero with cinematic text"
+      },
+      "prompt": {
+        "es": "Crea una animación hero dentro de un contenedor usando GSAP y SplitType. El título debe aparecer palabra por palabra con estilo cinematográfico, usando blur, opacidad, escala y desplazamiento. Incluye subtítulo y botón con retraso animado.",
+        "en": "Create a hero animation inside a container using GSAP and SplitType. The title should appear word by word with a cinematic style, using blur, opacity, scale, and movement. Include a subtitle and button with delayed animation."
+      }
+    },
+    {
+      "id": 94,
+      "name": {
+        "es": "Imagen sticky con texto animado al scroll",
+        "en": "Sticky image with scroll-animated text"
+      },
+      "prompt": {
+        "es": "Crea una sección dentro de un contenedor donde una imagen quede fija a la izquierda y varios textos cambien a la derecha al hacer scroll. Cada bloque de texto debe aparecer con fade, slide y ligera rotación 3D.",
+        "en": "Create a section inside a container where an image stays sticky on the left and several text blocks change on the right while scrolling. Each text block should appear with fade, slide, and slight 3D rotation."
+      }
+    },
+    {
+      "id": 95,
+      "name": {
+        "es": "Producto 3D que rota al scroll",
+        "en": "3D product rotating on scroll"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor , GSAP y ScrollTrigger. Debe mostrarse un producto 3D simple, como una caja o botella. Al hacer scroll, el producto debe rotar, acercarse y cambiar de posición junto con textos explicativos.",
+        "en": "Create an animation inside a container , GSAP, and ScrollTrigger. Display a simple 3D product, such as a box or bottle. On scroll, the product should rotate, move closer, and change position alongside explanatory text."
+      }
+    },
+    {
+      "id": 96,
+      "name": {
+        "es": "Efecto holograma 3D",
+        "en": "3D hologram effect"
+      },
+      "prompt": {
+        "es": "Crea una animación dentro de un contenedor. Debe mostrarse un objeto 3D con material tipo holograma, líneas brillantes, transparencia y parpadeo sutil. Incluye fondo oscuro y controles mínimos de interacción con mouse.",
+        "en": "Create an animation inside a container. Display a 3D object with a hologram-style material, glowing lines, transparency, and subtle flicker. Include a dark background and minimal mouse interaction controls."
+      }
+    },
+    {
+      "id": 97,
+      "name": {
+        "es": "Fondo con líneas de energía",
+        "en": "Background with energy lines"
+      },
+      "prompt": {
+        "es": "Crea un fondo animado dentro de un contenedor. Deben aparecer líneas de energía moviéndose por caminos SVG, con brillo, opacidad variable y efecto tecnológico. Encima debe haber un título y botón.",
+        "en": "Create an animated background inside a container. Energy lines should move along SVG paths with glow, variable opacity, and a technological effect. Place a title and button above it."
+      }
+    },
+    {
+      "id": 98,
+      "name": {
+        "es": "Scroll con cambio de color por sección",
+        "en": "Scroll with section-based color changes"
+      },
+      "prompt": {
+        "es": "Crea una página dentro de un contenedor con varias secciones. Al hacer scroll, el fondo debe cambiar suavemente de color según la sección activa. También deben animarse títulos y botones con opacidad, escala y movimiento.",
+        "en": "Create a page inside a container with several sections. On scroll, the background should smoothly change color based on the active section. Titles and buttons should also animate with opacity, scale, and movement."
+      }
+    },
+    {
+      "id": 99,
+      "name": {
+        "es": "Video mask reveal al scroll",
+        "en": "Video mask reveal on scroll"
+      },
+      "prompt": {
+        "es": "Crea una sección dentro de un contenedor con un video de fondo. Al hacer scroll, una máscara circular debe expandirse desde el centro revelando el video. para controlar el tamaño de la máscara.",
+        "en": "Create a section inside a container with a background video. On scroll, a circular mask should expand from the center to reveal the video. to control the mask size."
+      }
+    },
+    {
+      "id": 100,
+      "name": {
+        "es": "Experiencia 3D tipo presentación narrativa",
+        "en": "3D narrative presentation experience"
+      },
+      "prompt": {
+        "es": "Crea una experiencia web dentro de un contenedor. Al hacer scroll, el usuario debe recorrer una narrativa visual con objetos 3D, textos que aparecen por capítulos, cámara en movimiento, partículas y transiciones suaves entre escenas.",
+        "en": "Create a web experience inside a container. On scroll, the user should move through a visual narrative with 3D objects, chapter-based appearing text, moving camera, particles, and smooth transitions between scenes."
+      }
+    },
+    {
+      "id": 101,
+      "name": {
+        "es": "Integrar componente de animación 3D con scroll",
+        "en": "Integrate 3D scroll animation component"
+      },
+      "prompt": {
+        "es": "Se te asigna una tarea para integrar un componente React existente en el codebase.\n\nEl codebase debe soportar:\n- Estructura de proyecto shadcn\n- Tailwind CSS\n- TypeScript\n- Next.js App Router\n- Framer Motion\n\nSi no lo soporta, proporciona instrucciones para configurar el proyecto usando shadcn CLI, instalar Tailwind CSS, TypeScript y Framer Motion.\n\nDetermina la ruta por defecto para componentes y estilos.\nSi la ruta por defecto para componentes no es /components/ui, proporciona instrucciones sobre por qué es importante crear esta carpeta.\n\nCrea y copia-pega un componente llamado:\n\nscroll-3d-card.tsx\n\nEl componente debe renderizar una tarjeta 3D que rota, escala y se mueve según el progreso del scroll. Debe usar hooks de Framer Motion como useScroll y useTransform. La tarjeta debe soportar children, contenido de título personalizado, altura responsive, estilos dark mode, bordes redondeados y transiciones suaves de sombra.\n\nTambién crea un componente demo llamado:\n\nscroll-3d-card-demo.tsx\n\nEl demo debe mostrar una sección hero con una tarjeta animada grande que contenga imagen, título, subtítulo y botón de llamada a la acción.\n\nInstala dependencias NPM:\n\nframer-motion\n\nGuías de implementación:\n1. Analiza la estructura del componente y las dependencias requeridas.\n2. Revisa props como title, children, image y className.\n3. Identifica si el componente necesita ejecutarse en cliente usando \"use client\".\n4. Asegúrate de que la animación funcione en escritorio y móvil.\n5. Usa clases utilitarias de Tailwind CSS.\n6. Usa estructura HTML accesible.\n7. Usa imágenes placeholder de Unsplash si no se proporcionan assets.\n\nPasos para integrar:\n0. Copia y pega el componente en /components/ui.\n1. Instala las dependencias externas.\n2. Importa el componente en una página o sección demo.\n3. Prueba la animación con scroll.\n4. Asegúrate de que el layout no se rompa en móvil.",
+        "en": "You are given a task to integrate an existing React component in the codebase.\n\nThe codebase should support:\n- shadcn project structure\n- Tailwind CSS\n- TypeScript\n- Next.js App Router\n- Framer Motion\n\nIf it doesn't, provide instructions on how to setup the project via shadcn CLI, install Tailwind CSS, TypeScript, and Framer Motion.\n\nDetermine the default path for components and styles.\nIf the default path for components is not /components/ui, provide instructions on why it is important to create this folder.\n\nCreate and copy-paste a component called:\n\nscroll-3d-card.tsx\n\nThe component should render a 3D card that rotates, scales, and moves based on scroll progress. It must use Framer Motion hooks such as useScroll and useTransform. The card should support children content, custom title content, responsive height, dark mode styles, rounded borders, and smooth shadow transitions.\n\nAlso create a demo component called:\n\nscroll-3d-card-demo.tsx\n\nThe demo should show a hero section with a large animated card containing an image, title, subtitle, and call-to-action button.\n\nInstall NPM dependencies:\n\nframer-motion\n\nImplementation Guidelines:\n1. Analyze the component structure and required dependencies.\n2. Review props such as title, children, image, and className.\n3. Identify whether the component needs to run on the client using \"use client\".\n4. Make sure the animation works on desktop and mobile.\n5. Use Tailwind CSS utility classes.\n6. Use accessible HTML structure.\n7. Use placeholder images from Unsplash if no image assets are provided.\n\nSteps to integrate:\n0. Copy-paste the component into /components/ui.\n1. Install external dependencies.\n2. Import the component into a page or demo section.\n3. Test the scroll animation.\n4. Ensure the layout does not break on mobile."
+      }
+    },
+    {
+      "id": 102,
+      "name": {
+        "es": "Integrar hero con partículas animadas",
+        "en": "Integrate animated particle hero"
+      },
+      "prompt": {
+        "es": "Se te asigna una tarea para integrar un componente React existente en el codebase.\n\nEl codebase debe soportar:\n- Estructura de proyecto shadcn\n- Tailwind CSS\n- TypeScript\n- Next.js\n- Componentes React de cliente\n- Framer Motion\n\nSi no lo soporta, proporciona instrucciones para configurar el proyecto usando shadcn CLI, instalar Tailwind CSS, TypeScript y dependencias requeridas.\n\nDetermina la ruta por defecto para componentes y estilos.\nSi la ruta por defecto para componentes no es /components/ui, explica por qué esta carpeta debe crearse para mantener organizados los componentes UI reutilizables.\n\nCrea y copia-pega un componente llamado:\n\nparticle-hero.tsx\n\nEl componente debe renderizar una sección hero moderna con partículas flotantes animadas en el fondo. Las partículas deben moverse lentamente, tener diferentes tamaños, valores de opacidad y retrasos de animación. El hero debe incluir título, subtítulo, descripción, botón primario, botón secundario y badge opcional.\n\nCrea un archivo demo llamado:\n\nparticle-hero-demo.tsx\n\nEl demo debe mostrar un hero de landing page con fondo oscuro, partículas animadas, texto con gradiente y dos botones de llamada a la acción.\n\nInstala dependencias NPM:\n\nframer-motion\nlucide-react\n\nGuías de implementación:\n1. Analiza la estructura del componente e identifica todas las props requeridas.\n2. Usa \"use client\" si la lógica de animación depende del navegador.\n3. Usa iconos de lucide-react para botones o badges.\n4. Mantén todas las animaciones dentro del div principal.\n5. Asegúrate de que las partículas de fondo no bloqueen la interacción del usuario.\n6. Haz que el componente sea responsive y accesible.\n\nPreguntas que debes hacer:\n- ¿Qué título y subtítulo deben mostrarse?\n- ¿El fondo debe ser oscuro o claro?\n- ¿Qué botones deben incluirse?\n- ¿Las partículas deben reaccionar al movimiento del mouse?\n- ¿Dónde se usará este hero?\n\nPasos para integrar:\n0. Copia y pega el componente en /components/ui.\n1. Instala las dependencias.\n2. Importa el demo en la página deseada.\n3. Personaliza texto, colores y botones.\n4. Prueba el componente en móvil y escritorio.",
+        "en": "You are given a task to integrate an existing React component in the codebase.\n\nThe codebase should support:\n- shadcn project structure\n- Tailwind CSS\n- TypeScript\n- Next.js\n- React client components\n- Framer Motion\n\nIf it doesn't, provide instructions on how to setup the project via shadcn CLI, install Tailwind CSS, TypeScript, and required dependencies.\n\nDetermine the default path for components and styles.\nIf the default path for components is not /components/ui, explain why this folder should be created to keep reusable UI components organized.\n\nCreate and copy-paste a component called:\n\nparticle-hero.tsx\n\nThe component should render a modern hero section with animated floating particles in the background. The particles must move slowly, have different sizes, opacity values, and animation delays. The hero should include title, subtitle, description, primary button, secondary button, and optional badge.\n\nCreate a demo file called:\n\nparticle-hero-demo.tsx\n\nThe demo should show a landing page hero with dark background, animated particles, gradient text, and two call-to-action buttons.\n\nInstall NPM dependencies:\n\nframer-motion\nlucide-react\n\nImplementation Guidelines:\n1. Analyze the component structure and identify all required props.\n2. Use \"use client\" if animation logic depends on the browser.\n3. Use lucide-react icons for buttons or badges.\n4. Keep all animations inside the main div.\n5. Ensure the background particles do not block user interaction.\n6. Make the component responsive and accessible.\n\nQuestions to Ask:\n- What title and subtitle should be displayed?\n- Should the background be dark or light?\n- What buttons should be included?\n- Should the particles react to mouse movement?\n- Where will this hero be used?\n\nSteps to integrate:\n0. Copy-paste the component into /components/ui.\n1. Install dependencies.\n2. Import the demo into the desired page.\n3. Customize text, colors, and buttons.\n4. Test the component on mobile and desktop."
+      }
+    },
+    {
+      "id": 103,
+      "name": {
+        "es": "Integrar galería 3D con tarjetas",
+        "en": "Integrate 3D card gallery"
+      },
+      "prompt": {
+        "es": "Se te asigna una tarea para integrar un componente React existente en el codebase.\n\nEl codebase debe soportar:\n- Estructura de proyecto shadcn\n- Tailwind CSS\n- TypeScript\n- Next.js App Router\n- Framer Motion\n- lucide-react\n\nSi no lo soporta, proporciona instrucciones de configuración usando shadcn CLI, Tailwind CSS, TypeScript e instalación de dependencias.\n\nDetermina la ruta por defecto para componentes y estilos.\nSi /components/ui no existe, proporciona instrucciones para crearla y explica que los componentes UI reutilizables deben vivir ahí.\n\nCrea y copia-pega un componente llamado:\n\nthree-d-gallery.tsx\n\nEl componente debe renderizar una galería 3D de tarjetas. Las tarjetas deben rotar en perspectiva, moverse suavemente al hover y soportar imagen, título, descripción, etiquetas y botones de acción. La tarjeta activa debe parecer más cercana al usuario, mientras que las tarjetas inactivas deben ser más pequeñas, ligeramente rotadas y parcialmente transparentes.\n\nCrea un archivo demo llamado:\n\nthree-d-gallery-demo.tsx\n\nEl demo debe mostrar al menos 6 tarjetas usando datos de ejemplo e imágenes de Unsplash. Incluye botones de navegación, soporte de teclado y comportamiento responsive.\n\nInstala dependencias NPM:\n\nframer-motion\nlucide-react\n\nGuías de implementación:\n1. Analiza las props del componente y la estructura de datos de las tarjetas.\n2. Usa interfaces TypeScript para los items de galería.\n3. Usa motion.div para transiciones animadas de tarjetas.\n4. Agrega botones accesibles para anterior y siguiente.\n5. Haz que la galería funcione en móvil apilando o simplificando el efecto 3D.\n6. Usa solo Tailwind CSS para estilos.\n\nPasos para integrar:\n0. Copia y pega los archivos en los directorios correctos.\n1. Instala las dependencias.\n2. Importa el demo en una página.\n3. Reemplaza imágenes de ejemplo con assets reales si es necesario.\n4. Verifica la navegación por teclado y el layout responsive.",
+        "en": "You are given a task to integrate an existing React component in the codebase.\n\nThe codebase should support:\n- shadcn project structure\n- Tailwind CSS\n- TypeScript\n- Next.js App Router\n- Framer Motion\n- lucide-react\n\nIf it doesn't, provide setup instructions using shadcn CLI, Tailwind CSS, TypeScript, and dependency installation.\n\nDetermine the default path for components and styles.\nIf /components/ui does not exist, provide instructions to create it and explain that reusable UI components should live there.\n\nCreate and copy-paste a component called:\n\nthree-d-gallery.tsx\n\nThe component should render a 3D gallery of cards. Cards should rotate in perspective, move smoothly on hover, and support image, title, description, tags, and action buttons. The active card should appear closer to the viewer while inactive cards should be smaller, slightly rotated, and partially transparent.\n\nCreate a demo file called:\n\nthree-d-gallery-demo.tsx\n\nThe demo should display at least 6 cards using sample data and Unsplash images. Include navigation buttons, keyboard support, and responsive behavior.\n\nInstall NPM dependencies:\n\nframer-motion\nlucide-react\n\nImplementation Guidelines:\n1. Analyze the component props and card data structure.\n2. Use TypeScript interfaces for gallery items.\n3. Use motion.div for animated card transitions.\n4. Add accessible buttons for previous and next actions.\n5. Make the gallery work on mobile by stacking or simplifying the 3D effect.\n6. Use Tailwind CSS only for styling.\n\nSteps to integrate:\n0. Copy-paste files into the correct directories.\n1. Install dependencies.\n2. Import the demo into a page.\n3. Replace sample images with real assets if needed.\n4. Verify keyboard navigation and responsive layout."
+      }
+    },
+    {
+      "id": 104,
+      "name": {
+        "es": "Integrar modal de vista previa de animaciones",
+        "en": "Integrate animation preview modal"
+      },
+      "prompt": {
+        "es": "Se te asigna una tarea para integrar un componente React existente en el codebase.\n\nEl codebase debe soportar:\n- Estructura de proyecto shadcn\n- Tailwind CSS\n- TypeScript\n- Next.js\n- shadcn/ui Dialog\n- Framer Motion\n\nSi no lo soporta, proporciona instrucciones para configurar shadcn UI, instalar Tailwind CSS, TypeScript y agregar el componente Dialog con shadcn CLI.\n\nDetermina la ruta por defecto para componentes y estilos.\nSi la ruta por defecto de componentes no es /components/ui, explica cómo crear la carpeta y por qué importa.\n\nCrea y copia-pega un componente llamado:\n\nanimation-preview-dialog.tsx\n\nEl componente debe renderizar una tarjeta de animación clickeable. Cuando el usuario haga clic en la tarjeta o en el botón Open, debe aparecer un diálogo. El diálogo debe mostrar la animación en un área de preview más grande, título, descripción, etiquetas, botón para ver prompt, botón para copiar y botón de cierre.\n\nCrea un archivo demo llamado:\n\nanimation-preview-dialog-demo.tsx\n\nEl demo debe renderizar un grid de tarjetas de animaciones y abrir el modal con la animación seleccionada.\n\nInstala dependencias NPM:\n\nframer-motion\nlucide-react\n\nInstala componentes shadcn:\n\ndialog\nbutton\nbadge\ncard\n\nGuías de implementación:\n1. Analiza la estructura de datos de las tarjetas.\n2. Usa shadcn Dialog para accesibilidad.\n3. Usa Framer Motion para la animación de entrada del modal.\n4. Mantén las previews de animación dentro de un contenedor div.\n5. Agrega funcionalidad para copiar al portapapeles.\n6. Asegúrate de que el layout móvil funcione correctamente.\n\nPreguntas que debes hacer:\n- ¿Qué animaciones deben aparecer en el grid?\n- ¿El prompt debe estar visible por defecto?\n- ¿El usuario debe poder copiar HTML, CSS, JavaScript o solo el prompt?\n- ¿El modal debe ser fullscreen en móvil?\n\nPasos para integrar:\n0. Instala los componentes shadcn.\n1. Copia y pega el nuevo componente en /components/ui.\n2. Crea el componente demo.\n3. Importa el demo en /web-animations.\n4. Prueba abrir, cerrar y copiar el contenido del prompt.",
+        "en": "You are given a task to integrate an existing React component in the codebase.\n\nThe codebase should support:\n- shadcn project structure\n- Tailwind CSS\n- TypeScript\n- Next.js\n- shadcn/ui Dialog\n- Framer Motion\n\nIf it doesn't, provide instructions to setup shadcn UI, install Tailwind CSS, TypeScript, and add the Dialog component via shadcn CLI.\n\nDetermine the default path for components and styles.\nIf the default component path is not /components/ui, explain how to create the folder and why it matters.\n\nCreate and copy-paste a component called:\n\nanimation-preview-dialog.tsx\n\nThe component should render a clickable animation card. When the user clicks the card or the Open button, a dialog should appear. The dialog must show the animation in a larger preview area, title, description, tags, prompt button, copy button, and close button.\n\nCreate a demo file called:\n\nanimation-preview-dialog-demo.tsx\n\nThe demo should render a grid of animation cards and open the modal with the selected animation.\n\nInstall NPM dependencies:\n\nframer-motion\nlucide-react\n\nInstall shadcn components:\n\ndialog\nbutton\nbadge\ncard\n\nImplementation Guidelines:\n1. Analyze the card data structure.\n2. Use shadcn Dialog for accessibility.\n3. Use Framer Motion for modal entrance animation.\n4. Keep animation previews inside a div container.\n5. Add copy-to-clipboard functionality for prompts.\n6. Ensure mobile layout works correctly.\n\nQuestions to Ask:\n- What animations should appear in the grid?\n- Should the prompt be visible by default?\n- Should the user be able to copy HTML, CSS, JavaScript, or only the prompt?\n- Should the modal be fullscreen on mobile?\n\nSteps to integrate:\n0. Install shadcn components.\n1. Copy-paste the new component into /components/ui.\n2. Create the demo component.\n3. Import the demo into /web-animations.\n4. Test opening, closing, and copying prompt content."
+      }
+    },
+    {
+      "id": 105,
+      "name": {
+        "es": "Integrar scroll horizontal con GSAP",
+        "en": "Integrate horizontal scroll with GSAP"
+      },
+      "prompt": {
+        "es": "Se te asigna una tarea para integrar un componente React existente en el codebase.\n\nEl codebase debe soportar:\n- Estructura de proyecto shadcn\n- Tailwind CSS\n- TypeScript\n- Next.js App Router\n- GSAP\n- ScrollTrigger\n\nSi no lo soporta, proporciona instrucciones de configuración para shadcn CLI, Tailwind CSS, TypeScript, GSAP y ScrollTrigger.\n\nDetermina la ruta por defecto para componentes y estilos.\nSi /components/ui no existe, explica por qué los componentes reutilizables deben colocarse ahí.\n\nCrea y copia-pega un componente llamado:\n\nhorizontal-scroll-section.tsx\n\nEl componente debe crear una sección de scroll horizontal controlada por scroll vertical. Debe fijar la sección mientras las tarjetas se mueven horizontalmente. Cada tarjeta debe incluir título, descripción, imagen, categoría y botón. La tarjeta activa debe escalar ligeramente y tener una sombra más fuerte.\n\nCrea un archivo demo llamado:\n\nhorizontal-scroll-section-demo.tsx\n\nEl demo debe incluir al menos 5 tarjetas con contenido e imágenes de ejemplo.\n\nInstala dependencias NPM:\n\ngsap\nlucide-react\n\nGuías de implementación:\n1. Usa \"use client\" porque GSAP depende del navegador.\n2. Registra ScrollTrigger de forma segura dentro de useEffect.\n3. Usa refs para controlar el contenedor de scroll y las tarjetas.\n4. Limpia las animaciones GSAP cuando el componente se desmonte.\n5. Asegúrate de que la sección funcione en móvil, ya sea con scroll horizontal nativo o layout apilado.\n6. Usa Tailwind CSS para todos los estilos.\n\nPreguntas que debes hacer:\n- ¿Cuántas tarjetas deben incluirse?\n- ¿El scroll debe estar fijado?\n- ¿Móvil debe usar scroll horizontal o apilado vertical?\n- ¿Qué contenido debe mostrar cada tarjeta?\n\nPasos para integrar:\n0. Copia y pega el componente en /components/ui.\n1. Instala GSAP.\n2. Importa el demo en la página deseada.\n3. Prueba el comportamiento del scroll.\n4. Confirma que la limpieza funciona al navegar entre páginas.",
+        "en": "You are given a task to integrate an existing React component in the codebase.\n\nThe codebase should support:\n- shadcn project structure\n- Tailwind CSS\n- TypeScript\n- Next.js App Router\n- GSAP\n- ScrollTrigger\n\nIf it doesn't, provide setup instructions for shadcn CLI, Tailwind CSS, TypeScript, GSAP, and ScrollTrigger.\n\nDetermine the default path for components and styles.\nIf /components/ui does not exist, explain why reusable components should be placed there.\n\nCreate and copy-paste a component called:\n\nhorizontal-scroll-section.tsx\n\nThe component should create a horizontal scrolling section controlled by vertical scroll. It should pin the section while cards move horizontally. Each card should include title, description, image, category, and button. The active card should scale slightly and have a stronger shadow.\n\nCreate a demo file called:\n\nhorizontal-scroll-section-demo.tsx\n\nThe demo should include at least 5 cards with sample content and images.\n\nInstall NPM dependencies:\n\ngsap\nlucide-react\n\nImplementation Guidelines:\n1. Use \"use client\" because GSAP depends on the browser.\n2. Register ScrollTrigger safely inside useEffect.\n3. Use refs to control the scroll container and cards.\n4. Clean up GSAP animations when the component unmounts.\n5. Make sure the section works on mobile, either with native horizontal scroll or a stacked layout.\n6. Use Tailwind CSS for all styles.\n\nQuestions to Ask:\n- How many cards should be included?\n- Should the scroll be pinned?\n- Should mobile use horizontal scroll or vertical stacking?\n- What content should each card display?\n\nSteps to integrate:\n0. Copy-paste the component into /components/ui.\n1. Install GSAP.\n2. Import the demo into the desired page.\n3. Test scroll behavior.\n4. Confirm cleanup works when navigating between pages."
+      }
+    },
+    {
+      "id": 106,
+      "name": {
+        "es": "Integrar escena Three.js en React",
+        "en": "Integrate Three.js scene in React"
+      },
+      "prompt": {
+        "es": "Se te asigna una tarea para integrar un componente React existente en el codebase.\n\nEl codebase debe soportar:\n- Estructura de proyecto shadcn\n- Tailwind CSS\n- TypeScript\n- Next.js\n- Componentes React de cliente\n- Three.js\n\nSi no lo soporta, proporciona instrucciones para configurar el proyecto con shadcn CLI, Tailwind CSS, TypeScript y Three.js.\n\nDetermina la ruta por defecto para componentes y estilos.\nSi la ruta por defecto no es /components/ui, proporciona instrucciones para crear esta carpeta para componentes reutilizables.\n\nCrea y copia-pega un componente llamado:\n\nthree-scene-card.tsx\n\nEl componente debe renderizar un canvas Three.js dentro de una tarjeta div estilizada. La escena debe incluir un objeto 3D rotando, cámara, luces, fondo oscuro, redimensionamiento responsive e interacción con mouse. Usa un cubo, esfera o torus como objeto por defecto.\n\nCrea un archivo demo llamado:\n\nthree-scene-card-demo.tsx\n\nEl demo debe mostrar la escena Three.js dentro de una tarjeta estilo dashboard con título, descripción y botón de acción.\n\nInstala dependencias NPM:\n\nthree\nlucide-react\n\nGuías de implementación:\n1. Usa \"use client\".\n2. Inicializa Three.js dentro de useEffect.\n3. Usa useRef para el contenedor del canvas.\n4. Maneja el redimensionamiento de ventana.\n5. Limpia renderer, geometry, materials y animation frame al desmontar.\n6. Mantén el canvas contenido dentro del div principal.\n7. Agrega un mensaje fallback si WebGL no está soportado.\n\nPreguntas que debes hacer:\n- ¿Qué objeto 3D debe mostrarse?\n- ¿El objeto debe reaccionar al movimiento del mouse?\n- ¿Deben usarse texturas?\n- ¿Qué tamaño debe tener el canvas?\n\nPasos para integrar:\n0. Copia y pega el componente en /components/ui.\n1. Instala Three.js.\n2. Importa el componente demo en una página.\n3. Prueba redimensionamiento, animación y limpieza.",
+        "en": "You are given a task to integrate an existing React component in the codebase.\n\nThe codebase should support:\n- shadcn project structure\n- Tailwind CSS\n- TypeScript\n- Next.js\n- React client components\n- Three.js\n\nIf it doesn't, provide instructions on how to setup the project with shadcn CLI, Tailwind CSS, TypeScript, and Three.js.\n\nDetermine the default path for components and styles.\nIf the default path is not /components/ui, provide instructions to create this folder for reusable components.\n\nCreate and copy-paste a component called:\n\nthree-scene-card.tsx\n\nThe component should render a Three.js canvas inside a styled div card. The scene should include a rotating 3D object, camera, lights, dark background, responsive resizing, and mouse interaction. Use a cube, sphere, or torus as the default object.\n\nCreate a demo file called:\n\nthree-scene-card-demo.tsx\n\nThe demo should show the Three.js scene inside a dashboard-style card with title, description, and action button.\n\nInstall NPM dependencies:\n\nthree\nlucide-react\n\nImplementation Guidelines:\n1. Use \"use client\".\n2. Initialize Three.js inside useEffect.\n3. Use useRef for the canvas container.\n4. Handle window resizing.\n5. Clean up renderer, geometry, materials, and animation frame on unmount.\n6. Keep the canvas contained inside the main div.\n7. Add a fallback message if WebGL is not supported.\n\nQuestions to Ask:\n- What 3D object should be shown?\n- Should the object react to mouse movement?\n- Should textures be used?\n- What size should the canvas have?\n\nSteps to integrate:\n0. Copy-paste the component into /components/ui.\n1. Install Three.js.\n2. Import the demo component into a page.\n3. Test resizing, animation, and cleanup."
+      }
+    },
+    {
+      "id": 107,
+      "name": {
+        "es": "Integrar componente de animación Lottie",
+        "en": "Integrate Lottie animation component"
+      },
+      "prompt": {
+        "es": "Se te asigna una tarea para integrar un componente React existente en el codebase.\n\nEl codebase debe soportar:\n- Estructura de proyecto shadcn\n- Tailwind CSS\n- TypeScript\n- Next.js\n- Animaciones Lottie\n\nSi no lo soporta, proporciona instrucciones para configurar shadcn, Tailwind CSS, TypeScript y Lottie para React.\n\nDetermina la ruta por defecto para componentes y estilos.\nSi /components/ui no existe, proporciona instrucciones para crearla y explica que mantiene organizados los componentes UI reutilizables.\n\nCrea y copia-pega un componente llamado:\n\nlottie-animation-card.tsx\n\nEl componente debe renderizar una animación Lottie dentro de una tarjeta estilizada. Debe soportar props para animationData, title, description, loop, autoplay, speed y controls. Debe incluir botones play, pause, stop y replay.\n\nCrea un archivo demo llamado:\n\nlottie-animation-card-demo.tsx\n\nEl demo debe mostrar una tarjeta de animación Lottie usando datos de animación de ejemplo o instrucciones para colocar un archivo JSON de Lottie dentro de /public/animations.\n\nInstala dependencias NPM:\n\nlottie-react\nlucide-react\n\nGuías de implementación:\n1. Analiza si animationData se importa localmente o se carga desde assets públicos.\n2. Usa props TypeScript para configuración.\n3. Agrega controles usando botones accesibles.\n4. Mantén la animación dentro de un div con aspect ratio fijo.\n5. Soporta estilos dark mode.\n6. Haz que el componente sea responsive.\n\nPreguntas que debes hacer:\n- ¿Dónde está ubicado el archivo JSON de Lottie?\n- ¿La animación debe reproducirse automáticamente?\n- ¿La animación debe estar en bucle?\n- ¿Los usuarios deben tener controles de reproducción?\n\nPasos para integrar:\n0. Copia y pega el componente en /components/ui.\n1. Instala las dependencias.\n2. Agrega el archivo JSON de animación en /public/animations.\n3. Importa y prueba el componente.\n4. Reemplaza el contenido de ejemplo con contenido de producción.",
+        "en": "You are given a task to integrate an existing React component in the codebase.\n\nThe codebase should support:\n- shadcn project structure\n- Tailwind CSS\n- TypeScript\n- Next.js\n- Lottie animations\n\nIf it doesn't, provide instructions on how to setup shadcn, Tailwind CSS, TypeScript, and Lottie for React.\n\nDetermine the default path for components and styles.\nIf /components/ui does not exist, provide instructions to create it and explain that it keeps reusable UI components organized.\n\nCreate and copy-paste a component called:\n\nlottie-animation-card.tsx\n\nThe component should render a Lottie animation inside a styled card. It should support props for animationData, title, description, loop, autoplay, speed, and controls. It should include play, pause, stop, and replay buttons.\n\nCreate a demo file called:\n\nlottie-animation-card-demo.tsx\n\nThe demo should show a Lottie animation card using sample animation data or instructions to place a Lottie JSON file inside /public/animations.\n\nInstall NPM dependencies:\n\nlottie-react\nlucide-react\n\nImplementation Guidelines:\n1. Analyze whether animationData is imported locally or loaded from public assets.\n2. Use TypeScript props for configuration.\n3. Add controls using accessible buttons.\n4. Keep animation inside a div with fixed aspect ratio.\n5. Support dark mode styling.\n6. Make the component responsive.\n\nQuestions to Ask:\n- Where is the Lottie JSON file located?\n- Should the animation autoplay?\n- Should the animation loop?\n- Should users have playback controls?\n\nSteps to integrate:\n0. Copy-paste component into /components/ui.\n1. Install dependencies.\n2. Add animation JSON file to /public/animations.\n3. Import and test the component.\n4. Replace sample content with production content."
+      }
+    },
+    {
+      "id": 108,
+      "name": {
+        "es": "Integrar card con efecto spotlight y hover",
+        "en": "Integrate spotlight hover card"
+      },
+      "prompt": {
+        "es": "Se te asigna una tarea para integrar un componente React existente en el codebase.\n\nEl codebase debe soportar:\n- Estructura de proyecto shadcn\n- Tailwind CSS\n- TypeScript\n- Next.js\n- Framer Motion\n\nSi no lo soporta, proporciona instrucciones para configurar shadcn CLI, Tailwind CSS, TypeScript e instalar Framer Motion.\n\nDetermina la ruta por defecto para componentes y estilos.\nSi la ruta de componentes no es /components/ui, explica por qué /components/ui debe usarse para componentes UI reutilizables.\n\nCrea y copia-pega un componente llamado:\n\nspotlight-card.tsx\n\nEl componente debe renderizar una tarjeta con efecto spotlight que sigue al mouse. La tarjeta debe incluir título, descripción, icono, etiquetas y botón de acción opcional. El spotlight debe aparecer como un gradiente radial controlado por la posición del mouse y debe desvanecerse cuando el mouse salga.\n\nCrea un archivo demo llamado:\n\nspotlight-card-demo.tsx\n\nEl demo debe mostrar un grid responsive de 6 spotlight cards.\n\nInstala dependencias NPM:\n\nframer-motion\nlucide-react\n\nGuías de implementación:\n1. Usa \"use client\".\n2. Rastrea la posición del mouse relativa a la tarjeta.\n3. Usa variables CSS o estilos inline para la posición del spotlight.\n4. Mantén el rendimiento optimizado.\n5. Usa Tailwind CSS para layout, bordes, sombras y dark mode.\n6. Haz que las tarjetas sean accesibles con teclado si son clickeables.\n\nPreguntas que debes hacer:\n- ¿Las tarjetas deben ser links o botones?\n- ¿Qué iconos debe usar cada tarjeta?\n- ¿El spotlight debe ser visible solo en hover?\n- ¿Las tarjetas deben funcionar en dispositivos táctiles?\n\nPasos para integrar:\n0. Copia y pega el componente en /components/ui.\n1. Instala las dependencias.\n2. Crea datos demo.\n3. Importa el demo en la página destino.\n4. Prueba el comportamiento hover y el fallback móvil.",
+        "en": "You are given a task to integrate an existing React component in the codebase.\n\nThe codebase should support:\n- shadcn project structure\n- Tailwind CSS\n- TypeScript\n- Next.js\n- Framer Motion\n\nIf it doesn't, provide instructions to setup shadcn CLI, Tailwind CSS, TypeScript, and install Framer Motion.\n\nDetermine the default path for components and styles.\nIf the components path is not /components/ui, explain why /components/ui should be used for reusable UI components.\n\nCreate and copy-paste a component called:\n\nspotlight-card.tsx\n\nThe component should render a card with a spotlight effect that follows the mouse. The card should include title, description, icon, tags, and optional action button. The spotlight should appear as a radial gradient controlled by mouse position and should fade out when the mouse leaves.\n\nCreate a demo file called:\n\nspotlight-card-demo.tsx\n\nThe demo should show a responsive grid of 6 spotlight cards.\n\nInstall NPM dependencies:\n\nframer-motion\nlucide-react\n\nImplementation Guidelines:\n1. Use \"use client\".\n2. Track mouse position relative to the card.\n3. Use CSS variables or inline styles for spotlight position.\n4. Keep performance optimized.\n5. Use Tailwind CSS for layout, borders, shadows, and dark mode.\n6. Make cards keyboard accessible if clickable.\n\nQuestions to Ask:\n- Should cards be links or buttons?\n- What icons should each card use?\n- Should the spotlight be visible only on hover?\n- Should the cards work on touch devices?\n\nSteps to integrate:\n0. Copy-paste the component into /components/ui.\n1. Install dependencies.\n2. Create demo data.\n3. Import the demo into the target page.\n4. Test hover behavior and mobile fallback."
+      }
+    },
+    {
+      "id": 109,
+      "name": {
+        "es": "Integrar sección de precios animada",
+        "en": "Integrate animated pricing section"
+      },
+      "prompt": {
+        "es": "Se te asigna una tarea para integrar un componente React existente en el codebase.\n\nEl codebase debe soportar:\n- Estructura de proyecto shadcn\n- Tailwind CSS\n- TypeScript\n- Next.js\n- Componentes shadcn/ui\n- Framer Motion\n\nSi no lo soporta, proporciona instrucciones de configuración para shadcn CLI, Tailwind CSS, TypeScript y Framer Motion.\n\nDetermina la ruta por defecto para componentes y estilos.\nSi /components/ui no existe, explica por qué esta carpeta debe crearse.\n\nCrea y copia-pega un componente llamado:\n\nanimated-pricing-section.tsx\n\nEl componente debe renderizar una sección de precios con tres tarjetas de planes. Cada tarjeta debe animarse al entrar en pantalla con movimiento escalonado. El plan destacado debe tener borde luminoso, badge, sombra más fuerte y escala en hover. Cada tarjeta debe incluir nombre del plan, precio, descripción, lista de características y botón.\n\nCrea un archivo demo llamado:\n\nanimated-pricing-section-demo.tsx\n\nEl demo debe incluir planes Basic, Pro y Enterprise.\n\nInstala dependencias NPM:\n\nframer-motion\nlucide-react\n\nInstala componentes shadcn:\n\nbutton\nbadge\ncard\n\nGuías de implementación:\n1. Usa interfaces TypeScript para los planes de precios.\n2. Usa Framer Motion para animaciones de entrada y hover.\n3. Usa iconos check de lucide-react para características.\n4. Usa componentes shadcn Button, Badge y Card.\n5. Haz que el layout sea responsive.\n6. Asegúrate de que las tarjetas sean accesibles y legibles en dark mode.\n\nPreguntas que debes hacer:\n- ¿Qué planes de precios deben mostrarse?\n- ¿Qué plan debe destacarse?\n- ¿La facturación debe ser mensual, anual o con toggle?\n- ¿Qué llamada a la acción debe usar cada tarjeta?\n\nPasos para integrar:\n0. Agrega los componentes shadcn requeridos.\n1. Copia y pega el componente en /components/ui.\n2. Instala las dependencias.\n3. Importa el demo en una página de pricing.\n4. Reemplaza los datos de ejemplo con planes reales.",
+        "en": "You are given a task to integrate an existing React component in the codebase.\n\nThe codebase should support:\n- shadcn project structure\n- Tailwind CSS\n- TypeScript\n- Next.js\n- shadcn/ui components\n- Framer Motion\n\nIf it doesn't, provide setup instructions for shadcn CLI, Tailwind CSS, TypeScript, and Framer Motion.\n\nDetermine the default path for components and styles.\nIf /components/ui is missing, explain why this folder should be created.\n\nCreate and copy-paste a component called:\n\nanimated-pricing-section.tsx\n\nThe component should render a pricing section with three pricing cards. Each card should animate into view with staggered motion. The featured plan should have a glowing border, badge, stronger shadow, and scale on hover. Each card must include plan name, price, description, features list, and button.\n\nCreate a demo file called:\n\nanimated-pricing-section-demo.tsx\n\nThe demo should include Basic, Pro, and Enterprise plans.\n\nInstall NPM dependencies:\n\nframer-motion\nlucide-react\n\nInstall shadcn components:\n\nbutton\nbadge\ncard\n\nImplementation Guidelines:\n1. Use TypeScript interfaces for pricing plans.\n2. Use Framer Motion for entrance and hover animations.\n3. Use lucide-react check icons for features.\n4. Use shadcn Button, Badge, and Card components.\n5. Make the layout responsive.\n6. Ensure the pricing cards are accessible and readable in dark mode.\n\nQuestions to Ask:\n- What pricing plans should be displayed?\n- Which plan should be featured?\n- Should billing be monthly, yearly, or toggleable?\n- What call-to-action should each card use?\n\nSteps to integrate:\n0. Add required shadcn components.\n1. Copy-paste the component into /components/ui.\n2. Install dependencies.\n3. Import the demo into a pricing page.\n4. Replace sample data with real plans."
+      }
+    },
+    {
+      "id": 110,
+      "name": {
+        "es": "Integrar galería de web animations",
+        "en": "Integrate web animations gallery"
+      },
+      "prompt": {
+        "es": "Se te asigna una tarea para integrar un componente React existente en el codebase.\n\nEl codebase debe soportar:\n- Estructura de proyecto shadcn\n- Tailwind CSS\n- TypeScript\n- Next.js App Router\n- shadcn/ui Dialog\n- Framer Motion\n- lucide-react\n\nSi no lo soporta, proporciona instrucciones para configurar el proyecto usando shadcn CLI, instalar Tailwind CSS, TypeScript, Framer Motion y los componentes shadcn requeridos.\n\nDetermina la ruta por defecto para componentes y estilos.\nSi la ruta por defecto para componentes no es /components/ui, proporciona instrucciones sobre por qué es importante crear esta carpeta y mantener ahí los componentes reutilizables.\n\nCrea y copia-pega un componente llamado:\n\nweb-animations-gallery.tsx\n\nEl componente debe renderizar una galería de tarjetas de animaciones similar a un marketplace o galería de landing pages. Cada tarjeta debe incluir nombre de la animación, tecnologías, etiquetas, badge de precio o estado, área de preview en vivo, botón \"View Prompt\" y botón \"Open\". El área de preview en vivo debe contener la animación real ejecutándose dentro de un div.\n\nCuando el usuario haga clic en la tarjeta, preview o botón Open, debe abrirse un diálogo que muestre la animación seleccionada en un área de preview más grande. El diálogo también debe mostrar nombre de la animación, descripción, etiquetas, prompt, botón para copiar prompt y botón cerrar.\n\nCrea un archivo demo llamado:\n\nweb-animations-gallery-demo.tsx\n\nEl demo debe incluir al menos 12 ejemplos de animaciones usando datos locales.\n\nInstala dependencias NPM:\n\nframer-motion\nlucide-react\n\nInstala componentes shadcn:\n\ndialog\nbutton\nbadge\ncard\nseparator\nscroll-area\n\nGuías de implementación:\n1. Analiza la estructura de datos de animaciones.\n2. Usa interfaces TypeScript para los items de animación.\n3. Mantén cada preview de animación aislada dentro de un div.\n4. Reutiliza colores, header, footer y estilos de menú existentes del proyecto.\n5. Haz que la galería sea responsive.\n6. Usa comportamiento accesible para el diálogo.\n7. Agrega funcionalidad de copiar al portapapeles.\n8. Asegúrate de que las animaciones no dañen el rendimiento del layout.\n\nPreguntas que debes hacer:\n- ¿Las animaciones deben ser gratis o de pago?\n- ¿Los prompts deben mostrarse directamente o dentro de un diálogo?\n- ¿La galería debe soportar búsqueda y filtros?\n- ¿Cada animación debe tener código HTML, CSS y JavaScript?\n- ¿El diseño de la tarjeta debe coincidir con una ruta existente /landing-pages?\n\nPasos para integrar:\n0. Instala los componentes shadcn requeridos.\n1. Copia y pega el componente en /components/ui.\n2. Agrega datos locales de animaciones o impórtalos desde JSON.\n3. Crea la página /web-animations.\n4. Importa el demo de galería en la página.\n5. Conserva el menú principal, footer, layout y colores globales.\n6. Prueba preview, modal, botón copiar y comportamiento responsive.",
+        "en": "You are given a task to integrate an existing React component in the codebase.\n\nThe codebase should support:\n- shadcn project structure\n- Tailwind CSS\n- TypeScript\n- Next.js App Router\n- shadcn/ui Dialog\n- Framer Motion\n- lucide-react\n\nIf it doesn't, provide instructions on how to setup the project via shadcn CLI, install Tailwind CSS, TypeScript, Framer Motion, and required shadcn components.\n\nDetermine the default path for components and styles.\nIf the default path for components is not /components/ui, provide instructions on why it is important to create this folder and keep reusable components there.\n\nCreate and copy-paste a component called:\n\nweb-animations-gallery.tsx\n\nThe component should render a gallery of animation cards similar to a marketplace or landing page gallery. Each card should include animation name, technologies, tags, price or status badge, live preview area, \"View Prompt\" button, and \"Open\" button. The live preview area should contain the actual animation running inside a div.\n\nWhen the user clicks the card, preview, or Open button, a dialog should open showing the selected animation in a larger preview area. The dialog should also show the animation name, description, tags, prompt, copy prompt button, and close button.\n\nCreate a demo file called:\n\nweb-animations-gallery-demo.tsx\n\nThe demo should include at least 12 animation examples using local data.\n\nInstall NPM dependencies:\n\nframer-motion\nlucide-react\n\nInstall shadcn components:\n\ndialog\nbutton\nbadge\ncard\nseparator\nscroll-area\n\nImplementation Guidelines:\n1. Analyze the animation data structure.\n2. Use TypeScript interfaces for animation items.\n3. Keep each animation preview isolated inside a div.\n4. Reuse existing project colors, header, footer, and menu styles.\n5. Make the gallery responsive.\n6. Use accessible dialog behavior.\n7. Add copy-to-clipboard functionality.\n8. Make sure animations do not break layout performance.\n\nQuestions to Ask:\n- Should the animations be free or paid?\n- Should prompts be shown directly or inside a dialog?\n- Should the gallery support search and filters?\n- Should each animation have HTML, CSS, and JavaScript code?\n- Should the card design match an existing /landing-pages route?\n\nSteps to integrate:\n0. Install required shadcn components.\n1. Copy-paste the component into /components/ui.\n2. Add local animation data or import it from JSON.\n3. Create /web-animations page.\n4. Import the gallery demo into the page.\n5. Preserve the main menu, footer, layout, and global colors.\n6. Test preview, modal, copy button, and responsive behavior."
+      }
+    },
+    {
+      "id": 111,
+      "name": {
+        "es": "Integrar carrusel 3D con Swiper",
+        "en": "Integrate 3D carousel with Swiper"
+      },
+      "prompt": {
+        "es": "Se te asigna una tarea para integrar un componente React existente en el codebase.\n\nEl codebase debe soportar:\n- Estructura de proyecto shadcn\n- Tailwind CSS\n- TypeScript\n- Next.js App Router\n- Swiper.js\n\nSi no lo soporta, proporciona instrucciones para configurar el proyecto usando shadcn CLI, instalar Tailwind CSS, TypeScript y Swiper.\n\nDetermina la ruta por defecto para componentes y estilos.\nSi la ruta por defecto para componentes no es /components/ui, proporciona instrucciones sobre por qué es importante crear esta carpeta.\n\nCrea y copia-pega un componente llamado:\n\nswiper-3d-carousel.tsx\n\nEl componente debe renderizar un carrusel 3D responsive usando Swiper.js con efecto coverflow. Cada slide debe soportar imagen, título, descripción, badge de categoría y botón de acción. El slide activo debe aparecer centrado, más grande y más prominente, mientras que los slides laterales deben aparecer rotados y ligeramente transparentes.\n\nCrea un archivo demo llamado:\n\nswiper-3d-carousel-demo.tsx\n\nEl demo debe incluir al menos 8 slides usando imágenes de Unsplash y contenido de ejemplo.\n\nInstala dependencias NPM:\n\nswiper\nlucide-react\n\nGuías de implementación:\n1. Analiza la estructura del carrusel y los módulos requeridos de Swiper.\n2. Importa correctamente los estilos de Swiper.\n3. Usa interfaces TypeScript para los datos de slides.\n4. Asegúrate de que el carrusel sea responsive.\n5. Agrega controles de navegación accesibles.\n6. Usa Tailwind CSS para el diseño de tarjetas y espaciado.\n7. Mantén el carrusel dentro de un div principal.\n\nPreguntas que debes hacer:\n- ¿Cuántos slides deben mostrarse?\n- ¿Debe activarse autoplay?\n- ¿El carrusel debe hacer loop infinito?\n- ¿Qué contenido debe tener cada slide?\n- ¿El componente se usará en hero, galería o sección de productos?\n\nPasos para integrar:\n0. Copia y pega el componente en /components/ui.\n1. Instala Swiper y dependencias requeridas.\n2. Importa el demo en la página destino.\n3. Reemplaza imágenes demo con assets de producción.\n4. Prueba comportamiento en escritorio, tablet y móvil.",
+        "en": "You are given a task to integrate an existing React component in the codebase.\n\nThe codebase should support:\n- shadcn project structure\n- Tailwind CSS\n- TypeScript\n- Next.js App Router\n- Swiper.js\n\nIf it doesn't, provide instructions on how to setup the project via shadcn CLI, install Tailwind CSS, TypeScript, and Swiper.\n\nDetermine the default path for components and styles.\nIf the default path for components is not /components/ui, provide instructions on why it is important to create this folder.\n\nCreate and copy-paste a component called:\n\nswiper-3d-carousel.tsx\n\nThe component should render a responsive 3D carousel using Swiper.js with coverflow effect. Each slide should support image, title, description, category badge, and action button. The active slide should appear centered, larger, and more prominent, while side slides should appear rotated and slightly transparent.\n\nCreate a demo file called:\n\nswiper-3d-carousel-demo.tsx\n\nThe demo should include at least 8 slides using Unsplash images and sample content.\n\nInstall NPM dependencies:\n\nswiper\nlucide-react\n\nImplementation Guidelines:\n1. Analyze the carousel structure and required Swiper modules.\n2. Import Swiper styles correctly.\n3. Use TypeScript interfaces for slide data.\n4. Make sure the carousel is responsive.\n5. Add accessible navigation controls.\n6. Use Tailwind CSS for card design and spacing.\n7. Keep the carousel inside a main div container.\n\nQuestions to Ask:\n- How many slides should be displayed?\n- Should autoplay be enabled?\n- Should the carousel loop infinitely?\n- What content should each slide contain?\n- Should the component be used in a hero, gallery, or product section?\n\nSteps to integrate:\n0. Copy-paste the component into /components/ui.\n1. Install Swiper and required dependencies.\n2. Import the demo into the target page.\n3. Replace demo images with production assets.\n4. Test desktop, tablet, and mobile behavior."
+      }
+    },
+    {
+      "id": 112,
+      "name": {
+        "es": "Integrar animación de texto con SplitType",
+        "en": "Integrate text animation with SplitType"
+      },
+      "prompt": {
+        "es": "Se te asigna una tarea para integrar un componente React existente en el codebase.\n\nEl codebase debe soportar:\n- Estructura de proyecto shadcn\n- Tailwind CSS\n- TypeScript\n- Next.js\n- GSAP\n- SplitType\n\nSi no lo soporta, proporciona instrucciones para configurar el proyecto usando shadcn CLI, instalar Tailwind CSS, TypeScript, GSAP y SplitType.\n\nDetermina la ruta por defecto para componentes y estilos.\nSi la ruta por defecto para componentes no es /components/ui, explica por qué los componentes de animación UI reutilizables deben guardarse ahí.\n\nCrea y copia-pega un componente llamado:\n\nsplit-text-reveal.tsx\n\nEl componente debe animar texto dividiéndolo en palabras o caracteres. Cada palabra o carácter debe aparecer con movimiento escalonado, opacidad, blur y desplazamiento vertical. El componente debe aceptar props para text, animationType, delay, duration y className.\n\nCrea un archivo demo llamado:\n\nsplit-text-reveal-demo.tsx\n\nEl demo debe mostrar un título hero, subtítulo y botón donde el título se anime palabra por palabra.\n\nInstala dependencias NPM:\n\ngsap\nsplit-type\n\nGuías de implementación:\n1. Usa \"use client\".\n2. Usa refs para apuntar al elemento de texto.\n3. Inicializa SplitType solo después de que el componente se monte.\n4. Limpia SplitType y animaciones GSAP al desmontar.\n5. Soporta animaciones por palabra y por carácter.\n6. Respeta preferencias de reduced-motion.\n7. Mantén el texto accesible para lectores de pantalla.\n\nPreguntas que debes hacer:\n- ¿La animación debe dividir palabras o letras?\n- ¿La animación debe ejecutarse al cargar o al hacer scroll?\n- ¿La animación debe repetirse?\n- ¿Qué estilo tipográfico debe usarse?\n\nPasos para integrar:\n0. Copia y pega el componente en /components/ui.\n1. Instala GSAP y SplitType.\n2. Importa el demo en una página.\n3. Personaliza el texto y configuración de animación.\n4. Prueba limpieza y accesibilidad.",
+        "en": "You are given a task to integrate an existing React component in the codebase.\n\nThe codebase should support:\n- shadcn project structure\n- Tailwind CSS\n- TypeScript\n- Next.js\n- GSAP\n- SplitType\n\nIf it doesn't, provide instructions on how to setup the project via shadcn CLI, install Tailwind CSS, TypeScript, GSAP, and SplitType.\n\nDetermine the default path for components and styles.\nIf the default path for components is not /components/ui, explain why reusable UI animation components should be stored there.\n\nCreate and copy-paste a component called:\n\nsplit-text-reveal.tsx\n\nThe component should animate text by splitting it into words or characters. Each word or character should appear with staggered motion, opacity, blur, and vertical movement. The component should accept props for text, animation type, delay, duration, and className.\n\nCreate a demo file called:\n\nsplit-text-reveal-demo.tsx\n\nThe demo should display a hero title, subtitle, and button where the title animates word by word.\n\nInstall NPM dependencies:\n\ngsap\nsplit-type\n\nImplementation Guidelines:\n1. Use \"use client\".\n2. Use refs to target the text element.\n3. Initialize SplitType only after the component mounts.\n4. Clean up SplitType and GSAP animations on unmount.\n5. Support both word and character animations.\n6. Respect reduced-motion preferences.\n7. Keep the text accessible for screen readers.\n\nQuestions to Ask:\n- Should the animation split words or letters?\n- Should the animation run on load or on scroll?\n- Should the animation replay?\n- What typography style should be used?\n\nSteps to integrate:\n0. Copy-paste the component into /components/ui.\n1. Install GSAP and SplitType.\n2. Import the demo into a page.\n3. Customize the text and animation settings.\n4. Test cleanup and accessibility."
+      }
+    },
+    {
+      "id": 113,
+      "name": {
+        "es": "Integrar navbar animado al hacer scroll",
+        "en": "Integrate animated scroll navbar"
+      },
+      "prompt": {
+        "es": "Se te asigna una tarea para integrar un componente React existente en el codebase.\n\nEl codebase debe soportar:\n- Estructura de proyecto shadcn\n- Tailwind CSS\n- TypeScript\n- Next.js App Router\n- Framer Motion\n- lucide-react\n\nSi no lo soporta, proporciona instrucciones para configurar shadcn, Tailwind CSS, TypeScript, Framer Motion y lucide-react.\n\nDetermina la ruta por defecto para componentes y estilos.\nSi /components/ui no existe, proporciona instrucciones sobre por qué debe crearse para componentes UI reutilizables.\n\nCrea y copia-pega un componente llamado:\n\nanimated-scroll-navbar.tsx\n\nEl componente debe renderizar un navbar responsive que cambie de estilo cuando el usuario hace scroll. Debe reducir su altura, agregar backdrop blur, cambiar sombra y animar enlaces. En móvil debe mostrar un menú hamburguesa con estados animados de abrir y cerrar.\n\nCrea un archivo demo llamado:\n\nanimated-scroll-navbar-demo.tsx\n\nEl demo debe incluir una página con suficiente contenido para probar el comportamiento del scroll.\n\nInstala dependencias NPM:\n\nframer-motion\nlucide-react\n\nGuías de implementación:\n1. Usa \"use client\".\n2. Rastrea la posición del scroll de forma segura.\n3. Usa Framer Motion para animaciones del navbar y menú móvil.\n4. Usa lucide-react para iconos de menú y cerrar.\n5. Haz que el navbar sea accesible con teclado.\n6. Asegúrate de que el menú móvil se cierre al hacer clic en un enlace.\n7. Usa Tailwind CSS para estilos.\n\nPreguntas que debes hacer:\n- ¿Qué enlaces de navegación deben incluirse?\n- ¿El navbar debe ser sticky o fixed?\n- ¿Debe soportar dark mode?\n- ¿Debe resaltarse la ruta activa?\n\nPasos para integrar:\n0. Copia y pega el componente en /components/ui.\n1. Instala las dependencias.\n2. Importa el componente en el layout principal.\n3. Prueba scroll y comportamiento móvil.\n4. Reemplaza enlaces de ejemplo con rutas reales.",
+        "en": "You are given a task to integrate an existing React component in the codebase.\n\nThe codebase should support:\n- shadcn project structure\n- Tailwind CSS\n- TypeScript\n- Next.js App Router\n- Framer Motion\n- lucide-react\n\nIf it doesn't, provide instructions on how to setup shadcn, Tailwind CSS, TypeScript, Framer Motion, and lucide-react.\n\nDetermine the default path for components and styles.\nIf /components/ui does not exist, provide instructions on why it should be created for reusable UI components.\n\nCreate and copy-paste a component called:\n\nanimated-scroll-navbar.tsx\n\nThe component should render a responsive navbar that changes style when the user scrolls. It should shrink in height, add backdrop blur, change shadow, and animate links. On mobile, it should show a hamburger menu with animated open and close states.\n\nCreate a demo file called:\n\nanimated-scroll-navbar-demo.tsx\n\nThe demo should include a page with enough content to test the scroll behavior.\n\nInstall NPM dependencies:\n\nframer-motion\nlucide-react\n\nImplementation Guidelines:\n1. Use \"use client\".\n2. Track scroll position safely.\n3. Use Framer Motion for navbar and mobile menu animations.\n4. Use lucide-react for menu and close icons.\n5. Make the navbar keyboard accessible.\n6. Ensure the mobile menu closes when a link is clicked.\n7. Use Tailwind CSS for styling.\n\nQuestions to Ask:\n- What navigation links should be included?\n- Should the navbar be sticky or fixed?\n- Should it support dark mode?\n- Should the active route be highlighted?\n\nSteps to integrate:\n0. Copy-paste the component into /components/ui.\n1. Install dependencies.\n2. Import it into the main layout.\n3. Test scrolling and mobile behavior.\n4. Replace sample links with real routes."
+      }
+    },
+    {
+      "id": 114,
+      "name": {
+        "es": "Integrar sección de estadísticas con contador animado",
+        "en": "Integrate animated statistics counter section"
+      },
+      "prompt": {
+        "es": "Se te asigna una tarea para integrar un componente React existente en el codebase.\n\nEl codebase debe soportar:\n- Estructura de proyecto shadcn\n- Tailwind CSS\n- TypeScript\n- Next.js\n- Framer Motion\n\nSi no lo soporta, proporciona instrucciones de configuración para shadcn CLI, Tailwind CSS, TypeScript y Framer Motion.\n\nDetermina la ruta por defecto para componentes y estilos.\nSi la ruta por defecto no es /components/ui, explica por qué esta carpeta es importante para componentes UI reutilizables.\n\nCrea y copia-pega un componente llamado:\n\nanimated-stats-counter.tsx\n\nEl componente debe renderizar una sección de estadísticas con contadores animados. Cada contador debe empezar desde 0 y contar hasta su valor final cuando entra en el viewport. Cada estadística debe incluir icono, label, número, suffix y descripción corta.\n\nCrea un archivo demo llamado:\n\nanimated-stats-counter-demo.tsx\n\nEl demo debe incluir al menos 4 estadísticas como usuarios, proyectos, descargas y reseñas.\n\nInstala dependencias NPM:\n\nframer-motion\nlucide-react\n\nGuías de implementación:\n1. Usa \"use client\".\n2. Usa Intersection Observer o las opciones viewport de Framer Motion.\n3. Anima los números suavemente.\n4. Usa interfaces TypeScript para los items de estadísticas.\n5. Respeta preferencias de reduced-motion.\n6. Haz que el grid sea responsive.\n7. Usa iconos de lucide-react.\n\nPreguntas que debes hacer:\n- ¿Qué estadísticas deben mostrarse?\n- ¿Los números deben tener prefijos o sufijos?\n- ¿La animación debe ejecutarse una vez o cada vez que entra al viewport?\n- ¿Qué iconos deben usarse?\n\nPasos para integrar:\n0. Copia y pega el componente en /components/ui.\n1. Instala las dependencias.\n2. Agrega datos demo.\n3. Importa la sección en la página deseada.\n4. Prueba activación por viewport y layout móvil.",
+        "en": "You are given a task to integrate an existing React component in the codebase.\n\nThe codebase should support:\n- shadcn project structure\n- Tailwind CSS\n- TypeScript\n- Next.js\n- Framer Motion\n\nIf it doesn't, provide setup instructions for shadcn CLI, Tailwind CSS, TypeScript, and Framer Motion.\n\nDetermine the default path for components and styles.\nIf the default path is not /components/ui, explain why this folder is important for reusable UI components.\n\nCreate and copy-paste a component called:\n\nanimated-stats-counter.tsx\n\nThe component should render a statistics section with animated counters. Each counter should start from 0 and count up to its final value when it enters the viewport. Each stat should include icon, label, number, suffix, and short description.\n\nCreate a demo file called:\n\nanimated-stats-counter-demo.tsx\n\nThe demo should include at least 4 statistics such as users, projects, downloads, and reviews.\n\nInstall NPM dependencies:\n\nframer-motion\nlucide-react\n\nImplementation Guidelines:\n1. Use \"use client\".\n2. Use Intersection Observer or Framer Motion viewport options.\n3. Animate numbers smoothly.\n4. Use TypeScript interfaces for stat items.\n5. Respect reduced-motion preferences.\n6. Make the grid responsive.\n7. Use lucide-react icons.\n\nQuestions to Ask:\n- What statistics should be displayed?\n- Should numbers have prefixes or suffixes?\n- Should the animation run once or every time it enters viewport?\n- What icons should be used?\n\nSteps to integrate:\n0. Copy-paste the component into /components/ui.\n1. Install dependencies.\n2. Add demo data.\n3. Import the section into the desired page.\n4. Test viewport activation and mobile layout."
+      }
+    },
+    {
+      "id": 115,
+      "name": {
+        "es": "Integrar fondo con spotlight interactivo",
+        "en": "Integrate interactive spotlight background"
+      },
+      "prompt": {
+        "es": "Se te asigna una tarea para integrar un componente React existente en el codebase.\n\nEl codebase debe soportar:\n- Estructura de proyecto shadcn\n- Tailwind CSS\n- TypeScript\n- Next.js\n- Framer Motion\n\nSi no lo soporta, proporciona instrucciones para configurar el proyecto con shadcn CLI, Tailwind CSS, TypeScript y Framer Motion.\n\nDetermina la ruta por defecto para componentes y estilos.\nSi la ruta por defecto para componentes no es /components/ui, explica por qué es importante crear esta carpeta.\n\nCrea y copia-pega un componente llamado:\n\nspotlight-background.tsx\n\nEl componente debe renderizar una sección full-width con un fondo spotlight que sigue al mouse. El spotlight debe usar gradientes radiales, blur suave y movimiento fluido. El componente debe incluir título, descripción, botones y children opcionales.\n\nCrea un archivo demo llamado:\n\nspotlight-background-demo.tsx\n\nEl demo debe mostrar un hero oscuro con spotlight en movimiento, texto con gradiente y dos botones de llamada a la acción.\n\nInstala dependencias NPM:\n\nframer-motion\n\nGuías de implementación:\n1. Usa \"use client\".\n2. Rastrea la posición del mouse dentro de la sección.\n3. Usa variables CSS o motion values para la posición del spotlight.\n4. Asegúrate de que el spotlight no interfiera con los clics.\n5. Agrega un fallback móvil con gradiente estático.\n6. Respeta prefers-reduced-motion.\n7. Usa Tailwind CSS para layout y colores.\n\nPreguntas que debes hacer:\n- ¿El spotlight debe seguir el cursor?\n- ¿La sección debe ser oscura o clara?\n- ¿Qué contenido debe aparecer sobre el spotlight?\n- ¿El spotlight debe ser sutil o intenso?\n\nPasos para integrar:\n0. Copia y pega el componente en /components/ui.\n1. Instala las dependencias.\n2. Importa el demo en la página destino.\n3. Personaliza texto, colores y botones.\n4. Prueba comportamiento en escritorio y móvil.",
+        "en": "You are given a task to integrate an existing React component in the codebase.\n\nThe codebase should support:\n- shadcn project structure\n- Tailwind CSS\n- TypeScript\n- Next.js\n- Framer Motion\n\nIf it doesn't, provide instructions on how to setup the project with shadcn CLI, Tailwind CSS, TypeScript, and Framer Motion.\n\nDetermine the default path for components and styles.\nIf the default path for components is not /components/ui, explain why it is important to create this folder.\n\nCreate and copy-paste a component called:\n\nspotlight-background.tsx\n\nThe component should render a full-width section with a spotlight background that follows the mouse. The spotlight should use radial gradients, soft blur, and smooth motion. The component should include title, description, buttons, and optional children content.\n\nCreate a demo file called:\n\nspotlight-background-demo.tsx\n\nThe demo should show a dark hero section with a moving spotlight, gradient text, and two call-to-action buttons.\n\nInstall NPM dependencies:\n\nframer-motion\n\nImplementation Guidelines:\n1. Use \"use client\".\n2. Track mouse position inside the section.\n3. Use CSS variables or motion values for spotlight position.\n4. Make sure the spotlight does not interfere with clicks.\n5. Add a mobile fallback with static gradient.\n6. Respect prefers-reduced-motion.\n7. Use Tailwind CSS for layout and colors.\n\nQuestions to Ask:\n- Should the spotlight follow the cursor?\n- Should the section be dark or light?\n- What content should appear above the spotlight?\n- Should the spotlight be subtle or intense?\n\nSteps to integrate:\n0. Copy-paste the component into /components/ui.\n1. Install dependencies.\n2. Import the demo into the target page.\n3. Customize text, colors, and buttons.\n4. Test desktop and mobile behavior."
+      }
+    },
+    {
+      "id": 116,
+      "name": {
+        "es": "Integrar marquee infinito de logos",
+        "en": "Integrate infinite logo marquee"
+      },
+      "prompt": {
+        "es": "Se te asigna una tarea para integrar un componente React existente en el codebase.\n\nEl codebase debe soportar:\n- Estructura de proyecto shadcn\n- Tailwind CSS\n- TypeScript\n- Next.js\n\nSi no lo soporta, proporciona instrucciones para configurar el proyecto usando shadcn CLI, Tailwind CSS y TypeScript.\n\nDetermina la ruta por defecto para componentes y estilos.\nSi /components/ui no está disponible, explica por qué esta carpeta debe crearse.\n\nCrea y copia-pega un componente llamado:\n\ninfinite-logo-marquee.tsx\n\nEl componente debe renderizar un marquee horizontal infinito de logos de empresas. El marquee debe hacer loop suavemente, pausarse en hover, soportar dirección inversa y permitir personalización de velocidad. Debe ser responsive y funcionar con logos SVG o placeholders de texto.\n\nCrea un archivo demo llamado:\n\ninfinite-logo-marquee-demo.tsx\n\nEl demo debe incluir al menos 12 logos de ejemplo usando texto o iconos de lucide-react.\n\nInstala dependencias NPM:\n\nlucide-react\n\nGuías de implementación:\n1. Usa CSS keyframes para el loop infinito.\n2. Duplica los logos para crear scrolling continuo sin cortes.\n3. Agrega props para speed, direction, pauseOnHover e items.\n4. Usa alt text accesible para logos.\n5. Asegúrate de que la animación no cause layout shift.\n6. Soporta dark mode.\n\nPreguntas que debes hacer:\n- ¿Qué logos deben mostrarse?\n- ¿El marquee debe moverse a la izquierda o a la derecha?\n- ¿Debe pausarse en hover?\n- ¿Los logos deben ser grayscale o a color?\n\nPasos para integrar:\n0. Copia y pega el componente en /components/ui.\n1. Instala lucide-react si se necesitan iconos.\n2. Importa el demo en una landing page.\n3. Reemplaza placeholders con assets reales.\n4. Prueba el loop continuo.",
+        "en": "You are given a task to integrate an existing React component in the codebase.\n\nThe codebase should support:\n- shadcn project structure\n- Tailwind CSS\n- TypeScript\n- Next.js\n\nIf it doesn't, provide instructions to setup the project via shadcn CLI, Tailwind CSS, and TypeScript.\n\nDetermine the default path for components and styles.\nIf /components/ui is not available, explain why this folder should be created.\n\nCreate and copy-paste a component called:\n\ninfinite-logo-marquee.tsx\n\nThe component should render an infinite horizontal marquee of company logos. The marquee should loop smoothly, pause on hover, support reverse direction, and allow speed customization. It should be responsive and work with SVG logos or text-based placeholders.\n\nCreate a demo file called:\n\ninfinite-logo-marquee-demo.tsx\n\nThe demo should include at least 12 sample logos using text or lucide-react icons.\n\nInstall NPM dependencies:\n\nlucide-react\n\nImplementation Guidelines:\n1. Use CSS keyframes for the infinite loop.\n2. Duplicate logo items to create seamless scrolling.\n3. Add props for speed, direction, pauseOnHover, and items.\n4. Use accessible alt text for logos.\n5. Make sure animation does not cause layout shift.\n6. Support dark mode.\n\nQuestions to Ask:\n- What logos should be displayed?\n- Should the marquee move left or right?\n- Should it pause on hover?\n- Should logos be grayscale or full color?\n\nSteps to integrate:\n0. Copy-paste the component into /components/ui.\n1. Install lucide-react if icons are needed.\n2. Import the demo into a landing page.\n3. Replace placeholder logos with real assets.\n4. Test seamless looping."
+      }
+    },
+    {
+      "id": 117,
+      "name": {
+        "es": "Integrar stack de cards con swipe",
+        "en": "Integrate swipe card stack"
+      },
+      "prompt": {
+        "es": "Se te asigna una tarea para integrar un componente React existente en el codebase.\n\nEl codebase debe soportar:\n- Estructura de proyecto shadcn\n- Tailwind CSS\n- TypeScript\n- Next.js\n- Framer Motion\n\nSi no lo soporta, proporciona instrucciones de configuración para shadcn CLI, Tailwind CSS, TypeScript y Framer Motion.\n\nDetermina la ruta por defecto para componentes y estilos.\nSi la ruta por defecto de componentes no es /components/ui, explica por qué esta carpeta debe existir.\n\nCrea y copia-pega un componente llamado:\n\nswipe-card-stack.tsx\n\nEl componente debe renderizar una pila de tarjetas arrastrables. Los usuarios deben poder arrastrar la tarjeta superior hacia la izquierda o derecha, y la siguiente tarjeta debe avanzar con una animación suave. Cada tarjeta debe incluir imagen, título, descripción, etiquetas y botones de acción.\n\nCrea un archivo demo llamado:\n\nswipe-card-stack-demo.tsx\n\nEl demo debe incluir al menos 6 tarjetas con contenido de ejemplo.\n\nInstala dependencias NPM:\n\nframer-motion\nlucide-react\n\nGuías de implementación:\n1. Usa \"use client\".\n2. Usa gestos drag de Framer Motion.\n3. Administra el orden de tarjetas con React state.\n4. Agrega botones para previous, next, accept y reject.\n5. Haz que los thresholds de drag sean configurables.\n6. Soporta acciones de teclado.\n7. Asegúrate de que el comportamiento táctil móvil funcione bien.\n\nPreguntas que debes hacer:\n- ¿El swipe debe eliminar tarjetas o ciclarlas?\n- ¿Qué acciones deben activar los swipes izquierdo y derecho?\n- ¿Las tarjetas deben contener imágenes o solo texto?\n- ¿El stack debe ser infinito?\n\nPasos para integrar:\n0. Copia y pega el componente en /components/ui.\n1. Instala las dependencias.\n2. Crea datos demo.\n3. Importa el demo en una página.\n4. Prueba drag, touch e interacciones de teclado.",
+        "en": "You are given a task to integrate an existing React component in the codebase.\n\nThe codebase should support:\n- shadcn project structure\n- Tailwind CSS\n- TypeScript\n- Next.js\n- Framer Motion\n\nIf it doesn't, provide setup instructions for shadcn CLI, Tailwind CSS, TypeScript, and Framer Motion.\n\nDetermine the default path for components and styles.\nIf the default component path is not /components/ui, explain why this folder should exist.\n\nCreate and copy-paste a component called:\n\nswipe-card-stack.tsx\n\nThe component should render a stack of draggable cards. Users should be able to drag the top card left or right, and the next card should move forward with a smooth animation. Each card should include image, title, description, tags, and action buttons.\n\nCreate a demo file called:\n\nswipe-card-stack-demo.tsx\n\nThe demo should include at least 6 cards with sample content.\n\nInstall NPM dependencies:\n\nframer-motion\nlucide-react\n\nImplementation Guidelines:\n1. Use \"use client\".\n2. Use Framer Motion drag gestures.\n3. Manage card order with React state.\n4. Add buttons for previous, next, accept, and reject.\n5. Make drag thresholds configurable.\n6. Support keyboard actions.\n7. Ensure mobile touch behavior works well.\n\nQuestions to Ask:\n- Should swiping remove cards or cycle them?\n- What actions should left and right swipes trigger?\n- Should cards contain images or only text?\n- Should the stack be infinite?\n\nSteps to integrate:\n0. Copy-paste the component into /components/ui.\n1. Install dependencies.\n2. Create demo data.\n3. Import demo into a page.\n4. Test drag, touch, and keyboard interactions."
+      }
+    },
+    {
+      "id": 118,
+      "name": {
+        "es": "Integrar tabla de datos con filas animadas",
+        "en": "Integrate data table with animated rows"
+      },
+      "prompt": {
+        "es": "Se te asigna una tarea para integrar un componente React existente en el codebase.\n\nEl codebase debe soportar:\n- Estructura de proyecto shadcn\n- Tailwind CSS\n- TypeScript\n- Next.js\n- shadcn/ui Table\n- Framer Motion\n\nSi no lo soporta, proporciona instrucciones para configurar shadcn, Tailwind CSS, TypeScript e instalar el componente Table.\n\nDetermina la ruta por defecto para componentes y estilos.\nSi la ruta por defecto no es /components/ui, explica por qué los componentes reutilizables deben guardarse ahí.\n\nCrea y copia-pega un componente llamado:\n\nanimated-data-table.tsx\n\nEl componente debe renderizar una tabla de datos donde las filas se animen al entrar con movimiento escalonado. La tabla debe soportar ordenamiento, badges de estado, animaciones hover en filas, menú opcional de acciones y empty state.\n\nCrea un archivo demo llamado:\n\nanimated-data-table-demo.tsx\n\nEl demo debe incluir usuarios de ejemplo, estados, fechas y acciones.\n\nInstala dependencias NPM:\n\nframer-motion\nlucide-react\n\nInstala componentes shadcn:\n\ntable\nbadge\nbutton\ndropdown-menu\n\nGuías de implementación:\n1. Usa interfaces TypeScript para las filas de la tabla.\n2. Usa shadcn Table para la estructura.\n3. Anima filas con Framer Motion.\n4. Mantén la tabla accesible.\n5. Haz la tabla responsive con overflow horizontal.\n6. Agrega botones de acción accesibles con teclado.\n7. Mantén estilos consistentes con el tema del proyecto.\n\nPreguntas que debes hacer:\n- ¿Qué columnas debe incluir la tabla?\n- ¿El ordenamiento debe ser client-side o server-side?\n- ¿Las filas deben ser clickeables?\n- ¿Qué acciones debe tener cada fila?\n\nPasos para integrar:\n0. Instala componentes shadcn requeridos.\n1. Copia y pega el componente en /components/ui.\n2. Instala dependencias.\n3. Importa el demo en una página dashboard.\n4. Reemplaza datos de ejemplo con datos reales.",
+        "en": "You are given a task to integrate an existing React component in the codebase.\n\nThe codebase should support:\n- shadcn project structure\n- Tailwind CSS\n- TypeScript\n- Next.js\n- shadcn/ui Table\n- Framer Motion\n\nIf it doesn't, provide instructions to setup shadcn, Tailwind CSS, TypeScript, and install the Table component.\n\nDetermine the default path for components and styles.\nIf the default path is not /components/ui, explain why reusable components should be stored there.\n\nCreate and copy-paste a component called:\n\nanimated-data-table.tsx\n\nThe component should render a data table where rows animate into view with staggered motion. The table should support sorting, status badges, row hover animations, optional actions menu, and empty state.\n\nCreate a demo file called:\n\nanimated-data-table-demo.tsx\n\nThe demo should include sample users, statuses, dates, and actions.\n\nInstall NPM dependencies:\n\nframer-motion\nlucide-react\n\nInstall shadcn components:\n\ntable\nbadge\nbutton\ndropdown-menu\n\nImplementation Guidelines:\n1. Use TypeScript interfaces for table rows.\n2. Use shadcn Table for structure.\n3. Animate rows with Framer Motion.\n4. Keep table accessible.\n5. Make the table responsive with horizontal overflow.\n6. Add keyboard-accessible action buttons.\n7. Keep styling consistent with the project theme.\n\nQuestions to Ask:\n- What columns should the table include?\n- Should sorting be client-side or server-side?\n- Should rows be clickable?\n- What actions should each row have?\n\nSteps to integrate:\n0. Install required shadcn components.\n1. Copy-paste the component into /components/ui.\n2. Install dependencies.\n3. Import the demo into a dashboard page.\n4. Replace sample data with real data."
+      }
+    },
+    {
+      "id": 119,
+      "name": {
+        "es": "Integrar formulario multi-step animado",
+        "en": "Integrate animated multi-step form"
+      },
+      "prompt": {
+        "es": "Se te asigna una tarea para integrar un componente React existente en el codebase.\n\nEl codebase debe soportar:\n- Estructura de proyecto shadcn\n- Tailwind CSS\n- TypeScript\n- Next.js\n- Componentes shadcn/ui para formularios\n- Framer Motion\n- react-hook-form\n- zod\n\nSi no lo soporta, proporciona instrucciones de configuración para shadcn CLI, Tailwind CSS, TypeScript, react-hook-form, zod y Framer Motion.\n\nDetermina la ruta por defecto para componentes y estilos.\nSi /components/ui no existe, explica por qué los componentes reutilizables deben colocarse ahí.\n\nCrea y copia-pega un componente llamado:\n\nanimated-multi-step-form.tsx\n\nEl componente debe renderizar un formulario multi-step con transiciones animadas entre pasos. Debe incluir validación por cada paso, indicador de progreso, botones siguiente y anterior, estado de envío, estado de éxito y mensajes de error.\n\nCrea un archivo demo llamado:\n\nanimated-multi-step-form-demo.tsx\n\nEl demo debe incluir pasos para información personal, detalles del proyecto, presupuesto y confirmación.\n\nInstala dependencias NPM:\n\nframer-motion\nreact-hook-form\nzod\n@hookform/resolvers\nlucide-react\n\nInstala componentes shadcn:\n\nform\ninput\ntextarea\nselect\nbutton\nprogress\ncard\n\nGuías de implementación:\n1. Usa \"use client\".\n2. Usa react-hook-form con validación zod.\n3. Anima cambios de paso con Framer Motion.\n4. Mantén el estado del formulario entre pasos.\n5. Agrega labels accesibles y mensajes de error.\n6. Haz que el formulario sea responsive.\n7. Incluye un mensaje final de éxito.\n\nPreguntas que debes hacer:\n- ¿Qué campos debe contener cada paso?\n- ¿El formulario debe enviarse a una API?\n- ¿Los usuarios deben poder volver atrás?\n- ¿Qué reglas de validación se requieren?\n\nPasos para integrar:\n0. Instala componentes shadcn requeridos.\n1. Instala dependencias npm.\n2. Copia y pega el componente en /components/ui.\n3. Importa el demo en una página.\n4. Conecta la lógica de envío al backend real.",
+        "en": "You are given a task to integrate an existing React component in the codebase.\n\nThe codebase should support:\n- shadcn project structure\n- Tailwind CSS\n- TypeScript\n- Next.js\n- shadcn/ui form components\n- Framer Motion\n- react-hook-form\n- zod\n\nIf it doesn't, provide setup instructions for shadcn CLI, Tailwind CSS, TypeScript, react-hook-form, zod, and Framer Motion.\n\nDetermine the default path for components and styles.\nIf /components/ui does not exist, explain why reusable components should be placed there.\n\nCreate and copy-paste a component called:\n\nanimated-multi-step-form.tsx\n\nThe component should render a multi-step form with animated transitions between steps. It should include validation for each step, progress indicator, next and previous buttons, submit state, success state, and error messages.\n\nCreate a demo file called:\n\nanimated-multi-step-form-demo.tsx\n\nThe demo should include steps for personal information, project details, budget, and confirmation.\n\nInstall NPM dependencies:\n\nframer-motion\nreact-hook-form\nzod\n@hookform/resolvers\nlucide-react\n\nInstall shadcn components:\n\nform\ninput\ntextarea\nselect\nbutton\nprogress\ncard\n\nImplementation Guidelines:\n1. Use \"use client\".\n2. Use react-hook-form with zod validation.\n3. Animate step changes with Framer Motion.\n4. Keep form state between steps.\n5. Add accessible labels and error messages.\n6. Make the form responsive.\n7. Include a final success message.\n\nQuestions to Ask:\n- What fields should each step contain?\n- Should the form submit to an API?\n- Should users be able to go back?\n- What validation rules are required?\n\nSteps to integrate:\n0. Install required shadcn components.\n1. Install npm dependencies.\n2. Copy-paste the component into /components/ui.\n3. Import demo into a page.\n4. Connect submit logic to the real backend."
+      }
+    },
+    {
+      "id": 120,
+      "name": {
+        "es": "Integrar timeline horizontal animado",
+        "en": "Integrate animated horizontal timeline"
+      },
+      "prompt": {
+        "es": "Se te asigna una tarea para integrar un componente React existente en el codebase.\n\nEl codebase debe soportar:\n- Estructura de proyecto shadcn\n- Tailwind CSS\n- TypeScript\n- Next.js\n- Framer Motion\n\nSi no lo soporta, proporciona instrucciones de configuración para shadcn CLI, Tailwind CSS, TypeScript y Framer Motion.\n\nDetermina la ruta por defecto para componentes y estilos.\nSi la ruta por defecto para componentes no es /components/ui, explica por qué esta carpeta debe usarse.\n\nCrea y copia-pega un componente llamado:\n\nhorizontal-timeline.tsx\n\nEl componente debe renderizar un timeline horizontal con milestones animados. Cada milestone debe incluir fecha, título, descripción, icono e imagen opcional. El milestone activo debe animarse con escala, glow y movimiento de línea de progreso.\n\nCrea un archivo demo llamado:\n\nhorizontal-timeline-demo.tsx\n\nEl demo debe incluir al menos 6 milestones para un roadmap de producto.\n\nInstala dependencias NPM:\n\nframer-motion\nlucide-react\n\nGuías de implementación:\n1. Usa interfaces TypeScript para milestones.\n2. Anima la línea de progreso y los items activos.\n3. Soporta navegación por clic entre milestones.\n4. Haz que el timeline sea horizontalmente scrollable en móvil.\n5. Usa botones accesibles.\n6. Usa Tailwind CSS para todos los estilos.\n7. Soporta dark mode.\n\nPreguntas que debes hacer:\n- ¿Qué milestones deben mostrarse?\n- ¿El timeline debe ser automático o controlado por el usuario?\n- ¿Debe ser horizontal en escritorio y vertical en móvil?\n- ¿Deben incluirse imágenes?\n\nPasos para integrar:\n0. Copia y pega el componente en /components/ui.\n1. Instala dependencias.\n2. Importa el demo en una página de roadmap.\n3. Reemplaza milestones de ejemplo con datos reales.\n4. Prueba scroll móvil.",
+        "en": "You are given a task to integrate an existing React component in the codebase.\n\nThe codebase should support:\n- shadcn project structure\n- Tailwind CSS\n- TypeScript\n- Next.js\n- Framer Motion\n\nIf it doesn't, provide setup instructions for shadcn CLI, Tailwind CSS, TypeScript, and Framer Motion.\n\nDetermine the default path for components and styles.\nIf default path for components is not /components/ui, explain why this folder should be used.\n\nCreate and copy-paste a component called:\n\nhorizontal-timeline.tsx\n\nThe component should render a horizontal timeline with animated milestones. Each milestone should include date, title, description, icon, and optional image. The active milestone should animate with scale, glow, and progress line movement.\n\nCreate a demo file called:\n\nhorizontal-timeline-demo.tsx\n\nThe demo should include at least 6 milestones for a product roadmap.\n\nInstall NPM dependencies:\n\nframer-motion\nlucide-react\n\nImplementation Guidelines:\n1. Use TypeScript interfaces for milestones.\n2. Animate progress line and active items.\n3. Support click navigation between milestones.\n4. Make the timeline horizontally scrollable on mobile.\n5. Use accessible buttons.\n6. Use Tailwind CSS for all styles.\n7. Support dark mode.\n\nQuestions to Ask:\n- What milestones should be shown?\n- Should the timeline be automatic or user-controlled?\n- Should it be horizontal on desktop and vertical on mobile?\n- Should images be included?\n\nSteps to integrate:\n0. Copy-paste the component into /components/ui.\n1. Install dependencies.\n2. Import the demo into a roadmap page.\n3. Replace sample milestones with real data.\n4. Test mobile scrolling."
+      }
+    },
+    {
+      "id": 121,
+      "name": {
+        "es": "Integrar sección de testimonios animados",
+        "en": "Integrate animated testimonials section"
+      },
+      "prompt": {
+        "es": "Se te asigna una tarea para integrar un componente React existente en el codebase.\n\nEl codebase debe soportar:\n- Estructura de proyecto shadcn\n- Tailwind CSS\n- TypeScript\n- Next.js\n- Framer Motion\n\nSi no lo soporta, proporciona instrucciones de configuración para shadcn CLI, Tailwind CSS, TypeScript y Framer Motion.\n\nDetermina la ruta por defecto para componentes y estilos.\nSi /components/ui no existe, explica por qué debe crearse.\n\nCrea y copia-pega un componente llamado:\n\nanimated-testimonials.tsx\n\nEl componente debe renderizar una sección de testimonios con tarjetas animadas. Los testimonios deben rotar automáticamente con transiciones fade y slide. Cada testimonio debe incluir avatar, nombre, rol, empresa, rating y quote.\n\nCrea un archivo demo llamado:\n\nanimated-testimonials-demo.tsx\n\nEl demo debe incluir al menos 5 testimonios con avatares placeholder.\n\nInstala dependencias NPM:\n\nframer-motion\nlucide-react\n\nGuías de implementación:\n1. Usa \"use client\".\n2. Administra el testimonio activo con React state.\n3. Agrega autoplay con limpieza de interval.\n4. Incluye botones previous y next.\n5. Agrega iconos de estrellas usando lucide-react.\n6. Haz el layout responsive.\n7. Agrega aria labels accesibles para controles.\n\nPreguntas que debes hacer:\n- ¿Los testimonios deben tener autoplay?\n- ¿Cuánto tiempo debe estar visible cada testimonio?\n- ¿Deben mostrarse ratings?\n- ¿Los testimonios deben aparecer como tarjetas o quotes full-width?\n\nPasos para integrar:\n0. Copia y pega el componente en /components/ui.\n1. Instala dependencias.\n2. Importa el demo en una landing page.\n3. Reemplaza testimonios de ejemplo con reales.\n4. Prueba limpieza del autoplay.",
+        "en": "You are given a task to integrate an existing React component in the codebase.\n\nThe codebase should support:\n- shadcn project structure\n- Tailwind CSS\n- TypeScript\n- Next.js\n- Framer Motion\n\nIf it doesn't, provide setup instructions for shadcn CLI, Tailwind CSS, TypeScript, and Framer Motion.\n\nDetermine the default path for components and styles.\nIf /components/ui does not exist, explain why it should be created.\n\nCreate and copy-paste a component called:\n\nanimated-testimonials.tsx\n\nThe component should render a testimonial section with animated cards. Testimonials should automatically rotate with fade and slide transitions. Each testimonial should include avatar, name, role, company, rating, and quote.\n\nCreate a demo file called:\n\nanimated-testimonials-demo.tsx\n\nThe demo should include at least 5 testimonials with placeholder avatars.\n\nInstall NPM dependencies:\n\nframer-motion\nlucide-react\n\nImplementation Guidelines:\n1. Use \"use client\".\n2. Manage active testimonial with React state.\n3. Add autoplay with interval cleanup.\n4. Include previous and next buttons.\n5. Add star icons using lucide-react.\n6. Make the layout responsive.\n7. Add accessible aria labels for controls.\n\nQuestions to Ask:\n- Should testimonials autoplay?\n- How long should each testimonial stay visible?\n- Should ratings be displayed?\n- Should testimonials appear as cards or full-width quotes?\n\nSteps to integrate:\n0. Copy-paste the component into /components/ui.\n1. Install dependencies.\n2. Import demo into a landing page.\n3. Replace sample testimonials with real ones.\n4. Test autoplay cleanup."
+      }
+    },
+    {
+      "id": 122,
+      "name": {
+        "es": "Integrar fondo de partículas con Canvas",
+        "en": "Integrate canvas particles background"
+      },
+      "prompt": {
+        "es": "Se te asigna una tarea para integrar un componente React existente en el codebase.\n\nEl codebase debe soportar:\n- Estructura de proyecto shadcn\n- Tailwind CSS\n- TypeScript\n- Next.js\n- HTML Canvas\n\nSi no lo soporta, proporciona instrucciones para configurar el proyecto usando shadcn CLI, Tailwind CSS y TypeScript.\n\nDetermina la ruta por defecto para componentes y estilos.\nSi /components/ui no existe, explica por qué esta carpeta es importante.\n\nCrea y copia-pega un componente llamado:\n\ncanvas-particles-background.tsx\n\nEl componente debe renderizar un fondo de partículas animadas usando HTML Canvas. Las partículas deben moverse lentamente, conectarse con líneas cuando estén cerca, reaccionar al movimiento del mouse y redimensionarse correctamente con el contenedor.\n\nCrea un archivo demo llamado:\n\ncanvas-particles-background-demo.tsx\n\nEl demo debe colocar título hero, subtítulo y botones sobre el fondo canvas.\n\nInstala dependencias NPM:\n\nlucide-react\n\nGuías de implementación:\n1. Usa \"use client\".\n2. Usa canvas dentro de un div contenido.\n3. Usa requestAnimationFrame para la animación.\n4. Maneja eventos resize.\n5. Limpia animation frame y event listeners al desmontar.\n6. Agrega fallback para reduced-motion.\n7. Mantén el contenido de texto encima del canvas con z-index correcto.\n\nPreguntas que debes hacer:\n- ¿Cuántas partículas deben mostrarse?\n- ¿Las partículas deben conectarse con líneas?\n- ¿El mouse debe repeler o atraer partículas?\n- ¿El fondo debe ser oscuro o claro?\n\nPasos para integrar:\n0. Copia y pega el componente en /components/ui.\n1. Instala dependencias si se usan iconos.\n2. Importa el demo en una página.\n3. Personaliza cantidad de partículas y colores.\n4. Prueba rendimiento en móvil.",
+        "en": "You are given a task to integrate an existing React component in the codebase.\n\nThe codebase should support:\n- shadcn project structure\n- Tailwind CSS\n- TypeScript\n- Next.js\n- HTML Canvas\n\nIf it doesn't, provide instructions to setup the project via shadcn CLI, Tailwind CSS, and TypeScript.\n\nDetermine the default path for components and styles.\nIf /components/ui does not exist, explain why this folder is important.\n\nCreate and copy-paste a component called:\n\ncanvas-particles-background.tsx\n\nThe component should render an animated particles background using HTML Canvas. Particles should move slowly, connect with lines when close, react to mouse movement, and resize correctly with the container.\n\nCreate a demo file called:\n\ncanvas-particles-background-demo.tsx\n\nThe demo should place a hero title, subtitle, and buttons above the canvas background.\n\nInstall NPM dependencies:\n\nlucide-react\n\nImplementation Guidelines:\n1. Use \"use client\".\n2. Use canvas inside a contained div.\n3. Use requestAnimationFrame for animation.\n4. Handle resize events.\n5. Clean up animation frame and event listeners on unmount.\n6. Add a reduced-motion fallback.\n7. Keep text content above the canvas with proper z-index.\n\nQuestions to Ask:\n- How many particles should be displayed?\n- Should particles connect with lines?\n- Should the mouse repel or attract particles?\n- Should the background be dark or light?\n\nSteps to integrate:\n0. Copy-paste the component into /components/ui.\n1. Install dependencies if icons are used.\n2. Import the demo into a page.\n3. Customize particle count and colors.\n4. Test performance on mobile."
+      }
+    },
+    {
+      "id": 123,
+      "name": {
+        "es": "Integrar FAQ acordeón avanzado animado",
+        "en": "Integrate advanced animated FAQ accordion"
+      },
+      "prompt": {
+        "es": "Se te asigna una tarea para integrar un componente React existente en el codebase.\n\nEl codebase debe soportar:\n- Estructura de proyecto shadcn\n- Tailwind CSS\n- TypeScript\n- Next.js\n- shadcn/ui Accordion\n- Framer Motion\n\nSi no lo soporta, proporciona instrucciones de configuración para shadcn CLI, Tailwind CSS, TypeScript, Framer Motion y el componente Accordion.\n\nDetermina la ruta por defecto para componentes y estilos.\nSi /components/ui no existe, explica por qué los componentes UI reutilizables deben ir ahí.\n\nCrea y copia-pega un componente llamado:\n\nanimated-faq-accordion.tsx\n\nEl componente debe renderizar un acordeón FAQ con estados animados de abrir y cerrar. Cada item debe incluir pregunta, respuesta, categoría e icono opcional. El item activo debe tener borde resaltado, background e icono rotando.\n\nCrea un archivo demo llamado:\n\nanimated-faq-accordion-demo.tsx\n\nEl demo debe incluir al menos 8 preguntas frecuentes agrupadas por categoría.\n\nInstala dependencias NPM:\n\nframer-motion\nlucide-react\n\nInstala componentes shadcn:\n\naccordion\nbadge\n\nGuías de implementación:\n1. Usa shadcn Accordion para accesibilidad.\n2. Agrega animación Framer Motion para revelar contenido.\n3. Usa iconos lucide-react.\n4. Soporta múltiples categorías.\n5. Haz el layout responsive.\n6. Mantén texto legible en dark mode.\n7. Usa Tailwind CSS para estilos.\n\nPreguntas que debes hacer:\n- ¿Deben abrirse varios items al mismo tiempo?\n- ¿Qué categorías de FAQ se necesitan?\n- ¿Debe haber búsqueda o filtrado?\n- ¿Deben mostrarse iconos?\n\nPasos para integrar:\n0. Instala componentes shadcn requeridos.\n1. Copia y pega el componente en /components/ui.\n2. Instala dependencias.\n3. Importa el demo en una página FAQ.\n4. Reemplaza preguntas demo con contenido real.",
+        "en": "You are given a task to integrate an existing React component in the codebase.\n\nThe codebase should support:\n- shadcn project structure\n- Tailwind CSS\n- TypeScript\n- Next.js\n- shadcn/ui Accordion\n- Framer Motion\n\nIf it doesn't, provide setup instructions for shadcn CLI, Tailwind CSS, TypeScript, Framer Motion, and the Accordion component.\n\nDetermine the default path for components and styles.\nIf /components/ui is missing, explain why reusable UI components should go there.\n\nCreate and copy-paste a component called:\n\nanimated-faq-accordion.tsx\n\nThe component should render an FAQ accordion with animated open and close states. Each item should include question, answer, category, and optional icon. The active item should have highlighted border, background, and icon rotation.\n\nCreate a demo file called:\n\nanimated-faq-accordion-demo.tsx\n\nThe demo should include at least 8 FAQ items grouped by category.\n\nInstall NPM dependencies:\n\nframer-motion\nlucide-react\n\nInstall shadcn components:\n\naccordion\nbadge\n\nImplementation Guidelines:\n1. Use shadcn Accordion for accessibility.\n2. Add Framer Motion animation for content reveal.\n3. Use lucide-react icons.\n4. Support multiple categories.\n5. Make the layout responsive.\n6. Keep text readable in dark mode.\n7. Use Tailwind CSS for styling.\n\nQuestions to Ask:\n- Should multiple items open at once?\n- What FAQ categories are needed?\n- Should there be search or filtering?\n- Should icons be shown?\n\nSteps to integrate:\n0. Install required shadcn components.\n1. Copy-paste the component into /components/ui.\n2. Install dependencies.\n3. Import demo into an FAQ page.\n4. Replace demo questions with real content."
+      }
+    },
+    {
+      "id": 124,
+      "name": {
+        "es": "Integrar Bento Grid animado de features",
+        "en": "Integrate animated features Bento Grid"
+      },
+      "prompt": {
+        "es": "Se te asigna una tarea para integrar un componente React existente en el codebase.\n\nEl codebase debe soportar:\n- Estructura de proyecto shadcn\n- Tailwind CSS\n- TypeScript\n- Next.js\n- Framer Motion\n- lucide-react\n\nSi no lo soporta, proporciona instrucciones para configurar shadcn CLI, Tailwind CSS, TypeScript, Framer Motion y lucide-react.\n\nDetermina la ruta por defecto para componentes y estilos.\nSi /components/ui no existe, explica por qué es importante para componentes reutilizables.\n\nCrea y copia-pega un componente llamado:\n\nanimated-bento-grid.tsx\n\nEl componente debe renderizar una sección de features en Bento Grid. Cada item del grid debe soportar título, descripción, icono, badge, visual de fondo y tamaño personalizado. Los items deben animarse al entrar en pantalla con movimiento escalonado y tener hover effects como scale, glow y 3D tilt sutil.\n\nCrea un archivo demo llamado:\n\nanimated-bento-grid-demo.tsx\n\nEl demo debe incluir al menos 7 tarjetas de features con diferentes tamaños.\n\nInstala dependencias NPM:\n\nframer-motion\nlucide-react\n\nGuías de implementación:\n1. Usa interfaces TypeScript para los items de features.\n2. Usa CSS grid con breakpoints responsive.\n3. Anima tarjetas con Framer Motion.\n4. Agrega hover states con Tailwind y motion props.\n5. Mantén cada visual dentro de su propio div.\n6. Soporta dark mode.\n7. Haz que el grid sea mobile-friendly.\n\nPreguntas que debes hacer:\n- ¿Qué features deben mostrarse?\n- ¿Qué tarjetas deben ser más grandes?\n- ¿Las tarjetas deben enlazar a otras páginas?\n- ¿Qué iconos deben usarse?\n\nPasos para integrar:\n0. Copia y pega el componente en /components/ui.\n1. Instala dependencias.\n2. Importa el demo en una página de marketing.\n3. Reemplaza contenido de ejemplo.\n4. Prueba el layout del grid en diferentes tamaños de pantalla.",
+        "en": "You are given a task to integrate an existing React component in the codebase.\n\nThe codebase should support:\n- shadcn project structure\n- Tailwind CSS\n- TypeScript\n- Next.js\n- Framer Motion\n- lucide-react\n\nIf it doesn't, provide instructions for shadcn CLI setup, Tailwind CSS, TypeScript, Framer Motion, and lucide-react.\n\nDetermine the default path for components and styles.\nIf /components/ui does not exist, explain why it is important for reusable components.\n\nCreate and copy-paste a component called:\n\nanimated-bento-grid.tsx\n\nThe component should render a Bento Grid feature section. Each grid item should support title, description, icon, badge, background visual, and custom size. Items should animate into view with staggered motion and have hover effects such as scale, glow, and subtle 3D tilt.\n\nCreate a demo file called:\n\nanimated-bento-grid-demo.tsx\n\nThe demo should include at least 7 feature cards with different sizes.\n\nInstall NPM dependencies:\n\nframer-motion\nlucide-react\n\nImplementation Guidelines:\n1. Use TypeScript interfaces for feature items.\n2. Use CSS grid with responsive breakpoints.\n3. Animate cards with Framer Motion.\n4. Add hover states with Tailwind and motion props.\n5. Keep each visual inside its own div.\n6. Support dark mode.\n7. Make the grid mobile-friendly.\n\nQuestions to Ask:\n- What features should be displayed?\n- Which cards should be larger?\n- Should cards link to other pages?\n- What icons should be used?\n\nSteps to integrate:\n0. Copy-paste the component into /components/ui.\n1. Install dependencies.\n2. Import demo into a marketing page.\n3. Replace sample feature content.\n4. Test grid layout on different screen sizes."
+      }
+    },
+    {
+      "id": 125,
+      "name": {
+        "es": "Integrar sección de comparación animada",
+        "en": "Integrate animated comparison section"
+      },
+      "prompt": {
+        "es": "Se te asigna una tarea para integrar un componente React existente en el codebase.\n\nEl codebase debe soportar:\n- Estructura de proyecto shadcn\n- Tailwind CSS\n- TypeScript\n- Next.js\n- Componentes shadcn/ui\n- Framer Motion\n\nSi no lo soporta, proporciona instrucciones de configuración para shadcn CLI, Tailwind CSS, TypeScript y Framer Motion.\n\nDetermina la ruta por defecto para componentes y estilos.\nSi la ruta por defecto para componentes no es /components/ui, explica por qué importa.\n\nCrea y copia-pega un componente llamado:\n\nanimated-comparison-section.tsx\n\nEl componente debe renderizar una tabla o tarjetas de comparación entre dos o más productos. Las filas deben animarse al entrar, las diferencias deben resaltarse y la opción recomendada debe mostrar badge y efecto glow.\n\nCrea un archivo demo llamado:\n\nanimated-comparison-section-demo.tsx\n\nEl demo debe comparar opciones Free, Pro y Enterprise.\n\nInstala dependencias NPM:\n\nframer-motion\nlucide-react\n\nInstala componentes shadcn:\n\ncard\nbadge\nbutton\ntable\n\nGuías de implementación:\n1. Usa interfaces TypeScript para columnas y filas de comparación.\n2. Usa shadcn Card o Table según el tamaño de pantalla.\n3. Anima filas con transiciones escalonadas.\n4. Usa iconos check y x de lucide-react.\n5. Resalta la columna recomendada.\n6. Haz la comparación responsive.\n7. Ten en cuenta la accesibilidad semántica de tablas.\n\nPreguntas que debes hacer:\n- ¿Qué productos o planes deben compararse?\n- ¿Qué opción es recomendada?\n- ¿El layout debe ser tabla o tarjetas en móvil?\n- ¿Qué características deben compararse?\n\nPasos para integrar:\n0. Instala componentes shadcn.\n1. Copia y pega el componente en /components/ui.\n2. Instala dependencias.\n3. Importa el demo en página de pricing o features.\n4. Reemplaza datos de comparación de ejemplo.",
+        "en": "You are given a task to integrate an existing React component in the codebase.\n\nThe codebase should support:\n- shadcn project structure\n- Tailwind CSS\n- TypeScript\n- Next.js\n- shadcn/ui components\n- Framer Motion\n\nIf it doesn't, provide setup instructions for shadcn CLI, Tailwind CSS, TypeScript, and Framer Motion.\n\nDetermine the default path for components and styles.\nIf default path for components is not /components/ui, explain why it matters.\n\nCreate and copy-paste a component called:\n\nanimated-comparison-section.tsx\n\nThe component should render a comparison table or cards comparing two or more products. Rows should animate into view, differences should be highlighted, and the recommended option should show a badge and glow effect.\n\nCreate a demo file called:\n\nanimated-comparison-section-demo.tsx\n\nThe demo should compare Free, Pro, and Enterprise options.\n\nInstall NPM dependencies:\n\nframer-motion\nlucide-react\n\nInstall shadcn components:\n\ncard\nbadge\nbutton\ntable\n\nImplementation Guidelines:\n1. Use TypeScript interfaces for comparison columns and rows.\n2. Use shadcn Card or Table depending on screen size.\n3. Animate rows with staggered transitions.\n4. Use check and x icons from lucide-react.\n5. Highlight the recommended column.\n6. Make the comparison responsive.\n7. Keep accessibility in mind for table semantics.\n\nQuestions to Ask:\n- What products or plans should be compared?\n- Which option is recommended?\n- Should the layout be a table or cards on mobile?\n- What features should be compared?\n\nSteps to integrate:\n0. Install shadcn components.\n1. Copy-paste component into /components/ui.\n2. Install dependencies.\n3. Import demo into a pricing or features page.\n4. Replace sample comparison data."
+      }
+    },
+    {
+      "id": 126,
+      "name": {
+        "es": "Integrar dock flotante animado",
+        "en": "Integrate animated floating dock"
+      },
+      "prompt": {
+        "es": "Se te asigna una tarea para integrar un componente React existente en el codebase.\n\nEl codebase debe soportar:\n- Estructura de proyecto shadcn\n- Tailwind CSS\n- TypeScript\n- Next.js\n- Framer Motion\n- lucide-react\n\nSi no lo soporta, proporciona instrucciones de configuración para shadcn CLI, Tailwind CSS, TypeScript, Framer Motion y lucide-react.\n\nDetermina la ruta por defecto para componentes y estilos.\nSi /components/ui no existe, explica por qué debe crearse.\n\nCrea y copia-pega un componente llamado:\n\nfloating-dock.tsx\n\nEl componente debe renderizar un dock flotante de navegación similar a macOS. Los items del dock deben escalar según la posición del mouse, mostrar tooltips en hover y soportar acciones o enlaces. El dock debe estar fijo en la parte inferior de la pantalla y ser responsive.\n\nCrea un archivo demo llamado:\n\nfloating-dock-demo.tsx\n\nEl demo debe incluir iconos para Home, Search, Projects, Settings y Profile.\n\nInstala dependencias NPM:\n\nframer-motion\nlucide-react\n\nGuías de implementación:\n1. Usa \"use client\".\n2. Rastrea la posición del mouse con motion values de Framer Motion.\n3. Escala los items del dock según la distancia al cursor.\n4. Usa enlaces o botones accesibles.\n5. Agrega tooltips para labels.\n6. Oculta o simplifica el dock en pantallas muy pequeñas.\n7. Usa Tailwind CSS para estilos y posicionamiento.\n\nPreguntas que debes hacer:\n- ¿Qué items deben incluirse en el dock?\n- ¿Los items deben navegar o disparar acciones?\n- ¿El dock debe estar abajo, a la izquierda o a la derecha?\n- ¿Debe aparecer en móvil?\n\nPasos para integrar:\n0. Copia y pega el componente en /components/ui.\n1. Instala dependencias.\n2. Importa el demo en layout o página.\n3. Reemplaza iconos y enlaces de ejemplo.\n4. Prueba escalado hover y accesibilidad.",
+        "en": "You are given a task to integrate an existing React component in the codebase.\n\nThe codebase should support:\n- shadcn project structure\n- Tailwind CSS\n- TypeScript\n- Next.js\n- Framer Motion\n- lucide-react\n\nIf it doesn't, provide setup instructions for shadcn CLI, Tailwind CSS, TypeScript, Framer Motion, and lucide-react.\n\nDetermine the default path for components and styles.\nIf /components/ui does not exist, explain why it should be created.\n\nCreate and copy-paste a component called:\n\nfloating-dock.tsx\n\nThe component should render a floating dock navigation similar to macOS. Dock items should scale based on mouse position, show tooltip labels on hover, and support click actions or links. The dock should be fixed at the bottom of the screen and responsive.\n\nCreate a demo file called:\n\nfloating-dock-demo.tsx\n\nThe demo should include icons for Home, Search, Projects, Settings, and Profile.\n\nInstall NPM dependencies:\n\nframer-motion\nlucide-react\n\nImplementation Guidelines:\n1. Use \"use client\".\n2. Track mouse position with Framer Motion motion values.\n3. Scale dock items based on distance from cursor.\n4. Use accessible links or buttons.\n5. Add tooltips for labels.\n6. Hide or simplify the dock on very small screens.\n7. Use Tailwind CSS for styling and positioning.\n\nQuestions to Ask:\n- What dock items should be included?\n- Should items navigate or trigger actions?\n- Should the dock be bottom, left, or right aligned?\n- Should it appear on mobile?\n\nSteps to integrate:\n0. Copy-paste component into /components/ui.\n1. Install dependencies.\n2. Import demo into layout or page.\n3. Replace sample icons and links.\n4. Test hover scaling and accessibility."
+      }
+    },
+    {
+      "id": 127,
+      "name": {
+        "es": "Integrar before/after image slider",
+        "en": "Integrate before/after image slider"
+      },
+      "prompt": {
+        "es": "Se te asigna una tarea para integrar un componente React existente en el codebase.\n\nEl codebase debe soportar:\n- Estructura de proyecto shadcn\n- Tailwind CSS\n- TypeScript\n- Next.js\n- Framer Motion\n\nSi no lo soporta, proporciona instrucciones de configuración para shadcn CLI, Tailwind CSS, TypeScript y Framer Motion.\n\nDetermina la ruta por defecto para componentes y estilos.\nSi la ruta por defecto no es /components/ui, explica por qué es importante.\n\nCrea y copia-pega un componente llamado:\n\nbefore-after-slider.tsx\n\nEl componente debe renderizar un slider interactivo de comparación de imágenes before/after. Los usuarios deben arrastrar un handle horizontalmente para revelar la imagen before o after. El componente debe soportar labels, controles de teclado, eventos touch y tamaño responsive.\n\nCrea un archivo demo llamado:\n\nbefore-after-slider-demo.tsx\n\nEl demo debe usar dos imágenes de Unsplash o placeholders con dimensiones iguales.\n\nInstala dependencias NPM:\n\nframer-motion\nlucide-react\n\nGuías de implementación:\n1. Usa \"use client\".\n2. Soporta interacción con mouse, touch y teclado.\n3. Usa drag controls de Framer Motion o pointer events.\n4. Mantén el handle del slider accesible.\n5. Usa Next.js Image si está disponible.\n6. Evita que las imágenes sean arrastrables.\n7. Haz el componente responsive.\n\nPreguntas que debes hacer:\n- ¿Qué imágenes before y after deben usarse?\n- ¿Los labels deben estar visibles?\n- ¿El handle debe empezar centrado?\n- ¿El slider debe soportar modo vertical?\n\nPasos para integrar:\n0. Copia y pega el componente en /components/ui.\n1. Instala dependencias.\n2. Importa el demo en una página.\n3. Reemplaza imágenes demo con assets reales.\n4. Prueba drag y controles de teclado.",
+        "en": "You are given a task to integrate an existing React component in the codebase.\n\nThe codebase should support:\n- shadcn project structure\n- Tailwind CSS\n- TypeScript\n- Next.js\n- Framer Motion\n\nIf it doesn't, provide setup instructions for shadcn CLI, Tailwind CSS, TypeScript, and Framer Motion.\n\nDetermine the default path for components and styles.\nIf the default path is not /components/ui, explain why it is important.\n\nCreate and copy-paste a component called:\n\nbefore-after-slider.tsx\n\nThe component should render an interactive before/after image comparison slider. Users should drag a handle horizontally to reveal the before or after image. The component should support labels, keyboard controls, touch events, and responsive sizing.\n\nCreate a demo file called:\n\nbefore-after-slider-demo.tsx\n\nThe demo should use two Unsplash images or placeholder images with matching dimensions.\n\nInstall NPM dependencies:\n\nframer-motion\nlucide-react\n\nImplementation Guidelines:\n1. Use \"use client\".\n2. Support mouse, touch, and keyboard interaction.\n3. Use Framer Motion drag controls or pointer events.\n4. Keep the slider handle accessible.\n5. Use Next.js Image if available.\n6. Prevent images from being draggable.\n7. Make the component responsive.\n\nQuestions to Ask:\n- What before and after images should be used?\n- Should labels be visible?\n- Should the handle start centered?\n- Should the slider support vertical mode?\n\nSteps to integrate:\n0. Copy-paste the component into /components/ui.\n1. Install dependencies.\n2. Import demo into a page.\n3. Replace sample images with real assets.\n4. Test drag and keyboard controls."
+      }
+    },
+    {
+      "id": 128,
+      "name": {
+        "es": "Integrar command palette animado",
+        "en": "Integrate animated command palette"
+      },
+      "prompt": {
+        "es": "Se te asigna una tarea para integrar un componente React existente en el codebase.\n\nEl codebase debe soportar:\n- Estructura de proyecto shadcn\n- Tailwind CSS\n- TypeScript\n- Next.js\n- shadcn/ui Command\n- shadcn/ui Dialog\n- Framer Motion\n\nSi no lo soporta, proporciona instrucciones de configuración para shadcn CLI, Tailwind CSS, TypeScript, Command, Dialog y Framer Motion.\n\nDetermina la ruta por defecto para componentes y estilos.\nSi /components/ui no existe, explica por qué esta carpeta importa.\n\nCrea y copia-pega un componente llamado:\n\nanimated-command-palette.tsx\n\nEl componente debe renderizar una command palette que se abra con el atajo Cmd+K o Ctrl+K. Debe incluir entrada animada del diálogo, comandos buscables, grupos, iconos, hints de teclado y callbacks de acción.\n\nCrea un archivo demo llamado:\n\nanimated-command-palette-demo.tsx\n\nEl demo debe incluir comandos para navegación, tema, configuración y ayuda.\n\nInstala dependencias NPM:\n\nframer-motion\nlucide-react\n\nInstala componentes shadcn:\n\ncommand\ndialog\n\nGuías de implementación:\n1. Usa \"use client\".\n2. Registra el atajo de teclado de forma segura.\n3. Usa shadcn Command para UI buscable.\n4. Usa shadcn Dialog para comportamiento modal accesible.\n5. Anima apertura y cierre con Framer Motion.\n6. Soporta navegación por teclado.\n7. Limpia event listeners.\n\nPreguntas que debes hacer:\n- ¿Qué comandos deben incluirse?\n- ¿Los comandos deben navegar a rutas o ejecutar callbacks?\n- ¿Deben guardarse búsquedas recientes?\n- ¿La palette debe estar disponible globalmente?\n\nPasos para integrar:\n0. Instala shadcn Command y Dialog.\n1. Copia y pega el componente en /components/ui.\n2. Instala dependencias.\n3. Importa el componente en el layout de la app.\n4. Prueba Cmd+K, Ctrl+K, búsqueda y acciones.",
+        "en": "You are given a task to integrate an existing React component in the codebase.\n\nThe codebase should support:\n- shadcn project structure\n- Tailwind CSS\n- TypeScript\n- Next.js\n- shadcn/ui Command\n- shadcn/ui Dialog\n- Framer Motion\n\nIf it doesn't, provide setup instructions for shadcn CLI, Tailwind CSS, TypeScript, Command, Dialog, and Framer Motion.\n\nDetermine the default path for components and styles.\nIf /components/ui does not exist, explain why this folder matters.\n\nCreate and copy-paste a component called:\n\nanimated-command-palette.tsx\n\nThe component should render a command palette that opens with keyboard shortcut Cmd+K or Ctrl+K. It should include animated dialog entrance, searchable command items, groups, icons, keyboard hints, and action callbacks.\n\nCreate a demo file called:\n\nanimated-command-palette-demo.tsx\n\nThe demo should include commands for navigation, theme, settings, and help.\n\nInstall NPM dependencies:\n\nframer-motion\nlucide-react\n\nInstall shadcn components:\n\ncommand\ndialog\n\nImplementation Guidelines:\n1. Use \"use client\".\n2. Register keyboard shortcut safely.\n3. Use shadcn Command for searchable UI.\n4. Use shadcn Dialog for accessible modal behavior.\n5. Animate open and close with Framer Motion.\n6. Support keyboard navigation.\n7. Clean up event listeners.\n\nQuestions to Ask:\n- What commands should be included?\n- Should commands navigate to routes or trigger callbacks?\n- Should recent searches be stored?\n- Should the palette be available globally?\n\nSteps to integrate:\n0. Install shadcn Command and Dialog.\n1. Copy-paste the component into /components/ui.\n2. Install dependencies.\n3. Import the component into the app layout.\n4. Test Cmd+K, Ctrl+K, search, and actions."
+      }
+    },
+    {
+      "id": 129,
+      "name": {
+        "es": "Integrar sección de team cards animadas",
+        "en": "Integrate animated team cards section"
+      },
+      "prompt": {
+        "es": "Se te asigna una tarea para integrar un componente React existente en el codebase.\n\nEl codebase debe soportar:\n- Estructura de proyecto shadcn\n- Tailwind CSS\n- TypeScript\n- Next.js\n- Framer Motion\n- lucide-react\n\nSi no lo soporta, proporciona instrucciones para configurar shadcn CLI, Tailwind CSS, TypeScript, Framer Motion y lucide-react.\n\nDetermina la ruta por defecto para componentes y estilos.\nSi la ruta por defecto para componentes no es /components/ui, explica por qué los componentes UI reutilizables deben guardarse ahí.\n\nCrea y copia-pega un componente llamado:\n\nanimated-team-section.tsx\n\nEl componente debe renderizar una sección de equipo con tarjetas de perfil animadas. Cada tarjeta debe incluir avatar, nombre, rol, bio, enlaces sociales y animación hover. Las tarjetas deben animarse al entrar en pantalla con movimiento escalonado y tener zoom sutil de imagen en hover.\n\nCrea un archivo demo llamado:\n\nanimated-team-section-demo.tsx\n\nEl demo debe incluir al menos 6 miembros del equipo con avatares placeholder.\n\nInstala dependencias NPM:\n\nframer-motion\nlucide-react\n\nGuías de implementación:\n1. Usa interfaces TypeScript para miembros del equipo.\n2. Usa Framer Motion para animaciones de entrada y hover.\n3. Usa iconos lucide-react para enlaces sociales.\n4. Usa enlaces accesibles con aria-labels.\n5. Usa layout grid responsive.\n6. Soporta dark mode.\n7. Mantén contenedores de imagen dentro de un div.\n\nPreguntas que debes hacer:\n- ¿Quiénes son los miembros del equipo?\n- ¿Qué enlaces sociales deben incluirse?\n- ¿Las tarjetas deben enlazar a páginas de perfil?\n- ¿Las bios deben ser cortas o expandirse al hacer clic?\n\nPasos para integrar:\n0. Copia y pega el componente en /components/ui.\n1. Instala dependencias.\n2. Importa el demo en una página About.\n3. Reemplaza miembros demo con datos reales.\n4. Prueba hover y comportamiento móvil.",
+        "en": "You are given a task to integrate an existing React component in the codebase.\n\nThe codebase should support:\n- shadcn project structure\n- Tailwind CSS\n- TypeScript\n- Next.js\n- Framer Motion\n- lucide-react\n\nIf it doesn't, provide instructions to setup shadcn CLI, Tailwind CSS, TypeScript, Framer Motion, and lucide-react.\n\nDetermine the default path for components and styles.\nIf the default path for components is not /components/ui, explain why reusable UI components should be stored there.\n\nCreate and copy-paste a component called:\n\nanimated-team-section.tsx\n\nThe component should render a team section with animated profile cards. Each card should include avatar, name, role, bio, social links, and hover animation. Cards should animate into view with staggered motion and have a subtle image zoom on hover.\n\nCreate a demo file called:\n\nanimated-team-section-demo.tsx\n\nThe demo should include at least 6 team members with placeholder avatars.\n\nInstall NPM dependencies:\n\nframer-motion\nlucide-react\n\nImplementation Guidelines:\n1. Use TypeScript interfaces for team members.\n2. Use Framer Motion for entrance and hover effects.\n3. Use lucide-react icons for social links.\n4. Use accessible links with aria-labels.\n5. Use responsive grid layout.\n6. Support dark mode.\n7. Keep image containers inside a div.\n\nQuestions to Ask:\n- Who are the team members?\n- What social links should be included?\n- Should cards link to profile pages?\n- Should bios be short or expanded on click?\n\nSteps to integrate:\n0. Copy-paste component into /components/ui.\n1. Install dependencies.\n2. Import demo into an about page.\n3. Replace sample members with real data.\n4. Test hover and mobile behavior."
+      }
+    },
+    {
+      "id": 130,
+      "name": {
+        "es": "Integrar grid de flip cards con dialog",
+        "en": "Integrate flip card dialog grid"
+      },
+      "prompt": {
+        "es": "Se te asigna una tarea para integrar un componente React existente en el codebase.\n\nEl codebase debe soportar:\n- Estructura de proyecto shadcn\n- Tailwind CSS\n- TypeScript\n- Next.js\n- shadcn/ui Dialog\n- Framer Motion\n- lucide-react\n\nSi no lo soporta, proporciona instrucciones de configuración para shadcn CLI, Tailwind CSS, TypeScript, Dialog, Framer Motion y lucide-react.\n\nDetermina la ruta por defecto para componentes y estilos.\nSi /components/ui no existe, explica por qué esta carpeta es requerida para componentes reutilizables.\n\nCrea y copia-pega un componente llamado:\n\nflip-card-dialog-grid.tsx\n\nEl componente debe renderizar un grid de flip cards. Cada tarjeta debe hacer flip en hover o focus, mostrando contenido frontal y trasero. Al hacer clic en una tarjeta, debe abrirse un diálogo con detalles expandidos, imagen, etiquetas y botones de acción.\n\nCrea un archivo demo llamado:\n\nflip-card-dialog-grid-demo.tsx\n\nEl demo debe incluir al menos 9 tarjetas usando datos locales de ejemplo.\n\nInstala dependencias NPM:\n\nframer-motion\nlucide-react\n\nInstala componentes shadcn:\n\ndialog\nbutton\nbadge\ncard\n\nGuías de implementación:\n1. Usa interfaces TypeScript para los items de tarjetas.\n2. Usa transformaciones CSS 3D para el efecto flip.\n3. Usa shadcn Dialog para detalles expandidos.\n4. Haz que las tarjetas sean focusable y accesibles con teclado.\n5. Agrega Framer Motion para animación del diálogo.\n6. Soporta dispositivos touch haciendo flip con clic.\n7. Usa layout grid responsive.\n\nPreguntas que debes hacer:\n- ¿Qué contenido debe aparecer en frente y reverso?\n- ¿Las tarjetas deben hacer flip en hover, clic o ambos?\n- ¿Qué detalles debe mostrar el diálogo?\n- ¿Las tarjetas deben enlazar a páginas externas?\n\nPasos para integrar:\n0. Instala componentes shadcn requeridos.\n1. Copia y pega el componente en /components/ui.\n2. Instala dependencias.\n3. Importa el demo en la página deseada.\n4. Prueba hover, focus, diálogo y comportamiento móvil.",
+        "en": "You are given a task to integrate an existing React component in the codebase.\n\nThe codebase should support:\n- shadcn project structure\n- Tailwind CSS\n- TypeScript\n- Next.js\n- shadcn/ui Dialog\n- Framer Motion\n- lucide-react\n\nIf it doesn't, provide setup instructions for shadcn CLI, Tailwind CSS, TypeScript, Dialog, Framer Motion, and lucide-react.\n\nDetermine the default path for components and styles.\nIf /components/ui does not exist, explain why this folder is required for reusable components.\n\nCreate and copy-paste a component called:\n\nflip-card-dialog-grid.tsx\n\nThe component should render a grid of flip cards. Each card should flip on hover or focus, showing front and back content. Clicking a card should open a dialog with expanded details, image, tags, and action buttons.\n\nCreate a demo file called:\n\nflip-card-dialog-grid-demo.tsx\n\nThe demo should include at least 9 cards using local sample data.\n\nInstall NPM dependencies:\n\nframer-motion\nlucide-react\n\nInstall shadcn components:\n\ndialog\nbutton\nbadge\ncard\n\nImplementation Guidelines:\n1. Use TypeScript interfaces for card items.\n2. Use CSS 3D transforms for the flip effect.\n3. Use shadcn Dialog for expanded details.\n4. Make cards focusable and keyboard accessible.\n5. Add Framer Motion for dialog animation.\n6. Support touch devices by flipping on click.\n7. Use responsive grid layout.\n\nQuestions to Ask:\n- What content should appear on the front and back?\n- Should cards flip on hover, click, or both?\n- What details should the dialog show?\n- Should the cards link to external pages?\n\nSteps to integrate:\n0. Install required shadcn components.\n1. Copy-paste the component into /components/ui.\n2. Install dependencies.\n3. Import demo into the desired page.\n4. Test hover, focus, dialog, and mobile behavior."
+      }
+    }
+  ]
+}
