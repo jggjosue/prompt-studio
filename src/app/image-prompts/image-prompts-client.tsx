@@ -58,7 +58,8 @@ function ImagePromptsContent() {
   const placeholderImages = useLocalizedPlaceholderImages();
   const [filter, setFilter] = useState('all');
 
-  const facetTag = searchParams.get('tag')?.trim() || null;
+  const facetTags = searchParams.getAll('tag').map(tag => tag.trim()).filter(Boolean);
+  const facetTag = facetTags[0] ?? null;
 
   const allImages = useMemo(
     () =>
@@ -69,9 +70,11 @@ function ImagePromptsContent() {
   const { categories } = useImageTagsCatalogPipeline(allImages);
 
   const facetByTag = useMemo(() => {
-    if (!facetTag) return allImages;
-    return allImages.filter(item => item.tags.includes(facetTag));
-  }, [allImages, facetTag]);
+    if (facetTags.length === 0) return allImages;
+    return allImages.filter(item =>
+      facetTags.some(tag => item.tags.includes(tag))
+    );
+  }, [allImages, facetTags]);
 
   const customCategories = useMemo(() => {
     return categories.map(cat => ({
@@ -122,9 +125,15 @@ function ImagePromptsContent() {
   } = useInfiniteScroll(imageContent, ITEMS_PER_PAGE);
 
   const selectFacetTag = (tag: string) => {
-    router.push(buildCatalogQueryUrl(pathname, searchParams, { tag }), {
-      scroll: false,
-    });
+    const params = new URLSearchParams(searchParams.toString());
+    const selected = params.getAll('tag');
+    const exists = selected.some(item => item.toLowerCase() === tag.toLowerCase());
+    params.delete('tag');
+    selected
+      .filter(item => item.toLowerCase() !== tag.toLowerCase())
+      .forEach(item => params.append('tag', item));
+    if (!exists) params.append('tag', tag);
+    router.push(params.size ? `${pathname}?${params}` : pathname, { scroll: false });
   };
 
   const clearFacets = () => {
@@ -161,7 +170,7 @@ function ImagePromptsContent() {
                     debouncedQuery.trim()
                       ? ` for "${debouncedQuery.trim()}"`
                       : ''
-                  }${facetTag ? ` · tag: ${facetTag}` : ''}`}
+                  }${facetTags.length ? ` · tags: ${facetTags.join(', ')}` : ''}`}
             </p>
           )}
 
@@ -208,9 +217,11 @@ function ImagePromptsContent() {
           <CatalogFacetBar
             customCategories={customCategories}
             activeTag={facetTag}
+            activeTags={facetTags}
             onSelectTag={selectFacetTag}
             onClearFacets={clearFacets}
             orientation="vertical"
+            selectionVariant="checkbox"
           />
           <p className="text-xs text-muted-foreground px-4">
             {tFacets('fullBrowse')}{' '}
@@ -228,9 +239,11 @@ function ImagePromptsContent() {
             <CatalogFacetBar
               customCategories={customCategories}
               activeTag={facetTag}
+              activeTags={facetTags}
               onSelectTag={selectFacetTag}
               onClearFacets={clearFacets}
               orientation="horizontal"
+              selectionVariant="checkbox"
             />
           </div>
 

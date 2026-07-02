@@ -104,7 +104,8 @@ function VideoPromptsContent() {
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
-  const facetTag = searchParams.get('tag')?.trim() || null;
+  const facetTags = searchParams.getAll('tag').map(tag => tag.trim()).filter(Boolean);
+  const facetTag = facetTags[0] ?? null;
 
   const allVideos = useMemo(
     () => placeholderVideos.filter(item => item.imageUrl),
@@ -114,9 +115,11 @@ function VideoPromptsContent() {
   const { categories } = useVideoTagsCatalogPipeline(allVideos);
 
   const facetByTag = useMemo(() => {
-    if (!facetTag) return allVideos;
-    return allVideos.filter(item => item.tags?.includes(facetTag));
-  }, [allVideos, facetTag]);
+    if (facetTags.length === 0) return allVideos;
+    return allVideos.filter(item =>
+      facetTags.some(tag => item.tags?.includes(tag))
+    );
+  }, [allVideos, facetTags]);
 
   const customCategories = useMemo(() => {
     return categories.map(cat => ({
@@ -167,9 +170,15 @@ function VideoPromptsContent() {
   } = useInfiniteScroll(videoContent, ITEMS_PER_PAGE);
 
   const selectFacetTag = (tag: string) => {
-    router.push(buildCatalogQueryUrl(pathname, searchParams, { tag }), {
-      scroll: false,
-    });
+    const params = new URLSearchParams(searchParams.toString());
+    const selected = params.getAll('tag');
+    const exists = selected.some(item => item.toLowerCase() === tag.toLowerCase());
+    params.delete('tag');
+    selected
+      .filter(item => item.toLowerCase() !== tag.toLowerCase())
+      .forEach(item => params.append('tag', item));
+    if (!exists) params.append('tag', tag);
+    router.push(params.size ? `${pathname}?${params}` : pathname, { scroll: false });
   };
 
   const clearFacets = () => {
@@ -206,7 +215,7 @@ function VideoPromptsContent() {
                     debouncedQuery.trim()
                       ? ` for "${debouncedQuery.trim()}"`
                       : ''
-                  }${facetTag ? ` · tag: ${facetTag}` : ''}`}
+                  }${facetTags.length ? ` · tags: ${facetTags.join(', ')}` : ''}`}
             </p>
           )}
 
@@ -252,9 +261,11 @@ function VideoPromptsContent() {
           <CatalogFacetBar
             customCategories={customCategories}
             activeTag={facetTag}
+            activeTags={facetTags}
             onSelectTag={selectFacetTag}
             onClearFacets={clearFacets}
             orientation="vertical"
+            selectionVariant="checkbox"
           />
           <p className="text-xs text-muted-foreground px-4">
             {tFacets('fullBrowse')}{' '}
@@ -272,9 +283,11 @@ function VideoPromptsContent() {
             <CatalogFacetBar
               customCategories={customCategories}
               activeTag={facetTag}
+              activeTags={facetTags}
               onSelectTag={selectFacetTag}
               onClearFacets={clearFacets}
               orientation="horizontal"
+              selectionVariant="checkbox"
             />
           </div>
 

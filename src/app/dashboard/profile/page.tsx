@@ -5,6 +5,7 @@ import { syncAffiliateDashboardStats, type AffiliateDashboardStats } from '@/lib
 import connectToDatabase from '@/lib/mongoose';
 import AffiliateApplication from '@/models/AffiliateApplication';
 import AffiliatePayoutAccount from '@/models/AffiliatePayoutAccount';
+import { getSiteUrl } from '@/lib/site-url';
 import ProfileClient from './profile-client';
 
 export default async function ProfilePage() {
@@ -83,10 +84,12 @@ export default async function ProfilePage() {
           'Miembro',
       }}
       isPremiumJo={isPremiumJo}
+      hasApprovedAffiliateApplication={hasApprovedAffiliateApplication}
       hasPendingAffiliateApplication={hasPendingAffiliateApplication}
       pendingAffiliateApplicationsCount={pendingAffiliateApplicationsCount}
       affiliate={affiliate}
       affiliatePaypalEmail={payoutAccount?.email ?? meta.affiliatePaypalEmail ?? null}
+      siteUrl={getSiteUrl()}
     />
   );
 }

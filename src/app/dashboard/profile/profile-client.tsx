@@ -26,7 +26,6 @@ import { CheckCircle2, ChevronRight, Clock3, Copy, LineChart, Link2, Package, Sp
 import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
-import { getSiteUrl } from '@/lib/site-url';
 import type { AffiliateDashboardStats } from '@/lib/affiliate-mongo';
 import { AFFILIATE_MIN_PAYOUT_CENTS } from '@/lib/affiliate';
 import { useRouter } from 'next/navigation';
@@ -50,10 +49,12 @@ type AffiliateSale = {
 type ProfileClientProps = {
   user: ProfileUser;
   isPremiumJo: boolean;
+  hasApprovedAffiliateApplication: boolean;
   hasPendingAffiliateApplication: boolean;
   pendingAffiliateApplicationsCount: number;
   affiliate: AffiliateDashboardStats;
   affiliatePaypalEmail?: string | null;
+  siteUrl: string;
 };
 
 function money(value: number): string {
@@ -64,12 +65,11 @@ function money(value: number): string {
   }).format(value);
 }
 
-function relativeLink(userId: string): string {
-  const SITE_URL = getSiteUrl();
-  return `${SITE_URL}/landing-pages?ref=${encodeURIComponent(userId)}`;
+function affiliateUrl(siteUrl: string, userId: string): string {
+  return `${siteUrl.replace(/\/+$/, '')}/landing-pages?ref=${encodeURIComponent(userId)}`;
 }
 
-export default function ProfileClient({ user, isPremiumJo, hasPendingAffiliateApplication, pendingAffiliateApplicationsCount, affiliate, affiliatePaypalEmail }: ProfileClientProps) {
+export default function ProfileClient({ user, isPremiumJo, hasApprovedAffiliateApplication, hasPendingAffiliateApplication, pendingAffiliateApplicationsCount, affiliate, affiliatePaypalEmail, siteUrl }: ProfileClientProps) {
   const t = useTranslations('profile');
   const router = useRouter();
   const { plan, status, purchasedPages, ready } = useStripeSubscription();
@@ -87,7 +87,10 @@ export default function ProfileClient({ user, isPremiumJo, hasPendingAffiliateAp
     user.email?.[0]?.toUpperCase() ||
     '?';
 
-  const affiliateLink = useMemo(() => relativeLink(affiliate.referralCode || user.id), [affiliate.referralCode, user.id]);
+  const affiliateLink = useMemo(
+    () => affiliateUrl(siteUrl, affiliate.referralCode || user.id),
+    [siteUrl, affiliate.referralCode, user.id]
+  );
 
   const affiliateSales = useMemo<AffiliateSale[]>(() => {
     return (affiliate.commissions ?? []).map(record => ({
@@ -235,11 +238,17 @@ export default function ProfileClient({ user, isPremiumJo, hasPendingAffiliateAp
         <TabsList
           className={cn(
             'grid w-full max-w-lg',
-            isPremiumJo ? 'grid-cols-3' : 'grid-cols-2'
+            isPremiumJo && hasApprovedAffiliateApplication
+              ? 'grid-cols-3'
+              : isPremiumJo || hasApprovedAffiliateApplication
+                ? 'grid-cols-2'
+                : 'grid-cols-1'
           )}
         >
           <TabsTrigger value="profile">{t('profileTab')}</TabsTrigger>
-          <TabsTrigger value="affiliate">{t('affiliateTab')}</TabsTrigger>
+          {hasApprovedAffiliateApplication ? (
+            <TabsTrigger value="affiliate">{t('affiliateTab')}</TabsTrigger>
+          ) : null}
           {isPremiumJo ? (
             <TabsTrigger
               value="applications"
@@ -407,6 +416,7 @@ export default function ProfileClient({ user, isPremiumJo, hasPendingAffiliateAp
           <ProfileSubscriptionInfo />
         </TabsContent>
 
+        {hasApprovedAffiliateApplication ? (
         <TabsContent value="affiliate" className="space-y-6">
           <Card className="border-primary/20 bg-primary/5">
             <CardHeader>
@@ -762,6 +772,7 @@ export default function ProfileClient({ user, isPremiumJo, hasPendingAffiliateAp
             </div>
           </div>
         </TabsContent>
+        ) : null}
       </Tabs>
     </div>
   );

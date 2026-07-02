@@ -28,6 +28,7 @@ export type CatalogFacetBarProps = {
   onClearFacets?: () => void;
   className?: string;
   orientation?: 'horizontal' | 'vertical';
+  selectionVariant?: 'default' | 'checkbox';
 };
 
 export function CatalogFacetBar({
@@ -43,6 +44,7 @@ export function CatalogFacetBar({
   onClearFacets,
   className,
   orientation = 'horizontal',
+  selectionVariant = 'default',
 }: CatalogFacetBarProps) {
   const t = useTranslations('facets');
 
@@ -105,6 +107,7 @@ export function CatalogFacetBar({
             activeKeys={selectedTags}
             onSelect={onSelectTag}
             orientation={orientation}
+            selectionVariant={selectionVariant}
           />
         ) : null}
 
@@ -116,6 +119,7 @@ export function CatalogFacetBar({
             activeKeys={selectedStacks}
             onSelect={onSelectStack}
             orientation={orientation}
+            selectionVariant={selectionVariant}
           />
         ) : null}
 
@@ -128,6 +132,7 @@ export function CatalogFacetBar({
             activeKeys={selectedTags}
             onSelect={onSelectTag}
             orientation={orientation}
+            selectionVariant={selectionVariant}
           />
         ))}
       </Accordion>
@@ -142,6 +147,7 @@ function FacetRow({
   activeKeys,
   onSelect,
   orientation = 'horizontal',
+  selectionVariant = 'default',
 }: {
   icon: ReactNode;
   label: string;
@@ -149,6 +155,7 @@ function FacetRow({
   activeKeys?: string[];
   onSelect?: (key: string) => void;
   orientation?: 'horizontal' | 'vertical';
+  selectionVariant?: 'default' | 'checkbox';
 }) {
   return (
     <AccordionItem value={label} className="border-b-0">
@@ -179,6 +186,10 @@ function FacetRow({
                     checked={isActive}
                     onCheckedChange={() => onSelect?.(entry.key)}
                     aria-label={entry.key}
+                    className={cn(
+                      selectionVariant === 'checkbox' &&
+                        'h-5 w-5 rounded-full border-2 data-[state=checked]:border-blue-500 data-[state=checked]:bg-blue-600'
+                    )}
                   />
                   <span className="truncate max-w-[140px] text-left">{entry.key}</span>
                 </span>
