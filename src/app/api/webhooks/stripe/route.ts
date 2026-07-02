@@ -15,6 +15,8 @@ import { sendLoopsEvent } from '@/lib/loops';
 import { createGuestDownloadToken } from '@/lib/guest-download-token';
 import { sendGuestPurchaseEmail } from '@/lib/resend';
 import { getWebPageById } from '@/lib/web-pages';
+import connectToDatabase from '@/lib/mongoose';
+import AffiliateApplication from '@/models/AffiliateApplication';
 import { clerkClient } from '@clerk/nextjs/server';
 import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
@@ -58,8 +60,34 @@ async function recordAffiliateCommission(params: {
   stripeCheckoutSessionId?: string | null;
   stripeInvoiceId?: string | null;
 }) {
+  if (!params.referrerUserId || params.referrerUserId === params.buyerUserId) {
+    return;
+  }
+
   const client = await clerkClient();
   const user = await client.users.getUser(params.referrerUserId);
+  const referrerEmail =
+    user.primaryEmailAddress?.emailAddress?.trim().toLowerCase() ?? '';
+  const buyerIdentity = params.buyerUserId.trim().toLowerCase();
+
+  // También bloquea autorreferidos de invitados, cuyo buyerUserId es el email.
+  if (referrerEmail && buyerIdentity === referrerEmail) {
+    return;
+  }
+
+  // Una referencia solo genera comisión si pertenece a un afiliado aprobado.
+  if (!referrerEmail) {
+    return;
+  }
+  await connectToDatabase();
+  const approvedAffiliate = await AffiliateApplication.exists({
+    email: referrerEmail,
+    status: 'approved',
+  });
+  if (!approvedAffiliate) {
+    return;
+  }
+
   const meta = user.privateMetadata as AffiliatePrivateMetadata;
   const commission = createCommissionRecord({
     ...params,
