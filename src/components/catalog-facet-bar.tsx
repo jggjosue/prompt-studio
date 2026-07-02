@@ -2,6 +2,7 @@
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Accordion,
   AccordionContent,
@@ -20,6 +21,8 @@ export type CatalogFacetBarProps = {
   customCategories?: { label: string; icon?: ReactNode; entries: SortedHashEntry[] }[];
   activeTag?: string | null;
   activeStack?: string | null;
+  activeTags?: string[];
+  activeStacks?: string[];
   onSelectTag?: (tag: string) => void;
   onSelectStack?: (stack: string) => void;
   onClearFacets?: () => void;
@@ -33,6 +36,8 @@ export function CatalogFacetBar({
   customCategories = [],
   activeTag,
   activeStack,
+  activeTags,
+  activeStacks,
   onSelectTag,
   onSelectStack,
   onClearFacets,
@@ -42,21 +47,23 @@ export function CatalogFacetBar({
   const t = useTranslations('facets');
 
   const hasFacets = topTags.length > 0 || topStacks.length > 0 || customCategories.length > 0;
-  const hasActive = Boolean(activeTag || activeStack);
+  const selectedTags = activeTags ?? (activeTag ? [activeTag] : []);
+  const selectedStacks = activeStacks ?? (activeStack ? [activeStack] : []);
+  const hasActive = selectedTags.length > 0 || selectedStacks.length > 0;
 
   const defaultOpen = useMemo(() => {
     const open: string[] = [];
-    if (activeTag) {
-      if (topTags.some(t => t.key.toLowerCase() === activeTag.toLowerCase())) open.push(t('topTags'));
+    if (selectedTags.length > 0) {
+      if (topTags.some(entry => selectedTags.some(tag => entry.key.toLowerCase() === tag.toLowerCase()))) open.push(t('topTags'));
       customCategories.forEach(c => {
-        if (c.entries.some(e => e.key.toLowerCase() === activeTag.toLowerCase())) open.push(c.label);
+        if (c.entries.some(entry => selectedTags.some(tag => entry.key.toLowerCase() === tag.toLowerCase()))) open.push(c.label);
       });
     }
-    if (activeStack) {
-      if (topStacks.some(s => s.key.toLowerCase() === activeStack.toLowerCase())) open.push(t('topStacks'));
+    if (selectedStacks.length > 0) {
+      if (topStacks.some(entry => selectedStacks.some(stack => entry.key.toLowerCase() === stack.toLowerCase()))) open.push(t('topStacks'));
     }
     return open;
-  }, [activeTag, activeStack, topTags, topStacks, customCategories, t]);
+  }, [selectedTags, selectedStacks, topTags, topStacks, customCategories, t]);
 
   if (!hasFacets) return null;
 
@@ -95,7 +102,7 @@ export function CatalogFacetBar({
             icon={<Tag className="h-3.5 w-3.5" />}
             label={t('topTags')}
             entries={topTags}
-            activeKey={activeTag}
+            activeKeys={selectedTags}
             onSelect={onSelectTag}
             orientation={orientation}
           />
@@ -106,7 +113,7 @@ export function CatalogFacetBar({
             icon={<Layers className="h-3.5 w-3.5" />}
             label={t('topStacks')}
             entries={topStacks}
-            activeKey={activeStack}
+            activeKeys={selectedStacks}
             onSelect={onSelectStack}
             orientation={orientation}
           />
@@ -118,7 +125,7 @@ export function CatalogFacetBar({
             icon={category.icon || <Tag className="h-3.5 w-3.5" />}
             label={category.label}
             entries={category.entries}
-            activeKey={activeTag}
+            activeKeys={selectedTags}
             onSelect={onSelectTag}
             orientation={orientation}
           />
@@ -132,14 +139,14 @@ function FacetRow({
   icon,
   label,
   entries,
-  activeKey,
+  activeKeys,
   onSelect,
   orientation = 'horizontal',
 }: {
   icon: ReactNode;
   label: string;
   entries: SortedHashEntry[];
-  activeKey?: string | null;
+  activeKeys?: string[];
   onSelect?: (key: string) => void;
   orientation?: 'horizontal' | 'vertical';
 }) {
@@ -154,23 +161,27 @@ function FacetRow({
       <AccordionContent>
         <div className={cn("flex flex-wrap gap-2 pt-1 pb-2", orientation === 'vertical' && "flex-col items-start gap-1.5")}>
           {entries.map(entry => {
-            const isActive =
-              activeKey?.toLowerCase() === entry.key.toLowerCase();
+            const isActive = activeKeys?.some(
+              key => key.toLowerCase() === entry.key.toLowerCase()
+            ) ?? false;
             return (
-              <Button
+              <label
                 key={entry.key}
-                type="button"
-                variant="ghost"
-                size="sm"
                 className={cn(
-                  "h-auto py-1.5 px-2.5 text-xs font-normal",
+                  "flex cursor-pointer items-center rounded-md py-1.5 px-2.5 text-xs font-normal transition-colors",
                   orientation === 'vertical' && "w-full justify-between hover:bg-muted/50 border border-transparent hover:border-border",
                   isActive &&
                     "border-blue-500/40 bg-blue-500/10 text-blue-400 shadow-sm hover:border-blue-500/50 hover:bg-blue-500/15 hover:text-blue-300"
                 )}
-                onClick={() => onSelect?.(entry.key)}
               >
-                <span className="truncate max-w-[140px] text-left">{entry.key}</span>
+                <span className="flex min-w-0 items-center gap-2">
+                  <Checkbox
+                    checked={isActive}
+                    onCheckedChange={() => onSelect?.(entry.key)}
+                    aria-label={entry.key}
+                  />
+                  <span className="truncate max-w-[140px] text-left">{entry.key}</span>
+                </span>
                 <Badge
                   variant="secondary"
                   className={cn(
@@ -181,7 +192,7 @@ function FacetRow({
                 >
                   {entry.count}
                 </Badge>
-              </Button>
+              </label>
             );
           })}
         </div>

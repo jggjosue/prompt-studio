@@ -36,7 +36,7 @@
         "gold"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "50.00"
     },
     {
       "id": "351",
@@ -112,7 +112,7 @@
         "analytics"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "15.00"
     },
     {
       "id": "349",
@@ -1345,7 +1345,7 @@
         "ronaldo"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "50.00"
     },
     {
       "id": "332",
@@ -1663,7 +1663,7 @@
         "dashboard"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "15.00"
     },
     {
       "id": "333",
@@ -1930,7 +1930,7 @@
         "tri"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "35.00"
     },
     {
       "id": "334",
@@ -2516,7 +2516,7 @@
         "glory "
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "50.00"
     },
     {
       "id": "336",
@@ -4863,7 +4863,7 @@
         "albiceleste"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "35.00"
     },
     {
       "id": "326",
@@ -4899,7 +4899,7 @@
         "kylian"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "50.00"
     },
     {
       "id": "1",
@@ -4930,7 +4930,7 @@
         "AI"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "15.00"
     },
     {
       "id": "86",
@@ -6182,7 +6182,7 @@
         "cloud"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "15.00"
     },
     {
       "id": "87",
@@ -11113,7 +11113,7 @@
         "small business"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "15.00"
     },
     {
       "id": "93",
@@ -12384,7 +12384,7 @@
         "social"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "15.00"
     },
     {
       "id": "106",
@@ -19718,8 +19718,8 @@
         "scheduling",
         "marketing"
       ],
-      "membership": "Free",
-      "price": "0.00"
+      "membership": "Premium",
+      "price": "15.00"
     },
     {
       "id": "204",
@@ -19843,8 +19843,8 @@
         "app",
         "sleep"
       ],
-      "membership": "Free",
-      "price": "0.00"
+      "membership": "Premium",
+      "price": "15.00"
     },
     {
       "id": "209",
@@ -19905,8 +19905,8 @@
         "SaaS",
         "typography"
       ],
-      "membership": "Free",
-      "price": "0.00"
+      "membership": "Premium",
+      "price": "5.00"
     },
     {
       "id": "223",
@@ -19937,7 +19937,7 @@
         "agency"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "15.00"
     },
     {
       "id": "233",
@@ -19968,7 +19968,7 @@
         "artisan"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "5.00"
     },
     {
       "id": "234",
@@ -20031,7 +20031,7 @@
         "SaaS"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "15.00"
     },
     {
       "id": "236",
@@ -20063,7 +20063,7 @@
         "Web3"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "15.00"
     },
     {
       "id": "237",
@@ -20093,8 +20093,8 @@
         "credit",
         "consumer finance"
       ],
-      "membership": "Free",
-      "price": "0.00"
+      "membership": "Premium",
+      "price": "15.00"
     },
     {
       "id": "244",
@@ -20125,8 +20125,8 @@
         "marketplace",
         "producer"
       ],
-      "membership": "Free",
-      "price": "0.00"
+      "membership": "Premium",
+      "price": "5.00"
     },
     {
       "id": "245",
@@ -20156,8 +20156,8 @@
         "shows",
         "streaming"
       ],
-      "membership": "Free",
-      "price": "0.00"
+      "membership": "Premium",
+      "price": "15.00"
     },
     {
       "id": "264",
@@ -20220,7 +20220,7 @@
         "luxury"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "15.00"
     },
     {
       "id": "267",
@@ -20251,7 +20251,7 @@
         "culture"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "15.00"
     },
     {
       "id": "268",
@@ -20283,7 +20283,7 @@
         "budget"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "15.00"
     },
     {
       "id": "261",
@@ -20395,8 +20395,8 @@
         "dashboard",
         "enterprise"
       ],
-      "membership": "Free",
-      "price": "0.00"
+      "membership": "Premium",
+      "price": "15.00"
     },
     {
       "id": "258",
@@ -20434,8 +20434,8 @@
         "WebGL",
         "enterprise"
       ],
-      "membership": "Free",
-      "price": "0.00"
+      "membership": "Premium",
+      "price": "5.00"
     },
     {
       "id": "257",
@@ -20509,8 +20509,8 @@
         "e-commerce",
         "showcase"
       ],
-      "membership": "Free",
-      "price": "0.00"
+      "membership": "Premium",
+      "price": "5.00"
     },
     {
       "id": "252",
@@ -20546,7 +20546,7 @@
         "interactive"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "15.00"
     },
     {
       "id": "251",
@@ -20622,7 +20622,7 @@
         "enterprise"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "5.00"
     },
     {
       "id": "249",
@@ -20660,7 +20660,7 @@
         "enterprise"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "5.00"
     },
     {
       "id": "248",
@@ -20769,7 +20769,7 @@
         "interactive"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "10.00"
     },
     {
       "id": "317",
@@ -20880,7 +20880,7 @@
         "tutorials"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "15.00"
     },
     {
       "id": "323",
@@ -20929,7 +20929,7 @@
         "GSAP"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "15.00"
     },
     {
       "id": "321",
@@ -21028,7 +21028,7 @@
         "GSAP"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "35.00"
     },
     {
       "id": "320",
@@ -21078,7 +21078,7 @@
         "GSAP"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "35.00"
     },
     {
       "id": "324",
@@ -21124,7 +21124,7 @@
         "GSAP"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "35.00"
     },
     {
       "id": "325",
@@ -21171,7 +21171,7 @@
         "license"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "10.00"
     },
     {
       "id": "270",
@@ -21212,7 +21212,7 @@
         "interactive"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "10.00"
     },
     {
       "id": "271",
@@ -21254,7 +21254,7 @@
         "interactive"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "10.00"
     },
     {
       "id": "266",
@@ -21296,7 +21296,7 @@
         "enterprise"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "5.00"
     },
     {
       "id": "267",
@@ -21335,7 +21335,7 @@
         "premium brand"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "15.00"
     },
     {
       "id": "265",
@@ -21373,7 +21373,7 @@
         "creative"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "5.00"
     },
     {
       "id": "262",
@@ -21410,7 +21410,7 @@
         "creative"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "35.00"
     },
     {
       "id": "263",
@@ -21447,7 +21447,7 @@
         "premium brand"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "15.00"
     },
     {
       "id": "255",
@@ -21565,7 +21565,7 @@
         "interactive"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "10.00"
     },
     {
       "id": "278",
@@ -21606,7 +21606,7 @@
         "collaboration"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "15.00"
     },
     {
       "id": "280",
@@ -21648,7 +21648,7 @@
         "WebGL"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "15.00"
     },
     {
       "id": "279",
@@ -21688,7 +21688,7 @@
         "developer tools"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "10.00"
     },
     {
       "id": "282",
@@ -21730,7 +21730,7 @@
         "e-commerce"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "10.00"
     },
     {
       "id": "281",
@@ -21771,8 +21771,8 @@
         "WebGL",
         "Draco"
       ],
-      "membership": "Free",
-      "price": "0.00"
+      "membership": "Premium",
+      "price": "5.00"
     },
     {
       "id": "284",
@@ -21818,7 +21818,7 @@
         "WebGL"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "5.00"
     },
     {
       "id": "286",
@@ -21860,7 +21860,7 @@
         "WebGL"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "15.00"
     },
     {
       "id": "285",
@@ -21903,7 +21903,7 @@
         "WebGL"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "15.00"
     },
     {
       "id": "288",
@@ -22292,7 +22292,7 @@
         "WebGL"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "5.00"
     },
     {
       "id": "300",
@@ -22335,7 +22335,7 @@
         "WebGL"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "5.00"
     },
     {
       "id": "302",
@@ -22377,7 +22377,7 @@
         "GSAP"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "10.00"
     },
     {
       "id": "301",
@@ -22421,7 +22421,7 @@
         "GSAP"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "10.00"
     },
     {
       "id": "304",
@@ -22465,7 +22465,7 @@
         "GSAP"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "15.00"
     },
     {
       "id": "303",
@@ -22512,7 +22512,7 @@
         "GSAP"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "10.00"
     },
     {
       "id": "306",
@@ -22558,7 +22558,7 @@
         "GSAP"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "10.00"
     },
     {
       "id": "305",
@@ -22603,7 +22603,7 @@
         "GSAP"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "15.00"
     },
     {
       "id": "308",
@@ -22690,7 +22690,7 @@
         "GSAP"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "10.00"
     },
     {
       "id": "310",
@@ -23009,7 +23009,7 @@
         "CDN"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "5.00"
     },
     {
       "id": "318",
@@ -23057,7 +23057,7 @@
         "GSAP"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "10.00"
     },
     {
       "id": "318",
@@ -23103,7 +23103,7 @@
         "dark mode"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "10.00"
     },
     {
       "id": "327",
@@ -23168,7 +23168,7 @@
         "cats"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "10.00"
     },
     {
       "id": "341",
@@ -25320,7 +25320,7 @@
         "experience"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "15.00"
     },
     {
       "id": "343",
@@ -27689,7 +27689,7 @@
         "vuelos"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "15.00"
     },
     {
       "id": "296",
@@ -27732,7 +27732,7 @@
         "GSAP"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "5.00"
     },
     {
       "id": "272",
@@ -27815,7 +27815,7 @@
         "WebGL"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "10.00"
     },
     {
       "id": "275",
@@ -27900,7 +27900,7 @@
         "GSAP"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "5.00"
     },
     {
       "id": "322",
@@ -27948,7 +27948,7 @@
         "GSAP"
       ],
       "membership": "Premium",
-      "price": "20.00"
+      "price": "35.00"
     },
     {
       "id": "269",

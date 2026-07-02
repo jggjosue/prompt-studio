@@ -2,9 +2,10 @@ import { Webhook } from 'svix';
 import { NextResponse } from 'next/server';
 import { headers } from 'next/headers';
 import { upsertLoopsContact, sendLoopsEvent } from '@/lib/loops';
-import { sendOnboardingEmail } from '@/lib/resend';
+import { sendOnboardingEmail, upsertResendContact } from '@/lib/resend';
 import connectToDatabase from '@/lib/mongoose';
 import UserProfile from '@/models/UserProfile';
+import RegisteredUser from '@/models/RegisteredUser';
 
 type ClerkUserEvent = {
   id: string;
@@ -76,6 +77,15 @@ export async function POST(req: Request) {
   const paypalEmail = typeof paypalEmailRaw === 'string' ? paypalEmailRaw : null;
 
   await connectToDatabase();
+
+  await RegisteredUser.updateOne(
+    { email },
+    { $setOnInsert: { email } },
+    { upsert: true }
+  ).catch(error => {
+    console.error('Failed to sync registered user in webhook:', error);
+  });
+
   await UserProfile.findOneAndUpdate(
     { userId: evt.data.id },
     {
@@ -106,6 +116,14 @@ export async function POST(req: Request) {
   });
 
   if (evt.type === 'user.created') {
+    await upsertResendContact({
+      email,
+      firstName: evt.data.first_name ?? undefined,
+      lastName: evt.data.last_name ?? undefined,
+    }).catch(error => {
+      console.error('Failed to sync Clerk user to Resend:', error);
+    });
+
     await sendLoopsEvent({
       email,
       userId: evt.data.id,

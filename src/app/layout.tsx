@@ -12,6 +12,7 @@ import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
 import Script from 'next/script';
+import { UserSync } from '@/components/user-sync';
 
 const SITE_URL = (
   process.env.NEXT_PUBLIC_SITE_URL ?? 'https://prompstudio.com'
@@ -115,6 +116,7 @@ export default async function RootLayout({
       </head>
       <body className={`${firaSans.className} font-body antialiased bg-black`} suppressHydrationWarning>
         <ClerkProvider {...clerkProviderProps}>
+          <UserSync />
           <Script
             async
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7082864972330769"

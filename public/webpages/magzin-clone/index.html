@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MAGZIN | Premium Digital Editorial</title>
-    <meta name="description" content="Experience the future of editorial with MAGZIN, an immersive 3D digital publication.">
-<link rel="stylesheet" href="style.css">
+    <meta name="description"
+        content="Experience the future of editorial with MAGZIN, an immersive 3D digital publication.">
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <!-- 3D Canvas Background -->
     <div class="canvas-container">
@@ -15,7 +18,7 @@
 
     <!-- UI Overlay -->
     <div class="ui-layer">
-        
+
         <header class="header">
             <div class="logo">MAGZIN</div>
             <nav class="nav">
@@ -31,7 +34,8 @@
                 <div class="hero-content">
                     <h2 class="subtitle">Issue No. 42</h2>
                     <h1 class="title">The Art of<br>Dimension</h1>
-                    <p class="description">Step into a new era of digital storytelling. An immersive editorial experience crafted for the modern reader.</p>
+                    <p class="description">Step into a new era of digital storytelling. An immersive editorial
+                        experience crafted for the modern reader.</p>
                     <button class="btn btn-primary">Read the Cover Story</button>
                 </div>
                 <div class="scroll-indicator">
@@ -47,19 +51,22 @@
                         <article class="editorial-card parallax-el" data-speed="1.1">
                             <div class="card-meta">Architecture</div>
                             <h3 class="card-title">Concrete Dreams in Brutalist Spaces</h3>
-                            <p class="card-excerpt">Exploring the resurgence of monumental forms in modern urban landscapes.</p>
+                            <p class="card-excerpt">Exploring the resurgence of monumental forms in modern urban
+                                landscapes.</p>
                             <span class="card-author">By Elena Rostova</span>
                         </article>
                         <article class="editorial-card parallax-el" data-speed="0.9">
                             <div class="card-meta">Technology</div>
                             <h3 class="card-title">The Silence of the Chips</h3>
-                            <p class="card-excerpt">How the new wave of silent computing is changing our relationship with machines.</p>
+                            <p class="card-excerpt">How the new wave of silent computing is changing our relationship
+                                with machines.</p>
                             <span class="card-author">By Marcus Chen</span>
                         </article>
                         <article class="editorial-card parallax-el" data-speed="1.2">
                             <div class="card-meta">Lifestyle</div>
                             <h3 class="card-title">Minimalism as a Rebellion</h3>
-                            <p class="card-excerpt">Why having less is the ultimate statement in an age of hyper-consumption.</p>
+                            <p class="card-excerpt">Why having less is the ultimate statement in an age of
+                                hyper-consumption.</p>
                             <span class="card-author">By Sarah Jenkins</span>
                         </article>
                     </div>
@@ -89,7 +96,7 @@
                 </div>
             </section>
         </main>
-        
+
         <footer class="footer">
             <div class="footer-content">
                 <div class="logo">MAGZIN</div>
@@ -108,35 +115,50 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    
+
     <!-- Main Logic -->
     <script src="main.js"></script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
-        } else {
-          window.location.href = '/sign-in';
-        }
-      };
-    }
-  </script>
-</div>
+    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+        <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+        <div id="dynamic-stripe-button"></div>
+        <script>
+            (function () {
+                var container = document.getElementById('dynamic-stripe-button');
+                var btn = document.createElement('stripe-buy-button');
+                var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+                if (isDev) {
+                    btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
+                } else {
+                    btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
+                }
+                container.appendChild(btn);
+            })();
+        </script>
+        <div id="stripe-auth-overlay"
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+            title="Comprar"></div>
+        <script>
+            var overlay = document.getElementById('stripe-auth-overlay');
+            if (overlay) {
+                overlay.onclick = function () {
+                    var params = new URLSearchParams(window.location.search);
+                    if (params.get('auth') === '1') {
+                        var checkoutUrl = params.get('checkout');
+                        if (checkoutUrl) {
+                            window.location.href = checkoutUrl;
+                        }
+                    } else {
+                        window.location.href = '/sign-in';
+                    }
+                };
+            }
+        </script>
+    </div>
 
 </body>
+
 </html>

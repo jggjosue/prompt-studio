@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3D Innovation Garden Tours</title>
     <meta name="description" content="Experience a futuristic 3D innovation garden. Book your tour today.">
     <!-- Modern typography -->
-<link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles.css">
     <!-- Three.js and GSAP via CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 </head>
+
 <body>
     <!-- 3D Canvas Background -->
     <div id="canvas-container">
@@ -47,7 +49,7 @@
     <!-- Mobile Menu Overlay -->
     <div class="mobile-menu-overlay">
         <nav class="mobile-nav">
-             <ul>
+            <ul>
                 <li><a href="#home">Home</a></li>
                 <li><a href="#tours">Tours</a></li>
                 <li><a href="#garden">Garden</a></li>
@@ -62,12 +64,14 @@
 
     <!-- Main Content Sections -->
     <main class="scroll-container">
-        
+
         <!-- Home Section -->
         <section id="home" class="panel hero-section">
             <div class="content-wrapper parallax-hero">
-                <h1 class="hero-title">Step Into The <br><span class="gradient-text glow">Innovation Ecosystem</span></h1>
-                <p class="hero-subtitle">Embark on a guided 3D journey through our creative campus, tech park, and transformation labs.</p>
+                <h1 class="hero-title">Step Into The <br><span class="gradient-text glow">Innovation Ecosystem</span>
+                </h1>
+                <p class="hero-subtitle">Embark on a guided 3D journey through our creative campus, tech park, and
+                    transformation labs.</p>
                 <div class="hero-actions">
                     <a href="#booking" class="cta-button primary glowing">Start Your Journey</a>
                 </div>
@@ -79,7 +83,8 @@
             <div class="content-wrapper parallax-card">
                 <div class="glass-card premium">
                     <h2>Guided Innovation Tours</h2>
-                    <p>Navigate luminous paths through our tech park. Each tour is crafted to inspire, educate, and transform your vision from ideation to prototype.</p>
+                    <p>Navigate luminous paths through our tech park. Each tour is crafted to inspire, educate, and
+                        transform your vision from ideation to prototype.</p>
                     <ul class="feature-list">
                         <li><span class="icon">✦</span> Ideation & Strategy</li>
                         <li><span class="icon">✦</span> Prototype Development</li>
@@ -92,9 +97,10 @@
         <!-- Garden Section -->
         <section id="garden" class="panel left-align">
             <div class="content-wrapper parallax-text">
-                 <div class="glass-card outline-only">
+                <div class="glass-card outline-only">
                     <h2>The 3D Tech Garden</h2>
-                    <p>Wander through digital forests where knowledge trees grow and data flows like water. A true synthesis of organic growth and artificial intelligence.</p>
+                    <p>Wander through digital forests where knowledge trees grow and data flows like water. A true
+                        synthesis of organic growth and artificial intelligence.</p>
                 </div>
             </div>
         </section>
@@ -122,18 +128,19 @@
 
         <!-- Labs Section -->
         <section id="labs" class="panel right-align">
-             <div class="content-wrapper parallax-card">
+            <div class="content-wrapper parallax-card">
                 <div class="glass-card premium">
                     <h2>Prototyping Labs</h2>
-                    <p>Experience our open laboratories. Turn concepts into tangible prototypes using our state-of-the-art immersive ecosystem tools.</p>
+                    <p>Experience our open laboratories. Turn concepts into tangible prototypes using our
+                        state-of-the-art immersive ecosystem tools.</p>
                     <a href="#booking" class="cta-button secondary outline">Discover the Labs</a>
                 </div>
             </div>
         </section>
-        
+
         <!-- Schedule Section -->
         <section id="schedule" class="panel left-align">
-             <div class="content-wrapper parallax-text">
+            <div class="content-wrapper parallax-text">
                 <div class="glass-card">
                     <h2>Tour Schedule</h2>
                     <div class="schedule-list">
@@ -165,8 +172,8 @@
 
         <!-- Booking Section -->
         <section id="booking" class="panel center-align">
-             <div class="content-wrapper parallax-card">
-                 <div class="glass-card premium booking-card">
+            <div class="content-wrapper parallax-card">
+                <div class="glass-card premium booking-card">
                     <h2>Reserve Your Spot</h2>
                     <p>Spaces in the Innovation Garden are limited. Secure your guided tour today.</p>
                     <form class="booking-form" onsubmit="event.preventDefault();">
@@ -180,15 +187,16 @@
                         </select>
                         <button class="cta-button primary glowing submit-btn">Book Now</button>
                     </form>
-                 </div>
+                </div>
             </div>
         </section>
 
         <!-- Contact Section -->
         <section id="contact" class="panel center-align footer-panel">
-             <div class="content-wrapper">
+            <div class="content-wrapper">
                 <h2 class="text-glow">Join The Community</h2>
-                <p class="footer-desc">Be part of an ecosystem that shapes the future of technology and sustainability.</p>
+                <p class="footer-desc">Be part of an ecosystem that shapes the future of technology and sustainability.
+                </p>
                 <div class="social-links">
                     <a href="#">Twitter</a>
                     <a href="#">LinkedIn</a>
@@ -203,31 +211,46 @@
     <script src="js/scene.js"></script>
     <script src="js/main.js"></script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
-        } else {
-          window.location.href = '/sign-in';
-        }
-      };
-    }
-  </script>
-</div>
+    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+        <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+        <div id="dynamic-stripe-button"></div>
+        <script>
+            (function () {
+                var container = document.getElementById('dynamic-stripe-button');
+                var btn = document.createElement('stripe-buy-button');
+                var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+                if (isDev) {
+                    btn.setAttribute('buy-button-id', process.env.PROFESSIONAL_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
+                } else {
+                    btn.setAttribute('buy-button-id', process.env.PROFESSIONAL_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
+                }
+                container.appendChild(btn);
+            })();
+        </script>
+        <div id="stripe-auth-overlay"
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+            title="Comprar"></div>
+        <script>
+            var overlay = document.getElementById('stripe-auth-overlay');
+            if (overlay) {
+                overlay.onclick = function () {
+                    var params = new URLSearchParams(window.location.search);
+                    if (params.get('auth') === '1') {
+                        var checkoutUrl = params.get('checkout');
+                        if (checkoutUrl) {
+                            window.location.href = checkoutUrl;
+                        }
+                    } else {
+                        window.location.href = '/sign-in';
+                    }
+                };
+            }
+        </script>
+    </div>
 
 </body>
+
 </html>

@@ -17,7 +17,7 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json().catch(() => ({}));
-    const returnUrl = body.returnUrl || `${req.headers.get('origin') || process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/dashboard/profile`;
+    const returnUrl = body.returnUrl || `${req.headers.get('origin') || process.env.NEXT_PUBLIC_APP_URL || 'process.env.DOMAIN_DEV'}/dashboard/profile`;
 
     const portalSession = await stripe.billingPortal.sessions.create({
       customer: meta.stripeCustomerId,

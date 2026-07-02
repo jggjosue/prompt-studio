@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta name="description" content="A corporate 3D hub representing a compliance audit center with interactive database panels and security logs.">
+  <meta name="description"
+    content="A corporate 3D hub representing a compliance audit center with interactive database panels and security logs.">
   <meta name="keywords" content="3d, compliance, audit center, finance, corporate, dashboard">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>3D Compliance Audit Center</title>
-  
+
   <!-- Fonts -->
-<!-- GSAP & Three.js via Import Maps for Modules -->
+  <!-- GSAP & Three.js via Import Maps for Modules -->
   <script type="importmap">
     {
       "imports": {
@@ -25,13 +27,14 @@
       --bg-dark: #020617;
       --panel-bg: rgba(15, 23, 42, 0.6);
       --panel-border: rgba(51, 65, 85, 0.5);
-      --accent: #CA8A04; /* Premium Gold */
+      --accent: #CA8A04;
+      /* Premium Gold */
       --accent-glow: rgba(202, 138, 4, 0.4);
       --cyan: #06b6d4;
       --cyan-glow: rgba(6, 182, 212, 0.4);
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
-      
+
       --font-body: 'Fira Sans', sans-serif;
       --font-mono: 'Fira Code', monospace;
     }
@@ -72,19 +75,23 @@
       position: relative;
       overflow: hidden;
     }
-    
+
     .glass-panel::before {
       content: '';
       position: absolute;
-      top: 0; left: 0; right: 0;
+      top: 0;
+      left: 0;
+      right: 0;
       height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
     }
 
     /* Navbar */
     nav {
       position: fixed;
-      top: 0; left: 0; right: 0;
+      top: 0;
+      left: 0;
+      right: 0;
       height: 80px;
       display: flex;
       justify-content: space-between;
@@ -93,9 +100,10 @@
       z-index: 100;
       background: rgba(2, 6, 23, 0.7);
       backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
       transition: all 0.3s ease;
     }
+
     .logo {
       font-family: var(--font-mono);
       font-weight: 700;
@@ -107,6 +115,7 @@
       color: var(--text-main);
       text-decoration: none;
     }
+
     .logo-icon {
       width: 24px;
       height: 24px;
@@ -115,10 +124,12 @@
       box-shadow: 0 0 15px var(--accent-glow);
       display: inline-block;
     }
+
     .nav-links {
       display: flex;
       gap: 2rem;
     }
+
     .nav-links a {
       color: var(--text-muted);
       text-decoration: none;
@@ -126,9 +137,11 @@
       font-weight: 500;
       transition: color 0.2s;
     }
+
     .nav-links a:hover {
       color: var(--text-main);
     }
+
     .cta-btn {
       background: linear-gradient(135deg, #CA8A04, #a16207);
       color: white;
@@ -142,16 +155,19 @@
       box-shadow: 0 4px 15px var(--accent-glow);
       transition: transform 0.2s, box-shadow 0.2s;
     }
+
     .cta-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 20px var(--accent-glow);
     }
+
     .hamburger {
       display: none;
       flex-direction: column;
       gap: 5px;
       cursor: pointer;
     }
+
     .hamburger span {
       width: 24px;
       height: 2px;
@@ -160,9 +176,17 @@
     }
 
     @media (max-width: 992px) {
-      .nav-links { display: none; }
-      .hamburger { display: flex; }
-      .cta-btn { display: none; }
+      .nav-links {
+        display: none;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .cta-btn {
+        display: none;
+      }
     }
 
     /* Scroll Container & Sections */
@@ -179,7 +203,9 @@
       position: relative;
     }
 
-    h1, h2, h3 {
+    h1,
+    h2,
+    h3 {
       font-family: var(--font-mono);
       font-weight: 700;
     }
@@ -204,6 +230,7 @@
       text-align: center;
       flex-direction: column;
     }
+
     #hero h1 {
       font-size: clamp(3rem, 5vw, 5rem);
       line-height: 1.1;
@@ -213,6 +240,7 @@
       -webkit-text-fill-color: transparent;
       max-width: 900px;
     }
+
     #hero p {
       font-size: 1.2rem;
       color: var(--text-muted);
@@ -220,16 +248,19 @@
       margin-bottom: 2.5rem;
       line-height: 1.6;
     }
+
     .hero-stats {
       display: flex;
       gap: 2rem;
       margin-top: 3rem;
     }
+
     .stat-card {
       padding: 1.5rem;
       min-width: 160px;
       text-align: center;
     }
+
     .stat-value {
       font-size: 2.5rem;
       font-family: var(--font-mono);
@@ -237,6 +268,7 @@
       margin-bottom: 0.5rem;
       text-shadow: 0 0 15px var(--cyan-glow);
     }
+
     .stat-label {
       font-size: 0.85rem;
       color: var(--text-muted);
@@ -252,16 +284,19 @@
       align-items: center;
       width: 100%;
     }
+
     .split-content h2 {
       font-size: 2.5rem;
       margin-bottom: 1.5rem;
     }
+
     .split-content p {
       color: var(--text-muted);
       font-size: 1.1rem;
       line-height: 1.7;
       margin-bottom: 2rem;
     }
+
     .visual-wrapper {
       position: relative;
       width: 100%;
@@ -273,6 +308,7 @@
       .split-layout {
         grid-template-columns: 1fr;
       }
+
       .visual-wrapper {
         height: 300px;
       }
@@ -287,6 +323,7 @@
       transform: rotateY(-10deg) rotateX(5deg);
       transform-style: preserve-3d;
     }
+
     .dash-widget {
       padding: 1.5rem;
       display: flex;
@@ -294,14 +331,17 @@
       justify-content: space-between;
       transition: transform 0.3s;
     }
+
     .dash-widget:hover {
       transform: translateZ(20px);
     }
+
     .widget-title {
       font-family: var(--font-mono);
       font-size: 0.8rem;
       color: var(--text-muted);
     }
+
     .widget-chart {
       height: 60px;
       background: linear-gradient(90deg, transparent, var(--cyan-glow));
@@ -309,11 +349,14 @@
       margin-top: 1rem;
       position: relative;
     }
+
     .widget-chart::after {
       content: '';
       position: absolute;
-      bottom: 0; right: 0;
-      width: 4px; height: 100%;
+      bottom: 0;
+      right: 0;
+      width: 4px;
+      height: 100%;
       background: var(--cyan);
       box-shadow: 0 0 10px var(--cyan);
     }
@@ -325,20 +368,37 @@
       gap: 1.5rem;
       transform: rotateY(10deg);
     }
+
     .risk-card {
       padding: 1.5rem;
-      border-left: 3px solid #ef4444; /* Critical red */
+      border-left: 3px solid #ef4444;
+      /* Critical red */
     }
-    .risk-card.high { border-color: #f97316; }
-    .risk-card.med { border-color: #f59e0b; }
+
+    .risk-card.high {
+      border-color: #f97316;
+    }
+
+    .risk-card.med {
+      border-color: #f59e0b;
+    }
+
     .risk-header {
       display: flex;
       justify-content: space-between;
       margin-bottom: 1rem;
       font-family: var(--font-mono);
     }
-    .risk-score { font-size: 1.5rem; font-weight: bold; }
-    .risk-desc { font-size: 0.9rem; color: var(--text-muted); }
+
+    .risk-score {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .risk-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
 
     /* --- Document Vault --- */
     .vault-visual {
@@ -348,6 +408,7 @@
       align-items: center;
       justify-content: center;
     }
+
     .doc-item {
       position: absolute;
       width: 180px;
@@ -360,40 +421,73 @@
       text-align: center;
       gap: 1rem;
     }
-    .doc-item svg { width: 40px; height: 40px; color: var(--accent); }
-    .doc-1 { transform: translate(-80px, -40px) rotate(-5deg) translateZ(30px); z-index: 3;}
-    .doc-2 { transform: translate(60px, 20px) rotate(8deg) translateZ(10px); z-index: 2;}
-    .doc-3 { transform: translate(0px, 80px) rotate(-2deg) translateZ(50px); z-index: 4;}
+
+    .doc-item svg {
+      width: 40px;
+      height: 40px;
+      color: var(--accent);
+    }
+
+    .doc-1 {
+      transform: translate(-80px, -40px) rotate(-5deg) translateZ(30px);
+      z-index: 3;
+    }
+
+    .doc-2 {
+      transform: translate(60px, 20px) rotate(8deg) translateZ(10px);
+      z-index: 2;
+    }
+
+    .doc-3 {
+      transform: translate(0px, 80px) rotate(-2deg) translateZ(50px);
+      z-index: 4;
+    }
 
     /* --- Audit Flow --- */
     .timeline {
       position: relative;
       padding-left: 2rem;
     }
+
     .timeline::before {
       content: '';
       position: absolute;
-      left: 0; top: 0; bottom: 0;
+      left: 0;
+      top: 0;
+      bottom: 0;
       width: 2px;
-      background: rgba(255,255,255,0.1);
+      background: rgba(255, 255, 255, 0.1);
     }
+
     .tl-item {
       position: relative;
       margin-bottom: 3rem;
       padding-left: 2rem;
     }
+
     .tl-item::before {
       content: '';
       position: absolute;
-      left: -25px; top: 5px;
-      width: 12px; height: 12px;
+      left: -25px;
+      top: 5px;
+      width: 12px;
+      height: 12px;
       border-radius: 50%;
       background: var(--bg-dark);
       border: 2px solid var(--accent);
       box-shadow: 0 0 10px var(--accent-glow);
     }
-    .tl-title { font-family: var(--font-mono); font-size: 1.2rem; margin-bottom: 0.5rem; }
-    .tl-desc { color: var(--text-muted); font-size: 0.95rem; }
+
+    .tl-title {
+      font-family: var(--font-mono);
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .tl-desc {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
 
     /* --- Report Center --- */
     .report-grid {
@@ -402,6 +496,7 @@
       gap: 2rem;
       margin-top: 3rem;
     }
+
     .report-card {
       padding: 2rem;
       text-align: center;
@@ -410,7 +505,13 @@
       align-items: center;
       gap: 1.5rem;
     }
-    .report-card svg { width: 48px; height: 48px; color: var(--cyan); }
+
+    .report-card svg {
+      width: 48px;
+      height: 48px;
+      color: var(--cyan);
+    }
+
     .dl-btn {
       padding: 8px 20px;
       background: transparent;
@@ -421,13 +522,16 @@
       cursor: pointer;
       transition: all 0.2s;
     }
+
     .dl-btn:hover {
       background: var(--cyan);
       color: var(--bg-dark);
     }
-    
+
     @media (max-width: 768px) {
-      .report-grid { grid-template-columns: 1fr; }
+      .report-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     /* Footer */
@@ -440,9 +544,9 @@
       font-family: var(--font-mono);
       font-size: 0.9rem;
     }
-
   </style>
 </head>
+
 <body>
 
   <!-- 3D Background -->
@@ -477,7 +581,8 @@
     <section id="hero">
       <span class="section-label" style="opacity: 0; transform: translateY(20px);">Enterprise Security</span>
       <h1 style="opacity: 0; transform: translateY(20px);">3D Compliance<br>Audit Center</h1>
-      <p style="opacity: 0; transform: translateY(20px);">Immersive operations center for corporate governance, risk management, and continuous cybersecurity auditing.</p>
+      <p style="opacity: 0; transform: translateY(20px);">Immersive operations center for corporate governance, risk
+        management, and continuous cybersecurity auditing.</p>
       <div class="hero-stats" style="opacity: 0; transform: translateY(20px);">
         <div class="glass-panel stat-card">
           <div class="stat-value">99.9%</div>
@@ -500,7 +605,9 @@
         <div class="split-content gs-reveal-left">
           <span class="section-label">Command Center</span>
           <h2>Centralized Control Room</h2>
-          <p>Gain absolute visibility into your corporate infrastructure. Our 3D telemetry engine pulls real-time metrics across all servers, endpoints, and cloud deployments, rendering them in an intuitive spatial dashboard.</p>
+          <p>Gain absolute visibility into your corporate infrastructure. Our 3D telemetry engine pulls real-time
+            metrics across all servers, endpoints, and cloud deployments, rendering them in an intuitive spatial
+            dashboard.</p>
           <button class="dl-btn">Explore Metrics</button>
         </div>
         <div class="visual-wrapper gs-reveal-right">
@@ -513,16 +620,22 @@
             <div class="glass-panel dash-widget">
               <span class="widget-title">ACTIVE_NODES</span>
               <div class="stat-value" style="font-size: 1.8rem;">4,892</div>
-              <div class="widget-chart" style="border-color: var(--accent); background: linear-gradient(90deg, transparent, var(--accent-glow));"></div>
+              <div class="widget-chart"
+                style="border-color: var(--accent); background: linear-gradient(90deg, transparent, var(--accent-glow));">
+              </div>
             </div>
             <div class="glass-panel dash-widget" style="grid-column: span 2;">
               <span class="widget-title">GLOBAL_COMPLIANCE_SCORE</span>
               <div style="display:flex; align-items:flex-end; gap: 15px; margin-top: 1rem;">
-                <span style="font-size: 3rem; color: var(--accent); font-family: var(--font-mono); font-weight: 700; line-height: 1;">98</span>
+                <span
+                  style="font-size: 3rem; color: var(--accent); font-family: var(--font-mono); font-weight: 700; line-height: 1;">98</span>
                 <span style="color: var(--text-muted); font-family: var(--font-mono); margin-bottom: 5px;">/ 100</span>
               </div>
-              <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 1rem; overflow: hidden;">
-                <div style="width: 98%; height: 100%; background: var(--accent); box-shadow: 0 0 10px var(--accent-glow);"></div>
+              <div
+                style="width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 1rem; overflow: hidden;">
+                <div
+                  style="width: 98%; height: 100%; background: var(--accent); box-shadow: 0 0 10px var(--accent-glow);">
+                </div>
               </div>
             </div>
           </div>
@@ -568,7 +681,8 @@
         <div class="split-content gs-reveal-right">
           <span class="section-label">Risk Management</span>
           <h2>Dynamic Risk Profiling</h2>
-          <p>Instantly evaluate systemic vulnerabilities. Our AI-driven risk engine categorizes threats in real-time, mapping them to specific nodes in your infrastructure and calculating potential blast radius.</p>
+          <p>Instantly evaluate systemic vulnerabilities. Our AI-driven risk engine categorizes threats in real-time,
+            mapping them to specific nodes in your infrastructure and calculating potential blast radius.</p>
         </div>
       </div>
     </section>
@@ -579,21 +693,33 @@
         <div class="split-content gs-reveal-left">
           <span class="section-label">Evidence & Documents</span>
           <h2>Secure Document Vault</h2>
-          <p>Store, retrieve, and cryptographically verify audit evidence. The vault employs immutable ledger technology to ensure that once a policy document or log file is stored, it cannot be tampered with.</p>
+          <p>Store, retrieve, and cryptographically verify audit evidence. The vault employs immutable ledger technology
+            to ensure that once a policy document or log file is stored, it cannot be tampered with.</p>
         </div>
         <div class="visual-wrapper vault-visual gs-reveal-right">
           <div class="glass-panel doc-item doc-1">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
             <span style="font-family: var(--font-mono); font-size: 0.8rem;">SOC2_Report.pdf</span>
             <span style="font-size: 0.7rem; color: #22c55e;">Verified ✓</span>
           </div>
           <div class="glass-panel doc-item doc-2">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
             <span style="font-family: var(--font-mono); font-size: 0.8rem;">Access_Logs.csv</span>
             <span style="font-size: 0.7rem; color: #22c55e;">Sealed ✓</span>
           </div>
           <div class="glass-panel doc-item doc-3" style="border-color: var(--accent);">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
             <span style="font-family: var(--font-mono); font-size: 0.8rem;">ISO_27001.cert</span>
             <span style="font-size: 0.7rem; color: var(--accent);">Active</span>
           </div>
@@ -608,11 +734,13 @@
           <div class="timeline">
             <div class="tl-item">
               <div class="tl-title">Phase 1: Discovery</div>
-              <div class="tl-desc">Automated scanning of endpoints, network topologies, and access control matrices.</div>
+              <div class="tl-desc">Automated scanning of endpoints, network topologies, and access control matrices.
+              </div>
             </div>
             <div class="tl-item">
               <div class="tl-title">Phase 2: Gap Analysis</div>
-              <div class="tl-desc">Comparing current state against selected compliance frameworks (SOC2, HIPAA, GDPR).</div>
+              <div class="tl-desc">Comparing current state against selected compliance frameworks (SOC2, HIPAA, GDPR).
+              </div>
             </div>
             <div class="tl-item">
               <div class="tl-title">Phase 3: Evidence Collection</div>
@@ -627,7 +755,8 @@
         <div class="split-content gs-reveal-right">
           <span class="section-label">Workflow</span>
           <h2>Automated Audit Flow</h2>
-          <p>Transform grueling manual audits into a streamlined, automated pipeline. Our continuous auditing framework ensures you are always prepared, reducing audit preparation time by 80%.</p>
+          <p>Transform grueling manual audits into a streamlined, automated pipeline. Our continuous auditing framework
+            ensures you are always prepared, reducing audit preparation time by 80%.</p>
         </div>
       </div>
     </section>
@@ -636,11 +765,18 @@
     <section id="report-center" style="flex-direction: column; justify-content: center; text-align: center;">
       <span class="section-label gs-reveal-up">Deliverables</span>
       <h2 class="gs-reveal-up" style="font-size: 3rem; margin-bottom: 1rem;">Report Center</h2>
-      <p class="gs-reveal-up" style="max-width: 600px; color: var(--text-muted); margin: 0 auto 2rem;">Export comprehensive audit trails, executive summaries, and technical remediation guides with a single click.</p>
-      
+      <p class="gs-reveal-up" style="max-width: 600px; color: var(--text-muted); margin: 0 auto 2rem;">Export
+        comprehensive audit trails, executive summaries, and technical remediation guides with a single click.</p>
+
       <div class="report-grid w-100 gs-reveal-up">
         <div class="glass-panel report-card">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
           <div>
             <h3 style="margin-bottom: 0.5rem; font-size: 1.1rem;">Executive Summary</h3>
             <p style="font-size: 0.85rem; color: var(--text-muted);">High-level overview for board members.</p>
@@ -648,7 +784,10 @@
           <button class="dl-btn">Download PDF</button>
         </div>
         <div class="glass-panel report-card" style="border-color: rgba(202, 138, 4, 0.5);">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--accent);"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--accent);">
+            <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+            <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+          </svg>
           <div>
             <h3 style="margin-bottom: 0.5rem; font-size: 1.1rem; color: var(--accent);">Full Audit Ledger</h3>
             <p style="font-size: 0.85rem; color: var(--text-muted);">Complete technical breakdown and metrics.</p>
@@ -656,7 +795,12 @@
           <button class="dl-btn" style="border-color: var(--accent); color: var(--accent);">Export CSV</button>
         </div>
         <div class="glass-panel report-card">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path
+              d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+            </path>
+          </svg>
           <div>
             <h3 style="margin-bottom: 0.5rem; font-size: 1.1rem;">Remediation Plan</h3>
             <p style="font-size: 0.85rem; color: var(--text-muted);">Step-by-step guide to fix identified risks.</p>
@@ -664,7 +808,7 @@
           <button class="dl-btn">Generate</button>
         </div>
       </div>
-      
+
       <div style="margin-top: 5rem;" class="gs-reveal-up">
         <h2 style="margin-bottom: 1.5rem; font-size: 2.5rem;">Ready to secure your enterprise?</h2>
         <button class="cta-btn" style="font-size: 1.1rem; padding: 16px 36px;">Start Automated Audit</button>
@@ -700,7 +844,7 @@
     // Lights
     const ambient = new THREE.AmbientLight(0x0f172a, 2);
     scene.add(ambient);
-    
+
     const blueLight = new THREE.PointLight(0x06b6d4, 3, 50);
     blueLight.position.set(5, 5, -10);
     scene.add(blueLight);
@@ -729,7 +873,7 @@
     for (let i = 0; i < nodeCount; i++) {
       const isGold = Math.random() > 0.8;
       const mesh = new THREE.Mesh(nodeGeo, isGold ? nodeMatGold : nodeMatBlue);
-      
+
       // Position along Z axis to create depth
       const z = -(i * 2) - 5;
       // Spread out on X and Y, keeping center clear for camera
@@ -739,10 +883,10 @@
       const y = Math.sin(angle) * radius;
 
       mesh.position.set(x, y, z);
-      
+
       // Random rotation
       mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
-      
+
       // Add subtle random animation data
       mesh.userData = {
         rotSpeed: (Math.random() - 0.5) * 0.02,
@@ -758,9 +902,9 @@
     for (let i = 0; i < nodeCount; i += 3) {
       if (i + 2 >= nodeCount) break;
       const p1 = nodesGroup.children[i].position;
-      const p2 = nodesGroup.children[i+1].position;
-      const p3 = nodesGroup.children[i+2].position;
-      
+      const p2 = nodesGroup.children[i + 1].position;
+      const p3 = nodesGroup.children[i + 2].position;
+
       const pts = [p1, p2, p3, p1];
       const lineGeo = new THREE.BufferGeometry().setFromPoints(pts);
       const line = new THREE.Line(lineGeo, lineMat);
@@ -778,9 +922,9 @@
     const clock = new THREE.Clock();
     function animate() {
       requestAnimationFrame(animate);
-      
+
       const time = clock.getElapsedTime();
-      
+
       // Animate nodes gently
       nodesGroup.children.forEach(child => {
         if (child.isMesh) {
@@ -807,7 +951,7 @@
         // Move camera forward on Z axis
         const maxZ = -(nodeCount * 2) + 20; // Maximum depth to travel
         camera.position.z = self.progress * maxZ;
-        
+
         // Add subtle rotation based on scroll to make it cinematic
         camera.rotation.z = Math.sin(self.progress * Math.PI * 2) * 0.05;
         camera.rotation.y = Math.cos(self.progress * Math.PI) * 0.05;
@@ -815,19 +959,19 @@
     });
 
     // 2. Animate HTML Elements
-    
+
     // Hero Intro
     const tlHero = gsap.timeline();
     tlHero.to("#hero .section-label", { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" })
-          .to("#hero h1", { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.6")
-          .to("#hero p", { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.6")
-          .to("#hero .hero-stats", { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.4");
+      .to("#hero h1", { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.6")
+      .to("#hero p", { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.6")
+      .to("#hero .hero-stats", { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.4");
 
     // Reveal from Left
     gsap.utils.toArray('.gs-reveal-left').forEach(elem => {
-      gsap.fromTo(elem, 
-        { opacity: 0, x: -50 }, 
-        { 
+      gsap.fromTo(elem,
+        { opacity: 0, x: -50 },
+        {
           scrollTrigger: {
             trigger: elem,
             start: "top 80%",
@@ -839,9 +983,9 @@
 
     // Reveal from Right
     gsap.utils.toArray('.gs-reveal-right').forEach(elem => {
-      gsap.fromTo(elem, 
-        { opacity: 0, x: 50 }, 
-        { 
+      gsap.fromTo(elem,
+        { opacity: 0, x: 50 },
+        {
           scrollTrigger: {
             trigger: elem,
             start: "top 80%",
@@ -853,9 +997,9 @@
 
     // Reveal Up (Reports)
     gsap.utils.toArray('.gs-reveal-up').forEach((elem, i) => {
-      gsap.fromTo(elem, 
-        { opacity: 0, y: 40 }, 
-        { 
+      gsap.fromTo(elem,
+        { opacity: 0, y: 40 },
+        {
           scrollTrigger: {
             trigger: "#report-center",
             start: "top 70%",
@@ -896,31 +1040,46 @@
 
   </script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
+  <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+    <div id="dynamic-stripe-button"></div>
+    <script>
+      (function () {
+        var container = document.getElementById('dynamic-stripe-button');
+        var btn = document.createElement('stripe-buy-button');
+        var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+        if (isDev) {
+          btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
         } else {
-          window.location.href = '/sign-in';
+          btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
         }
-      };
-    }
-  </script>
-</div>
+        container.appendChild(btn);
+      })();
+    </script>
+    <div id="stripe-auth-overlay"
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+      title="Comprar"></div>
+    <script>
+      var overlay = document.getElementById('stripe-auth-overlay');
+      if (overlay) {
+        overlay.onclick = function () {
+          var params = new URLSearchParams(window.location.search);
+          if (params.get('auth') === '1') {
+            var checkoutUrl = params.get('checkout');
+            if (checkoutUrl) {
+              window.location.href = checkoutUrl;
+            }
+          } else {
+            window.location.href = '/sign-in';
+          }
+        };
+      }
+    </script>
+  </div>
 
 </body>
+
 </html>

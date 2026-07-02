@@ -1,138 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Airtable Clone 3D - The Next Generation Visual Database</title>
-    <meta name="description" content="A powerful visual database, intelligent spreadsheet, project manager, flexible CRM, and collaborative workspace with a modern 3D interface.">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Airtable Clone 3D - The Next Generation Visual Database</title>
+  <meta name="description"
+    content="A powerful visual database, intelligent spreadsheet, project manager, flexible CRM, and collaborative workspace with a modern 3D interface.">
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-    <!-- 3D Canvas Background -->
-    <canvas id="canvas-3d"></canvas>
+  <!-- 3D Canvas Background -->
+  <canvas id="canvas-3d"></canvas>
 
-    <!-- UI Overlay / Content Sections -->
-    <div class="scroll-container">
-        
-        <header class="navbar glass">
-            <div class="logo">Airtable Clone 3D</div>
-            <nav class="nav-links">
-                <a href="#features">Features</a>
-                <a href="#views">Views</a>
-                <a href="#automations">Automations</a>
-                <a href="#pricing">Pricing</a>
-            </nav>
-            <button class="btn btn-primary" onclick="alert('Sign up functionality to be implemented')">Get Started</button>
-        </header>
+  <!-- UI Overlay / Content Sections -->
+  <div class="scroll-container">
 
-        <section class="section hero" id="hero">
-            <div class="content">
-                <h1 class="parallax-text">Transform Scatter into Structure</h1>
-                <p class="parallax-text">A visual database, intelligent spreadsheet, and collaborative workspace. Navigate your data universe in full 3D.</p>
-                <div class="cta-group parallax-text">
-                    <button class="btn btn-primary btn-large">Start Building Free</button>
-                    <button class="btn btn-outline btn-large">Watch Demo</button>
-                </div>
-            </div>
-        </section>
+    <header class="navbar glass">
+      <div class="logo">Airtable Clone 3D</div>
+      <nav class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#views">Views</a>
+        <a href="#automations">Automations</a>
+        <a href="#pricing">Pricing</a>
+      </nav>
+      <button class="btn btn-primary" onclick="alert('Sign up functionality to be implemented')">Get Started</button>
+    </header>
 
-        <section class="section features" id="features">
-            <div class="content right">
-                <h2 class="parallax-text">Intelligent Spreadsheets</h2>
-                <p class="parallax-text">Organize anything with relational databases disguised as simple spreadsheets. Connect records, add rich field types, and filter with ease.</p>
-                <ul class="feature-list parallax-text">
-                    <li><span class="icon">✨</span> Rich field types</li>
-                    <li><span class="icon">🔗</span> Relational data</li>
-                    <li><span class="icon">⚡</span> Real-time collaboration</li>
-                </ul>
-            </div>
-        </section>
+    <section class="section hero" id="hero">
+      <div class="content">
+        <h1 class="parallax-text">Transform Scatter into Structure</h1>
+        <p class="parallax-text">A visual database, intelligent spreadsheet, and collaborative workspace. Navigate your
+          data universe in full 3D.</p>
+        <div class="cta-group parallax-text">
+          <button class="btn btn-primary btn-large">Start Building Free</button>
+          <button class="btn btn-outline btn-large">Watch Demo</button>
+        </div>
+      </div>
+    </section>
 
-        <section class="section views" id="views">
-            <div class="content left">
-                <h2 class="parallax-text">Infinite Views, One Source</h2>
-                <p class="parallax-text">Switch from Grid to Kanban, Calendar, or Form instantly. Your data adapts to how your team works best.</p>
-                <div class="cards-container parallax-text">
-                    <div class="card glass interactive">Kanban Board</div>
-                    <div class="card glass interactive">Calendar View</div>
-                    <div class="card glass interactive">Gantt Chart</div>
-                </div>
-            </div>
-        </section>
+    <section class="section features" id="features">
+      <div class="content right">
+        <h2 class="parallax-text">Intelligent Spreadsheets</h2>
+        <p class="parallax-text">Organize anything with relational databases disguised as simple spreadsheets. Connect
+          records, add rich field types, and filter with ease.</p>
+        <ul class="feature-list parallax-text">
+          <li><span class="icon">✨</span> Rich field types</li>
+          <li><span class="icon">🔗</span> Relational data</li>
+          <li><span class="icon">⚡</span> Real-time collaboration</li>
+        </ul>
+      </div>
+    </section>
 
-        <section class="section automations" id="automations">
-            <div class="content center">
-                <h2 class="parallax-text">Automate Your Workflows</h2>
-                <p class="parallax-text">Connect your tools, set triggers, and let our nodes handle the busywork. Seamless integrations across your entire stack.</p>
-                <div class="automation-nodes parallax-text">
-                    <div class="node glass interactive">Trigger: Record Updated</div>
-                    <div class="arrow">↓</div>
-                    <div class="node glass interactive">Action: Send Slack Message</div>
-                </div>
-            </div>
-        </section>
+    <section class="section views" id="views">
+      <div class="content left">
+        <h2 class="parallax-text">Infinite Views, One Source</h2>
+        <p class="parallax-text">Switch from Grid to Kanban, Calendar, or Form instantly. Your data adapts to how your
+          team works best.</p>
+        <div class="cards-container parallax-text">
+          <div class="card glass interactive">Kanban Board</div>
+          <div class="card glass interactive">Calendar View</div>
+          <div class="card glass interactive">Gantt Chart</div>
+        </div>
+      </div>
+    </section>
 
-        <section class="section pricing" id="pricing">
-             <div class="content center">
-                <h2 class="parallax-text">Simple, transparent pricing</h2>
-                <div class="pricing-cards parallax-text">
-                    <div class="pricing-card glass">
-                        <h3>Free</h3>
-                        <p class="price">$0<span>/mo</span></p>
-                        <p>For individuals starting out.</p>
-                        <button class="btn btn-outline" style="width:100%; margin-top:20px;">Get Started</button>
-                    </div>
-                    <div class="pricing-card glass featured">
-                        <h3>Pro</h3>
-                        <p class="price">$20<span>/user/mo</span></p>
-                        <p>For collaborative teams.</p>
-                        <button class="btn btn-primary" style="width:100%; margin-top:20px;">Upgrade to Pro</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <footer class="footer glass">
-            <p>&copy; 2026 Airtable Clone 3D. All rights reserved.</p>
-        </footer>
+    <section class="section automations" id="automations">
+      <div class="content center">
+        <h2 class="parallax-text">Automate Your Workflows</h2>
+        <p class="parallax-text">Connect your tools, set triggers, and let our nodes handle the busywork. Seamless
+          integrations across your entire stack.</p>
+        <div class="automation-nodes parallax-text">
+          <div class="node glass interactive">Trigger: Record Updated</div>
+          <div class="arrow">↓</div>
+          <div class="node glass interactive">Action: Send Slack Message</div>
+        </div>
+      </div>
+    </section>
 
-    </div>
+    <section class="section pricing" id="pricing">
+      <div class="content center">
+        <h2 class="parallax-text">Simple, transparent pricing</h2>
+        <div class="pricing-cards parallax-text">
+          <div class="pricing-card glass">
+            <h3>Free</h3>
+            <p class="price">$0<span>/mo</span></p>
+            <p>For individuals starting out.</p>
+            <button class="btn btn-outline" style="width:100%; margin-top:20px;">Get Started</button>
+          </div>
+          <div class="pricing-card glass featured">
+            <h3>Pro</h3>
+            <p class="price">$20<span>/user/mo</span></p>
+            <p>For collaborative teams.</p>
+            <button class="btn btn-primary" style="width:100%; margin-top:20px;">Upgrade to Pro</button>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <!-- Scripts -->
-    <!-- GSAP for scroll animations -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <!-- Three.js for 3D Background -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    
-    <script src="main.js"></script>
+    <footer class="footer glass">
+      <p>&copy; 2026 Airtable Clone 3D. All rights reserved.</p>
+    </footer>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
+  </div>
+
+  <!-- Scripts -->
+  <!-- GSAP for scroll animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <!-- Three.js for 3D Background -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <script src="main.js"></script>
+
+  <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+    <div id="dynamic-stripe-button"></div>
+    <script>
+      (function () {
+        var container = document.getElementById('dynamic-stripe-button');
+        var btn = document.createElement('stripe-buy-button');
+        var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+        if (isDev) {
+          btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
         } else {
-          window.location.href = '/sign-in';
+          btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
         }
-      };
-    }
-  </script>
-</div>
+        container.appendChild(btn);
+      })();
+    </script>
+    <div id="stripe-auth-overlay"
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+      title="Comprar"></div>
+    <script>
+      var overlay = document.getElementById('stripe-auth-overlay');
+      if (overlay) {
+        overlay.onclick = function () {
+          var params = new URLSearchParams(window.location.search);
+          if (params.get('auth') === '1') {
+            var checkoutUrl = params.get('checkout');
+            if (checkoutUrl) {
+              window.location.href = checkoutUrl;
+            }
+          } else {
+            window.location.href = '/sign-in';
+          }
+        };
+      }
+    </script>
+  </div>
 
 </body>
+
 </html>

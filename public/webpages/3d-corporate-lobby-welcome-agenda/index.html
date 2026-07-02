@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,457 +11,852 @@
     {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.158.0/examples/jsm/"}}
   </script>
   <style>
-    :root{
-      --bg:#05070c;
-      --bg2:#0a1222;
-      --panel:rgba(10,16,30,.72);
-      --panel-strong:rgba(10,16,30,.9);
-      --line:rgba(160,186,255,.18);
-      --text:#f4f7fb;
-      --muted:#9aa7bb;
-      --accent:#8bb4ff;
-      --accent2:#66e3c4;
-      --gold:#f5c66a;
-      --shadow:0 18px 60px rgba(0,0,0,.38);
-      --radius:24px;
+    :root {
+      --bg: #05070c;
+      --bg2: #0a1222;
+      --panel: rgba(10, 16, 30, .72);
+      --panel-strong: rgba(10, 16, 30, .9);
+      --line: rgba(160, 186, 255, .18);
+      --text: #f4f7fb;
+      --muted: #9aa7bb;
+      --accent: #8bb4ff;
+      --accent2: #66e3c4;
+      --gold: #f5c66a;
+      --shadow: 0 18px 60px rgba(0, 0, 0, .38);
+      --radius: 24px;
       --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      font-family:var(--font);
+
+    * {
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font);
       background:
-        radial-gradient(circle at 20% 10%, rgba(139,180,255,.16), transparent 24%),
-        radial-gradient(circle at 80% 0%, rgba(102,227,196,.12), transparent 20%),
+        radial-gradient(circle at 20% 10%, rgba(139, 180, 255, .16), transparent 24%),
+        radial-gradient(circle at 80% 0%, rgba(102, 227, 196, .12), transparent 20%),
         linear-gradient(180deg, #04070d 0%, #07101d 36%, #04070d 100%);
-      color:var(--text);
-      overflow-x:hidden;
+      color: var(--text);
+      overflow-x: hidden;
     }
-    a{color:inherit;text-decoration:none}
-    button,input,select,textarea{font:inherit}
 
-    #hero{
-      position:relative;
-      min-height:100vh;
-      overflow:hidden;
-      isolation:isolate;
+    a {
+      color: inherit;
+      text-decoration: none
     }
-    #hero::before{
-      content:"";
-      position:absolute;inset:0;
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit
+    }
+
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    #hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
       background:
-        linear-gradient(180deg, rgba(4,7,13,.15), rgba(4,7,13,.85)),
-        radial-gradient(circle at 50% 28%, rgba(255,255,255,.14), transparent 32%);
-      pointer-events:none;
-      z-index:1;
-    }
-    #canvas-wrap{
-      position:absolute;inset:0;
-      z-index:0;
-    }
-    #lobby-canvas{
-      width:100%;height:100%;display:block;
+        linear-gradient(180deg, rgba(4, 7, 13, .15), rgba(4, 7, 13, .85)),
+        radial-gradient(circle at 50% 28%, rgba(255, 255, 255, .14), transparent 32%);
+      pointer-events: none;
+      z-index: 1;
     }
 
-    .topbar{
-      position:fixed;left:0;right:0;top:0;z-index:30;
-      display:flex;align-items:center;gap:18px;
-      padding:16px 24px;
-      background:rgba(7,11,20,.42);
-      border-bottom:1px solid rgba(160,186,255,.12);
+    #canvas-wrap {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    #lobby-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .topbar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: 0;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 16px 24px;
+      background: rgba(7, 11, 20, .42);
+      border-bottom: 1px solid rgba(160, 186, 255, .12);
       backdrop-filter: blur(18px);
     }
-    .brand{
-      display:flex;align-items:center;gap:12px;
-      font-weight:800;letter-spacing:.18em;text-transform:uppercase;
-      white-space:nowrap;
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      white-space: nowrap;
     }
-    .brand-mark{
-      width:36px;height:36px;border-radius:12px;
-      background:linear-gradient(135deg, rgba(139,180,255,.95), rgba(102,227,196,.95));
-      box-shadow:0 0 30px rgba(139,180,255,.28);
-      display:grid;place-items:center;color:#05101a;font-weight:900;
+
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(139, 180, 255, .95), rgba(102, 227, 196, .95));
+      box-shadow: 0 0 30px rgba(139, 180, 255, .28);
+      display: grid;
+      place-items: center;
+      color: #05101a;
+      font-weight: 900;
     }
-    .nav{
-      margin-left:auto;
-      display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+
+    .nav {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
     }
-    .nav a,.nav button{
-      background:transparent;border:0;color:var(--muted);
-      cursor:pointer;padding:10px 0;font-size:.85rem;
-      transition:color .2s ease, transform .2s ease;
+
+    .nav a,
+    .nav button {
+      background: transparent;
+      border: 0;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 10px 0;
+      font-size: .85rem;
+      transition: color .2s ease, transform .2s ease;
     }
-    .nav a:hover,.nav button:hover{color:var(--text);transform:translateY(-1px)}
-    .nav-cta{
-      padding:11px 18px !important;
-      border-radius:999px;
-      background:linear-gradient(135deg, rgba(139,180,255,.2), rgba(102,227,196,.16));
-      border:1px solid rgba(139,180,255,.25) !important;
-      color:var(--text) !important;
-      box-shadow:0 10px 30px rgba(0,0,0,.18);
+
+    .nav a:hover,
+    .nav button:hover {
+      color: var(--text);
+      transform: translateY(-1px)
     }
-    .menu-toggle{
-      display:none;
-      margin-left:auto;
-      width:44px;height:44px;border-radius:14px;
-      border:1px solid rgba(160,186,255,.14);
-      background:rgba(10,16,30,.6);
-      color:var(--text);
+
+    .nav-cta {
+      padding: 11px 18px !important;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(139, 180, 255, .2), rgba(102, 227, 196, .16));
+      border: 1px solid rgba(139, 180, 255, .25) !important;
+      color: var(--text) !important;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .18);
     }
-    .mobile-drawer{
-      display:none;
-      position:fixed;top:72px;left:16px;right:16px;z-index:29;
-      padding:16px;border-radius:20px;
-      background:rgba(7,11,20,.9);
-      border:1px solid rgba(160,186,255,.16);
+
+    .menu-toggle {
+      display: none;
+      margin-left: auto;
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      border: 1px solid rgba(160, 186, 255, .14);
+      background: rgba(10, 16, 30, .6);
+      color: var(--text);
+    }
+
+    .mobile-drawer {
+      display: none;
+      position: fixed;
+      top: 72px;
+      left: 16px;
+      right: 16px;
+      z-index: 29;
+      padding: 16px;
+      border-radius: 20px;
+      background: rgba(7, 11, 20, .9);
+      border: 1px solid rgba(160, 186, 255, .16);
       backdrop-filter: blur(18px);
-      box-shadow:var(--shadow);
-    }
-    .mobile-drawer.open{display:grid;gap:8px}
-    .mobile-drawer a,.mobile-drawer button{
-      border:1px solid rgba(160,186,255,.12);
-      background:rgba(255,255,255,.03);
-      color:var(--text);
-      text-align:left;
-      padding:12px 14px;
-      border-radius:14px;
+      box-shadow: var(--shadow);
     }
 
-    .hero-inner{
-      position:relative;z-index:2;
-      min-height:100vh;
-      display:grid;
-      grid-template-columns:minmax(0, 1.2fr) minmax(320px, .8fr);
-      gap:28px;
-      align-items:end;
-      padding:110px 24px 48px;
-      max-width:1320px;margin:0 auto;
+    .mobile-drawer.open {
+      display: grid;
+      gap: 8px
     }
-    .hero-copy{
-      max-width:820px;
-      padding:24px 0 60px;
-      transform-style:preserve-3d;
+
+    .mobile-drawer a,
+    .mobile-drawer button {
+      border: 1px solid rgba(160, 186, 255, .12);
+      background: rgba(255, 255, 255, .03);
+      color: var(--text);
+      text-align: left;
+      padding: 12px 14px;
+      border-radius: 14px;
     }
-    .eyebrow{
-      display:inline-flex;align-items:center;gap:10px;
-      padding:9px 14px;border-radius:999px;
-      background:rgba(139,180,255,.12);
-      border:1px solid rgba(139,180,255,.2);
-      color:#dbe7ff;font-size:.75rem;font-weight:700;
-      letter-spacing:.14em;text-transform:uppercase;
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(320px, .8fr);
+      gap: 28px;
+      align-items: end;
+      padding: 110px 24px 48px;
+      max-width: 1320px;
+      margin: 0 auto;
     }
-    h1{
-      margin:18px 0 14px;
-      font-size:clamp(3rem, 6vw, 6.4rem);
-      line-height:.94;
-      letter-spacing:-.06em;
-      text-wrap:balance;
-      max-width:12ch;
-      transform:translateZ(40px);
+
+    .hero-copy {
+      max-width: 820px;
+      padding: 24px 0 60px;
+      transform-style: preserve-3d;
     }
-    .hero-copy p{
-      max-width:64ch;
-      font-size:clamp(1rem, 1.5vw, 1.18rem);
-      line-height:1.75;
-      color:#c3cfdf;
-      margin:0 0 22px;
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(139, 180, 255, .12);
+      border: 1px solid rgba(139, 180, 255, .2);
+      color: #dbe7ff;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
     }
-    .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
-    .btn{
-      border:0;border-radius:999px;
-      padding:14px 20px;
-      cursor:pointer;
-      font-weight:700;
-      transition:transform .2s ease, box-shadow .2s ease, background .2s ease;
+
+    h1 {
+      margin: 18px 0 14px;
+      font-size: clamp(3rem, 6vw, 6.4rem);
+      line-height: .94;
+      letter-spacing: -.06em;
+      text-wrap: balance;
+      max-width: 12ch;
+      transform: translateZ(40px);
     }
-    .btn:hover{transform:translateY(-2px)}
-    .btn.primary{
-      background:linear-gradient(135deg, #dbe8ff, #8bb4ff);
-      color:#08111f;
-      box-shadow:0 14px 40px rgba(139,180,255,.28);
+
+    .hero-copy p {
+      max-width: 64ch;
+      font-size: clamp(1rem, 1.5vw, 1.18rem);
+      line-height: 1.75;
+      color: #c3cfdf;
+      margin: 0 0 22px;
     }
-    .btn.secondary{
-      background:rgba(255,255,255,.04);
-      color:var(--text);
-      border:1px solid rgba(160,186,255,.16);
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px
     }
-    .hero-aside{
-      align-self:end;
-      display:grid;
-      gap:14px;
-      padding-bottom:24px;
+
+    .btn {
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 20px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
     }
-    .glass-card{
-      background:var(--panel);
-      border:1px solid rgba(160,186,255,.14);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
+
+    .btn:hover {
+      transform: translateY(-2px)
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, #dbe8ff, #8bb4ff);
+      color: #08111f;
+      box-shadow: 0 14px 40px rgba(139, 180, 255, .28);
+    }
+
+    .btn.secondary {
+      background: rgba(255, 255, 255, .04);
+      color: var(--text);
+      border: 1px solid rgba(160, 186, 255, .16);
+    }
+
+    .hero-aside {
+      align-self: end;
+      display: grid;
+      gap: 14px;
+      padding-bottom: 24px;
+    }
+
+    .glass-card {
+      background: var(--panel);
+      border: 1px solid rgba(160, 186, 255, .14);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
       backdrop-filter: blur(18px);
     }
-    .floating-board{
-      padding:18px;
-      transform:translateZ(20px);
-    }
-    .floating-board h3{margin:0 0 10px;font-size:1rem}
-    .floating-board .meta{
-      display:grid;gap:10px;
-      color:#c7d1df;font-size:.9rem;
-    }
-    .pill-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-    .pill{
-      padding:8px 10px;border-radius:999px;
-      background:rgba(255,255,255,.05);
-      border:1px solid rgba(160,186,255,.12);
-      font-size:.76rem;color:#dce5f1;
-    }
-    .stat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-    .stat{
-      padding:14px;border-radius:18px;
-      background:rgba(255,255,255,.03);
-      border:1px solid rgba(160,186,255,.11);
-    }
-    .stat strong{display:block;font-size:1.15rem;margin-bottom:4px}
-    .stat span{color:var(--muted);font-size:.82rem}
 
-    .section{
-      max-width:1320px;
-      margin:0 auto;
-      padding:90px 24px;
-      position:relative;
-    }
-    .section-header{
-      display:flex;justify-content:space-between;align-items:end;gap:18px;
-      margin-bottom:24px;flex-wrap:wrap;
-    }
-    .section-header h2{
-      margin:0;font-size:clamp(2rem, 3vw, 3.2rem);
-      letter-spacing:-.05em;line-height:1;
-    }
-    .section-header p{margin:0;color:var(--muted);max-width:70ch;line-height:1.7}
-
-    .grid{
-      display:grid;gap:16px;
-    }
-    .cards-4{grid-template-columns:repeat(4,minmax(0,1fr))}
-    .cards-3{grid-template-columns:repeat(3,minmax(0,1fr))}
-    .cards-2{grid-template-columns:repeat(2,minmax(0,1fr))}
-
-    .card{
-      padding:20px;
-      border-radius:24px;
-      background:linear-gradient(180deg, rgba(15,21,39,.96), rgba(7,11,20,.9));
-      border:1px solid rgba(160,186,255,.12);
-      box-shadow:var(--shadow);
-      transform:translateY(18px);
-      opacity:0;
-      transition:transform .7s ease, opacity .7s ease, border-color .2s ease;
-    }
-    .card.in-view{transform:translateY(0);opacity:1}
-    .card:hover{border-color:rgba(139,180,255,.3)}
-    .icon{
-      width:44px;height:44px;border-radius:16px;
-      display:grid;place-items:center;
-      background:linear-gradient(135deg, rgba(139,180,255,.18), rgba(102,227,196,.14));
-      border:1px solid rgba(160,186,255,.16);
-      margin-bottom:14px;
-      font-size:1.15rem;
-    }
-    .card h3,.card h4{margin:0 0 8px}
-    .card p{margin:0;color:var(--muted);line-height:1.7}
-
-    .lobby-metrics{
-      display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;
-      margin-top:18px;
+    .floating-board {
+      padding: 18px;
+      transform: translateZ(20px);
     }
 
-    .agenda-wrap{
-      display:grid;
-      grid-template-columns:1.1fr .9fr;
-      gap:18px;
-      align-items:start;
+    .floating-board h3 {
+      margin: 0 0 10px;
+      font-size: 1rem
     }
-    .timeline{display:grid;gap:14px}
-    .agenda-item{
-      padding:18px;border-radius:22px;
-      background:rgba(255,255,255,.03);
-      border:1px solid rgba(160,186,255,.12);
-      display:grid;gap:10px;
+
+    .floating-board .meta {
+      display: grid;
+      gap: 10px;
+      color: #c7d1df;
+      font-size: .9rem;
     }
-    .agenda-head{display:flex;justify-content:space-between;gap:12px;align-items:start;flex-wrap:wrap}
-    .agenda-time{font-size:1.1rem;font-weight:800;color:#dbe7ff}
-    .agenda-tag{
-      font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
-      color:#08111f;background:linear-gradient(135deg, #dbe8ff, #8bb4ff);
-      padding:7px 10px;border-radius:999px;
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px
     }
-    .agenda-controls{display:flex;flex-wrap:wrap;gap:10px}
-    .small-btn{
-      border-radius:999px;border:1px solid rgba(160,186,255,.16);
-      background:rgba(255,255,255,.03);color:var(--text);
-      padding:10px 14px;cursor:pointer;
+
+    .pill {
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .05);
+      border: 1px solid rgba(160, 186, 255, .12);
+      font-size: .76rem;
+      color: #dce5f1;
     }
-    .mini-panel{
-      padding:18px;border-radius:24px;
-      background:linear-gradient(180deg, rgba(20,28,49,.98), rgba(7,11,20,.94));
-      border:1px solid rgba(160,186,255,.12);
-      position:sticky;top:92px;
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px
     }
-    .mini-screen{
-      height:190px;border-radius:18px;
+
+    .stat {
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, .03);
+      border: 1px solid rgba(160, 186, 255, .11);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.15rem;
+      margin-bottom: 4px
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: .82rem
+    }
+
+    .section {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 90px 24px;
+      position: relative;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 18px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .section-header h2 {
+      margin: 0;
+      font-size: clamp(2rem, 3vw, 3.2rem);
+      letter-spacing: -.05em;
+      line-height: 1;
+    }
+
+    .section-header p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 70ch;
+      line-height: 1.7
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .cards-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr))
+    }
+
+    .cards-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr))
+    }
+
+    .cards-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr))
+    }
+
+    .card {
+      padding: 20px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(15, 21, 39, .96), rgba(7, 11, 20, .9));
+      border: 1px solid rgba(160, 186, 255, .12);
+      box-shadow: var(--shadow);
+      transform: translateY(18px);
+      opacity: 0;
+      transition: transform .7s ease, opacity .7s ease, border-color .2s ease;
+    }
+
+    .card.in-view {
+      transform: translateY(0);
+      opacity: 1
+    }
+
+    .card:hover {
+      border-color: rgba(139, 180, 255, .3)
+    }
+
+    .icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(139, 180, 255, .18), rgba(102, 227, 196, .14));
+      border: 1px solid rgba(160, 186, 255, .16);
+      margin-bottom: 14px;
+      font-size: 1.15rem;
+    }
+
+    .card h3,
+    .card h4 {
+      margin: 0 0 8px
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7
+    }
+
+    .lobby-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .agenda-wrap {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 14px
+    }
+
+    .agenda-item {
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, .03);
+      border: 1px solid rgba(160, 186, 255, .12);
+      display: grid;
+      gap: 10px;
+    }
+
+    .agenda-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: start;
+      flex-wrap: wrap
+    }
+
+    .agenda-time {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #dbe7ff
+    }
+
+    .agenda-tag {
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #08111f;
+      background: linear-gradient(135deg, #dbe8ff, #8bb4ff);
+      padding: 7px 10px;
+      border-radius: 999px;
+    }
+
+    .agenda-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px
+    }
+
+    .small-btn {
+      border-radius: 999px;
+      border: 1px solid rgba(160, 186, 255, .16);
+      background: rgba(255, 255, 255, .03);
+      color: var(--text);
+      padding: 10px 14px;
+      cursor: pointer;
+    }
+
+    .mini-panel {
+      padding: 18px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(20, 28, 49, .98), rgba(7, 11, 20, .94));
+      border: 1px solid rgba(160, 186, 255, .12);
+      position: sticky;
+      top: 92px;
+    }
+
+    .mini-screen {
+      height: 190px;
+      border-radius: 18px;
       background:
-        radial-gradient(circle at 30% 30%, rgba(139,180,255,.25), transparent 38%),
-        radial-gradient(circle at 70% 20%, rgba(102,227,196,.18), transparent 26%),
-        linear-gradient(180deg, rgba(11,18,32,.94), rgba(5,8,14,.98));
-      border:1px solid rgba(160,186,255,.12);
-      margin-bottom:14px;
-      padding:18px;
-      display:flex;flex-direction:column;justify-content:space-between;
-    }
-    .screen-title{font-size:1.05rem;font-weight:800}
-    .screen-list{display:grid;gap:10px;color:#d6e1ef;font-size:.88rem}
-    .screen-pill{
-      display:inline-flex;align-items:center;gap:8px;
-      padding:8px 12px;border-radius:999px;
-      background:rgba(255,255,255,.04);
-      border:1px solid rgba(160,186,255,.1);
-      width:max-content;
+        radial-gradient(circle at 30% 30%, rgba(139, 180, 255, .25), transparent 38%),
+        radial-gradient(circle at 70% 20%, rgba(102, 227, 196, .18), transparent 26%),
+        linear-gradient(180deg, rgba(11, 18, 32, .94), rgba(5, 8, 14, .98));
+      border: 1px solid rgba(160, 186, 255, .12);
+      margin-bottom: 14px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
-    form{
-      display:grid;gap:14px;
+    .screen-title {
+      font-size: 1.05rem;
+      font-weight: 800
     }
-    .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-    input,select,textarea{
-      width:100%;
-      background:rgba(255,255,255,.04);
-      color:var(--text);
-      border:1px solid rgba(160,186,255,.14);
-      border-radius:16px;
-      padding:14px 14px;
-      outline:none;
-    }
-    textarea{min-height:140px;resize:vertical}
-    input:focus,select:focus,textarea:focus{border-color:rgba(139,180,255,.45);box-shadow:0 0 0 4px rgba(139,180,255,.09)}
-    .form-actions{display:flex;flex-wrap:wrap;gap:10px}
-    .helper{font-size:.88rem;color:var(--muted);line-height:1.6}
 
-    .map-wrap{
-      display:grid;grid-template-columns:1fr .9fr;gap:18px;align-items:start;
+    .screen-list {
+      display: grid;
+      gap: 10px;
+      color: #d6e1ef;
+      font-size: .88rem
     }
-    .map{
-      min-height:420px;
-      border-radius:28px;
+
+    .screen-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid rgba(160, 186, 255, .1);
+      width: max-content;
+    }
+
+    form {
+      display: grid;
+      gap: 14px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      background: rgba(255, 255, 255, .04);
+      color: var(--text);
+      border: 1px solid rgba(160, 186, 255, .14);
+      border-radius: 16px;
+      padding: 14px 14px;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 140px;
+      resize: vertical
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: rgba(139, 180, 255, .45);
+      box-shadow: 0 0 0 4px rgba(139, 180, 255, .09)
+    }
+
+    .form-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px
+    }
+
+    .helper {
+      font-size: .88rem;
+      color: var(--muted);
+      line-height: 1.6
+    }
+
+    .map-wrap {
+      display: grid;
+      grid-template-columns: 1fr .9fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .map {
+      min-height: 420px;
+      border-radius: 28px;
       background:
-        linear-gradient(180deg, rgba(8,13,24,.8), rgba(12,18,32,.96)),
-        radial-gradient(circle at 50% 50%, rgba(139,180,255,.12), transparent 34%);
-      border:1px solid rgba(160,186,255,.12);
-      padding:18px;
-      position:relative;
-      overflow:hidden;
-    }
-    .map-grid{
-      position:absolute;inset:18px;
-      display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(3,1fr);
-      gap:10px;
-    }
-    .zone{
-      border-radius:18px;
-      background:rgba(255,255,255,.03);
-      border:1px solid rgba(160,186,255,.11);
-      padding:14px;
-      display:flex;align-items:end;justify-content:space-between;
-      min-height:100px;
-      transition:transform .2s ease, border-color .2s ease, background .2s ease;
-    }
-    .zone.active{
-      background:rgba(139,180,255,.12);
-      border-color:rgba(139,180,255,.4);
-      transform:translateY(-2px) scale(1.01);
-    }
-    .zone span{font-weight:700}
-    .route-line{
-      position:absolute;left:50%;top:14%;width:2px;height:72%;
-      background:linear-gradient(180deg, rgba(102,227,196,.8), rgba(139,180,255,.05));
-      transform-origin:top;
-      animation:pulse 2.2s ease-in-out infinite;
-      box-shadow:0 0 30px rgba(102,227,196,.4);
-    }
-    @keyframes pulse{
-      0%,100%{opacity:.7;transform:translateX(-50%) scaleY(.95)}
-      50%{opacity:1;transform:translateX(-50%) scaleY(1)}
+        linear-gradient(180deg, rgba(8, 13, 24, .8), rgba(12, 18, 32, .96)),
+        radial-gradient(circle at 50% 50%, rgba(139, 180, 255, .12), transparent 34%);
+      border: 1px solid rgba(160, 186, 255, .12);
+      padding: 18px;
+      position: relative;
+      overflow: hidden;
     }
 
-    .modal{
-      position:fixed;inset:0;z-index:60;
-      background:rgba(2,4,8,.7);
-      display:none;align-items:center;justify-content:center;
-      padding:20px;
+    .map-grid {
+      position: absolute;
+      inset: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-rows: repeat(3, 1fr);
+      gap: 10px;
     }
-    .modal.open{display:flex}
-    .modal-card{
-      width:min(720px,100%);
-      background:linear-gradient(180deg, rgba(15,21,39,.98), rgba(7,11,20,.98));
-      border:1px solid rgba(160,186,255,.14);
-      border-radius:28px;
-      box-shadow:var(--shadow);
-      padding:22px;
-    }
-    .modal-head{display:flex;justify-content:space-between;gap:12px;align-items:start;margin-bottom:16px}
-    .modal-head h3{margin:0;font-size:1.45rem}
-    .close{
-      width:42px;height:42px;border-radius:14px;
-      border:1px solid rgba(160,186,255,.14);
-      background:rgba(255,255,255,.04);color:var(--text);cursor:pointer;
-    }
-    .toast{
-      position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(16px);
-      opacity:0;z-index:70;
-      background:rgba(10,16,30,.95);
-      border:1px solid rgba(160,186,255,.14);
-      color:var(--text);
-      padding:12px 16px;border-radius:999px;
-      box-shadow:var(--shadow);
-      transition:opacity .25s ease, transform .25s ease;
-      pointer-events:none;
-    }
-    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-    .footer{
-      padding:20px 24px 42px;
-      max-width:1320px;margin:0 auto;
-      color:var(--muted);
-      display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;
+    .zone {
+      border-radius: 18px;
+      background: rgba(255, 255, 255, .03);
+      border: 1px solid rgba(160, 186, 255, .11);
+      padding: 14px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      min-height: 100px;
+      transition: transform .2s ease, border-color .2s ease, background .2s ease;
     }
-    .footer strong{color:var(--text)}
 
-    @media (max-width: 1100px){
-      .hero-inner,.agenda-wrap,.map-wrap{grid-template-columns:1fr}
-      .hero-aside{padding-bottom:0}
-      .mini-panel{position:relative;top:auto}
-      .cards-4,.cards-3{grid-template-columns:repeat(2,minmax(0,1fr))}
-      .lobby-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .zone.active {
+      background: rgba(139, 180, 255, .12);
+      border-color: rgba(139, 180, 255, .4);
+      transform: translateY(-2px) scale(1.01);
     }
-    @media (max-width: 760px){
-      .topbar{padding:14px 16px}
-      .nav{display:none}
-      .menu-toggle{display:block}
-      .hero-inner{padding:100px 16px 34px}
-      .section{padding:72px 16px}
-      .cards-4,.cards-3,.cards-2,.form-grid,.lobby-metrics{grid-template-columns:1fr}
-      h1{max-width:11ch}
-      .map-grid{grid-template-columns:1fr 1fr;grid-template-rows:repeat(5,1fr)}
+
+    .zone span {
+      font-weight: 700
     }
-    @media (prefers-reduced-motion: reduce){
-      html{scroll-behavior:auto}
-      .card,.toast,.zone{transition:none}
-      .route-line{animation:none}
+
+    .route-line {
+      position: absolute;
+      left: 50%;
+      top: 14%;
+      width: 2px;
+      height: 72%;
+      background: linear-gradient(180deg, rgba(102, 227, 196, .8), rgba(139, 180, 255, .05));
+      transform-origin: top;
+      animation: pulse 2.2s ease-in-out infinite;
+      box-shadow: 0 0 30px rgba(102, 227, 196, .4);
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: .7;
+        transform: translateX(-50%) scaleY(.95)
+      }
+
+      50% {
+        opacity: 1;
+        transform: translateX(-50%) scaleY(1)
+      }
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      background: rgba(2, 4, 8, .7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal.open {
+      display: flex
+    }
+
+    .modal-card {
+      width: min(720px, 100%);
+      background: linear-gradient(180deg, rgba(15, 21, 39, .98), rgba(7, 11, 20, .98));
+      border: 1px solid rgba(160, 186, 255, .14);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      padding: 22px;
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: start;
+      margin-bottom: 16px
+    }
+
+    .modal-head h3 {
+      margin: 0;
+      font-size: 1.45rem
+    }
+
+    .close {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      border: 1px solid rgba(160, 186, 255, .14);
+      background: rgba(255, 255, 255, .04);
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      transform: translateX(-50%) translateY(16px);
+      opacity: 0;
+      z-index: 70;
+      background: rgba(10, 16, 30, .95);
+      border: 1px solid rgba(160, 186, 255, .14);
+      color: var(--text);
+      padding: 12px 16px;
+      border-radius: 999px;
+      box-shadow: var(--shadow);
+      transition: opacity .25s ease, transform .25s ease;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0)
+    }
+
+    .footer {
+      padding: 20px 24px 42px;
+      max-width: 1320px;
+      margin: 0 auto;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .footer strong {
+      color: var(--text)
+    }
+
+    @media (max-width: 1100px) {
+
+      .hero-inner,
+      .agenda-wrap,
+      .map-wrap {
+        grid-template-columns: 1fr
+      }
+
+      .hero-aside {
+        padding-bottom: 0
+      }
+
+      .mini-panel {
+        position: relative;
+        top: auto
+      }
+
+      .cards-4,
+      .cards-3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr))
+      }
+
+      .lobby-metrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr))
+      }
+    }
+
+    @media (max-width: 760px) {
+      .topbar {
+        padding: 14px 16px
+      }
+
+      .nav {
+        display: none
+      }
+
+      .menu-toggle {
+        display: block
+      }
+
+      .hero-inner {
+        padding: 100px 16px 34px
+      }
+
+      .section {
+        padding: 72px 16px
+      }
+
+      .cards-4,
+      .cards-3,
+      .cards-2,
+      .form-grid,
+      .lobby-metrics {
+        grid-template-columns: 1fr
+      }
+
+      h1 {
+        max-width: 11ch
+      }
+
+      .map-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: repeat(5, 1fr)
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto
+      }
+
+      .card,
+      .toast,
+      .zone {
+        transition: none
+      }
+
+      .route-line {
+        animation: none
+      }
     }
   </style>
 </head>
+
 <body>
   <header class="topbar">
-    <div class="brand"><div class="brand-mark">3D</div>LOBBY 3D</div>
+    <div class="brand">
+      <div class="brand-mark">3D</div>LOBBY 3D
+    </div>
     <nav class="nav" aria-label="Primary">
       <a href="#hero">Home</a>
       <a href="#welcome">Welcome</a>
@@ -493,7 +889,8 @@
         <div class="hero-copy">
           <span class="eyebrow">Premium digital reception experience</span>
           <h1>Welcome Guests Through an Immersive 3D Corporate Lobby</h1>
-          <p>Guide visitors, clients and teams through a premium lobby experience with personalized welcome screens, agenda cards, room directions and interactive check-in.</p>
+          <p>Guide visitors, clients and teams through a premium lobby experience with personalized welcome screens,
+            agenda cards, room directions and interactive check-in.</p>
           <div class="actions">
             <button class="btn primary" id="enter-lobby">Enter Lobby</button>
             <button class="btn secondary" id="view-agenda">View Agenda</button>
@@ -533,14 +930,31 @@
       <div class="section-header">
         <div>
           <h2>A Personalized Welcome for Every Visitor</h2>
-          <p>The lobby experience adapts to guests, clients, employees, candidates and partners with branded screens, guided directions and contextual prompts.</p>
+          <p>The lobby experience adapts to guests, clients, employees, candidates and partners with branded screens,
+            guided directions and contextual prompts.</p>
         </div>
       </div>
       <div class="grid cards-4">
-        <article class="card"><div class="icon">👋</div><h3>Guest Greeting</h3><p>Warm, personalized welcomes that match the visitor's reason for arriving.</p></article>
-        <article class="card"><div class="icon">🏢</div><h3>Company Branding</h3><p>Premium visual language, signage and illuminated identity across the lobby.</p></article>
-        <article class="card"><div class="icon">🧭</div><h3>Reception Guidance</h3><p>Guided navigation for check-in, hosts, rooms and the right next step.</p></article>
-        <article class="card"><div class="icon">🪪</div><h3>Visitor Context</h3><p>Meeting, event and onboarding context shown in a clear and elegant format.</p></article>
+        <article class="card">
+          <div class="icon">👋</div>
+          <h3>Guest Greeting</h3>
+          <p>Warm, personalized welcomes that match the visitor's reason for arriving.</p>
+        </article>
+        <article class="card">
+          <div class="icon">🏢</div>
+          <h3>Company Branding</h3>
+          <p>Premium visual language, signage and illuminated identity across the lobby.</p>
+        </article>
+        <article class="card">
+          <div class="icon">🧭</div>
+          <h3>Reception Guidance</h3>
+          <p>Guided navigation for check-in, hosts, rooms and the right next step.</p>
+        </article>
+        <article class="card">
+          <div class="icon">🪪</div>
+          <h3>Visitor Context</h3>
+          <p>Meeting, event and onboarding context shown in a clear and elegant format.</p>
+        </article>
       </div>
     </section>
 
@@ -548,52 +962,110 @@
       <div class="section-header">
         <div>
           <h2>Executive Agenda</h2>
-          <p>Scroll through the day and update the lobby screen by choosing any session. Each block can reveal more details in a modal.</p>
+          <p>Scroll through the day and update the lobby screen by choosing any session. Each block can reveal more
+            details in a modal.</p>
         </div>
       </div>
       <div class="agenda-wrap">
         <div class="timeline">
           <div class="agenda-item card">
-            <div class="agenda-head"><div><div class="agenda-time">09:00</div><h3>Executive Welcome</h3></div><div class="agenda-tag">Main Hall</div></div>
+            <div class="agenda-head">
+              <div>
+                <div class="agenda-time">09:00</div>
+                <h3>Executive Welcome</h3>
+              </div>
+              <div class="agenda-tag">Main Hall</div>
+            </div>
             <p>Host: Sarah Chen. Status: Live welcome reception for arriving guests.</p>
-            <div class="agenda-controls"><button class="small-btn details-btn" data-title="Executive Welcome" data-room="Main Hall" data-desc="Opening greetings, badge pickup and premium arrival guidance." data-host="Sarah Chen">View Details</button></div>
+            <div class="agenda-controls"><button class="small-btn details-btn" data-title="Executive Welcome"
+                data-room="Main Hall" data-desc="Opening greetings, badge pickup and premium arrival guidance."
+                data-host="Sarah Chen">View Details</button></div>
           </div>
           <div class="agenda-item card">
-            <div class="agenda-head"><div><div class="agenda-time">09:30</div><h3>Strategy Briefing</h3></div><div class="agenda-tag">Boardroom Alpha</div></div>
+            <div class="agenda-head">
+              <div>
+                <div class="agenda-time">09:30</div>
+                <h3>Strategy Briefing</h3>
+              </div>
+              <div class="agenda-tag">Boardroom Alpha</div>
+            </div>
             <p>Host: Daniel Ruiz. Status: Briefing deck and room directions now active.</p>
-            <div class="agenda-controls"><button class="small-btn details-btn" data-title="Strategy Briefing" data-room="Boardroom Alpha" data-desc="Leadership strategy update with live room guidance." data-host="Daniel Ruiz">View Details</button></div>
+            <div class="agenda-controls"><button class="small-btn details-btn" data-title="Strategy Briefing"
+                data-room="Boardroom Alpha" data-desc="Leadership strategy update with live room guidance."
+                data-host="Daniel Ruiz">View Details</button></div>
           </div>
           <div class="agenda-item card">
-            <div class="agenda-head"><div><div class="agenda-time">10:30</div><h3>Product Demo</h3></div><div class="agenda-tag">Innovation Lab</div></div>
+            <div class="agenda-head">
+              <div>
+                <div class="agenda-time">10:30</div>
+                <h3>Product Demo</h3>
+              </div>
+              <div class="agenda-tag">Innovation Lab</div>
+            </div>
             <p>Host: Maya Chen. Status: Demo space prepared with a guided visitor track.</p>
-            <div class="agenda-controls"><button class="small-btn details-btn" data-title="Product Demo" data-room="Innovation Lab" data-desc="Interactive showcase for clients and internal teams." data-host="Maya Chen">View Details</button></div>
+            <div class="agenda-controls"><button class="small-btn details-btn" data-title="Product Demo"
+                data-room="Innovation Lab" data-desc="Interactive showcase for clients and internal teams."
+                data-host="Maya Chen">View Details</button></div>
           </div>
           <div class="agenda-item card">
-            <div class="agenda-head"><div><div class="agenda-time">11:30</div><h3>Boardroom Meeting</h3></div><div class="agenda-tag">Executive Suite</div></div>
+            <div class="agenda-head">
+              <div>
+                <div class="agenda-time">11:30</div>
+                <h3>Boardroom Meeting</h3>
+              </div>
+              <div class="agenda-tag">Executive Suite</div>
+            </div>
             <p>Host: Noah Bennett. Status: Private meeting access and direct routing.</p>
-            <div class="agenda-controls"><button class="small-btn details-btn" data-title="Boardroom Meeting" data-room="Executive Suite" data-desc="Private client meeting with secure access support." data-host="Noah Bennett">View Details</button></div>
+            <div class="agenda-controls"><button class="small-btn details-btn" data-title="Boardroom Meeting"
+                data-room="Executive Suite" data-desc="Private client meeting with secure access support."
+                data-host="Noah Bennett">View Details</button></div>
           </div>
           <div class="agenda-item card">
-            <div class="agenda-head"><div><div class="agenda-time">13:00</div><h3>Networking Lunch</h3></div><div class="agenda-tag">Client Lounge</div></div>
+            <div class="agenda-head">
+              <div>
+                <div class="agenda-time">13:00</div>
+                <h3>Networking Lunch</h3>
+              </div>
+              <div class="agenda-tag">Client Lounge</div>
+            </div>
             <p>Host: Emma Clarke. Status: Hospitality lounge and refreshment flow enabled.</p>
-            <div class="agenda-controls"><button class="small-btn details-btn" data-title="Networking Lunch" data-room="Client Lounge" data-desc="Relaxed hospitality area with premium visitor experience." data-host="Emma Clarke">View Details</button></div>
+            <div class="agenda-controls"><button class="small-btn details-btn" data-title="Networking Lunch"
+                data-room="Client Lounge" data-desc="Relaxed hospitality area with premium visitor experience."
+                data-host="Emma Clarke">View Details</button></div>
           </div>
           <div class="agenda-item card">
-            <div class="agenda-head"><div><div class="agenda-time">15:00</div><h3>Innovation Lab Tour</h3></div><div class="agenda-tag">Tour Route</div></div>
+            <div class="agenda-head">
+              <div>
+                <div class="agenda-time">15:00</div>
+                <h3>Innovation Lab Tour</h3>
+              </div>
+              <div class="agenda-tag">Tour Route</div>
+            </div>
             <p>Host: Maya Chen. Status: Guided route with directions and updates.</p>
-            <div class="agenda-controls"><button class="small-btn details-btn" data-title="Innovation Lab Tour" data-room="Innovation Lab" data-desc="Walking tour through the innovation floor and live demos." data-host="Maya Chen">View Details</button></div>
+            <div class="agenda-controls"><button class="small-btn details-btn" data-title="Innovation Lab Tour"
+                data-room="Innovation Lab" data-desc="Walking tour through the innovation floor and live demos."
+                data-host="Maya Chen">View Details</button></div>
           </div>
           <div class="agenda-item card">
-            <div class="agenda-head"><div><div class="agenda-time">16:30</div><h3>Closing Session</h3></div><div class="agenda-tag">Main Hall</div></div>
+            <div class="agenda-head">
+              <div>
+                <div class="agenda-time">16:30</div>
+                <h3>Closing Session</h3>
+              </div>
+              <div class="agenda-tag">Main Hall</div>
+            </div>
             <p>Host: Sarah Chen. Status: Day close and visitor check-out reminder.</p>
-            <div class="agenda-controls"><button class="small-btn details-btn" data-title="Closing Session" data-room="Main Hall" data-desc="Wrap-up, thank-you message and departure guidance." data-host="Sarah Chen">View Details</button></div>
+            <div class="agenda-controls"><button class="small-btn details-btn" data-title="Closing Session"
+                data-room="Main Hall" data-desc="Wrap-up, thank-you message and departure guidance."
+                data-host="Sarah Chen">View Details</button></div>
           </div>
         </div>
         <div class="mini-panel glass-card">
           <div class="mini-screen">
             <div>
               <div class="screen-title" id="lobby-screen-title">Welcome Screen</div>
-              <div class="helper" id="lobby-screen-copy">Select a session to update the lobby display and change the visual narrative.</div>
+              <div class="helper" id="lobby-screen-copy">Select a session to update the lobby display and change the
+                visual narrative.</div>
             </div>
             <div class="screen-list" id="lobby-screen-list">
               <div>Visitor check-in active</div>
@@ -601,7 +1073,8 @@
               <div>Room directions updated live</div>
             </div>
           </div>
-          <p class="helper">The canvas scene and this panel respond together to create a guided, premium lobby storytelling flow.</p>
+          <p class="helper">The canvas scene and this panel respond together to create a guided, premium lobby
+            storytelling flow.</p>
         </div>
       </div>
     </section>
@@ -610,7 +1083,8 @@
       <div class="section-header">
         <div>
           <h2>Visitor Check-In</h2>
-          <p>Quick registration with validation and a badge confirmation state. The buttons below update the flow without leaving the page.</p>
+          <p>Quick registration with validation and a badge confirmation state. The buttons below update the flow
+            without leaving the page.</p>
         </div>
       </div>
       <div class="grid cards-2">
@@ -640,7 +1114,8 @@
         <div class="card">
           <div class="icon">🪪</div>
           <h3>Badge Preview</h3>
-          <p id="badge-state">No visitor registered yet. Complete the form to activate the welcome badge and arrival confirmation.</p>
+          <p id="badge-state">No visitor registered yet. Complete the form to activate the welcome badge and arrival
+            confirmation.</p>
           <div class="glass-card" style="margin-top:16px;padding:18px;border-radius:20px">
             <div class="screen-pill" id="badge-name">Visitor: Pending</div>
             <div class="screen-pill" id="badge-company" style="margin-top:10px">Company: Pending</div>
@@ -654,16 +1129,47 @@
       <div class="section-header">
         <div>
           <h2>Meeting Rooms</h2>
-          <p>Premium room cards with capacity, location and amenities. The selected room also updates the lobby screen narrative.</p>
+          <p>Premium room cards with capacity, location and amenities. The selected room also updates the lobby screen
+            narrative.</p>
         </div>
       </div>
       <div class="grid cards-3">
-        <article class="card room-card"><div class="icon">A</div><h3>Boardroom Alpha</h3><p>12 seats · Floor 2 · Display, conferencing, and secure access.</p><button class="small-btn room-btn" data-room="Boardroom Alpha">View Room</button></article>
-        <article class="card room-card"><div class="icon">I</div><h3>Innovation Lab</h3><p>18 seats · Floor 3 · Demo wall, prototypes, and flexible seating.</p><button class="small-btn room-btn" data-room="Innovation Lab">View Room</button></article>
-        <article class="card room-card"><div class="icon">E</div><h3>Executive Suite</h3><p>8 seats · Floor 4 · Private lounge, polished table, and concierge support.</p><button class="small-btn room-btn" data-room="Executive Suite">View Room</button></article>
-        <article class="card room-card"><div class="icon">C</div><h3>Client Lounge</h3><p>20 seats · Ground floor · Hospitality, refreshments, and informal meetings.</p><button class="small-btn room-btn" data-room="Client Lounge">View Room</button></article>
-        <article class="card room-card"><div class="icon">T</div><h3>Training Room</h3><p>24 seats · Floor 1 · Workshop projection and modular desks.</p><button class="small-btn room-btn" data-room="Training Room">View Room</button></article>
-        <article class="card room-card"><div class="icon">S</div><h3>Strategy Room</h3><p>10 seats · Floor 4 · Planning wall, video link, and quiet focus.</p><button class="small-btn room-btn" data-room="Strategy Room">View Room</button></article>
+        <article class="card room-card">
+          <div class="icon">A</div>
+          <h3>Boardroom Alpha</h3>
+          <p>12 seats · Floor 2 · Display, conferencing, and secure access.</p><button class="small-btn room-btn"
+            data-room="Boardroom Alpha">View Room</button>
+        </article>
+        <article class="card room-card">
+          <div class="icon">I</div>
+          <h3>Innovation Lab</h3>
+          <p>18 seats · Floor 3 · Demo wall, prototypes, and flexible seating.</p><button class="small-btn room-btn"
+            data-room="Innovation Lab">View Room</button>
+        </article>
+        <article class="card room-card">
+          <div class="icon">E</div>
+          <h3>Executive Suite</h3>
+          <p>8 seats · Floor 4 · Private lounge, polished table, and concierge support.</p><button
+            class="small-btn room-btn" data-room="Executive Suite">View Room</button>
+        </article>
+        <article class="card room-card">
+          <div class="icon">C</div>
+          <h3>Client Lounge</h3>
+          <p>20 seats · Ground floor · Hospitality, refreshments, and informal meetings.</p><button
+            class="small-btn room-btn" data-room="Client Lounge">View Room</button>
+        </article>
+        <article class="card room-card">
+          <div class="icon">T</div>
+          <h3>Training Room</h3>
+          <p>24 seats · Floor 1 · Workshop projection and modular desks.</p><button class="small-btn room-btn"
+            data-room="Training Room">View Room</button>
+        </article>
+        <article class="card room-card">
+          <div class="icon">S</div>
+          <h3>Strategy Room</h3>
+          <p>10 seats · Floor 4 · Planning wall, video link, and quiet focus.</p><button class="small-btn room-btn"
+            data-room="Strategy Room">View Room</button>
+        </article>
       </div>
     </section>
 
@@ -671,7 +1177,8 @@
       <div class="section-header">
         <div>
           <h2>Directions & Building Map</h2>
-          <p>Choose a destination to highlight the route. The layout is deliberately clean, with visual emphasis on the reception-to-room journey.</p>
+          <p>Choose a destination to highlight the route. The layout is deliberately clean, with visual emphasis on the
+            reception-to-room journey.</p>
         </div>
       </div>
       <div class="map-wrap">
@@ -705,10 +1212,30 @@
         </div>
       </div>
       <div class="grid cards-4">
-        <article class="card host-card"><div class="icon">EC</div><h3>Emma Clarke</h3><p>Executive Host · Boardroom Alpha</p><button class="small-btn host-btn" data-host="Emma Clarke">Contact Host</button></article>
-        <article class="card host-card"><div class="icon">DR</div><h3>Daniel Ruiz</h3><p>Product Lead · Strategy Room</p><button class="small-btn host-btn" data-host="Daniel Ruiz">Contact Host</button></article>
-        <article class="card host-card"><div class="icon">MC</div><h3>Maya Chen</h3><p>Innovation Director · Innovation Lab</p><button class="small-btn host-btn" data-host="Maya Chen">Contact Host</button></article>
-        <article class="card host-card"><div class="icon">NB</div><h3>Noah Bennett</h3><p>Client Success Manager · Executive Suite</p><button class="small-btn host-btn" data-host="Noah Bennett">Contact Host</button></article>
+        <article class="card host-card">
+          <div class="icon">EC</div>
+          <h3>Emma Clarke</h3>
+          <p>Executive Host · Boardroom Alpha</p><button class="small-btn host-btn" data-host="Emma Clarke">Contact
+            Host</button>
+        </article>
+        <article class="card host-card">
+          <div class="icon">DR</div>
+          <h3>Daniel Ruiz</h3>
+          <p>Product Lead · Strategy Room</p><button class="small-btn host-btn" data-host="Daniel Ruiz">Contact
+            Host</button>
+        </article>
+        <article class="card host-card">
+          <div class="icon">MC</div>
+          <h3>Maya Chen</h3>
+          <p>Innovation Director · Innovation Lab</p><button class="small-btn host-btn" data-host="Maya Chen">Contact
+            Host</button>
+        </article>
+        <article class="card host-card">
+          <div class="icon">NB</div>
+          <h3>Noah Bennett</h3>
+          <p>Client Success Manager · Executive Suite</p><button class="small-btn host-btn"
+            data-host="Noah Bennett">Contact Host</button>
+        </article>
       </div>
     </section>
 
@@ -720,9 +1247,21 @@
         </div>
       </div>
       <div class="grid cards-3">
-        <article class="card"><div class="icon">⏱️</div><h3>Reduce waiting time</h3><p>Guests see exactly what happens next and where to go.</p></article>
-        <article class="card"><div class="icon">📣</div><h3>Notify hosts instantly</h3><p>Check-in and room selection trigger immediate visibility for hosts.</p></article>
-        <article class="card"><div class="icon">✨</div><h3>Create a premium arrival</h3><p>Warm visuals, calm navigation and refined details build trust immediately.</p></article>
+        <article class="card">
+          <div class="icon">⏱️</div>
+          <h3>Reduce waiting time</h3>
+          <p>Guests see exactly what happens next and where to go.</p>
+        </article>
+        <article class="card">
+          <div class="icon">📣</div>
+          <h3>Notify hosts instantly</h3>
+          <p>Check-in and room selection trigger immediate visibility for hosts.</p>
+        </article>
+        <article class="card">
+          <div class="icon">✨</div>
+          <h3>Create a premium arrival</h3>
+          <p>Warm visuals, calm navigation and refined details build trust immediately.</p>
+        </article>
       </div>
     </section>
 
@@ -734,9 +1273,21 @@
         </div>
       </div>
       <div class="grid cards-3">
-        <article class="card"><div class="icon">🔐</div><h3>Digital Visitor Badge</h3><p>Temporary identity for guests, tied to the day’s agenda and host assignment.</p></article>
-        <article class="card"><div class="icon">✅</div><h3>Access Approval</h3><p>Approvals and route guidance keep the lobby secure and smooth.</p></article>
-        <article class="card"><div class="icon">📝</div><h3>NDA Reminder</h3><p>Reminders appear at the right moment without interrupting the welcome flow.</p></article>
+        <article class="card">
+          <div class="icon">🔐</div>
+          <h3>Digital Visitor Badge</h3>
+          <p>Temporary identity for guests, tied to the day’s agenda and host assignment.</p>
+        </article>
+        <article class="card">
+          <div class="icon">✅</div>
+          <h3>Access Approval</h3>
+          <p>Approvals and route guidance keep the lobby secure and smooth.</p>
+        </article>
+        <article class="card">
+          <div class="icon">📝</div>
+          <h3>NDA Reminder</h3>
+          <p>Reminders appear at the right moment without interrupting the welcome flow.</p>
+        </article>
       </div>
       <div class="actions" style="margin-top:16px">
         <button class="btn secondary" id="view-access-flow">View Access Flow</button>
@@ -751,9 +1302,21 @@
         </div>
       </div>
       <div class="grid cards-3">
-        <article class="card"><div class="icon">🛋️</div><h3>Lounge seating</h3><p>Comfortable seating arranged for relaxed arrivals and informal meetings.</p></article>
-        <article class="card"><div class="icon">☕</div><h3>Welcome drinks</h3><p>Simple hospitality that adds a polished, human touch.</p></article>
-        <article class="card"><div class="icon">📺</div><h3>Company video wall</h3><p>Display brand story, agenda highlights and wayfinding content.</p></article>
+        <article class="card">
+          <div class="icon">🛋️</div>
+          <h3>Lounge seating</h3>
+          <p>Comfortable seating arranged for relaxed arrivals and informal meetings.</p>
+        </article>
+        <article class="card">
+          <div class="icon">☕</div>
+          <h3>Welcome drinks</h3>
+          <p>Simple hospitality that adds a polished, human touch.</p>
+        </article>
+        <article class="card">
+          <div class="icon">📺</div>
+          <h3>Company video wall</h3>
+          <p>Display brand story, agenda highlights and wayfinding content.</p>
+        </article>
       </div>
     </section>
 
@@ -776,7 +1339,8 @@
       <div class="section-header">
         <div>
           <h2>Contact</h2>
-          <p>Request a demo or configure the lobby for corporate events, onboarding, client visits and executive receptions.</p>
+          <p>Request a demo or configure the lobby for corporate events, onboarding, client visits and executive
+            receptions.</p>
         </div>
       </div>
       <div class="grid cards-2">
@@ -805,7 +1369,8 @@
           <h3>Contact details</h3>
           <p>Email: hello@lobby3d.example</p>
           <p>Phone: +1 (555) 012-2048</p>
-          <p class="helper">Use the form to simulate a premium demo request. We keep the interaction self-contained so every button still performs a visible action.</p>
+          <p class="helper">Use the form to simulate a premium demo request. We keep the interaction self-contained so
+            every button still performs a visible action.</p>
         </div>
       </div>
     </section>
@@ -827,7 +1392,8 @@
   <div class="toast" id="toast"></div>
 
   <footer class="footer">
-    <div><strong>3D Corporate Lobby Welcome Agenda</strong><br/>Premium reception flow with interactive 3D storytelling.</div>
+    <div><strong>3D Corporate Lobby Welcome Agenda</strong><br />Premium reception flow with interactive 3D
+      storytelling.</div>
     <div>Built as a self-contained demo page for prompt-studio.</div>
   </footer>
 
@@ -842,7 +1408,7 @@
       clearTimeout(window.__toastTimer);
       window.__toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
     };
-    const scrollToId = (id) => document.querySelector(id)?.scrollIntoView({behavior:'smooth', block:'start'});
+    const scrollToId = (id) => document.querySelector(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
     const modal = qs('#modal');
     const openModal = (title, subtitle, copy) => {
@@ -868,7 +1434,7 @@
     };
 
     const canvas = qs('#lobby-canvas');
-    const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
     renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -897,12 +1463,12 @@
 
     const floor = new THREE.Mesh(
       new THREE.PlaneGeometry(30, 24),
-      new THREE.MeshStandardMaterial({color:0x08111d, roughness:0.32, metalness:0.62})
+      new THREE.MeshStandardMaterial({ color: 0x08111d, roughness: 0.32, metalness: 0.62 })
     );
     floor.rotation.x = -Math.PI / 2;
     root.add(floor);
 
-    const wallMat = new THREE.MeshStandardMaterial({color:0x0a1423, roughness:0.9, metalness:0.08});
+    const wallMat = new THREE.MeshStandardMaterial({ color: 0x0a1423, roughness: 0.9, metalness: 0.08 });
     const back = new THREE.Mesh(new THREE.PlaneGeometry(24, 10), wallMat);
     back.position.set(0, 5, -10);
     root.add(back);
@@ -915,19 +1481,19 @@
     desk.position.set(0, 0, 0);
     const deskBody = new THREE.Mesh(
       new THREE.BoxGeometry(5.8, 1.05, 1.7),
-      new THREE.MeshStandardMaterial({color:0x0e1b2f, roughness:0.45, metalness:0.55})
+      new THREE.MeshStandardMaterial({ color: 0x0e1b2f, roughness: 0.45, metalness: 0.55 })
     );
     deskBody.position.y = 0.52;
     desk.add(deskBody);
     const deskTop = new THREE.Mesh(
       new THREE.BoxGeometry(6.05, .1, 1.85),
-      new THREE.MeshStandardMaterial({color:0x1d2c4b, roughness:0.16, metalness:0.82})
+      new THREE.MeshStandardMaterial({ color: 0x1d2c4b, roughness: 0.16, metalness: 0.82 })
     );
     deskTop.position.y = 1.08;
     desk.add(deskTop);
     const deskGlow = new THREE.Mesh(
       new THREE.BoxGeometry(5.6, .05, .06),
-      new THREE.MeshBasicMaterial({color:0x8bb4ff})
+      new THREE.MeshBasicMaterial({ color: 0x8bb4ff })
     );
     deskGlow.position.set(0, .52, .85);
     desk.add(deskGlow);
@@ -935,13 +1501,13 @@
 
     const screen = new THREE.Mesh(
       new THREE.PlaneGeometry(6.5, 3.4),
-      new THREE.MeshBasicMaterial({color:0x1a2e53})
+      new THREE.MeshBasicMaterial({ color: 0x1a2e53 })
     );
     screen.position.set(0, 4.2, -9.9);
     root.add(screen);
     const logo = new THREE.Mesh(
       new THREE.BoxGeometry(2.4, .35, .2),
-      new THREE.MeshBasicMaterial({color:0xdbe8ff})
+      new THREE.MeshBasicMaterial({ color: 0xdbe8ff })
     );
     logo.position.set(0, 6.1, -9.85);
     root.add(logo);
@@ -950,7 +1516,7 @@
     const makePillar = (x, z) => {
       const p = new THREE.Mesh(
         new THREE.CylinderGeometry(.25, .3, 7.8, 18),
-        new THREE.MeshStandardMaterial({color:0x10213b, roughness:0.38, metalness:0.55})
+        new THREE.MeshStandardMaterial({ color: 0x10213b, roughness: 0.38, metalness: 0.55 })
       );
       p.position.set(x, 3.9, z);
       root.add(p);
@@ -962,7 +1528,7 @@
     for (let i = 0; i < 6; i++) {
       const card = new THREE.Mesh(
         new THREE.PlaneGeometry(1.5, .9),
-        new THREE.MeshStandardMaterial({color:0x12233d, roughness:0.35, metalness:0.2, emissive:0x0a1322, emissiveIntensity:0.25})
+        new THREE.MeshStandardMaterial({ color: 0x12233d, roughness: 0.35, metalness: 0.2, emissive: 0x0a1322, emissiveIntensity: 0.25 })
       );
       card.position.set(-5.6 + i * 2.2, 2.25 + (i % 2) * .35, -3.2 - i * .3);
       card.rotation.y = (i - 2.5) * 0.08;
@@ -972,7 +1538,7 @@
 
     const floatingLight = new THREE.Mesh(
       new THREE.SphereGeometry(.28, 18, 18),
-      new THREE.MeshBasicMaterial({color:0x66e3c4})
+      new THREE.MeshBasicMaterial({ color: 0x66e3c4 })
     );
     floatingLight.position.set(5.2, 6.3, -4.5);
     root.add(floatingLight);
@@ -1131,31 +1697,46 @@
     });
   </script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
+  <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+    <div id="dynamic-stripe-button"></div>
+    <script>
+      (function () {
+        var container = document.getElementById('dynamic-stripe-button');
+        var btn = document.createElement('stripe-buy-button');
+        var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+        if (isDev) {
+          btn.setAttribute('buy-button-id', process.env.MINI_WEB_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
         } else {
-          window.location.href = '/sign-in';
+          btn.setAttribute('buy-button-id', process.env.MINI_WEB_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
         }
-      };
-    }
-  </script>
-</div>
+        container.appendChild(btn);
+      })();
+    </script>
+    <div id="stripe-auth-overlay"
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+      title="Comprar"></div>
+    <script>
+      var overlay = document.getElementById('stripe-auth-overlay');
+      if (overlay) {
+        overlay.onclick = function () {
+          var params = new URLSearchParams(window.location.search);
+          if (params.get('auth') === '1') {
+            var checkoutUrl = params.get('checkout');
+            if (checkoutUrl) {
+              window.location.href = checkoutUrl;
+            }
+          } else {
+            window.location.href = '/sign-in';
+          }
+        };
+      }
+    </script>
+  </div>
 
 </body>
+
 </html>

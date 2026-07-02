@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="es" class="dark">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Timeline 3D — Dioramas y Narración</title>
   <meta name="description" content="Explore Timeline 3D — Dioramas interactivos con scroll.">
-<link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-  
+
   <!-- Fixed 3D Canvas Background -->
   <div id="canvas-container"></div>
 
@@ -32,14 +34,15 @@
 
   <!-- Main Scrollable Content -->
   <main class="scroll-container">
-    
+
     <!-- Intro Hero Section -->
     <section id="intro" class="section hero-section panel">
       <div class="content-wrapper">
         <div class="hero-content" data-speed="1.2">
           <div class="badge">Evolución Tecnológica</div>
           <h1 class="hero-title">El progreso <br><span class="text-gradient">en movimiento</span></h1>
-          <p class="hero-subtitle">Explora nuestra línea de tiempo interactiva. Desplaza hacia abajo para viajar a través de los hitos que marcaron nuestra historia.</p>
+          <p class="hero-subtitle">Explora nuestra línea de tiempo interactiva. Desplaza hacia abajo para viajar a
+            través de los hitos que marcaron nuestra historia.</p>
           <div class="scroll-indicator">
             <span>Scroll para explorar</span>
             <div class="mouse">
@@ -52,15 +55,16 @@
 
     <!-- Timeline Sections (Chapters) -->
     <div id="timeline" class="timeline-wrapper">
-      
+
       <!-- Chapter 1 -->
       <section class="section chapter-section panel" id="chapter-0">
         <div class="content-wrapper split-layout">
           <div class="text-column" data-speed="1.1">
             <span class="year-marker">1920</span>
             <h2 class="chapter-title">Los Orígenes</h2>
-            <p class="chapter-desc">Los primeros experimentos con radiofrecuencia y comunicación inalámbrica sentaron las bases. El laboratorio de Marconi iluminó el camino hacia un mundo conectado.</p>
-            
+            <p class="chapter-desc">Los primeros experimentos con radiofrecuencia y comunicación inalámbrica sentaron
+              las bases. El laboratorio de Marconi iluminó el camino hacia un mundo conectado.</p>
+
             <div class="stats-grid">
               <div class="stat-card">
                 <span class="stat-value">1.2K</span>
@@ -74,8 +78,10 @@
           </div>
           <!-- 3D Diorama occupies the right space visually -->
           <div class="hotspot-overlay" data-chapter="0">
-             <button class="hotspot-btn hs-1" style="top:40%; left:20%;" data-info="El primer transmisor de chispa comercial.">Transmisor</button>
-             <button class="hotspot-btn hs-2" style="top:60%; left:70%;" data-info="Documentación y planos originales.">Planos</button>
+            <button class="hotspot-btn hs-1" style="top:40%; left:20%;"
+              data-info="El primer transmisor de chispa comercial.">Transmisor</button>
+            <button class="hotspot-btn hs-2" style="top:60%; left:70%;"
+              data-info="Documentación y planos originales.">Planos</button>
           </div>
         </div>
       </section>
@@ -86,8 +92,9 @@
           <div class="text-column" data-speed="1.15">
             <span class="year-marker">1950</span>
             <h2 class="chapter-title">Expansión Analógica</h2>
-            <p class="chapter-desc">La posguerra trajo la televisión y los primeros ordenadores comerciales. El tubo de rayos catódicos se convirtió en la ventana al mundo moderno.</p>
-            
+            <p class="chapter-desc">La posguerra trajo la televisión y los primeros ordenadores comerciales. El tubo de
+              rayos catódicos se convirtió en la ventana al mundo moderno.</p>
+
             <ul class="feature-list">
               <li>📺 Inicio de la TV comercial</li>
               <li>📻 Transistores compactos</li>
@@ -95,7 +102,8 @@
             </ul>
           </div>
           <div class="hotspot-overlay" data-chapter="1">
-            <button class="hotspot-btn hs-1" style="top:50%; left:30%;" data-info="Primer televisor comercial producido en masa.">Televisor</button>
+            <button class="hotspot-btn hs-1" style="top:50%; left:30%;"
+              data-info="Primer televisor comercial producido en masa.">Televisor</button>
           </div>
         </div>
       </section>
@@ -106,8 +114,9 @@
           <div class="text-column" data-speed="1.05">
             <span class="year-marker">1980</span>
             <h2 class="chapter-title">Revolución Digital</h2>
-            <p class="chapter-desc">El microprocesador y el PC cambiaron la forma de trabajar y comunicarse. La información comenzó a digitalizarse a un ritmo vertiginoso.</p>
-            
+            <p class="chapter-desc">El microprocesador y el PC cambiaron la forma de trabajar y comunicarse. La
+              información comenzó a digitalizarse a un ritmo vertiginoso.</p>
+
             <div class="glass-card comparison-card">
               <div class="comp-side">
                 <h4>Antes</h4>
@@ -119,9 +128,11 @@
               </div>
             </div>
           </div>
-           <div class="hotspot-overlay" data-chapter="2">
-            <button class="hotspot-btn hs-1" style="top:45%; left:60%;" data-info="El icónico disquete de 3.5 pulgadas.">Disquete</button>
-            <button class="hotspot-btn hs-2" style="top:70%; left:40%;" data-info="Primer microprocesador comercial.">CPU</button>
+          <div class="hotspot-overlay" data-chapter="2">
+            <button class="hotspot-btn hs-1" style="top:45%; left:60%;"
+              data-info="El icónico disquete de 3.5 pulgadas.">Disquete</button>
+            <button class="hotspot-btn hs-2" style="top:70%; left:40%;"
+              data-info="Primer microprocesador comercial.">CPU</button>
           </div>
         </div>
       </section>
@@ -132,8 +143,9 @@
           <div class="text-column" data-speed="1.1">
             <span class="year-marker">2000</span>
             <h2 class="chapter-title">La Era del Internet</h2>
-            <p class="chapter-desc">La web, los buscadores y la burbuja punto-com. Nace la era conectada globalmente, democratizando el acceso a la información.</p>
-            
+            <p class="chapter-desc">La web, los buscadores y la burbuja punto-com. Nace la era conectada globalmente,
+              democratizando el acceso a la información.</p>
+
             <div class="stats-grid">
               <div class="stat-card">
                 <span class="stat-value">361M</span>
@@ -146,7 +158,8 @@
             </div>
           </div>
           <div class="hotspot-overlay" data-chapter="3">
-            <button class="hotspot-btn hs-1" style="top:35%; left:25%;" data-info="El primer servidor web del CERN.">Servidor Web</button>
+            <button class="hotspot-btn hs-1" style="top:35%; left:25%;"
+              data-info="El primer servidor web del CERN.">Servidor Web</button>
           </div>
         </div>
       </section>
@@ -157,11 +170,13 @@
           <div class="text-column" data-speed="1.2">
             <span class="year-marker">2020+</span>
             <h2 class="chapter-title">Inteligencia Artificial</h2>
-            <p class="chapter-desc">Machine learning, redes neuronales y computación cuántica transforman industrias. Las máquinas ahora aprenden, razonan y asisten.</p>
+            <p class="chapter-desc">Machine learning, redes neuronales y computación cuántica transforman industrias.
+              Las máquinas ahora aprenden, razonan y asisten.</p>
             <a href="#cta" class="btn btn-outline btn-glow mt-4">Ver el Futuro</a>
           </div>
           <div class="hotspot-overlay" data-chapter="4">
-            <button class="hotspot-btn hs-1" style="top:50%; left:50%;" data-info="Modelo de procesamiento de lenguaje natural.">Red Neuronal</button>
+            <button class="hotspot-btn hs-1" style="top:50%; left:50%;"
+              data-info="Modelo de procesamiento de lenguaje natural.">Red Neuronal</button>
           </div>
         </div>
       </section>
@@ -203,31 +218,46 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="timeline3d.js"></script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
+  <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+    <div id="dynamic-stripe-button"></div>
+    <script>
+      (function () {
+        var container = document.getElementById('dynamic-stripe-button');
+        var btn = document.createElement('stripe-buy-button');
+        var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+        if (isDev) {
+          btn.setAttribute('buy-button-id', process.env.PROFESSIONAL_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
         } else {
-          window.location.href = '/sign-in';
+          btn.setAttribute('buy-button-id', process.env.PROFESSIONAL_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
         }
-      };
-    }
-  </script>
-</div>
+        container.appendChild(btn);
+      })();
+    </script>
+    <div id="stripe-auth-overlay"
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+      title="Comprar"></div>
+    <script>
+      var overlay = document.getElementById('stripe-auth-overlay');
+      if (overlay) {
+        overlay.onclick = function () {
+          var params = new URLSearchParams(window.location.search);
+          if (params.get('auth') === '1') {
+            var checkoutUrl = params.get('checkout');
+            if (checkoutUrl) {
+              window.location.href = checkoutUrl;
+            }
+          } else {
+            window.location.href = '/sign-in';
+          }
+        };
+      }
+    </script>
+  </div>
 
 </body>
+
 </html>

@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CloudCrystal Data 3D - The Next Generation Data Cloud</title>
-    <meta name="description" content="Explore CloudCrystal Data 3D, the modern enterprise platform for data warehouse, lakehouse, and data collaboration.">
+    <meta name="description"
+        content="Explore CloudCrystal Data 3D, the modern enterprise platform for data warehouse, lakehouse, and data collaboration.">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <!-- 3D Canvas Background -->
     <canvas id="webgl-canvas"></canvas>
@@ -28,12 +31,13 @@
 
     <!-- Scrollable Content Sections -->
     <main class="scroll-container">
-        
+
         <!-- Section 1: Hero -->
         <section class="panel hero" id="hero">
             <div class="content-block" data-speed="0.8">
                 <h1 class="parallax-title">The Data Cloud, <br>Reimagined in <span class="highlight">3D</span></h1>
-                <p class="parallax-text">Unify your data warehouse, lakehouse, and data pipelines into one scalable, AI-ready platform.</p>
+                <p class="parallax-text">Unify your data warehouse, lakehouse, and data pipelines into one scalable,
+                    AI-ready platform.</p>
                 <div class="cta-group parallax-btn">
                     <button class="btn-primary large">Start Free Trial</button>
                     <button class="btn-secondary large outline">Request Demo</button>
@@ -46,7 +50,8 @@
             <div class="content-block align-right" data-speed="1.2">
                 <div class="glass-card">
                     <h2>Seamless Data Pipelines</h2>
-                    <p>Connect thousands of data sources in real-time. Watch your data flow seamlessly into the core, transformed and ready for AI workloads.</p>
+                    <p>Connect thousands of data sources in real-time. Watch your data flow seamlessly into the core,
+                        transformed and ready for AI workloads.</p>
                     <ul class="feature-list">
                         <li><span>✓</span> Automated data ingestion</li>
                         <li><span>✓</span> Real-time stream processing</li>
@@ -77,7 +82,8 @@
                 </div>
                 <div class="text-content">
                     <h2>Infinite Scalability</h2>
-                    <p>Execute massive concurrent workloads without performance degradation. Our elastic compute engine scales instantly.</p>
+                    <p>Execute massive concurrent workloads without performance degradation. Our elastic compute engine
+                        scales instantly.</p>
                 </div>
             </div>
         </section>
@@ -86,7 +92,8 @@
         <section class="panel analytics" id="analytics">
             <div class="content-block center" data-speed="1.1">
                 <h2>AI-Ready Analytics & Dashboards</h2>
-                <p>Turn raw data into actionable insights instantly. Build dynamic dashboards natively or connect your favorite BI tools.</p>
+                <p>Turn raw data into actionable insights instantly. Build dynamic dashboards natively or connect your
+                    favorite BI tools.</p>
                 <div class="metrics-grid">
                     <div class="metric-card">
                         <h3>99.99%</h3>
@@ -109,7 +116,8 @@
             <div class="content-block align-right" data-speed="0.85">
                 <div class="glass-card">
                     <h2>Secure Collaboration & Marketplace</h2>
-                    <p>Share data across clouds without copying it. Enforce granular governance and explore our global dataset marketplace.</p>
+                    <p>Share data across clouds without copying it. Enforce granular governance and explore our global
+                        dataset marketplace.</p>
                     <button class="btn-primary mt-4">Explore Marketplace</button>
                 </div>
             </div>
@@ -127,7 +135,7 @@
                 <p class="terms">No credit card required. $400 in free credits.</p>
             </div>
         </section>
-        
+
     </main>
 
     <!-- Scripts -->
@@ -136,31 +144,46 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="app.js"></script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
-        } else {
-          window.location.href = '/sign-in';
-        }
-      };
-    }
-  </script>
-</div>
+    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+        <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+        <div id="dynamic-stripe-button"></div>
+        <script>
+            (function () {
+                var container = document.getElementById('dynamic-stripe-button');
+                var btn = document.createElement('stripe-buy-button');
+                var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+                if (isDev) {
+                    btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
+                } else {
+                    btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
+                }
+                container.appendChild(btn);
+            })();
+        </script>
+        <div id="stripe-auth-overlay"
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+            title="Comprar"></div>
+        <script>
+            var overlay = document.getElementById('stripe-auth-overlay');
+            if (overlay) {
+                overlay.onclick = function () {
+                    var params = new URLSearchParams(window.location.search);
+                    if (params.get('auth') === '1') {
+                        var checkoutUrl = params.get('checkout');
+                        if (checkoutUrl) {
+                            window.location.href = checkoutUrl;
+                        }
+                    } else {
+                        window.location.href = '/sign-in';
+                    }
+                };
+            }
+        </script>
+    </div>
 
 </body>
+
 </html>

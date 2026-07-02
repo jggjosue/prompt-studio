@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PulseStream 3D - The Musical Universe</title>
     <link rel="stylesheet" href="styles.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 </head>
+
 <body>
     <canvas id="bg-canvas"></canvas>
 
@@ -30,7 +32,8 @@
         <section id="hero" class="section hero">
             <div class="hero-content">
                 <h1>Step Into The <span class="gradient-text">Musical Universe</span></h1>
-                <p>Experience sound in a new dimension. 3D audio, immersive visualizers, and a universe of tracks waiting to be discovered.</p>
+                <p>Experience sound in a new dimension. 3D audio, immersive visualizers, and a universe of tracks
+                    waiting to be discovered.</p>
                 <div class="hero-buttons">
                     <button class="btn-primary">Start Listening Free</button>
                     <button class="btn-secondary">Explore Plans</button>
@@ -91,9 +94,15 @@
                         <div class="tonearm"></div>
                     </div>
                     <div class="controls">
-                        <button class="ctrl-btn prev"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg></button>
-                        <button class="ctrl-btn play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
-                        <button class="ctrl-btn next"><svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg></button>
+                        <button class="ctrl-btn prev"><svg viewBox="0 0 24 24">
+                                <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z" />
+                            </svg></button>
+                        <button class="ctrl-btn play"><svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z" />
+                            </svg></button>
+                        <button class="ctrl-btn next"><svg viewBox="0 0 24 24">
+                                <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
+                            </svg></button>
                     </div>
                     <div class="progress-bar">
                         <div class="progress"></div>
@@ -199,31 +208,46 @@
 
     <script src="app.js"></script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
-        } else {
-          window.location.href = '/sign-in';
-        }
-      };
-    }
-  </script>
-</div>
+    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+        <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+        <div id="dynamic-stripe-button"></div>
+        <script>
+            (function () {
+                var container = document.getElementById('dynamic-stripe-button');
+                var btn = document.createElement('stripe-buy-button');
+                var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+                if (isDev) {
+                    btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
+                } else {
+                    btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
+                }
+                container.appendChild(btn);
+            })();
+        </script>
+        <div id="stripe-auth-overlay"
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+            title="Comprar"></div>
+        <script>
+            var overlay = document.getElementById('stripe-auth-overlay');
+            if (overlay) {
+                overlay.onclick = function () {
+                    var params = new URLSearchParams(window.location.search);
+                    if (params.get('auth') === '1') {
+                        var checkoutUrl = params.get('checkout');
+                        if (checkoutUrl) {
+                            window.location.href = checkoutUrl;
+                        }
+                    } else {
+                        window.location.href = '/sign-in';
+                    }
+                };
+            }
+        </script>
+    </div>
 
 </body>
+
 </html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,13 +9,14 @@
     <link rel="stylesheet" href="style.css">
     <!-- Google Fonts -->
 </head>
+
 <body>
     <!-- 3D Canvas Background -->
     <canvas id="webgl-canvas"></canvas>
 
     <!-- UI Overlay Overlay -->
     <div id="ui-layer">
-        
+
         <!-- Navbar -->
         <nav class="navbar">
             <div class="logo">FÚTBOL<span>3D</span></div>
@@ -32,9 +34,11 @@
         <section id="hero" class="panel">
             <div class="content-wrapper">
                 <h1 class="hero-title" data-parallax="0.2">PISA LA<br><span class="highlight">CANCHA</span></h1>
-                <p class="hero-subtitle" data-parallax="0.1">La experiencia definitiva del fútbol. Siente la energía, la pasión y la gloria como nunca antes en nuestro estadio interactivo 3D.</p>
+                <p class="hero-subtitle" data-parallax="0.1">La experiencia definitiva del fútbol. Siente la energía, la
+                    pasión y la gloria como nunca antes en nuestro estadio interactivo 3D.</p>
                 <div class="hero-actions" data-parallax="0.05">
-                    <button class="btn-primary" onclick="alert('¡Entradas agostadas para hoy! Revisa calendario.')">Comprar Entradas</button>
+                    <button class="btn-primary"
+                        onclick="alert('¡Entradas agostadas para hoy! Revisa calendario.')">Comprar Entradas</button>
                     <button class="btn-secondary" onclick="alert('Ver calendario')">Ver Calendario</button>
                 </div>
             </div>
@@ -50,7 +54,8 @@
                 <h2 class="section-title" data-parallax="0.15">NUESTRA<br>CASA</h2>
                 <div class="glass-card" data-parallax="0.05">
                     <h3>El Coloso 3D</h3>
-                    <p>Un estadio de última generación con capacidad para 80,000 almas vibrando al unísono. Iluminación inteligente, acústica perfecta y el mejor césped del mundo.</p>
+                    <p>Un estadio de última generación con capacidad para 80,000 almas vibrando al unísono. Iluminación
+                        inteligente, acústica perfecta y el mejor césped del mundo.</p>
                     <div class="stats-grid">
                         <div class="stat-item">
                             <h4>80K</h4>
@@ -108,19 +113,22 @@
                         <div class="match-date">24 OCT • 20:00H</div>
                         <div class="match-teams">Fútbol 3D vs. Real FC</div>
                         <div class="match-type">Liga Premier</div>
-                        <button class="btn-primary-sm" onclick="alert('Iniciando proceso de compra de tickets...')">Tickets</button>
+                        <button class="btn-primary-sm"
+                            onclick="alert('Iniciando proceso de compra de tickets...')">Tickets</button>
                     </div>
                     <div class="match-card glass-card" data-parallax="0.05">
                         <div class="match-date">28 OCT • 18:30H</div>
                         <div class="match-teams">City United vs. Fútbol 3D</div>
                         <div class="match-type">Copa Internacional</div>
-                        <button class="btn-secondary-sm" onclick="alert('Ver información del partido visitante')">Info</button>
+                        <button class="btn-secondary-sm"
+                            onclick="alert('Ver información del partido visitante')">Info</button>
                     </div>
                     <div class="match-card glass-card" data-parallax="0.1">
                         <div class="match-date">02 NOV • 21:00H</div>
                         <div class="match-teams">Fútbol 3D vs. Athletico</div>
                         <div class="match-type">Liga Premier</div>
-                        <button class="btn-primary-sm" onclick="alert('Iniciando proceso de compra de tickets...')">Tickets</button>
+                        <button class="btn-primary-sm"
+                            onclick="alert('Iniciando proceso de compra de tickets...')">Tickets</button>
                     </div>
                 </div>
             </div>
@@ -143,13 +151,15 @@
         <section id="comunidad" class="panel">
             <div class="content-wrapper text-center">
                 <h2 class="section-title" data-parallax="0.2">ÚNETE A LA<br>HINCHADA</h2>
-                <p class="community-desc" data-parallax="0.1">Foros, eventos exclusivos, entrenamientos privados y más.</p>
-                <form class="join-form glass-card" data-parallax="0.05" onsubmit="event.preventDefault(); alert('¡Gracias por registrarte! Revisa tu correo.');">
+                <p class="community-desc" data-parallax="0.1">Foros, eventos exclusivos, entrenamientos privados y más.
+                </p>
+                <form class="join-form glass-card" data-parallax="0.05"
+                    onsubmit="event.preventDefault(); alert('¡Gracias por registrarte! Revisa tu correo.');">
                     <input type="email" placeholder="Tu correo electrónico" required>
                     <button type="submit" class="btn-primary">Suscribirse</button>
                 </form>
             </div>
-            
+
             <footer class="footer">
                 <p>&copy; 2026 Fútbol 3D. Todos los derechos reservados.</p>
             </footer>
@@ -163,31 +173,46 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="main.js"></script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
-        } else {
-          window.location.href = '/sign-in';
-        }
-      };
-    }
-  </script>
-</div>
+    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+        <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+        <div id="dynamic-stripe-button"></div>
+        <script>
+            (function () {
+                var container = document.getElementById('dynamic-stripe-button');
+                var btn = document.createElement('stripe-buy-button');
+                var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+                if (isDev) {
+                    btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
+                } else {
+                    btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
+                }
+                container.appendChild(btn);
+            })();
+        </script>
+        <div id="stripe-auth-overlay"
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+            title="Comprar"></div>
+        <script>
+            var overlay = document.getElementById('stripe-auth-overlay');
+            if (overlay) {
+                overlay.onclick = function () {
+                    var params = new URLSearchParams(window.location.search);
+                    if (params.get('auth') === '1') {
+                        var checkoutUrl = params.get('checkout');
+                        if (checkoutUrl) {
+                            window.location.href = checkoutUrl;
+                        }
+                    } else {
+                        window.location.href = '/sign-in';
+                    }
+                };
+            }
+        </script>
+    </div>
 
 </body>
+
 </html>

@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SignalBridge | Next-Gen Cloud Communications</title>
-    <meta name="description" content="Build immersive customer experiences with SignalBridge's API platform for SMS, Voice, Email, and OTP.">
-    
+    <meta name="description"
+        content="Build immersive customer experiences with SignalBridge's API platform for SMS, Voice, Email, and OTP.">
+
     <!-- Fonts -->
-<!-- Icons -->
+    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <!-- 3D Canvas Background -->
     <div id="canvas-container"></div>
@@ -42,19 +45,20 @@
 
     <!-- Main Content Content -->
     <main class="scroll-container">
-        
+
         <!-- Hero Section -->
         <section class="section hero" id="hero">
             <div class="container glass-panel hero-content">
                 <div class="badge">Developer-First API</div>
                 <h1>Connect the World with <span class="text-gradient">SignalBridge</span></h1>
-                <p>The next generation of cloud communications. Send SMS, make voice calls, verify users, and build omnichannel flows with a few lines of code.</p>
-                
+                <p>The next generation of cloud communications. Send SMS, make voice calls, verify users, and build
+                    omnichannel flows with a few lines of code.</p>
+
                 <div class="hero-actions">
                     <button class="btn btn-primary btn-large">Start Building for Free</button>
                     <button class="btn btn-secondary btn-large">Explore Documentation</button>
                 </div>
-                
+
                 <div class="code-snippet-window">
                     <div class="window-header">
                         <div class="dots"><span></span><span></span><span></span></div>
@@ -78,7 +82,8 @@
             <div class="container glass-panel row">
                 <div class="col text-content">
                     <h2>Reach your customers on any channel</h2>
-                    <p>Deliver messages reliably across SMS, Voice, Chat, and Email. Our global routing engine ensures low latency and high delivery rates.</p>
+                    <p>Deliver messages reliably across SMS, Voice, Chat, and Email. Our global routing engine ensures
+                        low latency and high delivery rates.</p>
                     <ul class="feature-list">
                         <li><i class="fa-solid fa-comment-sms"></i> Global Programmable SMS</li>
                         <li><i class="fa-solid fa-phone"></i> High-Fidelity Voice APIs</li>
@@ -107,7 +112,8 @@
             <div class="container glass-panel row reverse">
                 <div class="col text-content">
                     <h2>Frictionless User Verification</h2>
-                    <p>Secure your application with seamless OTP (One-Time Password) flows. Prevent fraud and onboard users faster with multichannel verification.</p>
+                    <p>Secure your application with seamless OTP (One-Time Password) flows. Prevent fraud and onboard
+                        users faster with multichannel verification.</p>
                     <button class="btn btn-outline" id="trigger-otp-btn">Simulate Verification</button>
                 </div>
                 <div class="col interactive-demo">
@@ -133,7 +139,8 @@
         <section class="section flows" id="flows">
             <div class="container glass-panel text-center">
                 <h2>Build Automations Visually</h2>
-                <p>Drag and drop nodes to create complex IVR menus, chatbots, and routing logic without writing code.</p>
+                <p>Drag and drop nodes to create complex IVR menus, chatbots, and routing logic without writing code.
+                </p>
                 <div class="flow-builder-ui">
                     <div class="flow-node trigger">Incoming Call</div>
                     <div class="flow-arrow"><i class="fa-solid fa-arrow-down"></i></div>
@@ -152,7 +159,8 @@
             <div class="container glass-panel row">
                 <div class="col text-content">
                     <h2>Deep Observability</h2>
-                    <p>Monitor your communication traffic in real-time. Access detailed logs, delivery receipts, and performance analytics.</p>
+                    <p>Monitor your communication traffic in real-time. Access detailed logs, delivery receipts, and
+                        performance analytics.</p>
                 </div>
                 <div class="col terminal-container">
                     <div class="terminal-window">
@@ -161,8 +169,10 @@
                             <div class="title">API Terminal</div>
                         </div>
                         <div class="terminal-body" id="api-logs">
-                            <div><span class="time">[10:42:01]</span> <span class="info">INFO</span> Initializing connection...</div>
-                            <div><span class="time">[10:42:02]</span> <span class="success">200 OK</span> Connected to SignalBridge Edge.</div>
+                            <div><span class="time">[10:42:01]</span> <span class="info">INFO</span> Initializing
+                                connection...</div>
+                            <div><span class="time">[10:42:02]</span> <span class="success">200 OK</span> Connected to
+                                SignalBridge Edge.</div>
                         </div>
                     </div>
                 </div>
@@ -174,7 +184,7 @@
             <div class="container glass-panel text-center">
                 <h2>Ready to Bridge the Gap?</h2>
                 <p>Join thousands of developers building on SignalBridge. Transparent pricing, pay-as-you-go.</p>
-                
+
                 <div class="pricing-cards">
                     <div class="card">
                         <h3>SMS</h3>
@@ -217,31 +227,46 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="app.js"></script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
-        } else {
-          window.location.href = '/sign-in';
-        }
-      };
-    }
-  </script>
-</div>
+    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+        <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+        <div id="dynamic-stripe-button"></div>
+        <script>
+            (function () {
+                var container = document.getElementById('dynamic-stripe-button');
+                var btn = document.createElement('stripe-buy-button');
+                var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+                if (isDev) {
+                    btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
+                } else {
+                    btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
+                }
+                container.appendChild(btn);
+            })();
+        </script>
+        <div id="stripe-auth-overlay"
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+            title="Comprar"></div>
+        <script>
+            var overlay = document.getElementById('stripe-auth-overlay');
+            if (overlay) {
+                overlay.onclick = function () {
+                    var params = new URLSearchParams(window.location.search);
+                    if (params.get('auth') === '1') {
+                        var checkoutUrl = params.get('checkout');
+                        if (checkoutUrl) {
+                            window.location.href = checkoutUrl;
+                        }
+                    } else {
+                        window.location.href = '/sign-in';
+                    }
+                };
+            }
+        </script>
+    </div>
 
 </body>
+
 </html>

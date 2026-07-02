@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>3D Product Designer Showroom</title>
   <meta name="description" content="Futuristic 3D showroom for product design, UX/UI, and digital strategies.">
-<link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
   <!-- Fixed UI Header -->
   <header class="glass-header">
@@ -32,42 +34,48 @@
     <section id="home" class="step">
       <div class="content-block">
         <h1 class="hero-title">Digital Product<br>Design Showroom</h1>
-        <p class="hero-subtitle">Crafting immersive experiences, interactive prototypes, and strategic design solutions.</p>
+        <p class="hero-subtitle">Crafting immersive experiences, interactive prototypes, and strategic design solutions.
+        </p>
       </div>
     </section>
-    
+
     <section id="showroom" class="step">
       <div class="content-block right-aligned glass-panel">
         <h2>Interactive Prototypes</h2>
-        <p>Explore high-fidelity user flows, mobile apps, and web dashboards directly in a futuristic 3D space. Hover over elements to see micro-interactions.</p>
+        <p>Explore high-fidelity user flows, mobile apps, and web dashboards directly in a futuristic 3D space. Hover
+          over elements to see micro-interactions.</p>
       </div>
     </section>
 
     <section id="case-studies" class="step">
       <div class="content-block left-aligned glass-panel">
         <h2>Case Studies</h2>
-        <p>Deep dives into user research, business strategy, and successful UX/UI implementations across multiple industries.</p>
+        <p>Deep dives into user research, business strategy, and successful UX/UI implementations across multiple
+          industries.</p>
       </div>
     </section>
 
     <section id="process" class="step">
       <div class="content-block right-aligned glass-panel">
         <h2>Design Process</h2>
-        <p>From initial wireframes and user journey maps to final polished UI components. Every step is carefully engineered to maximize conversion.</p>
+        <p>From initial wireframes and user journey maps to final polished UI components. Every step is carefully
+          engineered to maximize conversion.</p>
       </div>
     </section>
 
     <section id="systems" class="step">
       <div class="content-block left-aligned glass-panel">
         <h2>Design Systems</h2>
-        <p>Scalable, robust, and beautifully documented design tokens, component libraries, and modular UI architectures.</p>
+        <p>Scalable, robust, and beautifully documented design tokens, component libraries, and modular UI
+          architectures.</p>
       </div>
     </section>
 
     <section id="conversion" class="step">
       <div class="content-block center-aligned glass-card">
         <h2>Ready to elevate your product?</h2>
-        <p>Let's build something extraordinary together. Schedule a call to discuss your next big digital initiative.</p>
+        <p>Let's build something extraordinary together. Schedule a call to discuss your next big digital initiative.
+        </p>
         <button class="cta-button large">Book Your Design Call</button>
       </div>
     </section>
@@ -78,31 +86,46 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="showroom.js"></script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
+  <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+    <div id="dynamic-stripe-button"></div>
+    <script>
+      (function () {
+        var container = document.getElementById('dynamic-stripe-button');
+        var btn = document.createElement('stripe-buy-button');
+        var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+        if (isDev) {
+          btn.setAttribute('buy-button-id', process.env.ENTREPRENEUR_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
         } else {
-          window.location.href = '/sign-in';
+          btn.setAttribute('buy-button-id', process.env.ENTREPRENEUR_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
         }
-      };
-    }
-  </script>
-</div>
+        container.appendChild(btn);
+      })();
+    </script>
+    <div id="stripe-auth-overlay"
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+      title="Comprar"></div>
+    <script>
+      var overlay = document.getElementById('stripe-auth-overlay');
+      if (overlay) {
+        overlay.onclick = function () {
+          var params = new URLSearchParams(window.location.search);
+          if (params.get('auth') === '1') {
+            var checkoutUrl = params.get('checkout');
+            if (checkoutUrl) {
+              window.location.href = checkoutUrl;
+            }
+          } else {
+            window.location.href = '/sign-in';
+          }
+        };
+      }
+    </script>
+  </div>
 
 </body>
+
 </html>

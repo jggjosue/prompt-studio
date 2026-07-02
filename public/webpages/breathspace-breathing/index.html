@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BreathSpace Breathing - Encuentra tu calma</title>
-    <meta name="description" content="Plataforma de respiración guiada para estrés, enfoque y sueño. Entra a un espacio digital de calma.">
-<link rel="stylesheet" href="style.css">
+    <meta name="description"
+        content="Plataforma de respiración guiada para estrés, enfoque y sueño. Entra a un espacio digital de calma.">
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <canvas id="webgl-canvas"></canvas>
 
@@ -18,7 +21,8 @@
                 <a href="#routines">Rutinas</a>
                 <a href="#progress">Progreso</a>
                 <a href="#pricing">Planes</a>
-                <button class="btn btn-outline nav-btn" onclick="document.getElementById('register-modal').classList.add('active')">Entrar</button>
+                <button class="btn btn-outline nav-btn"
+                    onclick="document.getElementById('register-modal').classList.add('active')">Entrar</button>
             </div>
         </nav>
 
@@ -26,7 +30,8 @@
         <section id="hero" class="section hero-section">
             <div class="content">
                 <h1 class="parallax-element" data-speed="0.2">Respira.<br>Pausa.<br>Conecta.</h1>
-                <p class="subtitle parallax-element" data-speed="0.15">Entra a un espacio digital de calma donde el aire, la luz y el movimiento te guían.</p>
+                <p class="subtitle parallax-element" data-speed="0.15">Entra a un espacio digital de calma donde el
+                    aire, la luz y el movimiento te guían.</p>
                 <div class="hero-actions parallax-element" data-speed="0.1">
                     <button class="btn btn-primary" onclick="scrollToSection('practice')">Comenzar Práctica</button>
                 </div>
@@ -44,7 +49,7 @@
             <div class="content center-content">
                 <h2 class="parallax-element" data-speed="0.2">Inhala. Sostén. Exhala.</h2>
                 <p class="parallax-element" data-speed="0.1">Sigue el ritmo de la luz.</p>
-                
+
                 <div class="breathing-ui parallax-element" data-speed="0.05">
                     <div class="breath-instruction" id="breath-text">Inhala</div>
                     <div class="breathing-circle-ui"></div>
@@ -52,7 +57,10 @@
 
                 <div class="audio-player parallax-element" data-speed="0.15">
                     <button class="btn-icon" id="play-ambient" aria-label="Reproducir sonido ambiental">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
                     </button>
                     <span>Lluvia Suave</span>
                 </div>
@@ -64,22 +72,25 @@
             <div class="content">
                 <h2 class="parallax-element" data-speed="0.2">Rutinas para tu bienestar</h2>
                 <p class="parallax-element" data-speed="0.15">Encuentra el equilibrio en cada momento de tu día.</p>
-                
+
                 <div class="cards-grid">
                     <div class="card parallax-element" data-speed="0.1">
                         <h3>Dormir Profundo</h3>
                         <p>Relaja tu sistema nervioso antes de dormir con la técnica 4-7-8.</p>
-                        <button class="btn btn-outline" onclick="alert('Iniciando rutina: Dormir Profundo')">Iniciar</button>
+                        <button class="btn btn-outline"
+                            onclick="alert('Iniciando rutina: Dormir Profundo')">Iniciar</button>
                     </div>
                     <div class="card parallax-element" data-speed="0.15">
                         <h3>Enfoque Total</h3>
                         <p>Respiración de caja para claridad mental y concentración.</p>
-                        <button class="btn btn-outline" onclick="alert('Iniciando rutina: Enfoque Total')">Iniciar</button>
+                        <button class="btn btn-outline"
+                            onclick="alert('Iniciando rutina: Enfoque Total')">Iniciar</button>
                     </div>
                     <div class="card parallax-element" data-speed="0.2">
                         <h3>Pausa Laboral</h3>
                         <p>2 minutos para reducir la ansiedad y recargar energía.</p>
-                        <button class="btn btn-outline" onclick="alert('Iniciando rutina: Pausa Laboral')">Iniciar</button>
+                        <button class="btn btn-outline"
+                            onclick="alert('Iniciando rutina: Pausa Laboral')">Iniciar</button>
                     </div>
                 </div>
             </div>
@@ -90,7 +101,7 @@
             <div class="content center-content">
                 <h2 class="parallax-element" data-speed="0.2">Tu camino a la calma</h2>
                 <p class="parallax-element" data-speed="0.1">Construye un hábito, un respiro a la vez.</p>
-                
+
                 <div class="stats-container parallax-element" data-speed="0.15">
                     <div class="stat-item">
                         <span class="stat-number">12</span>
@@ -121,7 +132,8 @@
                             <li>Sonidos ambientales limitados</li>
                             <li>Tracking básico</li>
                         </ul>
-                        <button class="btn btn-outline" onclick="document.getElementById('register-modal').classList.add('active')">Comenzar</button>
+                        <button class="btn btn-outline"
+                            onclick="document.getElementById('register-modal').classList.add('active')">Comenzar</button>
                     </div>
                     <div class="pricing-card premium parallax-element" data-speed="0.15">
                         <div class="badge">Recomendado</div>
@@ -133,12 +145,13 @@
                             <li>Analíticas avanzadas</li>
                             <li>Sesiones en vivo</li>
                         </ul>
-                        <button class="btn btn-primary" onclick="document.getElementById('register-modal').classList.add('active')">Suscribirse</button>
+                        <button class="btn btn-primary"
+                            onclick="document.getElementById('register-modal').classList.add('active')">Suscribirse</button>
                     </div>
                 </div>
             </div>
         </section>
-        
+
         <!-- Footer -->
         <footer>
             <p>&copy; 2026 BreathSpace. Todos los derechos reservados.</p>
@@ -148,14 +161,18 @@
     <!-- Modals -->
     <div id="register-modal" class="modal">
         <div class="modal-content">
-            <button class="close-btn" onclick="document.getElementById('register-modal').classList.remove('active')">&times;</button>
+            <button class="close-btn"
+                onclick="document.getElementById('register-modal').classList.remove('active')">&times;</button>
             <h2>Bienvenido a BreathSpace</h2>
-            <form onsubmit="event.preventDefault(); alert('Registro exitoso. ¡Bienvenido a BreathSpace!'); document.getElementById('register-modal').classList.remove('active');" class="register-form">
+            <form
+                onsubmit="event.preventDefault(); alert('Registro exitoso. ¡Bienvenido a BreathSpace!'); document.getElementById('register-modal').classList.remove('active');"
+                class="register-form">
                 <input type="text" placeholder="Nombre" required>
                 <input type="email" placeholder="Correo electrónico" required>
                 <input type="password" placeholder="Contraseña" required>
                 <button type="submit" class="btn btn-primary full-width">Crear Cuenta</button>
-                <p class="auth-switch">¿Ya tienes cuenta? <a href="#" onclick="alert('Mostrando login')">Inicia sesión</a></p>
+                <p class="auth-switch">¿Ya tienes cuenta? <a href="#" onclick="alert('Mostrando login')">Inicia
+                        sesión</a></p>
             </form>
         </div>
     </div>
@@ -166,31 +183,46 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="script.js"></script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
-        } else {
-          window.location.href = '/sign-in';
-        }
-      };
-    }
-  </script>
-</div>
+    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+        <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+        <div id="dynamic-stripe-button"></div>
+        <script>
+            (function () {
+                var container = document.getElementById('dynamic-stripe-button');
+                var btn = document.createElement('stripe-buy-button');
+                var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+                if (isDev) {
+                    btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
+                } else {
+                    btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
+                }
+                container.appendChild(btn);
+            })();
+        </script>
+        <div id="stripe-auth-overlay"
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+            title="Comprar"></div>
+        <script>
+            var overlay = document.getElementById('stripe-auth-overlay');
+            if (overlay) {
+                overlay.onclick = function () {
+                    var params = new URLSearchParams(window.location.search);
+                    if (params.get('auth') === '1') {
+                        var checkoutUrl = params.get('checkout');
+                        if (checkoutUrl) {
+                            window.location.href = checkoutUrl;
+                        }
+                    } else {
+                        window.location.href = '/sign-in';
+                    }
+                };
+            }
+        </script>
+    </div>
 
 </body>
+
 </html>

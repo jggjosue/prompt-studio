@@ -25,7 +25,7 @@ export async function GET(
   let html = '';
   if (includeHtml && raw.demoUrl) {
     try {
-      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000');
+      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'process.env.DOMAIN_DEV');
       const res = await fetch(`${baseUrl}/webpages/${raw.demoUrl}/index.html`);
       if (res.ok) {
         html = await res.text();

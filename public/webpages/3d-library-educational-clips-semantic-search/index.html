@@ -1,24 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3D Semantic Edu Library</title>
-    
+
     <!-- Google Fonts -->
-<!-- Icons -->
+    <!-- Icons -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-    
+
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    
+
     <!-- 3D Canvas Background -->
     <canvas id="webgl-canvas"></canvas>
 
     <!-- UI Overlay / Scrollable Content -->
     <div id="scroll-container">
-        
+
         <!-- Navigation -->
         <nav class="navbar">
             <div class="logo">
@@ -42,11 +44,13 @@
             <div class="hero-content" data-parallax="true">
                 <div class="badge">Next-Gen Learning</div>
                 <h1 class="title">Search by Meaning,<br>Not Just Keywords.</h1>
-                <p class="subtitle">Enter the futuristic 3D educational library. Find clips, micro-lessons, and academic resources through intelligent semantic search.</p>
-                
+                <p class="subtitle">Enter the futuristic 3D educational library. Find clips, micro-lessons, and academic
+                    resources through intelligent semantic search.</p>
+
                 <div class="semantic-search-bar">
                     <i class="ri-sparkling-fill ai-icon"></i>
-                    <input type="text" placeholder="e.g. 'Explain quantum entanglement simply' or 'How do black holes form?'">
+                    <input type="text"
+                        placeholder="e.g. 'Explain quantum entanglement simply' or 'How do black holes form?'">
                     <button class="btn-search"><i class="ri-search-line"></i> Explore</button>
                 </div>
                 <div class="search-suggestions">
@@ -64,7 +68,7 @@
                 <h2>Immersive Learning Paths</h2>
                 <p>Navigate through digital bookshelves and discover contextual results.</p>
             </div>
-            
+
             <div class="glass-dashboard">
                 <div class="dashboard-sidebar">
                     <h3>Filters</h3>
@@ -116,16 +120,18 @@
                 <div class="progress-stats">
                     <div class="stat-circle">
                         <svg viewBox="0 0 36 36" class="circular-chart blue">
-                          <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                          <path class="circle" stroke-dasharray="75, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                          <text x="18" y="20.35" class="percentage">75%</text>
+                            <path class="circle-bg"
+                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <path class="circle" stroke-dasharray="75, 100"
+                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <text x="18" y="20.35" class="percentage">75%</text>
                         </svg>
                         <span>Clips Watched</span>
                     </div>
                 </div>
             </div>
         </section>
-        
+
         <footer>
             <div class="footer-content">
                 <div class="logo">
@@ -142,35 +148,50 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    
+
     <!-- Custom Script -->
     <script src="script.js"></script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
-        } else {
-          window.location.href = '/sign-in';
-        }
-      };
-    }
-  </script>
-</div>
+    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+        <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+        <div id="dynamic-stripe-button"></div>
+        <script>
+            (function () {
+                var container = document.getElementById('dynamic-stripe-button');
+                var btn = document.createElement('stripe-buy-button');
+                var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+                if (isDev) {
+                    btn.setAttribute('buy-button-id', process.env.ENTREPRENEUR_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
+                } else {
+                    btn.setAttribute('buy-button-id', process.env.ENTREPRENEUR_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
+                }
+                container.appendChild(btn);
+            })();
+        </script>
+        <div id="stripe-auth-overlay"
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+            title="Comprar"></div>
+        <script>
+            var overlay = document.getElementById('stripe-auth-overlay');
+            if (overlay) {
+                overlay.onclick = function () {
+                    var params = new URLSearchParams(window.location.search);
+                    if (params.get('auth') === '1') {
+                        var checkoutUrl = params.get('checkout');
+                        if (checkoutUrl) {
+                            window.location.href = checkoutUrl;
+                        }
+                    } else {
+                        window.location.href = '/sign-in';
+                    }
+                };
+            }
+        </script>
+    </div>
 
 </body>
+
 </html>

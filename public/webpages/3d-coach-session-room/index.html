@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta name="description" content="Interactive 3D consulting and coaching workspace mockup featuring whiteboard integrations and session notes.">
+  <meta name="description"
+    content="Interactive 3D consulting and coaching workspace mockup featuring whiteboard integrations and session notes.">
   <meta name="keywords" content="3d, coach, session room, consulting, remote work, interactive">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>3D Coach Session Room</title>
-<link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
   <!-- 3D Canvas Container -->
   <div id="canvas-container"></div>
@@ -45,14 +48,16 @@
     <section id="sessions" class="panel align-right">
       <div class="content-block">
         <h2 class="parallax-text">Private Virtual Sessions</h2>
-        <p class="parallax-text delay-1">Experience deep focus in a secure, calm environment tailored to your needs. One-on-one guidance to overcome obstacles and achieve your goals.</p>
+        <p class="parallax-text delay-1">Experience deep focus in a secure, calm environment tailored to your needs.
+          One-on-one guidance to overcome obstacles and achieve your goals.</p>
       </div>
     </section>
 
     <section id="method" class="panel">
       <div class="content-block">
         <h2 class="parallax-text">Our Method</h2>
-        <p class="parallax-text delay-1">A proven framework combining active listening, actionable strategies, and continuous support to foster lasting change.</p>
+        <p class="parallax-text delay-1">A proven framework combining active listening, actionable strategies, and
+          continuous support to foster lasting change.</p>
       </div>
     </section>
 
@@ -67,49 +72,50 @@
         </ul>
       </div>
     </section>
-    
+
     <section id="testimonials" class="panel center-align">
-        <div class="content-block glass-card">
-            <h2 class="parallax-text">What Clients Say</h2>
-            <p class="parallax-text delay-1 testimonial-text">"This coaching experience transformed the way I approach my business and personal life. The virtual room made every session feel deeply personal and focused."</p>
-            <span class="parallax-text delay-2 testimonial-author">— Sarah J., Entrepreneur</span>
-        </div>
+      <div class="content-block glass-card">
+        <h2 class="parallax-text">What Clients Say</h2>
+        <p class="parallax-text delay-1 testimonial-text">"This coaching experience transformed the way I approach my
+          business and personal life. The virtual room made every session feel deeply personal and focused."</p>
+        <span class="parallax-text delay-2 testimonial-author">— Sarah J., Entrepreneur</span>
+      </div>
     </section>
 
     <section id="pricing" class="panel">
-        <div class="content-block">
-            <h2 class="parallax-text">Investment</h2>
-            <div class="pricing-cards parallax-text delay-1">
-                <div class="glass-card pricing-card">
-                    <h3>Single Session</h3>
-                    <p class="price">$150</p>
-                    <p>60 minutes of deep-dive coaching to tackle an immediate challenge.</p>
-                </div>
-                <div class="glass-card pricing-card highlighted">
-                    <h3>Transformation Package</h3>
-                    <p class="price">$600</p>
-                    <p>5 sessions + ongoing support via chat. Best for lasting change.</p>
-                </div>
-            </div>
+      <div class="content-block">
+        <h2 class="parallax-text">Investment</h2>
+        <div class="pricing-cards parallax-text delay-1">
+          <div class="glass-card pricing-card">
+            <h3>Single Session</h3>
+            <p class="price">$150</p>
+            <p>60 minutes of deep-dive coaching to tackle an immediate challenge.</p>
+          </div>
+          <div class="glass-card pricing-card highlighted">
+            <h3>Transformation Package</h3>
+            <p class="price">$600</p>
+            <p>5 sessions + ongoing support via chat. Best for lasting change.</p>
+          </div>
         </div>
+      </div>
     </section>
 
     <section id="booking" class="panel center-align">
-        <div class="content-block glass-card booking-form-container">
-            <h2 class="parallax-text">Reserve Your Space</h2>
-            <p class="parallax-text delay-1">Select a time that works for you and take the first step.</p>
-            <form class="parallax-text delay-2 booking-form" onsubmit="event.preventDefault(); alert('Session booked!');">
-                <input type="text" placeholder="Your Name" required>
-                <input type="email" placeholder="Your Email" required>
-                <input type="date" required>
-                <select required>
-                    <option value="" disabled selected>Select Package</option>
-                    <option value="single">Single Session</option>
-                    <option value="package">Transformation Package</option>
-                </select>
-                <button type="submit" class="btn btn-primary full-width">Book Now</button>
-            </form>
-        </div>
+      <div class="content-block glass-card booking-form-container">
+        <h2 class="parallax-text">Reserve Your Space</h2>
+        <p class="parallax-text delay-1">Select a time that works for you and take the first step.</p>
+        <form class="parallax-text delay-2 booking-form" onsubmit="event.preventDefault(); alert('Session booked!');">
+          <input type="text" placeholder="Your Name" required>
+          <input type="email" placeholder="Your Email" required>
+          <input type="date" required>
+          <select required>
+            <option value="" disabled selected>Select Package</option>
+            <option value="single">Single Session</option>
+            <option value="package">Transformation Package</option>
+          </select>
+          <button type="submit" class="btn btn-primary full-width">Book Now</button>
+        </form>
+      </div>
     </section>
 
     <section id="contact" class="panel align-right">
@@ -119,9 +125,9 @@
         <p class="parallax-text delay-2">hello@coachroom3d.com</p>
       </div>
     </section>
-    
+
     <footer class="site-footer">
-        <p>&copy; 2026 Coach Room 3D. All rights reserved.</p>
+      <p>&copy; 2026 Coach Room 3D. All rights reserved.</p>
     </footer>
   </main>
 
@@ -131,31 +137,46 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="coach3d.js"></script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
+  <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+    <div id="dynamic-stripe-button"></div>
+    <script>
+      (function () {
+        var container = document.getElementById('dynamic-stripe-button');
+        var btn = document.createElement('stripe-buy-button');
+        var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+        if (isDev) {
+          btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
         } else {
-          window.location.href = '/sign-in';
+          btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
         }
-      };
-    }
-  </script>
-</div>
+        container.appendChild(btn);
+      })();
+    </script>
+    <div id="stripe-auth-overlay"
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+      title="Comprar"></div>
+    <script>
+      var overlay = document.getElementById('stripe-auth-overlay');
+      if (overlay) {
+        overlay.onclick = function () {
+          var params = new URLSearchParams(window.location.search);
+          if (params.get('auth') === '1') {
+            var checkoutUrl = params.get('checkout');
+            if (checkoutUrl) {
+              window.location.href = checkoutUrl;
+            }
+          } else {
+            window.location.href = '/sign-in';
+          }
+        };
+      }
+    </script>
+  </div>
 
 </body>
+
 </html>

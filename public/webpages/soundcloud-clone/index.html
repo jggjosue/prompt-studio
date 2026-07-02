@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WaveCloud 3D - The Future of Sound</title>
-  <meta name="description" content="WaveCloud 3D - A premium, immersive audio streaming platform and social network for creators and listeners.">
+  <meta name="description"
+    content="WaveCloud 3D - A premium, immersive audio streaming platform and social network for creators and listeners.">
   <link rel="stylesheet" href="styles.css">
-<!-- Three.js and GSAP -->
+  <!-- Three.js and GSAP -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 </head>
+
 <body>
 
   <!-- 3D Canvas Background -->
@@ -21,7 +24,8 @@
     <div class="nav-left">
       <a href="#" class="logo">
         <svg viewBox="0 0 50 30" xmlns="http://www.w3.org/2000/svg" class="logo-icon">
-          <path fill="url(#grad1)" d="M2 20c0-2 1-3 2-3v6c-1 0-2-1-2-3zm4-5c0-1 1-2 2-2v11c-1 0-2-1-2-2v-7zm4-2c0-1 1-2 2-2v15c-1 0-2-1-2-2V13zm4-3c1-1 2 0 2 1v17c-1 0-2-1-2-2V10zm4-2c0-1 1-2 2-2v21c-1 0-2-1-2-2V8zm4-2c1 0 2 1 2 2v17c-1 1-2 0-2-1V6zm5 2c4-1 9 1 11 5 1-1 3-2 4-2 4 0 7 3 7 7s-3 7-7 7H27c-2 0-3-1-3-2V8z"/>
+          <path fill="url(#grad1)"
+            d="M2 20c0-2 1-3 2-3v6c-1 0-2-1-2-3zm4-5c0-1 1-2 2-2v11c-1 0-2-1-2-2v-7zm4-2c0-1 1-2 2-2v15c-1 0-2-1-2-2V13zm4-3c1-1 2 0 2 1v17c-1 0-2-1-2-2V10zm4-2c0-1 1-2 2-2v21c-1 0-2-1-2-2V8zm4-2c1 0 2 1 2 2v17c-1 1-2 0-2-1V6zm5 2c4-1 9 1 11 5 1-1 3-2 4-2 4 0 7 3 7 7s-3 7-7 7H27c-2 0-3-1-3-2V8z" />
           <defs>
             <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" style="stop-color:#00f2fe;stop-opacity:1" />
@@ -46,12 +50,13 @@
 
   <!-- CONTENT OVERLAY -->
   <main class="scroll-container">
-    
+
     <!-- HERO SECTION -->
     <section class="section hero" id="hero">
       <div class="content-wrapper text-center">
         <h1 class="glitch-text" data-text="Feel The Sound">Feel The Sound</h1>
-        <p class="subtitle">Enter the 3D dimension of audio streaming. Discover, share, and monetize your music in an immersive digital soundscape.</p>
+        <p class="subtitle">Enter the 3D dimension of audio streaming. Discover, share, and monetize your music in an
+          immersive digital soundscape.</p>
         <div class="cta-group">
           <button class="btn btn-primary btn-lg">Start Exploring</button>
           <button class="btn btn-glass btn-lg">Upload Your Vibe</button>
@@ -112,7 +117,8 @@
         <h2 class="section-title text-center">Global Player & Community</h2>
         <div class="player-dashboard glass">
           <div class="player-header">
-            <div class="player-art" style="background: url('https://picsum.photos/400/400?random=1') center/cover;"></div>
+            <div class="player-art" style="background: url('https://picsum.photos/400/400?random=1') center/cover;">
+            </div>
             <div class="player-meta">
               <h2>Midnight Drive 3D (Spatial Audio)</h2>
               <p>by <a href="#" class="artist-link">Synthwave Collective</a></p>
@@ -272,31 +278,46 @@
 
   <script src="app.js"></script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
+  <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+    <div id="dynamic-stripe-button"></div>
+    <script>
+      (function () {
+        var container = document.getElementById('dynamic-stripe-button');
+        var btn = document.createElement('stripe-buy-button');
+        var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+        if (isDev) {
+          btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
         } else {
-          window.location.href = '/sign-in';
+          btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
         }
-      };
-    }
-  </script>
-</div>
+        container.appendChild(btn);
+      })();
+    </script>
+    <div id="stripe-auth-overlay"
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+      title="Comprar"></div>
+    <script>
+      var overlay = document.getElementById('stripe-auth-overlay');
+      if (overlay) {
+        overlay.onclick = function () {
+          var params = new URLSearchParams(window.location.search);
+          if (params.get('auth') === '1') {
+            var checkoutUrl = params.get('checkout');
+            if (checkoutUrl) {
+              window.location.href = checkoutUrl;
+            }
+          } else {
+            window.location.href = '/sign-in';
+          }
+        };
+      }
+    </script>
+  </div>
 
 </body>
+
 </html>

@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta name="description" content="Scroll-driven video scrubbing hero with 3D cinematic typography, dynamic text styling, and parallax animations.">
+  <meta name="description"
+    content="Scroll-driven video scrubbing hero with 3D cinematic typography, dynamic text styling, and parallax animations.">
   <meta name="keywords" content="3d, cinematic, typography, video, scrubbing, scroll animation">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CINETYPE 3D — Cinematic Typography Video</title>
-  
+
   <!-- Fonts -->
-<!-- Styles -->
+  <!-- Styles -->
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-  
+
   <!-- Background 3D Canvas -->
   <canvas id="bg-canvas"></canvas>
 
@@ -30,7 +33,10 @@
         <a href="#contact">Contact</a>
       </nav>
       <button class="btn-play-reel">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <polygon points="5 3 19 12 5 21 5 3"></polygon>
+        </svg>
         Play Reel
       </button>
       <button class="mobile-menu-btn">
@@ -62,7 +68,8 @@
           <span class="line">The Future of</span>
           <span class="line highlight">Cinematic Typography</span>
         </h1>
-        <p class="hero-subtitle" data-speed="1.2">Immerse yourself in a world where motion design meets spatial storytelling.</p>
+        <p class="hero-subtitle" data-speed="1.2">Immerse yourself in a world where motion design meets spatial
+          storytelling.</p>
         <button class="btn-primary" data-speed="1.5">Discover Experience</button>
       </div>
       <div class="scroll-indicator">
@@ -106,7 +113,9 @@
           <button class="btn-play-large">▶</button>
         </div>
         <!-- Placeholder for actual video or a cinemagraph -->
-        <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1925&q=80" alt="Cinematic Set" class="video-poster">
+        <img
+          src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1925&q=80"
+          alt="Cinematic Set" class="video-poster">
       </div>
     </section>
 
@@ -117,7 +126,9 @@
         <div class="scenes-gallery">
           <div class="scene-item">
             <div class="scene-img">
-              <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Scene 1">
+              <img
+                src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                alt="Scene 1">
             </div>
             <div class="scene-info">
               <h3>Neon Genesis</h3>
@@ -126,7 +137,9 @@
           </div>
           <div class="scene-item" style="margin-top: 100px;">
             <div class="scene-img">
-              <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Scene 2">
+              <img
+                src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                alt="Scene 2">
             </div>
             <div class="scene-info">
               <h3>Ethereal Void</h3>
@@ -135,7 +148,9 @@
           </div>
           <div class="scene-item">
             <div class="scene-img">
-              <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Scene 3">
+              <img
+                src="https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                alt="Scene 3">
             </div>
             <div class="scene-info">
               <h3>Monolith</h3>
@@ -161,7 +176,8 @@
         <div class="process-content">
           <div class="process-text">
             <h2 class="section-title">The Process</h2>
-            <p>From storyboard to final render, every frame is meticulously crafted to ensure a breathtaking visual experience.</p>
+            <p>From storyboard to final render, every frame is meticulously crafted to ensure a breathtaking visual
+              experience.</p>
             <ul class="process-steps">
               <li><span class="step-num">01.</span> <span class="step-text">Storyboarding & Concept</span></li>
               <li><span class="step-num">02.</span> <span class="step-text">3D Modeling & Layout</span></li>
@@ -171,7 +187,9 @@
           </div>
           <div class="process-image">
             <div class="glass-panel">
-              <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Process">
+              <img
+                src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                alt="Process">
             </div>
           </div>
         </div>
@@ -209,31 +227,46 @@
 
   <script src="typeCine3d.js"></script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
+  <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+    <div id="dynamic-stripe-button"></div>
+    <script>
+      (function () {
+        var container = document.getElementById('dynamic-stripe-button');
+        var btn = document.createElement('stripe-buy-button');
+        var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+        if (isDev) {
+          btn.setAttribute('buy-button-id', process.env.PREMIUM_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
         } else {
-          window.location.href = '/sign-in';
+          btn.setAttribute('buy-button-id', process.env.PREMIUM_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
         }
-      };
-    }
-  </script>
-</div>
+        container.appendChild(btn);
+      })();
+    </script>
+    <div id="stripe-auth-overlay"
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+      title="Comprar"></div>
+    <script>
+      var overlay = document.getElementById('stripe-auth-overlay');
+      if (overlay) {
+        overlay.onclick = function () {
+          var params = new URLSearchParams(window.location.search);
+          if (params.get('auth') === '1') {
+            var checkoutUrl = params.get('checkout');
+            if (checkoutUrl) {
+              window.location.href = checkoutUrl;
+            }
+          } else {
+            window.location.href = '/sign-in';
+          }
+        };
+      }
+    </script>
+  </div>
 
 </body>
+
 </html>

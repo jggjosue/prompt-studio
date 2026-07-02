@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BlockPay Commerce 3D</title>
-  <meta name="description" content="Explore BlockPay Commerce 3D - The modern platform that powers your entire business with immersive 3D POS, payments, and inventory management.">
+  <meta name="description"
+    content="Explore BlockPay Commerce 3D - The modern platform that powers your entire business with immersive 3D POS, payments, and inventory management.">
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
   <!-- WebGL Canvas Background -->
@@ -17,9 +20,11 @@
     <div class="nav-logo">
       <div class="bp-icon">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor"/>
-          <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor" />
+          <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" />
+          <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" />
         </svg>
       </div>
       BlockPay
@@ -38,7 +43,7 @@
 
   <!-- Scroll Containers -->
   <main class="scroll-container">
-    
+
     <!-- Hero Section -->
     <section class="scroll-section hero-section" id="hero">
       <div class="content-container text-center">
@@ -60,7 +65,8 @@
     <section class="scroll-section side-content" id="pos">
       <div class="content-container">
         <h2>Modern Point of Sale</h2>
-        <p>Transform your counter into a digital powerhouse. Our sleek hardware and software integrate seamlessly to provide a frictionless checkout experience.</p>
+        <p>Transform your counter into a digital powerhouse. Our sleek hardware and software integrate seamlessly to
+          provide a frictionless checkout experience.</p>
         <ul class="feature-list">
           <li>Customizable interfaces for any industry.</li>
           <li>Real-time sync across all devices.</li>
@@ -73,7 +79,8 @@
     <section class="scroll-section right-content" id="payments">
       <div class="content-container">
         <h2>Frictionless Payments</h2>
-        <p>Accept cards, mobile wallets, and crypto instantly. Watch your transactions turn into clear, actionable data the moment a card is tapped.</p>
+        <p>Accept cards, mobile wallets, and crypto instantly. Watch your transactions turn into clear, actionable data
+          the moment a card is tapped.</p>
         <div class="payment-stats glass-panel">
           <div class="stat">
             <span class="stat-val">99.9%</span>
@@ -91,7 +98,8 @@
     <section class="scroll-section side-content" id="inventory">
       <div class="content-container">
         <h2>Smart Inventory Management</h2>
-        <p>Keep track of every item in 3D space. Automated alerts and predictive restocking mean you never run out of your best-sellers.</p>
+        <p>Keep track of every item in 3D space. Automated alerts and predictive restocking mean you never run out of
+          your best-sellers.</p>
         <button class="btn-primary mt-4">Explore Inventory Tools</button>
       </div>
     </section>
@@ -100,7 +108,8 @@
     <section class="scroll-section right-content" id="dashboard">
       <div class="content-container">
         <h2>Financial Command Center</h2>
-        <p>Visualize your success. Our immersive dashboard turns complex financial data into beautiful, easy-to-understand charts.</p>
+        <p>Visualize your success. Our immersive dashboard turns complex financial data into beautiful,
+          easy-to-understand charts.</p>
         <div class="glass-panel mt-4">
           <h4>Today's Revenue</h4>
           <div class="revenue-val">$12,450.00</div>
@@ -129,34 +138,49 @@
   <!-- Optional GSAP for Animations -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  
+
   <script src="app.js"></script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
+  <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+    <div id="dynamic-stripe-button"></div>
+    <script>
+      (function () {
+        var container = document.getElementById('dynamic-stripe-button');
+        var btn = document.createElement('stripe-buy-button');
+        var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+        if (isDev) {
+          btn.setAttribute('buy-button-id', process.env.PROFESSIONAL_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
         } else {
-          window.location.href = '/sign-in';
+          btn.setAttribute('buy-button-id', process.env.PROFESSIONAL_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
         }
-      };
-    }
-  </script>
-</div>
+        container.appendChild(btn);
+      })();
+    </script>
+    <div id="stripe-auth-overlay"
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+      title="Comprar"></div>
+    <script>
+      var overlay = document.getElementById('stripe-auth-overlay');
+      if (overlay) {
+        overlay.onclick = function () {
+          var params = new URLSearchParams(window.location.search);
+          if (params.get('auth') === '1') {
+            var checkoutUrl = params.get('checkout');
+            if (checkoutUrl) {
+              window.location.href = checkoutUrl;
+            }
+          } else {
+            window.location.href = '/sign-in';
+          }
+        };
+      }
+    </script>
+  </div>
 
 </body>
+
 </html>

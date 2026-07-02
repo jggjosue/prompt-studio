@@ -1,199 +1,205 @@
 <!doctype html>
 <html lang="es">
-  <head>
-  <meta name="keywords" content="mega estadio, clone, design, three.js, webgl, interactive, template, landing page, prompt studio">
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Neo-Arena: arquitectura deportiva de fibra de carbono y tecnología holográfica inmersiva."
-    />
-    <title>Neo-Arena — La evolución del deporte</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <div class="noise" aria-hidden="true"></div>
 
-    <header class="site-header" aria-label="Navegación principal">
-      <a class="brand" href="#inicio" aria-label="Neo-Arena, inicio">
-        <span class="brand-mark"></span>
-        <span>NA<span class="brand-dot">.</span>26</span>
+<head>
+  <meta name="keywords"
+    content="mega estadio, clone, design, three.js, webgl, interactive, template, landing page, prompt studio">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Neo-Arena: arquitectura deportiva de fibra de carbono y tecnología holográfica inmersiva." />
+  <title>Neo-Arena — La evolución del deporte</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="noise" aria-hidden="true"></div>
+
+  <header class="site-header" aria-label="Navegación principal">
+    <a class="brand" href="#inicio" aria-label="Neo-Arena, inicio">
+      <span class="brand-mark"></span>
+      <span>NA<span class="brand-dot">.</span>26</span>
+    </a>
+    <nav class="main-nav" aria-label="Secciones">
+      <a href="#experiencia">Experiencia</a>
+      <a href="#arquitectura">Arquitectura</a>
+      <a href="#acceso">Acceso</a>
+    </nav>
+    <span class="nav-status"><i></i> Sistema activo</span>
+  </header>
+
+  <main>
+    <section class="hero-track" id="inicio" aria-label="Presentación de Neo-Arena">
+      <div class="hero">
+        <div class="media-layer" aria-hidden="true">
+          <video id="arena-video" class="arena-video" muted loop playsinline preload="auto"
+            poster="images/Fotografía_arquitectónica_hiperrealista_de_un_202606091413.jpeg">
+            <source src="videos/Futuristic_stadium_light_explosion_202606091422.mp4" type="video/mp4" />
+          </video>
+          <img class="arena-poster" src="images/Fotografía_arquitectónica_hiperrealista_de_un_202606091413.jpeg"
+            alt="" />
+          <div class="media-vignette"></div>
+          <div class="electric-haze haze-one"></div>
+          <div class="electric-haze haze-two"></div>
+          <canvas id="particle-field"></canvas>
+        </div>
+
+        <div class="hero-grid">
+          <div class="hero-left">
+            <p class="coordinate">25.6866° N / 100.3161° W</p>
+            <h1>NEO-<br />ARENA</h1>
+            <p class="edition">Serie arquitectónica 01 / 2026</p>
+          </div>
+
+          <div class="hero-right">
+            <span class="section-index">01 / VISIÓN</span>
+            <h2>La evolución<br />del deporte</h2>
+            <p>
+              94,000 espectadores. Una estructura monolítica de fibra de
+              carbono y un núcleo holográfico que convierte cada encuentro
+              en energía visible.
+            </p>
+            <dl class="hero-specs">
+              <div>
+                <dt>Superficie</dt>
+                <dd>218,000 m²</dd>
+              </div>
+              <div>
+                <dt>Latencia visual</dt>
+                <dd>&lt; 8 ms</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+
+        <div class="hero-controls">
+          <a class="button button-ghost" href="#arquitectura">
+            <span>Explorar estructura</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 12h14M14 7l5 5-5 5" />
+            </svg>
+          </a>
+          <div class="scroll-cue" aria-hidden="true">
+            <span>Scroll para activar</span>
+            <i></i>
+          </div>
+          <a class="button button-solid" href="#acceso">
+            <span>Solicitar acceso</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 12h14M14 7l5 5-5 5" />
+            </svg>
+          </a>
+        </div>
+
+        <div class="activation-line" aria-hidden="true">
+          <span></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="manifesto" id="experiencia">
+      <div class="section-label">
+        <span>02</span>
+        <p>Más allá<br />del espectáculo</p>
+      </div>
+      <div class="manifesto-copy">
+        <p class="lead">
+          No es un estadio.<br />
+          Es una <em>frecuencia.</em>
+        </p>
+        <p class="body-copy">
+          Neo-Arena sincroniza espacio, luz y sonido en una única
+          arquitectura reactiva. El público deja de observar el evento para
+          convertirse en parte de él.
+        </p>
+      </div>
+    </section>
+
+    <section class="architecture" id="arquitectura">
+      <div class="architecture-media">
+        <img src="images/Render_3D_cinematográfico_del_interior_202606091412 (1).jpeg"
+          alt="Interior de Neo-Arena con un núcleo de energía holográfica sobre el campo" loading="lazy" />
+        <div class="image-data">
+          <span>NÚCLEO / H-01</span>
+          <span>ENERGÍA ESTABLE</span>
+        </div>
+      </div>
+      <div class="architecture-copy">
+        <span class="section-index">03 / ARQUITECTURA</span>
+        <h2>Materia<br />que respira.</h2>
+        <p>
+          La piel exterior combina compuestos de carbono, cristal inteligente
+          y 42 kilómetros de fibra lumínica. En el interior, una matriz de
+          proyectores volumétricos dibuja información en el aire.
+        </p>
+        <ul class="feature-list">
+          <li><span>01</span> Cubierta cinética adaptativa</li>
+          <li><span>02</span> Sonido espacial de 360 grados</li>
+          <li><span>03</span> Gemelo digital en tiempo real</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="access" id="acceso">
+      <div>
+        <span class="section-index">04 / PRIMERA APERTURA</span>
+        <h2>Entra al<br />siguiente nivel.</h2>
+      </div>
+      <a class="access-link" href="mailto:access@neo-arena.stadium">
+        <span>Reservar acceso prioritario</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M5 12h14M14 7l5 5-5 5" />
+        </svg>
       </a>
-      <nav class="main-nav" aria-label="Secciones">
-        <a href="#experiencia">Experiencia</a>
-        <a href="#arquitectura">Arquitectura</a>
-        <a href="#acceso">Acceso</a>
-      </nav>
-      <span class="nav-status"><i></i> Sistema activo</span>
-    </header>
+      <footer>
+        <span>NEO-ARENA © 2026</span>
+        <span>Diseñado para lo imposible</span>
+      </footer>
+    </section>
+  </main>
 
-    <main>
-      <section class="hero-track" id="inicio" aria-label="Presentación de Neo-Arena">
-        <div class="hero">
-          <div class="media-layer" aria-hidden="true">
-            <video
-              id="arena-video"
-              class="arena-video"
-              muted
-              loop
-              playsinline
-              preload="auto"
-              poster="images/Fotografía_arquitectónica_hiperrealista_de_un_202606091413.jpeg"
-            >
-              <source
-                src="videos/Futuristic_stadium_light_explosion_202606091422.mp4"
-                type="video/mp4"
-              />
-            </video>
-            <img
-              class="arena-poster"
-              src="images/Fotografía_arquitectónica_hiperrealista_de_un_202606091413.jpeg"
-              alt=""
-            />
-            <div class="media-vignette"></div>
-            <div class="electric-haze haze-one"></div>
-            <div class="electric-haze haze-two"></div>
-            <canvas id="particle-field"></canvas>
-          </div>
+  <script src="script.js"></script>
 
-          <div class="hero-grid">
-            <div class="hero-left">
-              <p class="coordinate">25.6866° N / 100.3161° W</p>
-              <h1>NEO-<br />ARENA</h1>
-              <p class="edition">Serie arquitectónica 01 / 2026</p>
-            </div>
+  <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+    <div id="dynamic-stripe-button"></div>
+    <script>
+      (function () {
+        var container = document.getElementById('dynamic-stripe-button');
+        var btn = document.createElement('stripe-buy-button');
+        var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
-            <div class="hero-right">
-              <span class="section-index">01 / VISIÓN</span>
-              <h2>La evolución<br />del deporte</h2>
-              <p>
-                94,000 espectadores. Una estructura monolítica de fibra de
-                carbono y un núcleo holográfico que convierte cada encuentro
-                en energía visible.
-              </p>
-              <dl class="hero-specs">
-                <div><dt>Superficie</dt><dd>218,000 m²</dd></div>
-                <div><dt>Latencia visual</dt><dd>&lt; 8 ms</dd></div>
-              </dl>
-            </div>
-          </div>
-
-          <div class="hero-controls">
-            <a class="button button-ghost" href="#arquitectura">
-              <span>Explorar estructura</span>
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M5 12h14M14 7l5 5-5 5" />
-              </svg>
-            </a>
-            <div class="scroll-cue" aria-hidden="true">
-              <span>Scroll para activar</span>
-              <i></i>
-            </div>
-            <a class="button button-solid" href="#acceso">
-              <span>Solicitar acceso</span>
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M5 12h14M14 7l5 5-5 5" />
-              </svg>
-            </a>
-          </div>
-
-          <div class="activation-line" aria-hidden="true">
-            <span></span>
-          </div>
-        </div>
-      </section>
-
-      <section class="manifesto" id="experiencia">
-        <div class="section-label">
-          <span>02</span>
-          <p>Más allá<br />del espectáculo</p>
-        </div>
-        <div class="manifesto-copy">
-          <p class="lead">
-            No es un estadio.<br />
-            Es una <em>frecuencia.</em>
-          </p>
-          <p class="body-copy">
-            Neo-Arena sincroniza espacio, luz y sonido en una única
-            arquitectura reactiva. El público deja de observar el evento para
-            convertirse en parte de él.
-          </p>
-        </div>
-      </section>
-
-      <section class="architecture" id="arquitectura">
-        <div class="architecture-media">
-          <img
-            src="images/Render_3D_cinematográfico_del_interior_202606091412 (1).jpeg"
-            alt="Interior de Neo-Arena con un núcleo de energía holográfica sobre el campo"
-            loading="lazy"
-          />
-          <div class="image-data">
-            <span>NÚCLEO / H-01</span>
-            <span>ENERGÍA ESTABLE</span>
-          </div>
-        </div>
-        <div class="architecture-copy">
-          <span class="section-index">03 / ARQUITECTURA</span>
-          <h2>Materia<br />que respira.</h2>
-          <p>
-            La piel exterior combina compuestos de carbono, cristal inteligente
-            y 42 kilómetros de fibra lumínica. En el interior, una matriz de
-            proyectores volumétricos dibuja información en el aire.
-          </p>
-          <ul class="feature-list">
-            <li><span>01</span> Cubierta cinética adaptativa</li>
-            <li><span>02</span> Sonido espacial de 360 grados</li>
-            <li><span>03</span> Gemelo digital en tiempo real</li>
-          </ul>
-        </div>
-      </section>
-
-      <section class="access" id="acceso">
-        <div>
-          <span class="section-index">04 / PRIMERA APERTURA</span>
-          <h2>Entra al<br />siguiente nivel.</h2>
-        </div>
-        <a class="access-link" href="mailto:access@neo-arena.stadium">
-          <span>Reservar acceso prioritario</span>
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M5 12h14M14 7l5 5-5 5" />
-          </svg>
-        </a>
-        <footer>
-          <span>NEO-ARENA © 2026</span>
-          <span>Diseñado para lo imposible</span>
-        </footer>
-      </section>
-    </main>
-
-    <script src="script.js"></script>
-  
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
+        if (isDev) {
+          btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
         } else {
-          window.location.href = '/sign-in';
+          btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
         }
-      };
-    }
-  </script>
-</div>
+        container.appendChild(btn);
+      })();
+    </script>
+    <div id="stripe-auth-overlay"
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+      title="Comprar"></div>
+    <script>
+      var overlay = document.getElementById('stripe-auth-overlay');
+      if (overlay) {
+        overlay.onclick = function () {
+          var params = new URLSearchParams(window.location.search);
+          if (params.get('auth') === '1') {
+            var checkoutUrl = params.get('checkout');
+            if (checkoutUrl) {
+              window.location.href = checkoutUrl;
+            }
+          } else {
+            window.location.href = '/sign-in';
+          }
+        };
+      }
+    </script>
+  </div>
 
 </body>
+
 </html>

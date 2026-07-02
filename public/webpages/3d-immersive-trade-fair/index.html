@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3D Immersive Trade Fair | Premium B2B Event</title>
     <meta name="description" content="Experience the future of trade fairs. A modern, immersive 3D B2B event.">
-    
+
     <!-- Google Fonts -->
-<!-- Custom Styles -->
+    <!-- Custom Styles -->
     <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
     <!-- 3D Canvas Background -->
     <canvas id="webgl-canvas"></canvas>
 
     <!-- UI Overlay -->
     <main class="ui-layer">
-        
+
         <!-- Navbar -->
         <header class="navbar" id="navbar">
             <div class="nav-container">
@@ -40,13 +42,14 @@
         </header>
 
         <!-- Sections for Scroll Tracking & Content -->
-        
+
         <section id="hero" class="section hero-section">
             <div class="container content-wrapper">
                 <div class="hero-content" data-parallax="0.2">
                     <span class="badge">Global B2B Summit 2026</span>
                     <h1 class="title">Step into the <br><span class="gradient-text">Future of Trade</span></h1>
-                    <p class="subtitle">An immersive 3D commercial exposition connecting global brands, innovators, and industry leaders.</p>
+                    <p class="subtitle">An immersive 3D commercial exposition connecting global brands, innovators, and
+                        industry leaders.</p>
                     <div class="hero-cta">
                         <a href="#register" class="btn btn-primary btn-lg">Get Your Pass</a>
                         <a href="#fair" class="btn btn-outline btn-lg">Explore the Fair</a>
@@ -59,7 +62,8 @@
             <div class="container content-wrapper right-align">
                 <div class="glass-card" data-parallax="0.1">
                     <h2>The Main Hall</h2>
-                    <p>Navigate through our visually stunning pavilions. Discover cutting-edge products and interactive brand experiences designed for the next generation of business.</p>
+                    <p>Navigate through our visually stunning pavilions. Discover cutting-edge products and interactive
+                        brand experiences designed for the next generation of business.</p>
                     <ul class="feature-list">
                         <li>500+ Top-tier Exhibitors</li>
                         <li>Interactive Product Demos</li>
@@ -73,7 +77,8 @@
             <div class="container content-wrapper">
                 <div class="glass-card" data-parallax="-0.1">
                     <h2>Premium Booths & Exhibitors</h2>
-                    <p>Meet industry giants and disruptive startups. Our immersive booths provide an unprecedented level of interaction and product showcase.</p>
+                    <p>Meet industry giants and disruptive startups. Our immersive booths provide an unprecedented level
+                        of interaction and product showcase.</p>
                     <div class="booth-stats">
                         <div class="stat">
                             <h3>120+</h3>
@@ -92,7 +97,8 @@
             <div class="container content-wrapper center-align">
                 <div class="glass-card large" data-parallax="0.15">
                     <h2>Conference Stage</h2>
-                    <p>Learn from visionaries at our virtual main stage. Live keynotes, panel discussions, and Q&A sessions.</p>
+                    <p>Learn from visionaries at our virtual main stage. Live keynotes, panel discussions, and Q&A
+                        sessions.</p>
                     <div class="schedule-preview">
                         <div class="schedule-item">
                             <span class="time">10:00 AM</span>
@@ -118,7 +124,8 @@
                 <div class="register-container" data-parallax="0.1">
                     <div class="register-info">
                         <h2>Secure Your Access</h2>
-                        <p>Don't miss out on the most innovative trade fair of the year. Register now for VIP access, exclusive networking, and full access to all pavilions.</p>
+                        <p>Don't miss out on the most innovative trade fair of the year. Register now for VIP access,
+                            exclusive networking, and full access to all pavilions.</p>
                     </div>
                     <form class="glass-form" id="register">
                         <h3>Registration</h3>
@@ -143,7 +150,7 @@
                 </div>
             </div>
         </section>
-        
+
         <footer class="footer">
             <div class="container">
                 <p>&copy; 2026 Trade Fair 3D. All rights reserved.</p>
@@ -155,40 +162,55 @@
     <!-- Scripts -->
     <!-- Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    
+
     <!-- GSAP for Animations and ScrollTrigger -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    
+
     <!-- Custom Scripts -->
     <script src="js/main.js"></script>
     <script src="js/scene.js"></script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
-        } else {
-          window.location.href = '/sign-in';
-        }
-      };
-    }
-  </script>
-</div>
+    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+        <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+        <div id="dynamic-stripe-button"></div>
+        <script>
+            (function () {
+                var container = document.getElementById('dynamic-stripe-button');
+                var btn = document.createElement('stripe-buy-button');
+                var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+                if (isDev) {
+                    btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
+                } else {
+                    btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
+                }
+                container.appendChild(btn);
+            })();
+        </script>
+        <div id="stripe-auth-overlay"
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+            title="Comprar"></div>
+        <script>
+            var overlay = document.getElementById('stripe-auth-overlay');
+            if (overlay) {
+                overlay.onclick = function () {
+                    var params = new URLSearchParams(window.location.search);
+                    if (params.get('auth') === '1') {
+                        var checkoutUrl = params.get('checkout');
+                        if (checkoutUrl) {
+                            window.location.href = checkoutUrl;
+                        }
+                    } else {
+                        window.location.href = '/sign-in';
+                    }
+                };
+            }
+        </script>
+    </div>
 
 </body>
+
 </html>

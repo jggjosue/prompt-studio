@@ -1,112 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AURA Phone Pro - The Future is Here</title>
-<link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AURA Phone Pro - The Future is Here</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
-    <nav class="navbar">
-        <div class="logo">AURA</div>
-        <div class="nav-links">
-            <a href="#design">Design</a>
-            <a href="#camera">Camera</a>
-            <a href="#performance">Performance</a>
-            <a href="#pricing" class="btn-buy">Buy</a>
+  <nav class="navbar">
+    <div class="logo">AURA</div>
+    <div class="nav-links">
+      <a href="#design">Design</a>
+      <a href="#camera">Camera</a>
+      <a href="#performance">Performance</a>
+      <a href="#pricing" class="btn-buy">Buy</a>
+    </div>
+  </nav>
+
+  <!-- 3D Canvas Container - Fixed Position -->
+  <div id="canvas-container"></div>
+
+  <main>
+    <section id="hero" class="section">
+      <div class="content">
+        <h1 class="hero-title">AURA Phone Pro</h1>
+        <p class="hero-subtitle">Pro beyond limits.</p>
+      </div>
+    </section>
+
+    <section id="design" class="section">
+      <div class="content right">
+        <h2 class="parallax-text">Forged in Titanium.</h2>
+        <p class="parallax-text"> Aerospace-grade titanium design. Stronger, lighter, and more elegant than ever.</p>
+      </div>
+    </section>
+
+    <section id="display" class="section">
+      <div class="content left">
+        <h2 class="parallax-text">Brilliance in motion.</h2>
+        <p class="parallax-text">120Hz ProMotion Super Retina XDR display. Colors that pop, blacks that consume.</p>
+      </div>
+    </section>
+
+    <section id="camera" class="section">
+      <div class="content right">
+        <h2 class="parallax-text">A camera system like no other.</h2>
+        <p class="parallax-text">Capture the unseen with a new 48MP main sensor and advanced computational photography.
+        </p>
+      </div>
+    </section>
+
+    <section id="performance" class="section">
+      <div class="content center">
+        <h2 class="chip-title parallax-text">AURA Silicon X</h2>
+        <p class="parallax-text">Mind-bending performance. The world's first 3nm smartphone chip.</p>
+      </div>
+    </section>
+
+    <section id="battery" class="section">
+      <div class="content left">
+        <h2 class="parallax-text">All-day power.</h2>
+        <p class="parallax-text">Up to 29 hours of video playback. Fast charge to 50% in 30 minutes.</p>
+      </div>
+    </section>
+
+    <section id="pricing" class="section final-cta">
+      <div class="content center">
+        <h2>AURA Phone Pro</h2>
+        <p class="price">From $999 or $41.62/mo. for 24 mo.</p>
+        <div class="button-group">
+          <button class="btn-primary" onclick="alert('Proceeding to checkout...')">Buy Now</button>
+          <button class="btn-secondary" onclick="alert('Loading comparison matrix...')">Compare</button>
         </div>
-    </nav>
+      </div>
+    </section>
+  </main>
 
-    <!-- 3D Canvas Container - Fixed Position -->
-    <div id="canvas-container"></div>
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="main.js"></script>
 
-    <main>
-        <section id="hero" class="section">
-            <div class="content">
-                <h1 class="hero-title">AURA Phone Pro</h1>
-                <p class="hero-subtitle">Pro beyond limits.</p>
-            </div>
-        </section>
+  <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+    <div id="dynamic-stripe-button"></div>
+    <script>
+      (function () {
+        var container = document.getElementById('dynamic-stripe-button');
+        var btn = document.createElement('stripe-buy-button');
+        var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
-        <section id="design" class="section">
-            <div class="content right">
-                <h2 class="parallax-text">Forged in Titanium.</h2>
-                <p class="parallax-text"> Aerospace-grade titanium design. Stronger, lighter, and more elegant than ever.</p>
-            </div>
-        </section>
-        
-        <section id="display" class="section">
-            <div class="content left">
-                <h2 class="parallax-text">Brilliance in motion.</h2>
-                <p class="parallax-text">120Hz ProMotion Super Retina XDR display. Colors that pop, blacks that consume.</p>
-            </div>
-        </section>
-
-        <section id="camera" class="section">
-            <div class="content right">
-                <h2 class="parallax-text">A camera system like no other.</h2>
-                <p class="parallax-text">Capture the unseen with a new 48MP main sensor and advanced computational photography.</p>
-            </div>
-        </section>
-
-        <section id="performance" class="section">
-            <div class="content center">
-                <h2 class="chip-title parallax-text">AURA Silicon X</h2>
-                <p class="parallax-text">Mind-bending performance. The world's first 3nm smartphone chip.</p>
-            </div>
-        </section>
-        
-        <section id="battery" class="section">
-            <div class="content left">
-                <h2 class="parallax-text">All-day power.</h2>
-                <p class="parallax-text">Up to 29 hours of video playback. Fast charge to 50% in 30 minutes.</p>
-            </div>
-        </section>
-
-        <section id="pricing" class="section final-cta">
-            <div class="content center">
-                <h2>AURA Phone Pro</h2>
-                <p class="price">From $999 or $41.62/mo. for 24 mo.</p>
-                <div class="button-group">
-                    <button class="btn-primary" onclick="alert('Proceeding to checkout...')">Buy Now</button>
-                    <button class="btn-secondary" onclick="alert('Loading comparison matrix...')">Compare</button>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="main.js"></script>
-
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
+        if (isDev) {
+          btn.setAttribute('buy-button-id', process.env.ENTREPRENEUR_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
         } else {
-          window.location.href = '/sign-in';
+          btn.setAttribute('buy-button-id', process.env.ENTREPRENEUR_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
         }
-      };
-    }
-  </script>
-</div>
+        container.appendChild(btn);
+      })();
+    </script>
+    <div id="stripe-auth-overlay"
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+      title="Comprar"></div>
+    <script>
+      var overlay = document.getElementById('stripe-auth-overlay');
+      if (overlay) {
+        overlay.onclick = function () {
+          var params = new URLSearchParams(window.location.search);
+          if (params.get('auth') === '1') {
+            var checkoutUrl = params.get('checkout');
+            if (checkoutUrl) {
+              window.location.href = checkoutUrl;
+            }
+          } else {
+            window.location.href = '/sign-in';
+          }
+        };
+      }
+    </script>
+  </div>
 
 </body>
+
 </html>

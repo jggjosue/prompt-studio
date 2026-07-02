@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Voyage Cruise Line 3D</title>
-    <meta name="description" content="Explore a premium 3D cruise experience with Voyage Cruise Line. Simulated booking and routes.">
-<link rel="stylesheet" href="./style.css">
+    <meta name="description"
+        content="Explore a premium 3D cruise experience with Voyage Cruise Line. Simulated booking and routes.">
+    <link rel="stylesheet" href="./style.css">
 </head>
+
 <body>
-    
+
     <!-- Fixed WebGL Canvas -->
     <canvas id="webgl-canvas"></canvas>
 
     <!-- Disclaimers (Fixed) -->
     <div class="disclaimer-banner">
-        Cruises, prices and availability are simulated examples. This is a demo cruise booking experience. Routes and schedules may vary. Review official terms before booking any real cruise.
+        Cruises, prices and availability are simulated examples. This is a demo cruise booking experience. Routes and
+        schedules may vary. Review official terms before booking any real cruise.
     </div>
 
     <!-- Main Navigation -->
@@ -30,19 +34,21 @@
 
     <!-- Scroll Content Overlay -->
     <main class="scroll-container">
-        
+
         <section id="hero" class="section glass-section">
             <div class="content-block">
                 <h1>The Ocean Is Calling</h1>
                 <p class="subtitle">Experience the ultimate premium cruise, rendered in breathtaking 3D.</p>
-                <button class="btn-primary" onclick="document.getElementById('deck').scrollIntoView({behavior: 'smooth'})">Embark</button>
+                <button class="btn-primary"
+                    onclick="document.getElementById('deck').scrollIntoView({behavior: 'smooth'})">Embark</button>
             </div>
         </section>
 
         <section id="deck" class="section side-section right">
             <div class="content-block glass-panel">
                 <h2>Upper Deck Oasis</h2>
-                <p>Feel the breeze and soak in the sun. Our upper deck features infinity pools and world-class lounging areas designed for absolute relaxation.</p>
+                <p>Feel the breeze and soak in the sun. Our upper deck features infinity pools and world-class lounging
+                    areas designed for absolute relaxation.</p>
                 <ul class="feature-list">
                     <li>3 Infinity Pools</li>
                     <li>Sunset Bar</li>
@@ -54,7 +60,8 @@
         <section id="cabins" class="section side-section left">
             <div class="content-block glass-panel">
                 <h2>Ocean-View Suites</h2>
-                <p>Wake up to panoramic views of the horizon. Every suite is equipped with premium amenities, a private balcony, and 24/7 room service.</p>
+                <p>Wake up to panoramic views of the horizon. Every suite is equipped with premium amenities, a private
+                    balcony, and 24/7 room service.</p>
                 <div class="stats-row">
                     <div class="stat"><span>500+</span> Sq. Ft</div>
                     <div class="stat"><span>24/7</span> Concierge</div>
@@ -65,7 +72,8 @@
         <section id="amenities" class="section center-section">
             <div class="content-block glass-panel">
                 <h2>World-Class Amenities</h2>
-                <p>From our 5-star spa to gourmet dining across 10 restaurants, every moment on board is crafted for luxury.</p>
+                <p>From our 5-star spa to gourmet dining across 10 restaurants, every moment on board is crafted for
+                    luxury.</p>
                 <div class="chips-container">
                     <span class="chip">Spa & Wellness</span>
                     <span class="chip">Fine Dining</span>
@@ -78,7 +86,8 @@
         <section id="ports" class="section side-section right">
             <div class="content-block glass-panel">
                 <h2>Global Destinations</h2>
-                <p>Explore curated routes across the Mediterranean, Caribbean, and Alaska. We bring the world's most beautiful ports to your doorstep.</p>
+                <p>Explore curated routes across the Mediterranean, Caribbean, and Alaska. We bring the world's most
+                    beautiful ports to your doorstep.</p>
                 <div class="route-map-fake">
                     <div class="port-item">Miami</div>
                     <div class="port-item">Nassau</div>
@@ -91,7 +100,7 @@
             <div class="content-block booking-panel">
                 <h2>Reserve Your Journey</h2>
                 <p>Simulated Checkout Experience</p>
-                
+
                 <form class="booking-form" onsubmit="event.preventDefault(); alert('Demo booking successful!');">
                     <div class="form-group">
                         <label>Destination</label>
@@ -102,7 +111,7 @@
                             <option value="alaska">Alaskan Glaciers (5 Nights)</option>
                         </select>
                     </div>
-                    
+
                     <div class="form-row">
                         <div class="form-group">
                             <label>Guests</label>
@@ -129,35 +138,50 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    
+
     <!-- Application Logic -->
     <script src="./app.js"></script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
-        } else {
-          window.location.href = '/sign-in';
-        }
-      };
-    }
-  </script>
-</div>
+    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+        <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+        <div id="dynamic-stripe-button"></div>
+        <script>
+            (function () {
+                var container = document.getElementById('dynamic-stripe-button');
+                var btn = document.createElement('stripe-buy-button');
+                var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+                if (isDev) {
+                    btn.setAttribute('buy-button-id', process.env.PROFESSIONAL_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
+                } else {
+                    btn.setAttribute('buy-button-id', process.env.PROFESSIONAL_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
+                }
+                container.appendChild(btn);
+            })();
+        </script>
+        <div id="stripe-auth-overlay"
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+            title="Comprar"></div>
+        <script>
+            var overlay = document.getElementById('stripe-auth-overlay');
+            if (overlay) {
+                overlay.onclick = function () {
+                    var params = new URLSearchParams(window.location.search);
+                    if (params.get('auth') === '1') {
+                        var checkoutUrl = params.get('checkout');
+                        if (checkoutUrl) {
+                            window.location.href = checkoutUrl;
+                        }
+                    } else {
+                        window.location.href = '/sign-in';
+                    }
+                };
+            }
+        </script>
+    </div>
 
 </body>
+
 </html>

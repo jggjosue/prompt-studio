@@ -1,31 +1,34 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PromptStudio Experience | AI Creative Laboratory</title>
     <link rel="stylesheet" href="styles.css">
-    
+
     <!-- Fonts -->
-<!-- Three.js and GSAP -->
+    <!-- Three.js and GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 </head>
+
 <body>
-    
+
     <!-- 3D Canvas Background -->
     <div id="canvas-container"></div>
 
     <!-- UI Overlay container -->
     <main class="experience-container">
-        
+
         <!-- Entrance / Hero -->
         <section class="chapter" id="hero">
             <div class="content-block left">
                 <div class="badge">AI CREATIVE STUDIO</div>
                 <h1 class="mega-title" data-speed="0.8">PROMPT<br>STUDIO</h1>
-                <p class="subtitle" data-speed="1.1">Entra al laboratorio donde la inteligencia artificial toma forma. Diseña, prueba y organiza el futuro.</p>
+                <p class="subtitle" data-speed="1.1">Entra al laboratorio donde la inteligencia artificial toma forma.
+                    Diseña, prueba y organiza el futuro.</p>
                 <button class="primary-btn mt-4">Iniciar Experiencia <span class="arrow">→</span></button>
             </div>
         </section>
@@ -34,8 +37,9 @@
         <section class="chapter" id="editor">
             <div class="content-block right holographic-panel" data-speed="0.9">
                 <h2>El Editor Central</h2>
-                <p>Escribe con precisión. Nuestros prompts flotan a tu alrededor como tarjetas luminosas. Visualiza cada ajuste en tiempo real.</p>
-                
+                <p>Escribe con precisión. Nuestros prompts flotan a tu alrededor como tarjetas luminosas. Visualiza cada
+                    ajuste en tiempo real.</p>
+
                 <div class="glass-card mt-2">
                     <div class="card-header">
                         <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
@@ -57,7 +61,8 @@
         <section class="chapter" id="workflows">
             <div class="content-block left glass-panel" data-speed="1.2">
                 <h2>Conecta las Ideas</h2>
-                <p>Organiza flujos de trabajo complejos. Visualiza cómo cada iteración se conecta con el siguiente modelo de IA. Nodos interactivos en tu canvas 3D.</p>
+                <p>Organiza flujos de trabajo complejos. Visualiza cómo cada iteración se conecta con el siguiente
+                    modelo de IA. Nodos interactivos en tu canvas 3D.</p>
                 <div class="stats-grid mt-4">
                     <div class="stat-box">
                         <span class="stat-num">50+</span>
@@ -75,7 +80,8 @@
         <section class="chapter" id="results">
             <div class="content-block center holographic-panel" data-speed="0.95">
                 <h2 class="text-center">Resultados Holográficos</h2>
-                <p class="text-center max-w-lg mx-auto">Compara versiones como capas dimensionales. A/B testing visual instantáneo.</p>
+                <p class="text-center max-w-lg mx-auto">Compara versiones como capas dimensionales. A/B testing visual
+                    instantáneo.</p>
                 <div class="versions-mockup mt-4">
                     <div class="v-layer layer-1">v1.0 - Base</div>
                     <div class="v-layer layer-2">v1.2 - Lighting tweaks</div>
@@ -83,12 +89,13 @@
                 </div>
             </div>
         </section>
-        
+
         <!-- Marketplace & Teams -->
         <section class="chapter" id="marketplace">
             <div class="content-block right glass-panel" data-speed="1.1">
                 <h2>Colaboración Sin Límites</h2>
-                <p>Comparte tus cápsulas visuales con tu equipo o publícalas en el Marketplace simulado. Descubre los mejores prompts de la comunidad.</p>
+                <p>Comparte tus cápsulas visuales con tu equipo o publícalas en el Marketplace simulado. Descubre los
+                    mejores prompts de la comunidad.</p>
                 <button class="primary-btn mt-4">Explorar Marketplace</button>
             </div>
         </section>
@@ -97,8 +104,9 @@
         <section class="chapter" id="conversion">
             <div class="content-block center climax-panel" data-speed="1">
                 <h2 class="mega-title small">Únete al Futuro</h2>
-                <p class="mb-4">Tu laboratorio creativo de Inteligencia Artificial te espera. Regístrate ahora y transforma tu flujo de trabajo.</p>
-                
+                <p class="mb-4">Tu laboratorio creativo de Inteligencia Artificial te espera. Regístrate ahora y
+                    transforma tu flujo de trabajo.</p>
+
                 <form class="register-form" onsubmit="event.preventDefault(); alert('Registro exitoso!');">
                     <div class="input-group">
                         <input type="email" placeholder="Ingresa tu correo profesional" required>
@@ -120,31 +128,46 @@
 
     <script src="app.js"></script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
-        } else {
-          window.location.href = '/sign-in';
-        }
-      };
-    }
-  </script>
-</div>
+    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+        <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+        <div id="dynamic-stripe-button"></div>
+        <script>
+            (function () {
+                var container = document.getElementById('dynamic-stripe-button');
+                var btn = document.createElement('stripe-buy-button');
+                var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+                if (isDev) {
+                    btn.setAttribute('buy-button-id', process.env.PROFESSIONAL_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
+                } else {
+                    btn.setAttribute('buy-button-id', process.env.PROFESSIONAL_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
+                }
+                container.appendChild(btn);
+            })();
+        </script>
+        <div id="stripe-auth-overlay"
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+            title="Comprar"></div>
+        <script>
+            var overlay = document.getElementById('stripe-auth-overlay');
+            if (overlay) {
+                overlay.onclick = function () {
+                    var params = new URLSearchParams(window.location.search);
+                    if (params.get('auth') === '1') {
+                        var checkoutUrl = params.get('checkout');
+                        if (checkoutUrl) {
+                            window.location.href = checkoutUrl;
+                        }
+                    } else {
+                        window.location.href = '/sign-in';
+                    }
+                };
+            }
+        </script>
+    </div>
 
 </body>
+
 </html>

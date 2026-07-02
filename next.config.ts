@@ -9,6 +9,20 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 const isProd = process.env.NODE_ENV === 'production';
 
 const nextConfig: NextConfig = {
+  env: {
+    NEXT_PUBLIC_STRIPE_CHECKOUT_MINI_WEB_PLAN:
+      process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_MINI_WEB_PLAN,
+    NEXT_PUBLIC_STRIPE_CHECKOUT_ENTREPRENEUR_PLAN:
+      process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_ENTREPRENEUR_PLAN,
+    NEXT_PUBLIC_STRIPE_CHECKOUT_PROFESSIONAL_PLAN:
+      process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_PROFESSIONAL_PLAN,
+    NEXT_PUBLIC_STRIPE_CHECKOUT_BUSINESS_PLAN:
+      process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_BUSINESS_PLAN,
+    NEXT_PUBLIC_STRIPE_CHECKOUT_PREMIUM_PLAN:
+      process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_PREMIUM_PLAN,
+    NEXT_PUBLIC_STRIPE_CHECKOUT_ELITE_PLAN:
+      process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_ELITE_PLAN,
+  },
   transpilePackages: ['framer-motion'],
   /** Gzip en `next start` (Brotli lo aplica Vercel en el edge + rutas API con http-compression). */
   compress: true,

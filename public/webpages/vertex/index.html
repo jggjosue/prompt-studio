@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vertex 3D | The Core of AI Innovation</title>
-<style>
+  <style>
     :root {
       --bg-color: #030305;
       --text-main: #ffffff;
@@ -30,7 +31,10 @@
       overscroll-behavior: none;
     }
 
-    h1, h2, h3, h4 {
+    h1,
+    h2,
+    h3,
+    h4 {
       font-family: 'Space Grotesk', sans-serif;
     }
 
@@ -54,7 +58,7 @@
       justify-content: space-between;
       align-items: center;
       z-index: 100;
-      background: linear-gradient(to bottom, rgba(3,3,5,0.9), transparent);
+      background: linear-gradient(to bottom, rgba(3, 3, 5, 0.9), transparent);
       backdrop-filter: blur(5px);
     }
 
@@ -67,7 +71,7 @@
       align-items: center;
       gap: 10px;
     }
-    
+
     .logo span {
       color: var(--accent-cyan);
     }
@@ -220,12 +224,12 @@
       left: -50%;
       width: 200%;
       height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%);
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 60%);
       opacity: 0;
       transition: opacity 0.5s;
       pointer-events: none;
     }
-    
+
     .glass-panel:hover::before {
       opacity: 1;
     }
@@ -257,7 +261,7 @@
       flex-direction: column;
       text-align: center;
     }
-    
+
     #dashboard h2 {
       font-size: 4rem;
       margin-bottom: 60px;
@@ -278,7 +282,7 @@
       text-align: left;
       transition: transform 0.3s, border-color 0.3s;
     }
-    
+
     .metric-card:hover {
       transform: translateY(-5px);
       border-color: var(--accent-purple);
@@ -304,7 +308,7 @@
       justify-content: center;
       text-align: center;
     }
-    
+
     .cta-container {
       max-width: 600px;
     }
@@ -313,7 +317,7 @@
       font-size: 3rem;
       margin-bottom: 20px;
     }
-    
+
     .form-group {
       display: flex;
       gap: 10px;
@@ -346,13 +350,13 @@
       width: 0%;
       z-index: 1000;
     }
-    
+
     /* Spacer for scroll depth */
     .spacer {
       height: 50vh;
     }
   </style>
-  
+
   <script type="importmap">
   {
     "imports": {
@@ -362,6 +366,7 @@
   }
   </script>
 </head>
+
 <body>
 
   <div class="progress-bar" id="progress-bar"></div>
@@ -381,7 +386,8 @@
   <section id="hero">
     <div class="container">
       <h1 class="hero-title">The Central Core<br>of AI Intelligence</h1>
-      <p class="hero-subtitle">Deploy agents, analyze models, and orchestrate automated workflows in a fully immersive 3D laboratory environment.</p>
+      <p class="hero-subtitle">Deploy agents, analyze models, and orchestrate automated workflows in a fully immersive
+        3D laboratory environment.</p>
       <div class="hero-buttons">
         <button class="btn-primary">Initialize Core</button>
         <button class="btn-secondary">View Documentation</button>
@@ -395,7 +401,8 @@
     <div class="container section-content">
       <div class="text-content gs-reveal">
         <h2>Data Convergence</h2>
-        <p>Connect vast data sources to the central vertex. Our architecture handles infinite streams of information, structuring it dynamically for real-time model training and inference.</p>
+        <p>Connect vast data sources to the central vertex. Our architecture handles infinite streams of information,
+          structuring it dynamically for real-time model training and inference.</p>
         <ul class="feature-list">
           <li>Real-time Data Syncing</li>
           <li>Encrypted Neural Pathways</li>
@@ -434,7 +441,8 @@
     <div class="container section-content" style="direction: rtl;">
       <div class="text-content gs-reveal" style="direction: ltr;">
         <h2>Autonomous Agents</h2>
-        <p>Deploy specialized AI agents that execute complex workflows across your entire infrastructure. Monitor their decisions and actions through the interactive 3D command center.</p>
+        <p>Deploy specialized AI agents that execute complex workflows across your entire infrastructure. Monitor their
+          decisions and actions through the interactive 3D command center.</p>
         <button class="btn-secondary" style="margin-top: 20px;">Deploy Agent Cluster</button>
       </div>
       <div class="visual-content" style="direction: ltr;">
@@ -449,7 +457,7 @@
       </div>
     </div>
   </section>
-  
+
   <div class="spacer"></div>
 
   <section id="dashboard">
@@ -477,7 +485,8 @@
   <section id="cta">
     <div class="container cta-container glass-panel gs-reveal-up">
       <h2>Ready to enter the Vertex?</h2>
-      <p style="color: var(--text-muted); font-size: 1.1rem; margin-top: 15px;">Create your account and start orchestrating your AI ecosystem in 3D today.</p>
+      <p style="color: var(--text-muted); font-size: 1.1rem; margin-top: 15px;">Create your account and start
+        orchestrating your AI ecosystem in 3D today.</p>
       <form class="form-group" onsubmit="event.preventDefault(); alert('Welcome to Vertex 3D');">
         <input type="email" placeholder="Enter your email address" required>
         <button type="submit" class="btn-primary">Initialize Access</button>
@@ -511,8 +520,8 @@
 
     // Inner glowing sphere
     const coreGeo = new THREE.IcosahedronGeometry(2, 4);
-    const coreMat = new THREE.MeshBasicMaterial({ 
-      color: 0x00ffc8, 
+    const coreMat = new THREE.MeshBasicMaterial({
+      color: 0x00ffc8,
       wireframe: true,
       transparent: true,
       opacity: 0.3
@@ -525,25 +534,25 @@
     const particleCount = 3000;
     const posArray = new Float32Array(particleCount * 3);
     const colorsArray = new Float32Array(particleCount * 3);
-    
+
     const colorCyan = new THREE.Color(0x00ffc8);
     const colorPurple = new THREE.Color(0x8800ff);
 
-    for(let i = 0; i < particleCount * 3; i+=3) {
+    for (let i = 0; i < particleCount * 3; i += 3) {
       // Random position in a sphere radius ~8
       const radius = 6 + Math.random() * 4;
       const theta = Math.random() * 2 * Math.PI;
       const phi = Math.acos((Math.random() * 2) - 1);
-      
+
       posArray[i] = radius * Math.sin(phi) * Math.cos(theta);
-      posArray[i+1] = radius * Math.sin(phi) * Math.sin(theta);
-      posArray[i+2] = radius * Math.cos(phi);
+      posArray[i + 1] = radius * Math.sin(phi) * Math.sin(theta);
+      posArray[i + 2] = radius * Math.cos(phi);
 
       // Mix colors
       const mixedColor = colorCyan.clone().lerp(colorPurple, Math.random());
       colorsArray[i] = mixedColor.r;
-      colorsArray[i+1] = mixedColor.g;
-      colorsArray[i+2] = mixedColor.b;
+      colorsArray[i + 1] = mixedColor.g;
+      colorsArray[i + 2] = mixedColor.b;
     }
 
     particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
@@ -564,15 +573,15 @@
     const linesGeo = new THREE.BufferGeometry();
     const lineCount = 50;
     const linesPos = new Float32Array(lineCount * 6); // 2 points per line
-    for(let i = 0; i < lineCount; i++) {
+    for (let i = 0; i < lineCount; i++) {
       // Start at core
-      linesPos[i*6] = (Math.random() - 0.5) * 2;
-      linesPos[i*6+1] = (Math.random() - 0.5) * 2;
-      linesPos[i*6+2] = (Math.random() - 0.5) * 2;
+      linesPos[i * 6] = (Math.random() - 0.5) * 2;
+      linesPos[i * 6 + 1] = (Math.random() - 0.5) * 2;
+      linesPos[i * 6 + 2] = (Math.random() - 0.5) * 2;
       // End far away
-      linesPos[i*6+3] = (Math.random() - 0.5) * 40;
-      linesPos[i*6+4] = (Math.random() - 0.5) * 40;
-      linesPos[i*6+5] = (Math.random() - 0.5) * 40;
+      linesPos[i * 6 + 3] = (Math.random() - 0.5) * 40;
+      linesPos[i * 6 + 4] = (Math.random() - 0.5) * 40;
+      linesPos[i * 6 + 5] = (Math.random() - 0.5) * 40;
     }
     linesGeo.setAttribute('position', new THREE.BufferAttribute(linesPos, 3));
     const linesMat = new THREE.LineBasicMaterial({
@@ -606,15 +615,15 @@
       // Idle animations
       coreMesh.rotation.y = time * 0.2;
       coreMesh.rotation.x = time * 0.1;
-      
+
       particleMesh.rotation.y = time * 0.05;
-      
+
       linesMesh.rotation.z = time * 0.02;
 
       // Mouse Parallax effect
       targetX = mouseX * 0.001;
       targetY = mouseY * 0.001;
-      
+
       coreGroup.rotation.x += 0.05 * (targetY - coreGroup.rotation.x);
       coreGroup.rotation.y += 0.05 * (targetX - coreGroup.rotation.y);
 
@@ -636,8 +645,8 @@
     // Hero Entry Animation
     const tlHero = gsap.timeline();
     tlHero.to(".hero-title", { opacity: 1, y: 0, duration: 1, ease: "power3.out", delay: 0.2 })
-          .to(".hero-subtitle", { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.7")
-          .to(".hero-buttons", { opacity: 1, duration: 1, ease: "power3.out" }, "-=0.5");
+      .to(".hero-subtitle", { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.7")
+      .to(".hero-buttons", { opacity: 1, duration: 1, ease: "power3.out" }, "-=0.5");
 
     // Scroll Progress Bar
     gsap.to("#progress-bar", {
@@ -652,10 +661,11 @@
     });
 
     // HTML Elements Reveal on Scroll
-    gsap.utils.toArray('.gs-reveal').forEach(function(elem) {
-      gsap.fromTo(elem, 
+    gsap.utils.toArray('.gs-reveal').forEach(function (elem) {
+      gsap.fromTo(elem,
         { autoAlpha: 0, y: 50 },
-        { duration: 1, autoAlpha: 1, y: 0, ease: "power3.out",
+        {
+          duration: 1, autoAlpha: 1, y: 0, ease: "power3.out",
           scrollTrigger: {
             trigger: elem,
             start: "top 80%",
@@ -664,10 +674,11 @@
         });
     });
 
-    gsap.utils.toArray('.gs-reveal-right').forEach(function(elem) {
-      gsap.fromTo(elem, 
+    gsap.utils.toArray('.gs-reveal-right').forEach(function (elem) {
+      gsap.fromTo(elem,
         { autoAlpha: 0, x: 50 },
-        { duration: 1, autoAlpha: 1, x: 0, ease: "power3.out",
+        {
+          duration: 1, autoAlpha: 1, x: 0, ease: "power3.out",
           scrollTrigger: {
             trigger: elem,
             start: "top 80%",
@@ -676,10 +687,11 @@
         });
     });
 
-    gsap.utils.toArray('.gs-reveal-left').forEach(function(elem) {
-      gsap.fromTo(elem, 
+    gsap.utils.toArray('.gs-reveal-left').forEach(function (elem) {
+      gsap.fromTo(elem,
         { autoAlpha: 0, x: -50 },
-        { duration: 1, autoAlpha: 1, x: 0, ease: "power3.out",
+        {
+          duration: 1, autoAlpha: 1, x: 0, ease: "power3.out",
           scrollTrigger: {
             trigger: elem,
             start: "top 80%",
@@ -688,10 +700,11 @@
         });
     });
 
-    gsap.utils.toArray('.gs-reveal-up').forEach(function(elem) {
-      gsap.fromTo(elem, 
+    gsap.utils.toArray('.gs-reveal-up').forEach(function (elem) {
+      gsap.fromTo(elem,
         { autoAlpha: 0, y: 100, scale: 0.95 },
-        { duration: 1, autoAlpha: 1, y: 0, scale: 1, ease: "power3.out",
+        {
+          duration: 1, autoAlpha: 1, y: 0, scale: 1, ease: "power3.out",
           scrollTrigger: {
             trigger: elem,
             start: "top 85%",
@@ -737,9 +750,9 @@
         scrub: 1
       }
     });
-    
+
     gsap.to(coreMat.color, {
-      r: 136/255, g: 0, b: 255/255, // Purple hue
+      r: 136 / 255, g: 0, b: 255 / 255, // Purple hue
       ease: "none",
       scrollTrigger: {
         trigger: "#agents",
@@ -777,7 +790,7 @@
 
           const updateCount = () => {
             count += increment;
-            if(count < target) {
+            if (count < target) {
               counter.innerText = Math.ceil(count).toLocaleString();
               requestAnimationFrame(updateCount);
             } else {
@@ -792,31 +805,46 @@
 
   </script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
+  <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+    <div id="dynamic-stripe-button"></div>
+    <script>
+      (function () {
+        var container = document.getElementById('dynamic-stripe-button');
+        var btn = document.createElement('stripe-buy-button');
+        var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+        if (isDev) {
+          btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
         } else {
-          window.location.href = '/sign-in';
+          btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
         }
-      };
-    }
-  </script>
-</div>
+        container.appendChild(btn);
+      })();
+    </script>
+    <div id="stripe-auth-overlay"
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+      title="Comprar"></div>
+    <script>
+      var overlay = document.getElementById('stripe-auth-overlay');
+      if (overlay) {
+        overlay.onclick = function () {
+          var params = new URLSearchParams(window.location.search);
+          if (params.get('auth') === '1') {
+            var checkoutUrl = params.get('checkout');
+            if (checkoutUrl) {
+              window.location.href = checkoutUrl;
+            }
+          } else {
+            window.location.href = '/sign-in';
+          }
+        };
+      }
+    </script>
+  </div>
 
 </body>
+
 </html>

@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>3D Scientific Congress</title>
-  <meta name="description" content="Experience the premier 3D Scientific Congress. An immersive, interactive event for research, academia, and innovation.">
-<link rel="stylesheet" href="styles.css">
+  <meta name="description"
+    content="Experience the premier 3D Scientific Congress. An immersive, interactive event for research, academia, and innovation.">
+  <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
   <!-- Fixed 3D Canvas Background -->
   <canvas id="bg-canvas" role="presentation"></canvas>
@@ -26,13 +29,14 @@
 
   <!-- Scrolling Content -->
   <main id="scroll-container">
-    
+
     <!-- Hero Section -->
     <section id="hero" class="section glass-section">
       <div class="container text-center">
         <div class="hero-content gs-reveal">
           <div class="badge">Simposio Internacional 2026</div>
-          <h1 class="parallax-text">El Futuro de la Ciencia <br><span class="text-gradient">Innovación y Descubrimiento</span></h1>
+          <h1 class="parallax-text">El Futuro de la Ciencia <br><span class="text-gradient">Innovación y
+              Descubrimiento</span></h1>
           <p class="subtitle">Únete a la experiencia inmersiva más avanzada en investigación y academia.</p>
           <div class="hero-actions">
             <a href="#registration" class="btn btn-primary btn-lg">Asegura tu lugar</a>
@@ -47,7 +51,8 @@
       <div class="container">
         <div class="card glass-card gs-reveal">
           <h2 class="parallax-heading">Auditorio Principal</h2>
-          <p>Conferencias magistrales con líderes globales en biotecnología, física cuántica y medicina personalizada. Transmisiones en alta definición con paneles interactivos de preguntas y respuestas en tiempo real.</p>
+          <p>Conferencias magistrales con líderes globales en biotecnología, física cuántica y medicina personalizada.
+            Transmisiones en alta definición con paneles interactivos de preguntas y respuestas en tiempo real.</p>
           <ul class="feature-list">
             <li>🎙️ +50 Keynote Speakers</li>
             <li>🌐 Traducción simultánea 3D</li>
@@ -63,7 +68,8 @@
       <div class="container">
         <div class="card glass-card gs-reveal">
           <h2 class="parallax-heading">Exhibición de Pósters</h2>
-          <p>Navega a través de investigaciones de vanguardia. Interactúa con modelos moleculares, datos en tiempo real y discute directamente con los autores en nuestras salas virtuales.</p>
+          <p>Navega a través de investigaciones de vanguardia. Interactúa con modelos moleculares, datos en tiempo real
+            y discute directamente con los autores en nuestras salas virtuales.</p>
           <div class="poster-grid">
             <div class="poster-item">
               <span class="topic biology">Biología</span>
@@ -86,7 +92,8 @@
       <div class="container">
         <div class="card glass-card gs-reveal">
           <h2 class="parallax-heading">Zona de Networking</h2>
-          <p>Conecta con instituciones líderes, patrocinadores y colegas investigadores. Visita los stands virtuales y agenda reuniones 1-a-1 en entornos inmersivos.</p>
+          <p>Conecta con instituciones líderes, patrocinadores y colegas investigadores. Visita los stands virtuales y
+            agenda reuniones 1-a-1 en entornos inmersivos.</p>
           <div class="sponsor-logos">
             <div class="sponsor-logo">BayerLabs</div>
             <div class="sponsor-logo">QuantumTech</div>
@@ -153,7 +160,7 @@
         </div>
       </div>
     </section>
-    
+
     <footer class="footer">
       <p>&copy; 2026 3D Scientific Congress. Todos los derechos reservados.</p>
     </footer>
@@ -165,31 +172,46 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="congress3d.js"></script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
+  <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+    <div id="dynamic-stripe-button"></div>
+    <script>
+      (function () {
+        var container = document.getElementById('dynamic-stripe-button');
+        var btn = document.createElement('stripe-buy-button');
+        var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+        if (isDev) {
+          btn.setAttribute('buy-button-id', process.env.PROFESSIONAL_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
         } else {
-          window.location.href = '/sign-in';
+          btn.setAttribute('buy-button-id', process.env.PROFESSIONAL_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
         }
-      };
-    }
-  </script>
-</div>
+        container.appendChild(btn);
+      })();
+    </script>
+    <div id="stripe-auth-overlay"
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+      title="Comprar"></div>
+    <script>
+      var overlay = document.getElementById('stripe-auth-overlay');
+      if (overlay) {
+        overlay.onclick = function () {
+          var params = new URLSearchParams(window.location.search);
+          if (params.get('auth') === '1') {
+            var checkoutUrl = params.get('checkout');
+            if (checkoutUrl) {
+              window.location.href = checkoutUrl;
+            }
+          } else {
+            window.location.href = '/sign-in';
+          }
+        };
+      }
+    </script>
+  </div>
 
 </body>
+
 </html>

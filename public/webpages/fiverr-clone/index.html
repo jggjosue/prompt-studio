@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SkillMarket 3D - The Next-Gen Freelance Hub</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <style>
@@ -131,7 +132,7 @@
             font-weight: 900;
             line-height: 1.1;
             margin-bottom: 1.5rem;
-            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
         h1 span {
@@ -197,7 +198,7 @@
             font-size: 3.5rem;
             font-weight: 800;
             margin-bottom: 3rem;
-            background: linear-gradient(90deg, #fff, rgba(255,255,255,0.5));
+            background: linear-gradient(90deg, #fff, rgba(255, 255, 255, 0.5));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -222,7 +223,7 @@
 
         .cat-card:hover {
             transform: translateY(-10px) scale(1.05);
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
             border-color: var(--primary);
         }
 
@@ -237,7 +238,7 @@
         }
 
         .cat-card p {
-            color: rgba(255,255,255,0.6);
+            color: rgba(255, 255, 255, 0.6);
             font-weight: 300;
         }
 
@@ -256,7 +257,7 @@
         }
 
         .gig-card {
-            background: rgba(10,10,15,0.8);
+            background: rgba(10, 10, 15, 0.8);
             border: 1px solid var(--glass-border);
             border-radius: 16px;
             width: 300px;
@@ -275,11 +276,11 @@
             position: absolute;
             bottom: 10px;
             right: 10px;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0, 0, 0, 0.7);
             padding: 5px 12px;
             border-radius: 20px;
             font-weight: bold;
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .gig-info {
@@ -320,12 +321,12 @@
         }
 
         .checkout-panel {
-            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
-            border: 1px solid rgba(255,255,255,0.2);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            border: 1px solid rgba(255, 255, 255, 0.2);
             padding: 4rem;
             border-radius: 30px;
             backdrop-filter: blur(20px);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
             max-width: 600px;
         }
 
@@ -347,19 +348,44 @@
 
         /* Responsive */
         @media (max-width: 1024px) {
-            .cat-grid { grid-template-columns: repeat(2, 1fr); }
-            h1 { font-size: 4rem; }
+            .cat-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            h1 {
+                font-size: 4rem;
+            }
         }
+
         @media (max-width: 768px) {
-            nav { padding: 1.5rem 2rem; }
-            .nav-links { display: none; }
-            .cat-grid { grid-template-columns: 1fr; }
-            section { padding: 4rem 2rem; }
-            h1 { font-size: 3rem; }
-            .gigs-container { flex-direction: column; align-items: flex-end; }
+            nav {
+                padding: 1.5rem 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .cat-grid {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 4rem 2rem;
+            }
+
+            h1 {
+                font-size: 3rem;
+            }
+
+            .gigs-container {
+                flex-direction: column;
+                align-items: flex-end;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <canvas id="webgl-canvas"></canvas>
@@ -382,7 +408,11 @@
                 <div class="search-container">
                     <input type="text" class="search-bar" placeholder="Search for 3D modeling, Web3, UI/UX...">
                     <button class="search-btn">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
                     </button>
                 </div>
             </div>
@@ -416,12 +446,14 @@
                 <h2 class="section-title gsap-reveal">Trending Talents</h2>
                 <div class="gigs-container">
                     <div class="gig-card gsap-reveal">
-                        <div class="gig-img" style="background: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop') center/cover;">
+                        <div class="gig-img"
+                            style="background: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop') center/cover;">
                             <div class="gig-price">250 ETH</div>
                         </div>
                         <div class="gig-info">
                             <div class="gig-seller">
-                                <div class="seller-avatar" style="background: url('https://i.pravatar.cc/100?img=33') center/cover;"></div>
+                                <div class="seller-avatar"
+                                    style="background: url('https://i.pravatar.cc/100?img=33') center/cover;"></div>
                                 <span>NeonArchitect</span>
                             </div>
                             <h4>I will build a custom Metaverse gallery for your brand</h4>
@@ -429,12 +461,14 @@
                         </div>
                     </div>
                     <div class="gig-card gsap-reveal" style="transition-delay: 0.2s;">
-                        <div class="gig-img" style="background: url('https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=600&auto=format&fit=crop') center/cover;">
+                        <div class="gig-img"
+                            style="background: url('https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=600&auto=format&fit=crop') center/cover;">
                             <div class="gig-price">120 ETH</div>
                         </div>
                         <div class="gig-info">
                             <div class="gig-seller">
-                                <div class="seller-avatar" style="background: url('https://i.pravatar.cc/100?img=47') center/cover;"></div>
+                                <div class="seller-avatar"
+                                    style="background: url('https://i.pravatar.cc/100?img=47') center/cover;"></div>
                                 <span>CyberDev</span>
                             </div>
                             <h4>I will audit and deploy secure Web3 Smart Contracts</h4>
@@ -465,7 +499,7 @@
 
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-        
+
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
@@ -487,17 +521,17 @@
 
         // Create abstract geometric floating structures representing "gigs/stalls"
         const geometry1 = new THREE.IcosahedronGeometry(1, 0);
-        const material1 = new THREE.MeshStandardMaterial({ 
-            color: 0x00F0FF, 
+        const material1 = new THREE.MeshStandardMaterial({
+            color: 0x00F0FF,
             wireframe: true,
             transparent: true,
             opacity: 0.5
         });
 
         const geometry2 = new THREE.BoxGeometry(1.5, 1.5, 1.5);
-        const material2 = new THREE.MeshPhysicalMaterial({ 
-            color: 0x7000FF, 
-            metalness: 0.9, 
+        const material2 = new THREE.MeshPhysicalMaterial({
+            color: 0x7000FF,
+            metalness: 0.9,
             roughness: 0.1,
             clearcoat: 1.0,
             transparent: true,
@@ -506,22 +540,22 @@
 
         // Add lots of floating objects
         const objects = [];
-        for(let i = 0; i < 50; i++) {
+        for (let i = 0; i < 50; i++) {
             const mesh = new THREE.Mesh(
                 Math.random() > 0.5 ? geometry1 : geometry2,
                 Math.random() > 0.5 ? material1 : material2
             );
-            
+
             mesh.position.x = (Math.random() - 0.5) * 40;
             mesh.position.y = (Math.random() - 0.5) * 40 - 10; // Spread downwards
             mesh.position.z = (Math.random() - 0.5) * 40;
-            
+
             mesh.rotation.x = Math.random() * Math.PI;
             mesh.rotation.y = Math.random() * Math.PI;
-            
+
             const scale = Math.random() * 1.5 + 0.5;
             mesh.scale.set(scale, scale, scale);
-            
+
             group.add(mesh);
             objects.push({
                 mesh: mesh,
@@ -532,7 +566,7 @@
 
         // Add a central "Core" for the hero section
         const coreGeo = new THREE.TorusKnotGeometry(2, 0.5, 100, 16);
-        const coreMat = new THREE.MeshPhysicalMaterial({ 
+        const coreMat = new THREE.MeshPhysicalMaterial({
             color: 0x00F0FF,
             emissive: 0x004455,
             wireframe: true
@@ -575,7 +609,7 @@
 
         // HTML Elements Reveal
         gsap.utils.toArray('.gsap-reveal').forEach(element => {
-            gsap.fromTo(element, 
+            gsap.fromTo(element,
                 { y: 50, opacity: 0 },
                 {
                     scrollTrigger: {
@@ -603,25 +637,25 @@
 
         // Sequence of camera movements
         tl.to(camera.position, { z: 15, y: -5, duration: 1 }) // Move back and down slightly
-          .to(core.position, { x: 5, z: 0, duration: 1 }, "<") // Move core out of way
-          .to(group.rotation, { y: Math.PI / 2, duration: 2 }) // Rotate entire hub
-          .to(camera.position, { z: 5, y: -15, duration: 1 }) // Dive deeper
-          .to(camera.rotation, { x: 0.2, duration: 1 }, "<") // Tilt up
-          .to(pointLight1.color, { r: 1, g: 0, b: 1, duration: 1 }, 0) // Change light colors over time
-          .to(pointLight2.color, { r: 0, g: 1, b: 0, duration: 1 }, 0);
+            .to(core.position, { x: 5, z: 0, duration: 1 }, "<") // Move core out of way
+            .to(group.rotation, { y: Math.PI / 2, duration: 2 }) // Rotate entire hub
+            .to(camera.position, { z: 5, y: -15, duration: 1 }) // Dive deeper
+            .to(camera.rotation, { x: 0.2, duration: 1 }, "<") // Tilt up
+            .to(pointLight1.color, { r: 1, g: 0, b: 1, duration: 1 }, 0) // Change light colors over time
+            .to(pointLight2.color, { r: 0, g: 1, b: 0, duration: 1 }, 0);
 
         // Mouse Parallax for Core
         document.addEventListener('mousemove', (e) => {
             const mouseX = (e.clientX / window.innerWidth) * 2 - 1;
             const mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
-            
+
             gsap.to(core.position, {
                 x: mouseX * 2,
                 y: mouseY * 2,
                 duration: 2,
                 ease: "power2.out"
             });
-            
+
             gsap.to(camera.position, {
                 x: mouseX * 0.5,
                 y: camera.position.y + mouseY * 0.5,
@@ -632,31 +666,46 @@
 
     </script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
-        } else {
-          window.location.href = '/sign-in';
-        }
-      };
-    }
-  </script>
-</div>
+    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+        <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+        <div id="dynamic-stripe-button"></div>
+        <script>
+            (function () {
+                var container = document.getElementById('dynamic-stripe-button');
+                var btn = document.createElement('stripe-buy-button');
+                var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+                if (isDev) {
+                    btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
+                } else {
+                    btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
+                }
+                container.appendChild(btn);
+            })();
+        </script>
+        <div id="stripe-auth-overlay"
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+            title="Comprar"></div>
+        <script>
+            var overlay = document.getElementById('stripe-auth-overlay');
+            if (overlay) {
+                overlay.onclick = function () {
+                    var params = new URLSearchParams(window.location.search);
+                    if (params.get('auth') === '1') {
+                        var checkoutUrl = params.get('checkout');
+                        if (checkoutUrl) {
+                            window.location.href = checkoutUrl;
+                        }
+                    } else {
+                        window.location.href = '/sign-in';
+                    }
+                };
+            }
+        </script>
+    </div>
 
 </body>
+
 </html>

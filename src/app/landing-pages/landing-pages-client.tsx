@@ -59,8 +59,10 @@ function LandingPagesContent() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const facetTag = searchParams.get('tag')?.trim() || null;
-  const facetStack = searchParams.get('stack')?.trim() || null;
+  const facetTags = searchParams.getAll('tag').map(value => value.trim()).filter(Boolean);
+  const facetStacks = searchParams.getAll('stack').map(value => value.trim()).filter(Boolean);
+  const facetTag = facetTags[0] ?? null;
+  const facetStack = facetStacks[0] ?? null;
 
   const webPages = useLocalizedWebPages();
   const { isSignedIn } = useUser();
@@ -73,18 +75,17 @@ function LandingPagesContent() {
   // We can still support fuzzy filter or we can just filter allPages
   // Wait, facetFiltered needs to be computed based on facetTag and facetStack
   const facetFiltered = useMemo(() => {
-    if (!facetTag && !facetStack) return allPages;
+    if (facetTags.length === 0 && facetStacks.length === 0) return allPages;
     return allPages.filter(page => {
-      const commercialMatch = facetTag
-        ? matchesCommercialFacet(page, facetTag)
-        : null;
-      const matchTag = facetTag
-        ? commercialMatch ?? page.tags.includes(facetTag)
+      const matchTag = facetTags.length > 0
+        ? facetTags.some(tag => matchesCommercialFacet(page, tag) ?? page.tags.includes(tag))
         : true;
-      const matchStack = facetStack ? page.stack?.includes(facetStack) : true;
+      const matchStack = facetStacks.length > 0
+        ? facetStacks.some(stack => page.stack?.includes(stack))
+        : true;
       return matchTag && matchStack;
     });
-  }, [allPages, facetTag, facetStack]);
+  }, [allPages, facetTags, facetStacks]);
 
   const customCategories = useMemo(() => {
     const categoryLabels: Record<string, string> = {
@@ -186,20 +187,28 @@ function LandingPagesContent() {
     observerTarget,
   } = useInfiniteScroll(pages, ITEMS_PER_PAGE);
 
-  const selectFacetTag = (tag: string) => {
-    router.push(
-      buildCatalogQueryUrl(pathname, searchParams, { tag, stack: null }),
-      { scroll: false }
-    );
+  const toggleFacet = (key: 'tag' | 'stack', value: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    const current = params.getAll(key);
+    const exists = current.some(item => item.toLowerCase() === value.toLowerCase());
+    params.delete(key);
+    for (const item of current) {
+      if (item.toLowerCase() !== value.toLowerCase()) params.append(key, item);
+    }
+    if (!exists) params.append(key, value);
+    params.delete('page');
+    params.delete('after');
+    const query = params.toString();
+    router.push(query ? `${pathname}?${query}` : pathname, { scroll: false });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const selectFacetTag = (tag: string) => {
+    toggleFacet('tag', tag);
+  };
+
   const selectFacetStack = (stack: string) => {
-    router.push(
-      buildCatalogQueryUrl(pathname, searchParams, { tag: null, stack }),
-      { scroll: false }
-    );
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    toggleFacet('stack', stack);
   };
 
   const clearFacets = () => {
@@ -233,8 +242,8 @@ function LandingPagesContent() {
             <p className="text-sm text-muted-foreground">
               {pages.length === 0 ? t('noResults') : t('resultsCount', { count: pages.length })}
               {pages.length > 0 && debouncedQuery ? ` ${t('forQuery', { query: debouncedQuery })}` : ''}
-              {pages.length > 0 && facetTag ? ` · ${t('tagLabel')}: ${facetTag}` : ''}
-              {pages.length > 0 && facetStack ? ` · ${t('stackLabel')}: ${facetStack}` : ''}
+              {pages.length > 0 && facetTags.length > 0 ? ` · ${t('tagLabel')}: ${facetTags.join(', ')}` : ''}
+              {pages.length > 0 && facetStacks.length > 0 ? ` · ${t('stackLabel')}: ${facetStacks.join(', ')}` : ''}
             </p>
           )}
         </div>
@@ -244,6 +253,8 @@ function LandingPagesContent() {
             customCategories={customCategories}
             activeTag={facetTag}
             activeStack={facetStack}
+            activeTags={facetTags}
+            activeStacks={facetStacks}
             onSelectTag={selectFacetTag}
             onSelectStack={selectFacetStack}
             onClearFacets={clearFacets}
@@ -266,6 +277,8 @@ function LandingPagesContent() {
               customCategories={customCategories}
               activeTag={facetTag}
               activeStack={facetStack}
+              activeTags={facetTags}
+              activeStacks={facetStacks}
               onSelectTag={selectFacetTag}
               onSelectStack={selectFacetStack}
               onClearFacets={clearFacets}
