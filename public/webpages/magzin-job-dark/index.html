@@ -149,43 +149,7 @@
     <script src="main.js"></script>
 
     <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-        <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-        <div id="dynamic-stripe-button"></div>
-        <script>
-            (function () {
-                var container = document.getElementById('dynamic-stripe-button');
-                var btn = document.createElement('stripe-buy-button');
-                var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-
-                if (isDev) {
-                    btn.setAttribute('buy-button-id', process.env.PROFESSIONAL_PLAN_BUY_BUTTON_ID);
-                    btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
-                } else {
-                    btn.setAttribute('buy-button-id', process.env.PROFESSIONAL_PLAN_BUY_BUTTON_ID);
-                    btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
-                }
-                container.appendChild(btn);
-            })();
-        </script>
-        <div id="stripe-auth-overlay"
-            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
-            title="Comprar"></div>
-        <script>
-            var overlay = document.getElementById('stripe-auth-overlay');
-            if (overlay) {
-                overlay.onclick = function () {
-                    var params = new URLSearchParams(window.location.search);
-                    if (params.get('auth') === '1') {
-                        var checkoutUrl = params.get('checkout');
-                        if (checkoutUrl) {
-                            window.location.href = checkoutUrl;
-                        }
-                    } else {
-                        window.location.href = '/sign-in';
-                    }
-                };
-            }
-        </script>
+        <script src="/webpages/demo-purchase-button.js"></script>
     </div>
 
 </body>

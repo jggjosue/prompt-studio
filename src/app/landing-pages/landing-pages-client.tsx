@@ -29,7 +29,6 @@ import {
 } from '@/lib/affiliate';
 
 const ITEMS_PER_PAGE = 30;
-const PRICE_FACETS = [5, 10, 15, 20, 35, 50] as const;
 
 function numericPrice(price?: string): number {
   const value = Number.parseFloat(price?.replace(/[^\d.]/g, '') ?? '');
@@ -97,6 +96,20 @@ function LandingPagesContent() {
       'Popular Tags': t('facetGroups.popularTags'),
     };
 
+    const priceCounts = new Map<number, number>();
+    for (const page of allPages) {
+      const price = numericPrice(page.price);
+      if (price <= 0) continue;
+      priceCounts.set(price, (priceCounts.get(price) ?? 0) + 1);
+    }
+
+    const priceEntries = Array.from(priceCounts.entries())
+      .sort(([priceA], [priceB]) => priceA - priceB)
+      .map(([price, count]) => ({
+        key: `$${Number.isInteger(price) ? price : price.toFixed(2)} USD`,
+        count,
+      }));
+
     const membershipEntries = [
       {
         key: 'Premium',
@@ -106,13 +119,7 @@ function LandingPagesContent() {
         key: 'Free',
         count: allPages.filter(page => matchesCommercialFacet(page, 'Free')).length,
       },
-      ...PRICE_FACETS.map(price => {
-        const key = `$${price} USD`;
-        return {
-          key,
-          count: allPages.filter(page => matchesCommercialFacet(page, key)).length,
-        };
-      }),
+      ...priceEntries,
     ];
 
     const result = categories

@@ -208,7 +208,6 @@ export default async function LandingPageDetailPage({ params, searchParams }: Pa
   const description = pickLocalized(page.description, locale);
   const image = resolveWebPageImageUrl(page.imageUrl);
   const seo = await getLandingPageSeoData(slug);
-  const demoHref = getRefactoryLoaderUrl(page.demoUrl);
   const canonical = landingPageCanonical(slug);
   const category =
     seo?.category ||
@@ -222,6 +221,15 @@ export default async function LandingPageDetailPage({ params, searchParams }: Pa
     product: resolvedSearchParams.product,
     source: resolvedSearchParams.source,
   });
+  const demoUrl = new URL(getRefactoryLoaderUrl(page.demoUrl), SITE_URL);
+  if (page.price) {
+    demoUrl.searchParams.set('price', page.price);
+  }
+  demoUrl.searchParams.set('pageId', page.id || slug);
+  if (checkoutUrl) {
+    demoUrl.searchParams.set('checkout', checkoutUrl);
+  }
+  const demoHref = `${demoUrl.pathname}${demoUrl.search}`;
   const productId = resolvedSearchParams.product?.trim() || page.id || slug;
   const productPriceCents = Math.round(Number(normalizedPrice(page.price)) * 100);
 
