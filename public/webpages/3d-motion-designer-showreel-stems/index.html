@@ -1,116 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MOTION STEMS 3D | Showreel</title>
-<link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MOTION STEMS 3D | Showreel</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-    <!-- Glassmorphism Header -->
-    <header class="header">
-        <div class="logo">MOTION STEMS 3D</div>
-        <nav class="nav">
-            <a href="#home">Home</a>
-            <a href="#showreel">Showreel</a>
-            <a href="#stems">Stems</a>
-            <a href="#projects">Projects</a>
-            <a href="#process">Process</a>
-            <a href="#services">Services</a>
-            <a href="#booking">Booking</a>
-            <a href="#contact">Contact</a>
-        </nav>
-        <button class="cta-button">Play Showreel</button>
-    </header>
+  <!-- Glassmorphism Header -->
+  <header class="header">
+    <div class="logo">MOTION STEMS 3D</div>
+    <nav class="nav">
+      <a href="#home">Home</a>
+      <a href="#showreel">Showreel</a>
+      <a href="#stems">Stems</a>
+      <a href="#projects">Projects</a>
+      <a href="#process">Process</a>
+      <a href="#services">Services</a>
+      <a href="#booking">Booking</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="cta-button">Play Showreel</button>
+  </header>
 
-    <!-- 3D Canvas Container -->
-    <div id="webgl-container"></div>
+  <!-- 3D Canvas Container -->
+  <div id="webgl-container"></div>
 
-    <!-- Scrollable Overlay Content -->
-    <div class="scroll-container">
-        <section id="home" class="section hero">
-            <h1 class="parallax-text">Immersive<br>Motion Design</h1>
-            <p class="subtitle parallax-text">Enter the decomposed showreel.</p>
-        </section>
+  <!-- Scrollable Overlay Content -->
+  <div class="scroll-container">
+    <section id="home" class="section hero">
+      <h1 class="parallax-text">Immersive<br>Motion Design</h1>
+      <p class="subtitle parallax-text">Enter the decomposed showreel.</p>
+    </section>
 
-        <section id="showreel" class="section">
-            <h2 class="parallax-text">The Showreel</h2>
-            <p class="parallax-text">Experience a breathtaking journey through floating clips, dynamic storyboards, and precise keyframes arranged within a deep, cinematic 3D space.</p>
-            <p class="parallax-text" style="margin-top: 1rem; opacity: 0.7;">Every cut, transition, and movement is choreographed to the rhythm of the underlying track.</p>
-        </section>
+    <section id="showreel" class="section">
+      <h2 class="parallax-text">The Showreel</h2>
+      <p class="parallax-text">Experience a breathtaking journey through floating clips, dynamic storyboards, and
+        precise keyframes arranged within a deep, cinematic 3D space.</p>
+      <p class="parallax-text" style="margin-top: 1rem; opacity: 0.7;">Every cut, transition, and movement is
+        choreographed to the rhythm of the underlying track.</p>
+    </section>
 
-        <section id="stems" class="section">
-            <h2 class="parallax-text">Visual Stems</h2>
-            <p class="parallax-text">Delve into the anatomy of the animation. Explore individual layers of sound, visual effects, rendering nodes, and typography frames that compose the final masterpiece.</p>
-            <p class="parallax-text" style="margin-top: 1rem; opacity: 0.7;">Deconstruct the creative process step by step.</p>
-        </section>
+    <section id="stems" class="section">
+      <h2 class="parallax-text">Visual Stems</h2>
+      <p class="parallax-text">Delve into the anatomy of the animation. Explore individual layers of sound, visual
+        effects, rendering nodes, and typography frames that compose the final masterpiece.</p>
+      <p class="parallax-text" style="margin-top: 1rem; opacity: 0.7;">Deconstruct the creative process step by step.
+      </p>
+    </section>
 
-        <section id="projects" class="section">
-            <h2 class="parallax-text">Featured Projects</h2>
-            <p class="parallax-text" style="margin-bottom: 2rem;">A curated selection of our finest work across various industries.</p>
-            <div class="cards">
-                <div class="card parallax-card">
-                    <h3>Cyberpunk UI</h3>
-                    <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.8;">Futuristic interfaces and HUD design.</p>
-                </div>
-                <div class="card parallax-card">
-                    <h3>Product Launch</h3>
-                    <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.8;">Dynamic 3D product visualization.</p>
-                </div>
-                <div class="card parallax-card">
-                    <h3>Title Sequence</h3>
-                    <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.8;">Cinematic intro for a sci-fi series.</p>
-                </div>
-            </div>
-        </section>
-        
-        <section id="process" class="section">
-            <h2 class="parallax-text">Creative Process</h2>
-            <p class="parallax-text">From the initial concept sketch to the final render, we follow a rigorous and highly creative pipeline. Storyboarding, styleframing, animation, and final compositing—all tailored to deliver an unparalleled visual narrative.</p>
-        </section>
-        
-        <section id="services" class="section">
-            <h2 class="parallax-text">Services</h2>
-            <p class="parallax-text">Specializing in high-end Motion Graphics, 3D Animation, VFX, and Title Design. We bring stories to life with compelling motion and immersive soundscapes that captivate your audience.</p>
-        </section>
+    <section id="projects" class="section">
+      <h2 class="parallax-text">Featured Projects</h2>
+      <p class="parallax-text" style="margin-bottom: 2rem;">A curated selection of our finest work across various
+        industries.</p>
+      <div class="cards">
+        <div class="card parallax-card">
+          <h3>Cyberpunk UI</h3>
+          <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.8;">Futuristic interfaces and HUD design.</p>
+        </div>
+        <div class="card parallax-card">
+          <h3>Product Launch</h3>
+          <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.8;">Dynamic 3D product visualization.</p>
+        </div>
+        <div class="card parallax-card">
+          <h3>Title Sequence</h3>
+          <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.8;">Cinematic intro for a sci-fi series.</p>
+        </div>
+      </div>
+    </section>
 
-        <section id="booking" class="section">
-            <h2 class="parallax-text">Booking & Contact</h2>
-            <button class="cta-button">Get in Touch</button>
-        </section>
-    </div>
+    <section id="process" class="section">
+      <h2 class="parallax-text">Creative Process</h2>
+      <p class="parallax-text">From the initial concept sketch to the final render, we follow a rigorous and highly
+        creative pipeline. Storyboarding, styleframing, animation, and final compositing—all tailored to deliver an
+        unparalleled visual narrative.</p>
+    </section>
 
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="motion3d.js"></script>
+    <section id="services" class="section">
+      <h2 class="parallax-text">Services</h2>
+      <p class="parallax-text">Specializing in high-end Motion Graphics, 3D Animation, VFX, and Title Design. We bring
+        stories to life with compelling motion and immersive soundscapes that captivate your audience.</p>
+    </section>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
+    <section id="booking" class="section">
+      <h2 class="parallax-text">Booking & Contact</h2>
+      <button class="cta-button">Get in Touch</button>
+    </section>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="motion3d.js"></script>
+
+  <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+    <div id="dynamic-stripe-button"></div>
+    <script>
+      (function () {
+        var container = document.getElementById('dynamic-stripe-button');
+        var btn = document.createElement('stripe-buy-button');
+        var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+        if (isDev) {
+          btn.setAttribute('buy-button-id', process.env.ENTREPRENEUR_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
         } else {
-          window.location.href = '/sign-in';
+          btn.setAttribute('buy-button-id', process.env.ENTREPRENEUR_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
         }
-      };
-    }
-  </script>
-</div>
+        container.appendChild(btn);
+      })();
+    </script>
+    <div id="stripe-auth-overlay"
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+      title="Comprar"></div>
+    <script>
+      var overlay = document.getElementById('stripe-auth-overlay');
+      if (overlay) {
+        overlay.onclick = function () {
+          var params = new URLSearchParams(window.location.search);
+          if (params.get('auth') === '1') {
+            var checkoutUrl = params.get('checkout');
+            if (checkoutUrl) {
+              window.location.href = checkoutUrl;
+            }
+          } else {
+            window.location.href = '/sign-in';
+          }
+        };
+      }
+    </script>
+  </div>
 
 </body>
+
 </html>

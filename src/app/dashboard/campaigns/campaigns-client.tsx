@@ -14,6 +14,7 @@ import type { WebPageEntry } from '@/lib/web-pages';
 import type { AffiliateDashboardStats } from '@/lib/affiliate-mongo';
 import { AFFILIATE_COMMISSION_PERCENT } from '@/lib/affiliate';
 import { getSiteUrl } from '@/lib/site-url';
+import { getWebPageCheckoutUrl } from '@/lib/web-page-checkout';
 
 type CampaignsClientProps = {
   products: WebPageEntry[];
@@ -57,7 +58,7 @@ export function CampaignsClient({ products, affiliate }: CampaignsClientProps) {
   };
 
   const checkoutUrlFor = (product: WebPageEntry) => {
-    const stripeUrl = process.env.NEXT_PUBLIC_STRIPE_WEB_PAGE_UNIQUE;
+    const stripeUrl = getWebPageCheckoutUrl(product.price);
     if (!stripeUrl) return null;
     if (!userId) return stripeUrl;
 
@@ -142,11 +143,10 @@ export function CampaignsClient({ products, affiliate }: CampaignsClientProps) {
           return (
             <Card
               key={product.id}
-              className={`overflow-hidden border-border/60 bg-card shadow-sm transition-all ${
-                selectedProductId === product.id
-                  ? 'ring-2 ring-blue-500/40 shadow-[0_0_0_1px_rgba(37,99,235,0.16)]'
-                  : ''
-              }`}
+              className={`overflow-hidden border-border/60 bg-card shadow-sm transition-all ${selectedProductId === product.id
+                ? 'ring-2 ring-blue-500/40 shadow-[0_0_0_1px_rgba(37,99,235,0.16)]'
+                : ''
+                }`}
             >
               <CardContent className="p-6">
                 <div className="overflow-hidden rounded-2xl border bg-background/70">

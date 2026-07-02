@@ -1,21 +1,25 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta name="description" content="Explore Traductor 3D — Biblioteca de Voz - a premium high-fidelity immersive web experience built with modern web design practices.">
-  <meta name="keywords" content="3d translator voice library, clone, design, three.js, webgl, interactive, template, landing page, prompt studio, gsap, scrolltrigger">
+  <meta name="description"
+    content="Explore Traductor 3D — Biblioteca de Voz - a premium high-fidelity immersive web experience built with modern web design practices.">
+  <meta name="keywords"
+    content="3d translator voice library, clone, design, three.js, webgl, interactive, template, landing page, prompt studio, gsap, scrolltrigger">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Traductor 3D — Biblioteca de Voz</title>
-<link rel="stylesheet" href="styles.css">
-  
+  <link rel="stylesheet" href="styles.css">
+
   <!-- GSAP & Three.js Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
 </head>
+
 <body>
-  
+
   <!-- Fixed 3D Canvas Background -->
   <div id="scene-container"></div>
 
@@ -23,7 +27,12 @@
   <header id="topbar">
     <div class="logo">
       <div class="logo-icon">
-        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"
+          stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
       </div>
       <span>VoiceLayer 3D</span>
     </div>
@@ -40,17 +49,22 @@
 
   <!-- Scroll Container -->
   <main id="scroll-content">
-    
+
     <!-- SECTION 1: Hero -->
     <section class="section sec-hero" id="hero">
       <div class="container hero-container">
         <div class="badge parallax-el" data-speed="1.2">✨ Welcome to the future of voice</div>
-        <h1 class="parallax-el" data-speed="1.0">Global Voices,<br><span class="text-gradient">Unlimited Possibilities</span></h1>
-        <p class="hero-sub parallax-el" data-speed="0.8">An immersive 3D voice library. Translate, transcribe, and dub in over 50 languages with ultra-realistic AI voices.</p>
+        <h1 class="parallax-el" data-speed="1.0">Global Voices,<br><span class="text-gradient">Unlimited
+            Possibilities</span></h1>
+        <p class="hero-sub parallax-el" data-speed="0.8">An immersive 3D voice library. Translate, transcribe, and dub
+          in over 50 languages with ultra-realistic AI voices.</p>
         <div class="hero-cta parallax-el" data-speed="0.6">
           <button class="btn btn-primary btn-lg">Explore Library</button>
           <button class="btn btn-glass btn-lg">
-            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"
+              stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
             Watch Video
           </button>
         </div>
@@ -58,7 +72,9 @@
       <!-- Scroll Indicator -->
       <div class="scroll-indicator">
         <span>Scroll to explore</span>
-        <div class="mouse"><div class="wheel"></div></div>
+        <div class="mouse">
+          <div class="wheel"></div>
+        </div>
       </div>
     </section>
 
@@ -67,8 +83,9 @@
       <div class="container">
         <div class="content-block align-left parallax-el" data-speed="1.1">
           <h2 class="sec-title">The World's Largest<br>3D Voice Library</h2>
-          <p class="sec-desc">Navigate through digital shelves of voice capsules. Find the perfect accent, tone, and pacing for your next global project.</p>
-          
+          <p class="sec-desc">Navigate through digital shelves of voice capsules. Find the perfect accent, tone, and
+            pacing for your next global project.</p>
+
           <div class="feature-list">
             <div class="feature-item">
               <div class="f-icon">🎧</div>
@@ -94,8 +111,9 @@
       <div class="container">
         <div class="content-block align-right parallax-el" data-speed="1.2">
           <h2 class="sec-title">Flawless Transcription<br>& Subtitles</h2>
-          <p class="sec-desc">Automatically transcribe and translate your audio. Generate synchronized subtitles that match pacing and visual depth.</p>
-          
+          <p class="sec-desc">Automatically transcribe and translate your audio. Generate synchronized subtitles that
+            match pacing and visual depth.</p>
+
           <div class="glass-panel demo-panel">
             <div class="demo-header">
               <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
@@ -103,7 +121,14 @@
             </div>
             <div class="demo-body">
               <div class="audio-wave-ui">
-                <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
               </div>
               <div class="subs-preview">
                 <p>"La imaginación es más importante que el conocimiento."</p>
@@ -121,7 +146,7 @@
         <div class="content-block align-center parallax-el" data-speed="1.1">
           <h2 class="sec-title">Experience the Magic</h2>
           <p class="sec-desc">Click below to hear real-time AI translation across our most popular languages.</p>
-          
+
           <div class="demo-grid">
             <div class="demo-card" data-idx="0">
               <div class="card-glow"></div>
@@ -129,7 +154,9 @@
                 <div class="lang-tag">Eng → Spa</div>
                 <h3>Motivational</h3>
                 <button class="btn btn-glass play-demo-btn">
-                  <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> Play Audio
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg> Play Audio
                 </button>
               </div>
             </div>
@@ -139,7 +166,9 @@
                 <div class="lang-tag">Fra → Spa</div>
                 <h3>Philosophical</h3>
                 <button class="btn btn-glass play-demo-btn">
-                  <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> Play Audio
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg> Play Audio
                 </button>
               </div>
             </div>
@@ -149,7 +178,9 @@
                 <div class="lang-tag">Ger → Spa</div>
                 <h3>Literature</h3>
                 <button class="btn btn-glass play-demo-btn">
-                  <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> Play Audio
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg> Play Audio
                 </button>
               </div>
             </div>
@@ -162,7 +193,8 @@
     <section class="section sec-cta" id="cta">
       <div class="container hero-container">
         <h2 class="sec-title parallax-el" data-speed="1.0">Ready to speak<br>to the world?</h2>
-        <p class="sec-desc parallax-el" data-speed="0.8">Join thousands of creators, teams, and educators using VoiceLayer to break language barriers.</p>
+        <p class="sec-desc parallax-el" data-speed="0.8">Join thousands of creators, teams, and educators using
+          VoiceLayer to break language barriers.</p>
         <div class="cta-buttons parallax-el" data-speed="0.6">
           <button class="btn btn-primary btn-lg">Start Free Trial</button>
           <button class="btn btn-outline btn-lg">Contact Sales</button>
@@ -191,7 +223,10 @@
           <div class="p-text" id="text-orig"></div>
         </div>
         <div class="player-divider">
-          <svg viewBox="0 0 24 24" width="24" height="24" stroke="var(--accent)" stroke-width="2" fill="none"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          <svg viewBox="0 0 24 24" width="24" height="24" stroke="var(--accent)" stroke-width="2" fill="none">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
         </div>
         <div class="player-col">
           <div class="p-lang">Translation</div>
@@ -204,31 +239,46 @@
 
   <script src="translator3d.js"></script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
+  <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+    <div id="dynamic-stripe-button"></div>
+    <script>
+      (function () {
+        var container = document.getElementById('dynamic-stripe-button');
+        var btn = document.createElement('stripe-buy-button');
+        var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+        if (isDev) {
+          btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
         } else {
-          window.location.href = '/sign-in';
+          btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
         }
-      };
-    }
-  </script>
-</div>
+        container.appendChild(btn);
+      })();
+    </script>
+    <div id="stripe-auth-overlay"
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+      title="Comprar"></div>
+    <script>
+      var overlay = document.getElementById('stripe-auth-overlay');
+      if (overlay) {
+        overlay.onclick = function () {
+          var params = new URLSearchParams(window.location.search);
+          if (params.get('auth') === '1') {
+            var checkoutUrl = params.get('checkout');
+            if (checkoutUrl) {
+              window.location.href = checkoutUrl;
+            }
+          } else {
+            window.location.href = '/sign-in';
+          }
+        };
+      }
+    </script>
+  </div>
 
 </body>
+
 </html>

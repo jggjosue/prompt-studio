@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MangaShelf Digital Library</title>
-    <meta name="description" content="Experience the future of digital manga reading in a fully immersive 3D library environment.">
-<style>
+    <meta name="description"
+        content="Experience the future of digital manga reading in a fully immersive 3D library environment.">
+    <style>
         :root {
             --neon-pink: #ff2a6d;
             --neon-blue: #05d9e8;
@@ -39,14 +41,16 @@
             width: 100vw;
             height: 100vh;
             z-index: 0;
-            pointer-events: auto; /* Allow interactions with 3D objects later */
+            pointer-events: auto;
+            /* Allow interactions with 3D objects later */
         }
 
         /* UI Overlay Layer */
         #ui-layer {
             position: relative;
             z-index: 10;
-            pointer-events: none; /* Let clicks pass through to 3D when not on UI */
+            pointer-events: none;
+            /* Let clicks pass through to 3D when not on UI */
         }
 
         .interactive {
@@ -63,7 +67,7 @@
             justify-content: space-between;
             align-items: center;
             z-index: 100;
-            background: linear-gradient(to bottom, rgba(10,10,15,0.9), transparent);
+            background: linear-gradient(to bottom, rgba(10, 10, 15, 0.9), transparent);
             transition: all 0.3s ease;
         }
 
@@ -133,7 +137,7 @@
             color: white;
             box-shadow: 0 0 15px var(--neon-pink);
         }
-        
+
         .btn-primary:hover {
             background: #ff4d85;
             box-shadow: 0 0 25px var(--neon-pink);
@@ -166,7 +170,7 @@
             background: linear-gradient(135deg, #fff, var(--text-muted));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 10px rgba(255,255,255,0.1));
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.1));
         }
 
         h1 span {
@@ -190,7 +194,7 @@
             border: 1px solid var(--glass-border);
             border-radius: 20px;
             padding: 3rem;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
 
         /* Reader Section */
@@ -215,7 +219,7 @@
             align-items: center;
             padding: 1rem 1.5rem;
             border-bottom: 1px solid var(--glass-border);
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.5);
         }
 
         .reader-title {
@@ -232,7 +236,7 @@
         }
 
         .control-btn {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
             border: none;
             color: white;
             width: 36px;
@@ -278,9 +282,17 @@
             overflow: hidden;
         }
 
-        .panel-1 { grid-column: 1 / 3; }
-        .panel-2 { grid-column: 1 / 2; }
-        .panel-3 { grid-column: 2 / 3; }
+        .panel-1 {
+            grid-column: 1 / 3;
+        }
+
+        .panel-2 {
+            grid-column: 1 / 2;
+        }
+
+        .panel-3 {
+            grid-column: 2 / 3;
+        }
 
         .sketch-line {
             position: absolute;
@@ -392,7 +404,7 @@
             color: var(--neon-blue);
             margin-bottom: 1.5rem;
         }
-        
+
         .premium .price-amount {
             color: var(--neon-pink);
         }
@@ -413,12 +425,12 @@
             align-items: center;
             gap: 10px;
         }
-        
+
         .feature-list li::before {
             content: "✦";
             color: var(--neon-blue);
         }
-        
+
         .premium .feature-list li::before {
             color: var(--neon-pink);
         }
@@ -431,7 +443,7 @@
         footer {
             background: #050508;
             padding: 4rem 10vw 2rem;
-            border-top: 1px solid rgba(255,255,255,0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
             position: relative;
             z-index: 10;
         }
@@ -461,22 +473,22 @@
         .footer-col a:hover {
             color: var(--neon-blue);
         }
-        
+
         .form-group {
             display: flex;
             gap: 10px;
         }
-        
+
         .form-group input {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 10px 15px;
             border-radius: 8px;
             color: white;
             outline: none;
             flex: 1;
         }
-        
+
         .form-group input:focus {
             border-color: var(--neon-purple);
         }
@@ -484,15 +496,18 @@
         .footer-bottom {
             text-align: center;
             padding-top: 2rem;
-            border-top: 1px solid rgba(255,255,255,0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
             color: var(--text-muted);
             font-size: 0.9rem;
         }
-        
+
         /* 3D Loading Overlay */
         #loader {
             position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             background: var(--bg-dark);
             z-index: 1000;
             display: flex;
@@ -501,39 +516,57 @@
             flex-direction: column;
             transition: opacity 1s;
         }
-        
+
         .loader-spinner {
             width: 50px;
             height: 50px;
-            border: 3px solid rgba(255,255,255,0.1);
+            border: 3px solid rgba(255, 255, 255, 0.1);
             border-top-color: var(--neon-pink);
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-bottom: 20px;
         }
-        
-        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
 
         @media (max-width: 1024px) {
             .pricing-table {
                 flex-direction: column;
             }
+
             .collections-grid {
                 grid-template-columns: 1fr;
             }
+
             .footer-grid {
                 grid-template-columns: 1fr 1fr;
             }
         }
-        
+
         @media (max-width: 768px) {
-            h1 { font-size: 3.5rem; }
-            .nav-links { display: none; }
-            .section { padding: 0 5vw; }
-            .footer-grid { grid-template-columns: 1fr; }
+            h1 {
+                font-size: 3.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .section {
+                padding: 0 5vw;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <!-- 3D Loading Screen -->
@@ -565,11 +598,12 @@
 
     <!-- Main UI Overlay -->
     <div id="ui-layer">
-        
+
         <section class="section hero-section" id="discover">
             <div class="hero-content interactive glass-panel" data-speed="0.5">
                 <h1>Enter the <span>Digital Manga</span> Realm</h1>
-                <p class="subtitle">An infinite 3D library of fictional worlds, holographic covers, and immersive stories. Scroll down to dive into the stacks.</p>
+                <p class="subtitle">An infinite 3D library of fictional worlds, holographic covers, and immersive
+                    stories. Scroll down to dive into the stacks.</p>
                 <div style="display:flex; gap:1rem;">
                     <button class="btn btn-primary">Start Exploring</button>
                     <button class="btn">View Genres</button>
@@ -581,7 +615,7 @@
             <div class="reader-ui glass-panel interactive" data-speed="0.8">
                 <div class="reader-header">
                     <div class="reader-title">
-                        <span style="color:var(--neon-blue);">✦</span> 
+                        <span style="color:var(--neon-blue);">✦</span>
                         Chronicles of the Neon Void - Ch. 42
                     </div>
                     <div class="reader-controls">
@@ -594,7 +628,9 @@
                     <div class="manga-page-mockup">
                         <div class="manga-panel panel-1">
                             <div class="sketch-line"></div>
-                            <div style="position:absolute; bottom:10px; left:10px; font-weight:800; font-size:1.5rem; color:#333;">"IT'S HAPPENING..."</div>
+                            <div
+                                style="position:absolute; bottom:10px; left:10px; font-weight:800; font-size:1.5rem; color:#333;">
+                                "IT'S HAPPENING..."</div>
                         </div>
                         <div class="manga-panel panel-2">
                             <div class="sketch-circle"></div>
@@ -615,32 +651,37 @@
         <section class="section collections-section" id="collections">
             <div style="max-width:800px;">
                 <h2>Curated Collections</h2>
-                <p class="subtitle" style="margin: 1rem auto;">Hand-picked selections for every mood. From cyberpunk thrillers to slice-of-life holograms.</p>
+                <p class="subtitle" style="margin: 1rem auto;">Hand-picked selections for every mood. From cyberpunk
+                    thrillers to slice-of-life holograms.</p>
             </div>
-            
+
             <div class="collections-grid interactive" data-speed="1.2">
                 <div class="collection-card glass-panel">
                     <div class="card-icon">🦾</div>
                     <h3 class="card-title">Cybernetic Futures</h3>
-                    <p style="color:var(--text-muted); font-size:0.9rem;">Dystopian tech, rogue AI, and neon-drenched cities.</p>
+                    <p style="color:var(--text-muted); font-size:0.9rem;">Dystopian tech, rogue AI, and neon-drenched
+                        cities.</p>
                 </div>
                 <div class="collection-card glass-panel">
                     <div class="card-icon">⚔️</div>
                     <h3 class="card-title">Astral Warriors</h3>
-                    <p style="color:var(--text-muted); font-size:0.9rem;">Epic battles across dimensions and galaxy-spanning empires.</p>
+                    <p style="color:var(--text-muted); font-size:0.9rem;">Epic battles across dimensions and
+                        galaxy-spanning empires.</p>
                 </div>
                 <div class="collection-card glass-panel">
                     <div class="card-icon">🌸</div>
                     <h3 class="card-title">Ethereal Romance</h3>
-                    <p style="color:var(--text-muted); font-size:0.9rem;">Love stories that transcend time and digital space.</p>
+                    <p style="color:var(--text-muted); font-size:0.9rem;">Love stories that transcend time and digital
+                        space.</p>
                 </div>
             </div>
         </section>
 
         <section class="section membership-section" id="membership">
             <h2>Unlock the Vault</h2>
-            <p class="subtitle" style="text-align:center;">Choose your access tier and join a community of digital readers.</p>
-            
+            <p class="subtitle" style="text-align:center;">Choose your access tier and join a community of digital
+                readers.</p>
+
             <div class="pricing-table interactive">
                 <div class="price-card glass-panel" data-speed="1">
                     <div class="price-header">Wanderer</div>
@@ -652,7 +693,7 @@
                     </ul>
                     <button class="btn">Sign Up Free</button>
                 </div>
-                
+
                 <div class="price-card glass-panel premium" data-speed="1.1">
                     <div class="premium-badge">POPULAR</div>
                     <div class="price-header">Librarian</div>
@@ -679,7 +720,8 @@
                     MangaShelf
                 </div>
                 <p style="color:var(--text-muted); font-size:0.9rem; line-height:1.6;">
-                    The ultimate 3D digital manga library. Discover fictional worlds in a deeply immersive virtual environment.
+                    The ultimate 3D digital manga library. Discover fictional worlds in a deeply immersive virtual
+                    environment.
                 </p>
             </div>
             <div class="footer-col">
@@ -697,7 +739,8 @@
             </div>
             <div class="footer-col">
                 <h4>Newsletter</h4>
-                <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:10px;">Get updates on new fictional releases.</p>
+                <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:10px;">Get updates on new fictional
+                    releases.</p>
                 <div class="form-group">
                     <input type="email" placeholder="Your email">
                     <button class="btn btn-primary" style="padding: 10px;">➔</button>
@@ -713,7 +756,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    
+
     <script>
         // Register GSAP ScrollTrigger
         gsap.registerPlugin(ScrollTrigger);
@@ -748,8 +791,8 @@
 
         // --- PROCEDURAL LIBRARY GENERATION ---
         // Books & Shelves Materials
-        const shelfMaterial = new THREE.MeshStandardMaterial({ 
-            color: 0x111115, 
+        const shelfMaterial = new THREE.MeshStandardMaterial({
+            color: 0x111115,
             roughness: 0.8,
             metalness: 0.2
         });
@@ -771,28 +814,28 @@
 
         for (let i = 0; i < shelfCount; i++) {
             const zPos = -i * shelfDepth;
-            
+
             // Left Shelf
             const leftShelf = new THREE.Mesh(new THREE.BoxGeometry(2, 10, 4), shelfMaterial);
-            leftShelf.position.set(-corridorWidth/2 - 1, 0, zPos);
+            leftShelf.position.set(-corridorWidth / 2 - 1, 0, zPos);
             libraryGroup.add(leftShelf);
 
             // Right Shelf
             const rightShelf = new THREE.Mesh(new THREE.BoxGeometry(2, 10, 4), shelfMaterial);
-            rightShelf.position.set(corridorWidth/2 + 1, 0, zPos);
+            rightShelf.position.set(corridorWidth / 2 + 1, 0, zPos);
             libraryGroup.add(rightShelf);
 
             // Populate Books on Shelves
             for (let j = 0; j < 15; j++) {
                 // Randomize Book
-                const bookGeo = new THREE.BoxGeometry(0.3 + Math.random()*0.2, 1.2 + Math.random()*0.4, 0.8);
+                const bookGeo = new THREE.BoxGeometry(0.3 + Math.random() * 0.2, 1.2 + Math.random() * 0.4, 0.8);
                 const mat = bookMaterials[Math.floor(Math.random() * bookMaterials.length)];
                 const book = new THREE.Mesh(bookGeo, mat);
 
                 // Left Shelf books
                 book.position.set(
-                    -corridorWidth/2 - 0.5 + (Math.random() * 1 - 0.5), 
-                    -4 + Math.random() * 8, 
+                    -corridorWidth / 2 - 0.5 + (Math.random() * 1 - 0.5),
+                    -4 + Math.random() * 8,
                     zPos + (Math.random() * 3 - 1.5)
                 );
                 // Slight tilt
@@ -803,8 +846,8 @@
                 // Right Shelf books
                 const book2 = new THREE.Mesh(bookGeo, mat);
                 book2.position.set(
-                    corridorWidth/2 + 0.5 + (Math.random() * 1 - 0.5), 
-                    -4 + Math.random() * 8, 
+                    corridorWidth / 2 + 0.5 + (Math.random() * 1 - 0.5),
+                    -4 + Math.random() * 8,
                     zPos + (Math.random() * 3 - 1.5)
                 );
                 book2.rotation.z = (Math.random() - 0.5) * 0.4;
@@ -816,9 +859,9 @@
         // Floating 'Hero' Volumes
         const floatingGroup = new THREE.Group();
         scene.add(floatingGroup);
-        
+
         const floatBooks = [];
-        for(let i=0; i<8; i++) {
+        for (let i = 0; i < 8; i++) {
             const mat = bookMaterials[i % 3];
             const book = new THREE.Mesh(new THREE.BoxGeometry(1.5, 2.2, 0.4), mat);
             book.position.set(
@@ -826,15 +869,15 @@
                 (Math.random() - 0.5) * 8,
                 5 - Math.random() * 10
             );
-            book.rotation.set(Math.random()*Math.PI, Math.random()*Math.PI, 0);
-            
+            book.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
+
             // Custom properties for animation
             book.userData = {
-                rotSpeed: { x: (Math.random()-0.5)*0.02, y: (Math.random()-0.5)*0.02 },
-                floatSpeed: 0.005 + Math.random()*0.01,
+                rotSpeed: { x: (Math.random() - 0.5) * 0.02, y: (Math.random() - 0.5) * 0.02 },
+                floatSpeed: 0.005 + Math.random() * 0.01,
                 initY: book.position.y
             };
-            
+
             floatingGroup.add(book);
             floatBooks.push(book);
         }
@@ -844,10 +887,10 @@
         const particlesCount = 700;
         const posArray = new Float32Array(particlesCount * 3);
 
-        for(let i = 0; i < particlesCount * 3; i++) {
+        for (let i = 0; i < particlesCount * 3; i++) {
             posArray[i] = (Math.random() - 0.5) * 40;
         }
-        
+
         particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
         const particlesMat = new THREE.PointsMaterial({
             size: 0.05,
@@ -856,12 +899,12 @@
             opacity: 0.5,
             blending: THREE.AdditiveBlending
         });
-        
+
         const particlesMesh = new THREE.Points(particlesGeo, particlesMat);
         scene.add(particlesMesh);
 
         // --- SCROLL ANIMATIONS (GSAP) ---
-        
+
         // 1. Camera moving through the library corridor
         gsap.to(camera.position, {
             z: -40,
@@ -887,7 +930,7 @@
                 scrub: 1
             }
         });
-        
+
         gsap.to(camera.rotation, {
             y: 0.1,
             z: -0.05,
@@ -938,11 +981,11 @@
             // Smooth Mouse Parallax for Camera
             targetX = mouseX * 0.001;
             targetY = mouseY * 0.001;
-            
+
             // Apply slight rotation to camera group (simulated by rotating library)
             libraryGroup.rotation.y += 0.05 * (targetX - libraryGroup.rotation.y);
             libraryGroup.rotation.x += 0.05 * (targetY - libraryGroup.rotation.x);
-            
+
             floatingGroup.rotation.y += 0.02 * (targetX - floatingGroup.rotation.y);
 
             // Animate Floating Books
@@ -951,7 +994,7 @@
                 book.rotation.y += book.userData.rotSpeed.y;
                 book.position.y = book.userData.initY + Math.sin(time * 2 + i) * 0.2;
             });
-            
+
             // Animate Particles
             particlesMesh.rotation.y = time * 0.02;
 
@@ -976,31 +1019,46 @@
         };
     </script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
-        } else {
-          window.location.href = '/sign-in';
-        }
-      };
-    }
-  </script>
-</div>
+    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+        <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+        <div id="dynamic-stripe-button"></div>
+        <script>
+            (function () {
+                var container = document.getElementById('dynamic-stripe-button');
+                var btn = document.createElement('stripe-buy-button');
+                var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+                if (isDev) {
+                    btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
+                } else {
+                    btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
+                }
+                container.appendChild(btn);
+            })();
+        </script>
+        <div id="stripe-auth-overlay"
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+            title="Comprar"></div>
+        <script>
+            var overlay = document.getElementById('stripe-auth-overlay');
+            if (overlay) {
+                overlay.onclick = function () {
+                    var params = new URLSearchParams(window.location.search);
+                    if (params.get('auth') === '1') {
+                        var checkoutUrl = params.get('checkout');
+                        if (checkoutUrl) {
+                            window.location.href = checkoutUrl;
+                        }
+                    } else {
+                        window.location.href = '/sign-in';
+                    }
+                };
+            }
+        </script>
+    </div>
 
 </body>
+
 </html>

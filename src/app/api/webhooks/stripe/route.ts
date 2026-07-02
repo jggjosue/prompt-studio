@@ -12,6 +12,9 @@ import {
 } from '@/lib/affiliate-mongo';
 import { registerAffiliateConversion } from '@/lib/affiliate-referral';
 import { sendLoopsEvent } from '@/lib/loops';
+import { createGuestDownloadToken } from '@/lib/guest-download-token';
+import { sendGuestPurchaseEmail } from '@/lib/resend';
+import { getWebPageById } from '@/lib/web-pages';
 import { clerkClient } from '@clerk/nextjs/server';
 import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
@@ -149,8 +152,12 @@ export async function POST(req: Request) {
 
   try {
     switch (event.type) {
+      case 'checkout.session.async_payment_succeeded':
       case 'checkout.session.completed': {
         const session = event.data.object as Stripe.Checkout.Session;
+        if (session.mode === 'payment' && session.payment_status !== 'paid') {
+          break;
+        }
         const customerId = session.customer as string;
         const sessionAny = session as Stripe.Checkout.Session & { metadata?: Record<string, string>; payment_intent_data?: { metadata?: Record<string, string> } };
         const affiliateRef =
@@ -182,7 +189,7 @@ export async function POST(req: Request) {
             const user = await client.users.getUser(clerkUserId);
             const meta = (user.privateMetadata || {}) as Partial<StripeUserMetadata> & { purchasedPages?: string[] };
             const purchasedPages = Array.isArray(meta.purchasedPages) ? [...meta.purchasedPages] : [];
-            
+
             if (!purchasedPages.includes(pageId)) {
               purchasedPages.push(pageId);
               await client.users.updateUserMetadata(clerkUserId, {
@@ -192,7 +199,7 @@ export async function POST(req: Request) {
                 },
               });
             }
-            
+
             if (customerId && !meta.stripeCustomerId) {
               await stripe.customers.update(customerId, {
                 metadata: {
@@ -220,8 +227,43 @@ export async function POST(req: Request) {
               });
             }
           } else {
+            const guestEmail =
+              sessionAny.customer_details?.email ||
+              session.customer_email;
+            if (!guestEmail) {
+              throw new Error(
+                `Guest checkout ${session.id} completed without an email address`
+              );
+            }
+
+            const productName =
+              sessionAny.metadata?.productName ||
+              getWebPageById(pageId, 'es')?.title ||
+              pageId;
+            const siteUrl =
+              process.env.NEXT_PUBLIC_SITE_URL ||
+              process.env.NEXT_PUBLIC_APP_URL ||
+              (process.env.VERCEL_URL
+                ? `https://${process.env.VERCEL_URL}`
+                : 'process.env.DOMAIN_DEV');
+            const downloadUrl = new URL(
+              `/api/landing-pages/${encodeURIComponent(pageId)}/download`,
+              siteUrl
+            );
+            downloadUrl.searchParams.set(
+              'token',
+              createGuestDownloadToken(pageId, session.id)
+            );
+
+            await sendGuestPurchaseEmail({
+              to: guestEmail,
+              productName,
+              downloadUrl: downloadUrl.toString(),
+              stripeCheckoutSessionId: session.id,
+            });
+
             const referrerToRecord = affiliateRef || originalAffiliateRef;
-            const guestBuyerId = session.customer_email || sessionAny.customer_details?.email || customerId || session.id;
+            const guestBuyerId = guestEmail;
             if (
               referrerToRecord &&
               inferredProductId === pageId &&

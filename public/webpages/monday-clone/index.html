@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,6 +9,7 @@
   <link rel="stylesheet" href="style.css" />
   <!-- Google Fonts -->
 </head>
+
 <body>
 
   <!-- 3D Canvas Background -->
@@ -32,12 +34,13 @@
 
   <!-- Scrollable Content overlaying the 3D scene -->
   <main id="scroll-content">
-    
+
     <!-- Hero Section -->
     <section class="section hero" id="home">
       <div class="content-wrapper">
         <h1 class="hero-title" data-speed="1.2">Your Work, <br><span class="gradient-text">Fully Dimensional</span></h1>
-        <p class="hero-subtitle" data-speed="1.1">Step into the next generation of team collaboration. Plan, assign, and execute in a living 3D workspace.</p>
+        <p class="hero-subtitle" data-speed="1.1">Step into the next generation of team collaboration. Plan, assign, and
+          execute in a living 3D workspace.</p>
         <div class="hero-cta" data-speed="1">
           <input type="email" placeholder="Enter your work email" class="input-field" />
           <button class="btn-primary">Start Free Trial</button>
@@ -57,7 +60,8 @@
           </div>
           <div class="panel-body">
             <h2>Plan with Precision</h2>
-            <p>Map out your entire project structure with interactive boards. Break down complex goals into manageable tasks.</p>
+            <p>Map out your entire project structure with interactive boards. Break down complex goals into manageable
+              tasks.</p>
             <ul class="feature-list">
               <li>✨ Intuitive Board Views</li>
               <li>📅 Dynamic Timelines</li>
@@ -80,7 +84,8 @@
           </div>
           <div class="panel-body">
             <h2>Assign & Collaborate</h2>
-            <p>Connect your team in real-time. Assign tasks, leave comments, and attach files directly within context.</p>
+            <p>Connect your team in real-time. Assign tasks, leave comments, and attach files directly within context.
+            </p>
             <div class="avatar-group">
               <div class="avatar" style="background:#FF3D57">JD</div>
               <div class="avatar" style="background:#00CA72">AL</div>
@@ -104,7 +109,8 @@
           </div>
           <div class="panel-body">
             <h2>Visualize & Automate</h2>
-            <p>Set up rules that work for you. Connect nodes to trigger actions, update statuses, and notify teams instantly.</p>
+            <p>Set up rules that work for you. Connect nodes to trigger actions, update statuses, and notify teams
+              instantly.</p>
             <button class="btn-outline">Explore Automations →</button>
           </div>
         </div>
@@ -115,7 +121,8 @@
     <section class="section features center-align" id="scale">
       <div class="content-wrapper">
         <h2 class="section-title">Measure & Scale</h2>
-        <p class="section-subtitle">Gain actionable insights from high-level dashboards and scale your operations effortlessly.</p>
+        <p class="section-subtitle">Gain actionable insights from high-level dashboards and scale your operations
+          effortlessly.</p>
         <div class="dashboard-mockup glass-panel">
           <div class="dash-row">
             <div class="dash-widget widget-chart">
@@ -148,35 +155,50 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  
+
   <!-- Custom Script -->
   <script src="main.js"></script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
+  <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+    <div id="dynamic-stripe-button"></div>
+    <script>
+      (function () {
+        var container = document.getElementById('dynamic-stripe-button');
+        var btn = document.createElement('stripe-buy-button');
+        var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+        if (isDev) {
+          btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
         } else {
-          window.location.href = '/sign-in';
+          btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
         }
-      };
-    }
-  </script>
-</div>
+        container.appendChild(btn);
+      })();
+    </script>
+    <div id="stripe-auth-overlay"
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+      title="Comprar"></div>
+    <script>
+      var overlay = document.getElementById('stripe-auth-overlay');
+      if (overlay) {
+        overlay.onclick = function () {
+          var params = new URLSearchParams(window.location.search);
+          if (params.get('auth') === '1') {
+            var checkoutUrl = params.get('checkout');
+            if (checkoutUrl) {
+              window.location.href = checkoutUrl;
+            }
+          } else {
+            window.location.href = '/sign-in';
+          }
+        };
+      }
+    </script>
+  </div>
 
 </body>
+
 </html>

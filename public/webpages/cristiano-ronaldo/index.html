@@ -1,230 +1,224 @@
 <!doctype html>
 <html lang="es">
-  <head>
-  <meta name="keywords" content="cristiano ronaldo, clone, design, three.js, webgl, interactive, template, landing page, prompt studio">
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Experiencia cinematográfica dedicada al último baile de Cristiano Ronaldo con Portugal en 2026."
-    />
-    <title>CR7 | El Último Baile</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-<link
-      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;0,900;1,700&family=Inter:wght@300;400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <div class="noise" aria-hidden="true"></div>
-    <div class="cursor-glow" aria-hidden="true"></div>
-    <div class="scroll-progress" aria-hidden="true"></div>
 
-    <header class="site-header" aria-label="Navegación principal">
-      <a class="brand" href="#hero" aria-label="Volver al inicio">
-        <span>CR</span><strong>7</strong>
-      </a>
-      <nav>
-        <a href="#legado">Legado</a>
-        <a href="#rendimiento">Rendimiento</a>
-        <a href="#galeria">Momentos</a>
-      </nav>
-      <span class="edition">Portugal · 2026</span>
-    </header>
+<head>
+  <meta name="keywords"
+    content="cristiano ronaldo, clone, design, three.js, webgl, interactive, template, landing page, prompt studio">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Experiencia cinematográfica dedicada al último baile de Cristiano Ronaldo con Portugal en 2026." />
+  <title>CR7 | El Último Baile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;0,900;1,700&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
 
-    <main>
-      <section class="hero" id="hero" aria-label="Cristiano Ronaldo, El Último Baile">
-        <div class="hero-sticky">
-          <div class="media-stage">
-            <img
-              class="poster"
-              src="images/Fotografía_comercial_hiperrealista_de_Cristiano_202606091352 (2).jpeg"
-              alt="Cristiano Ronaldo concentrado antes de un partido con Portugal"
-            />
-            <video
-              class="hero-video"
-              muted
-              loop
-              playsinline
-              preload="auto"
-              poster="images/Fotografía_comercial_hiperrealista_de_Cristiano_202606091352 (2).jpeg"
-              aria-label="Secuencia cinematográfica de Cristiano Ronaldo"
-            >
-              <source src="cr7_portugal_2026_ad_5s_4k60.mp4" type="video/mp4" />
-            </video>
-            <div class="media-shade" aria-hidden="true"></div>
-            <div class="stadium-haze" aria-hidden="true"></div>
-            <canvas class="particles" aria-hidden="true"></canvas>
-          </div>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="cursor-glow" aria-hidden="true"></div>
+  <div class="scroll-progress" aria-hidden="true"></div>
 
-          <div class="hero-copy hero-copy-left">
-            <p class="index">07 / POR</p>
-            <h1><span>Cristiano</span><span>Ronaldo</span></h1>
-            <p class="role">Capitán. Delantero. Historia viva.</p>
-          </div>
+  <header class="site-header" aria-label="Navegación principal">
+    <a class="brand" href="#hero" aria-label="Volver al inicio">
+      <span>CR</span><strong>7</strong>
+    </a>
+    <nav>
+      <a href="#legado">Legado</a>
+      <a href="#rendimiento">Rendimiento</a>
+      <a href="#galeria">Momentos</a>
+    </nav>
+    <span class="edition">Portugal · 2026</span>
+  </header>
 
-          <div class="hero-copy hero-copy-right">
-            <p class="chapter">Capítulo final</p>
-            <h2>El último baile<br /><em>Mundial 2026</em></h2>
-            <p class="manifesto">
-              Dos décadas convirtiendo presión en precisión. Potencia explosiva,
-              disciplina absoluta y una mentalidad construida para el instante decisivo.
-            </p>
-            <div class="metrics" aria-label="Estadísticas destacadas">
-              <div><strong>07</strong><span>Número eterno</span></div>
-              <div><strong>5×</strong><span>Balón de Oro</span></div>
-              <div><strong>∞</strong><span>Ambición</span></div>
-            </div>
-          </div>
-
-          <div class="hero-actions">
-            <a class="button button-ghost" href="#legado">Ver el legado</a>
-            <button class="button button-solid" id="activate" type="button">
-              <span>Activar experiencia</span>
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M5 12h13M14 7l5 5-5 5" />
-              </svg>
-            </button>
-          </div>
-
-          <div class="scroll-cue" aria-hidden="true">
-            <span>Scroll para activar</span>
-            <i><b></b></i>
-          </div>
-          <p class="sound-note">Experiencia visual · Audio opcional</p>
-        </div>
-      </section>
-
-      <section class="legacy section" id="legado">
-        <div class="section-number">01</div>
-        <div class="section-heading">
-          <p>Una era irrepetible</p>
-          <h2>El legado no se mide.<br /><em>Se siente.</em></h2>
+  <main>
+    <section class="hero" id="hero" aria-label="Cristiano Ronaldo, El Último Baile">
+      <div class="hero-sticky">
+        <div class="media-stage">
+          <img class="poster" src="images/Fotografía_comercial_hiperrealista_de_Cristiano_202606091352 (2).jpeg"
+            alt="Cristiano Ronaldo concentrado antes de un partido con Portugal" />
+          <video class="hero-video" muted loop playsinline preload="auto"
+            poster="images/Fotografía_comercial_hiperrealista_de_Cristiano_202606091352 (2).jpeg"
+            aria-label="Secuencia cinematográfica de Cristiano Ronaldo">
+            <source src="cr7_portugal_2026_ad_5s_4k60.mp4" type="video/mp4" />
+          </video>
+          <div class="media-shade" aria-hidden="true"></div>
+          <div class="stadium-haze" aria-hidden="true"></div>
+          <canvas class="particles" aria-hidden="true"></canvas>
         </div>
 
-        <div class="legacy-rail">
-          <figure class="legacy-image">
-            <img
-              src="images/Fotografía_comercial_hiperrealista_de_Cristiano_202606091351.jpeg"
-              alt="Retrato frontal de Cristiano Ronaldo con Portugal"
-              loading="lazy"
-            />
-          </figure>
-          <div class="legacy-years" aria-label="Línea temporal">
-            <div class="year active"><span>2003</span><p>El comienzo</p></div>
-            <div class="year"><span>2016</span><p>Europa conquistada</p></div>
-            <div class="year"><span>2026</span><p>El último baile</p></div>
-          </div>
-          <blockquote>
-            “El talento sin trabajo no es nada.”
-            <cite>— Cristiano Ronaldo</cite>
-          </blockquote>
+        <div class="hero-copy hero-copy-left">
+          <p class="index">07 / POR</p>
+          <h1><span>Cristiano</span><span>Ronaldo</span></h1>
+          <p class="role">Capitán. Delantero. Historia viva.</p>
         </div>
-      </section>
 
-      <section class="performance section" id="rendimiento">
-        <div class="performance-media">
-          <img
-            src="images/Render_3D_cinematográfico_y_dinámico_202606091350 (2).jpeg"
-            alt="Cristiano Ronaldo rematando en el aire"
-            loading="lazy"
-          />
-        </div>
-        <div class="performance-copy">
-          <p class="section-kicker">Anatomía de un atleta</p>
-          <h2>Potencia<br />sin pausa.</h2>
-          <p>
-            Cada salto es cálculo. Cada carrera, memoria muscular. Una carrera edificada
-            sobre la repetición invisible que precede al momento inolvidable.
+        <div class="hero-copy hero-copy-right">
+          <p class="chapter">Capítulo final</p>
+          <h2>El último baile<br /><em>Mundial 2026</em></h2>
+          <p class="manifesto">
+            Dos décadas convirtiendo presión en precisión. Potencia explosiva,
+            disciplina absoluta y una mentalidad construida para el instante decisivo.
           </p>
-          <div class="data-row">
-            <span>Elevación</span><strong>2.93 M</strong><i style="--level: 92%"></i>
-          </div>
-          <div class="data-row">
-            <span>Velocidad punta</span><strong>33.6 KM/H</strong><i style="--level: 84%"></i>
-          </div>
-          <div class="data-row">
-            <span>Enfoque</span><strong>100%</strong><i style="--level: 100%"></i>
+          <div class="metrics" aria-label="Estadísticas destacadas">
+            <div><strong>07</strong><span>Número eterno</span></div>
+            <div><strong>5×</strong><span>Balón de Oro</span></div>
+            <div><strong>∞</strong><span>Ambición</span></div>
           </div>
         </div>
-      </section>
 
-      <section class="gallery section" id="galeria">
-        <div class="section-heading">
-          <p>Instantes decisivos</p>
-          <h2>Un estadio.<br /><em>Una última vez.</em></h2>
+        <div class="hero-actions">
+          <a class="button button-ghost" href="#legado">Ver el legado</a>
+          <button class="button button-solid" id="activate" type="button">
+            <span>Activar experiencia</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 12h13M14 7l5 5-5 5" />
+            </svg>
+          </button>
         </div>
-        <div class="gallery-grid">
-          <figure class="wide">
-            <img
-              src="images/Render_3D_cinematográfico_y_dinámico_202606091350.jpeg"
-              alt="Remate acrobático de Cristiano Ronaldo"
-              loading="lazy"
-            />
-            <figcaption><span>01</span> Instinto</figcaption>
-          </figure>
-          <figure>
-            <img
-              src="images/Fotografía_comercial_hiperrealista_de_Cristiano_202606091352.jpeg"
-              alt="Cristiano Ronaldo en un estadio"
-              loading="lazy"
-            />
-            <figcaption><span>02</span> Presencia</figcaption>
-          </figure>
-          <figure>
-            <img
-              src="images/Render_3D_cinematográfico_y_dinámico_202606091351.jpeg"
-              alt="Cristiano Ronaldo en acción con Portugal"
-              loading="lazy"
-            />
-            <figcaption><span>03</span> Impacto</figcaption>
-          </figure>
-          <figure class="wide">
-            <img
-              src="images/Render_3D_cinematográfico_y_dinámico_202606091350 (1).jpeg"
-              alt="Cristiano Ronaldo golpeando el balón"
-              loading="lazy"
-            />
-            <figcaption><span>04</span> Leyenda</figcaption>
-          </figure>
+
+        <div class="scroll-cue" aria-hidden="true">
+          <span>Scroll para activar</span>
+          <i><b></b></i>
         </div>
-      </section>
-    </main>
+        <p class="sound-note">Experiencia visual · Audio opcional</p>
+      </div>
+    </section>
 
-    <footer>
-      <a class="brand" href="#hero"><span>CR</span><strong>7</strong></a>
-      <p>El último baile · Portugal 2026</p>
-      <a href="#hero">Volver arriba ↑</a>
-    </footer>
+    <section class="legacy section" id="legado">
+      <div class="section-number">01</div>
+      <div class="section-heading">
+        <p>Una era irrepetible</p>
+        <h2>El legado no se mide.<br /><em>Se siente.</em></h2>
+      </div>
 
-    <script src="script.js"></script>
-  
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
+      <div class="legacy-rail">
+        <figure class="legacy-image">
+          <img src="images/Fotografía_comercial_hiperrealista_de_Cristiano_202606091351.jpeg"
+            alt="Retrato frontal de Cristiano Ronaldo con Portugal" loading="lazy" />
+        </figure>
+        <div class="legacy-years" aria-label="Línea temporal">
+          <div class="year active"><span>2003</span>
+            <p>El comienzo</p>
+          </div>
+          <div class="year"><span>2016</span>
+            <p>Europa conquistada</p>
+          </div>
+          <div class="year"><span>2026</span>
+            <p>El último baile</p>
+          </div>
+        </div>
+        <blockquote>
+          “El talento sin trabajo no es nada.”
+          <cite>— Cristiano Ronaldo</cite>
+        </blockquote>
+      </div>
+    </section>
+
+    <section class="performance section" id="rendimiento">
+      <div class="performance-media">
+        <img src="images/Render_3D_cinematográfico_y_dinámico_202606091350 (2).jpeg"
+          alt="Cristiano Ronaldo rematando en el aire" loading="lazy" />
+      </div>
+      <div class="performance-copy">
+        <p class="section-kicker">Anatomía de un atleta</p>
+        <h2>Potencia<br />sin pausa.</h2>
+        <p>
+          Cada salto es cálculo. Cada carrera, memoria muscular. Una carrera edificada
+          sobre la repetición invisible que precede al momento inolvidable.
+        </p>
+        <div class="data-row">
+          <span>Elevación</span><strong>2.93 M</strong><i style="--level: 92%"></i>
+        </div>
+        <div class="data-row">
+          <span>Velocidad punta</span><strong>33.6 KM/H</strong><i style="--level: 84%"></i>
+        </div>
+        <div class="data-row">
+          <span>Enfoque</span><strong>100%</strong><i style="--level: 100%"></i>
+        </div>
+      </div>
+    </section>
+
+    <section class="gallery section" id="galeria">
+      <div class="section-heading">
+        <p>Instantes decisivos</p>
+        <h2>Un estadio.<br /><em>Una última vez.</em></h2>
+      </div>
+      <div class="gallery-grid">
+        <figure class="wide">
+          <img src="images/Render_3D_cinematográfico_y_dinámico_202606091350.jpeg"
+            alt="Remate acrobático de Cristiano Ronaldo" loading="lazy" />
+          <figcaption><span>01</span> Instinto</figcaption>
+        </figure>
+        <figure>
+          <img src="images/Fotografía_comercial_hiperrealista_de_Cristiano_202606091352.jpeg"
+            alt="Cristiano Ronaldo en un estadio" loading="lazy" />
+          <figcaption><span>02</span> Presencia</figcaption>
+        </figure>
+        <figure>
+          <img src="images/Render_3D_cinematográfico_y_dinámico_202606091351.jpeg"
+            alt="Cristiano Ronaldo en acción con Portugal" loading="lazy" />
+          <figcaption><span>03</span> Impacto</figcaption>
+        </figure>
+        <figure class="wide">
+          <img src="images/Render_3D_cinematográfico_y_dinámico_202606091350 (1).jpeg"
+            alt="Cristiano Ronaldo golpeando el balón" loading="lazy" />
+          <figcaption><span>04</span> Leyenda</figcaption>
+        </figure>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <a class="brand" href="#hero"><span>CR</span><strong>7</strong></a>
+    <p>El último baile · Portugal 2026</p>
+    <a href="#hero">Volver arriba ↑</a>
+  </footer>
+
+  <script src="script.js"></script>
+
+  <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+    <div id="dynamic-stripe-button"></div>
+    <script>
+      (function () {
+        var container = document.getElementById('dynamic-stripe-button');
+        var btn = document.createElement('stripe-buy-button');
+        var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+        if (isDev) {
+          btn.setAttribute('buy-button-id', process.env.ELITE_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
         } else {
-          window.location.href = '/sign-in';
+          btn.setAttribute('buy-button-id', process.env.ELITE_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
         }
-      };
-    }
-  </script>
-</div>
+        container.appendChild(btn);
+      })();
+    </script>
+    <div id="stripe-auth-overlay"
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+      title="Comprar"></div>
+    <script>
+      var overlay = document.getElementById('stripe-auth-overlay');
+      if (overlay) {
+        overlay.onclick = function () {
+          var params = new URLSearchParams(window.location.search);
+          if (params.get('auth') === '1') {
+            var checkoutUrl = params.get('checkout');
+            if (checkoutUrl) {
+              window.location.href = checkoutUrl;
+            }
+          } else {
+            window.location.href = '/sign-in';
+          }
+        };
+      }
+    </script>
+  </div>
 
 </body>
+
 </html>

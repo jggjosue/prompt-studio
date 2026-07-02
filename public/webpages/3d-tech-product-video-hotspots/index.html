@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3D Tech Product Video Hotspots | Next-Gen Innovation</title>
-    <meta name="description" content="Experience our new tech product through an immersive 3D presentation and interactive video hotspots.">
+    <meta name="description"
+        content="Experience our new tech product through an immersive 3D presentation and interactive video hotspots.">
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <div class="loader">
         <div class="spinner"></div>
@@ -34,7 +37,8 @@
                 <h1 class="glitch" data-text="The Future is Here">The Future is Here</h1>
                 <p class="subtitle">Experience unparalleled performance with our next-generation quantum core.</p>
                 <div class="cta-group">
-                    <button class="btn-primary large" onclick="document.getElementById('demo').scrollIntoView()">Explore 3D Demo</button>
+                    <button class="btn-primary large" onclick="document.getElementById('demo').scrollIntoView()">Explore
+                        3D Demo</button>
                     <button class="btn-secondary large">Watch Trailer</button>
                 </div>
             </div>
@@ -52,23 +56,26 @@
                 <h2>Interactive Demo</h2>
                 <p>Click the pulsing hotspots to reveal internal components.</p>
             </div>
-            
+
             <div class="video-container glass-panel">
                 <!-- Placeholder for interactive video -->
                 <div class="video-placeholder">
-                    <div class="hotspot" style="top: 30%; left: 40%;" data-info="Quantum Processor: 10x faster processing speeds with neural AI integration.">
+                    <div class="hotspot" style="top: 30%; left: 40%;"
+                        data-info="Quantum Processor: 10x faster processing speeds with neural AI integration.">
                         <div class="pulse"></div>
                         <div class="core"></div>
                     </div>
-                    <div class="hotspot" style="top: 60%; left: 70%;" data-info="Thermal Sync: Advanced liquid cooling system maintains optimal temperatures.">
+                    <div class="hotspot" style="top: 60%; left: 70%;"
+                        data-info="Thermal Sync: Advanced liquid cooling system maintains optimal temperatures.">
                         <div class="pulse"></div>
                         <div class="core"></div>
                     </div>
-                    <div class="hotspot" style="top: 75%; left: 25%;" data-info="Haptic Engine: High-fidelity tactile feedback for immersive interaction.">
+                    <div class="hotspot" style="top: 75%; left: 25%;"
+                        data-info="Haptic Engine: High-fidelity tactile feedback for immersive interaction.">
                         <div class="pulse"></div>
                         <div class="core"></div>
                     </div>
-                    
+
                     <div class="info-card hidden" id="hotspot-info">
                         <h4 id="info-title">Component</h4>
                         <p id="info-desc">Description goes here.</p>
@@ -84,7 +91,8 @@
                 <div class="feature-text parallax-text" data-speed="1.2">
                     <div class="badge">Performance</div>
                     <h2>Unmatched Speed</h2>
-                    <p>Powered by our proprietary silicon, expect lightning-fast rendering and zero latency. Multitasking redefined.</p>
+                    <p>Powered by our proprietary silicon, expect lightning-fast rendering and zero latency.
+                        Multitasking redefined.</p>
                 </div>
                 <div class="feature-visual parallax-visual" data-speed="0.8">
                     <div class="glass-card">
@@ -99,18 +107,23 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="feature-row reverse">
                 <div class="feature-text parallax-text" data-speed="1.2">
                     <div class="badge">Design</div>
                     <h2>Aerospace Grade</h2>
-                    <p>Forged from titanium and carbon fiber. Incredibly light, incredibly strong. A design that feels like the future.</p>
+                    <p>Forged from titanium and carbon fiber. Incredibly light, incredibly strong. A design that feels
+                        like the future.</p>
                 </div>
                 <div class="feature-visual parallax-visual" data-speed="0.8">
                     <div class="glass-card">
-                       <p>Material analysis</p>
-                       <div class="progress-bar"><div class="fill" style="width: 85%;">Titanium</div></div>
-                       <div class="progress-bar"><div class="fill" style="width: 15%;">Carbon</div></div>
+                        <p>Material analysis</p>
+                        <div class="progress-bar">
+                            <div class="fill" style="width: 85%;">Titanium</div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="fill" style="width: 15%;">Carbon</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -153,7 +166,7 @@
                 <div class="price">
                     <span class="currency">$</span><span class="amount">999</span>
                 </div>
-                
+
                 <form id="preorder-form" class="preorder-form">
                     <input type="email" placeholder="Enter your email" required>
                     <button type="submit" class="btn-primary pulse-btn">Reserve Now</button>
@@ -176,31 +189,46 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="app.js"></script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
-        } else {
-          window.location.href = '/sign-in';
-        }
-      };
-    }
-  </script>
-</div>
+    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+        <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+        <div id="dynamic-stripe-button"></div>
+        <script>
+            (function () {
+                var container = document.getElementById('dynamic-stripe-button');
+                var btn = document.createElement('stripe-buy-button');
+                var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+                if (isDev) {
+                    btn.setAttribute('buy-button-id', process.env.ENTREPRENEUR_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
+                } else {
+                    btn.setAttribute('buy-button-id', process.env.ENTREPRENEUR_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
+                }
+                container.appendChild(btn);
+            })();
+        </script>
+        <div id="stripe-auth-overlay"
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+            title="Comprar"></div>
+        <script>
+            var overlay = document.getElementById('stripe-auth-overlay');
+            if (overlay) {
+                overlay.onclick = function () {
+                    var params = new URLSearchParams(window.location.search);
+                    if (params.get('auth') === '1') {
+                        var checkoutUrl = params.get('checkout');
+                        if (checkoutUrl) {
+                            window.location.href = checkoutUrl;
+                        }
+                    } else {
+                        window.location.href = '/sign-in';
+                    }
+                };
+            }
+        </script>
+    </div>
 
 </body>
+
 </html>

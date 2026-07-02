@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { OptimizedImage } from '@/components/optimized-image';
 import { pickLocalized } from '@/lib/localized-string';
 import { resolveWebPageImageUrl } from '@/lib/web-page-media';
+import { getWebPageCheckoutUrl } from '@/lib/web-page-checkout';
 import { getRawWebPageByDemoSlug, getRawWebPages } from '@/lib/web-pages';
 import { getRefactoryLoaderUrl, normalizeDemoFolder } from '@/lib/refactory-online';
 import { normalizeMembership } from '@/lib/membership-access';
@@ -57,11 +58,12 @@ function landingPageCanonical(slug: string): string {
 
 function buildCheckoutUrl(params: {
   slug: string;
+  price?: string;
   ref?: string;
   product?: string;
   source?: string;
 }): string | null {
-  const base = process.env.NEXT_PUBLIC_STRIPE_WEB_PAGE_UNIQUE;
+  const base = getWebPageCheckoutUrl(params.price);
   if (!base) return null;
 
   const url = new URL(base);
@@ -215,6 +217,7 @@ export default async function LandingPageDetailPage({ params, searchParams }: Pa
     'Landing Page';
   const checkoutUrl = buildCheckoutUrl({
     slug,
+    price: page.price,
     ref: resolvedSearchParams.ref,
     product: resolvedSearchParams.product,
     source: resolvedSearchParams.source,

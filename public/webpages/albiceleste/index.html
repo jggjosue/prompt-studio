@@ -1,192 +1,199 @@
 <!doctype html>
 <html lang="es">
-  <head>
-  <meta name="keywords" content="albiceleste, clone, design, three.js, webgl, interactive, template, landing page, prompt studio">
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Una experiencia inmersiva sobre la historia, el coraje y la gloria eterna de la Selección Argentina."
-    />
-    <title>La Albiceleste | Gloria Eterna</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-<link
-      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=Inter:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="./styles.css" />
-  </head>
-  <body>
-    <div class="noise" aria-hidden="true"></div>
 
-    <header class="site-header" aria-label="Navegación principal">
-      <a class="brand" href="#inicio" aria-label="La Albiceleste, inicio">
-        <span class="brand-stars">★ ★ ★</span>
-        <span class="brand-mark">A</span>
-      </a>
-      <nav>
-        <a class="active" href="#historia">Historia</a>
-        <a href="#leyendas">Leyendas</a>
-        <a href="#actualidad">Actualidad</a>
-      </nav>
-      <span class="header-index">ARG / 001</span>
-    </header>
+<head>
+  <meta name="keywords"
+    content="albiceleste, clone, design, three.js, webgl, interactive, template, landing page, prompt studio">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Una experiencia inmersiva sobre la historia, el coraje y la gloria eterna de la Selección Argentina." />
+  <title>La Albiceleste | Gloria Eterna</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
 
-    <main>
-      <section class="hero" id="inicio" aria-label="La Albiceleste cobra vida">
-        <div class="hero-sticky">
-          <div class="media-stage" aria-hidden="true">
-            <img
-              class="hero-image hero-image-poster"
-              src="./assets/albiceleste-hero.png"
-              alt=""
-            />
-            <img
-              class="hero-image hero-image-live"
-              src="./assets/albiceleste-hero.png"
-              alt=""
-            />
-            <div class="energy energy-one"></div>
-            <div class="energy energy-two"></div>
-            <div class="mist mist-left"></div>
-            <div class="mist mist-right"></div>
-            <canvas id="particles"></canvas>
-            <div class="vignette"></div>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+
+  <header class="site-header" aria-label="Navegación principal">
+    <a class="brand" href="#inicio" aria-label="La Albiceleste, inicio">
+      <span class="brand-stars">★ ★ ★</span>
+      <span class="brand-mark">A</span>
+    </a>
+    <nav>
+      <a class="active" href="#historia">Historia</a>
+      <a href="#leyendas">Leyendas</a>
+      <a href="#actualidad">Actualidad</a>
+    </nav>
+    <span class="header-index">ARG / 001</span>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio" aria-label="La Albiceleste cobra vida">
+      <div class="hero-sticky">
+        <div class="media-stage" aria-hidden="true">
+          <img class="hero-image hero-image-poster" src="./assets/albiceleste-hero.png" alt="" />
+          <img class="hero-image hero-image-live" src="./assets/albiceleste-hero.png" alt="" />
+          <div class="energy energy-one"></div>
+          <div class="energy energy-two"></div>
+          <div class="mist mist-left"></div>
+          <div class="mist mist-right"></div>
+          <canvas id="particles"></canvas>
+          <div class="vignette"></div>
+        </div>
+
+        <div class="hero-copy">
+          <div class="hero-title" data-reveal>
+            <span>Selección</span>
+            <strong>Argentina</strong>
           </div>
 
-          <div class="hero-copy">
-            <div class="hero-title" data-reveal>
-              <span>Selección</span>
-              <strong>Argentina</strong>
-            </div>
-
-            <div class="hero-story" data-reveal>
-              <p class="section-number">03 / 03</p>
-              <h1>Gloria<br />eterna</h1>
-              <p class="hero-description">
-                Una historia escrita con pasión.<br />
-                Forjada en el coraje de nuestra gente.<br />
-                Guiada por la táctica. Unidos por un sueño.
-              </p>
-            </div>
-          </div>
-
-          <div class="hero-actions">
-            <a class="button button-ghost" href="#historia">
-              <span>Descubrir la historia</span>
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M5 12h14M14 7l5 5-5 5" />
-              </svg>
-            </a>
-            <a class="button button-gold" href="#leyendas">
-              <span>Vivir la gloria</span>
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M5 12h14M14 7l5 5-5 5" />
-              </svg>
-            </a>
-          </div>
-
-          <button class="sound-toggle" type="button" aria-pressed="false">
-            <span class="sound-bars" aria-hidden="true">
-              <i></i><i></i><i></i><i></i>
-            </span>
-            <span>Atmósfera</span>
-          </button>
-
-          <div class="scroll-cue" aria-hidden="true">
-            <span>Scroll para despertar</span>
-            <div class="scroll-line"><i></i></div>
+          <div class="hero-story" data-reveal>
+            <p class="section-number">03 / 03</p>
+            <h1>Gloria<br />eterna</h1>
+            <p class="hero-description">
+              Una historia escrita con pasión.<br />
+              Forjada en el coraje de nuestra gente.<br />
+              Guiada por la táctica. Unidos por un sueño.
+            </p>
           </div>
         </div>
-      </section>
 
-      <section class="manifesto" id="historia">
-        <p class="section-label">01 — Historia</p>
-        <div class="manifesto-copy">
-          <p>Más que once.</p>
-          <h2>Una camiseta.<br />Un país entero.</h2>
-          <p class="manifesto-body">
-            Cada generación hereda una forma de jugar: talento sin permiso,
-            inteligencia bajo presión y una convicción que no negocia.
-          </p>
-        </div>
-        <div class="year-rail" aria-label="Campeonatos mundiales">
-          <article>
-            <span>Buenos Aires</span>
-            <strong>1978</strong>
-            <p>La primera estrella</p>
-          </article>
-          <article>
-            <span>México</span>
-            <strong>1986</strong>
-            <p>La obra inmortal</p>
-          </article>
-          <article>
-            <span>Qatar</span>
-            <strong>2022</strong>
-            <p>La tercera gloria</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="legacy" id="leyendas">
-        <div class="legacy-orbit" aria-hidden="true">
-          <span></span><span></span><span></span>
-        </div>
-        <p class="section-label">02 — Leyendas</p>
-        <p class="legacy-kicker">De generación en generación</p>
-        <h2>La pelota no se mancha.<br />La memoria tampoco.</h2>
-        <p>
-          Los nombres cambian. La manera de sentirla, jamás. Cada gambeta,
-          cada atajada y cada abrazo viven en el próximo partido.
-        </p>
-      </section>
-
-      <section class="now" id="actualidad">
-        <p class="section-label">03 — Actualidad</p>
-        <div>
-          <h2>El próximo capítulo<br />ya comenzó.</h2>
-          <a class="button button-gold" href="#inicio">
-            <span>Volver al inicio</span>
+        <div class="hero-actions">
+          <a class="button button-ghost" href="#historia">
+            <span>Descubrir la historia</span>
             <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 19V5M7 10l5-5 5 5" />
+              <path d="M5 12h14M14 7l5 5-5 5" />
+            </svg>
+          </a>
+          <a class="button button-gold" href="#leyendas">
+            <span>Vivir la gloria</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 12h14M14 7l5 5-5 5" />
             </svg>
           </a>
         </div>
-        <footer>
-          <span>La Albiceleste © 2026</span>
-          <span>Hecho de historia, coraje y fútbol</span>
-        </footer>
-      </section>
-    </main>
 
-    <script type="module" src="./script.js"></script>
-  
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
+        <button class="sound-toggle" type="button" aria-pressed="false">
+          <span class="sound-bars" aria-hidden="true">
+            <i></i><i></i><i></i><i></i>
+          </span>
+          <span>Atmósfera</span>
+        </button>
+
+        <div class="scroll-cue" aria-hidden="true">
+          <span>Scroll para despertar</span>
+          <div class="scroll-line"><i></i></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="manifesto" id="historia">
+      <p class="section-label">01 — Historia</p>
+      <div class="manifesto-copy">
+        <p>Más que once.</p>
+        <h2>Una camiseta.<br />Un país entero.</h2>
+        <p class="manifesto-body">
+          Cada generación hereda una forma de jugar: talento sin permiso,
+          inteligencia bajo presión y una convicción que no negocia.
+        </p>
+      </div>
+      <div class="year-rail" aria-label="Campeonatos mundiales">
+        <article>
+          <span>Buenos Aires</span>
+          <strong>1978</strong>
+          <p>La primera estrella</p>
+        </article>
+        <article>
+          <span>México</span>
+          <strong>1986</strong>
+          <p>La obra inmortal</p>
+        </article>
+        <article>
+          <span>Qatar</span>
+          <strong>2022</strong>
+          <p>La tercera gloria</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="legacy" id="leyendas">
+      <div class="legacy-orbit" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+      <p class="section-label">02 — Leyendas</p>
+      <p class="legacy-kicker">De generación en generación</p>
+      <h2>La pelota no se mancha.<br />La memoria tampoco.</h2>
+      <p>
+        Los nombres cambian. La manera de sentirla, jamás. Cada gambeta,
+        cada atajada y cada abrazo viven en el próximo partido.
+      </p>
+    </section>
+
+    <section class="now" id="actualidad">
+      <p class="section-label">03 — Actualidad</p>
+      <div>
+        <h2>El próximo capítulo<br />ya comenzó.</h2>
+        <a class="button button-gold" href="#inicio">
+          <span>Volver al inicio</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 19V5M7 10l5-5 5 5" />
+          </svg>
+        </a>
+      </div>
+      <footer>
+        <span>La Albiceleste © 2026</span>
+        <span>Hecho de historia, coraje y fútbol</span>
+      </footer>
+    </section>
+  </main>
+
+  <script type="module" src="./script.js"></script>
+
+  <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+    <div id="dynamic-stripe-button"></div>
+    <script>
+      (function () {
+        var container = document.getElementById('dynamic-stripe-button');
+        var btn = document.createElement('stripe-buy-button');
+        var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+        if (isDev) {
+          btn.setAttribute('buy-button-id', process.env.PREMIUM_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
         } else {
-          window.location.href = '/sign-in';
+          btn.setAttribute('buy-button-id', process.env.PREMIUM_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
         }
-      };
-    }
-  </script>
-</div>
+        container.appendChild(btn);
+      })();
+    </script>
+    <div id="stripe-auth-overlay"
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+      title="Comprar"></div>
+    <script>
+      var overlay = document.getElementById('stripe-auth-overlay');
+      if (overlay) {
+        overlay.onclick = function () {
+          var params = new URLSearchParams(window.location.search);
+          if (params.get('auth') === '1') {
+            var checkoutUrl = params.get('checkout');
+            if (checkoutUrl) {
+              window.location.href = checkoutUrl;
+            }
+          } else {
+            window.location.href = '/sign-in';
+          }
+        };
+      }
+    </script>
+  </div>
 
 </body>
+
 </html>

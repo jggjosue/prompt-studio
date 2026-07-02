@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CREATIVE REELS 3D | Studio Portfolio</title>
   <meta name="description" content="Immersive 3D portfolio for a creative audiovisual and motion studio.">
-  
+
   <!-- Fonts -->
-<!-- Styles -->
+  <!-- Styles -->
   <link rel="stylesheet" href="styles.css">
-  
+
   <!-- GSAP & Three.js Import map -->
   <script type="importmap">
     {
@@ -22,6 +23,7 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 </head>
+
 <body>
 
   <!-- 3D Canvas -->
@@ -34,7 +36,7 @@
         <span class="logo-mark">●</span>
         <span class="logo-text">CREATIVE REELS 3D</span>
       </div>
-      
+
       <nav class="nav-links">
         <a href="#home">Home</a>
         <a href="#reels">Reels</a>
@@ -45,7 +47,7 @@
         <a href="#packages">Packages</a>
         <a href="#contact">Contact</a>
       </nav>
-      
+
       <div class="nav-actions">
         <button class="btn-primary" aria-label="Start a Project">Start a Project</button>
         <button class="hamburger-menu" id="mobile-menu-btn" aria-label="Toggle menu">
@@ -74,19 +76,20 @@
 
   <!-- Scroll Container -->
   <main id="scroll-wrapper">
-    
+
     <!-- Hero / Home -->
     <section class="section section-hero" id="home">
       <div class="hero-content parallax" data-speed="0.2">
         <div class="badge">Premium Audiovisual Hub</div>
         <h1 class="hero-title">Shaping the <span class="highlight">Visual Future</span></h1>
-        <p class="hero-desc">Enter our immersive 3D creative studio. We craft premium cinematic reels, motion design, and high-impact digital campaigns.</p>
+        <p class="hero-desc">Enter our immersive 3D creative studio. We craft premium cinematic reels, motion design,
+          and high-impact digital campaigns.</p>
         <div class="hero-cta">
           <button class="btn-primary btn-large">View Showreel</button>
           <button class="btn-secondary btn-large">Explore Studio</button>
         </div>
       </div>
-      
+
       <div class="scroll-indicator">
         <span class="mouse">
           <span class="wheel"></span>
@@ -100,7 +103,8 @@
       <div class="content-block align-right parallax" data-speed="0.1">
         <div class="section-meta">Cinematic Showcase</div>
         <h2 class="section-title">The Showreels</h2>
-        <p class="section-desc">A dynamic compilation of our best motion design, 3D campaigns, and cinematic cuts. Visual energy translated into pure motion.</p>
+        <p class="section-desc">A dynamic compilation of our best motion design, 3D campaigns, and cinematic cuts.
+          Visual energy translated into pure motion.</p>
         <div class="stats-grid">
           <div class="stat-item">
             <span class="stat-num">120+</span>
@@ -119,8 +123,9 @@
       <div class="content-block parallax" data-speed="0.15">
         <div class="section-meta">Selected Works</div>
         <h2 class="section-title">Featured Projects</h2>
-        <p class="section-desc">Award-winning case studies spanning product design, luxury branding, and social engagement content.</p>
-        
+        <p class="section-desc">Award-winning case studies spanning product design, luxury branding, and social
+          engagement content.</p>
+
         <div class="project-cards">
           <div class="card">
             <div class="card-meta">Motion & 3D</div>
@@ -143,8 +148,9 @@
       <div class="content-block align-center parallax" data-speed="0.1">
         <div class="section-meta">Workflow</div>
         <h2 class="section-title">Inside the Studio</h2>
-        <p class="section-desc">We combine raw creativity with cutting-edge technology. From storyboards to final render, our workflow is built for excellence.</p>
-        
+        <p class="section-desc">We combine raw creativity with cutting-edge technology. From storyboards to final
+          render, our workflow is built for excellence.</p>
+
         <div class="process-timeline">
           <div class="timeline-step">
             <span class="step-num">01</span>
@@ -169,7 +175,7 @@
         </div>
       </div>
     </section>
-    
+
     <!-- Services & Packages -->
     <section class="section section-services" id="services">
       <div class="content-block parallax" data-speed="0.15">
@@ -201,8 +207,9 @@
       <div class="content-block align-center parallax" data-speed="0.2">
         <div class="section-meta">Let's Connect</div>
         <h2 class="section-title">Ready to Create?</h2>
-        <p class="section-desc">Book our studio for your next campaign. Let's build something visually unforgettable.</p>
-        
+        <p class="section-desc">Book our studio for your next campaign. Let's build something visually unforgettable.
+        </p>
+
         <form class="contact-form">
           <input type="text" placeholder="Your Name" class="form-input" required>
           <input type="email" placeholder="Your Email" class="form-input" required>
@@ -222,31 +229,46 @@
 
   <script type="module" src="portfolio.js"></script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
+  <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+    <div id="dynamic-stripe-button"></div>
+    <script>
+      (function () {
+        var container = document.getElementById('dynamic-stripe-button');
+        var btn = document.createElement('stripe-buy-button');
+        var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+        if (isDev) {
+          btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
         } else {
-          window.location.href = '/sign-in';
+          btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
         }
-      };
-    }
-  </script>
-</div>
+        container.appendChild(btn);
+      })();
+    </script>
+    <div id="stripe-auth-overlay"
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+      title="Comprar"></div>
+    <script>
+      var overlay = document.getElementById('stripe-auth-overlay');
+      if (overlay) {
+        overlay.onclick = function () {
+          var params = new URLSearchParams(window.location.search);
+          if (params.get('auth') === '1') {
+            var checkoutUrl = params.get('checkout');
+            if (checkoutUrl) {
+              window.location.href = checkoutUrl;
+            }
+          } else {
+            window.location.href = '/sign-in';
+          }
+        };
+      }
+    </script>
+  </div>
 
 </body>
+
 </html>

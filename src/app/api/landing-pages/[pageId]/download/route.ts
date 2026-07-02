@@ -5,6 +5,7 @@ import {
 import { normalizeDemoFolder } from '@/lib/refactory-online';
 import { getRawWebPageByCatalogId } from '@/lib/web-pages';
 import { createWebPageZip } from '@/lib/web-page-download';
+import { verifyGuestDownloadToken } from '@/lib/guest-download-token';
 import { NextResponse } from 'next/server';
 
 export const runtime = 'nodejs';
@@ -13,7 +14,7 @@ export const dynamic = 'force-dynamic';
 const PAGE_ID_RE = /^wp-\d+$/;
 
 export async function GET(
-  _request: Request,
+  request: Request,
   context: { params: Promise<{ pageId: string }> }
 ) {
   const { pageId } = await context.params;
@@ -31,12 +32,20 @@ export async function GET(
   }
 
   const isFree = page.membership?.trim().toLowerCase() === 'free';
-  const subscription = await getServerSubscriptionStatus();
+  const token = new URL(request.url).searchParams.get('token');
+  const hasGuestAccess = token
+    ? verifyGuestDownloadToken(token, pageId)
+    : false;
+  const subscription = hasGuestAccess
+    ? null
+    : await getServerSubscriptionStatus();
   
   const canDownload = 
     isFree || 
-    hasDownloadPlan(subscription) || 
-    subscription.purchasedPages.includes(pageId);
+    hasGuestAccess ||
+    (subscription !== null &&
+      (hasDownloadPlan(subscription) ||
+        subscription.purchasedPages.includes(pageId)));
 
   if (!canDownload) {
     return NextResponse.json(

@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3D Interview Room Replays Annotations</title>
     <link rel="stylesheet" href="styles.css">
-<!-- FontAwesome for icons -->
+    <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
     <header class="navbar">
         <div class="logo">
@@ -35,7 +37,8 @@
         <section id="home" class="section hero-section">
             <div class="text-content parallax-content" data-speed="0.5">
                 <h1 class="gradient-text">Immersive Interview Replays</h1>
-                <p>Step into the ultimate 3D digital interview room. Review, annotate, and analyze every conversation with unprecedented depth and clarity.</p>
+                <p>Step into the ultimate 3D digital interview room. Review, annotate, and analyze every conversation
+                    with unprecedented depth and clarity.</p>
                 <div class="action-buttons">
                     <button class="primary-btn">Explore Room</button>
                     <button class="secondary-btn">Watch Demo</button>
@@ -46,7 +49,8 @@
         <section id="room" class="section feature-section right-align">
             <div class="text-content parallax-content" data-speed="0.8">
                 <h2>The 3D Interview Room</h2>
-                <p>Navigate the physical space of the interview. Switch between camera angles, focus on body language, and understand the context better than traditional video.</p>
+                <p>Navigate the physical space of the interview. Switch between camera angles, focus on body language,
+                    and understand the context better than traditional video.</p>
                 <ul class="feature-list">
                     <li><i class="fa-solid fa-video"></i> Multi-camera views</li>
                     <li><i class="fa-solid fa-expand"></i> Spatial awareness</li>
@@ -66,7 +70,8 @@
         <section id="replays" class="section feature-section">
             <div class="text-content parallax-content" data-speed="0.7">
                 <h2>Synchronized Replays & Timeline</h2>
-                <p>Pinpoint key moments instantly. Our advanced timeline syncs video, audio, and transcripts, allowing you to jump straight to the insights that matter.</p>
+                <p>Pinpoint key moments instantly. Our advanced timeline syncs video, audio, and transcripts, allowing
+                    you to jump straight to the insights that matter.</p>
             </div>
             <div class="ui-panel timeline-panel parallax-panel" data-speed="1.1">
                 <div class="video-preview"></div>
@@ -85,7 +90,8 @@
         <section id="annotations" class="section feature-section right-align">
             <div class="text-content parallax-content" data-speed="0.9">
                 <h2>Floating Annotations & Feedback</h2>
-                <p>Drop contextual notes directly into the 3D space. Tag colleagues, link to scorecards, and build a comprehensive evaluation collaboratively.</p>
+                <p>Drop contextual notes directly into the 3D space. Tag colleagues, link to scorecards, and build a
+                    comprehensive evaluation collaboratively.</p>
             </div>
             <div class="ui-panel floating-note parallax-panel" data-speed="1.5">
                 <div class="note-header">
@@ -105,22 +111,29 @@
         <section id="insights" class="section feature-section">
             <div class="text-content parallax-content" data-speed="0.6">
                 <h2>Performance Dashboard & Coaching</h2>
-                <p>Turn interviews into actionable data. Evaluate candidates using dynamic scorecards and use replays for interviewer coaching and training.</p>
+                <p>Turn interviews into actionable data. Evaluate candidates using dynamic scorecards and use replays
+                    for interviewer coaching and training.</p>
             </div>
             <div class="ui-panel dashboard-panel parallax-panel" data-speed="1.3">
                 <div class="score-card">
                     <h3>Candidate Evaluation</h3>
                     <div class="score-row">
                         <span>Technical Skills</span>
-                        <div class="bar-container"><div class="bar" style="width: 85%;"></div></div>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 85%;"></div>
+                        </div>
                     </div>
                     <div class="score-row">
                         <span>Communication</span>
-                        <div class="bar-container"><div class="bar" style="width: 90%;"></div></div>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 90%;"></div>
+                        </div>
                     </div>
                     <div class="score-row">
                         <span>Problem Solving</span>
-                        <div class="bar-container"><div class="bar" style="width: 70%;"></div></div>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 70%;"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -141,31 +154,46 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="script.js"></script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
-        } else {
-          window.location.href = '/sign-in';
-        }
-      };
-    }
-  </script>
-</div>
+    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+        <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+        <div id="dynamic-stripe-button"></div>
+        <script>
+            (function () {
+                var container = document.getElementById('dynamic-stripe-button');
+                var btn = document.createElement('stripe-buy-button');
+                var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+                if (isDev) {
+                    btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
+                } else {
+                    btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
+                }
+                container.appendChild(btn);
+            })();
+        </script>
+        <div id="stripe-auth-overlay"
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+            title="Comprar"></div>
+        <script>
+            var overlay = document.getElementById('stripe-auth-overlay');
+            if (overlay) {
+                overlay.onclick = function () {
+                    var params = new URLSearchParams(window.location.search);
+                    if (params.get('auth') === '1') {
+                        var checkoutUrl = params.get('checkout');
+                        if (checkoutUrl) {
+                            window.location.href = checkoutUrl;
+                        }
+                    } else {
+                        window.location.href = '/sign-in';
+                    }
+                };
+            }
+        </script>
+    </div>
 
 </body>
+
 </html>

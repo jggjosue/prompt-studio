@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Refactory Online | AI Code Transformation Lab</title>
-    <meta name="description" content="Refactory Online: An immersive 3D platform for intelligent code refactoring, architecture improvement, and CI/CD automation.">
-    
+    <meta name="description"
+        content="Refactory Online: An immersive 3D platform for intelligent code refactoring, architecture improvement, and CI/CD automation.">
+
     <!-- Google Fonts -->
-<link rel="stylesheet" href="styles.css">
-    
+    <link rel="stylesheet" href="styles.css">
+
     <!-- Three.js and GSAP via CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 </head>
+
 <body>
 
     <!-- 3D Canvas Background -->
@@ -33,15 +36,20 @@
 
     <!-- Main Scrollable Content -->
     <main class="scroll-container">
-        
+
         <!-- Section 1: Hero -->
         <section class="panel hero-panel" id="hero">
             <div class="content-block" data-parallax="true">
                 <h1>Transform Code into <br><span class="gradient-text">Masterpieces</span></h1>
-                <p>Enter the 3D software engineering lab. Intelligent refactoring, static analysis, and automated CI/CD pipelines in one immersive platform.</p>
+                <p>Enter the 3D software engineering lab. Intelligent refactoring, static analysis, and automated CI/CD
+                    pipelines in one immersive platform.</p>
                 <div class="cta-group">
-                    <button class="btn btn-primary btn-large" onclick="document.getElementById('import-analyze').scrollIntoView({behavior: 'smooth'})">Start Refactoring</button>
-                    <button class="btn btn-outline btn-large" onclick="document.getElementById('signup').scrollIntoView({behavior: 'smooth'})">Request Demo</button>
+                    <button class="btn btn-primary btn-large"
+                        onclick="document.getElementById('import-analyze').scrollIntoView({behavior: 'smooth'})">Start
+                        Refactoring</button>
+                    <button class="btn btn-outline btn-large"
+                        onclick="document.getElementById('signup').scrollIntoView({behavior: 'smooth'})">Request
+                        Demo</button>
                 </div>
             </div>
         </section>
@@ -51,14 +59,15 @@
             <div class="content-block glass-card" data-parallax="true">
                 <div class="badge">Stage 01</div>
                 <h2>Import & Analyze</h2>
-                <p>Connect your repositories instantly. Our engine parses millions of lines of code, visualizing your file trees and architecture in real-time 3D space.</p>
+                <p>Connect your repositories instantly. Our engine parses millions of lines of code, visualizing your
+                    file trees and architecture in real-time 3D space.</p>
                 <ul class="feature-list">
                     <li><i class="icon">🔍</i> Deep Static Analysis</li>
                     <li><i class="icon">🌳</i> 3D File Tree Visualization</li>
                     <li><i class="icon">⚙️</i> Auto-detect Tech Debt</li>
                 </ul>
             </div>
-            
+
             <div class="floating-ui editor-mockup glass-card" data-speed="1.2">
                 <div class="editor-header">
                     <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
@@ -81,8 +90,9 @@
             <div class="content-block glass-card" data-parallax="true">
                 <div class="badge">Stage 02</div>
                 <h2>Detect & Refactor</h2>
-                <p>Our AI suggests optimal architectural patterns. Apply smart refactoring rules to clean up code, improve performance, and eliminate technical debt.</p>
-                
+                <p>Our AI suggests optimal architectural patterns. Apply smart refactoring rules to clean up code,
+                    improve performance, and eliminate technical debt.</p>
+
                 <div class="metrics-grid">
                     <div class="metric-card">
                         <span class="metric-value">98%</span>
@@ -102,7 +112,7 @@
                 <div class="badge">Stage 03</div>
                 <h2>Compare & Validate</h2>
                 <p>Review the visual impact of your changes before deploying.</p>
-                
+
                 <div class="diff-viewer glass-card">
                     <div class="diff-pane original">
                         <div class="pane-title">Before (O(n^2))</div>
@@ -127,10 +137,12 @@ for item in data:
             <div class="content-block glass-card" data-parallax="true">
                 <div class="badge">Stage 04</div>
                 <h2>Automated CI/CD</h2>
-                <p>Merge with confidence. Automated testing, PR generation, and seamless deployment pipelines triggered on every intelligent refactor.</p>
-                <button class="btn btn-primary mt-4" onclick="alert('Integration modal opened!')">Integrate GitHub/GitLab</button>
+                <p>Merge with confidence. Automated testing, PR generation, and seamless deployment pipelines triggered
+                    on every intelligent refactor.</p>
+                <button class="btn btn-primary mt-4" onclick="alert('Integration modal opened!')">Integrate
+                    GitHub/GitLab</button>
             </div>
-            
+
             <div class="floating-ui pipeline-mockup glass-card" data-speed="0.8">
                 <div class="pipeline-step success">Build</div>
                 <div class="pipeline-connector"></div>
@@ -147,8 +159,9 @@ for item in data:
             <div class="content-block glass-card form-container">
                 <h2>Join the Future of Engineering</h2>
                 <p>Start optimizing your codebase today.</p>
-                
-                <form id="signup-form" onsubmit="event.preventDefault(); alert('Form submitted successfully! Welcome to Refactory Online.');">
+
+                <form id="signup-form"
+                    onsubmit="event.preventDefault(); alert('Form submitted successfully! Welcome to Refactory Online.');">
                     <div class="form-group">
                         <label for="name">Name</label>
                         <input type="text" id="name" required placeholder="Jane Doe">
@@ -169,7 +182,7 @@ for item in data:
                 </form>
             </div>
         </section>
-        
+
         <footer class="main-footer">
             <p>&copy; 2026 Refactory Online. All rights reserved.</p>
             <div class="footer-links">
@@ -183,31 +196,46 @@ for item in data:
 
     <script src="app.js"></script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
-        } else {
-          window.location.href = '/sign-in';
-        }
-      };
-    }
-  </script>
-</div>
+    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+        <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+        <div id="dynamic-stripe-button"></div>
+        <script>
+            (function () {
+                var container = document.getElementById('dynamic-stripe-button');
+                var btn = document.createElement('stripe-buy-button');
+                var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+                if (isDev) {
+                    btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
+                } else {
+                    btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
+                }
+                container.appendChild(btn);
+            })();
+        </script>
+        <div id="stripe-auth-overlay"
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+            title="Comprar"></div>
+        <script>
+            var overlay = document.getElementById('stripe-auth-overlay');
+            if (overlay) {
+                overlay.onclick = function () {
+                    var params = new URLSearchParams(window.location.search);
+                    if (params.get('auth') === '1') {
+                        var checkoutUrl = params.get('checkout');
+                        if (checkoutUrl) {
+                            window.location.href = checkoutUrl;
+                        }
+                    } else {
+                        window.location.href = '/sign-in';
+                    }
+                };
+            }
+        </script>
+    </div>
 
 </body>
+
 </html>

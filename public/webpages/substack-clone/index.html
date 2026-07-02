@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,13 +8,14 @@
     <link rel="stylesheet" href="styles.css">
     <!-- Google Fonts -->
 </head>
+
 <body>
     <!-- 3D Canvas -->
     <canvas id="webgl-canvas"></canvas>
 
     <!-- UI Overlay -->
     <main class="content-overlay">
-        
+
         <!-- Navigation -->
         <nav class="navbar">
             <div class="logo">LetterNest</div>
@@ -33,7 +35,8 @@
         <section id="hero" class="scroll-section">
             <div class="section-content hero-content text-center">
                 <h1 class="hero-title">Where ideas become <span class="italic-serif">letters</span></h1>
-                <p class="hero-subtitle">A premium platform for independent writers, essayists, and communities to thrive. Own your audience, monetize your craft.</p>
+                <p class="hero-subtitle">A premium platform for independent writers, essayists, and communities to
+                    thrive. Own your audience, monetize your craft.</p>
                 <div class="hero-cta">
                     <button class="btn btn-primary btn-large">Start Publishing</button>
                     <button class="btn btn-secondary btn-large">Explore Library</button>
@@ -46,7 +49,8 @@
             <div class="section-content">
                 <div class="text-block">
                     <h2 class="section-title">The Minimalist <span class="italic-serif">Canvas</span></h2>
-                    <p class="section-desc">Write without distractions. Our editor feels like a blank page waiting for your masterpiece, seamlessly blending text, images, and embeds.</p>
+                    <p class="section-desc">Write without distractions. Our editor feels like a blank page waiting for
+                        your masterpiece, seamlessly blending text, images, and embeds.</p>
                     <ul class="feature-list">
                         <li><span>✦</span> Distraction-free writing mode</li>
                         <li><span>✦</span> Rich media embeds</li>
@@ -60,8 +64,11 @@
                         <div class="panel-title">Draft - Untitiled</div>
                     </div>
                     <div class="panel-body">
-                        <h3 contenteditable="true" class="editor-title" placeholder="Title...">The Future of Independent Media</h3>
-                        <p contenteditable="true" class="editor-text" placeholder="Start writing...">It begins with a simple idea. We believe that writers should have total ownership of their relationship with their readers...</p>
+                        <h3 contenteditable="true" class="editor-title" placeholder="Title...">The Future of Independent
+                            Media</h3>
+                        <p contenteditable="true" class="editor-text" placeholder="Start writing...">It begins with a
+                            simple idea. We believe that writers should have total ownership of their relationship with
+                            their readers...</p>
                     </div>
                 </div>
             </div>
@@ -72,7 +79,8 @@
             <div class="section-content reverse-layout">
                 <div class="text-block">
                     <h2 class="section-title">Grow your <span class="italic-serif">Community</span></h2>
-                    <p class="section-desc">Understand your readers with deep analytics. Turn casual readers into loyal, paying subscribers with flexible membership tiers.</p>
+                    <p class="section-desc">Understand your readers with deep analytics. Turn casual readers into loyal,
+                        paying subscribers with flexible membership tiers.</p>
                     <div class="stats-grid">
                         <div class="stat-box">
                             <span class="stat-number">90%</span>
@@ -107,8 +115,9 @@
         <section id="discover" class="scroll-section center-layout">
             <div class="section-content text-center">
                 <h2 class="section-title">Discover brilliant <span class="italic-serif">minds</span></h2>
-                <p class="section-desc centered-desc">Explore a rich ecosystem of newsletters, essays, and podcasts from top creators around the world.</p>
-                
+                <p class="section-desc centered-desc">Explore a rich ecosystem of newsletters, essays, and podcasts from
+                    top creators around the world.</p>
+
                 <div class="cards-container">
                     <div class="newsletter-card glass-panel">
                         <div class="card-author">
@@ -129,7 +138,8 @@
                                 <span>Technology</span>
                             </div>
                         </div>
-                        <p class="card-excerpt">Weekly deep dives into the macroeconomic shifts in the tech industry.</p>
+                        <p class="card-excerpt">Weekly deep dives into the macroeconomic shifts in the tech industry.
+                        </p>
                         <button class="btn btn-outline btn-full">Subscribe</button>
                     </div>
                     <div class="newsletter-card glass-panel">
@@ -151,13 +161,14 @@
         <section id="cta" class="scroll-section">
             <div class="section-content cta-content text-center glass-panel">
                 <h2 class="section-title">Ready to start your <span class="italic-serif">journey?</span></h2>
-                <p class="section-desc centered-desc">Join thousands of writers who have built their independent empires on LetterNest.</p>
+                <p class="section-desc centered-desc">Join thousands of writers who have built their independent empires
+                    on LetterNest.</p>
                 <form class="registration-form">
                     <input type="email" placeholder="Enter your email address" required>
                     <button type="submit" class="btn btn-primary">Create Publication</button>
                 </form>
             </div>
-            
+
             <footer class="site-footer">
                 <div class="footer-links">
                     <a href="#">Terms</a>
@@ -174,35 +185,50 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    
+
     <!-- Custom Logic -->
     <script src="app.js"></script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
-        } else {
-          window.location.href = '/sign-in';
-        }
-      };
-    }
-  </script>
-</div>
+    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+        <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+        <div id="dynamic-stripe-button"></div>
+        <script>
+            (function () {
+                var container = document.getElementById('dynamic-stripe-button');
+                var btn = document.createElement('stripe-buy-button');
+                var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+                if (isDev) {
+                    btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
+                } else {
+                    btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
+                }
+                container.appendChild(btn);
+            })();
+        </script>
+        <div id="stripe-auth-overlay"
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+            title="Comprar"></div>
+        <script>
+            var overlay = document.getElementById('stripe-auth-overlay');
+            if (overlay) {
+                overlay.onclick = function () {
+                    var params = new URLSearchParams(window.location.search);
+                    if (params.get('auth') === '1') {
+                        var checkoutUrl = params.get('checkout');
+                        if (checkoutUrl) {
+                            window.location.href = checkoutUrl;
+                        }
+                    } else {
+                        window.location.href = '/sign-in';
+                    }
+                };
+            }
+        </script>
+    </div>
 
 </body>
+
 </html>

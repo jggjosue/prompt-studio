@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CloudPilot CRM | 3D Commercial Operations</title>
-    <meta name="description" content="Enter the new dimension of commercial management. A 3D operations center for leads, pipelines, and revenue.">
-    
+    <meta name="description"
+        content="Enter the new dimension of commercial management. A 3D operations center for leads, pipelines, and revenue.">
+
     <!-- Fonts -->
-<!-- Custom CSS -->
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-    
+
     <!-- 3D Canvas Background -->
     <canvas id="webgl-canvas"></canvas>
 
     <!-- UI Overlay -->
     <div id="ui-layer">
-        
+
         <!-- Navbar -->
         <nav class="navbar">
             <div class="logo">
@@ -32,20 +35,25 @@
             </div>
             <div class="nav-actions">
                 <button class="btn-secondary">Log In</button>
-                <button class="btn-primary" onclick="document.getElementById('demo-section').scrollIntoView({behavior: 'smooth'})">Get Demo</button>
+                <button class="btn-primary"
+                    onclick="document.getElementById('demo-section').scrollIntoView({behavior: 'smooth'})">Get
+                    Demo</button>
             </div>
         </nav>
 
         <!-- Main Content Scroll Container -->
         <main class="content">
-            
+
             <!-- Hero / Attract -->
             <section id="hero" class="section glass-section">
                 <div class="container">
                     <h1 class="animate-text">Enter the Next Dimension<br>of Sales Operations</h1>
-                    <p class="subtitle animate-text delay-1">Visualize your entire commercial universe. Connect leads, accelerate pipelines, and scale revenue with a fully immersive 3D CRM experience.</p>
+                    <p class="subtitle animate-text delay-1">Visualize your entire commercial universe. Connect leads,
+                        accelerate pipelines, and scale revenue with a fully immersive 3D CRM experience.</p>
                     <div class="cta-group animate-text delay-2">
-                        <button class="btn-primary large" onclick="document.getElementById('demo-section').scrollIntoView({behavior: 'smooth'})">Start Free Trial</button>
+                        <button class="btn-primary large"
+                            onclick="document.getElementById('demo-section').scrollIntoView({behavior: 'smooth'})">Start
+                            Free Trial</button>
                         <button class="btn-outline large">Explore Modules</button>
                     </div>
                 </div>
@@ -56,7 +64,8 @@
                 <div class="container glass-card">
                     <div class="badge">Lead Intelligence</div>
                     <h2>Qualify at the Speed of Light</h2>
-                    <p>Our automation nodes instantly score incoming leads, connecting data points to reveal the most valuable opportunities in your orbit.</p>
+                    <p>Our automation nodes instantly score incoming leads, connecting data points to reveal the most
+                        valuable opportunities in your orbit.</p>
                     <ul class="feature-list">
                         <li><span>✦</span> AI-Driven Scoring Models</li>
                         <li><span>✦</span> Instant Enrichment</li>
@@ -70,7 +79,8 @@
                 <div class="container glass-card">
                     <div class="badge">Dynamic Pipeline</div>
                     <h2>Navigate Your Revenue Stream</h2>
-                    <p>Drag, drop, and propel deals through your sales stages. Watch your forecasted revenue update in real-time as opportunities advance.</p>
+                    <p>Drag, drop, and propel deals through your sales stages. Watch your forecasted revenue update in
+                        real-time as opportunities advance.</p>
                     <div class="interactive-demo">
                         <div class="deal-card">
                             <span class="deal-name">Acme Corp Enterprise</span>
@@ -86,7 +96,8 @@
                 <div class="container glass-card">
                     <div class="badge">Customer Orbit</div>
                     <h2>360° Customer Support</h2>
-                    <p>Resolve issues before they escalate. View every customer interaction, ticket, and health score in a unified 3D account map.</p>
+                    <p>Resolve issues before they escalate. View every customer interaction, ticket, and health score in
+                        a unified 3D account map.</p>
                     <div class="ticket-form-preview">
                         <input type="text" placeholder="Issue Subject" disabled>
                         <button class="btn-secondary btn-sm" disabled>Create Ticket</button>
@@ -99,7 +110,7 @@
                 <div class="container">
                     <h2 class="glow-text">Predict the Future</h2>
                     <p class="large-p">Turn raw data into strategic intelligence with interactive 3D dashboards.</p>
-                    
+
                     <div class="stats-grid">
                         <div class="stat-box glass-card">
                             <h3>$4.2M</h3>
@@ -122,8 +133,9 @@
                 <div class="container form-container">
                     <h2>Ready for Liftoff?</h2>
                     <p>Request a personalized tour of CloudPilot CRM.</p>
-                    
-                    <form id="demo-form" class="glass-form" onsubmit="event.preventDefault(); alert('Demo requested! Our team will contact you.');">
+
+                    <form id="demo-form" class="glass-form"
+                        onsubmit="event.preventDefault(); alert('Demo requested! Our team will contact you.');">
                         <div class="form-group">
                             <label for="name">Full Name</label>
                             <input type="text" id="name" required placeholder="Jane Doe">
@@ -168,39 +180,54 @@
     <!-- Scripts -->
     <!-- Three.js Core -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    
+
     <!-- GSAP for Animations & ScrollTrigger -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    
+
     <!-- Custom Application Logic -->
     <script src="app.js"></script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
-        } else {
-          window.location.href = '/sign-in';
-        }
-      };
-    }
-  </script>
-</div>
+    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+        <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+        <div id="dynamic-stripe-button"></div>
+        <script>
+            (function () {
+                var container = document.getElementById('dynamic-stripe-button');
+                var btn = document.createElement('stripe-buy-button');
+                var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+                if (isDev) {
+                    btn.setAttribute('buy-button-id', process.env.PROFESSIONAL_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
+                } else {
+                    btn.setAttribute('buy-button-id', process.env.PROFESSIONAL_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
+                }
+                container.appendChild(btn);
+            })();
+        </script>
+        <div id="stripe-auth-overlay"
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+            title="Comprar"></div>
+        <script>
+            var overlay = document.getElementById('stripe-auth-overlay');
+            if (overlay) {
+                overlay.onclick = function () {
+                    var params = new URLSearchParams(window.location.search);
+                    if (params.get('auth') === '1') {
+                        var checkoutUrl = params.get('checkout');
+                        if (checkoutUrl) {
+                            window.location.href = checkoutUrl;
+                        }
+                    } else {
+                        window.location.href = '/sign-in';
+                    }
+                };
+            }
+        </script>
+    </div>
 
 </body>
+
 </html>

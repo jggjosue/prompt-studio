@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="3D Fashion Showroom Runway Backstage is a premium immersive landing page for runway, backstage, collection, VIP and booking experiences.">
+  <meta name="description"
+    content="3D Fashion Showroom Runway Backstage is a premium immersive landing page for runway, backstage, collection, VIP and booking experiences.">
   <meta name="keywords" content="fashion, runway, backstage, showroom, 3d, luxury, editorial, collection, vip, booking">
   <title>3D Fashion Showroom Runway Backstage</title>
   <script type="importmap">
@@ -14,8 +16,9 @@
       }
     }
   </script>
-<link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
   <div class="ambient ambient-a" aria-hidden="true"></div>
   <div class="ambient ambient-b" aria-hidden="true"></div>
@@ -43,7 +46,8 @@
       <div class="hero-copy parallax-layer">
         <p class="eyebrow">Editorial Luxury Experience</p>
         <h1>Experience the Runway and Backstage in Immersive 3D</h1>
-        <p class="lede">Step inside a premium digital fashion showroom where runway lights, designer looks, backstage preparation, styling details and VIP appointments come alive through cinematic 3D.</p>
+        <p class="lede">Step inside a premium digital fashion showroom where runway lights, designer looks, backstage
+          preparation, styling details and VIP appointments come alive through cinematic 3D.</p>
         <div class="hero-actions">
           <button class="primary" data-action="enter-backstage">Enter Backstage</button>
           <a class="secondary" href="#collection">View Collection</a>
@@ -73,7 +77,8 @@
       <div class="section-heading">
         <p class="eyebrow">Canvas Experience</p>
         <h2>Runway Backstage Experience</h2>
-        <p>Hover the canvas hotspots to inspect the main runway, backstage rack, makeup station, styling table, fitting room, designer notes, VIP viewing and booking point.</p>
+        <p>Hover the canvas hotspots to inspect the main runway, backstage rack, makeup station, styling table, fitting
+          room, designer notes, VIP viewing and booking point.</p>
       </div>
       <div class="hotspot-row" id="hotspot-row"></div>
     </section>
@@ -82,13 +87,26 @@
       <div class="section-heading">
         <p class="eyebrow">Runway</p>
         <h2>A Cinematic Runway Built for Digital Fashion</h2>
-        <p>Editorial lighting, reflective flooring and a precise camera path turn the collection reveal into a premium fashion film.</p>
+        <p>Editorial lighting, reflective flooring and a precise camera path turn the collection reveal into a premium
+          fashion film.</p>
       </div>
       <div class="grid four">
-        <article class="glass card reveal"><h3>Editorial Lighting</h3><p>Sculpted highlights and soft shadows shape each look.</p></article>
-        <article class="glass card reveal"><h3>Interactive Runway</h3><p>Scroll advances the dolly shot through the central aisle.</p></article>
-        <article class="glass card reveal"><h3>Front Row Experience</h3><p>Elegant seating and camera flashes frame the audience.</p></article>
-        <article class="glass card reveal"><h3>Collection Reveal</h3><p>Product cards and look labels appear in sequence.</p></article>
+        <article class="glass card reveal">
+          <h3>Editorial Lighting</h3>
+          <p>Sculpted highlights and soft shadows shape each look.</p>
+        </article>
+        <article class="glass card reveal">
+          <h3>Interactive Runway</h3>
+          <p>Scroll advances the dolly shot through the central aisle.</p>
+        </article>
+        <article class="glass card reveal">
+          <h3>Front Row Experience</h3>
+          <p>Elegant seating and camera flashes frame the audience.</p>
+        </article>
+        <article class="glass card reveal">
+          <h3>Collection Reveal</h3>
+          <p>Product cards and look labels appear in sequence.</p>
+        </article>
       </div>
     </section>
 
@@ -99,10 +117,18 @@
         <p>Every area can be opened from the cards below or from the 3D scene hotspots.</p>
       </div>
       <div class="grid four">
-        <article class="glass card action-card" data-focus="backstage-rack"><h3>Styling Rack</h3><button>Explore Backstage Area</button></article>
-        <article class="glass card action-card" data-focus="makeup"><h3>Makeup Station</h3><button>Explore Backstage Area</button></article>
-        <article class="glass card action-card" data-focus="styling"><h3>Styling Table</h3><button>Explore Backstage Area</button></article>
-        <article class="glass card action-card" data-focus="fitting"><h3>Fitting Room</h3><button>Explore Backstage Area</button></article>
+        <article class="glass card action-card" data-focus="backstage-rack">
+          <h3>Styling Rack</h3><button>Explore Backstage Area</button>
+        </article>
+        <article class="glass card action-card" data-focus="makeup">
+          <h3>Makeup Station</h3><button>Explore Backstage Area</button>
+        </article>
+        <article class="glass card action-card" data-focus="styling">
+          <h3>Styling Table</h3><button>Explore Backstage Area</button>
+        </article>
+        <article class="glass card action-card" data-focus="fitting">
+          <h3>Fitting Room</h3><button>Explore Backstage Area</button>
+        </article>
       </div>
     </section>
 
@@ -211,31 +237,46 @@
 
   <script type="module" src="fashion.js"></script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
+  <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+    <div id="dynamic-stripe-button"></div>
+    <script>
+      (function () {
+        var container = document.getElementById('dynamic-stripe-button');
+        var btn = document.createElement('stripe-buy-button');
+        var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+        if (isDev) {
+          btn.setAttribute('buy-button-id', process.env.ENTREPRENEUR_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
         } else {
-          window.location.href = '/sign-in';
+          btn.setAttribute('buy-button-id', process.env.ENTREPRENEUR_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
         }
-      };
-    }
-  </script>
-</div>
+        container.appendChild(btn);
+      })();
+    </script>
+    <div id="stripe-auth-overlay"
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+      title="Comprar"></div>
+    <script>
+      var overlay = document.getElementById('stripe-auth-overlay');
+      if (overlay) {
+        overlay.onclick = function () {
+          var params = new URLSearchParams(window.location.search);
+          if (params.get('auth') === '1') {
+            var checkoutUrl = params.get('checkout');
+            if (checkoutUrl) {
+              window.location.href = checkoutUrl;
+            }
+          } else {
+            window.location.href = '/sign-in';
+          }
+        };
+      }
+    </script>
+  </div>
 
 </body>
+
 </html>

@@ -21,6 +21,7 @@ import { trackAnalyticsEvent } from '@/lib/analytics';
 import { trackAffiliateClick } from '@/lib/affiliate-client';
 import type { WebPageEntry } from '@/lib/web-pages';
 import { resolveWebPageImageUrl } from '@/lib/web-page-media';
+import { getWebPageCheckoutUrl } from '@/lib/web-page-checkout';
 import { useMembershipAccess } from '@/hooks/use-membership-access';
 import { normalizeMembership } from '@/lib/membership-access';
 import {
@@ -58,7 +59,8 @@ function buildCheckoutUrl(baseUrl: string | undefined, pageId: string, userId?: 
   const affiliateRef = typeof window !== 'undefined' ? window.localStorage.getItem(AFFILIATE_OWNER_STORAGE_KEY) : null;
   const firstAffiliateRef = typeof window !== 'undefined' ? window.localStorage.getItem(AFFILIATE_FIRST_REF_STORAGE_KEY) : null;
   const lastTouchAffiliateRef = typeof window !== 'undefined' ? window.localStorage.getItem(AFFILIATE_LAST_TOUCH_STORAGE_KEY) : null;
-  const url = new URL(baseUrl);
+  const isInternalPath = baseUrl.startsWith('/');
+  const url = new URL(baseUrl, 'https://prompstudio.com');
   url.searchParams.set('client_reference_id', `${userId ?? 'guest'}___${pageId}`);
   url.searchParams.set('affiliate_product_id', pageId);
   if (affiliateRef && affiliateRef !== userId) {
@@ -70,7 +72,7 @@ function buildCheckoutUrl(baseUrl: string | undefined, pageId: string, userId?: 
   if (lastTouchAffiliateRef && lastTouchAffiliateRef !== userId) {
     url.searchParams.set('affiliate_last_touch_ref', lastTouchAffiliateRef);
   }
-  return url.toString();
+  return isInternalPath ? `${url.pathname}${url.search}` : url.toString();
 }
 
 function WebPageCardComponent({
@@ -94,7 +96,14 @@ function WebPageCardComponent({
     isSignedIn &&
     (plan === 'premium' || plan === 'startup');
 
-  const stripeUrl = process.env.NEXT_PUBLIC_STRIPE_WEB_PAGE_UNIQUE;
+  const stripeUrl =
+    Number(page.price.replace(/[$,\s]/g, '')) === 5
+      ? '/checkout/mini'
+      : Number(page.price.replace(/[$,\s]/g, '')) === 10
+        ? '/checkout/entrepreneur'
+        : Number(page.price.replace(/[$,\s]/g, '')) === 15
+          ? '/checkout/professional'
+      : getWebPageCheckoutUrl(page.price);
   const itemCheckoutUrl = buildCheckoutUrl(stripeUrl, page.id, userId);
   const trackClick = (source: 'campaign-card' | 'demo') => {
     void trackAffiliateClick({

@@ -17,8 +17,8 @@ Before running the app, make sure you have set up a back-end web application in 
 
 Within your Kinde back-end web application, update the following settings:
 
-- **Allowed callback URLs**: Add `http://localhost:3000/api/auth/kinde_callback`
-- **Allowed logout redirect URLs**: Add `http://localhost:3000`
+- **Allowed callback URLs**: Add `process.env.DOMAIN_DEV/api/auth/kinde_callback`
+- **Allowed logout redirect URLs**: Add `process.env.DOMAIN_DEV`
 
 **Note:** When you deploy your application, you will need to update these URLs with your production domain.
 
@@ -56,14 +56,14 @@ Once the dependencies are installed and your environment variables are set, you 
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see your application.
+Open [process.env.DOMAIN_DEV](process.env.DOMAIN_DEV) with your browser to see your application.
 
 ## Domains and Public URLs
 
 ### Application
 
-- **Production**: [https://www.prompstudio.com](https://www.prompstudio.com)
-- **Local development**: [http://localhost:3011](http://localhost:3011)
+- **Production**: [process.env.DOMAIN_PROD](process.env.DOMAIN_PROD)
+- **Local development**: [process.env.DOMAIN_DEV](process.env.DOMAIN_DEV)
 
 Configure these URLs through `DOMAIN_PROD` and `DOMAIN_DEV`. If the local development server uses another port, update `DOMAIN_DEV` accordingly.
 
@@ -74,6 +74,27 @@ Configure these URLs through `DOMAIN_PROD` and `DOMAIN_DEV`. If the local develo
 - **Pinterest**: [https://www.pinterest.com/prompstudio/](https://www.pinterest.com/prompstudio/)
 - **Facebook**: [https://www.facebook.com/prompt.stuudio/](https://www.facebook.com/prompt.stuudio/)
 
+## Integrations & APIs
+
+This project integrates with several third-party APIs for core functionalities:
+
+- **[Resend](https://resend.com/)**: Used for sending transactional and marketing emails (e.g., onboarding, product announcements, birthdays).
+- **[Clerk](https://clerk.com/)**: Handles user authentication, session management, and user profiles (Replaced Kinde).
+- **[Stripe](https://stripe.com/)**: Processes payments, premium component unlocks, and recurring subscriptions.
+- **[Firebase](https://firebase.google.com/)**: Provides NoSQL database (Firestore) and backend infrastructure.
+- **[Cloudflare](https://www.cloudflare.com/)**: Used for hosting landing page templates and handling static assets (R2).
+- **[Google GenAI / Genkit](https://firebase.google.com/docs/genkit)**: Powers AI-based text and media generation features.
+
+### Internal API Endpoints
+
+The application exposes several internal API endpoints to handle webhooks and data synchronization:
+
+- **`/api/sync-clerk`**: A utility endpoint to fetch all current users directly from Clerk and synchronize them into the MongoDB database (`RegisteredUser`, `UserProfile`, and `NewUser` models) and Resend.
+- **`/api/sync-clerk-to-resend`**: A utility endpoint dedicated to fetching users directly from Clerk and adding them exclusively to Resend contacts, without modifying the database.
+- **`/api/sync-resend`**: A utility endpoint to synchronize users stored in MongoDB (`NewUser` model) directly to Resend contacts.
+- **Clerk Webhooks (`/api/webhooks/clerk`)**: Receives events from Clerk (e.g., user created, user updated, user deleted) to keep the internal database synchronized with the authentication provider.
+- **MongoDB Data APIs**: Endpoints like `/api/profile`, `/api/like`, and `/api/activity` interact with the MongoDB database to store user preferences, likes, and activity logs.
+
 ## Learn More
 
 To learn more about the technologies used in this project, take a look at the following resources:
@@ -83,7 +104,9 @@ To learn more about the technologies used in this project, take a look at the fo
 - [Genkit Documentation](https://firebase.google.com/docs/genkit) - learn about Genkit for AI development.
 - [ShadCN UI Documentation](https://ui.shadcn.com/) - learn about the UI components used.
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs) - learn about Tailwind CSS for styling.
-- [Kinde Documentation](https://kinde.com/docs) - learn about Kinde authentication.
+- [Resend Documentation](https://resend.com/docs) - learn about the Resend Email API.
+- [Clerk Documentation](https://clerk.com/docs) - learn about Clerk authentication.
+- [Stripe Documentation](https://stripe.com/docs) - learn about Stripe payments.
 
 ## Deployment
 node update-ids-random.js
@@ -92,10 +115,10 @@ node update-video-ids-random.js
 ## Sitemap
 
 - **Sitemap File Path**: `src/app/sitemap.ts`
-- **Sitemap Public URL Path**: `/sitemap.xml` (e.g. `https://www.prompstudio.com/sitemap.xml`)
-- **Sitemap Local URL Path**: `http://localhost:3004/sitemap.xml` (or whatever port next dev is running on)
+- **Sitemap Public URL Path**: `/sitemap.xml` (e.g. `process.env.DOMAIN_PROD/sitemap.xml`)
+- **Sitemap Local URL Path**: `process.env.DOMAIN_DEV/sitemap.xml` (or whatever port next dev is running on)
 
-The sitemap is dynamically generated in `src/app/sitemap.ts` and served at `/sitemap.xml` under your Next.js application. The production base URL defaults to `https://www.prompstudio.com` unless `NEXT_PUBLIC_SITE_URL` is set.
+The sitemap is dynamically generated in `src/app/sitemap.ts` and served at `/sitemap.xml` under your Next.js application. The production base URL defaults to `process.env.DOMAIN_PROD` unless `NEXT_PUBLIC_SITE_URL` is set.
 
 Current sitemap coverage: 405 URLs.
 
@@ -375,7 +398,7 @@ These clones and templates are hosted on Cloudflare R2 and dynamically resolved 
 - `/webpages/pixelframe-photography-portfolio/`
 - `/webpages/pixelshelf-indie-game-store/`
 
-#https://www.prompstudio.com/webpages/pixelshelf-indie-game-store/sitemap.xml 
+#process.env.DOMAIN_PROD/webpages/pixelshelf-indie-game-store/sitemap.xml 
 
 ### Tag pages
 

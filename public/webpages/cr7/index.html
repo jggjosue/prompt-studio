@@ -1,177 +1,165 @@
 <!doctype html>
 <html lang="es">
-  <head>
-  <meta name="keywords" content="cr7, clone, design, three.js, webgl, interactive, template, landing page, prompt studio">
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="CR7 AURA Golden Strike. Energía, resistencia y enfoque competitivo."
-    />
-    <title>CR7 AURA | Golden Strike</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-<link
-      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <div class="page-noise" aria-hidden="true"></div>
 
-    <header class="site-header" aria-label="Navegación principal">
-      <a class="brand" href="#hero" aria-label="CR7 Aura, inicio">
-        <strong>CR7</strong><span>AURA</span>
-      </a>
-      <nav>
-        <a href="#experience">Experiencia</a>
-        <a href="#formula">Fórmula</a>
-        <a href="#legacy">Legado</a>
-      </nav>
-      <button class="menu-button" type="button" aria-label="Abrir menú">
-        <span></span><span></span>
-      </button>
-    </header>
+<head>
+  <meta name="keywords"
+    content="cr7, clone, design, three.js, webgl, interactive, template, landing page, prompt studio">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="CR7 AURA Golden Strike. Energía, resistencia y enfoque competitivo." />
+  <title>CR7 AURA | Golden Strike</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
 
-    <main>
-      <section class="hero" id="hero" aria-label="CR7 Aura Golden Strike">
-        <div class="stadium" aria-hidden="true">
-          <div class="stadium-light light-left"></div>
-          <div class="stadium-light light-right"></div>
-          <div class="emerald-ring"></div>
-          <div class="mist mist-one"></div>
-          <div class="mist mist-two"></div>
+<body>
+  <div class="page-noise" aria-hidden="true"></div>
+
+  <header class="site-header" aria-label="Navegación principal">
+    <a class="brand" href="#hero" aria-label="CR7 Aura, inicio">
+      <strong>CR7</strong><span>AURA</span>
+    </a>
+    <nav>
+      <a href="#experience">Experiencia</a>
+      <a href="#formula">Fórmula</a>
+      <a href="#legacy">Legado</a>
+    </nav>
+    <button class="menu-button" type="button" aria-label="Abrir menú">
+      <span></span><span></span>
+    </button>
+  </header>
+
+  <main>
+    <section class="hero" id="hero" aria-label="CR7 Aura Golden Strike">
+      <div class="stadium" aria-hidden="true">
+        <div class="stadium-light light-left"></div>
+        <div class="stadium-light light-right"></div>
+        <div class="emerald-ring"></div>
+        <div class="mist mist-one"></div>
+        <div class="mist mist-two"></div>
+      </div>
+
+      <canvas class="particles" aria-hidden="true"></canvas>
+
+      <div class="media-stage" aria-hidden="true">
+        <img class="poster" src="images/Render_3D_cinematográfico_de_la_202606091345.jpeg" alt="" />
+        <video class="product-video" src="videos/CR7_AURA_can_explosion_202606091343.mp4" muted loop playsinline
+          preload="auto"></video>
+        <img class="hologram" src="images/golden-football-hologram.png" alt="" />
+        <div class="media-vignette"></div>
+      </div>
+
+      <div class="hero-copy">
+        <div class="left-copy">
+          <h1><span>CR7</span><span>AURA</span></h1>
+          <p class="edition">Signature performance energy</p>
         </div>
 
-        <canvas class="particles" aria-hidden="true"></canvas>
-
-        <div class="media-stage" aria-hidden="true">
-          <img
-            class="poster"
-            src="images/Render_3D_cinematográfico_de_la_202606091345.jpeg"
-            alt=""
-          />
-          <video
-            class="product-video"
-            src="videos/CR7_AURA_can_explosion_202606091343.mp4"
-            muted
-            loop
-            playsinline
-            preload="auto"
-          ></video>
-          <img
-            class="hologram"
-            src="images/golden-football-hologram.png"
-            alt=""
-          />
-          <div class="media-vignette"></div>
-        </div>
-
-        <div class="hero-copy">
-          <div class="left-copy">
-            <h1><span>CR7</span><span>AURA</span></h1>
-            <p class="edition">Signature performance energy</p>
-          </div>
-
-          <div class="right-copy">
-            <p class="index">07 / 24</p>
-            <h2>Golden<br />Strike</h2>
-            <div class="gold-rule"><span></span></div>
-            <p class="description">
-              Resistencia física, enfoque competitivo y energía sostenida para
-              rendir cuando el partido lo exige.
-            </p>
-          </div>
-        </div>
-
-        <div class="hero-actions">
-          <a class="button button-ghost" href="#formula">
-            <span>Descubre el aura</span>
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M5 12h13M14 7l5 5-5 5" />
-            </svg>
-          </a>
-          <a class="button button-gold" href="#experience">
-            <span>Activa tu energía</span>
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M5 12h13M14 7l5 5-5 5" />
-            </svg>
-          </a>
-        </div>
-
-        <button class="scroll-cue" type="button" aria-label="Activar experiencia">
-          <span>Scroll to ignite</span>
-          <i></i>
-        </button>
-      </section>
-
-      <section class="story" id="experience">
-        <video
-          class="story-video"
-          src="videos/CR7_AURA_can_explosion_202606091343.mp4"
-          muted
-          loop
-          playsinline
-          preload="metadata"
-          aria-hidden="true"
-        ></video>
-        <div class="story-video-overlay" aria-hidden="true"></div>
-        <p class="story-number">01</p>
-        <div>
-          <h2>El instante en que<br />todo cobra vida.</h2>
-          <p>
-            Una descarga de limón, frutos oscuros y menta diseñada para sostener
-            la intensidad. Sin ruido. Sólo rendimiento.
+        <div class="right-copy">
+          <p class="index">07 / 24</p>
+          <h2>Golden<br />Strike</h2>
+          <div class="gold-rule"><span></span></div>
+          <p class="description">
+            Resistencia física, enfoque competitivo y energía sostenida para
+            rendir cuando el partido lo exige.
           </p>
         </div>
-      </section>
+      </div>
 
-      <section class="formula" id="formula">
-        <img
-          class="formula-background"
-          src="images/1-ronaldo.png"
-          alt=""
-          aria-hidden="true"
-        />
-        <div class="formula-background-overlay" aria-hidden="true"></div>
-        <p>Fórmula Golden Strike</p>
-        <h2>Focus. Power. Aura.</h2>
-      </section>
+      <div class="hero-actions">
+        <a class="button button-ghost" href="#formula">
+          <span>Descubre el aura</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 12h13M14 7l5 5-5 5" />
+          </svg>
+        </a>
+        <a class="button button-gold" href="#experience">
+          <span>Activa tu energía</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 12h13M14 7l5 5-5 5" />
+          </svg>
+        </a>
+      </div>
 
-      <footer id="legacy">
-        <a class="brand" href="#hero"><strong>CR7</strong><span>AURA</span></a>
-        <p>Built for the decisive moment.</p>
-        <p>© 2026 CR7 AURA</p>
-      </footer>
-    </main>
+      <button class="scroll-cue" type="button" aria-label="Activar experiencia">
+        <span>Scroll to ignite</span>
+        <i></i>
+      </button>
+    </section>
 
-    <script src="script.js"></script>
-  
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
+    <section class="story" id="experience">
+      <video class="story-video" src="videos/CR7_AURA_can_explosion_202606091343.mp4" muted loop playsinline
+        preload="metadata" aria-hidden="true"></video>
+      <div class="story-video-overlay" aria-hidden="true"></div>
+      <p class="story-number">01</p>
+      <div>
+        <h2>El instante en que<br />todo cobra vida.</h2>
+        <p>
+          Una descarga de limón, frutos oscuros y menta diseñada para sostener
+          la intensidad. Sin ruido. Sólo rendimiento.
+        </p>
+      </div>
+    </section>
+
+    <section class="formula" id="formula">
+      <img class="formula-background" src="images/1-ronaldo.png" alt="" aria-hidden="true" />
+      <div class="formula-background-overlay" aria-hidden="true"></div>
+      <p>Fórmula Golden Strike</p>
+      <h2>Focus. Power. Aura.</h2>
+    </section>
+
+    <footer id="legacy">
+      <a class="brand" href="#hero"><strong>CR7</strong><span>AURA</span></a>
+      <p>Built for the decisive moment.</p>
+      <p>© 2026 CR7 AURA</p>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+
+  <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+    <div id="dynamic-stripe-button"></div>
+    <script>
+      (function () {
+        var container = document.getElementById('dynamic-stripe-button');
+        var btn = document.createElement('stripe-buy-button');
+        var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+        if (isDev) {
+          btn.setAttribute('buy-button-id', process.env.ELITE_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
         } else {
-          window.location.href = '/sign-in';
+          btn.setAttribute('buy-button-id', process.env.ELITE_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
         }
-      };
-    }
-  </script>
-</div>
+        container.appendChild(btn);
+      })();
+    </script>
+    <div id="stripe-auth-overlay"
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+      title="Comprar"></div>
+    <script>
+      var overlay = document.getElementById('stripe-auth-overlay');
+      if (overlay) {
+        overlay.onclick = function () {
+          var params = new URLSearchParams(window.location.search);
+          if (params.get('auth') === '1') {
+            var checkoutUrl = params.get('checkout');
+            if (checkoutUrl) {
+              window.location.href = checkoutUrl;
+            }
+          } else {
+            window.location.href = '/sign-in';
+          }
+        };
+      }
+    </script>
+  </div>
 
 </body>
+
 </html>

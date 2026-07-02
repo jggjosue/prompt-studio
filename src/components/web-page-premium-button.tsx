@@ -21,6 +21,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { FreeDownloadDialog } from '@/components/free-download-dialog';
 import { normalizeMembership } from '@/lib/membership-access';
+import { getWebPageCheckoutUrl } from '@/lib/web-page-checkout';
 import { trackAnalyticsEvent } from '@/lib/analytics';
 import { trackLoopsEvent } from '@/lib/loops-events';
 import { trackAffiliateClick } from '@/lib/affiliate-client';
@@ -88,7 +89,7 @@ export function PremiumMembershipButton({
   }
 
   const isStartup = plan === 'startup';
-  const stripeUrl = process.env.NEXT_PUBLIC_STRIPE_WEB_PAGE_UNIQUE;
+  const stripeUrl = getWebPageCheckoutUrl(price);
   const itemCheckoutUrl = buildCheckoutUrl(stripeUrl, pageId, userId);
   const trackAffiliateBuyClick = () => {
     void trackAffiliateClick({
@@ -149,7 +150,7 @@ export function PremiumMembershipButton({
         className="border border-blue-500/25 text-blue-300 hover:border-blue-500/40 hover:bg-blue-500/10 hover:text-blue-200"
         asChild
       >
-        <a 
+        <a
           href={`/api/landing-pages/${encodeURIComponent(pageId)}/download`}
           onClick={trackPremiumDownload}
         >
@@ -173,6 +174,36 @@ export function PremiumMembershipButton({
     </>
   );
 
+  const returnUrl =
+    typeof window !== 'undefined'
+      ? `${window.location.pathname}${window.location.search}`
+      : '/landing-pages';
+  const signUpUrl = `/sign-up?redirect_url=${encodeURIComponent(returnUrl)}`;
+
+  if (!userId) {
+    return (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              size="sm"
+              variant="secondary"
+              className="border border-blue-500/25 text-blue-300 hover:border-blue-500/40 hover:bg-blue-500/10 hover:text-blue-200"
+              asChild
+            >
+              <Link href={signUpUrl} onClick={trackBuy}>
+                {buttonContent}
+              </Link>
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Regístrate para continuar con tu compra</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    );
+  }
+
   const loggedInButton = hasPremium ? (
     <TooltipProvider>
       <Tooltip>
@@ -183,16 +214,16 @@ export function PremiumMembershipButton({
             className="border border-blue-500/25 text-blue-300 hover:border-blue-500/40 hover:bg-blue-500/10 hover:text-blue-200"
             asChild
           >
-              <a
-                href={itemCheckoutUrl}
-                target={isExternal ? '_blank' : undefined}
-                rel={isExternal ? 'noopener noreferrer' : undefined}
-                className="!border-blue-500/25 !text-blue-300 hover:!border-blue-500/40 hover:!bg-blue-500/10 hover:!text-blue-200"
+            <a
+              href={itemCheckoutUrl}
+              target={isExternal ? '_blank' : undefined}
+              rel={isExternal ? 'noopener noreferrer' : undefined}
+              className="!border-blue-500/25 !text-blue-300 hover:!border-blue-500/40 hover:!bg-blue-500/10 hover:!text-blue-200"
               onClick={() => {
                 trackAffiliateBuyClick();
                 trackBuy();
               }}
-              >
+            >
               {buttonContent}
             </a>
           </Button>

@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InsightPulse 3D | AI Customer Intelligence</title>
-    
+
     <!-- Fonts -->
-<!-- Styles -->
+    <!-- Styles -->
     <link rel="stylesheet" href="insightpulse.css">
-    
+
     <!-- GSAP & Three.js CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 </head>
+
 <body>
 
     <!-- 3D Canvas Background -->
@@ -21,7 +23,7 @@
 
     <!-- UI Overlay Layer -->
     <div id="ui-layer">
-        
+
         <!-- Navigation -->
         <nav class="navbar">
             <div class="nav-container">
@@ -44,7 +46,8 @@
             <div class="hero-content">
                 <div class="badge">Next-Gen Customer Intelligence</div>
                 <h1>Transform Noise into <span class="text-gradient">Decisions</span></h1>
-                <p>Welcome to the 3D lab of customer insights. We use AI to automatically classify feedback, detect sentiment, and prioritize opportunities across all your channels.</p>
+                <p>Welcome to the 3D lab of customer insights. We use AI to automatically classify feedback, detect
+                    sentiment, and prioritize opportunities across all your channels.</p>
                 <div class="hero-actions">
                     <a href="#demo" class="btn btn-primary btn-lg">Start Free Trial</a>
                     <a href="#features" class="btn btn-outline btn-lg">Explore the Lab</a>
@@ -57,7 +60,8 @@
             <div class="feature-content align-right">
                 <div class="glass-card">
                     <h2>AI Sentiment & Topic Detection</h2>
-                    <p>Watch as thousands of chaotic comments are instantly analyzed, colored by emotion, and grouped into distinct actionable topics without manual tagging.</p>
+                    <p>Watch as thousands of chaotic comments are instantly analyzed, colored by emotion, and grouped
+                        into distinct actionable topics without manual tagging.</p>
                     <ul class="feature-list">
                         <li><span>✓</span> Qualitative research at scale</li>
                         <li><span>✓</span> Automatic sentiment scoring</li>
@@ -89,7 +93,8 @@
                             <span class="value text-gradient">Checkout Flow</span>
                         </div>
                     </div>
-                    <p class="dash-summary"><strong>AI Summary:</strong> Users are highly satisfied with the new UI update, but 15% report friction during the payment step on mobile devices.</p>
+                    <p class="dash-summary"><strong>AI Summary:</strong> Users are highly satisfied with the new UI
+                        update, but 15% report friction during the payment step on mobile devices.</p>
                 </div>
             </div>
         </section>
@@ -99,7 +104,7 @@
             <div class="cta-content">
                 <h2>Ready to power your product with AI insights?</h2>
                 <p>Connect your feedback sources in minutes and get an executive dashboard on day one.</p>
-                
+
                 <form class="glass-card demo-form" onsubmit="event.preventDefault();">
                     <div class="form-group">
                         <label>Work Email</label>
@@ -140,31 +145,46 @@
     <script src="scene.js"></script>
     <script src="animations.js"></script>
 
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
-        } else {
-          window.location.href = '/sign-in';
-        }
-      };
-    }
-  </script>
-</div>
+    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+        <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+        <div id="dynamic-stripe-button"></div>
+        <script>
+            (function () {
+                var container = document.getElementById('dynamic-stripe-button');
+                var btn = document.createElement('stripe-buy-button');
+                var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+                if (isDev) {
+                    btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
+                } else {
+                    btn.setAttribute('buy-button-id', process.env.BUSINESS_PLAN_BUY_BUTTON_ID);
+                    btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
+                }
+                container.appendChild(btn);
+            })();
+        </script>
+        <div id="stripe-auth-overlay"
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+            title="Comprar"></div>
+        <script>
+            var overlay = document.getElementById('stripe-auth-overlay');
+            if (overlay) {
+                overlay.onclick = function () {
+                    var params = new URLSearchParams(window.location.search);
+                    if (params.get('auth') === '1') {
+                        var checkoutUrl = params.get('checkout');
+                        if (checkoutUrl) {
+                            window.location.href = checkoutUrl;
+                        }
+                    } else {
+                        window.location.href = '/sign-in';
+                    }
+                };
+            }
+        </script>
+    </div>
 
 </body>
+
 </html>

@@ -1,121 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard 3D Vanilla</title>
-    <link rel="stylesheet" href="./src/styles.css" />
-  </head>
-  <body>
-    <!-- Three.js Canvas Container -->
-    <div id="canvas-container" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;"></div>
 
-    <!-- UI Overlay (Scrollable) -->
-    <div id="overlay-ui" style="position: relative; z-index: 10; width: 100%; pointer-events: none;">
-      
-      <!-- Header -->
-      <header style="pointer-events: auto; position: fixed; top: 0; width: 100%; z-index: 50; padding: 1rem 2rem;">
-        <div class="container flex justify-between items-center glass">
-          <div class="flex items-center" style="gap: 0.5rem; padding: 0.5rem 1rem;">
-            <div style="width: 32px; height: 32px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 8px;"></div>
-            <span style="font-family: var(--font-display); font-weight: 700; font-size: 1.2rem;">Dashboard 3D</span>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard 3D Vanilla</title>
+  <link rel="stylesheet" href="./src/styles.css" />
+</head>
+
+<body>
+  <!-- Three.js Canvas Container -->
+  <div id="canvas-container" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;"></div>
+
+  <!-- UI Overlay (Scrollable) -->
+  <div id="overlay-ui" style="position: relative; z-index: 10; width: 100%; pointer-events: none;">
+
+    <!-- Header -->
+    <header style="pointer-events: auto; position: fixed; top: 0; width: 100%; z-index: 50; padding: 1rem 2rem;">
+      <div class="container flex justify-between items-center glass">
+        <div class="flex items-center" style="gap: 0.5rem; padding: 0.5rem 1rem;">
+          <div
+            style="width: 32px; height: 32px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 8px;">
           </div>
-          <nav class="flex items-center" style="gap: 2rem;">
-            <a href="#features" style="color: var(--text-main); text-decoration: none; font-weight: 500;">Features</a>
-            <a href="#widgets" style="color: var(--text-main); text-decoration: none; font-weight: 500;">Widgets</a>
-            <a href="#pricing" style="color: var(--text-main); text-decoration: none; font-weight: 500;">Pricing</a>
-            <button class="btn btn-primary">Get Started</button>
-          </nav>
+          <span style="font-family: var(--font-display); font-weight: 700; font-size: 1.2rem;">Dashboard 3D</span>
         </div>
-      </header>
+        <nav class="flex items-center" style="gap: 2rem;">
+          <a href="#features" style="color: var(--text-main); text-decoration: none; font-weight: 500;">Features</a>
+          <a href="#widgets" style="color: var(--text-main); text-decoration: none; font-weight: 500;">Widgets</a>
+          <a href="#pricing" style="color: var(--text-main); text-decoration: none; font-weight: 500;">Pricing</a>
+          <button class="btn btn-primary">Get Started</button>
+        </nav>
+      </div>
+    </header>
 
-      <!-- Hero Section -->
-      <section class="section container" style="pointer-events: auto;">
-        <div class="animate-hero" style="max-width: 800px; text-align: center; margin: 0 auto; opacity: 1; transform: translateY(0);">
-          <h1 style="font-size: 4rem; line-height: 1.1; margin-bottom: 1.5rem;">
-            Enter the <span class="text-gradient">Data Control Center</span>
-          </h1>
-          <p style="font-size: 1.25rem; color: var(--text-muted); margin-bottom: 2.5rem;">
-            Centralize your data, visualize performance, and make decisions in real-time. A premium 3D dashboard experience for modern teams.
+    <!-- Hero Section -->
+    <section class="section container" style="pointer-events: auto;">
+      <div class="animate-hero"
+        style="max-width: 800px; text-align: center; margin: 0 auto; opacity: 1; transform: translateY(0);">
+        <h1 style="font-size: 4rem; line-height: 1.1; margin-bottom: 1.5rem;">
+          Enter the <span class="text-gradient">Data Control Center</span>
+        </h1>
+        <p style="font-size: 1.25rem; color: var(--text-muted); margin-bottom: 2.5rem;">
+          Centralize your data, visualize performance, and make decisions in real-time. A premium 3D dashboard
+          experience for modern teams.
+        </p>
+        <div class="flex justify-center" style="gap: 1rem;">
+          <button class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.1rem;">Start Free Trial</button>
+          <button class="btn btn-outline" style="padding: 1rem 2rem; font-size: 1.1rem;">View Demo</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="section container" style="pointer-events: auto;">
+      <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
+        <div>
+          <h2 style="font-size: 3rem; margin-bottom: 1rem;">Visualize Metrics like Never Before</h2>
+          <p style="font-size: 1.1rem; color: var(--text-muted); margin-bottom: 2rem;">
+            Connect your sources and instantly transform raw data into stunning, actionable visual insights. Our
+            intelligent widgets adapt to your workflow.
           </p>
-          <div class="flex justify-center" style="gap: 1rem;">
-            <button class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.1rem;">Start Free Trial</button>
-            <button class="btn btn-outline" style="padding: 1rem 2rem; font-size: 1.1rem;">View Demo</button>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem;">
+            <li class="flex items-center glass" style="padding: 1rem; gap: 1rem;">
+              <div
+                style="width: 12px; height: 12px; border-radius: 50%; background: var(--primary); box-shadow: 0 0 10px var(--primary);">
+              </div>
+              <strong>Real-time Sync:</strong> Connect APIs instantly.
+            </li>
+            <li class="flex items-center glass" style="padding: 1rem; gap: 1rem;">
+              <div
+                style="width: 12px; height: 12px; border-radius: 50%; background: var(--success); box-shadow: 0 0 10px var(--success);">
+              </div>
+              <strong>Custom Alerts:</strong> Get notified instantly.
+            </li>
+          </ul>
+        </div>
+        <div class="glass glass-card" style="height: 400px; position: relative; overflow: hidden;">
+          <!-- Mock Dashboard UI Graphic -->
+          <div
+            style="position: absolute; top: 10%; left: 10%; width: 80%; height: 80%; background: rgba(255,255,255,0.05); border-radius: 16px; border: 1px solid rgba(255,255,255,0.1);">
+            <div style="padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1);">Revenue Trend</div>
+            <div
+              style="height: 70%; background: linear-gradient(0deg, rgba(56, 189, 248, 0.2) 0%, transparent 100%); margin: 1rem; border-radius: 8px; border-bottom: 2px solid var(--primary);">
+            </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- Features Section -->
-      <section id="features" class="section container" style="pointer-events: auto;">
-        <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
-          <div>
-            <h2 style="font-size: 3rem; margin-bottom: 1rem;">Visualize Metrics like Never Before</h2>
-            <p style="font-size: 1.1rem; color: var(--text-muted); margin-bottom: 2rem;">
-              Connect your sources and instantly transform raw data into stunning, actionable visual insights. Our intelligent widgets adapt to your workflow.
-            </p>
-            <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem;">
-              <li class="flex items-center glass" style="padding: 1rem; gap: 1rem;">
-                <div style="width: 12px; height: 12px; border-radius: 50%; background: var(--primary); box-shadow: 0 0 10px var(--primary);"></div>
-                <strong>Real-time Sync:</strong> Connect APIs instantly.
-              </li>
-              <li class="flex items-center glass" style="padding: 1rem; gap: 1rem;">
-                <div style="width: 12px; height: 12px; border-radius: 50%; background: var(--success); box-shadow: 0 0 10px var(--success);"></div>
-                <strong>Custom Alerts:</strong> Get notified instantly.
-              </li>
-            </ul>
-          </div>
-          <div class="glass glass-card" style="height: 400px; position: relative; overflow: hidden;">
-             <!-- Mock Dashboard UI Graphic -->
-             <div style="position: absolute; top: 10%; left: 10%; width: 80%; height: 80%; background: rgba(255,255,255,0.05); border-radius: 16px; border: 1px solid rgba(255,255,255,0.1);">
-                <div style="padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1);">Revenue Trend</div>
-                <div style="height: 70%; background: linear-gradient(0deg, rgba(56, 189, 248, 0.2) 0%, transparent 100%); margin: 1rem; border-radius: 8px; border-bottom: 2px solid var(--primary);"></div>
-             </div>
-          </div>
+    <!-- Widgets & KPIs Section -->
+    <section id="widgets" class="section container" style="pointer-events: auto; text-align: center;">
+      <h2 style="font-size: 3rem; margin-bottom: 3rem;">Modular Intelligence</h2>
+      <div class="grid" style="grid-template-columns: repeat(3, 1fr); gap: 2rem;">
+        <div class="glass glass-card flex" style="flex-direction: column; align-items: center; gap: 1rem;">
+          <h3 style="color: var(--text-muted);">Total Users</h3>
+          <div style="font-size: 2.5rem; font-weight: 800; color: var(--primary);">124.5K</div>
+          <div style="color: var(--success);">+12.5% this week</div>
         </div>
-      </section>
-
-      <!-- Widgets & KPIs Section -->
-      <section id="widgets" class="section container" style="pointer-events: auto; text-align: center;">
-        <h2 style="font-size: 3rem; margin-bottom: 3rem;">Modular Intelligence</h2>
-        <div class="grid" style="grid-template-columns: repeat(3, 1fr); gap: 2rem;">
-          <div class="glass glass-card flex" style="flex-direction: column; align-items: center; gap: 1rem;">
-            <h3 style="color: var(--text-muted);">Total Users</h3>
-            <div style="font-size: 2.5rem; font-weight: 800; color: var(--primary);">124.5K</div>
-            <div style="color: var(--success);">+12.5% this week</div>
-          </div>
-          <div class="glass glass-card flex" style="flex-direction: column; align-items: center; gap: 1rem;">
-            <h3 style="color: var(--text-muted);">Conversion Rate</h3>
-            <div style="font-size: 2.5rem; font-weight: 800; color: var(--accent);">4.8%</div>
-            <div style="color: var(--success);">+1.2% this week</div>
-          </div>
-          <div class="glass glass-card flex" style="flex-direction: column; align-items: center; gap: 1rem;">
-            <h3 style="color: var(--text-muted);">Active Sessions</h3>
-            <div style="font-size: 2.5rem; font-weight: 800; color: var(--warning);">8,432</div>
-            <div style="color: var(--text-muted);">Stable</div>
-          </div>
+        <div class="glass glass-card flex" style="flex-direction: column; align-items: center; gap: 1rem;">
+          <h3 style="color: var(--text-muted);">Conversion Rate</h3>
+          <div style="font-size: 2.5rem; font-weight: 800; color: var(--accent);">4.8%</div>
+          <div style="color: var(--success);">+1.2% this week</div>
         </div>
-      </section>
+        <div class="glass glass-card flex" style="flex-direction: column; align-items: center; gap: 1rem;">
+          <h3 style="color: var(--text-muted);">Active Sessions</h3>
+          <div style="font-size: 2.5rem; font-weight: 800; color: var(--warning);">8,432</div>
+          <div style="color: var(--text-muted);">Stable</div>
+        </div>
+      </div>
+    </section>
 
-      <!-- Pricing / Registration -->
-      <section id="pricing" class="section container" style="pointer-events: auto; align-items: center;">
-         <div class="glass glass-card" style="max-width: 500px; width: 100%; text-align: center;">
-           <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Ready to Scale?</h2>
-           <p style="color: var(--text-muted); margin-bottom: 2rem;">Start your 14-day free trial. No credit card required.</p>
-           <form style="display: flex; flex-direction: column; gap: 1rem;" onsubmit="event.preventDefault()">
-             <input type="email" placeholder="Work Email" style="padding: 1rem; border-radius: 8px; background: rgba(0,0,0,0.5); border: 1px solid var(--border); color: white; outline: none; font-family: var(--font-main);" />
-             <input type="password" placeholder="Password" style="padding: 1rem; border-radius: 8px; background: rgba(0,0,0,0.5); border: 1px solid var(--border); color: white; outline: none; font-family: var(--font-main);" />
-             <button type="submit" class="btn btn-primary" style="padding: 1rem; margin-top: 1rem; font-size: 1.1rem;">Create Account</button>
-           </form>
-         </div>
-      </section>
+    <!-- Pricing / Registration -->
+    <section id="pricing" class="section container" style="pointer-events: auto; align-items: center;">
+      <div class="glass glass-card" style="max-width: 500px; width: 100%; text-align: center;">
+        <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Ready to Scale?</h2>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">Start your 14-day free trial. No credit card required.
+        </p>
+        <form style="display: flex; flex-direction: column; gap: 1rem;" onsubmit="event.preventDefault()">
+          <input type="email" placeholder="Work Email"
+            style="padding: 1rem; border-radius: 8px; background: rgba(0,0,0,0.5); border: 1px solid var(--border); color: white; outline: none; font-family: var(--font-main);" />
+          <input type="password" placeholder="Password"
+            style="padding: 1rem; border-radius: 8px; background: rgba(0,0,0,0.5); border: 1px solid var(--border); color: white; outline: none; font-family: var(--font-main);" />
+          <button type="submit" class="btn btn-primary"
+            style="padding: 1rem; margin-top: 1rem; font-size: 1.1rem;">Create Account</button>
+        </form>
+      </div>
+    </section>
 
-      <footer style="pointer-events: auto; text-align: center; padding: 2rem; color: var(--text-muted); border-top: 1px solid var(--border);">
-        &copy; 2026 Dashboard 3D. All rights reserved.
-      </footer>
-    </div>
+    <footer
+      style="pointer-events: auto; text-align: center; padding: 2rem; color: var(--text-muted); border-top: 1px solid var(--border);">
+      &copy; 2026 Dashboard 3D. All rights reserved.
+    </footer>
+  </div>
 
-    <!-- Import maps for Three.js -->
-    <script type="importmap">
+  <!-- Import maps for Three.js -->
+  <script type="importmap">
       {
         "imports": {
           "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
@@ -124,34 +143,49 @@
       }
     </script>
 
-    <!-- Main Application Script -->
-    <script type="module" src="./src/main.js"></script>
-  
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-  <stripe-buy-button
-    buy-button-id="buy_btn_1TnWMpBir6PGs1d9OEbkjAH4"
-    publishable-key="pk_live_51TXyvNBir6PGs1d9edddcaaK6d0PqWD0QGr86u85aeQN3lhCFLTVh5F8Dt4oYp25HGisAtwil0yKVcjb6O5jO3np00fMurI4z3"
-  >
-  </stripe-buy-button>
-  <div id="stripe-auth-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;" title="Comprar"></div>
-  <script>
-    var overlay = document.getElementById('stripe-auth-overlay');
-    if (overlay) {
-      overlay.onclick = function() {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('auth') === '1') {
-          var checkoutUrl = params.get('checkout');
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl;
-          }
+  <!-- Main Application Script -->
+  <script type="module" src="./src/main.js"></script>
+
+  <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+    <div id="dynamic-stripe-button"></div>
+    <script>
+      (function () {
+        var container = document.getElementById('dynamic-stripe-button');
+        var btn = document.createElement('stripe-buy-button');
+        var isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+        if (isDev) {
+          btn.setAttribute('buy-button-id', process.env.PROFESSIONAL_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.PLAN_PUBLISHABLE_KEY);
         } else {
-          window.location.href = '/sign-in';
+          btn.setAttribute('buy-button-id', process.env.PROFESSIONAL_PLAN_BUY_BUTTON_ID);
+          btn.setAttribute('publishable-key', process.env.STRIPE_SECRET_KEY);
         }
-      };
-    }
-  </script>
-</div>
+        container.appendChild(btn);
+      })();
+    </script>
+    <div id="stripe-auth-overlay"
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: pointer;"
+      title="Comprar"></div>
+    <script>
+      var overlay = document.getElementById('stripe-auth-overlay');
+      if (overlay) {
+        overlay.onclick = function () {
+          var params = new URLSearchParams(window.location.search);
+          if (params.get('auth') === '1') {
+            var checkoutUrl = params.get('checkout');
+            if (checkoutUrl) {
+              window.location.href = checkoutUrl;
+            }
+          } else {
+            window.location.href = '/sign-in';
+          }
+        };
+      }
+    </script>
+  </div>
 
 </body>
+
 </html>
