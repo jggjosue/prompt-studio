@@ -47,7 +47,7 @@ export function SiteBreadcrumbs({ pathname, className }: SiteBreadcrumbsProps) {
         {trail.map((crumb, i) => {
           const isLast = i === trail.length - 1;
           return (
-            <li key={crumb.href} className="flex items-center gap-1.5">
+            <li key={`${crumb.href}-${i}`} className="flex items-center gap-1.5">
               {i > 0 && (
                 <ChevronRight className="h-3.5 w-3.5 shrink-0 opacity-50" aria-hidden />
               )}

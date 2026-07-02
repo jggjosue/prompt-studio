@@ -48,8 +48,16 @@ export const INTERNAL_LINK_NODES: InternalLinkNode[] = [
     path: '/landing-pages',
     rank: 0.88,
     tier: 1,
-    labelKey: 'nav.webs',
-    descKey: 'nav.webTagsDesc',
+    labelKey: 'nav.templates',
+    descKey: 'nav.templatesDesc',
+    parent: '/',
+  },
+  {
+    path: '/web-animations',
+    rank: 0.87,
+    tier: 1,
+    labelKey: 'nav.animations',
+    descKey: 'nav.animationsDesc',
     parent: '/',
   },
   {
@@ -210,6 +218,38 @@ const ROUTE_PARENTS: { pattern: RegExp; parents: Crumb[] }[] = [
 export function getBreadcrumbTrail(pathname: string): Crumb[] {
   const pathOnly = pathname.split('?')[0] ?? '/';
   if (pathOnly === '/') return [];
+
+  if (pathOnly === '/landing-pages') {
+    return [
+      { href: '/', labelKey: 'nav.home' },
+      { href: '/landing-pages', labelKey: 'nav.webs' },
+      { href: '/landing-pages', labelKey: 'nav.landingPages' },
+    ];
+  }
+
+  if (pathOnly === '/web-animations') {
+    return [
+      { href: '/', labelKey: 'nav.home' },
+      { href: '/landing-pages', labelKey: 'nav.webs' },
+      { href: '/web-animations', labelKey: 'nav.webAnimations' },
+    ];
+  }
+
+  if (pathOnly === '/video-prompts') {
+    return [
+      { href: '/', labelKey: 'nav.home' },
+      { href: '/video-prompts', labelKey: 'nav.multimedia' },
+      { href: '/video-prompts', labelKey: 'nav.videos' },
+    ];
+  }
+
+  if (pathOnly === '/image-prompts') {
+    return [
+      { href: '/', labelKey: 'nav.home' },
+      { href: '/image-prompts', labelKey: 'nav.multimedia' },
+      { href: '/image-prompts', labelKey: 'nav.images' },
+    ];
+  }
 
   const dynamic = ROUTE_PARENTS.find(r => r.pattern.test(pathOnly));
   if (dynamic) return dynamic.parents;

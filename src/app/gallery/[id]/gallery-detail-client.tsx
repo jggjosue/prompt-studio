@@ -13,6 +13,8 @@ import { Button } from '@/components/ui/button';
 import { LiquidButton } from '@/components/ui/liquid-glass-button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
+import { useDailyCopyLimit } from '@/hooks/use-daily-copy-limit';
+import { copyToClipboard } from '@/lib/copy-to-clipboard';
 import type { ImagePlaceholder } from '@/lib/placeholder-images';
 import type { VideoProp } from '@/lib/placeholder-videos';
 import {
@@ -59,6 +61,7 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
   }, [item.id, placeholderImages, placeholderVideos]);
   
   const { toast } = useToast();
+  const { copyWithDailyLimit } = useDailyCopyLimit();
   const isPaywalled = useMemo(
     () => item.tags.some(tag => ['paywall', 'subscription', 'members only'].includes(tag.toLowerCase())),
     [item.tags]
@@ -116,13 +119,16 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
     };
   }, [item.title, item.description, placeholderImages, placeholderVideos]);
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(item.description).then(() => {
+  const handleCopy = async () => {
+    const result = await copyWithDailyLimit(() =>
+      copyToClipboard(item.description)
+    );
+    if (result === 'copied') {
         toast({
             title: "Copied!",
             description: "Prompt copied to clipboard.",
         });
-    });
+    }
   };
 
   return (

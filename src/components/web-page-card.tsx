@@ -1,7 +1,5 @@
 'use client';
 
-import { PremiumMembershipButton } from '@/components/web-page-premium-button';
-import { WebPagePromptDialog } from '@/components/web-page-prompt-dialog-new';
 import { ReadabilityBadge } from '@/components/readability-badge';
 import { OptimizedImage } from '@/components/optimized-image';
 import { Button } from '@/components/ui/button';
@@ -22,7 +20,6 @@ import { trackAffiliateClick } from '@/lib/affiliate-client';
 import type { WebPageEntry } from '@/lib/web-pages';
 import { resolveWebPageImageUrl } from '@/lib/web-page-media';
 import { getWebPageCheckoutUrl } from '@/lib/web-page-checkout';
-import { useStripeSubscription } from '@/hooks/use-stripe-subscription';
 import { useMembershipAccess } from '@/hooks/use-membership-access';
 import { normalizeMembership } from '@/lib/membership-access';
 import {
@@ -32,9 +29,23 @@ import {
 } from '@/lib/affiliate';
 import { ExternalLink, Globe, Tag } from 'lucide-react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { useTranslations } from 'next-intl';
-import { memo, useEffect, useState } from 'react';
+import { memo } from 'react';
 import { useAuth } from '@clerk/nextjs';
+
+const WebPageCardActions = dynamic(
+  () => import('@/components/web-page-card-actions'),
+  {
+    ssr: false,
+    loading: () => (
+      <>
+        <div className="h-9 w-28 animate-pulse rounded-md border border-blue-500/25 bg-blue-500/10" />
+        <div className="h-9 w-28 animate-pulse rounded-md border border-blue-500/25 bg-blue-500/10" />
+      </>
+    ),
+  }
+);
 
 type WebPageCardProps = {
   page: WebPageEntry;
@@ -93,20 +104,12 @@ function WebPageCardComponent({
   const isFree = !isPaidProduct && normalizedMembership === 'free';
   const displayedPrice = isFree ? tCommon('free') : formatPrice(page.price);
   const { ready, isSignedIn, plan } = useMembershipAccess();
-  const { purchasedPages } = useStripeSubscription();
   const { userId } = useAuth();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const hasPremium =
     ready &&
     isSignedIn &&
     (plan === 'premium' || plan === 'startup');
-  const hasPurchasedPage = mounted && ready && purchasedPages.includes(page.id);
-
   const stripeUrl =
     pagePrice === 5
       ? '/checkout/mini'
@@ -193,14 +196,10 @@ function WebPageCardComponent({
         </CardContent>
         <CardFooter className="bg-muted/50 p-4 border-t flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2 flex-wrap">
-            <WebPagePromptDialog page={page} hasPurchased={hasPurchasedPage} />
-            <PremiumMembershipButton
+            <WebPageCardActions
+              page={page}
               hasPremium={hasPremium}
-              pageId={page.id}
-              membership={page.membership}
-              price={page.price}
               plan={plan}
-              pageTitle={page.title}
             />
           </div>
           {page.demoUrl ? (

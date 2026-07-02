@@ -6,8 +6,6 @@ import { PremiumAccessLink } from '@/components/premium-access-link';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Label } from '@/components/ui/label';
 import {
   useRefreshSubscriptionStatus,
   useStripeSubscription,
@@ -29,10 +27,10 @@ import {
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-const PREMIUM_MONTHLY = 50;
-const PREMIUM_YEARLY = 300;
+const PREMIUM_MONTHLY = 15;
+const PREMIUM_YEARLY = 150;
 const DEVELOPER_MONTHLY = 1000;
 const DEVELOPER_YEARLY = 10000;
 
@@ -79,7 +77,6 @@ function PaidPlanPrice({ isAnnual, monthly, yearly }: PaidPlanProps) {
 export default function PricesClient() {
   const t = useTranslations('prices');
   const tCommon = useTranslations('common');
-  const annualBillingId = useId();
   const [isAnnual, setIsAnnual] = useState(false);
   const searchParams = useSearchParams();
   const refreshSubscription = useRefreshSubscriptionStatus();
@@ -108,8 +105,9 @@ export default function PricesClient() {
   const premiumOnlyFeatures = t.raw('premiumFeatures') as string[];
   const developerOnlyFeatures = t.raw('developerFeatures') as string[];
 
-  const annualSavingsPremium = PREMIUM_MONTHLY * 12 - PREMIUM_YEARLY;
-  const annualSavingsDeveloper = DEVELOPER_MONTHLY * 12 - DEVELOPER_YEARLY;
+  const annualSavingsPercent = Math.round(
+    (1 - PREMIUM_YEARLY / (PREMIUM_MONTHLY * 12)) * 100
+  );
 
   const premiumCheckoutUrl = getPremiumStripeCheckoutUrl(isAnnual, userId);
   const startupCheckoutUrl = getStartupStripeCheckoutUrl(isAnnual, userId);
@@ -141,31 +139,42 @@ export default function PricesClient() {
             </p>
           </div>
 
-          <div className="mb-10 max-w-lg mx-auto rounded-lg border border-blue-500/25 bg-blue-500/[0.06] p-4 shadow-sm shadow-blue-950/10">
-            <div className="flex items-start gap-3">
-              <Checkbox
-                id={annualBillingId}
-                checked={isAnnual}
-                onCheckedChange={(checked) => setIsAnnual(checked === true)}
-                className="!border-blue-500 text-white data-[state=checked]:!border-blue-500 data-[state=checked]:!bg-blue-600 data-[state=checked]:text-white focus-visible:!ring-blue-500"
-              />
-              <div className="grid gap-1.5 leading-none">
-                <Label
-                  htmlFor={annualBillingId}
-                  className="text-sm font-semibold cursor-pointer"
-                >
-                  {t('annualBilling')}
-                </Label>
-                <p className="text-xs text-muted-foreground">
-                  {t('annualBillingHint', {
-                    premiumYear: PREMIUM_YEARLY,
-                    premiumSave: annualSavingsPremium,
-                    devYear: DEVELOPER_YEARLY,
-                    devSave: annualSavingsDeveloper,
-                  })}
-                </p>
-              </div>
-            </div>
+          <div
+            className="mb-10 mx-auto flex w-fit rounded-full border border-blue-500/55 bg-slate-950 p-1.5 shadow-[0_12px_35px_rgba(37,99,235,0.18)]"
+            role="group"
+            aria-label={t('billingCycle')}
+          >
+            <button
+              type="button"
+              onClick={() => setIsAnnual(false)}
+              aria-pressed={!isAnnual}
+              className={`rounded-full px-7 py-3 text-sm font-semibold transition-all duration-200 sm:px-9 ${
+                !isAnnual
+                  ? '!bg-blue-600 !text-white shadow-[0_8px_24px_rgba(37,99,235,0.4)] ring-1 ring-blue-400'
+                  : '!text-slate-200 hover:!bg-blue-950/60 hover:!text-white'
+              }`}
+            >
+              {t('monthlyBilling')}
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsAnnual(true)}
+              aria-pressed={isAnnual}
+              className={`rounded-full px-7 py-3 text-sm font-semibold transition-all duration-200 sm:px-9 ${
+                isAnnual
+                  ? '!bg-blue-600 !text-white shadow-[0_8px_24px_rgba(37,99,235,0.4)] ring-1 ring-blue-400'
+                  : '!text-slate-200 hover:!bg-blue-950/60 hover:!text-white'
+              }`}
+            >
+              {t('yearlyBilling')}{' '}
+              <span
+                className={
+                  isAnnual ? '!text-white/90' : '!text-cyan-400'
+                }
+              >
+                {t('savePercent', { percent: annualSavingsPercent })}
+              </span>
+            </button>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">

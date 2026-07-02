@@ -8,6 +8,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { useMembershipAccess } from '@/hooks/use-membership-access';
+import { useDailyCopyLimit } from '@/hooks/use-daily-copy-limit';
 import { useToast } from '@/hooks/use-toast';
 import { copyToClipboard } from '@/lib/copy-to-clipboard';
 import { trackAnalyticsEvent } from '@/lib/analytics';
@@ -32,6 +33,7 @@ export function WebPagePromptDialog({
   const locale = useLocale();
   const { toast } = useToast();
   const { runWithAccess, isSignedIn } = useMembershipAccess();
+  const { copyWithDailyLimit } = useDailyCopyLimit();
   const [copied, setCopied] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const pageTitle = pickLocalized(
@@ -44,8 +46,11 @@ export function WebPagePromptDialog({
   );
 
   const handleCopy = async () => {
-    const ok = await copyToClipboard(pageDescription);
-    if (!ok) {
+    const result = await copyWithDailyLimit(() =>
+      copyToClipboard(pageDescription)
+    );
+    if (result === 'limit-reached') return;
+    if (result === 'failed') {
       toast({
         title: t('copyFailed'),
         description: t('copyFailedDescription'),
