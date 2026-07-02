@@ -19,7 +19,7 @@ if (
 ) {
   console.error(
     '[Clerk] Production is using a TEST publishable key (pk_test_*). ' +
-      'Set pk_live_* and sk_live_* in Vercel and add your production domain under Clerk → Domains.'
+    'Set pk_live_* and sk_live_* in Vercel and add your production domain under Clerk → Domains.'
   );
 }
 

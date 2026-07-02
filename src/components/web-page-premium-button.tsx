@@ -88,7 +88,6 @@ export function PremiumMembershipButton({
     return <div className="h-9 w-28 animate-pulse rounded-md bg-blue-500/10 border border-blue-500/25" />;
   }
 
-  const isStartup = plan === 'startup';
   const stripeUrl = getWebPageCheckoutUrl(price);
   const itemCheckoutUrl = buildCheckoutUrl(stripeUrl, pageId, userId);
   const trackAffiliateBuyClick = () => {
@@ -142,7 +141,7 @@ export function PremiumMembershipButton({
     });
   };
 
-  if (isStartup || hasPurchased) {
+  if (hasPurchased) {
     return (
       <Button
         size="sm"
@@ -163,7 +162,11 @@ export function PremiumMembershipButton({
 
 
 
-  const formattedPrice = price && price !== 'Free' ? ` $${price.replace(/^\$/, '')}` : '';
+  const numericPrice = Number(price?.replace(/[^\d.]/g, ''));
+  const formattedPrice =
+    Number.isFinite(numericPrice) && numericPrice > 0
+      ? ` $${numericPrice.toFixed(2)}`
+      : '';
 
   const isExternal = itemCheckoutUrl.startsWith('http');
 

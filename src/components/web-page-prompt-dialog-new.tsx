@@ -21,7 +21,13 @@ import { pickLocalized, type LocalizedField } from '@/lib/localized-string';
 import Link from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
 
-export function WebPagePromptDialog({ page }: { page: WebPageEntry }) {
+export function WebPagePromptDialog({
+  page,
+  hasPurchased = false,
+}: {
+  page: WebPageEntry;
+  hasPurchased?: boolean;
+}) {
   const t = useTranslations('landingPages');
   const locale = useLocale();
   const { toast } = useToast();
@@ -62,6 +68,20 @@ export function WebPagePromptDialog({ page }: { page: WebPageEntry }) {
   };
 
   const handleOpenPrompt = () => {
+    if (hasPurchased) {
+      trackAnalyticsEvent('web_view_prompt', {
+        page_id: page.id,
+        page_title: pageTitle,
+        item_id: page.id,
+        item_name: pageTitle,
+        item_category: 'landing-page-prompt',
+        membership: page.membership,
+        action_source: 'prompt-dialog',
+      });
+      setOpen(true);
+      return;
+    }
+
     runWithAccess(page.membership, () => {
       if (isSignedIn) {
         trackAnalyticsEvent('web_view_prompt', {

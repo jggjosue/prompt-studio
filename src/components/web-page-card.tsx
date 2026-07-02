@@ -22,6 +22,7 @@ import { trackAffiliateClick } from '@/lib/affiliate-client';
 import type { WebPageEntry } from '@/lib/web-pages';
 import { resolveWebPageImageUrl } from '@/lib/web-page-media';
 import { getWebPageCheckoutUrl } from '@/lib/web-page-checkout';
+import { useStripeSubscription } from '@/hooks/use-stripe-subscription';
 import { useMembershipAccess } from '@/hooks/use-membership-access';
 import { normalizeMembership } from '@/lib/membership-access';
 import {
@@ -32,7 +33,7 @@ import {
 import { ExternalLink, Globe, Tag } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import { memo } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { useAuth } from '@clerk/nextjs';
 
 type WebPageCardProps = {
@@ -87,22 +88,34 @@ function WebPageCardComponent({
     ? snapshotToBadgeReport(savedReadability)
     : null;
   const normalizedMembership = normalizeMembership(page.membership);
-  const isFree = normalizedMembership === 'free';
+  const pagePrice = Number(page.price.replace(/[^\d.]/g, ''));
+  const isPaidProduct = Number.isFinite(pagePrice) && pagePrice > 0;
+  const isFree = !isPaidProduct && normalizedMembership === 'free';
   const displayedPrice = isFree ? tCommon('free') : formatPrice(page.price);
   const { ready, isSignedIn, plan } = useMembershipAccess();
+  const { purchasedPages } = useStripeSubscription();
   const { userId } = useAuth();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const hasPremium =
     ready &&
     isSignedIn &&
     (plan === 'premium' || plan === 'startup');
+  const hasPurchasedPage = mounted && ready && purchasedPages.includes(page.id);
 
   const stripeUrl =
-    Number(page.price.replace(/[$,\s]/g, '')) === 5
+    pagePrice === 5
       ? '/checkout/mini'
-      : Number(page.price.replace(/[$,\s]/g, '')) === 10
+      : pagePrice === 10
         ? '/checkout/entrepreneur'
-        : Number(page.price.replace(/[$,\s]/g, '')) === 15
+        : pagePrice === 15
           ? '/checkout/professional'
+        : pagePrice === 20
+          ? process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_BUSINESS_PLAN
       : getWebPageCheckoutUrl(page.price);
   const itemCheckoutUrl = buildCheckoutUrl(stripeUrl, page.id, userId);
   const trackClick = (source: 'campaign-card' | 'demo') => {
@@ -180,7 +193,7 @@ function WebPageCardComponent({
         </CardContent>
         <CardFooter className="bg-muted/50 p-4 border-t flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2 flex-wrap">
-            <WebPagePromptDialog page={page} />
+            <WebPagePromptDialog page={page} hasPurchased={hasPurchasedPage} />
             <PremiumMembershipButton
               hasPremium={hasPremium}
               pageId={page.id}
@@ -198,7 +211,7 @@ function WebPageCardComponent({
                 asChild
               >
                 <Link
-                  href={`/webpages/${page.demoUrl}/index.html?auth=${isSignedIn ? '1' : '0'}&checkout=${encodeURIComponent(itemCheckoutUrl)}`}
+                  href={`/webpages/${page.demoUrl}/index.html?price=${encodeURIComponent(page.price)}&pageId=${encodeURIComponent(page.id)}&checkout=${encodeURIComponent(itemCheckoutUrl)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="!bg-blue-600 !text-white hover:!bg-blue-700"
