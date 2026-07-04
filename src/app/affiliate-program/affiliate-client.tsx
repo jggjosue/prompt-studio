@@ -29,7 +29,7 @@ import {
 import { motion, useInView, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import { type ChangeEvent, type FormEvent, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
-import { trackLoopsEvent } from '@/lib/loops-events';
+
 import {
   AFFILIATE_FIRST_REF_STORAGE_KEY,
   AFFILIATE_LAST_TOUCH_STORAGE_KEY,
@@ -540,19 +540,10 @@ export default function AffiliateClient() {
     if (!localStorage.getItem(AFFILIATE_FIRST_REF_STORAGE_KEY)) {
       localStorage.setItem(AFFILIATE_FIRST_REF_STORAGE_KEY, ref);
     }
-    localStorage.setItem(AFFILIATE_LAST_TOUCH_STORAGE_KEY, ref);
-    void trackLoopsEvent('affiliate_interest', {
-      ref,
-      source: 'affiliate-program-landing',
-    });
   }, []);
 
   const trackAffiliateInterest = (source: string) => {
-    void trackLoopsEvent('affiliate_interest', {
-      source,
-      ref: affiliateRef,
-      page: '/affiliate-program',
-    });
+    // Removed Loops event
   };
 
   const metricsData = [

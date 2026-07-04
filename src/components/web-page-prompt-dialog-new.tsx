@@ -12,7 +12,7 @@ import { useDailyCopyLimit } from '@/hooks/use-daily-copy-limit';
 import { useToast } from '@/hooks/use-toast';
 import { copyToClipboard } from '@/lib/copy-to-clipboard';
 import { trackAnalyticsEvent } from '@/lib/analytics';
-import { trackLoopsEvent } from '@/lib/loops-events';
+
 import type { WebPageEntry } from '@/lib/web-pages';
 import { Check, Copy, FileText, Wand2 } from 'lucide-react';
 import * as React from 'react';
@@ -64,11 +64,6 @@ export function WebPagePromptDialog({
       title: t('copied'),
       description: t('copiedDescription'),
     });
-    void trackLoopsEvent('prompts', {
-      pageId: page.id,
-      pageTitle: page.title,
-      action: 'copy',
-    });
     window.setTimeout(() => setCopied(false), 2000);
   };
 
@@ -99,11 +94,6 @@ export function WebPagePromptDialog({
           action_source: 'prompt-dialog',
         });
       }
-      void trackLoopsEvent('resources', {
-        pageId: page.id,
-        pageTitle,
-        action: 'open-prompt',
-      });
       setOpen(true);
     });
   };

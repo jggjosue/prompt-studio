@@ -35,7 +35,7 @@ async function main() {
 
   for (const user of users) {
     if (!user.email) continue;
-    
+
     try {
       const response = await resend.contacts.create({
         email: user.email,
