@@ -12,9 +12,6 @@ import {
 } from '@/lib/affiliate-mongo';
 import { registerAffiliateConversion } from '@/lib/affiliate-referral';
 
-import { createGuestDownloadToken } from '@/lib/guest-download-token';
-import { getWebPageById } from '@/lib/web-pages';
-import { addComponentPurchaseActivity, unlockPremiumComponentForGuest } from '@/lib/activity';
 import connectToDatabase from '@/lib/mongoose';
 import AffiliateApplication from '@/models/AffiliateApplication';
 import { clerkClient } from '@clerk/nextjs/server';
@@ -236,27 +233,6 @@ export async function POST(req: Request) {
                 `Guest checkout ${session.id} completed without an email address`
               );
             }
-
-            const productName =
-              sessionAny.metadata?.productName ||
-              getWebPageById(pageId, 'es')?.title ||
-              pageId;
-            const siteUrl =
-              process.env.NEXT_PUBLIC_SITE_URL ||
-              process.env.NEXT_PUBLIC_APP_URL ||
-              (process.env.VERCEL_URL
-                ? `https://${process.env.VERCEL_URL}`
-                : 'process.env.DOMAIN_DEV');
-            const downloadUrl = new URL(
-              `/api/landing-pages/${encodeURIComponent(pageId)}/download`,
-              siteUrl
-            );
-            downloadUrl.searchParams.set(
-              'token',
-              createGuestDownloadToken(pageId, session.id)
-            );
-
-
 
             const referrerToRecord = affiliateRef || originalAffiliateRef;
             const guestBuyerId = guestEmail;
