@@ -26,6 +26,8 @@ function collectLocalEntries(root: string, current = root): DownloadEntry[] {
       continue;
     }
     if (!item.isFile()) continue;
+    // Variantes generadas para el CDN; no forman parte del proyecto descargable.
+    if (item.name.endsWith('.br') || item.name.endsWith('.gz')) continue;
 
     const stats = fs.statSync(absolutePath);
     entries.push({

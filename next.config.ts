@@ -47,9 +47,10 @@ const nextConfig: NextConfig = {
       '@radix-ui/react-tooltip',
     ],
   },
-  outputFileTracingExcludes: {
-    '*': [
-      'public/webpages/**/*',
+  /** La API de descargas genera el ZIP desde public/webpages en tiempo de ejecución. */
+  outputFileTracingIncludes: {
+    '/api/landing-pages/*/download': [
+      './public/webpages/**/*',
     ],
   },
   // Genkit / OpenTelemetry use optional exporters; keep them external on the server bundle.
