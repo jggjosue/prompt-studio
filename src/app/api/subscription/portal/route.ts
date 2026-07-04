@@ -1,5 +1,6 @@
 import { stripe } from '@/lib/stripe';
 import type { StripeUserMetadata } from '@/lib/stripe';
+import { getSiteUrl } from '@/lib/site-url';
 import { auth, clerkClient } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 
@@ -17,7 +18,9 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json().catch(() => ({}));
-    const returnUrl = body.returnUrl || `${req.headers.get('origin') || process.env.NEXT_PUBLIC_APP_URL || 'process.env.DOMAIN_DEV'}/dashboard/profile`;
+    const returnUrl =
+      body.returnUrl ||
+      `${req.headers.get('origin') || getSiteUrl()}/dashboard/profile`;
 
     const portalSession = await stripe.billingPortal.sessions.create({
       customer: meta.stripeCustomerId,
