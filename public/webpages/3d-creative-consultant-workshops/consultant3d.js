@@ -1,442 +1,52 @@
-(function () {
-  'use strict';
-
-  const workshops = [
-    { title: 'Brand Strategy Sprint', duration: '90 min', outcome: 'Sharper positioning and messaging', audience: 'Founders and marketing leads', description: 'A fast clarity session to align brand territory, tone and next actions.' },
-    { title: 'Creative Direction Workshop', duration: 'Half day', outcome: 'A visual and verbal north star', audience: 'Creative teams and studios', description: 'Define a shared aesthetic direction with references, moodboards and guardrails.' },
-    { title: 'Innovation Ideation Session', duration: '2 hours', outcome: '40+ ideas and 3 priority bets', audience: 'Product and strategy teams', description: 'Facilitated ideation with convergence rules and opportunity clustering.' },
-    { title: 'Customer Journey Mapping', duration: '3 hours', outcome: 'Journey map and friction audit', audience: 'CX and ops teams', description: 'Map the journey, identify moments of truth and plan improvements.' },
-    { title: 'Product Positioning Lab', duration: 'Half day', outcome: 'Category story and proof points', audience: 'Startups and product marketers', description: 'Craft a positioning narrative that is concrete, differentiated and testable.' },
-    { title: 'Content Strategy Workshop', duration: '2 hours', outcome: 'Pillars and publishing roadmap', audience: 'Content teams and founders', description: 'Turn scattered ideas into a cohesive content system with clear priorities.' },
-    { title: 'Design Thinking Sprint', duration: 'Full day', outcome: 'Prototype concepts and validation plan', audience: 'Cross-functional teams', description: 'Move from challenge framing to prototype direction in one guided session.' },
-    { title: 'Team Vision Alignment', duration: '90 min', outcome: 'Shared vision statement and commitments', audience: 'Leadership teams', description: 'A facilitated room to align language, ambition and execution priorities.' }
-  ];
-
-  const methods = [
-    { step: '01', title: 'Discover', body: 'Understand the context, people and the actual problem before jumping to solutions.' },
-    { step: '02', title: 'Frame', body: 'Define the right challenge, the scope and the decision lens for the workshop.' },
-    { step: '03', title: 'Ideate', body: 'Generate relevant ideas and explore multiple creative directions with structure.' },
-    { step: '04', title: 'Prioritize', body: 'Converge on the strongest opportunities using impact and feasibility.' },
-    { step: '05', title: 'Prototype', body: 'Translate the selected ideas into a concept, page, journey or system.' },
-    { step: '06', title: 'Roadmap', body: 'Package the work into a practical action plan that the team can execute.' }
-  ];
-
-  const studioAreas = [
-    { title: 'Strategy Board', focus: 'strategy', body: 'A visible frame for the challenge, decision criteria and workshop outcomes.' },
-    { title: 'Idea Wall', focus: 'ideas', body: 'A fast-moving surface for clustering notes, patterns and emerging opportunities.' },
-    { title: 'Moodboard Station', focus: 'moodboard', body: 'Visual direction, references and texture cues for creative alignment.' },
-    { title: 'Journey Mapping Table', focus: 'journey', body: 'Customer touchpoints, friction and moments of delight laid out in sequence.' },
-    { title: 'Prototype Corner', focus: 'tools', body: 'A quick space for concept sketches, wireframes and rough validation.' },
-    { title: 'Action Plan Desk', focus: 'agenda', body: 'The closing zone where ideas become commitments, owners and dates.' }
-  ];
-
-  const caseStudies = [
-    { title: 'Repositioning a SaaS Brand', problem: 'The messaging felt generic and the sales team lacked a crisp story.', workshop: 'Brand Strategy Sprint', solution: 'Created a sharper category narrative and a stronger proof-point hierarchy.', result: 'Aligned on a new market-facing direction in one session.' },
-    { title: 'Launching a New Product Category', problem: 'The product needed a clear entry point and a narrative that explained why now.', workshop: 'Product Positioning Lab', solution: 'Built a positioning map and priority launch themes.', result: 'Delivered a launch-ready story and roadmap.' },
-    { title: 'Redesigning a Customer Journey', problem: 'The handoff between discovery and onboarding caused drop-off.', workshop: 'Customer Journey Mapping', solution: 'Mapped friction points and designed a better journey sequence.', result: 'Generated a focused improvement plan with measurable checkpoints.' },
-    { title: 'Building a Creative Content System', problem: 'Content output was inconsistent and hard to scale.', workshop: 'Content Strategy Workshop', solution: 'Defined pillars, cadence and reusable campaign prompts.', result: 'Turned scattered ideas into a repeatable content machine.' }
-  ];
-
-  const outcomes = [
-    'Clear brand direction',
-    'Prioritized creative ideas',
-    'Strategic messaging',
-    'Customer journey map',
-    'Visual concept board',
-    '30-day action roadmap'
-  ];
-
-  const tools = [
-    'Design Thinking', 'Brand Archetypes', 'Customer Journey Mapping', 'Jobs To Be Done', 'Content Pillars', 'Value Proposition Canvas', 'StoryBrand', 'Prioritization Matrix'
-  ];
-
-  const packages = [
-    { title: 'Creative Clarity Session', price: '$1,500', duration: '90 min', deliverables: 'Core challenge framing, insight summary, immediate next steps.' },
-    { title: 'Half-Day Strategy Workshop', price: '$4,800', duration: '4 hours', deliverables: 'Facilitated ideation, prioritization and action roadmap.' },
-    { title: 'Full-Day Innovation Sprint', price: '$8,900', duration: 'Full day', deliverables: 'Deep facilitation, prototype direction and stakeholder alignment.' },
-    { title: 'Monthly Creative Advisory', price: '$6,400', duration: 'Monthly', deliverables: 'Ongoing advisory, concept reviews and strategic support.' }
-  ];
-
-  const testimonials = [
-    'The workshop turned a messy idea into a clear strategy.',
-    'Our team left aligned, energized and ready to execute.',
-    'The 3D creative studio experience made the process feel premium and focused.'
-  ];
-
-  const resources = [
-    'Creative Brief Template',
-    'Workshop Planning Checklist',
-    'Brand Strategy Canvas',
-    'Idea Prioritization Matrix'
-  ];
-
-  const els = {
-    menuToggle: document.getElementById('menu-toggle'),
-    siteNav: document.getElementById('site-nav'),
-    modalBackdrop: document.getElementById('modal-backdrop'),
-    modalClose: document.getElementById('modal-close'),
-    modalPrimary: document.getElementById('modal-primary'),
-    modalSecondary: document.getElementById('modal-secondary'),
-    modalTitle: document.getElementById('modal-title'),
-    modalBody: document.getElementById('modal-body'),
-    modalMeta: document.getElementById('modal-meta'),
-    modalKicker: document.getElementById('modal-kicker'),
-    toast: document.getElementById('toast'),
-    bookingForm: document.getElementById('booking-form'),
-    bookingFeedback: document.getElementById('booking-feedback'),
-    contactForm: document.getElementById('contact-form'),
-    contactFeedback: document.getElementById('contact-feedback'),
-    workshopsGrid: document.getElementById('workshops-grid'),
-    methodGrid: document.getElementById('method-grid'),
-    studioGrid: document.getElementById('studio-grid'),
-    casesGrid: document.getElementById('cases-grid'),
-    outcomesGrid: document.getElementById('outcomes-grid'),
-    toolsGrid: document.getElementById('tools-grid'),
-    pricingGrid: document.getElementById('pricing-grid'),
-    testimonialsGrid: document.getElementById('testimonials-grid'),
-    resourcesGrid: document.getElementById('resources-grid'),
-    workshopTypeSelect: document.querySelector('select[name="workshopType"]'),
-    canvas: document.getElementById('studio-canvas')
-  };
-
-  let activePackage = packages[0].title;
-  let currentFocus = 'strategy';
-  let scene, camera, renderer, groups = {}, clock, rafId = null, baseY = 0;
-
-  function populateSelect() {
-    els.workshopTypeSelect.innerHTML = '<option value="">Select one</option>' + workshops.map(w => `<option>${w.title}</option>`).join('');
-  }
-
-  function cardTemplate(title, body, extra = '', actions = '') {
-    return `<article class="card"><h3>${title}</h3><p>${body}</p>${extra}${actions}</article>`;
-  }
-
-  function renderContent() {
-    els.workshopsGrid.innerHTML = workshops.map((w, i) => `
+(function(){"use strict";const E=[{title:"Brand Strategy Sprint",duration:"90 min",outcome:"Sharper positioning and messaging",audience:"Founders and marketing leads",description:"A fast clarity session to align brand territory, tone and next actions."},{title:"Creative Direction Workshop",duration:"Half day",outcome:"A visual and verbal north star",audience:"Creative teams and studios",description:"Define a shared aesthetic direction with references, moodboards and guardrails."},{title:"Innovation Ideation Session",duration:"2 hours",outcome:"40+ ideas and 3 priority bets",audience:"Product and strategy teams",description:"Facilitated ideation with convergence rules and opportunity clustering."},{title:"Customer Journey Mapping",duration:"3 hours",outcome:"Journey map and friction audit",audience:"CX and ops teams",description:"Map the journey, identify moments of truth and plan improvements."},{title:"Product Positioning Lab",duration:"Half day",outcome:"Category story and proof points",audience:"Startups and product marketers",description:"Craft a positioning narrative that is concrete, differentiated and testable."},{title:"Content Strategy Workshop",duration:"2 hours",outcome:"Pillars and publishing roadmap",audience:"Content teams and founders",description:"Turn scattered ideas into a cohesive content system with clear priorities."},{title:"Design Thinking Sprint",duration:"Full day",outcome:"Prototype concepts and validation plan",audience:"Cross-functional teams",description:"Move from challenge framing to prototype direction in one guided session."},{title:"Team Vision Alignment",duration:"90 min",outcome:"Shared vision statement and commitments",audience:"Leadership teams",description:"A facilitated room to align language, ambition and execution priorities."}],L=[{step:"01",title:"Discover",body:"Understand the context, people and the actual problem before jumping to solutions."},{step:"02",title:"Frame",body:"Define the right challenge, the scope and the decision lens for the workshop."},{step:"03",title:"Ideate",body:"Generate relevant ideas and explore multiple creative directions with structure."},{step:"04",title:"Prioritize",body:"Converge on the strongest opportunities using impact and feasibility."},{step:"05",title:"Prototype",body:"Translate the selected ideas into a concept, page, journey or system."},{step:"06",title:"Roadmap",body:"Package the work into a practical action plan that the team can execute."}],P=[{title:"Strategy Board",focus:"strategy",body:"A visible frame for the challenge, decision criteria and workshop outcomes."},{title:"Idea Wall",focus:"ideas",body:"A fast-moving surface for clustering notes, patterns and emerging opportunities."},{title:"Moodboard Station",focus:"moodboard",body:"Visual direction, references and texture cues for creative alignment."},{title:"Journey Mapping Table",focus:"journey",body:"Customer touchpoints, friction and moments of delight laid out in sequence."},{title:"Prototype Corner",focus:"tools",body:"A quick space for concept sketches, wireframes and rough validation."},{title:"Action Plan Desk",focus:"agenda",body:"The closing zone where ideas become commitments, owners and dates."}],C=[{title:"Repositioning a SaaS Brand",problem:"The messaging felt generic and the sales team lacked a crisp story.",workshop:"Brand Strategy Sprint",solution:"Created a sharper category narrative and a stronger proof-point hierarchy.",result:"Aligned on a new market-facing direction in one session."},{title:"Launching a New Product Category",problem:"The product needed a clear entry point and a narrative that explained why now.",workshop:"Product Positioning Lab",solution:"Built a positioning map and priority launch themes.",result:"Delivered a launch-ready story and roadmap."},{title:"Redesigning a Customer Journey",problem:"The handoff between discovery and onboarding caused drop-off.",workshop:"Customer Journey Mapping",solution:"Mapped friction points and designed a better journey sequence.",result:"Generated a focused improvement plan with measurable checkpoints."},{title:"Building a Creative Content System",problem:"Content output was inconsistent and hard to scale.",workshop:"Content Strategy Workshop",solution:"Defined pillars, cadence and reusable campaign prompts.",result:"Turned scattered ideas into a repeatable content machine."}],G=["Clear brand direction","Prioritized creative ideas","Strategic messaging","Customer journey map","Visual concept board","30-day action roadmap"],D=["Design Thinking","Brand Archetypes","Customer Journey Mapping","Jobs To Be Done","Content Pillars","Value Proposition Canvas","StoryBrand","Prioritization Matrix"],w=[{title:"Creative Clarity Session",price:"$1,500",duration:"90 min",deliverables:"Core challenge framing, insight summary, immediate next steps."},{title:"Half-Day Strategy Workshop",price:"$4,800",duration:"4 hours",deliverables:"Facilitated ideation, prioritization and action roadmap."},{title:"Full-Day Innovation Sprint",price:"$8,900",duration:"Full day",deliverables:"Deep facilitation, prototype direction and stakeholder alignment."},{title:"Monthly Creative Advisory",price:"$6,400",duration:"Monthly",deliverables:"Ongoing advisory, concept reviews and strategic support."}],F=["The workshop turned a messy idea into a clear strategy.","Our team left aligned, energized and ready to execute.","The 3D creative studio experience made the process feel premium and focused."],j=["Creative Brief Template","Workshop Planning Checklist","Brand Strategy Canvas","Idea Prioritization Matrix"],t={menuToggle:document.getElementById("menu-toggle"),siteNav:document.getElementById("site-nav"),modalBackdrop:document.getElementById("modal-backdrop"),modalClose:document.getElementById("modal-close"),modalPrimary:document.getElementById("modal-primary"),modalSecondary:document.getElementById("modal-secondary"),modalTitle:document.getElementById("modal-title"),modalBody:document.getElementById("modal-body"),modalMeta:document.getElementById("modal-meta"),modalKicker:document.getElementById("modal-kicker"),toast:document.getElementById("toast"),bookingForm:document.getElementById("booking-form"),bookingFeedback:document.getElementById("booking-feedback"),contactForm:document.getElementById("contact-form"),contactFeedback:document.getElementById("contact-feedback"),workshopsGrid:document.getElementById("workshops-grid"),methodGrid:document.getElementById("method-grid"),studioGrid:document.getElementById("studio-grid"),casesGrid:document.getElementById("cases-grid"),outcomesGrid:document.getElementById("outcomes-grid"),toolsGrid:document.getElementById("tools-grid"),pricingGrid:document.getElementById("pricing-grid"),testimonialsGrid:document.getElementById("testimonials-grid"),resourcesGrid:document.getElementById("resources-grid"),workshopTypeSelect:document.querySelector('select[name="workshopType"]'),canvas:document.getElementById("studio-canvas")};let M=w[0].title,z="strategy",s,r,y,u={},$,A=null,S=0;function W(){t.workshopTypeSelect.innerHTML='<option value="">Select one</option>'+E.map(e=>`<option>${e.title}</option>`).join("")}function Y(e,o,i="",d=""){return`<article class="card"><h3>${e}</h3><p>${o}</p>${i}${d}</article>`}function H(){t.workshopsGrid.innerHTML=E.map((e,o)=>`
       <article class="card">
-        <h3>${w.title}</h3>
-        <p>${w.description}</p>
+        <h3>${e.title}</h3>
+        <p>${e.description}</p>
         <div class="tag-row">
-          <span class="tag">${w.duration}</span>
-          <span class="tag">${w.outcome}</span>
-          <span class="tag">${w.audience}</span>
+          <span class="tag">${e.duration}</span>
+          <span class="tag">${e.outcome}</span>
+          <span class="tag">${e.audience}</span>
         </div>
         <div class="card-actions">
-          <button class="btn btn-secondary" data-modal="workshop" data-index="${i}">View Workshop</button>
+          <button class="btn btn-secondary" data-modal="workshop" data-index="${o}">View Workshop</button>
         </div>
-      </article>`).join('');
-
-    els.methodGrid.innerHTML = methods.map((m, i) => `
-      <article class="timeline-step" data-step="${i}">
-        <div class="step-index">${m.step}</div>
-        <h3>${m.title}</h3>
-        <p>${m.body}</p>
-      </article>`).join('');
-
-    els.studioGrid.innerHTML = studioAreas.map((a, i) => `
-      <article class="card studio-item" data-area="${i}">
-        <h3>${a.title}</h3>
-        <p>${a.body}</p>
-        <a href="#home" class="action-link" data-focus-area="${a.focus}">Explore Area</a>
-      </article>`).join('');
-
-    els.casesGrid.innerHTML = caseStudies.map((c, i) => `
+      </article>`).join(""),t.methodGrid.innerHTML=L.map((e,o)=>`
+      <article class="timeline-step" data-step="${o}">
+        <div class="step-index">${e.step}</div>
+        <h3>${e.title}</h3>
+        <p>${e.body}</p>
+      </article>`).join(""),t.studioGrid.innerHTML=P.map((e,o)=>`
+      <article class="card studio-item" data-area="${o}">
+        <h3>${e.title}</h3>
+        <p>${e.body}</p>
+        <a href="#home" class="action-link" data-focus-area="${e.focus}">Explore Area</a>
+      </article>`).join(""),t.casesGrid.innerHTML=C.map((e,o)=>`
       <article class="card">
-        <h3>${c.title}</h3>
-        <p><strong>Problem:</strong> ${c.problem}</p>
-        <p><strong>Workshop:</strong> ${c.workshop}</p>
-        <p><strong>Solution:</strong> ${c.solution}</p>
-        <p><strong>Result:</strong> ${c.result}</p>
+        <h3>${e.title}</h3>
+        <p><strong>Problem:</strong> ${e.problem}</p>
+        <p><strong>Workshop:</strong> ${e.workshop}</p>
+        <p><strong>Solution:</strong> ${e.solution}</p>
+        <p><strong>Result:</strong> ${e.result}</p>
         <div class="card-actions">
-          <button class="btn btn-secondary" data-modal="case" data-index="${i}">View Case</button>
+          <button class="btn btn-secondary" data-modal="case" data-index="${o}">View Case</button>
         </div>
-      </article>`).join('');
-
-    els.outcomesGrid.innerHTML = outcomes.map((o, i) => `
-      <article class="outcome-card"><h3>${o}</h3><p>Delivered through a focused creative process and a clear action plan.</p></article>`).join('');
-
-    els.toolsGrid.innerHTML = tools.map((t) => `
-      <article class="card"><h3>${t}</h3><p>Used to structure the conversation, guide creative exploration and converge on useful decisions.</p></article>`).join('');
-
-    els.pricingGrid.innerHTML = packages.map((p, i) => `
-      <article class="card ${p.title === activePackage ? 'selected' : ''}">
-        <h3>${p.title}</h3>
-        <p class="price">${p.price}</p>
-        <div class="tag-row"><span class="tag">${p.duration}</span><span class="tag">${p.deliverables}</span></div>
+      </article>`).join(""),t.outcomesGrid.innerHTML=G.map((e,o)=>`
+      <article class="outcome-card"><h3>${e}</h3><p>Delivered through a focused creative process and a clear action plan.</p></article>`).join(""),t.toolsGrid.innerHTML=D.map(e=>`
+      <article class="card"><h3>${e}</h3><p>Used to structure the conversation, guide creative exploration and converge on useful decisions.</p></article>`).join(""),t.pricingGrid.innerHTML=w.map((e,o)=>`
+      <article class="card ${e.title===M?"selected":""}">
+        <h3>${e.title}</h3>
+        <p class="price">${e.price}</p>
+        <div class="tag-row"><span class="tag">${e.duration}</span><span class="tag">${e.deliverables}</span></div>
         <div class="card-actions">
-          <button class="btn btn-primary" data-package="${p.title}">Choose Package</button>
+          <button class="btn btn-primary" data-package="${e.title}">Choose Package</button>
         </div>
-      </article>`).join('');
-
-    els.testimonialsGrid.innerHTML = testimonials.map((t) => `<article class="card"><p>"${t}"</p></article>`).join('');
-    els.resourcesGrid.innerHTML = resources.map((r) => `
+      </article>`).join(""),t.testimonialsGrid.innerHTML=F.map(e=>`<article class="card"><p>"${e}"</p></article>`).join(""),t.resourcesGrid.innerHTML=j.map(e=>`
       <article class="card">
-        <h3>${r}</h3>
+        <h3>${e}</h3>
         <p>Download a practical document to use before, during or after the workshop.</p>
         <div class="card-actions">
-          <button class="btn btn-secondary" data-resource="${r}">Download Resource</button>
+          <button class="btn btn-secondary" data-resource="${e}">Download Resource</button>
         </div>
-      </article>`).join('');
-  }
+      </article>`).join("")}function m(e){t.toast.textContent=e,gsap.killTweensOf(t.toast),gsap.to(t.toast,{opacity:1,y:0,duration:.25,onComplete:()=>gsap.to(t.toast,{opacity:0,y:12,delay:2.2,duration:.35})})}function v({kicker:e,title:o,body:i,meta:d,primaryLabel:c,onPrimary:l}){t.modalKicker.textContent=e,t.modalTitle.textContent=o,t.modalBody.textContent=i,t.modalMeta.innerHTML=d.map(p=>`<span>${p}</span>`).join(""),t.modalPrimary.textContent=c,t.modalBackdrop.classList.remove("hidden"),t.modalBackdrop.dataset.primary=c,t.modalBackdrop.dataset.title=o,t.modalBackdrop.dataset.body=i,t.modalBackdrop.dataset.meta=JSON.stringify(d),t.modalBackdrop._handler=l}function k(){t.modalBackdrop.classList.add("hidden")}function V(){document.addEventListener("click",e=>{const o=e.target.closest("[data-modal]"),i=e.target.closest("[data-package]"),d=e.target.closest("[data-resource]"),c=e.target.closest("[data-focus]"),l=e.target.closest("[data-focus-area]"),p=e.target.closest(".hud-pill");if(o){const n=Number(o.dataset.index);if(o.dataset.modal==="workshop"){const a=E[n];v({kicker:"Workshop detail",title:a.title,body:`${a.description} Best for ${a.audience.toLowerCase()}.`,meta:[a.duration,a.outcome,a.audience],primaryLabel:"Select this workshop",onPrimary:()=>{t.workshopTypeSelect.value=a.title,document.getElementById("booking").scrollIntoView({behavior:"smooth"}),m(`${a.title} selected for booking.`),k()}})}else{const a=C[n];v({kicker:"Case study",title:a.title,body:`${a.problem} ${a.solution} ${a.result}`,meta:[a.workshop,"Fictional client","Premium engagement"],primaryLabel:"Use this case",onPrimary:()=>{m(`Case saved: ${a.title}`),k()}})}}if(i){const n=w.find(a=>a.title===i.dataset.package);M=n.title,H(),v({kicker:"Package selected",title:n.title,body:`This package includes ${n.deliverables.toLowerCase()}.`,meta:[n.price,n.duration,"Choose for booking"],primaryLabel:"Book this package",onPrimary:()=>{document.getElementById("booking").scrollIntoView({behavior:"smooth"}),m(`${n.title} moved into booking.`),k()}})}if(d){const n=d.dataset.resource;m(`${n} download started.`);const a=new Blob([`${n}
 
-  function showToast(message) {
-    els.toast.textContent = message;
-    gsap.killTweensOf(els.toast);
-    gsap.to(els.toast, { opacity: 1, y: 0, duration: 0.25, onComplete: () => gsap.to(els.toast, { opacity: 0, y: 12, delay: 2.2, duration: 0.35 }) });
-  }
-
-  function openModal({ kicker, title, body, meta, primaryLabel, onPrimary }) {
-    els.modalKicker.textContent = kicker;
-    els.modalTitle.textContent = title;
-    els.modalBody.textContent = body;
-    els.modalMeta.innerHTML = meta.map(item => `<span>${item}</span>`).join('');
-    els.modalPrimary.textContent = primaryLabel;
-    els.modalBackdrop.classList.remove('hidden');
-    els.modalBackdrop.dataset.primary = primaryLabel;
-    els.modalBackdrop.dataset.title = title;
-    els.modalBackdrop.dataset.body = body;
-    els.modalBackdrop.dataset.meta = JSON.stringify(meta);
-    els.modalBackdrop._handler = onPrimary;
-  }
-
-  function closeModal() {
-    els.modalBackdrop.classList.add('hidden');
-  }
-
-  function bindInteractions() {
-    document.addEventListener('click', (event) => {
-      const modalBtn = event.target.closest('[data-modal]');
-      const packageBtn = event.target.closest('[data-package]');
-      const resourceBtn = event.target.closest('[data-resource]');
-      const focusBtn = event.target.closest('[data-focus]');
-      const focusArea = event.target.closest('[data-focus-area]');
-      const chapterBtn = event.target.closest('.hud-pill');
-
-      if (modalBtn) {
-        const index = Number(modalBtn.dataset.index);
-        if (modalBtn.dataset.modal === 'workshop') {
-          const w = workshops[index];
-          openModal({
-            kicker: 'Workshop detail',
-            title: w.title,
-            body: `${w.description} Best for ${w.audience.toLowerCase()}.`,
-            meta: [w.duration, w.outcome, w.audience],
-            primaryLabel: 'Select this workshop',
-            onPrimary: () => {
-              els.workshopTypeSelect.value = w.title;
-              document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
-              showToast(`${w.title} selected for booking.`);
-              closeModal();
-            }
-          });
-        } else {
-          const c = caseStudies[index];
-          openModal({
-            kicker: 'Case study',
-            title: c.title,
-            body: `${c.problem} ${c.solution} ${c.result}`,
-            meta: [c.workshop, 'Fictional client', 'Premium engagement'],
-            primaryLabel: 'Use this case',
-            onPrimary: () => { showToast(`Case saved: ${c.title}`); closeModal(); }
-          });
-        }
-      }
-
-      if (packageBtn) {
-        const pkg = packages.find(p => p.title === packageBtn.dataset.package);
-        activePackage = pkg.title;
-        renderContent();
-        openModal({
-          kicker: 'Package selected',
-          title: pkg.title,
-          body: `This package includes ${pkg.deliverables.toLowerCase()}.`,
-          meta: [pkg.price, pkg.duration, 'Choose for booking'],
-          primaryLabel: 'Book this package',
-          onPrimary: () => {
-            document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
-            showToast(`${pkg.title} moved into booking.`);
-            closeModal();
-          }
-        });
-      }
-
-      if (resourceBtn) {
-        const resource = resourceBtn.dataset.resource;
-        showToast(`${resource} download started.`);
-        const blob = new Blob([`${resource}\n\nPremium workshop resource for 3D Creative Consultant Workshops.`], { type: 'text/plain' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `${resource.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.txt`;
-        a.click();
-        setTimeout(() => URL.revokeObjectURL(url), 1000);
-      }
-
-      if (focusBtn) {
-        const focus = focusBtn.dataset.focus;
-        focusStudio(focus);
-      }
-
-      if (focusArea) {
-        focusStudio(focusArea.dataset.focusArea);
-      }
-
-      if (chapterBtn) {
-        const focus = chapterBtn.dataset.focus;
-        if (focus) focusStudio(focus);
-      }
-
-      if (event.target.matches('[data-action="enter-studio"]')) {
-        focusStudio('strategy');
-        showToast('Creative studio animation activated.');
-      }
-
-      if (event.target.matches('[data-action="book-workshop"]')) {
-        document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
-      }
-    });
-
-    els.modalClose.addEventListener('click', closeModal);
-    els.modalSecondary.addEventListener('click', closeModal);
-    els.modalBackdrop.addEventListener('click', (event) => {
-      if (event.target === els.modalBackdrop) closeModal();
-    });
-    els.modalPrimary.addEventListener('click', () => {
-      if (typeof els.modalBackdrop._handler === 'function') els.modalBackdrop._handler();
-    });
-
-    els.menuToggle.addEventListener('click', () => {
-      const open = els.siteNav.classList.toggle('open');
-      els.menuToggle.setAttribute('aria-expanded', String(open));
-    });
-
-    [els.bookingForm, els.contactForm].forEach((form) => {
-      form.addEventListener('submit', (event) => {
-        event.preventDefault();
-        if (!form.reportValidity()) return;
-        const data = new FormData(form);
-        const summary = [...data.entries()].map(([k, v]) => `${k}: ${v}`).join(' | ');
-        const feedback = form === els.bookingForm ? els.bookingFeedback : els.contactFeedback;
-        feedback.textContent = 'Sent successfully. ' + summary;
-        showToast(form === els.bookingForm ? 'Booking request submitted.' : 'Consultant contact sent.');
-        form.reset();
-        if (form === els.bookingForm) els.workshopTypeSelect.value = '';
-      });
-    });
-  }
-
-  function initScene() {
-    scene = new THREE.Scene();
-    clock = new THREE.Clock();
-    const w = els.canvas.clientWidth;
-    const h = els.canvas.clientHeight;
-    camera = new THREE.PerspectiveCamera(42, w / h, 0.1, 100);
-    camera.position.set(0, 1.6, 8);
-    renderer = new THREE.WebGLRenderer({ canvas: els.canvas, antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(w, h, false);
-
-    const ambience = new THREE.AmbientLight(0xfff0df, 1.7);
-    scene.add(ambience);
-    const key = new THREE.DirectionalLight(0xffd0a0, 2.2);
-    key.position.set(4, 6, 6);
-    scene.add(key);
-    const glow = new THREE.PointLight(0x7fe0d4, 1.8, 40);
-    glow.position.set(-2, 3, 3);
-    scene.add(glow);
-
-    const floor = new THREE.Mesh(new THREE.PlaneGeometry(20, 20), new THREE.MeshStandardMaterial({ color: 0x1a1f33, roughness: 1 }));
-    floor.rotation.x = -Math.PI / 2;
-    floor.position.y = -1.1;
-    scene.add(floor);
-
-    const wall = new THREE.Mesh(new THREE.BoxGeometry(18, 8, 0.4), new THREE.MeshStandardMaterial({ color: 0x12172a, roughness: 1 }));
-    wall.position.set(0, 2.6, -6.2);
-    scene.add(wall);
-
-    const table = new THREE.Mesh(new THREE.BoxGeometry(5.4, 0.32, 2.2), new THREE.MeshStandardMaterial({ color: 0x3a2a22, roughness: 0.55, metalness: 0.08 }));
-    table.position.set(0, -0.1, 0);
-    scene.add(table);
-
-    const board = new THREE.Mesh(new THREE.BoxGeometry(4.8, 2.8, 0.12), new THREE.MeshStandardMaterial({ color: 0xf1f0e8, roughness: 0.8 }));
-    board.position.set(0, 1.8, -4.4);
-    scene.add(board);
-
-    const mood = new THREE.Mesh(new THREE.BoxGeometry(1.8, 1.2, 0.08), new THREE.MeshStandardMaterial({ color: 0x7fe0d4, roughness: 0.7, emissive: 0x224444, emissiveIntensity: 0.25 }));
-    mood.position.set(3.2, 1.2, -3.8);
-    scene.add(mood);
-
-    const lamp = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.12, 1.8, 16), new THREE.MeshStandardMaterial({ color: 0xf2a65a }));
-    lamp.position.set(-3.8, 2.6, -2.8);
-    scene.add(lamp);
-
-    const papers = new THREE.Group();
-    for (let i = 0; i < 8; i++) {
-      const note = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.45, 0.02), new THREE.MeshStandardMaterial({ color: i % 2 ? 0xffdc93 : 0x90f0de }));
-      note.position.set(-2.2 + i * 0.6, 0.55 + (i % 2) * 0.08, -1.1 + (i % 3) * 0.18);
-      note.rotation.z = (i - 3) * 0.11;
-      papers.add(note);
-    }
-    scene.add(papers);
-
-    const laptop = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.08, 0.8), new THREE.MeshStandardMaterial({ color: 0x1d2338, metalness: 0.3, roughness: 0.4 }));
-    laptop.position.set(1.5, 0.12, 0.18);
-    scene.add(laptop);
-
-    groups = { board, mood, lamp, papers, laptop, table };
-    baseY = camera.position.y;
-    window.addEventListener('resize', onResize);
-    animate();
-  }
-
-  function focusStudio(target) {
-    currentFocus = target;
-    const targets = {
-      strategy: { x: 0, y: 1.55, z: 7.3, lookX: 0, lookY: 1.7, lookZ: -3.9 },
-      ideas: { x: -1.6, y: 1.45, z: 6.6, lookX: -1.2, lookY: 1.2, lookZ: -1.2 },
-      moodboard: { x: 2.3, y: 1.6, z: 6.2, lookX: 2.7, lookY: 1.2, lookZ: -3.2 },
-      agenda: { x: 0.7, y: 1.35, z: 5.2, lookX: 0.7, lookY: 0.7, lookZ: 0.1 },
-      journey: { x: -1, y: 1.5, z: 6.4, lookX: -0.6, lookY: 0.95, lookZ: -2.2 },
-      tools: { x: 1.3, y: 1.5, z: 6.9, lookX: 1.3, lookY: 0.9, lookZ: -0.2 }
-    };
-    const t = targets[target] || targets.strategy;
-    gsap.to(camera.position, { x: t.x, y: t.y, z: t.z, duration: 1.2, ease: 'power3.out' });
-    gsap.to(camera.rotation, { x: 0, y: 0, z: 0, duration: 0.8 });
-    camera.lookAt(t.lookX, t.lookY, t.lookZ);
-    showToast(`Focused on ${target}.`);
-  }
-
-  function onResize() {
-    const w = els.canvas.clientWidth;
-    const h = els.canvas.clientHeight;
-    if (!renderer || !camera) return;
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-    renderer.setSize(w, h, false);
-  }
-
-  function animate() {
-    const t = clock.getElapsedTime();
-    if (groups.papers) groups.papers.children.forEach((note, i) => {
-      note.position.y += Math.sin(t * 2 + i) * 0.0008;
-      note.rotation.y = Math.sin(t + i) * 0.08;
-    });
-    if (groups.lamp) groups.lamp.rotation.y = Math.sin(t * 0.6) * 0.15;
-    if (groups.mood) groups.mood.rotation.y = Math.sin(t * 0.4) * 0.08;
-    camera.position.y = baseY + Math.sin(t * 0.8) * 0.05;
-    camera.lookAt(0, 1.15, -2.5);
-    renderer.render(scene, camera);
-    rafId = requestAnimationFrame(animate);
-  }
-
-  function init() {
-    populateSelect();
-    renderContent();
-    bindInteractions();
-    initScene();
-    showToast('3D Creative Consultant Workshops is ready.');
-  }
-
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-  else init();
-})();
+Premium workshop resource for 3D Creative Consultant Workshops.`],{type:"text/plain"}),f=URL.createObjectURL(a),g=document.createElement("a");g.href=f,g.download=`${n.toLowerCase().replace(/[^a-z0-9]+/g,"-")}.txt`,g.click(),setTimeout(()=>URL.revokeObjectURL(f),1e3)}if(c){const n=c.dataset.focus;b(n)}if(l&&b(l.dataset.focusArea),p){const n=p.dataset.focus;n&&b(n)}e.target.matches('[data-action="enter-studio"]')&&(b("strategy"),m("Creative studio animation activated.")),e.target.matches('[data-action="book-workshop"]')&&document.getElementById("booking").scrollIntoView({behavior:"smooth"})}),t.modalClose.addEventListener("click",k),t.modalSecondary.addEventListener("click",k),t.modalBackdrop.addEventListener("click",e=>{e.target===t.modalBackdrop&&k()}),t.modalPrimary.addEventListener("click",()=>{typeof t.modalBackdrop._handler=="function"&&t.modalBackdrop._handler()}),t.menuToggle.addEventListener("click",()=>{const e=t.siteNav.classList.toggle("open");t.menuToggle.setAttribute("aria-expanded",String(e))}),[t.bookingForm,t.contactForm].forEach(e=>{e.addEventListener("submit",o=>{if(o.preventDefault(),!e.reportValidity())return;const d=[...new FormData(e).entries()].map(([l,p])=>`${l}: ${p}`).join(" | "),c=e===t.bookingForm?t.bookingFeedback:t.contactFeedback;c.textContent="Sent successfully. "+d,m(e===t.bookingForm?"Booking request submitted.":"Consultant contact sent."),e.reset(),e===t.bookingForm&&(t.workshopTypeSelect.value="")})})}function J(){s=new THREE.Scene,$=new THREE.Clock;const e=t.canvas.clientWidth,o=t.canvas.clientHeight;r=new THREE.PerspectiveCamera(42,e/o,.1,100),r.position.set(0,1.6,8),y=new THREE.WebGLRenderer({canvas:t.canvas,antialias:!0,alpha:!0}),y.setPixelRatio(Math.min(window.devicePixelRatio,2)),y.setSize(e,o,!1);const i=new THREE.AmbientLight(16773343,1.7);s.add(i);const d=new THREE.DirectionalLight(16765088,2.2);d.position.set(4,6,6),s.add(d);const c=new THREE.PointLight(8380628,1.8,40);c.position.set(-2,3,3),s.add(c);const l=new THREE.Mesh(new THREE.PlaneGeometry(20,20),new THREE.MeshStandardMaterial({color:1711923,roughness:1}));l.rotation.x=-Math.PI/2,l.position.y=-1.1,s.add(l);const p=new THREE.Mesh(new THREE.BoxGeometry(18,8,.4),new THREE.MeshStandardMaterial({color:1185578,roughness:1}));p.position.set(0,2.6,-6.2),s.add(p);const n=new THREE.Mesh(new THREE.BoxGeometry(5.4,.32,2.2),new THREE.MeshStandardMaterial({color:3811874,roughness:.55,metalness:.08}));n.position.set(0,-.1,0),s.add(n);const a=new THREE.Mesh(new THREE.BoxGeometry(4.8,2.8,.12),new THREE.MeshStandardMaterial({color:15855848,roughness:.8}));a.position.set(0,1.8,-4.4),s.add(a);const f=new THREE.Mesh(new THREE.BoxGeometry(1.8,1.2,.08),new THREE.MeshStandardMaterial({color:8380628,roughness:.7,emissive:2245700,emissiveIntensity:.25}));f.position.set(3.2,1.2,-3.8),s.add(f);const g=new THREE.Mesh(new THREE.CylinderGeometry(.07,.12,1.8,16),new THREE.MeshStandardMaterial({color:15902298}));g.position.set(-3.8,2.6,-2.8),s.add(g);const T=new THREE.Group;for(let h=0;h<8;h++){const x=new THREE.Mesh(new THREE.BoxGeometry(.45,.45,.02),new THREE.MeshStandardMaterial({color:h%2?16768147:9498846}));x.position.set(-2.2+h*.6,.55+h%2*.08,-1.1+h%3*.18),x.rotation.z=(h-3)*.11,T.add(x)}s.add(T);const B=new THREE.Mesh(new THREE.BoxGeometry(1.1,.08,.8),new THREE.MeshStandardMaterial({color:1909560,metalness:.3,roughness:.4}));B.position.set(1.5,.12,.18),s.add(B),u={board:a,mood:f,lamp:g,papers:T,laptop:B,table:n},S=r.position.y,window.addEventListener("resize",X),R()}function b(e){z=e;const o={strategy:{x:0,y:1.55,z:7.3,lookX:0,lookY:1.7,lookZ:-3.9},ideas:{x:-1.6,y:1.45,z:6.6,lookX:-1.2,lookY:1.2,lookZ:-1.2},moodboard:{x:2.3,y:1.6,z:6.2,lookX:2.7,lookY:1.2,lookZ:-3.2},agenda:{x:.7,y:1.35,z:5.2,lookX:.7,lookY:.7,lookZ:.1},journey:{x:-1,y:1.5,z:6.4,lookX:-.6,lookY:.95,lookZ:-2.2},tools:{x:1.3,y:1.5,z:6.9,lookX:1.3,lookY:.9,lookZ:-.2}},i=o[e]||o.strategy;gsap.to(r.position,{x:i.x,y:i.y,z:i.z,duration:1.2,ease:"power3.out"}),gsap.to(r.rotation,{x:0,y:0,z:0,duration:.8}),r.lookAt(i.lookX,i.lookY,i.lookZ),m(`Focused on ${e}.`)}function X(){const e=t.canvas.clientWidth,o=t.canvas.clientHeight;!y||!r||(r.aspect=e/o,r.updateProjectionMatrix(),y.setSize(e,o,!1))}function R(){const e=$.getElapsedTime();u.papers&&u.papers.children.forEach((o,i)=>{o.position.y+=Math.sin(e*2+i)*8e-4,o.rotation.y=Math.sin(e+i)*.08}),u.lamp&&(u.lamp.rotation.y=Math.sin(e*.6)*.15),u.mood&&(u.mood.rotation.y=Math.sin(e*.4)*.08),r.position.y=S+Math.sin(e*.8)*.05,r.lookAt(0,1.15,-2.5),y.render(s,r),A=requestAnimationFrame(R)}function I(){W(),H(),V(),J(),m("3D Creative Consultant Workshops is ready.")}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",I):I()})();
