@@ -327,15 +327,7 @@ export async function POST(req: Request) {
 
       case 'checkout.session.expired':
       case 'checkout.session.async_payment_failed': {
-        const session = event.data.object as Stripe.Checkout.Session;
-        const sessionAny = session as Stripe.Checkout.Session & {
-          metadata?: Record<string, string>;
-          customer_details?: { email?: string | null };
-        };
-        const clientRef = session.client_reference_id;
-        if (!clientRef) break;
-        const [clerkUserId, pageId] = clientRef.split('___');
-        const email =
+        // No access or subscription state is granted for unsuccessful checkouts.
         break;
       }
 
