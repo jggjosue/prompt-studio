@@ -11,10 +11,10 @@ import {
   upsertAffiliateSaleFromCommission,
 } from '@/lib/affiliate-mongo';
 import { registerAffiliateConversion } from '@/lib/affiliate-referral';
-import { sendLoopsEvent } from '@/lib/loops';
+
 import { createGuestDownloadToken } from '@/lib/guest-download-token';
-import { sendGuestPurchaseEmail } from '@/lib/resend';
 import { getWebPageById } from '@/lib/web-pages';
+import { addComponentPurchaseActivity, unlockPremiumComponentForGuest } from '@/lib/activity';
 import connectToDatabase from '@/lib/mongoose';
 import AffiliateApplication from '@/models/AffiliateApplication';
 import { clerkClient } from '@clerk/nextjs/server';
@@ -121,34 +121,7 @@ async function recordAffiliateCommission(params: {
   await syncAffiliateDashboardStats(params.referrerUserId, meta.affiliateReferralCode ?? params.referrerUserId);
 }
 
-async function sendCartAbandonmentReminder(params: {
-  email: string;
-  userId?: string | null;
-  pageId?: string | null;
-  pageName?: string | null;
-  sessionId: string;
-}) {
-  await sendLoopsEvent(
-    {
-      email: params.email,
-      userId: params.userId ?? undefined,
-      eventName: 'prompt_studio_cart_abandonment',
-      eventProperties: {
-        source: 'stripe-checkout',
-        pageId: params.pageId ?? null,
-        pageName: params.pageName ?? null,
-        discountPercent: 10,
-        reminderCopy: 'Olvidaste terminar tu compra. Aquí tienes un 10% de descuento.',
-        stripeCheckoutSessionId: params.sessionId,
-      },
-      mailingLists: {
-        promotions: true,
-        upsells: true,
-      },
-    },
-    params.sessionId
-  );
-}
+
 
 function parseClientReference(value: string | null | undefined): { buyerKey: string | null; productId: string | null } {
   if (!value) return { buyerKey: null, productId: null };
@@ -283,12 +256,7 @@ export async function POST(req: Request) {
               createGuestDownloadToken(pageId, session.id)
             );
 
-            await sendGuestPurchaseEmail({
-              to: guestEmail,
-              productName,
-              downloadUrl: downloadUrl.toString(),
-              stripeCheckoutSessionId: session.id,
-            });
+
 
             const referrerToRecord = affiliateRef || originalAffiliateRef;
             const guestBuyerId = guestEmail;
@@ -368,20 +336,6 @@ export async function POST(req: Request) {
         if (!clientRef) break;
         const [clerkUserId, pageId] = clientRef.split('___');
         const email =
-          sessionAny.customer_details?.email ??
-          session.customer_email ??
-          null;
-        if (!email) break;
-
-        await sendCartAbandonmentReminder({
-          email,
-          userId: clerkUserId || null,
-          pageId: pageId || null,
-          pageName: sessionAny.metadata?.page_name ?? pageId ?? null,
-          sessionId: session.id,
-        }).catch(error => {
-          console.error('Failed to send cart abandonment reminder to Loops:', error);
-        });
         break;
       }
 

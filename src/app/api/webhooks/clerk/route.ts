@@ -1,8 +1,8 @@
 import { Webhook } from 'svix';
 import { NextResponse } from 'next/server';
 import { headers } from 'next/headers';
-import { upsertLoopsContact, sendLoopsEvent } from '@/lib/loops';
-import { sendOnboardingEmail, upsertResendContact } from '@/lib/resend';
+
+import { upsertResendContact } from '@/lib/resend';
 import connectToDatabase from '@/lib/mongoose';
 import UserProfile from '@/models/UserProfile';
 import RegisteredUser from '@/models/RegisteredUser';
@@ -106,19 +106,6 @@ export async function POST(req: Request) {
     console.error('Failed to sync Clerk profile to Mongo:', error);
   });
 
-  await upsertLoopsContact({
-    email,
-    name: fullName || undefined,
-    firstName: evt.data.first_name ?? undefined,
-    lastName: evt.data.last_name ?? undefined,
-    source: 'clerk',
-    subscribed: true,
-    userGroup: 'clerk-users',
-    userId: evt.data.id,
-  }).catch(error => {
-    console.error('Failed to sync Clerk user to Loops:', error);
-  });
-
   const resendResult = await upsertResendContact({
     email,
     firstName: evt.data.first_name ?? undefined,
@@ -136,30 +123,9 @@ export async function POST(req: Request) {
   }
 
   if (evt.type === 'user.created') {
-    await sendLoopsEvent({
-      email,
-      userId: evt.data.id,
-      eventName: 'prompt_studio_welcome',
-      eventProperties: {
-        source: 'clerk',
-        fullName: fullName || email,
-      },
-      mailingLists: {
-        welcome: true,
-        resources: true,
-        promotions: true,
-        upsells: true,
-      },
-    }, evt.data.id).catch(error => {
-      console.error('Failed to send Clerk welcome event to Loops:', error);
-    });
 
-    await sendOnboardingEmail({
-      to: email,
-      name: fullName || undefined,
-    }).catch(error => {
-      console.error('Failed to send onboarding email:', error);
-    });
+
+
   }
 
   return NextResponse.json({ received: true });

@@ -23,7 +23,7 @@ import { FreeDownloadDialog } from '@/components/free-download-dialog';
 import { normalizeMembership } from '@/lib/membership-access';
 import { getWebPageCheckoutUrl } from '@/lib/web-page-checkout';
 import { trackAnalyticsEvent } from '@/lib/analytics';
-import { trackLoopsEvent } from '@/lib/loops-events';
+
 import { trackAffiliateClick } from '@/lib/affiliate-client';
 import {
   AFFILIATE_FIRST_REF_STORAGE_KEY,
@@ -113,13 +113,6 @@ export function PremiumMembershipButton({
       currency: 'USD',
       action_source: 'premium-buy-button',
     });
-    void trackLoopsEvent('upgrade', {
-      pageId,
-      pageTitle,
-      plan,
-      membership,
-      source: 'premium-button',
-    });
   };
 
   const trackPremiumDownload = () => {
@@ -131,13 +124,6 @@ export function PremiumMembershipButton({
       item_category: 'landing-page',
       membership,
       action_source: 'premium-download-button',
-    });
-    void trackLoopsEvent('upgrade', {
-      pageId,
-      pageTitle,
-      plan,
-      membership,
-      source: 'premium-download',
     });
   };
 

@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Download } from 'lucide-react';
 import { FreeEmailGate } from './free-email-gate';
 import { trackAnalyticsEvent } from '@/lib/analytics';
-import { trackLoopsEvent } from '@/lib/loops-events';
+
 import { useTranslations } from 'next-intl';
 import { useMembershipAccess } from '@/hooks/use-membership-access';
 
@@ -23,11 +23,6 @@ export function FreeDownloadDialog({ pageId, pageTitle }: { pageId: string; page
       item_category: 'landing-page',
       membership: 'free',
       action_source: 'free-download-dialog',
-    });
-    void trackLoopsEvent('download', {
-      pageId,
-      pageTitle,
-      source: 'free-download-dialog',
     });
 
     try {
