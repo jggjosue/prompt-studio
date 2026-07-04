@@ -24,6 +24,9 @@ export function getSiteUrl(): string {
     ) {
       return PRODUCTION_SITE_URL;
     }
+    if (url.origin === 'null') {
+      return PRODUCTION_SITE_URL;
+    }
 
     return url.origin;
   } catch {

@@ -150,6 +150,10 @@
         <script src="/webpages/demo-purchase-button.js"></script>
     </div>
 
+  <script>
+    window.__PS_PROMPT_TEXT = "Aula virtual en light mode con madera pálida y acentos en azul marino. Cada lección combina un video tutorial con una simulación 3D sincronizada. El video actúa como master clock: en el evento timeupdate se disparan cues que actualizan la simulación (posiciones, fuerzas, parámetros). En una lección de dinámica, el video muestra el experimento y la simulación reproduce la trayectoria exacta del péndulo; el usuario puede pausar y manipular parámetros (masa, fricción) y la simulación recalcula en tiempo real.\n\nLa UI incluye un timeline con marcadores de capítulo; al hacer scrubbing se usa un proxy de baja resolución del video mientras se actualiza la simulación frame a frame. Las lecciones se dividen en módulos cargables (péndulo, plano inclinado, resorte). Para ejercicios, el alumno recibe un enunciado y ajusta parámetros para alcanzar un objetivo; al completar se reproduce un video de solución.\n\nSincronización: AudioContext para alinear audio y video, GSAP para interpolar animaciones 3D. Los cálculos pesados de física se ejecutan en un Web Worker. El estado se guarda por módulo en IndexedDB para reanudar sesiones.\n\n**Entregables:** index.html, styles.css, classroom3d.js, assets/ (videos, modelos GLB, datasets, transcripciones, subtítulos SRT).";
+  </script>
+  <script src="/webpages/demo-actions.js"></script>
 </body>
 
 </html>

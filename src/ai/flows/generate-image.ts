@@ -45,8 +45,8 @@ const generateImageFlow = ai.defineFlow(
       }
       return { imageUrl };
     } catch (err: any) {
-      console.warn('Genkit image generation failed (likely missing/invalid GEMINI_API_KEY). Falling back to mock image.', err.message);
-      // Fallback mock image for testing when no valid API key is present
+      console.warn('Genkit image generation failed. Falling back to mock image.', err.message);
+      // Fallback mock image for testing
       return { imageUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop' };
     }
   }

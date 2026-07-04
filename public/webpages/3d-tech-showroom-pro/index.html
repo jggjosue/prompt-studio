@@ -191,11 +191,36 @@
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
     Ver prompt
   </a>
+  <div style="position:fixed;right:20px;bottom:20px;z-index:99999;display:flex;align-items:center;gap:12px;background:#0d0d0d;padding:8px;border-radius:24px;border:1px solid #262626;box-shadow:0 16px 40px rgba(0,0,0,0.5)">
   <a
-    href="/api/landing-pages/297/download"
+    href="#"
+    onclick="handlePromptStudioAction(event, 'prompt', '/prompt/edit?prompt=%7B%22type%22%3A%22web%22%2C%22title%22%3A%22Showroom%203D%20de%20tecnolog%C3%ADa%20%E2%80%94%20laboratorio%20de%20proof%20de%20producto%22%2C%22description%22%3A%22Un%20showroom%20orientado%20a%20proof%20de%20producto%2C%20demos%2C%20validaci%C3%B3n%20t%C3%A9cnica%20y%20narrativa%20de%20conversi%C3%B3n.%20Un%20showroom%20tipo%20laboratorio%20centrado%20en%20demostraci%C3%B3n%20t%C3%A9cnica%2C%20storytelling%20de%20producto%20y%20snippets%20interactivos.%20Un%20showroom%20de%20profundidad%20para%20demos%20de%20producto%2C%20pruebas%20t%C3%A9cnicas%20y%20snippets%20interactivos.%20Showroom%20tech%20en%20light%20mode%20con%20producto%20sobre%20pedestal.%20Hotspots%20t%C3%A9cnicos%20rodean%20el%20producto%3B%20al%20activar%20uno%20se%20reproduce%20un%20video%20demo%20que%20muestra%20integraci%C3%B3n%2C%20API%20calls%20y%20casos%20de%20uso.%20El%20video%20se%20sincroniza%20con%20la%20animaci%C3%B3n%20del%20producto%20%E2%80%94%20por%20ejemplo%2C%20un%20demo%20de%20autenticaci%C3%B3n%20activa%20un%20flujo%20de%20login%20animado%20en%20la%20interfaz%203D.%5Cn%5CnPanel%20de%20snippets%20de%20c%C3%B3digo%20con%20resaltado%20Prism.js%2C%20bot%C3%B3n%20Copiar%20y%20enlace%20Sandbox.%20Modo%20Deep%20Dive%20que%20pausa%20la%20animaci%C3%B3n%20global%20y%20permite%20inspeccionar%20internals%20con%20overlays%20y%20microvideos.%20Enlaces%20compartibles%20con%20timestamp%20y%20hotspot%20activo.%20Assets%3A%20videos%20720p%2C%20modelos%20GLB%20con%20LOD%2C%20snippets%20preloaded.%20Accesibilidad%3A%20transcripciones%2C%20aria%20en%20hotspots%2C%20prefers-reduced-motion%2C%20versi%C3%B3n%202D.%5Cn%5Cn**Entregables%3A**%20index.html%2C%20styles.css%2C%20techshowPro.js%2C%20assets%2F%20(modelos%20GLB%2C%20videos%20demo%2C%20snippets%20JSON).%5Cn%5Cn**Stack%3A**%20Three.js%2C%20video%20HTML5%2C%20Prism.js%2C%20GSAP.%5Cn%5Cn**Interactions%3A**%20Hotspot%20activa%20video%20y%20animaci%C3%B3n%20sincronizada%2C%20snippets%20interactivos%2C%20modo%20Deep%20Dive%2C%20enlaces%20compartibles.%22%2C%22imageUrl%22%3A%22https%3A%2F%2Fraw.githubusercontent.com%2Fjggjosue%2FPrompts-images%2Frefs%2Fheads%2Fmain%2Fwebpages%2F3d-tech-showroom-pro.png%22%2C%22stack%22%3A%5B%22Three.js%22%2C%22video%20HTML5%22%2C%22Prism.js%22%2C%22GSAP%22%2C%22HTML%22%2C%22CSS%22%2C%22JS%22%5D%2C%22tags%22%3A%5B%223D%22%2C%22tech%20showroom%22%2C%22light%20mode%22%2C%22product%22%2C%22hotspots%22%2C%22video%20demo%22%2C%22code%20snippets%22%2C%22Prism.js%22%2C%22Deep%20Dive%22%2C%22share%22%2C%22WebGL%22%2C%22GSAP%22%5D%7D')"
+    aria-label="Ver prompt"
+    style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:1px solid #3b82f6;border-radius:16px;background:rgba(59,130,246,0.1);color:#60a5fa;font:500 14px/1 system-ui,sans-serif;text-decoration:none;transition:all 0.2s;cursor:pointer;"
+    onmouseover="this.style.background='rgba(59,130,246,0.2)'"
+    onmouseout="this.style.background='rgba(59,130,246,0.1)'"
+  >
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+    Ver prompt
+  </a>
+  <div style="position:fixed;right:20px;bottom:20px;z-index:99999;display:flex;align-items:center;gap:12px;background:#0d0d0d;padding:8px;border-radius:24px;border:1px solid #262626;box-shadow:0 16px 40px rgba(0,0,0,0.5)">
+  <a
+    href="#"
+    onclick="handlePromptStudioAction(event, 'prompt', '/prompt/edit?prompt=%7B%22type%22%3A%22web%22%2C%22title%22%3A%22Showroom%203D%20de%20tecnolog%C3%ADa%20%E2%80%94%20laboratorio%20de%20proof%20de%20producto%22%2C%22description%22%3A%22Un%20showroom%20orientado%20a%20proof%20de%20producto%2C%20demos%2C%20validaci%C3%B3n%20t%C3%A9cnica%20y%20narrativa%20de%20conversi%C3%B3n.%20Un%20showroom%20tipo%20laboratorio%20centrado%20en%20demostraci%C3%B3n%20t%C3%A9cnica%2C%20storytelling%20de%20producto%20y%20snippets%20interactivos.%20Un%20showroom%20de%20profundidad%20para%20demos%20de%20producto%2C%20pruebas%20t%C3%A9cnicas%20y%20snippets%20interactivos.%20Showroom%20tech%20en%20light%20mode%20con%20producto%20sobre%20pedestal.%20Hotspots%20t%C3%A9cnicos%20rodean%20el%20producto%3B%20al%20activar%20uno%20se%20reproduce%20un%20video%20demo%20que%20muestra%20integraci%C3%B3n%2C%20API%20calls%20y%20casos%20de%20uso.%20El%20video%20se%20sincroniza%20con%20la%20animaci%C3%B3n%20del%20producto%20%E2%80%94%20por%20ejemplo%2C%20un%20demo%20de%20autenticaci%C3%B3n%20activa%20un%20flujo%20de%20login%20animado%20en%20la%20interfaz%203D.%5Cn%5CnPanel%20de%20snippets%20de%20c%C3%B3digo%20con%20resaltado%20Prism.js%2C%20bot%C3%B3n%20Copiar%20y%20enlace%20Sandbox.%20Modo%20Deep%20Dive%20que%20pausa%20la%20animaci%C3%B3n%20global%20y%20permite%20inspeccionar%20internals%20con%20overlays%20y%20microvideos.%20Enlaces%20compartibles%20con%20timestamp%20y%20hotspot%20activo.%20Assets%3A%20videos%20720p%2C%20modelos%20GLB%20con%20LOD%2C%20snippets%20preloaded.%20Accesibilidad%3A%20transcripciones%2C%20aria%20en%20hotspots%2C%20prefers-reduced-motion%2C%20versi%C3%B3n%202D.%5Cn%5Cn**Entregables%3A**%20index.html%2C%20styles.css%2C%20techshowPro.js%2C%20assets%2F%20(modelos%20GLB%2C%20videos%20demo%2C%20snippets%20JSON).%5Cn%5Cn**Stack%3A**%20Three.js%2C%20video%20HTML5%2C%20Prism.js%2C%20GSAP.%5Cn%5Cn**Interactions%3A**%20Hotspot%20activa%20video%20y%20animaci%C3%B3n%20sincronizada%2C%20snippets%20interactivos%2C%20modo%20Deep%20Dive%2C%20enlaces%20compartibles.%22%2C%22imageUrl%22%3A%22https%3A%2F%2Fraw.githubusercontent.com%2Fjggjosue%2FPrompts-images%2Frefs%2Fheads%2Fmain%2Fwebpages%2F3d-tech-showroom-pro.png%22%2C%22stack%22%3A%5B%22Three.js%22%2C%22video%20HTML5%22%2C%22Prism.js%22%2C%22GSAP%22%2C%22HTML%22%2C%22CSS%22%2C%22JS%22%5D%2C%22tags%22%3A%5B%223D%22%2C%22tech%20showroom%22%2C%22light%20mode%22%2C%22product%22%2C%22hotspots%22%2C%22video%20demo%22%2C%22code%20snippets%22%2C%22Prism.js%22%2C%22Deep%20Dive%22%2C%22share%22%2C%22WebGL%22%2C%22GSAP%22%5D%7D')"
+    aria-label="Ver prompt"
+    style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:1px solid #3b82f6;border-radius:16px;background:rgba(59,130,246,0.1);color:#60a5fa;font:500 14px/1 system-ui,sans-serif;text-decoration:none;transition:all 0.2s;cursor:pointer;"
+    onmouseover="this.style.background='rgba(59,130,246,0.2)'"
+    onmouseout="this.style.background='rgba(59,130,246,0.1)'"
+  >
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+    Ver prompt
+  </a>
+  <a
+    href="#"
+    onclick="handlePromptStudioAction(event, 'download', '#')"
     data-free-download-trigger
-    aria-label="Descargar 3D Tech Showroom — Product proof lab"
-    style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:1px solid transparent;border-radius:16px;background:#1a1a1a;color:#d4d4d8;font:500 14px/1 system-ui,sans-serif;text-decoration:none;transition:all 0.2s"
+    aria-label="Descargar Showroom 3D de tecnología — laboratorio de proof de producto"
+    style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:1px solid transparent;border-radius:16px;background:#1a1a1a;color:#d4d4d8;font:500 14px/1 system-ui,sans-serif;text-decoration:none;transition:all 0.2s;cursor:pointer;"
     onmouseover="this.style.background='#27272a';this.style.color='#fff'"
     onmouseout="this.style.background='#1a1a1a';this.style.color='#d4d4d8'"
   >
@@ -204,184 +229,9 @@
   </a>
 </div>
 
-<div data-free-download-modal hidden style="position:fixed;inset:0;z-index:100000;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.78);backdrop-filter:blur(8px)">
-  <div role="dialog" aria-modal="true" aria-labelledby="free-download-title" style="position:relative;width:min(620px,100%);border:1px solid #303030;border-radius:24px;background:#050505;padding:clamp(28px,5vw,48px);color:#fff;box-shadow:0 30px 100px rgba(0,0,0,.7);font-family:system-ui,sans-serif">
-    <button type="button" data-free-download-close aria-label="Cerrar" style="position:absolute;right:22px;top:18px;border:0;background:transparent;color:#aaa;font-size:34px;cursor:pointer">&times;</button>
-    <h2 id="free-download-title" style="margin:0 0 10px;font-size:clamp(28px,5vw,38px);line-height:1.1">Descargar componente</h2>
-    <p style="margin:0 0 28px;color:#aaa;font-size:clamp(17px,3vw,22px);line-height:1.5">Ingresa tu correo electrónico para comenzar la descarga gratuita.</p>
-    <form data-free-download-form>
-      <input data-free-download-email type="email" required autocomplete="email" placeholder="tu-correo@ejemplo.com" style="width:100%;height:58px;border:2px solid #2563eb;border-radius:16px;background:#050505;padding:0 18px;color:#fff;font-size:18px;outline:none;box-shadow:0 0 0 5px rgba(37,99,235,.28)">
-      <label style="display:flex;align-items:flex-start;gap:12px;margin:26px 6px;color:#aaa;font-size:17px;line-height:1.4">
-        <input data-free-download-terms type="checkbox" required style="width:23px;height:23px;margin:0;accent-color:#2563eb">
-        <span>Acepto los <a href="/terms" target="_blank" rel="noopener noreferrer" style="color:#60a5fa">términos y servicios</a></span>
-      </label>
-      <button data-free-download-submit type="submit" disabled style="width:100%;height:58px;border:0;border-radius:16px;background:#1e3a8a;color:#9ca3af;font-size:18px;font-weight:700;cursor:not-allowed">Descargar ahora</button>
-      <p data-free-download-error role="alert" style="min-height:20px;margin:14px 0 0;color:#f87171"></p>
-    </form>
-  </div>
-</div>
-
-<div data-prompt-display-modal hidden style="position:fixed;inset:0;z-index:100000;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.78);backdrop-filter:blur(8px)">
-  <div role="dialog" aria-modal="true" style="position:relative;width:min(800px,100%);max-height:85vh;display:flex;flex-direction:column;border:1px solid #303030;border-radius:24px;background:#050505;padding:clamp(28px,5vw,48px);color:#fff;box-shadow:0 30px 100px rgba(0,0,0,.7);font-family:system-ui,sans-serif">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-      <h2 style="margin:0;font-size:clamp(24px,4vw,32px);line-height:1.1">3D Tech Showroom — Product proof lab</h2>
-      <div style="display:flex;gap:12px;">
-        <button data-prompt-copy type="button" style="padding:8px 16px;border:1px solid #303030;border-radius:8px;background:#1a1a1a;color:#fff;font-size:14px;cursor:pointer;transition:all 0.2s">Copiar prompt</button>
-        <button data-prompt-close type="button" aria-label="Cerrar" style="width:36px;height:36px;border:0;background:transparent;color:#aaa;font-size:28px;cursor:pointer;line-height:1;padding:0;display:flex;align-items:center;justify-content:center;">&times;</button>
-      </div>
-    </div>
-    <div style="flex-grow:1;overflow-y:auto;padding-right:10px;border-radius:8px;background:#111;border:1px solid #222;">
-      <pre data-prompt-content style="margin:0;padding:20px;white-space:pre-wrap;font-family:monospace;font-size:14px;color:#ccc;line-height:1.6">A product-proof showroom focused on demos, technical validation, and conversion-oriented storytelling. A lab-style showroom focused on product proof, technical storytelling, and interactive code snippets. A deep-dive showroom for product demos, technical proof, and interactive code snippets. A tech showroom in light mode with a product on a pedestal. Technical hotspots surround the product; activating one plays a video demo showing integration, API calls, and use cases. The video syncs with product animation — e.g., an auth API demo triggers an animated login flow on the 3D product interface.
-
-A code snippet panel with Prism.js syntax highlighting, copy button, and sandbox link. Deep Dive mode pauses global animation and lets users inspect product internals with explanatory overlays and microvideos. Shareable links include timestamp and active hotspot. Assets: 720p videos, GLB models with LOD, preloaded snippets. Accessibility: transcripts, aria on hotspots, prefers-reduced-motion, 2D version.
-
-**Deliverables:** index.html, styles.css, techshowPro.js, assets/ (GLB models, demo videos, snippets JSON).
-
-**Stack:** Three.js, video HTML5, Prism.js, GSAP.
-
-**Interactions:** Hotspot activates video demo and synced animation, interactive snippets, Deep Dive mode, shareable links.</pre>
-    </div>
-  </div>
-</div>
-
-<script>
-(() => {
-  const storageKey = 'prompt_studio_free_email_saved';
-  const downloadTrigger = document.querySelector('[data-free-download-trigger]');
-  const promptTrigger = document.querySelector('[data-prompt-trigger]');
-  
-  const authModal = document.querySelector('[data-free-download-modal]');
-  const closeAuth = authModal?.querySelector('[data-free-download-close]');
-  const form = authModal?.querySelector('[data-free-download-form]');
-  const email = authModal?.querySelector('[data-free-download-email]');
-  const terms = authModal?.querySelector('[data-free-download-terms]');
-  const submit = authModal?.querySelector('[data-free-download-submit]');
-  const error = authModal?.querySelector('[data-free-download-error]');
-  const title = authModal?.querySelector('#free-download-title');
-
-  const promptModal = document.querySelector('[data-prompt-display-modal]');
-  const closePrompt = promptModal?.querySelector('[data-prompt-close]');
-  const copyPromptBtn = promptModal?.querySelector('[data-prompt-copy]');
-  
-  let currentAction = 'download';
-  const downloadUrl = downloadTrigger?.href || '';
-
-  const startDownload = () => {
-    if (!downloadUrl || downloadUrl === '#') return;
-    const link = document.createElement('a');
-    link.href = downloadUrl;
-    link.download = '';
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-  };
-
-  const showPrompt = () => {
-    if (!promptModal) return;
-    promptModal.hidden = false;
-    promptModal.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-  };
-
-  const setAuthOpen = (open) => {
-    if (!authModal) return;
-    authModal.hidden = !open;
-    authModal.style.display = open ? 'flex' : 'none';
-    document.body.style.overflow = open ? 'hidden' : '';
-    if (open) setTimeout(() => email?.focus(), 0);
-  };
-  
-  const syncSubmit = () => {
-    const enabled = Boolean(email?.validity.valid && terms?.checked);
-    if (!submit) return;
-    submit.disabled = !enabled;
-    submit.style.background = enabled ? '#2563eb' : '#1e3a8a';
-    submit.style.color = enabled ? '#fff' : '#9ca3af';
-    submit.style.cursor = enabled ? 'pointer' : 'not-allowed';
-  };
-
-  downloadTrigger?.addEventListener('click', (event) => {
-    event.preventDefault();
-    currentAction = 'download';
-    if (title) title.textContent = 'Descargar componente';
-    if (submit) submit.textContent = 'Descargar ahora';
-    if (localStorage.getItem(storageKey)) startDownload();
-    else setAuthOpen(true);
-  });
-
-  promptTrigger?.addEventListener('click', (event) => {
-    event.preventDefault();
-    currentAction = 'prompt';
-    if (title) title.textContent = 'Ver prompt';
-    if (submit) submit.textContent = 'Ver prompt ahora';
-    if (localStorage.getItem(storageKey)) showPrompt();
-    else setAuthOpen(true);
-  });
-
-  closeAuth?.addEventListener('click', () => setAuthOpen(false));
-  authModal?.addEventListener('click', (event) => {
-    if (event.target === authModal) setAuthOpen(false);
-  });
-  
-  closePrompt?.addEventListener('click', () => {
-    promptModal.hidden = true;
-    promptModal.style.display = 'none';
-    document.body.style.overflow = '';
-  });
-  promptModal?.addEventListener('click', (event) => {
-    if (event.target === promptModal) {
-      promptModal.hidden = true;
-      promptModal.style.display = 'none';
-      document.body.style.overflow = '';
-    }
-  });
-  
-  if (copyPromptBtn) {
-    copyPromptBtn.addEventListener('click', () => {
-      const text = document.querySelector('[data-prompt-content]')?.textContent || '';
-      navigator.clipboard.writeText(text).then(() => {
-        const originalText = copyPromptBtn.textContent;
-        copyPromptBtn.textContent = '¡Copiado!';
-        setTimeout(() => copyPromptBtn.textContent = originalText, 2000);
-      });
-    });
-  }
-
-  email?.addEventListener('input', syncSubmit);
-  terms?.addEventListener('change', syncSubmit);
-  
-  form?.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    syncSubmit();
-    if (!email?.validity.valid || !terms?.checked || !submit) return;
-    submit.disabled = true;
-    submit.textContent = 'Procesando...';
-    if (error) error.textContent = '';
-    try {
-      const response = await fetch('/api/new-users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email.value.trim() })
-      });
-      if (!response.ok) throw new Error('No fue posible registrar el correo.');
-      localStorage.setItem(storageKey, 'true');
-      localStorage.setItem('prompt_studio_free_email', email.value.trim());
-      setAuthOpen(false);
-      
-      if (currentAction === 'download') {
-        startDownload();
-      } else {
-        showPrompt();
-      }
-    } catch (requestError) {
-      if (error) error.textContent = requestError instanceof Error ? requestError.message : 'Error de conexión.';
-      submit.textContent = currentAction === 'download' ? 'Descargar ahora' : 'Ver prompt ahora';
-      syncSubmit();
-    } finally {
-      syncSubmit();
-    }
-  });
-})();
-</script>
+  <script>
+    window.__PS_PROMPT_TEXT = "Un showroom orientado a proof de producto, demos, validación técnica y narrativa de conversión. Un showroom tipo laboratorio centrado en demostración técnica, storytelling de producto y snippets interactivos. Un showroom de profundidad para demos de producto, pruebas técnicas y snippets interactivos. Showroom tech en light mode con producto sobre pedestal. Hotspots técnicos rodean el producto; al activar uno se reproduce un video demo que muestra integración, API calls y casos de uso. El video se sincroniza con la animación del producto — por ejemplo, un demo de autenticación activa un flujo de login animado en la interfaz 3D.\n\nPanel de snippets de código con resaltado Prism.js, botón Copiar y enlace Sandbox. Modo Deep Dive que pausa la animación global y permite inspeccionar internals con overlays y microvideos. Enlaces compartibles con timestamp y hotspot activo. Assets: videos 720p, modelos GLB con LOD, snippets preloaded. Accesibilidad: transcripciones, aria en hotspots, prefers-reduced-motion, versión 2D.\n\n**Entregables:** index.html, styles.css, techshowPro.js, assets/ (modelos GLB, videos demo, snippets JSON).\n\n**Stack:** Three.js, video HTML5, Prism.js, GSAP.\n\n**Interactions:** Hotspot activa video y animación sincronizada, snippets interactivos, modo Deep Dive, enlaces compartibles.";
+  </script>
+  <script src="/webpages/demo-actions.js"></script>
 </body>
 </html>

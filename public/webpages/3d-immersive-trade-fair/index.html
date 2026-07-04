@@ -175,6 +175,10 @@
         <script src="/webpages/demo-purchase-button.js"></script>
     </div>
 
+  <script>
+    window.__PS_PROMPT_TEXT = "Feria comercial virtual en modo claro profesional: recinto 3D con pasillos, stands y atrio central. Cada stand es un módulo GLB con branding del expositor y pantalla integrada que reproduce video promocional (30-90s). Cámara inicia en el atrio con mapa flotante 3D con hotspots para saltar a pabellones por categoría. Navegación combina orbit controls para exploración libre y modo tour guiado con fly-to cinemático (GSAP easeOutCubic, 900ms).\n\nTres niveles de interacción por stand: preview (thumbnail + audio muted loop), panel (overlay HTML con video, ficha técnica y CTA) y demo (video extendido proyectado como textura en plano 3D dentro del stand). La proximidad activa preview: cámara dentro de 3.5m expande thumbnail y video fade-in. Videos incluyen SRT y metadatos JSON (title, duration, language, contact). Sistema de reuniones: visitante solicita demo en vivo; UI genera solicitud (sin backend) y marca el stand con icono.\n\nRendimiento: LOD para stands, texturas 512-1024px, lazy-load videos, pausar render fuera de viewport. Accesibilidad: subtítulos SRT, role=dialog en overlays, prefers-reduced-motion reduce fly-to y partículas. Analítica: reproducciones, tiempo en stand, solicitudes demo.\n\n**Entregables:** index.html, styles.css, fair3d.js, assets/ (modelos GLB pabellones, videos MP4, thumbnails WebP, JSON metadatos).\n\n**Stack:** Three.js, GSAP, HLS.js, video HTML5 texturas, Draco compresión GLB, IntersectionObserver.\n\n**Interacciones:** Click en stand abre panel con video + ficha + CTA, proximidad activa preview, tour guiado, hotspots mapa, solicitar reunión con marcador, modo demo extendido.";
+  </script>
+  <script src="/webpages/demo-actions.js"></script>
 </body>
 
 </html>

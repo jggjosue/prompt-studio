@@ -224,11 +224,36 @@
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
     Ver prompt
   </a>
+  <div style="position:fixed;right:20px;bottom:20px;z-index:99999;display:flex;align-items:center;gap:12px;background:#0d0d0d;padding:8px;border-radius:24px;border:1px solid #262626;box-shadow:0 16px 40px rgba(0,0,0,0.5)">
   <a
-    href="/api/landing-pages/288/download"
+    href="#"
+    onclick="handlePromptStudioAction(event, 'prompt', '/prompt/edit?prompt=%7B%22type%22%3A%22web%22%2C%22title%22%3A%22Visualizador%203D%20Light%20Mode%20de%20Datos%20con%20Video%20Insights%20y%20Comparador%22%2C%22description%22%3A%22Dashboard%203D%20en%20light%20mode%20con%20widgets%20flotantes%20sobre%20un%20plano%20claro.%20Cada%20widget%20es%20un%20objeto%203D%20con%20visualizaci%C3%B3n%3B%20al%20seleccionarlo%20reproduce%20un%20video%20insight%20que%20explica%20la%20tendencia.%20Dos%20periodos%20se%20comparan%20activando%20el%20modo%20comparador%3A%20la%20c%C3%A1mara%20se%20divide%20visualmente%20y%20reproduce%20dos%20videos%20sincronizados%20lado%20a%20lado%20mientras%20las%20visualizaciones%20animan%20diferencias%20con%20part%C3%ADculas%20y%20l%C3%ADneas%20interpoladas.%5Cn%5CnVideos%20insight%20narrados%20de%2060-180%20s%20con%20subt%C3%ADtulos%20y%20gr%C3%A1ficos%20embebidos%3B%20al%20reproducirlos%20el%20widget%20expande%20y%20muestra%20detalles%203D.%20Scrubbing%20sincronizado%20entre%20video%20y%20visualizaci%C3%B3n%3B%20al%20mover%20el%20scrubber%20los%20datos%20se%20interpolan%20y%20las%20animaciones%203D%20se%20actualizan.%20Datos%20en%20vivo%20v%C3%ADa%20WebSocket%20con%20smoothing.%5Cn%5CnControles%20para%20exportar%20snapshots%20y%20generar%20clips%20cortos%20del%20insight%20con%20marca%20de%20tiempo.%20Rendimiento%3A%20instancing%20de%20widgets%2C%20texturas%20512%20px%2C%20videos%20bajo%20demanda.%5Cn%5Cn**Entregables%3A**%20index.html%2C%20styles.css%2C%20data3d.js%2C%20assets%2F%20(videos%20insight%2C%20datasets%20JSON%2C%20modelos%20de%20widgets%2C%20SRT%2C%20transcripciones).%5Cn%5Cn**Stack%3A**%20Three.js%2C%20D3.js%2C%20video%20HTML5%2C%20WebSocket.%5Cn%5Cn**Interactions%3A**%20Selecci%C3%B3n%20de%20widget%20reproduce%20video%20insight%2C%20comparador%20sincronizado%2C%20scrubbing%20que%20actualiza%20visualizaci%C3%B3n.%22%2C%22imageUrl%22%3A%22https%3A%2F%2Fraw.githubusercontent.com%2Fjggjosue%2FPrompts-images%2Frefs%2Fheads%2Fmain%2Fwebpages%2F3d-data-visualizer-widgets.png%22%2C%22stack%22%3A%5B%22Three.js%22%2C%22D3.js%22%2C%22video%20HTML5%22%2C%22WebSocket%22%2C%22HTML%22%2C%22CSS%22%2C%22JS%22%5D%2C%22tags%22%3A%5B%223D%22%2C%22data%22%2C%22dashboard%22%2C%22light%20mode%22%2C%22widgets%22%2C%22bar%20charts%22%2C%22video%20insights%22%2C%22comparator%22%2C%22scrubbing%22%2C%22WebSocket%22%2C%22D3.js%22%2C%22snapshot%22%2C%22WebGL%22%5D%7D')"
+    aria-label="Ver prompt"
+    style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:1px solid #3b82f6;border-radius:16px;background:rgba(59,130,246,0.1);color:#60a5fa;font:500 14px/1 system-ui,sans-serif;text-decoration:none;transition:all 0.2s;cursor:pointer;"
+    onmouseover="this.style.background='rgba(59,130,246,0.2)'"
+    onmouseout="this.style.background='rgba(59,130,246,0.1)'"
+  >
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+    Ver prompt
+  </a>
+  <div style="position:fixed;right:20px;bottom:20px;z-index:99999;display:flex;align-items:center;gap:12px;background:#0d0d0d;padding:8px;border-radius:24px;border:1px solid #262626;box-shadow:0 16px 40px rgba(0,0,0,0.5)">
+  <a
+    href="#"
+    onclick="handlePromptStudioAction(event, 'prompt', '/prompt/edit?prompt=%7B%22type%22%3A%22web%22%2C%22title%22%3A%22Visualizador%203D%20Light%20Mode%20de%20Datos%20con%20Video%20Insights%20y%20Comparador%22%2C%22description%22%3A%22Dashboard%203D%20en%20light%20mode%20con%20widgets%20flotantes%20sobre%20un%20plano%20claro.%20Cada%20widget%20es%20un%20objeto%203D%20con%20visualizaci%C3%B3n%3B%20al%20seleccionarlo%20reproduce%20un%20video%20insight%20que%20explica%20la%20tendencia.%20Dos%20periodos%20se%20comparan%20activando%20el%20modo%20comparador%3A%20la%20c%C3%A1mara%20se%20divide%20visualmente%20y%20reproduce%20dos%20videos%20sincronizados%20lado%20a%20lado%20mientras%20las%20visualizaciones%20animan%20diferencias%20con%20part%C3%ADculas%20y%20l%C3%ADneas%20interpoladas.%5Cn%5CnVideos%20insight%20narrados%20de%2060-180%20s%20con%20subt%C3%ADtulos%20y%20gr%C3%A1ficos%20embebidos%3B%20al%20reproducirlos%20el%20widget%20expande%20y%20muestra%20detalles%203D.%20Scrubbing%20sincronizado%20entre%20video%20y%20visualizaci%C3%B3n%3B%20al%20mover%20el%20scrubber%20los%20datos%20se%20interpolan%20y%20las%20animaciones%203D%20se%20actualizan.%20Datos%20en%20vivo%20v%C3%ADa%20WebSocket%20con%20smoothing.%5Cn%5CnControles%20para%20exportar%20snapshots%20y%20generar%20clips%20cortos%20del%20insight%20con%20marca%20de%20tiempo.%20Rendimiento%3A%20instancing%20de%20widgets%2C%20texturas%20512%20px%2C%20videos%20bajo%20demanda.%5Cn%5Cn**Entregables%3A**%20index.html%2C%20styles.css%2C%20data3d.js%2C%20assets%2F%20(videos%20insight%2C%20datasets%20JSON%2C%20modelos%20de%20widgets%2C%20SRT%2C%20transcripciones).%5Cn%5Cn**Stack%3A**%20Three.js%2C%20D3.js%2C%20video%20HTML5%2C%20WebSocket.%5Cn%5Cn**Interactions%3A**%20Selecci%C3%B3n%20de%20widget%20reproduce%20video%20insight%2C%20comparador%20sincronizado%2C%20scrubbing%20que%20actualiza%20visualizaci%C3%B3n.%22%2C%22imageUrl%22%3A%22https%3A%2F%2Fraw.githubusercontent.com%2Fjggjosue%2FPrompts-images%2Frefs%2Fheads%2Fmain%2Fwebpages%2F3d-data-visualizer-widgets.png%22%2C%22stack%22%3A%5B%22Three.js%22%2C%22D3.js%22%2C%22video%20HTML5%22%2C%22WebSocket%22%2C%22HTML%22%2C%22CSS%22%2C%22JS%22%5D%2C%22tags%22%3A%5B%223D%22%2C%22data%22%2C%22dashboard%22%2C%22light%20mode%22%2C%22widgets%22%2C%22bar%20charts%22%2C%22video%20insights%22%2C%22comparator%22%2C%22scrubbing%22%2C%22WebSocket%22%2C%22D3.js%22%2C%22snapshot%22%2C%22WebGL%22%5D%7D')"
+    aria-label="Ver prompt"
+    style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:1px solid #3b82f6;border-radius:16px;background:rgba(59,130,246,0.1);color:#60a5fa;font:500 14px/1 system-ui,sans-serif;text-decoration:none;transition:all 0.2s;cursor:pointer;"
+    onmouseover="this.style.background='rgba(59,130,246,0.2)'"
+    onmouseout="this.style.background='rgba(59,130,246,0.1)'"
+  >
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+    Ver prompt
+  </a>
+  <a
+    href="#"
+    onclick="handlePromptStudioAction(event, 'download', '#')"
     data-free-download-trigger
-    aria-label="Descargar 3D Light Mode Data Visualizer with Video Insights and Comparator"
-    style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:1px solid transparent;border-radius:16px;background:#1a1a1a;color:#d4d4d8;font:500 14px/1 system-ui,sans-serif;text-decoration:none;transition:all 0.2s"
+    aria-label="Descargar Visualizador 3D Light Mode de Datos con Video Insights y Comparador"
+    style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:1px solid transparent;border-radius:16px;background:#1a1a1a;color:#d4d4d8;font:500 14px/1 system-ui,sans-serif;text-decoration:none;transition:all 0.2s;cursor:pointer;"
     onmouseover="this.style.background='#27272a';this.style.color='#fff'"
     onmouseout="this.style.background='#1a1a1a';this.style.color='#d4d4d8'"
   >
@@ -237,186 +262,9 @@
   </a>
 </div>
 
-<div data-free-download-modal hidden style="position:fixed;inset:0;z-index:100000;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.78);backdrop-filter:blur(8px)">
-  <div role="dialog" aria-modal="true" aria-labelledby="free-download-title" style="position:relative;width:min(620px,100%);border:1px solid #303030;border-radius:24px;background:#050505;padding:clamp(28px,5vw,48px);color:#fff;box-shadow:0 30px 100px rgba(0,0,0,.7);font-family:system-ui,sans-serif">
-    <button type="button" data-free-download-close aria-label="Cerrar" style="position:absolute;right:22px;top:18px;border:0;background:transparent;color:#aaa;font-size:34px;cursor:pointer">&times;</button>
-    <h2 id="free-download-title" style="margin:0 0 10px;font-size:clamp(28px,5vw,38px);line-height:1.1">Descargar componente</h2>
-    <p style="margin:0 0 28px;color:#aaa;font-size:clamp(17px,3vw,22px);line-height:1.5">Ingresa tu correo electrónico para comenzar la descarga gratuita.</p>
-    <form data-free-download-form>
-      <input data-free-download-email type="email" required autocomplete="email" placeholder="tu-correo@ejemplo.com" style="width:100%;height:58px;border:2px solid #2563eb;border-radius:16px;background:#050505;padding:0 18px;color:#fff;font-size:18px;outline:none;box-shadow:0 0 0 5px rgba(37,99,235,.28)">
-      <label style="display:flex;align-items:flex-start;gap:12px;margin:26px 6px;color:#aaa;font-size:17px;line-height:1.4">
-        <input data-free-download-terms type="checkbox" required style="width:23px;height:23px;margin:0;accent-color:#2563eb">
-        <span>Acepto los <a href="/terms" target="_blank" rel="noopener noreferrer" style="color:#60a5fa">términos y servicios</a></span>
-      </label>
-      <button data-free-download-submit type="submit" disabled style="width:100%;height:58px;border:0;border-radius:16px;background:#1e3a8a;color:#9ca3af;font-size:18px;font-weight:700;cursor:not-allowed">Descargar ahora</button>
-      <p data-free-download-error role="alert" style="min-height:20px;margin:14px 0 0;color:#f87171"></p>
-    </form>
-  </div>
-</div>
-
-<div data-prompt-display-modal hidden style="position:fixed;inset:0;z-index:100000;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.78);backdrop-filter:blur(8px)">
-  <div role="dialog" aria-modal="true" style="position:relative;width:min(800px,100%);max-height:85vh;display:flex;flex-direction:column;border:1px solid #303030;border-radius:24px;background:#050505;padding:clamp(28px,5vw,48px);color:#fff;box-shadow:0 30px 100px rgba(0,0,0,.7);font-family:system-ui,sans-serif">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-      <h2 style="margin:0;font-size:clamp(24px,4vw,32px);line-height:1.1">3D Light Mode Data Visualizer with Video Insights and Comparator</h2>
-      <div style="display:flex;gap:12px;">
-        <button data-prompt-copy type="button" style="padding:8px 16px;border:1px solid #303030;border-radius:8px;background:#1a1a1a;color:#fff;font-size:14px;cursor:pointer;transition:all 0.2s">Copiar prompt</button>
-        <button data-prompt-close type="button" aria-label="Cerrar" style="width:36px;height:36px;border:0;background:transparent;color:#aaa;font-size:28px;cursor:pointer;line-height:1;padding:0;display:flex;align-items:center;justify-content:center;">&times;</button>
-      </div>
-    </div>
-    <div style="flex-grow:1;overflow-y:auto;padding-right:10px;border-radius:8px;background:#111;border:1px solid #222;">
-      <pre data-prompt-content style="margin:0;padding:20px;white-space:pre-wrap;font-family:monospace;font-size:14px;color:#ccc;line-height:1.6">A 3D dashboard in light mode with floating widgets on a light plane. Each widget is a 3D object showing a visualization; selecting it plays a video insight that explains the trend. Two periods can be compared by activating comparator mode: the camera visually splits and plays two synced videos side by side while visualizations animate differences with particles and interpolated lines.
-
-Insight videos are 60-180s narrations with subtitles and embedded graphics; playing them expands the widget and shows 3D details. Synchronized scrubbing between video and data visualization; scrubbing interpolates data and updates 3D animations in real time. Live data via WebSocket with smoothing to prevent jumps.
-
-Controls for exporting snapshots and generating short insight clips with timestamps. Performance: widget instancing, 512px textures, on-demand video loading.
-
-**Deliverables:** index.html, styles.css, data3d.js, assets/ (insight videos, JSON datasets, widget models, SRT, transcripts).
-
-**Stack:** Three.js, D3.js, video HTML5, WebSocket.
-
-**Interactions:** Widget selection plays insight, synchronized comparator, scrubbing updates visualization.</pre>
-    </div>
-  </div>
-</div>
-
-<script>
-(() => {
-  const storageKey = 'prompt_studio_free_email_saved';
-  const downloadTrigger = document.querySelector('[data-free-download-trigger]');
-  const promptTrigger = document.querySelector('[data-prompt-trigger]');
-  
-  const authModal = document.querySelector('[data-free-download-modal]');
-  const closeAuth = authModal?.querySelector('[data-free-download-close]');
-  const form = authModal?.querySelector('[data-free-download-form]');
-  const email = authModal?.querySelector('[data-free-download-email]');
-  const terms = authModal?.querySelector('[data-free-download-terms]');
-  const submit = authModal?.querySelector('[data-free-download-submit]');
-  const error = authModal?.querySelector('[data-free-download-error]');
-  const title = authModal?.querySelector('#free-download-title');
-
-  const promptModal = document.querySelector('[data-prompt-display-modal]');
-  const closePrompt = promptModal?.querySelector('[data-prompt-close]');
-  const copyPromptBtn = promptModal?.querySelector('[data-prompt-copy]');
-  
-  let currentAction = 'download';
-  const downloadUrl = downloadTrigger?.href || '';
-
-  const startDownload = () => {
-    if (!downloadUrl || downloadUrl === '#') return;
-    const link = document.createElement('a');
-    link.href = downloadUrl;
-    link.download = '';
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-  };
-
-  const showPrompt = () => {
-    if (!promptModal) return;
-    promptModal.hidden = false;
-    promptModal.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-  };
-
-  const setAuthOpen = (open) => {
-    if (!authModal) return;
-    authModal.hidden = !open;
-    authModal.style.display = open ? 'flex' : 'none';
-    document.body.style.overflow = open ? 'hidden' : '';
-    if (open) setTimeout(() => email?.focus(), 0);
-  };
-  
-  const syncSubmit = () => {
-    const enabled = Boolean(email?.validity.valid && terms?.checked);
-    if (!submit) return;
-    submit.disabled = !enabled;
-    submit.style.background = enabled ? '#2563eb' : '#1e3a8a';
-    submit.style.color = enabled ? '#fff' : '#9ca3af';
-    submit.style.cursor = enabled ? 'pointer' : 'not-allowed';
-  };
-
-  downloadTrigger?.addEventListener('click', (event) => {
-    event.preventDefault();
-    currentAction = 'download';
-    if (title) title.textContent = 'Descargar componente';
-    if (submit) submit.textContent = 'Descargar ahora';
-    if (localStorage.getItem(storageKey)) startDownload();
-    else setAuthOpen(true);
-  });
-
-  promptTrigger?.addEventListener('click', (event) => {
-    event.preventDefault();
-    currentAction = 'prompt';
-    if (title) title.textContent = 'Ver prompt';
-    if (submit) submit.textContent = 'Ver prompt ahora';
-    if (localStorage.getItem(storageKey)) showPrompt();
-    else setAuthOpen(true);
-  });
-
-  closeAuth?.addEventListener('click', () => setAuthOpen(false));
-  authModal?.addEventListener('click', (event) => {
-    if (event.target === authModal) setAuthOpen(false);
-  });
-  
-  closePrompt?.addEventListener('click', () => {
-    promptModal.hidden = true;
-    promptModal.style.display = 'none';
-    document.body.style.overflow = '';
-  });
-  promptModal?.addEventListener('click', (event) => {
-    if (event.target === promptModal) {
-      promptModal.hidden = true;
-      promptModal.style.display = 'none';
-      document.body.style.overflow = '';
-    }
-  });
-  
-  if (copyPromptBtn) {
-    copyPromptBtn.addEventListener('click', () => {
-      const text = document.querySelector('[data-prompt-content]')?.textContent || '';
-      navigator.clipboard.writeText(text).then(() => {
-        const originalText = copyPromptBtn.textContent;
-        copyPromptBtn.textContent = '¡Copiado!';
-        setTimeout(() => copyPromptBtn.textContent = originalText, 2000);
-      });
-    });
-  }
-
-  email?.addEventListener('input', syncSubmit);
-  terms?.addEventListener('change', syncSubmit);
-  
-  form?.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    syncSubmit();
-    if (!email?.validity.valid || !terms?.checked || !submit) return;
-    submit.disabled = true;
-    submit.textContent = 'Procesando...';
-    if (error) error.textContent = '';
-    try {
-      const response = await fetch('/api/new-users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email.value.trim() })
-      });
-      if (!response.ok) throw new Error('No fue posible registrar el correo.');
-      localStorage.setItem(storageKey, 'true');
-      localStorage.setItem('prompt_studio_free_email', email.value.trim());
-      setAuthOpen(false);
-      
-      if (currentAction === 'download') {
-        startDownload();
-      } else {
-        showPrompt();
-      }
-    } catch (requestError) {
-      if (error) error.textContent = requestError instanceof Error ? requestError.message : 'Error de conexión.';
-      submit.textContent = currentAction === 'download' ? 'Descargar ahora' : 'Ver prompt ahora';
-      syncSubmit();
-    } finally {
-      syncSubmit();
-    }
-  });
-})();
-</script>
+  <script>
+    window.__PS_PROMPT_TEXT = "Dashboard 3D en light mode con widgets flotantes sobre un plano claro. Cada widget es un objeto 3D con visualización; al seleccionarlo reproduce un video insight que explica la tendencia. Dos periodos se comparan activando el modo comparador: la cámara se divide visualmente y reproduce dos videos sincronizados lado a lado mientras las visualizaciones animan diferencias con partículas y líneas interpoladas.\n\nVideos insight narrados de 60-180 s con subtítulos y gráficos embebidos; al reproducirlos el widget expande y muestra detalles 3D. Scrubbing sincronizado entre video y visualización; al mover el scrubber los datos se interpolan y las animaciones 3D se actualizan. Datos en vivo vía WebSocket con smoothing.\n\nControles para exportar snapshots y generar clips cortos del insight con marca de tiempo. Rendimiento: instancing de widgets, texturas 512 px, videos bajo demanda.\n\n**Entregables:** index.html, styles.css, data3d.js, assets/ (videos insight, datasets JSON, modelos de widgets, SRT, transcripciones).\n\n**Stack:** Three.js, D3.js, video HTML5, WebSocket.\n\n**Interactions:** Selección de widget reproduce video insight, comparador sincronizado, scrubbing que actualiza visualización.";
+  </script>
+  <script src="/webpages/demo-actions.js"></script>
 </body>
 </html>

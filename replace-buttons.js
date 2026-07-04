@@ -25,8 +25,28 @@ for (const page of freePages) {
     const href = hrefMatch ? hrefMatch[1] : `/api/landing-pages/${page.id}/download`;
 
     // Generate the "Ver prompt" URL
-    const title = typeof page.title === 'string' ? page.title : page.title.en;
-    const description = typeof page.description === 'string' ? page.description : page.description.en;
+    const title = typeof page.title === 'string' ? page.title : (page.title.es || page.title.en);
+    let rawDesc = typeof page.description === 'string' ? page.description : (page.description.es || page.description.en);
+    
+    let descriptionText = '';
+    if (typeof rawDesc === 'object' && rawDesc !== null) {
+      const parts = [];
+      for (const [key, value] of Object.entries(rawDesc)) {
+        // Skip some internal keys if necessary, or just capitalize the key
+        const formattedKey = key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ');
+        if (Array.isArray(value)) {
+          parts.push(`${formattedKey}:\n- ${value.join('\n- ')}`);
+        } else {
+          parts.push(`${formattedKey}: ${value}`);
+        }
+      }
+      descriptionText = parts.join('\n\n');
+    } else {
+      descriptionText = String(rawDesc || '');
+    }
+    
+    // Escape HTML to prevent breaking the template
+    const description = descriptionText.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
     const promptData = {
       type: 'web',
@@ -175,8 +195,8 @@ for (const page of freePages) {
 
   function handlePromptStudioCopy(e) {
     const text = document.getElementById('ps-prompt-text').textContent;
+    const btn = e.currentTarget;
     navigator.clipboard.writeText(text).then(() => {
-      const btn = e.currentTarget;
       const originalHTML = btn.innerHTML;
       btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>';
       btn.style.borderColor = '#22c55e';

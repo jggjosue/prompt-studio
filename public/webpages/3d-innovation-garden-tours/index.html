@@ -142,11 +142,36 @@
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
     Ver prompt
   </a>
+  <div style="position:fixed;right:20px;bottom:20px;z-index:99999;display:flex;align-items:center;gap:12px;background:#0d0d0d;padding:8px;border-radius:24px;border:1px solid #262626;box-shadow:0 16px 40px rgba(0,0,0,0.5)">
   <a
-    href="/api/landing-pages/295/download"
+    href="#"
+    onclick="handlePromptStudioAction(event, 'prompt', '/prompt/edit?prompt=%7B%22type%22%3A%22web%22%2C%22title%22%3A%22Jard%C3%ADn%203D%20de%20innovaci%C3%B3n%20%E2%80%94%20recorridos%20de%20proyectos%22%2C%22description%22%3A%22Un%20jard%C3%ADn%20de%20innovaci%C3%B3n%20orientado%20a%20recorridos%20con%20videos%20de%20proyecto%2C%20narrativa%20por%20parcelas%20y%20transici%C3%B3n%20por%20zonas.%20Una%20experiencia%20de%20jard%C3%ADn%20de%20innovaci%C3%B3n%20enfocada%20en%20tours%20y%20videos%20de%20proyecto%20por%20zonas.%20Jard%C3%ADn%20de%20innovaci%C3%B3n%20en%20light%20mode%20con%20senderos%20de%20grava%2C%20vegetaci%C3%B3n%20estilizada%20y%20parcelas%20tem%C3%A1ticas%20por%20ruta%20(IA%2C%20Sostenibilidad%2C%20Salud).%20Cada%20parcela%20tiene%20un%20pedestal%20con%20pantalla%203D%20que%20proyecta%20videos%20de%20proyecto%20como%20texturas.%20Las%20rutas%20se%20recorren%20con%20un%20tour%20autom%C3%A1tico%20que%20mueve%20la%20c%C3%A1mara%20y%20narra%20con%20voiceover.%5Cn%5CnCada%20proyecto%20incluye%20video%2C%20ficha%20t%C3%A9cnica%20y%20enlaces%20a%20recursos.%20Sistema%20de%20curadur%C3%ADa%20para%20playlists%20de%20proyectos%20favoritos%20con%20exportaci%C3%B3n%20PDF.%20Los%20videos%20se%20cargan%20bajo%20demanda%20y%20se%20reproducen%20en%20overlay%20HTML%20con%20subt%C3%ADtulos%3B%20tambi%C3%A9n%20se%20proyectan%20como%20texturas%20en%20pantallas%203D.%20Compartir%20waypoint%20v%C3%ADa%20URL%20con%20fly-to.%20Analytics%20de%20rutas%20y%20proyectos.%20LOD%20para%20vegetaci%C3%B3n%2C%20prefers-reduced-motion%2C%20vista%202D%20de%20respaldo.%5Cn%5Cn**Entregables%3A**%20index.html%2C%20styles.css%2C%20innovationGardenTours.js%2C%20assets%2F%20(videos%2C%20modelos%20GLB%2C%20SRT%2C%20transcripciones).%5Cn%5Cn**Stack%3A**%20Three.js%2C%20video%20HTML5%2C%20GSAP%2C%20IndexedDB%2C%20SpeechSynthesis.%5Cn%5Cn**Interacciones%3A**%20Tour%20autom%C3%A1tico%20con%20voiceover%2C%20proyecci%C3%B3n%20de%20video%20en%20texturas%203D%2C%20playlists%20de%20proyectos%2C%20PDF%20exportable%2C%20waypoints%20compartibles.%22%2C%22imageUrl%22%3A%22https%3A%2F%2Fraw.githubusercontent.com%2Fjggjosue%2FPrompts-images%2Frefs%2Fheads%2Fmain%2Fwebpages%2F3d-innovation-garden-tours.png%22%2C%22stack%22%3A%5B%22Three.js%22%2C%22video%20HTML5%22%2C%22GSAP%22%2C%22IndexedDB%22%2C%22SpeechSynthesis%22%2C%22HTML%22%2C%22CSS%22%2C%22JS%22%5D%2C%22tags%22%3A%5B%223D%22%2C%22innovation%20garden%22%2C%22light%20mode%22%2C%22tours%22%2C%22voiceover%22%2C%22themed%20routes%22%2C%22AI%22%2C%22sustainability%22%2C%22health%22%2C%22project%20video%22%2C%22texture%20projection%22%2C%22auto%20tour%22%2C%22playlist%22%2C%22PDF%22%2C%22waypoint%22%2C%22analytics%22%2C%22WebGL%22%2C%22GSAP%22%5D%7D')"
+    aria-label="Ver prompt"
+    style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:1px solid #3b82f6;border-radius:16px;background:rgba(59,130,246,0.1);color:#60a5fa;font:500 14px/1 system-ui,sans-serif;text-decoration:none;transition:all 0.2s;cursor:pointer;"
+    onmouseover="this.style.background='rgba(59,130,246,0.2)'"
+    onmouseout="this.style.background='rgba(59,130,246,0.1)'"
+  >
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+    Ver prompt
+  </a>
+  <div style="position:fixed;right:20px;bottom:20px;z-index:99999;display:flex;align-items:center;gap:12px;background:#0d0d0d;padding:8px;border-radius:24px;border:1px solid #262626;box-shadow:0 16px 40px rgba(0,0,0,0.5)">
+  <a
+    href="#"
+    onclick="handlePromptStudioAction(event, 'prompt', '/prompt/edit?prompt=%7B%22type%22%3A%22web%22%2C%22title%22%3A%22Jard%C3%ADn%203D%20de%20innovaci%C3%B3n%20%E2%80%94%20recorridos%20de%20proyectos%22%2C%22description%22%3A%22Un%20jard%C3%ADn%20de%20innovaci%C3%B3n%20orientado%20a%20recorridos%20con%20videos%20de%20proyecto%2C%20narrativa%20por%20parcelas%20y%20transici%C3%B3n%20por%20zonas.%20Una%20experiencia%20de%20jard%C3%ADn%20de%20innovaci%C3%B3n%20enfocada%20en%20tours%20y%20videos%20de%20proyecto%20por%20zonas.%20Jard%C3%ADn%20de%20innovaci%C3%B3n%20en%20light%20mode%20con%20senderos%20de%20grava%2C%20vegetaci%C3%B3n%20estilizada%20y%20parcelas%20tem%C3%A1ticas%20por%20ruta%20(IA%2C%20Sostenibilidad%2C%20Salud).%20Cada%20parcela%20tiene%20un%20pedestal%20con%20pantalla%203D%20que%20proyecta%20videos%20de%20proyecto%20como%20texturas.%20Las%20rutas%20se%20recorren%20con%20un%20tour%20autom%C3%A1tico%20que%20mueve%20la%20c%C3%A1mara%20y%20narra%20con%20voiceover.%5Cn%5CnCada%20proyecto%20incluye%20video%2C%20ficha%20t%C3%A9cnica%20y%20enlaces%20a%20recursos.%20Sistema%20de%20curadur%C3%ADa%20para%20playlists%20de%20proyectos%20favoritos%20con%20exportaci%C3%B3n%20PDF.%20Los%20videos%20se%20cargan%20bajo%20demanda%20y%20se%20reproducen%20en%20overlay%20HTML%20con%20subt%C3%ADtulos%3B%20tambi%C3%A9n%20se%20proyectan%20como%20texturas%20en%20pantallas%203D.%20Compartir%20waypoint%20v%C3%ADa%20URL%20con%20fly-to.%20Analytics%20de%20rutas%20y%20proyectos.%20LOD%20para%20vegetaci%C3%B3n%2C%20prefers-reduced-motion%2C%20vista%202D%20de%20respaldo.%5Cn%5Cn**Entregables%3A**%20index.html%2C%20styles.css%2C%20innovationGardenTours.js%2C%20assets%2F%20(videos%2C%20modelos%20GLB%2C%20SRT%2C%20transcripciones).%5Cn%5Cn**Stack%3A**%20Three.js%2C%20video%20HTML5%2C%20GSAP%2C%20IndexedDB%2C%20SpeechSynthesis.%5Cn%5Cn**Interacciones%3A**%20Tour%20autom%C3%A1tico%20con%20voiceover%2C%20proyecci%C3%B3n%20de%20video%20en%20texturas%203D%2C%20playlists%20de%20proyectos%2C%20PDF%20exportable%2C%20waypoints%20compartibles.%22%2C%22imageUrl%22%3A%22https%3A%2F%2Fraw.githubusercontent.com%2Fjggjosue%2FPrompts-images%2Frefs%2Fheads%2Fmain%2Fwebpages%2F3d-innovation-garden-tours.png%22%2C%22stack%22%3A%5B%22Three.js%22%2C%22video%20HTML5%22%2C%22GSAP%22%2C%22IndexedDB%22%2C%22SpeechSynthesis%22%2C%22HTML%22%2C%22CSS%22%2C%22JS%22%5D%2C%22tags%22%3A%5B%223D%22%2C%22innovation%20garden%22%2C%22light%20mode%22%2C%22tours%22%2C%22voiceover%22%2C%22themed%20routes%22%2C%22AI%22%2C%22sustainability%22%2C%22health%22%2C%22project%20video%22%2C%22texture%20projection%22%2C%22auto%20tour%22%2C%22playlist%22%2C%22PDF%22%2C%22waypoint%22%2C%22analytics%22%2C%22WebGL%22%2C%22GSAP%22%5D%7D')"
+    aria-label="Ver prompt"
+    style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:1px solid #3b82f6;border-radius:16px;background:rgba(59,130,246,0.1);color:#60a5fa;font:500 14px/1 system-ui,sans-serif;text-decoration:none;transition:all 0.2s;cursor:pointer;"
+    onmouseover="this.style.background='rgba(59,130,246,0.2)'"
+    onmouseout="this.style.background='rgba(59,130,246,0.1)'"
+  >
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+    Ver prompt
+  </a>
+  <a
+    href="#"
+    onclick="handlePromptStudioAction(event, 'download', '#')"
     data-free-download-trigger
-    aria-label="Descargar 3D Innovation Garden — Project tour trails"
-    style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:1px solid transparent;border-radius:16px;background:#1a1a1a;color:#d4d4d8;font:500 14px/1 system-ui,sans-serif;text-decoration:none;transition:all 0.2s"
+    aria-label="Descargar Jardín 3D de innovación — recorridos de proyectos"
+    style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:1px solid transparent;border-radius:16px;background:#1a1a1a;color:#d4d4d8;font:500 14px/1 system-ui,sans-serif;text-decoration:none;transition:all 0.2s;cursor:pointer;"
     onmouseover="this.style.background='#27272a';this.style.color='#fff'"
     onmouseout="this.style.background='#1a1a1a';this.style.color='#d4d4d8'"
   >
@@ -155,184 +180,9 @@
   </a>
 </div>
 
-<div data-free-download-modal hidden style="position:fixed;inset:0;z-index:100000;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.78);backdrop-filter:blur(8px)">
-  <div role="dialog" aria-modal="true" aria-labelledby="free-download-title" style="position:relative;width:min(620px,100%);border:1px solid #303030;border-radius:24px;background:#050505;padding:clamp(28px,5vw,48px);color:#fff;box-shadow:0 30px 100px rgba(0,0,0,.7);font-family:system-ui,sans-serif">
-    <button type="button" data-free-download-close aria-label="Cerrar" style="position:absolute;right:22px;top:18px;border:0;background:transparent;color:#aaa;font-size:34px;cursor:pointer">&times;</button>
-    <h2 id="free-download-title" style="margin:0 0 10px;font-size:clamp(28px,5vw,38px);line-height:1.1">Descargar componente</h2>
-    <p style="margin:0 0 28px;color:#aaa;font-size:clamp(17px,3vw,22px);line-height:1.5">Ingresa tu correo electrónico para comenzar la descarga gratuita.</p>
-    <form data-free-download-form>
-      <input data-free-download-email type="email" required autocomplete="email" placeholder="tu-correo@ejemplo.com" style="width:100%;height:58px;border:2px solid #2563eb;border-radius:16px;background:#050505;padding:0 18px;color:#fff;font-size:18px;outline:none;box-shadow:0 0 0 5px rgba(37,99,235,.28)">
-      <label style="display:flex;align-items:flex-start;gap:12px;margin:26px 6px;color:#aaa;font-size:17px;line-height:1.4">
-        <input data-free-download-terms type="checkbox" required style="width:23px;height:23px;margin:0;accent-color:#2563eb">
-        <span>Acepto los <a href="/terms" target="_blank" rel="noopener noreferrer" style="color:#60a5fa">términos y servicios</a></span>
-      </label>
-      <button data-free-download-submit type="submit" disabled style="width:100%;height:58px;border:0;border-radius:16px;background:#1e3a8a;color:#9ca3af;font-size:18px;font-weight:700;cursor:not-allowed">Descargar ahora</button>
-      <p data-free-download-error role="alert" style="min-height:20px;margin:14px 0 0;color:#f87171"></p>
-    </form>
-  </div>
-</div>
-
-<div data-prompt-display-modal hidden style="position:fixed;inset:0;z-index:100000;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.78);backdrop-filter:blur(8px)">
-  <div role="dialog" aria-modal="true" style="position:relative;width:min(800px,100%);max-height:85vh;display:flex;flex-direction:column;border:1px solid #303030;border-radius:24px;background:#050505;padding:clamp(28px,5vw,48px);color:#fff;box-shadow:0 30px 100px rgba(0,0,0,.7);font-family:system-ui,sans-serif">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-      <h2 style="margin:0;font-size:clamp(24px,4vw,32px);line-height:1.1">3D Innovation Garden — Project tour trails</h2>
-      <div style="display:flex;gap:12px;">
-        <button data-prompt-copy type="button" style="padding:8px 16px;border:1px solid #303030;border-radius:8px;background:#1a1a1a;color:#fff;font-size:14px;cursor:pointer;transition:all 0.2s">Copiar prompt</button>
-        <button data-prompt-close type="button" aria-label="Cerrar" style="width:36px;height:36px;border:0;background:transparent;color:#aaa;font-size:28px;cursor:pointer;line-height:1;padding:0;display:flex;align-items:center;justify-content:center;">&times;</button>
-      </div>
-    </div>
-    <div style="flex-grow:1;overflow-y:auto;padding-right:10px;border-radius:8px;background:#111;border:1px solid #222;">
-      <pre data-prompt-content style="margin:0;padding:20px;white-space:pre-wrap;font-family:monospace;font-size:14px;color:#ccc;line-height:1.6">A tour-led innovation garden designed around project videos, plot-by-plot storytelling, and zone transitions. A tour-led innovation garden experience highlighting project videos and movement through zones. An innovation garden in light mode with gravel paths, stylized vegetation, and themed plots by route (AI, Sustainability, Health). Each plot has a pedestal with a 3D video screen that plays project videos as textures. Routes can be followed with an auto tour that moves the camera and plays voiceover narration.
-
-Each project includes video, technical sheet, and resource links. A curator system creates playlists of favorite projects and exports as PDF. Videos load on demand and play in HTML overlay with subtitles. Waypoint sharing via URL with camera fly-to. Analytics track route starts and project views. LOD for vegetation, prefers-reduced-motion, 2D fallback view.
-
-**Deliverables:** index.html, styles.css, innovationGardenTours.js, assets/ (project videos, GLB models, SRT, transcripts).
-
-**Stack:** Three.js, video HTML5, GSAP, IndexedDB, SpeechSynthesis.
-
-**Interactions:** Auto tour by route with voiceover, video playback with 3D texture projection, project playlists, PDF export, shareable waypoints.</pre>
-    </div>
-  </div>
-</div>
-
-<script>
-(() => {
-  const storageKey = 'prompt_studio_free_email_saved';
-  const downloadTrigger = document.querySelector('[data-free-download-trigger]');
-  const promptTrigger = document.querySelector('[data-prompt-trigger]');
-  
-  const authModal = document.querySelector('[data-free-download-modal]');
-  const closeAuth = authModal?.querySelector('[data-free-download-close]');
-  const form = authModal?.querySelector('[data-free-download-form]');
-  const email = authModal?.querySelector('[data-free-download-email]');
-  const terms = authModal?.querySelector('[data-free-download-terms]');
-  const submit = authModal?.querySelector('[data-free-download-submit]');
-  const error = authModal?.querySelector('[data-free-download-error]');
-  const title = authModal?.querySelector('#free-download-title');
-
-  const promptModal = document.querySelector('[data-prompt-display-modal]');
-  const closePrompt = promptModal?.querySelector('[data-prompt-close]');
-  const copyPromptBtn = promptModal?.querySelector('[data-prompt-copy]');
-  
-  let currentAction = 'download';
-  const downloadUrl = downloadTrigger?.href || '';
-
-  const startDownload = () => {
-    if (!downloadUrl || downloadUrl === '#') return;
-    const link = document.createElement('a');
-    link.href = downloadUrl;
-    link.download = '';
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-  };
-
-  const showPrompt = () => {
-    if (!promptModal) return;
-    promptModal.hidden = false;
-    promptModal.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-  };
-
-  const setAuthOpen = (open) => {
-    if (!authModal) return;
-    authModal.hidden = !open;
-    authModal.style.display = open ? 'flex' : 'none';
-    document.body.style.overflow = open ? 'hidden' : '';
-    if (open) setTimeout(() => email?.focus(), 0);
-  };
-  
-  const syncSubmit = () => {
-    const enabled = Boolean(email?.validity.valid && terms?.checked);
-    if (!submit) return;
-    submit.disabled = !enabled;
-    submit.style.background = enabled ? '#2563eb' : '#1e3a8a';
-    submit.style.color = enabled ? '#fff' : '#9ca3af';
-    submit.style.cursor = enabled ? 'pointer' : 'not-allowed';
-  };
-
-  downloadTrigger?.addEventListener('click', (event) => {
-    event.preventDefault();
-    currentAction = 'download';
-    if (title) title.textContent = 'Descargar componente';
-    if (submit) submit.textContent = 'Descargar ahora';
-    if (localStorage.getItem(storageKey)) startDownload();
-    else setAuthOpen(true);
-  });
-
-  promptTrigger?.addEventListener('click', (event) => {
-    event.preventDefault();
-    currentAction = 'prompt';
-    if (title) title.textContent = 'Ver prompt';
-    if (submit) submit.textContent = 'Ver prompt ahora';
-    if (localStorage.getItem(storageKey)) showPrompt();
-    else setAuthOpen(true);
-  });
-
-  closeAuth?.addEventListener('click', () => setAuthOpen(false));
-  authModal?.addEventListener('click', (event) => {
-    if (event.target === authModal) setAuthOpen(false);
-  });
-  
-  closePrompt?.addEventListener('click', () => {
-    promptModal.hidden = true;
-    promptModal.style.display = 'none';
-    document.body.style.overflow = '';
-  });
-  promptModal?.addEventListener('click', (event) => {
-    if (event.target === promptModal) {
-      promptModal.hidden = true;
-      promptModal.style.display = 'none';
-      document.body.style.overflow = '';
-    }
-  });
-  
-  if (copyPromptBtn) {
-    copyPromptBtn.addEventListener('click', () => {
-      const text = document.querySelector('[data-prompt-content]')?.textContent || '';
-      navigator.clipboard.writeText(text).then(() => {
-        const originalText = copyPromptBtn.textContent;
-        copyPromptBtn.textContent = '¡Copiado!';
-        setTimeout(() => copyPromptBtn.textContent = originalText, 2000);
-      });
-    });
-  }
-
-  email?.addEventListener('input', syncSubmit);
-  terms?.addEventListener('change', syncSubmit);
-  
-  form?.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    syncSubmit();
-    if (!email?.validity.valid || !terms?.checked || !submit) return;
-    submit.disabled = true;
-    submit.textContent = 'Procesando...';
-    if (error) error.textContent = '';
-    try {
-      const response = await fetch('/api/new-users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email.value.trim() })
-      });
-      if (!response.ok) throw new Error('No fue posible registrar el correo.');
-      localStorage.setItem(storageKey, 'true');
-      localStorage.setItem('prompt_studio_free_email', email.value.trim());
-      setAuthOpen(false);
-      
-      if (currentAction === 'download') {
-        startDownload();
-      } else {
-        showPrompt();
-      }
-    } catch (requestError) {
-      if (error) error.textContent = requestError instanceof Error ? requestError.message : 'Error de conexión.';
-      submit.textContent = currentAction === 'download' ? 'Descargar ahora' : 'Ver prompt ahora';
-      syncSubmit();
-    } finally {
-      syncSubmit();
-    }
-  });
-})();
-</script>
+  <script>
+    window.__PS_PROMPT_TEXT = "Un jardín de innovación orientado a recorridos con videos de proyecto, narrativa por parcelas y transición por zonas. Una experiencia de jardín de innovación enfocada en tours y videos de proyecto por zonas. Jardín de innovación en light mode con senderos de grava, vegetación estilizada y parcelas temáticas por ruta (IA, Sostenibilidad, Salud). Cada parcela tiene un pedestal con pantalla 3D que proyecta videos de proyecto como texturas. Las rutas se recorren con un tour automático que mueve la cámara y narra con voiceover.\n\nCada proyecto incluye video, ficha técnica y enlaces a recursos. Sistema de curaduría para playlists de proyectos favoritos con exportación PDF. Los videos se cargan bajo demanda y se reproducen en overlay HTML con subtítulos; también se proyectan como texturas en pantallas 3D. Compartir waypoint vía URL con fly-to. Analytics de rutas y proyectos. LOD para vegetación, prefers-reduced-motion, vista 2D de respaldo.\n\n**Entregables:** index.html, styles.css, innovationGardenTours.js, assets/ (videos, modelos GLB, SRT, transcripciones).\n\n**Stack:** Three.js, video HTML5, GSAP, IndexedDB, SpeechSynthesis.\n\n**Interacciones:** Tour automático con voiceover, proyección de video en texturas 3D, playlists de proyectos, PDF exportable, waypoints compartibles.";
+  </script>
+  <script src="/webpages/demo-actions.js"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 import { isCacheAdminAuthorized } from '@/lib/cache-admin-auth';
-import { cacheStatsAll, isRedisLruConfigured } from '@/lib/server-cache';
+import { cacheStatsAll } from '@/lib/server-cache';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
@@ -13,9 +13,7 @@ export async function GET(request: Request) {
     engine: 'lru',
     layers: {
       memory: 'MemoryLruStore (L1, proceso)',
-      redis: isRedisLruConfigured()
-        ? 'RedisLruStore (L2, ZSET + STRING)'
-        : null,
+      redis: null,
     },
     eviction: 'least-recently-used',
     namespaces,
