@@ -1,14 +1,11 @@
 
 import { getVideoById } from '@/lib/placeholder-videos';
 import { getLocale } from 'next-intl/server';
-import { safeJsonLd } from '@/lib/json-ld';
+import { safeJsonLd, schemaDescription } from '@/lib/json-ld';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import GalleryVideoDetailClient from './gallery-video-detail-client';
-
-const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://prompstudio.com'
-).replace(/\/$/, '');
+import { SITE_URL } from '@/lib/site-url';
 
 type Props = {
   params: Promise<{ id: string }>
@@ -45,15 +42,16 @@ export async function generateMetadata(
 
   const openGraphImages = item.imageUrl ? [{ url: item.imageUrl }] : [];
   const canonicalPath = `/gallery-videos/${id}`;
+  const canonicalUrl = `${SITE_URL}${canonicalPath}`;
 
   return {
     title: `${item.title} | Prompt Studio`,
     description: item.description,
     alternates: {
-      canonical: canonicalPath,
+      canonical: canonicalUrl,
     },
     openGraph: {
-      url: canonicalPath,
+      url: canonicalUrl,
       title: item.title,
       description: item.description,
       images: openGraphImages,
@@ -74,14 +72,23 @@ export default async function GalleryVideoDetailPage({ params }: Props) {
   const description = promptDescription(item.description, item.title);
   const images = (await import('@/lib/placeholder-images')).getPlaceholderImages(locale);
   const thumbnailItem = images.find(img => img.title === item.title);
-  const thumbnailUrl = thumbnailItem ? absoluteUrl(thumbnailItem.imageUrl) : `${SITE_URL}/og-image.png`;
+  const localPoster =
+    item.imageUrl.startsWith('/videos/indexable/') &&
+    item.imageUrl.endsWith('.mp4')
+      ? item.imageUrl.replace(/\.mp4$/, '.jpg')
+      : null;
+  const thumbnailUrl = localPoster
+    ? absoluteUrl(localPoster)
+    : thumbnailItem
+      ? absoluteUrl(thumbnailItem.imageUrl)
+      : `${SITE_URL}/og-image.png`;
 
   const productSchema = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     '@id': `${canonical}#product`,
     name: item.title,
-    description,
+    description: schemaDescription(description, item.title),
     image: [thumbnailUrl],
     category: 'Video Prompt',
     brand: {

@@ -37,10 +37,12 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
   const [otherItems, setOtherItems] = useState<Array<ImagePlaceholder | VideoProp>>([]);
 
   useEffect(() => {
-    const pool = [
-      ...placeholderImages.filter(p => p.id !== item.id && p.imageUrl),
-      ...placeholderVideos.filter(p => p.id !== item.id && p.imageUrl),
-    ];
+    // Keep image detail pages image-only. Embedding unrelated videos here
+    // makes Google treat the page as a non-watch video page.
+    const pool =
+      item.type === 'video'
+        ? placeholderVideos.filter(p => p.id !== item.id && p.imageUrl)
+        : placeholderImages.filter(p => p.id !== item.id && p.imageUrl);
     const mechanicalHeart = pool.find(p => p.title === 'Mechanical Heart');
     const withoutMechanicalHeart = pool.filter(p => p.title !== 'Mechanical Heart');
 
@@ -254,7 +256,11 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                 {otherItems.map(other => (
                   <Link
                     key={other.id}
-                    href={`/gallery/${other.id}`}
+                    href={
+                      other.type === 'video'
+                        ? `/gallery-videos/${other.id}`
+                        : `/gallery/${other.id}`
+                    }
                     className="group block"
                   >
                     <Card className="overflow-hidden">

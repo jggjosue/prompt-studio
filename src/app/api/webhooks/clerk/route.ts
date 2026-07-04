@@ -9,7 +9,8 @@ import RegisteredUser from '@/models/RegisteredUser';
 
 type ClerkUserEvent = {
   id: string;
-  email_addresses?: Array<{ email_address: string }>;
+  primary_email_address_id?: string | null;
+  email_addresses?: Array<{ id?: string; email_address: string }>;
   first_name?: string | null;
   last_name?: string | null;
   username?: string | null;
@@ -18,7 +19,10 @@ type ClerkUserEvent = {
 };
 
 function getPrimaryEmail(user: ClerkUserEvent): string | null {
-  return user.email_addresses?.[0]?.email_address ?? null;
+  const primary = user.email_addresses?.find(
+    address => address.id === user.primary_email_address_id
+  );
+  return primary?.email_address ?? user.email_addresses?.[0]?.email_address ?? null;
 }
 
 export async function POST(req: Request) {
@@ -115,15 +119,23 @@ export async function POST(req: Request) {
     console.error('Failed to sync Clerk user to Loops:', error);
   });
 
-  if (evt.type === 'user.created') {
-    await upsertResendContact({
-      email,
-      firstName: evt.data.first_name ?? undefined,
-      lastName: evt.data.last_name ?? undefined,
-    }).catch(error => {
-      console.error('Failed to sync Clerk user to Resend:', error);
-    });
+  const resendResult = await upsertResendContact({
+    email,
+    firstName: evt.data.first_name ?? undefined,
+    lastName: evt.data.last_name ?? undefined,
+  });
 
+  if (resendResult.error) {
+    console.error('Failed to sync Clerk user to Resend:', resendResult.error);
+    // A non-2xx response tells Clerk/Svix to retry instead of silently losing
+    // the contact while reporting the webhook as successfully processed.
+    return NextResponse.json(
+      { error: 'Resend contact synchronization failed' },
+      { status: 503 }
+    );
+  }
+
+  if (evt.type === 'user.created') {
     await sendLoopsEvent({
       email,
       userId: evt.data.id,

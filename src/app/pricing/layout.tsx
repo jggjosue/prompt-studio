@@ -6,10 +6,6 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/prices',
   },
-  robots: {
-    index: false,
-    follow: true,
-  },
   keywords: [
     'Chatgpt',
     'chatgpt go bbva',

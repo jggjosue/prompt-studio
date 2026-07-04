@@ -170,7 +170,14 @@ export function getProgrammaticCategory(
 
 export function getIndexableTagPages(
   locale: string = 'en',
-  minItems: number = 3
+  minItems: number = 10
+): ProgrammaticTagPage[] {
+  return getProgrammaticTagPages(locale, minItems);
+}
+
+function getProgrammaticTagPages(
+  locale: string = 'en',
+  minItems: number = 1
 ): ProgrammaticTagPage[] {
   const items = getProgrammaticItems(locale);
   const byTag = new Map<string, { label: string; items: ProgrammaticItem[] }>();
@@ -201,5 +208,5 @@ export function getProgrammaticTagPage(
   slug: string,
   locale: string = 'en'
 ): ProgrammaticTagPage | null {
-  return getIndexableTagPages(locale).find(page => page.slug === slug) ?? null;
+  return getProgrammaticTagPages(locale).find(page => page.slug === slug) ?? null;
 }

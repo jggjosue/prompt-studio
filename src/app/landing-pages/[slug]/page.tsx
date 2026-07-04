@@ -11,15 +11,17 @@ import { getWebPageCheckoutUrl } from '@/lib/web-page-checkout';
 import { getRawWebPageByDemoSlug, getRawWebPages } from '@/lib/web-pages';
 import { getRefactoryLoaderUrl, normalizeDemoFolder } from '@/lib/refactory-online';
 import { normalizeMembership } from '@/lib/membership-access';
-import { safeJsonLd } from '@/lib/json-ld';
+import {
+  digitalDeliveryDetails,
+  digitalProductReturnPolicy,
+  safeJsonLd,
+  schemaDescription,
+} from '@/lib/json-ld';
+import { SITE_URL } from '@/lib/site-url';
 import type { Metadata } from 'next';
 import { getLocale, getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-
-const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://prompstudio.com'
-).replace(/\/$/, '');
 
 type PageProps = {
   params: Promise<{
@@ -31,6 +33,10 @@ type PageProps = {
     source?: string;
   }>;
 };
+
+// Only catalog-backed landing pages are valid. Unknown or retired slugs must
+// return a real 404 instead of streaming a soft-404 response with HTTP 200.
+export const dynamicParams = false;
 
 type LandingPageSeoData = {
   slug: string;
@@ -175,7 +181,7 @@ export async function generateMetadata({
       type: 'article',
       url: canonical,
       title: seoTitle,
-      description: seo.description,
+      description: schemaDescription(seo.description, seo.title),
       siteName: 'Prompt Studio',
       images: [
         {
@@ -189,7 +195,7 @@ export async function generateMetadata({
     twitter: {
       card: 'summary_large_image',
       title: seoTitle,
-      description: seo.description,
+      description: schemaDescription(seo.description, seo.title),
       images: [seo.image],
     },
   };
@@ -246,7 +252,7 @@ export default async function LandingPageDetailPage({ params, searchParams }: Pa
       '@type': 'Product',
       '@id': `${canonical}#product`,
       name: seo.title,
-      description: seo.description,
+      description: schemaDescription(seo.description, seo.title),
       image: [seo.image],
       category: seo.category,
       brand: {
@@ -265,6 +271,8 @@ export default async function LandingPageDetailPage({ params, searchParams }: Pa
           name: 'Prompt Studio',
           url: SITE_URL,
         },
+        shippingDetails: digitalDeliveryDetails(),
+        hasMerchantReturnPolicy: digitalProductReturnPolicy(SITE_URL),
       },
     }
     : null;

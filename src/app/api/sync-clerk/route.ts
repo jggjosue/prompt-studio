@@ -26,7 +26,12 @@ export async function GET() {
     let totalSynced = 0;
     
     for (const user of users) {
-      const email = user.emailAddresses?.[0]?.emailAddress;
+      const email =
+        user.emailAddresses?.find(
+          (address: { id: string; emailAddress: string }) =>
+            address.id === user.primaryEmailAddressId
+        )?.emailAddress ??
+        user.emailAddresses?.[0]?.emailAddress;
       if (!email) continue;
       
       const birthDateRaw =

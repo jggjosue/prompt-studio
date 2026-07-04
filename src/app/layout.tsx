@@ -13,10 +13,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
 import Script from 'next/script';
 import { UserSync } from '@/components/user-sync';
-
-const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://prompstudio.com'
-).replace(/\/$/, '');
+import { SITE_URL } from '@/lib/site-url';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

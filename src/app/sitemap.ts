@@ -2,17 +2,13 @@ import type { MetadataRoute } from 'next';
 import { getSitemapPriority } from '@/lib/internal-link-graph';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { PlaceHolderVideos } from '@/lib/placeholder-videos';
-import { PROMPT_EDIT_ENABLED } from '@/lib/prompt-edit';
 import { normalizeDemoFolder } from '@/lib/refactory-online';
 import {
   getIndexableTagPages,
   getProgrammaticCategories,
 } from '@/lib/seo/programmatic-seo';
 import { getRawWebPages } from '@/lib/web-pages';
-
-const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://prompstudio.com'
-).replace(/\/$/, '');
+import { SITE_URL } from '@/lib/site-url';
 
 type SitemapEntry = MetadataRoute.Sitemap[number];
 type ChangeFrequency = NonNullable<SitemapEntry['changeFrequency']>;
@@ -23,12 +19,10 @@ function absoluteUrl(path: `/${string}`): string {
 
 function sitemapEntry(
   path: `/${string}`,
-  changeFrequency: ChangeFrequency,
-  lastModified: Date
+  changeFrequency: ChangeFrequency
 ): SitemapEntry {
   return {
     url: absoluteUrl(path),
-    lastModified,
     changeFrequency,
     priority: getSitemapPriority(path),
   };
@@ -44,8 +38,6 @@ function slugPath(prefix: `/${string}`, slug: string): `/${string}` {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const lastModified = new Date();
-
   const staticPaths: Array<`/${string}`> = [
     '/',
     '/prompts',
@@ -57,7 +49,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/web-tags',
     '/prices',
     '/affiliate-program',
-    ...(PROMPT_EDIT_ENABLED ? (['/prompt/edit'] as const) : []),
   ];
 
   const landingPagePaths = getRawWebPages()
@@ -92,6 +83,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const changeFrequency: ChangeFrequency =
       path === '/' || path.includes('prompts') ? 'daily' : 'weekly';
 
-    return sitemapEntry(path, changeFrequency, lastModified);
+    return sitemapEntry(path, changeFrequency);
   });
 }

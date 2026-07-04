@@ -11,6 +11,8 @@ export function UserSync() {
     if (isLoaded && user) {
       const email = user.primaryEmailAddress?.emailAddress;
       if (email) {
+        localStorage.setItem('prompt_studio_user_email', email);
+        localStorage.setItem('prompt_studio_free_email_saved', 'true');
         const key = `synced_user_${email}`;
         if (!sessionStorage.getItem(key)) {
           syncRegisteredUser(email)

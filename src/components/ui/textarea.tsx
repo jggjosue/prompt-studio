@@ -1,9 +1,20 @@
 import * as React from 'react';
 
 import {cn} from '@/lib/utils';
+import { sanitizeInput } from '@/lib/sanitize';
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, React.ComponentProps<'textarea'>>(
-  ({className, ...props}, ref) => {
+  ({className, onChange, ...props}, ref) => {
+    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      const sanitized = sanitizeInput(e.target.value);
+      if (e.target.value !== sanitized) {
+        e.target.value = sanitized;
+      }
+      if (onChange) {
+        onChange(e);
+      }
+    };
+
     return (
       <textarea
         className={cn(
@@ -11,6 +22,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, React.ComponentProps<'tex
           className
         )}
         ref={ref}
+        onChange={handleChange}
         {...props}
       />
     );

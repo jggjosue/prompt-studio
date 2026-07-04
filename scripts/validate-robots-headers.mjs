@@ -27,8 +27,11 @@ if (!robotsSource.includes("sitemap: `${SITE_URL}/sitemap.xml`")) {
 }
 
 const proxySource = read('src/proxy.ts');
-if (!proxySource.includes("response.headers.set('X-Robots-Tag', 'noindex, follow');")) {
-  issues.push('src/proxy.ts should set X-Robots-Tag: noindex, follow for /webpages/*');
+if (
+  !proxySource.includes('rel="canonical"') ||
+  !proxySource.includes('https://www.prompstudio.com/landing-pages/')
+) {
+  issues.push('src/proxy.ts should canonicalize /webpages/* HTML to /landing-pages/*');
 }
 if (!proxySource.includes("pathname.startsWith('/webpages/')")) {
   issues.push('src/proxy.ts should target /webpages/* for robots headers');
