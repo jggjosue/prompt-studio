@@ -5,7 +5,13 @@ import { resend } from '@/lib/resend';
 export async function GET(request: Request) {
   const syncSecret = process.env.CRON_SECRET?.trim();
   const authorization = request.headers.get('authorization');
-  if (!syncSecret || authorization !== `Bearer ${syncSecret}`) {
+  const url = new URL(request.url);
+  const secretParam = url.searchParams.get('secret');
+
+  const hasValidSecret =
+    Boolean(syncSecret) && (authorization === `Bearer ${syncSecret}` || secretParam === syncSecret);
+
+  if (!hasValidSecret) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 

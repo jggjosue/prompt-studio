@@ -1,5 +1,6 @@
 import { getRawWebPageByCatalogId } from '@/lib/web-pages';
 import { pickLocalized } from '@/lib/localized-string';
+import { getSiteUrl } from '@/lib/site-url';
 import { NextResponse } from 'next/server';
 
 const PAGE_ID_RE = /^wp-\d+$/;
@@ -25,7 +26,7 @@ export async function GET(
   let html = '';
   if (includeHtml && raw.demoUrl) {
     try {
-      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'process.env.DOMAIN_DEV');
+      const baseUrl = getSiteUrl();
       const res = await fetch(`${baseUrl}/webpages/${raw.demoUrl}/index.html`);
       if (res.ok) {
         html = await res.text();

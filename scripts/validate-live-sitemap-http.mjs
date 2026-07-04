@@ -4,7 +4,7 @@ import path from 'path';
 const repoRoot = process.cwd();
 const webpagesDir = path.join(repoRoot, 'public', 'webpages');
 const catalogPath = path.join(webpagesDir, 'web-pages.json');
-const DEFAULT_SITE_URL = 'process.env.DOMAIN_PROD';
+const DEFAULT_SITE_URL = 'process.env.DOMAIN';
 const IGNORE_SLUGS = new Set(['refactory-online']);
 const TIMEOUT_MS = 15000;
 
