@@ -127,7 +127,7 @@ export default async function Home() {
         <Scroll3D direction="left">
           <section id="features" className="relative isolate w-full overflow-hidden py-8 md:py-16">
             <video
-              src="/videos/3-video.mp4"
+              src="/videos/indexable/desert-horizon.mp4"
               autoPlay
               muted
               loop
