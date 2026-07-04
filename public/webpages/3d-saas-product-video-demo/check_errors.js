@@ -1,15 +1,1 @@
-const puppeteer = require('puppeteer');
-
-(async () => {
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
-
-  page.on('console', msg => { /* console.log('PAGE LOG:', msg.text()) */ });
-  page.on('pageerror', error => { /* console.log('PAGE ERROR:', error.message) */ });
-  page.on('requestfailed', request => { /* console.log('REQUEST FAILED:', request.url(), request.failure().errorText) */ });
-
-  await page.goto('process.env.DOMAIN_DEV');
-  await new Promise(r => setTimeout(r, 2000));
-
-  await browser.close();
-})();
+const puppeteer=require("puppeteer");(async()=>{const a=await puppeteer.launch(),e=await a.newPage();e.on("console",o=>{}),e.on("pageerror",o=>{}),e.on("requestfailed",o=>{}),await e.goto("process.env.DOMAIN_DEV"),await new Promise(o=>setTimeout(o,2e3)),await a.close()})();

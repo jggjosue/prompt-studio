@@ -3,7 +3,11 @@ import {
   hasDownloadPlan,
 } from '@/lib/server-subscription-status';
 import { normalizeDemoFolder } from '@/lib/refactory-online';
-import { getRawWebPageByCatalogId } from '@/lib/web-pages';
+import {
+  getRawWebPageByCatalogId,
+  getRawWebPageByDemoSlug,
+  getRawWebPageById,
+} from '@/lib/web-pages';
 import { createWebPageZip } from '@/lib/web-page-download';
 import { verifyGuestDownloadToken } from '@/lib/guest-download-token';
 import { NextResponse } from 'next/server';
@@ -11,18 +15,15 @@ import { NextResponse } from 'next/server';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-const PAGE_ID_RE = /^wp-\d+$/;
-
 export async function GET(
   request: Request,
   context: { params: Promise<{ pageId: string }> }
 ) {
   const { pageId } = await context.params;
-  if (!PAGE_ID_RE.test(pageId)) {
-    return NextResponse.json({ error: 'Página no válida.' }, { status: 400 });
-  }
-
-  const page = getRawWebPageByCatalogId(pageId);
+  const page =
+    getRawWebPageById(pageId) ??
+    getRawWebPageByCatalogId(pageId) ??
+    getRawWebPageByDemoSlug(pageId);
   const folder = page ? normalizeDemoFolder(page.demoUrl ?? '') : null;
   if (!page || !folder) {
     return NextResponse.json(
@@ -45,7 +46,8 @@ export async function GET(
     hasGuestAccess ||
     (subscription !== null &&
       (hasDownloadPlan(subscription) ||
-        subscription.purchasedPages.includes(pageId)));
+        subscription.purchasedPages.includes(pageId) ||
+        (page.id ? subscription.purchasedPages.includes(page.id) : false)));
 
   if (!canDownload) {
     return NextResponse.json(
