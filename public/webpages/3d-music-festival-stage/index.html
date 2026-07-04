@@ -160,6 +160,10 @@
     <script src="/webpages/demo-purchase-button.js"></script>
   </div>
 
+  <script>
+    window.__PS_PROMPT_TEXT = "Experiencia de festival musical 3D: escenario principal con pantallas gigantes, público virtual low-poly y pantallas laterales con clips destacados (entrevistas, backstage). El stream en vivo del artista se proyecta como textura en la pantalla central; el audio principal se enruta por WebAudio para control de stems (voz, bajo, percusión). Durante el show, los usuarios marcan momentos generando clips de 10-30s almacenados en cola local y compartibles vía UI.\n\nÁngulos de cámara: front row, side, bird's eye; cambiar de ángulo aplica dolly suave y ajusta iluminación. Reacciones en tiempo real (emojis) afectan sutilmente iluminación y partículas del escenario. Modo director: reproduce el concierto con cámara libre y marcadores de momentos clave. Galería de clips con thumbnails y subtítulos.\n\nRendimiento: limitar avatares animados, LOD para crowd, streaming adaptativo, pausar fuera de viewport. Accesibilidad: subtítulos en vivo, transcripciones, prefers-reduced-motion. Privacidad: explicar permisos cámara/mic antes de interacción en vivo. Métricas: clips creados, reacciones, tiempo por ángulo.\n\n**Entregables:** index.html, styles.css, festival3d.js, assets/ (streams HLS/WebRTC, clips destacados, modelos GLB escenario, pistas audio stems).\n\n**Stack:** Three.js, HLS.js/WebRTC, WebAudio API, GSAP, postprocessing (bloom).\n\n**Interacciones:** 3 ángulos cámara (front/side/bird), control stems WebAudio, reacciones emoji con partículas, marcar clips con tecla M, modo director con marcadores, galería clips, métricas por ángulo.";
+  </script>
+  <script src="/webpages/demo-actions.js"></script>
 </body>
 
 </html>

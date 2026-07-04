@@ -340,6 +340,10 @@
     <script src="/webpages/demo-purchase-button.js"></script>
   </div>
 
+  <script>
+    window.__PS_PROMPT_TEXT = "Conferencia virtual con escenario principal 3D y varias salas paralelas accesibles desde un lobby. El escenario central tiene una gran pantalla que reproduce el stream principal (HLS) y dos pantallas laterales para clips destacados (resúmenes, entrevistas). La cámara tiene ángulos predefinidos (escenario, público, lateral) con transiciones suaves GSAP. Las salas paralelas son espacios íntimos que reproducen videos de sesiones grabadas con paneles de diapositivas sincronizadas.\n\nAl iniciar, el usuario ve un overlay con agenda y puede seleccionar sesiones; al elegir una sesión la cámara hace fly-to a la sala correspondiente y carga el video en la pantalla 3D. Los moderadores pueden marcar timestamps en vivo que generan clips destacados visibles en barra lateral. Panel Q&A sincronizado con el video (preguntas ancladas a timestamps). Botón replay abre modal con el segmento seleccionado.\n\nRendimiento: streaming adaptativo, preload de thumbnails, pausar render en pestañas inactivas. Accesibilidad: subtítulos en vivo, transcripciones post-evento, aria en controles. Privacidad: explicar uso de cámara/mic antes de activar WebRTC. Métricas: reproducciones por sesión, clips creados, preguntas enviadas. Instrucciones CDN y bitrate recomendado incluidas.\n\n**Entregables:** index.html, styles.css, conference3d.js, assets/ (streams HLS, clips destacados, modelos GLB salas, locuciones).\n\n**Stack:** Three.js, HLS.js, WebRTC (opcional), GSAP, postprocessing.\n\n**Interacciones:** Selección de sesión en agenda, fly-to sala, ángulos de cámara predefinidos, moderador marca timestamps para clips, Q&A anclado a timestamps, modal replay, atajo teclado (M) para marcar clip, volver al lobby.";
+  </script>
+  <script src="/webpages/demo-actions.js"></script>
 </body>
 
 </html>

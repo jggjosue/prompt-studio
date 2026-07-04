@@ -227,6 +227,10 @@
     <script src="/webpages/demo-purchase-button.js"></script>
   </div>
 
+  <script>
+    window.__PS_PROMPT_TEXT = "Feria gastronómica virtual con pasillos y stands de restaurantes. Cada stand incluye pantalla 3D que reproduce video de receta (60-180s) y panel con menú y botón Reservar mesa (simulación UI). Al acercarse el video se activa en preview; al hacer click se abre overlay con video extendido, ingredientes y enlaces para pedir a domicilio. Filtros por tipo de cocina reordenan stands con animación 3D y mapa flotante muestra ubicación.\n\nIncluye ruta de degustación guiada: cámara se mueve entre stands con transiciones suaves y voiceover. Área social donde visitantes dejan reviews en video (grabados localmente con WebRTC) mostrados en mural 3D. Videos de recetas con subtítulos y lista de pasos descargable.\n\nRendimiento: proxies para scrubbing, texturas 512-1024px, lazy-load videos, liberar tras inactividad. Accesibilidad: subtítulos, aria, prefers-reduced-motion. Analítica: reservas simuladas, reproducciones, filtros usados. Recomendaciones de compresión de video y formatos de menú incluidas.\n\n**Entregables:** index.html, styles.css, foodfair3d.js, assets/ (modelos GLB stands, videos recetas, menús PDF).\n\n**Stack:** Three.js, video HTML5, GSAP, LazySizes.\n\n**Interacciones:** Click en stand abre video receta + menú + reservar, filtros por cocina reordenan stands, mapa flotante, ruta degustación guiada con voiceover, reviews sociales en video, pasos de receta descargables.";
+  </script>
+  <script src="/webpages/demo-actions.js"></script>
 </body>
 
 </html>

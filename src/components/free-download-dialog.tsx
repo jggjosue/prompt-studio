@@ -14,7 +14,7 @@ export function FreeDownloadDialog({ pageId, pageTitle }: { pageId: string; page
   const t = useTranslations('landingPages');
   const { hasPaidPlan } = useMembershipAccess();
 
-  const handleSuccess = () => {
+  const handleSuccess = async () => {
     trackAnalyticsEvent('web_download_free', {
       page_id: pageId,
       page_title: pageTitle ?? pageId,
@@ -30,19 +30,38 @@ export function FreeDownloadDialog({ pageId, pageTitle }: { pageId: string; page
       source: 'free-download-dialog',
     });
 
-    // Trigger the actual download programmatically
-    const downloadUrl = `/api/landing-pages/${encodeURIComponent(pageId)}/download`;
-    const link = document.createElement('a');
-    link.href = downloadUrl;
-    link.download = '';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    try {
+      const downloadUrl = `/api/landing-pages/${encodeURIComponent(pageId)}/download`;
+      const response = await fetch(downloadUrl, { cache: 'no-store' });
+      if (!response.ok) {
+        throw new Error(`Download failed with status ${response.status}`);
+      }
 
-    toast({
-      title: t('downloadStarted'),
-      description: t('downloadStartedDescription'),
-    });
+      const blobUrl = URL.createObjectURL(await response.blob());
+      const disposition = response.headers.get('content-disposition');
+      const fileName =
+        disposition?.match(/filename="([^"]+)"/i)?.[1] ??
+        `${pageId}.zip`;
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(blobUrl);
+
+      toast({
+        title: t('downloadStarted'),
+        description: t('downloadStartedDescription'),
+      });
+    } catch (error) {
+      console.error('Unable to download landing page ZIP', error);
+      toast({
+        title: t('downloadFailed'),
+        description: t('downloadFailedDescription'),
+        variant: 'destructive',
+      });
+    }
   };
 
   const triggerButton = (

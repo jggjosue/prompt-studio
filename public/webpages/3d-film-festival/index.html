@@ -216,6 +216,10 @@
     <script src="/webpages/demo-purchase-button.js"></script>
   </div>
 
+  <script>
+    window.__PS_PROMPT_TEXT = "Festival de cine virtual con varias salas de proyección 3D. Cada sala proyecta una película (HLS) y tiene un panel para trailers y material extra. Tras la proyección, se abre una sesión de Q&A en vivo (WebRTC) con el director; la sala muestra un panel con preguntas enviadas por la audiencia y el moderador selecciona preguntas para la sesión en vivo. Implementa subtítulos y transcripciones para cada película y un sistema de favoritos para crear una lista de visionado. La experiencia incluye un lobby con alfombra roja donde se reproducen clips promocionales y un photobooth 3D para capturar frames (export de imagen). Rendimiento: streaming adaptativo y preload de trailers; pausar render cuando fuera de viewport. Accesibilidad: subtítulos, transcripciones, aria en controles. Métricas: entradas vendidas (simuladas), reproducciones, Q&A participaciones. Incluye recomendaciones de licencias y derechos de exhibición.\n\n**Entregables:** index.html, styles.css, filmfest3d.js, assets/ (películas HLS/MP4, trailers, modelos GLB de salas).\n\n**Stack:** Three.js, HLS.js (streaming adaptativo), WebRTC (simulado para Q&A), GSAP.\n\n**Características:**\n- 4 salas de proyección con etiqueta flotante y licencia.\n- Lobby con alfombra roja y pantalla promocional central.\n- Selección de sala con vuelo de cámara y reproducción automática.\n- Panel Q&A con preguntas de audiencia y respuestas simuladas del moderador.\n- Photobooth con captura de frame (export PNG).\n- IndexedDB para métricas (entradas, reproducciones, Q&A).\n- Recomendaciones de licencia por película (CC BY, SWANK, MPLC).\n- Accesibilidad con aria labels, subtítulos, transcripciones.\n- Streaming adaptativo vía principios HLS.js.\n- Pausa de render en pestañas ocultas o fuera de viewport.";
+  </script>
+  <script src="/webpages/demo-actions.js"></script>
 </body>
 
 </html>

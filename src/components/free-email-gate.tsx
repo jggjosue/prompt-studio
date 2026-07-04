@@ -11,7 +11,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
   DialogFooter,
 } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
@@ -82,7 +81,9 @@ export function FreeEmailGate({
       }
 
       setOpen(false);
-      onSuccess();
+      // Let Radix finish closing this dialog before an action opens another
+      // dialog (the prompt viewer) or starts a download.
+      window.setTimeout(onSuccess, 0);
     } catch (error) {
       toast({
         title: t('error'),
@@ -94,30 +95,32 @@ export function FreeEmailGate({
     }
   };
 
-  if (hasSavedEmail && isValidElement(children)) {
-    // If the email is saved, just bypass the dialog entirely.
-    // We clone the child element and attach the onSuccess handler to onClick.
-    // If the child is an <a> tag with an href (like the Download button), 
-    // we don't necessarily need an onClick, but for View Prompt we do.
+  const trigger = isValidElement(children) ? (
+    (() => {
     const childElement = children as React.ReactElement<any>;
     return cloneElement(childElement, {
       onClick: (e: React.MouseEvent) => {
         if (childElement.props.onClick) {
           childElement.props.onClick(e);
         }
-        if (!e.defaultPrevented) {
-          e.preventDefault();
+        if (e.defaultPrevented) return;
+
+        e.preventDefault();
+        if (hasSavedEmail) {
           onSuccess();
+        } else {
+          setOpen(true);
         }
       }
     });
-  }
+    })()
+  ) : (
+    children
+  );
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        {children}
-      </DialogTrigger>
+      {trigger}
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
