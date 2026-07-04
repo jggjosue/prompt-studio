@@ -2,7 +2,13 @@ import { NextResponse } from 'next/server';
 import { clerkClient } from '@clerk/nextjs/server';
 import { upsertResendContact } from '@/lib/resend';
 
-export async function GET() {
+export async function GET(request: Request) {
+  const syncSecret = process.env.CRON_SECRET?.trim();
+  const authorization = request.headers.get('authorization');
+  if (!syncSecret || authorization !== `Bearer ${syncSecret}`) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   try {
     let client;
     try {
@@ -20,7 +26,12 @@ export async function GET() {
     const errors: string[] = [];
 
     for (const user of users) {
-      const email = user.emailAddresses?.[0]?.emailAddress;
+      const email =
+        user.emailAddresses?.find(
+          (address: { id: string; emailAddress: string }) =>
+            address.id === user.primaryEmailAddressId
+        )?.emailAddress ??
+        user.emailAddresses?.[0]?.emailAddress;
       if (!email) continue;
 
       try {

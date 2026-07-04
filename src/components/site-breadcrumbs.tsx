@@ -7,6 +7,7 @@ import { ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
 import { safeJsonLd } from '@/lib/json-ld';
+import { SITE_URL } from '@/lib/site-url';
 
 type SiteBreadcrumbsProps = {
   pathname: string;
@@ -22,7 +23,7 @@ export function SiteBreadcrumbs({ pathname, className }: SiteBreadcrumbsProps) {
 
   if (trail.length === 0) return null;
 
-  const siteOrigin = 'https://prompstudio.com';
+  const siteOrigin = SITE_URL;
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',

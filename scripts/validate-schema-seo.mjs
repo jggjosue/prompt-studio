@@ -48,6 +48,15 @@ const landingSource = read('src/app/landing-pages/[slug]/page.tsx');
 if (!landingSource.includes('price: seo.price')) {
   issues.push('landing-pages/[slug] should bind Offer.price to the normalized SEO price');
 }
+if (!landingSource.includes('description: schemaDescription(seo.description, seo.title)')) {
+  issues.push('landing-pages/[slug] should normalize Product.description for merchant listings');
+}
+if (!landingSource.includes('shippingDetails: digitalDeliveryDetails()')) {
+  issues.push('landing-pages/[slug] should describe free immediate digital delivery');
+}
+if (!landingSource.includes('hasMerchantReturnPolicy: digitalProductReturnPolicy(SITE_URL)')) {
+  issues.push('landing-pages/[slug] should expose the digital product return policy');
+}
 
 const gallerySource = read('src/app/gallery/[id]/page.tsx');
 if (!gallerySource.includes("price: '0.00'")) {

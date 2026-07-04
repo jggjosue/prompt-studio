@@ -109,10 +109,20 @@ export async function upsertResendContact(params: {
   firstName?: string;
   lastName?: string;
 }) {
-  return resend.contacts.create({
+  const audienceId = process.env.RESEND_AUDIENCE_ID?.trim() || undefined;
+  const contact = {
     email: params.email,
     firstName: params.firstName,
     lastName: params.lastName,
     unsubscribed: false,
-  });
+    ...(audienceId ? { audienceId } : {}),
+  };
+
+  const created = await resend.contacts.create(contact);
+  if (!created.error) return created;
+
+  // Resend returns an error when the email already exists. Updating by email
+  // makes Clerk user.created/user.updated events safely replayable.
+  const updated = await resend.contacts.update(contact);
+  return updated.error ? created : updated;
 }

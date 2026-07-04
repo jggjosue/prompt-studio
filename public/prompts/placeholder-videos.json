@@ -103,7 +103,7 @@
         "en": "A sweeping view of a vast desert landscape under a warm and hazy sunset.",
         "es": "Una vista panorámica de un vasto paisaje desértico bajo una cálida y brumosa puesta de sol."
       },
-      "imageUrl": "https://i.imgur.com/qGScGJ4.mp4",
+      "imageUrl": "/videos/indexable/desert-horizon.mp4",
       "imageHint": {
         "en": "desert sunset landscape",
         "es": "paisaje del desierto al atardecer"
@@ -172,7 +172,7 @@
         "en": "Glowing jellyfish and mysterious creatures dancing in the dark ocean depths.",
         "es": "Medusas resplandecientes y criaturas misteriosas bailando en las oscuras profundidades del océano."
       },
-      "imageUrl": "https://i.imgur.com/WaSrOlj.mp4",
+      "imageUrl": "/videos/indexable/deep-sea-bioluminescence.mp4",
       "imageHint": {
         "en": "bioluminescent ocean",
         "es": "océano bioluminiscente"
@@ -471,7 +471,7 @@
         "en": "The Earth seen from the window of a space station orbiting the planet.",
         "es": "La Tierra vista desde la ventana de una estación espacial que orbita el planeta."
       },
-      "imageUrl": "https://i.imgur.com/7XA2ufT.mp4",
+      "imageUrl": "/videos/indexable/space-station-view.mp4",
       "imageHint": {
         "en": "earth from space",
         "es": "tierra desde el espacio"
@@ -1527,7 +1527,7 @@
         "en": "A lone motorcyclist descends from a mountain peak, capturing speed and precision at sunset.",
         "es": "Un motociclista solitario desciende desde la cima de una montaña, capturando velocidad y precisión al atardecer."
       },
-      "imageUrl": "https://assets.mixkit.co/videos/39913/39913-720.mp4",
+      "imageUrl": "/videos/indexable/cinematic-motorcycle-descent.mp4",
       "imageHint": {
         "en": "motorcycle mountain road speed",
         "es": "motocicleta montaña carretera velocidad"

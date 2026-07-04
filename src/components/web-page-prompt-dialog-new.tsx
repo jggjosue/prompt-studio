@@ -32,7 +32,7 @@ export function WebPagePromptDialog({
   const t = useTranslations('landingPages');
   const locale = useLocale();
   const { toast } = useToast();
-  const { runWithAccess, isSignedIn } = useMembershipAccess();
+  const { runWithAccess, isSignedIn, hasPaidPlan } = useMembershipAccess();
   const { copyWithDailyLimit } = useDailyCopyLimit();
   const [copied, setCopied] = React.useState(false);
   const [open, setOpen] = React.useState(false);
@@ -109,6 +109,7 @@ export function WebPagePromptDialog({
   };
 
   const isFree = normalizeMembership(page.membership) === 'free';
+  const showEmailGate = isFree && !hasPaidPlan;
 
   const triggerButton = (
     <Button
@@ -116,7 +117,7 @@ export function WebPagePromptDialog({
       variant="outline"
       className="border-blue-500/35 text-blue-400 hover:border-blue-500/55 hover:bg-blue-500/10 hover:text-blue-300"
       type="button"
-      onClick={isFree ? undefined : handleOpenPrompt}
+      onClick={showEmailGate ? undefined : handleOpenPrompt}
     >
       <FileText className="w-4 h-4 mr-2" />
       {t('viewPrompt')}
@@ -125,7 +126,7 @@ export function WebPagePromptDialog({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      {isFree ? (
+      {showEmailGate ? (
         <FreeEmailGate
           title={t('viewPrompt')}
           description={t('unlockPromptDescription')}

@@ -43,8 +43,8 @@ expect(
   issues
 );
 expect(
-  pricingLayoutSource.includes('index: false') && pricingLayoutSource.includes('follow: true'),
-  '/pricing should remain noindex, follow to avoid competing with /prices',
+  !pricingLayoutSource.includes('index: false'),
+  '/pricing should rely on its permanent redirect instead of emitting noindex',
   issues
 );
 
@@ -62,8 +62,9 @@ expect(
   issues
 );
 expect(
-  proxySource.includes("response.headers.set('X-Robots-Tag', 'noindex, follow');"),
-  'proxy should keep raw /webpages content as noindex, follow',
+  proxySource.includes('rel="canonical"') &&
+    proxySource.includes('https://www.prompstudio.com/landing-pages/'),
+  'proxy should canonicalize raw /webpages content to its landing page',
   issues
 );
 

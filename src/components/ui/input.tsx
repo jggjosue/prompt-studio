@@ -1,9 +1,20 @@
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
+import { sanitizeInput } from "@/lib/sanitize"
 
 const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
-  ({ className, type, ...props }, ref) => {
+  ({ className, type, onChange, ...props }, ref) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const sanitized = sanitizeInput(e.target.value);
+      if (e.target.value !== sanitized) {
+        e.target.value = sanitized;
+      }
+      if (onChange) {
+        onChange(e);
+      }
+    };
+
     return (
       <input
         type={type}
@@ -12,6 +23,7 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
           className
         )}
         ref={ref}
+        onChange={handleChange}
         {...props}
       />
     )
