@@ -1428,7 +1428,7 @@ Requirements:
               variant="ghost"
               size="icon"
               disabled
-              className="h-11 w-full rounded-lg text-muted-foreground opacity-50 cursor-not-allowed"
+              className="h-11 w-full rounded-lg text-muted-foreground opacity-50 cursor-not-allowed pointer-events-none"
               aria-label="Expand chat history"
               title="Historial (Próximamente)"
             >
