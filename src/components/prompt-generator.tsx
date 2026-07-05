@@ -92,7 +92,7 @@ export default function PromptGenerator() {
           <div className="flex flex-col md:flex-row gap-4 justify-end">
             <Button asChild className="w-full md:w-auto">
               <Link
-                href={`/prompt/edit?prompt=${encodeURIComponent(textareaValue)}`}
+                href={`/generate-images?prompt=${encodeURIComponent(textareaValue)}`}
               >
                 <Wand2 className="mr-2 h-4 w-4" />
                 {tCommon('generatePrompt')}

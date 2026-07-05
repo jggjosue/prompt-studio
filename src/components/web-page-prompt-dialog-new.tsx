@@ -151,7 +151,7 @@ export function WebPagePromptDialog({
               className="!bg-blue-600 !text-white hover:!bg-blue-700"
               asChild
             >
-              <Link href={`/prompt/edit?prompt=${encodeURIComponent(JSON.stringify({
+              <Link href={`/generate-webs?prompt=${encodeURIComponent(JSON.stringify({
                 type: 'web',
                 title: pageTitle,
                 description: pageDescription,

@@ -1,7 +1,7 @@
 const DEFAULT_SITE_URL =
   process.env.NODE_ENV === 'production'
     ? 'https://www.prompstudio.com'
-    : 'http://localhost:3030';
+    : 'http://localhost:3041';
 
 export function getSiteUrl(): string {
   const configuredUrl = (

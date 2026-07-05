@@ -32,7 +32,7 @@ import {
 import React, { useState, useEffect } from 'react';
 import {
   ChevronDown,
-  // Globe,
+  Globe,
   ImageIcon,
   LayoutTemplate,
   // LayoutGrid,
@@ -94,11 +94,11 @@ export default function HeaderClient() {
       icon: React.ReactNode;
     }>;
   }> = [
-    { id: 'home', href: '/', label: tNav('home') },
+    { id: 'home', href: '/', label: tNav('discover') },
     {
       id: 'webs',
       label: tNav('webs'),
-      activePrefixes: ['/landing-pages', '/web-animations', '/web-tags'],
+      activePrefixes: ['/landing-pages', '/web-animations', '/web-tags', '/generate-webs'],
       dropdown: [
         {
           href: '/landing-pages',
@@ -112,18 +112,46 @@ export default function HeaderClient() {
           description: tNav('animationsDesc'),
           icon: <Sparkles className="h-4 w-4" />,
         },
+        {
+          href: '/generate-webs',
+          label: 'Crear Web',
+          description: 'Genera nuevas páginas web con IA',
+          icon: <Globe className="h-4 w-4" />,
+        },
       ],
     },
     {
-      id: 'multimedia',
-      label: tNav('multimedia'),
+      id: 'image',
+      label: 'Imagen',
+      activePrefixes: [
+        '/image-prompts',
+        '/gallery',
+        '/image-tags',
+        '/generate-images',
+      ],
+      dropdown: [
+        {
+          href: '/image-prompts',
+          label: tNav('images'),
+          description: tNav('imagesDesc'),
+          icon: <ImageIcon className="h-4 w-4" />,
+        },
+        {
+          href: '/generate-images',
+          label: 'Crear Imagen',
+          description: 'Genera nuevas imágenes con IA',
+          icon: <Sparkles className="h-4 w-4" />,
+        },
+      ],
+    },
+    {
+      id: 'video',
+      label: 'Video',
       activePrefixes: [
         '/video-prompts',
         '/gallery-videos',
         '/video-tags',
-        '/image-prompts',
-        '/gallery',
-        '/image-tags',
+        '/generate-videos',
       ],
       dropdown: [
         {
@@ -133,15 +161,16 @@ export default function HeaderClient() {
           icon: <Video className="h-4 w-4" />,
         },
         {
-          href: '/image-prompts',
-          label: tNav('images'),
-          description: tNav('imagesDesc'),
-          icon: <ImageIcon className="h-4 w-4" />,
+          href: '/generate-videos',
+          label: 'Crear Video',
+          description: 'Genera nuevos videos con IA',
+          icon: <Sparkles className="h-4 w-4" />,
         },
       ],
     },
     { id: 'membership', href: '/prices', label: tNav('prices'), activePrefixes: ['/prices', '/pricing'] },
     { id: 'affiliate-program', href: '/affiliate-program', label: tNav('affiliateProgram'), activePrefixes: ['/affiliate-program', '/affiliate-program-terms'] },
+    { id: 'questions', href: '/ask', label: tNav('questions') },
   ];
 
   const linkClassName = (href?: string, activePrefixes?: string[]) =>
@@ -288,13 +317,13 @@ export default function HeaderClient() {
           </SheetContent>
         </Sheet>
 
-        <ClientLink href="/" className="mr-6 flex items-center gap-2">
+        <ClientLink href="/" className="mr-3 flex items-center gap-2 xl:mr-6">
           <Logo />
           <span className="hidden font-bold sm:inline-block font-headline">
             {tHeader('brand')}
           </span>
         </ClientLink>
-        <nav className="hidden items-center justify-center gap-6 text-sm font-medium md:flex flex-1">
+        <nav className="hidden min-w-0 items-center justify-center gap-3 text-xs font-medium md:flex lg:gap-4 lg:text-sm xl:gap-6 flex-1">
           {navLinks.map(link =>
             link.href ? (
               <ClientLink

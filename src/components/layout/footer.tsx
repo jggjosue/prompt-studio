@@ -23,8 +23,12 @@ export default function Footer() {
   const tLinks = useTranslations('internalLinks');
 
   const { primary, discovery, topical } = getFooterLinkGroups();
-  const primaryLinks = primary.filter(
-    link => link.path !== '/affiliate-program'
+  const primaryLinks = Array.from(
+    new Map(
+      primary
+        .filter(link => link.path !== '/affiliate-program')
+        .map(link => [link.path, link])
+    ).values()
   );
 
   const socialLinks = [

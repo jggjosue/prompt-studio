@@ -21,6 +21,34 @@ export type InternalLinkNode = {
 export const INTERNAL_LINK_NODES: InternalLinkNode[] = [
   { path: '/', rank: 1, tier: 0, labelKey: 'nav.home' },
   {
+    path: '/ask',
+    rank: 0.72,
+    tier: 1,
+    labelKey: 'nav.about',
+    parent: '/',
+  },
+  {
+    path: '/generate-webs',
+    rank: 0.88,
+    tier: 1,
+    labelKey: 'nav.createWeb',
+    parent: '/',
+  },
+  {
+    path: '/generate-images',
+    rank: 0.88,
+    tier: 1,
+    labelKey: 'nav.generateImages',
+    parent: '/',
+  },
+  {
+    path: '/generate-videos',
+    rank: 0.88,
+    tier: 1,
+    labelKey: 'nav.generateVideos',
+    parent: '/',
+  },
+  {
     path: '/prompts',
     rank: 0.92,
     tier: 1,
@@ -65,13 +93,6 @@ export const INTERNAL_LINK_NODES: InternalLinkNode[] = [
     rank: 0.75,
     tier: 1,
     labelKey: 'nav.prices',
-    parent: '/',
-  },
-  {
-    path: '/prompt/edit',
-    rank: 0.7,
-    tier: 1,
-    labelKey: 'footer.promptGenerator',
     parent: '/',
   },
   {

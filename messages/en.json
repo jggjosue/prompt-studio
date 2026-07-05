@@ -65,6 +65,12 @@
   },
   "nav": {
     "home": "Home",
+    "discover": "Discover",
+    "questions": "Questions",
+    "about": "About",
+    "createWeb": "Create Web",
+    "generateImages": "Generate Images",
+    "generateVideos": "Generate Videos",
     "marketplace": "Marketplace",
     "animations": "Animations",
     "animationsDesc": "Explore interactive web animations",
@@ -303,7 +309,12 @@
       "Download every prompt marked as Free — no account required",
       "Browse image, video, and web prompts open to everyone",
       "Copy and use prompts instantly from the library",
-      "Explore landing page demos tagged as Free"
+      "Explore landing page demos tagged as Free",
+      "Use your own API key",
+      "Basic chat access",
+      "Basic image/video/web generation if you provide your key",
+      "No premium templates",
+      "No priority support"
     ],
     "premiumFeatures": [
       "Full access to all Premium prompts across the library",

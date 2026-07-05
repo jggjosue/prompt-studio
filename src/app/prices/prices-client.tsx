@@ -23,6 +23,7 @@ import {
   Download,
   Sparkles,
   UserPlus,
+  X,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
@@ -195,12 +196,16 @@ export default function PricesClient() {
                   <span className="text-muted-foreground">{tCommon('forever')}</span>
                 </div>
                 <ul className="space-y-4 mb-8 flex-grow">
-                  {freeFeatures.map((text) => (
-                    <li key={text} className="flex items-start gap-3 text-sm">
-                      <Check className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" />
-                      <span>{text}</span>
-                    </li>
-                  ))}
+                  {freeFeatures.map((text) => {
+                    const isMissing = text.startsWith('Sin ') || text.startsWith('No ');
+                    const Icon = isMissing ? X : Check;
+                    return (
+                      <li key={text} className={`flex items-start gap-3 text-sm ${isMissing ? 'text-muted-foreground' : ''}`}>
+                        <Icon className={`w-5 h-5 shrink-0 mt-0.5 ${isMissing ? 'text-muted-foreground' : 'text-blue-500'}`} />
+                        <span>{text}</span>
+                      </li>
+                    );
+                  })}
                 </ul>
                 <div className="mt-auto space-y-3">
                   <Button variant="outline" className="w-full" asChild>

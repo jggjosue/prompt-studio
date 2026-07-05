@@ -140,6 +140,32 @@ export async function proxyOpenAIChat(apiKey: string, systemPrompt: string, user
   }
 }
 
+export async function proxyDeepSeekChat(apiKey: string, systemPrompt: string, userPrompt: string, model: string = 'deepseek-coder') {
+  try {
+    const response = await fetch('https://api.deepseek.com/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        model,
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userPrompt }
+        ]
+      })
+    });
+    if (!response.ok) {
+      const errData = await response.json().catch(() => ({}));
+      return { error: errData.error?.message || `HTTP ${response.status}` };
+    }
+    return await response.json();
+  } catch (err: any) {
+    return { error: err.message || 'Network error contacting DeepSeek' };
+  }
+}
+
 export async function proxyAnthropicChat(apiKey: string, systemPrompt: string, userPrompt: string, model: string = 'claude-3-5-sonnet-20240620') {
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
