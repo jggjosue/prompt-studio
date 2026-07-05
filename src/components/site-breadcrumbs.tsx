@@ -20,6 +20,7 @@ type SiteBreadcrumbsProps = {
 export function SiteBreadcrumbs({ pathname, className }: SiteBreadcrumbsProps) {
   const t = useTranslations();
   const trail = useMemo(() => getBreadcrumbTrail(pathname), [pathname]);
+  const breadcrumbLabel = (labelKey: string) => labelKey;
 
   if (trail.length === 0) return null;
 
@@ -30,7 +31,7 @@ export function SiteBreadcrumbs({ pathname, className }: SiteBreadcrumbsProps) {
     itemListElement: trail.map((crumb, index) => ({
       '@type': 'ListItem',
       position: index + 1,
-      name: t(crumb.labelKey),
+      name: t(breadcrumbLabel(crumb.labelKey)),
       item: `${siteOrigin}${crumb.href}`,
     })),
   };
@@ -54,14 +55,14 @@ export function SiteBreadcrumbs({ pathname, className }: SiteBreadcrumbsProps) {
               )}
               {isLast ? (
                 <span className="font-medium text-foreground" aria-current="page">
-                  {t(crumb.labelKey)}
+                  {t(breadcrumbLabel(crumb.labelKey))}
                 </span>
               ) : (
                 <ClientLink
                   href={crumb.href}
                   className="hover:text-foreground transition-colors"
                 >
-                  {t(crumb.labelKey)}
+                  {t(breadcrumbLabel(crumb.labelKey))}
                 </ClientLink>
               )}
             </li>

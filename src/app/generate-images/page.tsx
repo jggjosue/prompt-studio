@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: 'Create AI Images & Videos | Prompt Studio',
   description: 'Create and discover stunning AI videos & images. Explore thousands of prompts, get inspired, and generate professional-quality content.',
   alternates: {
-    canonical: '/prompt/edit',
+    canonical: '/generate-images',
   },
   keywords: [
     'Chatgpt',

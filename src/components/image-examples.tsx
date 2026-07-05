@@ -61,7 +61,7 @@ function ImageExamplesContent() {
               </CardContent>
               <CardFooter className="bg-muted/30 p-4 border-t border-zinc-800/80 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-between gap-2">
                 <LiquidButton size="sm" asChild>
-                  <Link href={`/prompt/edit?prompt=${encodeURIComponent(item.description)}`}>
+                  <Link href={`/generate-images?prompt=${encodeURIComponent(item.description)}`}>
                       <Wand2 className="w-4 h-4 mr-2" />
                       Use this prompt
                   </Link>

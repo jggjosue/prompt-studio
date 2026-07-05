@@ -207,7 +207,7 @@ function PromptsContent() {
         <p className="text-muted-foreground">
           {t('customSubtitle')}
         </p>
-        <PromptEditButton size="lg" href="/prompt/edit">
+        <PromptEditButton size="lg" href="/generate-images">
           {t('goToGenerator')}
         </PromptEditButton>
       </div>

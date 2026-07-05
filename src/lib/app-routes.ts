@@ -57,7 +57,7 @@ export function getAppRouteTrie(): RouteTrie {
   }
 
   trie.insert('/prices', { prefetchPriority: 8 });
-  trie.insert('/prompt/edit', { prefetchPriority: 7 });
+  trie.insert('/generate-images', { prefetchPriority: 7 });
   trie.insert('/dashboard', { prefetchPriority: 4 });
   trie.insert('/dashboard/profile', { prefetchPriority: 4 });
 

@@ -249,7 +249,7 @@ function VideoPromptsContent() {
               className="!bg-blue-600 !text-white shadow-md shadow-blue-950/20 hover:!bg-blue-700"
               asChild
             >
-              <Link href="/prompt/edit">
+              <Link href="/generate-videos">
                 <Wand2 className="mr-2" />
                 Generate a Video
               </Link>

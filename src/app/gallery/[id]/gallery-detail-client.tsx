@@ -176,7 +176,7 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                     />
                     <div className="absolute bottom-4 right-4 flex items-start gap-4 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                       <LiquidButton size="sm" asChild>
-                        <Link href={`/prompt/edit?prompt=${encodeURIComponent(JSON.stringify({
+                        <Link href={`/generate-images?prompt=${encodeURIComponent(JSON.stringify({
                           type: item.type || 'image',
                           title: item.title,
                           description: item.description,
