@@ -1398,7 +1398,7 @@ Requirements:
       </aside>
       {(isHistoryCollapsed || isEditorCollapsed || isPreviewCollapsed) && (
         <div className="fixed right-4 top-36 z-50 hidden w-14 flex-col overflow-hidden rounded-xl border bg-card/95 p-1.5 shadow-2xl backdrop-blur-xl xl:flex">
-          {isHistoryCollapsed && <Button type="button" variant="ghost" size="icon" className="h-11 w-full" onClick={() => setIsHistoryCollapsed(false)} title="Expand history"><MessageSquare className="h-4 w-4" /></Button>}
+          {isHistoryCollapsed && <Button type="button" variant="ghost" size="icon" disabled className="h-11 w-full rounded-lg text-muted-foreground opacity-50 cursor-not-allowed pointer-events-none" title="Historial (Próximamente)"><MessageSquare className="h-4 w-4" /></Button>}
           {isEditorCollapsed && <Button type="button" variant="ghost" size="icon" className="h-11 w-full" onClick={() => setIsEditorCollapsed(false)} title="Expand AI Video"><Clapperboard className="h-4 w-4" /></Button>}
           {isPreviewCollapsed && <Button type="button" variant="ghost" size="icon" className="h-11 w-full" onClick={() => setIsPreviewCollapsed(false)} title="Expand preview"><Tv className="h-4 w-4" /></Button>}
         </div>
