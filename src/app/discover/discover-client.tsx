@@ -8,6 +8,7 @@ import { Search, Sparkles, Wand2, Globe, Image as ImageIcon, Video, MoveUpRight 
 import Link from 'next/link';
 import { useMemo, useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import { getRefactoryLoaderUrl } from '@/lib/refactory-online';
 
 type Localized = { es?: string; en?: string };
 type MediaItem = {
@@ -18,12 +19,38 @@ type MediaItem = {
   imageUrl?: string;
   tags?: string[];
   demoUrl?: string;
+  price?: string;
 };
 type AnimationItem = { id: number; name: Localized; prompt: Localized };
 type Filter = 'all' | 'image' | 'video' | 'web' | 'animation';
 
 const text = (value?: Localized) => value?.es || value?.en || '';
 
+function getDemoHref(item: MediaItem): string {
+  const demoUrl = getRefactoryLoaderUrl(item.demoUrl ?? '');
+  if (!demoUrl) return '/landing-pages';
+
+  const url = new URL(demoUrl, 'https://prompstudio.com');
+  const pageId = String(item.id ?? item.demoUrl ?? '');
+
+  if (item.price) {
+    url.searchParams.set('price', item.price);
+
+    const checkoutParams = new URLSearchParams({
+      price: item.price,
+      client_reference_id: `guest___${pageId}`,
+      affiliate_product_id: pageId,
+    });
+    url.searchParams.set('checkout', `/api/web-page-checkout?${checkoutParams.toString()}`);
+  }
+  if (pageId) {
+    url.searchParams.set('pageId', pageId);
+  }
+
+  return /^https?:\/\//i.test(demoUrl)
+    ? url.toString()
+    : `${url.pathname}${url.search}`;
+}
 
 function VirtualFeedItem({ item, index }: { item: any, index: number }) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -47,7 +74,14 @@ function VirtualFeedItem({ item, index }: { item: any, index: number }) {
   const rotateX = useTransform(scrollYProgress, [0, 0.5, 1], [15, 0, -15]);
   const rotateY = useTransform(scrollYProgress, [0, 0.5, 1], [direction * 5, 0, direction * -5]);
 
-  const href = item.kind === 'video' ? `/generate-videos?prompt=${encodeURIComponent(item.prompt)}` : item.kind === 'web' || item.kind === 'animation' ? `/generate-webs?prompt=${encodeURIComponent(item.prompt)}` : `/generate-images?prompt=${encodeURIComponent(item.prompt)}`;
+  const href =
+    item.kind === 'video'
+      ? `/gallery-videos/${item.detailId}`
+      : item.kind === 'web'
+        ? getDemoHref(item)
+        : item.kind === 'animation'
+          ? `/generate-webs?prompt=${encodeURIComponent(item.prompt)}`
+          : `/gallery/${item.detailId}`;
 
   return (
     <div ref={containerRef} style={{ height: (height && !isInView) ? height : 'auto' }} className="mb-4 break-inside-avoid [perspective:1400px]">
@@ -70,7 +104,7 @@ function VirtualFeedItem({ item, index }: { item: any, index: number }) {
           <div className="p-4">
             <div className="mb-2 flex items-center justify-between"><span className="text-[10px] font-black uppercase tracking-[0.18em] text-blue-400">{item.kind}</span><span className="text-[10px] text-zinc-500">{item.tags?.[0]}</span></div>
             <h3 className="line-clamp-2 font-bold leading-snug">{item.titleText}</h3>
-            <Link href={href} className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 transition hover:text-blue-400">Usar prompt <MoveUpRight className="h-3.5 w-3.5" /></Link>
+            <a href={href} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 transition hover:text-blue-400">Usar prompt <MoveUpRight className="h-3.5 w-3.5" /></a>
           </div>
         </motion.article>
       ) : null}
@@ -100,8 +134,8 @@ export default function DiscoverClient({
 
   const items = useMemo(() => {
     const normalized = [
-      ...images.map((item, index) => ({ ...item, key: `image-${item.id ?? item.randomId ?? index}`, kind: 'image' as const, titleText: text(item.title), prompt: typeof item.description === 'object' ? text(item.description as Localized) : '' })),
-      ...videos.map((item, index) => ({ ...item, key: `video-${item.randomId ?? index}`, kind: 'video' as const, titleText: text(item.title), prompt: text(item.description as Localized) })),
+      ...images.map((item, index) => ({ ...item, key: `image-${item.id ?? item.randomId ?? index}`, kind: 'image' as const, detailId: `img-${index + 1}`, titleText: text(item.title), prompt: typeof item.description === 'object' ? text(item.description as Localized) : '' })),
+      ...videos.map((item, index) => ({ ...item, key: `video-${item.randomId ?? index}`, kind: 'video' as const, detailId: `v-${index + 1}`, titleText: text(item.title), prompt: text(item.description as Localized) })),
       ...webPages.map((item, index) => ({ ...item, key: `web-${item.id ?? index}`, kind: 'web' as const, titleText: text(item.title), prompt: JSON.stringify(item) })),
       ...animations.map((item) => ({ key: `animation-${item.id}`, kind: 'animation' as const, titleText: text(item.name), prompt: text(item.prompt), tags: ['CSS', 'Motion', 'Interactive'], imageUrl: undefined, demoUrl: undefined })),
     ];
@@ -133,7 +167,7 @@ export default function DiscoverClient({
             </motion.div>
             {featured && (
               <motion.div initial={{ opacity: 0, x: 50, rotateY: -8 }} animate={{ opacity: 1, x: 0, rotateY: 0 }} transition={{ duration: 0.8 }} whileHover={{ rotateY: -3, rotateX: 2, scale: 1.015 }} className="transform-gpu [transform-style:preserve-3d]">
-              <Link href={`/webpages/${featured.demoUrl}/`} className="group relative block aspect-[16/10] overflow-hidden rounded-2xl border border-white/10 bg-zinc-900 shadow-2xl shadow-blue-950/30">
+              <Link href={getDemoHref(featured)} className="group relative block aspect-[16/10] overflow-hidden rounded-2xl border border-white/10 bg-zinc-900 shadow-2xl shadow-blue-950/30">
                 <img src={featured.imageUrl} alt={text(featured.title)} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-6">
