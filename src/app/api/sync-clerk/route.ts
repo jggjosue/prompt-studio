@@ -23,7 +23,8 @@ export async function GET() {
     // Obtenemos hasta 500 usuarios (límite de la API para una sola petición)
     const { data: users } = await client.users.getUserList({ limit: 500 });
     
-    let totalSynced = 0;
+    let usersAdded = 0;
+    let usersAlreadyRegistered = 0;
     
     for (const user of users) {
       const email =
@@ -33,6 +34,12 @@ export async function GET() {
         )?.emailAddress ??
         user.emailAddresses?.[0]?.emailAddress;
       if (!email) continue;
+
+      const alreadyRegistered = await RegisteredUser.exists({ email });
+      if (alreadyRegistered) {
+        usersAlreadyRegistered++;
+        continue;
+      }
       
       const birthDateRaw =
         user.publicMetadata?.birthDate ??
@@ -50,17 +57,23 @@ export async function GET() {
       const paypalEmail = typeof paypalEmailRaw === 'string' ? paypalEmailRaw : null;
       
       // Sincronizar en RegisteredUser
-      await RegisteredUser.updateOne(
+      const registeredUserResult = await RegisteredUser.updateOne(
         { email },
         { $setOnInsert: { email } },
         { upsert: true }
       );
+      if (registeredUserResult.upsertedCount === 0) {
+        // Otro proceso registró el correo mientras esta sincronización corría.
+        usersAlreadyRegistered++;
+        continue;
+      }
       
-      // Sincronizar en UserProfile
-      await UserProfile.findOneAndUpdate(
+      // Solo crear el perfil cuando no exista. Esta sincronización nunca debe
+      // sobrescribir ni eliminar información de usuarios ya registrados.
+      await UserProfile.updateOne(
         { userId: user.id },
         {
-          $set: {
+          $setOnInsert: {
             userId: user.id,
             email,
             birthDate,
@@ -87,10 +100,16 @@ export async function GET() {
         console.error(`Failed to sync Clerk user ${email} to Resend:`, error);
       });
       
-      totalSynced++;
+      usersAdded++;
     }
     
-    return NextResponse.json({ success: true, message: 'Sync complete', totalSynced, totalFoundInClerk: users.length });
+    return NextResponse.json({
+      success: true,
+      message: 'Additive sync complete',
+      usersAdded,
+      usersAlreadyRegistered,
+      totalFoundInClerk: users.length,
+    });
   } catch (error: any) {
     console.error('Error syncing Clerk users:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
