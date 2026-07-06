@@ -103,8 +103,17 @@ function VirtualFeedItem({ item, index }: { item: any, index: number }) {
           )}
           <div className="p-4">
             <div className="mb-2 flex items-center justify-between"><span className="text-[10px] font-black uppercase tracking-[0.18em] text-blue-400">{item.kind}</span><span className="text-[10px] text-zinc-500">{item.tags?.[0]}</span></div>
-            <h3 className="line-clamp-2 font-bold leading-snug">{item.titleText}</h3>
-            <a href={href} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 transition hover:text-blue-400">Usar prompt <MoveUpRight className="h-3.5 w-3.5" /></a>
+            <h3 className="line-clamp-2 font-bold leading-snug">
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 transition hover:text-blue-400"
+              >
+                {item.titleText}
+                <MoveUpRight className="h-3.5 w-3.5 shrink-0" />
+              </a>
+            </h3>
           </div>
         </motion.article>
       ) : null}

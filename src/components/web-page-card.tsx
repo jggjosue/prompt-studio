@@ -68,22 +68,10 @@ function formatPrice(price: string): string | null {
 
 function buildCheckoutUrl(baseUrl: string | undefined, pageId: string, userId?: string | null): string {
   if (!baseUrl) return '#';
-  const affiliateRef = typeof window !== 'undefined' ? window.localStorage.getItem(AFFILIATE_OWNER_STORAGE_KEY) : null;
-  const firstAffiliateRef = typeof window !== 'undefined' ? window.localStorage.getItem(AFFILIATE_FIRST_REF_STORAGE_KEY) : null;
-  const lastTouchAffiliateRef = typeof window !== 'undefined' ? window.localStorage.getItem(AFFILIATE_LAST_TOUCH_STORAGE_KEY) : null;
   const isInternalPath = baseUrl.startsWith('/');
   const url = new URL(baseUrl, 'https://prompstudio.com');
   url.searchParams.set('client_reference_id', `${userId ?? 'guest'}___${pageId}`);
   url.searchParams.set('affiliate_product_id', pageId);
-  if (affiliateRef && affiliateRef !== userId) {
-    url.searchParams.set('affiliate_ref', affiliateRef);
-  }
-  if (firstAffiliateRef && firstAffiliateRef !== userId) {
-    url.searchParams.set('affiliate_first_ref', firstAffiliateRef);
-  }
-  if (lastTouchAffiliateRef && lastTouchAffiliateRef !== userId) {
-    url.searchParams.set('affiliate_last_touch_ref', lastTouchAffiliateRef);
-  }
   return isInternalPath ? `${url.pathname}${url.search}` : url.toString();
 }
 
@@ -110,16 +98,7 @@ function WebPageCardComponent({
     ready &&
     isSignedIn &&
     (plan === 'premium' || plan === 'startup');
-  const stripeUrl =
-    pagePrice === 5
-      ? '/checkout/mini'
-      : pagePrice === 10
-        ? '/checkout/entrepreneur'
-        : pagePrice === 15
-          ? '/checkout/professional'
-        : pagePrice === 20
-          ? process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_BUSINESS_PLAN
-      : getWebPageCheckoutUrl(page.price);
+  const stripeUrl = getWebPageCheckoutUrl(page.price);
   const itemCheckoutUrl = buildCheckoutUrl(stripeUrl, page.id, userId);
   const trackClick = (source: 'campaign-card' | 'demo') => {
     void trackAffiliateClick({
@@ -206,15 +185,23 @@ function WebPageCardComponent({
             <div className="flex flex-wrap items-center gap-2">
               <Button
                 size="sm"
-                className="!bg-blue-600 !text-white shadow-md shadow-blue-950/20 hover:!bg-blue-700"
+                className="!bg-[#0057ff] !text-white shadow-md shadow-blue-950/30 hover:!bg-[#0047d6]"
                 asChild
               >
                 <Link
                   href={`/webpages/${page.demoUrl}/index.html?price=${encodeURIComponent(page.price)}&pageId=${encodeURIComponent(page.id)}&checkout=${encodeURIComponent(itemCheckoutUrl)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="!bg-blue-600 !text-white hover:!bg-blue-700"
-                  onClick={() => {
+                  className="!bg-[#0057ff] !text-white hover:!bg-[#0047d6]"
+                  onClick={event => {
+                    const url = new URL(event.currentTarget.href);
+                    const affiliateRef = window.localStorage.getItem(AFFILIATE_OWNER_STORAGE_KEY);
+                    const firstAffiliateRef = window.localStorage.getItem(AFFILIATE_FIRST_REF_STORAGE_KEY);
+                    const lastTouchAffiliateRef = window.localStorage.getItem(AFFILIATE_LAST_TOUCH_STORAGE_KEY);
+                    if (affiliateRef && affiliateRef !== userId) url.searchParams.set('affiliate_ref', affiliateRef);
+                    if (firstAffiliateRef && firstAffiliateRef !== userId) url.searchParams.set('affiliate_first_ref', firstAffiliateRef);
+                    if (lastTouchAffiliateRef && lastTouchAffiliateRef !== userId) url.searchParams.set('affiliate_last_touch_ref', lastTouchAffiliateRef);
+                    event.currentTarget.href = url.toString();
                     trackClick('demo');
                     trackAnalyticsEvent('web_open_demo_URL', {
                       page_id: page.id,

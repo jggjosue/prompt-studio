@@ -145,7 +145,7 @@ function ImagePromptsContent() {
   return (
     <>
       <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-[240px_1fr] md:gap-x-8 lg:grid-cols-[280px_1fr]">
-        <div className="flex flex-col items-center space-y-4 text-center md:col-span-2">
+        <div className="flex flex-col items-center space-y-4 text-center md:col-start-2 md:row-start-1">
           <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
             Explore AI Image Prompts
           </h1>
@@ -213,7 +213,7 @@ function ImagePromptsContent() {
           </div>
         </div>
 
-        <aside className="hidden flex-col gap-4 md:col-start-1 md:row-start-2 md:flex md:sticky md:top-24">
+        <aside className="hidden flex-col gap-4 md:col-start-1 md:row-start-1 md:row-span-2 md:flex md:self-start md:sticky md:top-24">
           <CatalogFacetBar
             customCategories={customCategories}
             activeTag={facetTag}

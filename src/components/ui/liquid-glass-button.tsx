@@ -124,7 +124,7 @@ function LiquidButton({
             style={{ backdropFilter: 'url("#container-glass")' }}
           />
 
-          <div className="pointer-events-none z-10 ">
+          <div className="pointer-events-none z-10 inline-flex items-center justify-center gap-1.5 whitespace-nowrap">
             {child.props.children}
           </div>
           <GlassFilter />
@@ -153,7 +153,7 @@ function LiquidButton({
         style={{ backdropFilter: 'url("#container-glass")' }}
       />
 
-      <div className="pointer-events-none z-10 ">
+      <div className="pointer-events-none z-10 inline-flex items-center justify-center gap-1.5 whitespace-nowrap">
         {children}
       </div>
       <GlassFilter />
