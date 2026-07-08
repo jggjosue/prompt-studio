@@ -4,6 +4,7 @@ import { headers } from 'next/headers';
 
 import { upsertResendContact } from '@/lib/resend';
 import connectToDatabase from '@/lib/mongoose';
+import NewUser from '@/models/NewUser';
 import UserProfile from '@/models/UserProfile';
 import RegisteredUser from '@/models/RegisteredUser';
 
@@ -16,6 +17,7 @@ type ClerkUserEvent = {
   username?: string | null;
   public_metadata?: Record<string, unknown>;
   private_metadata?: Record<string, unknown>;
+  created_at?: number;
 };
 
 function getPrimaryEmail(user: ClerkUserEvent): string | null {
@@ -106,6 +108,31 @@ export async function POST(req: Request) {
     console.error('Failed to sync Clerk profile to Mongo:', error);
   });
 
+  if (evt.type === 'user.created') {
+    try {
+      await NewUser.updateOne(
+        { email },
+        {
+          $setOnInsert: {
+            email,
+            createdAt: evt.data.created_at
+              ? new Date(evt.data.created_at)
+              : new Date(),
+          },
+        },
+        { upsert: true }
+      );
+    } catch (error) {
+      console.error('Failed to save new Clerk user in new_users:', error);
+      // Clerk/Svix retries non-2xx webhook responses. The operation is
+      // idempotent, so retrying cannot overwrite or duplicate this user.
+      return NextResponse.json(
+        { error: 'New user synchronization to MongoDB failed' },
+        { status: 503 }
+      );
+    }
+  }
+
   const resendResult = await upsertResendContact({
     email,
     firstName: evt.data.first_name ?? undefined,
@@ -120,12 +147,6 @@ export async function POST(req: Request) {
       { error: 'Resend contact synchronization failed' },
       { status: 503 }
     );
-  }
-
-  if (evt.type === 'user.created') {
-
-
-
   }
 
   return NextResponse.json({ received: true });

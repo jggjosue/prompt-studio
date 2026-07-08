@@ -26,6 +26,7 @@ import { useLocale } from 'next-intl';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useMemo, useState } from 'react';
 import animationCatalog from '../../../public/prompts/web-animations.json';
+import { AdUnit } from '@/components/ad-unit';
 
 type AnimationKind =
   | 'orbit'
@@ -331,11 +332,11 @@ export default function WebAnimationsClient() {
                     >
                       <CardHeader>
                         <div className="flex items-start justify-between gap-3">
-                          <div>
+                          <div className="flex-1 min-w-0">
                             <CardTitle className="text-xl font-headline">
                               {animation.name}
                             </CardTitle>
-                            <p className="mt-1 text-xs text-muted-foreground">
+                            <p className="mt-1 mb-2 text-xs text-muted-foreground">
                               HTML · CSS · JavaScript
                             </p>
                           </div>
@@ -372,6 +373,7 @@ export default function WebAnimationsClient() {
                         >
                           <AnimationPreview kind={animation.kind} />
                         </div>
+                        <AdUnit />
                       </CardContent>
 
                       <CardFooter className="justify-between border-t bg-muted/50 p-4">

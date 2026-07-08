@@ -3,6 +3,7 @@
 import { ReadabilityBadge } from '@/components/readability-badge';
 import { OptimizedImage } from '@/components/optimized-image';
 import { Button } from '@/components/ui/button';
+import { AdUnit } from '@/components/ad-unit';
 import {
   Card,
   CardContent,
@@ -121,7 +122,7 @@ function WebPageCardComponent({
                   {page.title}
                 </CardTitle>
               </Link>
-              <p className="text-xs text-muted-foreground mt-1">
+              <p className="text-xs text-muted-foreground mt-1 mb-2">
                 {page.stack.join(' · ')}
               </p>
             </div>
@@ -172,6 +173,7 @@ function WebPageCardComponent({
               data-ai-hint={page.imageHint}
             />
           </Link>
+          <AdUnit />
         </CardContent>
         <CardFooter className="bg-muted/50 p-4 border-t flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2 flex-wrap">

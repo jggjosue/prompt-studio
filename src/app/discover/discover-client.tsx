@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { useMemo, useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { getRefactoryLoaderUrl } from '@/lib/refactory-online';
+import { AdUnit } from '@/components/ad-unit';
 
 type Localized = { es?: string; en?: string };
 type MediaItem = {
@@ -95,7 +96,7 @@ function VirtualFeedItem({ item, index }: { item: any, index: number }) {
           className="group relative overflow-hidden rounded-xl border border-white/10 bg-[#111318] shadow-xl shadow-black/20 transform-gpu [transform-style:preserve-3d] motion-reduce:transform-none"
         >
           {item.kind === 'video' && item.imageUrl ? (
-            <video src={item.imageUrl} muted loop playsInline preload="metadata" onMouseEnter={(event) => event.currentTarget.play().catch(() => {})} onMouseLeave={(event) => { event.currentTarget.pause(); event.currentTarget.currentTime = 0; }} className="aspect-[4/5] w-full object-cover" />
+            <video src={item.imageUrl} muted loop playsInline preload="metadata" onMouseEnter={(event) => event.currentTarget.play().catch(() => { })} onMouseLeave={(event) => { event.currentTarget.pause(); event.currentTarget.currentTime = 0; }} className="aspect-[4/5] w-full object-cover" />
           ) : item.imageUrl ? (
             <img src={item.imageUrl} alt={item.titleText} loading="lazy" className={`w-full object-cover transition duration-500 group-hover:scale-[1.03] ${index % 3 === 0 ? 'aspect-[4/5]' : index % 3 === 1 ? 'aspect-square' : 'aspect-[16/10]'}`} />
           ) : (
@@ -114,6 +115,7 @@ function VirtualFeedItem({ item, index }: { item: any, index: number }) {
                 <MoveUpRight className="h-3.5 w-3.5 shrink-0" />
               </a>
             </h3>
+            <AdUnit />
           </div>
         </motion.article>
       ) : null}
@@ -176,14 +178,14 @@ export default function DiscoverClient({
             </motion.div>
             {featured && (
               <motion.div initial={{ opacity: 0, x: 50, rotateY: -8 }} animate={{ opacity: 1, x: 0, rotateY: 0 }} transition={{ duration: 0.8 }} whileHover={{ rotateY: -3, rotateX: 2, scale: 1.015 }} className="transform-gpu [transform-style:preserve-3d]">
-              <Link href={getDemoHref(featured)} className="group relative block aspect-[16/10] overflow-hidden rounded-2xl border border-white/10 bg-zinc-900 shadow-2xl shadow-blue-950/30">
-                <img src={featured.imageUrl} alt={text(featured.title)} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-6">
-                  <div><span className="text-xs font-bold uppercase tracking-widest text-blue-400">Web destacada</span><h2 className="mt-1 text-2xl font-black">{text(featured.title)}</h2></div>
-                  <MoveUpRight className="h-6 w-6" />
-                </div>
-              </Link>
+                <Link href={getDemoHref(featured)} className="group relative block aspect-[16/10] overflow-hidden rounded-2xl border border-white/10 bg-zinc-900 shadow-2xl shadow-blue-950/30">
+                  <img src={featured.imageUrl} alt={text(featured.title)} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-6">
+                    <div><span className="text-xs font-bold uppercase tracking-widest text-blue-400">Web destacada</span><h2 className="mt-1 text-2xl font-black">{text(featured.title)}</h2></div>
+                    <MoveUpRight className="h-6 w-6" />
+                  </div>
+                </Link>
               </motion.div>
             )}
           </motion.div>
@@ -209,7 +211,7 @@ export default function DiscoverClient({
           <div className="mx-auto max-w-7xl">
             <div className="mb-6 flex items-end justify-between"><div><p className="text-xs font-bold uppercase tracking-widest text-blue-400">Selección creativa</p><h2 className="mt-1 text-3xl font-black">Explora el feed</h2></div><span className="text-sm text-zinc-500">{items.length} resultados</span></div>
             <div className="columns-1 gap-4 sm:columns-2 lg:columns-3 xl:columns-4">
-              
+
               {items.map((item, index) => (
                 <VirtualFeedItem key={item.key} item={item} index={index} />
               ))}
