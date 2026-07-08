@@ -341,9 +341,6 @@ export default async function LandingPageDetailPage({ params, searchParams }: Pa
                   {displayPrice}
                 </div>
               ) : null}
-              <p className="max-w-3xl text-base leading-7 text-muted-foreground md:text-lg">
-                {description}
-              </p>
             </div>
             <div className="flex flex-wrap gap-3">
               <Button asChild>

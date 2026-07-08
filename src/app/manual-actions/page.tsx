@@ -201,7 +201,7 @@ export default function ManualActionsPage() {
                   Si partes del contenido requieren suscripción, marca el paywall para evitar señales de encubrimiento.
                 </p>
                 <pre className="text-xs bg-muted rounded-md p-3 overflow-x-auto whitespace-pre-wrap">
-{paywallStructuredDataSnippet}
+                  {paywallStructuredDataSnippet}
                 </pre>
               </CardContent>
             </Card>

@@ -1,1 +1,1 @@
-const puppeteer = require("puppeteer"); (async () => { const a = await puppeteer.launch(), e = await a.newPage(); e.on("console", o => { }), e.on("pageerror", o => { }), e.on("requestfailed", o => { }), await e.goto("process.env.DOMAIN"), await new Promise(o => setTimeout(o, 2e3)), await a.close() })();
+const puppeteer=require("puppeteer");(async()=>{const a=await puppeteer.launch(),e=await a.newPage();e.on("console",o=>{}),e.on("pageerror",o=>{}),e.on("requestfailed",o=>{}),await e.goto("process.env.DOMAIN"),await new Promise(o=>setTimeout(o,2e3)),await a.close()})();

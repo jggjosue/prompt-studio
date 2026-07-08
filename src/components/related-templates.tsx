@@ -5,7 +5,7 @@ import { normalizeDemoFolder } from '@/lib/refactory-online';
 import { resolveWebPageImageUrl } from '@/lib/web-page-media';
 import { getRawWebPages } from '@/lib/web-pages';
 import { getLocale, getTranslations } from 'next-intl/server';
-import Image from 'next/image';
+import { OptimizedImage } from '@/components/optimized-image';
 import Link from 'next/link';
 
 type RelatedTemplatesProps = {
@@ -115,7 +115,7 @@ export async function RelatedTemplates({
             >
               <div className="relative aspect-video overflow-hidden bg-muted">
                 {template.imageUrl ? (
-                  <Image
+                  <OptimizedImage
                     src={template.imageUrl}
                     alt={template.title}
                     fill
@@ -137,9 +137,6 @@ export async function RelatedTemplates({
                 <h3 className="text-lg font-semibold leading-snug group-hover:text-primary">
                   {template.title}
                 </h3>
-                <p className="text-sm leading-6 text-muted-foreground">
-                  {template.description}
-                </p>
               </div>
             </Link>
           </article>
