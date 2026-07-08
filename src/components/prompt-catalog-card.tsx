@@ -4,6 +4,7 @@ import { PromptCatalogCardHeader } from '@/components/prompt-catalog-card-header
 import { LazyVideo } from '@/components/lazy-video';
 import { OptimizedImage } from '@/components/optimized-image';
 import { Button } from '@/components/ui/button';
+import { AdUnit } from '@/components/ad-unit';
 import { LiquidButton } from '@/components/ui/liquid-glass-button';
 import { ParallaxReveal } from '@/components/ui/parallax-reveal';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
@@ -80,6 +81,7 @@ function PromptCatalogCardComponent({
               />
             )}
           </div>
+          <AdUnit />
         </CardContent>
         <CardFooter className="bg-muted/50 p-4 border-t flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-between gap-2">
           <LiquidButton size="sm" className={actionClassName} asChild>
@@ -87,14 +89,14 @@ function PromptCatalogCardComponent({
               href={
                 item.description
                   ? `${item.type === 'video' ? '/generate-videos' : '/generate-images'}?prompt=${encodeURIComponent(
-                      JSON.stringify({
-                        type: item.type,
-                        title: item.title,
-                        description: item.description,
-                        imageUrl: item.imageUrl,
-                        tags: item.tags,
-                      })
-                    )}`
+                    JSON.stringify({
+                      type: item.type,
+                      title: item.title,
+                      description: item.description,
+                      imageUrl: item.imageUrl,
+                      tags: item.tags,
+                    })
+                  )}`
                   : item.type === 'video'
                     ? '/generate-videos'
                     : '/generate-images'

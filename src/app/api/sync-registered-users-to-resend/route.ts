@@ -1,7 +1,7 @@
-import { NextResponse } from 'next/server';
 import { isPremiumJoAdmin } from '@/lib/admin-auth';
 import connectToDatabase from '@/lib/mongoose';
 import { resend } from '@/lib/resend';
+import { NextResponse } from 'next/server';
 
 const DATABASE_NAME = 'prompt-studio';
 const COLLECTION_NAME = 'registered_users';
