@@ -313,13 +313,15 @@
       "Use your own API key",
       "Basic chat access",
       "Basic image/video/web generation if you provide your key",
+      "Ads",
       "No premium templates",
       "No priority support"
     ],
     "premiumFeatures": [
       "Full access to all Premium prompts across the library",
       "Download any prompt with the Premium badge",
-      "Landing pages, images, videos, and model prompts included"
+      "Landing pages, images, videos, and model prompts included",
+      "No ads"
     ],
     "developerFeatures": [
       "Everything included in Free and Premium",
