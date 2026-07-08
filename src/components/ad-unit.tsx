@@ -5,10 +5,10 @@ import { useStripeSubscription } from '@/hooks/use-stripe-subscription';
 
 export function AdUnit() {
   const adPushed = useRef(false);
-  const { plan } = useStripeSubscription();
+  const { plan, ready } = useStripeSubscription();
 
-  // Show ads only if the user is on the 'free' plan
-  const showAds = plan === 'free';
+  // Show ads only if the user is on the 'free' plan AND subscription status is fully loaded
+  const showAds = ready && plan === 'free';
 
   useEffect(() => {
     if (showAds && !adPushed.current) {
@@ -26,10 +26,10 @@ export function AdUnit() {
     <div className="mt-3 h-[50px] w-full overflow-hidden">
       <ins className="adsbygoogle"
         style={{ display: 'block', height: '50px', width: '100%' }}
-        data-ad-format="fluid"
-        data-ad-layout-key="+2d+rx+1+2-3"
         data-ad-client="ca-pub-7082864972330769"
-        data-ad-slot="3036660209"></ins>
+        data-ad-slot="2498438304"
+        data-ad-format="fluid"
+        data-full-width-responsive="true"></ins>
     </div>
   );
 }
