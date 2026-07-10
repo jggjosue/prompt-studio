@@ -123,7 +123,7 @@ export async function POST(req: Request) {
         { upsert: true }
       );
     } catch (error) {
-      console.error('Failed to save new Clerk user in new_users:', error);
+      console.error('Failed to save new Clerk user in user_profiles:', error);
       // Clerk/Svix retries non-2xx webhook responses. The operation is
       // idempotent, so retrying cannot overwrite or duplicate this user.
       return NextResponse.json(

@@ -10,5 +10,5 @@ const NewUserSchema: Schema = new Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-// El tercer parámetro 'new_users' fuerza el nombre de la colección
-export default mongoose.models.NewUser || mongoose.model<INewUser>('NewUser', NewUserSchema, 'new_users');
+// El tercer parámetro 'user_profiles' fuerza el nombre de la colección
+export default mongoose.models.NewUser || mongoose.model<INewUser>('NewUser', NewUserSchema, 'user_profiles');

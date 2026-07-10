@@ -10,4 +10,4 @@ const RegisteredUserSchema: Schema = new Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-export default mongoose.models.RegisteredUser || mongoose.model<IRegisteredUser>('RegisteredUser', RegisteredUserSchema, 'registered_users');
+export default mongoose.models.RegisteredUser || mongoose.model<IRegisteredUser>('RegisteredUser', RegisteredUserSchema, 'user_profiles');

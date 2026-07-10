@@ -19,7 +19,7 @@ async function seed() {
     });
 
     await newUser.save();
-    //console.log(`Successfully inserted example email (${testEmail}) into new_users collection.`);
+    //console.log(`Successfully inserted example email (${testEmail}) into user_profiles collection.`);
     process.exit(0);
   } catch (error) {
     //console.error('Error seeding data:', error);

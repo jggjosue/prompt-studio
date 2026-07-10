@@ -14,6 +14,7 @@ import { getLocale, getMessages } from 'next-intl/server';
 import Script from 'next/script';
 import { UserSync } from '@/components/user-sync';
 import { SITE_URL } from '@/lib/site-url';
+import { ADSENSE_CLIENT_ID, areAdsEnabled } from '@/lib/ads';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -101,6 +102,7 @@ export default async function RootLayout({
 }>) {
   const locale = await getLocale();
   const messages = await getMessages();
+  const adsEnabled = areAdsEnabled();
 
   return (
     <html
@@ -108,18 +110,22 @@ export default async function RootLayout({
       className={`${firaSans.variable} ${firaCode.variable} dark`}
       suppressHydrationWarning
     >
-      <head>
-        <meta name="google-adsense-account" content="ca-pub-7082864972330769" />
-      </head>
+      {adsEnabled ? (
+        <head>
+          <meta name="google-adsense-account" content={ADSENSE_CLIENT_ID} />
+        </head>
+      ) : null}
       <body className={`${firaSans.className} font-body antialiased bg-black`} suppressHydrationWarning>
         <ClerkProvider {...clerkProviderProps}>
           <UserSync />
-          <Script
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7082864972330769"
-            crossOrigin="anonymous"
-            strategy="afterInteractive"
-          />
+          {adsEnabled ? (
+            <Script
+              async
+              src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}`}
+              crossOrigin="anonymous"
+              strategy="afterInteractive"
+            />
+          ) : null}
           <Script
             src="https://www.googletagmanager.com/gtag/js?id=G-8S22HHJK76"
             strategy="afterInteractive"
