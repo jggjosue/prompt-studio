@@ -10,7 +10,7 @@ const NewUserSchema = new mongoose.Schema({
   email: String,
   createdAt: Date,
 });
-const NewUser = mongoose.models.NewUser || mongoose.model('NewUser', NewUserSchema, 'new_users');
+const NewUser = mongoose.models.NewUser || mongoose.model('NewUser', NewUserSchema, 'user_profiles');
 
 async function main() {
   if (!process.env.MONGODB_URI) {
@@ -28,7 +28,7 @@ async function main() {
   console.log('Connected to MongoDB.');
 
   const users = await NewUser.find({});
-  console.log(`Found ${users.length} users in 'new_users' collection.`);
+  console.log(`Found ${users.length} users in 'user_profiles' collection.`);
 
   let successCount = 0;
   let errorCount = 0;

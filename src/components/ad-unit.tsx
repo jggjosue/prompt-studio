@@ -2,13 +2,15 @@
 
 import { useEffect, useRef } from 'react';
 import { useStripeSubscription } from '@/hooks/use-stripe-subscription';
+import { ADSENSE_CLIENT_ID, areAdsEnabled } from '@/lib/ads';
 
 export function AdUnit() {
   const adPushed = useRef(false);
   const { plan, ready } = useStripeSubscription();
 
+  const adsEnabled = areAdsEnabled();
   // Show ads only if the user is on the 'free' plan AND subscription status is fully loaded
-  const showAds = ready && plan === 'free';
+  const showAds = adsEnabled && ready && plan === 'free';
 
   useEffect(() => {
     if (showAds && !adPushed.current) {
@@ -26,7 +28,7 @@ export function AdUnit() {
     <div className="mt-3 h-[50px] w-full overflow-hidden">
       <ins className="adsbygoogle"
         style={{ display: 'block', height: '50px', width: '100%' }}
-        data-ad-client="ca-pub-7082864972330769"
+        data-ad-client={ADSENSE_CLIENT_ID}
         data-ad-slot="2498438304"
         data-ad-format="fluid"
         data-full-width-responsive="true"></ins>

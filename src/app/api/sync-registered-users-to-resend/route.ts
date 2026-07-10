@@ -4,7 +4,7 @@ import { resend } from '@/lib/resend';
 import { NextResponse } from 'next/server';
 
 const DATABASE_NAME = 'prompt-studio';
-const COLLECTION_NAME = 'registered_users';
+const COLLECTION_NAME = 'user_profiles';
 
 function normalizeEmail(email: string): string {
   return email.trim().toLowerCase();
@@ -112,7 +112,7 @@ export async function GET(request: Request) {
     }
 
     return NextResponse.json({
-      message: 'Additive sync complete (prompt-studio.registered_users to Resend)',
+      message: 'Additive sync complete (prompt-studio.user_profiles to Resend)',
       database: DATABASE_NAME,
       collection: COLLECTION_NAME,
       audienceId: audienceId ?? null,
@@ -126,7 +126,7 @@ export async function GET(request: Request) {
       errors: errors.slice(0, 10),
     });
   } catch (error: any) {
-    console.error('Error syncing registered_users to Resend:', error);
+    console.error('Error syncing user_profiles to Resend:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
