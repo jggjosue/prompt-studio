@@ -138,6 +138,15 @@
     "affiliateDisclosure": "Affiliate Disclosure: Some of the links on this website are affiliate links. This means if you click on the link and purchase the item, we may receive an affiliate commission at no extra cost to you.",
     "openSocial": "Open {network}"
   },
+  "cookieBanner": {
+    "title": "We use cookies",
+    "description": "Prompt Studio uses cookies to remember your preferences, improve the experience, measure performance, and keep the platform secure.",
+    "disclaimer": "By accepting, you agree to our use of cookies according to our Privacy Policy and Terms of Service. You can reject non-essential cookies.",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "accept": "Accept cookies",
+    "reject": "Reject"
+  },
   "home": {
     "heroAriaLabel": "Prompt Studio hero section",
     "heroHeadlinePrefix": "Unlimited AI",

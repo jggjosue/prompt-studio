@@ -137,6 +137,15 @@
     "affiliateDisclosure": "Divulgación de Afiliados: Algunos de los enlaces en este sitio web son enlaces de afiliados. Esto significa que si haces clic en el enlace y compras el artículo, es posible que recibamos una comisión de afiliado sin costo adicional para ti.",
     "openSocial": "Abrir {network}"
   },
+  "cookieBanner": {
+    "title": "Usamos cookies",
+    "description": "Prompt Studio usa cookies para recordar tus preferencias, mejorar la experiencia, medir el rendimiento y mantener la plataforma segura.",
+    "disclaimer": "Al aceptar, autorizas el uso de cookies según nuestra Política de privacidad y nuestros Términos de servicio. Puedes rechazar las cookies no esenciales.",
+    "privacyPolicy": "Política de privacidad",
+    "termsOfService": "Términos de servicio",
+    "accept": "Aceptar cookies",
+    "reject": "Rechazar"
+  },
   "home": {
     "heroAriaLabel": "Presentación principal de Prompt Studio",
     "heroHeadlinePrefix": "Prompts creativos",
