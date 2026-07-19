@@ -13,6 +13,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
 import Script from 'next/script';
 import { UserSync } from '@/components/user-sync';
+import { CookieBanner } from '@/components/cookie-banner';
 import { SITE_URL } from '@/lib/site-url';
 import { ADSENSE_CLIENT_ID, areAdsEnabled } from '@/lib/ads';
 
@@ -152,6 +153,7 @@ export default async function RootLayout({
                 <Toaster />
                 <SiteAnalytics />
                 <ServiceWorkerRegister />
+                <CookieBanner />
               </ThemeProvider>
             </SubscriptionStatusProvider>
           </NextIntlClientProvider>

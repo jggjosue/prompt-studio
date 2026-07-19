@@ -4,9 +4,13 @@ import Link from 'next/link';
 
 type ProgrammaticSeoGridProps = {
   items: ProgrammaticItem[];
+  showDescription?: boolean;
 };
 
-export function ProgrammaticSeoGrid({ items }: ProgrammaticSeoGridProps) {
+export function ProgrammaticSeoGrid({
+  items,
+  showDescription = true,
+}: ProgrammaticSeoGridProps) {
   return (
     <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {items.map(item => (
@@ -37,9 +41,11 @@ export function ProgrammaticSeoGrid({ items }: ProgrammaticSeoGridProps) {
               <h2 className="text-lg font-semibold leading-snug group-hover:text-primary">
                 {item.title}
               </h2>
-              <p className="line-clamp-3 text-sm leading-6 text-muted-foreground">
-                {item.description}
-              </p>
+              {showDescription ? (
+                <p className="line-clamp-3 text-sm leading-6 text-muted-foreground">
+                  {item.description}
+                </p>
+              ) : null}
             </div>
           </Link>
         </article>
