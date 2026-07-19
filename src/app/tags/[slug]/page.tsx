@@ -102,7 +102,7 @@ export default async function TagPage({ params }: PageProps) {
           </div>
         </section>
 
-        <ProgrammaticSeoGrid items={tagPage.items} />
+        <ProgrammaticSeoGrid items={tagPage.items} showDescription={false} />
       </main>
       <Footer />
     </div>

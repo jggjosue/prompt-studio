@@ -18,7 +18,7 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
 const PLAN_PRICES = {
-  premium: { monthly: 15, annual: 162 },
+  premium: { monthly: 9, annual: 54 },
   startup: { monthly: 25, annual: 270 },
 } as const;
 

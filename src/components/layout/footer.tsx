@@ -87,6 +87,9 @@ export default function Footer() {
   const legalLinks = [
     { href: '/terms', label: t('termsOfUse') },
     { href: '/privacy', label: t('privacyPolicy') },
+    { href: '/cookies', label: t('cookiePolicy') },
+    { href: '/licenses', label: t('licensePolicy') },
+    { href: '/refunds', label: t('refundPolicy') },
     { href: '/affiliate-program-terms', label: t('affiliateTerms') },
   ];
 
@@ -213,6 +216,8 @@ export default function Footer() {
                     ) : (
                       <ClientLink
                         href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-sm leading-6 hover:text-foreground transition-colors"
                       >
                         {link.label}

@@ -30,8 +30,8 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
-const PREMIUM_MONTHLY = 15;
-const PREMIUM_YEARLY = 150;
+const PREMIUM_MONTHLY = 9;
+const PREMIUM_YEARLY = 54;
 const DEVELOPER_MONTHLY = 1000;
 const DEVELOPER_YEARLY = 10000;
 

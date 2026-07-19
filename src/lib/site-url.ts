@@ -1,25 +1,46 @@
-const DEFAULT_SITE_URL =
-  process.env.NODE_ENV === 'production'
-    ? 'https://www.prompstudio.com'
-    : 'http://localhost:3043';
+const FALLBACK_PRODUCTION_SITE_URL = 'https://www.prompstudio.com';
+const FALLBACK_DEVELOPMENT_SITE_URL = 'http://localhost:3043';
 
-export function getSiteUrl(): string {
-  const configuredUrl = (
-    process.env.DOMAIN ??
-    process.env.NEXT_PUBLIC_SITE_URL ??
-    process.env.NEXT_PUBLIC_APP_URL
-  )?.trim();
-
-  if (!configuredUrl) return DEFAULT_SITE_URL;
+function normalizeOrigin(value: string): string | null {
+  const candidate = value.trim();
+  if (!candidate) return null;
 
   try {
-    return new URL(configuredUrl).origin;
-  } catch {
-    console.warn(
-      `[site-url] DOMAIN no es una URL válida; usando ${DEFAULT_SITE_URL}.`
+    const url = new URL(
+      /^[a-z][a-z\d+.-]*:\/\//i.test(candidate)
+        ? candidate
+        : `https://${candidate}`
     );
-    return DEFAULT_SITE_URL;
+
+    if (url.protocol !== 'http:' && url.protocol !== 'https:') return null;
+    return url.origin;
+  } catch {
+    return null;
   }
+}
+
+export function getSiteUrl(): string {
+  const isProduction = process.env.NODE_ENV === 'production';
+  const configuredUrl = isProduction
+    ? process.env.DOMAIN
+    : process.env.DOMAIN_DEV;
+  const fallback = isProduction
+    ? FALLBACK_PRODUCTION_SITE_URL
+    : FALLBACK_DEVELOPMENT_SITE_URL;
+
+  if (!configuredUrl?.trim()) return fallback;
+
+  const origin = normalizeOrigin(configuredUrl);
+  if (origin) return origin;
+
+  if (process.env.NODE_ENV !== 'test') {
+    const variableName = isProduction ? 'DOMAIN' : 'DOMAIN_DEV';
+    console.warn(
+      `[site-url] ${variableName} no contiene una URL válida; usando ${fallback}.`
+    );
+  }
+
+  return fallback;
 }
 
 export const SITE_URL = getSiteUrl();
