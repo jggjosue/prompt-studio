@@ -4,6 +4,10 @@
 import { generateImageVideoPrompt } from '@/ai/flows/generate-image-video-prompts';
 import { generateImage } from '@/ai/flows/generate-image';
 import { z } from 'zod';
+import { reportOperationalError } from '@/lib/observability-server';
+import { auth } from '@clerk/nextjs/server';
+import { getServerSubscriptionStatus, hasDownloadPlan } from '@/lib/server-subscription-status';
+import { isGeminiWebModel } from '@/lib/gemini-web-models';
 
 const promptSchema = z.object({
   keywords: z.string().min(3, 'Keywords must be at least 3 characters long.'),
@@ -40,7 +44,7 @@ export async function handlePromptGeneration(
       return { message: 'Failed to generate prompt. Please try again.' };
     }
   } catch (error) {
-    console.error(error);
+    reportOperationalError({ category: 'ai_generation', name: 'prompt_generation', route: 'server-action', metadata: { provider: 'genkit', operation: 'generate_prompt' } }, error);
     return { message: 'An unexpected error occurred.' };
   }
 }
@@ -80,14 +84,14 @@ export async function handleImageGeneration(
       return { message: 'Failed to generate image. Please try again.' };
     }
   } catch (error) {
-    console.error(error);
+    reportOperationalError({ category: 'ai_generation', name: 'image_generation', route: 'server-action', metadata: { provider: 'genkit', operation: 'generate_image' } }, error);
     return { message: 'An unexpected error occurred during image generation.' };
   }
 }
 
 // --- PROXY API ENDPOINTS (Bypassing CORS) ---
 
-export async function proxyOpenAIImage(apiKey: string, prompt: string, model: string = 'dall-e-3') {
+export async function proxyOpenAIImage(apiKey: string, prompt: string, model: string = 'dall-e-3', size: string = '1024x1024') {
   try {
     const response = await fetch('https://api.openai.com/v1/images/generations', {
       method: 'POST',
@@ -99,7 +103,7 @@ export async function proxyOpenAIImage(apiKey: string, prompt: string, model: st
         model: model,
         prompt: prompt,
         n: 1,
-        size: '1024x1024'
+        size
       })
     });
 
@@ -110,6 +114,28 @@ export async function proxyOpenAIImage(apiKey: string, prompt: string, model: st
     return await response.json();
   } catch (err: any) {
     return { error: err.message || 'Network error contacting OpenAI' };
+  }
+}
+
+export async function proxyOpenAIImageEdit(apiKey: string, prompt: string, imageDataUrl: string, model: string = 'gpt-image-1-mini', size: string = '1024x1024') {
+  try {
+    const match = /^data:(image\/(?:png|jpeg|webp));base64,([A-Za-z0-9+/=]+)$/.exec(imageDataUrl);
+    if (!match) return { error: 'Invalid reference image.' };
+    const bytes = Buffer.from(match[2], 'base64');
+    if (bytes.length > 4 * 1024 * 1024) return { error: 'Reference image exceeds 4 MB.' };
+    const form = new FormData();
+    form.set('model', model.startsWith('gpt-image') ? model : 'gpt-image-1-mini');
+    form.set('prompt', prompt);
+    form.set('size', size);
+    form.set('image', new Blob([Uint8Array.from(bytes)], { type: match[1] }), `reference.${match[1] === 'image/png' ? 'png' : 'jpg'}`);
+    const response = await fetch('https://api.openai.com/v1/images/edits', { method: 'POST', headers: { Authorization: `Bearer ${apiKey}` }, body: form });
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}));
+      return { error: error.error?.message || `HTTP ${response.status}` };
+    }
+    return await response.json();
+  } catch (error: any) {
+    return { error: error.message || 'Network error contacting OpenAI' };
   }
 }
 
@@ -408,9 +434,13 @@ export async function proxyVeoVideo(apiKey: string, prompt: string, durationSeco
   }
 }
 
-export async function proxyGemini(apiKey: string, prompt: string, model: string = 'gemini-1.5-flash') {
+export async function proxyGemini(apiKey: string, prompt: string, model: string = 'gemini-2.5-flash') {
   try {
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
+    const key = apiKey || process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || '';
+    if (!key) {
+      return { error: 'No Gemini API Key configured on platform or provided.' };
+    }
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -430,4 +460,19 @@ export async function proxyGemini(apiKey: string, prompt: string, model: string 
   } catch (err: any) {
     return { error: err.message || 'Network error contacting Gemini API' };
   }
+}
+
+/** Gemini administrado por Prompt Studio para el generador web Premium. */
+export async function proxyPremiumGeminiWeb(prompt: string, model: string = 'gemini-2.5-flash') {
+  const { userId } = await auth();
+  if (!userId) return { error: 'Inicia sesión para generar páginas web.' };
+  if (!hasDownloadPlan(await getServerSubscriptionStatus())) {
+    return { error: 'La generación web con Gemini requiere una suscripción Premium activa.' };
+  }
+  if (!isGeminiWebModel(model)) return { error: 'Modelo Gemini no compatible.' };
+  const cleanPrompt = prompt.trim().slice(0, 20_000);
+  if (!cleanPrompt) return { error: 'El prompt está vacío.' };
+  // No se acepta una clave del cliente: proxyGemini utiliza GEMINI_API_KEY o
+  // GOOGLE_API_KEY del entorno del servidor.
+  return proxyGemini('', cleanPrompt, model);
 }

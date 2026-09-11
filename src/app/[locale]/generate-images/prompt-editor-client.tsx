@@ -4,7 +4,11 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
 
-import { handleImageGeneration, proxyOpenAIImage, proxyOpenAIChat, proxyAnthropicChat, proxyRunwayStart, proxyRunwayPoll, proxyVeoVideo, proxyGemini, type ImageGenerationFormState } from '@/app/actions';
+import { handleImageGeneration, type ImageGenerationFormState } from '@/app/actions';
+import { generationProviders } from '@/lib/generation/provider-adapters';
+import { useGenerationEditor } from '@/hooks/use-generation-editor';
+import { GenerationErrorNotice, GenerationProgress } from '@/components/generation/generation-feedback';
+import { GenerationCostDisclosure } from '@/components/generation/generation-cost-disclosure';
 
 
 import { Button } from '@/components/ui/button';
@@ -53,9 +57,26 @@ import {
   Search
 } from 'lucide-react';
 import { OptimizedImage } from '@/components/optimized-image';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useActionState, useEffect, useState, useTransition, useRef, Suspense } from 'react';
+import { useBrandKitContext } from '@/hooks/use-brand-kit-context';
+
+const VisualReferencePrompt = dynamic(() => import('@/components/visual-reference-prompt').then(module => module.VisualReferencePrompt), { ssr: false });
+const ImageVisualPromptBuilder = dynamic(() => import('@/components/image-visual-prompt-builder').then(module => module.ImageVisualPromptBuilder), { ssr: false });
+const ProductPromptCollections = dynamic(() => import('@/components/product-prompt-collections').then(module => module.ProductPromptCollections), { ssr: false });
+const ModelPromptVariants = dynamic(() => import('@/components/model-prompt-variants').then(module => module.ModelPromptVariants), { ssr: false });
+const CharacterConsistencyKit = dynamic(() => import('@/components/character-consistency-kit').then(module => module.CharacterConsistencyKit), { ssr: false });
+
+const proxyOpenAIChat = generationProviders.openai.chat;
+const proxyOpenAIImage = generationProviders.openai.image;
+const proxyOpenAIImageEdit = generationProviders.openai.editImage;
+const proxyAnthropicChat = generationProviders.anthropic.chat;
+const proxyGemini = generationProviders.google.generate;
+const proxyVeoVideo = generationProviders.google.video;
+const proxyRunwayStart = generationProviders.runway.start;
+const proxyRunwayPoll = generationProviders.runway.poll;
 
 // Sample video placeholders to simulate dynamic generation
 const sampleVideos = [
@@ -191,6 +212,7 @@ function generateMockLandingHTML(promptText: string, framework: string, theme: s
 }
 
 export default function PromptEditorClient() {
+  const { brandPromptContext, brandKitName } = useBrandKitContext();
   const isSpanish = true;
   const [mounted, setMounted] = useState(false);
   useEffect(() => { setMounted(true); }, []);
@@ -383,6 +405,13 @@ export default function PromptEditorClient() {
   const [imageCFG, setImageCFG] = useState(7.5);
   const [imageSteps, setImageSteps] = useState(30);
   const [imageNegative, setImageNegative] = useState('blurry, low quality, distorted, extra limbs, bad anatomy, deformed');
+  const [imageLens, setImageLens] = useState('50mm');
+  const [imageComposition, setImageComposition] = useState('rule-of-thirds');
+  const [imageRealism, setImageRealism] = useState(80);
+  const [imageColors, setImageColors] = useState('natural');
+  const [imageVariationPack, setImageVariationPack] = useState(false);
+  const [referenceImage, setReferenceImage] = useState('');
+  const [referenceInstructions, setReferenceInstructions] = useState('');
 
   // Advanced Option States - AI Video
   const [videoModel, setVideoModel] = useState('chrono-animator');
@@ -402,16 +431,12 @@ export default function PromptEditorClient() {
 
   // Mock Generation UI flows
   const [isPending, startTransition] = useTransition();
-  const [localGenerating, setLocalGenerating] = useState(false);
-  const [genProgress, setGenProgress] = useState(0);
-  const [genStatus, setGenStatus] = useState('');
-
-  // Outputs
-  const [outputImageUrl, setOutputImageUrl] = useState('');
-  const [outputVideoUrl, setOutputVideoUrl] = useState('');
-  const [outputWebHTML, setOutputWebHTML] = useState('');
-  const [outputWebTab, setOutputWebTab] = useState<'preview' | 'code'>('preview');
-  const [copiedCode, setCopiedCode] = useState(false);
+  const {
+    localGenerating, setLocalGenerating, genProgress, setGenProgress, genStatus, setGenStatus,
+    generationError, setGenerationError, failGeneration, outputImageUrl, setOutputImageUrl, outputImageVariations, setOutputImageVariations,
+    outputVideoUrl, setOutputVideoUrl, outputWebHTML, setOutputWebHTML,
+    outputWebTab, setOutputWebTab, copiedCode, setCopiedCode,
+  } = useGenerationEditor();
 
   const { toast } = useToast();
 
@@ -451,6 +476,9 @@ export default function PromptEditorClient() {
       if (imageStyle) compiled += `, ${imageStyle} style`;
       if (imageLighting) compiled += `, ${imageLighting} lighting`;
       if (imageCamera) compiled += `, ${imageCamera} shot`;
+      if (imageLens) compiled += `, photographed with a ${imageLens} lens`;
+      if (imageComposition) compiled += `, ${imageComposition} composition`;
+      compiled += `, ${imageRealism}% realism, ${imageColors} color palette`;
       if (imageRatio) {
         const ratioLabel = imageRatio === '1-1' ? '1:1' : imageRatio === '16-9' ? '16:9' : imageRatio === '9-16' ? '9:16' : '4:3';
         compiled += `, ${ratioLabel} aspect ratio`;
@@ -486,7 +514,7 @@ export default function PromptEditorClient() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     activeTab,
-    imageStyle, imageLighting, imageCamera, imageRatio,
+    imageStyle, imageLighting, imageCamera, imageRatio, imageLens, imageComposition, imageRealism, imageColors,
     videoStyle, videoMotion, videoCamera, videoAspect,
     webFramework, webTheme, webColor, webComponent
   ]);
@@ -893,6 +921,7 @@ Respond ALWAYS in JSON format with exactly three fields:
   // Submit Generation
   const handleGenerationSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setGenerationError(null);
 
 
     if (activeTab === 'pure-text') {
@@ -979,7 +1008,7 @@ Respond ALWAYS in JSON format with exactly three fields:
     }
 
     // Cost definition: Image = 1.0, Video = 3.0, Web = 2.0 credits
-    const creditCost = activeTab === 'ai-video' ? 3.0 : activeTab === 'ai-web' ? 2.0 : 1.0;
+    const creditCost = activeTab === 'ai-video' ? 3.0 : activeTab === 'ai-web' ? 2.0 : imageVariationPack ? 8.0 : 1.0;
     if (credits < creditCost) {
       toast({
         variant: 'destructive',
@@ -1005,7 +1034,7 @@ Respond ALWAYS in JSON format with exactly three fields:
       setGenProgress(10);
 
       // Assemble full prompt
-      let finalPrompt = editingText;
+      let finalPrompt = editingText + brandPromptContext;
       if (videoCamera) finalPrompt += `, camera motion: ${videoCamera}`;
       if (videoStyle) finalPrompt += `, style: ${videoStyle}`;
 
@@ -1075,6 +1104,7 @@ Respond ALWAYS in JSON format with exactly three fields:
       }
 
       if (apiError || !videoOutputUrl) {
+        failGeneration(`${apiUsed || 'Video'} Generation Failed`, apiError || 'Failed to obtain video output from provider.');
         toast({
           variant: 'destructive',
           title: `${apiUsed || 'Video'} Generation Failed`,
@@ -1184,6 +1214,7 @@ Requirements:
       }
 
       if (apiError || !generatedHTML) {
+        failGeneration(`${apiUsed || 'Web'} Generation Failed`, apiError || 'Failed to generate code from provider.');
         toast({
           variant: 'destructive',
           title: `${apiUsed || 'Web'} Generation Failed`,
@@ -1237,10 +1268,17 @@ Requirements:
     setGenProgress(10);
 
     // Compile final prompt with tags
-    let finalPrompt = editingText;
+    let finalPrompt = editingText + brandPromptContext;
     if (imageStyle) finalPrompt += `, ${imageStyle} style`;
     if (imageLighting) finalPrompt += `, ${imageLighting} lighting`;
     if (imageCamera) finalPrompt += `, ${imageCamera} shot`;
+    if (imageLens) finalPrompt += `, ${imageLens} lens`;
+    if (imageComposition) finalPrompt += `, ${imageComposition} composition`;
+    finalPrompt += `, ${imageRealism}% realism, ${imageColors} color palette`;
+    if (imageRatio) finalPrompt += `, ${imageRatio.replace('-', ':')} aspect ratio`;
+    if (imageNegative.trim()) finalPrompt += `. Avoid: ${imageNegative.trim()}`;
+    if (referenceInstructions) finalPrompt += `. Reference image instructions: ${referenceInstructions}`;
+    const openAISize = imageRatio === '9-16' ? '1024x1536' : imageRatio === '16-9' ? '1536x1024' : '1024x1024';
 
     if (imageProvider === 'openai' && openAIKey) {
       apiUsed = `OpenAI ${openAIImageModel}`;
@@ -1248,7 +1286,9 @@ Requirements:
         setGenStatus(`Calling OpenAI ${openAIImageModel}...`);
         setGenProgress(30);
 
-        const data = await proxyOpenAIImage(openAIKey, finalPrompt, openAIImageModel);
+        const data = referenceImage
+          ? await proxyOpenAIImageEdit(openAIKey, finalPrompt, referenceImage, openAIImageModel, openAISize)
+          : await proxyOpenAIImage(openAIKey, finalPrompt, openAIImageModel, openAISize);
         if (data && 'error' in data && data.error) {
           apiError = data.error;
         } else {
@@ -1319,6 +1359,7 @@ Requirements:
     }
 
     if (apiError || !imageOutputUrl) {
+      failGeneration(`${apiUsed || 'Image'} Generation Failed`, apiError || 'Failed to obtain image output from provider.');
       toast({
         variant: 'destructive',
         title: `${apiUsed} Generation Failed`,
@@ -1329,6 +1370,43 @@ Requirements:
     }
 
     setOutputImageUrl(imageOutputUrl);
+    const variationDefinitions = [
+      ['Vertical 9:16', 'vertical 9:16 composition optimized for mobile stories'],
+      ['Cuadrada 1:1', 'square 1:1 composition'],
+      ['Horizontal 16:9', 'horizontal cinematic 16:9 composition'],
+      ['Close-up', 'tight close-up framing emphasizing the main subject'],
+      ['Plano completo', 'full-body or full-product wide framing with environmental context'],
+      ['Variante comercial', 'commercial advertising treatment, clear product focus and conversion-ready polish'],
+      ['Variante editorial', 'editorial magazine treatment, expressive composition and art direction'],
+    ] as const;
+    const generatedVariations: Array<{ label: string; url: string }> = [];
+    if (imageVariationPack && (imageProvider === 'openai' || imageProvider === 'fal')) {
+      for (let index = 0; index < variationDefinitions.length; index++) {
+        const [label, directive] = variationDefinitions[index];
+        const variationSize = label === 'Vertical 9:16' ? '1024x1536' : label === 'Horizontal 16:9' ? '1536x1024' : '1024x1024';
+        setGenStatus(`Generando ${label} (${index + 2}/8)...`);
+        setGenProgress(15 + Math.round(((index + 1) / variationDefinitions.length) * 80));
+        const variationPrompt = `${finalPrompt}. Variation directive: ${directive}. Maintain visual continuity with the principal image.`;
+        try {
+          if (imageProvider === 'openai') {
+            const data = referenceImage
+              ? await proxyOpenAIImageEdit(openAIKey, variationPrompt, referenceImage, openAIImageModel, variationSize)
+              : await proxyOpenAIImage(openAIKey, variationPrompt, openAIImageModel, variationSize);
+            const result = data.data?.[0];
+            const url = result?.url || (result?.b64_json ? `data:image/png;base64,${result.b64_json}` : '');
+            if (url) generatedVariations.push({ label, url });
+          } else {
+            const falSize = label === 'Vertical 9:16' ? 'portrait_16_9' : label === 'Horizontal 16:9' ? 'landscape_16_9' : 'square_hd';
+            const response = await fetch(`https://fal.run/${falModel}`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': replicateKey.startsWith('Key ') || replicateKey.startsWith('Bearer ') ? replicateKey : `Key ${replicateKey}` }, body: JSON.stringify({ prompt: variationPrompt, image_size: falSize, sync_mode: true }) });
+            if (response.ok) {
+              const data = await response.json();
+              if (data.images?.[0]?.url) generatedVariations.push({ label, url: data.images[0].url });
+            }
+          }
+        } catch { /* Keep successful variations if one provider request fails. */ }
+      }
+    }
+    setOutputImageVariations(generatedVariations);
     const historyTitle = finalPrompt.trim().split(/[.!?\n]/)[0].slice(0, 34) || 'Untitled Image';
     const historyId = `${Date.now()}`;
     setPromptHistory((items) => [
@@ -1336,11 +1414,12 @@ Requirements:
       ...items.filter((item) => item.prompt !== finalPrompt),
     ]);
     setActiveHistoryId(historyId);
-    setCredits(prev => Math.max(0, prev - creditCost));
+    const usedCredits = imageVariationPack ? 1 + generatedVariations.length : 1;
+    setCredits(prev => Math.max(0, prev - usedCredits));
     setLocalGenerating(false);
     toast({
       title: 'Image Created!',
-      description: `Finished rendering via ${apiUsed}. Deducted ${creditCost.toFixed(1)} credits.`,
+      description: `Finished rendering via ${apiUsed}. Created ${1 + generatedVariations.length} image(s) and deducted ${usedCredits.toFixed(1)} credits.`,
     });
 
   };
@@ -1349,6 +1428,7 @@ Requirements:
     <div className="flex min-h-screen w-full flex-col bg-background">
       <Suspense fallback={<div className="w-full h-16 border-b" />}>
         <Header />
+        {brandKitName && <div className="border-b bg-primary/5 px-4 py-2 text-center text-xs font-medium text-primary">Brand Kit aplicado: {brandKitName}</div>}
       </Suspense>
       <aside className={`fixed bottom-0 left-0 top-36 z-30 w-60 flex-col border-r border-t bg-card p-4 shadow-xl ${
         isHistoryCollapsed ? 'hidden' : 'hidden xl:flex'
@@ -1597,6 +1677,60 @@ Requirements:
                                   )}
                                 </div>
                               </div>
+
+                              {activeTab === 'ai-image' ? (
+                                <>
+                                  <ProductPromptCollections
+                                    onSelect={preset => {
+                                      setBasePrompt(preset.prompt);
+                                      setEditingText(preset.prompt);
+                                      setImageStyle(preset.style);
+                                      setImageLighting(preset.lighting);
+                                      setImageLens(preset.lens);
+                                      setImageComposition(preset.composition);
+                                      setImageRatio(preset.ratio);
+                                      setImageRealism(preset.realism);
+                                      setImageColors(preset.colors);
+                                    }}
+                                  />
+                                  <VisualReferencePrompt
+                                    provider={imageProvider}
+                                    onChange={(image, instructions) => {
+                                      setReferenceImage(image);
+                                      setReferenceInstructions(instructions);
+                                    }}
+                                  />
+                                  <CharacterConsistencyKit
+                                    basePrompt={basePrompt}
+                                    hasReference={Boolean(referenceImage)}
+                                    onUse={prompt => {
+                                      setBasePrompt(prompt);
+                                      setEditingText(prompt);
+                                    }}
+                                  />
+                                  <ImageVisualPromptBuilder
+                                    value={{ style: imageStyle, lighting: imageLighting, lens: imageLens, angle: imageCamera, composition: imageComposition, ratio: imageRatio, realism: imageRealism, colors: imageColors, negative: imageNegative, variationPack: imageVariationPack }}
+                                    onChange={patch => {
+                                      if (patch.style !== undefined) setImageStyle(patch.style);
+                                      if (patch.lighting !== undefined) setImageLighting(patch.lighting);
+                                      if (patch.lens !== undefined) setImageLens(patch.lens);
+                                      if (patch.angle !== undefined) setImageCamera(patch.angle);
+                                      if (patch.composition !== undefined) setImageComposition(patch.composition);
+                                      if (patch.ratio !== undefined) setImageRatio(patch.ratio);
+                                      if (patch.realism !== undefined) setImageRealism(patch.realism);
+                                      if (patch.colors !== undefined) setImageColors(patch.colors);
+                                      if (patch.negative !== undefined) setImageNegative(patch.negative);
+                                      if (patch.variationPack !== undefined) setImageVariationPack(patch.variationPack);
+                                    }}
+                                  />
+                                  <ModelPromptVariants
+                                    prompt={editingText}
+                                    negative={imageNegative}
+                                    ratio={imageRatio}
+                                    realism={imageRealism}
+                                  />
+                                </>
+                              ) : null}
 
                               {/* Advanced Configuration (Duplicated) */}
                               <Accordion type="single" collapsible className="mt-6 w-full">
@@ -2706,6 +2840,8 @@ Requirements:
                                 </AccordionItem>
                               </Accordion>
 
+                              <GenerationCostDisclosure kind={activeTab === 'ai-video' ? 'video' : activeTab === 'ai-web' || activeTab === 'pure-text' ? 'project' : 'image'} provider={activeTab === 'ai-video' ? videoProvider : activeTab === 'ai-web' ? webProvider : activeTab === 'pure-text' ? chatProvider : imageProvider} />
+
                               {/* Trigger button */}
                               {(() => {
                                 const getButtonConfig = () => {
@@ -2746,7 +2882,7 @@ Requirements:
                                   <div className="pt-2">
                                     <Button
                                       type="submit"
-                                      disabled={true}
+                                      disabled={!editingText.trim() || isPending || localGenerating}
                                       className={`relative group overflow-hidden w-full h-12 ${btn.gradient} !text-white font-extrabold gap-2.5 text-sm rounded-xl transition-all duration-300 ease-out hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center ${btn.shadow} ${btn.border} ${btn.ring}`}
                                     >
                                       {/* Inner glow overlay on hover */}
@@ -2834,28 +2970,8 @@ Requirements:
                     <div className={`${isPreviewCollapsed ? 'hidden' : 'flex'} p-4 flex-1 flex-col justify-center bg-muted/30 relative`}>
 
                       {/* Generative Loading Screen */}
-                      {(isPending || localGenerating) && (
-                        <div className="absolute inset-0 bg-background/95 flex flex-col items-center justify-center p-6 z-10 text-center space-y-4">
-                          <div className="relative flex items-center justify-center">
-                            <Loader2 className="h-12 w-12 text-blue-500 animate-spin" />
-                            <Sparkles className="h-5 w-5 text-blue-400 absolute animate-pulse" />
-                          </div>
-                          <div className="space-y-1.5 max-w-[280px]">
-                            <p className="font-bold text-sm text-foreground">
-                              {localGenerating ? 'Running Physics Engine' : 'Rendering Image Canvas'}
-                            </p>
-                            <p className="text-xs text-muted-foreground animate-pulse">
-                              {localGenerating ? genStatus : 'Calculating lighting vectors...'}
-                            </p>
-                          </div>
-                          <div className="w-full max-w-[200px] h-1.5 bg-muted rounded-full overflow-hidden border">
-                            <div
-                              className="bg-blue-600 h-full transition-all duration-300 rounded-full"
-                              style={{ width: `${localGenerating ? genProgress : 50}%` }}
-                            />
-                          </div>
-                        </div>
-                      )}
+                      <GenerationProgress active={localGenerating} pending={isPending} progress={genProgress} status={genStatus} />
+                      <GenerationErrorNotice error={generationError} />
 
                       {/* --- IMAGE RESULT PREVIEW --- */}
                       {activeTab === 'ai-image' && (
@@ -2896,6 +3012,18 @@ Requirements:
                               </p>
                             </div>
                           )}
+                          {outputImageVariations.length > 0 ? (
+                            <div className="mt-4 grid max-h-[360px] w-full grid-cols-2 gap-3 overflow-y-auto pr-1">
+                              {outputImageVariations.map(variation => (
+                                <figure key={variation.label} className="overflow-hidden rounded-lg border bg-background">
+                                  <div className="relative aspect-square">
+                                    <OptimizedImage src={variation.url} alt={variation.label} fill className="object-cover" />
+                                  </div>
+                                  <figcaption className="p-2 text-center text-[11px] font-bold">{variation.label}</figcaption>
+                                </figure>
+                              ))}
+                            </div>
+                          ) : null}
                         </div>
                       )}
 
