@@ -1,37 +1,16 @@
 import { getRequestConfig } from 'next-intl/server';
-import { cookies, headers } from 'next/headers';
-import { defaultLocale, isLocale, LOCALE_COOKIE } from './config';
+import { defaultLocale, isLocale } from './config';
 
-export default getRequestConfig(async () => {
-  const cookieStore = await cookies();
-  const headersList = await headers();
-  const cookieLocale = cookieStore.get(LOCALE_COOKIE)?.value;
-
-  let locale = cookieLocale;
-
-  if (!locale || !isLocale(locale)) {
-    const acceptLanguage = headersList.get('accept-language') || '';
-    const country = (
-      headersList.get('x-vercel-ip-country') ||
-      headersList.get('x-edge-country') ||
-      ''
-    ).toUpperCase();
-
-    // Latin American countries (ISO codes) + Spain (ES)
-    const latamAndSpain = [
-      'AR', 'BO', 'BR', 'CL', 'CO', 'CR', 'CU', 'DO', 'EC', 'SV',
-      'GT', 'HN', 'MX', 'NI', 'PA', 'PY', 'PE', 'PR', 'UY', 'VE', 'ES'
-    ];
-
-    const hasSpanishLanguage = acceptLanguage.toLowerCase().includes('es');
-    const isLatamOrSpain = latamAndSpain.includes(country);
-
-    if (hasSpanishLanguage || isLatamOrSpain) {
-      locale = 'es';
-    } else {
-      locale = 'en';
-    }
-  }
+/**
+ * El idioma llega ahora por el segmento de ruta `[locale]`, que el middleware
+ * inyecta reescribiendo la petición. Ya no se leen `cookies()` ni `headers()`
+ * aquí: hacerlo marcaba cada página como dinámica y bloqueaba el prerender.
+ *
+ * La detección propiamente dicha vive en `./detect-locale`.
+ */
+export default getRequestConfig(async ({ requestLocale }) => {
+  const requested = await requestLocale;
+  const locale = isLocale(requested ?? '') ? requested! : defaultLocale;
 
   return {
     locale,

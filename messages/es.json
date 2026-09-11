@@ -88,13 +88,16 @@
     "webs": "Webs",
     "webAnimations": "Web Animations",
     "prices": "Precios",
+    "resources": "Recursos",
     "tags": "Etiquetas",
     "videoTags": "Etiquetas de video",
     "videoTagsDesc": "Explora por estilo de movimiento",
     "imageTags": "Etiquetas de imagen",
     "imageTagsDesc": "Explora por estilo visual",
     "webTags": "Webs",
-    "webTagsDesc": "Explora por estilo de página"
+    "webTagsDesc": "Explora por estilo de página",
+    "componentBuilder": "Constructor de componentes",
+    "componentKits": "Kits de componentes"
   },
   "header": {
     "brand": "Prompt Studio",
@@ -232,11 +235,82 @@
     "downloadFailedDescription": "Inténtalo de nuevo en unos segundos.",
     "openDemo": "Abrir demo",
     "buyNow": "Comprar ahora",
+    "purchaseTrust": "Pago seguro con Stripe · Descarga inmediata · Licencia comercial · Soporte para incidencias",
+    "whatsIncluded": {
+      "title": "Qué recibes",
+      "subtitle": "Todo lo necesario para publicar y personalizar tu landing.",
+      "sourceCode": "Código fuente completo",
+      "organizedFiles": "Archivos organizados",
+      "responsiveDesign": "Diseño responsive",
+      "animations": "Animaciones incluidas",
+      "commercialLicense": "Licencia comercial",
+      "futureUpdates": "Actualizaciones futuras",
+      "instantDownload": "Descarga inmediata",
+      "compatibility": "Compatibilidad y dependencias: {stack}"
+    },
     "allLandingPages": "Todas las landing pages",
     "free": "Gratis",
     "relatedTemplates": "Plantillas relacionadas",
+    "socialProof": {
+      "eyebrow": "Resultados reales",
+      "title": "Creado con esta plantilla",
+      "downloads": "Descargas verificadas",
+      "ratings": "{count, plural, one {# valoración} other {# valoraciones}}",
+      "projects": "Proyectos creados",
+      "customizations": "Personalizaciones de compradores",
+      "reviews": "Opiniones de compradores",
+      "verified": "Compra verificada",
+      "stars": "{count} de 5 estrellas"
+    },
+    "codePreview": {
+      "eyebrow": "Calidad técnica",
+      "title": "Vista previa del código",
+      "description": "Explora una muestra real de los archivos incluidos antes de comprar.",
+      "locked": "{count} líneas adicionales disponibles después de comprar."
+    },
+    "customization": {
+      "eyebrow": "Disponible con tu compra",
+      "title": "Personaliza tu plantilla",
+      "description": "Convierte la plantilla en una página lista para tu proyecto.",
+      "themeTitle": "Colores y tipografía",
+      "themeDescription": "Abre el modo visual del editor para adaptar tu identidad.",
+      "copyTitle": "Sustituir textos",
+      "copyDescription": "Edita títulos, secciones y llamadas a la acción.",
+      "aiTitle": "Generar variante con IA",
+      "aiDescription": "Crea una nueva dirección basada en esta plantilla.",
+      "exportTitle": "Exportar resultado",
+      "exportDescription": "Descarga los archivos editables del proyecto.",
+      "professionalTitle": "Personalización profesional",
+      "professionalDescription": "Solicita una adaptación realizada por nuestro equipo.",
+      "open": "Abrir"
+    },
+    "recommendations": {
+      "title": "Recomendaciones para {name}",
+      "sameStyle": "Plantillas con el mismo estilo",
+      "sameIndustry": "Páginas de la misma industria",
+      "cheaper": "Alternativas más económicas",
+      "styleMatch": "Estilo similar",
+      "industryMatch": "Misma industria",
+      "lowerPrice": "Menor precio",
+      "bundleTitle": "Bundle recomendado",
+      "bundleDescription": "Combina estas {count} plantillas relacionadas y ahorra 20%.",
+      "bundleAction": "Ver bundle recomendado"
+    },
     "moreTemplates": "Más plantillas de {category}",
     "viewCategory": "Ver categoría",
+    "favorites": {
+      "name": "Para mi próximo proyecto",
+      "description": "Tus plantillas guardadas en este dispositivo.",
+      "save": "Guardar en favoritos",
+      "removeShort": "Quitar de favoritos",
+      "remove": "Quitar {name} de favoritos",
+      "savedCount": "Tienes {count, plural, one {# plantilla guardada} other {# plantillas guardadas}}.",
+      "discountOffer": "Compra {count, plural, one {esta plantilla} other {las #}} con 20% de descuento.",
+      "viewCollection": "Ver colección",
+      "subtotal": "Precio individual",
+      "bundleTotal": "Total con 20% menos",
+      "buyBundle": "Comprar {count, plural, one {la plantilla} other {las # plantillas}}"
+    },
     "notFoundTitle": "Landing page no encontrada",
     "notFoundDescription": "Este prompt de landing page no está disponible.",
     "detailSeoTitle": "{title} | Prompt de landing page {category}",
@@ -338,7 +412,15 @@
       "Todo lo incluido en Gratis y Premium",
       "Código fuente completo de cada proyecto",
       "Paquetes HTML/CSS (y JS cuando aplique) listos para clonar"
-    ]
+    ],
+    "proName": "Pro",
+    "proBadge": "Para agencias",
+    "proDesc": "Publica campañas en tu propio dominio, con tu marca aplicada.",
+    "proFeaturePublish": "Publica landings en tu propio dominio",
+    "proFeatureBrandKits": "Brand Kits: tu marca aplicada a todo lo que generas",
+    "proFeatureEverythingPremium": "Todo lo incluido en Premium",
+    "proSubscribe": "Suscribirme a Pro",
+    "proManagePublications": "Ver mis publicaciones"
   },
   "dashboard": {
     "dashboard": "Panel",
@@ -349,6 +431,7 @@
     "favorites": "Favoritos",
     "settings": "Configuración",
     "billing": "Facturación",
+    "credits": "Créditos",
     "settingsSection": "Configuración",
     "upgradeTitle": "Actualizar a Premium",
     "upgradeDesc": "Desbloquea todo el contenido premium y acceso ilimitado.",
@@ -361,7 +444,9 @@
     "partners": "Socios",
     "partnersDesc": "Solicitudes de afiliados",
     "analytics": "Analítica",
-    "campaignsDesc": "Campañas y ventas"
+    "campaignsDesc": "Campañas y ventas",
+    "creditsDesc": "Recarga tu saldo y consulta el historial",
+    "billingDesc": "Plan, facturas y método de pago"
   },
   "dashboardAnalytics": {
     "title": "Analítica",
@@ -718,7 +803,9 @@
       "pending": "Pendiente",
       "paid": "Pagado",
       "topSource": "Fuente principal",
-      "topSourceValue": "Newsletter"
+      "topSourceValue": "Newsletter",
+      "sampleBadge": "Ejemplo",
+      "sampleNote": "Cifras de muestra para ilustrar el panel. No son resultados del programa."
     },
     "resources": {
       "title": "Todo lo que Necesitas para Promocionar más Rápido",
@@ -1007,5 +1094,26 @@
       "sale": "Venta",
       "commission": "Comisión"
     }
+  },
+  "saved": {
+    "add": "Guardar",
+    "remove": "Quitar de guardados",
+    "title": "Guardados",
+    "description": "Recursos que has guardado desde el catálogo.",
+    "empty": "Todavía no has guardado nada. Pulsa el icono de marcador en cualquier recurso del catálogo.",
+    "count": "{count} guardados",
+    "kindImage": "Imágenes",
+    "kindVideo": "Vídeos",
+    "kindWebPage": "Páginas web",
+    "kindComponent": "Componentes",
+    "kindAnimation": "Animaciones",
+    "openItem": "Abrir",
+    "tab": "Guardados"
+  },
+  "freeTools": {
+    "ctaTitle": "Esto es una muestra de lo que hay dentro",
+    "ctaDescription": "Más de mil prompts, componentes y plantillas listas para usar. Descarga los marcados como gratis sin crear cuenta.",
+    "ctaPrimary": "Ver el catálogo",
+    "ctaSecondary": "Comparar planes"
   }
 }
