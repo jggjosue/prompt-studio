@@ -3,7 +3,9 @@ import {
   PROMPT_EDIT_ENABLED,
   PROMPT_EDIT_PATH,
 } from '@/lib/prompt-edit';
-import { NextResponse } from 'next/server';
+import { NextResponse, type NextRequest } from 'next/server';
+import { detectLocale } from '@/i18n/detect-locale';
+import { locales } from '@/i18n/config';
 
 const isProtectedRoute = createRouteMatcher(['/dashboard(.*)']);
 
@@ -15,6 +17,38 @@ const LEGACY_LANDING_PAGE_REDIRECTS: Record<string, string> = {
     '/landing-pages/3d-photography-portfolio-video-projections',
   'magzin-job-html-css': '/landing-pages/magzin-job-dark',
 };
+
+/**
+ * Ficheros fuente del catálogo que NO deben servirse por HTTP.
+ *
+ * Viven bajo `public/` porque el código los consume con `import` en build y con
+ * lectura de disco en servidor, pero eso los hace también descargables. Y
+ * contienen el producto: los 15 JSON de `public/prompts/` y
+ * `webpages/web-pages.json` llevan dentro los prompts de pago (299 imágenes,
+ * 197 vídeos, 236 landing pages, 450 componentes; ~255 de ellos Premium).
+ *
+ * Antes solo se bloqueaban los 8 `web-*-components.json`, lo que dejaba fuera
+ * imágenes, vídeos, landing pages, animaciones, kits y los catálogos por modelo.
+ *
+ * La regla cubre cualquier `.json` en la raíz de esos dos directorios, no una
+ * lista de nombres: en `public/webpages/` había cuatro copias de trabajo
+ * huérfanas (`web-pages-updated.json` con 381 registros de pago,
+ * `web-pages-fail.json` con 218, y dos más) que ninguna lista blanca habría
+ * cubierto. Los assets de las demos (`/webpages/{slug}/...`) no se ven
+ * afectados porque `[^/]+` no cruza barras.
+ *
+ * Se incluyen las variantes `.br` y `.gz` que genera `precompress-static.mjs`:
+ * sin ellas el bloqueo se saltaría pidiendo `placeholder-images.json.br`.
+ *
+ * El catálogo paginado de `public/catalog/` NO se bloquea: es el derivado
+ * público y `build-paged-catalogs.mjs` ya le quita el campo `description`, que
+ * es donde vive el prompt.
+ */
+const PROTECTED_CATALOG_SOURCE = /^\/(?:prompts|webpages)\/[^/]+\.json(?:\.(?:br|gz))?$/;
+
+function isProtectedCatalogSource(pathname: string): boolean {
+  return PROTECTED_CATALOG_SOURCE.test(pathname);
+}
 
 function withEdgeHeaders(
   response: NextResponse,
@@ -32,8 +66,126 @@ function withEdgeHeaders(
   return response;
 }
 
+/**
+ * Rutas que NO llevan segmento de idioma: handlers de API, el proxy de Clerk,
+ * los ficheros estáticos de `public/` y los metadatos de SEO.
+ */
+function skipsLocale(pathname: string): boolean {
+  return (
+    /**
+     * Internos de Next. Sin esta exclusión, `/_next/image` se reescribía a
+     * `/en/_next/image`, que no existe: **todas** las imágenes optimizadas
+     * daban 404 y la tarjeta caía al icono de «imagen no disponible».
+     *
+     * El `matcher` de `config` ya declara `(?!_next|…)`, pero no basta: la
+     * comprobación se hace aquí, en código, porque el lookahead del matcher no
+     * lo estaba filtrando en la práctica. Verificado con
+     * `curl -D - '/_next/image?url=…'`: la respuesta traía
+     * `x-middleware-rewrite: /en/_next/image?url=…`.
+     */
+    pathname.startsWith('/_next/') ||
+    pathname.startsWith('/api/') ||
+    pathname.startsWith('/trpc/') ||
+    pathname.startsWith('/__clerk') ||
+    pathname.startsWith('/webpages/') ||
+    pathname === '/robots.txt' ||
+    pathname === '/sitemap.xml' ||
+    pathname === '/manifest.webmanifest' ||
+    pathname === '/sw.js' ||
+    /\.[a-z0-9]+$/i.test(pathname)
+  );
+}
+
+/**
+ * Reescribe internamente `/ruta` → `/{locale}/ruta`.
+ *
+ * La URL que ve el visitante no cambia: sigue siendo `/prices`, sin prefijo de
+ * idioma, así que no hay impacto en SEO ni en los enlaces existentes. Lo que
+ * cambia es que Next resuelve una ruta con segmento `[locale]`, que sí puede
+ * prerenderizarse y cachearse en el edge por idioma.
+ */
+function withLocaleRewrite(req: NextRequest): NextResponse {
+  const { pathname, search } = req.nextUrl;
+  if (skipsLocale(pathname)) return NextResponse.next();
+
+  /**
+   * El prefijo de idioma es interno: solo lo genera la reescritura. Si llega
+   * desde fuera (un enlace copiado de las herramientas de desarrollo, un
+   * rastreador que lo dedujo), se consolida en la URL canónica sin prefijo.
+   * Sin esto la petición se re-prefijaría a `/en/en/...` y daría un 404 opaco,
+   * y peor aún: dos URLs servirían el mismo contenido si algún día dejara de
+   * dar 404, que es exactamente el duplicado que el SEO no debe tener.
+   */
+  const prefixed = locales.find(
+    l => pathname === `/${l}` || pathname.startsWith(`/${l}/`)
+  );
+  if (prefixed) {
+    const stripped = pathname.slice(prefixed.length + 1) || '/';
+    return NextResponse.redirect(new URL(`${stripped}${search}`, req.url), 308);
+  }
+
+  const locale = detectLocale(req.headers);
+  const url = new URL(`/${locale}${pathname === '/' ? '' : pathname}${search}`, req.url);
+  const response = NextResponse.rewrite(url);
+  /**
+   * La URL pública (`/prices`) no lleva idioma, pero el contenido sí depende de
+   * él. Una caché compartida que indexe por esa URL serviría la versión inglesa
+   * a un visitante español, así que se desactiva para el HTML localizado.
+   *
+   * No se pierde el prerender: la página se sigue sirviendo desde la caché de
+   * Next (`x-nextjs-cache: HIT`), sin coste de render por petición. Lo que se
+   * renuncia es a distribuir ese HTML por el edge.
+   *
+   * Para recuperarlo haría falta el idioma en la URL, la opción descartada por
+   * SEO.
+   *
+   * SIN VERIFICAR EN LOCAL: `next start` no refleja esta cabecera en la
+   * respuesta (sí lo hace con las que fija el código de la app), así que su
+   * efecto real solo puede confirmarse en un despliegue de Vercel. Compruébalo
+   * en un preview pidiendo `/` dos veces con `Accept-Language: es` y luego
+   * `en`: si la segunda devuelve contenido español, el CDN está cacheando por
+   * la URL pública y esta línea no está surtiendo efecto.
+   */
+  response.headers.set('Vercel-CDN-Cache-Control', 'private, no-store');
+  response.headers.set('x-locale', locale);
+  return response;
+}
+
+/**
+ * Redirección permanente que **conserva la query string**.
+ *
+ * Importa para el dinero: el referido de afiliado viaja en `?ref=` y
+ * `readReferrer()` lo lee de `window.location.search`. En una primera visita no
+ * hay nada en `localStorage`, así que una redirección que descarte la query
+ * destruye la atribución de forma silenciosa e irrecuperable. Un enlace de
+ * afiliado a cualquier URL heredada perdía la comisión.
+ */
+function permanentRedirect(req: NextRequest, destination: string): NextResponse {
+  const url = new URL(destination, req.url);
+  // No sobrescribir una query que el propio destino ya traiga.
+  if (!url.search) url.search = req.nextUrl.search;
+  return NextResponse.redirect(url, 308);
+}
+
+/** Ruta sin el prefijo de idioma, para comparar contra rutas canónicas. */
+function withoutLocalePrefix(pathname: string): string {
+  const prefix = locales.find(l => pathname === `/${l}` || pathname.startsWith(`/${l}/`));
+  if (!prefix) return pathname;
+  return pathname.slice(prefix.length + 1) || '/';
+}
+
 export default clerkMiddleware(async (auth, req) => {
   const pathname = req.nextUrl.pathname;
+
+  if (isProtectedCatalogSource(pathname)) {
+    return withEdgeHeaders(
+      new NextResponse('Not found', {
+        status: 404,
+        headers: { 'Cache-Control': 'private, no-store', 'X-Robots-Tag': 'noindex, nofollow' },
+      }),
+      req
+    );
+  }
 
   if (pathname.startsWith('/landing-pages/')) {
     const slug = pathname.slice('/landing-pages/'.length).replace(/\/+$/, '');
@@ -41,26 +193,23 @@ export default clerkMiddleware(async (auth, req) => {
 
     if (destination) {
       return withEdgeHeaders(
-        NextResponse.redirect(new URL(destination, req.url), 308),
+        permanentRedirect(req, destination),
         req
       );
     }
   }
 
-  if (pathname === '/pricing' || pathname.startsWith('/pricing/')) {
-    return withEdgeHeaders(
-      NextResponse.redirect(new URL('/prices', req.url), 308),
-      req
-    );
+  // Se compara sin prefijo de idioma: así `/es/pricing` va a `/prices` en un
+  // solo salto en lugar de pasar antes por `/pricing`.
+  const canonicalPath = withoutLocalePrefix(pathname);
+  if (canonicalPath === '/pricing' || canonicalPath.startsWith('/pricing/')) {
+    return withEdgeHeaders(permanentRedirect(req, '/prices'), req);
   }
 
   const legacyNumericGallery = pathname.match(/^\/gallery\/(\d+)\/?$/);
   if (legacyNumericGallery) {
     return withEdgeHeaders(
-      NextResponse.redirect(
-        new URL(`/gallery/img-${legacyNumericGallery[1]}`, req.url),
-        308
-      ),
+      permanentRedirect(req, `/gallery/img-${legacyNumericGallery[1]}`),
       req
     );
   }
@@ -70,7 +219,7 @@ export default clerkMiddleware(async (auth, req) => {
     !/^\/gallery\/img-\d+$/.test(pathname)
   ) {
     return withEdgeHeaders(
-      NextResponse.redirect(new URL('/image-prompts', req.url), 308),
+      permanentRedirect(req, '/image-prompts'),
       req
     );
   }
@@ -80,7 +229,7 @@ export default clerkMiddleware(async (auth, req) => {
     !/^\/gallery-videos\/v-\d+$/.test(pathname)
   ) {
     return withEdgeHeaders(
-      NextResponse.redirect(new URL('/video-prompts', req.url), 308),
+      permanentRedirect(req, '/video-prompts'),
       req
     );
   }
@@ -90,7 +239,7 @@ export default clerkMiddleware(async (auth, req) => {
     pathname === '/webpages/instagram-clone/'
   ) {
     return withEdgeHeaders(
-      NextResponse.redirect(new URL('/landing-pages', req.url), 308),
+      permanentRedirect(req, '/landing-pages'),
       req
     );
   }
@@ -147,7 +296,7 @@ export default clerkMiddleware(async (auth, req) => {
     await auth.protect();
   }
 
-  return withEdgeHeaders(NextResponse.next(), req);
+  return withEdgeHeaders(withLocaleRewrite(req), req);
 });
 
 export const config = {

@@ -18,11 +18,10 @@
     "loading": "Loading...",
     "view": "View",
     "copy": "Copy",
-    "copied": "Copied!",
+    "copied": "Copied",
     "copyPrompt": "Copy prompt",
     "copyFailed": "Could not copy",
     "copyFailedDescription": "Try selecting the text manually.",
-    "copied": "Copied",
     "copiedDescription": "Prompt copied to the clipboard.",
     "back": "Back",
     "search": "Search",
@@ -89,13 +88,16 @@
     "webs": "Webs",
     "webAnimations": "Web Animations",
     "prices": "Prices",
+    "resources": "Resources",
     "tags": "Tags",
     "videoTags": "Video Tags",
     "videoTagsDesc": "Browse by motion style",
     "imageTags": "Image Tags",
     "imageTagsDesc": "Browse by visual style",
     "webTags": "Webs",
-    "webTagsDesc": "Browse by page style"
+    "webTagsDesc": "Browse by page style",
+    "componentBuilder": "Component builder",
+    "componentKits": "Component kits"
   },
   "header": {
     "brand": "Prompt Studio",
@@ -233,11 +235,82 @@
     "downloadFailedDescription": "Try again in a few seconds.",
     "openDemo": "Open demo",
     "buyNow": "Buy now",
+    "purchaseTrust": "Secure Stripe payment · Instant download · Commercial license · Issue support",
+    "whatsIncluded": {
+      "title": "What you get",
+      "subtitle": "Everything you need to publish and customize your landing page.",
+      "sourceCode": "Complete source code",
+      "organizedFiles": "Organized files",
+      "responsiveDesign": "Responsive design",
+      "animations": "Animations included",
+      "commercialLicense": "Commercial license",
+      "futureUpdates": "Future updates",
+      "instantDownload": "Instant download",
+      "compatibility": "Compatibility and dependencies: {stack}"
+    },
     "allLandingPages": "All landing pages",
     "free": "Free",
     "relatedTemplates": "Related templates",
+    "socialProof": {
+      "eyebrow": "Real results",
+      "title": "Created with this template",
+      "downloads": "Verified downloads",
+      "ratings": "{count, plural, one {# rating} other {# ratings}}",
+      "projects": "Projects created",
+      "customizations": "Buyer customizations",
+      "reviews": "Buyer reviews",
+      "verified": "Verified purchase",
+      "stars": "{count} out of 5 stars"
+    },
+    "codePreview": {
+      "eyebrow": "Technical quality",
+      "title": "Code preview",
+      "description": "Explore a real sample of the included files before purchasing.",
+      "locked": "{count} additional lines available after purchase."
+    },
+    "customization": {
+      "eyebrow": "Available with your purchase",
+      "title": "Customize your template",
+      "description": "Turn the template into a page ready for your project.",
+      "themeTitle": "Colors and typography",
+      "themeDescription": "Open the editor's visual mode to adapt your identity.",
+      "copyTitle": "Replace text",
+      "copyDescription": "Edit headlines, sections, and calls to action.",
+      "aiTitle": "Generate an AI variant",
+      "aiDescription": "Create a new direction based on this template.",
+      "exportTitle": "Export result",
+      "exportDescription": "Download the project's editable files.",
+      "professionalTitle": "Professional customization",
+      "professionalDescription": "Request an adaptation created by our team.",
+      "open": "Open"
+    },
+    "recommendations": {
+      "title": "Recommendations for {name}",
+      "sameStyle": "Templates with the same style",
+      "sameIndustry": "Pages from the same industry",
+      "cheaper": "Lower-priced alternatives",
+      "styleMatch": "Similar style",
+      "industryMatch": "Same industry",
+      "lowerPrice": "Lower price",
+      "bundleTitle": "Recommended bundle",
+      "bundleDescription": "Combine these {count} related templates and save 20%.",
+      "bundleAction": "View recommended bundle"
+    },
     "moreTemplates": "More {category} templates",
     "viewCategory": "View category",
+    "favorites": {
+      "name": "For my next project",
+      "description": "Your templates saved on this device.",
+      "save": "Save to favorites",
+      "removeShort": "Remove from favorites",
+      "remove": "Remove {name} from favorites",
+      "savedCount": "You have {count, plural, one {# saved template} other {# saved templates}}.",
+      "discountOffer": "Buy {count, plural, one {this template} other {all #}} with 20% off.",
+      "viewCollection": "View collection",
+      "subtotal": "Individual price",
+      "bundleTotal": "Total with 20% off",
+      "buyBundle": "Buy {count, plural, one {the template} other {all # templates}}"
+    },
     "notFoundTitle": "Landing page not found",
     "notFoundDescription": "This landing page prompt is not available.",
     "detailSeoTitle": "{title} | {category} Landing Page Prompt",
@@ -340,7 +413,15 @@
       "Full source code for every web project and demo",
       "Step-by-step install and setup instructions per project",
       "Clone-ready HTML/CSS (and JS where applicable) bundles"
-    ]
+    ],
+    "proName": "Pro",
+    "proBadge": "For agencies",
+    "proDesc": "Publish campaigns on your own domain, with your brand applied.",
+    "proFeaturePublish": "Publish landing pages on your own domain",
+    "proFeatureBrandKits": "Brand Kits: your brand applied to everything you generate",
+    "proFeatureEverythingPremium": "Everything in Premium",
+    "proSubscribe": "Subscribe to Pro",
+    "proManagePublications": "View my publications"
   },
   "dashboard": {
     "dashboard": "Dashboard",
@@ -351,6 +432,7 @@
     "favorites": "Favorites",
     "settings": "Settings",
     "billing": "Billing",
+    "credits": "Credits",
     "settingsSection": "Settings",
     "upgradeTitle": "Upgrade to Premium",
     "upgradeDesc": "Unlock all features and get unlimited access to premium content.",
@@ -363,7 +445,9 @@
     "partners": "Partners",
     "partnersDesc": "Affiliate applications",
     "analytics": "Analytics",
-    "campaignsDesc": "Campaigns and sales"
+    "campaignsDesc": "Campaigns and sales",
+    "creditsDesc": "Top up your balance and see your history",
+    "billingDesc": "Plan, invoices and payment method"
   },
   "dashboardAnalytics": {
     "title": "Analytics",
@@ -718,7 +802,9 @@
       "pending": "Pending",
       "paid": "Paid",
       "topSource": "Top source",
-      "topSourceValue": "Newsletter"
+      "topSourceValue": "Newsletter",
+      "sampleBadge": "Example",
+      "sampleNote": "Sample figures to illustrate the dashboard. Not actual program results."
     },
     "resources": {
       "title": "Everything You Need to Promote Faster",
@@ -1007,5 +1093,26 @@
       "sale": "Sale",
       "commission": "Commission"
     }
+  },
+  "saved": {
+    "add": "Save",
+    "remove": "Remove from saved",
+    "title": "Saved",
+    "description": "Resources you have saved from the catalog.",
+    "empty": "You haven't saved anything yet. Tap the bookmark icon on any catalog resource.",
+    "count": "{count} saved",
+    "kindImage": "Images",
+    "kindVideo": "Videos",
+    "kindWebPage": "Web pages",
+    "kindComponent": "Components",
+    "kindAnimation": "Animations",
+    "openItem": "Open",
+    "tab": "Saved"
+  },
+  "freeTools": {
+    "ctaTitle": "This is a taste of what is inside",
+    "ctaDescription": "Over a thousand prompts, components and ready-to-use templates. Download anything marked free without creating an account.",
+    "ctaPrimary": "Browse the catalog",
+    "ctaSecondary": "Compare plans"
   }
 }
