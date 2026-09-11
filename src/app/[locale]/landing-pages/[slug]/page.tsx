@@ -1,6 +1,11 @@
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { RelatedTemplates } from '@/components/related-templates';
+import { buildAggregateRatingSchema } from '@/lib/review-aggregates';
+import { ProductReviews } from '@/components/product-reviews';
+import { ProductSocialProof } from '@/components/product-social-proof';
+import { WebPageCodePreview } from '@/components/web-page-code-preview';
+import { PostPurchaseCustomization } from '@/components/post-purchase-customization';
 import { AffiliatePageViewTracker } from '@/components/affiliate-page-view-tracker';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -8,8 +13,8 @@ import { OptimizedImage } from '@/components/optimized-image';
 import { pickLocalized } from '@/lib/localized-string';
 import { resolveWebPageImageUrl } from '@/lib/web-page-media';
 import { getWebPageCheckoutUrl } from '@/lib/web-page-checkout';
-import { getRawWebPageByDemoSlug, getRawWebPages } from '@/lib/web-pages';
-import { getRefactoryLoaderUrl, normalizeDemoFolder } from '@/lib/refactory-online';
+import { getCatalogIdByDemoSlug, getRawWebPageByDemoSlug, getRawWebPages } from '@/lib/web-pages';
+import { normalizeDemoFolder } from '@/lib/refactory-online';
 import { normalizeMembership } from '@/lib/membership-access';
 import {
   digitalDeliveryDetails,
@@ -22,6 +27,7 @@ import type { Metadata } from 'next';
 import { getLocale, getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { CheckCircle2 } from 'lucide-react';
 
 type PageProps = {
   params: Promise<{
@@ -227,17 +233,14 @@ export default async function LandingPageDetailPage({ params, searchParams }: Pa
     product: resolvedSearchParams.product,
     source: resolvedSearchParams.source,
   });
-  const demoUrl = new URL(getRefactoryLoaderUrl(page.demoUrl), SITE_URL);
-  if (page.price) {
-    demoUrl.searchParams.set('price', page.price);
-  }
-  demoUrl.searchParams.set('pageId', page.id || slug);
-  if (checkoutUrl) {
-    demoUrl.searchParams.set('checkout', checkoutUrl);
-  }
-  const demoHref = `${demoUrl.pathname}${demoUrl.search}`;
+  const demoParams = new URLSearchParams();
+  if (page.price) demoParams.set('price', page.price);
+  demoParams.set('pageId', page.id || slug);
+  if (checkoutUrl) demoParams.set('checkout', checkoutUrl);
+  const demoHref = `/landing-pages/${encodeURIComponent(slug)}/preview?${demoParams.toString()}`;
   const productId = resolvedSearchParams.product?.trim() || page.id || slug;
   const productPriceCents = Math.round(Number(normalizedPrice(page.price)) * 100);
+  const catalogId = getCatalogIdByDemoSlug(slug);
 
   const normalizedMembership = normalizeMembership(page.membership);
   const isFree = normalizedMembership === 'free';
@@ -246,6 +249,21 @@ export default async function LandingPageDetailPage({ params, searchParams }: Pa
     : page.price && Number.parseFloat(page.price) > 0
       ? `$${normalizedPrice(page.price)}`
       : null;
+  const includedFeatures = [
+    t('whatsIncluded.sourceCode'),
+    t('whatsIncluded.organizedFiles'),
+    t('whatsIncluded.responsiveDesign'),
+    t('whatsIncluded.animations'),
+    t('whatsIncluded.commercialLicense'),
+    t('whatsIncluded.futureUpdates'),
+    t('whatsIncluded.instantDownload'),
+    t('whatsIncluded.compatibility', {
+      stack: page.stack.length > 0 ? page.stack.join(', ') : 'HTML, CSS, JavaScript',
+    }),
+  ];
+  const reviewProductId = page.id || slug;
+  const aggregateRating = buildAggregateRatingSchema(reviewProductId);
+
   const productSchema = seo
     ? {
       '@context': 'https://schema.org',
@@ -274,6 +292,13 @@ export default async function LandingPageDetailPage({ params, searchParams }: Pa
         shippingDetails: digitalDeliveryDetails(),
         hasMerchantReturnPolicy: digitalProductReturnPolicy(SITE_URL),
       },
+      /**
+       * Solo se incrusta cuando el producto tiene reseñas publicadas. Marcar
+       * una valoración inexistente es spam estructurado y puede costar el
+       * dominio entero, así que `buildAggregateRatingSchema` devuelve `null`
+       * salvo que haya al menos una reseña real.
+       */
+      ...(aggregateRating ? { aggregateRating } : {}),
     }
     : null;
 
@@ -347,16 +372,47 @@ export default async function LandingPageDetailPage({ params, searchParams }: Pa
                 <Link href={demoHref} target="_blank" rel="noopener noreferrer">{t('openDemo')}</Link>
               </Button>
               {checkoutUrl ? (
-                <Button asChild className="bg-blue-600 text-white hover:bg-blue-700">
-                  <Link href={checkoutUrl} target="_blank" rel="noopener noreferrer">
-                    {t('buyNow')}{displayPrice ? ` · ${displayPrice}` : ''}
-                  </Link>
-                </Button>
+                <div className="flex flex-col items-start gap-2">
+                  <Button asChild className="bg-blue-600 text-white hover:bg-blue-700">
+                    <Link href={checkoutUrl} target="_blank" rel="noopener noreferrer">
+                      {t('buyNow')}{displayPrice ? ` · ${displayPrice}` : ''}
+                    </Link>
+                  </Button>
+                  <p className="max-w-sm text-xs leading-5 text-muted-foreground">
+                    {t('purchaseTrust')}
+                  </p>
+                </div>
               ) : null}
               <Button variant="outline" asChild>
                 <Link href="/landing-pages">{t('allLandingPages')}</Link>
               </Button>
             </div>
+            {checkoutUrl ? (
+              <aside
+                aria-labelledby="whats-included-title"
+                className="max-w-4xl rounded-2xl border border-blue-500/20 bg-gradient-to-br from-blue-500/10 via-background to-background p-5 shadow-sm sm:p-6"
+              >
+                <div className="mb-5">
+                  <h2 id="whats-included-title" className="text-xl font-bold tracking-tight">
+                    {t('whatsIncluded.title')}
+                  </h2>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {t('whatsIncluded.subtitle')}
+                  </p>
+                </div>
+                <ul className="grid gap-x-6 gap-y-3 sm:grid-cols-2">
+                  {includedFeatures.map(feature => (
+                    <li key={feature} className="flex items-start gap-2.5 text-sm leading-6">
+                      <CheckCircle2
+                        aria-hidden="true"
+                        className="mt-1 size-4 shrink-0 text-emerald-500"
+                      />
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </aside>
+            ) : null}
           </section>
 
           {image ? (
@@ -372,6 +428,10 @@ export default async function LandingPageDetailPage({ params, searchParams }: Pa
             </div>
           ) : null}
         </div>
+        <ProductSocialProof slug={slug} />
+        <ProductReviews productId={reviewProductId} slug={slug} productKind="web-page" initialSummary={aggregateRating ? { rating: aggregateRating.ratingValue, ratingCount: aggregateRating.reviewCount } : null} />
+        <WebPageCodePreview slug={slug} />
+        {catalogId ? <PostPurchaseCustomization catalogId={catalogId} pageId={page.id || slug} slug={slug} title={title} /> : null}
         <RelatedTemplates currentSlug={slug} category={category} />
       </main>
       <Footer />

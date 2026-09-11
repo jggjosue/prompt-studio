@@ -2,54 +2,22 @@ import type { Metadata } from 'next';
 import ImagePromptsClient from './image-prompts-client';
 import { Suspense } from 'react';
 import { Loader2 } from 'lucide-react';
+import { RelatedInternalLinks } from '@/components/related-internal-links';
 
 export const metadata: Metadata = {
-  title: 'AI Image Prompts | Prompt Studio',
-  description: 'Discover thousands of AI image prompts and examples. Get inspired and create your own AI generated images.',
+  title: 'Prompts para generar imágenes con IA',
+  description: 'Explora prompts de imagen con ejemplos visuales para retratos, producto, moda y escenas creativas; personalízalos y llévalos al generador.',
   alternates: {
     canonical: '/image-prompts',
   },
-  keywords: [
-    'Chatgpt',
-    'chatgpt go bbva',
-    'how to use chatgpt effectively',
-    'chatgpt health',
-    'chatgpt search',
-    'chatgpt go',
-    'AI Prompts',
-    'Video Prompts',
-    'Image Prompts',
-    'AI Video Generator',
-    'AI Image Generator',
-    'chatgpt 5.2',
-    'chatgpt christmas photo',
-    'chatgpt 5.1',
-    'chatgpt wrapped',
-    'chatgpt adult mode',
-    'how to cancel chatgpt plus subscription',
-    'challenges cloudflare chatgpt',
-    'chatgpt news',
-    'notebooklm',
-    'grok ai',
-    'banana pro',
-    'nano banana pro',
-    'prompts',
-    'chat gpt prompts for christmas pictures',
-    'voice mail prompts',
-    'christmas ai photo prompts',
-    'darlink ai',
-    'voicemail prompts crossword',
-    'best grok spicy prompts',
-    'grok prompts for images',
-    'daily writing prompts',
-    'awesome chatgpt prompts',
-  ],
+  keywords: ['prompts para imágenes IA', 'prompts de fotografía de producto', 'prompts para retratos IA', 'ejemplos de imágenes generadas con IA'],
 };
 
 export default function ImagePromptsPage() {
   return (
     <Suspense fallback={<div className="flex h-screen w-full items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-muted-foreground" /></div>}>
       <ImagePromptsClient />
+      <RelatedInternalLinks className="mx-auto mb-12 max-w-4xl" />
     </Suspense>
   );
 }

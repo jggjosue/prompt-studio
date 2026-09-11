@@ -10,57 +10,37 @@ import {
 } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { LiquidButton } from '@/components/ui/liquid-glass-button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { useDailyCopyLimit } from '@/hooks/use-daily-copy-limit';
 import { copyToClipboard } from '@/lib/copy-to-clipboard';
 import type { ImagePlaceholder } from '@/lib/placeholder-images';
 import type { VideoProp } from '@/lib/placeholder-videos';
-import {
-  useLocalizedPlaceholderImages,
-  useLocalizedPlaceholderVideos,
-} from '@/hooks/use-localized-catalog';
 import { useLocale } from 'next-intl';
 import { evaluatePublisherPolicy } from '@/lib/google-publisher-policy';
 import { isRenderableVideoUrl, resolveRenderableMediaUrl } from '@/lib/media-resolver';
 import { ArrowLeft, Copy, Wand2 } from 'lucide-react';
-import { LazyVideo } from '@/components/lazy-video';
 import { OptimizedImage } from '@/components/optimized-image';
 import Link from 'next/link';
-import { useEffect, useMemo, useState } from 'react';
+import dynamic from 'next/dynamic';
+import { useMemo } from 'react';
+import type { PromptValidationReport } from '@/lib/prompt-validation';
+import type { ManualActionRisk } from '@/lib/gallery-detail';
+import { LazyInView } from '@/components/lazy-in-view';
 
-export default function GalleryDetailClient({ item }: { item: ImagePlaceholder | VideoProp }) {
+const LazyVideo = dynamic(() => import('@/components/lazy-video').then(module => module.LazyVideo));
+const PromptValidationCard = dynamic(() => import('@/components/prompt-validation-card').then(module => module.PromptValidationCard));
+const PromptVersionManager = dynamic(() => import('@/components/prompt-version-manager').then(module => module.PromptVersionManager));
+
+type Props = {
+  item: ImagePlaceholder | VideoProp;
+  validation: PromptValidationReport;
+  relatedItems: Array<ImagePlaceholder | VideoProp>;
+  manualActionRisk: ManualActionRisk;
+};
+
+export default function GalleryDetailClient({ item, validation, relatedItems, manualActionRisk }: Props) {
   const locale = useLocale();
-  const placeholderImages = useLocalizedPlaceholderImages();
-  const placeholderVideos = useLocalizedPlaceholderVideos();
-  const [otherItems, setOtherItems] = useState<Array<ImagePlaceholder | VideoProp>>([]);
-
-  useEffect(() => {
-    // Keep image detail pages image-only. Embedding unrelated videos here
-    // makes Google treat the page as a non-watch video page.
-    const pool =
-      item.type === 'video'
-        ? placeholderVideos.filter(p => p.id !== item.id && p.imageUrl)
-        : placeholderImages.filter(p => p.id !== item.id && p.imageUrl);
-    const mechanicalHeart = pool.find(p => p.title === 'Mechanical Heart');
-    const withoutMechanicalHeart = pool.filter(p => p.title !== 'Mechanical Heart');
-
-    // Shuffle to get different "Discover More" results on each page visit.
-    for (let i = withoutMechanicalHeart.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [withoutMechanicalHeart[i], withoutMechanicalHeart[j]] = [withoutMechanicalHeart[j], withoutMechanicalHeart[i]];
-    }
-
-    // Keep Mechanical Heart visible and fill the rest with random items.
-    let nextOtherItems: Array<ImagePlaceholder | VideoProp>;
-    if (mechanicalHeart) {
-      nextOtherItems = [mechanicalHeart, ...withoutMechanicalHeart.slice(0, 2)];
-    } else {
-      nextOtherItems = withoutMechanicalHeart.slice(0, 3);
-    }
-    setOtherItems(nextOtherItems);
-  }, [item.id, placeholderImages, placeholderVideos]);
   
   const { toast } = useToast();
   const { copyWithDailyLimit } = useDailyCopyLimit();
@@ -94,32 +74,6 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
       }),
     [item.title, item.description, item.tags]
   );
-
-  const manualActionRisk = useMemo(() => {
-    const allItems = [
-      ...placeholderImages.filter(p => p.imageUrl),
-      ...placeholderVideos.filter(p => p.imageUrl),
-    ];
-    const sameTitleCount = allItems.filter(
-      p => p.title.trim().toLowerCase() === item.title.trim().toLowerCase()
-    ).length;
-
-    const plainText = item.description
-      .replace(/[{}[\]":,]/g, ' ')
-      .replace(/\s+/g, ' ')
-      .trim();
-    const wordCount = plainText ? plainText.split(' ').length : 0;
-    const hasLowValueContent = wordCount < 45;
-    const hasDuplicateTitle = sameTitleCount > 1;
-
-    return {
-      hasLowValueContent,
-      hasDuplicateTitle,
-      wordCount,
-      duplicateCount: sameTitleCount,
-      hasRisk: hasLowValueContent || hasDuplicateTitle,
-    };
-  }, [item.title, item.description, placeholderImages, placeholderVideos]);
 
   const handleCopy = async () => {
     const result = await copyWithDailyLimit(() =>
@@ -171,11 +125,12 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                       alt={item.title}
                       fill
                       priority
+                      sizes="(max-width: 1023px) 100vw, 50vw"
                       className="object-cover"
                       data-ai-hint={item.imageHint}
                     />
                     <div className="absolute bottom-4 right-4 flex items-start gap-4 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
-                      <LiquidButton size="sm" asChild>
+                      <Button size="sm" asChild>
                         <Link href={`/generate-images?prompt=${encodeURIComponent(JSON.stringify({
                           type: item.type || 'image',
                           title: item.title,
@@ -186,7 +141,7 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                             <Wand2 className="mr-2" />
                             Use this prompt
                         </Link>
-                      </LiquidButton>
+                      </Button>
                     </div>
                   </>
                 )}
@@ -207,6 +162,13 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
+
+              <LazyInView kind="iframe" rootMargin="320px" className="min-h-48">
+                <PromptValidationCard report={validation} locale={locale} showEstimates={false} />
+              </LazyInView>
+              <LazyInView kind="iframe" rootMargin="240px" className="min-h-48">
+                <PromptVersionManager promptId={item.id} promptKind={item.type === 'video' ? 'video' : 'image'} title={item.title} initialContent={item.description} modelSnapshot={validation.compatibleModels.map(model => `${model.id}:${model.version}`)} locale={locale} />
+              </LazyInView>
 
               <div>
                 <h3 className="text-2xl font-bold font-headline mt-8 mb-4">
@@ -253,7 +215,7 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                 Discover More
               </h3>
               <div className="space-y-6">
-                {otherItems.map(other => (
+                {relatedItems.map(other => (
                   <Link
                     key={other.id}
                     href={
@@ -280,6 +242,7 @@ export default function GalleryDetailClient({ item }: { item: ImagePlaceholder |
                               src={resolveRenderableMediaUrl(other, locale)}
                               alt={other.title}
                               fill
+                              sizes="(max-width: 1023px) 100vw, 50vw"
                               className="object-cover transition-transform group-hover:scale-105"
                             />
                           )}

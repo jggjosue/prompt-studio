@@ -21,6 +21,11 @@ export function SiteBreadcrumbs({ pathname, className }: SiteBreadcrumbsProps) {
   const t = useTranslations();
   const trail = useMemo(() => getBreadcrumbTrail(pathname), [pathname]);
   const breadcrumbLabel = (labelKey: string) => labelKey;
+  const pathOnly = pathname.split('?')[0] ?? pathname;
+  // Estas fichas emiten en servidor un BreadcrumbList más específico que
+  // incluye el nombre real del recurso. La navegación visual se conserva,
+  // pero no se publica un segundo grafo contradictorio desde el header.
+  const hasPageOwnedBreadcrumbSchema = /^\/(?:landing-pages|gallery|gallery-videos)\/[^/]+\/?$/.test(pathOnly);
 
   if (trail.length === 0) return null;
 
@@ -41,10 +46,12 @@ export function SiteBreadcrumbs({ pathname, className }: SiteBreadcrumbsProps) {
       aria-label={t('internalLinks.breadcrumbLabel')}
       className={cn('text-sm text-muted-foreground', className)}
     >
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
-      />
+      {!hasPageOwnedBreadcrumbSchema ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
+        />
+      ) : null}
       <ol className="container flex flex-wrap items-center gap-1.5 py-2 min-h-9">
         {trail.map((crumb, i) => {
           const isLast = i === trail.length - 1;

@@ -16,13 +16,10 @@ export async function generateMetadata(): Promise<Metadata> {
       canonical: '/landing-pages',
     },
     keywords: [
-      'landing page prompts',
-      'SaaS landing page',
-      'Tailwind landing',
-      'Next.js landing',
-      'Magzin Job',
-      'Loopline',
-      'HTML CSS landing',
+      'plantillas de landing pages',
+      'landing page para SaaS',
+      'landing page con Tailwind CSS',
+      'plantillas HTML interactivas',
     ],
     openGraph: {
       title,

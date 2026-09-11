@@ -1,6 +1,7 @@
 import { listLandingReadabilityByLocale } from '@/lib/landing-readability-store';
 import { cacheGetOrSet } from '@/lib/server-cache';
 import { NextResponse } from 'next/server';
+import { cacheHeaders } from '@/lib/cache-policy';
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
@@ -15,10 +16,7 @@ export async function GET(request: Request) {
   return NextResponse.json(
     { locale, snapshots },
     {
-      headers: {
-        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
-        'X-Cache-Policy': 'lru',
-      },
+      headers: cacheHeaders('public-catalog', { 'X-Server-Cache': 'lru' }),
     }
   );
 }

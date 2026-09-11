@@ -3,6 +3,7 @@ import { cacheGetOrSet } from '@/lib/server-cache';
 import { getRawWebPages } from '@/lib/web-pages';
 import { pickLocalized } from '@/lib/localized-string';
 import { NextResponse } from 'next/server';
+import { cacheHeaders } from '@/lib/cache-policy';
 
 type CatalogItem = {
   id: string;
@@ -33,9 +34,6 @@ export async function GET(request: Request) {
   const page = paginateKeysetCatalog(all, item => item.id, { after, limit });
 
   return NextResponse.json(page, {
-    headers: {
-      'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
-      'X-Cache-Policy': 'lru',
-    },
+    headers: cacheHeaders('public-catalog', { 'X-Server-Cache': 'lru' }),
   });
 }

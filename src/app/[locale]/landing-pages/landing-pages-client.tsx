@@ -4,6 +4,8 @@ import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
 import { CatalogFacetBar } from '@/components/catalog-facet-bar';
 import { WebPageCard } from '@/components/web-page-card';
+import { LandingFavoritesCollection } from '@/components/landing-favorites-collection';
+import { RecentlyViewedLandings } from '@/components/recently-viewed-landings';
 import { RelatedInternalLinks } from '@/components/related-internal-links';
 import { SearchInput } from '@/components/search-input';
 import {
@@ -11,7 +13,7 @@ import {
   useCatalogSearchUrl,
 } from '@/hooks/use-catalog-search-url';
 import { useInfiniteScroll } from '@/hooks/use-infinite-scroll';
-import { useLocalizedWebPages } from '@/hooks/use-localized-catalog';
+import { usePagedWebPages } from '@/hooks/use-paged-catalog';
 import { useLandingReadabilityIndex } from '@/hooks/use-landing-readability-index';
 import { useWebCatalogHashPipeline } from '@/hooks/use-catalog-hash-aggregation';
 import { useFuzzyFilter } from '@/hooks/use-fuzzy-filter';
@@ -27,6 +29,7 @@ import {
   AFFILIATE_OWNER_STORAGE_KEY,
   AFFILIATE_REF_STORAGE_KEY,
 } from '@/lib/affiliate';
+import { ViewportRender } from '@/components/viewport-render';
 
 const ITEMS_PER_PAGE = 30;
 
@@ -63,7 +66,7 @@ function LandingPagesContent() {
   const facetTag = facetTags[0] ?? null;
   const facetStack = facetStacks[0] ?? null;
 
-  const webPages = useLocalizedWebPages();
+  const webPages = usePagedWebPages();
   const { isSignedIn } = useUser();
   const { snapshots: readabilityByPageId } = useLandingReadabilityIndex();
   const allPages = useMemo(() => webPages.filter(p => p.imageUrl), [webPages]);
@@ -279,6 +282,8 @@ function LandingPagesContent() {
         </aside>
 
         <div className="flex min-w-0 flex-col gap-6 md:col-start-2 md:row-start-2 md:gap-0">
+          <RecentlyViewedLandings />
+          <LandingFavoritesCollection />
           <div className="md:hidden">
             <CatalogFacetBar
               customCategories={customCategories}
@@ -311,12 +316,12 @@ function LandingPagesContent() {
             className="grid min-w-0 grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-1 md:gap-8 lg:grid-cols-2 xl:grid-cols-2"
           >
             {paginatedPages.map((page, index) => (
+              <ViewportRender key={page.id} minHeight={500}>
               <WebPageCard
-                key={page.id}
                 page={page}
                 animationIndex={index}
                 savedReadability={readabilityByPageId[page.id] ?? null}
-              />
+              /></ViewportRender>
             ))}
           </div>
 

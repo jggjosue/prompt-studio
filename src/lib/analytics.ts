@@ -5,6 +5,7 @@ import {
   type FirebaseAnalyticsEvent,
   type FirebaseAnalyticsParams,
 } from '@/lib/firebase';
+import { trackObservabilityEvent } from '@/lib/observability-client';
 
 type AnalyticsEventParams = FirebaseAnalyticsParams & {
   page_id?: string;
@@ -44,4 +45,16 @@ export function trackAnalyticsEvent(
   }
 
   void logFirebaseEvent(eventName, eventParams);
+
+  if (/purchase|checkout|conversion|download|preview|copy/.test(eventName)) {
+    trackObservabilityEvent({
+      category: 'commerce',
+      name: eventName,
+      productId: params.item_id ?? params.page_id ?? null,
+      value: params.value,
+      unit: params.currency,
+      status: 'recorded',
+      metadata: { item_category: params.item_category ?? null, action_source: params.action_source ?? null },
+    });
+  }
 }

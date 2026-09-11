@@ -10,6 +10,7 @@ import {
   type RawPromptBlock,
 } from '@/lib/prompt-catalog';
 import { readCachedUtf8File } from '@/lib/cached-fs';
+import { getClaudeChromeData, getModelPromptData } from '@/data/model-prompts';
 import fs from 'fs';
 import path from 'path';
 
@@ -70,45 +71,30 @@ export default async function ModelDetailPage(props: Props) {
     // Caso especial para Anthropic: combinar protocolos generales con herramientas de Chrome
     if (params.modelId === 'anthropic') {
       try {
-        const anthropicPath = path.join(process.cwd(), 'public/prompts/anthropic.json');
-        const chromePath = path.join(process.cwd(), 'public/prompts/claude-chrome.json');
-
-        const anthropicRaw = await readCachedUtf8File(anthropicPath);
-        if (anthropicRaw) {
-          const anthropicData = JSON.parse(anthropicRaw);
-          jsonPrompts = localizePromptBlocks(
-            (anthropicData.anthropic || []) as RawPromptBlock[],
-            locale
-          );
+        const anthropicData = getModelPromptData('anthropic') as
+          | { anthropic?: RawPromptBlock[] }
+          | null;
+        if (anthropicData) {
+          jsonPrompts = localizePromptBlocks(anthropicData.anthropic ?? [], locale);
         }
 
-        const chromeRaw = await readCachedUtf8File(chromePath);
-        if (chromeRaw) {
-          const chromeData = JSON.parse(chromeRaw);
-          jsonPrompts = [
-            ...jsonPrompts,
-            ...chromeToolsToPromptBlocks(chromeData, locale),
-          ];
-        }
+        jsonPrompts = [
+          ...jsonPrompts,
+          ...chromeToolsToPromptBlocks(getClaudeChromeData(), locale),
+        ];
       } catch (error) {
         console.error('Error merging Anthropic JSONs:', error);
       }
     } else {
       try {
-        const jsonPath = path.join(
-          process.cwd(),
-          `public/prompts/${params.modelId}.json`
-        );
-        const raw = await readCachedUtf8File(jsonPath);
-        if (raw) {
-          const jsonData = JSON.parse(raw);
-          jsonPrompts = localizePromptBlocks(
-            (jsonData[params.modelId] || []) as RawPromptBlock[],
-            locale
-          );
+        const jsonData = getModelPromptData(params.modelId) as
+          | Record<string, RawPromptBlock[]>
+          | null;
+        if (jsonData) {
+          jsonPrompts = localizePromptBlocks(jsonData[params.modelId] ?? [], locale);
         }
       } catch (error) {
-        console.error(`Error reading ${params.modelId}.json:`, error);
+        console.error(`Error reading prompts for ${params.modelId}:`, error);
       }
     }
 

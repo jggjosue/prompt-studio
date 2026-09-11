@@ -1,6 +1,7 @@
 'use client';
 
 import Footer from '@/components/layout/footer';
+import GlobalResponsivePreview from '@/components/global-responsive-preview';
 import Header from '@/components/layout/header';
 import { CatalogFacetBar } from '@/components/catalog-facet-bar';
 import { ParallaxReveal } from '@/components/ui/parallax-reveal';
@@ -15,8 +16,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Check, Code2, Copy, ExternalLink, Tag, X } from 'lucide-react';
-import { Loader2 } from 'lucide-react';
+import { Check, Code2, Copy, ExternalLink, Loader2, Tag, X } from 'lucide-react';
 import { useCatalogSearchUrl } from '@/hooks/use-catalog-search-url';
 import { useInfiniteScroll } from '@/hooks/use-infinite-scroll';
 import { useFuzzyFilter } from '@/hooks/use-fuzzy-filter';
@@ -24,9 +24,11 @@ import { useDailyCopyLimit } from '@/hooks/use-daily-copy-limit';
 import { copyToClipboard } from '@/lib/copy-to-clipboard';
 import { useLocale } from 'next-intl';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Suspense, useMemo, useState } from 'react';
-import animationCatalog from '../../../public/prompts/web-animations.json';
+import { Suspense, useMemo, useState, type CSSProperties } from 'react';
+import animationCatalog from '../../../data/prompts/web-animations.json';
 import { AdUnit } from '@/components/ad-unit';
+import { ViewportRender } from '@/components/viewport-render';
+import { StaticComponentPreview } from '@/components/static-component-preview';
 
 type AnimationKind =
   | 'orbit'
@@ -44,6 +46,15 @@ type AnimationItem = {
   tags: string[];
   status: string;
   prompt: string;
+  preview?: AnimationPreviewConfig;
+};
+
+type AnimationPreviewConfig = {
+  kind: AnimationKind;
+  primary: string;
+  secondary: string;
+  background: string;
+  design?: string;
 };
 
 const ITEMS_PER_PAGE = 20;
@@ -89,14 +100,20 @@ function animationTags(name: string, prompt: string): string[] {
 
 function AnimationPreview({
   kind,
+  preview,
   large = false,
 }: {
   kind: AnimationKind;
+  preview?: AnimationPreviewConfig;
   large?: boolean;
 }) {
+  const stageStyle = preview
+    ? ({ '--wa-primary': preview.primary, '--wa-secondary': preview.secondary, '--wa-background': preview.background } as CSSProperties)
+    : undefined;
   return (
     <div
       className={`wa-stage ${large ? 'wa-stage-large' : ''}`}
+      style={stageStyle}
       aria-label="Vista previa interactiva de la animación"
     >
       {kind === 'orbit' ? (
@@ -159,9 +176,12 @@ export default function WebAnimationsClient() {
         return {
           id: String(animation.id),
           name,
-          kind: String(animation.id) === '130' ? 'flip-card' : animationKindFromPrompt(animation.name.es, animation.prompt.es),
-          tags: animationTags(name, prompt),
-          status: 'Free',
+          kind: ('preview' in animation && animation.preview?.kind
+            ? animation.preview.kind
+            : String(animation.id) === '130' ? 'flip-card' : animationKindFromPrompt(animation.name.es, animation.prompt.es)) as AnimationKind,
+          preview: 'preview' in animation ? animation.preview as AnimationPreviewConfig : undefined,
+          tags: 'tags' in animation && Array.isArray(animation.tags) ? animation.tags : animationTags(name, prompt),
+          status: 'membership' in animation && typeof animation.membership === 'string' ? animation.membership : 'Free',
           prompt,
         };
       }),
@@ -325,7 +345,8 @@ export default function WebAnimationsClient() {
               ) : null}
               <div className="grid min-w-0 grid-cols-1 gap-6 lg:grid-cols-2 md:gap-8">
                 {visibleItems.map((animation, index) => (
-                  <ParallaxReveal key={animation.id} reverse={index % 2 === 1}>
+                  <ViewportRender key={animation.id} minHeight={490}>
+                  <ParallaxReveal reverse={index % 2 === 1}>
                     <Card
                       className="group flex h-full cursor-pointer flex-col overflow-hidden border-border/70 bg-card transition-colors hover:border-blue-500/45"
                       onClick={() => openAnimation(animation)}
@@ -371,7 +392,9 @@ export default function WebAnimationsClient() {
                           className="block w-full overflow-hidden rounded-lg border text-left outline-none transition group-hover:border-blue-500/30 focus-visible:ring-2 focus-visible:ring-blue-500"
                           aria-label={`Abrir animación ${animation.name}`}
                         >
-                          <AnimationPreview kind={animation.kind} />
+                          <StaticComponentPreview title={animation.name} type="animation" preview={animation.preview ?? {}}>
+                            <AnimationPreview kind={animation.kind} preview={animation.preview} />
+                          </StaticComponentPreview>
                         </div>
                         <AdUnit />
                       </CardContent>
@@ -401,7 +424,7 @@ export default function WebAnimationsClient() {
                         </Button>
                       </CardFooter>
                     </Card>
-                  </ParallaxReveal>
+                  </ParallaxReveal></ViewportRender>
                 ))}
               </div>
               {hasMore ? (
@@ -420,7 +443,7 @@ export default function WebAnimationsClient() {
         <DialogContent className="max-h-[90vh] w-[calc(100vw-2rem)] max-w-4xl overflow-y-auto p-0">
           {selected ? (
             dialogMode === 'animation' ? (
-              <AnimationPreview kind={selected.kind} large />
+              <GlobalResponsivePreview><AnimationPreview kind={selected.kind} preview={selected.preview} large /></GlobalResponsivePreview>
             ) : (
               <>
                 <DialogHeader className="border-b px-6 py-5 pr-14">
@@ -460,7 +483,7 @@ export default function WebAnimationsClient() {
       </Dialog>
 
       <style jsx global>{`
-        .wa-stage { position:relative; display:grid; place-items:center; width:100%; aspect-ratio:16/9; min-height:220px; overflow:hidden; background:radial-gradient(circle at 50% 45%,#101d3b 0,#050814 44%,#02030a 100%); isolation:isolate; }
+        .wa-stage { --wa-primary:#38bdf8;--wa-secondary:#6366f1;--wa-background:#02030a;position:relative; display:grid; place-items:center; width:100%; aspect-ratio:16/9; min-height:220px; overflow:hidden; background:radial-gradient(circle at 50% 45%,color-mix(in srgb,var(--wa-primary) 24%,var(--wa-background)) 0,var(--wa-background) 48%,#02030a 100%); isolation:isolate; }
         .wa-stage-large { min-height:min(58vh,560px); }
         .wa-orbit { position:relative; width:110px; height:110px; }
         .wa-orbit i { position:absolute; inset:0; border:2px solid transparent; border-top-color:#38bdf8; border-radius:50%; animation:wa-spin 2.4s linear infinite; }
@@ -482,6 +505,13 @@ export default function WebAnimationsClient() {
         .wa-flip-front { background:linear-gradient(145deg,#0b1d42,#071021); box-shadow:inset 0 0 24px #2563eb22; }
         .wa-flip-back { background:linear-gradient(145deg,#2563eb,#0ea5e9); transform:rotateY(180deg); border-color:#60a5fa; box-shadow:0 10px 30px #2563eb55; }
         .wa-stage:hover .wa-flip-grid { transform:rotateX(-4deg) rotateY(8deg) scale(1.04); }
+        .wa-stage .wa-orbit i{border-top-color:var(--wa-primary)}.wa-stage .wa-orbit i:nth-child(2){border-top-color:var(--wa-secondary)}.wa-stage .wa-orbit i:nth-child(3){border-top-color:color-mix(in srgb,var(--wa-primary),white 38%)}.wa-stage .wa-orbit span{box-shadow:0 0 25px var(--wa-primary)}
+        .wa-stage .wa-loader span{background:linear-gradient(135deg,var(--wa-primary),var(--wa-secondary));box-shadow:0 0 25px var(--wa-primary)}
+        .wa-stage .wa-particles i{background:var(--wa-primary);box-shadow:0 0 12px var(--wa-secondary)}
+        .wa-stage .wa-hover span{border-color:var(--wa-primary);background:linear-gradient(145deg,var(--wa-background),color-mix(in srgb,var(--wa-primary) 22%,var(--wa-background)))}.wa-stage:hover .wa-hover span{background:linear-gradient(145deg,var(--wa-primary),var(--wa-secondary));box-shadow:0 18px 40px color-mix(in srgb,var(--wa-primary) 48%,transparent)}
+        .wa-stage .wa-waves i{background:linear-gradient(110deg,var(--wa-primary),var(--wa-secondary),color-mix(in srgb,var(--wa-primary),white 35%))}
+        .wa-stage .wa-type span{background-image:linear-gradient(90deg,#fff,var(--wa-primary),var(--wa-secondary),#fff)}
+        .wa-stage .wa-flip-front{background:linear-gradient(145deg,var(--wa-background),color-mix(in srgb,var(--wa-primary) 24%,var(--wa-background)))}.wa-stage .wa-flip-back{background:linear-gradient(145deg,var(--wa-primary),var(--wa-secondary));border-color:var(--wa-primary);box-shadow:0 10px 30px color-mix(in srgb,var(--wa-primary) 45%,transparent)}
         @keyframes wa-spin{to{transform:rotate(360deg)}}@keyframes wa-bounce{0%,100%{transform:translateY(0) scale(.8);opacity:.55}50%{transform:translateY(-25px) scale(1.15);opacity:1}}@keyframes wa-float{0%,100%{transform:translate(0,0) scale(.7);opacity:.35}50%{transform:translate(30px,-42px) scale(1.45);opacity:1}}@keyframes wa-wave{0%,100%{transform:rotate(-8deg) scale(1)}50%{transform:rotate(10deg) scale(1.18, .82)}}@keyframes wa-shine{to{background-position:-200% center}}
         @media (prefers-reduced-motion:reduce){.wa-stage *{animation-duration:.001ms!important;animation-iteration-count:1!important}}
       `}</style>
