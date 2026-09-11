@@ -3,11 +3,12 @@ import { Suspense } from 'react';
 import GenerateVideosClient from './generate-videos-client';
 
 export const metadata: Metadata = {
-  title: 'AI Video Editor & Workspace | Prompt Studio',
-  description: 'Create and refine AI video prompts. Send your prompts directly to AI models for analysis and optimization.',
+  title: 'Generador y editor de videos con IA',
+  description: 'Define escena, cámara, movimiento, duración y estilo para generar videos con IA desde un espacio de trabajo visual.',
   alternates: {
     canonical: '/generate-videos',
   },
+  keywords: ['generador de videos con IA', 'crear video desde texto', 'editor de prompts de video', 'video cinematográfico con IA'],
 };
 
 export default function PromptEditorPage() {

@@ -4,7 +4,11 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
 
-import { handleImageGeneration, proxyOpenAIImage, proxyOpenAIChat, proxyAnthropicChat, proxyRunwayStart, proxyRunwayPoll, proxyVeoVideo, proxyGemini, type ImageGenerationFormState } from '@/app/actions';
+import { handleImageGeneration, type ImageGenerationFormState } from '@/app/actions';
+import { generationProviders } from '@/lib/generation/provider-adapters';
+import { useGenerationEditor } from '@/hooks/use-generation-editor';
+import { GenerationErrorNotice, GenerationProgress } from '@/components/generation/generation-feedback';
+import { GenerationCostDisclosure } from '@/components/generation/generation-cost-disclosure';
 
 
 import { Button } from '@/components/ui/button';
@@ -53,9 +57,21 @@ import {
   Search
 } from 'lucide-react';
 import { OptimizedImage } from '@/components/optimized-image';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useActionState, useEffect, useState, useTransition, useRef, Suspense } from 'react';
+import { useBrandKitContext } from '@/hooks/use-brand-kit-context';
+
+const VideoStoryboardGenerator = dynamic(() => import('@/components/video-storyboard-generator').then(module => module.VideoStoryboardGenerator), { ssr: false });
+
+const proxyOpenAIChat = generationProviders.openai.chat;
+const proxyOpenAIImage = generationProviders.openai.image;
+const proxyAnthropicChat = generationProviders.anthropic.chat;
+const proxyGemini = generationProviders.google.generate;
+const proxyVeoVideo = generationProviders.google.video;
+const proxyRunwayStart = generationProviders.runway.start;
+const proxyRunwayPoll = generationProviders.runway.poll;
 
 // Sample video placeholders to simulate dynamic generation
 const sampleVideos = [
@@ -191,6 +207,7 @@ function generateMockLandingHTML(promptText: string, framework: string, theme: s
 }
 
 export default function GenerateVideosClient() {
+  const { brandPromptContext, brandKitName } = useBrandKitContext();
   const isSpanish = true;
   const [mounted, setMounted] = useState(false);
   useEffect(() => { setMounted(true); }, []);
@@ -403,16 +420,11 @@ export default function GenerateVideosClient() {
 
   // Mock Generation UI flows
   const [isPending, startTransition] = useTransition();
-  const [localGenerating, setLocalGenerating] = useState(false);
-  const [genProgress, setGenProgress] = useState(0);
-  const [genStatus, setGenStatus] = useState('');
-
-  // Outputs
-  const [outputImageUrl, setOutputImageUrl] = useState('');
-  const [outputVideoUrl, setOutputVideoUrl] = useState('');
-  const [outputWebHTML, setOutputWebHTML] = useState('');
-  const [outputWebTab, setOutputWebTab] = useState<'preview' | 'code'>('preview');
-  const [copiedCode, setCopiedCode] = useState(false);
+  const {
+    localGenerating, setLocalGenerating, genProgress, setGenProgress, genStatus, setGenStatus,
+    generationError, setGenerationError, failGeneration, outputImageUrl, setOutputImageUrl, outputVideoUrl, setOutputVideoUrl,
+    outputWebHTML, setOutputWebHTML, outputWebTab, setOutputWebTab, copiedCode, setCopiedCode,
+  } = useGenerationEditor();
 
   const { toast } = useToast();
 
@@ -894,6 +906,7 @@ Respond ALWAYS in JSON format with exactly three fields:
   // Submit Generation
   const handleGenerationSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setGenerationError(null);
 
 
     if (activeTab === 'pure-text') {
@@ -1022,7 +1035,7 @@ Respond ALWAYS in JSON format with exactly three fields:
       setGenProgress(10);
 
       // Assemble full prompt
-      let finalPrompt = editingText;
+      let finalPrompt = editingText + brandPromptContext;
       if (videoCamera) finalPrompt += `, camera motion: ${videoCamera}`;
       if (videoStyle) finalPrompt += `, style: ${videoStyle}`;
 
@@ -1092,6 +1105,7 @@ Respond ALWAYS in JSON format with exactly three fields:
       }
 
       if (apiError || !videoOutputUrl) {
+        failGeneration(`${apiUsed || 'Video'} Generation Failed`, apiError || 'Failed to obtain video output from provider.');
         toast({
           variant: 'destructive',
           title: `${apiUsed || 'Video'} Generation Failed`,
@@ -1208,6 +1222,7 @@ Requirements:
       }
 
       if (apiError || !generatedHTML) {
+        failGeneration(`${apiUsed || 'Web'} Generation Failed`, apiError || 'Failed to generate code from provider.');
         toast({
           variant: 'destructive',
           title: `${apiUsed || 'Web'} Generation Failed`,
@@ -1261,7 +1276,7 @@ Requirements:
     setGenProgress(10);
 
     // Compile final prompt with tags
-    let finalPrompt = editingText;
+    let finalPrompt = editingText + brandPromptContext;
     if (imageStyle) finalPrompt += `, ${imageStyle} style`;
     if (imageLighting) finalPrompt += `, ${imageLighting} lighting`;
     if (imageCamera) finalPrompt += `, ${imageCamera} shot`;
@@ -1342,6 +1357,7 @@ Requirements:
     }
 
     if (apiError || !imageOutputUrl) {
+      failGeneration(`${apiUsed || 'Image'} Generation Failed`, apiError || 'Failed to obtain image output from provider.');
       toast({
         variant: 'destructive',
         title: `${apiUsed} Generation Failed`,
@@ -1365,6 +1381,7 @@ Requirements:
     <div className="flex min-h-screen w-full flex-col bg-background">
       <Suspense fallback={<div className="w-full h-16 border-b" />}>
         <Header />
+        {brandKitName && <div className="border-b bg-primary/5 px-4 py-2 text-center text-xs font-medium text-primary">Brand Kit aplicado: {brandKitName}</div>}
       </Suspense>
       <aside className={`fixed bottom-0 left-0 top-36 z-30 w-60 flex-col border-r border-t bg-card p-4 shadow-xl ${
         isHistoryCollapsed ? 'hidden' : 'hidden xl:flex'
@@ -1529,6 +1546,18 @@ Requirements:
                                   )}
                                 </div>
                               </div>
+
+                              {activeTab === 'ai-video' ? (
+                                <VideoStoryboardGenerator
+                                  initialIdea={basePrompt}
+                                  onUseScene={scene => {
+                                    setBasePrompt(scene.prompt);
+                                    setEditingText(scene.prompt);
+                                    setVideoCamera(scene.camera);
+                                    setVideoDuration(String(scene.duration));
+                                  }}
+                                />
+                              ) : null}
 
                               {/* Advanced Configuration (Duplicated) */}
                               <Accordion type="single" collapsible className="mt-6 w-full">
@@ -2658,6 +2687,8 @@ Requirements:
                                 </AccordionItem>
                               </Accordion>
 
+                              <GenerationCostDisclosure kind={activeTab === 'ai-video' ? 'video' : activeTab === 'ai-web' || activeTab === 'pure-text' ? 'project' : 'image'} provider={activeTab === 'ai-video' ? videoProvider : activeTab === 'ai-web' ? webProvider : activeTab === 'pure-text' ? chatProvider : imageProvider} />
+
                               {/* Trigger button */}
                               {(() => {
                                 const getButtonConfig = () => {
@@ -2698,7 +2729,7 @@ Requirements:
                                   <div className="pt-2">
                                     <Button
                                       type="submit"
-                                      disabled={true}
+                                      disabled={!editingText.trim() || isPending || localGenerating}
                                       className={`relative group overflow-hidden w-full h-12 ${btn.gradient} !text-white font-extrabold gap-2.5 text-sm rounded-xl transition-all duration-300 ease-out hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center ${btn.shadow} ${btn.border} ${btn.ring}`}
                                     >
                                       {/* Inner glow overlay on hover */}
@@ -2776,28 +2807,8 @@ Requirements:
                     <div className="p-4 flex-1 flex flex-col justify-center bg-muted/30 relative">
 
                       {/* Generative Loading Screen */}
-                      {(isPending || localGenerating) && (
-                        <div className="absolute inset-0 bg-background/95 flex flex-col items-center justify-center p-6 z-10 text-center space-y-4">
-                          <div className="relative flex items-center justify-center">
-                            <Loader2 className="h-12 w-12 text-blue-500 animate-spin" />
-                            <Sparkles className="h-5 w-5 text-blue-400 absolute animate-pulse" />
-                          </div>
-                          <div className="space-y-1.5 max-w-[280px]">
-                            <p className="font-bold text-sm text-foreground">
-                              {localGenerating ? 'Running Physics Engine' : 'Rendering Image Canvas'}
-                            </p>
-                            <p className="text-xs text-muted-foreground animate-pulse">
-                              {localGenerating ? genStatus : 'Calculating lighting vectors...'}
-                            </p>
-                          </div>
-                          <div className="w-full max-w-[200px] h-1.5 bg-muted rounded-full overflow-hidden border">
-                            <div
-                              className="bg-blue-600 h-full transition-all duration-300 rounded-full"
-                              style={{ width: `${localGenerating ? genProgress : 50}%` }}
-                            />
-                          </div>
-                        </div>
-                      )}
+                      <GenerationProgress active={localGenerating} pending={isPending} progress={genProgress} status={genStatus} />
+                      <GenerationErrorNotice error={generationError} />
 
                       {/* --- IMAGE RESULT PREVIEW --- */}
                       {activeTab === 'ai-image' && (
