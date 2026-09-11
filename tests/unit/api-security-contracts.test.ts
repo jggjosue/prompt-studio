@@ -1,0 +1,29 @@
+import assert from 'node:assert/strict';
+import test from 'node:test';
+import { readFile } from 'node:fs/promises';
+
+const source = (file: string) => readFile(new URL(`../../${file}`, import.meta.url), 'utf8');
+
+test('download requires auth, signed token, ownership, paid status and atomic limit', async () => {
+  const value = await source('src/app/api/purchases/download/route.ts');
+  for (const contract of ['verifyPurchaseDownloadToken', 'payload.userId !== userId', "status: 'paid'", "$lt: ['$downloadCount', '$maxDownloads']", '$inc: { downloadCount: 1 }']) assert.ok(value.includes(contract), `Falta contrato: ${contract}`);
+});
+
+test('checkout price is server-owned and webhook signature is verified', async () => {
+  const checkout = await source('src/app/api/component-checkout/route.ts');
+  const webhook = await source('src/app/api/webhooks/stripe/route.ts');
+  assert.ok(checkout.includes('unit_amount: product.priceCents'));
+  assert.ok(!checkout.includes('body.price'));
+  assert.ok(webhook.includes('stripe.webhooks.constructEvent'));
+  assert.ok(webhook.includes('isValidComponentPurchase'));
+});
+
+test('AI generation is idempotent, credit-controlled and processed outside creation request', async () => {
+  const create = await source('src/app/api/ai/jobs/route.ts');
+  const process = await source('src/app/api/ai/jobs/process/route.ts');
+  assert.ok(create.includes("request.headers.get('Idempotency-Key')"));
+  assert.ok(create.includes('reserveCredits(job)'));
+  assert.ok(!create.includes('runAIJob('));
+  assert.ok(process.includes('runAIJob(job)'));
+  assert.ok(process.includes('refundCredits(job)'));
+});

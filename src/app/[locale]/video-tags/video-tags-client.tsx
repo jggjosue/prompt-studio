@@ -26,7 +26,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useInfiniteScroll } from '@/hooks/use-infinite-scroll';
-import { useLocalizedPlaceholderVideos } from '@/hooks/use-localized-catalog';
+import { usePagedPlaceholderVideos } from '@/hooks/use-paged-catalog';
 import {
   buildCatalogQueryUrl,
   useCatalogSearchUrl,
@@ -54,7 +54,7 @@ function VideoTagsContent() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const placeholderVideos = useLocalizedPlaceholderVideos();
+  const placeholderVideos = usePagedPlaceholderVideos();
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
 
   const {

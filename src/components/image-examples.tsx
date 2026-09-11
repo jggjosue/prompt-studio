@@ -9,7 +9,7 @@ import {
   CardContent,
   CardFooter,
 } from '@/components/ui/card';
-import { useLocalizedPlaceholderImages } from '@/hooks/use-localized-catalog';
+import { usePagedPlaceholderImages } from '@/hooks/use-paged-catalog';
 import type { ImagePlaceholder } from '@/lib/placeholder-images';
 import { Loader2, Tag, Wand2 } from 'lucide-react';
 import { OptimizedImage } from '@/components/optimized-image';
@@ -17,7 +17,7 @@ import Link from 'next/link';
 import { Suspense, useMemo } from 'react';
 
 function ImageExamplesContent() {
-  const placeholderImages = useLocalizedPlaceholderImages();
+  const placeholderImages = usePagedPlaceholderImages();
   const imageContent = useMemo(() => {
     const uniqueByTitle = new Map<string, ImagePlaceholder>();
     for (const item of placeholderImages.filter(entry => entry.type === 'image' && entry.imageUrl)) {
@@ -26,7 +26,9 @@ function ImageExamplesContent() {
       }
     }
     const list = Array.from(uniqueByTitle.values());
-    return [...list, ...list].slice(0, 14);
+    const productPhotography = list.filter(item => item.tags.includes('Product Photography'));
+    const featured = productPhotography.length ? productPhotography : list;
+    return [...featured, ...featured].slice(0, 14);
   }, [placeholderImages]);
 
   return (
@@ -54,6 +56,8 @@ function ImageExamplesContent() {
                     src={item.imageUrl}
                     alt={item.title}
                     fill
+                    lazyAdaptive
+                    sizes="(max-width: 640px) 280px, (max-width: 768px) 320px, 360px"
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                     data-ai-hint={item.imageHint}
                   />

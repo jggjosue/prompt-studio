@@ -9,6 +9,8 @@ import Image, { type ImageProps } from 'next/image';
 import { useEffect, useState } from 'react';
 
 const DEFAULT_QUALITY = 72;
+const TINY_BLUR_DATA_URL =
+  'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSIzMCI+PGZpbHRlciBpZD0iYiI+PGZlR2F1c3NpYW5CbHVyIHN0ZERldmlhdGlvbj0iNSIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNiKSIgZmlsbD0iIzE4MWExZiIvPjwvc3ZnPg==';
 
 type OptimizedImageProps = ImageProps & {
   /** Fuerza sin optimizar (p. ej. meta.ai). */
@@ -36,6 +38,8 @@ export function OptimizedImage({
   className,
   onLoad,
   onError,
+  placeholder,
+  blurDataURL,
   ...props
 }: OptimizedImageProps) {
   const [isReady, setIsReady] = useState(false);
@@ -83,6 +87,8 @@ export function OptimizedImage({
           quality={quality}
           unoptimized={skipOptimize}
           decoding="async"
+          placeholder={placeholder ?? (srcString.startsWith('data:') || srcString.startsWith('blob:') ? 'empty' : 'blur')}
+          blurDataURL={blurDataURL ?? TINY_BLUR_DATA_URL}
           className={cn(
             'transition-[opacity,filter,transform] duration-500',
             isReady && !hasError

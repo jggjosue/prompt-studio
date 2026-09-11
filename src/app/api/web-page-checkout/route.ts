@@ -1,5 +1,6 @@
 import { getWebPageCheckoutUrl } from '@/lib/web-page-checkout';
 import { NextRequest, NextResponse } from 'next/server';
+import { cacheHeaders } from '@/lib/cache-policy';
 
 const FORWARDED_PARAMS = [
   'client_reference_id',
@@ -16,7 +17,7 @@ export function GET(request: NextRequest) {
   if (!checkoutUrl) {
     return NextResponse.json(
       { error: 'Checkout no configurado para este precio.' },
-      { status: 503 }
+      { status: 503, headers: cacheHeaders('private-no-store') }
     );
   }
 
@@ -26,5 +27,7 @@ export function GET(request: NextRequest) {
     if (value) destination.searchParams.set(key, value);
   }
 
-  return NextResponse.redirect(destination);
+  return NextResponse.redirect(destination, {
+    headers: cacheHeaders('private-no-store'),
+  });
 }

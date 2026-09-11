@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f3f1eb"/>
+  <path d="M74 74h36v36H74z" fill="none" stroke="#11110f" stroke-width="2"/>
+  <path d="M87 87h10v10H87z" fill="#11110f"/>
+  <text x="130" y="99" font-family="monospace" font-size="20" letter-spacing="5" fill="#11110f">MONONOTE</text>
+  <text x="75" y="282" font-family="Georgia,serif" font-size="100" letter-spacing="-5" fill="#11110f">Write without</text>
+  <text x="260" y="385" font-family="Georgia,serif" font-size="100" font-style="italic" letter-spacing="-5" fill="#11110f">the noise.</text>
+  <text x="78" y="520" font-family="monospace" font-size="16" letter-spacing="2" fill="#74736e">A PRIVATE SPACE FOR THOUGHT</text>
+  <g transform="translate(840 125) rotate(5)">
+    <rect width="270" height="350" fill="#fbfaf6" stroke="#11110f"/>
+    <path d="M0 48h270M45 48v302" stroke="#b9b7b0"/>
+    <text x="68" y="105" font-family="monospace" font-size="10" fill="#74736e">SATURDAY, 18 JULY</text>
+    <text x="68" y="155" font-family="Georgia,serif" font-size="25" fill="#11110f">The quiet before</text>
+    <text x="68" y="188" font-family="Georgia,serif" font-size="25" fill="#11110f">the first sentence.</text>
+    <path d="M68 225h150M68 245h125M68 265h140M68 285h90" stroke="#aaa9a3"/>
+  </g>
+</svg>

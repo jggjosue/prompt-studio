@@ -1,0 +1,38 @@
+{
+  "id": "170",
+  "title": {
+    "en": "3D Freelance Collective Agency",
+    "es": "Agencia Colectiva Freelance 3D"
+  },
+  "description": {
+    "es": {
+      "nombre": "Freelance® — Colectivo creativo independiente",
+      "prompt": "Landing page editorial para una agencia colectiva freelance especializada en estrategia, diseño, desarrollo creativo, motion y 3D. Incluye una escultura tridimensional interactiva, animaciones al hacer scroll, marquee, proyectos destacados y llamadas a la acción para captar nuevos clientes.",
+      "estilo": "Editorial brutalista, tipografía de gran formato, composición asimétrica, objetos 3D, textura granulada y paleta de alto contraste en marfil, negro, verde ácido y naranja."
+    },
+    "en": {
+      "name": "Freelance® — Independent Creative Collective",
+      "prompt": "An editorial landing page for a freelance collective specializing in strategy, design, creative development, motion, and 3D. It features an interactive three-dimensional sculpture, scroll reveals, a moving marquee, selected projects, and conversion-focused calls to action."
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "Editorial freelance agency website with an acid-green 3D sphere, black typography, cream background, and orange accents",
+    "es": "Web editorial de agencia freelance con esfera 3D verde ácido, tipografía negra, fondo marfil y acentos naranja"
+  },
+  "demoUrl": "webpages_collective-freelance-agency_index.html",
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "tags": [
+    "freelance agency",
+    "creative collective",
+    "3D landing page",
+    "portfolio",
+    "creative development"
+  ],
+  "membership": "Premium",
+  "price": "15.00"
+}

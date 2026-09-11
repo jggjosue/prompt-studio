@@ -1,0 +1,37 @@
+{
+  "id": "170",
+  "title": {
+    "en": "KATANA — 3D Anime Streaming",
+    "es": "KATANA — Streaming de Anime 3D"
+  },
+  "description": {
+    "es": {
+      "nombre": "KATANA — Streaming de Anime 3D",
+      "prompt": "Crea una plataforma premium de streaming de anime llamada KATANA, con una dirección visual cinematográfica inspirada en carteles japoneses contemporáneos. Utiliza una paleta de negro tinta, rojo coral y marfil; una portada 3D interactiva que responda al cursor; tipografía editorial de alto contraste; animaciones fluidas; catálogo dinámico con filtros por género; buscador; favoritos; modal de reproducción y diseño adaptable para escritorio y móvil.",
+      "estilo": "Cinematográfico, editorial japonés, oscuro, premium, minimalista y tridimensional"
+    },
+    "en": {
+      "name": "KATANA — 3D Anime Streaming",
+      "prompt": "Create a premium anime streaming platform named KATANA with a cinematic visual direction inspired by contemporary Japanese posters. Use an ink-black, coral-red, and ivory palette; an interactive 3D hero that reacts to the cursor; high-contrast editorial typography; fluid animations; a dynamic catalog with genre filters; search; favorites; a playback modal; and responsive desktop and mobile layouts."
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "Cinematic 3D anime streaming interface in ink black, coral red and ivory, featuring a stylized samurai silhouette, Japanese editorial typography and dramatic lighting",
+    "es": "Interfaz cinematográfica 3D de streaming de anime en negro tinta, rojo coral y marfil, con silueta estilizada de samurái, tipografía editorial japonesa e iluminación dramática"
+  },
+  "demoUrl": "https://www.prompstudio.com/webpages/aniwave-anime-streaming/",
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "tags": [
+    "anime",
+    "streaming",
+    "3D",
+    "interactive landing page"
+  ],
+  "membership": "Premium",
+  "price": "15.00"
+}

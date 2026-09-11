@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.prompstudio.com/webpages/artwalk-culture-festival/sitemap.xml

@@ -1,0 +1,37 @@
+{
+  "id": "170",
+  "title": {
+    "en": "Nexora — 3D Freelance Marketplace",
+    "es": "Nexora — Plataforma freelance 3D"
+  },
+  "description": {
+    "es": {
+      "nombre": "Nexora — Plataforma freelance 3D",
+      "prompt": "Crea una plataforma premium para conectar empresas con talento freelance. Utiliza una identidad visual en azul profundo, cian y magenta, un planeta 3D interactivo, tarjetas flotantes, animaciones al desplazarse, perfiles profesionales, categorías de servicios y llamadas a la acción claras. La experiencia debe ser moderna, inmersiva, responsive y accesible.",
+      "estilo": "Marketplace tecnológico premium, futurista, inmersivo, tridimensional y editorial"
+    },
+    "en": {
+      "name": "Nexora — 3D Freelance Marketplace",
+      "prompt": "Create a premium platform that connects companies with freelance talent. Use a deep-blue, cyan, and magenta visual identity, an interactive 3D planet, floating cards, scroll animations, professional profiles, service categories, and clear calls to action. The experience should feel modern, immersive, responsive, and accessible."
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "Futuristic freelance marketplace landing page with a glowing blue 3D planet, cyan and magenta orbital ring, floating professional cards, and a dark navy interface",
+    "es": "Landing de marketplace freelance futurista con planeta 3D azul luminoso, órbita cian y magenta, tarjetas profesionales flotantes e interfaz azul marino"
+  },
+  "demoUrl": "https://nexora.work/",
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "tags": [
+    "freelance marketplace",
+    "3D landing page",
+    "talent platform",
+    "interactive animation"
+  ],
+  "membership": "Premium",
+  "price": "15.00"
+}

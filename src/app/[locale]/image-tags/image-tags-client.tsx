@@ -29,7 +29,7 @@ import {
 import { KeysetPagination } from '@/components/keyset-pagination';
 import { cn } from '@/lib/utils';
 import { useInfiniteScroll } from '@/hooks/use-infinite-scroll';
-import { useLocalizedPlaceholderImages } from '@/hooks/use-localized-catalog';
+import { usePagedPlaceholderImages } from '@/hooks/use-paged-catalog';
 import {
   buildCatalogQueryUrl,
   useCatalogSearchUrl,
@@ -57,7 +57,7 @@ function ImageTagsContent() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const placeholderImages = useLocalizedPlaceholderImages();
+  const placeholderImages = usePagedPlaceholderImages();
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
 
   const {

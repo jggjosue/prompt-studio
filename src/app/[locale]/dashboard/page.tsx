@@ -31,9 +31,18 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { PersonalizedRecommendations } from '@/components/dashboard/personalized-recommendations';
+import { getCreditBalance } from '@/lib/ai-job-service';
+import { getServerSubscriptionStatus } from '@/lib/server-subscription-status';
 
 export default async function Dashboard() {
   const user = await currentUser();
+  // Saldo y plan reales: la tarjeta mostraba cifras de maqueta, y un usuario que
+  // se cree con 850 créditos no tiene ningún motivo para recargar.
+  const [credits, subscription] = await Promise.all([
+    user ? getCreditBalance(user.id) : Promise.resolve(null),
+    getServerSubscriptionStatus(),
+  ]);
 
   const landings = getWebPages('en').filter(p => p.imageUrl);
   const images = getPlaceholderImages('en').filter(
@@ -55,6 +64,7 @@ export default async function Dashboard() {
         <div className="flex items-center">
             <h1 className="text-lg font-semibold md:text-2xl">Welcome back, {user?.firstName}!</h1>
         </div>
+        <PersonalizedRecommendations />
         <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -78,9 +88,10 @@ export default async function Dashboard() {
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">850</div>
+              <div className="text-2xl font-bold">{credits ? credits.balance.toFixed(1) : '—'}</div>
               <p className="text-xs text-muted-foreground">
-                <Link href="/pricing">Buy more credits</Link>
+                <Link href="/dashboard/credits" className="underline">Buy more credits</Link>
+                {credits && credits.reserved > 0 ? ` · ${credits.reserved.toFixed(1)} reserved` : ''}
               </p>
             </CardContent>
           </Card>
@@ -90,7 +101,7 @@ export default async function Dashboard() {
               <CreditCard className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">Pro</div>
+              <div className="text-2xl font-bold capitalize">{subscription?.plan ?? 'Free'}</div>
               <p className="text-xs text-muted-foreground">
                 Renews on July 24, 2024
               </p>

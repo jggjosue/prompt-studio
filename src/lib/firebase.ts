@@ -8,7 +8,21 @@ export type FirebaseAnalyticsEvent =
   | 'web_buy_button_premium'
   | 'web_view_prompt'
   | 'web_download_free'
-  | 'web_download_premium';
+  | 'web_download_premium'
+  | 'web_demo_view'
+  | 'web_checkout_start'
+  | 'web_return_to_product'
+  | 'web_preview_customize'
+  | 'component_preview_view'
+  | 'component_prompt_copy'
+  | 'component_purchase_click'
+  | 'credit_topup_click'
+  | 'smart_search_no_results'
+  | 'component_category_view'
+  | 'component_favorite_add'
+  | 'component_project_add'
+  | 'free_to_premium_conversion'
+  | 'next_project_download';
 
 export type FirebaseAnalyticsParams = Record<string, string | number | boolean | null | undefined>;
 

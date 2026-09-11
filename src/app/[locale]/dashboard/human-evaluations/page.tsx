@@ -1,0 +1,1 @@
+import type{Metadata}from'next';import{HumanEvaluationsClient}from'./human-evaluations-client';export const metadata:Metadata={title:'Evaluación humana | Prompt Studio',description:'Comparaciones ciegas para aprender preferencias de calidad.'};export default function Page(){return<HumanEvaluationsClient/>}

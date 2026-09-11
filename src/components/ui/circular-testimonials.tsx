@@ -9,6 +9,7 @@ import React, {
 import { ArrowLeft as FaArrowLeft, ArrowRight as FaArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
+import { OptimizedImage } from "@/components/optimized-image";
 
 interface Testimonial {
   quote: string;
@@ -201,10 +202,14 @@ export const CircularTestimonials = ({
               );
             }
             return (
-              <img
+              <OptimizedImage
                 key={testimonial.src}
                 src={testimonial.src}
                 alt={testimonial.name}
+                width={640}
+                height={640}
+                forceUnoptimized
+                sizes="(max-width: 768px) 90vw, 45vw"
                 className="testimonial-image"
                 data-index={index}
                 style={getImageStyle(index)}

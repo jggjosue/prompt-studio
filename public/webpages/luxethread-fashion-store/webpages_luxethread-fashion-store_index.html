@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#dfff00">
+  <title>LuxeThread 3D Fashion Store — Future Form</title>
+  <meta name="description" content="Explore LuxeThread, an immersive 3D fashion store featuring experimental silhouettes, premium materials, interactive garments and future-focused design.">
+  <meta name="keywords" content="3D fashion store, futuristic fashion, premium clothing, interactive ecommerce, LuxeThread, designer apparel">
+  <meta name="author" content="LuxeThread Studio">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <link rel="canonical" href="https://www.prompstudio.com/webpages/luxethread-fashion-store/">
+  <link rel="alternate" hreflang="en" href="https://www.prompstudio.com/webpages/luxethread-fashion-store/">
+  <link rel="alternate" hreflang="x-default" href="https://www.prompstudio.com/webpages/luxethread-fashion-store/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="LuxeThread">
+  <meta property="og:title" content="LuxeThread 3D Fashion Store — Future Form">
+  <meta property="og:description" content="Experimental silhouettes, premium materials and interactive 3D fashion designed to move between worlds.">
+  <meta property="og:url" content="https://www.prompstudio.com/webpages/luxethread-fashion-store/">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:image" content="https://www.prompstudio.com/og/luxethread-fashion-store.jpg">
+  <meta property="og:image:alt" content="LuxeThread futuristic 3D fashion store featuring a floating dark jacket with violet and neon lime accents">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="LuxeThread 3D Fashion Store — Future Form">
+  <meta name="twitter:description" content="Discover an immersive editorial fashion experience with interactive 3D garments and future-focused design.">
+  <meta name="twitter:image" content="https://www.prompstudio.com/og/luxethread-fashion-store.jpg">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "LuxeThread",
+    "url": "https://www.prompstudio.com/webpages/luxethread-fashion-store/",
+    "description": "An immersive 3D fashion store featuring experimental silhouettes, premium materials and interactive design.",
+    "inLanguage": "en",
+    "publisher": {
+      "@type": "Organization",
+      "name": "LuxeThread Studio"
+    },
+    "mainEntity": {
+      "@type": "ItemList",
+      "name": "LuxeThread Future Form Collection",
+      "numberOfItems": 3,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "item": {
+            "@type": "Product",
+            "name": "Asymmetric Form Dress",
+            "description": "Asymmetric dress made from recycled satin in Papaya.",
+            "brand": { "@type": "Brand", "name": "LuxeThread" },
+            "offers": { "@type": "Offer", "price": "189", "priceCurrency": "USD", "availability": "https://schema.org/InStock" }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "item": {
+            "@type": "Product",
+            "name": "Modular Shell Coat",
+            "description": "Modular technical nylon coat in Iris.",
+            "brand": { "@type": "Brand", "name": "LuxeThread" },
+            "offers": { "@type": "Offer", "price": "248", "priceCurrency": "USD", "availability": "https://schema.org/InStock" }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "item": {
+            "@type": "Product",
+            "name": "Fold Carry Object",
+            "description": "Sculptural carry object made from bio leather in Chalk.",
+            "brand": { "@type": "Brand", "name": "LuxeThread" },
+            "offers": { "@type": "Offer", "price": "132", "priceCurrency": "USD", "availability": "https://schema.org/InStock" }
+          }
+        }
+      ]
+    }
+  }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+    :root {
+      --ink: #11110f;
+      --paper: #f0efe9;
+      --acid: #dfff00;
+      --violet: #715aff;
+      --orange: #ff5938;
+      --line: rgba(17, 17, 15, .16);
+      --ease: cubic-bezier(.2,.8,.2,1);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: Manrope, sans-serif; overflow-x: hidden; }
+    body.locked { overflow: hidden; }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+    button { color: inherit; }
+    ::selection { background: var(--acid); color: var(--ink); }
+
+    .ticker { height: 30px; overflow: hidden; background: var(--acid); border-bottom: 1px solid var(--ink); font: 500 10px/30px "DM Mono", monospace; letter-spacing: .12em; text-transform: uppercase; white-space: nowrap; }
+    .ticker-track { display: inline-flex; animation: marquee 24s linear infinite; }
+    .ticker span { display: inline-block; padding-right: 42px; }
+    @keyframes marquee { to { transform: translateX(-50%); } }
+
+    nav { height: 74px; padding: 0 3vw; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; position: absolute; top: 30px; width: 100%; z-index: 20; color: #fff; border-bottom: 1px solid rgba(255,255,255,.22); }
+    .brand { font-size: clamp(18px, 2vw, 27px); font-weight: 800; letter-spacing: -.07em; text-transform: uppercase; }
+    .brand sup { color: var(--acid); font: 500 8px "DM Mono"; letter-spacing: 0; vertical-align: top; margin-left: 4px; }
+    .nav-links { display: flex; gap: 30px; font: 500 11px "DM Mono"; text-transform: uppercase; letter-spacing: .08em; }
+    .nav-links a { position: relative; }
+    .nav-links a:after { content: ""; height: 1px; width: 0; background: var(--acid); position: absolute; left: 0; bottom: -5px; transition: width .3s; }
+    .nav-links a:hover:after { width: 100%; }
+    .nav-actions { justify-self: end; display: flex; align-items: center; gap: 10px; }
+    .round-btn { width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(255,255,255,.4); background: transparent; display: grid; place-items: center; cursor: pointer; transition: .3s var(--ease); position: relative; }
+    .round-btn:hover { background: var(--acid); border-color: var(--acid); color: var(--ink); transform: rotate(-8deg); }
+    .cart-count { position: absolute; right: -2px; top: -2px; background: var(--acid); color: var(--ink); width: 17px; height: 17px; border-radius: 50%; font: 600 9px/17px "DM Mono"; }
+    .menu-btn { display: none; }
+
+    .hero { min-height: 760px; height: 100svh; max-height: 980px; background: #181818; color: white; position: relative; overflow: hidden; display: grid; align-items: end; padding: 130px 3vw 4.5vh; isolation: isolate; }
+    .hero-grid { position: absolute; inset: 0; z-index: -3; background-image: linear-gradient(rgba(255,255,255,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.07) 1px, transparent 1px); background-size: 8.333vw 8.333vw; mask-image: linear-gradient(to bottom, transparent 3%, #000 30%, #000); }
+    .hero:before { content: ""; position: absolute; z-index: -2; width: 55vw; height: 55vw; max-width: 780px; max-height: 780px; min-width: 520px; min-height: 520px; border-radius: 50%; left: 50%; top: 53%; transform: translate(-50%,-50%); background: radial-gradient(circle at 34% 30%, #b39aff, var(--violet) 38%, #3927ab 70%, #181818 71%); filter: drop-shadow(0 45px 70px rgba(113,90,255,.24)); }
+    .orbit { position: absolute; width: min(62vw, 880px); aspect-ratio: 1; left: 50%; top: 53%; transform: translate(-50%,-50%) rotateX(69deg); border: 1px solid rgba(255,255,255,.35); border-radius: 50%; z-index: -1; }
+    .orbit:after { content: "NEW / FORM / 2026"; position: absolute; padding: 7px 12px; background: var(--acid); color: var(--ink); font: 500 10px "DM Mono"; left: 8%; top: 16%; transform: rotateX(-69deg); }
+    .hero-copy { position: relative; z-index: 3; display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 30px; }
+    .eyebrow { font: 500 10px "DM Mono"; letter-spacing: .16em; text-transform: uppercase; display: flex; align-items: center; gap: 10px; }
+    .eyebrow:before { content: ""; width: 30px; height: 1px; background: currentColor; }
+    h1 { margin: 14px 0 0; max-width: 980px; font-size: clamp(62px, 10.7vw, 164px); line-height: .78; letter-spacing: -.09em; text-transform: uppercase; font-weight: 800; }
+    h1 span { display: block; margin-left: 12vw; color: transparent; -webkit-text-stroke: 1.5px white; }
+    .hero-aside { width: 225px; margin-bottom: 6px; }
+    .hero-aside p { color: rgba(255,255,255,.65); font-size: 13px; line-height: 1.6; }
+    .arrow-link { margin-top: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid currentColor; padding-bottom: 9px; font: 500 11px "DM Mono"; text-transform: uppercase; letter-spacing: .08em; }
+    .arrow-link b { font-size: 20px; transition: transform .3s; }
+    .arrow-link:hover b { transform: translate(5px,-5px); }
+
+    .garment { position: absolute; left: 50%; top: 49%; width: clamp(245px, 27vw, 410px); height: clamp(390px, 48vw, 650px); transform-style: preserve-3d; transform: translate(-50%,-50%) rotateY(-9deg) rotateX(2deg); z-index: 1; transition: transform .18s ease-out; filter: drop-shadow(35px 40px 28px rgba(0,0,0,.35)); }
+    .jacket-body { position: absolute; inset: 20% 14% 2%; background: linear-gradient(105deg, #242422 0 15%, #5a5a55 33%, #222220 51%, #62625c 74%, #1b1b1a); clip-path: polygon(14% 0,40% 4%,50% 16%,60% 4%,86% 0,100% 88%,70% 100%,51% 72%,30% 100%,0 88%); border-radius: 42% 42% 12% 12%; box-shadow: inset 18px 0 22px rgba(255,255,255,.12), inset -18px 0 20px #050505; }
+    .jacket-body:before, .jacket-body:after { content: ""; position: absolute; top: 5%; width: 49%; height: 69%; border: 1px solid rgba(255,255,255,.18); }
+    .jacket-body:before { left: 0; clip-path: polygon(20% 0,100% 10%,100% 100%,5% 77%); background: linear-gradient(140deg, rgba(255,255,255,.15), transparent 45%); }
+    .jacket-body:after { right: 0; clip-path: polygon(0 10%,80% 0,95% 77%,0 100%); }
+    .sleeve { position: absolute; top: 20%; width: 30%; height: 69%; background: linear-gradient(90deg,#111,#62625d 45%,#171716); border-radius: 50% 50% 30% 30%; }
+    .sleeve.left { left: 1%; transform: rotate(13deg); }
+    .sleeve.right { right: 1%; transform: rotate(-13deg); }
+    .collar { position: absolute; top: 17%; left: 36%; width: 28%; height: 18%; border: 24px solid #31312e; border-top: 0; border-radius: 0 0 50% 50%; filter: drop-shadow(0 5px 4px #050505); }
+    .zip { position: absolute; top: 34%; left: 50%; width: 2px; height: 45%; background: repeating-linear-gradient(#c8c8bc 0 3px,#333 3px 6px); }
+    .float-tag { position: absolute; right: 12%; top: 25%; background: var(--acid); color: var(--ink); padding: 14px 10px; font: 500 9px/1.4 "DM Mono"; transform: translateZ(60px) rotate(8deg); box-shadow: 8px 10px 0 rgba(0,0,0,.2); }
+
+    .section { padding: 105px 3vw; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 30px; margin-bottom: 48px; }
+    .kicker { font: 500 10px "DM Mono"; letter-spacing: .16em; text-transform: uppercase; }
+    h2 { font-size: clamp(42px, 7vw, 104px); letter-spacing: -.075em; line-height: .88; margin: 12px 0 0; text-transform: uppercase; }
+    .section-head p { max-width: 300px; color: #696963; font-size: 13px; }
+    .filters { display: flex; gap: 8px; flex-wrap: wrap; }
+    .filter { border: 1px solid var(--ink); border-radius: 30px; padding: 10px 16px; background: transparent; font: 500 10px "DM Mono"; text-transform: uppercase; cursor: pointer; transition: .25s; }
+    .filter.active, .filter:hover { background: var(--ink); color: white; }
+
+    .products { display: grid; grid-template-columns: repeat(12,1fr); gap: 20px; }
+    .product { grid-column: span 4; min-width: 0; }
+    .product:nth-child(2) { margin-top: 90px; }
+    .product-media { height: min(42vw, 570px); min-height: 420px; background: #deddd7; position: relative; overflow: hidden; perspective: 900px; cursor: pointer; }
+    .product-media:after { content: ""; position: absolute; inset: auto 8% 5% 8%; height: 20px; background: rgba(0,0,0,.2); border-radius: 50%; filter: blur(11px); transition: transform .5s; }
+    .product:hover .product-media:after { transform: scale(.75); }
+    .look { position: absolute; inset: 9% 12% 8%; transition: transform .65s var(--ease); filter: drop-shadow(10px 24px 15px rgba(0,0,0,.18)); z-index: 2; }
+    .product:hover .look { transform: translateY(-12px) rotateY(-8deg) scale(1.03); }
+    .look-dress { background: linear-gradient(110deg,#ffb394,#ee5335 42%,#8d2518); clip-path: polygon(30% 0,43% 4%,50% 19%,57% 4%,70% 0,78% 32%,94% 100%,6% 100%,22% 32%); }
+    .look-coat { inset: 7% 15% 5%; background: linear-gradient(105deg,#8a78ff,#4934be 45%,#22156d); clip-path: polygon(22% 0,43% 5%,50% 18%,57% 5%,78% 0,100% 70%,77% 82%,70% 100%,30% 100%,23% 82%,0 70%); }
+    .look-bag { inset: 25% 12% 17%; background: linear-gradient(135deg,#f1efdf,#aaa99e); clip-path: polygon(11% 22%,30% 22%,32% 8%,42% 0,58% 0,68% 8%,70% 22%,89% 22%,100% 100%,0 100%); border-radius: 8px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.13), inset 35px 0 50px rgba(255,255,255,.3); }
+    .look-bag:after { content: "LT"; position: absolute; left: 50%; top: 52%; transform: translate(-50%,-50%); font-weight: 800; font-size: 42px; letter-spacing: -.1em; }
+    .look-lines { position: absolute; inset: 0; opacity: .22; background: repeating-linear-gradient(112deg,transparent 0 25px,#fff 26px 27px); }
+    .index { position: absolute; top: 18px; left: 18px; z-index: 3; font: 500 10px "DM Mono"; }
+    .quick { position: absolute; right: 16px; top: 16px; width: 40px; height: 40px; border: 0; background: var(--paper); border-radius: 50%; z-index: 4; cursor: pointer; opacity: 0; transform: translateY(-8px); transition: .3s; }
+    .product:hover .quick { opacity: 1; transform: none; }
+    .product-info { padding: 16px 2px 0; display: grid; grid-template-columns: 1fr auto; gap: 5px; }
+    .product-info h3 { font-size: 15px; margin: 0; text-transform: uppercase; }
+    .product-info p { font: 400 10px "DM Mono"; color: #777771; margin: 0; text-transform: uppercase; }
+    .price { grid-row: span 2; font: 500 13px "DM Mono"; }
+    .swatches { display: flex; gap: 5px; margin-top: 8px; }
+    .swatches i { width: 9px; height: 9px; border-radius: 50%; background: var(--swatch); border: 1px solid rgba(0,0,0,.2); }
+
+    .manifesto { min-height: 680px; background: var(--acid); display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; }
+    .manifesto-copy { padding: 9vw 6vw 6vw 3vw; display: flex; flex-direction: column; justify-content: space-between; }
+    .manifesto h2 { font-size: clamp(58px,8.5vw,130px); }
+    .manifesto-copy > p { max-width: 430px; font-size: 14px; line-height: 1.7; }
+    .stage { background: var(--violet); position: relative; perspective: 900px; overflow: hidden; }
+    .stage:before { content: ""; position: absolute; width: 75%; aspect-ratio: 1; border: 1px solid rgba(255,255,255,.5); border-radius: 50%; left: 12%; top: 12%; transform: rotateX(67deg); }
+    .cube { width: 190px; height: 190px; position: absolute; left: calc(50% - 95px); top: calc(50% - 95px); transform-style: preserve-3d; animation: spin 12s linear infinite; }
+    .cube div { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(223,255,0,.9); border: 1px solid var(--ink); font-weight: 800; font-size: 40px; letter-spacing: -.08em; }
+    .cube .front { transform: translateZ(95px); } .cube .back { transform: rotateY(180deg) translateZ(95px); }
+    .cube .left { transform: rotateY(-90deg) translateZ(95px); } .cube .right { transform: rotateY(90deg) translateZ(95px); }
+    .cube .top { transform: rotateX(90deg) translateZ(95px); } .cube .bottom { transform: rotateX(-90deg) translateZ(95px); }
+    @keyframes spin { from { transform: rotateX(-18deg) rotateY(0); } to { transform: rotateX(342deg) rotateY(360deg); } }
+
+    footer { background: var(--ink); color: white; padding: 90px 3vw 28px; }
+    .footer-top { display: grid; grid-template-columns: 1.5fr 1fr; gap: 9vw; align-items: end; padding-bottom: 80px; }
+    footer h2 { max-width: 850px; }
+    footer h2 em { color: var(--acid); font-style: normal; }
+    .subscribe { border-bottom: 1px solid rgba(255,255,255,.5); display: flex; padding: 10px 0; }
+    .subscribe input { width: 100%; border: 0; outline: 0; background: none; color: white; font: 400 12px "DM Mono"; }
+    .subscribe button { border: 0; background: none; color: var(--acid); font-size: 20px; cursor: pointer; }
+    .footer-bottom { padding-top: 22px; border-top: 1px solid rgba(255,255,255,.2); display: flex; justify-content: space-between; color: #888; font: 400 9px "DM Mono"; text-transform: uppercase; }
+
+    .cart-panel { position: fixed; inset: 0 0 0 auto; width: min(440px,100%); z-index: 40; background: var(--paper); padding: 28px; transform: translateX(100%); transition: transform .55s var(--ease); box-shadow: -20px 0 60px rgba(0,0,0,.25); display: flex; flex-direction: column; }
+    .cart-panel.open { transform: none; }
+    .cart-head { display: flex; justify-content: space-between; align-items: center; padding-bottom: 22px; border-bottom: 1px solid var(--line); }
+    .cart-head h3 { margin: 0; font-size: 24px; text-transform: uppercase; }
+    .close-cart { background: none; border: 0; font-size: 26px; cursor: pointer; }
+    .cart-items { flex: 1; padding: 20px 0; }
+    .empty { color: #777; font: 400 11px/1.6 "DM Mono"; }
+    .cart-row { display: grid; grid-template-columns: 58px 1fr auto; gap: 12px; align-items: center; border-bottom: 1px solid var(--line); padding: 12px 0; font-size: 12px; }
+    .cart-thumb { width: 58px; height: 70px; background: var(--violet); }
+    .checkout { border: 0; background: var(--ink); color: white; padding: 17px; text-transform: uppercase; font: 500 11px "DM Mono"; cursor: pointer; }
+    .scrim { position: fixed; inset: 0; z-index: 35; background: rgba(0,0,0,.55); opacity: 0; pointer-events: none; transition: .4s; }
+    .scrim.show { opacity: 1; pointer-events: auto; }
+    .reveal { opacity: 0; transform: translateY(45px); transition: 1s var(--ease); }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 800px) {
+      nav { height: 62px; grid-template-columns: 1fr auto; padding-inline: 18px; }
+      .nav-links { position: fixed; inset: 92px 0 auto; background: var(--acid); color: var(--ink); display: grid; gap: 0; transform: translateY(-130%); transition: .45s var(--ease); z-index: -1; }
+      .nav-links.open { transform: none; }
+      .nav-links a { padding: 20px; border-bottom: 1px solid var(--ink); font-size: 13px; }
+      .nav-actions { gap: 7px; } .menu-btn { display: grid; }
+      .hero { min-height: 720px; padding: 110px 18px 35px; }
+      .hero-copy { grid-template-columns: 1fr; }
+      .hero-aside { width: 100%; max-width: 280px; justify-self: end; }
+      h1 { font-size: clamp(57px,20vw,100px); }
+      h1 span { margin-left: 7vw; }
+      .garment { width: 280px; height: 440px; top: 47%; }
+      .orbit { width: 590px; }
+      .section { padding: 76px 18px; }
+      .section-head { display: block; } .section-head p { margin: 22px 0; }
+      .products { display: block; }
+      .product, .product:nth-child(2) { margin: 0 0 48px; }
+      .product-media { height: 122vw; max-height: 600px; }
+      .quick { opacity: 1; transform: none; }
+      .manifesto { grid-template-columns: 1fr; }
+      .manifesto-copy { min-height: 540px; padding: 76px 18px 50px; }
+      .stage { min-height: 520px; }
+      .footer-top { grid-template-columns: 1fr; }
+      .footer-bottom { gap: 15px; flex-wrap: wrap; }
+    }
+    @media (prefers-reduced-motion: reduce) { *,*:before,*:after { scroll-behavior: auto!important; animation-duration: .01ms!important; animation-iteration-count: 1!important; transition-duration: .01ms!important; } }
+  </style>
+</head>
+<body>
+  <div class="ticker"><div class="ticker-track"><span>Worldwide shipping — Complimentary returns — New drop 06/26 —</span><span>Worldwide shipping — Complimentary returns — New drop 06/26 —</span><span>Worldwide shipping — Complimentary returns — New drop 06/26 —</span><span>Worldwide shipping — Complimentary returns — New drop 06/26 —</span></div></div>
+  <nav>
+    <a class="brand" href="#">LuxeThread<sup>®</sup></a>
+    <div class="nav-links" id="navLinks"><a href="#shop">New in</a><a href="#shop">Women</a><a href="#shop">Men</a><a href="#story">Objects</a></div>
+    <div class="nav-actions">
+      <button class="round-btn" aria-label="Search">⌕</button>
+      <button class="round-btn cart-button" aria-label="Open cart">↗<span class="cart-count">0</span></button>
+      <button class="round-btn menu-btn" id="menuBtn" aria-label="Menu">≡</button>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="hero-grid"></div><div class="orbit"></div>
+      <div class="garment" id="garment" aria-hidden="true"><div class="sleeve left"></div><div class="sleeve right"></div><div class="jacket-body"><div class="look-lines"></div></div><div class="collar"></div><div class="zip"></div><div class="float-tag">DROP<br>06—26</div></div>
+      <div class="hero-copy">
+        <div><div class="eyebrow">Edition 06 / Future utility</div><h1>Wear the<span>future</span></h1></div>
+        <div class="hero-aside"><p>Experimental silhouettes. Precise construction. Clothing designed to move between worlds.</p><a class="arrow-link" href="#shop">Explore the drop <b>↗</b></a></div>
+      </div>
+    </section>
+
+    <section class="section" id="shop">
+      <div class="section-head reveal">
+        <div><span class="kicker">01 — Selected objects</span><h2>New forms</h2></div>
+        <div><p>Limited pieces built from considered materials, shaped for everyday movement.</p><div class="filters"><button class="filter active">All</button><button class="filter">Apparel</button><button class="filter">Objects</button></div></div>
+      </div>
+      <div class="products">
+        <article class="product reveal" data-name="Asymmetric Form Dress" data-price="189"><div class="product-media"><span class="index">OBJ. 001</span><button class="quick" aria-label="Add Asymmetric Form Dress to cart">＋</button><div class="look look-dress"><div class="look-lines"></div></div></div><div class="product-info"><h3>Asymmetric Form Dress</h3><span class="price">$189</span><p>Recycled satin / Papaya</p><div class="swatches"><i style="--swatch:#ef5938"></i><i style="--swatch:#111"></i></div></div></article>
+        <article class="product reveal" data-name="Modular Shell Coat" data-price="248"><div class="product-media"><span class="index">OBJ. 002</span><button class="quick" aria-label="Add Modular Shell Coat to cart">＋</button><div class="look look-coat"><div class="look-lines"></div></div></div><div class="product-info"><h3>Modular Shell Coat</h3><span class="price">$248</span><p>Technical nylon / Iris</p><div class="swatches"><i style="--swatch:#715aff"></i><i style="--swatch:#dfff00"></i></div></div></article>
+        <article class="product reveal" data-name="Fold Carry Object" data-price="132"><div class="product-media"><span class="index">OBJ. 003</span><button class="quick" aria-label="Add Fold Carry Object to cart">＋</button><div class="look look-bag"><div class="look-lines"></div></div></div><div class="product-info"><h3>Fold Carry Object</h3><span class="price">$132</span><p>Bio leather / Chalk</p><div class="swatches"><i style="--swatch:#e9e7da"></i><i style="--swatch:#252522"></i></div></div></article>
+      </div>
+    </section>
+
+    <section class="manifesto" id="story">
+      <div class="manifesto-copy reveal"><div><span class="kicker">02 — Our system</span><h2>Less noise.<br>More form.</h2></div><p>We make fewer, sharper pieces. Each form is developed in small runs with lower-impact materials and full supply-chain transparency.</p></div>
+      <div class="stage"><div class="cube"><div class="front">LT®</div><div class="back">06</div><div class="left">FORM</div><div class="right">MOVE</div><div class="top">NEW</div><div class="bottom">2026</div></div></div>
+    </section>
+  </main>
+
+  <footer><div class="footer-top"><h2>Stay ahead of<br>the <em>curve.</em></h2><div><span class="kicker">Private transmissions</span><p>New forms, studio notes, no noise.</p><form class="subscribe"><input type="email" placeholder="YOUR EMAIL ADDRESS" required aria-label="Email address"><button aria-label="Subscribe">→</button></form></div></div><div class="footer-bottom"><span>© 2026 LuxeThread Studio</span><span>Instagram &nbsp; Pinterest &nbsp; TikTok</span><span>Mazatlán / MX</span></div></footer>
+
+  <div class="scrim"></div><aside class="cart-panel" aria-label="Shopping cart"><div class="cart-head"><h3>Your selection</h3><button class="close-cart" aria-label="Close cart">×</button></div><div class="cart-items"><p class="empty">Your selection is empty.<br>Objects you add will appear here.</p></div><button class="checkout">Checkout — <span class="total">$0</span></button></aside>
+
+  <script>
+    const garment = document.querySelector('#garment');
+    const hero = document.querySelector('.hero');
+    hero.addEventListener('pointermove', e => {
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const x = (e.clientX / innerWidth - .5) * 20, y = (e.clientY / innerHeight - .5) * -12;
+      garment.style.transform = `translate(-50%,-50%) rotateY(${x - 9}deg) rotateX(${y + 2}deg)`;
+    });
+    hero.addEventListener('pointerleave', () => garment.style.transform = 'translate(-50%,-50%) rotateY(-9deg) rotateX(2deg)');
+
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), {threshold:.12});
+    reveals.forEach(el => observer.observe(el));
+
+    const panel = document.querySelector('.cart-panel'), scrim = document.querySelector('.scrim');
+    const items = [], cartItems = document.querySelector('.cart-items');
+    function openCart(open=true){ panel.classList.toggle('open',open); scrim.classList.toggle('show',open); document.body.classList.toggle('locked',open); }
+    document.querySelector('.cart-button').onclick = () => openCart();
+    document.querySelector('.close-cart').onclick = () => openCart(false);
+    scrim.onclick = () => openCart(false);
+    document.querySelectorAll('.quick').forEach(btn => btn.onclick = () => {
+      const p = btn.closest('.product'); items.push({name:p.dataset.name, price:+p.dataset.price});
+      cartItems.innerHTML = items.map((i,n)=>`<div class="cart-row"><div class="cart-thumb" style="filter:hue-rotate(${n*65}deg)"></div><div><b>${i.name}</b><br><span>One size / 01</span></div><b>$${i.price}</b></div>`).join('');
+      document.querySelector('.cart-count').textContent = items.length;
+      document.querySelector('.total').textContent = '$' + items.reduce((s,i)=>s+i.price,0);
+      openCart();
+    });
+    document.querySelectorAll('.filter').forEach(f => f.onclick = () => { document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active')); f.classList.add('active'); });
+    const menu = document.querySelector('#navLinks');
+    document.querySelector('#menuBtn').onclick = () => menu.classList.toggle('open');
+    menu.querySelectorAll('a').forEach(a => a.onclick = () => menu.classList.remove('open'));
+    document.querySelector('.subscribe').onsubmit = e => { e.preventDefault(); const b=e.currentTarget.querySelector('button'); b.textContent='✓'; };
+  </script>
+</body>
+</html>

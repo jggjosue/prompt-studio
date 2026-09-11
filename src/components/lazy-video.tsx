@@ -4,7 +4,8 @@ import { LazyPlaceholder } from '@/components/lazy-in-view';
 import { useIntersectionInView } from '@/hooks/use-intersection-in-view';
 import { cn } from '@/lib/utils';
 import { AlertCircle, LoaderCircle } from 'lucide-react';
-import { type ComponentProps, useEffect, useState } from 'react';
+import { type ComponentProps, useEffect, useRef, useState } from 'react';
+import { OptimizedImage } from '@/components/optimized-image';
 
 type LazyVideoProps = ComponentProps<'video'> & {
   /** Carga inmediata (p. ej. hero principal). */
@@ -28,9 +29,11 @@ export function LazyVideo({
 }: LazyVideoProps) {
   const [isReady, setIsReady] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const { ref, isNearView } = useIntersectionInView({
-    disabled: eager || !src,
+    disabled: !src,
     kind: 'video',
+    once: false,
   });
 
   const shouldLoad = eager || isNearView;
@@ -40,6 +43,10 @@ export function LazyVideo({
     setHasError(false);
   }, [src]);
 
+  useEffect(() => {
+    if (!isNearView) videoRef.current?.pause();
+  }, [isNearView]);
+
   return (
     <div
       ref={ref as React.RefObject<HTMLDivElement>}
@@ -48,6 +55,7 @@ export function LazyVideo({
       {shouldLoad && src ? (
         <>
           <video
+            ref={videoRef}
             src={src}
             playsInline
             preload={preload}
@@ -91,13 +99,14 @@ export function LazyVideo({
           ) : null}
         </>
       ) : poster ? (
-        // eslint-disable-next-line @next/next/no-img-element -- poster estático ligero
-        <img
+        <OptimizedImage
           src={poster}
           alt=""
+          width={1280}
+          height={720}
+          lazyAdaptive
+          sizes="(max-width: 768px) 100vw, 50vw"
           className={cn('w-full h-full object-cover', className)}
-          loading="lazy"
-          decoding="async"
         />
       ) : (
         <LazyPlaceholder

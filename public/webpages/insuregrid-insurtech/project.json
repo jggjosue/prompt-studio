@@ -1,0 +1,38 @@
+{
+  "id": "170",
+  "title": {
+    "en": "InsureGrid Renters Insurance 3D",
+    "es": "InsureGrid Seguro de Renta 3D"
+  },
+  "description": {
+    "es": {
+      "nombre": "Seguro de renta InsureGrid",
+      "prompt": "Crea una landing page premium para un seguro de renta digital con una casa 3D interactiva, animaciones al desplazarse, coberturas claras y un cotizador por código postal orientado a conversión.",
+      "estilo": "Insurtech moderno y minimalista, paleta cian y teal, ilustración 3D isométrica, tarjetas flotantes, tipografía editorial y animaciones suaves."
+    },
+    "en": {
+      "name": "InsureGrid Renters Insurance",
+      "prompt": "Create a premium landing page for digital renters insurance featuring an interactive 3D house, scroll animations, clear coverage options, and a conversion-focused ZIP code quote form."
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "Interactive isometric 3D house on a cyan renters insurance landing page with floating quote cards",
+    "es": "Casa 3D isométrica interactiva en una landing de seguro de renta color cian con tarjetas flotantes de cotización"
+  },
+  "demoUrl": "./index.html",
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "tags": [
+    "insurtech",
+    "renters insurance",
+    "3D landing page",
+    "interactive",
+    "insurance quote"
+  ],
+  "membership": "Premium",
+  "price": "15.00"
+}

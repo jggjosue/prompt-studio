@@ -1,0 +1,2 @@
+import'server-only';import ProjectFunnelEvent,{type FunnelStage}from'@/models/ProjectFunnelEvent';
+export async function recordProjectFunnelEvent(input:{userId:string;projectId:string;stage:FunnelStage;occurredAt?:Date;sourceId?:string|null;costUsd?:number|null;credits?:number|null}){return ProjectFunnelEvent.updateOne({projectId:input.projectId,stage:input.stage},{$setOnInsert:{...input,occurredAt:input.occurredAt||new Date(),createdAt:new Date()}},{upsert:true})}

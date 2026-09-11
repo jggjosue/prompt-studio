@@ -1,0 +1,5 @@
+import assert from'node:assert/strict';import test from'node:test';import{compileBatchPrompt,expandCollection,parseCsv,safeSegment}from'../../src/lib/batch-generation.ts';
+test('CSV parser supports quoted commas and expected columns',()=>{const rows=parseCsv('product,prompt,format,language,audience\nPhone,"Studio, soft light",1:1,en,new users');assert.equal(rows.length,1);assert.equal(rows[0]?.prompt,'Studio, soft light')});
+test('collection expansion creates the cartesian matrix and respects the cap',()=>{const rows=expandCollection({product:'P',basePrompt:'Create product visual',formats:['1:1','16:9'],languages:['es','en'],audiences:['new','pro']},5);assert.equal(rows.length,5);assert.deepEqual(rows[0],{product:'P',prompt:'Create product visual',format:'1:1',language:'es',audience:'new'})});
+test('batch prompts preserve facts and prohibit fabricated claims',()=>{const prompt=compileBatchPrompt({product:'Phone',prompt:'Product photo',format:'1:1',language:'es',audience:'buyers'});assert.match(prompt,/Product: Phone/);assert.match(prompt,/Do not invent claims/)});
+test('zip paths are normalized',()=>assert.equal(safeSegment('../../Campaña Ñ'), 'campana-n'));

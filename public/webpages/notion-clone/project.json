@@ -1,0 +1,37 @@
+{
+  "id": "170",
+  "title": {
+    "en": "Notion-Inspired 3D Workspace",
+    "es": "Espacio de trabajo 3D inspirado en Notion"
+  },
+  "description": {
+    "es": {
+      "nombre": "Nōte — Clon 3D de Notion",
+      "prompt": "Crea una landing page premium inspirada en Notion para una plataforma de productividad llamada Nōte. Diseña una interfaz editorial con colores crema, negro, coral, azul y amarillo; incorpora un espacio de trabajo tridimensional con perspectiva interactiva, tarjetas flotantes, tablero de proyectos, animaciones al desplazarse, efectos de profundidad y navegación adaptable a dispositivos móviles.",
+      "estilo": "Editorial minimalista, productividad SaaS, interfaz 3D, colores cálidos y animaciones fluidas"
+    },
+    "en": {
+      "name": "Nōte — Notion-Inspired 3D Clone",
+      "prompt": "Create a premium Notion-inspired landing page for a productivity platform called Nōte. Use an editorial interface with cream, black, coral, blue, and yellow colors; include an interactive 3D workspace, floating cards, a project board, scroll animations, depth effects, and responsive mobile navigation."
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "Notion-inspired productivity landing page with a floating interactive 3D project workspace",
+    "es": "Landing page de productividad inspirada en Notion con un espacio de proyectos 3D interactivo y flotante"
+  },
+  "demoUrl": "https://www.prompstudio.com/landing-pages/notion-clone",
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "tags": [
+    "notion clone",
+    "productivity",
+    "3d landing page",
+    "workspace"
+  ],
+  "membership": "Premium",
+  "price": "15.00"
+}

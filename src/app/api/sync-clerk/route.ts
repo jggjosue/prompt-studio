@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { requireCronOrAdmin } from '@/lib/api-auth';
 import { clerkClient } from '@clerk/nextjs/server';
 import connectToDatabase from '@/lib/mongoose';
 import RegisteredUser from '@/models/RegisteredUser';
@@ -6,7 +7,10 @@ import UserProfile from '@/models/UserProfile';
 import NewUser from '@/models/NewUser';
 import { upsertResendContact } from '@/lib/resend';
 
-export async function GET() {
+export async function GET(request: Request) {
+  const denied = await requireCronOrAdmin(request);
+  if (denied) return denied;
+
   try {
     await connectToDatabase();
     

@@ -1,0 +1,1 @@
+import type{Metadata}from'next';import{ProviderQualityClient}from'./provider-quality-client';export const metadata:Metadata={title:'Calidad por proveedor | Prompt Studio'};export default function Page(){return <ProviderQualityClient/>}

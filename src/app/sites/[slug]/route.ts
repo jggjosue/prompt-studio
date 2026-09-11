@@ -1,0 +1,3 @@
+import{NextResponse}from'next/server';import connectToDatabase from'@/lib/mongoose';import LandingPublication from'@/models/LandingPublication';
+export const dynamic='force-dynamic';
+export async function GET(_request:Request,{params}:{params:Promise<{slug:string}>}){const{slug}=await params;await connectToDatabase();const publication=await LandingPublication.findOne({slug,status:'published'}).select('folder').lean();if(!publication)return NextResponse.json({error:'Publicación no encontrada.'},{status:404});return NextResponse.redirect(new URL(`/webpages/${encodeURIComponent(publication.folder)}/index.html`,process.env.NEXT_PUBLIC_SITE_URL||'http://localhost:3000'),307)}

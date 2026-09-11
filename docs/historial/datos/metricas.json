@@ -1,0 +1,312 @@
+{
+  "generado": "2026-09-09",
+  "fuente": "git log del repositorio prompt-studio",
+  "totales": {
+    "commits": 364,
+    "primero": "2025-12-10 01:12",
+    "ultimo": "2026-07-18 21:12",
+    "merges": 5,
+    "commits_de_fallo": 26,
+    "commits_instruccion_natural": 66,
+    "asuntos_truncados": 116,
+    "asuntos_de_15_o_menos": 80,
+    "asunto_largo_max": 72,
+    "asunto_largo_mediana": 52,
+    "lineas_add": 809773,
+    "lineas_del": 579920
+  },
+  "por_mes": {
+    "2025-12": {
+      "commits": 1,
+      "add": 18483,
+      "del": 0
+    },
+    "2026-01": {
+      "commits": 80,
+      "add": 9366,
+      "del": 1667
+    },
+    "2026-02": {
+      "commits": 170,
+      "add": 73895,
+      "del": 59800
+    },
+    "2026-03": {
+      "commits": 24,
+      "add": 5641,
+      "del": 4452
+    },
+    "2026-04": {
+      "commits": 2,
+      "add": 3078,
+      "del": 1859
+    },
+    "2026-05": {
+      "commits": 21,
+      "add": 146202,
+      "del": 91852
+    },
+    "2026-06": {
+      "commits": 40,
+      "add": 492221,
+      "del": 141496
+    },
+    "2026-07": {
+      "commits": 26,
+      "add": 60887,
+      "del": 278794
+    }
+  },
+  "por_hora": {
+    "10": 1,
+    "11": 3,
+    "12": 1,
+    "13": 6,
+    "14": 4,
+    "16": 7,
+    "17": 10,
+    "18": 17,
+    "19": 15,
+    "20": 17,
+    "21": 16,
+    "22": 45,
+    "23": 37,
+    "00": 46,
+    "01": 38,
+    "02": 13,
+    "03": 5,
+    "04": 18,
+    "05": 20,
+    "06": 16,
+    "07": 18,
+    "08": 11
+  },
+  "por_dia_semana": {
+    "0": 16,
+    "1": 48,
+    "2": 37,
+    "3": 51,
+    "4": 56,
+    "5": 85,
+    "6": 71
+  },
+  "por_autor": {
+    "Firebase Studio": {
+      "commits": 1,
+      "desde": "2025-12-10",
+      "hasta": "2025-12-10"
+    },
+    "Joshuesito": {
+      "commits": 111,
+      "desde": "2026-01-21",
+      "hasta": "2026-07-18"
+    },
+    "Josue Glez": {
+      "commits": 252,
+      "desde": "2026-01-14",
+      "hasta": "2026-03-20"
+    }
+  },
+  "churn_top_50": [
+    {
+      "fichero": "src/app/video-prompts/video-prompts-client.tsx",
+      "commits": 56
+    },
+    {
+      "fichero": "src/app/image-prompts/image-prompts-client.tsx",
+      "commits": 52
+    },
+    {
+      "fichero": "src/components/content-grid.tsx",
+      "commits": 51
+    },
+    {
+      "fichero": "src/components/image-examples.tsx",
+      "commits": 49
+    },
+    {
+      "fichero": "src/components/video-examples.tsx",
+      "commits": 45
+    },
+    {
+      "fichero": "src/app/gallery/[id]/gallery-detail-client.tsx",
+      "commits": 42
+    },
+    {
+      "fichero": "src/components/layout/header-client.tsx",
+      "commits": 37
+    },
+    {
+      "fichero": "src/app/layout.tsx",
+      "commits": 34
+    },
+    {
+      "fichero": "src/lib/placeholder-images.json",
+      "commits": 30
+    },
+    {
+      "fichero": "src/app/page.tsx",
+      "commits": 26
+    },
+    {
+      "fichero": "package.json",
+      "commits": 25
+    },
+    {
+      "fichero": "src/app/video-tags/video-tags-client.tsx",
+      "commits": 22
+    },
+    {
+      "fichero": "messages/es.json",
+      "commits": 21
+    },
+    {
+      "fichero": "src/components/web-page-card.tsx",
+      "commits": 20
+    },
+    {
+      "fichero": "messages/en.json",
+      "commits": 19
+    },
+    {
+      "fichero": "src/lib/placeholder-videos.json",
+      "commits": 19
+    },
+    {
+      "fichero": "src/app/gallery-videos/[id]/gallery-video-detail-client.tsx",
+      "commits": 18
+    },
+    {
+      "fichero": "src/app/image-tags/image-tags-client.tsx",
+      "commits": 18
+    },
+    {
+      "fichero": "src/app/prompts/[modelId]/model-detail-client.tsx",
+      "commits": 17
+    },
+    {
+      "fichero": "src/components/layout/footer.tsx",
+      "commits": 16
+    },
+    {
+      "fichero": "src/components/prompt-generator.tsx",
+      "commits": 16
+    },
+    {
+      "fichero": "yarn.lock",
+      "commits": 16
+    },
+    {
+      "fichero": "src/app/gallery/[id]/page.tsx",
+      "commits": 16
+    },
+    {
+      "fichero": "src/app/prompt/edit/prompt-editor-client.tsx",
+      "commits": 15
+    },
+    {
+      "fichero": "README.md",
+      "commits": 15
+    },
+    {
+      "fichero": "src/app/prices/prices-client.tsx",
+      "commits": 14
+    },
+    {
+      "fichero": "src/app/sitemap.ts",
+      "commits": 14
+    },
+    {
+      "fichero": "src/components/layout/header.tsx",
+      "commits": 14
+    },
+    {
+      "fichero": "package-lock.json",
+      "commits": 13
+    },
+    {
+      "fichero": "public/webpages/web-pages.json",
+      "commits": 13
+    },
+    {
+      "fichero": "src/app/landing-pages/landing-pages-client.tsx",
+      "commits": 12
+    },
+    {
+      "fichero": "src/app/prompts/prompts-client.tsx",
+      "commits": 12
+    },
+    {
+      "fichero": "next.config.ts",
+      "commits": 12
+    },
+    {
+      "fichero": "public/webpages/beatforge-marketplace/index.html",
+      "commits": 12
+    },
+    {
+      "fichero": "public/webpages/skyroute-flight-deals/index.html",
+      "commits": 12
+    },
+    {
+      "fichero": "public/webpages/terraguide-local-experiences/index.html",
+      "commits": 12
+    },
+    {
+      "fichero": "public/webpages/trailpath-adventure-tours/index.html",
+      "commits": 12
+    },
+    {
+      "fichero": "public/webpages/voyage-cruise-line/index.html",
+      "commits": 12
+    },
+    {
+      "fichero": "src/app/prompt/edit/page.tsx",
+      "commits": 12
+    },
+    {
+      "fichero": "src/components/web-page-prompt-dialog-new.tsx",
+      "commits": 11
+    },
+    {
+      "fichero": "src/components/web-page-premium-button.tsx",
+      "commits": 11
+    },
+    {
+      "fichero": "public/webpages/airtable-clone/index.html",
+      "commits": 11
+    },
+    {
+      "fichero": "public/webpages/artisanbox-handmade-market/index.html",
+      "commits": 11
+    },
+    {
+      "fichero": "public/webpages/breathspace-breathing/index.html",
+      "commits": 11
+    },
+    {
+      "fichero": "public/webpages/buffer-clone/index.html",
+      "commits": 11
+    },
+    {
+      "fichero": "public/webpages/cosplayhub-community/index.html",
+      "commits": 11
+    },
+    {
+      "fichero": "public/webpages/cryptopulse-trading/index.html",
+      "commits": 11
+    },
+    {
+      "fichero": "public/webpages/fiverr-clone/index.html",
+      "commits": 11
+    },
+    {
+      "fichero": "public/webpages/ledgerflow-accounting/index.html",
+      "commits": 11
+    },
+    {
+      "fichero": "public/webpages/lendwise-personal-loans/index.html",
+      "commits": 11
+    }
+  ]
+}

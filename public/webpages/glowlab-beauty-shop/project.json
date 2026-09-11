@@ -1,0 +1,37 @@
+{
+  "id": "170",
+  "title": {
+    "en": "GlowLab — 3D Beauty Shop",
+    "es": "GlowLab — Tienda de belleza 3D"
+  },
+  "description": {
+    "es": {
+      "nombre": "GlowLab Beauty Shop",
+      "prompt": "Crea una tienda de belleza artística diseñada para convertir visitantes en clientes y afiliados, con productos tridimensionales, animaciones fluidas, filtros de catálogo y una identidad visual editorial.",
+      "estilo": "Editorial artístico, cosmética premium, objetos 3D y animaciones interactivas en tonos rosa, vino, coral y crema."
+    },
+    "en": {
+      "name": "GlowLab Beauty Shop",
+      "prompt": "Create an artistic beauty shop designed to convert visitors into customers and affiliates, featuring three-dimensional products, fluid animations, catalog filters, and an editorial visual identity."
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "Editorial 3D beauty shop landing page with sculptural pink skincare bottles and premium art direction",
+    "es": "Landing editorial de belleza 3D con frascos escultóricos rosas y dirección de arte premium"
+  },
+  "demoUrl": "webpages_glowlab-beauty-shop_index.html",
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "tags": [
+    "affiliate",
+    "commission",
+    "program",
+    "marketing landing page"
+  ],
+  "membership": "Premium",
+  "price": "15.00"
+}

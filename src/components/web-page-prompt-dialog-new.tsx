@@ -36,14 +36,34 @@ export function WebPagePromptDialog({
   const { copyWithDailyLimit } = useDailyCopyLimit();
   const [copied, setCopied] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+  const [prompt, setPrompt] = React.useState(page.description);
+  const [loadingPrompt, setLoadingPrompt] = React.useState(false);
   const pageTitle = pickLocalized(
     page.title as unknown as LocalizedField,
     locale
   );
   const pageDescription = pickLocalized(
-    page.description as unknown as LocalizedField,
+    prompt as unknown as LocalizedField,
     locale
   );
+
+  React.useEffect(() => {
+    setPrompt(page.description);
+  }, [page.description, page.id]);
+
+  const openAndLoadPrompt = () => {
+    setOpen(true);
+    if (prompt || loadingPrompt) return;
+    setLoadingPrompt(true);
+    void fetch(`/api/catalog/web-pages/${encodeURIComponent(page.id)}?locale=${locale}`)
+      .then(response => {
+        if (!response.ok) throw new Error(`Prompt request failed: ${response.status}`);
+        return response.json() as Promise<{ item: WebPageEntry }>;
+      })
+      .then(({ item }) => setPrompt(item.description))
+      .catch(() => toast({ title: t('copyFailed'), description: t('copyFailedDescription'), variant: 'destructive' }))
+      .finally(() => setLoadingPrompt(false));
+  };
 
   const handleCopy = async () => {
     const result = await copyWithDailyLimit(() =>
@@ -78,7 +98,7 @@ export function WebPagePromptDialog({
         membership: page.membership,
         action_source: 'prompt-dialog',
       });
-      setOpen(true);
+      openAndLoadPrompt();
       return;
     }
 
@@ -94,7 +114,7 @@ export function WebPagePromptDialog({
           action_source: 'prompt-dialog',
         });
       }
-      setOpen(true);
+      openAndLoadPrompt();
     });
   };
 
@@ -166,7 +186,7 @@ export function WebPagePromptDialog({
           </div>
         </DialogHeader>
         <pre className="whitespace-pre-wrap text-sm text-muted-foreground font-sans select-all">
-          {pageDescription}
+          {loadingPrompt ? 'Cargando prompt…' : pageDescription}
         </pre>
       </DialogContent>
     </Dialog>

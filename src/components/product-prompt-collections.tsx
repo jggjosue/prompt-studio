@@ -1,0 +1,27 @@
+'use client';
+
+import { Badge } from '@/components/ui/badge';
+import { Building2, Car, Gem, House, ImageIcon, Package, Shirt, ShoppingBag, Sparkles, Utensils } from 'lucide-react';
+import { useState } from 'react';
+
+export type ProductPromptPreset = {
+  id: string; name: string; prompt: string; style: string; lighting: string; lens: string;
+  composition: string; ratio: string; realism: number; colors: string;
+};
+
+const PRESETS: Array<ProductPromptPreset & { icon: typeof Package; label: string }> = [
+  { id: 'product', name: 'Fotografía de producto', label: 'Producto', icon: Package, style: 'photography', lighting: 'studio', lens: '85mm', composition: 'centered', ratio: '1-1', realism: 95, colors: 'natural', prompt: 'Fotografía comercial premium del producto, fondo limpio, materiales y texturas precisas, reflejos controlados, sombras suaves, presentación lista para campaña y ecommerce' },
+  { id: 'cosmetics', name: 'Cosméticos', label: 'Belleza', icon: Sparkles, style: 'editorial', lighting: 'studio', lens: '85mm', composition: 'negative-space', ratio: '4-3', realism: 90, colors: 'pastel', prompt: 'Fotografía editorial de cosméticos de lujo, envase protagonista, textura del producto visible, superficie pulida, gotas y elementos botánicos sutiles, espacio para copy publicitario' },
+  { id: 'jewelry', name: 'Joyería', label: 'Lujo', icon: Gem, style: 'photography', lighting: 'low-key', lens: 'macro', composition: 'centered', ratio: '1-1', realism: 100, colors: 'monochrome', prompt: 'Macrofotografía de joyería de alta gama, piedras y metales con detalle extremo, destellos naturales, fondo oscuro elegante, acabado de catálogo de lujo' },
+  { id: 'fashion', name: 'Moda', label: 'Editorial', icon: Shirt, style: 'editorial', lighting: 'natural', lens: '50mm', composition: 'rule-of-thirds', ratio: '9-16', realism: 90, colors: 'vibrant', prompt: 'Campaña de moda editorial con modelo y prendas protagonistas, movimiento natural de telas, estilismo contemporáneo, pose expresiva y dirección de arte de revista' },
+  { id: 'restaurants', name: 'Restaurantes', label: 'Gastronomía', icon: Utensils, style: 'photography', lighting: 'golden-hour', lens: '50mm', composition: 'rule-of-thirds', ratio: '4-3', realism: 95, colors: 'warm', prompt: 'Fotografía gastronómica apetecible para restaurante, plato recién servido, ingredientes frescos, textura y vapor visibles, mesa cuidada, ambiente cálido y presentación de menú premium' },
+  { id: 'real-estate', name: 'Bienes raíces', label: 'Inmuebles', icon: House, style: 'photography', lighting: 'natural', lens: '24mm-wide', composition: 'leading-lines', ratio: '16-9', realism: 100, colors: 'natural', prompt: 'Fotografía inmobiliaria profesional de un espacio amplio y luminoso, líneas arquitectónicas rectas, distribución clara, profundidad natural, ventanas sin sobreexposición y acabado para anuncio premium' },
+  { id: 'automotive', name: 'Automóviles', label: 'Automotriz', icon: Car, style: 'cinematic', lighting: 'low-key', lens: '35mm', composition: 'leading-lines', ratio: '16-9', realism: 95, colors: 'cool', prompt: 'Campaña automotriz cinematográfica, vehículo impecable como protagonista, pintura y carrocería detalladas, iluminación dramática, carretera o estudio premium, sensación de velocidad y aspiración' },
+  { id: 'ad-mockups', name: 'Mockups publicitarios', label: 'Publicidad', icon: ImageIcon, style: '3d-render', lighting: 'studio', lens: '50mm', composition: 'negative-space', ratio: '4-3', realism: 85, colors: 'vibrant', prompt: 'Mockup publicitario fotorrealista con el diseño aplicado correctamente, perspectiva creíble, superficie y pliegues precisos, sombras naturales y espacio negativo para titular y llamada a la acción' },
+  { id: 'marketplaces', name: 'Amazon y marketplaces', label: 'Ecommerce', icon: ShoppingBag, style: 'photography', lighting: 'studio', lens: '85mm', composition: 'centered', ratio: '1-1', realism: 100, colors: 'natural', prompt: 'Imagen principal de ecommerce compatible con marketplaces, producto completo centrado sobre fondo blanco puro, bordes nítidos, color fiel, sin texto ni accesorios distractores, ocupación equilibrada del encuadre' },
+];
+
+export function ProductPromptCollections({ onSelect }: { onSelect: (preset: ProductPromptPreset) => void }) {
+  const [selected, setSelected] = useState('');
+  return <section className="rounded-xl border border-amber-500/25 bg-amber-500/5 p-4"><div className="mb-4"><div className="flex items-center gap-2"><Building2 className="size-4 text-amber-600" /><h3 className="text-sm font-bold">Colecciones para negocios</h3><Badge variant="secondary" className="text-[10px]">9 sectores</Badge></div><p className="mt-1 text-xs text-muted-foreground">Carga una dirección visual optimizada para vender productos o servicios.</p></div><div className="grid grid-cols-2 gap-2 sm:grid-cols-3">{PRESETS.map(({ icon: Icon, label, ...preset }) => <button key={preset.id} type="button" aria-pressed={selected === preset.id} onClick={() => { setSelected(preset.id); onSelect(preset); }} className={`flex min-h-20 flex-col items-start justify-between rounded-lg border p-3 text-left transition ${selected === preset.id ? 'border-amber-500 bg-amber-500/10 shadow-sm' : 'bg-background hover:border-amber-500/40'}`}><Icon className="size-4 text-amber-600" /><span><span className="block text-xs font-bold">{preset.name}</span><span className="mt-0.5 block text-[10px] text-muted-foreground">{label}</span></span></button>)}</div></section>;
+}

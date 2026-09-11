@@ -1,0 +1,37 @@
+{
+  "id": "170",
+  "title": {
+    "en": "Luma 3D Creative Design Platform",
+    "es": "Luma: plataforma de diseño creativo 3D"
+  },
+  "description": {
+    "es": {
+      "nombre": "Clon creativo de Canva en 3D",
+      "prompt": "Crea una landing page inspirada en Canva para una plataforma de diseño creativo, con un editor flotante en 3D, animaciones interactivas, plantillas filtrables, herramientas de inteligencia artificial, colaboración en equipo y una paleta vibrante en violeta, lima, rosa y turquesa.",
+      "estilo": "Moderno, creativo, inmersivo, colorido y tridimensional"
+    },
+    "en": {
+      "name": "3D Canva-inspired creative platform",
+      "prompt": "Create a Canva-inspired landing page for a creative design platform featuring a floating 3D editor, interactive animations, filterable templates, AI-powered tools, team collaboration, and a vibrant violet, lime, pink, and turquoise color palette."
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "A vibrant 3D creative design editor floating above a modern landing page with colorful templates and UI panels",
+    "es": "Un editor de diseño creativo 3D flotando sobre una landing moderna con plantillas coloridas y paneles de interfaz"
+  },
+  "demoUrl": "https://www.prompstudio.com/landing-pages/canva-clone",
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "tags": [
+    "design platform",
+    "3D landing page",
+    "creative tools",
+    "animated interface"
+  ],
+  "membership": "Premium",
+  "price": "15.00"
+}

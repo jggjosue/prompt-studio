@@ -1,10 +1,14 @@
 import { NextResponse } from 'next/server';
+import { requireCronOrAdmin } from '@/lib/api-auth';
 import mongoose from 'mongoose';
 import { Resend } from 'resend';
 import connectToDatabase from '@/lib/mongoose';
 import NewUser from '@/models/NewUser';
 
-export async function GET() {
+export async function GET(request: Request) {
+  const denied = await requireCronOrAdmin(request);
+  if (denied) return denied;
+
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
     return NextResponse.json({ error: 'Missing RESEND_API_KEY' }, { status: 500 });

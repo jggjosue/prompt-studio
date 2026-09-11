@@ -1,0 +1,4 @@
+import assert from'node:assert/strict';import test from'node:test';import{provenanceAssetType,provenanceHash,safeLicense}from'../../src/lib/asset-provenance';
+test('classifies generated assets without trusting a client label',()=>{assert.equal(provenanceAssetType('image',{}),'image');assert.equal(provenanceAssetType('project',{code:'x'}),'code');assert.equal(provenanceAssetType('project',{data:{ok:true}}),'data')});
+test('content hashes are deterministic and sensitive to transformations',()=>{assert.equal(provenanceHash({a:1}),provenanceHash({a:1}));assert.notEqual(provenanceHash({a:1}),provenanceHash({a:2}))});
+test('license permissions remain unknown unless explicitly supplied',()=>{const license=safeLicense({name:'Custom'});assert.equal(license.commercialUse,null);assert.equal(license.status,'unspecified')});

@@ -1,13 +1,13 @@
 import Stripe from 'stripe';
 
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? '', {
-  apiVersion: '2026-06-24.dahlia',
+  apiVersion: '2026-04-22.dahlia',
 });
 
 export type StripeUserMetadata = {
   stripeCustomerId: string;
   stripeSubscriptionId: string;
-  stripePlan: 'premium' | 'startup';
+  stripePlan: 'premium' | 'pro' | 'startup';
   stripeStatus: 'active' | 'canceled' | 'past_due' | 'trialing' | 'unpaid';
   stripeCurrentPeriodEnd: number;
   stripeBillingCycle: 'monthly' | 'annual';
@@ -18,7 +18,7 @@ type StripeSubCompat = Stripe.Subscription & { current_period_end: number };
 export function extractSubscriptionMeta(
   sub: Stripe.Subscription,
   customerId: string,
-  plan: 'premium' | 'startup' = 'premium'
+  plan: 'premium' | 'pro' | 'startup' = 'premium'
 ): StripeUserMetadata {
   const interval = sub.items.data[0]?.price?.recurring?.interval;
   return {
