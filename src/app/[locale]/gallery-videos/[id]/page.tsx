@@ -1,11 +1,12 @@
 
 import { getVideoById } from '@/lib/placeholder-videos';
 import { getLocale } from 'next-intl/server';
-import { safeJsonLd, schemaDescription } from '@/lib/json-ld';
+import { buildVideoObjectSchema, safeJsonLd, schemaDescription } from '@/lib/json-ld';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import GalleryVideoDetailClient from './gallery-video-detail-client';
 import { SITE_URL } from '@/lib/site-url';
+import { validateCatalogPrompt } from '@/lib/prompt-validation';
 
 type Props = {
   params: Promise<{ id: string }>
@@ -105,16 +106,15 @@ export default async function GalleryVideoDetailPage({ params }: Props) {
     },
   };
 
-  const videoSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'VideoObject',
+  const videoSchema = buildVideoObjectSchema({
+    id: `${canonical}#video`,
     name: item.title,
     description,
-    thumbnailUrl: [thumbnailUrl],
-    uploadDate: new Date('2024-01-01').toISOString(),
+    thumbnailUrl,
+    uploadDate: (item as typeof item & { uploadDate?: string }).uploadDate,
     contentUrl: absoluteUrl(item.imageUrl),
     embedUrl: canonical,
-  };
+  });
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
@@ -137,15 +137,17 @@ export default async function GalleryVideoDetailPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: safeJsonLd(productSchema) }}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: safeJsonLd(videoSchema) }}
-      />
+      {videoSchema ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(videoSchema) }}
+        />
+      ) : null}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
       />
-      <GalleryVideoDetailClient item={item} />
+      <GalleryVideoDetailClient item={item} validation={validateCatalogPrompt(item)} />
     </>
   );
 }

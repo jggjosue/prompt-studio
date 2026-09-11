@@ -42,7 +42,7 @@ function PromptCatalogCardComponent({
   animationIndex = 0,
   actionClassName,
 }: PromptCatalogCardProps) {
-  const eagerMedia = animationIndex < 2;
+  const eagerMedia = animationIndex === 0;
 
   return (
     <ParallaxReveal reverse={animationIndex % 2 === 1}>
@@ -52,6 +52,13 @@ function PromptCatalogCardComponent({
           membership={item.membership}
           className={headerClassName}
           titleClassName={titleClassName}
+          saveItem={{
+            itemKind: item.type === 'video' ? 'video' : 'image',
+            itemId: item.id,
+            title: item.title,
+            href: galleryHref,
+            imageUrl: item.imageUrl,
+          }}
         />
         <CardContent className="p-6 pt-0 space-y-4 flex-grow">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">

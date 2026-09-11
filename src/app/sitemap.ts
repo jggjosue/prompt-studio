@@ -49,6 +49,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/web-tags',
     '/prices',
     '/affiliate-program',
+    /**
+     * Herramientas gratuitas. Son públicas y funcionan, pero no estaban en el
+     * sitemap: Google no sabía que existían. Son el activo de captación más
+     * barato que tiene el sitio, porque atraen búsquedas con intención propia
+     * y no dependen de posicionar el catálogo.
+     */
+    '/code-auditor',
+    '/smart-search',
+    '/prompt-optimizer',
+    '/ask',
   ];
 
   const landingPagePaths = getRawWebPages()

@@ -12,17 +12,17 @@ import {
   useCatalogSearchUrl,
 } from '@/hooks/use-catalog-search-url';
 import { useInfiniteScroll } from '@/hooks/use-infinite-scroll';
-import { useLocalizedPlaceholderImages } from '@/hooks/use-localized-catalog';
+import { usePagedPlaceholderImages } from '@/hooks/use-paged-catalog';
 import type { ImagePlaceholder } from '@/lib/placeholder-images';
 import { useImageTagsCatalogPipeline } from '@/hooks/use-catalog-hash-aggregation';
 import { useFuzzyFilter } from '@/hooks/use-fuzzy-filter';
-import { Sparkles, Search, Tag, Wand2 } from 'lucide-react';
+import { Loader2, Sparkles, Search, Tag, Wand2 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Suspense, useEffect, useMemo, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Loader2 } from 'lucide-react';
+import { ViewportRender } from '@/components/viewport-render';
 
 const NANO_BANANA_TAB_ENABLED = false;
 const ITEMS_PER_PAGE = 18;
@@ -55,7 +55,7 @@ function ImagePromptsContent() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const placeholderImages = useLocalizedPlaceholderImages();
+  const placeholderImages = usePagedPlaceholderImages();
   const [filter, setFilter] = useState('all');
 
   const facetTags = searchParams.getAll('tag').map(tag => tag.trim()).filter(Boolean);
@@ -281,15 +281,15 @@ function ImagePromptsContent() {
                   className="grid min-w-0 grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-1 md:gap-8 lg:grid-cols-2"
                 >
                   {paginatedContent.map((item, index) => (
+                    <ViewportRender key={item.id} minHeight={570}>
                     <PromptCatalogCard
-                      key={item.id}
                       animationIndex={index}
                       item={{ ...item, type: 'image' }}
                       galleryHref={`/gallery/${item.id}`}
                       headerClassName="p-6 pb-0"
                       titleClassName="text-xl"
                       actionClassName="text-blue-400 hover:text-blue-300"
-                    />
+                    /></ViewportRender>
                   ))}
                 </div>
                 {hasMore && (

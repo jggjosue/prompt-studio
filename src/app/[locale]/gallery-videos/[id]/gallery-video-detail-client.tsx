@@ -17,17 +17,25 @@ import { useToast } from '@/hooks/use-toast';
 import { useDailyCopyLimit } from '@/hooks/use-daily-copy-limit';
 import { copyToClipboard } from '@/lib/copy-to-clipboard';
 import type { VideoProp } from '@/lib/placeholder-videos';
-import { useLocalizedPlaceholderVideos } from '@/hooks/use-localized-catalog';
+import { usePagedPlaceholderVideos } from '@/hooks/use-paged-catalog';
 import { ArrowLeft, Copy, Wand2 } from 'lucide-react';
 import Link from 'next/link';
 import { useMemo } from 'react';
+import { PromptValidationCard } from '@/components/prompt-validation-card';
+import type { PromptValidationReport } from '@/lib/prompt-validation';
+import { useLocale } from 'next-intl';
+import { PromptVersionManager } from '@/components/prompt-version-manager';
 
-export default function GalleryVideoDetailClient({ item }: { item: VideoProp }) {
-  const placeholderVideos = useLocalizedPlaceholderVideos();
-  const otherItems = useMemo(
-    () => placeholderVideos.filter(p => p.id !== item.id).slice(0, 3),
-    [item.id, placeholderVideos]
-  );
+export default function GalleryVideoDetailClient({ item, validation }: { item: VideoProp; validation: PromptValidationReport }) {
+  const locale = useLocale();
+  const placeholderVideos = usePagedPlaceholderVideos();
+  const otherItems = useMemo(() => {
+    const itemTags = new Set(item.tags);
+    return placeholderVideos
+      .filter(candidate => candidate.id !== item.id)
+      .sort((a, b) => b.tags.filter(tag => itemTags.has(tag)).length - a.tags.filter(tag => itemTags.has(tag)).length)
+      .slice(0, 3);
+  }, [item.id, item.tags, placeholderVideos]);
   
   const { toast } = useToast();
   const { copyWithDailyLimit } = useDailyCopyLimit();
@@ -72,7 +80,7 @@ export default function GalleryVideoDetailClient({ item }: { item: VideoProp }) 
                   />
                  <div className="absolute bottom-4 right-4 flex items-start gap-4 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                     <LiquidButton size="sm" asChild>
-                      <Link href={`/generate-images?prompt=${encodeURIComponent(JSON.stringify({
+                      <Link href={`/generate-videos?prompt=${encodeURIComponent(JSON.stringify({
                         type: 'video',
                         title: item.title,
                         description: item.description,
@@ -102,6 +110,9 @@ export default function GalleryVideoDetailClient({ item }: { item: VideoProp }) 
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
+
+              <PromptValidationCard report={validation} locale={locale} />
+              <PromptVersionManager promptId={item.id} promptKind="video" title={item.title} initialContent={item.description} modelSnapshot={validation.compatibleModels.map(model => `${model.id}:${model.version}`)} locale={locale} />
 
               <div>
                 <h3 className="text-2xl font-bold font-headline mt-8 mb-4">

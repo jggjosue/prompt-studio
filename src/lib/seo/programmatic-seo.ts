@@ -62,6 +62,7 @@ const CATEGORY_META: Record<
 };
 
 export function slugify(value: string): string {
+  if (typeof value !== 'string') return '';
   return value
     .normalize('NFKD')
     .replace(/[\u0300-\u036f]/g, '')
@@ -97,6 +98,17 @@ function uniqueItems(items: ProgrammaticItem[]): ProgrammaticItem[] {
   });
 }
 
+/**
+ * Los catálogos de `public/prompts` contienen entradas con `tags` nulos
+ * (52 en placeholder-images.json). Sin filtrarlas, `slugify` recibe `null` y
+ * revienta `generateStaticParams` durante el build, no en tiempo de ejecución
+ * — con lo que el fallo aparece en el deploy y no en desarrollo.
+ */
+function cleanTags(tags: unknown): string[] {
+  if (!Array.isArray(tags)) return [];
+  return tags.filter((tag): tag is string => typeof tag === 'string' && tag.trim() !== '');
+}
+
 export function getProgrammaticItems(
   locale: string = 'en'
 ): ProgrammaticItem[] {
@@ -107,7 +119,7 @@ export function getProgrammaticItems(
       description: promptDescription(item.description, item.title),
       imageUrl: item.imageUrl,
       url: `/gallery/${item.id}`,
-      tags: item.tags,
+      tags: cleanTags(item.tags),
       categorySlug: 'image-prompts',
       categoryLabel: CATEGORY_META['image-prompts'].label,
     })
@@ -120,7 +132,7 @@ export function getProgrammaticItems(
       description: promptDescription(item.description, item.title),
       imageUrl: item.imageUrl,
       url: `/gallery-videos/${item.id}`,
-      tags: item.tags,
+      tags: cleanTags(item.tags),
       categorySlug: 'video-prompts',
       categoryLabel: CATEGORY_META['video-prompts'].label,
     })
@@ -137,7 +149,7 @@ export function getProgrammaticItems(
         description: item.description,
         imageUrl: item.imageUrl,
         url: `/landing-pages/${slug}` as `/${string}`,
-        tags: item.tags,
+        tags: cleanTags(item.tags),
         categorySlug: 'landing-pages' as const,
         categoryLabel: CATEGORY_META['landing-pages'].label,
       };

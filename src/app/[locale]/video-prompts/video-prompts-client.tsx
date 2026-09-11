@@ -13,18 +13,18 @@ import {
 } from '@/hooks/use-catalog-search-url';
 import { useInfiniteScroll } from '@/hooks/use-infinite-scroll';
 import type { VideoProp } from '@/lib/placeholder-videos';
-import { useLocalizedPlaceholderVideos } from '@/hooks/use-localized-catalog';
+import { usePagedPlaceholderVideos } from '@/hooks/use-paged-catalog';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useVideoTagsCatalogPipeline } from '@/hooks/use-catalog-hash-aggregation';
 import { useFuzzyFilter } from '@/hooks/use-fuzzy-filter';
-import { Sparkles, Search, Tag, Wand2 } from 'lucide-react';
+import { Loader2, Sparkles, Search, Tag, Wand2 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useMemo, useState } from 'react';
-import { Loader2 } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useTranslations } from 'next-intl';
 import { useUser } from '@clerk/nextjs';
+import { ViewportRender } from '@/components/viewport-render';
 
 const ITEMS_PER_PAGE = 18;
 
@@ -74,7 +74,7 @@ function VideoPromptsContent() {
   const { isSignedIn } = useUser();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const placeholderVideos = useLocalizedPlaceholderVideos();
+  const placeholderVideos = usePagedPlaceholderVideos();
   // Read initial filter from URL search params
   const filterFromUrl = searchParams.get('filter') || 'all';
   const [filter, setFilterState] = useState(filterFromUrl);
@@ -325,8 +325,8 @@ function VideoPromptsContent() {
                   className="grid min-w-0 grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-1 md:gap-8 lg:grid-cols-2"
                 >
                   {paginatedContent.map((item, index) => (
+                    <ViewportRender key={item.id} minHeight={760}>
                     <PromptCatalogCard
-                      key={item.id}
                       animationIndex={index}
                       item={{ ...item, type: 'video' }}
                       galleryHref={`/gallery-videos/${item.id}`}
@@ -334,7 +334,7 @@ function VideoPromptsContent() {
                       headerClassName="p-6 pb-0"
                       titleClassName="text-xl"
                       actionClassName="text-blue-400 hover:text-blue-300"
-                    />
+                    /></ViewportRender>
                   ))}
                 </div>
                 {hasMore && (

@@ -7,7 +7,7 @@ import {
     CardFooter,
 } from '@/components/ui/card';
 import { PromptCatalogCardHeader } from '@/components/prompt-catalog-card-header';
-import { useLocalizedPlaceholderImages } from '@/hooks/use-localized-catalog';
+import { usePagedPlaceholderImages } from '@/hooks/use-paged-catalog';
 import type { ImagePlaceholder } from '@/lib/placeholder-images';
 import { Tag, Wand2, Loader2 } from 'lucide-react';
 import { OptimizedImage } from '@/components/optimized-image';
@@ -18,7 +18,7 @@ import { useTranslations } from 'next-intl';
 function ContentGridContent() {
   const t = useTranslations('home');
   const tCommon = useTranslations('common');
-  const placeholderImages = useLocalizedPlaceholderImages();
+  const placeholderImages = usePagedPlaceholderImages();
   const content = useMemo(() => {
     const uniqueByTitle = new Map<string, ImagePlaceholder>();
     for (const item of placeholderImages.filter(entry => entry.imageUrl)) {
@@ -26,7 +26,10 @@ function ContentGridContent() {
         uniqueByTitle.set(item.title.toLowerCase(), item);
       }
     }
-    return Array.from(uniqueByTitle.values()).slice(0, 9);
+    const list = Array.from(uniqueByTitle.values());
+    const productPhotography = list.filter(item => item.tags.includes('Product Photography'));
+    const otherImages = list.filter(item => !item.tags.includes('Product Photography'));
+    return [...productPhotography.slice(0, 6), ...otherImages.slice(0, 3)];
   }, [placeholderImages]);
 
   return (
@@ -37,7 +40,7 @@ function ContentGridContent() {
         </h3>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-        {content.map(item => (
+        {content.map((item, index) => (
           <Card
             key={item.id}
             className="overflow-hidden group h-full flex flex-col"
@@ -53,6 +56,8 @@ function ContentGridContent() {
                   src={item.imageUrl}
                   alt={item.title}
                   fill
+                  priority={index === 0}
+                  lazyAdaptive={index !== 0}
                   sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-cover transition-transform duration-300 group-hover:scale-105"
                   data-ai-hint={item.imageHint}

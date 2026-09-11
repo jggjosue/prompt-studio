@@ -1,12 +1,14 @@
-import { getImageById, type ImagePlaceholder } from '@/lib/placeholder-images';
-import { getVideoById, type VideoProp } from '@/lib/placeholder-videos';
+import { getImageById, getPlaceholderImages, type ImagePlaceholder } from '@/lib/placeholder-images';
+import { getPlaceholderVideos, getVideoById, type VideoProp } from '@/lib/placeholder-videos';
 import { getLocale } from 'next-intl/server';
 import { resolveRenderableMediaUrl } from '@/lib/media-resolver';
-import { safeJsonLd, schemaDescription } from '@/lib/json-ld';
+import { buildImageObjectSchema, buildVideoObjectSchema, safeJsonLd, schemaDescription } from '@/lib/json-ld';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import GalleryDetailClient from './gallery-detail-client';
 import { SITE_URL } from '@/lib/site-url';
+import { validateCatalogPrompt } from '@/lib/prompt-validation';
+import { assessManualActionRisk, selectRelatedGalleryItems } from '@/lib/gallery-detail';
 
 type Props = {
   params: Promise<{ id: string }>
@@ -95,6 +97,14 @@ export default async function GalleryDetailPage({ params }: Props) {
   const description = promptDescription(item.description, item.title);
   const image = absoluteUrl(resolveRenderableMediaUrl(item, locale) || item.imageUrl);
   const category = item.type === 'video' ? 'Video Prompt' : 'Image Prompt';
+  const imageItems = getPlaceholderImages(locale).filter(candidate => candidate.imageUrl);
+  const videoItems = getPlaceholderVideos(locale).filter(candidate => candidate.imageUrl);
+  const allItems = [...imageItems, ...videoItems];
+  const relatedItems = selectRelatedGalleryItems(
+    item,
+    item.type === 'video' ? videoItems : imageItems
+  );
+  const manualActionRisk = assessManualActionRisk(item, allItems);
 
   // For thumbnails, we use the image preview from the resolver, or a fallback.
   const thumbnailUrl = image;
@@ -121,16 +131,26 @@ export default async function GalleryDetailPage({ params }: Props) {
     },
   };
 
-  const videoSchema = item.type === 'video' ? {
-    '@context': 'https://schema.org',
-    '@type': 'VideoObject',
-    name: item.title,
-    description,
-    thumbnailUrl: [thumbnailUrl],
-    uploadDate: new Date('2024-01-01').toISOString(),
-    contentUrl: absoluteUrl(item.imageUrl),
-    embedUrl: canonical,
-  } : null;
+  const imageSchema = item.type !== 'video'
+    ? buildImageObjectSchema({
+        id: `${canonical}#image`,
+        url: canonical,
+        contentUrl: image,
+        name: item.title,
+        description,
+      })
+    : null;
+  const videoSchema = item.type === 'video'
+    ? buildVideoObjectSchema({
+        id: `${canonical}#video`,
+        name: item.title,
+        description,
+        thumbnailUrl,
+        uploadDate: (item as VideoProp & { uploadDate?: string }).uploadDate,
+        contentUrl: absoluteUrl(item.imageUrl),
+        embedUrl: canonical,
+      })
+    : null;
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
@@ -159,11 +179,22 @@ export default async function GalleryDetailPage({ params }: Props) {
           dangerouslySetInnerHTML={{ __html: safeJsonLd(videoSchema) }}
         />
       )}
+      {imageSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(imageSchema) }}
+        />
+      )}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
       />
-      <GalleryDetailClient item={item} />
+      <GalleryDetailClient
+        item={item}
+        validation={validateCatalogPrompt(item)}
+        relatedItems={relatedItems}
+        manualActionRisk={manualActionRisk}
+      />
     </>
   );
 }

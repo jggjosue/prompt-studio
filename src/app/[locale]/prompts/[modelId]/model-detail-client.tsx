@@ -13,9 +13,9 @@ import {
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import {
-  useLocalizedPlaceholderImages,
-  useLocalizedPlaceholderVideos,
-} from '@/hooks/use-localized-catalog';
+  usePagedPlaceholderImages,
+  usePagedPlaceholderVideos,
+} from '@/hooks/use-paged-catalog';
 import { ArrowLeft, Sparkles, Wand2, Box, Copy, Bot, CheckCircle2, BookOpen, Lightbulb, MessageSquare, ListChecks, Terminal } from 'lucide-react';
 import { LazyVideo } from '@/components/lazy-video';
 import { OptimizedImage } from '@/components/optimized-image';
@@ -144,8 +144,8 @@ export default function ModelDetailClient({
   specialPrompt?: string;
   jsonPrompts?: PromptBlock[];
 }) {
-  const placeholderImages = useLocalizedPlaceholderImages();
-  const placeholderVideos = useLocalizedPlaceholderVideos();
+  const placeholderImages = usePagedPlaceholderImages();
+  const placeholderVideos = usePagedPlaceholderVideos();
 
   const relatedContent = useMemo(() => {
     const modelSlug = modelName.toLowerCase();

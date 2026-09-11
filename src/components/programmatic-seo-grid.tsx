@@ -1,6 +1,7 @@
 import { Badge } from '@/components/ui/badge';
 import type { ProgrammaticItem } from '@/lib/seo/programmatic-seo';
 import Link from 'next/link';
+import { OptimizedImage } from '@/components/optimized-image';
 
 type ProgrammaticSeoGridProps = {
   items: ProgrammaticItem[];
@@ -19,13 +20,15 @@ export function ProgrammaticSeoGrid({
           className="overflow-hidden rounded-lg border bg-card"
         >
           <Link href={item.url} className="group block h-full">
-            <div className="aspect-video overflow-hidden bg-muted">
+            <div className="relative aspect-video overflow-hidden bg-muted">
               {item.imageUrl ? (
-                <img
+                <OptimizedImage
                   src={item.imageUrl}
                   alt={item.title}
-                  loading="lazy"
-                  className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  fill
+                  lazyAdaptive
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
                 />
               ) : null}
             </div>
