@@ -1,0 +1,1 @@
+import type{Metadata}from'next';import{CommunityReviews}from'./community-reviews';export const metadata:Metadata={title:'Ejemplos comunitarios | Prompt Studio',description:'Resultados y reseñas verificadas de la comunidad.'};export default function Page(){return <CommunityReviews/>}

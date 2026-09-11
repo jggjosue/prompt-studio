@@ -10,10 +10,15 @@ export function useInfiniteScroll<T>(
 ) {
   const [visibleCount, setVisibleCount] = useState(itemsPerPage);
   const observerTarget = useRef<HTMLDivElement | null>(null);
+  const previousList = useRef<T[]>([]);
 
-  // Reset when items array changes significantly (like filtering)
+  // Reinicia al filtrar o reemplazar la lista, pero conserva el avance cuando
+  // el servidor añade una página al final.
   useEffect(() => {
-    setVisibleCount(itemsPerPage);
+    const previous = previousList.current;
+    const appended = previous.length <= items.length && previous.every((item, index) => item === items[index]);
+    if (!appended) setVisibleCount(itemsPerPage);
+    previousList.current = items;
   }, [items, itemsPerPage]);
 
   const handleObserver = useCallback(

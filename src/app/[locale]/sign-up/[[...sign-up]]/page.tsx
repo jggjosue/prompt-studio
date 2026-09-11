@@ -1,6 +1,12 @@
 import type { Metadata } from 'next';
 import { SignUp } from '@clerk/nextjs';
 
+/**
+ * Contenido por usuario: nunca debe prerenderizarse ni cachearse en el edge.
+ * Marcarlo explícitamente evita que el prerender lo intente y falle en build.
+ */
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Sign Up | Prompt Studio',
   description: 'Create a Prompt Studio account to access curated collections of AI video prompts, generate custom templates, and elevate your creative assets.',

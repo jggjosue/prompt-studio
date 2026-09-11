@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { enforceIpRateLimit, RATE_LIMITS } from '@/lib/rate-limit';
 import connectToDatabase from '@/lib/mongoose';
 import AffiliateClick from '@/models/AffiliateClick';
 import { registerAffiliateClick } from '@/lib/affiliate-referral';
@@ -8,6 +9,9 @@ function safeText(value: unknown): string | null {
 }
 
 export async function POST(request: Request) {
+  const limited = await enforceIpRateLimit(request, 'affiliate-click', RATE_LIMITS.publicWrite);
+  if (limited) return limited;
+
   const body = await request.json().catch(() => null);
   const referrerUserId = safeText(body?.referrerUserId);
   const productId = safeText(body?.productId);

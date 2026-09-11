@@ -1,16 +1,35 @@
+import type { Metadata } from 'next';
 import Faq from '@/components/faq';
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
 import { BentoGrid, BentoGridItem } from '@/components/ui/bento-grid';
-import { CircularTestimonials } from '@/components/ui/circular-testimonials';
-import { GlowyWavesHero } from '@/components/ui/glowy-waves-hero-shadcnui';
-import { Scroll3D } from '@/components/ui/scroll-3d';
 import { Separator } from '@/components/ui/separator';
 import { getPlaceholderImages } from '@/lib/placeholder-images';
 import { getPlaceholderVideos } from '@/lib/placeholder-videos';
 import { Bot, Clapperboard, Lightbulb } from 'lucide-react';
 import { getLocale, getTranslations } from 'next-intl/server';
 import { Suspense } from 'react';
+import dynamicImport from 'next/dynamic';
+
+const CircularTestimonials = dynamicImport(() => import('@/components/ui/circular-testimonials').then(module => module.CircularTestimonials));
+const GlowyWavesHero = dynamicImport(() => import('@/components/ui/glowy-waves-hero-shadcnui').then(module => module.GlowyWavesHero));
+const Scroll3D = dynamicImport(() => import('@/components/ui/scroll-3d').then(module => module.Scroll3D));
+
+/**
+ * Metadata propia.
+ *
+ * La página no declaraba ninguna, así que heredaba el título por defecto del
+ * layout raíz y competía con la portada por la misma cadena. Su contenido
+ * distintivo —y el único con posibilidad real de posicionar— es la sección de
+ * preguntas frecuentes: dos tercios del texto de la página no están en la
+ * portada.
+ */
+export const metadata: Metadata = {
+  title: 'Preguntas frecuentes sobre prompts de IA | Prompt Studio',
+  description:
+    'Qué es Prompt Studio, cómo funcionan los prompts de imagen, video y web, y qué incluye cada plan. Respuestas a las dudas más habituales.',
+  alternates: { canonical: '/ask' },
+};
 
 export const dynamic = 'force-dynamic';
 

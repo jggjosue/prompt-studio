@@ -1,0 +1,37 @@
+{
+  "id": "170",
+  "title": {
+    "en": "",
+    "es": ""
+  },
+  "description": {
+    "es": {
+      "nombre": "",
+      "prompt": "Creta para convertir afiliados.",
+      "estilo": ""
+    },
+    "en": {
+      "name": "",
+      "prompt": ""
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "",
+    "es": ""
+  },
+  "demoUrl": "https://www.prompstudio.com/webpages/artwalk-culture-festival/",
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "tags": [
+    "affiliate",
+    "commission",
+    "program",
+    "marketing landing page"
+  ],
+  "membership": "Premium",
+  "price": "15.00"
+}

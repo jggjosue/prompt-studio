@@ -3,6 +3,12 @@ import connectToDatabase from '@/lib/mongoose';
 import AffiliateSale from '@/models/AffiliateSale';
 import { redirect } from 'next/navigation';
 
+/**
+ * Contenido por usuario: nunca debe prerenderizarse ni cachearse en el edge.
+ * Marcarlo explícitamente evita que el prerender lo intente y falle en build.
+ */
+export const dynamic = 'force-dynamic';
+
 function money(cents: number, currency = 'USD') {
   return new Intl.NumberFormat(undefined, {
     style: 'currency',

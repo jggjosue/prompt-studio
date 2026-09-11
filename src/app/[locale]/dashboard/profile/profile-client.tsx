@@ -25,10 +25,12 @@ import { useStripeSubscription } from '@/hooks/use-stripe-subscription';
 import { CheckCircle2, ChevronRight, Clock3, Copy, LineChart, Link2, Package, Sparkles, User } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { SavedItemsPanel } from '@/components/saved-items-panel';
 import { cn } from '@/lib/utils';
 import type { AffiliateDashboardStats } from '@/lib/affiliate-mongo';
 import { AFFILIATE_MIN_PAYOUT_CENTS } from '@/lib/affiliate';
 import { useRouter } from 'next/navigation';
+import { OptimizedImage } from '@/components/optimized-image';
 
 type ProfileUser = {
   id: string;
@@ -69,8 +71,16 @@ function affiliateUrl(siteUrl: string, userId: string): string {
   return `${siteUrl.replace(/\/+$/, '')}/landing-pages?ref=${encodeURIComponent(userId)}`;
 }
 
+/** Literales completos: Tailwind no puede resolver clases construidas al vuelo. */
+const TAB_COLUMNS: Record<number, string> = {
+  2: 'grid-cols-2',
+  3: 'grid-cols-3',
+  4: 'grid-cols-4',
+};
+
 export default function ProfileClient({ user, isPremiumJo, hasApprovedAffiliateApplication, hasPendingAffiliateApplication, pendingAffiliateApplicationsCount, affiliate, affiliatePaypalEmail, siteUrl }: ProfileClientProps) {
   const t = useTranslations('profile');
+  const tSaved = useTranslations('saved');
   const router = useRouter();
   const { plan, status, purchasedPages, ready } = useStripeSubscription();
   const [copied, setCopied] = useState(false);
@@ -238,14 +248,16 @@ export default function ProfileClient({ user, isPremiumJo, hasApprovedAffiliateA
         <TabsList
           className={cn(
             'grid w-full max-w-lg',
-            isPremiumJo && hasApprovedAffiliateApplication
-              ? 'grid-cols-3'
-              : isPremiumJo || hasApprovedAffiliateApplication
-                ? 'grid-cols-2'
-                : 'grid-cols-1'
+            // Perfil y Guardados son fijas; afiliado y partners, condicionales.
+            TAB_COLUMNS[
+              2 +
+                (hasApprovedAffiliateApplication ? 1 : 0) +
+                (isPremiumJo ? 1 : 0)
+            ]
           )}
         >
           <TabsTrigger value="profile">{t('profileTab')}</TabsTrigger>
+          <TabsTrigger value="saved">{tSaved('tab')}</TabsTrigger>
           {hasApprovedAffiliateApplication ? (
             <TabsTrigger value="affiliate">{t('affiliateTab')}</TabsTrigger>
           ) : null}
@@ -277,9 +289,9 @@ export default function ProfileClient({ user, isPremiumJo, hasApprovedAffiliateA
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                <div className="h-16 w-16 rounded-full overflow-hidden bg-muted flex items-center justify-center text-lg font-semibold">
+                <div className="relative h-16 w-16 rounded-full overflow-hidden bg-muted flex items-center justify-center text-lg font-semibold">
                   {user.picture ? (
-                    <img src={user.picture} alt={displayName} className="h-full w-full object-cover" />
+                    <OptimizedImage src={user.picture} alt={displayName} fill forceUnoptimized sizes="96px" className="object-cover" />
                   ) : (
                     initials
                   )}
@@ -414,6 +426,10 @@ export default function ProfileClient({ user, isPremiumJo, hasApprovedAffiliateA
           </Card>
 
           <ProfileSubscriptionInfo />
+        </TabsContent>
+
+        <TabsContent value="saved" className="space-y-6">
+          <SavedItemsPanel />
         </TabsContent>
 
         {hasApprovedAffiliateApplication ? (

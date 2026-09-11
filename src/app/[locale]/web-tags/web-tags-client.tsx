@@ -15,7 +15,7 @@ import {
 import { KeysetPagination } from '@/components/keyset-pagination';
 import { cn } from '@/lib/utils';
 import { useInfiniteScroll } from '@/hooks/use-infinite-scroll';
-import { useLocalizedWebPages } from '@/hooks/use-localized-catalog';
+import { usePagedWebPages } from '@/hooks/use-paged-catalog';
 import { useSearchField } from '@/hooks/use-search-field';
 import { DEBOUNCE_MS } from '@/lib/flow-control';
 import { useFuzzyFilter } from '@/hooks/use-fuzzy-filter';
@@ -89,7 +89,7 @@ function WebTagsContent() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const webPages = useLocalizedWebPages();
+  const webPages = usePagedWebPages();
   const { ready, canAccessMembership, requestAccess, runWithAccess } =
     useMembershipAccess();
   const [filter, setFilter] = useState<WebFilter | null>(null);

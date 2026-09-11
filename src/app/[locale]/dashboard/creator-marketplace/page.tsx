@@ -1,0 +1,1 @@
+import type{Metadata}from'next';import{CreatorMarketplaceClient}from'./creator-marketplace-client';export const metadata:Metadata={title:'Panel del creador | Prompt Studio'};export default function Page(){return <CreatorMarketplaceClient/>}

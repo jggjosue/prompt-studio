@@ -1,0 +1,3 @@
+import assert from'node:assert/strict';import test from'node:test';import{reproducibleDemo}from'../../src/lib/reproducible-demo';
+test('public demo is deterministic and does not require credentials',()=>{const a=reproducibleDemo(),b=reproducibleDemo();assert.deepEqual(a,b);assert.equal(a.usesPrivateCredentials,false);assert.equal(a.dataset.length,4);assert.equal(a.runs.length,12)});
+test('every provider metric is derived from the same number of cases',()=>{const demo=reproducibleDemo();assert.deepEqual(demo.metrics.map(metric=>metric.samples),[4,4,4]);assert.ok(demo.metrics.every(metric=>metric.successRate===100))});

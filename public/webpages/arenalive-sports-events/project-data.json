@@ -1,0 +1,37 @@
+{
+  "id": "170",
+  "title": {
+    "en": "ArenaLive — 3D Sports Events",
+    "es": "ArenaLive — Eventos Deportivos 3D"
+  },
+  "description": {
+    "es": {
+      "nombre": "ArenaLive — Eventos Deportivos 3D",
+      "prompt": "Landing page premium para descubrir y promocionar eventos deportivos. Presenta un estadio y un balón en 3D, animaciones inmersivas, filtros por disciplina, tarjetas interactivas con efecto tilt, estadísticas animadas y venta de entradas, todo con una estética oscura y verde neón.",
+      "estilo": "Deportivo futurista, cinematográfico, 3D, oscuro y verde neón"
+    },
+    "en": {
+      "name": "ArenaLive — 3D Sports Events",
+      "prompt": "A premium landing page for discovering and promoting live sports events. It features a 3D stadium and ball, immersive animations, sport filters, interactive tilt cards, animated statistics, and ticket calls to action in a dark neon-green visual style."
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "Futuristic 3D sports stadium landing page with a floating soccer ball, dark background, and neon green highlights",
+    "es": "Landing page de estadio deportivo 3D futurista con balón flotante, fondo oscuro y detalles en verde neón"
+  },
+  "demoUrl": "webpages_arenalive-sports-events_index.html",
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "tags": [
+    "sports events",
+    "3D landing page",
+    "ticketing",
+    "interactive animation"
+  ],
+  "membership": "Premium",
+  "price": "15.00"
+}

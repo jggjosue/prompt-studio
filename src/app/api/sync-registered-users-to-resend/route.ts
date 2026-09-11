@@ -1,4 +1,4 @@
-import { isPremiumJoAdmin } from '@/lib/admin-auth';
+import { requireCronOrAdmin } from '@/lib/api-auth';
 import connectToDatabase from '@/lib/mongoose';
 import { resend } from '@/lib/resend';
 import { NextResponse } from 'next/server';
@@ -11,18 +11,8 @@ function normalizeEmail(email: string): string {
 }
 
 export async function GET(request: Request) {
-  const syncSecret = process.env.CRON_SECRET?.trim();
-  const authorization = request.headers.get('authorization');
-  const url = new URL(request.url);
-  const secretParam = url.searchParams.get('secret');
-
-  const hasValidCronSecret =
-    Boolean(syncSecret) && (authorization === `Bearer ${syncSecret}` || secretParam === syncSecret);
-  const hasAdminSession = hasValidCronSecret ? false : await isPremiumJoAdmin();
-
-  if (!hasValidCronSecret && !hasAdminSession) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
+  const denied = await requireCronOrAdmin(request);
+  if (denied) return denied;
 
   try {
     const configuredAudienceId =

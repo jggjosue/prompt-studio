@@ -1,0 +1,37 @@
+{
+  "id": "170",
+  "title": {
+    "en": "HealMatch — Wellness Therapy Booking",
+    "es": "HealMatch — Reserva de Terapias Wellness"
+  },
+  "description": {
+    "es": {
+      "nombre": "HealMatch — Reserva de Terapias Wellness",
+      "prompt": "Crea una landing page premium para descubrir y reservar terapias wellness. Incluye una experiencia visual artística con elementos 3D animados, una paleta orgánica en tonos salvia, lavanda, rosa y crema, filtros por tipo de terapia y estado de ánimo, perfiles de profesionales, precios, modalidades presencial y en línea, y un flujo interactivo de reserva. El diseño debe ser responsivo, accesible y transmitir calma, confianza y bienestar.",
+      "estilo": "Editorial wellness premium, orgánico, artístico, inmersivo, 3D y minimalista"
+    },
+    "en": {
+      "name": "HealMatch — Wellness Therapy Booking",
+      "prompt": "Create a premium landing page for discovering and booking wellness therapies. Include an artistic visual experience with animated 3D elements, an organic sage, lavender, blush and cream color palette, filters by therapy type and mood, professional profiles, pricing, in-person and online options, and an interactive booking flow. The design should be responsive, accessible, and convey calm, trust, and wellbeing."
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "Artistic 3D wellness therapy booking website in sage, lavender, blush and cream tones",
+    "es": "Sitio artístico 3D para reservar terapias wellness en tonos salvia, lavanda, rosa y crema"
+  },
+  "demoUrl": "webpages_healmatch-terapias-wellness_index.html",
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "tags": [
+    "wellness",
+    "therapy",
+    "booking",
+    "3d landing page"
+  ],
+  "membership": "Premium",
+  "price": "15.00"
+}

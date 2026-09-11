@@ -1,0 +1,4 @@
+import test from'node:test';import assert from'node:assert/strict';import{brandPreferenceKey,evaluationPairKey,preferenceScores}from'../../src/lib/human-preferences.ts';
+test('blind pair identifiers do not depend on presentation order',()=>assert.equal(evaluationPairKey('a','b'),evaluationPairKey('b','a')));
+test('brand preferences are stable and do not store raw brand context',()=>{const key=brandPreferenceKey({name:'Acme',voice:'Directa',colors:['#000000']});assert.equal(key,brandPreferenceKey({name:'Acme',voice:'Directa',colors:['#000000']}));assert.equal(key?.includes('acme'),false)});
+test('human preference boost is bounded by evidence',()=>{const votes=Array.from({length:20},()=>({winnerProvider:'openai',loserProvider:'google',brandKey:'brand'})),scores=preferenceScores(votes,'brand');assert.ok((scores.get('openai')?.boost||0)>0);assert.ok((scores.get('google')?.boost||0)<0);assert.ok((scores.get('openai')?.boost||0)<=10)});

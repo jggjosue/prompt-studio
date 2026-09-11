@@ -1,0 +1,1 @@
+import type{Metadata}from'next';import{FeatureExperimentsClient}from'./feature-experiments-client';export const metadata:Metadata={title:'Experimentos y feature flags | Prompt Studio'};export default function Page(){return <FeatureExperimentsClient/>}

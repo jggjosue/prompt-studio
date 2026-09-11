@@ -1,0 +1,37 @@
+{
+  "id": "170",
+  "title": {
+    "en": "PawPark — 3D Pet Supplies Store",
+    "es": "PawPark — Tienda 3D para mascotas"
+  },
+  "description": {
+    "es": {
+      "nombre": "PawPark — Tienda 3D para mascotas",
+      "prompt": "Crea una landing page premium para una tienda de artículos para mascotas, con una mascota 3D animada, productos interactivos, filtros por categoría, favoritos, carrito, club de suscripción y newsletter. Usa una paleta cálida en crema, verde lima, naranja, rosa y verde oscuro, con animaciones fluidas y diseño responsive.",
+      "estilo": "E-commerce editorial, colorido, orgánico y juguetón, con ilustración 3D, profundidad visual y microinteracciones."
+    },
+    "en": {
+      "name": "PawPark — 3D Pet Supplies Store",
+      "prompt": "Create a premium landing page for a pet supplies store featuring an animated 3D pet, interactive products, category filters, favorites, a shopping cart, a subscription club, and a newsletter. Use a warm cream, lime green, orange, pink, and dark green palette with fluid animations and a responsive layout."
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "Colorful 3D pet supplies storefront with an animated dog, product cards, and lime green accents",
+    "es": "Tienda colorida de artículos para mascotas en 3D con perro animado, tarjetas de productos y detalles verde lima"
+  },
+  "demoUrl": "webpages_pawpark-pet-supplies_index.html",
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "tags": [
+    "pet supplies",
+    "ecommerce",
+    "3d animation",
+    "interactive landing page"
+  ],
+  "membership": "Premium",
+  "price": "15.00"
+}

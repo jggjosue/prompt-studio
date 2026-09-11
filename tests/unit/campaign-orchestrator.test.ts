@@ -1,0 +1,5 @@
+import test from'node:test';import assert from'node:assert/strict';import{buildCampaignTasks,campaignCredits}from'../../src/lib/campaign-orchestrator.ts';
+const input={brief:'Lanzamiento de una herramienta para equipos creativos.',audience:'Diseñadores',language:'Español',imageProvider:'google',videoProvider:'runway',textProvider:'openai'};
+test('campaign workflow coordinates existing generator kinds',()=>{const tasks=buildCampaignTasks(input);assert.equal(tasks.length,6);assert.deepEqual([...new Set(tasks.map(t=>t.stage))],['landing','images','video','ads','social']);assert.equal(tasks.filter(t=>t.kind==='image').length,2);assert.equal(tasks.filter(t=>t.kind==='video').length,1);assert.equal(tasks.filter(t=>t.kind==='project').length,3)});
+test('all deliverables share brief and anti-fabrication rules',()=>{for(const task of buildCampaignTasks(input)){assert.match(task.prompt,/Lanzamiento de una herramienta/);assert.match(task.prompt,/Do not invent prices/);assert.match(task.prompt,/Español/)}});
+test('campaign credit estimate uses the shared queue prices',()=>{assert.equal(campaignCredits(buildCampaignTasks(input)),11)});

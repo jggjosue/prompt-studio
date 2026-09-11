@@ -1,0 +1,37 @@
+{
+  "id": "170",
+  "title": {
+    "en": "OtakuCon — 3D Anime Convention",
+    "es": "OtakuCon — Convención Anime 3D"
+  },
+  "description": {
+    "es": {
+      "nombre": "OtakuCon — Convención Anime 3D",
+      "prompt": "Crea una landing page inmersiva para una convención de anime con una estética 3D vibrante, personaje original, animaciones parallax, tarjetas interactivas, agenda de eventos y llamadas a la acción para comprar entradas.",
+      "estilo": "Anime futurista, 3D, neón, editorial, colorido e inmersivo"
+    },
+    "en": {
+      "name": "OtakuCon — 3D Anime Convention",
+      "prompt": "Create an immersive landing page for an anime convention featuring a vibrant 3D aesthetic, an original character, parallax animations, interactive cards, an event schedule, and ticket purchase calls to action."
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "Futuristic 3D anime convention landing page with a purple, pink, cream, and neon green palette",
+    "es": "Landing page futurista de convención anime 3D con una paleta violeta, rosa, crema y verde neón"
+  },
+  "demoUrl": "webpages_otakucon-anime-convention_index.html",
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "tags": [
+    "anime convention",
+    "3D landing page",
+    "cosplay",
+    "event website"
+  ],
+  "membership": "Premium",
+  "price": "15.00"
+}

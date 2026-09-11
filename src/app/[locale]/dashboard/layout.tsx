@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import type React from 'react';
 import { auth, clerkClient } from '@clerk/nextjs/server';
 import { SidebarNavLink } from '@/components/dashboard/sidebar-nav-link';
-import { ShoppingCart, UserCircle, UsersRound } from 'lucide-react';
+import { Activity, BarChart3, Braces, Clock3, Coins, CreditCard, Fingerprint, Flag, FlaskConical, FolderKanban, Gauge, Layers3, Library, Megaphone, Palette, Rocket, ShoppingCart, Store, UserCircle, UsersRound } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import Header from '@/components/layout/header';
 import { DashboardMobileNav } from '@/components/dashboard/dashboard-mobile-nav';
@@ -11,6 +11,12 @@ import { DashboardShell } from '@/components/dashboard/dashboard-shell';
 import { getTranslations } from 'next-intl/server';
 import connectToDatabase from '@/lib/mongoose';
 import AffiliateApplication from '@/models/AffiliateApplication';
+
+/**
+ * Contenido por usuario: nunca debe prerenderizarse ni cachearse en el edge.
+ * Marcarlo explícitamente evita que el prerender lo intente y falle en build.
+ */
+export const dynamic = 'force-dynamic';
 
 export default async function DashboardLayout({
   children,
@@ -66,6 +72,90 @@ export default async function DashboardLayout({
     badge?: string;
   }[] = [
     {
+      href: '/dashboard/assets',
+      icon: <Fingerprint className="h-4 w-4" />,
+      label: 'Procedencia de activos',
+      description: 'Origen, licencia y usos',
+    },
+    {
+      href: '/dashboard/output-contracts',
+      icon: <Braces className="h-4 w-4" />,
+      label: 'Contratos de salida',
+      description: 'Esquemas, reglas y reparación',
+    },
+    {
+      href: '/dashboard/model-regressions',
+      icon: <Gauge className="h-4 w-4" />,
+      label: 'Regresión de modelos',
+      description: 'Baseline, cambios y degradación',
+    },
+    {
+      href: '/dashboard/evaluations',
+      icon: <FlaskConical className="h-4 w-4" />,
+      label: 'Evaluaciones IA',
+      description: 'Datasets, rúbricas e historial',
+    },
+    {
+      href: '/dashboard/human-evaluations',
+      icon: <FlaskConical className="h-4 w-4" />,
+      label: 'Evaluación humana',
+      description: 'Comparaciones ciegas y preferencias',
+    },
+    {
+      href: '/dashboard/creator-marketplace',
+      icon: <Store className="h-4 w-4" />,
+      label: 'Panel del creador',
+      description: 'Productos, revisión y ventas',
+    },
+    {
+      href: '/dashboard/campaign-assistant',
+      icon: <Megaphone className="h-4 w-4" />,
+      label: 'Centro de campañas',
+      description: 'Progreso, costos y próximo paso',
+    },
+    {
+      href: '/dashboard/publications',
+      icon: <Rocket className="h-4 w-4" />,
+      label: 'Publicaciones',
+      description: 'Dominios, GitHub y Vercel',
+    },
+    {
+      href: '/dashboard/batches',
+      icon: <Layers3 className="h-4 w-4" />,
+      label: 'Generación por lotes',
+      description: 'CSV, formatos e idiomas',
+    },
+    {
+      href: '/dashboard/brand-kits',
+      icon: <Palette className="h-4 w-4" />,
+      label: 'Brand Kits',
+      description: 'Identidad para todos los generadores',
+    },
+    {
+      href: '/dashboard/projects',
+      icon: <FolderKanban className="h-4 w-4" />,
+      label: 'Proyectos',
+      description: 'Contexto, recursos y decisiones',
+    },
+    {
+      href: '/dashboard/prompt-lab',
+      icon: <FlaskConical className="h-4 w-4" />,
+      label: 'Laboratorio A/B',
+      description: 'Compara prompts y modelos',
+    },
+    {
+      href: '/dashboard/generations',
+      icon: <Clock3 className="h-4 w-4" />,
+      label: 'Generaciones',
+      description: 'Progreso y resultados',
+    },
+    {
+      href: '/dashboard/library',
+      icon: <Library className="h-4 w-4" />,
+      label: 'Mis compras',
+      description: 'Recibos y descargas',
+    },
+    {
       href: '/dashboard/profile',
       icon: <UserCircle className="h-4 w-4" />,
       label: t('profile'),
@@ -73,6 +163,26 @@ export default async function DashboardLayout({
     },
     ...(isPremiumJoAdmin
       ? [{
+          href: '/dashboard/feature-experiments',
+          icon: <Flag className="h-4 w-4" />,
+          label: 'Experimentos',
+          description: 'Flags, conversión, retención y margen',
+        }, {
+          href: '/dashboard/main-funnel',
+          icon: <BarChart3 className="h-4 w-4" />,
+          label: 'Embudo principal',
+          description: 'Conversión, tiempo, costo y abandono',
+        }, {
+          href: '/dashboard/observability',
+          icon: <Activity className="h-4 w-4" />,
+          label: 'Observabilidad',
+          description: 'Rendimiento y conversión',
+        }, {
+          href: '/dashboard/provider-quality',
+          icon: <Activity className="h-4 w-4" />,
+          label: 'Calidad de proveedores',
+          description: 'Éxito, latencia, costo y errores',
+        }, {
           href: '/dashboard/affiliate-applications',
           icon: <UsersRound className="h-4 w-4" />,
           label: t('partners'),
@@ -89,7 +199,8 @@ export default async function DashboardLayout({
         }]
       : []),
     // { href: '/dashboard/settings', icon: <Settings className="h-4 w-4" />, label: t('settings') },
-    // { href: '/dashboard/billing', icon: <CreditCard className="h-4 w-4" />, label: t('billing') },
+    { href: '/dashboard/credits', icon: <Coins className="h-4 w-4" />, label: t('credits'), description: t('creditsDesc') },
+    { href: '/dashboard/billing', icon: <CreditCard className="h-4 w-4" />, label: t('billing'), description: t('billingDesc') },
   ];
 
   return (

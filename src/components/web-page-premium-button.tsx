@@ -258,7 +258,7 @@ export function PremiumMembershipButton({
           </a>
         </DropdownMenuItem>
         <DropdownMenuItem asChild className="cursor-pointer">
-          <Link href="/pricing">
+          <Link href="/prices">
             Upgrade to Premium
           </Link>
         </DropdownMenuItem>

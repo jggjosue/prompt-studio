@@ -1,0 +1,1 @@
+import type{Metadata}from'next';import{AssetProvenanceClient}from'./asset-provenance-client';export const metadata:Metadata={title:'Procedencia de activos | Prompt Studio'};export default function Page(){return <AssetProvenanceClient/>}

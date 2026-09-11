@@ -1,0 +1,37 @@
+{
+  "id": "170",
+  "title": {
+    "en": "NORTE Atelier — 3D Architecture Portfolio",
+    "es": "NORTE Atelier — Portafolio de arquitectura 3D"
+  },
+  "description": {
+    "es": {
+      "nombre": "NORTE Atelier",
+      "prompt": "Crea un portafolio editorial e inmersivo para un estudio de arquitectura del norte de México. Utiliza una paleta de concreto, carbón, óxido y hueso, un modelo arquitectónico 3D interactivo en el hero, animaciones activadas por scroll, previsualizaciones dinámicas de proyectos, cursor contextual y diseño responsive.",
+      "estilo": "Editorial arquitectónico, brutalismo cálido, minimalismo matérico y animación 3D"
+    },
+    "en": {
+      "name": "NORTE Atelier",
+      "prompt": "Create an immersive editorial portfolio for an architecture studio based in northern Mexico. Use a concrete, charcoal, rust and bone palette, an interactive 3D architectural model in the hero, scroll-triggered animations, dynamic project previews, a contextual cursor and responsive design."
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "Editorial architecture portfolio featuring an interactive concrete 3D building, oversized serif typography and a warm brutalist color palette",
+    "es": "Portafolio editorial de arquitectura con un edificio de concreto 3D interactivo, tipografía serif monumental y una paleta brutalista cálida"
+  },
+  "demoUrl": "webpages_norte-atelier_index.html",
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "tags": [
+    "architecture",
+    "3D",
+    "portfolio",
+    "interactive landing page"
+  ],
+  "membership": "Premium",
+  "price": "15.00"
+}

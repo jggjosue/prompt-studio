@@ -1,0 +1,37 @@
+{
+  "id": "170",
+  "title": {
+    "en": "PixelFrame — 3D Photography Portfolio",
+    "es": "PixelFrame — Portafolio de Fotografía 3D"
+  },
+  "description": {
+    "es": {
+      "nombre": "Portafolio fotográfico editorial con animaciones 3D",
+      "prompt": "Crea un portafolio de fotografía premium con estética editorial oscura, composición asimétrica, galería inmersiva, capas 3D reactivas al cursor, animaciones al hacer scroll y diseño responsive.",
+      "estilo": "Editorial, cinematográfico, minimalista, oscuro y tridimensional"
+    },
+    "en": {
+      "name": "Editorial photography portfolio with 3D animations",
+      "prompt": "Create a premium photography portfolio with a dark editorial aesthetic, asymmetric composition, immersive gallery, cursor-reactive 3D layers, scroll animations, and a responsive layout."
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "Dark editorial photography portfolio with layered portraits and cinematic 3D depth",
+    "es": "Portafolio fotográfico editorial oscuro con retratos en capas y profundidad 3D cinematográfica"
+  },
+  "demoUrl": "webpages_pixelframe-photography-portfolio_index.html",
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "tags": [
+    "photography",
+    "portfolio",
+    "3D animation",
+    "editorial landing page"
+  ],
+  "membership": "Premium",
+  "price": "15.00"
+}

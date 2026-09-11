@@ -3,6 +3,7 @@ import { firaCode, firaSans } from '@/app/fonts';
 import { ServiceWorkerRegister } from '@/components/service-worker-register';
 import { SiteAnalytics } from '@/components/site-analytics';
 import { SubscriptionStatusProvider } from '@/components/subscription-status-provider';
+import { SavedItemsProvider } from '@/components/saved-items-provider';
 import { ThemeProvider } from '@/components/theme-provider';
 import { CustomCursorLoader } from '@/components/ui/custom-cursor-loader';
 import { Toaster } from '@/components/ui/toaster';
@@ -10,7 +11,9 @@ import { ClerkProvider } from '@clerk/nextjs';
 import { clerkProviderProps } from '@/lib/clerk-config';
 import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
-import { getLocale, getMessages } from 'next-intl/server';
+import { getMessages, setRequestLocale } from 'next-intl/server';
+import { notFound } from 'next/navigation';
+import { isLocale, locales, type Locale } from '@/i18n/config';
 import Script from 'next/script';
 import { UserSync } from '@/components/user-sync';
 import { CookieBanner } from '@/components/cookie-banner';
@@ -19,8 +22,8 @@ import { ADSENSE_CLIENT_ID, areAdsEnabled } from '@/lib/ads';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: 'Prompt Studio',
-  description: 'AI-powered image and video generation platform',
+  title: 'Prompt Studio — Prompts y herramientas creativas con IA',
+  description: 'Descubre prompts, personalízalos y crea imágenes, videos, componentes y landing pages con herramientas de IA.',
   alternates: {
     canonical: '/',
   },
@@ -30,78 +33,33 @@ export const metadata: Metadata = {
     title: 'Prompt Studio',
     statusBarStyle: 'black-translucent',
   },
-  keywords: [
-    'Chatgpt',
-    'chatgpt go bbva',
-    'how to use chatgpt effectively',
-    'chatgpt health',
-    'chatgpt search',
-    'chatgpt go',
-    'AI Prompts',
-    'Video Prompts',
-    'Image Prompts',
-    'AI Video Generator',
-    'AI Image Generator',
-    'chatgpt 5.2',
-    'chatgpt christmas photo',
-    'chatgpt 5.1',
-    'chatgpt wrapped',
-    'chatgpt adult mode',
-    'how to cancel chatgpt plus subscription',
-    'challenges cloudflare chatgpt',
-    'chatgpt news',
-    'notebooklm',
-    'grok ai',
-    'banana pro',
-    'nano banana pro',
-    'prompts',
-    'prompt studio',
-    'promptstudio',
-    'promt studio',
-    'promp studio',
-    'prompt studios',
-    'promptstudyo',
-    'prompt models studio',
-    'my prompt studio',
-    'prompts studio',
-    'prompt studio photo',
-    'prompt studio fivem',
-    'ai prompt studio',
-    'promptoo studio',
-    'studio prompt',
-    'prompt-studio',
-    'for prompt studio',
-    'prompay studio',
-    'contemplative audiovisual prompt',
-    'promt studios',
-    'prom studio',
-    'prompt model studio',
-    'prompt studio ai',
-    'sakura prompt',
-    'promptmodels studio',
-    'the prompt studio',
-    '프롬프트 스튜디오',
-    'prompt.studio',
-    '"contemplative audiovisual prompt"',
-    'studio prompt generator',
-    'chat gpt prompts for christmas pictures',
-    'voice mail prompts',
-    'christmas ai photo prompts',
-    'darlink ai',
-    'voicemail prompts crossword',
-    'best grok spicy prompts',
-    'grok prompts for images',
-    'daily writing prompts',
-    'awesome chatgpt prompts',
-  ],
 };
 
-export default async function RootLayout({
+/**
+ * Prerenderiza el árbol completo en los dos idiomas. El middleware reescribe
+ * `/ruta` → `/{locale}/ruta`, así que estas variantes se sirven desde el edge
+ * sin que la URL pública lleve prefijo.
+ */
+export function generateStaticParams(): Array<{ locale: Locale }> {
+  return locales.map(locale => ({ locale }));
+}
+
+export default async function LocaleLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }>) {
-  const locale = await getLocale();
+  const { locale } = await params;
+  // Solo el middleware genera este segmento; una petición directa con un
+  // idioma inexistente es un 404, no un fallback silencioso.
+  if (!isLocale(locale)) notFound();
+
+  // Habilita el render estático: sin esto, `getMessages()` recurre a las
+  // cabeceras de la petición y vuelve a marcar la página como dinámica.
+  setRequestLocale(locale);
+
   const messages = await getMessages();
   const adsEnabled = areAdsEnabled();
 
@@ -142,19 +100,21 @@ export default async function RootLayout({
           </Script>
           <NextIntlClientProvider locale={locale} messages={messages}>
             <SubscriptionStatusProvider>
-              <ThemeProvider
-                attribute="class"
-                defaultTheme="dark"
-                forcedTheme="dark"
-                enableSystem={false}
-              >
-                {children}
-                <CustomCursorLoader />
-                <Toaster />
-                <SiteAnalytics />
-                <ServiceWorkerRegister />
-                <CookieBanner />
-              </ThemeProvider>
+              <SavedItemsProvider>
+                <ThemeProvider
+                  attribute="class"
+                  defaultTheme="dark"
+                  forcedTheme="dark"
+                  enableSystem={false}
+                >
+                  {children}
+                  <CustomCursorLoader />
+                  <Toaster />
+                  <SiteAnalytics />
+                  <ServiceWorkerRegister />
+                  <CookieBanner />
+                </ThemeProvider>
+              </SavedItemsProvider>
             </SubscriptionStatusProvider>
           </NextIntlClientProvider>
         </ClerkProvider>

@@ -3,47 +3,28 @@
 import { useStripeSubscription } from '@/hooks/use-stripe-subscription';
 import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
+import { DAILY_FREE_COPY_LIMIT, localDateKey, normalizeDailyCopyUsage } from '@/lib/daily-copy-limit';
 
-const DAILY_FREE_COPY_LIMIT = 5;
 const COPY_USAGE_STORAGE_KEY = 'prompt_studio_daily_component_copies';
-
-type DailyCopyUsage = {
-  date: string;
-  count: number;
-};
 
 export type CopyLimitResult = 'copied' | 'failed' | 'limit-reached';
 
 function getLocalDateKey(): string {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, '0');
-  const day = String(now.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
+  return localDateKey();
 }
 
-function readUsage(): DailyCopyUsage {
+function readUsage() {
   const today = getLocalDateKey();
 
   try {
     const stored = window.localStorage.getItem(COPY_USAGE_STORAGE_KEY);
-    if (!stored) return { date: today, count: 0 };
-
-    const parsed = JSON.parse(stored) as Partial<DailyCopyUsage>;
-    if (parsed.date !== today || !Number.isFinite(parsed.count)) {
-      return { date: today, count: 0 };
-    }
-
-    return {
-      date: today,
-      count: Math.max(0, Math.floor(parsed.count ?? 0)),
-    };
+    return normalizeDailyCopyUsage(stored, today);
   } catch {
     return { date: today, count: 0 };
   }
 }
 
-function saveUsage(usage: DailyCopyUsage): void {
+function saveUsage(usage: { date: string; count: number }): void {
   try {
     window.localStorage.setItem(
       COPY_USAGE_STORAGE_KEY,

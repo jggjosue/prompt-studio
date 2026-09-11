@@ -1,0 +1,1 @@
+import{auth,clerkClient}from'@clerk/nextjs/server';export async function marketplaceAdmin(){const{userId}=await auth();if(!userId)return null;const user=await(await clerkClient()).users.getUser(userId),email=user.primaryEmailAddress?.emailAddress?.toLowerCase(),admin=process.env.PROMPT_STUDIO_PREMIUM_JO?.trim().toLowerCase();return admin&&email===admin?{userId,email}:null}

@@ -1,0 +1,37 @@
+{
+  "id": "170",
+  "title": {
+    "en": "MonoNote — Minimal 3D Writing App",
+    "es": "MonoNote — Aplicación de escritura minimalista en 3D"
+  },
+  "description": {
+    "es": {
+      "nombre": "MonoNote",
+      "prompt": "Crea una landing page premium para una aplicación de escritura minimalista llamada MonoNote. Conserva una paleta editorial en blanco, negro y tonos crema, e incorpora un editor 3D interactivo con profundidad, sombras, tarjetas flotantes, parallax al mover el cursor, animación de escritura y apariciones progresivas al hacer scroll. El diseño debe ser elegante, silencioso, responsive y estar enfocado en la escritura sin distracciones.",
+      "estilo": "Minimalista editorial, monocromático, 3D, tipografía serif y monoespaciada, elegante y cinematográfico"
+    },
+    "en": {
+      "name": "MonoNote",
+      "prompt": "Create a premium landing page for a minimalist writing app called MonoNote. Preserve an editorial white, black, and warm cream palette, and include an interactive 3D editor with depth, shadows, floating cards, cursor-driven parallax, typing animation, and progressive scroll reveals. The design should feel elegant, quiet, responsive, and focused on distraction-free writing."
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "Minimalist cream and black writing app landing page featuring a floating 3D text editor",
+    "es": "Landing page minimalista en crema y negro para una aplicación de escritura con editor de texto 3D flotante"
+  },
+  "demoUrl": "webpages_mononote-writing-app_index.html",
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "tags": [
+    "writing app",
+    "3D landing page",
+    "minimalist",
+    "productivity"
+  ],
+  "membership": "Premium",
+  "price": "15.00"
+}

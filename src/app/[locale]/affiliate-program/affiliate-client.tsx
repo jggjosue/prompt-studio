@@ -30,7 +30,7 @@ import { motion, useInView, useReducedMotion, useScroll, useTransform } from 'fr
 import { useTranslations } from 'next-intl';
 import { type ChangeEvent, type FormEvent, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 
-import {
+import { AFFILIATE_COMMISSION_PERCENT,
   AFFILIATE_FIRST_REF_STORAGE_KEY,
   AFFILIATE_LAST_TOUCH_STORAGE_KEY,
   AFFILIATE_REF_STORAGE_KEY,
@@ -566,7 +566,17 @@ export default function AffiliateClient() {
     { name: tier3Name, rate: t('commissions.tier3Rate'), desc: t('commissions.tier3Desc') },
   ];
 
-  // Métricas demo del panel de tracking que ayudan a vender el programa antes de registrarse.
+  /**
+   * Vista de EJEMPLO del panel, no resultados del programa.
+   *
+   * Estas cifras son inventadas. Se muestran para que un candidato entienda qué
+   * verá en su panel, y por eso van bajo una etiqueta explícita: presentarlas
+   * sin ella equivale a afirmar que el programa ha pagado 18 940 dólares y
+   * convierte al 7,8 %, lo que no es cierto.
+   *
+   * Mismo criterio que `product-social-proof.ts`, cuyo registro se mantiene
+   * vacío con la nota «mantener vacío es preferible a mostrar datos de ejemplo».
+   */
   const trackingStats = [
     [t('tracking.clicks'), '8,420'],
     [t('tracking.conversion'), '7.8%'],
@@ -971,6 +981,10 @@ export default function AffiliateClient() {
             </div>
             <ParallaxFloat distance={80}>
               <GlowCard className="p-7">
+                <p className="mb-4 inline-flex items-center rounded-full border border-amber-400/30 bg-amber-400/10 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-amber-200">
+                  {t('tracking.sampleBadge')}
+                </p>
+                <p className="mb-5 text-sm text-slate-400">{t('tracking.sampleNote')}</p>
                 <div className="grid gap-5 sm:grid-cols-3">
                   {trackingStats.map(([label, value]) => (
                     <div key={label} className="rounded-2xl border border-white/10 bg-slate-950/45 p-5">
@@ -1256,7 +1270,8 @@ export default function AffiliateClient() {
               <div className="mt-8 space-y-5 text-sm text-slate-300">
                 <div className="flex items-center justify-between border-b border-white/10 pb-4">
                   <span>Tasa de comisión</span>
-                  <span className="font-semibold text-white">20%</span>
+                  {/* Del código que paga la comisión: la promesa no puede desviarse. */}
+                  <span className="font-semibold text-white">{AFFILIATE_COMMISSION_PERCENT}%</span>
                 </div>
                 <div className="flex items-center justify-between border-b border-white/10 pb-4">
                   <span>Duración de cookie</span>

@@ -1,4 +1,4 @@
-import data from '../../public/prompts/placeholder-images.json';
+import data from '../data/prompts/placeholder-images.json';
 import type { Locale } from '@/i18n/config';
 import { pickLocalized, type LocalizedField } from '@/lib/localized-string';
 
