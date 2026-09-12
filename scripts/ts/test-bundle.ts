@@ -4,9 +4,9 @@ dotenv.config();
 
 async function main() {
   try {
-    const res = await resolveDemoBundle('3d-architecture-portfolio-pro');
+    const _res = await resolveDemoBundle('3d-architecture-portfolio-pro');
     //console.log(res ? 'Success' : 'Returned null');
-  } catch (err) {
+  } catch (_err) {
     //console.error('ERROR:', err);
   }
 }

@@ -300,14 +300,6 @@ function buildHtml(page) {
 </html>`;
 }
 
-function fixHtml(html) {
-  return html
-    .replace(/<div class="links">/g, '<div class="links">')
-    .replace(/<\/motion>/g, '</div>')
-    .replace(/class="hero-actions">[\s\S]*?<\/motion>/g, match =>
-      match.replace(/<\/motion>/, '</div>')
-    );
-}
 
 async function generatePreviews(pages) {
   let playwright;

@@ -1,4 +1,5 @@
-import { auth, clerkClient } from '@clerk/nextjs/server';
+import { auth } from '@clerk/nextjs/server';
+import { isPremiumJoAdmin } from '@/lib/admin-auth';
 import { NextResponse } from 'next/server';
 import { cacheHeaders } from '@/lib/cache-policy';
 import connectToDatabase from '@/lib/mongoose';
@@ -8,9 +9,10 @@ export async function GET(request: Request) {
   const headers = cacheHeaders('private-no-store');
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers });
-  const user = await (await clerkClient()).users.getUser(userId);
-  const email = user.primaryEmailAddress?.emailAddress?.toLowerCase();
-  if (!email || email !== process.env.PROMPT_STUDIO_PREMIUM_JO?.trim().toLowerCase()) return NextResponse.json({ error: 'Forbidden' }, { status: 403, headers });
+  // Una sola definición de «administrador», en `@/lib/admin-auth`.
+  if (!(await isPremiumJoAdmin())) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403, headers });
+  }
   const requestedDays = Number(new URL(request.url).searchParams.get('days') ?? 7);
   const days = Math.min(30, Math.max(1, Number.isFinite(requestedDays) ? Math.floor(requestedDays) : 7));
   const since = new Date(Date.now() - days * 86_400_000);

@@ -65,7 +65,7 @@ export function PremiumMembershipButton({
   pageId,
   membership,
   price,
-  plan,
+  plan: _plan,
   pageTitle,
 }: PremiumMembershipButtonProps) {
   const t = useTranslations('common');

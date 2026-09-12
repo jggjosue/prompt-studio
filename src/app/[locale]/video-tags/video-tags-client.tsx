@@ -8,7 +8,6 @@ import { PromptCatalogCard } from '@/components/prompt-catalog-card';
 import { SearchInput } from '@/components/search-input';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import DisplayCards from '@/components/ui/display-cards';
 import { Badge } from '@/components/ui/badge';
 import { PromptEditButton } from '@/components/prompt-edit-button';
 import Link from 'next/link';

@@ -38,10 +38,10 @@ async function routeReport(entry) {
   async function visit(file, clientBoundary = false) {
     if (seen.has(`${file}:${clientBoundary}`)) return;
     seen.add(`${file}:${clientBoundary}`);
-    const module = await inspect(file), isClient = clientBoundary || module.client;
+    const moduleEntry = await inspect(file), isClient = clientBoundary || moduleEntry.client;
     if (isClient) clientFiles.add(file);
-    if (isClient) module.packages.forEach(pkg => packages.add(pkg.split('/')[0].startsWith('@') ? pkg.split('/').slice(0, 2).join('/') : pkg.split('/')[0]));
-    await Promise.all(module.locals.map(child => visit(child, isClient)));
+    if (isClient) moduleEntry.packages.forEach(pkg => packages.add(pkg.split('/')[0].startsWith('@') ? pkg.split('/').slice(0, 2).join('/') : pkg.split('/')[0]));
+    await Promise.all(moduleEntry.locals.map(child => visit(child, isClient)));
   }
   await visit(entry);
   let clientSourceBytes = 0;

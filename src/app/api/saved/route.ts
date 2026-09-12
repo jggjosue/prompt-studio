@@ -2,7 +2,7 @@ import { auth } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 import { cacheHeaders } from '@/lib/cache-policy';
 import connectToDatabase from '@/lib/mongoose';
-import { rateLimit, RATE_LIMITS, tooManyRequests } from '@/lib/rate-limit';
+import { rateLimit, tooManyRequests } from '@/lib/rate-limit';
 import SavedItem, { isSavedItemKind } from '@/models/SavedItem';
 
 export const runtime = 'nodejs';

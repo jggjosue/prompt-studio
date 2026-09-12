@@ -13,9 +13,6 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import {
@@ -53,7 +50,6 @@ import {
   Scale,
   ShieldCheck,
   Sparkles,
-  User,
   UserPlus,
   Video,
   WandSparkles,
@@ -321,29 +317,6 @@ export default function HeaderClient() {
       navLinkClass,
       isNavItemActive(pathname, href, activePrefixes) && navLinkActiveClass
     );
-
-  const accountMenuItems = (
-    <>
-      <DropdownMenuLabel>{tHeader('accountMenu', { defaultValue: 'My Account' })}</DropdownMenuLabel>
-      <DropdownMenuSeparator />
-      <DropdownMenuItem asChild className="cursor-pointer">
-        <SignUpButton mode="redirect" forceRedirectUrl="/prices">
-          <button className="w-full">
-            <UserPlus className="mr-2 size-4" />
-            <span>{tHeader('createAccount')}</span>
-          </button>
-        </SignUpButton>
-      </DropdownMenuItem>
-      <DropdownMenuItem asChild className="cursor-pointer">
-        <SignInButton mode="redirect" forceRedirectUrl="/dashboard">
-          <button className="w-full">
-            <LogIn className="mr-2 size-4" />
-            <span>{tHeader('signIn')}</span>
-          </button>
-        </SignInButton>
-      </DropdownMenuItem>
-    </>
-  );
 
   return (
     <>

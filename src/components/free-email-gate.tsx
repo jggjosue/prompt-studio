@@ -91,7 +91,7 @@ export function FreeEmailGate({
       // Let Radix finish closing this dialog before an action opens another
       // dialog (the prompt viewer) or starts a download.
       window.setTimeout(onSuccess, 0);
-    } catch (error) {
+    } catch (_error) {
       toast({
         title: t('error'),
         description: t('connectionError'),

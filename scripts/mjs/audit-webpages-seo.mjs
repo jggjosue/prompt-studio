@@ -58,7 +58,12 @@ const report = {
   missingFromDisk,
 };
 
-//console.log(JSON.stringify(report, null, 2));
+/*
+ * El informe se construía y nunca se imprimía: el validador podía fallar sin
+ * decir qué había encontrado. Queda tras `SEO_REPORT=1` para no ensuciar la
+ * salida normal de CI.
+ */
+if (process.env.SEO_REPORT === '1') console.log(JSON.stringify(report, null, 2));
 
 if (missingFromCatalog.length || missingFromDisk.length) {
   console.error(

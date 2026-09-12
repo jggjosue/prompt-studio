@@ -9,7 +9,6 @@ import {
   ChevronDown,
   Copy,
   DollarSign,
-  Download,
   FileText,
   Gift,
   Globe2,
@@ -32,7 +31,6 @@ import { type ChangeEvent, type FormEvent, ReactNode, useEffect, useMemo, useRef
 
 import { AFFILIATE_COMMISSION_PERCENT,
   AFFILIATE_FIRST_REF_STORAGE_KEY,
-  AFFILIATE_LAST_TOUCH_STORAGE_KEY,
   AFFILIATE_REF_STORAGE_KEY,
   AFFILIATE_OWNER_STORAGE_KEY,
 } from '@/lib/affiliate';
@@ -419,7 +417,7 @@ function Modal({
 
 export default function AffiliateClient() {
   const t = useTranslations('affiliate');
-  const [affiliateRef, setAffiliateRef] = useState<string | null>(null);
+  const [, setAffiliateRef] = useState<string | null>(null);
   const apply = t.raw('apply') as {
     title: string;
     subtitle: string;
@@ -490,13 +488,6 @@ export default function AffiliateClient() {
   const faqItems = t.raw('faq.items') as { q: string; a: string }[];
 
   // Esta mini tabla resume la oferta del plan actual; la primera fila se reemplaza por la comisión del tier seleccionado.
-  const snapshotRows = useMemo(() => [
-    [t('snapshot.commissionRate'), ''],
-    [t('snapshot.cookieDuration'), t('snapshot.cookieValue')],
-    [t('snapshot.payouts'), t('snapshot.payoutsValue')],
-    [t('snapshot.support'), t('snapshot.supportValue')],
-    [t('snapshot.promoResources'), t('snapshot.promoValue')],
-  ], [t]);
 
   const pageRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: pageRef, offset: ['start start', 'end end'] });
@@ -542,7 +533,7 @@ export default function AffiliateClient() {
     }
   }, []);
 
-  const trackAffiliateInterest = (source: string) => {
+  const trackAffiliateInterest = (_source: string) => {
     // Removed Loops event
   };
 
@@ -1116,7 +1107,7 @@ export default function AffiliateClient() {
           <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-3">
             {testimonialItems.map(item => (
               <GlowCard key={item.name} className="p-8">
-                <p className="text-lg leading-8 text-slate-100">"{item.quote}"</p>
+                <p className="text-lg leading-8 text-slate-100">&quot;{item.quote}&quot;</p>
                 <div className="mt-8">
                   <p className="font-semibold text-white">{item.name}</p>
                   <p className="mt-1 text-sm text-slate-400">{item.role}</p>

@@ -36,7 +36,7 @@ Each card: uppercase label, title, detail, meta line, "Learn more" link. Optiona
 DevOps aesthetic: dark UI, terminal hints, grid lines, accent glow on hover, crisp borders. Optional fake CLI snippet in hero. Responsive (768px). Returns index.html only.`;
 }
 
-function fontParam(name) {
+function fontParam() {
   return 'IBM+Plex+Mono:wght@400;500;600;700';
 }
 
@@ -46,7 +46,7 @@ function buildHtml(page) {
     /<em>(.*?)<\/em>/g,
     '<span class="accent-word">$1</span>'
   );
-  const fontUrl = `https://fonts.googleapis.com/css2?family=${fontParam(t.sans)}&display=swap`;
+  const fontUrl = `https://fonts.googleapis.com/css2?family=${fontParam()}&display=swap`;
 
   const chips = page.chips.map(c => `<span class="chip">${c}</span>`).join('');
   const navLinks = page.sections.map(s => `<a href="#">${s}</a>`).join('');

@@ -14,7 +14,6 @@ const webpagesDir = path.join(repoRoot, 'public', 'webpages');
  */
 const catalogPath = path.join(repoRoot, 'src', 'data', 'web-pages.json');
 const sitemapPath = path.join(repoRoot, 'src', 'app', 'sitemap.ts');
-const pricingRedirectPath = '/pricing';
 const ignoreSlugs = new Set(['refactory-online']);
 
 function readJson(filePath) {
@@ -80,7 +79,12 @@ const report = {
   },
 };
 
-//console.log(JSON.stringify(report, null, 2));
+/*
+ * El informe se construía y nunca se imprimía: el validador podía fallar sin
+ * decir qué había encontrado. Queda tras `SEO_REPORT=1` para no ensuciar la
+ * salida normal de CI.
+ */
+if (process.env.SEO_REPORT === '1') console.log(JSON.stringify(report, null, 2));
 
 const issues = [];
 if (orphans.length) {

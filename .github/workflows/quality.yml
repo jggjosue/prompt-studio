@@ -1,12 +1,22 @@
 name: Quality
 
+# El trabajo real ocurre en `develop`: sin incluirla, prácticamente ningún commit
+# pasaba por CI. `pull_request` cubre las propuestas de cambio hacia cualquier rama.
 on:
   pull_request:
   push:
-    branches: [main]
+    branches: [main, develop]
+  workflow_dispatch:
+
+concurrency:
+  # Un push nuevo cancela la ejecución anterior de la misma rama: no tiene sentido
+  # gastar minutos validando un commit ya superado.
+  group: quality-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  checks:
+  static:
+    name: Lint y tipos
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -15,10 +25,63 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
-      - run: npm run test:ci
+      - name: ESLint
+        run: npm run lint
+      - name: TypeScript
+        run: npm run typecheck
 
-  browser-budgets:
+  tests:
+    name: Pruebas y cobertura
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Pruebas con cobertura
+        run: npm run test:coverage
+      - name: Guardarraíles de secretos y caché
+        run: |
+          npm run verify:env-example
+          npm run cache:audit
+      # El informe se publica siempre, también cuando las pruebas fallan: es
+      # justo entonces cuando hace falta mirarlo.
+      - name: Publicar informe de cobertura
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-lcov
+          path: coverage/lcov.info
+          if-no-files-found: error
+          retention-days: 30
+
+  build:
+    name: Build de producción
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      # Dev usa Turbopack y el build usa webpack: resuelven módulos de forma
+      # distinta, así que un cambio no está verificado hasta que este paso pasa.
+      - name: next build
+        run: npm run build
+        env:
+          # Claves de ejemplo: el build no debe necesitar secretos reales.
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: pk_test_ci
+          CLERK_SECRET_KEY: sk_test_ci
+          MONGODB_URI: mongodb://127.0.0.1:27017/ci
+
+  browser:
+    name: Presupuestos de navegador
+    runs-on: ubuntu-latest
+    # Solo contra un despliegue real: sin URL no hay nada que medir.
+    if: vars.PLAYWRIGHT_BASE_URL != ''
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

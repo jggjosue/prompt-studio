@@ -71,7 +71,7 @@ function LandingPagesContent() {
   const { snapshots: readabilityByPageId } = useLandingReadabilityIndex();
   const allPages = useMemo(() => webPages.filter(p => p.imageUrl), [webPages]);
 
-  const { aggregates, facetIndex } = useWebCatalogHashPipeline(allPages);
+  const { aggregates } = useWebCatalogHashPipeline(allPages);
   const { categories } = aggregates;
 
   // We can still support fuzzy filter or we can just filter allPages

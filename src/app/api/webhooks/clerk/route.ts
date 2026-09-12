@@ -67,8 +67,6 @@ export async function POST(req: Request) {
   if (!email) {
     return NextResponse.json({ error: 'User has no primary email' }, { status: 400 });
   }
-
-  const fullName = [evt.data.first_name, evt.data.last_name].filter(Boolean).join(' ').trim();
   const birthDateRaw =
     evt.data.public_metadata?.birthDate ??
     evt.data.public_metadata?.birthday ??

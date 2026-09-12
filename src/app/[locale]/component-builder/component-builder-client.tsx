@@ -44,10 +44,8 @@ import {
 import {
   ArrowRight,
   Check,
-  Code2,
   Copy,
   Download,
-  Eye,
   Heart,
   Layers,
   MousePointerClick,
@@ -56,13 +54,11 @@ import {
   Loader2,
   Mail,
   Moon,
-  Palette,
   RotateCcw,
   Search,
   Settings,
   Sparkles,
   Sun,
-  Type,
   WandSparkles,
 } from "lucide-react";
 import Link from "next/link";

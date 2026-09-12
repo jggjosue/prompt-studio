@@ -11,11 +11,9 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { PremiumAccessLink } from '@/components/premium-access-link';
 import { ParallaxReveal } from '@/components/ui/parallax-reveal';
 import { snapshotToBadgeReport } from '@/lib/landing-readability-badge';
 import type { LandingReadabilityPublicSnapshot } from '@/lib/landing-readability-store';
-import { getRefactoryLoaderUrl } from '@/lib/refactory-online';
 import { trackAnalyticsEvent } from '@/lib/analytics';
 import { trackAffiliateClick } from '@/lib/affiliate-client';
 import type { WebPageEntry } from '@/lib/web-pages';

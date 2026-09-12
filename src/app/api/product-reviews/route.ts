@@ -2,7 +2,7 @@ import { auth, clerkClient } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 import { cacheHeaders } from '@/lib/cache-policy';
 import connectToDatabase from '@/lib/mongoose';
-import { getOwnReview, getProductReviews, getReviewEligibility } from '@/lib/product-reviews';
+import { getProductReviews, getReviewEligibility } from '@/lib/product-reviews';
 import {
   buildAuthorName,
   isValidRating,

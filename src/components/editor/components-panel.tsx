@@ -46,7 +46,6 @@ function DefinitionIcon({ name }: { name: string }) {
 export function ComponentsPanel() {
   const store = useEditorStore();
   const selection = useEditor(state => state.selection);
-  const rootId = useEditor(state => state.document.rootId);
   const recent = useEditor(state => state.runtime.recentTypes);
   const [query, setQuery] = useState('');
   const [favorites, setFavorites] = useState<string[]>(() => (typeof window === 'undefined' ? [] : readFavorites()));

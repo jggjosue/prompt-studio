@@ -84,7 +84,7 @@ async function main() {
   const results = [];
 
   for (const file of targets) {
-    const r = await compressFile(file);
+    const _r = await compressFile(file);
     if (r) results.push(r);
   }
 
@@ -93,15 +93,19 @@ async function main() {
     return;
   }
 
-  //console.log(`[precompress] ${results.length} archivo(s) en public/:`);
-  for (const r of results) {
-    //console.log(
-    //  `  ${r.file}: ${r.original} B → br ${r.brotli} B (-${r.ratioBr}%), gzip ${r.gzip} B (-${r.ratioGz}%)`
-    //);
+  console.log(`[precompress] ${results.length} archivo(s) en public/`);
+  // El detalle por fichero solo cuando se pide: son cientos de líneas.
+  if (process.env.PRECOMPRESS_VERBOSE === '1') {
+    for (const r of results) {
+      console.log(
+        `  ${r.file}: ${r.original} B → br ${r.brotli} B (-${r.ratioBr}%), gzip ${r.gzip} B (-${r.ratioGz}%)`
+      );
+    }
   }
 }
 
 main().catch(err => {
-  //console.error('[precompress] Error:', err);
+  // Sin esta línea, un fallo de precompresión salía con código 1 y sin motivo.
+  console.error('[precompress] Error:', err);
   process.exit(1);
 });

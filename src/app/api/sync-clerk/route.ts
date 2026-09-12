@@ -19,7 +19,7 @@ export async function GET(request: Request) {
     let client;
     try {
       client = await clerkClient();
-    } catch (e) {
+    } catch (_e) {
       // Fallback if clerkClient is not an async function in this specific version
       client = (clerkClient as any);
     }

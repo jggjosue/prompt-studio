@@ -43,3 +43,5 @@ No debe mostrarse “ganado” hasta que la condición contractual correspondien
 - participación en ingresos claramente auditable.
 
 La selección depende de calidad, exclusividad, derechos y demanda real. Esta documentación no establece precios ni promete que un dataset será adquirido.
+
+La valoración se confirma tras el muestreo y depende, entre otros factores, de la completitud del registro operativo, la rareza o exclusividad del dominio, el volumen y profundidad de las fuentes autorizadas, y la calidad e integridad de los registros conservados. No debe comunicarse una cifra definitiva antes de completar esa revisión.

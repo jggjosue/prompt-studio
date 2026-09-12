@@ -35,7 +35,7 @@ test('el constructor valida sesión y pago Premium en el servidor', async () => 
 
 test('el generador de páginas abre la composición para visitantes', async () => {
   const page = await source('src/app/[locale]/page-composer/page.tsx');
-  assert.match(page, /return <PageComposerClient\s*\/>/);
+  assert.match(page, /return <PageComposerClient canEdit=/);
   assert.doesNotMatch(page, /PageComposerAccess/);
 });
 
@@ -45,8 +45,9 @@ test('el constructor sigue fuera del índice editorial', async () => {
 });
 
 test('la exportación de páginas mantiene la puerta de pago en la acción', async () => {
-  const client = await source('src/app/[locale]/page-composer/page-composer-client.tsx');
-  assert.match(client, /runWithAccess\('Premium'/, 'la descarga sigue protegida en vez de bloquear el editor');
+  const client = await source('src/app/[locale]/page-composer/page-composer-editor-client.tsx');
+  assert.match(client, /disabled=\{!canEdit\}/, 'la acción Premium debe quedar bloqueada sin plan');
+  assert.match(client, /Actualizar a Premium/, 'el editor debe explicar cómo desbloquear la acción');
 });
 
 /* --------------------------------------------------------------- bloques --- */
