@@ -184,12 +184,12 @@ test('el editor no depende solo del arrastre: las capas traen botones', async ()
 
 test('la API del editor exige cuenta y plan en los tres verbos', async () => {
   const route = await source('src/app/api/editor/projects/route.ts');
-  assert.match(route, /async function guard\(\)/, 'una sola puerta para los tres verbos');
+  assert.match(route, /async function guard\(sourcePageId\?/, 'una sola puerta para los tres verbos');
   assert.match(route, /status: 401/, 'sin sesión');
   assert.match(route, /hasComponentBuilderPlan\(status\)/, 'y con plan');
   assert.match(route, /status: 403/);
   for (const verbo of ['GET', 'PUT', 'DELETE']) {
-    assert.match(route, new RegExp(`export async function ${verbo}[\\s\\S]{0,200}await guard\\(\\)`), `${verbo} debe pasar por la puerta`);
+    assert.match(route, new RegExp(`export async function ${verbo}[\\s\\S]{0,2000}await guard\\(`), `${verbo} debe pasar por la puerta`);
   }
   assert.match(route, /userId: gate\.userId/, 'las consultas filtran por usuario');
   assert.match(route, /maxNodes/, 'el documento entrante se acota');

@@ -1,16 +1,20 @@
-import { auth, clerkClient } from '@clerk/nextjs/server';
+import { auth } from '@clerk/nextjs/server';
+import { isPremiumJoAdmin } from '@/lib/admin-auth';
 import { NextResponse } from 'next/server';
 import { cacheHeaders } from '@/lib/cache-policy';
 import connectToDatabase from '@/lib/mongoose';
 import ProductReview from '@/models/ProductReview';
 
-/** Mismo criterio que el resto del área de administración. */
+/**
+ * Mismo criterio que el resto del área de administración: se delega en
+ * `isPremiumJoAdmin`, la única definición de quién es administrador. Antes esta
+ * comprobación estaba copiada aquí, y una regla de autorización duplicada es
+ * justo donde se cuela el fallo cuando una de las copias se queda atrás.
+ */
 async function requireAdmin() {
   const { userId } = await auth();
   if (!userId) return { ok: false as const, status: 401, error: 'Unauthorized' };
-  const user = await (await clerkClient()).users.getUser(userId);
-  const email = user.primaryEmailAddress?.emailAddress?.toLowerCase();
-  if (!email || email !== process.env.PROMPT_STUDIO_PREMIUM_JO?.trim().toLowerCase()) {
+  if (!(await isPremiumJoAdmin())) {
     return { ok: false as const, status: 403, error: 'Forbidden' };
   }
   return { ok: true as const, userId };

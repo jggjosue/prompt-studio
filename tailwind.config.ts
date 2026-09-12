@@ -1,5 +1,5 @@
 import type {Config} from 'tailwindcss';
-// @ts-ignore
+// @ts-expect-error — `flattenColorPalette` no expone tipos públicos en tailwindcss
 import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
 
 // This plugin adds each Tailwind color as a global CSS variable, e.g. var(--gray-200).

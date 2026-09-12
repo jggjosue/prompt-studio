@@ -6,6 +6,12 @@
 >
 > Sus herramientas almacenan años de tickets, conversaciones, documentos y código. La propuesta es preparar y licenciar copias autorizadas y anonimizadas a organizaciones de investigación en IA y socios de datos. La empresa conserva la propiedad del material original y recibe una compensación por cada conjunto de datos efectivamente licenciado.
 
+## Qué se evalúa
+
+El activo potencial es el registro operativo de cómo funciona una empresa: comunicaciones, tickets, wikis, bases de conocimiento, bases de datos y código fuente. Cada fuente se inventaría y se autoriza por separado; no se presupone que un repositorio de código incluya las demás.
+
+Los conjuntos más completos permiten observar cómo operaban realmente los equipos —solicitudes, decisiones, acciones, errores, correcciones y resultados—, no solo entregables impecables o documentos finales. En este repositorio, el historial de Git, los tests, las trazas de decisión y la base de conocimiento aportan parte de ese registro; no constan tickets, revisiones de código ni comunicaciones externas, por lo que no deben declararse como fuentes disponibles.
+
 ## Estado del producto
 
 Esta documentación describe una **línea de producto propuesta**. Prompt Studio ya contiene piezas reutilizables —procedencia, evaluación, seguridad, trazabilidad y exportaciones—, pero actualmente no ofrece un marketplace operativo para datos empresariales ni existe garantía de comprador, precio o elegibilidad.

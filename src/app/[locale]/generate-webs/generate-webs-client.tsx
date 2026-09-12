@@ -1,17 +1,15 @@
 'use client';
 
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
 
-import { handleImageGeneration, type ImageGenerationFormState } from '@/app/actions';
 import { generationProviders } from '@/lib/generation/provider-adapters';
 import { calculateModelCreditCost, validateCreditCost } from '@/lib/generation-pricing';
 import { useMembershipAccess } from '@/hooks/use-membership-access';
 import { useGenerationEditor } from '@/hooks/use-generation-editor';
 import { GenerationErrorNotice, GenerationProgress } from '@/components/generation/generation-feedback';
 import { GenerationCostDisclosure } from '@/components/generation/generation-cost-disclosure';
-
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -22,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
@@ -43,16 +41,11 @@ import {
   Copy,
   Check,
   Wand2,
-  Sliders,
   Trash2,
   Play,
-  Settings2,
   Tv,
   MessageSquare,
-  Send,
   KeyRound,
-  Paperclip,
-  X,
   Plus,
   SlidersHorizontal,
   Menu,
@@ -67,167 +60,35 @@ import { OptimizedImage } from '@/components/optimized-image';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { useActionState, useEffect, useState, useTransition, useRef, Suspense } from 'react';
+import { useEffect, useState, useTransition, useRef, Suspense } from 'react';
 import { CREDIT_PACKS, formatCreditPackPrice } from '@/lib/credit-packs';
 import { useBrandKitContext } from '@/hooks/use-brand-kit-context';
 
 const WebRequirementsBuilder = dynamic(() => import('@/components/web-requirements-builder').then(module => module.WebRequirementsBuilder), { ssr: false });
 const WebCodeAuditor = dynamic(() => import('@/components/web-code-auditor').then(module => module.WebCodeAuditor), { ssr: false });
 
-const proxyOpenAIChat = generationProviders.openai.chat;
 const proxyOpenAIImage = generationProviders.openai.image;
-const proxyAnthropicChat = generationProviders.anthropic.chat;
 const proxyGemini = generationProviders.google.generate;
 const proxyPremiumGeminiWeb = generationProviders.google.premiumWeb;
 const proxyVeoVideo = generationProviders.google.video;
 const proxyRunwayStart = generationProviders.runway.start;
 const proxyRunwayPoll = generationProviders.runway.poll;
-const proxyDeepSeekChat = generationProviders.deepseek.chat;
 
 // Sample video placeholders to simulate dynamic generation
-const sampleVideos = [
-  'https://assets.mixkit.co/videos/44883/44883-720.mp4',
-  'https://assets.mixkit.co/videos/5399/5399-720.mp4',
-  'https://assets.mixkit.co/videos/45204/45204-720.mp4',
-  'https://assets.mixkit.co/videos/48889/48889-720.mp4',
-  'https://assets.mixkit.co/videos/48574/48574-720.mp4',
-];
 
 // Helper to generate custom landing page HTML templates for Web previews
-function generateMockLandingHTML(promptText: string, framework: string, theme: string, component: string, color: string): string {
-  const title = promptText.split('.')[0]?.substring(0, 60) || "AI-Powered Landing Page";
-  const desc = promptText.substring(0, 200) || "Experience the future of design and content creation. Render components instantly with state-of-the-art AI layouts.";
-
-  const bgClass = theme === 'dark' ? 'bg-slate-950 text-slate-50' :
-    theme === 'neon' ? 'bg-black text-cyan-400 font-mono' :
-      theme === 'glassmorphism' ? 'bg-gradient-to-br from-blue-950 via-slate-900 to-blue-950 text-white' :
-        'bg-slate-50 text-slate-900';
-
-  const accentColor = color === 'emerald' ? 'emerald-500' :
-    color === 'rose' ? 'rose-500' :
-      color === 'amber' ? 'amber-500' :
-        'blue-500';
-
-  const textAccent = `text-${accentColor}`;
-  const bgAccent = `bg-${accentColor}`;
-  const hoverBgAccent = `hover:bg-${color}-600`;
-
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <title>${title}</title>
-</head>
-<body class="${bgClass} min-h-screen flex flex-col justify-between">
-  
-  <!-- Header -->
-  <header class="border-b ${theme === 'glassmorphism' ? 'border-white/10 bg-white/5 backdrop-blur-md' : 'border-slate-800/10'} p-4">
-    <div class="max-w-6xl mx-auto flex justify-between items-center">
-      <div class="font-bold text-xl flex items-center gap-2">
-        <span class="${textAccent}">⚡</span> DesignEngine
-      </div>
-      <nav class="hidden md:flex gap-6 text-sm">
-        <a href="#" class="hover:opacity-80 transition">Features</a>
-        <a href="#" class="hover:opacity-80 transition">Pricing</a>
-        <a href="#" class="hover:opacity-80 transition">Docs</a>
-      </nav>
-      <button class="${bgAccent} text-white px-4 py-2 rounded-lg text-sm font-semibold transition ${hoverBgAccent}">
-        Get Started
-      </button>
-    </div>
-  </header>
-
-  <!-- Content Block: ${component} -->
-  <main class="flex-grow max-w-6xl mx-auto px-4 py-16 flex flex-col items-center justify-center text-center">
-    ${component === 'hero' || component === 'full-page' ? `
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold ${theme === 'glassmorphism' ? 'bg-white/10 border border-white/10' : 'bg-slate-200/50 text-slate-800'} mb-6">
-        <span>✨</span> Powered by ${framework}
-      </div>
-      <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight max-w-3xl mb-6">
-        ${title}
-      </h1>
-      <p class="text-lg opacity-80 max-w-2xl mb-8">
-        ${desc}
-      </p>
-      <div class="flex gap-4">
-        <button class="${bgAccent} text-white px-8 py-3 rounded-xl font-semibold text-lg transition ${hoverBgAccent}">
-          Try Free Demo
-        </button>
-        <button class="px-8 py-3 rounded-xl border ${theme === 'glassmorphism' ? 'border-white/20 bg-white/5 hover:bg-white/10' : 'border-slate-700 bg-transparent hover:bg-slate-800'} transition font-semibold text-lg">
-          Learn More
-        </button>
-      </div>
-    ` : component === 'pricing' ? `
-      <h2 class="text-3xl md:text-5xl font-bold mb-4">Pricing Plans</h2>
-      <p class="text-muted-foreground mb-12">Select the option that works best for your team.</p>
-      <div class="grid md:grid-cols-2 gap-8 max-w-3xl w-full text-left">
-        <div class="p-8 rounded-2xl border ${theme === 'glassmorphism' ? 'bg-white/5 border-white/10' : 'bg-white border-slate-200'} shadow-sm">
-          <h3 class="text-xl font-bold mb-2">Starter</h3>
-          <p class="text-3xl font-extrabold mb-4">$0 <span class="text-sm font-normal text-muted-foreground">/mo</span></p>
-          <ul class="space-y-2.5 text-sm mb-8 opacity-80">
-            <li>✓ 10 projects</li>
-            <li>✓ 2GB storage</li>
-            <li>✓ Community support</li>
-          </ul>
-          <button class="w-full py-2.5 rounded-lg border border-slate-300 font-semibold text-sm hover:bg-slate-50 transition">Get Started</button>
-        </div>
-        <div class="p-8 rounded-2xl border ${theme === 'glassmorphism' ? 'bg-white/10 border-white/20' : 'bg-slate-900 border-slate-800 text-white'} relative overflow-hidden">
-          <div class="absolute top-0 right-0 ${bgAccent} text-white text-xs px-3 py-1 rounded-bl-lg font-bold">Popular</div>
-          <h3 class="text-xl font-bold mb-2">Pro</h3>
-          <p class="text-3xl font-extrabold mb-4">$29 <span class="text-sm font-normal opacity-70">/mo</span></p>
-          <ul class="space-y-2.5 text-sm mb-8 opacity-90">
-            <li>✓ Unlimited projects</li>
-            <li>✓ 100GB storage</li>
-            <li>✓ priority 24/7 support</li>
-            <li>✓ API access</li>
-          </ul>
-          <button class="w-full py-2.5 rounded-lg ${bgAccent} text-white font-semibold text-sm ${hoverBgAccent} transition">Go Pro</button>
-        </div>
-      </div>
-    ` : `
-      <!-- Features Grid -->
-      <h2 class="text-3xl md:text-4xl font-bold mb-12">Core Features</h2>
-      <div class="grid md:grid-cols-3 gap-6 max-w-5xl w-full text-left">
-        <div class="p-6 rounded-xl border ${theme === 'glassmorphism' ? 'bg-white/5 border-white/10' : 'bg-white border-slate-200'}">
-          <div class="text-3xl mb-4">🚀</div>
-          <h3 class="font-bold text-lg mb-2">Fast Performance</h3>
-          <p class="text-sm opacity-80">Highly optimized asset loading and fast interactive responses.</p>
-        </div>
-        <div class="p-6 rounded-xl border ${theme === 'glassmorphism' ? 'bg-white/5 border-white/10' : 'bg-white border-slate-200'}">
-          <div class="text-3xl mb-4">🛡️</div>
-          <h3 class="font-bold text-lg mb-2">Secure & Reliable</h3>
-          <p class="text-sm opacity-80">Robust data standards and military-grade authentication structures.</p>
-        </div>
-        <div class="p-6 rounded-xl border ${theme === 'glassmorphism' ? 'bg-white/5 border-white/10' : 'bg-white border-slate-200'}">
-          <div class="text-3xl mb-4">🤖</div>
-          <h3 class="font-bold text-lg mb-2">Smart Workflows</h3>
-          <p class="text-sm opacity-80">Auto-triggers and integrations linked with modern AI APIs.</p>
-        </div>
-      </div>
-    `}
-  </main>
-
-  <!-- Footer -->
-  <footer class="border-t ${theme === 'glassmorphism' ? 'border-white/10' : 'border-slate-800/10'} p-6 text-center text-xs opacity-60">
-    &copy; 2026 DesignEngine. Custom rendering powered by AI.
-  </footer>
-</body>
-</html>`;
-}
 
 export default function GenerateWebsClient() {
   const { hasPaidPlan } = useMembershipAccess();
   const { brandPromptContext, brandKitName } = useBrandKitContext();
   const isSpanish = true;
-  const [mounted, setMounted] = useState(false);
+  const [, setMounted] = useState(false);
   useEffect(() => { setMounted(true); }, []);
   const searchParams = useSearchParams();
   const initialPromptQuery = searchParams.get('prompt') || '';
 
   // States
-  const [rawPromptInput, setRawPromptInput] = useState(initialPromptQuery);
+  const [, setRawPromptInput] = useState(initialPromptQuery);
   const [editingText, setEditingText] = useState('');
   const [activeTab, setActiveTab] = useState('ai-web');
   const [isPreviewCollapsed, setIsPreviewCollapsed] = useState(false);
@@ -250,7 +111,6 @@ export default function GenerateWebsClient() {
   const [runwayKey, setRunwayKey] = useState('');
   const [veoKey, setVeoKey] = useState('');
   const [anthropicKey, setAnthropicKey] = useState('');
-  const [deepSeekKey, setDeepSeekKey] = useState('');
   const [credits, setCredits] = useState(12.0);
   const [creditsSpent, setCreditsSpent] = useState(0);
   const [showTopupSection, setShowTopupSection] = useState(false);
@@ -372,28 +232,8 @@ export default function GenerateWebsClient() {
   }, [credits, creditsSpent]);
 
   // Chat States
-  type ChatMessage = {
-    id: string;
-    sender: 'user' | 'assistant';
-    text: string;
-    timestamp: Date;
-    suggestedPrompt?: string;
-    promptType?: 'image' | 'video' | 'web' | 'general';
-  };
 
-  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
-    {
-      id: 'welcome',
-      sender: 'assistant',
-      text: '¡Hola! Escribe cualquier idea, tema o requerimiento de prompt y te ayudaré a expandirlo y optimizarlo. Además, podrás enviarlo directamente a las herramientas avanzadas de generación.',
-      timestamp: new Date()
-    }
-  ]);
-  const [chatInput, setChatInput] = useState('');
-  const [chatAttachment, setChatAttachment] = useState<File | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [chatIsTyping, setChatIsTyping] = useState(false);
-  const [suggestedPrompts, setSuggestedPrompts] = useState<{
+  const [suggestedPrompts] = useState<{
     id: string;
     text: string;
     type: 'image' | 'video' | 'web' | 'general';
@@ -411,7 +251,6 @@ export default function GenerateWebsClient() {
   } | null>(null);
 
   // Advanced Option States - AI Image
-  const [imageModel, setImageModel] = useState('nano-banana-pro');
   const [imageStyle, setImageStyle] = useState('cinematic');
   const [imageRatio, setImageRatio] = useState('1-1');
   const [imageRes, setImageRes] = useState('1k');
@@ -423,7 +262,6 @@ export default function GenerateWebsClient() {
   const [imageNegative, setImageNegative] = useState('blurry, low quality, distorted, extra limbs, bad anatomy, deformed');
 
   // Advanced Option States - AI Video
-  const [videoModel, setVideoModel] = useState('chrono-animator');
   const [videoMotion, setVideoMotion] = useState('medium');
   const [videoCamera, setVideoCamera] = useState('none');
   const [videoDuration, setVideoDuration] = useState('8');
@@ -433,13 +271,13 @@ export default function GenerateWebsClient() {
   const [videoAspect, setVideoAspect] = useState('16-9');
 
   // Advanced Option States - Web Landing
-  const [webFramework, setWebFramework] = useState('nextjs');
+  const [webFramework] = useState('nextjs');
   const [webTheme, setWebTheme] = useState('glassmorphism');
   const [webComponent, setWebComponent] = useState('hero');
   const [webColor, setWebColor] = useState('blue');
 
   // Mock Generation UI flows
-  const [isPending, startTransition] = useTransition();
+  const [isPending] = useTransition();
   const {
     localGenerating, setLocalGenerating, genProgress, setGenProgress, genStatus, setGenStatus,
     generationError, setGenerationError, failGeneration, outputImageUrl, setOutputImageUrl, outputVideoUrl, setOutputVideoUrl,
@@ -573,7 +411,7 @@ export default function GenerateWebsClient() {
           }
         }
         return;
-      } catch (e) {
+      } catch (_e) {
         // Fall back to plain text parsing
       }
     }
@@ -639,7 +477,7 @@ export default function GenerateWebsClient() {
           description: isSpanish ? 'Contenido cargado y configuración detectada automáticamente.' : 'Loaded content and auto-detected settings.',
         });
       }
-    } catch (err) {
+    } catch (_err) {
       toast({
         variant: 'destructive',
         title: isSpanish ? 'Acceso al portapapeles bloqueado' : 'Clipboard Access Blocked',
@@ -699,207 +537,6 @@ export default function GenerateWebsClient() {
     });
   };
 
-  const handleSendChatMessage = async () => {
-    const trimmed = chatInput.trim();
-    if (!trimmed) return;
-
-    // Validate keys based on the selected chatProvider
-    if (chatProvider === 'openai' && !openAIKey) {
-      toast({ variant: 'destructive', title: isSpanish ? 'Clave de OpenAI requerida' : 'OpenAI Key Required', description: isSpanish ? 'Ingresa tu clave API de OpenAI para chatear.' : 'Enter your OpenAI API Key to chat.' });
-      return;
-    }
-    if (chatProvider === 'anthropic' && !anthropicKey) {
-      toast({ variant: 'destructive', title: isSpanish ? 'Clave de Anthropic requerida' : 'Anthropic Key Required', description: isSpanish ? 'Ingresa tu clave API de Anthropic para chatear.' : 'Enter your Anthropic API Key to chat.' });
-      return;
-    }
-    if (chatProvider === 'google' && !vertexKey) {
-      toast({ variant: 'destructive', title: isSpanish ? 'Clave de Google Gemini requerida' : 'Google Gemini Key Required', description: isSpanish ? 'Ingresa tu clave API de Google Gemini para chatear.' : 'Enter your Google Gemini API Key to chat.' });
-      return;
-    }
-
-    // User Message
-    const userMsg: ChatMessage = {
-      id: Date.now().toString(),
-      sender: 'user',
-      text: trimmed,
-      timestamp: new Date()
-    };
-
-    setChatMessages(prev => [...prev, userMsg]);
-    setChatInput('');
-    setChatAttachment(null);
-    setChatIsTyping(true);
-
-    const promptInstructions = `You are a helpful AI Assistant. Respond directly and naturally to the user's request: "${trimmed}".
-If the user asks a general question or makes a conversational request, provide your full answer in the "reply" field, and leave "enhanced_prompt" empty.
-If the user explicitly asks you to generate or write an AI prompt for an image, video, or web page, provide a brief friendly explanation in "reply", the optimized prompt in "enhanced_prompt", and the category in "prompt_type".
-Respond ALWAYS in JSON format with exactly three fields:
-1. "reply": Your conversational response or explanation in ${isSpanish ? 'Spanish' : 'English'}.
-2. "enhanced_prompt": The optimized prompt in English (if requested, otherwise empty string).
-3. "prompt_type": The target category. Must be one of: "image", "video", "web", or "general".`;
-
-    let reply = '';
-    let enhanced = '';
-    let promptType: 'image' | 'video' | 'web' | 'general' = 'general';
-    let success = false;
-    let errorMsg = '';
-
-    if (chatProvider === 'openai') {
-      try {
-        const data = await proxyOpenAIChat(
-          openAIKey,
-          promptInstructions,
-          trimmed,
-          openAIChatModel
-        );
-        if (data && 'error' in data && data.error) {
-          errorMsg = data.error;
-        } else {
-          const text = data.choices?.[0]?.message?.content || '';
-          try {
-            const parsed = JSON.parse(text.replace(/```json/g, '').replace(/```/g, '').trim());
-            reply = parsed.reply || text;
-            enhanced = parsed.enhanced_prompt || '';
-            promptType = parsed.prompt_type || 'general';
-          } catch {
-            reply = text;
-            enhanced = '';
-            promptType = 'general';
-          }
-          success = true;
-        }
-      } catch (e: any) {
-        console.error('Chat OpenAI Error:', e);
-        errorMsg = e.message || 'Error executing OpenAI Chat request.';
-      }
-    } else if (chatProvider === 'anthropic') {
-      try {
-        const data = await proxyAnthropicChat(
-          anthropicKey,
-          promptInstructions,
-          trimmed,
-          anthropicModel
-        );
-        if (data && 'error' in data && data.error) {
-          errorMsg = data.error;
-        } else {
-          const text = data.content?.[0]?.text || '';
-          try {
-            const parsed = JSON.parse(text.replace(/```json/g, '').replace(/```/g, '').trim());
-            reply = parsed.reply || text;
-            enhanced = parsed.enhanced_prompt || '';
-            promptType = parsed.prompt_type || 'general';
-          } catch {
-            reply = text;
-            enhanced = '';
-            promptType = 'general';
-          }
-          success = true;
-        }
-      } catch (e: any) {
-        console.error('Chat Anthropic Error:', e);
-        errorMsg = e.message || 'Error executing Anthropic Chat request.';
-      }
-    } else if (chatProvider === 'google') {
-      try {
-        const data = await proxyGemini(
-          vertexKey,
-          promptInstructions + "\nIMPORTANT: Reply ONLY with valid JSON. No markdown backticks.",
-          googleWebModel
-        );
-        if (data && 'error' in data && data.error) {
-          errorMsg = data.error;
-        } else {
-          const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-          try {
-            const parsed = JSON.parse(text.replace(/```json/g, '').replace(/```/g, '').trim());
-            reply = parsed.reply || text;
-            enhanced = parsed.enhanced_prompt || '';
-            promptType = parsed.prompt_type || 'general';
-          } catch {
-            reply = text;
-            enhanced = '';
-            promptType = 'general';
-          }
-          success = true;
-        }
-      } catch (e: any) {
-        console.error('Chat Gemini Error:', e);
-        errorMsg = e.message || 'Error executing Google Gemini request.';
-      }
-    } else if (chatProvider === 'google') {
-      // Local mock / sandbox conversational simulator
-      const lower = trimmed.toLowerCase();
-
-      if (lower.includes('hola') || lower.includes('hello') || lower.includes('hi')) {
-        reply = isSpanish
-          ? '¡Hola! ¿En qué puedo ayudarte hoy? Puedes hacerme preguntas, pedirme consejos sobre prompts o solicitarme que genere y optimice un prompt para ti.'
-          : 'Hello! How can I help you today? You can ask me questions, get prompt tips, or request an optimized prompt.';
-        promptType = 'general';
-        enhanced = '';
-      } else if (lower.includes('lista') || lower.includes('ejemplos') || lower.includes('examples') || lower.includes('list')) {
-        reply = isSpanish
-          ? 'Aquí tienes algunos ejemplos de prompts populares que puedes probar en Prompt Studio:\n\n1. **Imagen**: "A beautiful sunset over mountains, digital art style"\n2. **Video**: "Slow-motion drone shot of ocean waves breaking on rocks"\n3. **Web**: "Modern minimal portfolio landing page for a creative designer"\n\n¿Quieres que optimice alguno de estos para ti?'
-          : 'Here are some popular prompt examples you can try:\n\n1. **Image**: "A beautiful sunset over mountains, digital art style"\n2. **Video**: "Slow-motion drone shot of ocean waves breaking on rocks"\n3. **Web**: "Modern minimal portfolio landing page for a creative designer"\n\nWould you like me to optimize one of these for you?';
-        promptType = 'general';
-        enhanced = '';
-      } else if (lower.includes('video') || lower.includes('pelicula') || lower.includes('motion')) {
-        promptType = 'video';
-        enhanced = `Cinematic video sequence: ${trimmed}, camera tracking pan left, slow motion, volumetric fog, high fidelity, 8k resolution, cinematic color grade.`;
-        reply = isSpanish ? `He optimizado tu idea para un **Video de IA**. Aquí tienes una propuesta enriquecida:` : `I have optimized your idea for an **AI Video**. Here is an enriched proposal:`;
-      } else if (lower.includes('web') || lower.includes('landing') || lower.includes('html')) {
-        promptType = 'web';
-        enhanced = `Modern responsive landing page for ${trimmed}, glassmorphism design, clean layout components, dark mode aesthetic, vibrant modern gradients, sleek icons.`;
-        reply = isSpanish ? `He optimizado tu idea para un **Prototipo Web**. Diseñé la siguiente propuesta de estructura:` : `I have optimized your idea for a **Web Prototype**. I designed the following structure:`;
-      } else if (lower.includes('imagen') || lower.includes('foto') || lower.includes('image') || lower.includes('picture')) {
-        promptType = 'image';
-        enhanced = `A high-end cinematic photo of ${trimmed}, volumetric rays, dramatic lighting, shot on 85mm lens, f/1.4 aperture, hyperrealistic textures, highly aesthetic composition.`;
-        reply = isSpanish ? `He optimizado tu idea para una **Imagen de IA**. Agregué detalles fotográficos e iluminación:` : `I have optimized your idea for an **AI Image**. I added photographic details and lighting:`;
-      } else {
-        reply = isSpanish
-          ? `Entendido. ¿Deseas que te ayude a crear un prompt detallado para Imagen, Video o Web sobre tu idea "${trimmed}"? Dime qué tipo de generación prefieres.`
-          : `Understood. Would you like me to help you create a detailed prompt for Image, Video, or Web for your idea "${trimmed}"? Tell me what type of generation you prefer.`;
-        promptType = 'general';
-        enhanced = '';
-      }
-      success = true;
-    }
-
-    if (!success) {
-      toast({
-        variant: 'destructive',
-        title: isSpanish ? 'Solicitud de chat fallida' : 'Chat Request Failed',
-        description: errorMsg || (isSpanish ? 'No se pudo obtener respuesta del proveedor de IA.' : 'Unable to get response from chosen AI provider.'),
-      });
-      setChatIsTyping(false);
-      return;
-    }
-
-    const assistantMsg: ChatMessage = {
-      id: (Date.now() + 1).toString(),
-      sender: 'assistant',
-      text: reply,
-      suggestedPrompt: enhanced || undefined,
-      promptType,
-      timestamp: new Date()
-    };
-
-    setChatMessages(prev => [...prev, assistantMsg]);
-
-    if (enhanced) {
-      setSuggestedPrompts(prev => [
-        {
-          id: Date.now().toString(),
-          text: enhanced,
-          type: promptType,
-          timestamp: new Date()
-        },
-        ...prev
-      ]);
-    }
-    setChatIsTyping(false);
-  };
-
   const handleLoadSuggestedPrompt = (promptText: string, type: 'image' | 'video' | 'web' | 'general') => {
     const cleanPrompt = stripTags(promptText);
     setBasePrompt(cleanPrompt);
@@ -927,7 +564,6 @@ Respond ALWAYS in JSON format with exactly three fields:
   const handleGenerationSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setGenerationError(null);
-
 
     if (activeTab === 'pure-text') {
       return;
@@ -2345,7 +1981,6 @@ Requirements:
                                     </div>
                                   </div>
                                 )}
-
 
                               </AccordionContent>
                             </AccordionItem>

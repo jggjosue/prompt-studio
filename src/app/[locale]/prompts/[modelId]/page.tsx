@@ -9,7 +9,6 @@ import {
   localizePromptBlocks,
   type RawPromptBlock,
 } from '@/lib/prompt-catalog';
-import { readCachedUtf8File } from '@/lib/cached-fs';
 import { getClaudeChromeData, getModelPromptData } from '@/data/model-prompts';
 import fs from 'fs';
 import path from 'path';
@@ -24,7 +23,7 @@ function findModelName(slug: string) {
 
 export async function generateMetadata(
   props: Props,
-  parent: ResolvingMetadata
+  _parent: ResolvingMetadata
 ): Promise<Metadata> {
   const params = await props.params;
   const modelName = findModelName(params.modelId);

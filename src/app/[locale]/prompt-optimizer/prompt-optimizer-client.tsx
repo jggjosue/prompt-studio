@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import Header from '@/components/layout/header';import Footer from '@/components/layout/footer';
 import { Badge } from '@/components/ui/badge';import { Button } from '@/components/ui/button';import { Card,CardContent,CardHeader,CardTitle } from '@/components/ui/card';import { Checkbox } from '@/components/ui/checkbox';import { Textarea } from '@/components/ui/textarea';
-import { ArrowRight,Check,Clipboard,Languages,Sparkles } from 'lucide-react';
+import { ArrowRight,Check,Clipboard,Sparkles } from 'lucide-react';
 type Goal='lower-cost'|'consistency'|'realism'|'fewer-hallucinations'|'structured-output'|'provider-adaptation'|'translation';
 type Result={optimizedPrompt:string;summary:string;changes:Array<{goal:Goal;change:string;reason:string}>;preservedIntent:string[];warnings:string[]};
 const goals:Array<{id:Goal;label:string;description:string}>=[{id:'lower-cost',label:'Menor costo',description:'Elimina redundancia y limita salida innecesaria.'},{id:'consistency',label:'Mayor consistencia',description:'Aclara pasos, restricciones y criterios.'},{id:'realism',label:'Mejor realismo',description:'Añade dirección plausible y controlada.'},{id:'fewer-hallucinations',label:'Menos alucinaciones',description:'Exige límites, evidencia e incertidumbre.'},{id:'structured-output',label:'Respuesta estructurada',description:'Define un esquema de salida estricto.'},{id:'provider-adaptation',label:'Adaptar proveedor',description:'Ajusta el prompt al modelo de destino.'},{id:'translation',label:'Traducir conservando intención',description:'Conserva variables, nombres y restricciones.'}];

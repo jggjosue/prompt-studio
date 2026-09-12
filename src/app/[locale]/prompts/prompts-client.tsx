@@ -216,7 +216,6 @@ function PromptsContent() {
 }
 
 export default function PromptsClient() {
-  const t = useTranslations('prompts');
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">

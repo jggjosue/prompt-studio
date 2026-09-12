@@ -20,6 +20,8 @@ Tener datos suficientes para una evaluación no implica que sean aptos para lice
 
 La presencia de una herramienta en esta lista no autoriza automáticamente su contenido. Cada fuente debe revisarse de forma independiente y puede requerir exclusiones por usuario, canal, proyecto, periodo o categoría de datos.
 
+Las comunicaciones, los tickets, las wikis y las bases de datos son fuentes independientes del repositorio de código y, con frecuencia, pueden constituir la parte de mayor valor del conjunto. Su valor procede del contexto operativo que conservan —problemas, decisiones, relaciones y resultados—, siempre que existan derechos para incluirlas y que superen la revisión de privacidad, confidencialidad y seguridad.
+
 ## Qué determina el valor potencial
 
 La evaluación debe considerar al menos:
@@ -64,4 +66,3 @@ La evaluación inicial no asigna automáticamente un precio ni garantiza una lic
 - **Requiere remediación:** necesita permisos, clasificación, saneado o mejoras de calidad.
 - **Bloqueada:** existe una restricción que impide continuar por el momento.
 - **Descartada:** el riesgo, la falta de derechos o la baja utilidad no justifican procesarla.
-

@@ -217,7 +217,6 @@ export default async function LandingPageDetailPage({ params, searchParams }: Pa
   if (!page) notFound();
 
   const title = pickLocalized(page.title, locale);
-  const description = pickLocalized(page.description, locale);
   const image = resolveWebPageImageUrl(page.imageUrl);
   const seo = await getLandingPageSeoData(slug);
   const canonical = landingPageCanonical(slug);

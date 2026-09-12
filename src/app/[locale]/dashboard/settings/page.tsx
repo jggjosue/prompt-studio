@@ -1,4 +1,3 @@
-import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -9,7 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 
 export default function SettingsPage() {
@@ -47,7 +45,7 @@ export default function SettingsPage() {
             <CardHeader>
               <CardTitle>Password</CardTitle>
               <CardDescription>
-                Change your password here. After saving, you'll be logged out.
+                Change your password here. After saving, you&apos;ll be logged out.
               </CardDescription>
             </CardHeader>
             <CardContent>

@@ -10,10 +10,11 @@
     "test": "npm run test:unit && npm run test:data",
     "test:unit": "node --import tsx --test tests/unit/*.test.ts",
     "test:data": "node --test tests/data/*.test.mjs",
+    "test:coverage": "node scripts/mjs/build-coverage-report.mjs",
     "test:e2e": "playwright test",
     "test:e2e:performance": "playwright test tests/e2e/performance.spec.ts",
     "demo:verify": "node --import tsx scripts/ts/verify-reproducible-demo.ts",
-    "test:ci": "npm run verify:env-example && npm run typecheck && npm test && npm run cache:audit",
+    "test:ci": "npm run lint && npm run verify:env-example && npm run typecheck && npm run test:coverage && npm run cache:audit",
     "catalog:build": "node scripts/mjs/build-paged-catalogs.mjs",
     "webpages:normalize": "node scripts/mjs/normalize-webpage-entrypoints.mjs",
     "reviews:aggregates": "node scripts/mjs/build-review-aggregates.mjs",
@@ -28,7 +29,7 @@
     "vercel-build": "npm run build",
     "optimize:public": "node scripts/mjs/minify-public-assets.mjs && node scripts/mjs/optimize-public-media.mjs && node scripts/mjs/precompress-static.mjs",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "seo:audit-webpages": "node scripts/mjs/audit-webpages-seo.mjs",
     "seo:validate-canonicals": "node scripts/mjs/validate-canonicals.mjs",
@@ -48,7 +49,9 @@
     "verify:clerk:prod": "node scripts/mjs/verify-clerk-env.mjs production",
     "verify:env-example": "node scripts/mjs/check-env-example.mjs",
     "verify:rotation": "node scripts/mjs/check-leaked-secrets.mjs",
-    "fix:user-profiles-index": "node scripts/mjs/fix-user-profiles-index.mjs"
+    "fix:user-profiles-index": "node scripts/mjs/fix-user-profiles-index.mjs",
+    "lint:fix": "eslint . --fix",
+    "validate": "npm run lint && npm run typecheck && npm run test:coverage && npm run verify:env-example && npm run cache:audit"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1049.0",
@@ -113,6 +116,7 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.7",
     "@types/caniuse-lite": "^1",
     "@types/node": "^20",
     "@types/react": "^19.2.1",
@@ -121,6 +125,9 @@
     "caniuse-lite": "^1.0.30001799",
     "cssnano": "^8.0.1",
     "esbuild": "^0.28.0",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^15.5.9",
+    "eslint-plugin-unused-imports": "^4.4.1",
     "genkit-cli": "^1.20.0",
     "playwright": "^1.60.0",
     "postcss": "^8",

@@ -1,19 +1,11 @@
 'use client';
 
+import Link from 'next/link';
+
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { CSSProperties, MouseEvent, ReactNode, useEffect, useMemo, useRef } from 'react';
-
-const navLinks = [
-  { label: 'Home', href: '/' },
-  { label: 'Marketplace', href: '/landing-pages' },
-  { label: 'Membership', href: '/prices' },
-  { label: 'Affiliate', href: '/affiliate-program' },
-  { label: 'Terms of Use', href: 'https://prompstudio.com/terms' },
-  { label: 'Privacy Policy', href: 'https://prompstudio.com/privacy' },
-  { label: 'Contact', href: '#contact' },
-];
 
 const summaryCards = [
   {
@@ -435,20 +427,6 @@ function slugify(value: string) {
     .replace(/^-|-$/g, '');
 }
 
-function LogoMark() {
-  return (
-    <div className="flex items-center gap-3">
-      <span className="grid h-10 w-10 place-items-center rounded-2xl border border-cyan-300/30 bg-gradient-to-br from-blue-500/30 via-violet-500/25 to-emerald-300/20 shadow-[0_0_34px_rgba(59,130,246,0.4)]">
-        <svg viewBox="0 0 24 24" className="h-6 w-6 text-cyan-100" fill="none" aria-hidden="true">
-          <path d="M12 3 3.5 20h17L12 3Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-          <path d="M12 9 8 20h8L12 9Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-        </svg>
-      </span>
-      <span className="text-lg font-semibold tracking-tight text-white">Prompt Studio</span>
-    </div>
-  );
-}
-
 function HeroScene() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -730,9 +708,9 @@ export default function AffiliateTermsClient() {
                 >
                   Read Terms
                 </button>
-                <a href="/affiliate-program" className="rounded-full border border-cyan-200/30 bg-black/30 px-7 py-3.5 text-base font-bold text-slate-100 backdrop-blur transition hover:border-cyan-200/70">
+                <Link href="/affiliate-program" className="rounded-full border border-cyan-200/30 bg-black/30 px-7 py-3.5 text-base font-bold text-slate-100 backdrop-blur transition hover:border-cyan-200/70">
                   Become an Affiliate
-                </a>
+                </Link>
               </div>
             </motion.div>
             <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.9, delay: 0.1 }}>
@@ -900,9 +878,9 @@ export default function AffiliateTermsClient() {
               Join the affiliate program, promote premium AI video prompt products, and earn commissions from qualifying referrals.
             </p>
             <div className="mt-9 flex flex-wrap justify-center gap-4">
-              <a href="/affiliate-program" className="rounded-full bg-gradient-to-r from-blue-500 to-violet-500 px-7 py-3.5 font-bold text-white shadow-[0_0_38px_rgba(59,130,246,0.45)]">
+              <Link href="/affiliate-program" className="rounded-full bg-gradient-to-r from-blue-500 to-violet-500 px-7 py-3.5 font-bold text-white shadow-[0_0_38px_rgba(59,130,246,0.45)]">
                 Become an Affiliate
-              </a>
+              </Link>
               <a href="mailto:support@prompstudio.com" className="rounded-full border border-white/15 bg-black/30 px-7 py-3.5 font-bold text-white">
                 Contact Support
               </a>

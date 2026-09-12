@@ -78,8 +78,7 @@ export interface PaginationNavProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof paginationNavVariants> {}
 
-export interface PaginationEllipsisProps
-  extends React.HTMLAttributes<HTMLSpanElement> {}
+export type PaginationEllipsisProps = React.HTMLAttributes<HTMLSpanElement>;
 
 const Pagination = React.forwardRef<HTMLElement, PaginationProps>(
   ({ className, variant, ...props }, ref) => (

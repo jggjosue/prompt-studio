@@ -6,8 +6,6 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { useDailyCopyLimit } from '@/hooks/use-daily-copy-limit';
 import { trackAnalyticsEvent } from '@/lib/analytics';
@@ -21,9 +19,7 @@ import {
   Check,
   ChevronDown,
   Copy,
-  Crown,
   Download,
-  Eye,
   GripVertical,
   Layers3,
   LayoutTemplate,
@@ -38,10 +34,9 @@ import {
   Tablet,
   Trash2,
   Undo2,
-  WandSparkles,
 } from 'lucide-react';
 import { useLocale } from 'next-intl';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import buttonCatalog from '../../../../public/catalog/components/web-button-components.json';
 import cardCatalog from '../../../../public/catalog/components/web-card-components.json';
 import formCatalog from '../../../../public/catalog/components/web-form-components.json';
@@ -165,7 +160,7 @@ function DraggableVariantCard({ variant, categoryKey, onClick, isSelected }: { v
   );
 }
 
-function SortableCanvasBlock({ block, isSelected, onClick, children }: any) {
+function SortableCanvasBlock({ block, _isSelected, onClick, children }: any) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: block.instanceId });
   const style = { transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.4 : 1 };
   
@@ -292,7 +287,7 @@ function RenderBlock({
           <p className="mt-3 text-zinc-400 whitespace-pre-wrap max-w-xl mx-auto">{getC('subtext', 'Herramientas diseñadas para escalar tu negocio sin límites.')}</p>
         </div>
         <div className="grid gap-6 sm:grid-cols-3">
-          {['Rendimiento Extremo', 'Diseño Adaptativo', 'Seguridad Nivel Banco'].map((title, index) => (
+          {['Rendimiento Extremo', 'Diseño Adaptativo', 'Seguridad Nivel Banco'].map((title, _index) => (
             <article key={title} className="group rounded-3xl border border-white/10 bg-zinc-900/50 p-6 hover:bg-zinc-900 transition-colors">
               <div className="mb-6 inline-flex size-12 items-center justify-center rounded-2xl shadow-inner" style={{ background: `${primary}20`, color: primary }}>
                 <Layers3 className="size-6" />

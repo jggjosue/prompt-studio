@@ -46,13 +46,13 @@ const sk = process.env.CLERK_SECRET_KEY?.trim();
 
 let ok = true;
 
-function fail(msg) {
+function fail(_msg) {
   console.error(`✗ ${msg}`);
   ok = false;
 }
 
 function pass(msg) {
-  //console.log(`✓ ${msg}`);
+  console.log(`✓ ${msg}`);
 }
 
 //console.log(`\nClerk — verificación (${mode})\n`);

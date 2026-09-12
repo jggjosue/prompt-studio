@@ -294,7 +294,7 @@ export default function ModelDetailClient({
                     Context-Aware Strategy
                   </h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">
-                    The protocols define how an agent should react to ambiguity. Always provide the "Strategy" to set the right technical boundaries.
+                    The protocols define how an agent should react to ambiguity. Always provide the &quot;Strategy&quot; to set the right technical boundaries.
                   </p>
                 </div>
                 <div className="space-y-2">
@@ -303,7 +303,7 @@ export default function ModelDetailClient({
                     Iterative Validation
                   </h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">
-                    Don't apply all protocols at once. Start with the "Agency" or "Task Management" blocks and scale up as the task grows in complexity.
+                    Don&apos;t apply all protocols at once. Start with the &quot;Agency&quot; or &quot;Task Management&quot; blocks and scale up as the task grows in complexity.
                   </p>
                 </div>
                 <div className="space-y-2">

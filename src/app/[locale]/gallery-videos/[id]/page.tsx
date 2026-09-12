@@ -28,7 +28,7 @@ function promptDescription(description: string, fallback: string): string {
 
 export async function generateMetadata(
   { params }: Props,
-  parent: ResolvingMetadata
+  _parent: ResolvingMetadata
 ): Promise<Metadata> {
   const { id } = await params;
   const locale = await getLocale();

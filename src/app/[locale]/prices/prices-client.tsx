@@ -12,13 +12,12 @@ import {
 } from '@/hooks/use-stripe-subscription';
 import {
   getPremiumStripeCheckoutUrl,
-  getStartupStripeCheckoutUrl,
   getProStripeCheckoutUrl,
   isProPlanAvailable,
 } from '@/lib/stripe-checkout';
 import { trackAnalyticsEvent } from '@/lib/analytics';
-import { SignInButton, SignUpButton, useAuth } from '@clerk/nextjs';
-import { Check, Code2, Crown, Download, Rocket, Sparkles, UserPlus, X, Zap } from 'lucide-react';
+import { SignUpButton, useAuth } from '@clerk/nextjs';
+import { Check, Crown, Download, Rocket, Sparkles, UserPlus, X, Zap } from 'lucide-react';
 import { useTranslations, useLocale } from 'next-intl';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -29,8 +28,6 @@ const PREMIUM_MONTHLY = 9;
 const PREMIUM_YEARLY = 54;
 const PRO_MONTHLY = 39;
 const PRO_YEARLY = 390;
-const DEVELOPER_MONTHLY = 1000;
-const DEVELOPER_YEARLY = 10000;
 
 function formatMonthlyEquivalent(yearly: number) {
   return (yearly / 12).toFixed(2).replace(/\.00$/, '');
@@ -85,7 +82,6 @@ export default function PricesClient() {
   const { isLoaded, isSignedIn, userId } = useAuth();
   const { plan, ready } = useStripeSubscription();
   const hasPremiumPlan = ready && (plan === 'premium' || plan === 'startup');
-  const hasStartupPlan = ready && plan === 'startup';
   const hasProPlan = ready && (plan === 'pro' || plan === 'startup');
   /**
    * El tramo Pro solo se muestra cuando hay enlaces de pago configurados. Sin
@@ -125,14 +121,12 @@ export default function PricesClient() {
 
   const freeFeatures = t.raw('freeFeatures') as string[];
   const premiumOnlyFeatures = t.raw('premiumFeatures') as string[];
-  const developerOnlyFeatures = t.raw('developerFeatures') as string[];
 
   const annualSavingsPercent = Math.round(
     (1 - PREMIUM_YEARLY / (PREMIUM_MONTHLY * 12)) * 100
   );
 
   const premiumCheckoutUrl = getPremiumStripeCheckoutUrl(isAnnual, userId);
-  const startupCheckoutUrl = getStartupStripeCheckoutUrl(isAnnual, userId);
   const proCheckoutUrl = getProStripeCheckoutUrl(isAnnual, userId);
   const trackPlanBuy = (planName: 'premium' | 'pro' | 'startup') => {
     trackAnalyticsEvent('web_buy_button_premium', {

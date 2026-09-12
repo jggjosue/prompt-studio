@@ -45,7 +45,7 @@ export function CampaignsClient({ products, affiliate }: CampaignsClientProps) {
   const t = useTranslations('dashboard');
   const { userId } = useAuth();
   const [copied, setCopied] = useState('');
-  const [selectedProductId, setSelectedProductId] = useState(products[0]?.id ?? '');
+  const [selectedProductId] = useState(products[0]?.id ?? '');
   const siteUrl = getSiteUrl();
   const clicksByProduct = useMemo(
     () => new Map(affiliate.productClicks.map(item => [item.productId, item.clicks])),

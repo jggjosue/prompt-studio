@@ -8,11 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
 } from '@/components/ui/card';
-import { KeysetPagination } from '@/components/keyset-pagination';
 import { cn } from '@/lib/utils';
 import { useInfiniteScroll } from '@/hooks/use-infinite-scroll';
 import { usePagedWebPages } from '@/hooks/use-paged-catalog';
@@ -38,7 +34,6 @@ import {
   Tag,
   Wand2,
 } from 'lucide-react';
-import { PremiumAccessLink } from '@/components/premium-access-link';
 import { useMembershipAccess } from '@/hooks/use-membership-access';
 import { membershipRequiresPayment } from '@/lib/membership-access';
 import { PromptEditButton } from '@/components/prompt-edit-button';

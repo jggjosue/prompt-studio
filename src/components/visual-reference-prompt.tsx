@@ -50,7 +50,7 @@ export function VisualReferencePrompt({ provider, onChange }: { provider: string
       <input ref={inputRef} type="file" accept="image/png,image/jpeg,image/webp" className="hidden" onChange={event => load(event.target.files?.[0])} />
       {image ? (
         <div className="mb-3 flex items-center gap-3">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
+          { }
           <span className="relative block size-20 overflow-hidden rounded-lg border"><OptimizedImage src={image} alt="Referencia cargada" fill forceUnoptimized sizes="80px" className="object-cover" /></span>
           <div><p className="text-xs font-semibold text-emerald-600">Imagen lista</p><p className="mt-1 text-[11px] text-muted-foreground">{provider === 'openai' ? 'Se enviará al modelo como imagen de edición.' : 'Este proveedor usará las instrucciones textuales; cambia a OpenAI para edición directa.'}</p></div>
         </div>

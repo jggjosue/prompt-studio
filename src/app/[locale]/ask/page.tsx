@@ -45,7 +45,7 @@ export default async function Home() {
     try {
       const parsed = JSON.parse(item.description);
       return parsed.description || item.title;
-    } catch (e) {
+    } catch (_e) {
       return item.title;
     }
   };

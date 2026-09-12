@@ -16,7 +16,7 @@ export async function POST(request: Request) {
   
   if (productIds.length === 0) return NextResponse.json({ error: 'No hay productos en el bundle.' }, { status: 400, headers });
 
-  const products = [];
+  const products: NonNullable<Awaited<ReturnType<typeof getComponentProductContent>>>[] = [];
   for (const id of productIds) {
     const product = await getComponentProductContent(id);
     if (product) products.push(product);
@@ -48,7 +48,6 @@ export async function POST(request: Request) {
 
   const session = await observeOperation({ category: 'stripe', name: 'component_bundle_checkout_create', route: '/api/component-bundle-checkout', userId }, () => stripe.checkout.sessions.create({
     mode: 'payment',
-    ui_mode: 'hosted',
     customer_email: email,
     client_reference_id: `${userId}___bundle`,
     line_items: lineItems,

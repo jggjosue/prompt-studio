@@ -1,5 +1,7 @@
 'use client';
 
+import Link from 'next/link';
+
 import { ProfileSubscriptionInfo } from '@/components/profile-subscription-info';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -417,7 +419,7 @@ export default function ProfileClient({ user, isPremiumJo, hasApprovedAffiliateA
                       Revisa, aprueba o rechaza las solicitudes recibidas desde el formulario de afiliados.
                     </p>
                     <Button asChild className="mt-2 w-fit">
-                      <a href="/dashboard/affiliate-applications">Ver solicitudes</a>
+                      <Link href="/dashboard/affiliate-applications">Ver solicitudes</Link>
                     </Button>
                   </div>
                 </div>

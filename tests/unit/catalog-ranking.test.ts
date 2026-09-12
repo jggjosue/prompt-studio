@@ -33,7 +33,7 @@ test('valida claves canónicas y rechaza rutas o parámetros', () => {
 
 test('la API conserva identidades privadas y evita el patrón N+1', async () => {
   const source = await readFile(new URL('../../src/app/api/catalog-engagement/route.ts', import.meta.url), 'utf8');
-  assert.match(source, /CatalogLike\.find\(\{ contentKey: \{ \$in: keys \}, userId \}\)/);
+  assert.match(source, /CatalogLike\.find\(\{ contentKey: \{ \$in: keys \}, userId: visitorId \}\)/);
   assert.match(source, /ProductReview\.aggregate/);
   assert.doesNotMatch(source, /select\(['"]contentKey userId/);
   assert.doesNotMatch(source, /NextResponse\.json\([^)]*userId/);

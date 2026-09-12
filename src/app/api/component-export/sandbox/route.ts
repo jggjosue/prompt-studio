@@ -11,7 +11,6 @@ export async function POST(request: Request) {
   try { raw = await request.json() as Record<string, unknown>; } catch { return NextResponse.json({ error: 'JSON inválido.' }, { status: 400 }); }
   const provider = raw.provider === 'codesandbox' ? raw.provider : null;
   const id = slug(clean(raw.id, 80));
-  const title = clean(raw.title, 120) || 'Prompt Studio Component';
   const tsx = clean(raw.tsx, 30_000);
   const css = clean(raw.css, 30_000);
   if (!provider || !tsx || !css) return NextResponse.json({ error: 'Configuración incompleta.' }, { status: 400 });

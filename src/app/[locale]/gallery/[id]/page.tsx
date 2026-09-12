@@ -30,7 +30,7 @@ function promptDescription(description: string, fallback: string): string {
 
 export async function generateMetadata(
   { params }: Props,
-  parent: ResolvingMetadata
+  _parent: ResolvingMetadata
 ): Promise<Metadata> {
   const { id } = await params;
   const locale = await getLocale();
@@ -58,7 +58,7 @@ export async function generateMetadata(
   try {
     const parsed = JSON.parse(item.description);
     displayDescription = parsed.description || item.title;
-  } catch (e) {
+  } catch (_e) {
     displayDescription = item.description;
   }
 

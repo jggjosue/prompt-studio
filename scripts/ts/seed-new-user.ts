@@ -21,7 +21,7 @@ async function seed() {
     await newUser.save();
     //console.log(`Successfully inserted example email (${testEmail}) into user_profiles collection.`);
     process.exit(0);
-  } catch (error) {
+  } catch (_error) {
     //console.error('Error seeding data:', error);
     process.exit(1);
   }

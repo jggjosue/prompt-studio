@@ -29,7 +29,6 @@ export function LandingFavoritesCollection() {
 
   const subtotal = favorites.reduce((sum, item) => sum + amount(item.price), 0);
   const discountedTotal = subtotal * 0.8;
-  const bundleQuery = favorites.map(item => item.demoUrl).join(',');
 
   return (
     <Dialog>
@@ -102,7 +101,7 @@ export function LandingFavoritesCollection() {
   );
 }
 
-function BundleCheckoutButton({ favorites, discountedTotal }: { favorites: any[]; discountedTotal: number }) {
+function BundleCheckoutButton({ favorites, discountedTotal: _discountedTotal }: { favorites: any[]; discountedTotal: number }) {
   const t = useTranslations('landingPages.favorites');
   const [loading, setLoading] = useState(false);
 

@@ -26,6 +26,16 @@ Entrega cifrada y auditada
 
 Los conectores deben usar permisos de solo lectura, selección explícita de espacios y ventanas temporales, paginación con checkpoints e idempotencia. La fuente original no se modifica. Cada registro recibe procedencia, fecha y huella.
 
+### Conectores priorizados
+
+| Conector | Registros a inventariar | Selección mínima antes de importar |
+| --- | --- | --- |
+| Jira | Proyectos, incidencias, comentarios, estados y enlaces autorizados | Proyecto, tipo de incidencia, periodo y adjuntos excluidos |
+| Confluence | Espacios, páginas, versiones y metadatos de autoría | Espacio, árbol de páginas, periodo y restricciones por página |
+| Notion | Espacios de trabajo, bases de datos, páginas y bloques | Espacio, bases de datos, vistas, periodo y propiedades excluidas |
+
+Estos conectores son una capacidad propuesta, no una conexión ya activa en Prompt Studio. Cada uno requiere autorización independiente del titular, credenciales de solo lectura y una selección explícita de alcance antes de crear una copia aislada.
+
 ## 2. Clasificación
 
 Se detectan tipo de documento, idioma, participantes, sensibilidad, propietario aparente, licencias adjuntas y relación entre ticket, conversación, código y resultado. La clasificación automática nunca concede derechos: solo crea señales para revisión.
@@ -57,4 +67,4 @@ El paquete contiene datos mínimos, diccionario, esquema, datasheet, licencia, r
 
 ## Reutilización de Prompt Studio
 
-Se pueden reutilizar contratos de salida, evaluaciones reproducibles, procedencia de activos, observabilidad sanitizada, aprobaciones, regresión y exportación de informes. Todavía faltan conectores empresariales de ingestión, motor de anonimización, gestión contractual y entrega de datasets.
+Se pueden reutilizar contratos de salida, evaluaciones reproducibles, procedencia de activos, observabilidad sanitizada, aprobaciones, regresión y exportación de informes. Todavía faltan implementar los conectores empresariales de ingestión —incluidos Jira, Confluence y Notion—, el motor de anonimización, la gestión contractual y la entrega de datasets.

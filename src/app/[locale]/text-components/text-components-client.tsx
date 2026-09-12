@@ -18,7 +18,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useDailyCopyLimit } from '@/hooks/use-daily-copy-limit';
 import { copyToClipboard } from '@/lib/copy-to-clipboard';
-import { Check, Copy, Eye, Play, Sparkles, Type } from 'lucide-react';
+import { Check, Copy, Eye, Play, Type } from 'lucide-react';
 import { useLocale } from 'next-intl';
 import { useMemo, useState, type CSSProperties } from 'react';
 

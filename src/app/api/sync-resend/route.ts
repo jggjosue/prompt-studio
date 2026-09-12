@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { requireCronOrAdmin } from '@/lib/api-auth';
-import mongoose from 'mongoose';
 import { Resend } from 'resend';
 import connectToDatabase from '@/lib/mongoose';
 import NewUser from '@/models/NewUser';

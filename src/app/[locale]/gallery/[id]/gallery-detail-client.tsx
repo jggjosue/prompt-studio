@@ -17,7 +17,6 @@ import { copyToClipboard } from '@/lib/copy-to-clipboard';
 import type { ImagePlaceholder } from '@/lib/placeholder-images';
 import type { VideoProp } from '@/lib/placeholder-videos';
 import { useLocale } from 'next-intl';
-import { evaluatePublisherPolicy } from '@/lib/google-publisher-policy';
 import { isRenderableVideoUrl, resolveRenderableMediaUrl } from '@/lib/media-resolver';
 import { ArrowLeft, Copy, Wand2 } from 'lucide-react';
 import { OptimizedImage } from '@/components/optimized-image';
@@ -39,7 +38,7 @@ type Props = {
   manualActionRisk: ManualActionRisk;
 };
 
-export default function GalleryDetailClient({ item, validation, relatedItems, manualActionRisk }: Props) {
+export default function GalleryDetailClient({ item, validation, relatedItems, manualActionRisk: _manualActionRisk }: Props) {
   const locale = useLocale();
   
   const { toast } = useToast();
@@ -64,15 +63,6 @@ export default function GalleryDetailClient({ item, validation, relatedItems, ma
         : undefined,
     }),
     [item.title, item.description, isPaywalled]
-  );
-  const policyReview = useMemo(
-    () =>
-      evaluatePublisherPolicy({
-        title: item.title,
-        description: item.description,
-        tags: item.tags,
-      }),
-    [item.title, item.description, item.tags]
   );
 
   const handleCopy = async () => {
