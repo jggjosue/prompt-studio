@@ -1,222 +1,220 @@
 # Prompt Studio
 
-Catálogo y estudio de creación con IA: prompts listos para usar, generación de
-imágenes, vídeo y páginas web, un editor visual de componentes, y el comercio
-que lo sostiene —suscripciones, compras sueltas y programa de afiliados—.
+AI creation catalog and studio: ready-to-use prompts, image, video and web page generation, a visual component editor, and the commerce that supports it —subscriptions, one-off purchases, and an affiliate program—.
 
-> **Estado**: en producción en `https://www.prompstudio.com`. Rama de trabajo
-> `develop`; `main` es lo desplegado.
+> **Status**: in production at `https://www.prompstudio.com`. Working branch
+> `develop`; `main` is deployed.
 
 ---
 
-## El problema que resuelve
+## The problem it solves
 
-Quien usa modelos generativos pierde la mayor parte del tiempo en dos sitios:
-escribir el prompt y adaptar el resultado. Prompt Studio ataca los dos:
+Anyone using generative models wastes most of their time in two places:
+writing the prompt and adapting the result. Prompt Studio tackles both:
 
-- **Catálogo** de prompts probados para imagen, vídeo, web y componentes de
-  interfaz, con su previsualización y sus etiquetas.
-- **Generadores** que ejecutan esos prompts contra varios proveedores sin salir
-  del sitio, con créditos, reintentos y control de coste.
-- **Editor visual de componentes**, que permite componer una interfaz
-  arrastrando bloques y obtener el prompt exacto que la reproduce.
+- **Catalog** of tested prompts for image, video, web and interface components,
+  with their preview and tags.
+- **Generators** that execute those prompts against multiple providers without leaving
+  the site, with credits, retries, and cost control.
+- **Visual component editor**, allowing you to compose an interface by
+  dragging blocks and get the exact prompt that reproduces it.
 
 ---
 
-## Funcionalidades principales
+## Main features
 
-| Área | Qué hace |
+| Area | What it does |
 |---|---|
-| **Catálogo** | 450 componentes de UI, 180 animaciones, 244 páginas web de demostración, prompts de imagen y vídeo. Búsqueda, etiquetas y páginas por modelo |
-| **Generación con IA** | Cinco familias de proveedores (OpenAI, Anthropic, Google Gemini/Veo, Runway, DeepSeek) tras una interfaz común, con cola de trabajos, progreso, reintentos y contabilidad de créditos |
-| **Editor visual** | Árbol de componentes con arrastrar y soltar, panel de capas, inspector por breakpoint, deshacer/rehacer por comandos y autoguardado |
-| **Comercio** | Suscripciones y compras con Stripe, kits de componentes, marketplace de creadores y programa de afiliados con comisiones y liquidaciones |
-| **Internacionalización** | Español e inglés, detectados en el middleware y servidos sin prefijo de idioma en la URL |
-| **SEO programático** | Sitemap, canónicas, datos estructurados y 12 validadores automáticos |
+| **Catalog** | 450 UI components, 180 animations, 244 demo web pages, image and video prompts. Search, tags, and pages per model |
+| **AI Generation** | Five families of providers (OpenAI, Anthropic, Google Gemini/Veo, Runway, DeepSeek) behind a common interface, with job queue, progress, retries, and credit accounting |
+| **Visual editor** | Component tree with drag and drop, layers panel, inspector per breakpoint, undo/redo via commands, and autosave |
+| **Commerce** | Subscriptions and purchases with Stripe, component kits, creator marketplace, and affiliate program with commissions and payouts |
+| **Internationalization** | Spanish and English, detected in the middleware and served without language prefix in the URL |
+| **Programmatic SEO** | Sitemap, canonicals, structured data, and 12 automatic validators |
 
 ---
 
-## Tecnología
+## Technology
 
-| Capa | Elección |
+| Layer | Choice |
 |---|---|
 | Framework | Next.js 15.5 (App Router, Turbopack) · React 19 |
-| Lenguaje | TypeScript 6 en modo `strict` |
-| Estilos | Tailwind CSS · Radix UI · Framer Motion |
-| Datos | MongoDB con Mongoose (45 modelos) |
-| Identidad | Clerk (con webhooks firmados vía `svix`) |
-| Pagos | Stripe |
-| IA | Genkit y adaptadores propios por proveedor |
-| Almacenamiento | Cloudflare R2 · AWS S3 |
-| Correo | Resend |
-| Despliegue | Vercel |
+| Language | TypeScript 6 in `strict` mode |
+| Styles | Tailwind CSS · Radix UI · Framer Motion |
+| Data | MongoDB with Mongoose (45 models) |
+| Identity | Clerk (with signed webhooks via `svix`) |
+| Payments | Stripe |
+| AI | Genkit and custom adapters per provider |
+| Storage | Cloudflare R2 · AWS S3 |
+| Email | Resend |
+| Deployment | Vercel |
 
 ---
 
-## Arquitectura en un vistazo
+## Architecture at a glance
 
 ```
-Navegador
+Browser
    │
-   ├── middleware (src/proxy.ts) ── idioma, redirecciones, cabeceras de seguridad
+   ├── middleware (src/proxy.ts) ── language, redirects, security headers
    │
-   ├── src/app/[locale]/**      91 páginas (componentes de servidor y cliente)
-   ├── src/app/api/**          105 rutas de API
-   │      ├── identidad: Clerk · webhooks firmados · CRON_SECRET · admin
-   │      ├── comercio:  stripe, créditos, afiliados, marketplace
-   │      └── IA:        cola de trabajos, evaluación, calidad de proveedores
+   ├── src/app/[locale]/**      91 pages (server and client components)
+   ├── src/app/api/**          105 API routes
+   │      ├── identity: Clerk · signed webhooks · CRON_SECRET · admin
+   │      ├── commerce: stripe, credits, affiliates, marketplace
+   │      └── AI:       job queue, evaluation, provider quality
    │
-   ├── src/lib/**              lógica de negocio, sin dependencias de React
-   ├── src/models/**           esquemas de Mongoose
-   └── src/data/**             catálogo versionado (fuera de `public/`)
+   ├── src/lib/**              business logic, without React dependencies
+   ├── src/models/**           Mongoose schemas
+   └── src/data/**             versioned catalog (outside of `public/`)
 ```
 
-El detalle está en [docs/CODEBASE_AUDIT.md](docs/CODEBASE_AUDIT.md), que mide el
-estado real del repositorio, y en [docs/editor/](docs/editor/) para el editor
-visual.
+The details are in [docs/CODEBASE_AUDIT.md](docs/CODEBASE_AUDIT.md), which measures the
+real state of the repository, and in [docs/editor/](docs/editor/) for the visual
+editor.
 
 ---
 
-## Instalación
+## Installation
 
-**Requisitos**: Node.js **≥ 22.11** (ver `.nvmrc`) y una instancia de MongoDB.
+**Requirements**: Node.js **≥ 22.11** (see `.nvmrc`) and a MongoDB instance.
 
 ```bash
-nvm use            # toma la versión de .nvmrc
-npm ci             # `preinstall` comprueba la versión de Node
+nvm use            # uses the version from .nvmrc
+npm ci             # `preinstall` checks Node version
 cp .env.example .env.local
 npm run dev        # http://localhost:3048
 ```
 
-`npm ci` falla a propósito con versiones de Node menores: el proyecto usa APIs
-que no existen antes de la 22.
+`npm ci` intentionally fails with older Node versions: the project uses APIs
+that do not exist before version 22.
 
 ---
 
-## Configuración
+## Configuration
 
-Todas las variables están declaradas —con valores de ejemplo, nunca reales— en
-[.env.example](.env.example). Las imprescindibles para arrancar:
+All variables are declared —with example values, never real ones— in
+[.env.example](.env.example). The essential ones to start:
 
-| Variable | Para qué |
+| Variable | For what |
 |---|---|
-| `MONGODB_URI` | Base de datos |
-| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY` | Identidad |
-| `STRIPE_SECRET_KEY` | Cobros |
-| `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `GEMINI_API_KEY`… | Generación con IA (cada proveedor es opcional por separado) |
-| `DOMAIN` | URL canónica del sitio |
-| `CRON_SECRET` | Autoriza las tareas programadas y los `sync-*` |
+| `MONGODB_URI` | Database |
+| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY` | Identity |
+| `STRIPE_SECRET_KEY` | Payments |
+| `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `GEMINI_API_KEY`… | AI Generation (each provider is optional separately) |
+| `DOMAIN` | Canonical URL of the site |
+| `CRON_SECRET` | Authorizes scheduled tasks and `sync-*` |
 
-`npm run verify:env-example` comprueba que `.env.example` no contenga valores
-reales; forma parte de `npm run validate`.
+`npm run verify:env-example` checks that `.env.example` does not contain real
+values; it is part of `npm run validate`.
 
 ---
 
-## Comandos
+## Commands
 
-| Comando | Qué hace |
+| Command | What it does |
 |---|---|
-| `npm run dev` | Servidor de desarrollo en el puerto 3048 |
-| `npm run build` | Build de producción + minificado, optimización de medios y precompresión |
-| `npm start` | Sirve el build |
-| **`npm run validate`** | **Salud completa del repositorio**: lint, tipos, cobertura, `.env.example` y políticas de caché |
-| `npm run lint` · `lint:fix` | ESLint (configuración en `eslint.config.mjs`) |
+| `npm run dev` | Development server on port 3048 |
+| `npm run build` | Production build + minification, media optimization, and precompression |
+| `npm start` | Serves the build |
+| **`npm run validate`** | **Complete repository health**: lint, types, coverage, `.env.example`, and cache policies |
+| `npm run lint` · `lint:fix` | ESLint (configuration in `eslint.config.mjs`) |
 | `npm run typecheck` | `tsc --noEmit` |
-| `npm test` | Pruebas unitarias y de datos |
-| `npm run test:coverage` | Genera `coverage/lcov.info` sobre todo `src/` |
+| `npm test` | Unit and data tests |
+| `npm run test:coverage` | Generates `coverage/lcov.info` over all of `src/` |
 | `npm run test:e2e` | Playwright |
-| `npm run seo:validate-all` | Los 12 validadores de SEO |
-| `npm run catalog:build` | Regenera los catálogos paginados desde `src/data` |
+| `npm run seo:validate-all` | The 12 SEO validators |
+| `npm run catalog:build` | Regenerates paginated catalogs from `src/data` |
 
 ---
 
-## Pruebas
+## Testing
 
 ```bash
-npm test                       # unitarias + datos
-npm run test:coverage          # + informe lcov en coverage/lcov.info
-COVERAGE_MIN=10 npm run test:coverage   # falla por debajo del umbral
-npm run test:e2e               # Playwright (necesita PLAYWRIGHT_BASE_URL)
+npm test                       # unit + data
+npm run test:coverage          # + lcov report in coverage/lcov.info
+COVERAGE_MIN=10 npm run test:coverage   # fails below threshold
+npm run test:e2e               # Playwright (needs PLAYWRIGHT_BASE_URL)
 ```
 
-La cobertura se mide **sobre todos los módulos de `src/`**, no solo sobre los que
-los tests importan: los no cargados entran con 0 %. La cifra resultante es baja
-y honesta; el detalle y el plan están en [docs/TESTING.md](docs/TESTING.md).
+Coverage is measured **over all `src/` modules**, not just those that
+tests import: unloaded ones come in with 0%. The resulting figure is low
+and honest; details and plan are in [docs/TESTING.md](docs/TESTING.md).
 
 ---
 
-## Estructura del proyecto
+## Project structure
 
 ```
 src/
-  app/[locale]/     páginas por idioma
-  app/api/          rutas de API
-  components/       interfaz reutilizable
-  components/editor/ editor visual de componentes
-  lib/              lógica de negocio (sin React)
-  lib/editor/       documento, historial y registro del editor
-  models/           esquemas de Mongoose
-  hooks/            hooks de React
-  data/             catálogo versionado
-scripts/mjs/        build, auditorías y validadores
+  app/[locale]/     pages by language
+  app/api/          API routes
+  components/       reusable interface
+  components/editor/ visual component editor
+  lib/              business logic (without React)
+  lib/editor/       document, history, and editor registry
+  models/           Mongoose schemas
+  hooks/            React hooks
+  data/             versioned catalog
+scripts/mjs/        build, audits, and validators
 tests/{unit,data,e2e}/
-docs/               documentación (ver docs/CODEBASE_AUDIT.md para el estado real)
-public/webpages/    demos generadas del catálogo (contenido, no código)
-.specstory/         transcripciones de sesiones de IA conservadas como historial
+docs/               documentation (see docs/CODEBASE_AUDIT.md for real state)
+public/webpages/    generated demos from catalog (content, not code)
+.specstory/         AI session transcripts preserved as history
 ```
 
 ---
 
-## Despliegue
+## Deployment
 
-Vercel construye desde `main` con `npm run vercel-build`, que ejecuta el build y
-después minifica, optimiza medios y precomprime `public/`. Las variables de
-entorno se configuran en el panel de Vercel; las claves de Clerk deben ser
-`pk_live_*` / `sk_live_*` en producción —el build avisa si detecta claves de
-prueba—.
+Vercel builds from `main` with `npm run vercel-build`, which executes the build and
+then minifies, optimizes media, and precompresses `public/`. Environment variables
+are configured in the Vercel dashboard; Clerk keys must be
+`pk_live_*` / `sk_live_*` in production —the build warns if it detects test keys—.
 
 ---
 
-## Problemas frecuentes
+## Frequent issues
 
-| Síntoma | Causa y solución |
+| Symptom | Cause and solution |
 |---|---|
-| `npm ci` falla en `preinstall` | Node < 22.11. `nvm use` |
-| `Failed to load SWC binary for darwin/arm64` | `node` x64 bajo Rosetta. Comprobar `node -p "process.arch"` → debe decir `arm64` |
-| `npm run dev` va bien y `npm run build` falla | Dev usa Turbopack y build usa webpack: **resuelven módulos distinto**. Un cambio no está verificado hasta que `next build` pasa |
-| `curl` recibe el build anterior | Un servidor viejo sigue en el puerto: `lsof -ti:3048 \| xargs kill -9` |
-| Clerk responde 404 en vez de redirigir | `auth.protect()` con `Accept: */*` devuelve 404. Probar con `Accept: text/html` |
+| `npm ci` fails in `preinstall` | Node < 22.11. `nvm use` |
+| `Failed to load SWC binary for darwin/arm64` | `node` x64 under Rosetta. Check `node -p "process.arch"` → should say `arm64` |
+| `npm run dev` goes well and `npm run build` fails | Dev uses Turbopack and build uses webpack: **they resolve modules differently**. A change is not verified until `next build` passes |
+| `curl` receives the previous build | An old server is still on the port: `lsof -ti:3048 \| xargs kill -9` |
+| Clerk responds 404 instead of redirecting | `auth.protect()` with `Accept: */*` returns 404. Try with `Accept: text/html` |
 
-Más casos, con su causa y desenlace, en
+More cases, with their cause and resolution, in
 [docs/operaciones/base-de-conocimiento.md](docs/operaciones/base-de-conocimiento.md).
 
 ---
 
-## Documentación
+## Documentation
 
-| Documento | Contenido |
+| Document | Content |
 |---|---|
-| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Capas, recorrido de una petición, dominios de datos y decisiones con su porqué |
-| [docs/API_ACCESS.md](docs/API_ACCESS.md) | Matriz de acceso de las 105 rutas — **generada del código** y verificada por un test |
-| [docs/SECURITY.md](docs/SECURITY.md) | Modelo de acceso, secretos, protección del producto de pago y estado de las dependencias |
-| [docs/TESTING.md](docs/TESTING.md) | Arquitectura de pruebas, cobertura y qué se cubre |
-| [docs/DATABASE.md](docs/DATABASE.md) | Modelos, colecciones, índices y el incidente de `user_profiles` |
-| [docs/AI_ARCHITECTURE.md](docs/AI_ARCHITECTURE.md) | Ciclo de vida del trabajo de IA, créditos y contratos de salida |
-| [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Build, cron, cabeceras y variables que rompen producción |
-| [CONTRIBUTING.md](CONTRIBUTING.md) | Puesta en marcha, reglas que el pipeline hace cumplir y estilo |
-| [docs/IMPROVEMENT_REPORT.md](docs/IMPROVEMENT_REPORT.md) | Antes / después medido del programa de auditoría, y lo que queda abierto |
-| [docs/CODEBASE_AUDIT.md](docs/CODEBASE_AUDIT.md) | Estado real del repositorio, medido, con prioridades |
-| [docs/operaciones/](docs/operaciones/) | Procedimientos: generación con IA, comercial, catálogo, despliegue y QA |
-| [docs/operaciones/base-de-conocimiento.md](docs/operaciones/base-de-conocimiento.md) | Problemas ya resueltos, con su causa |
-| [docs/editor/](docs/editor/) | Diagnóstico y plan del editor visual |
-| [docs/historial/](docs/historial/) | Cómo se construyó el proyecto, con trazas de decisión |
-| [docs/prd.md](docs/prd.md) · [docs/dm.md](docs/dm.md) | Producto y modelo de datos |
-| [docs/rotacion-de-credenciales.md](docs/rotacion-de-credenciales.md) | Procedimiento de seguridad |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Layers, request lifecycle, data domains, and decisions with their reasoning |
+| [docs/API_ACCESS.md](docs/API_ACCESS.md) | Access matrix of the 105 routes — **generated from code** and verified by a test |
+| [docs/SECURITY.md](docs/SECURITY.md) | Access model, secrets, paid product protection, and dependency status |
+| [docs/TESTING.md](docs/TESTING.md) | Testing architecture, coverage, and what is covered |
+| [docs/DATABASE.md](docs/DATABASE.md) | Models, collections, indexes, and the `user_profiles` incident |
+| [docs/AI_ARCHITECTURE.md](docs/AI_ARCHITECTURE.md) | Lifecycle of the AI job, credits, and output contracts |
+| [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Build, cron, headers, and variables that break production |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | Setup, rules enforced by the pipeline, and style |
+| [docs/IMPROVEMENT_REPORT.md](docs/IMPROVEMENT_REPORT.md) | Measured before / after of the audit program, and what remains open |
+| [docs/CODEBASE_AUDIT.md](docs/CODEBASE_AUDIT.md) | Real state of the repository, measured, with priorities |
+| [docs/operaciones/](docs/operaciones/) | Procedures: AI generation, commercial, catalog, deployment, and QA |
+| [docs/operaciones/base-de-conocimiento.md](docs/operaciones/base-de-conocimiento.md) | Already solved problems, with their cause |
+| [docs/editor/](docs/editor/) | Visual editor diagnosis and plan |
+| [docs/historial/](docs/historial/) | How the project was built, with decision traces |
+| [docs/prd.md](docs/prd.md) · [docs/dm.md](docs/dm.md) | Product and data model |
+| [docs/CODEBASE_MAP.md](docs/CODEBASE_MAP.md) | Complete index and map of source files (generated) |
+| [docs/rotacion-de-credenciales.md](docs/rotacion-de-credenciales.md) | Security procedure |
 
 ---
 
-## Licencia
+## License
 
-Software propietario. Todos los derechos reservados. El catálogo incluye
-contenido de terceros y generado con IA cuya procedencia se audita con
+Proprietary software. All rights reserved. The catalog includes
+third-party and AI-generated content whose provenance is audited with
 `npm run catalog:provenance`.

@@ -1,80 +1,62 @@
-# Contribuir
+# Contributing
 
-## Antes de escribir código
+## Before writing code
 
 ```bash
-nvm use            # Node >= 22.11 (ver .nvmrc / package.json engines)
+nvm use            # Node >= 22.11 (see .nvmrc / package.json engines)
 npm ci
-cp .env.example .env.local   # rellena al menos MONGODB_URI y las claves de Clerk
+cp .env.example .env.local   # fill at least MONGODB_URI and Clerk keys
 npm run dev        # http://localhost:3048
 ```
 
-Lee [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) antes del primer cambio no
-trivial. Explica dónde vive cada cosa y, sobre todo, las **violaciones de capa
-conocidas**, que están documentadas a propósito para que nadie las replique
-pensando que son el patrón.
+Read [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) before your first non-trivial change. It explains where everything lives and, importantly, the **known layer violations**, which are deliberately documented so no one replicates them thinking they are the pattern.
 
-## Antes de abrir un PR
+## Before opening a PR
 
 ```bash
 npm run validate
 ```
 
-Ejecuta lint, typecheck, cobertura, `verify:env-example` y `cache:audit`. **Debe
-salir en 0.** CI ejecuta lo mismo más el build y las pruebas de navegador; abrir
-un PR que no pasa `validate` en local solo desplaza el fallo.
+Runs lint, typecheck, coverage, `verify:env-example` and `cache:audit`. **Must exit with 0.** CI runs the same plus the build and browser tests; opening a PR that doesn't pass `validate` locally only shifts the failure.
 
-## Reglas que el pipeline hace cumplir
+## Rules enforced by the pipeline
 
-No son convenciones: si las rompes, CI falla.
+These are not conventions: if you break them, CI fails.
 
-1. **Toda ruta de API necesita un mecanismo de acceso o una justificación
-   escrita.** `tests/unit/route-access-matrix.test.ts` recorre `src/app/api/**` y
-   exige que cada ruta declare uno de los 8 mecanismos detectados o figure en
-   `PUBLICAS_JUSTIFICADAS` con una justificación de 20 caracteres como mínimo.
-   Si añades una ruta nueva, regenera la matriz:
+1. **Every API route needs an access mechanism or a written justification.** `tests/unit/route-access-matrix.test.ts` traverses `src/app/api/**` and requires that each route declares one of the 8 detected mechanisms or appears in `PUBLICAS_JUSTIFICADAS` with a justification of at least 20 characters.
+   If you add a new route, regenerate the matrix:
 
    ```bash
    node scripts/mjs/build-route-access-matrix.mjs
    ```
 
-   Esa prueba ya ha encontrado dos fallos reales de seguridad. Trátala como un
-   contrato, no como un trámite.
+   That test has already found two real security bugs. Treat it as a contract, not a formality.
 
-2. **Una escritura pública debe limitarse por IP.** `enforceIpRateLimit` con
-   `RATE_LIMITS.publicWrite`.
+2. **A public write must be IP limited.** `enforceIpRateLimit` with `RATE_LIMITS.publicWrite`.
 
-3. **`/api/admin/**` comprueba rol de administrador**, no solo que haya sesión.
+3. **`/api/admin/**` checks for administrator role**, not just session presence.
 
-4. **`.env.example` cubre lo que el código lee** (`verify:env-example`) y contiene
-   **solo marcadores de posición**. Nunca un valor real.
+4. **`.env.example` covers what the code reads** (`verify:env-example`) and contains **only placeholders**. Never a real value.
 
-5. **Toda respuesta declara política de caché** (`cache:audit`).
+5. **Every response declares a cache policy** (`cache:audit`).
 
-## Estilo
+## Style
 
-- TypeScript `strict`. No añadas `any` para cerrar un error de tipos; cierra el
-  error.
-- `npm run lint:fix` antes de commitear. Hoy hay 0 errores y 222 avisos; **no
-  subas el número de errores**.
-- Nombres y comentarios en español, igual que el código existente.
-- Comenta el *porqué*, no el *qué*. Si un comentario describe lo que la línea ya
-  dice, sobra.
+- TypeScript `strict`. Do not add `any` to silence a type error; fix the error.
+- `npm run lint:fix` before committing. Today there are 0 errors and 222 warnings; **do not increase the number of errors**.
+- Keep names and comments consistent with the existing code. (This project used to have Spanish names and comments, which might be transitioning).
+- Comment the *why*, not the *what*. If a comment describes what the line already says, it is redundant.
 
-## Pruebas
+## Testing
 
 ```bash
-npm test                     # 325 unitarias + 2 de datos
-npm run test:coverage        # informe lcov honesto en coverage/
+npm test                     # 325 unit + 2 data tests
+npm run test:coverage        # honest lcov report in coverage/
 ```
 
-La cobertura de líneas sobre `src/` es del 5,56 %: 62 archivos medidos de 680.
-Ese número es real y está explicado en [docs/TESTING.md](docs/TESTING.md). Si
-tocas un módulo sin pruebas, añadirlas sube ese número de verdad; no añadas
-pruebas que solo ejecutan código sin comprobar nada.
+Line coverage over `src/` is 5.56%: 62 files measured out of 680. That number is real and explained in [docs/TESTING.md](docs/TESTING.md). If you touch a module without tests, adding them truly raises that number; do not add tests that only execute code without asserting anything.
 
 ## Commits
 
-Convencionales: `feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `chore:`.
-Un commit, un cambio. No mezcles un renombrado masivo con un cambio de
-comportamiento: hace la revisión imposible.
+Conventional: `feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `chore:`.
+One commit, one change. Do not mix a massive rename with a behavior change: it makes review impossible.
