@@ -1,264 +1,260 @@
-# Auditoría del repositorio — 11 de septiembre de 2026
+# Repository Audit — September 11, 2026
 
-Estado real de `prompt-studio` medido con los comandos del §9. Nada de lo que
-sigue es una estimación: si una cifra no se pudo medir, se dice.
-
----
-
-## 1. Resumen ejecutivo
-
-| Área evaluada | Estado | Motivo en una línea |
-|---|---|---|
-| **Material** | Fuerte | ~97.000 líneas de código propio, 368 commits, 105 rutas de API, 45 modelos |
-| **Difficulty** | Fuerte | Editor visual, cola de generación con créditos, comercio con afiliados: lógica real, no CRUD |
-| **Verifiability** | **Débil** | `npm run lint` **no funciona**, la cobertura mide 62 de 680 ficheros, CI no corre en la rama de trabajo |
-| **Comprehensibility** | **Débil** | **No hay README**; 87 documentos sin índice ni documentación de arquitectura |
-
-Las dos primeras áreas ya están; las dos últimas son donde está todo el margen.
+Actual state of `prompt-studio` measured using the commands in §9. Nothing that
+follows is an estimate: if a figure could not be measured, it is stated.
 
 ---
 
-## 2. Arquitectura actual
+## 1. Executive Summary
 
-**Stack**: Next.js 15.5.9 (App Router, Turbopack) · React 19 · TypeScript 6 en
-modo `strict` · Tailwind · MongoDB con Mongoose · Clerk (identidad) · Stripe
-(cobros) · Genkit + proveedores de IA · next-intl · Vercel.
-
-```
-Navegador
-   │
-   ├── src/app/[locale]/**         90 páginas (RSC + clientes)
-   │      └── middleware (src/proxy.ts) — idioma, redirecciones, cabeceras
-   │
-   ├── src/app/api/**             105 rutas de API
-   │      ├── auth: Clerk · webhooks firmados · CRON_SECRET · admin · IP rate-limit
-   │      ├── comercio: stripe, créditos, afiliados, marketplace
-   │      └── IA: cola de trabajos, evaluación, proveedores
-   │
-   ├── src/lib/**                 155 ficheros — lógica de negocio pura
-   ├── src/models/**               45 modelos de Mongoose
-   ├── src/components/**          156 componentes
-   └── src/data/**                catálogo (15 JSON, fuera de `public/`)
-```
-
-**Reparto de código** (ficheros versionados, sin datos ni lockfiles):
-
-| Zona | Ficheros | Líneas |
+| Evaluated Area | Status | One-line Reason |
 |---|---|---|
-| `src/app` | 278 | 43.359 |
-| `src/components` | 156 | 17.078 |
-| `src/lib` | 155 | 13.799 |
-| `src/hooks` | 30 | 2.032 |
-| `src/models` | 45 | 1.273 |
+| **Material** | Strong | ~97,000 lines of custom code, 368 commits, 105 API routes, 45 models |
+| **Difficulty** | Strong | Visual editor, generation queue with credits, affiliate commerce: real logic, not CRUD |
+| **Verifiability** | **Weak** | `npm run lint` **does not work**, coverage measures 62 of 680 files, CI does not run on the working branch |
+| **Comprehensibility** | **Weak** | **There is no README**; 87 documents without an index or architecture documentation |
+
+The first two areas are already solid; the last two are where all the margin for improvement lies.
+
+---
+
+## 2. Current Architecture
+
+**Stack**: Next.js 15.5.9 (App Router, Turbopack) · React 19 · TypeScript 6 in
+`strict` mode · Tailwind · MongoDB with Mongoose · Clerk (identity) · Stripe
+(billing) · Genkit + AI providers · next-intl · Vercel.
+
+```
+Browser
+   │
+   ├── src/app/[locale]/**         90 pages (RSC + clients)
+   │      └── middleware (src/proxy.ts) — language, redirects, headers
+   │
+   ├── src/app/api/**             105 API routes
+   │      ├── auth: Clerk · signed webhooks · CRON_SECRET · admin · IP rate-limit
+   │      ├── commerce: stripe, credits, affiliates, marketplace
+   │      └── AI: job queue, evaluation, providers
+   │
+   ├── src/lib/**                 155 files — pure business logic
+   ├── src/models/**               45 Mongoose models
+   ├── src/components/**          156 components
+   └── src/data/**                catalog (15 JSON files, outside `public/`)
+```
+
+**Code breakdown** (versioned files, excluding data and lockfiles):
+
+| Zone | Files | Lines |
+|---|---|---|
+| `src/app` | 278 | 43,359 |
+| `src/components` | 156 | 17,078 |
+| `src/lib` | 155 | 13,799 |
+| `src/hooks` | 30 | 2,032 |
+| `src/models` | 45 | 1,273 |
 | `src/ai` | 7 | 230 |
-| `scripts` (.mjs) | 80 | 14.862 |
-| `tests` | 63 | 3.617 |
-| **Total TS/TSX** | **748** | **82.339** |
+| `scripts` (.mjs) | 80 | 14,862 |
+| `tests` | 63 | 3,617 |
+| **Total TS/TSX** | **748** | **82,339** |
 
 ---
 
-## 3. Verificabilidad — el área más débil
+## 3. Verifiability — the weakest area
 
-### 3.1 El linting no existe (P0)
+### 3.1 Linting does not exist (P0)
 
-`npm run lint` ejecuta `next lint`, que en Next 15.5 está retirado. La ejecución
-real **abre un asistente interactivo** y se queda esperando:
+`npm run lint` executes `next lint`, which in Next 15.5 is removed/deprecated. The
+actual execution **opens an interactive wizard** and waits:
 
 ```
 npx @next/codemod@canary next-lint-to-eslint-cli .
 ? How would you like to configure ESLint? ❯ Strict (recommended)
 ```
 
-No hay `eslint.config.*` ni `.eslintrc*` en el repositorio. Consecuencias:
+There is no `eslint.config.*` or `.eslintrc*` in the repository. Consequences:
 
-- No hay análisis estático de ninguna clase.
-- En CI, ese comando colgaría o fallaría — por eso **no está en el pipeline**.
-- Los imports muertos, las variables sin usar y los hooks mal declarados pasan
-  sin aviso. Ya provocó un fallo real de HMR en producción de desarrollo.
+- No static analysis of any kind.
+- In CI, that command would hang or fail — that's why **it is not in the pipeline**.
+- Dead imports, unused variables, and incorrectly declared hooks pass without warning. It has already caused a real HMR failure in development production.
 
-### 3.2 La cobertura mide una fracción del código (P0)
+### 3.2 Coverage measures a fraction of the code (P0)
 
-`npm run test:coverage` informa **93,87 %**, y esa cifra es engañosa:
-`--experimental-test-coverage` de Node solo contabiliza **los ficheros que los
-tests cargan**. Medido: **62 ficheros de 680** en `src/`.
+`npm run test:coverage` reports **93.87%**, and that figure is misleading:
+Node's `--experimental-test-coverage` only counts **files loaded by the tests**.
+Measured: **62 files out of 680** in `src/`.
 
-| Lo que sí se mide | Lo que no |
+| What is measured | What is not |
 |---|---|
-| 62 módulos de `src/lib` y similares | 156 componentes de React |
-| Lógica pura importada por los tests | 105 rutas de API |
-| | 90 páginas |
+| 62 modules from `src/lib` and similar | 156 React components |
+| Pure logic imported by tests | 105 API routes |
+| | 90 pages |
 
-Los módulos de negocio peor cubiertos, entre los que sí entran:
+The lowest covered business modules among those included:
 
-| Módulo | Cobertura de líneas |
+| Module | Line coverage |
 |---|---|
-| `src/lib/component-purchase-validation.ts` | 23,08 % |
-| `src/lib/generation-pricing.ts` | 49,23 % |
-| `src/lib/editor/prompt.ts` | 57,78 % |
-| `src/lib/affiliate.ts` | 61,06 % |
-| `src/lib/campaign-control-center.ts` | 66,13 % |
+| `src/lib/component-purchase-validation.ts` | 23.08 % |
+| `src/lib/generation-pricing.ts` | 49.23 % |
+| `src/lib/editor/prompt.ts` | 57.78 % |
+| `src/lib/affiliate.ts` | 61.06 % |
+| `src/lib/campaign-control-center.ts` | 66.13 % |
 
-### 3.3 CI no cubre el trabajo real (P0)
+### 3.3 CI does not cover actual work (P0)
 
-`.github/workflows/quality.yml` tiene dos jobs y se dispara con
-`pull_request` y `push` a `main`. Pero:
+`.github/workflows/quality.yml` has two jobs and triggers on
+`pull_request` and `push` to `main`. But:
 
-- El desarrollo ocurre en **`develop`**, así que un push normal **no dispara CI**.
-- **0 pull requests** en 368 commits: la vía de `pull_request` tampoco se usa.
-- El pipeline no ejecuta **build**, ni **lint**, ni `seo:validate-all`.
+- Development happens on **`develop`**, so a normal push **does not trigger CI**.
+- **0 pull requests** in 368 commits: the `pull_request` path is not used either.
+- The pipeline does not run **build**, **lint**, or `seo:validate-all`.
 
-Es decir: hay CI configurado y prácticamente ningún commit pasa por él.
+In short: CI is configured, but practically no commit goes through it.
 
-### 3.4 El build ignora sus propios errores (P1)
+### 3.4 The build ignores its own errors (P1)
 
-`next.config.ts:78-82` mantiene `typescript.ignoreBuildErrors: true` y
-`eslint.ignoreDuringBuilds: true`. `npm run typecheck` **pasa** hoy (salida
-vacía, código 0), así que la red existe fuera del build — pero nada impide que
-un error de tipos llegue a producción.
+`next.config.ts:78-82` keeps `typescript.ignoreBuildErrors: true` and
+`eslint.ignoreDuringBuilds: true`. `npm run typecheck` **passes** today (empty
+output, exit code 0), so the safety net exists outside the build — but nothing prevents
+a type error from reaching production.
 
-### 3.5 Lo que sí funciona
+### 3.5 What actually works
 
-| Comprobación | Resultado |
+| Check | Result |
 |---|---|
-| `npm run typecheck` | **PASA** (0 errores) |
-| `npm test` | **PASA** — 318 unitarios + 2 de datos |
-| `npm run cache:audit` | **PASA** |
-| `npm run verify:env-example` | **PASA** (en `test:ci`) |
-| Tests e2e (Playwright) | 3 suites; en local falta el binario, en CI corren |
+| `npm run typecheck` | **PASSED** (0 errors) |
+| `npm test` | **PASSED** — 318 unit + 2 data tests |
+| `npm run cache:audit` | **PASSED** |
+| `npm run verify:env-example` | **PASSED** (in `test:ci`) |
+| E2E tests (Playwright) | 3 suites; binary missing locally, they run in CI |
 
 ---
 
-## 4. Comprensibilidad
+## 4. Comprehensibility
 
-### 4.1 No hay README (P0)
+### 4.1 There is no README (P0)
 
-El repositorio **no tiene punto de entrada**. `README.md`, `README_EN.md`,
-`README_ES.md` y `AGENTS.md` se borraron en el commit `6fb2744e`, el mismo que
-añadió la carpeta `docs/`. Quien clone hoy el proyecto no encuentra ni cómo
-instalarlo.
+The repository **has no entry point**. `README.md`, `README_EN.md`,
+`README_ES.md`, and `AGENTS.md` were deleted in commit `6fb2744e`, the same one that
+added the `docs/` folder. Anyone cloning the project today cannot even find how to
+install it.
 
-### 4.2 Falta la documentación de ingeniería
+### 4.2 Engineering documentation is missing
 
-`docs/` tiene **87 documentos y 21.065 líneas**, bien organizados por área
-(historial, capacidades, políticas, operaciones, licencia de datos, editor, SEO,
-CRM). El problema no es la cantidad, es **qué** documenta: casi todo es negocio,
-producto y operación. No existe:
+`docs/` has **87 documents and 21,065 lines**, well-organized by area
+(history, capabilities, policies, operations, data licensing, editor, SEO,
+CRM). The problem is not the quantity, but **what** it documents: almost everything is business,
+product, and operations. Missing:
 
 `ARCHITECTURE.md` · `SETUP.md` · `DEVELOPMENT.md` · `API.md` · `DATABASE.md` ·
 `AI_ARCHITECTURE.md` · `DEPLOYMENT.md` · `TROUBLESHOOTING.md` · `SECURITY.md`
 
-Tampoco hay índice de `docs/`, ni `CONTRIBUTING.md`, ni `LICENSE`, ni plantillas
-de issue o PR.
+There is also no index for `docs/`, nor `CONTRIBUTING.md`, `LICENSE`, or issue/PR templates.
 
-### 4.3 440.000 líneas de markdown que no son documentación (P1)
+### 4.3 440,000 lines of markdown that are not documentation (P1)
 
-`.specstory/history/` son **50 transcripciones de sesiones de IA versionadas,
-468.167 líneas**. Veinte veces el volumen de `docs/`. No describen el sistema:
-son el registro de las conversaciones que lo construyeron.
+`.specstory/history/` contains **50 versioned AI session transcripts,
+468,167 lines**. Twenty times the volume of `docs/`. They do not describe the system:
+they are the log of the conversations that built it.
 
-Tienen valor como historial de decisiones —está argumentado en
-`docs/data-licensing/`— pero **no deben contar como documentación**, y conviene
-decidir explícitamente si se quedan.
+They have value as a decision history —argued in
+`docs/data-licensing/`— but **should not count as documentation**, and an explicit
+decision should be made regarding whether they should stay.
 
 ---
 
-## 5. Seguridad
+## 5. Security
 
-### 5.1 Comprobado y correcto
+### 5.1 Verified and correct
 
-- **Sin secretos con forma de clave en las transcripciones.** Se buscaron
-  patrones de valor real (`sk_live_` + 20 caracteres, `pk_live_…`, `AIza…`,
-  `mongodb+srv://…`): **0 coincidencias**. Lo que aparece son nombres de
-  variable citados en conversación.
-- `.gitignore` ignora `.env*` y exceptúa `.env.example`, que está protegido por
-  `verify:env-example` dentro de `test:ci`.
-- Las escrituras públicas (`new-users`, `affiliate/click`) están **limitadas por
-  IP** con `enforceIpRateLimit`.
+- **No key-shaped secrets in transcripts.** Real-value patterns were searched
+  (`sk_live_` + 20 characters, `pk_live_…`, `AIza…`,
+  `mongodb+srv://…`): **0 matches**. What appears are variable names quoted in conversation.
+- `.gitignore` ignores `.env*` and excepts `.env.example`, which is protected by
+  `verify:env-example` inside `test:ci`.
+- Public writes (`new-users`, `affiliate/click`) are **IP rate-limited**
+  with `enforceIpRateLimit`.
 
-### 5.2 Problemas reales
+### 5.2 Real issues
 
-| # | Problema | Gravedad |
+| # | Issue | Severity |
 |---|---|---|
-| 1 | **105 vulnerabilidades** de dependencias: 4 críticas, 35 altas, 62 moderadas. Solo producción: 88, con **4 críticas y 23 altas** (`@grpc/grpc-js`, `express`/`body-parser`, `brace-expansion` ReDoS, cadena de `@genkit-ai/*` y OpenTelemetry) | **P0** |
-| | *Estado al cierre: producción en **63, 0 críticas y 7 altas**. Ver [IMPROVEMENT_REPORT.md](IMPROVEMENT_REPORT.md) §2.4.* | |
-| 2 | **Seis mecanismos de autorización** conviviendo sin mapa: `auth()` de Clerk, firma de webhook (Stripe `constructEvent`, Clerk `svix`), `requireCronOrAdmin`, `hasValidCronSecret`, `isCacheAdminAuthorized`, límite por IP. Revisar si una ruta está protegida exige leerla entera | **P1** |
-| 3 | Secretos en commits antiguos del historial (documentado en `docs/historial/`): borrados de HEAD, **no del historial**. Estado de rotación: sin verificar | **P1** |
-| 4 | 68 de 105 rutas sin señal evidente de validación de entrada (varias validan con helpers propios; requiere revisión caso por caso) | **P2** |
+| 1 | **105 dependency vulnerabilities**: 4 critical, 35 high, 62 moderate. Production only: 88, with **4 critical and 23 high** (`@grpc/grpc-js`, `express`/`body-parser`, `brace-expansion` ReDoS, `@genkit-ai/*` chain, and OpenTelemetry) | **P0** |
+| | *Status at closing: production at **63, 0 critical and 7 high**. See [IMPROVEMENT_REPORT.md](IMPROVEMENT_REPORT.md) §2.4.* | |
+| 2 | **Six authorization mechanisms** coexisting without a map: Clerk's `auth()`, webhook signatures (Stripe `constructEvent`, Clerk `svix`), `requireCronOrAdmin`, `hasValidCronSecret`, `isCacheAdminAuthorized`, IP rate limit. Checking if a route is protected requires reading it entirely | **P1** |
+| 3 | Secrets in old commits of history (documented in `docs/historial/`): deleted from HEAD, **not from history**. Rotation status: unverified | **P1** |
+| 4 | 68 out of 105 routes without an obvious sign of input validation (several validate with custom helpers; requires case-by-case review) | **P2** |
 
 ---
 
-## 6. Calidad de código
+## 6. Code Quality
 
-**Lo que está bien**: 1 solo `console.log` en `src/`, 1 solo TODO, 0 bloques de
-código comentado, `strict: true` en TypeScript, modelos y lógica separados de la
-interfaz.
+**What is good**: Only 1 `console.log` in `src/`, only 1 TODO, 0 commented code
+blocks, `strict: true` in TypeScript, models and logic separated from the interface.
 
-**Lo que no**:
+**What is not**:
 
-| Problema | Evidencia |
+| Issue | Evidence |
 |---|---|
-| Componentes cliente enormes | `prompt-editor-client.tsx` 3.202 líneas · `generate-videos-client.tsx` 3.027 · `generate-webs-client.tsx` 2.721 · `affiliate-client.tsx` 1.334 |
-| Rutas muertas | `api/like` y `api/seed` devuelven 501 «Firebase integration was removed» |
-| Restos de la migración | 5 ficheros siguen importando Firebase tras el paso a MongoDB |
-| Sin formateador declarado | No hay `.prettierrc`; el estilo depende del editor de cada uno |
+| Huge client components | `prompt-editor-client.tsx` 3,202 lines · `generate-videos-client.tsx` 3,027 · `generate-webs-client.tsx` 2,721 · `affiliate-client.tsx` 1,334 |
+| Dead routes | `api/like` and `api/seed` return 501 "Firebase integration was removed" |
+| Migration leftovers | 5 files still import Firebase after moving to MongoDB |
+| No declared formatter | No `.prettierrc`; style depends on each developer's editor |
 
-Las páginas más largas (`privacy` 3.472, `terms` 3.082, `licenses` 2.132) son
-**texto legal**, no complejidad: no son candidatas a refactor.
+The longest pages (`privacy` 3,472, `terms` 3,082, `licenses` 2,132) are
+**legal text**, not complexity: they are not candidates for refactoring.
 
 ---
 
-## 7. Prioridades
+## 7. Priorities
 
-### P0 — crítico
+### P0 — Critical
 
-1. **Configurar ESLint** y que `npm run lint` funcione sin interacción.
-2. **Medir la cobertura sobre todo `src/`**, no sobre lo que los tests importen.
-3. **CI que cubra el trabajo real**: disparar en `develop`, añadir lint y build.
-4. **`npm run validate`**: un único comando reproducible de salud del repo.
-5. **README.md**: el repositorio no tiene punto de entrada.
-6. **Triaje de las 4 vulnerabilidades críticas** de producción.
+1. **Configure ESLint** and ensure `npm run lint` works without interactive prompts.
+2. **Measure coverage across all of `src/`**, not just what tests import.
+3. **CI covering actual work**: trigger on `develop`, add lint and build steps.
+4. **`npm run validate`**: a single reproducible command for repo health.
+5. **README.md**: the repository has no entry point.
+6. **Triage the 4 critical vulnerabilities** in production.
 
-### P1 — alto valor
+### P1 — High Value
 
-7. `docs/ARCHITECTURE.md` con diagramas, `SETUP.md`, `DEVELOPMENT.md`,
+7. `docs/ARCHITECTURE.md` with diagrams, `SETUP.md`, `DEVELOPMENT.md`,
    `TESTING.md`, `SECURITY.md`, `TROUBLESHOOTING.md`, `API.md`, `DATABASE.md`,
    `AI_ARCHITECTURE.md`.
-8. **Mapa de acceso por ruta** documentado y **verificado por un test**, que es
-   la única forma de que no se degrade.
-9. Tests de los módulos de negocio peor cubiertos, empezando por
-   `component-purchase-validation` (23 %) y `generation-pricing` (49 %).
-10. Quitar `ignoreBuildErrors` / `ignoreDuringBuilds`, o dejarlos tras una
-    bandera que CI ponga en estricto.
+8. **Route access map** documented and **verified by a test**, which is the
+   only way to prevent regression.
+9. Tests for the lowest covered business modules, starting with
+   `component-purchase-validation` (23%) and `generation-pricing` (49%).
+10. Remove `ignoreBuildErrors` / `ignoreDuringBuilds`, or place them behind a
+    flag that CI sets to strict.
 
-### P2 — valor medio
+### P2 — Medium Value
 
-11. Descomponer los tres clientes de más de 2.700 líneas por responsabilidades.
-12. Borrar rutas muertas y restos de Firebase.
-13. `CONTRIBUTING.md`, `SECURITY.md`, `LICENSE`, plantillas de issue y PR.
-14. Decidir qué se hace con `.specstory/history`.
+11. Decompose the three clients over 2,700 lines by responsibilities.
+12. Delete dead routes and leftover Firebase code.
+13. `CONTRIBUTING.md`, `SECURITY.md`, `LICENSE`, issue and PR templates.
+14. Decide what to do with `.specstory/history`.
 
-### P3 — opcional
+### P3 — Optional
 
-15. Prettier con configuración compartida.
-16. `seo:validate-all` en CI (hoy falla con hallazgos reales pendientes).
-17. Empezar a usar pull requests: 0 en 368 commits.
-
----
-
-## 8. Lo que esta auditoría **no** afirma
-
-- **No** dice que la cobertura real sea 93,87 %: esa cifra cubre 62 de 680
-  ficheros.
-- **No** dice que haya secretos expuestos en las transcripciones: se comprobó la
-  forma de los valores y no los hay.
-- **No** dice que las rutas «sin `auth()`» estén desprotegidas: seis mecanismos
-  distintos las protegen; el problema es que no están documentados.
-- **No** ha ejecutado `npm run build` en esta pasada: el estado del build se
-  verifica en la fase final.
+15. Prettier with shared configuration.
+16. `seo:validate-all` in CI (currently fails with pending real findings).
+17. Start using pull requests: 0 in 368 commits.
 
 ---
 
-## 9. Cómo reproducir estas cifras
+## 8. What this audit **does not** claim
+
+- **Does not** say real coverage is 93.87%: that figure covers 62 out of 680
+  files.
+- **Does not** say there are exposed secrets in transcripts: value formats were
+  checked and none were found.
+- **Does not** say routes "without `auth()`" are unprotected: six different
+  mechanisms protect them; the issue is they are undocumented.
+- **Has not** run `npm run build` during this pass: build status is
+  verified in the final phase.
+
+---
+
+## 9. How to reproduce these figures
 
 ```bash
 # Material
@@ -266,19 +262,19 @@ git log --oneline | wc -l
 for ext in ts tsx mjs; do git ls-files "*.$ext" | grep -vE '^public/|^src/data/' | xargs wc -l | tail -1; done
 find src/app/api -name route.ts | wc -l && ls src/models | wc -l
 
-# Verificabilidad
+# Verifiability
 npx tsc --noEmit; echo "typecheck=$?"
-npm run lint                      # abre un asistente: ahí está el problema
+npm run lint                      # opens a wizard: that's the problem
 npm test
 npm run test:coverage | grep "all files"
-npm run test:coverage | grep -c "^# src/"    # ficheros realmente medidos
+npm run test:coverage | grep -c "^# src/"    # actually measured files
 find src -name '*.ts' -o -name '*.tsx' | wc -l
 
-# Seguridad
-npm audit --omit=dev --json | node -e "…"    # ver §5
+# Security
+npm audit --omit=dev --json | node -e "…"    # see §5
 grep -rhoE 'sk_live_[A-Za-z0-9]{20,}' .specstory | sort -u | wc -l   # 0
 
-# Comprensibilidad
+# Comprehensibility
 find docs -name '*.md' | wc -l && cat $(find docs -name '*.md') | wc -l
 ls README.md CONTRIBUTING.md SECURITY.md LICENSE 2>/dev/null
 ```
