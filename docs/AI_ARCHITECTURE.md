@@ -1,69 +1,71 @@
-# Subsistema de generación con IA
+# AI Generation Subsystem
 
-Este documento describe el camino completo de una generación: desde que el
-usuario pulsa *generar* hasta que el crédito se cobra o se devuelve. Es el
-subsistema con más estados del proyecto y el único que mueve dinero, así que lo
-que sigue está descrito con el nivel de detalle que exigiría una revisión de
-incidentes.
+This document describes the complete flow of a generation: from the moment the
+user clicks *generate* until the credit is charged or refunded. It is the
+subsystem with the most states in the project and the only one that handles
+money, so the following is described with the level of detail that an incident
+review would require.
 
 ---
 
-## 1. Dos caminos, no uno
+## 1. Two paths, not one
 
-Hay **dos mecanismos distintos** de generación y conviene no confundirlos.
+There are **two distinct mechanisms** for generation and they should not be
+confused.
 
-| | Camino síncrono | Camino asíncrono |
+| | Synchronous path | Asynchronous path |
 |---|---|---|
-| Dónde vive | `src/lib/generation/provider-adapters.ts` (`'use client'`) | `src/app/api/ai/jobs/**` + `src/lib/ai-job-*.ts` |
-| Cómo llama al proveedor | *Server actions* proxy (`proxyOpenAIChat`, `proxyGemini`, …) | Cola en MongoDB, consumida por un cron |
-| Cuándo se usa | Edición interactiva: el usuario espera la respuesta | Trabajos largos: vídeo, proyectos, lotes |
-| Créditos | No los descuenta | Reserva → captura/devuelve |
+| Where it lives | `src/lib/generation/provider-adapters.ts` (`'use client'`) | `src/app/api/ai/jobs/**` + `src/lib/ai-job-*.ts` |
+| How it calls the provider | *Server actions* proxy (`proxyOpenAIChat`, `proxyGemini`, …) | MongoDB queue, consumed by a cron |
+| When it is used | Interactive editing: the user waits for the response | Long jobs: video, projects, batches |
+| Credits | Does not deduct them | Reserve → capture/refund |
 
-El registro de adaptadores existe para que **los editores no importen cada server
-action por separado**: las formas de respuesta de cada proveedor se quedan
-contenidas en ese archivo, y aguas arriba todo el mundo ve la misma interfaz.
+The adapter registry exists so that **editors do not import each server action
+separately**: the response shapes of each provider remain contained in that
+file, and upstream everyone sees the same interface.
 
-El resto del documento trata el camino asíncrono, que es donde está el riesgo.
+The rest of the document covers the asynchronous path, which is where the risk
+lies.
 
 ---
 
-## 2. Proveedores por tipo de trabajo
+## 2. Providers by job type
 
-`src/lib/ai-job-config.ts` es la **única fuente de verdad**; `isProviderForKind()`
-la aplica en la entrada de la API, de modo que no es posible encolar un trabajo
-de vídeo contra un proveedor de imagen.
+`src/lib/ai-job-config.ts` is the **single source of truth**; `isProviderForKind()`
+applies it at the API entry point, so that it is not possible to queue a video
+job against an image provider.
 
-| Tipo | Créditos | Coste estimado | Proveedores admitidos |
+| Type | Credits | Estimated cost | Supported providers |
 |---|---|---|---|
-| `image` | 1 | 0,04 USD | `google`, `openai`, `fal`, `replicate` |
-| `video` | 3 | 0,35 USD | `runway`, `veo`, `kling`, `luma`, `pika`, `hailuo`, `sora` |
-| `project` | 2 | 0,08 USD | `google`, `openai`, `anthropic`, `deepseek` |
+| `image` | 1 | 0.04 USD | `google`, `openai`, `fal`, `replicate` |
+| `video` | 3 | 0.35 USD | `runway`, `veo`, `kling`, `luma`, `pika`, `hailuo`, `sora` |
+| `project` | 2 | 0.08 USD | `google`, `openai`, `anthropic`, `deepseek` |
 
-El coste en créditos es fijo y conocido **antes** de llamar al proveedor; el coste
-real en dólares se mide después (`actualProviderCost`) y se guarda en el trabajo.
-Esa diferencia es lo que permite saber si la tarifa está mal calibrada.
+The cost in credits is fixed and known **before** calling the provider; the actual
+cost in dollars is measured afterwards (`actualProviderCost`) and saved in the
+job. This difference is what allows determining if the rate is poorly calibrated.
 
 ---
 
-## 3. Ciclo de vida del trabajo
+## 3. Job lifecycle
 
 ```mermaid
 stateDiagram-v2
     [*] --> queued: POST /api/ai/jobs · reserveCredits()
-    queued --> processing: findOneAndUpdate reclama y toma lease (5 min)
-    processing --> completed: salida válida · captureCredits()
-    processing --> retrying: fallo · attempts < maxAttempts
-    retrying --> processing: nextAttemptAt vencido
+    queued --> processing: findOneAndUpdate claims and takes lease (5 min)
+    processing --> completed: valid output · captureCredits()
+    processing --> retrying: failure · attempts < maxAttempts
+    retrying --> processing: nextAttemptAt expired
     processing --> failed: attempts == maxAttempts · refundCredits()
     completed --> [*]
     failed --> [*]
 ```
 
-### Cómo se reclama un trabajo
+### How a job is claimed
 
-`/api/ai/jobs/process` no hace «leer y luego escribir». Usa un
-`findOneAndUpdate` atómico que en la misma operación filtra, marca como
-`processing`, incrementa `attempts` y fija un **lease de 5 minutos**:
+`/api/ai/jobs/process` does not do "read and then write". It uses an atomic
+`findOneAndUpdate` that in the same operation filters, marks as `processing`,
+increments `attempts`, and sets a **5-minute lease**:
 
 ```ts
 { status: { $in: ['queued','retrying','processing'] },
@@ -71,34 +73,34 @@ stateDiagram-v2
   $or: [{ leaseExpiresAt: null }, { leaseExpiresAt: { $lte: now } }] }
 ```
 
-Dos consecuencias deliberadas:
+Two deliberate consequences:
 
-1. **Dos crons concurrentes no pueden tomar el mismo trabajo.** El filtro y la
-   escritura son una sola operación de MongoDB.
-2. **Un worker que muere no bloquea el trabajo para siempre.** Por eso
-   `processing` aparece en el `$in`: pasados 5 minutos el lease caduca y otro
-   intento lo recoge. Sin esto, un proceso caído dejaría créditos reservados
-   indefinidamente.
+1. **Two concurrent crons cannot take the same job.** The filter and write are a
+   single MongoDB operation.
+2. **A worker that dies does not block the job forever.** That is why
+   `processing` appears in the `$in`: after 5 minutes the lease expires and
+   another attempt picks it up. Without this, a crashed process would leave
+   credits reserved indefinitely.
 
-El endpoint procesa entre 1 y 5 trabajos por invocación (`limit`, acotado en el
-servidor) y está protegido por `hasValidCronSecret`, no por sesión.
+The endpoint processes between 1 and 5 jobs per invocation (`limit`, bounded on the
+server) and is protected by `hasValidCronSecret`, not by session.
 
-### Reintentos
+### Retries
 
-Retroceso exponencial en minutos: `2 ** (attempts - 1)` → 1, 2, 4, 8…
-`maxAttempts` vale 3 por defecto y está acotado entre 1 y 5 en el esquema.
-Al agotarlo el trabajo pasa a `failed`, **se devuelven los créditos**
-y se avisa al usuario por correo indicando el número de intentos.
+Exponential backoff in minutes: `2 ** (attempts - 1)` → 1, 2, 4, 8…
+`maxAttempts` defaults to 3 and is bounded between 1 and 5 in the schema.
+Upon exhausting it, the job transitions to `failed`, **credits are refunded**,
+and the user is notified by email indicating the number of attempts.
 
 ---
 
-## 4. Créditos: reservar, capturar, devolver
+## 4. Credits: reserve, capture, refund
 
-`src/lib/ai-job-service.ts`. La cuenta guarda tres números: `balance`,
-`reserved` y `lifetimeSpent`. Saldo inicial:
+`src/lib/ai-job-service.ts`. The account stores three numbers: `balance`,
+`reserved`, and `lifetimeSpent`. Initial balance:
 `Math.max(0, Number(process.env.AI_INITIAL_CREDITS ?? 12))`.
 
-**Reserva.** Es la operación crítica y es condicional:
+**Reservation.** This is the critical operation and it is conditional:
 
 ```ts
 AICreditAccount.findOneAndUpdate(
@@ -107,71 +109,71 @@ AICreditAccount.findOneAndUpdate(
   { returnDocument: 'after' })
 ```
 
-La comprobación de saldo vive **en el filtro**, no en un `if` de JavaScript. Si
-dos peticiones llegan a la vez con saldo para una sola, la segunda no encuentra
-documento y `reserveCredits` devuelve `null`: el trabajo no se encola. Un saldo
-comprobado en código y descontado después sí permitiría el saldo negativo.
+The balance check lives **in the filter**, not in a JavaScript `if`. If two
+requests arrive at the same time with enough balance for only one, the second
+finds no document and `reserveCredits` returns `null`: the job is not queued. A
+balance checked in code and deducted later would allow a negative balance.
 
-El apunte en `ai_credit_ledger` es un **upsert con clave `{jobId, operation}`**,
-de modo que reintentar la reserva no duplica el movimiento.
+The entry in `ai_credit_ledger` is an **upsert with key `{jobId, operation}`**,
+so retrying the reservation does not duplicate the transaction.
 
-**Captura y devolución** son idempotentes por guarda explícita:
+**Capture and refund** are idempotent via an explicit guard:
 
 ```ts
 if (job.creditsState !== 'reserved') return;
 ```
 
-Llamar dos veces a `captureCredits` no cobra dos veces. La invariante del
-sistema es que **ningún trabajo termina con sus créditos en `reserved`**: o pasa
-a `captured` o a `refunded`.
+Calling `captureCredits` twice does not charge twice. The system invariant is that
+**no job finishes with its credits in `reserved`**: it either moves to
+`captured` or to `refunded`.
 
 ---
 
-## 5. Contratos de salida
+## 5. Output contracts
 
-Un trabajo puede llevar asociado un `OutputContract`. Entonces intervienen dos
-funciones de `src/lib/output-contract.ts`:
+A job can have an associated `OutputContract`. In that case, two functions from
+`src/lib/output-contract.ts` step in:
 
-- **`contractInstructions(contract)`** se antepone al prompt antes de llamar al
-  proveedor: modo (`json` / `code` / `text`), longitud máxima, idioma, tono y
-  palabras prohibidas.
-- **`validateAndRepairOutput(result, contract)`** valida la respuesta y, si el
-  contrato tiene `autoRepair`, intenta arreglarla: recorta a `maxLength` y
-  sustituye las palabras prohibidas por `[omitido]`; en modo JSON repara contra
-  el esquema.
+- **`contractInstructions(contract)`** is prepended to the prompt before calling
+  the provider: mode (`json` / `code` / `text`), maximum length, language, tone,
+  and prohibited words.
+- **`validateAndRepairOutput(result, contract)`** validates the response and, if
+  the contract has `autoRepair`, attempts to fix it: truncates to `maxLength`
+  and replaces prohibited words with `[omitido]`; in JSON mode it repairs against
+  the schema.
 
-El resultado es uno de tres estados: `valid`, `repaired`, `invalid`. Un
-`invalid` **lanza**, y por tanto cuenta como fallo del intento: entra en el
-camino de reintento y, si se agotan, en la devolución de créditos. Es decir, una
-salida que incumple el contrato no se le cobra al usuario.
+The result is one of three states: `valid`, `repaired`, `invalid`. An `invalid`
+**throws**, and therefore counts as an attempt failure: it enters the retry path
+and, if exhausted, the credit refund path. That is, an output that violates the
+contract is not charged to the user.
 
 ---
 
-## 6. El worker externo
+## 6. The external worker
 
-`runAIJob` (`src/lib/ai-job-runner.ts`) tiene una sola excepción local:
-imagen con `google` y sin worker configurado se resuelve en proceso con el flujo
-de Genkit. Todo lo demás va a `AI_GENERATION_WORKER_URL` con:
+`runAIJob` (`src/lib/ai-job-runner.ts`) has a single local exception: image
+with `google` and no configured worker is resolved in-process using the Genkit
+flow. Everything else goes to `AI_GENERATION_WORKER_URL` with:
 
 - `Authorization: Bearer <AI_GENERATION_WORKER_TOKEN>`
-- `Idempotency-Key: <job.idempotencyKey>` — para que un reintento tras un timeout
-  de red no produzca una segunda generación cobrada por el proveedor. La misma
-  clave está respaldada por un índice único `{userId, idempotencyKey}` en
-  `ai_generation_jobs`, así que el duplicado tampoco puede encolarse dos veces.
-- `AbortSignal.timeout(270_000)` — 270 s, por debajo del `maxDuration = 300` de
-  la ruta, para que el timeout lo produzca nuestro código con un mensaje útil en
-  vez de matarlo la plataforma.
-- Un tope de **2 MB** sobre el resultado serializado; por encima se exige
-  devolver una URL de R2 en lugar del binario, porque el resultado se guarda en
-  el documento del trabajo.
+- `Idempotency-Key: <job.idempotencyKey>` — so that a retry after a network timeout
+  does not produce a second generation charged by the provider. The same key is
+  backed by a unique index `{userId, idempotencyKey}` on `ai_generation_jobs`,
+  so the duplicate cannot be queued twice either.
+- `AbortSignal.timeout(270_000)` — 270 s, below the route's `maxDuration = 300`,
+  so that the timeout is triggered by our code with a useful message instead of
+  being killed by the platform.
+- A limit of **2 MB** on the serialized result; above this, returning an R2 URL
+  instead of the binary is required, because the result is saved in the job
+  document.
 
 ---
 
-## 7. Modo determinista para pruebas
+## 7. Deterministic test mode
 
-Con `NEXT_PUBLIC_E2E_TEST_MODE=true`, los adaptadores no llaman a ningún
-proveedor: devuelven respuestas fijas. Además, un prompt que contenga el marcador
-`[fail-once]` **falla exactamente el primer intento y funciona en el segundo**:
+With `NEXT_PUBLIC_E2E_TEST_MODE=true`, adapters do not call any provider:
+they return fixed responses. Additionally, a prompt containing the `[fail-once]`
+marker **fails on exactly the first attempt and succeeds on the second**:
 
 ```ts
 if (prompt.includes('[fail-once]') && e2eOpenAIFailures++ === 0) {
@@ -179,26 +181,24 @@ if (prompt.includes('[fail-once]') && e2eOpenAIFailures++ === 0) {
 }
 ```
 
-Esto hace comprobable el camino de reintento, que de otro modo solo se
-ejercitaría cuando un proveedor real fallase. Lo usa
-`tests/e2e/user-journeys.spec.ts`.
+This makes the retry path testable, which would otherwise only be exercised
+when a real provider failed. It is used by `tests/e2e/user-journeys.spec.ts`.
 
 ---
 
-## 8. Observabilidad
+## 8. Observability
 
-Cada transición relevante emite un evento a `observability_events`:
-`generation_completed`, `generation_retry_scheduled`, `generation_failed`. Todos
-llevan `jobId` como `correlationId`, el proveedor, el número de intentos y el
-coste, lo que permite responder a «qué proveedor falla más» y «cuánto nos cuesta
-de verdad cada tipo» sin instrumentación adicional.
+Every relevant transition emits an event to `observability_events`:
+`generation_completed`, `generation_retry_scheduled`, `generation_failed`. All
+carry `jobId` as `correlationId`, the provider, the number of attempts, and the
+cost, allowing questions such as "which provider fails the most" and "how much
+each type actually costs us" to be answered without additional instrumentation.
 
-Esos eventos **caducan a los 90 días** por TTL; véase
-[DATABASE.md](DATABASE.md) §5.
+These events **expire after 90 days** via TTL; see [DATABASE.md](DATABASE.md) §5.
 
 ---
 
-## 9. Cómo comprobar lo anterior
+## 9. How to verify the above
 
 ```bash
 # Proveedores y costes por tipo
@@ -214,5 +214,5 @@ sed -n '19,63p' src/lib/ai-job-service.ts
 npx tsx --test tests/unit/output-contract.test.ts tests/unit/credit-topup.test.ts
 ```
 
-Contexto de capas: [ARCHITECTURE.md](ARCHITECTURE.md). Modelos y colecciones:
+Layer context: [ARCHITECTURE.md](ARCHITECTURE.md). Models and collections:
 [DATABASE.md](DATABASE.md).
