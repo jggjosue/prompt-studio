@@ -1,58 +1,46 @@
-# DM — Modelo de datos
+# DM — Data Model
 
-Entidades del sistema y su forma real. Escrito para que quien programe —persona
-o agente— no tenga que inventarse campos ni deducir invariantes leyendo el
-código.
+System entities and their actual shape. Written so that whoever codes —person or agent— does not have to invent fields or deduce invariants by reading the code.
 
-Documento hermano: [prd.md](prd.md) describe qué hace el producto. Este describe
-sobre qué datos lo hace.
+Sibling document: [prd.md](prd.md) describes what the product does. This one describes the data it acts upon.
 
-Los datos viven en tres sitios distintos con responsabilidades separadas:
+Data lives in three different places with separate responsibilities:
 
-| Almacén | Qué guarda | Fuente de verdad de |
+| Store | What it keeps | Source of truth for |
 |---|---|---|
-| **Clerk** | Identidad, sesiones, correos | Quién es el usuario |
-| **MongoDB** | Estado de la aplicación | Compras, créditos, afiliación, actividad |
-| **Ficheros en `public/`** | Catálogo | Qué recursos existen |
+| **Clerk** | Identity, sessions, emails | Who the user is |
+| **MongoDB** | Application state | Purchases, credits, affiliation, activity |
+| **Files in `public/`** | Catalog | What resources exist |
 
-El `userId` de Clerk es la clave de unión: aparece en Mongo como `userId`,
-`clerkUserId`, `purchaserUserId`, `buyerUserId` o `referrerUserId` según la
-colección. **No hay claves foráneas ni `populate`**: las relaciones se resuelven
-por ese identificador en el código.
+Clerk's `userId` is the join key: it appears in Mongo as `userId`, `clerkUserId`, `purchaserUserId`, `buyerUserId`, or `referrerUserId` depending on the collection. **There are no foreign keys or `populate`**: relationships are resolved by that identifier in the code.
 
 ---
 
-## 1. Catálogo (ficheros)
+## 1. Catalog (files)
 
-El catálogo no está en base de datos. Vive como JSON en `src/data/`, se
-versiona con el repositorio y se consume por `import` en build y en servidor.
+The catalog is not in the database. It lives as JSON in `src/data/`, is versioned with the repository, and is consumed by `import` at build and server time.
 
-Distinción importante: las **fuentes** (`src/data/`) llevan el prompt completo y
-no son accesibles por HTTP. El **derivado** (`public/catalog/`) sí se sirve, y
-por eso `build-paged-catalogs.mjs` vacía `description` y trunca a 240 caracteres
-el prompt de los registros Premium.
+Important distinction: the **sources** (`src/data/`) carry the full prompt and are not accessible via HTTP. The **derivative** (`public/catalog/`) is served, which is why `build-paged-catalogs.mjs` empties `description` and truncates the prompt of Premium records to 240 characters.
 
-### 1.1 Fuentes
+### 1.1 Sources
 
-| Fichero | Clave raíz | Registros |
+| File | Root key | Records |
 |---|---|---|
 | `src/data/prompts/placeholder-images.json` | `placeholderImages` | 299 |
 | `src/data/prompts/placeholder-videos.json` | `placeholderVideos` | 197 |
 | `src/data/web-pages.json` | `webPages` | 236 |
-| `src/data/prompts/web-{tipo}-components.json` | `components` | 450 en 8 ficheros |
+| `src/data/prompts/web-{type}-components.json` | `components` | 450 in 8 files |
 
-**Viven en `src/data/`, no en `public/`**, precisamente porque contienen el
-prompt de pago: cualquier cosa bajo `public/` es descargable por URL. Se
-consumen con `import` estático, nunca por HTTP.
+**They live in `src/data/`, not in `public/`**, precisely because they contain the paid prompt: anything under `public/` is downloadable by URL. They are consumed with static `import`, never via HTTP.
 
-### 1.2 Forma de un registro
+### 1.2 Shape of a record
 
 ```jsonc
 {
-  "id": "img-2",                    // estable; se usa en la URL de la ficha
+  "id": "img-2",                    // stable; used in the detail URL
   "title": "Submerged",
-  "description": "",                // frecuentemente vacío
-  "imageUrl": "https://…",          // absoluta, host externo
+  "description": "",                // frequently empty
+  "imageUrl": "https://…",          // absolute, external host
   "imageHint": "underwater half-face",
   "tags": ["Realistic", "Modern"],
   "membership": "Free",             // "Free" | "Premium"
@@ -60,49 +48,34 @@ consumen con `import` estático, nunca por HTTP.
 }
 ```
 
-Las landing pages añaden `demoUrl` (carpeta bajo `public/webpages/`), `stack`
-(array de tecnologías) y `price` (cadena, no número).
+Landing pages add `demoUrl` (folder under `public/webpages/`), `stack` (array of technologies), and `price` (string, not number).
 
-Los campos localizables (`title`, `imageHint`) admiten dos formas: cadena
-directa, o un objeto `{ en, es }`. El helper `pick()` de
-`scripts/build-paged-catalogs.mjs` resuelve una u otra.
+Localizable fields (`title`, `imageHint`) support two forms: direct string, or an object `{ en, es }`. The `pick()` helper in `scripts/build-paged-catalogs.mjs` resolves one or the other.
 
-**Los ficheros de componentes no siguen esta forma.** Envuelven el array en un
-objeto con metadatos de categoría, y localizan por sufijo en vez de por objeto
-anidado:
+**Component files do not follow this shape.** They wrap the array in an object with category metadata, and localize by suffix instead of by nested object:
 
 ```jsonc
 {
   "title_es": "Botones", "title_en": "Buttons",
   "description_es": "…",  "description_en": "…",
-  "components": [ /* 50 elementos; form-components tiene 100 */ ]
+  "components": [ /* 50 elements; form-components has 100 */ ]
 }
 ```
 
-Cualquier lector genérico del catálogo debe localizar el array por búsqueda
-(`Object.values(...).find(Array.isArray)`), no asumir una clave fija ni que la
-raíz sea el array.
+Any generic catalog reader must locate the array by search (`Object.values(...).find(Array.isArray)`), not assume a fixed key or that the root is the array.
 
-### 1.3 Trampas conocidas de estos datos
+### 1.3 Known traps of this data
 
-Están documentadas porque ya han roto builds:
+They are documented because they have already broken builds:
 
-- **`tags` contiene valores no-string.** 52 en `placeholder-images.json`. Filtra
-  siempre antes de usar (`cleanTags()` en `src/lib/seo/programmatic-seo.ts`). Un
-  `null` que llega a `slugify()` rompe `generateStaticParams` en tiempo de build,
-  no en desarrollo.
-- **`price` es cadena**, incluso cuando representa un número.
-- **`description` NO está vacío en las fuentes**: contiene un objeto
-  `{ es: { nombre, prompt }, en: { name, prompt } }` con el prompt de pago.
-  Aparece vacío solo en el catálogo derivado, porque
-  `scripts/build-paged-catalogs.mjs` fija `description: ''` a propósito para no
-  publicar el producto en el JSON paginado.
-- **`id` no es globalmente único** entre tipos: hay `img-2` y `wp-2`.
+- **`tags` contains non-string values.** 52 in `placeholder-images.json`. Always filter before using (`cleanTags()` in `src/lib/seo/programmatic-seo.ts`). A `null` reaching `slugify()` breaks `generateStaticParams` at build time, not in development.
+- **`price` is a string**, even when representing a number.
+- **`description` is NOT empty in the sources**: it contains an object `{ es: { nombre, prompt }, en: { name, prompt } }` with the paid prompt. It appears empty only in the derivative catalog, because `scripts/build-paged-catalogs.mjs` sets `description: ''` on purpose to avoid publishing the product in the paginated JSON.
+- **`id` is not globally unique** across types: there is `img-2` and `wp-2`.
 
-### 1.4 Catálogo derivado
+### 1.4 Derivative catalog
 
-`npm run catalog:build` genera `public/catalog/{tipo}/{locale}/` con páginas de
-24 elementos y un `manifest.json`:
+`npm run catalog:build` generates `public/catalog/{type}/{locale}/` with pages of 24 elements and a `manifest.json`:
 
 ```jsonc
 {
@@ -112,223 +85,157 @@ Están documentadas porque ya han roto builds:
 }
 ```
 
-El hash en el nombre del fichero permite cachear cada página de forma inmutable.
-**Es artefacto generado**: no se edita a mano, se regenera desde las fuentes.
+The hash in the filename allows caching each page immutably. **It is a generated artifact**: it is not edited by hand, it is regenerated from the sources.
 
-### 1.5 Procedencia
+### 1.5 Provenance
 
-`src/lib/catalog-provenance.ts` añade una capa de metadatos sobre cada registro,
-necesaria para licenciar el catálogo como dataset.
+`src/lib/catalog-provenance.ts` adds a metadata layer over each record, necessary to license the catalog as a dataset.
 
 ```ts
 type AssetProvenance = {
   host: string;
   license: 'owned' | 'stock-review' | 'restricted' | 'unknown';
-  licensable: boolean;   // true solo si puede ir en un dataset comercial
+  licensable: boolean;   // true only if it can go in a commercial dataset
   reason: string;
 };
 ```
 
-Clasificación por host, con el estado actual (`npm run catalog:provenance`):
+Classification by host, with the current state (`npm run catalog:provenance`):
 
-| Host | Registros | Estado |
+| Host | Records | Status |
 |---|---|---|
-| `raw.githubusercontent.com/jggjosue/…` | 308 | `owned` — cuenta propia |
-| sin activo externo | 742 | licenciable, solo texto propio |
+| `raw.githubusercontent.com/jggjosue/…` | 308 | `owned` — own account |
+| no external asset | 742 | licensable, own text only |
 | `assets.mixkit.co` | 76 | `stock-review` |
 | `i.imgur.com` | 44 | `unknown` |
-| `images.unsplash.com` | 12 | `restricted` — prohíbe entrenar IA |
+| `images.unsplash.com` | 12 | `restricted` — forbids AI training |
 
-Total 1.182 registros, 1.050 licenciables (88,8 %).
+Total 1,182 records, 1,050 licensable (88.8%).
 
-**Regla que no se puede simplificar**: para GitHub no basta el dominio, se
-compara la cuenta propietaria. `raw.githubusercontent.com/otra-persona/…` no es
-propio. Todo host no reconocido cae del lado seguro: no licenciable.
+**Rule that cannot be simplified**: for GitHub the domain is not enough, the owner account is compared. `raw.githubusercontent.com/other-person/…` is not owned. Any unrecognized host falls on the safe side: not licensable.
 
-Dos campos del esquema quedan deliberadamente en `null` porque el código no
-puede deducirlos: `aiAssisted` (si el texto se generó con IA, relevante porque
-la salida puramente generada no tiene copyright en EE. UU.) y `consent`.
+Two fields of the schema are deliberately left `null` because the code cannot deduce them: `aiAssisted` (if the text was AI-generated, relevant because purely generated output has no copyright in the US) and `consent`.
 
 ---
 
-## 2. Colecciones de MongoDB
+## 2. MongoDB Collections
 
-20 modelos sobre **18 colecciones físicas**: tres esquemas comparten
-`user_profiles` (ver la advertencia al final de esta sección). Base de datos
-`prompt-studio` en MongoDB Atlas. Conexión con pool acotado
-(`maxPoolSize: 10`) por ser serverless.
+20 models over **18 physical collections**: three schemas share `user_profiles` (see the warning at the end of this section). Database `prompt-studio` in MongoDB Atlas. Connection with bounded pool (`maxPoolSize: 10`) for being serverless.
 
-### 2.1 Identidad y perfil
+### 2.1 Identity and profile
 
-**`UserProfile`** — datos que Clerk no guarda.
-`userId` (único), `email`, `birthDate`, `paypalEmail`, `lastUpdatedAt`.
+**`UserProfile`** — data Clerk does not store.
+`userId` (unique), `email`, `birthDate`, `paypalEmail`, `lastUpdatedAt`.
 
-**`RegisteredUser`** / **`NewUser`** — solo `email` y `createdAt`. Alimentan la
-sincronización con Resend. `NewUser` recoge altas desde el formulario público.
+**`RegisteredUser`** / **`NewUser`** — only `email` and `createdAt`. They feed the Resend sync. `NewUser` collects signups from the public form.
 
-> **Los tres apuntan a la colección `user_profiles`.** No son colecciones
-> separadas: `UserProfile`, `RegisteredUser` y `NewUser` pasan el mismo nombre
-> como tercer argumento de `mongoose.model()`. Consecuencias reales:
+> **All three point to the `user_profiles` collection.** They are not separate collections: `UserProfile`, `RegisteredUser`, and `NewUser` pass the same name as the third argument of `mongoose.model()`. Real consequences:
 >
-> - `UserProfile` declara `userId` **único**. Los documentos de
->   `RegisteredUser` y `NewUser` no tienen `userId`, así que se indexan como
->   `null`: **solo puede existir uno**. El segundo insert choca con clave
->   duplicada.
-> - `RegisteredUser` declara `email` **único**, y ese índice se aplica también a
->   los documentos de `UserProfile`.
-> - `NewUser.find({})` en `/api/sync-resend` devuelve **todos** los documentos
->   de `user_profiles`, incluidos los perfiles, y manda sus correos a Resend.
+> - `UserProfile` declares `userId` **unique**. `RegisteredUser` and `NewUser` documents do not have `userId`, so they are indexed as `null`: **only one can exist**. The second insert crashes with a duplicate key.
+> - `RegisteredUser` declares `email` **unique**, and that index also applies to `UserProfile` documents.
+> - `NewUser.find({})` in `/api/sync-resend` returns **all** documents from `user_profiles`, including profiles, and sends their emails to Resend.
 >
-> Que hoy no explote depende de si los índices llegaron a construirse contra los
-> datos existentes; un build fallido se registra pero no lanza. Es un defecto
-> latente, no un diseño.
+> That it doesn't explode today depends on whether the indexes were successfully built against existing data; a failed build is logged but doesn't throw. It's a latent defect, not a design.
 
-**`UserActivity`** — `userId`, `email`, `lastActiveAt`, `firstSeenAt`,
-`inactivityNotifiedAt`. Base de las campañas de reactivación.
+**`UserActivity`** — `userId`, `email`, `lastActiveAt`, `firstSeenAt`, `inactivityNotifiedAt`. Basis for reactivation campaigns.
 
 **`UserInterest`** — `userId`, `email`, `interests[]`, `lastUpdatedAt`.
 
-**`SavedItem`** — recursos que el usuario guarda desde el catálogo.
-`userId`, `itemKind` (`image` | `video` | `web-page` | `component` |
-`animation`), `itemId`, `title`, `imageUrl`, `href`, `createdAt`.
+**`SavedItem`** — resources the user saves from the catalog.
+`userId`, `itemKind` (`image` | `video` | `web-page` | `component` | `animation`), `itemId`, `title`, `imageUrl`, `href`, `createdAt`.
 
-`title`, `imageUrl` y `href` se **desnormalizan**: el catálogo no está en base
-de datos y tiene formas distintas por tipo, así que sin copiarlos habría que
-recorrer cinco catálogos para pintar la lista del perfil. **El prompt no se
-copia nunca**: es producto de pago y su acceso se comprueba al abrir la ficha.
+`title`, `imageUrl`, and `href` are **denormalized**: the catalog is not in the database and has different shapes by type, so without copying them you would have to traverse five catalogs to paint the profile list. **The prompt is never copied**: it is a paid product and its access is checked when opening the detail page.
 
-Índice único `{ userId, itemKind, itemId }` — un doble clic no puede duplicar.
-Incluye `itemKind` porque `itemId` no es único entre tipos (`img-2` y `wp-2`).
+Unique index `{ userId, itemKind, itemId }` — a double click cannot duplicate. It includes `itemKind` because `itemId` is not unique across types (`img-2` and `wp-2`).
 
-**`CookieConsent`** — `email`, `clerkUserId`, `privacyPolicyVersion`,
-`termsOfServiceVersion`, `acceptedAt`. Guarda **qué versión** de cada política se
-aceptó; sin eso el consentimiento no es demostrable bajo GDPR.
+**`CookieConsent`** — `email`, `clerkUserId`, `privacyPolicyVersion`, `termsOfServiceVersion`, `acceptedAt`. Saves **which version** of each policy was accepted; without this, consent is not provable under GDPR.
 
-### 2.2 Créditos y generación con IA
+### 2.2 Credits and AI generation
 
-**`AICreditAccount`** — un documento por usuario. `userId` (único), `balance`,
-`reserved`, `lifetimeSpent`, todos con `min: 0`.
+**`AICreditAccount`** — one document per user. `userId` (unique), `balance`, `reserved`, `lifetimeSpent`, all with `min: 0`.
 
-La separación entre `balance` y `reserved` es el mecanismo que impide cobrar por
-generaciones fallidas: se reserva al encolar y se captura o devuelve al terminar.
+The separation between `balance` and `reserved` is the mechanism that prevents charging for failed generations: it is reserved upon queuing and captured or refunded upon completion.
 
 **`AICreditLedger`** — `userId`, `jobId`, `operation`, `amount`, `createdAt`.
-Registro append-only de cada movimiento; la cuenta es el agregado, el ledger la
-historia.
+Append-only record of every movement; the account is the aggregate, the ledger the history.
 
-**`AIGenerationFeedback`** — juicio humano sobre el resultado. `jobId`,
-`userId`, `kind`, `provider`, `useful`, `reason`, `comment`, `createdAt`,
-`updatedAt`. Único por `{ jobId, userId }`.
+**`AIGenerationFeedback`** — human judgment on the result. `jobId`, `userId`, `kind`, `provider`, `useful`, `reason`, `comment`, `createdAt`, `updatedAt`. Unique by `{ jobId, userId }`.
 
-`kind` y `provider` se copian del trabajo: redundante, pero permite agregar la
-tasa de aprobación por proveedor sin `$lookup`, que es la consulta principal.
+`kind` and `provider` are copied from the job: redundant, but allows aggregating the approval rate per provider without `$lookup`, which is the main query.
 
-**`AIGenerationJob`** — el núcleo de la cola.
+**`AIGenerationJob`** — the core of the queue.
 
-| Campo | Tipo | Notas |
+| Field | Type | Notes |
 |---|---|---|
-| `userId` | String | indexado |
+| `userId` | String | indexed |
 | `kind` | enum | `image` \| `video` \| `project` |
-| `provider` | String | validado contra `AI_JOB_PROVIDERS[kind]` |
-| `input` / `result` | Mixed | payload libre |
+| `provider` | String | validated against `AI_JOB_PROVIDERS[kind]` |
+| `input` / `result` | Mixed | free payload |
 | `status` | enum | `queued` \| `processing` \| `retrying` \| `completed` \| `failed` |
 | `progress` | Number | 0–100 |
-| `idempotencyKey` | String | requerido |
-| `creditCost`, `estimatedCostUsd` | Number | del servidor, nunca del cliente |
+| `idempotencyKey` | String | required |
+| `creditCost`, `estimatedCostUsd` | Number | from server, never from client |
 | `creditsState` | enum | `reserved` \| `captured` \| `refunded` |
-| `attempts` / `maxAttempts` | Number | por defecto 3, tope 5 |
-| `nextAttemptAt` | Date | indexado; controla el backoff |
-| `leaseExpiresAt` | Date | arrendamiento del procesador |
-| `feedbackUseful` | Boolean \| null | copia del veredicto humano; `null` = sin valorar |
+| `attempts` / `maxAttempts` | Number | default 3, cap 5 |
+| `nextAttemptAt` | Date | indexed; controls backoff |
+| `leaseExpiresAt` | Date | processor lease |
+| `feedbackUseful` | Boolean \| null | copy of human verdict; `null` = unrated |
 
-Dos índices que **son el diseño, no una optimización**:
+Two indexes that **are the design, not an optimization**:
 
 ```js
-{ userId: 1, idempotencyKey: 1 }              // unique — garantiza idempotencia
-{ status: 1, nextAttemptAt: 1, leaseExpiresAt: 1 }  // reclamo atómico del siguiente trabajo
+{ userId: 1, idempotencyKey: 1 }              // unique — guarantees idempotency
+{ status: 1, nextAttemptAt: 1, leaseExpiresAt: 1 }  // atomic claim of the next job
 ```
 
-El primero hace que un reenvío no pueda duplicar el trabajo ni el cobro. El
-segundo permite que `findOneAndUpdate` reclame un trabajo y fije su
-arrendamiento en una sola operación, sin condición de carrera entre
-procesadores concurrentes.
+The first ensures that a resubmission cannot duplicate the job or the charge. The second allows `findOneAndUpdate` to claim a job and set its lease in a single operation, without a race condition between concurrent processors.
 
-### 2.3 Compras
+### 2.3 Purchases
 
-**`ComponentPurchase`** — `purchaserUserId`, `purchaserEmail`, `productId`,
-`productName`, `productKind`, `amountPaidCents`, `currency`,
-`status` (`paid` | `refunded`), `stripeCheckoutSessionId` (**único**),
-`stripePaymentIntentId`, `receiptUrl`, `downloadCount`, `maxDownloads` (5 por
-defecto), `purchasedAt`.
+**`ComponentPurchase`** — `purchaserUserId`, `purchaserEmail`, `productId`, `productName`, `productKind`, `amountPaidCents`, `currency`, `status` (`paid` | `refunded`), `stripeCheckoutSessionId` (**unique**), `stripePaymentIntentId`, `receiptUrl`, `downloadCount`, `maxDownloads` (default 5), `purchasedAt`.
 
-`stripeCheckoutSessionId` único es lo que impide que un webhook reentregado
-duplique la compra. `downloadCount` frente a `maxDownloads` se compara y se
-incrementa de forma atómica en la misma operación.
+Unique `stripeCheckoutSessionId` is what prevents a redelivered webhook from duplicating the purchase. `downloadCount` versus `maxDownloads` is compared and atomically incremented in the same operation.
 
-### 2.4 Afiliados
+### 2.4 Affiliates
 
-Seis colecciones: una de hechos y cinco de agregados.
+Six collections: one of facts and five of aggregates.
 
-**`AffiliateApplication`** — solicitud con `status`, aprobación manual.
+**`AffiliateApplication`** — application with `status`, manual approval.
 
-**`AffiliateClick`** — hecho base. Índice único
-`{ referrerUserId, visitorKey, productId, source }`: es la deduplicación. Un
-mismo visitante recargando la página no infla el contador.
+**`AffiliateClick`** — base fact. Unique index `{ referrerUserId, visitorKey, productId, source }`: this is the deduplication. The same visitor reloading the page does not inflate the counter.
 
-**`AffiliateSale`** — la conversión. `commissionRate` y `commissionCents`
-congelados en el momento de la venta, no recalculados después. `status`
-(`pending` | `paid` | `pending_settlement`) y `payoutStatus` (`available` |
-`paid_out` | `on_hold`) son ejes independientes: una venta cobrada al cliente
-puede seguir retenida para el afiliado. `stripeCheckoutSessionId` y
-`stripeInvoiceId` son únicos y `sparse` — cada venta llega por una vía u otra,
-nunca por las dos.
+**`AffiliateSale`** — the conversion. `commissionRate` and `commissionCents` frozen at the time of sale, not recalculated later. `status` (`pending` | `paid` | `pending_settlement`) and `payoutStatus` (`available` | `paid_out` | `on_hold`) are independent axes: a sale charged to the client can remain on hold for the affiliate. `stripeCheckoutSessionId` and `stripeInvoiceId` are unique and `sparse` — every sale arrives via one route or the other, never both.
 
-**`AffiliateUserStats`**, **`AffiliateDailyStats`**, **`AffiliateReferralStats`**
-— agregados por usuario, por día y por producto. Derivados: reconstruibles desde
-clics y ventas.
+**`AffiliateUserStats`**, **`AffiliateDailyStats`**, **`AffiliateReferralStats`** — aggregates per user, per day, and per product. Derivatives: reconstructible from clicks and sales.
 
 **`AffiliatePayoutAccount`** — `clerkUserId`, `email`, `method`.
 
-### 2.5 Observabilidad
+### 2.5 Observability
 
-**`ObservabilityEvent`** — `category` (enum de 8: `browser_error`,
-`server_error`, `web_vital`, `resource_timing`, `stripe`, `ai_generation`,
-`slow_query`, `commerce`), `name`, `route`, `sessionId`, `userId`, `productId`,
-`value`, `unit`, `status`, `durationMs`, `costUsd`, `metadata`, `fingerprint`.
+**`ObservabilityEvent`** — `category` (enum of 8: `browser_error`, `server_error`, `web_vital`, `resource_timing`, `stripe`, `ai_generation`, `slow_query`, `commerce`), `name`, `route`, `sessionId`, `userId`, `productId`, `value`, `unit`, `status`, `durationMs`, `costUsd`, `metadata`, `fingerprint`.
 
-`createdAt` lleva **TTL de 90 días** (`expires`), así que Mongo purga solo. Tres
-índices compuestos para las consultas del panel.
+`createdAt` has a **90-day TTL** (`expires`), so Mongo purges it alone. Three compound indexes for dashboard queries.
 
-Nunca se guardan prompts, código, claves ni URLs completas.
+Prompts, code, keys, or full URLs are never saved.
 
 ---
 
-## 3. Invariantes
+## 3. Invariants
 
-Reglas que el código asume en todas partes. Romper una es un bug aunque compile.
+Rules the code assumes everywhere. Breaking one is a bug even if it compiles.
 
-1. **El precio lo pone el servidor.** Ningún importe llega desde el cliente.
-2. **Los créditos se reservan antes de gastar** y se capturan o devuelven según
-   el resultado. Un fallo del proveedor no consume saldo.
-3. **Los identificadores de Stripe son únicos** donde existen. Es la defensa
-   contra webhooks reentregados.
-4. **El `userId` de Clerk es la clave de unión.** No hay integridad referencial
-   en la base: la consistencia la mantiene el código.
-5. **Los agregados son derivados.** Si divergen, la verdad está en
-   `AffiliateClick` y `AffiliateSale`.
-6. **El catálogo es de solo lectura en runtime.** Se modifica editando los JSON y
-   regenerando; nunca escribiendo desde la aplicación.
-7. **Los importes van en céntimos enteros.** Nunca flotantes.
+1. **The price is set by the server.** No amount arrives from the client.
+2. **Credits are reserved before spending** and captured or refunded based on the result. A provider failure does not consume balance.
+3. **Stripe identifiers are unique** where they exist. This is the defense against redelivered webhooks.
+4. **Clerk's `userId` is the join key.** There is no referential integrity in the database: consistency is maintained by the code.
+5. **Aggregates are derivatives.** If they diverge, the truth is in `AffiliateClick` and `AffiliateSale`.
+6. **The catalog is read-only at runtime.** It is modified by editing the JSONs and regenerating; never by writing from the application.
+7. **Amounts are in whole cents.** Never floats.
 
-## 4. Datos que no están modelados
+## 4. Unmodeled data
 
-Huecos reales, no omisiones del documento:
+Real gaps, not document omissions:
 
-- **Suscripciones**: el estado del plan vive en Clerk Billing y en Stripe, no en
-  Mongo. No hay colección de suscripción; se consulta contra el proveedor y se
-  cachea en memoria (`src/lib/subscription-status-cache.ts`).
-- **Biblioteca**: `/dashboard/library` sigue sin colección detrás. Los
-  guardados sí la tienen ahora (`SavedItem`), y se listan en el perfil.
-- **Procedencia persistida**: `catalog-provenance.ts` clasifica al vuelo. Los
-  campos no están escritos en los ficheros del catálogo, así que hoy no se puede
-  filtrar por `licensable` sin recalcular.
+- **Subscriptions**: plan status lives in Clerk Billing and Stripe, not in Mongo. There is no subscription collection; it is queried against the provider and cached in memory (`src/lib/subscription-status-cache.ts`).
+- **Library**: `/dashboard/library` still has no collection behind it. Saves do have one now (`SavedItem`), and are listed in the profile.
+- **Persisted provenance**: `catalog-provenance.ts` classifies on the fly. Fields are not written to the catalog files, so today you cannot filter by `licensable` without recalculating.

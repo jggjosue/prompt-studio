@@ -1,227 +1,197 @@
-# Arquitectura
+# Architecture
 
-Cómo está montado Prompt Studio y **por qué** está montado así. Todo lo que
-sigue está medido sobre el código a 11 de septiembre de 2026; los comandos para
-reproducir cada cifra están en el §9.
+How Prompt Studio is built and **why** it's built this way. Everything that follows is measured against the code as of September 11, 2026; the commands to reproduce each figure are in §9.
 
 ---
 
-## 1. Vista general
+## 1. Overview
 
 ```mermaid
 flowchart TD
-    U[Usuario] --> MW[Middleware · src/proxy.ts]
-    MW -->|reescribe /ruta → /es/ruta| P[Páginas · src/app locale]
-    MW -->|cabeceras de seguridad, CSP| P
-    MW -->|redirecciones 308| P
+    U[User] --> MW[Middleware · src/proxy.ts]
+    MW -->|rewrites /path → /en/path| P[Pages · src/app locale]
+    MW -->|security headers, CSP| P
+    MW -->|308 redirects| P
 
-    P --> C[Componentes · src/components]
-    P --> API[Rutas de API · src/app/api]
+    P --> C[Components · src/components]
+    P --> API[API Routes · src/app/api]
     C --> API
 
-    API --> AUTH{Autorización}
-    AUTH --> L[Lógica de negocio · src/lib]
-    L --> M[Modelos · src/models]
+    API --> AUTH{Authorization}
+    AUTH --> L[Business logic · src/lib]
+    L --> M[Models · src/models]
     M --> DB[(MongoDB)]
 
-    L --> EXT[Servicios externos]
-    EXT --> CLERK[Clerk · identidad]
-    EXT --> STRIPE[Stripe · cobros]
-    EXT --> IA[Proveedores de IA]
-    EXT --> R2[Cloudflare R2 · activos]
-    EXT --> MAIL[Resend · correo]
+    L --> EXT[External services]
+    EXT --> CLERK[Clerk · identity]
+    EXT --> STRIPE[Stripe · payments]
+    EXT --> IA[AI Providers]
+    EXT --> R2[Cloudflare R2 · assets]
+    EXT --> MAIL[Resend · email]
 
-    P --> DATA[Catálogo · src/data]
+    P --> DATA[Catalog · src/data]
 ```
 
-| Capa | Ficheros | Responsabilidad |
+| Layer | Files | Responsibility |
 |---|---|---|
-| **Middleware** (`src/proxy.ts`) | 1 | Idioma, redirecciones canónicas, cabeceras de seguridad, protección de fuentes del catálogo |
-| **Páginas** (`src/app/[locale]`) | 91 rutas | Composición de la interfaz; servidor por defecto, cliente solo donde hay interacción |
-| **API** (`src/app/api`) | 105 rutas | Autorización, validación de entrada y orquestación |
-| **Componentes** (`src/components`) | 156 | Interfaz reutilizable, sin acceso a datos |
-| **Lógica** (`src/lib`) | 155 | Reglas de negocio puras, sin React ni Mongo |
-| **Modelos** (`src/models`) | 45 | Esquemas de Mongoose y sus índices |
-| **Catálogo** (`src/data`) | 15 JSON | Producto versionado; fuera de `public/` a propósito |
+| **Middleware** (`src/proxy.ts`) | 1 | Language, canonical redirects, security headers, catalog source protection |
+| **Pages** (`src/app/[locale]`) | 91 routes | Interface composition; server by default, client only where there is interaction |
+| **API** (`src/app/api`) | 105 routes | Authorization, input validation, and orchestration |
+| **Components** (`src/components`) | 156 | Reusable interface, without data access |
+| **Logic** (`src/lib`) | 155 | Pure business rules, without React or Mongo |
+| **Models** (`src/models`) | 45 | Mongoose schemas and their indexes |
+| **Catalog** (`src/data`) | 15 JSON | Versioned product; intentionally outside of `public/` |
 
 ---
 
-## 2. Recorrido de una petición
+## 2. Request lifecycle
 
 ```mermaid
 sequenceDiagram
-    participant N as Navegador
+    participant N as Browser
     participant MW as Middleware
-    participant R as Ruta de API
-    participant A as Autorización
+    participant R as API Route
+    participant A as Authorization
     participant L as src/lib
     participant DB as MongoDB
 
     N->>MW: GET /prices
-    MW->>MW: detectLocale(cabeceras) → es
-    MW->>MW: reescribe a /es/prices (la URL pública no cambia)
-    MW-->>N: HTML prerenderizado
+    MW->>MW: detectLocale(headers) → en
+    MW->>MW: rewrites to /en/prices (public URL does not change)
+    MW-->>N: Prerendered HTML
 
     N->>R: POST /api/credits/topup
     R->>A: auth() + getServerSubscriptionStatus()
     A-->>R: userId + plan
-    R->>R: saneado del cuerpo y límite de frecuencia
+    R->>R: body sanitization and rate limiting
     R->>L: applyCreditTopup(...)
-    L->>DB: reserva → captura → registro en el libro mayor
-    DB-->>L: documento actualizado
-    L-->>R: resultado
+    L->>DB: reserve → capture → ledger log
+    DB-->>L: updated document
+    L-->>R: result
     R-->>N: 200 · Cache-Control: private, no-store
 ```
 
-### Decisión: el idioma se resuelve en el middleware
+### Decision: language is resolved in the middleware
 
-`src/i18n/request.ts` leía `cookies()` y `headers()` en el layout raíz. Eso
-marcaba **las 121 rutas como dinámicas** y hacía imposible cachear nada;
-`revalidate` no servía de nada.
+`src/i18n/request.ts` used to read `cookies()` and `headers()` in the root layout. This marked **all 121 routes as dynamic** and made it impossible to cache anything; `revalidate` was useless.
 
-Ahora el middleware detecta el idioma y **reescribe** a `/{locale}/…`. Las
-páginas reciben el idioma como parámetro de ruta y se prerenderizan, mientras la
-URL pública sigue sin prefijo. Resultado medido: de 121 rutas dinámicas a 60, con
-202 páginas prerenderizadas.
+Now the middleware detects the language and **rewrites** to `/{locale}/…`. Pages receive the language as a route parameter and are prerendered, while the public URL remains prefix-free. Measured result: from 121 dynamic routes to 60, with 202 prerendered pages.
 
-Requisito que se paga por ello: cada página necesita `setRequestLocale(locale)`.
-Sin esa llamada, `getMessages()` vuelve a leer cabeceras y se pierde todo lo
-ganado —ocurrió en `/component-builder`, que servía la puerta de pago en inglés a
-visitantes con `x-locale: es`—.
+Requirement paid for this: each page needs `setRequestLocale(locale)`. Without this call, `getMessages()` reads headers again and all gains are lost —this happened in `/component-builder`, which served the English payment gateway to visitors with `x-locale: es`—.
 
 ---
 
-## 3. Autorización
+## 3. Authorization
 
-El sistema autoriza con **ocho mecanismos**, cada uno para un tipo de llamante
-distinto:
+The system authorizes using **eight mechanisms**, each for a different caller type:
 
 ```mermaid
 flowchart LR
-    REQ[Petición] --> T{¿Quién llama?}
-    T -->|Persona con sesión| S[auth de Clerk]
-    T -->|Persona con plan| PL[getServerSubscriptionStatus]
-    T -->|Administrador| AD[isPremiumJoAdmin · marketplaceAdmin]
-    T -->|Stripe o Clerk| WH[Firma del webhook]
-    T -->|Cron de Vercel| CR[CRON_SECRET]
-    T -->|Worker de IA| WK[AI_GENERATION_WORKER_TOKEN]
-    T -->|Anónimo| IP[Límite por IP]
-    T -->|Panel de caché| CA[CACHE_ADMIN_TOKEN]
+    REQ[Request] --> T{Who is calling?}
+    T -->|Person with session| S[Clerk auth]
+    T -->|Person with plan| PL[getServerSubscriptionStatus]
+    T -->|Administrator| AD[isPremiumJoAdmin · marketplaceAdmin]
+    T -->|Stripe or Clerk| WH[Webhook signature]
+    T -->|Vercel Cron| CR[CRON_SECRET]
+    T -->|AI Worker| WK[AI_GENERATION_WORKER_TOKEN]
+    T -->|Anonymous| IP[IP limit]
+    T -->|Cache Panel| CA[CACHE_ADMIN_TOKEN]
 ```
 
-| Mecanismo | Rutas | Dónde vive |
+| Mechanism | Routes | Where it lives |
 |---|---|---|
-| Sesión de usuario | 60 | `auth()` de Clerk |
-| Límite por IP | 34 | `src/lib/rate-limit.ts` |
-| Plan de suscripción | 12 | `src/lib/server-subscription-status.ts` |
-| Administrador | 9 | `src/lib/admin-auth.ts`, `marketplace-admin.ts`, `cache-admin-auth.ts` |
-| Secreto de cron | 6 | `src/lib/api-auth.ts` |
-| Firma de webhook | 2 | Stripe `constructEvent`, Clerk `svix` |
-| Token del worker | 1 | `AI_GENERATION_WORKER_TOKEN` |
-| Deshabilitada (501) | 2 | `api/like`, `api/seed` |
+| User session | 60 | `auth()` from Clerk |
+| IP limit | 34 | `src/lib/rate-limit.ts` |
+| Subscription plan | 12 | `src/lib/server-subscription-status.ts` |
+| Administrator | 9 | `src/lib/admin-auth.ts`, `marketplace-admin.ts`, `cache-admin-auth.ts` |
+| Cron secret | 6 | `src/lib/api-auth.ts` |
+| Webhook signature | 2 | Stripe `constructEvent`, Clerk `svix` |
+| Worker token | 1 | `AI_GENERATION_WORKER_TOKEN` |
+| Disabled (501) | 2 | `api/like`, `api/seed` |
 
-**El problema que esto creaba**: con ocho mecanismos repartidos en 105 ficheros,
-saber si una ruta estaba protegida exigía abrirla y leerla. Ya costó dos
-defectos: dos rutas de `/api/admin` tenían la comprobación de administrador
-**copiada en línea** en vez de usar el helper, y `/api/affiliate/applications`
-aceptaba escrituras anónimas **sin límite por IP**.
+**The problem this created**: with eight mechanisms spread across 105 files, knowing if a route was protected required opening and reading it. This already cost two bugs: two routes under `/api/admin` had the admin check **copied inline** instead of using the helper, and `/api/affiliate/applications` accepted anonymous writes **without IP limits**.
 
-**La solución**: [`docs/API_ACCESS.md`](API_ACCESS.md) es un documento
-**generado** por `scripts/mjs/build-route-access-matrix.mjs`, y
-`tests/unit/route-access-matrix.test.ts` lo convierte en contrato:
+**The solution**: [`docs/API_ACCESS.md`](API_ACCESS.md) is a document **generated** by `scripts/mjs/build-route-access-matrix.mjs`, and `tests/unit/route-access-matrix.test.ts` turns it into a contract:
 
-- ninguna ruta puede quedarse sin mecanismo reconocido ni justificación escrita;
-- toda ruta bajo `/api/admin` debe comprobar administrador, no solo sesión;
-- toda escritura sin sesión debe estar limitada por IP.
+- no route can be left without a recognized mechanism or written justification;
+- every route under `/api/admin` must check admin, not just session;
+- every write without a session must be IP limited.
 
-Una ruta nueva desprotegida **rompe el pipeline** en lugar de desplegarse.
+A new unprotected route **breaks the pipeline** instead of being deployed.
 
 ---
 
-## 4. Dominios de datos
+## 4. Data domains
 
-45 modelos de Mongoose, agrupados por dominio:
+45 Mongoose models, grouped by domain:
 
 ```mermaid
 flowchart TB
-    subgraph IA[Generación con IA · 11]
+    subgraph IA[AI Generation · 11]
         AIGenerationJob --> AICreditLedger
         AICreditLedger --> AICreditAccount
         AIGenerationJob --> AIGenerationFeedback
         BatchGeneration --> AIGenerationJob
-        OutputContract -.valida.-> AIGenerationJob
+        OutputContract -.validates.-> AIGenerationJob
         EvaluationSuite --> HumanEvaluation
         PromptVersion --> PromptExperiment
     end
 
-    subgraph COM[Comercio · 6]
+    subgraph COM[Commerce · 6]
         CreditPurchase --> AICreditAccount
         ComponentPurchase
         MarketplaceListing --> MarketplaceSale
         ComponentLibrary
     end
 
-    subgraph AF[Afiliados · 7]
+    subgraph AF[Affiliates · 7]
         AffiliateApplication --> AffiliateUserStats
         AffiliateClick --> AffiliateSale
         AffiliateSale --> AffiliatePayoutAccount
         AffiliateSale --> AffiliateDailyStats
     end
 
-    subgraph US[Usuario · 7]
+    subgraph US[User · 7]
         RegisteredUser --> UserProfile
         UserProfile --> SavedItem
         UserActivity
         CookieConsent
     end
 
-    subgraph PR[Proyectos · 6]
+    subgraph PR[Projects · 6]
         CreativeProject --> CampaignWorkflow
         BrandKit
         LandingPublication --> PublicationQualityAudit
     end
 ```
 
-El detalle campo a campo está en [docs/dm.md](dm.md).
+The field-by-field details are in [docs/dm.md](dm.md).
 
-### Decisión: libro mayor de créditos en tres fases
+### Decision: three-phase credit ledger
 
-`AICreditLedger.operation` es un enum `['reserve', 'capture', 'refund']` atado al
-`jobId`. Se reserva crédito al encolar el trabajo, se captura al completarlo y se
-devuelve si falla.
+`AICreditLedger.operation` is an enum `['reserve', 'capture', 'refund']` tied to the `jobId`. Credit is reserved when queueing the job, captured when completing it, and refunded if it fails.
 
-La alternativa —un contador que se decrementa— pierde dinero en cuanto una
-generación falla a mitad: no hay forma de saber cuánto devolver ni de auditar qué
-pasó. Con reserva-captura, cada movimiento queda registrado y el saldo es
-reconstruible.
+The alternative —a decremented counter— loses money as soon as a generation fails halfway: there is no way to know how much to refund or to audit what happened. With reserve-capture, every movement is logged, and the balance is reconstructible.
 
-### Decisión: el catálogo vive en `src/data`, no en `public/`
+### Decision: the catalog lives in `src/data`, not in `public/`
 
-Estaba en `public/webpages/`, es decir, **descargable con los prompts de pago
-dentro**. El derivado público sí se vacía a propósito
-(`build-paged-catalogs.mjs` borra `description`, que es donde vive el prompt),
-pero eso no protege a las fuentes si las fuentes están en `public/`.
+It used to be in `public/webpages/`, meaning it was **downloadable with the paid prompts inside**. The public derivative is intentionally cleared (`build-paged-catalogs.mjs` deletes `description`, where the prompt lives), but that doesn't protect the sources if the sources are in `public/`.
 
-Tres intentos fallidos enseñaron la regla que hoy se aplica:
+Three failed attempts taught the rule applied today:
 
-1. Una lista blanca de 8 nombres de fichero envejeció: una auditoría encontró
-   **9 ficheros más** con producto de pago que nadie había añadido.
-2. `precompress-static.mjs` genera variantes `.br` y `.gz`, así que una regla
-   contra `*.json` deja abierto `*.json.br`.
-3. Los `headers()` de `next.config.ts` con dos lookaheads se comportaron **al
-   revés**: aplicaban a `/api/*`, que estaba excluido.
+1. A whitelist of 8 filenames aged poorly: an audit found **9 more files** with paid products that no one had added.
+2. `precompress-static.mjs` generates `.br` and `.gz` variants, so a rule against `*.json` leaves `*.json.br` open.
+3. The `headers()` in `next.config.ts` with two lookaheads behaved **backwards**: they applied to `/api/*`, which was excluded.
 
-**Regla resultante**: bloquear por directorio, nunca por lista de nombres; cubrir
-las tres formas del fichero; y que el test **recorra el directorio real** en vez
-de enumerar lo que hay que proteger.
+**Resulting rule**: block by directory, never by filename list; cover all three file forms; and make the test **traverse the real directory** instead of listing what needs to be protected.
 
 ---
 
-## 5. Generación con IA
+## 5. AI Generation
 
 ```mermaid
 flowchart LR
-    UI[Editor o generador] --> REG[provider-adapters.ts]
+    UI[Editor or generator] --> REG[provider-adapters.ts]
     REG --> OA[OpenAI]
     REG --> AN[Anthropic]
     REG --> GO[Google Gemini / Veo]
@@ -229,134 +199,108 @@ flowchart LR
     REG --> DS[DeepSeek]
 
     UI --> Q[POST /api/ai/jobs]
-    Q --> LED[Reserva de créditos]
+    Q --> LED[Credit reservation]
     LED --> JOB[(AIGenerationJob)]
     JOB --> W[Worker]
     W -->|Bearer token| PRG[PATCH /api/ai/jobs/:id/progress]
-    W --> DONE{¿Resultado?}
-    DONE -->|válido| CAP[Captura de créditos]
-    DONE -->|fallo| REF[Devolución de créditos]
-    DONE --> OC[OutputContract valida la salida]
+    W --> DONE{Result?}
+    DONE -->|valid| CAP[Credit capture]
+    DONE -->|failure| REF[Credit refund]
+    DONE --> OC[OutputContract validates output]
 ```
 
-Cinco familias de proveedores tras **una sola interfaz**
-(`src/lib/generation/provider-adapters.ts`). Lo que hace útil ese registro no es
-unificar llamadas, sino que el resto del sistema —créditos, reintentos,
-evaluación— no necesita saber qué proveedor respondió.
+Five provider families behind **a single interface** (`src/lib/generation/provider-adapters.ts`). What makes this registry useful is not unifying calls, but that the rest of the system —credits, retries, evaluation— doesn't need to know which provider responded.
 
-Incluye un **modo determinista para pruebas**: con
-`NEXT_PUBLIC_E2E_TEST_MODE`, un prompt que contenga `[fail-once]` fuerza un fallo
-de proveedor la primera vez. Sirve para probar el camino de error, que es el que
-normalmente no se prueba.
+Includes a **deterministic testing mode**: with `NEXT_PUBLIC_E2E_TEST_MODE`, a prompt containing `[fail-once]` forces a provider failure the first time. Used to test the error path, which is usually untested.
 
 ---
 
-## 6. Editor visual
+## 6. Visual editor
 
-El editor no comparte el estado de React de la aplicación: tiene su propio
-documento, su propio historial y su propio registro de componentes.
+The editor does not share the application's React state: it has its own document, its own history, and its own component registry.
 
 ```mermaid
 flowchart TB
-    REG[registry.ts · 40 tipos y reglas de anidamiento] --> DOC
-    DOC[document.ts · árbol normalizado] --> STORE[store.ts · 6 slices]
-    CMD[history.ts · comandos con inverso] --> STORE
-    STORE --> CANVAS[Lienzo]
-    STORE --> LAYERS[Capas]
+    REG[registry.ts · 40 types and nesting rules] --> DOC
+    DOC[document.ts · normalized tree] --> STORE[store.ts · 6 slices]
+    CMD[history.ts · reversible commands] --> STORE
+    STORE --> CANVAS[Canvas]
+    STORE --> LAYERS[Layers]
     STORE --> INSPECTOR[Inspector]
-    STORE --> SAVE[Autoguardado → /api/editor/projects]
+    STORE --> SAVE[Autosave → /api/editor/projects]
 ```
 
-Tres decisiones y su motivo:
+Three decisions and their reasons:
 
-- **Árbol normalizado** (`nodes: Record<id, node>` + `children: id[]`) en vez de
-  nodos anidados: con 1.000 nodos, un árbol anidado obliga a clonar la rama
-  entera en cada cambio; con el mapa plano se toca un nodo y solo ese cambia de
-  identidad.
-- **Comandos con inverso**, no instantáneas: una instantánea por pulsación gasta
-  megabytes y hace que el autoguardado envíe el documento entero por cada tecla.
-  Además, los comandos son datos serializables, que es el formato que un
-  asistente de IA puede emitir para modificar el mismo árbol que edita la persona.
-- **`useSyncExternalStore` en vez de Zustand**: lo que hace falta es suscripción
-  por selector, y eso ya viene en React 19. La ruta del constructor ya carga
-  ~300 kB de JavaScript; añadir una dependencia para azúcar sintáctico no sale a
-  cuenta. Si hicieran falta middlewares, `store.ts` es la única pieza a sustituir.
+- **Normalized tree** (`nodes: Record<id, node>` + `children: id[]`) instead of nested nodes: with 1,000 nodes, a nested tree forces cloning the entire branch on each change; with a flat map, you touch a node and only that node changes identity.
+- **Reversible commands**, not snapshots: a snapshot per keystroke wastes megabytes and makes autosave send the entire document per key. Additionally, commands are serializable data, which is the format an AI assistant can emit to modify the same tree the person edits.
+- **`useSyncExternalStore` instead of Zustand**: what's needed is subscription by selector, and that comes in React 19. The builder route already loads ~300 kB of JavaScript; adding a dependency for syntactic sugar isn't worth it. If middlewares are needed, `store.ts` is the only piece to replace.
 
-Detalle completo en [docs/editor/plan-editor-visual.md](editor/plan-editor-visual.md).
+Full detail in [docs/editor/plan-editor-visual.md](editor/plan-editor-visual.md).
 
 ---
 
-## 7. Fronteras entre capas
+## 7. Boundaries between layers
 
-La dirección permitida es **app → lib → models**, y en general se respeta:
+The allowed direction is **app → lib → models**, and it is generally respected:
 
-| Import | Ficheros | ¿Correcto? |
+| Import | Files | Correct? |
 |---|---|---|
-| `components` → `lib` | 111 | Sí |
-| `api` → `lib` | 103 | Sí |
-| `api` → `models` | 68 | Sí |
+| `components` → `lib` | 111 | Yes |
+| `api` → `lib` | 103 | Yes |
+| `api` → `models` | 68 | Yes |
 | `lib` → `app` | 2 | **No** |
 | `lib` → `components` | 1 | **No** |
 | `models` → `lib` | 1 | **No** |
 
-Las cuatro excepciones, con su explicación:
+The four exceptions, with their explanation:
 
-- `lib/generation/provider-adapters.ts` → `@/app/actions`: el registro de
-  proveedores invoca *server actions*, que viven en `app/`. Es un acoplamiento
-  real; la salida limpia sería mover las acciones a `lib/` y dejar en `app/` solo
-  el envoltorio `'use server'`.
-- `lib/subscription-status-cache.ts` → `@/app/api`: importa el tipo de respuesta
-  de la ruta. Se arregla moviendo el tipo a `lib/`.
-- `lib/landing-readability-badge.ts` → `@/components/readability-badge`: lógica
-  que decide una insignia importando el componente que la pinta. Invertir la
-  dependencia es trivial.
-- `models/AIGenerationFeedback.ts` → `lib/generation-feedback`: el modelo importa
-  constantes de dominio. Es el más defendible de los cuatro.
+- `lib/generation/provider-adapters.ts` → `@/app/actions`: the provider registry invokes *server actions*, which live in `app/`. It's a real coupling; the clean exit would be moving the actions to `lib/` and leaving only the `'use server'` wrapper in `app/`.
+- `lib/subscription-status-cache.ts` → `@/app/api`: imports the route's response type. Fixed by moving the type to `lib/`.
+- `lib/landing-readability-badge.ts` → `@/components/readability-badge`: logic deciding a badge imports the component that paints it. Inverting the dependency is trivial.
+- `models/AIGenerationFeedback.ts` → `lib/generation-feedback`: the model imports domain constants. It's the most defensible of the four.
 
-Ninguna es urgente; las cuatro están documentadas para que no se multipliquen.
+None is urgent; all four are documented so they don't multiply.
 
 ---
 
-## 8. Caché
+## 8. Cache
 
-Diez módulos, cada uno en una frontera distinta:
+Ten modules, each at a different boundary:
 
-| Módulo | Dónde actúa |
+| Module | Where it acts |
 |---|---|
-| `cache-policy.ts` | Cabeceras `Cache-Control` por tipo de respuesta |
-| `cache-namespace-policy.ts` | Espacios de nombres y su invalidación |
-| `server-cache.ts` · `lru-cache-store.ts` | Memoria del servidor |
-| `cached-fs.ts` | Lecturas del catálogo en disco |
-| `cdn-cache.ts` | `CDN-Cache-Control` para el edge |
-| `client-lru-cache.ts` · `subscription-status-cache.ts` | Navegador |
+| `cache-policy.ts` | `Cache-Control` headers by response type |
+| `cache-namespace-policy.ts` | Namespaces and their invalidation |
+| `server-cache.ts` · `lru-cache-store.ts` | Server memory |
+| `cached-fs.ts` | Catalog reads from disk |
+| `cdn-cache.ts` | `CDN-Cache-Control` for the edge |
+| `client-lru-cache.ts` · `subscription-status-cache.ts` | Browser |
 | `sw-cache-strategies.ts` | Service worker |
-| `rate-limit-core.ts` | Contadores en Upstash Redis |
+| `rate-limit-core.ts` | Counters in Upstash Redis |
 
-`npm run cache:audit` comprueba que las políticas públicas, privadas y
-`no-store` no se contradigan; forma parte de `npm run validate`.
+`npm run cache:audit` checks that public, private, and `no-store` policies do not contradict each other; it's part of `npm run validate`.
 
-**Regla aprendida**: el contenido por usuario se marca `private, no-store`
-siempre. Una caché compartida indexada por la URL pública serviría la versión
-inglesa a un visitante español, porque la URL no lleva el idioma.
+**Learned rule**: per-user content is always marked `private, no-store`. A shared cache indexed by the public URL would serve the English version to a Spanish visitor because the URL does not carry the language.
 
 ---
 
-## 9. Cómo reproducir las cifras
+## 9. How to reproduce the figures
 
 ```bash
-# Capas y tamaños
+# Layers and sizes
 for d in src/app src/components src/lib src/models; do
-  echo "$d: $(find $d -name '*.ts' -o -name '*.tsx' | wc -l) ficheros"
+  echo "$d: $(find $d -name '*.ts' -o -name '*.tsx' | wc -l) files"
 done
 
-# Rutas y modelos
+# Routes and models
 find src/app/api -name route.ts | wc -l && ls src/models/*.ts | wc -l
 
-# Matriz de acceso (documento generado)
+# Access matrix (generated document)
 node scripts/mjs/build-route-access-matrix.mjs
 node --import tsx --test tests/unit/route-access-matrix.test.ts
 
-# Fronteras entre capas
+# Boundaries between layers
 grep -rl "@/components" src/lib --include='*.ts' | wc -l
 grep -rl "@/app" src/lib --include='*.ts' | wc -l
 grep -rl "@/lib" src/models --include='*.ts' | wc -l
