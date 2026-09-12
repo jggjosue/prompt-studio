@@ -51,3 +51,6 @@ public/**/*.br
 public/**/*.gz
 # Transcripciones de desarrollo: contienen claves reales. No subir.
 /docs/code/
+
+# Un solo fichero de bloqueo: CI usa package-lock.json.
+yarn.lock
