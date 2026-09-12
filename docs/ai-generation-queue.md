@@ -1,28 +1,28 @@
-# Cola de generación de IA
+# AI Generation Queue
 
-La cola usa MongoDB como almacenamiento durable. El navegador crea un trabajo y consulta su estado; el cron protegido reclama trabajos mediante un lease, por lo que una petición del usuario no permanece abierta.
+The queue uses MongoDB as durable storage. The browser creates a job and polls its status; the protected cron claims jobs via a lease, so a user request does not remain open.
 
-## Crear un trabajo
+## Create a Job
 
-`POST /api/ai/jobs` requiere sesión y el header `Idempotency-Key` (mínimo 8 caracteres).
+`POST /api/ai/jobs` requires a session and the `Idempotency-Key` header (minimum 8 characters).
 
 ```json
 {
   "kind": "image",
   "provider": "google",
-  "input": { "prompt": "Fotografía editorial de producto…" },
+  "input": { "prompt": "Editorial product photography…" },
   "notifyOnComplete": true
 }
 ```
 
-Tipos y costos actuales: `image` (1 crédito), `video` (3) y `project` (2). El servidor define el costo; el cliente no puede modificarlo.
+Current types and costs: `image` (1 credit), `video` (3), and `project` (2). The server defines the cost; the client cannot modify it.
 
-## Procesamiento
+## Processing
 
-- Vercel invoca `GET /api/ai/jobs/process?limit=3` cada minuto usando `CRON_SECRET`.
-- Google Image puede ejecutarse localmente. Video, proyectos y otros proveedores se delegan a `AI_GENERATION_WORKER_URL`.
-- El worker recibe `jobId`, `kind`, `provider` e `input`, junto con `Idempotency-Key` y un bearer token.
-- Puede reportar avances (10–95) con `PATCH /api/ai/jobs/:id/progress` usando `AI_GENERATION_WORKER_TOKEN`.
-- Debe guardar artefactos grandes en almacenamiento privado y devolver URLs; la respuesta JSON está limitada a 2 MB.
+- Vercel invokes `GET /api/ai/jobs/process?limit=3` every minute using `CRON_SECRET`.
+- Google Image can run locally. Video, projects, and other providers are delegated to `AI_GENERATION_WORKER_URL`.
+- The worker receives `jobId`, `kind`, `provider`, and `input`, along with `Idempotency-Key` and a bearer token.
+- It can report progress (10–95) with `PATCH /api/ai/jobs/:id/progress` using `AI_GENERATION_WORKER_TOKEN`.
+- It must save large artifacts in private storage and return URLs; the JSON response is limited to 2 MB.
 
-Los fallos se reintentan tres veces con backoff. Los créditos se reservan al crear, se capturan al completar y se devuelven tras el fallo definitivo. Cada movimiento queda en `ai_credit_ledger`.
+Failures are retried three times with backoff. Credits are reserved upon creation, captured upon completion, and refunded after final failure. Every transaction is recorded in `ai_credit_ledger`.

@@ -1,196 +1,194 @@
-# Agentes de trabajo
+# Worker Agents
 
-Cuántos agentes pueden trabajar en Prompt Studio a la vez, qué zona del código
-posee cada uno y cómo se reparten para no pisarse.
+How many agents can work on Prompt Studio at the same time, which area of the code
+each one owns, and how work is distributed so they don't step on each other's toes.
 
-## La respuesta corta
+## The Short Answer
 
-**No hay un número fijo de agentes que la plataforma permita.** El límite real
-no es una cuota del producto, es la **colisión de ficheros**: dos agentes que
-editan el mismo módulo se sobrescriben. La pregunta útil no es «cuántos caben»
-sino «cuántas zonas independientes tiene este repositorio», y aquí son **diez**.
+**There is no fixed number of agents allowed by the platform.** The real limit
+is not a product quota; it is **file collision**: two agents editing the same
+module will overwrite each other. The useful question is not "how many fit"
+but "how many independent zones this repository has," and here there are **ten**.
 
-Los datos concretos que sí existen:
+The concrete data that does exist:
 
-| Dato | Valor |
+| Metric | Value |
 | --- | ---: |
-| Zonas de trabajo sin solape | 10 |
-| Agentes en paralelo recomendados sobre el mismo repo | 3 a 4 |
-| Tope por orquestación (`Workflow`, perfil «medium») | menos de 15 |
-| Agentes con aislamiento en *worktree* propio | sin tope práctico |
+| Non-overlapping work zones | 10 |
+| Recommended parallel agents on the same repo | 3 to 4 |
+| Limit per orchestration (`Workflow`, "medium" profile) | fewer than 15 |
+| Agents with isolation in their own *worktree* | no practical limit |
 
-Las cifras de la segunda y tercera fila tienen orígenes distintos y conviene no
-confundirlos. El tope de 15 es una guía de configuración del entorno de trabajo,
-ajustable desde `/config` → «Dynamic workflow size». El 3 a 4 es una
-recomendación derivada de este repositorio: por encima de eso, el tiempo que se
-gasta resolviendo conflictos supera lo que se gana en paralelo, salvo que cada
-agente trabaje en un *worktree* aislado.
+The figures in the second and third rows have different origins and should not be
+confused. The limit of 15 is a guidance setting for the workspace environment,
+adjustable from `/config` → "Dynamic workflow size". The 3 to 4 recommendation is
+derived from this repository: above that, the time spent resolving conflicts
+exceeds what is gained in parallel, unless each agent works in an isolated *worktree*.
 
-## Tamaño del terreno
+## Scope Size
 
-Lo que hay que repartir, medido el 2026-09-08:
+What needs to be distributed, measured on 2026-09-08:
 
-| Zona | Cantidad |
+| Zone | Quantity |
 | --- | ---: |
-| Rutas de API | 90 |
-| Páginas | 83 |
-| Modelos de datos | 32 |
-| Módulos de lógica (`src/lib`) | 122 |
-| Componentes | 142 |
-| Pruebas unitarias | 31 ficheros, 135 casos |
-| Pruebas de extremo a extremo | 3 |
-| Scripts de mantenimiento | 79 |
-| Órdenes de `npm` | 38, de ellas 11 validadores de SEO |
+| API routes | 90 |
+| Pages | 83 |
+| Data models | 32 |
+| Logic modules (`src/lib`) | 122 |
+| Components | 142 |
+| Unit tests | 31 files, 135 cases |
+| End-to-end tests | 3 |
+| Maintenance scripts | 79 |
+| `npm` scripts | 38, of which 11 are SEO validators |
 
-## Las diez zonas
+## The Ten Zones
 
-Cada zona es un puesto de trabajo: tiene ficheros propios, órdenes con las que
-se verifica a sí misma y un criterio de «terminado». Un agente por zona puede
-trabajar sin coordinarse con los demás.
+Each zone is a workstation: it has its own files, commands to verify itself,
+and a "done" criteria. One agent per zone can work without coordinating with the others.
 
-### 1. Catálogo y datos
+### 1. Catalog and data
 
-Mantiene el inventario del catálogo: integridad, procedencia y licencias.
-Medido el 2026-09-08: 450 componentes, 275 imágenes, 200 páginas web y 197
-vídeos, más 245 páginas en `src/data/web-pages.json`.
+Maintains the catalog inventory: integrity, provenance, and licenses.
+Measured on 2026-09-08: 450 components, 275 images, 200 web pages, and 197
+videos, plus 245 pages in `src/data/web-pages.json`.
 
-- **Posee**: `src/data/`, `public/catalog/`, `scripts/build-paged-catalogs.mjs`, `scripts/audit-catalog-provenance.mjs`, `scripts/validate-catalog-coverage.mjs`
-- **Verifica con**: `npm run test:data`, `npm run catalog:provenance`
-- **Terminado**: JSON válidos, identificadores únicos y medios locales existentes
-- **Pendiente conocido**: nada bloqueante
+- **Owns**: `src/data/`, `public/catalog/`, `scripts/build-paged-catalogs.mjs`, `scripts/audit-catalog-provenance.mjs`, `scripts/validate-catalog-coverage.mjs`
+- **Verifies with**: `npm run test:data`, `npm run catalog:provenance`
+- **Done when**: Valid JSON files, unique identifiers, and existing local media
+- **Known pending**: Nothing blocking
 
-### 2. SEO técnico
+### 2. Technical SEO
 
-Once validadores automáticos y el grafo de enlaces internos.
+Eleven automated validators and the internal link graph.
 
-- **Posee**: `scripts/validate-*-seo.mjs`, `scripts/audit-webpages-seo.mjs`, `src/lib/internal-link-graph.ts`, `sitemap.xml`, `robots.txt`, metadatos de página
-- **Verifica con**: `npm run seo:validate-all`
-- **Terminado**: los once validadores en verde (`seo:validate-all` los agrupa)
-- **Pendiente conocido**: falta `hreflang`; `alternates` en `src/app/[locale]/layout.tsx` solo declara `canonical`, sin `languages`. Falta `aggregateRating` en el JSON-LD de producto, que exige ISR o un paso de build que lea la base de datos
+- **Owns**: `scripts/validate-*-seo.mjs`, `scripts/audit-webpages-seo.mjs`, `src/lib/internal-link-graph.ts`, `sitemap.xml`, `robots.txt`, page metadata
+- **Verifies with**: `npm run seo:validate-all`
+- **Done when**: All eleven validators are in green (`seo:validate-all` groups them)
+- **Known pending**: Missing `hreflang`; `alternates` in `src/app/[locale]/layout.tsx` only declares `canonical`, without `languages`. Missing `aggregateRating` in product JSON-LD, which requires ISR or a build step that reads the database
 
-### 3. Comercio y cobros
+### 3. Commerce and payments
 
-Stripe, checkout, compras, créditos, suscripciones y afiliados.
+Stripe, checkout, purchases, credits, subscriptions, and affiliates.
 
-- **Posee**: `src/lib/stripe*`, `src/lib/credit-*`, `src/app/api/webhooks/stripe/`, `src/app/api/*checkout*`, `src/models/*Purchase*`, `src/models/Affiliate*`
-- **Verifica con**: `npm run test:unit`
-- **Terminado**: todo abono es idempotente frente a reintentos de Stripe y ningún importe procede del cliente
-- **Pendiente conocido**: recuperación de carrito abandonado (los eventos `checkout.session.expired` se registran y no se usan); asientos de equipo; claves de API para clientes
+- **Owns**: `src/lib/stripe*`, `src/lib/credit-*`, `src/app/api/webhooks/stripe/`, `src/app/api/*checkout*`, `src/models/*Purchase*`, `src/models/Affiliate*`
+- **Verifies with**: `npm run test:unit`
+- **Done when**: Every credit addition is idempotent against Stripe retries and no amount originates from the client
+- **Known pending**: Abandoned cart recovery (`checkout.session.expired` events are logged but not used); team seats; API keys for clients
 
-### 4. Generación con IA
+### 4. AI Generation
 
-La cola de trabajos, los proveedores, la contabilidad de créditos y los lotes.
+The job queue, providers, credit accounting, and batches.
 
-- **Posee**: `src/lib/ai-job-*`, `src/lib/campaign-orchestrator.ts`, `src/lib/batch-generation.ts`, `src/lib/prompt-*`, `src/app/api/ai/`
-- **Verifica con**: `npm run test:unit`
-- **Terminado**: ninguna reserva de crédito queda huérfana; los reintentos no cobran dos veces
-- **Documentación**: `docs/ai-generation-queue.md`
+- **Owns**: `src/lib/ai-job-*`, `src/lib/campaign-orchestrator.ts`, `src/lib/batch-generation.ts`, `src/lib/prompt-*`, `src/app/api/ai/`
+- **Verifies with**: `npm run test:unit`
+- **Done when**: No credit reservation is left orphaned; retries do not charge twice
+- **Documentation**: `docs/ai-generation-queue.md`
 
-### 5. Interfaz y accesibilidad
+### 5. Interface and accessibility
 
-142 componentes y 83 páginas.
+142 components and 83 pages.
 
-- **Posee**: `src/components/`, `src/app/[locale]/**/*.tsx`
-- **Verifica con**: `npm run test:e2e`
-- **Terminado**: navegable con teclado, sin salto de contenido, imágenes con texto alternativo
-- **Cuidado**: es la zona que más colisiona con las demás, porque casi toda feature toca un componente
+- **Owns**: `src/components/`, `src/app/[locale]/**/*.tsx`
+- **Verifies with**: `npm run test:e2e`
+- **Done when**: Keyboard-navigable, no content shift, images with alt text
+- **Caution**: It is the zone that collides most with others, because almost every feature touches a component
 
-### 6. Rendimiento
+### 6. Performance
 
-Presupuestos de red y Core Web Vitals.
+Network budgets and Core Web Vitals.
 
-- **Posee**: `scripts/optimize-public-media.mjs`, `scripts/precompress-static.mjs`, `scripts/minify-public-assets.mjs`, `next.config.*`
-- **Verifica con**: `npm run test:e2e:performance`
-- **Terminado**: LCP < 2 500 ms, INP < 200 ms, CLS < 0,1, JavaScript inicial < 200 KB
-- **Documentación**: `docs/testing.md`
+- **Owns**: `scripts/optimize-public-media.mjs`, `scripts/precompress-static.mjs`, `scripts/minify-public-assets.mjs`, `next.config.*`
+- **Verifies with**: `npm run test:e2e:performance`
+- **Done when**: LCP < 2,500 ms, INP < 200 ms, CLS < 0.1, initial JavaScript < 200 KB
+- **Documentation**: `docs/testing.md`
 
-### 7. Seguridad
+### 7. Security
 
-Cabeceras, límites de peticiones, contratos de autorización y rotación de secretos.
+Headers, rate limits, authorization contracts, and secret rotation.
 
-- **Posee**: `src/middleware.ts`, `src/lib/rate-limit*`, `src/lib/cache-policy.ts`, `tests/unit/api-security-contracts.test.ts`, `tests/unit/security-*`
-- **Verifica con**: `npm run test:unit`, `npm run verify:env-example`, `npm run verify:rotation`
-- **Terminado**: ninguna ruta autenticada sin límite de peticiones; ninguna respuesta personalizada con caché pública
-- **Pendiente conocido**: los hosts de imagen de la CSP hay que declararlos antes de activarla
-- **Documentación**: `docs/rotacion-de-credenciales.md`
+- **Owns**: `src/middleware.ts`, `src/lib/rate-limit*`, `src/lib/cache-policy.ts`, `tests/unit/api-security-contracts.test.ts`, `tests/unit/security-*`
+- **Verifies with**: `npm run test:unit`, `npm run verify:env-example`, `npm run verify:rotation`
+- **Done when**: No authenticated route without rate limiting; no custom response with public cache
+- **Known pending**: CSP image hosts must be declared before activating it
+- **Documentation**: `docs/rotacion-de-credenciales.md`
 
-### 8. Observabilidad
+### 8. Observability
 
-Eventos, errores operativos y saneado de datos personales.
+Events, operational errors, and PII sanitization.
 
-- **Posee**: `src/lib/observability-*`, `src/models/ObservabilityEvent.ts`, `src/app/api/observability/`, `src/app/[locale]/dashboard/observability/`
-- **Verifica con**: `npm run test:unit`
-- **Terminado**: ningún evento guarda datos personales sin sanear
-- **Documentación**: `docs/observability.md`
+- **Owns**: `src/lib/observability-*`, `src/models/ObservabilityEvent.ts`, `src/app/api/observability/`, `src/app/[locale]/dashboard/observability/`
+- **Verifies with**: `npm run test:unit`
+- **Done when**: No event saves un-sanitized personal data
+- **Documentation**: `docs/observability.md`
 
-### 9. Calidad y pruebas
+### 9. Quality and testing
 
-Cobertura de lo que ya existe, no features nuevas.
+Coverage of what already exists, not new features.
 
-- **Posee**: `tests/`
-- **Verifica con**: `npm test`, `npm run typecheck`
-- **Terminado**: cada corrección de fallo deja una prueba que impide la reincidencia
-- **Convención de la casa**: la prueba explica en un comentario **qué se rompería** si la comprobación desapareciera, no qué comprueba
+- **Owns**: `tests/`
+- **Verifies with**: `npm test`, `npm run typecheck`
+- **Done when**: Every bug fix includes a test that prevents regression
+- **House convention**: The test explains in a comment **what would break** if the check were removed, not just what it checks
 
-### 10. Contenido editorial y traducción
+### 10. Editorial content and translation
 
-Textos de producto, prompts publicados y los dos idiomas.
+Product copy, published prompts, and both languages.
 
-- **Posee**: `messages/es.json`, `messages/en.json`, textos de landing, guías de publicación
-- **Verifica con**: `npm run test:data`
-- **Terminado**: ninguna clave de traducción huérfana en ninguno de los dos idiomas
-- **Pendiente conocido**: aviso post-compra por correo para pedir reseña (Resend ya está integrado)
+- **Owns**: `messages/es.json`, `messages/en.json`, landing copy, publishing guidelines
+- **Verifies with**: `npm run test:data`
+- **Done when**: No orphaned translation key in either language
+- **Known pending**: Post-purchase email notice asking for a review (Resend is already integrated)
 
-## Reglas para que no se pisen
+## Rules to Avoid Stepping on Each Other
 
-Sin estas reglas, cuatro agentes en paralelo producen menos que uno solo.
+Without these rules, four parallel agents produce less than a single one.
 
-1. **Un agente, una zona.** El dueño de la zona es el único que edita sus ficheros.
-2. **Las fronteras compartidas se negocian antes.** `src/lib/mongoose.ts`,
-   `src/middleware.ts`, `messages/*.json`, `package.json` y `next.config.*` los
-   toca cualquiera y los rompe cualquiera. Quien necesite cambiarlos lo dice
-   antes de empezar, no después.
-3. **Los modelos de datos son de un solo dueño por fichero.** Añadir un campo es
-   seguro; cambiar un índice único **no lo es** y exige migración: MongoDB
-   rechaza dos índices con la misma clave y opciones distintas.
-4. **Nadie da por terminado sin `npm run typecheck` y `npm test`.** Son rápidos y
-   detectan la colisión antes de que llegue al repositorio.
-5. **Más de cuatro agentes, cada uno en su propio *worktree*.** Trabajar sobre
-   copias aisladas del repositorio elimina la colisión a cambio de integrar al
-   final.
-6. **La interfaz se reparte por página, no por componente.** Es la zona con más
-   solape: dos agentes en la misma página se pisan aunque toquen componentes
-   distintos.
+1. **One agent, one zone.** The owner of the zone is the only one editing its files.
+2. **Shared boundaries are negotiated upfront.** `src/lib/mongoose.ts`,
+   `src/middleware.ts`, `messages/*.json`, `package.json`, and `next.config.*` can
+   be touched and broken by anyone. Anyone needing to change them announces it
+   before starting, not after.
+3. **Data models have a single owner per file.** Adding a field is safe; changing
+   a unique index **is not** and requires a migration: MongoDB rejects two indexes
+   with the same key and different options.
+4. **Nobody considers work done without `npm run typecheck` and `npm test`.** They
+   are fast and catch collisions before they reach the repository.
+5. **More than four agents, each in their own *worktree*.** Working on isolated
+   copies of the repository eliminates collisions at the cost of integrating at
+   the end.
+6. **The interface is distributed by page, not by component.** It is the area with
+   the most overlap: two agents on the same page step on each other even if touching
+   different components.
 
-## Reparto sugerido para tres agentes
+## Suggested Breakdown for Three Agents
 
-Si solo se van a lanzar tres, este es el reparto con menos solape y más valor:
+If only three agents are going to be launched, this is the distribution with the
+least overlap and highest value:
 
-| Agente | Zonas | Primera tarea |
+| Agent | Zones | First Task |
 | --- | --- | --- |
-| A | Comercio (3) + Seguridad (7) | Carrito abandonado con los eventos de Stripe ya registrados |
-| B | SEO (2) + Contenido (10) | `hreflang` entre los dos idiomas |
-| C | Interfaz (5) + Rendimiento (6) | Presupuestos de red sobre las páginas de catálogo |
+| A | Commerce (3) + Security (7) | Abandoned cart using already registered Stripe events |
+| B | SEO (2) + Content (10) | `hreflang` between both languages |
+| C | Interface (5) + Performance (6) | Network budgets on catalog pages |
 
-Calidad (9) no se asigna: es responsabilidad de cada agente sobre su propia zona.
+Quality (9) is not assigned: it is the responsibility of each agent for their own zone.
 
-## Antes de lanzar cualquier agente
+## Before Launching Any Agent
 
-El proyecto exige **Node 22.11 o posterior** y no admite mezclar instalaciones
-`arm64` y `x64` en el mismo `node_modules`. En un Mac con Apple Silicon, un Node
-`x86_64` compila `node_modules` con el binario equivocado y el build falla al
-cargar SWC. Comprobación:
+The project requires **Node 22.11 or higher** and does not support mixing `arm64`
+and `x64` installations in the same `node_modules`. On a Mac with Apple Silicon, an
+`x86_64` Node compiles `node_modules` with the wrong binary and the build fails
+when loading SWC. Verification:
 
 ```bash
 node -p "process.version + ' ' + process.arch"
 ```
 
-Debe decir `arm64` en Apple Silicon. Si dice `x64`, reinstala Node antes de
-repartir trabajo, o todos los agentes heredarán un build roto.
+It must say `arm64` on Apple Silicon. If it says `x64`, reinstall Node before
+distributing work, or all agents will inherit a broken build.
 
-## Qué no cubre este documento
+## What This Document Does Not Cover
 
-Los agentes de IA **del producto** —la cola de generación, el optimizador de
-prompts, el asistente de campañas— no son puestos de trabajo sobre el código:
-son funcionalidades que se venden. Están descritos en `docs/ai-generation-queue.md`
-y en `docs/prd.md`.
+The **product's** AI agents—the generation queue, prompt optimizer, campaign
+assistant—are not code workstations: they are features being sold. They are
+described in `docs/ai-generation-queue.md` and in `docs/prd.md`.
