@@ -23,6 +23,18 @@ import { join, relative } from 'node:path';
 
 const RAIZ = process.cwd();
 const SALIDA = join(RAIZ, 'coverage');
+
+// `--test-coverage-include` existe a partir de Node 22. Con una versión anterior
+// Node rechaza la bandera, el informe sale a 0 % y, si las pruebas pasan, la
+// validación daría verde sobre una medición inexistente. Mejor fallar aquí.
+const [MAYOR, MENOR] = process.versions.node.split('.').map(Number);
+if (MAYOR < 22 || (MAYOR === 22 && MENOR < 11)) {
+  console.error(
+    `Node ${process.versions.node} no admite --test-coverage-include; se necesita >= 22.11 ` +
+      '(la versión de .nvmrc). Ejecuta `nvm use` antes de medir la cobertura.'
+  );
+  process.exit(1);
+}
 const PARCIALES = ['unit.info', 'data.info'];
 
 /** Módulos que no son código de aplicación: no deben diluir el porcentaje. */
@@ -137,6 +149,16 @@ console.log(
 
 if (!okUnit || !okData) {
   console.error('\nHubo pruebas en rojo: el informe se ha escrito igualmente.');
+  process.exitCode = 1;
+}
+
+// Cero ficheros medidos no es "0 % de cobertura": es que la medición no llegó a
+// ocurrir. Sin esta guarda, un fallo del recolector pasa por un informe válido.
+if (cubiertos.size === 0) {
+  console.error(
+    '\nNingún fichero llegó a medirse: el recolector de cobertura no produjo datos. ' +
+      'Esto no es un 0 % real; revisa la salida de las pruebas antes de fiarte del informe.'
+  );
   process.exitCode = 1;
 }
 

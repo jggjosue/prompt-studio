@@ -182,7 +182,31 @@ imágenes y vídeos ya versionados con recodificación con pérdida. Corregir la
 es lo que pedía la auditoría; decidir cuándo recodificar los medios del
 repositorio corresponde a quien los mantiene.
 
-### 2.7 Validadores de SEO que fallaban en silencio
+### 2.7 La cobertura ya no puede dar un falso verde
+
+Durante la validación aparecieron dos formas de obtener un informe de cobertura
+vacío que el script presentaba como **0,00 %**, indistinguible de un resultado
+real:
+
+- **Node < 22.** `--test-coverage-include` existe desde Node 22; con Node 20,
+  Node rechaza la bandera y no se recoge nada.
+- **Dos ejecuciones simultáneas.** Ambas escriben en `coverage/` y la segunda
+  borra los ficheros intermedios de la primera.
+
+En los dos casos el problema no es el porcentaje sino la palabra: **cero ficheros
+medidos no es «0 % de cobertura», es que la medición no llegó a ocurrir**. Se
+añadieron dos guardas a `build-coverage-report.mjs`:
+
+- Comprobación de versión al arrancar: con Node < 22.11 el script para y dice que
+  ejecutes `nvm use`, en lugar de producir un informe vacío.
+- Si ningún fichero llegó a medirse, sale con código 1 y lo dice con esas
+  palabras.
+
+Verificado en ambos sentidos: con Node 20 el script para con el mensaje de
+versión; con Node 23 y una sola ejecución da **5,56 % sobre 62 ficheros medidos**
+y sale en 0.
+
+### 2.8 Validadores de SEO que fallaban en silencio
 
 Se descubrió que varios scripts de `seo:validate-*` **salían con código 0 sin
 comprobar nada**: `audit-webpages-seo` y otros leían
