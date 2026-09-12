@@ -76,9 +76,16 @@ jobs:
         run: npm run build
         env:
           # Claves de ejemplo: el build no debe necesitar secretos reales.
+          # `next build` importa cada módulo de ruta para recolectar datos de
+          # página, así que los clientes que se construyen en el scope del módulo
+          # necesitan *algún* valor o lanzan antes de que se ejecute nada:
+          # `src/lib/stripe.ts` (Stripe lanza con clave vacía) y
+          # `src/lib/resend.ts` (lanza si falta la variable).
           NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: pk_test_ci
           CLERK_SECRET_KEY: sk_test_ci
           MONGODB_URI: mongodb://127.0.0.1:27017/ci
+          STRIPE_SECRET_KEY: sk_test_ci
+          RESEND_API_KEY: re_test_ci
 
   browser:
     name: Presupuestos de navegador
