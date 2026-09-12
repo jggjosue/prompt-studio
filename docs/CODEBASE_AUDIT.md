@@ -180,6 +180,7 @@ decidir explícitamente si se quedan.
 | # | Problema | Gravedad |
 |---|---|---|
 | 1 | **105 vulnerabilidades** de dependencias: 4 críticas, 35 altas, 62 moderadas. Solo producción: 88, con **4 críticas y 23 altas** (`@grpc/grpc-js`, `express`/`body-parser`, `brace-expansion` ReDoS, cadena de `@genkit-ai/*` y OpenTelemetry) | **P0** |
+| | *Estado al cierre: producción en **63, 0 críticas y 7 altas**. Ver [IMPROVEMENT_REPORT.md](IMPROVEMENT_REPORT.md) §2.4.* | |
 | 2 | **Seis mecanismos de autorización** conviviendo sin mapa: `auth()` de Clerk, firma de webhook (Stripe `constructEvent`, Clerk `svix`), `requireCronOrAdmin`, `hasValidCronSecret`, `isCacheAdminAuthorized`, límite por IP. Revisar si una ruta está protegida exige leerla entera | **P1** |
 | 3 | Secretos en commits antiguos del historial (documentado en `docs/historial/`): borrados de HEAD, **no del historial**. Estado de rotación: sin verificar | **P1** |
 | 4 | 68 de 105 rutas sin señal evidente de validación de entrada (varias validan con helpers propios; requiere revisión caso por caso) | **P2** |
