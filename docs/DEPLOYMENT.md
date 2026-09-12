@@ -2,8 +2,8 @@
 
 Platform: **Vercel**. Production branch: `main`. Each open branch generates a
 *preview*. This document covers only what is not obvious from the Vercel
-dashboard: what the build does on its own, what depends on the cron, and what
-breaks if an environment variable is missing.
+dashboard: what the build does on its own, why the AI queue has no scheduler,
+and what breaks if an environment variable is missing.
 
 ---
 
@@ -29,25 +29,47 @@ build. It is the price of serving the catalog as static.
 
 ---
 
-## 2. Cron
+## 2. The AI queue has no scheduler
 
-`vercel.json` declares a single scheduled job:
+`vercel.json` **declares no cron job**. It used to declare one:
 
 ```json
 { "path": "/api/ai/jobs/process?limit=3", "schedule": "* * * * *" }
 ```
 
-Every minute, up to 3 AI jobs. Details that affect deployment:
+It was removed because Vercel's Hobby plan only allows cron jobs that run **once
+per day**; a per-minute expression is rejected and the deployment fails.
 
-- The route authenticates with `hasValidCronSecret`, **not** with a session. Without
-  `CRON_SECRET` in the production environment, the cron silently returns 401 and
-  **the queue stops advancing**: jobs remain in `queued` with reserved
-  credits. There is no automatic alert for this; the symptom is `reserved`
-  growing in `ai_credit_accounts`.
+**What this means, plainly: nothing advances the AI queue by itself.** A job
+submitted to `/api/ai/jobs` stays in `queued` with its credits `reserved` until
+something calls `/api/ai/jobs/process`. That endpoint still exists and still
+works; it simply has no scheduler behind it.
+
+To process the queue, call it with the cron secret:
+
+```bash
+curl -H "Authorization: Bearer $CRON_SECRET" \
+  "https://<dominio>/api/ai/jobs/process?limit=3"
+```
+
+Ways to put a scheduler back, when the queue is needed:
+
+| Option | Cost |
+|---|---|
+| Vercel Pro | Restores `schedule: "* * * * *"`; per-minute precision |
+| Hobby with `"schedule": "0 * * * *"` | Not allowed either — Hobby caps at once per day |
+| An external scheduler (GitHub Actions `schedule`, cron-job.org, Upstash QStash) | Free; calls the URL above with the secret |
+
+Other details that still apply when a scheduler is in place:
+
+- The route authenticates with `hasValidCronSecret`, **not** with a session.
+  Without `CRON_SECRET` it returns 401 with no noise at all, and the queue stops
+  advancing with credits still reserved. The symptom is `reserved` growing in
+  `ai_credit_accounts`.
 - `maxDuration = 300` on the route. The external worker timeout is 270 s
   precisely to fail before the platform does.
-- A one-minute cadence with a 5-minute lease means that a hung job is not
-  retried until those 5 minutes have passed, not on the following minute.
+- A one-minute cadence with a 5-minute lease means a hung job is not retried
+  until those 5 minutes have passed, not on the following minute.
 
 See [AI_ARCHITECTURE.md](AI_ARCHITECTURE.md) §3.
 
@@ -81,7 +103,7 @@ breaks when each group is missing:
 |---|---|
 | `MONGODB_URI` | Everything that persists. Immediate and loud failure (`bufferCommands: false`) |
 | Clerk | No session; all authenticated routes return 401 |
-| `CRON_SECRET` | The AI queue stops **silently** (§2) |
+| `CRON_SECRET` | Nothing can drain the AI queue: `/api/ai/jobs/process` returns 401 with no noise (§2) |
 | Stripe | Payments fail at checkout; webhooks return 400 |
 | `AI_GENERATION_WORKER_URL` / `_TOKEN` | Only in-process image+`google` works; the rest of the jobs fail and refund credits |
 | R2 | Uploads fail; already uploaded assets continue to be served |

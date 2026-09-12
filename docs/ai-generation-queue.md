@@ -1,6 +1,8 @@
 # AI Generation Queue
 
-The queue uses MongoDB as durable storage. The browser creates a job and polls its status; the protected cron claims jobs via a lease, so a user request does not remain open.
+The queue uses MongoDB as durable storage. The browser creates a job and polls its status; a protected call to `/api/ai/jobs/process` claims jobs via a lease, so a user request does not remain open.
+
+> There is no scheduler behind that endpoint: `vercel.json` declares no cron job, because the per-minute cadence this queue needs is not available on Vercel's Hobby plan. Jobs stay `queued` until something calls it. See [DEPLOYMENT.md](DEPLOYMENT.md) §2.
 
 ## Create a Job
 

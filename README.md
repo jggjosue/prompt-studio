@@ -199,7 +199,7 @@ More cases, with their cause and resolution, in
 | [docs/TESTING.md](docs/TESTING.md) | Testing architecture, coverage, and what is covered |
 | [docs/DATABASE.md](docs/DATABASE.md) | Models, collections, indexes, and the `user_profiles` incident |
 | [docs/AI_ARCHITECTURE.md](docs/AI_ARCHITECTURE.md) | Lifecycle of the AI job, credits, and output contracts |
-| [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Build, cron, headers, and variables that break production |
+| [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Build, why the AI queue has no scheduler, headers, and variables that break production |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Setup, rules enforced by the pipeline, and style |
 | [docs/IMPROVEMENT_REPORT.md](docs/IMPROVEMENT_REPORT.md) | Measured before / after of the audit program, and what remains open |
 | [docs/CODEBASE_AUDIT.md](docs/CODEBASE_AUDIT.md) | Real state of the repository, measured, with priorities |
