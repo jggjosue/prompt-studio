@@ -12,5 +12,8 @@ export default defineConfig({
     { name: 'desktop-chromium', use: { ...devices['Desktop Chrome'] } },
     { name: 'mobile-chromium', use: { ...devices['iPhone 13'], browserName: 'chromium' } },
   ],
-  webServer: process.env.PLAYWRIGHT_BASE_URL ? undefined : { command: 'NEXT_PUBLIC_E2E_TEST_MODE=true npm run dev', url: 'http://127.0.0.1:3046', reuseExistingServer: !process.env.CI, timeout: 120_000 },
+  // `npm run dev` sirve en el 3048; este servidor usa el 3046 para no pelearse
+  // con el que tenga abierto quien desarrolla. Antes invocaba `npm run dev` y
+  // esperaba en el 3046, así que sin PLAYWRIGHT_BASE_URL nunca arrancaba.
+  webServer: process.env.PLAYWRIGHT_BASE_URL ? undefined : { command: 'NEXT_PUBLIC_E2E_TEST_MODE=true next dev --turbopack -p 3046', url: 'http://127.0.0.1:3046', reuseExistingServer: !process.env.CI, timeout: 180_000 },
 });
