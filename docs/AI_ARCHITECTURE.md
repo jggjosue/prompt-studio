@@ -16,7 +16,7 @@ confused.
 | | Synchronous path | Asynchronous path |
 |---|---|---|
 | Where it lives | `src/lib/generation/provider-adapters.ts` (`'use client'`) | `src/app/api/ai/jobs/**` + `src/lib/ai-job-*.ts` |
-| How it calls the provider | *Server actions* proxy (`proxyOpenAIChat`, `proxyGemini`, …) | MongoDB queue, consumed by a cron |
+| How it calls the provider | *Server actions* proxy (`proxyOpenAIChat`, `proxyGemini`, …) | MongoDB queue, drained by calls to `/api/ai/jobs/process` |
 | When it is used | Interactive editing: the user waits for the response | Long jobs: video, projects, batches |
 | Credits | Does not deduct them | Reserve → capture/refund |
 
@@ -84,6 +84,12 @@ Two deliberate consequences:
 
 The endpoint processes between 1 and 5 jobs per invocation (`limit`, bounded on the
 server) and is protected by `hasValidCronSecret`, not by session.
+
+> **No scheduler calls it today.** `vercel.json` declares no cron job: the
+> per-minute expression this queue needs is not allowed on Vercel's Hobby plan.
+> The endpoint works, but somebody has to call it — see
+> [DEPLOYMENT.md](DEPLOYMENT.md) §2. Until then a job stays `queued` with its
+> credits `reserved`.
 
 ### Retries
 
