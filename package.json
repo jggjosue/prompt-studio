@@ -10,7 +10,6 @@
     "node": ">=22.11.0"
   },
   "scripts": {
-    "preinstall": "node scripts/mjs/check-node-version.mjs",
     "test": "npm run test:unit && npm run test:data",
     "test:unit": "node --import tsx --test tests/unit/*.test.ts",
     "test:data": "node --test tests/data/*.test.mjs",

@@ -1,159 +1,159 @@
-# API Access Matrix
+# Matriz de acceso de la API
 
-> **Generated document.** Produced by `node scripts/mjs/build-route-access-matrix.mjs`
-> from each route's code. Do not edit by hand: to change a row,
-> change the route.
+> **Documento generado.** Lo produce `node scripts/mjs/build-route-access-matrix.mjs`
+> a partir del código de cada ruta. No se edita a mano: para cambiar una fila,
+> cambia la ruta.
 
-The project authorizes using seven different mechanisms. This table shows which one
-each of the 105 routes uses, which previously could only be found out by reading
-the files one by one.
+El proyecto autoriza con siete mecanismos distintos. Esta tabla dice cuál usa
+cada una de las 105 rutas, que antes solo se podía averiguar leyendo
+los ficheros uno a uno.
 
-The `tests/unit/route-access-matrix.test.ts` test fails if a route appears without
-a recognized mechanism and without an explicit justification, so a new unprotected
-route breaks the pipeline.
+La prueba `tests/unit/route-access-matrix.test.ts` falla si aparece una ruta sin
+mecanismo reconocido y sin justificación explícita, así que una ruta nueva
+desprotegida rompe el pipeline.
 
-## Summary
+## Resumen
 
-| Mechanism | Routes |
+| Mecanismo | Rutas |
 |---|---|
-| Webhook signature | 2 |
-| Cron or admin secret | 6 |
-| Administrator | 9 |
-| Subscription plan | 12 |
-| User session | 60 |
-| AI worker token | 1 |
-| IP limit | 34 |
-| Disabled (501) | 2 |
-| **Total routes** | **105** |
+| Firma de webhook | 2 |
+| Secreto de cron o admin | 6 |
+| Administrador | 9 |
+| Plan de suscripción | 12 |
+| Sesión de usuario | 60 |
+| Token del worker de IA | 1 |
+| Límite por IP | 34 |
+| Deshabilitada (501) | 2 |
+| **Total de rutas** | **105** |
 
-## Public routes by design
+## Rutas públicas por diseño
 
-They are public by design, each with its own reason. None expose paid product
-content or data from another account.
+Son públicas a propósito, cada una con su motivo. Ninguna expone producto de
+pago ni datos de otra cuenta.
 
-- `/api/catalog/[kind]` — Paginated public catalog; does not expose paid prompts
-- `/api/catalog/web-pages/[id]` — Public listing of a catalog demo
-- `/api/landing-pages/catalog` — Public list of landing pages
-- `/api/landing-pages/[pageId]/content` — Public content of a published landing page
-- `/api/landing-pages/readability-index` — Readability index, public aggregated data
-- `/api/community-reviews` — Reviews visible without an account; writing requires a session
-- `/api/marketplace` — Public showcase of the marketplace
-- `/api/provider-quality` — Aggregated metrics of provider quality
-- `/api/demo/reproducible/report` — Reproducible demo report, intended for external audit
-- `/api/refactory-online/[slug]` — Static demo loader
-- `/api/webpages/assets/[...path]` — Static assets of the demos
-- `/api/web-pages/validate-demo-url` — URL format validation, side-effect free
-- `/api/web-page-checkout` — Guest checkout initiation; Stripe validates the payment session
-- `/api/stripe/demo-buy-button` — Public buy button configuration
-- `/api/r2/buckets` — List of configured buckets, without credentials
-- `/api/affiliate/applications` — Affiliate application submission from the public form
+- `/api/catalog/[kind]` — Catálogo público paginado; no expone prompts de pago
+- `/api/catalog/web-pages/[id]` — Ficha pública de una demo del catálogo
+- `/api/landing-pages/catalog` — Listado público de landings
+- `/api/landing-pages/[pageId]/content` — Contenido público de una landing publicada
+- `/api/landing-pages/readability-index` — Índice de legibilidad, dato agregado y público
+- `/api/community-reviews` — Reseñas visibles sin cuenta; la escritura sí exige sesión
+- `/api/marketplace` — Escaparate público del marketplace
+- `/api/provider-quality` — Métricas agregadas de calidad de proveedores
+- `/api/demo/reproducible/report` — Informe de la demo reproducible, pensado para auditoría externa
+- `/api/refactory-online/[slug]` — Cargador de demos estáticas
+- `/api/webpages/assets/[...path]` — Activos estáticos de las demos
+- `/api/web-pages/validate-demo-url` — Validación de formato de URL, sin efectos
+- `/api/web-page-checkout` — Inicio de checkout de invitado; Stripe valida la sesión de pago
+- `/api/stripe/demo-buy-button` — Configuración pública del botón de compra
+- `/api/r2/buckets` — Listado de buckets configurados, sin credenciales
+- `/api/affiliate/applications` — Alta de solicitud de afiliado desde el formulario público
 
-## Complete matrix
+## Matriz completa
 
-| Route | Verbs | Protection |
+| Ruta | Verbos | Protección |
 |---|---|---|
-| `/api/activity/ping` | POST | User session |
-| `/api/admin/affiliate-applications/[applicationId]` | PATCH | Administrator |
-| `/api/admin/affiliate-sales` | GET | Administrator |
-| `/api/admin/feature-experiments` | GET, POST, PATCH | Cron or admin secret |
-| `/api/admin/main-funnel` | GET | Cron or admin secret |
-| `/api/admin/marketplace` | GET | Administrator |
-| `/api/admin/marketplace/[id]` | PATCH | Administrator |
-| `/api/admin/observability` | GET | Administrator + User session |
-| `/api/admin/product-reviews` | GET, PATCH | Administrator + User session |
-| `/api/affiliate/applications` | POST | IP limit |
-| `/api/affiliate/click` | POST | IP limit |
-| `/api/ai/jobs` | POST, GET | Subscription plan + User session + IP limit |
-| `/api/ai/jobs/[id]` | GET | User session |
-| `/api/ai/jobs/[id]/feedback` | POST, DELETE | User session + IP limit |
-| `/api/ai/jobs/[id]/progress` | PATCH | AI worker token |
-| `/api/ai/jobs/[id]/retry` | POST | User session |
-| `/api/ai/jobs/process` | — | Cron or admin secret |
-| `/api/ai/providers/recommend` | GET | User session |
-| `/api/assets/provenance` | GET, PATCH | User session + IP limit |
-| `/api/batches` | GET, POST | User session + IP limit |
-| `/api/batches/[id]` | GET, PATCH | User session + IP limit |
-| `/api/batches/[id]/export` | GET | User session |
-| `/api/brand-kits` | GET, POST | Subscription plan + User session + IP limit |
-| `/api/brand-kits/[id]` | GET, PATCH | User session + IP limit |
-| `/api/cache/invalidate` | POST | Administrator |
-| `/api/cache/stats` | GET | Administrator |
-| `/api/campaign-workflows` | GET, POST | User session + IP limit |
-| `/api/campaign-workflows/[id]` | GET, PATCH | User session + IP limit |
-| `/api/campaign-workflows/[id]/export` | GET | User session |
-| `/api/catalog-engagement` | GET, POST | User session + IP limit |
-| `/api/catalog/[kind]` | GET | Public — Paginated public catalog; does not expose paid prompts |
-| `/api/catalog/components/[id]` | GET | Subscription plan + User session |
-| `/api/catalog/web-pages/[id]` | GET | Public — Public listing of a catalog demo |
-| `/api/community-reviews` | GET | Public — Reviews visible without an account; writing requires a session |
-| `/api/component-bundle-checkout` | POST | User session |
-| `/api/component-checkout` | POST | User session |
-| `/api/component-composer/export` | POST | Subscription plan |
-| `/api/component-export/download` | POST | Subscription plan |
-| `/api/component-export/sandbox` | POST | Subscription plan |
-| `/api/component-library` | GET, PUT | User session + IP limit |
-| `/api/component-library/export` | POST | Subscription plan |
-| `/api/component-personalization` | POST | Subscription plan |
-| `/api/creator/listings` | GET, POST | User session + IP limit |
-| `/api/creator/listings/[id]` | PATCH | User session |
-| `/api/credits` | GET | User session |
-| `/api/credits/checkout` | POST | User session + IP limit |
-| `/api/csp-report` | POST | IP limit |
-| `/api/demo/reproducible/report` | GET | Public — Reproducible demo report, intended for external audit |
-| `/api/editor/projects` | GET, PUT, DELETE | Subscription plan + User session + IP limit |
-| `/api/evaluation-suites` | GET, POST | User session + IP limit |
-| `/api/evaluation-suites/[id]` | GET | User session |
-| `/api/evaluation-suites/[id]/export` | GET | User session |
-| `/api/feature-flags` | GET | User session |
-| `/api/human-evaluations` | GET, POST | User session + IP limit |
-| `/api/interests/track` | POST | User session + IP limit |
-| `/api/landing-pages/[pageId]/content` | GET | Public — Public content of a published landing page |
-| `/api/landing-pages/[pageId]/download` | GET | Subscription plan |
-| `/api/landing-pages/[pageId]/readability` | GET, POST | User session |
-| `/api/landing-pages/catalog` | GET | Public — Public list of landing pages |
-| `/api/landing-pages/readability-index` | GET | Public — Readability index, public aggregated data |
-| `/api/like` | POST | Disabled (501) |
-| `/api/marketplace` | GET | Public — Public showcase of the marketplace |
-| `/api/marketplace/[id]/checkout` | POST | User session |
-| `/api/marketplace/[id]/download` | GET | User session |
-| `/api/model-regressions` | GET, POST | User session |
-| `/api/new-users` | POST | IP limit |
-| `/api/observability/events` | POST | User session |
-| `/api/output-contracts` | GET, POST, PATCH | User session + IP limit |
-| `/api/product-reviews` | GET, POST | User session + IP limit |
-| `/api/product-reviews/me` | GET | User session |
-| `/api/profile/paypal` | POST | User session |
-| `/api/project-client/[token]` | GET, POST | IP limit |
-| `/api/projects` | GET, POST | User session + IP limit |
-| `/api/projects/[id]` | GET, PATCH | User session + IP limit |
-| `/api/projects/[id]/collaboration` | GET, POST | User session + IP limit |
-| `/api/prompt-experiments` | GET, POST | User session + IP limit |
-| `/api/prompt-experiments/[id]` | GET, PATCH | User session + IP limit |
-| `/api/prompt-optimizer` | POST | User session + IP limit |
-| `/api/prompt-versions` | GET, POST | User session + IP limit |
-| `/api/provider-quality` | GET | Administrator |
-| `/api/publication-quality` | GET | User session |
-| `/api/publications` | GET, POST | Subscription plan + User session + IP limit |
-| `/api/publications/[id]` | PATCH | User session |
-| `/api/publications/[id]/export` | GET | User session |
-| `/api/purchases` | GET | User session |
-| `/api/purchases/[purchaseId]/download-token` | POST | User session |
-| `/api/purchases/download` | GET | User session |
-| `/api/r2/buckets` | GET | Public — List of configured buckets, without credentials |
-| `/api/recommendations` | GET | User session |
-| `/api/refactory-online/[slug]` | GET | Public — Static demo loader |
-| `/api/saved` | GET, POST, DELETE | User session + IP limit |
-| `/api/search/intent` | GET | IP limit |
-| `/api/seed` | GET | Disabled (501) |
-| `/api/stripe/demo-buy-button` | GET | Public — Public buy button configuration |
-| `/api/subscription/invoice` | GET | User session |
-| `/api/subscription/portal` | POST | User session |
-| `/api/subscription/status` | GET | Subscription plan |
-| `/api/sync-clerk` | GET | Cron or admin secret |
-| `/api/sync-registered-users-to-resend` | GET | Cron or admin secret |
-| `/api/sync-resend` | GET | Cron or admin secret |
-| `/api/web-page-checkout` | — | Public — Guest checkout initiation; Stripe validates the payment session |
-| `/api/web-pages/validate-demo-url` | GET | Public — URL format validation, side-effect free |
-| `/api/webhooks/clerk` | POST | Webhook signature |
-| `/api/webhooks/stripe` | POST | Webhook signature |
-| `/api/webpages/assets/[...path]` | GET | Public — Static assets of the demos |
+| `/api/activity/ping` | POST | Sesión de usuario |
+| `/api/admin/affiliate-applications/[applicationId]` | PATCH | Administrador |
+| `/api/admin/affiliate-sales` | GET | Administrador |
+| `/api/admin/feature-experiments` | GET, POST, PATCH | Secreto de cron o admin |
+| `/api/admin/main-funnel` | GET | Secreto de cron o admin |
+| `/api/admin/marketplace` | GET | Administrador |
+| `/api/admin/marketplace/[id]` | PATCH | Administrador |
+| `/api/admin/observability` | GET | Administrador + Sesión de usuario |
+| `/api/admin/product-reviews` | GET, PATCH | Administrador + Sesión de usuario |
+| `/api/affiliate/applications` | POST | Límite por IP |
+| `/api/affiliate/click` | POST | Límite por IP |
+| `/api/ai/jobs` | POST, GET | Plan de suscripción + Sesión de usuario + Límite por IP |
+| `/api/ai/jobs/[id]` | GET | Sesión de usuario |
+| `/api/ai/jobs/[id]/feedback` | POST, DELETE | Sesión de usuario + Límite por IP |
+| `/api/ai/jobs/[id]/progress` | PATCH | Token del worker de IA |
+| `/api/ai/jobs/[id]/retry` | POST | Sesión de usuario |
+| `/api/ai/jobs/process` | — | Secreto de cron o admin |
+| `/api/ai/providers/recommend` | GET | Sesión de usuario |
+| `/api/assets/provenance` | GET, PATCH | Sesión de usuario + Límite por IP |
+| `/api/batches` | GET, POST | Sesión de usuario + Límite por IP |
+| `/api/batches/[id]` | GET, PATCH | Sesión de usuario + Límite por IP |
+| `/api/batches/[id]/export` | GET | Sesión de usuario |
+| `/api/brand-kits` | GET, POST | Plan de suscripción + Sesión de usuario + Límite por IP |
+| `/api/brand-kits/[id]` | GET, PATCH | Sesión de usuario + Límite por IP |
+| `/api/cache/invalidate` | POST | Administrador |
+| `/api/cache/stats` | GET | Administrador |
+| `/api/campaign-workflows` | GET, POST | Sesión de usuario + Límite por IP |
+| `/api/campaign-workflows/[id]` | GET, PATCH | Sesión de usuario + Límite por IP |
+| `/api/campaign-workflows/[id]/export` | GET | Sesión de usuario |
+| `/api/catalog-engagement` | GET, POST | Sesión de usuario + Límite por IP |
+| `/api/catalog/[kind]` | GET | Pública — Catálogo público paginado; no expone prompts de pago |
+| `/api/catalog/components/[id]` | GET | Plan de suscripción + Sesión de usuario |
+| `/api/catalog/web-pages/[id]` | GET | Pública — Ficha pública de una demo del catálogo |
+| `/api/community-reviews` | GET | Pública — Reseñas visibles sin cuenta; la escritura sí exige sesión |
+| `/api/component-bundle-checkout` | POST | Sesión de usuario |
+| `/api/component-checkout` | POST | Sesión de usuario |
+| `/api/component-composer/export` | POST | Plan de suscripción |
+| `/api/component-export/download` | POST | Plan de suscripción |
+| `/api/component-export/sandbox` | POST | Plan de suscripción |
+| `/api/component-library` | GET, PUT | Sesión de usuario + Límite por IP |
+| `/api/component-library/export` | POST | Plan de suscripción |
+| `/api/component-personalization` | POST | Plan de suscripción |
+| `/api/creator/listings` | GET, POST | Sesión de usuario + Límite por IP |
+| `/api/creator/listings/[id]` | PATCH | Sesión de usuario |
+| `/api/credits` | GET | Sesión de usuario |
+| `/api/credits/checkout` | POST | Sesión de usuario + Límite por IP |
+| `/api/csp-report` | POST | Límite por IP |
+| `/api/demo/reproducible/report` | GET | Pública — Informe de la demo reproducible, pensado para auditoría externa |
+| `/api/editor/projects` | GET, PUT, DELETE | Plan de suscripción + Sesión de usuario + Límite por IP |
+| `/api/evaluation-suites` | GET, POST | Sesión de usuario + Límite por IP |
+| `/api/evaluation-suites/[id]` | GET | Sesión de usuario |
+| `/api/evaluation-suites/[id]/export` | GET | Sesión de usuario |
+| `/api/feature-flags` | GET | Sesión de usuario |
+| `/api/human-evaluations` | GET, POST | Sesión de usuario + Límite por IP |
+| `/api/interests/track` | POST | Sesión de usuario + Límite por IP |
+| `/api/landing-pages/[pageId]/content` | GET | Pública — Contenido público de una landing publicada |
+| `/api/landing-pages/[pageId]/download` | GET | Plan de suscripción |
+| `/api/landing-pages/[pageId]/readability` | GET, POST | Sesión de usuario |
+| `/api/landing-pages/catalog` | GET | Pública — Listado público de landings |
+| `/api/landing-pages/readability-index` | GET | Pública — Índice de legibilidad, dato agregado y público |
+| `/api/like` | POST | Deshabilitada (501) |
+| `/api/marketplace` | GET | Pública — Escaparate público del marketplace |
+| `/api/marketplace/[id]/checkout` | POST | Sesión de usuario |
+| `/api/marketplace/[id]/download` | GET | Sesión de usuario |
+| `/api/model-regressions` | GET, POST | Sesión de usuario |
+| `/api/new-users` | POST | Límite por IP |
+| `/api/observability/events` | POST | Sesión de usuario |
+| `/api/output-contracts` | GET, POST, PATCH | Sesión de usuario + Límite por IP |
+| `/api/product-reviews` | GET, POST | Sesión de usuario + Límite por IP |
+| `/api/product-reviews/me` | GET | Sesión de usuario |
+| `/api/profile/paypal` | POST | Sesión de usuario |
+| `/api/project-client/[token]` | GET, POST | Límite por IP |
+| `/api/projects` | GET, POST | Sesión de usuario + Límite por IP |
+| `/api/projects/[id]` | GET, PATCH | Sesión de usuario + Límite por IP |
+| `/api/projects/[id]/collaboration` | GET, POST | Sesión de usuario + Límite por IP |
+| `/api/prompt-experiments` | GET, POST | Sesión de usuario + Límite por IP |
+| `/api/prompt-experiments/[id]` | GET, PATCH | Sesión de usuario + Límite por IP |
+| `/api/prompt-optimizer` | POST | Sesión de usuario + Límite por IP |
+| `/api/prompt-versions` | GET, POST | Sesión de usuario + Límite por IP |
+| `/api/provider-quality` | GET | Administrador |
+| `/api/publication-quality` | GET | Sesión de usuario |
+| `/api/publications` | GET, POST | Plan de suscripción + Sesión de usuario + Límite por IP |
+| `/api/publications/[id]` | PATCH | Sesión de usuario |
+| `/api/publications/[id]/export` | GET | Sesión de usuario |
+| `/api/purchases` | GET | Sesión de usuario |
+| `/api/purchases/[purchaseId]/download-token` | POST | Sesión de usuario |
+| `/api/purchases/download` | GET | Sesión de usuario |
+| `/api/r2/buckets` | GET | Pública — Listado de buckets configurados, sin credenciales |
+| `/api/recommendations` | GET | Sesión de usuario |
+| `/api/refactory-online/[slug]` | GET | Pública — Cargador de demos estáticas |
+| `/api/saved` | GET, POST, DELETE | Sesión de usuario + Límite por IP |
+| `/api/search/intent` | GET | Límite por IP |
+| `/api/seed` | GET | Deshabilitada (501) |
+| `/api/stripe/demo-buy-button` | GET | Pública — Configuración pública del botón de compra |
+| `/api/subscription/invoice` | GET | Sesión de usuario |
+| `/api/subscription/portal` | POST | Sesión de usuario |
+| `/api/subscription/status` | GET | Plan de suscripción |
+| `/api/sync-clerk` | GET | Secreto de cron o admin |
+| `/api/sync-registered-users-to-resend` | GET | Secreto de cron o admin |
+| `/api/sync-resend` | GET | Secreto de cron o admin |
+| `/api/web-page-checkout` | — | Pública — Inicio de checkout de invitado; Stripe valida la sesión de pago |
+| `/api/web-pages/validate-demo-url` | GET | Pública — Validación de formato de URL, sin efectos |
+| `/api/webhooks/clerk` | POST | Firma de webhook |
+| `/api/webhooks/stripe` | POST | Firma de webhook |
+| `/api/webpages/assets/[...path]` | GET | Pública — Activos estáticos de las demos |
