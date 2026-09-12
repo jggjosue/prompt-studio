@@ -1,126 +1,126 @@
-# Despliegue
+# Deployment
 
-Plataforma: **Vercel**. Rama de producción: `main`. Cada rama abierta genera una
-*preview*. Este documento cubre solo lo que no es evidente desde el panel de
-Vercel: qué hace el build por su cuenta, qué depende del cron y qué se rompe si
-falta una variable.
+Platform: **Vercel**. Production branch: `main`. Each open branch generates a
+*preview*. This document covers only what is not obvious from the Vercel
+dashboard: what the build does on its own, what depends on the cron, and what
+breaks if an environment variable is missing.
 
 ---
 
-## 1. El build hace más que `next build`
+## 1. The build does more than `next build`
 
 ```
 prebuild → webpages:normalize · catalog:build · reviews:aggregates
 build    → next build · minify-public-assets · optimize-public-media · precompress-static
 ```
 
-`vercel-build` es simplemente `npm run build`, así que **Vercel ejecuta también
-el `prebuild`**. Eso importa por una razón concreta: los catálogos paginados y
-los agregados de reseñas son **artefactos generados en tiempo de build**, no
-datos leídos en caliente. Si `catalog:build` falla, el build falla; si se
-saltara, las páginas de catálogo se renderizarían vacías sin error visible.
+`vercel-build` is simply `npm run build`, so **Vercel also executes `prebuild`**.
+That matters for a specific reason: paginated catalogs and review aggregates
+are **artifacts generated at build time**, not data read on the fly. If
+`catalog:build` fails, the build fails; if skipped, catalog pages would render
+empty without a visible error.
 
-Los tres pasos posteriores a `next build` (minificado, optimización de medios,
-precompresión) actúan sobre `public/`. Son idempotentes: volver a ejecutarlos
-sobre una salida ya procesada no la degrada.
+The three steps following `next build` (minification, media optimization,
+precompression) act on `public/`. They are idempotent: re-running them on an
+already processed output does not degrade it.
 
-**Consecuencia práctica:** el build es sensiblemente más lento que un Next
-estándar. Es el precio de servir el catálogo como estático.
+**Practical consequence:** the build is noticeably slower than a standard Next
+build. It is the price of serving the catalog as static.
 
 ---
 
 ## 2. Cron
 
-`vercel.json` declara un único trabajo programado:
+`vercel.json` declares a single scheduled job:
 
 ```json
 { "path": "/api/ai/jobs/process?limit=3", "schedule": "* * * * *" }
 ```
 
-Cada minuto, hasta 3 trabajos de IA. Detalles que condicionan el despliegue:
+Every minute, up to 3 AI jobs. Details that affect deployment:
 
-- La ruta se autentica con `hasValidCronSecret`, **no** con sesión. Sin
-  `CRON_SECRET` en el entorno de producción, el cron devuelve 401 en silencio y
-  **la cola deja de avanzar**: los trabajos se quedan en `queued` con créditos
-  reservados. No hay alarma automática para esto; el síntoma es `reserved`
-  creciendo en `ai_credit_accounts`.
-- `maxDuration = 300` en la ruta. El timeout del worker externo es de 270 s
-  precisamente para fallar antes que la plataforma.
-- Un minuto de cadencia con lease de 5 minutos significa que un trabajo colgado
-  no se reintenta hasta pasados esos 5 minutos, no al minuto siguiente.
+- The route authenticates with `hasValidCronSecret`, **not** with a session. Without
+  `CRON_SECRET` in the production environment, the cron silently returns 401 and
+  **the queue stops advancing**: jobs remain in `queued` with reserved
+  credits. There is no automatic alert for this; the symptom is `reserved`
+  growing in `ai_credit_accounts`.
+- `maxDuration = 300` on the route. The external worker timeout is 270 s
+  precisely to fail before the platform does.
+- A one-minute cadence with a 5-minute lease means that a hung job is not
+  retried until those 5 minutes have passed, not on the following minute.
 
-Ver [AI_ARCHITECTURE.md](AI_ARCHITECTURE.md) §3.
+See [AI_ARCHITECTURE.md](AI_ARCHITECTURE.md) §3.
 
 ---
 
-## 3. Cabeceras
+## 3. Headers
 
-`vercel.json` define 9 reglas de cabeceras. Las dos que no son cosméticas:
+`vercel.json` defines 9 header rules. The two that are not cosmetic:
 
-| Ruta | Política | Motivo |
+| Route | Policy | Reason |
 |---|---|---|
-| `/_next/static/(.*)` | `public, max-age=31536000, immutable` | El nombre lleva hash; nunca cambia bajo la misma URL |
-| `/__clerk/(.*)` | `no-store, must-revalidate` (también en CDN) | Cachear el *handshake* de Clerk deja sesiones cruzadas entre usuarios |
+| `/_next/static/(.*)` | `public, max-age=31536000, immutable` | The filename is hashed; it never changes under the same URL |
+| `/__clerk/(.*)` | `no-store, must-revalidate` (also on CDN) | Caching Clerk's handshake leaves cross-user sessions |
 
-La segunda no es una optimización: es una regla de corrección. `CDN-Cache-Control`
-se fija aparte porque la CDN de Vercel no obedece `Cache-Control` a secas para
-sus propias capas.
+The second one is not an optimization: it is a correctness rule. `CDN-Cache-Control`
+is set separately because Vercel's CDN does not obey plain `Cache-Control` for
+its own layers.
 
-El resto de políticas de caché de la aplicación viven en el código
-(`src/lib/cache-policy.ts`) y las verifica `npm run cache:audit`, que forma parte
-de `validate` y de CI.
+The rest of the application's cache policies reside in the code
+(`src/lib/cache-policy.ts`) and are verified by `npm run cache:audit`, which is part
+of `validate` and CI.
 
 ---
 
-## 4. Variables de entorno
+## 4. Environment variables
 
-`.env.example` documenta **91 variables**. No todas son obligatorias; lo que se
-rompe al faltar cada grupo:
+`.env.example` documents **91 variables**. Not all of them are required; what
+breaks when each group is missing:
 
-| Grupo | Si falta |
+| Group | If missing |
 |---|---|
-| `MONGODB_URI` | Todo lo que persiste. Fallo inmediato y ruidoso (`bufferCommands: false`) |
-| Clerk | No hay sesión; todas las rutas autenticadas devuelven 401 |
-| `CRON_SECRET` | La cola de IA se detiene **en silencio** (§2) |
-| Stripe | Los pagos fallan en el checkout; los webhooks devuelven 400 |
-| `AI_GENERATION_WORKER_URL` / `_TOKEN` | Solo funciona imagen+`google` en proceso; el resto de trabajos fallan y devuelven créditos |
-| R2 | Las subidas fallan; lo ya subido sigue sirviéndose |
-| Resend | Sin avisos de trabajo terminado; la generación funciona igual |
+| `MONGODB_URI` | Everything that persists. Immediate and loud failure (`bufferCommands: false`) |
+| Clerk | No session; all authenticated routes return 401 |
+| `CRON_SECRET` | The AI queue stops **silently** (§2) |
+| Stripe | Payments fail at checkout; webhooks return 400 |
+| `AI_GENERATION_WORKER_URL` / `_TOKEN` | Only in-process image+`google` works; the rest of the jobs fail and refund credits |
+| R2 | Uploads fail; already uploaded assets continue to be served |
+| Resend | No completed job notifications; generation works as usual |
 
-Dos comprobaciones antes de desplegar:
+Two checks before deploying:
 
 ```bash
 npm run verify:env-example   # el ejemplo cubre lo que el código lee
 npm run verify:clerk:prod    # las claves de Clerk son de producción, no de test
 ```
 
-`verify:clerk:prod` existe porque desplegar con claves `pk_test_` a producción
-es un fallo silencioso: la aplicación arranca y autentica contra el entorno
-equivocado.
+`verify:clerk:prod` exists because deploying with `pk_test_` keys to production
+is a silent failure: the application starts up and authenticates against the wrong
+environment.
 
 ---
 
-## 5. Antes de subir a `main`
+## 5. Before pushing to `main`
 
 ```bash
 npm run validate   # lint · typecheck · cobertura · env-example · caché
 ```
 
-CI ejecuta lo mismo más el build y las pruebas de navegador
-(`.github/workflows/quality.yml`, sobre `pull_request` y sobre `push` a `main` y
+CI runs the same plus the build and browser tests
+(`.github/workflows/quality.yml`, on `pull_request` and on `push` to `main` and
 `develop`).
 
-Las validaciones de SEO (`npm run seo:validate-all`) **no** están en CI porque
-varias necesitan el sitio ya desplegado. Se ejecutan contra la *preview* o
-contra producción, con `SEO_REPORT=1` para obtener el informe detallado.
+SEO validations (`npm run seo:validate-all`) are **not** in CI because several
+of them require the site to already be deployed. They are run against the *preview*
+or against production, with `SEO_REPORT=1` to get the detailed report.
 
 ---
 
-## 6. Estado conocido
+## 6. Known state
 
-`npm audit --omit=dev` reporta **63 vulnerabilidades en producción, 0 críticas y
-7 altas** (se partía de 88, con 4 críticas y 23 altas). Las 63 restantes cuelgan
-todas del árbol de `genkit`, que fija `@opentelemetry/* ~1.25` cuando la
-corrección solo existe en OpenTelemetry 2.x — incluida su versión más reciente.
-No bloquean el despliegue; el detalle y el motivo de no forzarlo están en
+`npm audit --omit=dev` reports **63 production vulnerabilities, 0 critical and
+7 high** (starting from 88, with 4 critical and 23 high). The remaining 63 all hang
+off the `genkit` tree, which pins `@opentelemetry/* ~1.25` when the fix only
+exists in OpenTelemetry 2.x — including its latest version. They do not block
+deployment; details and the reason for not forcing it are in
 [SECURITY.md](SECURITY.md) §6.

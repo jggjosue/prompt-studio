@@ -1,159 +1,131 @@
-# Base de datos
+# Database
 
-MongoDB con Mongoose. **45 modelos** repartidos en 43 colecciones. Todo lo que
-sigue está leído del código; los comandos para comprobarlo están en el §7.
+MongoDB with Mongoose. **45 models** spread across 43 collections. Everything below is read directly from code; the commands to verify it are in §7.
 
 ---
 
-## 1. Conexión
+## 1. Connection
 
-`src/lib/mongoose.ts` mantiene **una conexión cacheada en el objeto global**.
+`src/lib/mongoose.ts` maintains **a cached connection on the global object**.
 
 ```ts
-let cached = (global as any).mongoose;   // sobrevive al hot reload
+let cached = (global as any).mongoose;   // survives hot reload
 ```
 
-No es una elegancia: en desarrollo, Next recarga los módulos en cada cambio, y
-sin ese caché cada recarga abriría un pool nuevo hasta agotar las conexiones del
-clúster. En producción, cada instancia serverless reutiliza su pool entre
-invocaciones calientes.
+This is not just for elegance: in development, Next.js hot-reloads modules on every change, and without this cache every reload would open a new pool until running out of cluster connections. In production, each serverless instance reuses its pool between warm invocations.
 
-Opciones relevantes:
+Relevant options:
 
-| Opción | Valor | Por qué |
+| Option | Value | Why |
 |---|---|---|
-| `maxPoolSize` | 10 | Techo por instancia; en serverless se multiplica por el número de instancias vivas |
-| `bufferCommands` | `false` | Sin esto, una consulta lanzada antes de conectar se queda encolada y falla por timeout en lugar de fallar rápido |
+| `maxPoolSize` | 10 | Cap per instance; in serverless, it multiplies by the number of live instances |
+| `bufferCommands` | `false` | Without this, a query launched before connecting stays queued and times out instead of failing fast |
 
-Toda ruta que toca datos llama a `connectToDatabase()` antes de la primera
-consulta.
+Every route touching data calls `connectToDatabase()` before the first query.
 
 ---
 
-## 2. Dominios
+## 2. Domains
 
-| Dominio | Modelos | Colecciones principales |
+| Domain | Models | Main collections |
 |---|---|---|
-| **Generación con IA** | 11 | `ai_generation_jobs`, `ai_credit_ledger`, `ai_credit_accounts`, `batch_generations`, `output_contracts`, `evaluation_suites`, `human_evaluations`, `prompt_versions`, `prompt_experiments`, `model_regressions` |
-| **Afiliados** | 7 | `affiliate_applications`, `affiliate_clicks`, `affiliate_sales`, `affiliate_payout_accounts`, `affiliate_daily_stats`, `affiliate_user_stats`, `affiliate_referral_stats` |
-| **Comercio** | 6 | `component_purchases`, `credit_purchases`, `marketplace_listings`, `marketplace_sales`, `component_libraries`, `landing_publications` |
-| **Usuario** | 7 | `user_profiles`, `saved_items`, `user_interests`, `cookieconsents`, `useractivities` |
-| **Proyectos** | 6 | `creative_projects`, `campaign_workflows`, `brand_kits`, `project_client_links`, `project_funnel_events`, `publication_quality_audits` |
-| **Otros** | 8 | `observability_events`, `catalog_likes`, `catalog_engagements`, `asset_provenance`, `product_reviews`, `editor_projects`, `feature_experiments`, `feature_assignments` |
+| **AI Generation** | 11 | `ai_generation_jobs`, `ai_credit_ledger`, `ai_credit_accounts`, `batch_generations`, `output_contracts`, `evaluation_suites`, `human_evaluations`, `prompt_versions`, `prompt_experiments`, `model_regressions` |
+| **Affiliates** | 7 | `affiliate_applications`, `affiliate_clicks`, `affiliate_sales`, `affiliate_payout_accounts`, `affiliate_daily_stats`, `affiliate_user_stats`, `affiliate_referral_stats` |
+| **Commerce** | 6 | `component_purchases`, `credit_purchases`, `marketplace_listings`, `marketplace_sales`, `component_libraries`, `landing_publications` |
+| **User** | 7 | `user_profiles`, `saved_items`, `user_interests`, `cookieconsents`, `useractivities` |
+| **Projects** | 6 | `creative_projects`, `campaign_workflows`, `brand_kits`, `project_client_links`, `project_funnel_events`, `publication_quality_audits` |
+| **Others** | 8 | `observability_events`, `catalog_likes`, `catalog_engagements`, `asset_provenance`, `product_reviews`, `editor_projects`, `feature_experiments`, `feature_assignments` |
 
 ---
 
-## 3. Tres modelos, una colección: `user_profiles`
+## 3. Three models, one collection: `user_profiles`
 
-`NewUser`, `RegisteredUser` y `UserProfile` escriben en la **misma colección**.
-Es deliberado, y la razón está en `/api/sync-resend`: recorre la colección entera
-para sincronizar con Resend tanto a los clientes como a los *leads* que dejaron
-su correo en una descarga gratuita sin crear cuenta.
+`NewUser`, `RegisteredUser`, and `UserProfile` write to the **same collection**. It is deliberate, and the reason lies in `/api/sync-resend`: it iterates through the entire collection to sync with Resend both customers and leads who left their email in a free download without creating an account.
 
-**El fallo que esto provocó, y cómo se corrigió.** Un lead se inserta sin
-`userId`. MongoDB interpreta el campo ausente como `null`, y con un índice único
-normal **solo el primer lead entra**: todos los siguientes fallan con `E11000`.
-Ocurría en producción y hacía que `/api/new-users` devolviera 500 en cada captura
-de correo.
+**The bug this caused, and how it was fixed.** A lead is inserted without `userId`. MongoDB interprets the missing field as `null`, and with a standard unique index **only the first lead gets in**: all subsequent ones fail with `E11000`. It was happening in production, causing `/api/new-users` to return 500 on every email capture.
 
-La corrección es un **índice único parcial** (`src/models/UserProfile.ts:46`):
+The fix is a **partial unique index** (`src/models/UserProfile.ts:46`):
 
 ```ts
 { unique: true, partialFilterExpression: { userId: { $type: 'string' } } }
 ```
 
-La unicidad solo aplica a los documentos cuyo `userId` es una cadena, es decir, a
-los perfiles reales; los leads sin `userId` quedan fuera del índice y pueden ser
-muchos.
+Uniqueness only applies to documents whose `userId` is a string, i.e., actual profiles; leads without a `userId` are excluded from the index and can be numerous.
 
-> Si algún día se separan las colecciones, hay que cambiar `/api/sync-resend` a
-> la vez: hoy depende de que ambos tipos convivan.
+> If the collections are ever split in the future, `/api/sync-resend` must be updated at the same time: today it depends on both types coexisting.
 
 ---
 
-## 4. Índices
+## 4. Indexes
 
-| Modelo | Índices | Únicos | Para qué |
+| Model | Indexes | Unique | Purpose |
 |---|---|---|---|
-| `ObservabilityEvent` | 3 | 0 | `{route, productId, createdAt}` y `{category, name, createdAt}` para los agregados del panel |
-| `AffiliateSale` | 1 | 2 | Búsqueda por afiliado y por estado de liquidación |
-| `MarketplaceListing` | 1 | 1 | Cola de revisión por estado y antigüedad |
-| `SavedItem` | 2 | 1 | Único `{userId, itemKind, itemId}`: dos clics simultáneos no pueden duplicar |
-| `ComponentLibrary` | 0 | 1 | `userId` único: la biblioteca es una por cuenta y el upsert depende de ello |
-| `AICreditLedger` | 1 | 1 | Movimientos por trabajo |
-| `EditorProject` | 2 | 0 | `{userId, updatedAt}` para listar por recencia |
+| `ObservabilityEvent` | 3 | 0 | `{route, productId, createdAt}` and `{category, name, createdAt}` for dashboard aggregates |
+| `AffiliateSale` | 1 | 2 | Lookup by affiliate and by payout status |
+| `MarketplaceListing` | 1 | 1 | Review queue by status and age |
+| `SavedItem` | 2 | 1 | Unique `{userId, itemKind, itemId}`: two simultaneous clicks cannot duplicate |
+| `ComponentLibrary` | 0 | 1 | Unique `userId`: there is one library per account and upserting depends on it |
+| `AICreditLedger` | 1 | 1 | Ledger entries by job |
+| `EditorProject` | 2 | 0 | `{userId, updatedAt}` to list by recency |
 
-**Patrón general**: donde hay una operación idempotente —guardar un favorito,
-registrar una compra— hay un índice único que la hace idempotente **en la base de
-datos**, no solo en el código. Dos peticiones simultáneas no pueden crear dos
-filas.
+**General pattern**: wherever there is an idempotent operation—saving a favorite, recording a purchase—there is a unique index that enforces idempotency **in the database**, not just in code. Two concurrent requests cannot create two rows.
 
 ---
 
-## 5. Retención
+## 5. Retention
 
-Solo una colección caduca sola:
+Only one collection auto-expires:
 
 ```ts
 createdAt: { type: Date, default: Date.now, index: true, expires: 60 * 60 * 24 * 90 }
 ```
 
-`observability_events` borra cada documento a los **90 días**. Es una decisión
-con consecuencia: no habrá series históricas más largas de tres meses, así que
-cualquier comparación anual exige archivar antes.
+`observability_events` deletes each document after **90 days**. This is a consequential decision: there will be no historical time series longer than three months, so any annual comparison requires archiving beforehand.
 
-El resto de colecciones crecen sin límite. Las de más riesgo son
-`affiliate_clicks` y `catalog_engagements`, que registran un documento por
-interacción.
+The remaining collections grow indefinitely. The highest risk ones are `affiliate_clicks` and `catalog_engagements`, which record one document per interaction.
 
 ---
 
-## 6. Ciclo de vida del trabajo de IA
+## 6. AI Job Lifecycle
 
-Es el flujo con más estados del sistema y el que más cuidado exige, porque mueve
-dinero.
+This is the system flow with the most states and requires the most care, as it handles money.
 
 ```mermaid
 stateDiagram-v2
-    [*] --> queued: POST /api/ai/jobs · créditos reservados
-    queued --> processing: el worker lo toma
-    processing --> processing: PATCH /progress (token del worker)
-    processing --> retrying: fallo del proveedor
-    retrying --> processing: nuevo intento
-    processing --> completed: salida válida · créditos capturados
-    retrying --> failed: agotados los intentos · créditos devueltos
+    [*] --> queued: POST /api/ai/jobs · credits reserved
+    queued --> processing: worker picks it up
+    processing --> processing: PATCH /progress (worker token)
+    processing --> retrying: provider failure
+    retrying --> processing: retry attempt
+    processing --> completed: valid output · credits captured
+    retrying --> failed: attempts exhausted · credits refunded
     completed --> [*]
     failed --> [*]
 ```
 
-Estados de `AIGenerationJob`: `queued`, `processing`, `retrying`, `completed`,
-`failed`. Estados del crédito asociado: `reserved`, `captured`, `refunded`.
+States of `AIGenerationJob`: `queued`, `processing`, `retrying`, `completed`, `failed`. States of the associated credit: `reserved`, `captured`, `refunded`.
 
-**La invariante que sostiene el sistema**: ningún trabajo termina sin que su
-crédito pase de `reserved` a `captured` o a `refunded`. Un trabajo fallido
-devuelve lo reservado, y el usuario recibe un correo que lo dice con el número de
-intentos.
+**The invariant holding the system together**: no job finishes without its credit transitioning from `reserved` to `captured` or `refunded`. A failed job refunds the reserved credits, and the user receives an email indicating this along with the number of attempts.
 
 ---
 
-## 7. Cómo comprobar lo anterior
+## 7. How to Verify the Above
 
 ```bash
-# Colecciones, índices y TTL por modelo
+# Collections, indexes, and TTL per model
 node -e "
 const fs=require('fs');
 for(const f of fs.readdirSync('src/models').filter(x=>x.endsWith('.ts'))){
   const t=fs.readFileSync('src/models/'+f,'utf8');
-  const col=(t.match(/mongoose\.model<[^>]*>\([^,]+,\s*\w+,\s*'([^']+)'/)||[])[1]||'(por defecto)';
-  console.log(f.replace('.ts',''), col, 'índices:'+(t.match(/\.index\(/g)||[]).length, 'TTL:'+(t.match(/expires:/g)||[]).length);
+  const col=(t.match(/mongoose\.model<[^>]*>\([^,]+,\s*\w+,\s*'([^']+)'/)||[])[1]||'(default)';
+  console.log(f.replace('.ts',''), col, 'indexes:'+(t.match(/\.index\(/g)||[]).length, 'TTL:'+(t.match(/expires:/g)||[]).length);
 }"
 
-# Modelos que comparten colección
+# Models sharing a collection
 grep -l "'user_profiles'" src/models/*.ts
 
-# Estados del trabajo de IA
+# AI job states
 grep -oE "enum: ?\[[^]]*\]" src/models/AIGenerationJob.ts
 ```
 
-Modelo campo a campo: [dm.md](dm.md). Decisiones de arquitectura que lo
-explican: [ARCHITECTURE.md](ARCHITECTURE.md).
+Model field by field: [dm.md](dm.md). Architecture decisions explaining it: [ARCHITECTURE.md](ARCHITECTURE.md).
