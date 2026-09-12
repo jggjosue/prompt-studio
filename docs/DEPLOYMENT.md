@@ -104,10 +104,10 @@ breaks when each group is missing:
 | `MONGODB_URI` | Everything that persists. Immediate and loud failure (`bufferCommands: false`) |
 | Clerk | No session; all authenticated routes return 401 |
 | `CRON_SECRET` | Nothing can drain the AI queue: `/api/ai/jobs/process` returns 401 with no noise (§2) |
-| Stripe | Payments fail at checkout; webhooks return 400 |
+| Stripe | Payments fail at checkout; webhooks return 400. **The build still succeeds**: the client is built lazily, so a missing key breaks the call, not the compilation |
 | `AI_GENERATION_WORKER_URL` / `_TOKEN` | Only in-process image+`google` works; the rest of the jobs fail and refund credits |
 | R2 | Uploads fail; already uploaded assets continue to be served |
-| Resend | No completed job notifications; generation works as usual |
+| Resend | No completed job notifications; generation works as usual. Lazy client too, so the build is unaffected |
 
 Two checks before deploying:
 
