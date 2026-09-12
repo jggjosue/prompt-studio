@@ -118,7 +118,9 @@ contra producción, con `SEO_REPORT=1` para obtener el informe detallado.
 
 ## 6. Estado conocido
 
-`npm audit` reporta **88 vulnerabilidades en dependencias de producción** (4
-críticas, 23 altas) sin resolver a día de hoy. No bloquean el despliegue y están
-documentadas en [SECURITY.md](SECURITY.md); conviene leerlo antes de asumir que
-el despliegue está limpio.
+`npm audit --omit=dev` reporta **63 vulnerabilidades en producción, 0 críticas y
+7 altas** (se partía de 88, con 4 críticas y 23 altas). Las 63 restantes cuelgan
+todas del árbol de `genkit`, que fija `@opentelemetry/* ~1.25` cuando la
+corrección solo existe en OpenTelemetry 2.x — incluida su versión más reciente.
+No bloquean el despliegue; el detalle y el motivo de no forzarlo están en
+[SECURITY.md](SECURITY.md) §6.

@@ -8,7 +8,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const ROOT = path.join(__dirname, '..');
+const ROOT = path.join(__dirname, '..', '..');
 const PUBLIC_DIR = path.join(ROOT, 'public');
 
 const COMPRESSIBLE = new Set([
@@ -84,7 +84,7 @@ async function main() {
   const results = [];
 
   for (const file of targets) {
-    const _r = await compressFile(file);
+    const r = await compressFile(file);
     if (r) results.push(r);
   }
 

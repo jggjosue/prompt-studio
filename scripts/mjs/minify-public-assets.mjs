@@ -10,7 +10,7 @@ import cssnano from 'cssnano';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const ROOT = path.join(__dirname, '..');
+const ROOT = path.join(__dirname, '..', '..');
 /** Código estático de las demos; Next ya minifica los bundles de src/app. */
 const MINIFY_ROOTS = [
   path.join(ROOT, 'public', 'webpages'),

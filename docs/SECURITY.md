@@ -139,17 +139,55 @@ otra cuenta.
 
 ## 6. Dependencias
 
-**Estado a 11 de septiembre de 2026**: `npm audit --omit=dev` reporta **88
-vulnerabilidades en producción — 4 críticas y 23 altas**.
+**Estado a 12 de septiembre de 2026**: `npm audit --omit=dev` reporta **63
+vulnerabilidades en producción — 0 críticas y 7 altas**. Partíamos de 88, con 4
+críticas y 23 altas.
 
-Las cadenas afectadas son mayoritariamente transitivas: `@grpc/grpc-js`,
-`express`/`body-parser`, `brace-expansion` (ReDoS), y la cadena de
-`@genkit-ai/*` con OpenTelemetry.
+| | Críticas | Altas | Moderadas | Bajas | Total |
+|---|---|---|---|---|---|
+| Antes | 4 | 23 | 59 | 2 | 88 |
+| Ahora | **0** | **7** | 53 | 3 | **63** |
 
-**Esto está sin resolver** y es la prioridad de seguridad más alta del proyecto.
-No se ha aplicado `npm audit fix --force` porque implica cambios mayores en
-Genkit, que es el núcleo de la generación con IA: requiere probar cada proveedor
-después.
+Qué se corrigió:
+
+- `next` 15.5.9 → **15.5.25** (sin cambio de versión mayor): cierra la crítica de
+  denegación de servicio en el optimizador de imágenes.
+- `sharp` → **0.35.4**: CVE heredados de libvips.
+- `recharts` **3.0.0-alpha.9 → 3.10.1**: saca una versión *alpha* de producción y
+  elimina `lodash`, cuya vulnerabilidad no tiene corrección publicada.
+- `postcss` → **8.5.28**, unificado con `overrides: {"postcss": "$postcss"}`.
+- Se elimina `firebase-admin`, **dependencia directa que ningún módulo importaba**
+  (solo se usa el SDK cliente `firebase` en `src/lib/firebase.ts`).
+- `overrides` dirigidos para `handlebars` 4.7.9, `protobufjs` 7.6.6,
+  `websocket-driver` 0.7.5, `node-forge` 1.4.0, `js-cookie` 3.0.8, `nanoid`
+  3.3.19, `fast-uri`, `form-data`, `@grpc/grpc-js`, `qs`, `body-parser` y
+  `path-to-regexp`.
+
+Los `overrides` usan la forma `"paquete@<rango>": "versión"` en lugar de un
+override global, porque `picomatch`, `form-data` y `@grpc/grpc-js` conviven en
+dos versiones mayores distintas en el árbol y un override global habría degradado
+al consumidor moderno.
+
+### Lo que queda, y por qué no se toca
+
+**Las 63 restantes cuelgan todas del árbol de `genkit`**, y las 7 altas son la
+cadena de OpenTelemetry. `@genkit-ai/core` fija `@opentelemetry/* ~1.25` y las
+correcciones solo existen en **OpenTelemetry 2.x**. Se comprobó que
+`genkit@1.42.0`, la versión más reciente, **sigue fijando `~1.25.0`**: no es
+software desactualizado, es que la corrección no existe aguas arriba.
+
+```bash
+npm view @genkit-ai/core@latest dependencies --json | grep opentelemetry
+```
+
+Forzar OpenTelemetry 2.x bajo genkit compila, pero no puede verificarse aquí que
+la instrumentación siga funcionando en ejecución. Se revisa en cada actualización
+de genkit.
+
+**No se aplicó `npm audit fix --force`**: proponía `genkit@0.5.17`, un
+**retroceso** desde 1.20.0 que inutilizaría la generación con IA. `npm audit`
+presenta como corrección cualquier versión fuera del rango vulnerable, incluidas
+las anteriores.
 
 ---
 

@@ -204,6 +204,7 @@ Más casos, con su causa y desenlace, en
 | [docs/AI_ARCHITECTURE.md](docs/AI_ARCHITECTURE.md) | Ciclo de vida del trabajo de IA, créditos y contratos de salida |
 | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Build, cron, cabeceras y variables que rompen producción |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Puesta en marcha, reglas que el pipeline hace cumplir y estilo |
+| [docs/IMPROVEMENT_REPORT.md](docs/IMPROVEMENT_REPORT.md) | Antes / después medido del programa de auditoría, y lo que queda abierto |
 | [docs/CODEBASE_AUDIT.md](docs/CODEBASE_AUDIT.md) | Estado real del repositorio, medido, con prioridades |
 | [docs/operaciones/](docs/operaciones/) | Procedimientos: generación con IA, comercial, catálogo, despliegue y QA |
 | [docs/operaciones/base-de-conocimiento.md](docs/operaciones/base-de-conocimiento.md) | Problemas ya resueltos, con su causa |
