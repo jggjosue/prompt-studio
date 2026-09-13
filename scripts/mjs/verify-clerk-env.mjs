@@ -8,7 +8,7 @@
  *   node scripts/verify-clerk-env.mjs development
  */
 
-import { readFileSync, existsSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 import { resolve } from 'path';
 
 function loadDotEnv() {
@@ -46,7 +46,7 @@ const sk = process.env.CLERK_SECRET_KEY?.trim();
 
 let ok = true;
 
-function fail(_msg) {
+function fail(msg) {
   console.error(`✗ ${msg}`);
   ok = false;
 }
