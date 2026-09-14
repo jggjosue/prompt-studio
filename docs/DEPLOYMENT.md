@@ -113,12 +113,29 @@ Two checks before deploying:
 
 ```bash
 npm run verify:env-example   # el ejemplo cubre lo que el código lee
-npm run verify:clerk:prod    # las claves de Clerk son de producción, no de test
+npm run verify:clerk:prod    # claves, URLs y dominio de Clerk
 ```
 
 `verify:clerk:prod` exists because deploying with `pk_test_` keys to production
 is a silent failure: the application starts up and authenticates against the wrong
 environment.
+
+It also checks the two Clerk settings that take **the whole site** down when they
+are wrong, because `clerkMiddleware` wraps every matched request and a failure to
+initialise means `500 MIDDLEWARE_INVOCATION_FAILED` on every route, not a broken
+login:
+
+- **`NEXT_PUBLIC_CLERK_SIGN_IN_URL` and friends must be paths of this
+  application** (`/sign-in`, `/sign-up`, `/dashboard`, `/prices`), not absolute
+  URLs. Pointing them at `clerk.<domain>` is a common mistake: that host serves
+  Clerk's Frontend API, not your sign-in page.
+- **`NEXT_PUBLIC_CLERK_DOMAIN`, if set at all, must belong to the same
+  registrable domain as `DOMAIN`.** It is a satellite-domain setting; a single
+  typo in it is enough to stop the middleware from starting.
+
+Until this check was added, that loop printed each value with a ✓ without
+verifying anything, so a misconfiguration passed the check and only surfaced as a
+site-wide 500 after deploying.
 
 ---
 

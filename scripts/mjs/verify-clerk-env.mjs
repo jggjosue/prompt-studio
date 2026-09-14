@@ -104,9 +104,67 @@ const routes = [
   ],
 ];
 
+/** Dominio registrable: `www.ejemplo.com` y `clerk.ejemplo.com` -> `ejemplo.com`. */
+function dominioRegistrable(host) {
+  const partes = host.toLowerCase().split('.').filter(Boolean);
+  return partes.slice(-2).join('.');
+}
+
+const sitio = process.env.DOMAIN?.trim();
+const hostSitio = (() => {
+  if (!sitio) return null;
+  try { return new URL(sitio).hostname; } catch { return null; }
+})();
+
+/**
+ * Estas rutas son páginas de *tu* aplicación, no de Clerk. Apuntarlas a un
+ * host distinto —típicamente `clerk.<dominio>`, que sirve la Frontend API de
+ * Clerk y no tu página de acceso— hace que `clerkMiddleware` no arranque, y el
+ * despliegue responde 500 `MIDDLEWARE_INVOCATION_FAILED` en **todas** las
+ * rutas. Antes este bucle imprimía el valor con un ✓ sin comprobar nada, así
+ * que una configuración así pasaba la verificación.
+ */
 for (const [name, fallback] of routes) {
   const value = process.env[name]?.trim() || fallback;
-  pass(`${name}=${value}`);
+  if (value.startsWith('/')) {
+    pass(`${name}=${value}`);
+    continue;
+  }
+  let url;
+  try { url = new URL(value); } catch {
+    fail(`${name}=${value} — debe ser una ruta de tu aplicación, por ejemplo ${fallback}`);
+    continue;
+  }
+  if (hostSitio && url.hostname === hostSitio) {
+    pass(`${name}=${value} (absoluta, mismo dominio que DOMAIN)`);
+  } else {
+    fail(
+      `${name}=${value} — apunta a ${url.hostname}, que no es tu sitio` +
+        (hostSitio ? ` (${hostSitio})` : '') +
+        `. Debe ser una ruta como ${fallback}; si apunta a clerk.<dominio> el middleware falla en todas las rutas.`
+    );
+  }
+}
+
+/**
+ * `NEXT_PUBLIC_CLERK_DOMAIN` es para dominios satélite. Si está puesto y no
+ * pertenece al mismo dominio registrable que el sitio, Clerk intenta resolver
+ * una instancia que no existe y el middleware deja de arrancar. Un simple error
+ * tipográfico en el dominio basta para tumbar la aplicación entera.
+ */
+const dominioClerk = process.env.NEXT_PUBLIC_CLERK_DOMAIN?.trim();
+if (dominioClerk) {
+  if (!hostSitio) {
+    pass(`NEXT_PUBLIC_CLERK_DOMAIN=${dominioClerk} (sin DOMAIN, no se puede contrastar)`);
+  } else if (dominioRegistrable(dominioClerk) === dominioRegistrable(hostSitio)) {
+    pass(`NEXT_PUBLIC_CLERK_DOMAIN=${dominioClerk}`);
+  } else {
+    fail(
+      `NEXT_PUBLIC_CLERK_DOMAIN=${dominioClerk} no pertenece a ${dominioRegistrable(hostSitio)} ` +
+        `(DOMAIN=${sitio}). Revisa si hay una errata: con un dominio que no corresponde, ` +
+        'clerkMiddleware no arranca y el sitio responde 500 en todas las rutas.'
+    );
+  }
 }
 
 if (mode === 'production') {
