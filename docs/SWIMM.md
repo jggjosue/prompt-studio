@@ -103,3 +103,7 @@ catálogos y archivos generados excluidos.
 [DOC-003 — High-Impact Source Priorities](audits/HIGH_IMPACT_SOURCE_PRIORITIES.md)
 ordena los módulos que deben recibir documentación explicativa primero, usando
 impacto sistémico, riesgo, reutilización y volumen de código.
+
+[DOC-005 — Documentation to Code Map](audits/DOCUMENTATION_TO_CODE_MAP.md)
+conecta los subsistemas documentados con sus entry points y contratos de
+implementación.
