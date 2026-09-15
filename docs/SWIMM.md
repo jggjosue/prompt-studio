@@ -110,3 +110,6 @@ implementación.
 
 [DOC-007 — Runtime Entry Points](audits/RUNTIME_ENTRY_POINTS.md) describe el
 arranque de runtime y enlaza configuración, routing, providers y bootstrap.
+
+[DOC-008 — Primary Generation Flow](playbooks/PRIMARY_GENERATION_FLOW.md)
+recorre la UI, el estado, las server actions y la ruta durable de generación.
