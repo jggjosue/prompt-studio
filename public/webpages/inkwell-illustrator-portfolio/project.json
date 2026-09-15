@@ -1,0 +1,37 @@
+{
+  "id": "170",
+  "title": {
+    "en": "Inkwell — 3D Illustrator Portfolio",
+    "es": "Inkwell — Portafolio 3D de ilustración"
+  },
+  "description": {
+    "es": {
+      "nombre": "Inkwell — Portafolio 3D de ilustración",
+      "prompt": "Crea un portafolio web editorial para una ilustradora independiente con una composición 3D interactiva, láminas flotantes, tarjetas de proyectos animadas y una sección clara para rentar o licenciar obras. Usa una paleta expresiva en rosa, violeta, lima y naranja, tipografía con personalidad y una experiencia responsive.",
+      "estilo": "Editorial contemporáneo, colorido, lúdico, maximalista y tridimensional"
+    },
+    "en": {
+      "name": "Inkwell — 3D Illustrator Portfolio",
+      "prompt": "Create an editorial portfolio website for an independent illustrator featuring an interactive 3D composition, floating art prints, animated project cards, and a clear section for renting or licensing artwork. Use an expressive pink, violet, lime, and orange palette, distinctive typography, and a responsive experience."
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "Colorful 3D illustrator portfolio with floating pink and violet art posters",
+    "es": "Portafolio 3D de ilustración con carteles flotantes en rosa y violeta"
+  },
+  "demoUrl": "webpages_inkwell-illustrator-portfolio_index.html",
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "tags": [
+    "illustrator portfolio",
+    "3D animation",
+    "art licensing",
+    "creative portfolio"
+  ],
+  "membership": "Premium",
+  "price": "15.00"
+}

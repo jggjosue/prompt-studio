@@ -1,0 +1,8 @@
+import crypto from'crypto';
+export type EvaluationCase={key:string;input:string;expected:string};export type RubricDimension={key:string;label:string;weight:number};
+const key=(value:string)=>value.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,40);
+export function normalizeDataset(value:unknown):EvaluationCase[]{if(!Array.isArray(value))return[];return value.slice(0,10).map((row:any,index)=>({key:key(String(row?.key||`case-${index+1}`))||`case-${index+1}`,input:String(row?.input||'').trim().slice(0,20000),expected:String(row?.expected||'').trim().slice(0,5000)})).filter(x=>x.input.length>=3)}
+export function normalizeRubric(value:unknown):RubricDimension[]{if(!Array.isArray(value))return[];const seen=new Set<string>();return value.slice(0,6).map((row:any,index)=>({key:key(String(row?.key||`metric-${index+1}`)),label:String(row?.label||row?.key||`Métrica ${index+1}`).trim().slice(0,80),weight:Math.max(0,Math.min(100,Number(row?.weight)||0))})).filter(x=>x.key&&x.label&&!seen.has(x.key)&&seen.add(x.key));}
+export function datasetFingerprint(dataset:EvaluationCase[]){return crypto.createHash('sha256').update(JSON.stringify(dataset.map(x=>({key:x.key,input:x.input,expected:x.expected})))).digest('hex')}
+export function evaluationRunKey(caseKey:string,provider:string){return`${key(caseKey)}--${key(provider)}`}
+export function scoreEvaluation(evaluation:unknown,rubric:RubricDimension[]){if(!evaluation||typeof evaluation!=='object')return null;let total=0,weights=0;for(const r of rubric){const value=(evaluation as Record<string,unknown>)[r.key];if(typeof value!=='number'||!Number.isFinite(value))continue;total+=Math.max(0,Math.min(100,value))*r.weight;weights+=r.weight}return weights?Math.round((total/weights)*100)/100:null}

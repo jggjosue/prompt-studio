@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.prompstudio.com/landing-pages/arenalive-sports-events/sitemap.xml

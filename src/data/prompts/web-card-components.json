@@ -1,0 +1,2008 @@
+{
+  "title_es": "Componentes de cards",
+  "title_en": "Card components",
+  "description_es": "Cards interactivas listas para visualizar, personalizar y generar mediante prompts profesionales.",
+  "description_en": "Interactive cards ready to preview, customize, and generate with professional prompts.",
+  "components": [
+    {
+      "id": "card-001",
+      "name": {
+        "en": "Aurora Product Card",
+        "es": "Card Producto Aurora"
+      },
+      "description": {
+        "en": "glass product card with responsive content and interaction states.",
+        "es": "Card product glass con contenido responsive y estados interactivos."
+      },
+      "title": "Serum No. 01",
+      "prompt": {
+        "en": "Build a production-ready “Aurora Product” product card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a glass composition with primary #8b5cf6, secondary #ec4899, and background #09090b. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card product «Producto Aurora» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición glass con color principal #8b5cf6, secundario #ec4899 y fondo #09090b. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "product",
+        "layout": "glass",
+        "primary": "#8b5cf6",
+        "secondary": "#ec4899",
+        "background": "#09090b",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "product",
+        "glass",
+        "Responsive",
+        "Commerce"
+      ],
+      "membership": "Free"
+    },
+    {
+      "id": "card-002",
+      "name": {
+        "en": "Ocean Travel Card",
+        "es": "Card Viaje Océano"
+      },
+      "description": {
+        "en": "image-top travel card with responsive content and interaction states.",
+        "es": "Card travel image-top con contenido responsive y estados interactivos."
+      },
+      "title": "Coastal escape",
+      "prompt": {
+        "en": "Build a production-ready “Ocean Travel” travel card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a image-top composition with primary #0ea5e9, secondary #14b8a6, and background #effcff. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card travel «Viaje Océano» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición image-top con color principal #0ea5e9, secundario #14b8a6 y fondo #effcff. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "travel",
+        "layout": "image-top",
+        "primary": "#0ea5e9",
+        "secondary": "#14b8a6",
+        "background": "#effcff",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "travel",
+        "image-top",
+        "Interactive",
+        "Content"
+      ],
+      "membership": "Free"
+    },
+    {
+      "id": "card-003",
+      "name": {
+        "en": "Midnight SaaS Card",
+        "es": "Card SaaS Medianoche"
+      },
+      "description": {
+        "en": "horizontal saas card with responsive content and interaction states.",
+        "es": "Card saas horizontal con contenido responsive y estados interactivos."
+      },
+      "title": "Analytics workspace",
+      "prompt": {
+        "en": "Build a production-ready “Midnight SaaS” saas card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a horizontal composition with primary #f97316, secondary #facc15, and background #fff7ed. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card saas «SaaS Medianoche» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición horizontal con color principal #f97316, secundario #facc15 y fondo #fff7ed. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "saas",
+        "layout": "horizontal",
+        "primary": "#f97316",
+        "secondary": "#facc15",
+        "background": "#fff7ed",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "saas",
+        "horizontal",
+        "Responsive",
+        "Content"
+      ],
+      "membership": "Free"
+    },
+    {
+      "id": "card-004",
+      "name": {
+        "en": "Editorial Story Card",
+        "es": "Card Historia Editorial"
+      },
+      "description": {
+        "en": "overlay article card with responsive content and interaction states.",
+        "es": "Card article overlay con contenido responsive y estados interactivos."
+      },
+      "title": "Designing with intention",
+      "prompt": {
+        "en": "Build a production-ready “Editorial Story” article card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a overlay composition with primary #22c55e, secondary #06b6d4, and background #03150d. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card article «Historia Editorial» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición overlay con color principal #22c55e, secundario #06b6d4 y fondo #03150d. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "article",
+        "layout": "overlay",
+        "primary": "#22c55e",
+        "secondary": "#06b6d4",
+        "background": "#03150d",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "article",
+        "overlay",
+        "Interactive",
+        "Commerce"
+      ],
+      "membership": "Free"
+    },
+    {
+      "id": "card-005",
+      "name": {
+        "en": "Emerald Finance Card",
+        "es": "Card Finanzas Esmeralda"
+      },
+      "description": {
+        "en": "bento finance card with responsive content and interaction states.",
+        "es": "Card finance bento con contenido responsive y estados interactivos."
+      },
+      "title": "Portfolio balance",
+      "prompt": {
+        "en": "Build a production-ready “Emerald Finance” finance card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a bento composition with primary #ef4444, secondary #f472b6, and background #fff1f2. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card finance «Finanzas Esmeralda» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición bento con color principal #ef4444, secundario #f472b6 y fondo #fff1f2. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "finance",
+        "layout": "bento",
+        "primary": "#ef4444",
+        "secondary": "#f472b6",
+        "background": "#fff1f2",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "finance",
+        "bento",
+        "Responsive",
+        "Content"
+      ],
+      "membership": "Free"
+    },
+    {
+      "id": "card-006",
+      "name": {
+        "en": "Coral Creator Card",
+        "es": "Card Creador Coral"
+      },
+      "description": {
+        "en": "outlined profile card with responsive content and interaction states.",
+        "es": "Card profile outlined con contenido responsive y estados interactivos."
+      },
+      "title": "Maya — Art Director",
+      "prompt": {
+        "en": "Build a production-ready “Coral Creator” profile card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a outlined composition with primary #6366f1, secondary #22d3ee, and background #080b1c. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card profile «Creador Coral» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición outlined con color principal #6366f1, secundario #22d3ee y fondo #080b1c. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "profile",
+        "layout": "outlined",
+        "primary": "#6366f1",
+        "secondary": "#22d3ee",
+        "background": "#080b1c",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "profile",
+        "outlined",
+        "Interactive",
+        "Content"
+      ],
+      "membership": "Free"
+    },
+    {
+      "id": "card-007",
+      "name": {
+        "en": "Mono Code Card",
+        "es": "Card Código Mono"
+      },
+      "description": {
+        "en": "floating code card with responsive content and interaction states.",
+        "es": "Card code floating con contenido responsive y estados interactivos."
+      },
+      "title": "npm run create",
+      "prompt": {
+        "en": "Build a production-ready “Mono Code” code card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a floating composition with primary #a3e635, secondary #14b8a6, and background #f7fee7. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card code «Código Mono» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición floating con color principal #a3e635, secundario #14b8a6 y fondo #f7fee7. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "code",
+        "layout": "floating",
+        "primary": "#a3e635",
+        "secondary": "#14b8a6",
+        "background": "#f7fee7",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "code",
+        "floating",
+        "Responsive",
+        "Commerce"
+      ],
+      "membership": "Free"
+    },
+    {
+      "id": "card-008",
+      "name": {
+        "en": "Lavender Wellness Card",
+        "es": "Card Bienestar Lavanda"
+      },
+      "description": {
+        "en": "brutal wellness card with responsive content and interaction states.",
+        "es": "Card wellness brutal con contenido responsive y estados interactivos."
+      },
+      "title": "Mindful session",
+      "prompt": {
+        "en": "Build a production-ready “Lavender Wellness” wellness card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a brutal composition with primary #d946ef, secondary #8b5cf6, and background #16051c. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card wellness «Bienestar Lavanda» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición brutal con color principal #d946ef, secundario #8b5cf6 y fondo #16051c. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "wellness",
+        "layout": "brutal",
+        "primary": "#d946ef",
+        "secondary": "#8b5cf6",
+        "background": "#16051c",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "wellness",
+        "brutal",
+        "Interactive",
+        "Content"
+      ],
+      "membership": "Free"
+    },
+    {
+      "id": "card-009",
+      "name": {
+        "en": "Cyber Status Card",
+        "es": "Card Estado Cyber"
+      },
+      "description": {
+        "en": "gradient status card with responsive content and interaction states.",
+        "es": "Card status gradient con contenido responsive y estados interactivos."
+      },
+      "title": "All systems operational",
+      "prompt": {
+        "en": "Build a production-ready “Cyber Status” status card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a gradient composition with primary #f59e0b, secondary #fb7185, and background #fffbeb. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card status «Estado Cyber» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición gradient con color principal #f59e0b, secundario #fb7185 y fondo #fffbeb. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "status",
+        "layout": "gradient",
+        "primary": "#f59e0b",
+        "secondary": "#fb7185",
+        "background": "#fffbeb",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "status",
+        "gradient",
+        "Responsive",
+        "Content"
+      ],
+      "membership": "Free"
+    },
+    {
+      "id": "card-010",
+      "name": {
+        "en": "Blue Enterprise Card",
+        "es": "Card Empresa Azul"
+      },
+      "description": {
+        "en": "minimal feature card with responsive content and interaction states.",
+        "es": "Card feature minimal con contenido responsive y estados interactivos."
+      },
+      "title": "Secure collaboration",
+      "prompt": {
+        "en": "Build a production-ready “Blue Enterprise” feature card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a minimal composition with primary #38bdf8, secondary #818cf8, and background #071325. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card feature «Empresa Azul» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición minimal con color principal #38bdf8, secundario #818cf8 y fondo #071325. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "feature",
+        "layout": "minimal",
+        "primary": "#38bdf8",
+        "secondary": "#818cf8",
+        "background": "#071325",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "feature",
+        "minimal",
+        "Interactive",
+        "Commerce"
+      ],
+      "membership": "Free"
+    },
+    {
+      "id": "card-011",
+      "name": {
+        "en": "Rose Beauty Card",
+        "es": "Card Belleza Rosa"
+      },
+      "description": {
+        "en": "glass beauty card with responsive content and interaction states.",
+        "es": "Card beauty glass con contenido responsive y estados interactivos."
+      },
+      "title": "Radiance ritual",
+      "prompt": {
+        "en": "Build a production-ready “Rose Beauty” beauty card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a glass composition with primary #8b5cf6, secondary #ec4899, and background #09090b. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card beauty «Belleza Rosa» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición glass con color principal #8b5cf6, secundario #ec4899 y fondo #09090b. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "beauty",
+        "layout": "glass",
+        "primary": "#8b5cf6",
+        "secondary": "#ec4899",
+        "background": "#09090b",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "beauty",
+        "glass",
+        "Responsive",
+        "Content"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-012",
+      "name": {
+        "en": "Solar Commerce Card",
+        "es": "Card Comercio Solar"
+      },
+      "description": {
+        "en": "image-top commerce card with responsive content and interaction states.",
+        "es": "Card commerce image-top con contenido responsive y estados interactivos."
+      },
+      "title": "Summer essentials",
+      "prompt": {
+        "en": "Build a production-ready “Solar Commerce” commerce card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a image-top composition with primary #0ea5e9, secondary #14b8a6, and background #effcff. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card commerce «Comercio Solar» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición image-top con color principal #0ea5e9, secundario #14b8a6 y fondo #effcff. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "commerce",
+        "layout": "image-top",
+        "primary": "#0ea5e9",
+        "secondary": "#14b8a6",
+        "background": "#effcff",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "commerce",
+        "image-top",
+        "Interactive",
+        "Content"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-013",
+      "name": {
+        "en": "Slate Minimal Card",
+        "es": "Card Minimalista Slate"
+      },
+      "description": {
+        "en": "horizontal minimal card with responsive content and interaction states.",
+        "es": "Card minimal horizontal con contenido responsive y estados interactivos."
+      },
+      "title": "Less, but better",
+      "prompt": {
+        "en": "Build a production-ready “Slate Minimal” minimal card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a horizontal composition with primary #f97316, secondary #facc15, and background #fff7ed. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card minimal «Minimalista Slate» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición horizontal con color principal #f97316, secundario #facc15 y fondo #fff7ed. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "minimal",
+        "layout": "horizontal",
+        "primary": "#f97316",
+        "secondary": "#facc15",
+        "background": "#fff7ed",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "minimal",
+        "horizontal",
+        "Responsive",
+        "Commerce"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-014",
+      "name": {
+        "en": "Violet AI Card",
+        "es": "Card IA Violeta"
+      },
+      "description": {
+        "en": "overlay ai card with responsive content and interaction states.",
+        "es": "Card ai overlay con contenido responsive y estados interactivos."
+      },
+      "title": "Generate campaign",
+      "prompt": {
+        "en": "Build a production-ready “Violet AI” ai card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a overlay composition with primary #22c55e, secondary #06b6d4, and background #03150d. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card ai «IA Violeta» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición overlay con color principal #22c55e, secundario #06b6d4 y fondo #03150d. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "ai",
+        "layout": "overlay",
+        "primary": "#22c55e",
+        "secondary": "#06b6d4",
+        "background": "#03150d",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "ai",
+        "overlay",
+        "Interactive",
+        "Content"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-015",
+      "name": {
+        "en": "Mint Health Card",
+        "es": "Card Salud Menta"
+      },
+      "description": {
+        "en": "bento health card with responsive content and interaction states.",
+        "es": "Card health bento con contenido responsive y estados interactivos."
+      },
+      "title": "Daily health score",
+      "prompt": {
+        "en": "Build a production-ready “Mint Health” health card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a bento composition with primary #ef4444, secondary #f472b6, and background #fff1f2. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card health «Salud Menta» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición bento con color principal #ef4444, secundario #f472b6 y fondo #fff1f2. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "health",
+        "layout": "bento",
+        "primary": "#ef4444",
+        "secondary": "#f472b6",
+        "background": "#fff1f2",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "health",
+        "bento",
+        "Responsive",
+        "Content"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-016",
+      "name": {
+        "en": "Ruby Luxury Card",
+        "es": "Card Lujo Rubí"
+      },
+      "description": {
+        "en": "outlined luxury card with responsive content and interaction states.",
+        "es": "Card luxury outlined con contenido responsive y estados interactivos."
+      },
+      "title": "Atelier collection",
+      "prompt": {
+        "en": "Build a production-ready “Ruby Luxury” luxury card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a outlined composition with primary #6366f1, secondary #22d3ee, and background #080b1c. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card luxury «Lujo Rubí» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición outlined con color principal #6366f1, secundario #22d3ee y fondo #080b1c. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "luxury",
+        "layout": "outlined",
+        "primary": "#6366f1",
+        "secondary": "#22d3ee",
+        "background": "#080b1c",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "luxury",
+        "outlined",
+        "Interactive",
+        "Commerce"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-017",
+      "name": {
+        "en": "Indigo Workspace Card",
+        "es": "Card Workspace Índigo"
+      },
+      "description": {
+        "en": "floating workspace card with responsive content and interaction states.",
+        "es": "Card workspace floating con contenido responsive y estados interactivos."
+      },
+      "title": "Sprint overview",
+      "prompt": {
+        "en": "Build a production-ready “Indigo Workspace” workspace card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a floating composition with primary #a3e635, secondary #14b8a6, and background #f7fee7. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card workspace «Workspace Índigo» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición floating con color principal #a3e635, secundario #14b8a6 y fondo #f7fee7. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "workspace",
+        "layout": "floating",
+        "primary": "#a3e635",
+        "secondary": "#14b8a6",
+        "background": "#f7fee7",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "workspace",
+        "floating",
+        "Responsive",
+        "Content"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-018",
+      "name": {
+        "en": "Sand Property Card",
+        "es": "Card Propiedad Arena"
+      },
+      "description": {
+        "en": "brutal property card with responsive content and interaction states.",
+        "es": "Card property brutal con contenido responsive y estados interactivos."
+      },
+      "title": "Casa del Mar",
+      "prompt": {
+        "en": "Build a production-ready “Sand Property” property card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a brutal composition with primary #d946ef, secondary #8b5cf6, and background #16051c. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card property «Propiedad Arena» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición brutal con color principal #d946ef, secundario #8b5cf6 y fondo #16051c. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "property",
+        "layout": "brutal",
+        "primary": "#d946ef",
+        "secondary": "#8b5cf6",
+        "background": "#16051c",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "property",
+        "brutal",
+        "Interactive",
+        "Content"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-019",
+      "name": {
+        "en": "Lime Fitness Card",
+        "es": "Card Fitness Lima"
+      },
+      "description": {
+        "en": "gradient fitness card with responsive content and interaction states.",
+        "es": "Card fitness gradient con contenido responsive y estados interactivos."
+      },
+      "title": "Power workout",
+      "prompt": {
+        "en": "Build a production-ready “Lime Fitness” fitness card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a gradient composition with primary #f59e0b, secondary #fb7185, and background #fffbeb. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card fitness «Fitness Lima» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición gradient con color principal #f59e0b, secundario #fb7185 y fondo #fffbeb. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "fitness",
+        "layout": "gradient",
+        "primary": "#f59e0b",
+        "secondary": "#fb7185",
+        "background": "#fffbeb",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "fitness",
+        "gradient",
+        "Responsive",
+        "Commerce"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-020",
+      "name": {
+        "en": "Sky Education Card",
+        "es": "Card Educación Cielo"
+      },
+      "description": {
+        "en": "minimal course card with responsive content and interaction states.",
+        "es": "Card course minimal con contenido responsive y estados interactivos."
+      },
+      "title": "Introduction to UX",
+      "prompt": {
+        "en": "Build a production-ready “Sky Education” course card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a minimal composition with primary #38bdf8, secondary #818cf8, and background #071325. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card course «Educación Cielo» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición minimal con color principal #38bdf8, secundario #818cf8 y fondo #071325. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "course",
+        "layout": "minimal",
+        "primary": "#38bdf8",
+        "secondary": "#818cf8",
+        "background": "#071325",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "course",
+        "minimal",
+        "Interactive",
+        "Content"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-021",
+      "name": {
+        "en": "Obsidian Pricing Card",
+        "es": "Card Precios Obsidiana"
+      },
+      "description": {
+        "en": "glass pricing card with responsive content and interaction states.",
+        "es": "Card pricing glass con contenido responsive y estados interactivos."
+      },
+      "title": "Pro membership",
+      "prompt": {
+        "en": "Build a production-ready “Obsidian Pricing” pricing card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a glass composition with primary #8b5cf6, secondary #ec4899, and background #09090b. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card pricing «Precios Obsidiana» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición glass con color principal #8b5cf6, secundario #ec4899 y fondo #09090b. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "pricing",
+        "layout": "glass",
+        "primary": "#8b5cf6",
+        "secondary": "#ec4899",
+        "background": "#09090b",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "pricing",
+        "glass",
+        "Responsive",
+        "Content"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-022",
+      "name": {
+        "en": "Peach Testimonial Card",
+        "es": "Card Testimonio Durazno"
+      },
+      "description": {
+        "en": "image-top testimonial card with responsive content and interaction states.",
+        "es": "Card testimonial image-top con contenido responsive y estados interactivos."
+      },
+      "title": "“A remarkable experience.”",
+      "prompt": {
+        "en": "Build a production-ready “Peach Testimonial” testimonial card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a image-top composition with primary #0ea5e9, secondary #14b8a6, and background #effcff. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card testimonial «Testimonio Durazno» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición image-top con color principal #0ea5e9, secundario #14b8a6 y fondo #effcff. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "testimonial",
+        "layout": "image-top",
+        "primary": "#0ea5e9",
+        "secondary": "#14b8a6",
+        "background": "#effcff",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "testimonial",
+        "image-top",
+        "Interactive",
+        "Commerce"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-023",
+      "name": {
+        "en": "Neon Gaming Card",
+        "es": "Card Gaming Neón"
+      },
+      "description": {
+        "en": "horizontal game card with responsive content and interaction states.",
+        "es": "Card game horizontal con contenido responsive y estados interactivos."
+      },
+      "title": "Neon Strike",
+      "prompt": {
+        "en": "Build a production-ready “Neon Gaming” game card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a horizontal composition with primary #f97316, secondary #facc15, and background #fff7ed. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card game «Gaming Neón» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición horizontal con color principal #f97316, secundario #facc15 y fondo #fff7ed. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "game",
+        "layout": "horizontal",
+        "primary": "#f97316",
+        "secondary": "#facc15",
+        "background": "#fff7ed",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "game",
+        "horizontal",
+        "Responsive",
+        "Content"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-024",
+      "name": {
+        "en": "Paper Portfolio Card",
+        "es": "Card Portfolio Papel"
+      },
+      "description": {
+        "en": "overlay portfolio card with responsive content and interaction states.",
+        "es": "Card portfolio overlay con contenido responsive y estados interactivos."
+      },
+      "title": "Identity system",
+      "prompt": {
+        "en": "Build a production-ready “Paper Portfolio” portfolio card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a overlay composition with primary #22c55e, secondary #06b6d4, and background #03150d. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card portfolio «Portfolio Papel» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición overlay con color principal #22c55e, secundario #06b6d4 y fondo #03150d. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "portfolio",
+        "layout": "overlay",
+        "primary": "#22c55e",
+        "secondary": "#06b6d4",
+        "background": "#03150d",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "portfolio",
+        "overlay",
+        "Interactive",
+        "Content"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-025",
+      "name": {
+        "en": "Cobalt Security Card",
+        "es": "Card Seguridad Cobalto"
+      },
+      "description": {
+        "en": "bento security card with responsive content and interaction states.",
+        "es": "Card security bento con contenido responsive y estados interactivos."
+      },
+      "title": "Threat protection",
+      "prompt": {
+        "en": "Build a production-ready “Cobalt Security” security card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a bento composition with primary #ef4444, secondary #f472b6, and background #fff1f2. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card security «Seguridad Cobalto» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición bento con color principal #ef4444, secundario #f472b6 y fondo #fff1f2. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "security",
+        "layout": "bento",
+        "primary": "#ef4444",
+        "secondary": "#f472b6",
+        "background": "#fff1f2",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "security",
+        "bento",
+        "Responsive",
+        "Commerce"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-026",
+      "name": {
+        "en": "Amber Metric Card",
+        "es": "Card Métrica Ámbar"
+      },
+      "description": {
+        "en": "outlined metric card with responsive content and interaction states.",
+        "es": "Card metric outlined con contenido responsive y estados interactivos."
+      },
+      "title": "Revenue +32%",
+      "prompt": {
+        "en": "Build a production-ready “Amber Metric” metric card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a outlined composition with primary #6366f1, secondary #22d3ee, and background #080b1c. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card metric «Métrica Ámbar» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición outlined con color principal #6366f1, secundario #22d3ee y fondo #080b1c. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "metric",
+        "layout": "outlined",
+        "primary": "#6366f1",
+        "secondary": "#22d3ee",
+        "background": "#080b1c",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "metric",
+        "outlined",
+        "Interactive",
+        "Content"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-027",
+      "name": {
+        "en": "Forest Nonprofit Card",
+        "es": "Card ONG Bosque"
+      },
+      "description": {
+        "en": "floating impact card with responsive content and interaction states.",
+        "es": "Card impact floating con contenido responsive y estados interactivos."
+      },
+      "title": "2,480 trees planted",
+      "prompt": {
+        "en": "Build a production-ready “Forest Nonprofit” impact card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a floating composition with primary #a3e635, secondary #14b8a6, and background #f7fee7. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card impact «ONG Bosque» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición floating con color principal #a3e635, secundario #14b8a6 y fondo #f7fee7. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "impact",
+        "layout": "floating",
+        "primary": "#a3e635",
+        "secondary": "#14b8a6",
+        "background": "#f7fee7",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "impact",
+        "floating",
+        "Responsive",
+        "Content"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-028",
+      "name": {
+        "en": "Candy Social Card",
+        "es": "Card Social Caramelo"
+      },
+      "description": {
+        "en": "brutal social card with responsive content and interaction states.",
+        "es": "Card social brutal con contenido responsive y estados interactivos."
+      },
+      "title": "Community update",
+      "prompt": {
+        "en": "Build a production-ready “Candy Social” social card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a brutal composition with primary #d946ef, secondary #8b5cf6, and background #16051c. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card social «Social Caramelo» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición brutal con color principal #d946ef, secundario #8b5cf6 y fondo #16051c. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "social",
+        "layout": "brutal",
+        "primary": "#d946ef",
+        "secondary": "#8b5cf6",
+        "background": "#16051c",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "social",
+        "brutal",
+        "Interactive",
+        "Commerce"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-029",
+      "name": {
+        "en": "Graphite Developer Card",
+        "es": "Card Developer Grafito"
+      },
+      "description": {
+        "en": "gradient developer card with responsive content and interaction states.",
+        "es": "Card developer gradient con contenido responsive y estados interactivos."
+      },
+      "title": "API deployment",
+      "prompt": {
+        "en": "Build a production-ready “Graphite Developer” developer card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a gradient composition with primary #f59e0b, secondary #fb7185, and background #fffbeb. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card developer «Developer Grafito» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición gradient con color principal #f59e0b, secundario #fb7185 y fondo #fffbeb. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "developer",
+        "layout": "gradient",
+        "primary": "#f59e0b",
+        "secondary": "#fb7185",
+        "background": "#fffbeb",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "developer",
+        "gradient",
+        "Responsive",
+        "Content"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-030",
+      "name": {
+        "en": "Ivory Legal Card",
+        "es": "Card Legal Marfil"
+      },
+      "description": {
+        "en": "minimal legal card with responsive content and interaction states.",
+        "es": "Card legal minimal con contenido responsive y estados interactivos."
+      },
+      "title": "Case briefing",
+      "prompt": {
+        "en": "Build a production-ready “Ivory Legal” legal card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a minimal composition with primary #38bdf8, secondary #818cf8, and background #071325. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card legal «Legal Marfil» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición minimal con color principal #38bdf8, secundario #818cf8 y fondo #071325. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "legal",
+        "layout": "minimal",
+        "primary": "#38bdf8",
+        "secondary": "#818cf8",
+        "background": "#071325",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "legal",
+        "minimal",
+        "Interactive",
+        "Content"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-031",
+      "name": {
+        "en": "Teal Logistics Card",
+        "es": "Card Logística Teal"
+      },
+      "description": {
+        "en": "glass tracking card with responsive content and interaction states.",
+        "es": "Card tracking glass con contenido responsive y estados interactivos."
+      },
+      "title": "Package in transit",
+      "prompt": {
+        "en": "Build a production-ready “Teal Logistics” tracking card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a glass composition with primary #8b5cf6, secondary #ec4899, and background #09090b. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card tracking «Logística Teal» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición glass con color principal #8b5cf6, secundario #ec4899 y fondo #09090b. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "tracking",
+        "layout": "glass",
+        "primary": "#8b5cf6",
+        "secondary": "#ec4899",
+        "background": "#09090b",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "tracking",
+        "glass",
+        "Responsive",
+        "Commerce"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-032",
+      "name": {
+        "en": "Purple Event Card",
+        "es": "Card Evento Púrpura"
+      },
+      "description": {
+        "en": "image-top event card with responsive content and interaction states.",
+        "es": "Card event image-top con contenido responsive y estados interactivos."
+      },
+      "title": "Design Futures 2027",
+      "prompt": {
+        "en": "Build a production-ready “Purple Event” event card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a image-top composition with primary #0ea5e9, secondary #14b8a6, and background #effcff. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card event «Evento Púrpura» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición image-top con color principal #0ea5e9, secundario #14b8a6 y fondo #effcff. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "event",
+        "layout": "image-top",
+        "primary": "#0ea5e9",
+        "secondary": "#14b8a6",
+        "background": "#effcff",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "event",
+        "image-top",
+        "Interactive",
+        "Content"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-033",
+      "name": {
+        "en": "Red Sports Card",
+        "es": "Card Deportes Rojo"
+      },
+      "description": {
+        "en": "horizontal sports card with responsive content and interaction states.",
+        "es": "Card sports horizontal con contenido responsive y estados interactivos."
+      },
+      "title": "Final score 3–1",
+      "prompt": {
+        "en": "Build a production-ready “Red Sports” sports card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a horizontal composition with primary #f97316, secondary #facc15, and background #fff7ed. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card sports «Deportes Rojo» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición horizontal con color principal #f97316, secundario #facc15 y fondo #fff7ed. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "sports",
+        "layout": "horizontal",
+        "primary": "#f97316",
+        "secondary": "#facc15",
+        "background": "#fff7ed",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "sports",
+        "horizontal",
+        "Responsive",
+        "Content"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-034",
+      "name": {
+        "en": "Nordic Home Card",
+        "es": "Card Hogar Nórdico"
+      },
+      "description": {
+        "en": "overlay interior card with responsive content and interaction states.",
+        "es": "Card interior overlay con contenido responsive y estados interactivos."
+      },
+      "title": "Oak lounge chair",
+      "prompt": {
+        "en": "Build a production-ready “Nordic Home” interior card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a overlay composition with primary #22c55e, secondary #06b6d4, and background #03150d. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card interior «Hogar Nórdico» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición overlay con color principal #22c55e, secundario #06b6d4 y fondo #03150d. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "interior",
+        "layout": "overlay",
+        "primary": "#22c55e",
+        "secondary": "#06b6d4",
+        "background": "#03150d",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "interior",
+        "overlay",
+        "Interactive",
+        "Commerce"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-035",
+      "name": {
+        "en": "Aqua Crypto Card",
+        "es": "Card Cripto Aqua"
+      },
+      "description": {
+        "en": "bento crypto card with responsive content and interaction states.",
+        "es": "Card crypto bento con contenido responsive y estados interactivos."
+      },
+      "title": "ETH market",
+      "prompt": {
+        "en": "Build a production-ready “Aqua Crypto” crypto card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a bento composition with primary #ef4444, secondary #f472b6, and background #fff1f2. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card crypto «Cripto Aqua» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición bento con color principal #ef4444, secundario #f472b6 y fondo #fff1f2. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "crypto",
+        "layout": "bento",
+        "primary": "#ef4444",
+        "secondary": "#f472b6",
+        "background": "#fff1f2",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "crypto",
+        "bento",
+        "Responsive",
+        "Content"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-036",
+      "name": {
+        "en": "Plum Team Card",
+        "es": "Card Equipo Ciruela"
+      },
+      "description": {
+        "en": "outlined team card with responsive content and interaction states.",
+        "es": "Card team outlined con contenido responsive y estados interactivos."
+      },
+      "title": "Product team",
+      "prompt": {
+        "en": "Build a production-ready “Plum Team” team card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a outlined composition with primary #6366f1, secondary #22d3ee, and background #080b1c. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card team «Equipo Ciruela» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición outlined con color principal #6366f1, secundario #22d3ee y fondo #080b1c. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "team",
+        "layout": "outlined",
+        "primary": "#6366f1",
+        "secondary": "#22d3ee",
+        "background": "#080b1c",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "team",
+        "outlined",
+        "Interactive",
+        "Content"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-037",
+      "name": {
+        "en": "Gold Membership Card",
+        "es": "Card Membresía Oro"
+      },
+      "description": {
+        "en": "floating membership card with responsive content and interaction states.",
+        "es": "Card membership floating con contenido responsive y estados interactivos."
+      },
+      "title": "Gold benefits",
+      "prompt": {
+        "en": "Build a production-ready “Gold Membership” membership card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a floating composition with primary #a3e635, secondary #14b8a6, and background #f7fee7. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card membership «Membresía Oro» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición floating con color principal #a3e635, secundario #14b8a6 y fondo #f7fee7. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "membership",
+        "layout": "floating",
+        "primary": "#a3e635",
+        "secondary": "#14b8a6",
+        "background": "#f7fee7",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "membership",
+        "floating",
+        "Responsive",
+        "Commerce"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-038",
+      "name": {
+        "en": "Cloud Task Card",
+        "es": "Card Tarea Cloud"
+      },
+      "description": {
+        "en": "brutal task card with responsive content and interaction states.",
+        "es": "Card task brutal con contenido responsive y estados interactivos."
+      },
+      "title": "Publish new release",
+      "prompt": {
+        "en": "Build a production-ready “Cloud Task” task card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a brutal composition with primary #d946ef, secondary #8b5cf6, and background #16051c. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card task «Tarea Cloud» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición brutal con color principal #d946ef, secundario #8b5cf6 y fondo #16051c. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "task",
+        "layout": "brutal",
+        "primary": "#d946ef",
+        "secondary": "#8b5cf6",
+        "background": "#16051c",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "task",
+        "brutal",
+        "Interactive",
+        "Content"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-039",
+      "name": {
+        "en": "Mango Food Card",
+        "es": "Card Comida Mango"
+      },
+      "description": {
+        "en": "gradient food card with responsive content and interaction states.",
+        "es": "Card food gradient con contenido responsive y estados interactivos."
+      },
+      "title": "Seasonal tasting",
+      "prompt": {
+        "en": "Build a production-ready “Mango Food” food card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a gradient composition with primary #f59e0b, secondary #fb7185, and background #fffbeb. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card food «Comida Mango» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición gradient con color principal #f59e0b, secundario #fb7185 y fondo #fffbeb. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "food",
+        "layout": "gradient",
+        "primary": "#f59e0b",
+        "secondary": "#fb7185",
+        "background": "#fffbeb",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "food",
+        "gradient",
+        "Responsive",
+        "Content"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-040",
+      "name": {
+        "en": "Berry Music Card",
+        "es": "Card Música Berry"
+      },
+      "description": {
+        "en": "minimal music card with responsive content and interaction states.",
+        "es": "Card music minimal con contenido responsive y estados interactivos."
+      },
+      "title": "Night Drive EP",
+      "prompt": {
+        "en": "Build a production-ready “Berry Music” music card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a minimal composition with primary #38bdf8, secondary #818cf8, and background #071325. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card music «Música Berry» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición minimal con color principal #38bdf8, secundario #818cf8 y fondo #071325. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "music",
+        "layout": "minimal",
+        "primary": "#38bdf8",
+        "secondary": "#818cf8",
+        "background": "#071325",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "music",
+        "minimal",
+        "Interactive",
+        "Commerce"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-041",
+      "name": {
+        "en": "Steel Industrial Card",
+        "es": "Card Industrial Acero"
+      },
+      "description": {
+        "en": "glass industrial card with responsive content and interaction states.",
+        "es": "Card industrial glass con contenido responsive y estados interactivos."
+      },
+      "title": "Precision component",
+      "prompt": {
+        "en": "Build a production-ready “Steel Industrial” industrial card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a glass composition with primary #8b5cf6, secondary #ec4899, and background #09090b. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card industrial «Industrial Acero» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición glass con color principal #8b5cf6, secundario #ec4899 y fondo #09090b. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "industrial",
+        "layout": "glass",
+        "primary": "#8b5cf6",
+        "secondary": "#ec4899",
+        "background": "#09090b",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "industrial",
+        "glass",
+        "Responsive",
+        "Content"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-042",
+      "name": {
+        "en": "Blush Review Card",
+        "es": "Card Reseña Blush"
+      },
+      "description": {
+        "en": "image-top review card with responsive content and interaction states.",
+        "es": "Card review image-top con contenido responsive y estados interactivos."
+      },
+      "title": "Loved by customers",
+      "prompt": {
+        "en": "Build a production-ready “Blush Review” review card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a image-top composition with primary #0ea5e9, secondary #14b8a6, and background #effcff. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card review «Reseña Blush» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición image-top con color principal #0ea5e9, secundario #14b8a6 y fondo #effcff. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "review",
+        "layout": "image-top",
+        "primary": "#0ea5e9",
+        "secondary": "#14b8a6",
+        "background": "#effcff",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "review",
+        "image-top",
+        "Interactive",
+        "Content"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-043",
+      "name": {
+        "en": "Navy Insurance Card",
+        "es": "Card Seguros Navy"
+      },
+      "description": {
+        "en": "horizontal insurance card with responsive content and interaction states.",
+        "es": "Card insurance horizontal con contenido responsive y estados interactivos."
+      },
+      "title": "Complete coverage",
+      "prompt": {
+        "en": "Build a production-ready “Navy Insurance” insurance card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a horizontal composition with primary #f97316, secondary #facc15, and background #fff7ed. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card insurance «Seguros Navy» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición horizontal con color principal #f97316, secundario #facc15 y fondo #fff7ed. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "insurance",
+        "layout": "horizontal",
+        "primary": "#f97316",
+        "secondary": "#facc15",
+        "background": "#fff7ed",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "insurance",
+        "horizontal",
+        "Responsive",
+        "Commerce"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-044",
+      "name": {
+        "en": "Eco Marketplace Card",
+        "es": "Card Marketplace Eco"
+      },
+      "description": {
+        "en": "overlay marketplace card with responsive content and interaction states.",
+        "es": "Card marketplace overlay con contenido responsive y estados interactivos."
+      },
+      "title": "Recycled carryall",
+      "prompt": {
+        "en": "Build a production-ready “Eco Marketplace” marketplace card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a overlay composition with primary #22c55e, secondary #06b6d4, and background #03150d. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card marketplace «Marketplace Eco» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición overlay con color principal #22c55e, secundario #06b6d4 y fondo #03150d. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "marketplace",
+        "layout": "overlay",
+        "primary": "#22c55e",
+        "secondary": "#06b6d4",
+        "background": "#03150d",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "marketplace",
+        "overlay",
+        "Interactive",
+        "Content"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-045",
+      "name": {
+        "en": "Pixel Project Card",
+        "es": "Card Proyecto Pixel"
+      },
+      "description": {
+        "en": "bento project card with responsive content and interaction states.",
+        "es": "Card project bento con contenido responsive y estados interactivos."
+      },
+      "title": "Interactive archive",
+      "prompt": {
+        "en": "Build a production-ready “Pixel Project” project card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a bento composition with primary #ef4444, secondary #f472b6, and background #fff1f2. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card project «Proyecto Pixel» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición bento con color principal #ef4444, secundario #f472b6 y fondo #fff1f2. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "project",
+        "layout": "bento",
+        "primary": "#ef4444",
+        "secondary": "#f472b6",
+        "background": "#fff1f2",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "project",
+        "bento",
+        "Responsive",
+        "Content"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-046",
+      "name": {
+        "en": "Terracotta Restaurant Card",
+        "es": "Card Restaurante Terracota"
+      },
+      "description": {
+        "en": "outlined restaurant card with responsive content and interaction states.",
+        "es": "Card restaurant outlined con contenido responsive y estados interactivos."
+      },
+      "title": "Chef’s table",
+      "prompt": {
+        "en": "Build a production-ready “Terracotta Restaurant” restaurant card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a outlined composition with primary #6366f1, secondary #22d3ee, and background #080b1c. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card restaurant «Restaurante Terracota» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición outlined con color principal #6366f1, secundario #22d3ee y fondo #080b1c. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "restaurant",
+        "layout": "outlined",
+        "primary": "#6366f1",
+        "secondary": "#22d3ee",
+        "background": "#080b1c",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "restaurant",
+        "outlined",
+        "Interactive",
+        "Commerce"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-047",
+      "name": {
+        "en": "Arctic Glass Card",
+        "es": "Card Cristal Ártico"
+      },
+      "description": {
+        "en": "floating glass card with responsive content and interaction states.",
+        "es": "Card glass floating con contenido responsive y estados interactivos."
+      },
+      "title": "Cloud storage",
+      "prompt": {
+        "en": "Build a production-ready “Arctic Glass” glass card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a floating composition with primary #a3e635, secondary #14b8a6, and background #f7fee7. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card glass «Cristal Ártico» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición floating con color principal #a3e635, secundario #14b8a6 y fondo #f7fee7. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "glass",
+        "layout": "floating",
+        "primary": "#a3e635",
+        "secondary": "#14b8a6",
+        "background": "#f7fee7",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "glass",
+        "floating",
+        "Responsive",
+        "Content"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-048",
+      "name": {
+        "en": "Black Fashion Card",
+        "es": "Card Moda Negra"
+      },
+      "description": {
+        "en": "brutal fashion card with responsive content and interaction states.",
+        "es": "Card fashion brutal con contenido responsive y estados interactivos."
+      },
+      "title": "Edition 04",
+      "prompt": {
+        "en": "Build a production-ready “Black Fashion” fashion card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a brutal composition with primary #d946ef, secondary #8b5cf6, and background #16051c. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card fashion «Moda Negra» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición brutal con color principal #d946ef, secundario #8b5cf6 y fondo #16051c. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "fashion",
+        "layout": "brutal",
+        "primary": "#d946ef",
+        "secondary": "#8b5cf6",
+        "background": "#16051c",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "fashion",
+        "brutal",
+        "Interactive",
+        "Content"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-049",
+      "name": {
+        "en": "Pastel Kids Card",
+        "es": "Card Infantil Pastel"
+      },
+      "description": {
+        "en": "gradient kids card with responsive content and interaction states.",
+        "es": "Card kids gradient con contenido responsive y estados interactivos."
+      },
+      "title": "Creative play kit",
+      "prompt": {
+        "en": "Build a production-ready “Pastel Kids” kids card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a gradient composition with primary #f59e0b, secondary #fb7185, and background #fffbeb. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card kids «Infantil Pastel» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición gradient con color principal #f59e0b, secundario #fb7185 y fondo #fffbeb. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "kids",
+        "layout": "gradient",
+        "primary": "#f59e0b",
+        "secondary": "#fb7185",
+        "background": "#fffbeb",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "kids",
+        "gradient",
+        "Responsive",
+        "Commerce"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "card-050",
+      "name": {
+        "en": "Signal Alert Card",
+        "es": "Card Alerta Signal"
+      },
+      "description": {
+        "en": "minimal alert card with responsive content and interaction states.",
+        "es": "Card alert minimal con contenido responsive y estados interactivos."
+      },
+      "title": "Action required",
+      "prompt": {
+        "en": "Build a production-ready “Signal Alert” alert card using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Use a minimal composition with primary #38bdf8, secondary #818cf8, and background #071325. Include semantic title, supporting text, visual placeholder, metadata, badge, primary action and overflow menu. Support default, hover, focus-visible, selected, loading, skeleton, empty, disabled and error states. Make the whole-card link pattern valid without nested interactive elements. Add typed props, responsive image aspect ratios, line clamping, keyboard access, visible focus, WCAG AA contrast and reduced-motion behavior. Animate transform and opacity without layout shift. Return component code, demo data, dependencies, usage example and tests.",
+        "es": "Crea una card alert «Alerta Signal» lista para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Usa una composición minimal con color principal #38bdf8, secundario #818cf8 y fondo #071325. Incluye título semántico, texto de apoyo, placeholder visual, metadatos, badge, acción principal y menú adicional. Soporta estados default, hover, focus-visible, seleccionado, carga, skeleton, vacío, deshabilitado y error. Implementa correctamente el patrón de enlace en toda la card sin elementos interactivos anidados. Añade props tipadas, relaciones de aspecto responsive, line clamp, teclado, foco visible, contraste WCAG AA y reducción de movimiento. Anima transform y opacity sin layout shift. Devuelve código, datos demo, dependencias, ejemplo de uso y pruebas."
+      },
+      "preview": {
+        "type": "alert",
+        "layout": "minimal",
+        "primary": "#38bdf8",
+        "secondary": "#818cf8",
+        "background": "#071325",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Card",
+        "alert",
+        "minimal",
+        "Interactive",
+        "Content"
+      ],
+      "membership": "Premium"
+    }
+  ]
+}

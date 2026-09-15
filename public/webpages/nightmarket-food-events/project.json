@@ -1,0 +1,37 @@
+{
+  "id": "170",
+  "title": {
+    "en": "NightMarket — 3D Food Events",
+    "es": "NightMarket — Eventos gastronómicos 3D"
+  },
+  "description": {
+    "es": {
+      "nombre": "NightMarket Food Events",
+      "prompt": "Crea una landing page inmersiva para promocionar eventos gastronómicos nocturnos, con un mercado 3D interactivo, animaciones fluidas, filtros por categoría, calendario, reserva de entradas y formulario de suscripción. Usa una identidad visual en carbón, crema y naranja neón, con diseño responsive y una atmósfera urbana premium.",
+      "estilo": "Landing page inmersiva 3D, nocturna, urbana, editorial y cinematográfica"
+    },
+    "en": {
+      "name": "NightMarket Food Events",
+      "prompt": "Create an immersive landing page for promoting nighttime food events, featuring an interactive 3D market, fluid animations, category filters, calendar, ticket reservations, and an email signup form. Use a charcoal, cream, and neon-orange visual identity with a responsive layout and a premium urban atmosphere."
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "Immersive 3D nighttime street-food market landing page with glowing orange stalls on a charcoal background",
+    "es": "Landing page inmersiva de un mercado gastronómico nocturno 3D con puestos en naranja brillante sobre fondo carbón"
+  },
+  "demoUrl": "webpages_nightmarket-food-events_index.html",
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "tags": [
+    "food events",
+    "night market",
+    "3D landing page",
+    "event tickets"
+  ],
+  "membership": "Premium",
+  "price": "15.00"
+}

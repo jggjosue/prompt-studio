@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { cacheHeaders } from '@/lib/cache-policy';
 
 const publishableKey =
   process.env.PLAN_PUBLISHABLE_KEY || process.env.PLAN_PUBLISHABLE_KEY_DEV;
@@ -33,12 +34,12 @@ export async function GET(request: NextRequest) {
   if (!buyButtonId || !publishableKey) {
     return NextResponse.json(
       { error: 'Stripe buy button is not configured for this price.' },
-      { status: 404 }
+      { status: 404, headers: cacheHeaders('private-no-store') }
     );
   }
 
   return NextResponse.json(
     { buyButtonId, publishableKey },
-    { headers: { 'Cache-Control': 'public, max-age=300, s-maxage=300' } }
+    { headers: cacheHeaders('private-no-store') }
   );
 }

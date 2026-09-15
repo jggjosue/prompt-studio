@@ -1,0 +1,28 @@
+{
+  "id": "170",
+  "title": {
+    "en": "Affiliate Program 3D Landing Page",
+    "es": "Landing 3D para Programa de Afiliados"
+  },
+  "description": {
+    "es": {
+      "nombre": "Programa de Afiliados",
+      "prompt": "Crea una landing page premium para convertir visitantes en afiliados.",
+      "estilo": "Landing page de marketing moderna con estética 3D, animaciones fluidas y enfoque en conversión."
+    },
+    "en": {
+      "name": "Affiliate Program",
+      "prompt": "Create a premium landing page designed to convert visitors into affiliates."
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "3D affiliate marketing dashboard with commissions, referrals and growth metrics",
+    "es": "Dashboard 3D de marketing de afiliados con comisiones, referidos y métricas de crecimiento"
+  },
+  "demoUrl": "",
+  "stack": ["HTML", "CSS", "JavaScript"],
+  "tags": ["affiliate", "commission", "program", "marketing landing page"],
+  "membership": "Premium",
+  "price": "15.00"
+}

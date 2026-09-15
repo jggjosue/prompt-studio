@@ -7,38 +7,16 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { useTranslations } from 'next-intl';
-import { useMemo } from 'react';
 
 export default function Faq() {
   const t = useTranslations('faq');
   const items = t.raw('items') as Array<{ question: string; answer: string }>;
-
-  const faqSchema = useMemo(
-    () =>
-      JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'FAQPage',
-        mainEntity: items.map(item => ({
-          '@type': 'Question',
-          name: item.question,
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: item.answer,
-          },
-        })),
-      }),
-    [items]
-  );
 
   return (
     <section
       className="w-full py-8 md:py-20"
       aria-labelledby="faq-heading"
     >
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: faqSchema }}
-      />
       <div className="container max-w-4xl">
         <div className="flex flex-col items-center space-y-4 text-center mb-12">
           <h2

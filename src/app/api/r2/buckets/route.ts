@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { isCloudflareR2Configured, listR2Buckets } from '@/lib/cloudflare-r2';
 import { getR2BucketName, isR2S3Configured } from '@/lib/r2-storage';
+import { cacheHeaders } from '@/lib/cache-policy';
 
 export const runtime = 'nodejs';
 
@@ -12,17 +13,20 @@ export async function GET() {
         error:
           'Configura credenciales R2: R2_ACCESS_KEY_ID + R2_SECRET_ACCESS_KEY (S3) o CLOUDFLARE_API_TOKEN con permisos R2',
       },
-      { status: 503 }
+      { status: 503, headers: cacheHeaders('private-user') }
     );
   }
 
   if (!isCloudflareR2Configured()) {
-    return NextResponse.json({
-      bucket: getR2BucketName(),
-      s3Configured: true,
-      message:
-        'Listado de buckets requiere CLOUDFLARE_API_TOKEN; lectura de demos usa API S3.',
-    });
+    return NextResponse.json(
+      {
+        bucket: getR2BucketName(),
+        s3Configured: true,
+        message:
+          'Listado de buckets requiere CLOUDFLARE_API_TOKEN; lectura de demos usa API S3.',
+      },
+      { headers: cacheHeaders('private-user') }
+    );
   }
 
   try {
@@ -35,14 +39,15 @@ export async function GET() {
         buckets,
       },
       {
-        headers: {
-          'Cache-Control': 'private, max-age=60',
-        },
+        headers: cacheHeaders('private-user'),
       }
     );
   } catch (error) {
     const message =
       error instanceof Error ? error.message : 'Error al listar buckets R2';
-    return NextResponse.json({ error: message }, { status: 502 });
+    return NextResponse.json(
+      { error: message },
+      { status: 502, headers: cacheHeaders('private-user') }
+    );
   }
 }

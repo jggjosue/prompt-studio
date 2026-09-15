@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#FAFAF9"/>
+  <circle cx="1030" cy="100" r="260" fill="#FDBA74" opacity=".55"/>
+  <circle cx="1050" cy="610" r="330" fill="#4F46E5" opacity=".12"/>
+  <g transform="translate(86 90)">
+    <rect x="0" y="32" width="24" height="50" rx="12" fill="#4F46E5"/>
+    <rect x="30" width="24" height="82" rx="12" fill="#4F46E5"/>
+    <rect x="60" y="38" width="24" height="44" rx="12" fill="#FDBA74"/>
+  </g>
+  <text x="190" y="153" fill="#1C1917" font-family="Arial, sans-serif" font-size="66" font-weight="700">Coworkly</text>
+  <text x="86" y="330" fill="#1C1917" font-family="Arial, sans-serif" font-size="78" font-weight="700">Trabaja donde</text>
+  <text x="86" y="420" fill="#4F46E5" font-family="Georgia, serif" font-size="88" font-style="italic">todo fluye.</text>
+  <text x="90" y="505" fill="#716D68" font-family="Arial, sans-serif" font-size="28">Coworking por hora o día en Ciudad de México</text>
+</svg>

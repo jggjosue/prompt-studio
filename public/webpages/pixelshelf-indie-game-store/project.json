@@ -1,0 +1,37 @@
+{
+  "id": "170",
+  "title": {
+    "en": "PixelShelf — 3D Indie Game Store",
+    "es": "PixelShelf — Tienda 3D de Juegos Indie"
+  },
+  "description": {
+    "es": {
+      "nombre": "PixelShelf — Tienda 3D de Juegos Indie",
+      "prompt": "Crea una tienda digital premium de videojuegos indie con una dirección visual gaming moderna, colores azul noche, verde lima, coral y celeste. Incluye una caja de videojuego 3D flotante con animaciones y perspectiva interactiva, catálogo responsive con filtros por género, favoritos, carrito funcional, modal de compra, showreel y formulario de newsletter. La experiencia debe sentirse editorial, enérgica, inmersiva y funcionar correctamente en escritorio y móvil.",
+      "estilo": "Gaming editorial, indie, retrofuturista, colorido, inmersivo y tridimensional"
+    },
+    "en": {
+      "name": "PixelShelf — 3D Indie Game Store",
+      "prompt": "Create a premium digital storefront for indie video games with a modern gaming art direction using midnight blue, lime green, coral, and sky blue. Include a floating 3D game box with animation and interactive perspective, a responsive catalog with genre filters, favorites, a functional cart, checkout modal, showreel, and newsletter form. The experience should feel editorial, energetic, immersive, and work beautifully across desktop and mobile."
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "A bold dark indie game storefront with a floating 3D game box, lime and coral accents, animated game cards, and editorial typography",
+    "es": "Una tienda indie oscura y vibrante con una caja de videojuego 3D flotante, acentos lima y coral, tarjetas animadas y tipografía editorial"
+  },
+  "demoUrl": "webpages_pixelshelf-indie-game-store_index.html",
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "tags": [
+    "game store",
+    "indie games",
+    "3D landing page",
+    "interactive ecommerce"
+  ],
+  "membership": "Premium",
+  "price": "15.00"
+}

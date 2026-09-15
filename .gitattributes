@@ -1,0 +1,55 @@
+# Normalización de finales de línea: el repositorio se edita desde macOS, Linux
+# y Windows, y sin esto los diffs se llenan de cambios fantasma.
+* text=auto eol=lf
+
+# Binarios: nunca se intenta hacer diff ni merge textual sobre ellos.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.avif binary
+*.mp4 binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.br binary
+*.gz binary
+
+# ---------------------------------------------------------------------------
+# Contenido generado
+#
+# Marcar estas rutas no las oculta ni las excluye del repositorio: declara que
+# no son código fuente escrito a mano, para que las estadísticas de lenguaje,
+# los análisis de complejidad y las revisiones se centren en `src/` y `scripts/`.
+#
+# Sin esto, la mitad del repositorio (1.329 de 2.731 ficheros) son demos
+# generadas, y cualquier herramienta que muestree ficheros concluye que aquí
+# apenas hay código que leer.
+# ---------------------------------------------------------------------------
+
+# Demos del catálogo: páginas producidas con IA que se venden como producto.
+# Son contenido, no aplicación.
+public/webpages/** linguist-generated=true
+
+# Catálogos derivados: los genera `npm run catalog:build` desde `src/data`.
+public/catalog/** linguist-generated=true -diff
+
+# Transcripciones de sesiones de IA. Se conservan a propósito como historial de
+# decisiones (ver docs/data-licensing/), pero no documentan el sistema y no
+# deben contar como documentación.
+.specstory/** linguist-generated=true -diff
+
+# Ficheros de bloqueo: enormes, generados y sin valor en una revisión.
+package-lock.json linguist-generated=true -diff
+yarn.lock linguist-generated=true -diff
+
+# Informes y datos derivados.
+coverage/** linguist-generated=true -diff
+reports/*.json linguist-generated=true -diff
+docs/historial/datos/*.csv linguist-generated=true -diff
+
+# ---------------------------------------------------------------------------
+# Documentación: se marca como tal para que cuente en el alcance documental.
+# ---------------------------------------------------------------------------
+docs/** linguist-documentation=true
+*.md linguist-documentation=true

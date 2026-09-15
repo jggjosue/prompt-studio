@@ -49,10 +49,6 @@ export type LandingReadabilityPublicSnapshot = {
   tips: string[];
 };
 
-function storageKey(pageId: string, locale: string): string {
-  return `readability:${pageId}:${locale}`;
-}
-
 function indexKey(pageId: string, locale: string): string {
   return `${pageId}:${locale}`;
 }
@@ -149,7 +145,6 @@ export async function getLandingReadabilitySnapshot(
 export async function saveLandingReadabilitySnapshot(
   snapshot: LandingReadabilitySnapshot
 ): Promise<LandingReadabilitySnapshot> {
-  const key = storageKey(snapshot.pageId, snapshot.locale);
   const record: LandingReadabilitySnapshot = {
     ...snapshot,
     updatedAt: new Date().toISOString(),

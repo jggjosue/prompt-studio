@@ -1,531 +1,220 @@
-# Visionary Vault - Kinde Starter Kit for Next.js App Router
+# Prompt Studio
 
-This is a [Next.js](https://nextjs.org/) project created in Firebase Studio, pre-configured to use Kinde for authentication with full App Router support.
+AI creation catalog and studio: ready-to-use prompts, image, video and web page generation, a visual component editor, and the commerce that supports it —subscriptions, one-off purchases, and an affiliate program—.
 
-## Dependencies
+> **Status**: in production at `https://www.prompstudio.com`. Working branch
+> `develop`; `main` is deployed.
 
-- **Node.js**: Version 18 or higher is required.
-- **Kinde Account**: You'll need a free Kinde account to get your credentials. You can get one [here](https://kinde.com/start).
+---
 
-## Getting Started
+## The problem it solves
 
-Follow these steps to get your development environment running.
+Anyone using generative models wastes most of their time in two places:
+writing the prompt and adapting the result. Prompt Studio tackles both:
 
-### 1. Set up your Kinde application
+- **Catalog** of tested prompts for image, video, web and interface components,
+  with their preview and tags.
+- **Generators** that execute those prompts against multiple providers without leaving
+  the site, with credits, retries, and cost control.
+- **Visual component editor**, allowing you to compose an interface by
+  dragging blocks and get the exact prompt that reproduces it.
 
-Before running the app, make sure you have set up a back-end web application in your Kinde dashboard. This will provide you with the necessary client ID and secret.
+---
 
-Within your Kinde back-end web application, update the following settings:
+## Main features
 
-- **Allowed callback URLs**: Add `process.env.DOMAIN_DEV/api/auth/kinde_callback`
-- **Allowed logout redirect URLs**: Add `process.env.DOMAIN_DEV`
+| Area | What it does |
+|---|---|
+| **Catalog** | 450 UI components, 180 animations, 244 demo web pages, image and video prompts. Search, tags, and pages per model |
+| **AI Generation** | Five families of providers (OpenAI, Anthropic, Google Gemini/Veo, Runway, DeepSeek) behind a common interface, with job queue, progress, retries, and credit accounting |
+| **Visual editor** | Component tree with drag and drop, layers panel, inspector per breakpoint, undo/redo via commands, and autosave |
+| **Commerce** | Subscriptions and purchases with Stripe, component kits, creator marketplace, and affiliate program with commissions and payouts |
+| **Internationalization** | Spanish and English, detected in the middleware and served without language prefix in the URL |
+| **Programmatic SEO** | Sitemap, canonicals, structured data, and 12 automatic validators |
 
-**Note:** When you deploy your application, you will need to update these URLs with your production domain.
+---
 
-### 2. Set up your local environment
+## Technology
 
-First, if you're working with a forked repository, clone it to your local machine.
+| Layer | Choice |
+|---|---|
+| Framework | Next.js 15.5 (App Router, Turbopack) · React 19 |
+| Language | TypeScript 6 in `strict` mode |
+| Styles | Tailwind CSS · Radix UI · Framer Motion |
+| Data | MongoDB with Mongoose (45 models) |
+| Identity | Clerk (with signed webhooks via `svix`) |
+| Payments | Stripe |
+| AI | Genkit and custom adapters per provider |
+| Storage | Cloudflare R2 · AWS S3 |
+| Email | Resend |
+| Deployment | Vercel |
+
+---
+
+## Architecture at a glance
+
+```
+Browser
+   │
+   ├── middleware (src/proxy.ts) ── language, redirects, security headers
+   │
+   ├── src/app/[locale]/**      91 pages (server and client components)
+   ├── src/app/api/**          105 API routes
+   │      ├── identity: Clerk · signed webhooks · CRON_SECRET · admin
+   │      ├── commerce: stripe, credits, affiliates, marketplace
+   │      └── AI:       job queue, evaluation, provider quality
+   │
+   ├── src/lib/**              business logic, without React dependencies
+   ├── src/models/**           Mongoose schemas
+   └── src/data/**             versioned catalog (outside of `public/`)
+```
+
+The details are in [docs/CODEBASE_AUDIT.md](docs/CODEBASE_AUDIT.md), which measures the
+real state of the repository, and in [docs/editor/](docs/editor/) for the visual
+editor.
+
+---
+
+## Installation
+
+**Requirements**: Node.js **≥ 22.11** (see `.nvmrc`) and a MongoDB instance.
 
 ```bash
-# Replace <your_github_username> with your actual GitHub username
-git clone https://github.com/<your_github_username>/kinde-nextjs-app-router-starter-kit.git
-cd kinde-nextjs-app-router-starter-kit
+nvm use            # uses the version from .nvmrc
+npm ci             # `preinstall` checks Node version
+cp .env.example .env.local
+npm run dev        # http://localhost:3048
 ```
 
-### 3. Install dependencies
+`npm ci` intentionally fails with older Node versions: the project uses APIs
+that do not exist before version 22.
 
-Run the following command in the root of your project to install the necessary dependencies:
+---
+
+## Configuration
+
+All variables are declared —with example values, never real ones— in
+[.env.example](.env.example). The essential ones to start:
+
+| Variable | For what |
+|---|---|
+| `MONGODB_URI` | Database |
+| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY` | Identity |
+| `STRIPE_SECRET_KEY` | Payments |
+| `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `GEMINI_API_KEY`… | AI Generation (each provider is optional separately) |
+| `DOMAIN` | Canonical URL of the site |
+| `CRON_SECRET` | Authorizes scheduled tasks and `sync-*` |
+
+`npm run verify:env-example` checks that `.env.example` does not contain real
+values; it is part of `npm run validate`.
+
+---
+
+## Commands
+
+| Command | What it does |
+|---|---|
+| `npm run dev` | Development server on port 3048 |
+| `npm run build` | Production build + minification, media optimization, and precompression |
+| `npm start` | Serves the build |
+| **`npm run validate`** | **Complete repository health**: lint, types, coverage, `.env.example`, and cache policies |
+| `npm run lint` · `lint:fix` | ESLint (configuration in `eslint.config.mjs`) |
+| `npm run typecheck` | `tsc --noEmit` |
+| `npm test` | Unit and data tests |
+| `npm run test:coverage` | Generates `coverage/lcov.info` over all of `src/` |
+| `npm run test:e2e` | Playwright |
+| `npm run seo:validate-all` | The 12 SEO validators |
+| `npm run catalog:build` | Regenerates paginated catalogs from `src/data` |
+
+---
+
+## Testing
 
 ```bash
-npm install
+npm test                       # unit + data
+npm run test:coverage          # + lcov report in coverage/lcov.info
+COVERAGE_MIN=10 npm run test:coverage   # fails below threshold
+npm run test:e2e               # Playwright (needs PLAYWRIGHT_BASE_URL)
 ```
 
-### 4. Update Environment Variables
+Coverage is measured **over all `src/` modules**, not just those that
+tests import: unloaded ones come in with 0%. The resulting figure is low
+and honest; details and plan are in [docs/TESTING.md](docs/TESTING.md).
 
-Create a `.env.local` file in the root of your project and copy the environment variables below into it. Replace the placeholder values with the actual credentials from your Kinde application.
+---
+
+## Project structure
 
 ```
-NEXT=
+src/
+  app/[locale]/     pages by language
+  app/api/          API routes
+  components/       reusable interface
+  components/editor/ visual component editor
+  lib/              business logic (without React)
+  lib/editor/       document, history, and editor registry
+  models/           Mongoose schemas
+  hooks/            React hooks
+  data/             versioned catalog
+scripts/mjs/        build, audits, and validators
+tests/{unit,data,e2e}/
+docs/               documentation (see docs/CODEBASE_AUDIT.md for real state)
+public/webpages/    generated demos from catalog (content, not code)
+.specstory/         AI session transcripts preserved as history
 ```
 
-### 5. Run the Development Server
-
-Once the dependencies are installed and your environment variables are set, you can run the development server:
-
-```bash
-npm run dev
-```
-
-Open [process.env.DOMAIN_DEV](process.env.DOMAIN_DEV) with your browser to see your application.
-
-## Domains and Public URLs
-
-### Application
-
-- **Production**: [process.env.DOMAIN_PROD](process.env.DOMAIN_PROD)
-- **Local development**: [process.env.DOMAIN_DEV](process.env.DOMAIN_DEV)
-
-Configure these URLs through `DOMAIN_PROD` and `DOMAIN_DEV`. If the local development server uses another port, update `DOMAIN_DEV` accordingly.
-
-### Official social profiles
-
-- **Instagram**: [https://www.instagram.com/prompstudio/](https://www.instagram.com/prompstudio/)
-- **TikTok**: [https://www.tiktok.com/@promptstudio](https://www.tiktok.com/@promptstudio)
-- **Pinterest**: [https://www.pinterest.com/prompstudio/](https://www.pinterest.com/prompstudio/)
-- **Facebook**: [https://www.facebook.com/prompt.stuudio/](https://www.facebook.com/prompt.stuudio/)
-
-## Integrations & APIs
-
-This project integrates with several third-party APIs for core functionalities:
-
-- **[Resend](https://resend.com/)**: Used for sending transactional and marketing emails (e.g., onboarding, product announcements, birthdays).
-- **[Clerk](https://clerk.com/)**: Handles user authentication, session management, and user profiles (Replaced Kinde).
-- **[Stripe](https://stripe.com/)**: Processes payments, premium component unlocks, and recurring subscriptions.
-- **[Firebase](https://firebase.google.com/)**: Provides NoSQL database (Firestore) and backend infrastructure.
-- **[Cloudflare](https://www.cloudflare.com/)**: Used for hosting landing page templates and handling static assets (R2).
-- **[Google GenAI / Genkit](https://firebase.google.com/docs/genkit)**: Powers AI-based text and media generation features.
-
-### Internal API Endpoints
-
-The application exposes several internal API endpoints to handle webhooks and data synchronization:
-
-- **`/api/sync-clerk`**: A utility endpoint to fetch all current users directly from Clerk and synchronize them into the MongoDB database (`RegisteredUser`, `UserProfile`, and `NewUser` models) and Resend.
-- **`/api/sync-clerk-to-resend`**: A utility endpoint dedicated to fetching users directly from Clerk and adding them exclusively to Resend contacts, without modifying the database.
-- **`/api/sync-resend`**: A utility endpoint to synchronize users stored in MongoDB (`NewUser` model) directly to Resend contacts.
-- **Clerk Webhooks (`/api/webhooks/clerk`)**: Receives events from Clerk (e.g., user created, user updated, user deleted) to keep the internal database synchronized with the authentication provider.
-- **MongoDB Data APIs**: Endpoints like `/api/profile`, `/api/like`, and `/api/activity` interact with the MongoDB database to store user preferences, likes, and activity logs.
-
-## Learn More
-
-To learn more about the technologies used in this project, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [React Documentation](https://react.dev/) - learn about React.
-- [Genkit Documentation](https://firebase.google.com/docs/genkit) - learn about Genkit for AI development.
-- [ShadCN UI Documentation](https://ui.shadcn.com/) - learn about the UI components used.
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs) - learn about Tailwind CSS for styling.
-- [Resend Documentation](https://resend.com/docs) - learn about the Resend Email API.
-- [Clerk Documentation](https://clerk.com/docs) - learn about Clerk authentication.
-- [Stripe Documentation](https://stripe.com/docs) - learn about Stripe payments.
+---
 
 ## Deployment
-node update-ids-random.js
-node update-video-ids-random.js
 
-## Sitemap
+Vercel builds from `main` with `npm run vercel-build`, which executes the build and
+then minifies, optimizes media, and precompresses `public/`. Environment variables
+are configured in the Vercel dashboard; Clerk keys must be
+`pk_live_*` / `sk_live_*` in production —the build warns if it detects test keys—.
 
-- **Sitemap File Path**: `src/app/sitemap.ts`
-- **Sitemap Public URL Path**: `/sitemap.xml` (e.g. `process.env.DOMAIN_PROD/sitemap.xml`)
-- **Sitemap Local URL Path**: `process.env.DOMAIN_DEV/sitemap.xml` (or whatever port next dev is running on)
+---
 
-The sitemap is dynamically generated in `src/app/sitemap.ts` and served at `/sitemap.xml` under your Next.js application. The production base URL defaults to `process.env.DOMAIN_PROD` unless `NEXT_PUBLIC_SITE_URL` is set.
+## Frequent issues
 
-Current sitemap coverage: 405 URLs.
+| Symptom | Cause and solution |
+|---|---|
+| `npm ci` fails in `preinstall` | Node < 22.11. `nvm use` |
+| `Failed to load SWC binary for darwin/arm64` | `node` x64 under Rosetta. Check `node -p "process.arch"` → should say `arm64` |
+| `npm run dev` goes well and `npm run build` fails | Dev uses Turbopack and build uses webpack: **they resolve modules differently**. A change is not verified until `next build` passes |
+| `curl` receives the previous build | An old server is still on the port: `lsof -ti:3048 \| xargs kill -9` |
+| Clerk responds 404 instead of redirecting | `auth.protect()` with `Accept: */*` returns 404. Try with `Accept: text/html` |
 
-## SEO Validation
+More cases, with their cause and resolution, in
+[docs/operaciones/base-de-conocimiento.md](docs/operaciones/base-de-conocimiento.md).
 
-Use these commands before deploying when you want to verify indexation, catalog coverage, and live HTTP behavior:
+---
 
-```bash
-npm run seo:validate-all
-```
+## Documentation
 
-That command runs every SEO check in sequence:
+| Document | Content |
+|---|---|
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Layers, request lifecycle, data domains, and decisions with their reasoning |
+| [docs/API_ACCESS.md](docs/API_ACCESS.md) | Access matrix of the 105 routes — **generated from code** and verified by a test |
+| [docs/SECURITY.md](docs/SECURITY.md) | Access model, secrets, paid product protection, and dependency status |
+| [docs/TESTING.md](docs/TESTING.md) | Testing architecture, coverage, and what is covered |
+| [docs/DATABASE.md](docs/DATABASE.md) | Models, collections, indexes, and the `user_profiles` incident |
+| [docs/AI_ARCHITECTURE.md](docs/AI_ARCHITECTURE.md) | Lifecycle of the AI job, credits, and output contracts |
+| [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Build, why the AI queue has no scheduler, headers, and variables that break production |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | Setup, rules enforced by the pipeline, and style |
+| [docs/IMPROVEMENT_REPORT.md](docs/IMPROVEMENT_REPORT.md) | Measured before / after of the audit program, and what remains open |
+| [docs/CODEBASE_AUDIT.md](docs/CODEBASE_AUDIT.md) | Real state of the repository, measured, with priorities |
+| [docs/operaciones/](docs/operaciones/) | Procedures: AI generation, commercial, catalog, deployment, and QA |
+| [docs/operaciones/base-de-conocimiento.md](docs/operaciones/base-de-conocimiento.md) | Already solved problems, with their cause |
+| [docs/editor/](docs/editor/) | Visual editor diagnosis and plan |
+| [docs/historial/](docs/historial/) | How the project was built, with decision traces |
+| [docs/prd.md](docs/prd.md) · [docs/dm.md](docs/dm.md) | Product and data model |
+| [docs/CODEBASE_MAP.md](docs/CODEBASE_MAP.md) | Complete index and map of source files (generated) |
+| [docs/rotacion-de-credenciales.md](docs/rotacion-de-credenciales.md) | Security procedure |
 
-- `npm run seo:audit-webpages`
-- `npm run seo:validate-canonicals`
-- `npm run seo:validate-sitemap`
-- `npm run seo:validate-robots`
-- `npm run seo:validate-metadata`
-- `npm run seo:validate-schema`
-- `npm run seo:validate-internal-links`
-- `npm run seo:validate-duplicates`
-- `npm run seo:validate-performance`
-- `npm run seo:validate-catalog-coverage`
-- `npm run seo:validate-search-console`
-- `npm run seo:validate-live-sitemap-http`
+---
 
-What each one checks:
+## License
 
-- `seo:audit-webpages` compares `public/webpages` against `web-pages.json`
-- `seo:validate-canonicals` checks canonical routing and noindex rules
-- `seo:validate-sitemap` verifies sitemap composition
-- `seo:validate-robots` verifies robots and `X-Robots-Tag`
-- `seo:validate-metadata` checks title, description, and social metadata
-- `seo:validate-schema` checks Product and Breadcrumb JSON-LD
-- `seo:validate-internal-links` checks internal linking coverage
-- `seo:validate-duplicates` flags similar titles, descriptions, and semantic competition
-- `seo:validate-performance` checks SEO-related performance signals
-- `seo:validate-catalog-coverage` checks disk vs catalog coverage and catalog field quality
-- `seo:validate-search-console` prepares URLs to inspect in Search Console after deploys
-- `seo:validate-live-sitemap-http` checks the live production URLs from the sitemap return HTTP 200
-
-### Static pages
-
-- `/`
-- `/prompts`
-- `/image-prompts`
-- `/video-prompts`
-- `/landing-pages`
-- `/image-tags`
-- `/video-tags`
-- `/web-tags`
-- `/prices`
-- `/affiliate-program`
-- `/prompt/edit`
-
-### Category pages
-
-- `/category/image-prompts`
-- `/category/video-prompts`
-- `/category/landing-pages`
-
-### Landing pages
-
-- `/landing-pages/3d-coworking-lobby`
-- `/landing-pages/apple-iphone-video-scrub-hero`
-- `/landing-pages/partner`
-- `/landing-pages/affiliate-ecosystem`
-- `/landing-pages/affiliate-marketer-hero`
-
-### Direct Webpages (3D WebGL Templates)
-
-These pages are located in the static `public/webpages/` directory and dynamically included in the sitemap index.
-
-- `/webpages/3d-architecture-portfolio-pro/`
-- `/webpages/3d-architecture-portfolio-walkthrough/`
-- `/webpages/3d-architecture-walkthrough/`
-- `/webpages/3d-art-museum-guided-curation/`
-- `/webpages/3d-artist-pipeline-breakdown/`
-- `/webpages/3d-charity-gala/`
-- `/webpages/3d-cinematic-scene-short-film-timeline/`
-- `/webpages/3d-cinematic-typography-music/`
-- `/webpages/3d-cinematic-typography-video/`
-- `/webpages/3d-classroom-simulations/`
-- `/webpages/3d-classroom-synchronized-video-lessons/`
-- `/webpages/3d-coach-session-room/`
-- `/webpages/3d-compliance-audit-center/`
-- `/webpages/3d-conference-main-stage/`
-- `/webpages/3d-conference-room-stream/`
-- `/webpages/3d-conference-room-streaming/`
-- `/webpages/3d-consultant-boardroom-cases/`
-- `/webpages/3d-corporate-campus-light-tour/`
-- `/webpages/3d-corporate-campus-tour/`
-- `/webpages/3d-corporate-library-training/`
-- `/webpages/3d-corporate-library-training-pro/`
-- `/webpages/3d-corporate-lobby-welcome-agenda/`
-- `/webpages/3d-corporate-performance-dashboard/`
-- `/webpages/3d-corporate-timeline-dioramas/`
-
-### Landing Page Clones (Hosted in Cloudflare R2)
-
-These clones and templates are hosted on Cloudflare R2 and dynamically resolved via the `/webpages/{slug}/` path, with automatic inclusion in the generated sitemap index.
-
-- `/webpages/disney-plus-clone/`
-- `/webpages/docusign-clone/`
-- `/webpages/doordash-clone/`
-- `/webpages/dropbox-clone/`
-- `/webpages/anthropic-clone/`
-- `/webpages/apple-clone/`
-- `/webpages/apple-music-clone-minimalista/`
-- `/webpages/apple-tv-plus-clone/`
-- `/webpages/adobe-clone/`
-- `/webpages/booking-clone/`
-- `/webpages/box-clone/`
-- `/webpages/amazon-clone/`
-- `/webpages/asana-clone/`
-- `/webpages/calendly-clone/`
-- `/webpages/cloudflare-clone/`
-- `/webpages/coda-clone/`
-- `/webpages/databricks-clone/`
-- `/webpages/datadog-clone/`
-- `/webpages/deezer-clone-neon-futurista/`
-- `/webpages/coursera-clone/`
-- `/webpages/estudio-tropic/`
-- `/webpages/eventloop-tickets-eventos/`
-- `/webpages/evernote-clone/`
-- `/webpages/expedia-clone/`
-- `/webpages/framer-clone/`
-- `/webpages/gitlab-clone/`
-- `/webpages/google-workspace-clone/`
-- `/webpages/grammarly-clone/`
-- `/webpages/grubhub-clone/`
-- `/webpages/hubspot-clone/`
-- `/webpages/hulu-clone/`
-- `/webpages/ikea-clone/`
-- `/webpages/hbo-max-clone/`
-- `/webpages/headspace-clone/`
-- `/webpages/paramount-clone/`
-- `/webpages/openai-clone/`
-- `/webpages/paypal-clone/`
-- `/webpages/peacock-clone/`
-- `/webpages/peloton-clone/`
-- `/webpages/pinterest-clone/`
-- `/webpages/lyft-clone/`
-- `/webpages/mastercard-clone/`
-- `/webpages/masterclass-clone/`
-- `/webpages/medium-clone/`
-- `/webpages/mindfulkids-family/`
-- `/webpages/miro-clone/`
-- `/webpages/nike-clone/`
-- `/webpages/meta-clone/`
-- `/webpages/mongodb-clone/`
-- `/webpages/instagram-clone/`
-- `/webpages/intercom-clone/`
-- `/webpages/jira-clone/`
-- `/webpages/lego-clone/`
-- `/webpages/loom-clone/`
-- `/webpages/magzin-job-light/`
-- `/webpages/magzin-job-dark/`
-- `/webpages/airtable-clone/`
-- `/webpages/assistly-freelance-va/`
-- `/webpages/atelier-journal-luxury/`
-- `/webpages/atlas-bank-corporate-blue/`
-- `/webpages/breathspace-breathing/`
-- `/webpages/broadsheet-tech-editorial/`
-- `/webpages/canvas-studio-earthy-brutalist/`
-- `/webpages/chronicle-history-journal/`
-- `/webpages/cipher-cyberpunk-neon/`
-- `/webpages/codenova-midnight-hacker/`
-- `/webpages/codewave-freelance-developer/`
-- `/webpages/coinbase-clone/`
-- `/webpages/column-studio-photography/`
-- `/webpages/coreclub-boutique-fitness/`
-- `/webpages/corporateedge-business-events/`
-- `/webpages/cosplayhub-community/`
-- `/webpages/crunchyroll-clone/`
-- `/webpages/devops-freelance-engineer/`
-- `/webpages/discord-clone/`
-- `/webpages/edit-bureau-creative/`
-- `/webpages/expotrade-industry-expo/`
-- `/webpages/figma-clone/`
-- `/webpages/finfreelance-accountant/`
-- `/webpages/fittrack-workout-app/`
-- `/webpages/fiverr-clone/`
-- `/webpages/flexflow-yoga-studio/`
-- `/webpages/forma-brutalist-editorial/`
-- `/webpages/galanight-charity-gala/`
-- `/webpages/github-clone/`
-- `/webpages/hackbay-hackathon/`
-- `/webpages/halftone-design-zine/`
-- `/webpages/infrawatch-observability/`
-- `/webpages/inkwell-freelance-writer/`
-- `/webpages/ironpulse-strength-gym/`
-- `/webpages/kubefleet-kubernetes/`
-- `/webpages/launchdev-sunrise-bootcamp/`
-- `/webpages/logic-press-editorial-minimal/`
-- `/webpages/loopline-devtool/`
-- `/webpages/lumen-art-gallery/`
-- `/webpages/magzin-job-brutalist-sunshine/`
-- `/webpages/magzin-job-cyberpunk-neon/`
-- `/webpages/magzin-job-editorial-minimal/`
-- `/webpages/magzin-job-glassmorphism-ocean/`
-- `/webpages/magzin-job-html-css/`
-- `/webpages/magzin-job-soft-pastel-friendly/`
-- `/webpages/mailchimp-clone/`
-- `/webpages/mangashelf-digital-library/`
-- `/webpages/marketfreelance-hub/`
-- `/webpages/meridian-press-literary/`
-- `/webpages/monday-clone/`
-- `/webpages/monograph-architecture-journal/`
-- `/webpages/motionlab-freelance-video/`
-- `/webpages/northwind-sunset-glassmorphism/`
-- `/webpages/paper-signal-newsletter/`
-- `/webpages/pipelineforge-cicd/`
-- `/webpages/pixelcraft-freelance-designer/`
-- `/webpages/pixelforge-cyber-y2k/`
-- `/webpages/bareform-builder/`
-- `/webpages/artisanbox-handmade-market/`
-- `/webpages/cryptopulse-trading/`
-- `/webpages/echocast-podcast-music/`
-- `/webpages/greenbasket-grocery/`
-- `/webpages/ledgerflow-accounting/`
-- `/webpages/lendwise-personal-loans/`
-- `/webpages/horizon-luxury-hotels/`
-- `/webpages/linea-design-studio/`
-- `/webpages/arq-architect-studio/`
-- `/webpages/carhub-marketplace-autos/`
-- `/webpages/casa-maderal/`
-- `/webpages/coworkly-espacios-coworking/`
-- `/webpages/coursedeck-marketplace-cursos/`
-- `/webpages/illustrate-freelance-artist/`
-- `/webpages/netflix-clone-mexico/`
-- `/webpages/paybridge-payments-api/`
-- `/webpages/petpals-cuidado-mascotas/`
-- `/webpages/airbnb-clone-landing/`
-- `/webpages/artwalk-culture-festival/`
-- `/webpages/arenapulse-esports-platform/`
-- `/webpages/arenalive-sports-events/`
-- `/webpages/amplive-concert-tickets/`
-- `/webpages/aniwave-anime-streaming/`
-- `/webpages/canva-clone/`
-- `/webpages/beatforge-marketplace/`
-- `/webpages/atelier-creative-studio-portfolio/`
-- `/webpages/brandmint-freelance-strategist/`
-- `/webpages/buffer-clone/`
-- `/webpages/collective-freelance-agency/`
-- `/webpages/caselab-ux-design-portfolio/`
-- `/webpages/chorus-music-lessons/`
-- `/webpages/codecraft-developer-portfolio/`
-- `/webpages/cozyloft-home-decor/`
-- `/webpages/duolingo-clone/`
-- `/webpages/embertable-steakhouse/`
-- `/webpages/forma-architecture-portfolio/`
-- `/webpages/framehaus-art-director-portfolio/`
-- `/webpages/gearlend-renta-equipo-outdoor/`
-- `/webpages/glowlab-beauty-shop/`
-- `/webpages/grain-film-photography/`
-- `/webpages/guildforge-mmo-community/`
-- `/webpages/healmatch-terapias-wellness/`
-- `/webpages/ink-quarterly-magazine/`
-- `/webpages/inkwell-illustrator-portfolio/`
-- `/webpages/insuregrid-insurtech/`
-- `/webpages/linear-clone/`
-- `/webpages/lenshire-freelance-photographer/`
-- `/webpages/meetpoint-community-meetups/`
-- `/webpages/linkedin-clone/`
-- `/webpages/mononote-writing-app/`
-- `/webpages/luxethread-fashion-store/`
-- `/webpages/lootvault-game-marketplace/`
-- `/webpages/neonstrike-game-launch/`
-- `/webpages/norte-atelier/`
-- `/webpages/nightmarket-food-events/`
-- `/webpages/nomadstay-budget-hostels/`
-- `/webpages/notion-clone/`
-- `/webpages/otakucon-anime-convention/`
-- `/webpages/pawpark-pet-supplies/`
-- `/webpages/pizzaalta-neapolitan/`
-- `/webpages/pixelframe-photography-portfolio/`
-- `/webpages/pixelshelf-indie-game-store/`
-
-#process.env.DOMAIN_PROD/webpages/pixelshelf-indie-game-store/sitemap.xml 
-
-### Tag pages
-
-These are generated from tags with at least 3 related catalog items.
-
-- `/tags/cinematic`
-- `/tags/realistic`
-- `/tags/photography`
-- `/tags/portrait`
-- `/tags/fashion`
-- `/tags/human-portrait`
-- `/tags/fantasy`
-- `/tags/nature`
-- `/tags/modern`
-- `/tags/elegant`
-- `/tags/surreal`
-- `/tags/sci-fi`
-- `/tags/corporate`
-- `/tags/business`
-- `/tags/realism`
-- `/tags/minimalist`
-- `/tags/abstract`
-- `/tags/photorealistic`
-- `/tags/space`
-- `/tags/landscape`
-- `/tags/motion`
-- `/tags/urban`
-- `/tags/retro`
-- `/tags/slow`
-- `/tags/futuristic`
-- `/tags/underwater`
-- `/tags/outdoor`
-- `/tags/natural-light`
-- `/tags/soft-light`
-- `/tags/galaxy`
-- `/tags/concept-art`
-- `/tags/desert`
-- `/tags/neon`
-- `/tags/high-fashion`
-- `/tags/dramatic-lighting`
-- `/tags/close-up`
-- `/tags/vibrant`
-- `/tags/colorful`
-- `/tags/centered`
-- `/tags/dark-moody`
-- `/tags/cyberpunk`
-- `/tags/retro-vintage`
-- `/tags/geometric`
-- `/tags/pastel`
-- `/tags/car`
-- `/tags/fish`
-- `/tags/cosmic`
-- `/tags/ancient`
-- `/tags/golden-hour`
-- `/tags/ultra-realistic`
-- `/tags/epic`
-- `/tags/morphing`
-- `/tags/effects`
-- `/tags/forest`
-- `/tags/product-poster`
-- `/tags/vibrant-colorful`
-- `/tags/infographic`
-- `/tags/garden`
-- `/tags/waterfall`
-- `/tags/vintage`
-- `/tags/art`
-- `/tags/industrial`
-- `/tags/documentary`
-- `/tags/style`
-- `/tags/mechanical`
-- `/tags/dragon`
-- `/tags/fiery`
-- `/tags/magic`
-- `/tags/library`
-- `/tags/warrior`
-- `/tags/queen`
-- `/tags/wide-angle`
-- `/tags/fine-art`
-- `/tags/cartoon`
-- `/tags/synthwave`
-- `/tags/japanese`
-- `/tags/hidden`
-- `/tags/dark`
-- `/tags/moody`
-- `/tags/sketch`
-- `/tags/editorial`
-- `/tags/void`
-- `/tags/smooth`
-- `/tags/night`
-- `/tags/scene`
-- `/tags/historical`
-- `/tags/fast`
-- `/tags/saas`
-- `/tags/glassmorphism`
-- `/tags/midjourney`
-
-### Gallery pages
-
-- Image gallery pages: `/gallery/img-1` through `/gallery/img-199`
-- Video gallery pages: `/gallery-videos/v-1` through `/gallery-videos/v-97`
-
-## Analytics Tags
-
-The application sends the same interaction context to Google Analytics 4 and Firebase Analytics. The following events are configured:
-
-- `web_open_demo_URL` - Triggered when a user opens a demo.
-- `web_buy_button_premium` - Triggered when a user starts a Premium component or subscription checkout. This measures purchase intent, not a confirmed payment.
-- `web_view_prompt` - Triggered when a logged-in user opens a prompt.
-- `web_download_free` - Triggered when a user unlocks and downloads a free component.
-- `web_download_premium` - Triggered when a Premium or Startup user downloads an available component.
-
-Every catalog interaction includes:
-
-- `page_id` and `page_title` - Internal ID and visible product/page title.
-- `item_id` and `item_name` - GA4-friendly product dimensions for ranking content.
-- `item_category` - Content type, such as `landing-page`, `landing-page-prompt`, or `subscription`.
-- `membership` - Access level associated with the product when available.
-- `value` and `currency` - Displayed checkout value for individual Premium products.
-- `action_source` - UI location that generated the event.
-- `document_title` - Browser document title at the time of the interaction.
-- `page_path` and `page_location` - Route and complete URL where the event occurred.
-
-### Recommended GA4 reports
-
-- **Most visited pages**: use the standard `page_view` event and break it down by `Page title` or `Page path`.
-- **Most opened demos**: filter by `web_open_demo_URL` and break down by `item_name`.
-- **Products with the most purchase intent**: filter by `web_buy_button_premium` and break down by `item_name`.
-- **Most downloaded products**: combine `web_download_free` and `web_download_premium`, then break down by `item_name`.
-
-Register `item_name`, `item_category`, `membership`, `action_source`, and `document_title` as event-scoped custom dimensions in GA4 if they are not available in the report builder. Confirmed purchases and revenue should come from the Stripe success webhook or a GA4 `purchase` event after payment confirmation; do not treat `web_buy_button_premium` as a completed sale.
+Proprietary software. All rights reserved. The catalog includes
+third-party and AI-generated content whose provenance is audited with
+`npm run catalog:provenance`.

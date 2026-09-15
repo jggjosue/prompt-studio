@@ -30,13 +30,6 @@ function formatDate(unix: number): string {
   });
 }
 
-function formatAmount(cents: number, currency: string): string {
-  return new Intl.NumberFormat(undefined, {
-    style: 'currency',
-    currency: currency.toUpperCase(),
-  }).format(cents / 100);
-}
-
 export function ProfileSubscriptionInfo() {
   const t = useTranslations('profile');
   const tCommon = useTranslations('common');

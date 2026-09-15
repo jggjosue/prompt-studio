@@ -18,7 +18,7 @@ export function AdUnit() {
       try {
         // @ts-expect-error Google AdSense
         (window.adsbygoogle = window.adsbygoogle || []).push({});
-      } catch (err) { }
+      } catch (_err) { }
     }
   }, [showAds]);
 

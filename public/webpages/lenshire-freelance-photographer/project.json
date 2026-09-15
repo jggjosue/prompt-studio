@@ -1,0 +1,39 @@
+{
+  "id": "170",
+  "title": {
+    "en": "LensHire — Freelance Photographer",
+    "es": "LensHire — Fotógrafo Freelance"
+  },
+  "description": {
+    "es": {
+      "nombre": "LensHire — Fotógrafo Freelance",
+      "prompt": "Landing page premium para contratar a un fotógrafo freelance, con portafolio editorial, servicios, tarifas, testimonios y llamadas a la acción. Incluye una cámara 3D interactiva, animaciones al hacer scroll y una experiencia responsive.",
+      "estilo": "Editorial minimalista en negro, blanco y verde ácido, con tipografía de alto impacto, composición asimétrica, efectos 3D y microinteracciones fluidas."
+    },
+    "en": {
+      "name": "LensHire — Freelance Photographer",
+      "prompt": "Premium landing page for hiring a freelance photographer, featuring an editorial portfolio, services, pricing, testimonials, and conversion-focused calls to action. Includes an interactive 3D camera, scroll animations, and a responsive experience."
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "Dark editorial freelance photographer portfolio with an interactive 3D camera and acid-green accents",
+    "es": "Portafolio editorial oscuro para fotógrafo freelance con cámara 3D interactiva y acentos verde ácido"
+  },
+  "demoUrl": "",
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "tags": [
+    "freelance photographer",
+    "photography portfolio",
+    "3D landing page",
+    "creative services",
+    "editorial design",
+    "animated website"
+  ],
+  "membership": "Premium",
+  "price": "15.00"
+}

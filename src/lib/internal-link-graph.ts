@@ -2,6 +2,12 @@
  * Grafo de enlaces internos inspirado en PageRank:
  * la home distribuye autoridad hacia hubs (tier 1) y estos hacia secciones (tier 2).
  */
+import {
+  rankInternalLinks,
+  type InternalLinkDocument,
+  type InternalLinkKind,
+  type SearchIntent,
+} from '@/lib/seo/internal-link-engine';
 
 export type LinkTier = 0 | 1 | 2 | 3;
 
@@ -89,6 +95,20 @@ export const INTERNAL_LINK_NODES: InternalLinkNode[] = [
     parent: '/',
   },
   {
+    path: '/component-builder',
+    rank: 0.78,
+    tier: 2,
+    labelKey: 'nav.componentBuilder',
+    parent: '/landing-pages',
+  },
+  {
+    path: '/component-kits',
+    rank: 0.7,
+    tier: 2,
+    labelKey: 'nav.componentKits',
+    parent: '/landing-pages',
+  },
+  {
     path: '/prices',
     rank: 0.75,
     tier: 1,
@@ -166,6 +186,23 @@ export const INTERNAL_LINK_NODES: InternalLinkNode[] = [
 const NODE_BY_PATH = new Map(
   INTERNAL_LINK_NODES.map(node => [node.path, node])
 );
+
+/** Enlaces editoriales según la siguiente intención útil del visitante. */
+const INTENT_RELATED_PATHS: Record<string, string[]> = {
+  '/': ['/image-prompts', '/video-prompts', '/landing-pages', '/generate-images', '/generate-videos', '/generate-webs'],
+  '/prompts': ['/image-prompts', '/video-prompts', '/generate-images', '/generate-videos'],
+  '/image-prompts': ['/generate-images', '/image-tags', '/prompts'],
+  '/image-tags': ['/image-prompts', '/generate-images'],
+  '/generate-images': ['/image-prompts', '/image-tags', '/prompts'],
+  '/video-prompts': ['/generate-videos', '/video-tags', '/prompts'],
+  '/video-tags': ['/video-prompts', '/generate-videos'],
+  '/generate-videos': ['/video-prompts', '/video-tags', '/prompts'],
+  '/landing-pages': ['/generate-webs', '/web-tags', '/component-builder', '/component-kits'],
+  '/web-tags': ['/landing-pages', '/generate-webs', '/component-builder'],
+  '/generate-webs': ['/landing-pages', '/web-tags', '/component-builder', '/component-kits'],
+  '/component-builder': ['/component-kits', '/landing-pages', '/generate-webs'],
+  '/component-kits': ['/component-builder', '/landing-pages', '/generate-webs'],
+};
 
 /** Hubs de primer nivel (máxima autoridad desde /). */
 export function getTier1Hubs(): InternalLinkNode[] {
@@ -306,6 +343,10 @@ export function getRelatedHubLinks(
   limit = 6
 ): InternalLinkNode[] {
   const pathOnly = currentPath.split('?')[0] ?? currentPath;
+  const editorial = (INTENT_RELATED_PATHS[pathOnly] ?? [])
+    .map(path => NODE_BY_PATH.get(path))
+    .filter((node): node is InternalLinkNode => Boolean(node));
+  if (editorial.length > 0) return editorial.slice(0, limit);
   const node =
     NODE_BY_PATH.get(currentPath) ?? NODE_BY_PATH.get(pathOnly);
 
@@ -313,35 +354,63 @@ export function getRelatedHubLinks(
     return getTier1Hubs().filter(h => h.path !== pathOnly).slice(0, limit);
   }
 
-  const siblings = INTERNAL_LINK_NODES.filter(
-    n => n.parent === node.parent && n.path !== node.path && n.tier <= 2
-  );
-  const children = getChildLinks(node.path);
-  const parentHub = node.parent
-    ? NODE_BY_PATH.get(node.parent)
-    : undefined;
+  const context = nodeToDocument(node);
+  const ranked = rankInternalLinks({
+    context,
+    candidates: INTERNAL_LINK_NODES.map(nodeToDocument),
+    editorialPaths: [
+      ...(node.parent ? [node.parent] : []),
+      ...getChildLinks(node.path).map(link => link.path),
+      ...INTERNAL_LINK_NODES.filter(link => link.parent === node.parent).map(link => link.path),
+    ],
+    limits: { total: limit, perKind: { category: limit, tool: limit } },
+  });
+  const byPath = new Map(INTERNAL_LINK_NODES.map(link => [link.path, link]));
+  const related = ranked
+    .map(link => byPath.get(link.document.path))
+    .filter((link): link is InternalLinkNode => Boolean(link));
 
-  const out: InternalLinkNode[] = [];
-  if (parentHub && parentHub.tier > 0) out.push(parentHub);
-  out.push(...children, ...siblings);
+  if (related.length >= limit) return related.slice(0, limit);
+  const seen = new Set([node.path, ...related.map(link => link.path)]);
+  return [
+    ...related,
+    ...getTier1Hubs().filter(link => !seen.has(link.path)),
+  ].slice(0, limit);
+}
 
-  const seen = new Set<string>([node.path]);
-  const unique: InternalLinkNode[] = [];
-  for (const link of out) {
-    if (seen.has(link.path)) continue;
-    seen.add(link.path);
-    unique.push(link);
-  }
-
-  if (unique.length < limit) {
-    for (const hub of getTier1Hubs()) {
-      if (unique.length >= limit) break;
-      if (!seen.has(hub.path)) {
-        seen.add(hub.path);
-        unique.push(hub);
-      }
-    }
-  }
-
-  return unique.slice(0, limit);
+function nodeToDocument(node: InternalLinkNode): InternalLinkDocument {
+  const path = node.path.split('?')[0] ?? node.path;
+  const text = `${path} ${node.labelKey} ${node.descKey ?? ''}`.replace(/[./_-]+/g, ' ');
+  const tool = path.startsWith('/generate-') || path.includes('builder') ? path.slice(1) : undefined;
+  const kind: InternalLinkKind = tool
+    ? 'tool'
+    : path.includes('tags') || path === '/prompts' || path.endsWith('-prompts')
+      ? 'category'
+      : path === '/landing-pages' || path === '/component-kits'
+        ? 'template'
+        : 'guide';
+  const intents: SearchIntent[] = path === '/prices'
+    ? ['transactional']
+    : tool
+      ? ['commercial']
+      : ['informational', 'commercial'];
+  const topics = [
+    path.includes('image') ? 'image' : '',
+    path.includes('video') ? 'video' : '',
+    path.includes('web') || path.includes('landing') || path.includes('component') ? 'web' : '',
+    path.includes('prompt') ? 'prompt' : '',
+  ].filter(Boolean);
+  return {
+    id: node.path,
+    path: node.path,
+    title: text,
+    kind,
+    category: node.parent,
+    topics,
+    tags: text.split(' '),
+    tool,
+    intents,
+    popularity: node.rank,
+    indexable: !node.path.includes('?'),
+  };
 }

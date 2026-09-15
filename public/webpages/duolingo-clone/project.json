@@ -1,0 +1,38 @@
+{
+  "id": "170",
+  "title": {
+    "en": "Duolingo 3D Animated Landing Page",
+    "es": "Landing Page 3D Animada de Duolingo"
+  },
+  "description": {
+    "es": {
+      "nombre": "Clon 3D de Duolingo",
+      "prompt": "Crea una landing page inspirada en Duolingo para aprender idiomas, con una mascota tridimensional, colores verdes vibrantes, botones con profundidad, tarjetas interactivas, selector de idiomas, animaciones fluidas y diseño responsive.",
+      "estilo": "Diseño educativo, lúdico y colorido con estética 3D tipo cartoon, microinteracciones, efecto parallax y elementos flotantes."
+    },
+    "en": {
+      "name": "Duolingo 3D Clone",
+      "prompt": "Create a Duolingo-inspired language learning landing page featuring a three-dimensional mascot, vibrant green colors, depth-enhanced buttons, interactive cards, a language selector, fluid animations, and a responsive layout."
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "Duolingo-inspired 3D language learning landing page with a green cartoon owl mascot, floating lesson cards, and vibrant playful UI",
+    "es": "Landing page 3D inspirada en Duolingo con una mascota búho verde estilo cartoon, tarjetas de lecciones flotantes y una interfaz colorida y divertida"
+  },
+  "demoUrl": "webpages_duolingo-clone_index.html",
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "tags": [
+    "education",
+    "language learning",
+    "3D landing page",
+    "animated website",
+    "Duolingo clone"
+  ],
+  "membership": "Premium",
+  "price": "15.00"
+}

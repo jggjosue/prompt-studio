@@ -1,0 +1,38 @@
+{
+  "id": "170",
+  "title": {
+    "en": "PizzaAlta — Neapolitan Pizzeria 3D",
+    "es": "PizzaAlta — Pizzería Napolitana 3D"
+  },
+  "description": {
+    "es": {
+      "nombre": "PizzaAlta — Pizzería Napolitana 3D",
+      "prompt": "Crea una landing page inmersiva para una pizzería napolitana con una pizza 3D interactiva, animaciones activadas por desplazamiento, horno de leña animado, menú visual, formulario de reservación y diseño responsivo. Utiliza una paleta italiana en rojo, crema, verde y dorado, tipografía editorial y una estética artesanal de alta cocina.",
+      "estilo": "Editorial italiano, artesanal, gastronómico, cálido, inmersivo y tridimensional."
+    },
+    "en": {
+      "name": "PizzaAlta — Neapolitan Pizzeria 3D",
+      "prompt": "Create an immersive landing page for a Neapolitan pizzeria featuring an interactive 3D pizza, scroll-triggered animations, an animated wood-fired oven, a visual menu, a reservation form, and responsive design. Use an Italian red, cream, green, and gold palette, editorial typography, and a handcrafted fine-dining aesthetic."
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "Interactive 3D Neapolitan pizza landing page in red, cream, green, and gold",
+    "es": "Landing page de pizza napolitana 3D interactiva en rojo, crema, verde y dorado"
+  },
+  "demoUrl": "webpages_pizzaalta-neapolitan_index.html",
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "tags": [
+    "restaurant",
+    "neapolitan pizza",
+    "3D landing page",
+    "food",
+    "animations"
+  ],
+  "membership": "Premium",
+  "price": "15.00"
+}

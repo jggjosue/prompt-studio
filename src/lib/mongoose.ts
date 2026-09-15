@@ -24,6 +24,17 @@ async function connectToDatabase() {
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
+      /**
+       * Serverless: cada instancia mantiene su propio pool. Con el valor por
+       * defecto (100) unas pocas lambdas concurrentes agotan el límite de
+       * conexiones de Atlas y las siguientes fallan al conectar. 10 sobra para
+       * el trabajo que hace una sola invocación.
+       */
+      maxPoolSize: 10,
+      /** Cierra las conexiones ociosas en vez de arrastrarlas entre invocaciones. */
+      maxIdleTimeMS: 30_000,
+      /** Sin esto, un Atlas caído deja la petición colgada 30 s (el defecto). */
+      serverSelectionTimeoutMS: 5_000,
     };
 
     cached.promise = mongoose.connect(MONGODB_URI as string, opts).then((mongoose) => {

@@ -1,0 +1,37 @@
+{
+  "id": "170",
+  "title": {
+    "en": "CodeCraft Developer Portfolio",
+    "es": "Portafolio de desarrollador CodeCraft"
+  },
+  "description": {
+    "es": {
+      "nombre": "Portafolio creativo de desarrollador 3D",
+      "prompt": "Crea un portafolio de desarrollador orientado a convertir visitantes en clientes, con una estética oscura, acentos verde neón, elementos 3D interactivos y animaciones fluidas.",
+      "estilo": "Futurista, tecnológico, inmersivo, oscuro y minimalista, con tipografía editorial y efectos 3D en verde neón."
+    },
+    "en": {
+      "name": "Creative 3D Developer Portfolio",
+      "prompt": "Create a conversion-focused developer portfolio with a dark aesthetic, neon green accents, interactive 3D elements, and fluid animations."
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "Dark creative developer portfolio with neon green typography, an interactive 3D code cube, orbital lines, and futuristic project cards.",
+    "es": "Portafolio creativo de desarrollador con fondo oscuro, tipografía verde neón, cubo de código 3D interactivo, líneas orbitales y tarjetas de proyectos futuristas."
+  },
+  "demoUrl": "https://codecraft.dev/",
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "tags": [
+    "affiliate",
+    "commission",
+    "program",
+    "marketing landing page"
+  ],
+  "membership": "Premium",
+  "price": "15.00"
+}

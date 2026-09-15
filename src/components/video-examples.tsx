@@ -9,7 +9,7 @@ import {
   CardContent,
   CardFooter,
 } from '@/components/ui/card';
-import { useLocalizedPlaceholderVideos } from '@/hooks/use-localized-catalog';
+import { usePagedPlaceholderVideos } from '@/hooks/use-paged-catalog';
 import type { VideoProp } from '@/lib/placeholder-videos';
 import { LazyVideo } from '@/components/lazy-video';
 import { Tag, Wand2 } from 'lucide-react';
@@ -19,7 +19,7 @@ import { useTranslations } from 'next-intl';
 
 export default function VideoExamples() {
   const tCommon = useTranslations('common');
-  const placeholderVideos = useLocalizedPlaceholderVideos();
+  const placeholderVideos = usePagedPlaceholderVideos();
   const videoContent = useMemo(() => {
     const uniqueByTitle = new Map<string, VideoProp>();
     for (const item of placeholderVideos) {
@@ -29,7 +29,9 @@ export default function VideoExamples() {
     }
     // Return enough elements for a continuous loop in the marquee
     const list = Array.from(uniqueByTitle.values());
-    return [...list, ...list].slice(0, 14);
+    const productReels = list.filter(item => item.tags.includes('Product Reel'));
+    const featured = productReels.length ? productReels : list;
+    return [...featured, ...featured].slice(0, 14);
   }, [placeholderVideos]);
 
   return (

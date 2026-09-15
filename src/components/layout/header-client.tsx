@@ -31,18 +31,28 @@ import {
 } from '@clerk/nextjs';
 import React, { useState, useEffect } from 'react';
 import {
+  ArrowLeft,
   ChevronDown,
+  ChevronRight,
+  CreditCard,
+  FolderHeart,
   Globe,
+  Handshake,
+  HelpCircle,
   ImageIcon,
   LayoutTemplate,
+  Layers3,
   // LayoutGrid,
   LogIn,
   Menu,
-  Tag,
+  PackageCheck,
+  Search,
+  Scale,
+  ShieldCheck,
   Sparkles,
-  User,
   UserPlus,
   Video,
+  WandSparkles,
 } from 'lucide-react';
 import { ClientLink } from '@/components/client-link';
 import { RoutePrefetchProvider } from '@/components/route-prefetch-provider';
@@ -57,6 +67,51 @@ import Logo from './logo';
 const navLinkClass =
   'text-muted-foreground transition-colors hover:text-foreground rounded-sm px-1 py-0.5';
 const navLinkActiveClass = 'text-foreground font-semibold';
+const webMenuGroupOrder = ['Explorar', 'Crear', 'Herramientas', 'Mi biblioteca'] as const;
+type WebMenuGroup = (typeof webMenuGroupOrder)[number];
+
+/**
+ * Los nueve kits de UI en un solo sitio.
+ *
+ * Antes cada uno ocupaba una entrada suelta en el menú «Webs»: nueve filas
+ * seguidas que empujaban el resto fuera de la vista. Ahora son un submenú con
+ * rejilla, y los conteos salen de los catálogos reales —`Formularios` tiene 100,
+ * no 50, como decía el texto anterior—.
+ */
+export const UI_KITS: Array<{ href: string; label: string; count: number; unit: 'componentes' | 'animaciones'; description: string }> = [
+  { href: '/web-animations', label: 'Animaciones', count: 180, unit: 'animaciones', description: 'Interacciones y microanimaciones web' },
+  { href: '/login-components', label: 'Login UI', count: 50, unit: 'componentes', description: 'Autenticación, registro y recuperación' },
+  { href: '/header-components', label: 'Headers UI', count: 50, unit: 'componentes', description: 'Encabezados responsive y navegación superior' },
+  { href: '/text-components', label: 'Textos UI', count: 50, unit: 'componentes', description: 'Composiciones tipográficas y jerarquías' },
+  { href: '/form-components', label: 'Formularios UI', count: 100, unit: 'componentes', description: 'Formularios con validación y estados' },
+  { href: '/button-components', label: 'Botones UI', count: 50, unit: 'componentes', description: 'Botones, estados y variantes' },
+  { href: '/card-components', label: 'Cards UI', count: 50, unit: 'componentes', description: 'Tarjetas de producto, perfil y contenido' },
+  { href: '/navigation-components', label: 'Menús UI', count: 50, unit: 'componentes', description: 'Sistemas de navegación y menús' },
+  { href: '/sidebar-components', label: 'Sidebars UI', count: 50, unit: 'componentes', description: 'Barras laterales y paneles' },
+];
+
+export const UI_KITS_TOTAL = UI_KITS.reduce((total, kit) => total + kit.count, 0);
+
+type DropdownItem = {
+  href: string;
+  label: string;
+  description: string;
+  icon: React.ReactNode;
+  group?: WebMenuGroup;
+  /** Si viene, la entrada abre un submenú con estas opciones en rejilla. */
+  kits?: typeof UI_KITS;
+};
+
+function groupDropdownItems(items: DropdownItem[]) {
+  const grouped = webMenuGroupOrder
+    .map(label => ({ label, items: items.filter(item => item.group === label) }))
+    .filter(group => group.items.length > 0);
+  const ungrouped = items.filter(item => !item.group);
+
+  return ungrouped.length > 0
+    ? [...grouped, { label: '', items: ungrouped }]
+    : grouped;
+}
 
 function pathMatchesPrefix(pathname: string, prefix: string): boolean {
   return isNavActive(pathname, prefix);
@@ -72,6 +127,7 @@ function isNavItemActive(
 
 export default function HeaderClient() {
   const [mounted, setMounted] = useState(false);
+  const [webMenuPanel, setWebMenuPanel] = useState<'main' | 'kits'>('main');
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -87,33 +143,88 @@ export default function HeaderClient() {
     href?: string;
     label: string;
     activePrefixes?: string[];
-    dropdown?: Array<{
-      href: string;
-      label: string;
-      description: string;
-      icon: React.ReactNode;
-    }>;
+    dropdown?: DropdownItem[];
   }> = [
     { id: 'home', href: '/', label: tNav('discover') },
     {
       id: 'webs',
       label: tNav('webs'),
-      activePrefixes: ['/landing-pages', '/web-animations', '/web-tags', '/generate-webs'],
+      activePrefixes: ['/landing-pages', '/web-animations', '/login-components', '/header-components', '/text-components', '/form-components', '/button-components', '/card-components', '/navigation-components', '/sidebar-components', '/component-builder', '/page-composer', '/smart-search', '/prompt-optimizer', '/component-kits', '/component-compare', '/my-components', '/code-auditor', '/web-tags', '/generate-webs'],
       dropdown: [
         {
+          href: '/prompt-optimizer',
+          group: 'Herramientas',
+          label: 'Optimizar prompts',
+          description: 'Mejora con objetivos y compara los cambios',
+          icon: <Sparkles className="h-4 w-4" />,
+        },
+        {
+          href: '/code-auditor',
+          group: 'Herramientas',
+          label: 'Auditor de código',
+          description: 'Detecta errores y genera un prompt de corrección',
+          icon: <ShieldCheck className="h-4 w-4" />,
+        },
+        {
+          href: '/my-components',
+          group: 'Mi biblioteca',
+          label: 'Favoritos y proyectos',
+          description: 'Organiza componentes y descarga tus kits',
+          icon: <FolderHeart className="h-4 w-4" />,
+        },
+        {
+          href: '/component-compare',
+          group: 'Herramientas',
+          label: 'Comparar componentes',
+          description: 'Compara hasta tres diseños lado a lado',
+          icon: <Scale className="h-4 w-4" />,
+        },
+        {
+          href: '/component-kits',
+          group: 'Explorar',
+          label: 'Kits completos',
+          description: 'Colecciones coherentes listas para productos',
+          icon: <PackageCheck className="h-4 w-4" />,
+        },
+        {
+          href: '/smart-search',
+          group: 'Explorar',
+          label: 'Buscador inteligente',
+          description: 'Busca por tipo, industria, color y función',
+          icon: <Search className="h-4 w-4" />,
+        },
+        {
+          href: '/component-builder',
+          group: 'Crear',
+          label: 'Constructor visual',
+          description: 'Personaliza componentes y genera el prompt',
+          icon: <WandSparkles className="h-4 w-4" />,
+        },
+        {
+          href: '/page-composer',
+          group: 'Crear',
+          label: 'Generador de páginas',
+          description: 'Combina componentes y descarga Next.js',
+          icon: <LayoutTemplate className="h-4 w-4" />,
+        },
+        {
           href: '/landing-pages',
+          group: 'Explorar',
           label: tNav('templates'),
           description: tNav('templatesDesc'),
           icon: <LayoutTemplate className="h-4 w-4" />,
         },
         {
-          href: '/web-animations',
-          label: tNav('animations'),
-          description: tNav('animationsDesc'),
-          icon: <Sparkles className="h-4 w-4" />,
+          href: '/component-kits',
+          group: 'Explorar',
+          label: 'Componentes UI',
+          description: `${UI_KITS.length} kits · ${UI_KITS_TOTAL} piezas con prompts`,
+          icon: <Layers3 className="h-4 w-4" />,
+          kits: UI_KITS,
         },
         {
           href: '/generate-webs',
+          group: 'Crear',
           label: 'Crear Web',
           description: 'Genera nuevas páginas web con IA',
           icon: <Globe className="h-4 w-4" />,
@@ -168,9 +279,37 @@ export default function HeaderClient() {
         },
       ],
     },
-    { id: 'membership', href: '/prices', label: tNav('prices'), activePrefixes: ['/prices', '/pricing'] },
-    { id: 'affiliate-program', href: '/affiliate-program', label: tNav('affiliateProgram'), activePrefixes: ['/affiliate-program', '/affiliate-program-terms'] },
-    { id: 'questions', href: '/ask', label: tNav('questions') },
+    {
+      id: 'resources',
+      label: tNav('resources'),
+      activePrefixes: [
+        '/prices',
+        '/pricing',
+        '/affiliate-program',
+        '/affiliate-program-terms',
+        '/ask',
+      ],
+      dropdown: [
+        {
+          href: '/prices',
+          label: tNav('prices'),
+          description: 'Planes, suscripciones y recarga de créditos',
+          icon: <CreditCard className="h-4 w-4" />,
+        },
+        {
+          href: '/affiliate-program',
+          label: tNav('affiliateProgram'),
+          description: 'Únete y gana comisiones recomendando',
+          icon: <Handshake className="h-4 w-4" />,
+        },
+        {
+          href: '/ask',
+          label: tNav('questions'),
+          description: 'Preguntas frecuentes, soporte y respuestas',
+          icon: <HelpCircle className="h-4 w-4" />,
+        },
+      ],
+    },
   ];
 
   const linkClassName = (href?: string, activePrefixes?: string[]) =>
@@ -178,29 +317,6 @@ export default function HeaderClient() {
       navLinkClass,
       isNavItemActive(pathname, href, activePrefixes) && navLinkActiveClass
     );
-
-  const accountMenuItems = (
-    <>
-      <DropdownMenuLabel>{tHeader('accountMenu', { defaultValue: 'My Account' })}</DropdownMenuLabel>
-      <DropdownMenuSeparator />
-      <DropdownMenuItem asChild className="cursor-pointer">
-        <SignUpButton mode="redirect" forceRedirectUrl="/prices">
-          <button className="w-full">
-            <UserPlus className="mr-2 size-4" />
-            <span>{tHeader('createAccount')}</span>
-          </button>
-        </SignUpButton>
-      </DropdownMenuItem>
-      <DropdownMenuItem asChild className="cursor-pointer">
-        <SignInButton mode="redirect" forceRedirectUrl="/dashboard">
-          <button className="w-full">
-            <LogIn className="mr-2 size-4" />
-            <span>{tHeader('signIn')}</span>
-          </button>
-        </SignInButton>
-      </DropdownMenuItem>
-    </>
-  );
 
   return (
     <>
@@ -221,6 +337,15 @@ export default function HeaderClient() {
                 {tHeader('brand')}
               </span>
             </ClientLink>
+            <SheetClose asChild>
+              <ClientLink
+                href="/generate-webs"
+                className="mb-5 flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-3 font-bold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-500"
+              >
+                <WandSparkles className="h-4 w-4" />
+                Crear con IA
+              </ClientLink>
+            </SheetClose>
             <div className="flex flex-col gap-4">
               {navLinks.map(link =>
                 link.href ? (
@@ -260,30 +385,64 @@ export default function HeaderClient() {
                         {link.label}
                       </AccordionTrigger>
                       <AccordionContent>
-                        <div className="grid grid-cols-1 gap-2 py-2 pl-4">
-                          {link.dropdown?.map(item => (
-                            <SheetClose asChild key={item.label}>
-                              <ClientLink
-                                href={item.href}
-                                className={cn(
-                                  'group flex items-start gap-3 rounded-lg p-3 transition-all duration-200 hover:bg-blue-600 hover:text-white hover:shadow-lg hover:shadow-blue-600/25',
-                                  pathMatchesPrefix(pathname, item.href) &&
-                                    'bg-blue-600 text-white shadow-lg shadow-blue-600/20'
-                                )}
-                              >
-                                <div className="rounded-md bg-blue-500/10 p-2 text-blue-500 transition-colors group-hover:bg-white/15 group-hover:text-white">
-                                  {item.icon}
-                                </div>
-                                <div>
-                                  <p className="font-semibold">{item.label}</p>
-                                  <p className="text-xs text-muted-foreground transition-colors group-hover:text-blue-100">
-                                    {item.description}
-                                  </p>
-                                </div>
-                              </ClientLink>
-                            </SheetClose>
+                        {link.id === 'webs' && webMenuPanel === 'kits' ? (
+                          <div className="space-y-2 py-2 pl-2">
+                            <button type="button" onClick={() => setWebMenuPanel('main')} className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-bold hover:bg-blue-600/10">
+                              <ArrowLeft className="h-4 w-4" /> Volver a Webs
+                            </button>
+                            <p className="px-3 text-[10px] font-black uppercase tracking-[0.18em] text-blue-500">Componentes UI</p>
+                            <div className="grid grid-cols-2 gap-1.5 px-1">
+                              {UI_KITS.map(kit => (
+                                <SheetClose asChild key={kit.href}>
+                                  <ClientLink href={kit.href} className={cn('rounded-lg border border-border/60 p-2.5 transition-colors hover:border-blue-500/40 hover:bg-blue-600 hover:text-white', pathMatchesPrefix(pathname, kit.href) && 'border-blue-500 bg-blue-600 text-white')} aria-current={pathMatchesPrefix(pathname, kit.href) ? 'page' : undefined}>
+                                    <span className="flex items-center justify-between gap-1.5"><span className="truncate text-sm font-semibold">{kit.label}</span><span className="shrink-0 text-[10px] font-black tabular-nums opacity-70">{kit.count}</span></span>
+                                  </ClientLink>
+                                </SheetClose>
+                              ))}
+                            </div>
+                            <SheetClose asChild><ClientLink href="/component-kits" className="flex items-center justify-between rounded-lg px-3 py-2 text-xs font-bold text-blue-500 hover:bg-blue-600/10">Ver todos los kits <ChevronRight className="h-3.5 w-3.5" /></ClientLink></SheetClose>
+                          </div>
+                        ) : (
+                        <div className="space-y-4 py-2 pl-2">
+                          {groupDropdownItems(link.dropdown ?? []).map(group => (
+                            <section key={group.label || link.id} aria-label={group.label || link.label}>
+                              {group.label ? <p className="mb-1 px-3 text-[10px] font-black uppercase tracking-[0.18em] text-blue-500">{group.label}</p> : null}
+                              <div className="grid grid-cols-1 gap-1">
+                                {group.items.map(item => (
+                                  item.kits ? (
+                                    <button key={item.label} type="button" onClick={() => setWebMenuPanel('kits')} className="flex w-full items-start gap-3 rounded-lg p-3 text-left transition-colors hover:bg-blue-600/10">
+                                      <span className="rounded-md bg-blue-500/10 p-2 text-blue-500">{item.icon}</span>
+                                      <span className="min-w-0 flex-1"><span className="block font-semibold">{item.label}</span><span className="block text-xs font-normal text-muted-foreground">{item.description}</span></span>
+                                      <ChevronRight className="mt-1 h-4 w-4" />
+                                    </button>
+                                  ) : (
+                                  <SheetClose asChild key={item.label}>
+                                    <ClientLink
+                                      href={item.href}
+                                      className={cn(
+                                        'group flex items-start gap-3 rounded-lg p-3 transition-all duration-200 hover:bg-blue-600 hover:text-white',
+                                        pathMatchesPrefix(pathname, item.href) &&
+                                          'bg-blue-600 text-white shadow-lg shadow-blue-600/20'
+                                      )}
+                                    >
+                                      <div className="rounded-md bg-blue-500/10 p-2 text-blue-500 transition-colors group-hover:bg-white/15 group-hover:text-white">
+                                        {item.icon}
+                                      </div>
+                                      <div>
+                                        <p className="font-semibold">{item.label}</p>
+                                        <p className="text-xs text-muted-foreground transition-colors group-hover:text-blue-100">
+                                          {item.description}
+                                        </p>
+                                      </div>
+                                    </ClientLink>
+                                  </SheetClose>
+                                  )
+                                ))}
+                              </div>
+                            </section>
                           ))}
                         </div>
+                        )}
                       </AccordionContent>
                     </AccordionItem>
                   </Accordion>
@@ -339,7 +498,12 @@ export default function HeaderClient() {
                 {link.label}
               </ClientLink>
             ) : (
-              <DropdownMenu key={link.id}>
+              <DropdownMenu
+                key={link.id}
+                onOpenChange={open => {
+                  if (!open && link.id === 'webs') setWebMenuPanel('main');
+                }}
+              >
                 <DropdownMenuTrigger
                   className={cn(
                     'flex items-center gap-1 outline-none',
@@ -354,40 +518,78 @@ export default function HeaderClient() {
                   {link.label}{' '}
                   <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" />
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-64">
-                  <div className="grid grid-cols-1 gap-2 p-1">
-                    {link.dropdown?.map(item => (
-                      <DropdownMenuItem
-                        key={item.label}
-                        asChild
-                        className="p-0 focus:bg-transparent"
-                      >
-                        <ClientLink
-                          href={item.href}
-                          className={cn(
-                            'group flex w-full items-start gap-3 rounded-lg p-3 transition-all duration-200 hover:bg-blue-600 hover:text-white hover:shadow-lg hover:shadow-blue-600/25 focus:bg-blue-600 focus:text-white',
-                            pathMatchesPrefix(pathname, item.href) &&
-                              'bg-blue-600 text-white shadow-lg shadow-blue-600/20'
-                          )}
-                          aria-current={
-                            pathMatchesPrefix(pathname, item.href)
-                              ? 'page'
-                              : undefined
-                          }
-                        >
-                          <div className="rounded-md bg-blue-500/10 p-2 text-blue-500 transition-colors group-hover:bg-white/15 group-hover:text-white group-focus:bg-white/15 group-focus:text-white">
-                            {item.icon}
-                          </div>
-                          <div>
-                            <p className="font-semibold">{item.label}</p>
-                            <p className="text-xs text-muted-foreground transition-colors group-hover:text-blue-100 group-focus:text-blue-100">
-                              {item.description}
-                            </p>
-                          </div>
-                        </ClientLink>
+                <DropdownMenuContent className={cn('max-h-[min(78vh,680px)] overflow-y-auto p-2', link.id === 'webs' ? 'w-[min(92vw,680px)]' : 'w-72')}>
+                  {link.id === 'webs' && webMenuPanel === 'kits' ? (
+                    <div className="p-1">
+                      <div className="mb-2 flex items-center justify-between border-b border-border/60 px-2 pb-2">
+                        <button type="button" onClick={() => setWebMenuPanel('main')} className="inline-flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm font-bold hover:bg-blue-600/10">
+                          <ArrowLeft className="h-4 w-4" /> Volver
+                        </button>
+                        <span className="text-xs font-black uppercase tracking-[0.16em] text-blue-500">Componentes UI</span>
+                      </div>
+                      <div className="grid gap-1 sm:grid-cols-2">
+                        {UI_KITS.map(kit => (
+                          <DropdownMenuItem key={kit.href} asChild className="p-0 focus:bg-transparent">
+                            <ClientLink href={kit.href} className={cn('group flex w-full flex-col gap-0.5 rounded-lg p-2.5 transition-all duration-200 hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white', pathMatchesPrefix(pathname, kit.href) && 'bg-blue-600 text-white')} aria-current={pathMatchesPrefix(pathname, kit.href) ? 'page' : undefined}>
+                              <span className="flex items-center justify-between gap-2"><span className="font-semibold">{kit.label}</span><span className="rounded-full bg-blue-500/10 px-2 py-0.5 text-[10px] font-black tabular-nums text-blue-500 transition-colors group-hover:bg-white/20 group-hover:text-white">{kit.count}</span></span>
+                              <span className="line-clamp-1 text-xs text-muted-foreground transition-colors group-hover:text-blue-100">{kit.description}</span>
+                            </ClientLink>
+                          </DropdownMenuItem>
+                        ))}
+                      </div>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem asChild className="p-0 focus:bg-transparent">
+                        <ClientLink href="/component-kits" className="flex w-full items-center justify-between rounded-lg p-2.5 text-xs font-bold transition-colors hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white">Ver todos los kits <ChevronRight className="h-3.5 w-3.5" /></ClientLink>
                       </DropdownMenuItem>
+                    </div>
+                  ) : (
+                  <div className={cn('grid gap-3', link.id === 'webs' ? 'sm:grid-cols-2' : 'grid-cols-1')}>
+                    {groupDropdownItems(link.dropdown ?? []).map(group => (
+                      <section key={group.label || link.id} aria-label={group.label || link.label} className="rounded-xl border border-border/60 bg-background/40 p-1.5">
+                        {group.label ? <DropdownMenuLabel className="px-2 pb-1 pt-2 text-[10px] font-black uppercase tracking-[0.18em] text-blue-500">{group.label}</DropdownMenuLabel> : null}
+                        <div className="space-y-0.5">
+                          {group.items.map(item => (
+                            item.kits ? (
+                              <DropdownMenuItem key={item.label} asChild className="p-0 focus:bg-transparent">
+                                <button type="button" onClick={() => setWebMenuPanel('kits')} className="group flex w-full items-start gap-3 rounded-lg p-2.5 text-left transition-all duration-200 hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white">
+                                  <div className="rounded-md bg-blue-500/10 p-1.5 text-blue-500 transition-colors group-hover:bg-white/15 group-hover:text-white group-focus:bg-white/15 group-focus:text-white">{item.icon}</div>
+                                  <div className="min-w-0 flex-1 text-left"><p className="font-semibold">{item.label}</p><p className="line-clamp-2 text-xs text-muted-foreground transition-colors group-hover:text-blue-100 group-focus:text-blue-100">{item.description}</p></div>
+                                  <ChevronRight className="mt-1 h-4 w-4 shrink-0" />
+                                </button>
+                              </DropdownMenuItem>
+                            ) : (
+                            <DropdownMenuItem
+                              key={item.label}
+                              asChild
+                              className="p-0 focus:bg-transparent"
+                            >
+                              <ClientLink
+                                href={item.href}
+                                className={cn(
+                                  'group flex w-full items-start gap-3 rounded-lg p-2.5 transition-all duration-200 hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white',
+                                  pathMatchesPrefix(pathname, item.href) &&
+                                    'bg-blue-600 text-white shadow-lg shadow-blue-600/20'
+                                )}
+                                aria-current={pathMatchesPrefix(pathname, item.href) ? 'page' : undefined}
+                              >
+                                <div className="rounded-md bg-blue-500/10 p-1.5 text-blue-500 transition-colors group-hover:bg-white/15 group-hover:text-white group-focus:bg-white/15 group-focus:text-white">
+                                  {item.icon}
+                                </div>
+                                <div className="min-w-0">
+                                  <p className="font-semibold">{item.label}</p>
+                                  <p className="line-clamp-2 text-xs text-muted-foreground transition-colors group-hover:text-blue-100 group-focus:text-blue-100">
+                                    {item.description}
+                                  </p>
+                                </div>
+                              </ClientLink>
+                            </DropdownMenuItem>
+                            )
+                          ))}
+                        </div>
+                      </section>
                     ))}
                   </div>
+                  )}
                 </DropdownMenuContent>
               </DropdownMenu>
             )
@@ -395,6 +597,15 @@ export default function HeaderClient() {
         </nav>
 
         <div className="flex items-center gap-2 ml-auto shrink-0">
+          <ClientLink
+            href="/generate-webs"
+            className="hidden h-10 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-blue-600 via-cyan-500 to-violet-600 px-3 text-sm font-bold text-white shadow-[0_0_28px_rgba(59,130,246,0.35)] transition hover:scale-[1.02] hover:shadow-[0_0_34px_rgba(59,130,246,0.5)] md:inline-flex xl:px-5"
+            aria-current={pathMatchesPrefix(pathname, '/generate-webs') ? 'page' : undefined}
+          >
+            <WandSparkles className="h-4 w-4" />
+            <span className="hidden xl:inline">Crear con IA</span>
+            <span className="sr-only xl:hidden">Crear con IA</span>
+          </ClientLink>
           {/* Theme selector disabled: the site now always uses dark mode. */}
           {/* <ThemeToggle /> */}
           {(!mounted || !isLoaded) ? (
@@ -411,7 +622,7 @@ export default function HeaderClient() {
                     </button>
                   </SignInButton>
                   <SignUpButton mode="redirect" forceRedirectUrl="/prices">
-                    <button className="rounded-full bg-gradient-to-r from-blue-500 via-cyan-400 to-violet-500 px-5 py-2.5 text-sm font-bold text-white shadow-[0_0_32px_rgba(59,130,246,0.42)] transition hover:scale-[1.02]">
+                    <button className="rounded-full border border-cyan-200/25 px-5 py-2.5 text-sm font-semibold text-slate-100 transition hover:border-cyan-200/60">
                       {tHeader('createAccount')}
                     </button>
                   </SignUpButton>

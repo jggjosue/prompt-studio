@@ -1,0 +1,40 @@
+{
+  "id": "170",
+  "title": {
+    "en": "Airbnb 3D Landing Page",
+    "es": "Landing Page 3D de Airbnb"
+  },
+  "description": {
+    "es": {
+      "nombre": "Clon 3D de Airbnb",
+      "prompt": "Crea una landing page inspirada en Airbnb con una villa isométrica 3D, animaciones fluidas, efecto parallax al mover el cursor, buscador de alojamientos, carrusel de estancias y diseño responsive.",
+      "estilo": "Editorial, inmersivo y moderno, con una paleta coral, crema y negro, composiciones isométricas y microinteracciones elegantes."
+    },
+    "en": {
+      "name": "Airbnb 3D Clone",
+      "prompt": "Create an Airbnb-inspired landing page featuring an isometric 3D villa, fluid animations, cursor-driven parallax, an accommodation search bar, a stay carousel, and a responsive layout."
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "Airbnb-inspired 3D landing page with an isometric Mediterranean villa, coral background, travel search bar, and luxury stay cards",
+    "es": "Landing page 3D inspirada en Airbnb con una villa mediterránea isométrica, fondo coral, buscador de viajes y tarjetas de alojamientos exclusivos"
+  },
+  "demoUrl": "airbnb-clone-landing",
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "tags": [
+    "airbnb",
+    "travel",
+    "3d landing page",
+    "accommodation",
+    "parallax",
+    "isometric",
+    "animated landing page"
+  ],
+  "membership": "Premium",
+  "price": "15.00"
+}

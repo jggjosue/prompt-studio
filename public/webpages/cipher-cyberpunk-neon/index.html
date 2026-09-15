@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#000000">
+  <meta name="description" content="Protege identidades, aplicaciones y datos con Cipher, la plataforma de seguridad zero-trust impulsada por IA que detecta y bloquea amenazas en tiempo real.">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="author" content="Cipher Security Systems">
+  <meta name="keywords" content="seguridad zero trust, ciberseguridad, seguridad con IA, detección de amenazas, protección de identidad, Cipher">
+  <link rel="canonical" href="https://www.prompstudio.com/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:site_name" content="Cipher">
+  <meta property="og:title" content="Cipher — Seguridad Zero Trust impulsada por IA">
+  <meta property="og:description" content="Cifra, detecta y defiende. Neutraliza amenazas en tiempo real con una plataforma zero-trust diseñada para la era de la IA.">
+  <meta property="og:url" content="https://www.prompstudio.com/">
+  <meta property="og:image" content="https://www.prompstudio.com/og-cipher.jpg">
+  <meta property="og:image:alt" content="Cipher, plataforma de seguridad zero-trust impulsada por IA">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Cipher — Seguridad Zero Trust impulsada por IA">
+  <meta name="twitter:description" content="Detecta y neutraliza amenazas en tiempo real con seguridad zero-trust impulsada por IA.">
+  <meta name="twitter:image" content="https://www.prompstudio.com/og-cipher.jpg">
+
+  <title>Cipher — Seguridad Zero Trust impulsada por IA</title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://www.prompstudio.com/#organization",
+        "name": "Cipher Security Systems",
+        "url": "https://www.prompstudio.com/",
+        "logo": "https://www.prompstudio.com/logo.png",
+        "description": "Plataforma de seguridad zero-trust impulsada por inteligencia artificial."
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://www.prompstudio.com/#website",
+        "url": "https://www.prompstudio.com/",
+        "name": "Cipher",
+        "inLanguage": "es",
+        "publisher": { "@id": "https://www.prompstudio.com/#organization" }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Cipher",
+        "applicationCategory": "SecurityApplication",
+        "operatingSystem": "Cloud",
+        "url": "https://www.prompstudio.com/",
+        "description": "Plataforma de seguridad zero-trust con IA para proteger identidades, aplicaciones y datos.",
+        "provider": { "@id": "https://www.prompstudio.com/#organization" }
+      }
+    ]
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #000;
+      --surface: #050510;
+      --card: #0a0a1a;
+      --line: #1a1a2e;
+      --magenta: #ff00ff;
+      --cyan: #00ffff;
+      --white: #fff;
+      --muted: #6b7280;
+      --mx: 0;
+      --my: 0;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+    body {
+      margin: 0;
+      color: var(--white);
+      background: var(--black);
+      font-family: "IBM Plex Mono", monospace;
+      overflow-x: hidden;
+      width: 100%;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background-image:
+        linear-gradient(rgba(255,0,255,.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,0,255,.045) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: linear-gradient(to bottom, #000 15%, transparent 85%);
+    }
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      pointer-events: none;
+      opacity: .18;
+      background: repeating-linear-gradient(0deg, transparent 0 3px, rgba(255,255,255,.025) 3px 4px);
+      mix-blend-mode: overlay;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    .wrap { width: min(1180px, calc(100% - 44px)); margin: 0 auto; }
+    .mono-label { color: var(--cyan); font-size: 11px; letter-spacing: .18em; text-transform: uppercase; }
+
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 30;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.68);
+      backdrop-filter: blur(18px);
+    }
+    .nav-inner { height: 74px; display: flex; align-items: center; justify-content: space-between; }
+    .brand { display: flex; align-items: center; gap: 12px; font-family: "Space Grotesk"; font-weight: 700; letter-spacing: .08em; }
+    .brand-mark { width: 24px; height: 28px; position: relative; border: 1px solid var(--magenta); clip-path: polygon(50% 0,100% 22%,100% 74%,50% 100%,0 74%,0 22%); box-shadow: inset 0 0 12px rgba(255,0,255,.6); }
+    .brand-mark::after { content:""; position:absolute; inset:6px; background:var(--cyan); clip-path:inherit; filter:drop-shadow(0 0 5px var(--cyan)); }
+    .nav-links { display:flex; align-items:center; gap:34px; font-size:11px; color:#a6a6b5; text-transform:uppercase; letter-spacing:.1em; }
+    .nav-links a:hover { color: var(--cyan); }
+    .nav-cta { padding: 11px 18px; border: 1px solid var(--magenta); color: white !important; box-shadow: inset 0 0 14px rgba(255,0,255,.1); transition:.25s ease; }
+    .nav-cta:hover { background:var(--magenta); box-shadow:0 0 25px rgba(255,0,255,.5); }
+
+    .hero { min-height: 920px; padding: 168px 0 90px; position: relative; isolation:isolate; }
+    .hero::before { content:""; position:absolute; width:620px; height:620px; left:-350px; top:130px; border-radius:50%; background:var(--magenta); opacity:.08; filter:blur(100px); z-index:-1; }
+    .hero::after { content:""; position:absolute; width:520px; height:520px; right:-280px; top:260px; border-radius:50%; background:var(--cyan); opacity:.07; filter:blur(100px); z-index:-1; }
+    .hero-grid { display:grid; grid-template-columns: .82fr 1.18fr; align-items:center; gap:48px; }
+    .hero-grid > * { min-width: 0; }
+    .eyebrow { display:flex; align-items:center; gap:12px; margin-bottom:22px; color:#b9bdc9; font-size:11px; letter-spacing:.16em; text-transform:uppercase; }
+    .live-dot { width:7px; height:7px; border-radius:50%; background:var(--cyan); box-shadow:0 0 12px var(--cyan); animation:pulse 1.8s infinite; }
+    h1, h2, h3 { font-family:"Space Grotesk", sans-serif; margin:0; }
+    h1 { font-size:clamp(54px,7.1vw,104px); line-height:.86; letter-spacing:-.07em; text-transform:uppercase; max-width:680px; }
+    .glitch {
+      position:relative;
+      color:#fff;
+      -webkit-text-stroke:1px rgba(255,255,255,.12);
+      text-shadow:
+        -3px 0 0 rgba(0,255,255,.92),
+        3px 2px 0 rgba(255,0,255,.88),
+        0 0 24px rgba(255,0,255,.08);
+      animation:title-glitch 6s infinite steps(1);
+    }
+    .glitch::before,
+    .glitch::after {
+      content:"";
+      position:absolute;
+      left:-1%;
+      width:102%;
+      height:3px;
+      pointer-events:none;
+      opacity:0;
+      z-index:2;
+    }
+    .glitch::before { top:31%; background:var(--cyan); box-shadow:0 0 9px var(--cyan); animation:scan-glitch 6s infinite steps(1); }
+    .glitch::after { top:69%; background:var(--magenta); box-shadow:0 0 9px var(--magenta); animation:scan-glitch 6s infinite .07s steps(1); }
+    .hero-copy p { max-width:500px; margin:32px 0; color:#8b91a0; line-height:1.75; font-size:14px; }
+    .actions { display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
+    .btn { position:relative; display:inline-flex; align-items:center; justify-content:center; gap:12px; padding:16px 22px; border:1px solid var(--magenta); font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; transition:.25s ease; overflow:hidden; }
+    .btn-primary { background:var(--magenta); color:#000; box-shadow:0 0 24px rgba(255,0,255,.25); }
+    .btn-primary::after { content:""; position:absolute; inset:0; transform:translateX(-110%); background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent); transition:.45s; }
+    .btn-primary:hover::after { transform:translateX(110%); }
+    .btn-primary:hover { box-shadow:0 0 38px rgba(255,0,255,.6); }
+    .btn-ghost { border-color:#303044; color:#c5cad5; }
+    .btn-ghost:hover { border-color:var(--cyan); color:var(--cyan); text-shadow:0 0 10px var(--cyan); }
+
+    .scene { min-height:570px; display:grid; place-items:center; perspective:1100px; transform-style:preserve-3d; }
+    .orbital { width:min(620px,54vw); aspect-ratio:1.12; position:relative; transform-style:preserve-3d; transform:rotateX(calc(7deg + var(--my) * -4deg)) rotateY(calc(-8deg + var(--mx) * 7deg)); transition:transform .15s ease-out; }
+    .security-core { position:absolute; inset:8% 2% 10% 2%; background:rgba(5,5,16,.75); border:1px solid rgba(0,255,255,.28); clip-path:polygon(8% 0,92% 0,100% 14%,100% 86%,92% 100%,8% 100%,0 86%,0 14%); box-shadow:0 0 50px rgba(0,255,255,.1), inset 0 0 70px rgba(255,0,255,.05); transform:translateZ(15px); overflow:hidden; }
+    .security-core::before { content:""; position:absolute; inset:0; background:repeating-linear-gradient(90deg,transparent 0 39px,rgba(0,255,255,.035) 40px), repeating-linear-gradient(0deg,transparent 0 39px,rgba(0,255,255,.035) 40px); }
+    #network { position:absolute; inset:0; width:100%; height:100%; }
+    .hud-corner { position:absolute; width:24px; height:24px; border-color:var(--magenta); opacity:.9; }
+    .hud-corner.tl { top:4%; left:1%; border-top:2px solid; border-left:2px solid; }
+    .hud-corner.br { right:1%; bottom:6%; border-right:2px solid; border-bottom:2px solid; }
+    .orbit { position:absolute; left:50%; top:50%; border:1px solid rgba(255,0,255,.16); border-radius:50%; transform-style:preserve-3d; }
+    .orbit-one { width:104%; height:45%; transform:translate(-50%,-50%) rotateX(67deg) translateZ(40px); }
+    .orbit-two { width:75%; height:81%; transform:translate(-50%,-50%) rotateY(70deg) translateZ(-20px); border-color:rgba(0,255,255,.15); }
+    .float-tag { position:absolute; padding:10px 13px; background:rgba(0,0,0,.88); border:1px solid var(--line); color:#a9afbd; font-size:9px; letter-spacing:.1em; text-transform:uppercase; box-shadow:0 8px 24px #000; transform:translateZ(70px); }
+    .float-tag strong { color:var(--cyan); font-weight:500; }
+    .tag-1 { top:14%; right:-2%; animation:float 4s ease-in-out infinite; }
+    .tag-2 { bottom:10%; left:-5%; animation:float 4.8s ease-in-out infinite reverse; }
+    .tag-3 { top:8%; left:12%; color:var(--magenta); animation:float 5.2s ease-in-out infinite .4s; }
+    .status-line { position:absolute; bottom:15%; right:5%; display:flex; align-items:center; gap:8px; font-size:9px; color:#717887; transform:translateZ(45px); }
+
+    .trustbar { border-block:1px solid var(--line); background:#030309; }
+    .trust-inner { min-height:94px; display:flex; justify-content:space-between; align-items:center; gap:30px; }
+    .trust-inner > span { color:#4c5260; font-size:10px; letter-spacing:.14em; text-transform:uppercase; }
+    .logos { display:flex; align-items:center; justify-content:flex-end; gap:clamp(24px,5vw,68px); color:#777d8c; font:600 15px "Space Grotesk"; letter-spacing:.02em; }
+
+    section { position:relative; }
+    .features { padding:150px 0 130px; }
+    .section-head { display:grid; grid-template-columns:1fr 1fr; gap:50px; align-items:end; margin-bottom:58px; }
+    .section-head h2 { font-size:clamp(39px,5vw,70px); letter-spacing:-.05em; line-height:.98; max-width:740px; text-transform:uppercase; }
+    .section-head p { color:#727987; line-height:1.7; font-size:13px; max-width:500px; justify-self:end; }
+    .cards { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+    .card { position:relative; min-height:330px; padding:30px; background:linear-gradient(145deg,rgba(10,10,26,.98),rgba(4,4,13,.98)); border:1px solid var(--line); overflow:hidden; transform-style:preserve-3d; transition:transform .25s ease, border-color .25s, box-shadow .25s; }
+    .card:hover { border-color:var(--magenta); box-shadow:0 0 40px rgba(255,0,255,.22); transform:translateY(-7px) rotateX(1deg); }
+    .card:nth-child(2):hover { border-color:var(--cyan); box-shadow:0 0 40px rgba(0,255,255,.18); }
+    .card-index { color:#4b5261; font-size:10px; }
+    .card-icon { width:66px; height:66px; margin:42px 0 34px; display:grid; place-items:center; border:1px solid #26263e; transform:rotate(45deg); background:#080818; }
+    .card-icon svg { width:28px; height:28px; transform:rotate(-45deg); fill:none; stroke:var(--magenta); filter:drop-shadow(0 0 6px rgba(255,0,255,.6)); }
+    .card:nth-child(2) .card-icon svg { stroke:var(--cyan); }
+    .card h3 { font-size:21px; margin-bottom:13px; letter-spacing:-.02em; }
+    .card p { margin:0; color:#69707e; font-size:12px; line-height:1.7; }
+    .card::after { content:""; position:absolute; width:120px; height:1px; right:-20px; bottom:30px; background:linear-gradient(90deg,transparent,var(--magenta)); transform:rotate(-45deg); opacity:.5; }
+
+    .stats { padding:100px 0; background:var(--surface); border-block:1px solid var(--line); overflow:hidden; }
+    .stats::before { content:"CIPHER / LIVE DEFENSE / CIPHER / LIVE DEFENSE"; position:absolute; top:8px; left:-20px; color:rgba(255,255,255,.018); font:700 9vw "Space Grotesk"; white-space:nowrap; }
+    .stat-grid { display:grid; grid-template-columns:1fr 1fr; position:relative; }
+    .stat { padding:40px 6vw; }
+    .stat:first-child { padding-left:0; border-right:1px solid var(--line); }
+    .stat-value { font:700 clamp(62px,9vw,134px)/.9 "Space Grotesk"; letter-spacing:-.08em; color:var(--white); text-shadow:3px 2px 0 rgba(255,0,255,.5); }
+    .stat:nth-child(2) .stat-value { text-shadow:3px 2px 0 rgba(0,255,255,.5); }
+    .stat p { color:#656c79; font-size:11px; letter-spacing:.16em; text-transform:uppercase; margin:20px 0 0; }
+
+    .threats { padding:145px 0 160px; }
+    .threat-top { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:42px; }
+    .threat-top h2 { font-size:clamp(38px,5vw,68px); letter-spacing:-.05em; text-transform:uppercase; }
+    .threat-grid { display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid var(--line); border-left:1px solid var(--line); }
+    .threat { min-height:210px; padding:28px; border-right:1px solid var(--line); border-bottom:1px solid var(--line); background:rgba(5,5,16,.58); transition:.25s ease; }
+    .threat:hover { background:#0a0a1a; box-shadow:inset 0 -2px var(--cyan); }
+    .threat-code { color:var(--magenta); font-size:9px; letter-spacing:.15em; }
+    .threat:nth-child(even) .threat-code { color:var(--cyan); }
+    .threat h3 { margin:55px 0 8px; font-size:17px; }
+    .threat p { color:#646b79; font-size:11px; line-height:1.6; margin:0; }
+
+    .final { padding:125px 0; text-align:center; border-top:1px solid var(--line); background:radial-gradient(circle at 50% 50%,rgba(255,0,255,.1),transparent 45%); }
+    .final h2 { font-size:clamp(46px,7vw,92px); line-height:.92; text-transform:uppercase; letter-spacing:-.06em; margin:22px auto 34px; max-width:850px; }
+    footer { padding:35px 0; border-top:1px solid var(--line); color:#4f5561; font-size:10px; }
+    .footer-inner { display:flex; justify-content:space-between; gap:20px; }
+
+    .reveal { opacity:0; transform:translateY(30px); transition:opacity .8s ease, transform .8s ease; }
+    .reveal.visible { opacity:1; transform:none; }
+    @keyframes pulse { 50% { opacity:.35; transform:scale(.75); box-shadow:0 0 22px var(--cyan); } }
+    @keyframes float { 50% { transform:translateY(-12px) translateZ(70px); } }
+    @keyframes title-glitch {
+      0%,88%,91%,94%,100% { transform:translate(0); filter:none; }
+      89% { transform:translateX(-2px); filter:brightness(1.25); }
+      90% { transform:translateX(2px); }
+      92% { transform:translateX(1px); }
+      93% { transform:translateX(-1px); filter:brightness(1.12); }
+    }
+    @keyframes scan-glitch {
+      0%,88%,94%,100% { opacity:0; transform:translateX(0) scaleX(.15); }
+      89% { opacity:.75; transform:translateX(-10px) scaleX(.92); }
+      90% { opacity:0; }
+      92% { opacity:.65; transform:translateX(12px) scaleX(.55); }
+      93% { opacity:0; }
+    }
+
+    @media (max-width: 900px) {
+      .nav-links a:not(.nav-cta) { display:none; }
+      .hero { min-height:auto; padding-top:140px; }
+      .hero-grid { grid-template-columns:1fr; }
+      .hero-copy { position:relative; z-index:2; }
+      .scene { min-height:500px; margin-top:-30px; }
+      .orbital { width:min(680px,94vw); }
+      .section-head { grid-template-columns:1fr; }
+      .section-head p { justify-self:start; }
+      .cards { grid-template-columns:1fr; }
+      .card { min-height:280px; }
+      .card-icon { margin:30px 0 25px; }
+      .stat-grid { grid-template-columns:1fr; }
+      .stat { padding:48px 0; }
+      .stat:first-child { border-right:0; border-bottom:1px solid var(--line); }
+      .threat-grid { grid-template-columns:repeat(2,1fr); }
+    }
+    @media (max-width: 560px) {
+      .wrap { width:min(100% - 28px,1180px); }
+      .nav-inner { height:66px; }
+      .nav-cta { padding:9px 12px; font-size:9px; }
+      .hero { padding-top:125px; }
+      h1 { font-size:clamp(48px,14.5vw,64px); max-width:100%; }
+      .hero-copy p { max-width:100%; }
+      .actions { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+      .btn { padding:14px 8px; font-size:9px; }
+      .scene { min-height:390px; margin-top:0; }
+      .orbital { width:104vw; }
+      .float-tag { font-size:7px; padding:8px; }
+      .tag-2 { left:3%; }
+      .features,.threats { padding:100px 0; }
+      .trust-inner { align-items:flex-start; flex-direction:column; padding:25px 0; }
+      .logos { width:100%; gap:24px; justify-content:space-between; font-size:11px; }
+      .threat-top { align-items:flex-start; flex-direction:column; gap:16px; }
+      .threat { min-height:190px; padding:20px; }
+      .threat h3 { margin-top:40px; font-size:15px; }
+      .footer-inner { flex-direction:column; }
+    }
+    @media (prefers-reduced-motion:reduce) { html{scroll-behavior:auto} *,*::before,*::after{animation:none!important;transition:none!important} .reveal{opacity:1;transform:none} }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#top" aria-label="Cipher inicio"><span class="brand-mark"></span>CIPHER</a>
+      <div class="nav-links">
+        <a href="#platform">Plataforma</a><a href="#intel">Inteligencia</a><a href="#threats">Amenazas</a><a class="nav-cta" href="#access">Solicitar acceso ↗</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="live-dot"></span> Sistema operativo // Todas las regiones</div>
+          <h1 class="glitch" data-text="Cifrar. Detectar. Defender.">Cifrar.<br>Detectar.<br>Defender.</h1>
+          <p>Seguridad zero-trust impulsada por IA. Cipher analiza cada señal, bloquea cada amenaza y protege cada identidad en tiempo real.</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="#access">Activar Cipher <span>→</span></a>
+            <a class="btn btn-ghost" href="#platform">Explorar plataforma</a>
+          </div>
+        </div>
+        <div class="scene" aria-label="Visualización global de amenazas en tiempo real">
+          <div class="orbital" id="orbital">
+            <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+            <div class="security-core"><canvas id="network"></canvas><span class="hud-corner tl"></span><span class="hud-corner br"></span></div>
+            <div class="float-tag tag-1">Nodo protegido <strong>// MAD-04</strong></div>
+            <div class="float-tag tag-2"><strong>12.4M</strong> señales analizadas</div>
+            <div class="float-tag tag-3">Threat map // live</div>
+            <div class="status-line"><span class="live-dot"></span> Red sincronizada</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="trustbar"><div class="wrap trust-inner"><span>Protegiendo infraestructura crítica</span><div class="logos"><span>NEXUS</span><span>AXIOM</span><span>ORBITAL</span><span>VERTEX</span></div></div></div>
+
+    <section class="features" id="platform">
+      <div class="wrap">
+        <div class="section-head reveal"><div><span class="mono-label">// Arquitectura de defensa</span><h2>Una capa de seguridad. Visibilidad total.</h2></div><p>Cada acceso se verifica. Cada anomalía se investiga. Cada decisión se toma a la velocidad de la máquina, sin añadir fricción a tu equipo.</p></div>
+        <div class="cards">
+          <article class="card reveal"><span class="card-index">01 / IDENTITY</span><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M12 3 4.5 6v5.3c0 4.8 3.2 8.2 7.5 9.7 4.3-1.5 7.5-4.9 7.5-9.7V6L12 3Z"/><path d="m9 12 2 2 4-4"/></svg></div><h3>Zero Trust Access</h3><p>Control adaptativo basado en identidad, contexto y riesgo. Nunca confíes. Verifica siempre.</p></article>
+          <article class="card reveal"><span class="card-index">02 / INTELLIGENCE</span><div class="card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 4v16M4 12h16M6.5 6.5l11 11M17.5 6.5l-11 11"/></svg></div><h3>AI Threat Engine</h3><p>Modelos autónomos correlacionan miles de millones de señales para neutralizar ataques desconocidos.</p></article>
+          <article class="card reveal"><span class="card-index">03 / RESPONSE</span><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M13 2 5 14h6l-1 8 9-13h-6V2Z"/></svg></div><h3>Respuesta instantánea</h3><p>Contención automatizada en milisegundos, antes de que una amenaza pueda desplazarse por tu red.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats" id="intel"><div class="wrap stat-grid"><div class="stat reveal"><div class="stat-value" data-count="99.99">99.99%</div><p>Tiempo de actividad verificado</p></div><div class="stat reveal"><div class="stat-value">2.3B</div><p>Amenazas bloqueadas / día</p></div></div></section>
+
+    <section class="threats" id="threats">
+      <div class="wrap">
+        <div class="threat-top reveal"><div><span class="mono-label">// Cobertura activa</span><h2>Todo vector. Neutralizado.</h2></div><span class="mono-label">8/8 sistemas online</span></div>
+        <div class="threat-grid">
+          <article class="threat reveal"><span class="threat-code">SIG_001</span><h3>Ransomware</h3><p>Detección conductual y aislamiento automático.</p></article>
+          <article class="threat reveal"><span class="threat-code">SIG_002</span><h3>Phishing</h3><p>Análisis semántico de mensajes e identidad.</p></article>
+          <article class="threat reveal"><span class="threat-code">SIG_003</span><h3>Zero-Day</h3><p>Bloqueo predictivo de patrones desconocidos.</p></article>
+          <article class="threat reveal"><span class="threat-code">SIG_004</span><h3>Supply Chain</h3><p>Verificación continua de cada dependencia.</p></article>
+          <article class="threat reveal"><span class="threat-code">SIG_005</span><h3>Credential Theft</h3><p>Identidad protegida en cada punto de acceso.</p></article>
+          <article class="threat reveal"><span class="threat-code">SIG_006</span><h3>DDoS</h3><p>Mitigación global a escala de red.</p></article>
+          <article class="threat reveal"><span class="threat-code">SIG_007</span><h3>Insider Risk</h3><p>Detección de anomalías sin invadir privacidad.</p></article>
+          <article class="threat reveal"><span class="threat-code">SIG_008</span><h3>Data Exfiltration</h3><p>Políticas de datos en movimiento y reposo.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="final" id="access"><div class="wrap reveal"><span class="mono-label">// La red está esperando</span><h2>Convierte tu defensa en una ventaja.</h2><a class="btn btn-primary" href="mailto:access@cipher.security">Solicitar acceso <span>→</span></a></div></section>
+  </main>
+  <footer><div class="wrap footer-inner"><span>© 2026 CIPHER SECURITY SYSTEMS</span><span>PRIVACIDAD / ESTADO / DOCUMENTACIÓN</span><span>ALL SYSTEMS OPERATIONAL ●</span></div></footer>
+
+  <script>
+    const root = document.documentElement;
+    window.addEventListener('pointermove', (e) => {
+      root.style.setProperty('--mx', ((e.clientX / innerWidth) - .5).toFixed(3));
+      root.style.setProperty('--my', ((e.clientY / innerHeight) - .5).toFixed(3));
+    }, { passive:true });
+
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+      if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+    }), { threshold:.13 });
+    reveals.forEach(el => observer.observe(el));
+
+    const canvas = document.getElementById('network');
+    const ctx = canvas.getContext('2d');
+    const points = [
+      [.12,.31,'c'],[.2,.24,'m'],[.26,.38,'c'],[.34,.52,'m'],[.42,.29,'c'],[.5,.44,'m'],[.56,.28,'c'],[.63,.36,'m'],[.73,.23,'c'],[.81,.41,'m'],[.9,.34,'c'],
+      [.16,.68,'m'],[.28,.63,'c'],[.38,.74,'m'],[.46,.61,'c'],[.58,.7,'m'],[.7,.61,'c'],[.82,.72,'m'],[.91,.6,'c']
+    ];
+    const links = [[0,1],[1,2],[2,3],[2,4],[4,5],[4,6],[6,7],[6,8],[8,9],[9,10],[0,11],[2,12],[3,12],[12,13],[5,14],[7,15],[9,16],[10,17],[14,15],[15,16]];
+    function resize(){ const r=canvas.getBoundingClientRect(), d=Math.min(devicePixelRatio,2); canvas.width=r.width*d; canvas.height=r.height*d; ctx.setTransform(d,0,0,d,0,0); }
+    function draw(t){
+      const w=canvas.clientWidth,h=canvas.clientHeight;
+      ctx.clearRect(0,0,w,h);
+      ctx.lineWidth=.7;
+      links.forEach(([a,b],i)=>{ const p=points[a],q=points[b], flow=(Math.sin(t*.001+i)+1)/2; ctx.strokeStyle=`rgba(${i%2?'255,0,255':'0,255,255'},${.08+flow*.16})`; ctx.beginPath(); ctx.moveTo(p[0]*w,p[1]*h); ctx.lineTo(q[0]*w,q[1]*h); ctx.stroke(); });
+      points.forEach((p,i)=>{ const x=p[0]*w,y=p[1]*h,pulse=1+Math.sin(t*.003+i)*.6, col=p[2]==='m'?'255,0,255':'0,255,255'; ctx.fillStyle=`rgba(${col},.12)`; ctx.beginPath();ctx.arc(x,y,9*pulse,0,Math.PI*2);ctx.fill();ctx.fillStyle=`rgb(${col})`;ctx.shadowColor=`rgb(${col})`;ctx.shadowBlur=12;ctx.beginPath();ctx.arc(x,y,2.2,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0; });
+      requestAnimationFrame(draw);
+    }
+    resize(); window.addEventListener('resize',resize); requestAnimationFrame(draw);
+  </script>
+</body>
+</html>

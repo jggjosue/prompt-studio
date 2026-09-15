@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">NomadStay — Sleep cheap. Live big.</title>
+  <desc id="desc">Social budget hostels for curious travellers.</desc>
+  <rect width="1200" height="630" fill="#fff6e9"/>
+  <rect x="690" width="510" height="630" fill="#ef5b2a"/>
+  <circle cx="1000" cy="290" r="220" fill="#ffb48f"/>
+  <text x="78" y="110" fill="#31241f" font-family="Arial, sans-serif" font-size="34" font-weight="700">● nomadstay</text>
+  <text x="78" y="285" fill="#31241f" font-family="Arial, sans-serif" font-size="92" font-weight="800">Sleep cheap.</text>
+  <text x="78" y="390" fill="#ef5b2a" font-family="Georgia, serif" font-size="104" font-style="italic" font-weight="700">Live big.</text>
+  <text x="82" y="470" fill="#66534a" font-family="Arial, sans-serif" font-size="25">Design-led budget hostels for curious travellers.</text>
+  <g stroke="#31241f" stroke-width="6">
+    <path d="M760 410h330v95H760z" fill="#fff6e9"/>
+    <path d="M930 410h160v95H930z" fill="#d9e96e"/>
+    <path d="M780 505v45M1070 505v45"/>
+    <path d="M770 380h105q28 0 28 30H770z" fill="#d9e96e"/>
+  </g>
+  <rect x="835" y="150" width="185" height="130" fill="#8ed0de" stroke="#31241f" stroke-width="8"/>
+  <path d="M927 150v130M835 215h185" stroke="#31241f" stroke-width="6"/>
+</svg>

@@ -1,0 +1,37 @@
+{
+  "id": "170",
+  "title": {
+    "en": "LuxeThread 3D Fashion Store",
+    "es": "Tienda de Moda 3D LuxeThread"
+  },
+  "description": {
+    "es": {
+      "nombre": "LuxeThread — Tienda de Moda 3D",
+      "prompt": "Crea una tienda de moda premium con estética editorial futurista, una paleta de negro, lima, violeta y naranja, prendas construidas en 3D, animaciones fluidas, profundidad interactiva controlada por el cursor, catálogo de productos, filtros, carrito lateral y una experiencia responsive para escritorio y móvil.",
+      "estilo": "Editorial futurista, moda premium, brutalismo refinado, alto contraste, tipografía de gran formato, composiciones 3D y animaciones inmersivas."
+    },
+    "en": {
+      "name": "LuxeThread — 3D Fashion Store",
+      "prompt": "Create a premium fashion store with a futuristic editorial aesthetic, a black, lime, violet and orange palette, CSS-built 3D garments, fluid animation, cursor-controlled interactive depth, a product catalog, filters, a sliding cart, and a responsive experience for desktop and mobile."
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "Futuristic 3D fashion store with a floating dark jacket, oversized white typography, a violet sphere and neon lime accents",
+    "es": "Tienda de moda 3D futurista con una chaqueta oscura flotante, tipografía blanca de gran formato, una esfera violeta y acentos lima neón"
+  },
+  "demoUrl": "https://www.prompstudio.com/webpages/luxethread-fashion-store/",
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "tags": [
+    "fashion store",
+    "3D",
+    "e-commerce",
+    "interactive landing page"
+  ],
+  "membership": "Premium",
+  "price": "15.00"
+}

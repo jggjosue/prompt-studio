@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://framehaus.studio/sitemap.xml
+

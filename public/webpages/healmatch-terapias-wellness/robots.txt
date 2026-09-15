@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://healmatch.mx/sitemap.xml

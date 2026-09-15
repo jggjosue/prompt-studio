@@ -1,0 +1,38 @@
+{
+  "id": "170",
+  "title": {
+    "en": "Forma — 3D Architecture Portfolio",
+    "es": "Forma — Portafolio de Arquitectura 3D"
+  },
+  "description": {
+    "es": {
+      "nombre": "Forma — Portafolio de Arquitectura 3D",
+      "prompt": "Crea un portafolio editorial para un estudio de arquitectura con una maqueta 3D interactiva, proyectos destacados, animaciones al hacer scroll, transiciones suaves, modo de contraste y diseño responsive.",
+      "estilo": "Editorial arquitectónico minimalista con estética brutalista, paleta monocromática en tonos piedra y negro, acentos verde ácido, tipografía serif expresiva, retícula visible y composición asimétrica."
+    },
+    "en": {
+      "name": "Forma — 3D Architecture Portfolio",
+      "prompt": "Create an editorial portfolio for an architecture studio featuring an interactive 3D model, selected projects, scroll-triggered animations, smooth transitions, a contrast mode, and responsive design."
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "Editorial architecture portfolio with an interactive isometric 3D building in stone, black, and acid-green tones.",
+    "es": "Portafolio editorial de arquitectura con un edificio 3D isométrico interactivo en tonos piedra, negro y verde ácido."
+  },
+  "demoUrl": "webpages_forma-architecture-portfolio_index.html",
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "tags": [
+    "architecture portfolio",
+    "3D",
+    "interactive",
+    "editorial design",
+    "creative studio"
+  ],
+  "membership": "Premium",
+  "price": "15.00"
+}

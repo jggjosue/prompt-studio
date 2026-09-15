@@ -1,4 +1,4 @@
-import data from '../../public/webpages/web-pages.json';
+import data from '../data/web-pages.json';
 import type { Locale } from '@/i18n/config';
 import { pickLocalized, type LocalizedField } from '@/lib/localized-string';
 import { normalizeDemoFolder } from '@/lib/refactory-online';
@@ -42,6 +42,13 @@ export function getRawWebPageById(id: string): RawWebPageEntry | undefined {
 
 export function getRawWebPageByDemoSlug(slug: string): RawWebPageEntry | undefined {
   return rawPages.find(page => normalizeDemoFolder(page.demoUrl ?? '') === slug);
+}
+
+export function getCatalogIdByDemoSlug(slug: string): string | null {
+  const index = rawPages.findIndex(
+    page => normalizeDemoFolder(page.demoUrl ?? '') === slug
+  );
+  return index >= 0 ? `wp-${index + 1}` : null;
 }
 
 /** Resuelve `wp-12` → entrada cruda en web-pages.json (índice 1-based del catálogo). */

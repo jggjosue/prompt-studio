@@ -1,0 +1,1 @@
+import type{Metadata}from'next';import{MarketplaceClient}from'./marketplace-client';export const metadata:Metadata={title:'Marketplace de creadores | Prompt Studio',description:'Prompts, kits y plantillas revisados y con licencia clara.'};export default function Page(){return <MarketplaceClient/>}

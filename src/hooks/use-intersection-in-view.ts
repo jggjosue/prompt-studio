@@ -48,7 +48,11 @@ export function useIntersectionInView({
     const observer = new IntersectionObserver(
       entries => {
         const entry = entries[0];
-        if (!entry?.isIntersecting) return;
+        if (!entry) return;
+        if (!entry.isIntersecting) {
+          if (!once) setIsNearView(false);
+          return;
+        }
         setIsNearView(true);
         if (once) observer.disconnect();
       },
