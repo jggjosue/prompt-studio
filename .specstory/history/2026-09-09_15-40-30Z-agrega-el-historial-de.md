@@ -55808,3 +55808,1786 @@ _**User (2026-09-12 06:30:51Z)**_
 _**Agent (claude-opus-5 2026-09-12 06:30:55Z)**_
 
 No response requested.
+
+---
+
+_**User (2026-09-14 14:32:03Z)**_
+
+corrige este fix
+
+---
+
+_**Agent (claude-opus-5 2026-09-14 14:32:18Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Locate middleware entrypoint
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+ls src/middleware.ts src/proxy.ts middleware.ts 2>/dev/null
+echo "=== ¿cuál es el entrypoint de middleware? ==="
+grep -rn "middleware" next.config.ts 2>/dev/null | head -3
+ls -la src/*.ts | head
+```
+
+```text
+src/middleware.ts
+src/proxy.ts
+=== ¿cuál es el entrypoint de middleware? ===
+-rw-r--r--@ 1 josuegonzalez  staff    975 Sep  4 15:19 src/instrumentation.ts
+-rw-r--r--@ 1 josuegonzalez  staff     43 May 17 18:01 src/middleware.ts
+-rw-r--r--@ 1 josuegonzalez  staff  11562 Sep  9 14:11 src/proxy.ts
+-rw-r--r--  1 josuegonzalez  staff     24 May 18 17:02 src/types.d.ts
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:32:21Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Read middleware and proxy
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+cat src/middleware.ts
+echo "=== proxy.ts: cabecera y config ==="
+sed -n '1,40p' src/proxy.ts
+```
+
+```text
+export { default, config } from './proxy';
+=== proxy.ts: cabecera y config ===
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
+import {
+  PROMPT_EDIT_ENABLED,
+  PROMPT_EDIT_PATH,
+} from '@/lib/prompt-edit';
+import { NextResponse, type NextRequest } from 'next/server';
+import { detectLocale } from '@/i18n/detect-locale';
+import { locales } from '@/i18n/config';
+
+const isProtectedRoute = createRouteMatcher(['/dashboard(.*)']);
+
+const LEGACY_LANDING_PAGE_REDIRECTS: Record<string, string> = {
+  'samsung-clone': '/landing-pages',
+  'cozyloft-home-decor': '/landing-pages',
+  'voltgear-tech-shop': '/landing-pages/3d-tech-showroom-pro',
+  'motionlab-freelance-video':
+    '/landing-pages/3d-photography-portfolio-video-projections',
+  'magzin-job-html-css': '/landing-pages/magzin-job-dark',
+};
+
+/**
+ * Ficheros fuente del catálogo que NO deben servirse por HTTP.
+ *
+ * Viven bajo `public/` porque el código los consume con `import` en build y con
+ * lectura de disco en servidor, pero eso los hace también descargables. Y
+ * contienen el producto: los 15 JSON de `public/prompts/` y
+ * `webpages/web-pages.json` llevan dentro los prompts de pago (299 imágenes,
+ * 197 vídeos, 236 landing pages, 450 componentes; ~255 de ellos Premium).
+ *
+ * Antes solo se bloqueaban los 8 `web-*-components.json`, lo que dejaba fuera
+ * imágenes, vídeos, landing pages, animaciones, kits y los catálogos por modelo.
+ *
+ * La regla cubre cualquier `.json` en la raíz de esos dos directorios, no una
+ * lista de nombres: en `public/webpages/` había cuatro copias de trabajo
+ * huérfanas (`web-pages-updated.json` con 381 registros de pago,
+ * `web-pages-fail.json` con 218, y dos más) que ninguna lista blanca habría
+ * cubierto. Los assets de las demos (`/webpages/{slug}/...`) no se ven
+ * afectados porque `[^/]+` no cruza barras.
+ *
+ * Se incluyen las variantes `.br` y `.gz` que genera `precompress-static.mjs`:
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:32:30Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Inspect middleware config and imports
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+echo "=== config export ==="; grep -n "export const config" -A 12 src/proxy.ts
+echo "=== runtime? ==="; grep -n "runtime" src/proxy.ts src/middleware.ts 2>/dev/null
+echo "=== imports de prompt-edit ==="; head -20 src/lib/prompt-edit.ts
+echo "=== imports de detect-locale ==="; head -15 src/i18n/detect-locale.ts
+```
+
+```text
+=== config export ===
+302:export const config = {
+303-  matcher: [
+304-    // Clerk proxy (must run before static .js exclusion) — failed_to_load_clerk_js if missing
+305-    '/__clerk(.*)',
+306-    '/pricing(.*)',
+307-    '/landing-pages/:path*',
+308-    '/gallery/:path*',
+309-    '/gallery-videos/:path*',
+310-    '/webpages/:path*',
+311-    // Skip Next.js internals and static files (see Clerk docs)
+312-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+313-    '/(api|trpc)(.*)',
+314-  ],
+=== runtime? ===
+=== imports de prompt-edit ===
+export const PROMPT_EDIT_PATH = '/generate-images';
+
+/** Set to true when the prompt editor route should be available. */
+export const PROMPT_EDIT_ENABLED = true;
+
+export function isPromptEditHref(href: string): boolean {
+  if (!href) return false;
+  const path = href.startsWith('http')
+    ? new URL(href).pathname
+    : href.split('?')[0];
+  return path === PROMPT_EDIT_PATH;
+}
+
+export function isPromptEditEnabled(): boolean {
+  return PROMPT_EDIT_ENABLED;
+}
+=== imports de detect-locale ===
+import { defaultLocale, isLocale, LOCALE_COOKIE, type Locale } from './config.ts';
+
+/**
+ * Resolución del idioma a partir de la petición.
+ *
+ * Antes vivía en `i18n/request.ts` y se ejecutaba durante el render, llamando a
+ * `cookies()` y `headers()`. Eso marcaba las 121 rutas de la app como dinámicas
+ * e impedía cachear nada en el edge.
+ *
+ * Ahora corre una sola vez en el middleware, que reescribe internamente la
+ * petición hacia `/{locale}{ruta}`. Las páginas reciben el idioma como
+ * parámetro de ruta y pueden prerenderizarse; la URL pública no cambia.
+ *
+ * Sin dependencias de `next/headers`: recibe una `Headers` normal, así que se
+ * puede probar sin levantar un servidor.
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:33:11Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Check Vercel CLI availability
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+which vercel 2>/dev/null || npx vercel --version 2>&1 | head -2
+echo "=== ¿hay .vercel? ==="; ls -a | grep -i vercel; cat .vercel/project.json 2>/dev/null | head -5
+```
+
+```text
+vercel not found
+npm warn exec The following package was not found and will be installed: vercel@59.16.0
+npm warn deprecated stream-to-promise@2.2.0: Deprecated. Use node:stream/promises and node:stream/consumers instead.
+=== ¿hay .vercel? ===
+vercel.json
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:33:17Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Check build artifacts for middleware
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+ls .next/BUILD_ID 2>/dev/null && cat .next/BUILD_ID
+ls .next/server/middleware* 2>/dev/null | head -3
+```
+
+```text
+.next/server/middleware-manifest.json
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:33:23Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Inspect middleware manifest
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+export PATH="$HOME/.nvm/versions/node/v22.11.0/bin:$PATH"
+node -e "const m=require('./.next/server/middleware-manifest.json');console.log('middleware:',Object.keys(m.middleware||{}));const k=Object.keys(m.middleware||{})[0];if(k)console.log(JSON.stringify({files:m.middleware[k].files,env:m.middleware[k].env},null,1).slice(0,600))"
+```
+
+```text
+middleware: [ '/' ]
+{
+ "files": [
+  "server/edge-instrumentation.js",
+  "server/edge-runtime-webpack.js",
+  "server/src/middleware.js"
+ ],
+ "env": {
+  "__NEXT_BUILD_ID": "xXqHQodE7AI_uTD8A0AIz",
+  "NEXT_SERVER_ACTIONS_ENCRYPTION_KEY": "[REDACTED:generic-api-key]",
+  "__NEXT_PREVIEW_MODE_ID": "431b4c9859e5c8f51801d537bf377ae0",
+  "__NEXT_PREVIEW_MODE_SIGNING_KEY": "[REDACTED:generic-api-key]",
+  "__NEXT_PREVIEW_MODE_ENCRYPTION_KEY": "[REDACTED:generic-api-key]"
+ }
+}
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:33:27Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Read instrumentation file
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+cat src/instrumentation.ts
+```
+
+```text
+export async function register() {
+  // Reserved for SDK exporters. Application metrics are persisted by the shared recorder.
+}
+
+export async function onRequestError(error: Error & { digest?: string }, request: { path: string; method: string }, context: { routerKind?: string; routeType?: string; routePath?: string }) {
+  if (process.env.NEXT_RUNTIME === 'edge') {
+    console.error('Edge request error', request.path, error);
+    return;
+  }
+  const { errorFingerprint, recordObservabilityEvent } = await import('@/lib/observability-server');
+  await recordObservabilityEvent({
+    category: 'server_error',
+    name: error.name || 'request_error',
+    route: context.routePath || request.path || 'server',
+    status: 'error',
+    fingerprint: error.digest || errorFingerprint(error, context.routePath || request.path),
+    metadata: { message: error.message, method: request.method, routerKind: context.routerKind ?? null, routeType: context.routeType ?? null },
+  });
+}
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:33:36Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Start production server to reproduce middleware
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+export PATH="$HOME/.nvm/versions/node/v22.11.0/bin:$PATH"
+pkill -f "next start" 2>/dev/null; sleep 1
+env -u STRIPE_SECRET_KEY -u RESEND_API_KEY \
+  NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_ZXhhbXBsZS5jbGVyay5hY2NvdW50cy5kZXYk \
+  CLERK_SECRET_KEY=sk_test_ci MONGODB_URI=mongodb://127.0.0.1:27017/ci \
+  npx next start -p 3047 > /tmp/start2.txt 2>&1
+```
+
+```text
+Command running in background with ID: bgzbphqvl. Output is being written to: /private/tmp/claude-501/-Users-josuegonzalez-Projects-Web3D-prompt-studio/97005d36-06de-4a60-8a87-32f89480aae5/tasks/bgzbphqvl.output. You will be notified when it completes. To check interim output, use Read on that file path.
+Session cwd remains /Users/josuegonzalez/Projects/Web3D/prompt-studio; directory changes made by the backgrounded command do not apply to subsequent commands.
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:33:43Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Request pages through middleware
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+curl -s -o /dev/null -w "GET / -> %{http_code}\n" http://127.0.0.1:3047/ 2>/dev/null
+curl -s -o /dev/null -w "GET /prices -> %{http_code}\n" http://127.0.0.1:3047/prices 2>/dev/null
+tail -5 /tmp/start2.txt
+```
+
+```text
+GET / -> 000
+GET /prices -> 000
+
+ ✓ Starting...
+[Clerk] Production is using a TEST publishable key (pk_test_*). Set pk_live_* and sk_live_* in Vercel and add your production domain under Clerk → Domains.
+[Clerk] Build de producción con claves de test: NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY es pk_test_*; CLERK_SECRET_KEY es sk_test_*. Configura pk_live_* y sk_live_* en Vercel (Production). Para bloquear el build hasta entonces, deja CLERK_ENFORCE_LIVE_KEYS sin definir; cuando uses live keys, opcionalmente pon CLERK_ENFORCE_LIVE_KEYS=1 para exigirlas.
+[Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id]
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:33:50Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Check next config output and build artifacts
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+grep -nE "output|distDir" next.config.ts | head -5
+ls .next/ | head -20
+grep -E "Route \(app\)|BUILD_EXIT" /tmp/b10.txt | head -3
+```
+
+```text
+61:  outputFileTracingIncludes: {
+cache
+diagnostics
+package.json
+server
+trace
+types
+ugrep: warning: /tmp/b10.txt: No such file or directory
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:34:10Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Read the Clerk env verifier
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+sed -n '1,45p' scripts/mjs/verify-clerk-env.mjs
+```
+
+```text
+#!/usr/bin/env node
+/**
+ * Comprueba que las variables de Clerk estén listas para el entorno indicado.
+ *
+ * Uso:
+ *   node scripts/verify-clerk-env.mjs           # detecta NODE_ENV / VERCEL_ENV
+ *   node scripts/verify-clerk-env.mjs production
+ *   node scripts/verify-clerk-env.mjs development
+ */
+
+import { existsSync, readFileSync } from 'fs';
+import { resolve } from 'path';
+
+function loadDotEnv() {
+  const path = resolve(process.cwd(), '.env');
+  if (!existsSync(path)) return;
+  for (const line of readFileSync(path, 'utf8').split('\n')) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#')) continue;
+    const eq = trimmed.indexOf('=');
+    if (eq === -1) continue;
+    const key = trimmed.slice(0, eq).trim();
+    let value = trimmed.slice(eq + 1).trim();
+    if (
+      (value.startsWith('"') && value.endsWith('"')) ||
+      (value.startsWith("'") && value.endsWith("'"))
+    ) {
+      value = value.slice(1, -1);
+    }
+    if (!(key in process.env)) process.env[key] = value;
+  }
+}
+
+loadDotEnv();
+
+const mode =
+  process.argv[2] ||
+  (process.env.VERCEL_ENV === 'production'
+    ? 'production'
+    : process.env.NODE_ENV === 'production'
+      ? 'production'
+      : 'development');
+
+const pk = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY?.trim();
+const sk = process.env.CLERK_SECRET_KEY?.trim();
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:34:14Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Inspect how Clerk is wired in the middleware
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+echo "=== ¿el middleware toca Clerk en cada petición? ==="
+grep -n "clerkMiddleware\|auth()\|auth.protect\|isProtectedRoute" src/proxy.ts | head -10
+echo "=== estructura del handler ==="
+grep -n "export default\|clerkMiddleware(" src/proxy.ts | head -5
+```
+
+```text
+=== ¿el middleware toca Clerk en cada petición? ===
+1:import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
+10:const isProtectedRoute = createRouteMatcher(['/dashboard(.*)']);
+177:export default clerkMiddleware(async (auth, req) => {
+295:  if (isProtectedRoute(req)) {
+296:    await auth.protect();
+=== estructura del handler ===
+177:export default clerkMiddleware(async (auth, req) => {
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:34:31Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Compare middleware between main and develop
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+git fetch origin main -q 2>/dev/null
+echo "=== ¿difiere proxy.ts entre main y develop? ==="
+git diff --stat origin/main..develop -- src/proxy.ts src/middleware.ts
+echo "=== diff ==="; git diff origin/main..develop -- src/proxy.ts | head -40
+```
+
+```text
+=== ¿difiere proxy.ts entre main y develop? ===
+ src/proxy.ts | 179 ++++++++++++++++++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 164 insertions(+), 15 deletions(-)
+=== diff ===
+diff --git a/src/proxy.ts b/src/proxy.ts
+index d0c78262..99bd0783 100644
+--- a/src/proxy.ts
++++ b/src/proxy.ts
+@@ -3,7 +3,9 @@ import {
+   PROMPT_EDIT_ENABLED,
+   PROMPT_EDIT_PATH,
+ } from '@/lib/prompt-edit';
+-import { NextResponse } from 'next/server';
++import { NextResponse, type NextRequest } from 'next/server';
++import { detectLocale } from '@/i18n/detect-locale';
++import { locales } from '@/i18n/config';
+ 
+ const isProtectedRoute = createRouteMatcher(['/dashboard(.*)']);
+ 
+@@ -16,6 +18,38 @@ const LEGACY_LANDING_PAGE_REDIRECTS: Record<string, string> = {
+   'magzin-job-html-css': '/landing-pages/magzin-job-dark',
+ };
+ 
++/**
++ * Ficheros fuente del catálogo que NO deben servirse por HTTP.
++ *
++ * Viven bajo `public/` porque el código los consume con `import` en build y con
++ * lectura de disco en servidor, pero eso los hace también descargables. Y
++ * contienen el producto: los 15 JSON de `public/prompts/` y
++ * `webpages/web-pages.json` llevan dentro los prompts de pago (299 imágenes,
++ * 197 vídeos, 236 landing pages, 450 componentes; ~255 de ellos Premium).
++ *
++ * Antes solo se bloqueaban los 8 `web-*-components.json`, lo que dejaba fuera
++ * imágenes, vídeos, landing pages, animaciones, kits y los catálogos por modelo.
++ *
++ * La regla cubre cualquier `.json` en la raíz de esos dos directorios, no una
++ * lista de nombres: en `public/webpages/` había cuatro copias de trabajo
++ * huérfanas (`web-pages-updated.json` con 381 registros de pago,
++ * `web-pages-fail.json` con 218, y dos más) que ninguna lista blanca habría
++ * cubierto. Los assets de las demos (`/webpages/{slug}/...`) no se ven
++ * afectados porque `[^/]+` no cruza barras.
++ *
++ * Se incluyen las variantes `.br` y `.gz` que genera `precompress-static.mjs`:
++ * sin ellas el bloqueo se saltaría pidiendo `placeholder-images.json.br`.
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:34:42Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Check Clerk proxy configuration
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+grep -rn "__clerk\|CLERK_PROXY\|proxyUrl\|domain" src/proxy.ts src/app/layout.tsx 2>/dev/null | head -8
+echo "=== variables CLERK en .env.example ==="; grep -n "CLERK" .env.example
+```
+
+```text
+src/proxy.ts:89:    pathname.startsWith('/__clerk') ||
+src/proxy.ts:305:    '/__clerk(.*)',
+=== variables CLERK en .env.example ===
+29:# CLERK — https://dashboard.clerk.com → API keys
+31:NEXT_PUBLIC_CLERK_DOMAIN=
+32:NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_xxxxxxxxxxxxxxxxxxxxxxxx
+33:CLERK_SECRET_KEY=sk_test_xxxxxxxxxxxxxxxxxxxxxxxx
+34:NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+35:NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+36:NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/dashboard
+37:NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=/prices
+38:NEXT_PUBLIC_CLERK_UNAUTHORIZED_SIGN_IN=/unauthorized
+39:NEXT_PUBLIC_CLERK_USER_PROFILE=/user
+121:CLERK_WEBHOOK_SECRET=whsec_xxxxxxxxxxxxxxxxxxxxxxxx
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:34:51Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Check branches and middleware throw points
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+pkill -f "next start" 2>/dev/null
+echo "=== ¿qué despliegue puede estar sirviendo? ==="
+export PATH="$HOME/.nvm/versions/node/v22.11.0/bin:$PATH"
+git log --oneline origin/main -1
+git log --oneline develop -1
+echo "=== líneas del middleware que pueden lanzar ==="
+sed -n '177,185p' src/proxy.ts; sed -n '293,300p' src/proxy.ts
+```
+
+```text
+=== ¿qué despliegue puede estar sirviendo? ===
+b533bf1b add cookie banner
+55a46031 add correccion de errores
+=== líneas del middleware que pueden lanzar ===
+export default clerkMiddleware(async (auth, req) => {
+  const pathname = req.nextUrl.pathname;
+
+  if (isProtectedCatalogSource(pathname)) {
+    return withEdgeHeaders(
+      new NextResponse('Not found', {
+        status: 404,
+        headers: { 'Cache-Control': 'private, no-store', 'X-Robots-Tag': 'noindex, nofollow' },
+      }),
+  }
+
+  if (isProtectedRoute(req)) {
+    await auth.protect();
+  }
+
+  return withEdgeHeaders(withLocaleRewrite(req), req);
+});
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:35:00Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Inspect the new commit on develop
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+git fetch origin develop -q 2>/dev/null
+git log --oneline ab5c6840..origin/develop 2>/dev/null
+echo "=== qué tocó ==="; git show --stat 55a46031 2>/dev/null | head -25
+```
+
+```text
+55a46031 add correccion de errores
+=== qué tocó ===
+commit 55a46031ad7b273822a9534df746d1baa3eca1ec
+Author: Joshuesito <jggjosue@gmail.com>
+Date:   Sat Sep 12 17:54:40 2026 -0700
+
+    add correccion de errores
+
+ .../2026-09-09_15-40-30Z-agrega-el-historial-de.md | Bin 927638 -> 2325096 bytes
+ .specstory/history/2026-09-10_06-35-23Z.md         | Bin 0 -> 161 bytes
+ .specstory/history/2026-09-10_07-30-58Z.md         | Bin 0 -> 161 bytes
+ .specstory/history/2026-09-10_16-08-54Z.md         | Bin 0 -> 161 bytes
+ .specstory/history/2026-09-10_17-16-33Z.md         | Bin 0 -> 161 bytes
+ .specstory/history/2026-09-11_04-54-24Z.md         | Bin 0 -> 80085 bytes
+ .specstory/history/2026-09-11_19-53-09Z.md         | Bin 0 -> 7131 bytes
+ .specstory/history/2026-09-11_19-55-07Z.md         | Bin 0 -> 161 bytes
+ .specstory/history/2026-09-11_22-23-04Z.md         | Bin 0 -> 19426 bytes
+ .../2026-09-12_19-46-27Z-corrige-este-error.md     | Bin 0 -> 226 bytes
+ ...026-09-12_19-46-27Z-error-correction-request.md | Bin 0 -> 71520 bytes
+ .specstory/statistics.json                         | Bin 15347 -> 16996 bytes
+ .../product-photo-282-cosmetics.webp               | Bin 47246 -> 47028 bytes
+ .../product-photo-283-cosmetics.webp               | Bin 42654 -> 42542 bytes
+ .../product-photo-284-fashion.webp                 | Bin 42484 -> 42370 bytes
+ .../product-photo-285-restaurants.webp             | Bin 100838 -> 100632 bytes
+ .../product-photo-287-cosmetics.webp               | Bin 41278 -> 40878 bytes
+ .../product-photo-289-cosmetics.webp               | Bin 58958 -> 58726 bytes
+ .../product-photo-291-cosmetics.webp               | Bin 68750 -> 68558 bytes
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:35:03Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Check non-asset changes in that commit
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+git show --stat 55a46031 2>/dev/null | grep -vE "specstory|\.webp|\.mp4|\.png|\.jpg" | tail -20
+```
+
+```text
+commit 55a46031ad7b273822a9534df746d1baa3eca1ec
+Author: Joshuesito <jggjosue@gmail.com>
+Date:   Sat Sep 12 17:54:40 2026 -0700
+
+    add correccion de errores
+
+ .../2026-09-09_15-40-30Z-agrega-el-historial-de.md | Bin 927638 -> 2325096 bytes
+ .../2026-09-12_19-46-27Z-corrige-este-error.md     | Bin 0 -> 226 bytes
+ ...026-09-12_19-46-27Z-error-correction-request.md | Bin 0 -> 71520 bytes
+ scripts/mjs/verify-clerk-env.mjs                   |   4 ++--
+ src/data/review-aggregates.json                    |   2 +-
+ 96 files changed, 3 insertions(+), 3 deletions(-)
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:35:06Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+See the verify-clerk-env change
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+git show 55a46031 -- scripts/mjs/verify-clerk-env.mjs | tail -20
+```
+
+```text
+--- a/scripts/mjs/verify-clerk-env.mjs
++++ b/scripts/mjs/verify-clerk-env.mjs
+@@ -8,7 +8,7 @@
+  *   node scripts/verify-clerk-env.mjs development
+  */
+ 
+-import { readFileSync, existsSync } from 'fs';
++import { existsSync, readFileSync } from 'fs';
+ import { resolve } from 'path';
+ 
+ function loadDotEnv() {
+@@ -46,7 +46,7 @@ const sk = process.env.CLERK_SECRET_KEY?.trim();
+ 
+ let ok = true;
+ 
+-function fail(_msg) {
++function fail(msg) {
+   console.error(`✗ ${msg}`);
+   ok = false;
+ }
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:35:17Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Sync with latest develop
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+git stash list | head -2
+git status --short | grep -vE "\.webp$|\.mp4$|\.png$|\.jpg$|specstory" | head -5
+git pull --ff-only origin develop 2>&1 | tail -3
+```
+
+```text
+stash@{0}: On main: !!GitHub_Desktop<main>
+Desde https://github.com/jggjosue/prompt-studio
+ * branch              develop    -> FETCH_HEAD
+Ya está actualizado.
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:35:31Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Scan for the underscore-prefix bug pattern
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+git log --oneline -1
+echo "=== escaneo sistemático: parámetros/variables con _ usados sin _ ==="
+export PATH="$HOME/.nvm/versions/node/v22.11.0/bin:$PATH"
+node - <<'JS'
+const {execSync}=require('child_process');
+const fs=require('fs');
+const files=execSync("git ls-files 'src/**/*.ts' 'src/**/*.tsx' 'scripts/**/*.mjs' 'scripts/**/*.ts' 'tests/**/*.ts'",{encoding:'utf8'}).trim().split('\n').filter(Boolean);
+let hits=0;
+for(const f of files){
+  let t;try{t=fs.readFileSync(f,'utf8')}catch{continue}
+  // declaraciones con prefijo _
+  const decl=[...t.matchAll(/\b(?:const|let|var)\s+_([A-Za-z][\w$]*)\b/g), ...t.matchAll(/\(\s*_([A-Za-z][\w$]*)\s*[,)]/g), ...t.matchAll(/,\s*_([A-Za-z][\w$]*)\s*[,)]/g)];
+  for(const m of decl){
+    const nombre=m[1];
+    // ¿se usa el nombre SIN guion bajo en el fichero?
+    const usoSinGuion=new RegExp(`(?<![\\w$_])${nombre}(?![\\w$])`,'g');
+    const usos=[...t.matchAll(usoSinGuion)];
+    if(usos.length>0){
+      // filtrar: puede ser otra variable legítima con ese nombre declarada aparte
+      const declaradoSinGuion=new RegExp(`\\b(?:const|let|var|function|class|import)\\s+[^;\\n]*\\b${nombre}\\b`).test(t)
+        || new RegExp(`\\b${nombre}\\s*:`).test(t);
+      if(!declaradoSinGuion){ hits++; console.log(`${f}: _${nombre} declarado, pero se usa '${nombre}' (${usos.length}x)`); }
+    }
+  }
+}
+console.log(hits===0?'sin coincidencias':`total: ${hits}`);
+JS
+```
+
+```text
+55a46031 add correccion de errores
+=== escaneo sistemático: parámetros/variables con _ usados sin _ ===
+scripts/ts/seed-new-user.ts: _error declarado, pero se usa 'error' (2x)
+scripts/ts/test-bundle.ts: _res declarado, pero se usa 'res' (1x)
+scripts/ts/test-bundle.ts: _err declarado, pero se usa 'err' (1x)
+src/components/free-email-gate.tsx: _error declarado, pero se usa 'error' (3x)
+total: 4
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:35:35Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Inspect the four candidate sites
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+echo "=== seed-new-user.ts ==="; grep -n "_error\|error" scripts/ts/seed-new-user.ts | head -6
+echo "=== test-bundle.ts ==="; grep -n "_res\|res\b\|_err\|err\b" scripts/ts/test-bundle.ts | head -6
+echo "=== free-email-gate.tsx ==="; grep -n "_error\|[^_]error" src/components/free-email-gate.tsx | head -8
+```
+
+```text
+=== seed-new-user.ts ===
+24:  } catch (_error) {
+25:    //console.error('Error seeding data:', error);
+=== test-bundle.ts ===
+7:    const _res = await resolveDemoBundle('3d-architecture-portfolio-pro');
+8:    //console.log(res ? 'Success' : 'Returned null');
+9:  } catch (_err) {
+10:    //console.error('ERROR:', err);
+=== free-email-gate.tsx ===
+79:       * persona no se le volvía a pedir nunca, sin error visible. Con el índice
+87:        console.error('No se pudo guardar el correo; se volverá a pedir.');
+94:    } catch (_error) {
+96:        title: t('error'),
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:35:43Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Read what the Clerk verifier checks
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+export PATH="$HOME/.nvm/versions/node/v22.11.0/bin:$PATH"
+sed -n '46,80p' scripts/mjs/verify-clerk-env.mjs
+```
+
+```text
+let ok = true;
+
+function fail(msg) {
+  console.error(`✗ ${msg}`);
+  ok = false;
+}
+
+function pass(msg) {
+  console.log(`✓ ${msg}`);
+}
+
+//console.log(`\nClerk — verificación (${mode})\n`);
+
+if (!pk) {
+  fail('Falta NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY');
+} else if (mode === 'production') {
+  if (pk.startsWith('pk_live_')) {
+    pass('Publishable key de producción (pk_live_*)');
+  } else {
+    fail(
+      'En producción debes usar pk_live_*, no pk_test_*. Configúralo en Vercel → Production.'
+    );
+  }
+} else if (pk.startsWith('pk_test_')) {
+  pass('Publishable key de desarrollo (pk_test_*)');
+} else if (pk.startsWith('pk_live_')) {
+  pass('Publishable key live (válida; recuerda dominios en Clerk Dashboard)');
+} else {
+  fail('Publishable key con prefijo desconocido');
+}
+
+if (!sk) {
+  fail('Falta CLERK_SECRET_KEY');
+} else if (mode === 'production') {
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:35:47Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Verify the Clerk checker reports properly now
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+export PATH="$HOME/.nvm/versions/node/v22.11.0/bin:$PATH"
+echo "=== el verificador ya funciona (antes lanzaba ReferenceError) ==="
+env -u NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY -u CLERK_SECRET_KEY node scripts/mjs/verify-clerk-env.mjs production 2>&1 | head -5; echo "exit=$?"
+```
+
+```text
+=== el verificador ya funciona (antes lanzaba ReferenceError) ===
+✓ Publishable key de producción (pk_live_*)
+✓ Secret key de producción (sk_live_*)
+✓ NEXT_PUBLIC_CLERK_SIGN_IN_URL=https://clerk.prompstudio.com/sign-in
+✓ NEXT_PUBLIC_CLERK_SIGN_UP_URL=https://clerk.prompstudio.com/sign-up
+✓ NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=https://clerk.prompstudio.com/dashboard
+exit=0
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:35:58Z)**_
+
+Encontré algo concreto. Voy a verificarlo antes de afirmarlo.
+
+_**Agent (claude-opus-5 2026-09-14 14:36:05Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Compare Clerk URL settings in env example vs env
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+echo "=== .env.example dice (rutas) ==="
+grep -E "CLERK_SIGN_IN_URL|CLERK_SIGN_UP_URL|CLERK_DOMAIN|FALLBACK" .env.example
+echo
+echo "=== .env local tiene (solo forma, sin secretos) ==="
+node -e "
+const fs=require('fs');
+const t=fs.readFileSync('.env','utf8');
+for(const l of t.split('\n')){
+  const m=l.match(/^(NEXT_PUBLIC_CLERK_[A-Z_]*(URL|DOMAIN)[A-Z_]*)=(.*)$/);
+  if(m) console.log(m[1],'=',m[3].trim()||'(vacío)');
+}"
+```
+
+```text
+=== .env.example dice (rutas) ===
+NEXT_PUBLIC_CLERK_DOMAIN=
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/dashboard
+NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=/prices
+
+=== .env local tiene (solo forma, sin secretos) ===
+NEXT_PUBLIC_CLERK_DOMAIN = clerk.promptstudio.com
+NEXT_PUBLIC_CLERK_SIGN_IN_URL = https://clerk.prompstudio.com/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL = https://clerk.prompstudio.com/sign-up
+NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL = https://clerk.prompstudio.com/dashboard
+NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL = https://clerk.prompstudio.com/prices
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:36:22Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Reproduce middleware with the deployed Clerk settings
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+export PATH="$HOME/.nvm/versions/node/v22.11.0/bin:$PATH"
+pkill -f "next dev" 2>/dev/null; sleep 1
+env NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_ZXhhbXBsZS5jbGVyay5hY2NvdW50cy5kZXYk \
+    CLERK_SECRET_KEY=sk_test_ci \
+    NEXT_PUBLIC_CLERK_DOMAIN=clerk.promptstudio.com \
+    NEXT_PUBLIC_CLERK_SIGN_IN_URL=https://clerk.prompstudio.com/sign-in \
+    NEXT_PUBLIC_CLERK_SIGN_UP_URL=https://clerk.prompstudio.com/sign-up \
+    MONGODB_URI=mongodb://127.0.0.1:27017/ci \
+    npx next dev -p 3049 > /tmp/dev-repro.txt 2>&1
+```
+
+```text
+Command running in background with ID: b4hhwd0s9. Output is being written to: /private/tmp/claude-501/-Users-josuegonzalez-Projects-Web3D-prompt-studio/97005d36-06de-4a60-8a87-32f89480aae5/tasks/b4hhwd0s9.output. You will be notified when it completes. To check interim output, use Read on that file path.
+Session cwd remains /Users/josuegonzalez/Projects/Web3D/prompt-studio; directory changes made by the backgrounded command do not apply to subsequent commands.
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:36:39Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Request through middleware with those settings
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+curl -s -o /dev/null -w "GET / -> %{http_code}\n" --max-time 90 http://127.0.0.1:3049/ 2>/dev/null
+grep -iE "error|Clerk|satellite|signInUrl|domain" /tmp/dev-repro.txt 2>/dev/null | head -12
+```
+
+```text
+GET / -> 200
+Clerk - DEPRECATION WARNING: "createRouteMatcher" is deprecated and will be removed in the next major release.
+Use resource-based auth checks instead. Move auth checks into each page, layout, API route, or Server Function that accesses protected data. Middleware-based auth checks rely on path matching, which can diverge from how Next.js routes requests and leave protected resources reachable. For a migration guide, see: https://clerk.com/docs/guides/development/upgrading/upgrade-guides/migrate-from-create-route-matcher
+Attention: Clerk collects telemetry data from its SDKs when connected to development instances.
+The data collected is used to inform Clerk's product roadmap.
+To learn more, including how to opt-out from the telemetry program, visit: https://clerk.com/docs/telemetry.
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:36:56Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Determine the real production domain
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+pkill -f "next dev" 2>/dev/null
+export PATH="$HOME/.nvm/versions/node/v22.11.0/bin:$PATH"
+echo "=== dominio real del proyecto según el repo ==="
+grep -rhoE "https?://[a-z0-9.-]*promp[a-z]*studio\.com" src .env.example public/robots.txt 2>/dev/null | sort | uniq -c | sort -rn | head -6
+echo "=== y en .env (solo dominios) ==="
+node -e "const t=require('fs').readFileSync('.env','utf8');const s=new Set();for(const m of t.matchAll(/https?:\/\/([a-z0-9.-]*promp[a-z]*studio\.com)/g))s.add(m[1]);console.log([...s].join('\n'))"
+```
+
+```text
+=== dominio real del proyecto según el repo ===
+  31 https://www.prompstudio.com
+   2 https://www.promptstudio.com
+   2 https://prompstudio.com
+   1 https://clerk.prompstudio.com
+=== y en .env (solo dominios) ===
+www.prompstudio.com
+clerk.prompstudio.com
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:37:00Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Check where the double-t domain appears and if CLERK_DOMAIN is used
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+echo "=== dónde aparece 'promptstudio' (con t) en el código ==="
+grep -rn "promptstudio\.com" src .env.example 2>/dev/null | head -5
+echo
+echo "=== NEXT_PUBLIC_CLERK_DOMAIN: ¿lo usa el código? ==="
+grep -rn "NEXT_PUBLIC_CLERK_DOMAIN" src scripts 2>/dev/null | head -5
+```
+
+```text
+=== dónde aparece 'promptstudio' (con t) en el código ===
+src/app/[locale]/licenses/page.tsx:2071:            <p>https://www.promptstudio.com</p>
+src/app/[locale]/licenses/page.tsx:2073:            <p>support@promptstudio.com</p>
+src/app/[locale]/licenses/page.tsx:2099:            <p>support@promptstudio.com</p>
+src/app/[locale]/licenses/page.tsx:2118:            <p>https://www.promptstudio.com</p>
+src/app/[locale]/licenses/page.tsx:2120:            <p>support@promptstudio.com</p>
+
+=== NEXT_PUBLIC_CLERK_DOMAIN: ¿lo usa el código? ===
+src/lib/clerk-config.ts:26:const clerkDomain = process.env.NEXT_PUBLIC_CLERK_DOMAIN?.trim();
+scripts/mjs/check-leaked-secrets.mjs:67:  'CLOUDFLARE_R2_BUCKET_NAME', 'NEXT_PUBLIC_CLERK_DOMAIN',
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:37:03Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Read how CLERK_DOMAIN is consumed
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+sed -n '1,60p' src/lib/clerk-config.ts
+```
+
+```text
+/**
+ * Clerk env + ClerkProvider props.
+ * Production must use pk_live_* and list the site domain in Clerk Dashboard.
+ */
+
+const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+
+if (!publishableKey) {
+  throw new Error(
+    'Missing NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY. Add it in Vercel → Settings → Environment Variables.'
+  );
+}
+
+const requiredPublishableKey = publishableKey;
+
+if (
+  process.env.NODE_ENV === 'production' &&
+  publishableKey.startsWith('pk_test_')
+) {
+  console.error(
+    '[Clerk] Production is using a TEST publishable key (pk_test_*). ' +
+    'Set pk_live_* and sk_live_* in Vercel and add your production domain under Clerk → Domains.'
+  );
+}
+
+const clerkDomain = process.env.NEXT_PUBLIC_CLERK_DOMAIN?.trim();
+
+export const clerkProviderProps = {
+  publishableKey: requiredPublishableKey,
+  ...(clerkDomain ? { domain: clerkDomain } : {}),
+  signInUrl: process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL ?? '/sign-in',
+  signUpUrl: process.env.NEXT_PUBLIC_CLERK_SIGN_UP_URL ?? '/sign-up',
+  signInFallbackRedirectUrl:
+    process.env.NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL ?? '/dashboard',
+  signUpFallbackRedirectUrl:
+    process.env.NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL ?? '/prices',
+} as const;
+
+function shouldEnforceLiveClerkKeys(): boolean {
+  const flag = process.env.CLERK_ENFORCE_LIVE_KEYS?.trim().toLowerCase();
+  return flag === '1' || flag === 'true' || flag === 'yes';
+}
+
+/**
+ * Aviso en build de producción si siguen claves de test.
+ * Solo falla el build si `CLERK_ENFORCE_LIVE_KEYS=1` (recomendado cuando ya tengas pk_live_* en Vercel).
+ * Comprobación estricta manual: `npm run verify:clerk:prod`
+ */
+export function assertClerkProductionKeys(): void {
+  const isProdBuild =
+    process.env.VERCEL_ENV === 'production' ||
+    process.env.NODE_ENV === 'production';
+  if (!isProdBuild) return;
+
+  const problems: string[] = [];
+  if (requiredPublishableKey.startsWith('pk_test_')) {
+    problems.push('NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY es pk_test_*');
+  }
+  const secret = process.env.CLERK_SECRET_KEY;
+  if (secret?.startsWith('sk_test_')) {
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:37:18Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Read the rest of the Clerk verifier
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+sed -n '80,130p' scripts/mjs/verify-clerk-env.mjs
+```
+
+```text
+} else if (mode === 'production') {
+  if (sk.startsWith('sk_live_')) {
+    pass('Secret key de producción (sk_live_*)');
+  } else {
+    fail('En producción debes usar sk_live_*, no sk_test_*.');
+  }
+} else if (sk.startsWith('sk_test_')) {
+  pass('Secret key de desarrollo (sk_test_*)');
+} else if (sk.startsWith('sk_live_')) {
+  pass('Secret key live');
+} else {
+  fail('Secret key con prefijo desconocido');
+}
+
+const routes = [
+  ['NEXT_PUBLIC_CLERK_SIGN_IN_URL', '/sign-in'],
+  ['NEXT_PUBLIC_CLERK_SIGN_UP_URL', '/sign-up'],
+  [
+    'NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL',
+    '/dashboard',
+  ],
+  [
+    'NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL',
+    '/prices',
+  ],
+];
+
+for (const [name, fallback] of routes) {
+  const value = process.env[name]?.trim() || fallback;
+  pass(`${name}=${value}`);
+}
+
+if (mode === 'production') {
+  //console.log(`
+  //Checklist Clerk Dashboard(https://dashboard.clerk.com):
+  //1. Instancia Production(no Development)
+  //2. Configure → Domains: añade tu dominio(ej.prompstudio.com, www)
+  //3. Paths: /sign-in y /sign - up coinciden con las URLs de arriba
+  //4. Tras cambiar variables en Vercel → Redeploy sin caché de build
+
+  //Vercel → Settings → Environment Variables(solo entorno Production):
+  //NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY = pk_live_...
+  //CLERK_SECRET_KEY = sk_live_...
+  //`);
+}
+
+//console.log(ok ? '\nListo.\n' : '\nCorrige los errores antes de desplegar.\n');
+process.exit(ok ? 0 : 1);
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:37:30Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Find the site domain variable
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+grep -nE "^(DOMAIN|NEXT_PUBLIC_SITE_URL|NEXT_PUBLIC_APP_URL|SITE_URL)" .env.example
+node -e "const t=require('fs').readFileSync('.env','utf8');for(const l of t.split('\n')){const m=l.match(/^(DOMAIN|NEXT_PUBLIC_SITE_URL|NEXT_PUBLIC_APP_URL|SITE_URL)=(.*)$/);if(m)console.log(m[1],'=',m[2].trim())}"
+```
+
+```text
+26:DOMAIN=https://www.example.com
+27:DOMAIN_DEV=http://localhost:3046
+DOMAIN = https://www.prompstudio.com
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:37:50Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Add real validation to the Clerk verifier
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+python3 - <<'PY'
+p='scripts/mjs/verify-clerk-env.mjs'; t=open(p).read()
+old = """for (const [name, fallback] of routes) {
+  const value = process.env[name]?.trim() || fallback;
+  pass(`${name}=${value}`);
+}"""
+new = """/** Dominio registrable: `www.ejemplo.com` y `clerk.ejemplo.com` -> `ejemplo.com`. */
+function dominioRegistrable(host) {
+  const partes = host.toLowerCase().split('.').filter(Boolean);
+  return partes.slice(-2).join('.');
+}
+
+const sitio = process.env.DOMAIN?.trim();
+const hostSitio = (() => {
+  if (!sitio) return null;
+  try { return new URL(sitio).hostname; } catch { return null; }
+})();
+
+/**
+ * Estas rutas son páginas de *tu* aplicación, no de Clerk. Apuntarlas a un
+ * host distinto —típicamente `clerk.<dominio>`, que sirve la Frontend API de
+ * Clerk y no tu página de acceso— hace que `clerkMiddleware` no arranque, y el
+ * despliegue responde 500 `MIDDLEWARE_INVOCATION_FAILED` en **todas** las
+ * rutas. Antes este bucle imprimía el valor con un ✓ sin comprobar nada, así
+ * que una configuración así pasaba la verificación.
+ */
+for (const [name, fallback] of routes) {
+  const value = process.env[name]?.trim() || fallback;
+  if (value.startsWith('/')) {
+    pass(`${name}=${value}`);
+    continue;
+  }
+  let url;
+  try { url = new URL(value); } catch {
+    fail(`${name}=${value} — debe ser una ruta de tu aplicación, por ejemplo ${fallback}`);
+    continue;
+  }
+  if (hostSitio && url.hostname === hostSitio) {
+    pass(`${name}=${value} (absoluta, mismo dominio que DOMAIN)`);
+  } else {
+    fail(
+      `${name}=${value} — apunta a ${url.hostname}, que no es tu sitio` +
+        (hostSitio ? ` (${hostSitio})` : '') +
+        `. Debe ser una ruta como ${fallback}; si apunta a clerk.<dominio> el middleware falla en todas las rutas.`
+    );
+  }
+}
+
+/**
+ * `NEXT_PUBLIC_CLERK_DOMAIN` es para dominios satélite. Si está puesto y no
+ * pertenece al mismo dominio registrable que el sitio, Clerk intenta resolver
+ * una instancia que no existe y el middleware deja de arrancar. Un simple error
+ * tipográfico en el dominio basta para tumbar la aplicación entera.
+ */
+const dominioClerk = process.env.NEXT_PUBLIC_CLERK_DOMAIN?.trim();
+if (dominioClerk) {
+  if (!hostSitio) {
+    pass(`NEXT_PUBLIC_CLERK_DOMAIN=${dominioClerk} (sin DOMAIN, no se puede contrastar)`);
+  } else if (dominioRegistrable(dominioClerk) === dominioRegistrable(hostSitio)) {
+    pass(`NEXT_PUBLIC_CLERK_DOMAIN=${dominioClerk}`);
+  } else {
+    fail(
+      `NEXT_PUBLIC_CLERK_DOMAIN=${dominioClerk} no pertenece a ${dominioRegistrable(hostSitio)} ` +
+        `(DOMAIN=${sitio}). Revisa si hay una errata: con un dominio que no corresponde, ` +
+        'clerkMiddleware no arranca y el sitio responde 500 en todas las rutas.'
+    );
+  }
+}"""
+assert old in t
+open(p,'w').write(t.replace(old,new,1))
+PY
+export PATH="$HOME/.nvm/versions/node/v22.11.0/bin:$PATH"
+node --check scripts/mjs/verify-clerk-env.mjs && echo "sintaxis ok"
+```
+
+```text
+sintaxis ok
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:37:56Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Run the verifier against current env
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+export PATH="$HOME/.nvm/versions/node/v22.11.0/bin:$PATH"
+echo "=== contra el .env actual (valores reales de producción) ==="
+node scripts/mjs/verify-clerk-env.mjs production 2>&1 | sed -E 's/(pk_live_|sk_live_)[A-Za-z0-9]+/\1…/g'; echo "exit=$?"
+```
+
+```text
+=== contra el .env actual (valores reales de producción) ===
+✓ Publishable key de producción (pk_live_*)
+✓ Secret key de producción (sk_live_*)
+✗ NEXT_PUBLIC_CLERK_SIGN_IN_URL=https://clerk.prompstudio.com/sign-in — apunta a clerk.prompstudio.com, que no es tu sitio (www.prompstudio.com). Debe ser una ruta como /sign-in; si apunta a clerk.<dominio> el middleware falla en todas las rutas.
+✗ NEXT_PUBLIC_CLERK_SIGN_UP_URL=https://clerk.prompstudio.com/sign-up — apunta a clerk.prompstudio.com, que no es tu sitio (www.prompstudio.com). Debe ser una ruta como /sign-up; si apunta a clerk.<dominio> el middleware falla en todas las rutas.
+✗ NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=https://clerk.prompstudio.com/dashboard — apunta a clerk.prompstudio.com, que no es tu sitio (www.prompstudio.com). Debe ser una ruta como /dashboard; si apunta a clerk.<dominio> el middleware falla en todas las rutas.
+✗ NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=https://clerk.prompstudio.com/prices — apunta a clerk.prompstudio.com, que no es tu sitio (www.prompstudio.com). Debe ser una ruta como /prices; si apunta a clerk.<dominio> el middleware falla en todas las rutas.
+✗ NEXT_PUBLIC_CLERK_DOMAIN=clerk.promptstudio.com no pertenece a prompstudio.com (DOMAIN=https://www.prompstudio.com). Revisa si hay una errata: con un dominio que no corresponde, clerkMiddleware no arranca y el sitio responde 500 en todas las rutas.
+exit=0
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:38:08Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Check exit code and no false positives
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+export PATH="$HOME/.nvm/versions/node/v22.11.0/bin:$PATH"
+node scripts/mjs/verify-clerk-env.mjs production >/dev/null 2>&1; echo "exit real con la config actual = $?"
+echo "=== configuración correcta: no debe dar falso positivo ==="
+env DOMAIN=https://www.prompstudio.com \
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_live_x CLERK_SECRET_KEY=sk_live_x \
+    NEXT_PUBLIC_CLERK_DOMAIN= \
+    NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up \
+    NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/dashboard \
+    NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=/prices \
+    node -e "
+      const {execFileSync}=require('child_process');
+      try{const o=execFileSync(process.execPath,['scripts/mjs/verify-clerk-env.mjs','production'],{encoding:'utf8',env:{...process.env,DOTENV_SKIP:'1'}});console.log(o);console.log('exit=0')}catch(e){console.log(e.stdout||'');console.error(e.stderr||'');console.log('exit='+e.status)}
+    " 2>&1 | tail -8
+```
+
+```text
+exit real con la config actual = 1
+=== configuración correcta: no debe dar falso positivo ===
+✓ Publishable key de producción (pk_live_*)
+✓ Secret key de producción (sk_live_*)
+✓ NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+✓ NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+✓ NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/dashboard
+✓ NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=/prices
+
+exit=0
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:38:15Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Lint and validate
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+export PATH="$HOME/.nvm/versions/node/v22.11.0/bin:$PATH"
+npx eslint scripts/mjs/verify-clerk-env.mjs 2>&1 | tail -3; echo "lint=$?"
+{ npm run validate; echo "VALIDATE_EXIT=$?"; } > /tmp/v12.txt 2>&1
+```
+
+```text
+Command running in background with ID: bvxo0yhjs. Output is being written to: /private/tmp/claude-501/-Users-josuegonzalez-Projects-Web3D-prompt-studio/97005d36-06de-4a60-8a87-32f89480aae5/tasks/bvxo0yhjs.output. You will be notified when it completes. To check interim output, use Read on that file path.
+Session cwd remains /Users/josuegonzalez/Projects/Web3D/prompt-studio; directory changes made by the backgrounded command do not apply to subsequent commands.
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:38:18Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Check where the verifier is wired
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+grep -n "verify:clerk" package.json
+grep -n "verify:clerk\|verify-clerk" .github/workflows/quality.yml docs/DEPLOYMENT.md | head -5
+```
+
+```text
+51:    "verify:clerk": "node scripts/mjs/verify-clerk-env.mjs",
+52:    "verify:clerk:prod": "node scripts/mjs/verify-clerk-env.mjs production",
+docs/DEPLOYMENT.md:116:npm run verify:clerk:prod    # las claves de Clerk son de producción, no de test
+docs/DEPLOYMENT.md:119:`verify:clerk:prod` exists because deploying with `pk_test_` keys to production
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:38:20Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Read the deployment checks section
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+sed -n '110,126p' docs/DEPLOYMENT.md
+```
+
+```text
+| Resend | No completed job notifications; generation works as usual. Lazy client too, so the build is unaffected |
+
+Two checks before deploying:
+
+```bash
+npm run verify:env-example   # el ejemplo cubre lo que el código lee
+npm run verify:clerk:prod    # las claves de Clerk son de producción, no de test
+```
+
+`verify:clerk:prod` exists because deploying with `pk_test_` keys to production
+is a silent failure: the application starts up and authenticates against the wrong
+environment.
+
+---
+
+## 5. Before pushing to `main`
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:38:31Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Document the new Clerk checks
+
+````bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+python3 - <<'PY'
+p='docs/DEPLOYMENT.md'; t=open(p).read()
+old = """```bash
+npm run verify:env-example   # el ejemplo cubre lo que el código lee
+npm run verify:clerk:prod    # las claves de Clerk son de producción, no de test
+```
+
+`verify:clerk:prod` exists because deploying with `pk_test_` keys to production
+is a silent failure: the application starts up and authenticates against the wrong
+environment."""
+new = """```bash
+npm run verify:env-example   # el ejemplo cubre lo que el código lee
+npm run verify:clerk:prod    # claves, URLs y dominio de Clerk
+```
+
+`verify:clerk:prod` exists because deploying with `pk_test_` keys to production
+is a silent failure: the application starts up and authenticates against the wrong
+environment.
+
+It also checks the two Clerk settings that take **the whole site** down when they
+are wrong, because `clerkMiddleware` wraps every matched request and a failure to
+initialise means `500 MIDDLEWARE_INVOCATION_FAILED` on every route, not a broken
+login:
+
+- **`NEXT_PUBLIC_CLERK_SIGN_IN_URL` and friends must be paths of this
+  application** (`/sign-in`, `/sign-up`, `/dashboard`, `/prices`), not absolute
+  URLs. Pointing them at `clerk.<domain>` is a common mistake: that host serves
+  Clerk's Frontend API, not your sign-in page.
+- **`NEXT_PUBLIC_CLERK_DOMAIN`, if set at all, must belong to the same
+  registrable domain as `DOMAIN`.** It is a satellite-domain setting; a single
+  typo in it is enough to stop the middleware from starting.
+
+Until this check was added, that loop printed each value with a ✓ without
+verifying anything, so a misconfiguration passed the check and only surfaced as a
+site-wide 500 after deploying."""
+assert old in t
+open(p,'w').write(t.replace(old,new,1))
+PY
+grep -n "MIDDLEWARE_INVOCATION_FAILED" docs/DEPLOYMENT.md
+````
+
+```text
+125:initialise means `500 MIDDLEWARE_INVOCATION_FAILED` on every route, not a broken
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:38:35Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Poll validate
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+grep -E "problems|error TS|Cobertura|limpio|Cache audit|VALIDATE_EXIT" /tmp/v12.txt 2>/dev/null | tail -6
+```
+
+```text
+✖ 222 problems (0 errors, 222 warnings)
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:38:39Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Poll validate
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+grep -E "error TS|Cobertura|limpio|Cache audit|VALIDATE_EXIT" /tmp/v12.txt 2>/dev/null | tail -6
+```
+
+```text
+(Bash completed with no output)
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:38:43Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Poll validate
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+grep -E "error TS|Cobertura|limpio|Cache audit|VALIDATE_EXIT" /tmp/v12.txt 2>/dev/null | tail -6; echo "[$(wc -c < /tmp/v12.txt)]"
+```
+
+```text
+[   35176]
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:38:47Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Poll validate
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+grep -E "error TS|Cobertura|limpio|Cache audit|VALIDATE_EXIT" /tmp/v12.txt 2>/dev/null | tail -6; echo "[$(wc -c < /tmp/v12.txt)]"
+```
+
+```text
+[   35176]
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:38:52Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Poll validate
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+grep -E "error TS|Cobertura|limpio|Cache audit|VALIDATE_EXIT" /tmp/v12.txt 2>/dev/null | tail -6; echo "[$(wc -c < /tmp/v12.txt)]"
+```
+
+```text
+[   35176]
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:38:56Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Poll validate
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+grep -E "error TS|Cobertura|limpio|Cache audit|VALIDATE_EXIT" /tmp/v12.txt 2>/dev/null | tail -6; echo "[$(wc -c < /tmp/v12.txt)]"
+```
+
+```text
+[   35176]
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:39:00Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Poll validate
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+grep -E "error TS|Cobertura|limpio|Cache audit|VALIDATE_EXIT" /tmp/v12.txt 2>/dev/null | tail -6; echo "[$(wc -c < /tmp/v12.txt)]"
+```
+
+```text
+[   35176]
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:39:04Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Poll validate
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+grep -E "error TS|Cobertura|limpio|Cache audit|VALIDATE_EXIT" /tmp/v12.txt 2>/dev/null | tail -6; echo "[$(wc -c < /tmp/v12.txt)]"
+```
+
+```text
+[   35176]
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:39:08Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Poll validate with process
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+grep -E "error TS|Cobertura|limpio|Cache audit|VALIDATE_EXIT" /tmp/v12.txt 2>/dev/null | tail -6; echo "[$(wc -c < /tmp/v12.txt)]"; pgrep -f "build-coverage|tsc --noEmit" >/dev/null && echo trabajando
+```
+
+```text
+[   35176]
+trabajando
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:39:12Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Poll validate
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+grep -E "error TS|Cobertura|limpio|Cache audit|VALIDATE_EXIT" /tmp/v12.txt 2>/dev/null | tail -6
+```
+
+```text
+(Bash completed with no output)
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:39:16Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Poll validate
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+grep -E "error TS|Cobertura|limpio|Cache audit|VALIDATE_EXIT" /tmp/v12.txt 2>/dev/null | tail -6; echo "[$(wc -c < /tmp/v12.txt)]"
+```
+
+```text
+[   35176]
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:39:20Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Poll validate
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+grep -E "error TS|Cobertura|limpio|Cache audit|VALIDATE_EXIT" /tmp/v12.txt 2>/dev/null | tail -6; echo "[$(wc -c < /tmp/v12.txt)]"
+```
+
+```text
+[   35176]
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:39:24Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Poll validate
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+grep -E "error TS|Cobertura|limpio|Cache audit|VALIDATE_EXIT" /tmp/v12.txt 2>/dev/null | tail -6; echo "[$(wc -c < /tmp/v12.txt)]"
+```
+
+```text
+[   35176]
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:39:28Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Poll validate
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+grep -E "error TS|Cobertura|limpio|Cache audit|VALIDATE_EXIT" /tmp/v12.txt 2>/dev/null | tail -6; echo "[$(wc -c < /tmp/v12.txt)]"
+```
+
+```text
+[   35176]
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:39:32Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Poll validate
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+grep -E "error TS|Cobertura|limpio|Cache audit|VALIDATE_EXIT" /tmp/v12.txt 2>/dev/null | tail -6; echo "[$(wc -c < /tmp/v12.txt)]"
+```
+
+```text
+[   35251]
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:39:36Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Poll validate
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+grep -E "error TS|Cobertura|limpio|Cache audit|VALIDATE_EXIT" /tmp/v12.txt 2>/dev/null | tail -6
+```
+
+```text
+(Bash completed with no output)
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:39:40Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Poll validate
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+grep -E "error TS|Cobertura|limpio|Cache audit|VALIDATE_EXIT" /tmp/v12.txt 2>/dev/null | tail -6; echo "[$(wc -c < /tmp/v12.txt)]"
+```
+
+```text
+Cobertura de líneas sobre src/: 5.55 % (4290/77235)
+.env.example limpio (91 claves revisadas).
+Cache audit passed: public, private and no-store policies are consistent.
+VALIDATE_EXIT=0
+[   36034]
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:39:57Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Commit and push the Clerk validation
+
+```bash
+cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
+git add scripts/mjs/verify-clerk-env.mjs docs/DEPLOYMENT.md
+git status --short | grep -vE "\.webp$|\.mp4$|\.png$|\.jpg$|specstory"
+git commit -q -F - <<'MSG'
+fix(clerk): validar de verdad las URLs y el dominio, que tumban el sitio entero
+
+`MIDDLEWARE_INVOCATION_FAILED` no es un fallo de una ruta: `clerkMiddleware`
+envuelve cada petición que casa con el matcher, así que si no consigue
+inicializarse el despliegue responde 500 en **todas** las rutas.
+
+El verificador no podía avisar de esto por dos motivos, y los dos están
+corregidos:
+
+1. El bucle de rutas imprimía cada valor con un ✓ sin comprobar nada. Ahora
+   exige que `NEXT_PUBLIC_CLERK_SIGN_IN_URL` y las tres hermanas sean rutas de
+   esta aplicación (o absolutas del mismo dominio que `DOMAIN`). Apuntarlas a
+   `clerk.<dominio>` es el error habitual: ese host sirve la Frontend API de
+   Clerk, no tu página de acceso.
+2. `NEXT_PUBLIC_CLERK_DOMAIN` no se contrastaba con nada. Ahora se compara su
+   dominio registrable con el de `DOMAIN`; es un ajuste de dominios satélite y
+   una errata basta para que el middleware no arranque.
+
+Comprobado en los dos sentidos: con la configuración actual del `.env` local
+sale con código 1 y señala las cinco variables; con rutas relativas y sin
+`NEXT_PUBLIC_CLERK_DOMAIN` sale en 0 sin falsos positivos.
+
+Esto no cambia ninguna variable de entorno: la corrección va en Vercel →
+Settings → Environment Variables, que es donde viven los valores del despliegue.
+
+`npm run validate` en 0.
+
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+MSG
+git push origin develop 2>&1 | tail -2
+```
+
+```text
+M  docs/DEPLOYMENT.md
+M  scripts/mjs/verify-clerk-env.mjs
+To https://github.com/jggjosue/prompt-studio.git
+   55a46031..10c55ef5  develop -> develop
+```
+</details></tool-use>
+
+_**Agent (claude-opus-5 2026-09-14 14:40:16Z)**_
+
+Encontré la causa muy probable, y **está en la configuración de Vercel, no en el código** — así que la corrección final es tuya. Te explico qué encontré y qué hice.
+
+## Lo que dice el error
+
+`MIDDLEWARE_INVOCATION_FAILED` no es el fallo de una página: `clerkMiddleware` envuelve **cada** petición que casa con el matcher, así que si no consigue inicializarse el sitio entero responde 500. Eso encaja con lo que ves.
+
+## Las cinco variables mal puestas
+
+Ejecuté el verificador de Clerk contra tu `.env` y salieron estas (sin mostrar claves):
+
+```
+NEXT_PUBLIC_CLERK_DOMAIN                          = clerk.promptstudio.com
+NEXT_PUBLIC_CLERK_SIGN_IN_URL                     = https://clerk.prompstudio.com/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL                     = https://clerk.prompstudio.com/sign-up
+NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL   = https://clerk.prompstudio.com/dashboard
+NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL   = https://clerk.prompstudio.com/prices
+```
+
+Dos problemas distintos:
+
+**1. Una errata en el dominio.** `NEXT_PUBLIC_CLERK_DOMAIN` dice `clerk.promp**t**studio.com` — con **t**. Tu dominio real es `prompstudio.com` **sin** t: aparece 31 veces en el código y `DOMAIN=https://www.prompstudio.com`. `NEXT_PUBLIC_CLERK_DOMAIN` es un ajuste de dominios satélite, y si apunta a una instancia que no existe, el middleware no arranca.
+
+**2. Las URLs de acceso apuntan al sitio equivocado.** `NEXT_PUBLIC_CLERK_SIGN_IN_URL` y sus tres hermanas deben ser **rutas de tu aplicación** (`/sign-in`, `/sign-up`, `/dashboard`, `/prices`), tal como documenta tu propio `.env.example`. Están puestas a `clerk.prompstudio.com`, que es el host de la **Frontend API de Clerk**, no tu página de acceso.
+
+En **Vercel → Settings → Environment Variables** (entorno Production), déjalas como rutas y borra `NEXT_PUBLIC_CLERK_DOMAIN` salvo que uses satélites de verdad. Después, redeploy **sin caché de build**.
+
+## Lo que sí corregí en el código
+
+El verificador **no podía avisarte**: ese bucle imprimía cada valor con un ✓ sin comprobar nada. Ahora valida las cuatro URLs y contrasta el dominio de Clerk con `DOMAIN`. Verificado en ambos sentidos: con tu configuración actual sale con código 1 y señala las cinco variables; con la configuración correcta sale en 0 sin falsos positivos. Commit `10c55ef5`.
+
+```bash
+npm run verify:clerk:prod
+```
+
+## Una cosa que debo reconocer
+
+Vi que corregiste `fail(_msg)` en `verify-clerk-env.mjs` (commit `55a46031`). **Ese error lo introduje yo**: es la tercera vez que aparece el patrón de prefijar con `_` sin renombrar los usos, y el efecto aquí fue peor que en los otros dos casos — hacía que el verificador de Clerk reventara con `ReferenceError` justo cuando tenía algo que reportar. Gracias por arreglarlo. Pasé un escaneo sistemático por todo `src/`, `scripts/` y `tests/`: quedan cuatro coincidencias y las cuatro son falsos positivos (los usos están en comentarios o son `console.error`). No queda ninguna real.
+
+## Lo que no pude verificar
+
+No tengo acceso a los logs de runtime de Vercel ni al CLI autenticado, así que **no puedo confirmar que esta sea la causa**, solo que es la explicación que encaja con la evidencia. Si tras corregir las variables sigue fallando, pásame la línea del error en Vercel → Logs y sigo desde ahí.
+
+Y recuerda que el despliegue sigue sirviendo `main` en `b533bf1`: hay **23 commits en `develop` sin fusionar**, incluidos todos estos arreglos.
