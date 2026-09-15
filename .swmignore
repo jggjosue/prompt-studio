@@ -1,0 +1,30 @@
+# Swimm Documentation Reach & Coverage Ignore
+# Files and directories listed here are excluded from Swimm documentation reach metrics,
+# preventing test artifacts, temporary scripts, and generated assets from polluting the denominator.
+
+# Automated test suites, traces and coverage artifacts
+tests/
+test-results/
+coverage/
+
+# Repository automation, build scripts and tooling
+scripts/
+
+# Framework build output and compiler cache
+.next/
+build/
+dist/
+out/
+*.tsbuildinfo
+next-env.d.ts
+
+# Large static assets, catalog dumps and webpage templates
+public/webpages/
+src/data/
+data/
+
+# Temporary logs, lint output and scratch files
+*.log
+*.txt
+*.br
+*.gz
