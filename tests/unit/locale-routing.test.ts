@@ -52,6 +52,7 @@ test('sin ninguna señal cae al idioma por defecto', () => {
 
 test('una cookie con valor inválido se ignora en vez de romper', () => {
   assert.equal(localeFromCookieHeader('locale=klingon'), null);
+  assert.equal(localeFromCookieHeader('locale=%E0%A4%A'), null, 'un escape inválido no debe tumbar el middleware');
   assert.equal(localeFromCookieHeader(null), null);
   assert.equal(localeFromCookieHeader('otra=cosa; locale=es; mas=1'), 'es');
   // Un idioma inexistente no debe colarse: se sigue detectando por lo demás.
