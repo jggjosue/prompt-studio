@@ -34,13 +34,13 @@ flowchart TD
 
 | Layer | Files | Responsibility |
 |---|---|---|
-| **Middleware** (`src/proxy.ts`) | 1 | Language, canonical redirects, security headers, catalog source protection |
-| **Pages** (`src/app/[locale]`) | 91 routes | Interface composition; server by default, client only where there is interaction |
-| **API** (`src/app/api`) | 105 routes | Authorization, input validation, and orchestration |
-| **Components** (`src/components`) | 156 | Reusable interface, without data access |
-| **Logic** (`src/lib`) | 155 | Pure business rules, without React or Mongo |
-| **Models** (`src/models`) | 45 | Mongoose schemas and their indexes |
-| **Catalog** (`src/data`) | 15 JSON | Versioned product; intentionally outside of `public/` |
+| **Middleware** ([`src/proxy.ts`](../src/proxy.ts)) | 1 | Language, canonical redirects, security headers, catalog source protection |
+| **Pages** ([`src/app/[locale]`](../src/app/[locale])) | 91 routes | Interface composition; server by default, client only where there is interaction |
+| **API** ([`src/app/api`](../src/app/api)) | 105 routes | Authorization, input validation, and orchestration |
+| **Components** ([`src/components`](../src/components)) | 156 | Reusable interface, without data access |
+| **Logic** ([`src/lib`](../src/lib)) | 155 | Pure business rules, without React or Mongo |
+| **Models** ([`src/models`](../src/models)) | 45 | Mongoose schemas and their indexes |
+| **Catalog** ([`src/data`](../src/data)) | 15 JSON | Versioned product; intentionally outside of `public/` |
 
 ---
 
@@ -100,14 +100,14 @@ flowchart LR
 
 | Mechanism | Routes | Where it lives |
 |---|---|---|
-| User session | 60 | `auth()` from Clerk |
-| IP limit | 34 | `src/lib/rate-limit.ts` |
-| Subscription plan | 12 | `src/lib/server-subscription-status.ts` |
-| Administrator | 9 | `src/lib/admin-auth.ts`, `marketplace-admin.ts`, `cache-admin-auth.ts` |
-| Cron secret | 6 | `src/lib/api-auth.ts` |
+| User session | 60 | `auth()` from Clerk ([`src/proxy.ts`](../src/proxy.ts)) |
+| IP limit | 34 | [`src/lib/rate-limit.ts`](../src/lib/rate-limit.ts) |
+| Subscription plan | 12 | [`src/lib/server-subscription-status.ts`](../src/lib/server-subscription-status.ts) |
+| Administrator | 9 | [`src/lib/admin-auth.ts`](../src/lib/admin-auth.ts), [`src/lib/marketplace-admin.ts`](../src/lib/marketplace-admin.ts), [`src/lib/cache-admin-auth.ts`](../src/lib/cache-admin-auth.ts) |
+| Cron secret | 6 | [`src/lib/api-auth.ts`](../src/lib/api-auth.ts) |
 | Webhook signature | 2 | Stripe `constructEvent`, Clerk `svix` |
 | Worker token | 1 | `AI_GENERATION_WORKER_TOKEN` |
-| Disabled (501) | 2 | `api/like`, `api/seed` |
+| Disabled (501) | 2 | [`src/app/api/like/route.ts`](../src/app/api/like/route.ts), [`src/app/api/seed/route.ts`](../src/app/api/seed/route.ts) |
 
 **The problem this created**: with eight mechanisms spread across 105 files, knowing if a route was protected required opening and reading it. This already cost two bugs: two routes under `/api/admin` had the admin check **copied inline** instead of using the helper, and `/api/affiliate/applications` accepted anonymous writes **without IP limits**.
 
@@ -209,7 +209,7 @@ flowchart LR
     DONE --> OC[OutputContract validates output]
 ```
 
-Five provider families behind **a single interface** (`src/lib/generation/provider-adapters.ts`). What makes this registry useful is not unifying calls, but that the rest of the system —credits, retries, evaluation— doesn't need to know which provider responded.
+Five provider families behind **a single interface** ([`src/lib/generation/provider-adapters.ts`](../src/lib/generation/provider-adapters.ts)). What makes this registry useful is not unifying calls, but that the rest of the system —credits, retries, evaluation— doesn't need to know which provider responded.
 
 Includes a **deterministic testing mode**: with `NEXT_PUBLIC_E2E_TEST_MODE`, a prompt containing `[fail-once]` forces a provider failure the first time. Used to test the error path, which is usually untested.
 
@@ -218,6 +218,13 @@ Includes a **deterministic testing mode**: with `NEXT_PUBLIC_E2E_TEST_MODE`, a p
 ## 6. Visual editor
 
 The editor does not share the application's React state: it has its own document, its own history, and its own component registry.
+
+Core implementation:
+- Registry: [`src/lib/editor/registry.ts`](../src/lib/editor/registry.ts) (40 types and nesting rules)
+- Document Tree: [`src/lib/editor/document.ts`](../src/lib/editor/document.ts) (normalized tree)
+- Reactive Store: [`src/lib/editor/store.ts`](../src/lib/editor/store.ts) (6 state slices)
+- Reversible Commands: [`src/lib/editor/history.ts`](../src/lib/editor/history.ts) (undo / redo stack)
+- Editor UI: [`src/components/editor/`](../src/components)
 
 ```mermaid
 flowchart TB
