@@ -58,3 +58,33 @@ The operational playbooks connect cross-cutting flows to their implementation, i
 * [Data and Persistence](playbooks/DATA_PERSISTENCE.md)
 * [Visual Editor and UI Components](playbooks/VISUAL_EDITOR.md)
 * [Stripe Payments and Subscriptions](playbooks/STRIPE_PAYMENTS.md)
+
+## 5. IDE and Pull Request Automation (Phase 4)
+
+### Install the IDE extension
+
+The workspace recommends the official VS Code extension, `Swimm.swimm`, through
+[`.vscode/extensions.json`](../.vscode/extensions.json). In VS Code, open the
+Extensions view, search for **Swimm**, install it, and reload the workspace. If
+the `code` command is installed, the equivalent command is:
+
+```bash
+code --install-extension Swimm.swimm
+```
+
+After signing in to the Swimm workspace for this repository, confirm that the
+exclusions in [`.swmignore`](../.swmignore) are also configured for the target
+branch. Swimm remains the authority for the actual Documentation Reach score.
+
+### Informational PR check
+
+[`.github/workflows/documentation-reach.yml`](../.github/workflows/documentation-reach.yml)
+adds a passing, non-blocking **Documentation Reach (informational)** check to
+non-draft pull requests. It reports whether files in the documentation-reach
+source scope changed alongside linked documentation or reach configuration.
+
+The companion checklist in
+[`.github/pull_request_template.md`](../.github/pull_request_template.md)
+requires authors to review the relevant documentation and workflow report. The
+check intentionally does not enforce a numerical threshold until Swimm has a
+stable baseline; the next enforcement target is **Tier B (≥40%)**.

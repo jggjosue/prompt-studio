@@ -1,0 +1,54 @@
+name: Documentation Reach
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+# Informational while Swimm establishes a meaningful baseline; never blocks a merge.
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  report:
+    name: Documentation Reach (informational)
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+    steps:
+      - name: Summarize documentation coupling
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const files = await github.paginate(github.rest.pulls.listFiles, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+              per_page: 100,
+            });
+            const names = files.map(file => file.filename);
+            const code = names.filter(name => name.startsWith('src/') && !name.startsWith('src/data/'));
+            const docs = names.filter(name =>
+              name.startsWith('docs/') ||
+              name === 'README.md' ||
+              name === 'CONTRIBUTING.md' ||
+              name === '.swmignore'
+            );
+            const rows = [
+              [{ data: 'Source files in Documentation Reach scope', header: true }, String(code.length)],
+              [{ data: 'Documentation or reach-configuration files', header: true }, String(docs.length)],
+              [{ data: 'Swimm status', header: true }, 'Informational — target after baseline: Tier B (≥40%)'],
+            ];
+
+            await core.summary
+              .addHeading('Documentation Reach', 2)
+              .addRaw('This check reports documentation coupling only; it does not block this pull request. Swimm remains the authoritative reach measurement.')
+              .addTable(rows)
+              .write();
+
+            if (code.length && !docs.length) {
+              core.notice('Source files changed without documentation or reach-configuration changes. Review the Documentation Reach section of the PR template.');
+            } else if (code.length && docs.length) {
+              core.notice('Source and documentation changes were detected together. Confirm the changed source is covered by the linked documentation.');
+            } else {
+              core.notice('No source changes in Documentation Reach scope were detected.');
+            }
