@@ -48,3 +48,13 @@ Existing architectural documents in [docs/](.) are coupled directly to source fi
 * [docs/DATABASE.md](DATABASE.md) &rarr; [`src/models/`](../src/models/), [`src/lib/mongoose.ts`](../src/lib/mongoose.ts)
 * [docs/API_ACCESS.md](API_ACCESS.md) &rarr; [`src/app/api/`](../src/app/api/)
 * [docs/CODEBASE_MAP.md](CODEBASE_MAP.md) &rarr; Full source tree catalog
+
+## 4. High-Impact Playbooks (Phase 3)
+
+The operational playbooks connect cross-cutting flows to their implementation, invariants, failure modes, and verification commands:
+
+* [Authentication, Middleware, and Proxy](playbooks/AUTHENTICATION.md)
+* [AI Generation and Genkit](playbooks/AI_GENERATION.md)
+* [Data and Persistence](playbooks/DATA_PERSISTENCE.md)
+* [Visual Editor and UI Components](playbooks/VISUAL_EDITOR.md)
+* [Stripe Payments and Subscriptions](playbooks/STRIPE_PAYMENTS.md)
