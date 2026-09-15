@@ -29,8 +29,15 @@ export function localeFromCookieHeader(cookieHeader: string | null): Locale | nu
   for (const part of cookieHeader.split(';')) {
     const [name, ...rest] = part.trim().split('=');
     if (name === LOCALE_COOKIE) {
-      const value = decodeURIComponent(rest.join('='));
-      return isLocale(value) ? value : null;
+      // Una cookie puede llegar truncada o con escapes inválidos. El detector
+      // corre dentro del middleware: dejar que `decodeURIComponent` lance aquí
+      // convierte una preferencia de idioma rota en un 500 para toda la página.
+      try {
+        const value = decodeURIComponent(rest.join('='));
+        return isLocale(value) ? value : null;
+      } catch {
+        return null;
+      }
     }
   }
   return null;
