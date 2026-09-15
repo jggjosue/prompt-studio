@@ -1,0 +1,37 @@
+{
+  "id": "170",
+  "title": {
+    "en": "Affiliate Program Landing Page",
+    "es": "Landing Page para Programa de Afiliados"
+  },
+  "description": {
+    "es": {
+      "nombre": "Programa de Afiliados",
+      "prompt": "Creta para convertir afiliados.",
+      "estilo": "Landing page premium, moderna e inmersiva con elementos 3D y animaciones."
+    },
+    "en": {
+      "name": "Affiliate Program",
+      "prompt": "Created to convert affiliates."
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "Premium 3D affiliate program landing page in dark blue and cyan",
+    "es": "Landing page 3D premium para programa de afiliados en azul oscuro y cian"
+  },
+  "demoUrl": "",
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "tags": [
+    "affiliate",
+    "commission",
+    "program",
+    "marketing landing page"
+  ],
+  "membership": "Premium",
+  "price": "15.00"
+}

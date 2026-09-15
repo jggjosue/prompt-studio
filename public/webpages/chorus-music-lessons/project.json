@@ -1,0 +1,37 @@
+{
+  "id": "170",
+  "title": {
+    "en": "Chorus — Interactive 3D Music Lessons",
+    "es": "Chorus — Clases de música interactivas en 3D"
+  },
+  "description": {
+    "es": {
+      "nombre": "Chorus Music Lessons",
+      "prompt": "Landing page inmersiva para una plataforma de clases de música online, con piano 3D interactivo, teclas con sonido, animaciones al hacer scroll, catálogo de instrumentos y llamadas a la acción para reservar una clase gratuita.",
+      "estilo": "Editorial, alegre y moderno, con estética 3D, tipografía expresiva y una paleta de azul celeste, azul intenso, amarillo y coral."
+    },
+    "en": {
+      "name": "Chorus Music Lessons",
+      "prompt": "An immersive landing page for an online music lesson platform, featuring an interactive 3D piano with playable keys, scroll animations, an instrument catalog, and conversion-focused calls to action for booking a free trial lesson."
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "Bright editorial music lesson landing page with a blue 3D grand piano, floating musical notes, yellow and coral accents",
+    "es": "Landing page editorial y luminosa de clases de música con piano de cola 3D azul, notas musicales flotantes y acentos amarillos y coral"
+  },
+  "demoUrl": "https://chorus.music/",
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "tags": [
+    "music lessons",
+    "interactive 3D",
+    "education",
+    "animated landing page"
+  ],
+  "membership": "Premium",
+  "price": "15.00"
+}

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#062f5b"/><stop offset="1" stop-color="#0a66c2"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="22" stdDeviation="24" flood-opacity=".22"/></filter>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="1050" cy="80" r="280" fill="none" stroke="#ffffff" stroke-opacity=".12" stroke-width="2"/>
+  <circle cx="1080" cy="110" r="190" fill="#b9f227" fill-opacity=".12"/>
+  <rect x="76" y="70" width="58" height="58" rx="12" fill="#fff"/>
+  <text x="105" y="110" text-anchor="middle" fill="#0a66c2" font-family="Arial,sans-serif" font-size="30" font-weight="700">in</text>
+  <text x="150" y="109" fill="#fff" font-family="Arial,sans-serif" font-size="30" font-weight="700">influence</text>
+  <text x="76" y="240" fill="#fff" font-family="Arial,sans-serif" font-size="66" font-weight="700">Tu influencia tiene valor.</text>
+  <text x="76" y="318" fill="#9bd5ff" font-family="Arial,sans-serif" font-size="66" font-weight="700">Hazla crecer.</text>
+  <text x="80" y="380" fill="#d7eaff" font-family="Arial,sans-serif" font-size="23">Gana hasta un 30% en comisiones recurrentes.</text>
+  <g filter="url(#shadow)">
+    <rect x="760" y="210" width="340" height="280" rx="24" fill="#fff"/>
+    <rect x="788" y="244" width="64" height="64" rx="15" fill="#dcefff"/>
+    <text x="820" y="286" text-anchor="middle" fill="#0a66c2" font-family="Arial,sans-serif" font-size="20" font-weight="700">LM</text>
+    <text x="875" y="268" fill="#10202e" font-family="Arial,sans-serif" font-size="20" font-weight="700">Lucía Mendoza</text>
+    <text x="875" y="296" fill="#667583" font-family="Arial,sans-serif" font-size="14">Afiliada Platinum</text>
+    <line x1="788" y1="335" x2="1072" y2="335" stroke="#dce4e9"/>
+    <text x="805" y="390" fill="#10202e" font-family="Arial,sans-serif" font-size="30" font-weight="700">€4.8K</text>
+    <text x="805" y="418" fill="#667583" font-family="Arial,sans-serif" font-size="13">ESTE MES</text>
+    <rect x="930" y="370" width="120" height="44" rx="22" fill="#b9f227"/>
+    <text x="990" y="398" text-anchor="middle" fill="#10202e" font-family="Arial,sans-serif" font-size="15" font-weight="700">+42% ↗</text>
+  </g>
+</svg>

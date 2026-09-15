@@ -1,0 +1,37 @@
+{
+  "id": "170",
+  "title": {
+    "en": "Meetpoint — Community Meetups",
+    "es": "Meetpoint — Encuentros de comunidad"
+  },
+  "description": {
+    "es": {
+      "nombre": "Meetpoint — Encuentros de comunidad",
+      "prompt": "Landing page 3D para descubrir encuentros locales, conectar comunidades y promover eventos creativos mediante una experiencia visual interactiva.",
+      "estilo": "Diseño editorial oscuro con estética futurista, colores naranja eléctrico, violeta y verde lima, objetos 3D, tarjetas con efecto tilt y animaciones fluidas."
+    },
+    "en": {
+      "name": "Meetpoint — Community Meetups",
+      "prompt": "A 3D landing page for discovering local meetups, connecting communities, and promoting creative events through an interactive visual experience."
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "Dark community meetups landing page with an orange 3D globe, orbiting avatars, event cards, and lime green accents",
+    "es": "Landing page oscura de encuentros comunitarios con un globo 3D naranja, avatares en órbita, tarjetas de eventos y acentos verde lima"
+  },
+  "demoUrl": "https://www.prompstudio.com/webpages/meetpoint-community-meetups/",
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "tags": [
+    "community",
+    "meetups",
+    "events",
+    "3D landing page"
+  ],
+  "membership": "Premium",
+  "price": "15.00"
+}

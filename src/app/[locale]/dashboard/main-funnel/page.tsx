@@ -1,0 +1,1 @@
+import type{Metadata}from'next';import{MainFunnelClient}from'./main-funnel-client';export const metadata:Metadata={title:'Embudo principal | Prompt Studio'};export default function Page(){return <MainFunnelClient/>}

@@ -1,5 +1,3 @@
-"use client";
-
 import { cn } from "@/lib/utils";
 import { Sparkles } from "lucide-react";
 
@@ -19,7 +17,7 @@ function DisplayCard({
   title = "Featured",
   description = "Discover amazing content",
   date = "Just now",
-  iconClassName = "text-blue-500",
+  iconClassName: _iconClassName = "text-blue-500",
   titleClassName = "text-blue-500",
 }: DisplayCardProps) {
   return (

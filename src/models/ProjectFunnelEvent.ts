@@ -1,0 +1,4 @@
+import mongoose,{Schema}from'mongoose';
+export type FunnelStage='project_created'|'brief_completed'|'first_generation'|'result_approved'|'publication'|'repurchase';
+const ProjectFunnelEventSchema=new Schema({userId:{type:String,required:true,index:true},projectId:{type:String,required:true,index:true},stage:{type:String,enum:['project_created','brief_completed','first_generation','result_approved','publication','repurchase'],required:true,index:true},occurredAt:{type:Date,required:true,index:true},sourceId:{type:String,default:null},costUsd:{type:Number,default:null,min:0},credits:{type:Number,default:null,min:0},createdAt:{type:Date,default:Date.now}},{versionKey:false});
+ProjectFunnelEventSchema.index({projectId:1,stage:1},{unique:true});export default mongoose.models.ProjectFunnelEvent||mongoose.model('ProjectFunnelEvent',ProjectFunnelEventSchema,'project_funnel_events');

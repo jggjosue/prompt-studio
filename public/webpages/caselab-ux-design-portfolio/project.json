@@ -1,0 +1,38 @@
+{
+  "id": "170",
+  "title": {
+    "en": "CaseLab — 3D UX Design Portfolio",
+    "es": "CaseLab — Portafolio 3D de diseño UX"
+  },
+  "description": {
+    "es": {
+      "nombre": "Portafolio 3D de diseño UX",
+      "prompt": "Crea un portafolio premium para un diseñador de producto UX/UI, con proyectos destacados, proceso de trabajo y una presentación 3D interactiva. Usa una paleta en negro, blanco cálido, verde lima y violeta, con animaciones fluidas, profundidad, efectos de perspectiva y diseño responsive.",
+      "estilo": "Editorial contemporáneo, minimalista, tridimensional e interactivo"
+    },
+    "en": {
+      "name": "3D UX Design Portfolio",
+      "prompt": "Create a premium portfolio for a UX/UI product designer, featuring selected projects, the design process, and an interactive 3D presentation. Use a black, warm white, lime green, and violet palette with fluid animations, depth, perspective effects, and responsive design."
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "Interactive 3D UX designer portfolio with a floating finance app interface, lime green and violet accents",
+    "es": "Portafolio interactivo 3D de diseño UX con una interfaz financiera flotante y acentos verde lima y violeta"
+  },
+  "demoUrl": "webpages_caselab-ux-design-portfolio_index.html",
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "tags": [
+    "ux portfolio",
+    "product design",
+    "3d interaction",
+    "design systems",
+    "animated landing page"
+  ],
+  "membership": "Premium",
+  "price": "15.00"
+}

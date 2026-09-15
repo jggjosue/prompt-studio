@@ -1,0 +1,1 @@
+import type{Metadata}from'next';import{ModelRegressionsClient}from'./model-regressions-client';export const metadata:Metadata={title:'Regresión de modelos | Prompt Studio'};export default function Page(){return <ModelRegressionsClient/>}

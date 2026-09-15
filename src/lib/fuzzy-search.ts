@@ -123,12 +123,6 @@ export function fuzzySubstring(haystack: string, needle: string, maxDistance?: n
   return false;
 }
 
-function tokenFuzzyMatch(a: string, b: string, maxDistance?: number): boolean {
-  if (a === b || a.includes(b) || b.includes(a)) return true;
-  const limit = maxDistance ?? getAdaptiveMaxDistance(a.length <= b.length ? a : b);
-  return levenshteinDistance(a, b, limit) <= limit;
-}
-
 /**
  * ¿La consulta coincide de forma difusa con el candidato (texto completo)?
  */

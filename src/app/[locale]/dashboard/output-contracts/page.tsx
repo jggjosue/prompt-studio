@@ -1,0 +1,1 @@
+import type{Metadata}from'next';import{OutputContractsClient}from'./output-contracts-client';export const metadata:Metadata={title:'Contratos de salida | Prompt Studio'};export default function Page(){return <OutputContractsClient/>}

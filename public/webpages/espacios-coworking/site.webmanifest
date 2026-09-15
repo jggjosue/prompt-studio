@@ -1,0 +1,19 @@
+{
+  "name": "Coworkly — Espacios de coworking",
+  "short_name": "Coworkly",
+  "description": "Reserva escritorios, salas y oficinas de coworking por hora o día.",
+  "lang": "es-MX",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAFAF9",
+  "theme_color": "#4F46E5",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
+

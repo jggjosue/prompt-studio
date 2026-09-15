@@ -2,9 +2,10 @@ import { stripe, extractSubscriptionMeta } from '@/lib/stripe';
 import type { StripeUserMetadata } from '@/lib/stripe';
 import { auth, clerkClient } from '@clerk/nextjs/server';
 import type Stripe from 'stripe';
+import { planAtLeast } from '@/lib/subscription-plans';
 
 export type ServerSubscriptionStatus = {
-  plan: 'free' | 'premium' | 'startup';
+  plan: 'free' | 'premium' | 'pro' | 'startup';
   status: StripeUserMetadata['stripeStatus'] | null;
   currentPeriodEnd: number | null;
   billingCycle: 'monthly' | 'annual' | null;
@@ -21,6 +22,14 @@ const FREE: ServerSubscriptionStatus = {
 
 const DEV_PREMIUM: ServerSubscriptionStatus = {
   plan: 'premium',
+  status: 'active',
+  currentPeriodEnd: null,
+  billingCycle: 'monthly',
+  purchasedPages: [],
+};
+
+const DEV_PRO: ServerSubscriptionStatus = {
+  plan: 'pro',
   status: 'active',
   currentPeriodEnd: null,
   billingCycle: 'monthly',
@@ -71,7 +80,12 @@ export async function getServerSubscriptionStatus(): Promise<ServerSubscriptionS
     return { ...DEV_PREMIUM, purchasedPages };
   }
 
-  if (startupJoEmail && userEmail === startupJoEmail) {
+  const proJoEmail = process.env.PROMPT_STUDIO_PRO_JO?.trim().toLowerCase();
+    if (proJoEmail && userEmail === proJoEmail) {
+      return { ...DEV_PRO, purchasedPages };
+    }
+
+    if (startupJoEmail && userEmail === startupJoEmail) {
     return { ...DEV_STARTUP, purchasedPages };
   }
 
@@ -133,5 +147,34 @@ export async function getServerSubscriptionStatus(): Promise<ServerSubscriptionS
 }
 
 export function hasDownloadPlan(status: ServerSubscriptionStatus): boolean {
-  return status.plan === 'premium' || status.plan === 'startup';
+  return planAtLeast(status.plan, 'premium');
 }
+
+/**
+ * Constructor visual de componentes (`/component-builder`).
+ *
+ * Mismo umbral que las descargas y que las rutas que ya lo aplicaban
+ * (`api/component-personalization`, `api/component-export/*`): el backend
+ * respondía 403 a quien no paga, pero la página se servía a cualquiera. Aquí
+ * queda el umbral en un solo sitio para que página y API no se separen.
+ */
+export function hasComponentBuilderPlan(status: ServerSubscriptionStatus): boolean {
+  return planAtLeast(status.plan, 'premium');
+}
+
+/**
+ * Publicar una landing en dominio propio y usar brand kits.
+ *
+ * Es el diferenciador del tramo `pro`. Hasta ahora ambas cosas estaban
+ * disponibles sin ninguna comprobación de plan, así que **activar esta puerta
+ * quita a los usuarios actuales un acceso que hoy tienen**. Por eso está detrás
+ * de una bandera que arranca desactivada: desplegar el código no cambia nada
+ * hasta que se pone `PRO_PLAN_ENFORCED=1`.
+ */
+export function hasPublishingPlan(status: ServerSubscriptionStatus): boolean {
+  if (!PRO_PLAN_ENFORCED) return true;
+  return planAtLeast(status.plan, 'pro');
+}
+
+/** Puerta del tramo `pro`. Desactivada salvo que se pida explícitamente. */
+export const PRO_PLAN_ENFORCED = process.env.PRO_PLAN_ENFORCED === '1';

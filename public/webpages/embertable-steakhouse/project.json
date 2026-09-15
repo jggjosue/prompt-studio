@@ -1,0 +1,38 @@
+{
+  "id": "170",
+  "title": {
+    "en": "EmberTable Steakhouse — Immersive 3D Landing Page",
+    "es": "EmberTable Steakhouse — Landing page 3D inmersiva"
+  },
+  "description": {
+    "es": {
+      "nombre": "EmberTable Steakhouse",
+      "prompt": "Crea una landing page premium para un steakhouse, con una estética oscura inspirada en el fuego, una presentación 3D del plato principal, animaciones de brasas y humo, interacción parallax, menú destacado y un formulario de reservación funcional.",
+      "estilo": "Editorial gastronómico premium, cinematográfico, oscuro, elegante, cálido e inmersivo, con tonos carbón, cobre, ámbar y dorado."
+    },
+    "en": {
+      "name": "EmberTable Steakhouse",
+      "prompt": "Create a premium steakhouse landing page with a dark fire-inspired aesthetic, a 3D presentation of the signature dish, ember and smoke animations, parallax interaction, a featured menu, and a functional reservation form."
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "Luxury dark steakhouse landing page with a 3D ribeye plate, glowing embers, warm copper lighting, and elegant editorial typography",
+    "es": "Landing page oscura de un steakhouse de lujo con un plato de ribeye 3D, brasas encendidas, iluminación cálida en cobre y tipografía editorial elegante"
+  },
+  "demoUrl": "webpages_embertable-steakhouse_index.html",
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "tags": [
+    "steakhouse",
+    "restaurant",
+    "3D",
+    "food",
+    "reservation landing page"
+  ],
+  "membership": "Premium",
+  "price": "15.00"
+}

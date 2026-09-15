@@ -11,11 +11,9 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { PremiumAccessLink } from '@/components/premium-access-link';
 import { ParallaxReveal } from '@/components/ui/parallax-reveal';
 import { snapshotToBadgeReport } from '@/lib/landing-readability-badge';
 import type { LandingReadabilityPublicSnapshot } from '@/lib/landing-readability-store';
-import { getRefactoryLoaderUrl } from '@/lib/refactory-online';
 import { trackAnalyticsEvent } from '@/lib/analytics';
 import { trackAffiliateClick } from '@/lib/affiliate-client';
 import type { WebPageEntry } from '@/lib/web-pages';
@@ -28,12 +26,14 @@ import {
   AFFILIATE_LAST_TOUCH_STORAGE_KEY,
   AFFILIATE_OWNER_STORAGE_KEY,
 } from '@/lib/affiliate';
-import { ExternalLink, Globe, Tag } from 'lucide-react';
+import { ExternalLink, Globe, Heart, Tag } from 'lucide-react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { useTranslations } from 'next-intl';
+import { SaveItemButton } from '@/components/save-item-button';
 import { memo } from 'react';
 import { useAuth } from '@clerk/nextjs';
+import { useLandingFavorites } from '@/hooks/use-landing-favorites';
 
 const WebPageCardActions = dynamic(
   () => import('@/components/web-page-card-actions'),
@@ -94,6 +94,8 @@ function WebPageCardComponent({
   const displayedPrice = isFree ? tCommon('free') : formatPrice(page.price);
   const { ready, isSignedIn, plan } = useMembershipAccess();
   const { userId } = useAuth();
+  const { favorites, toggleFavorite } = useLandingFavorites();
+  const isFavorite = favorites.some(item => item.demoUrl === page.demoUrl);
 
   const hasPremium =
     ready &&
@@ -101,6 +103,7 @@ function WebPageCardComponent({
     (plan === 'premium' || plan === 'startup');
   const stripeUrl = getWebPageCheckoutUrl(page.price);
   const itemCheckoutUrl = buildCheckoutUrl(stripeUrl, page.id, userId);
+  const previewUrl = `/landing-pages/${encodeURIComponent(page.demoUrl)}/preview?price=${encodeURIComponent(page.price)}&pageId=${encodeURIComponent(page.id)}&checkout=${encodeURIComponent(itemCheckoutUrl)}`;
   const trackClick = (source: 'campaign-card' | 'demo') => {
     void trackAffiliateClick({
       productId: page.id,
@@ -127,6 +130,27 @@ function WebPageCardComponent({
               </p>
             </div>
             <div className="flex shrink-0 items-center gap-2" suppressHydrationWarning>
+              <SaveItemButton
+                itemKind="web-page"
+                itemId={page.id}
+                title={page.title}
+                href={`/landing-pages/${page.demoUrl}`}
+                imageUrl={page.imageUrl}
+              />
+              <button
+                type="button"
+                aria-label={isFavorite ? tLanding('favorites.removeShort') : tLanding('favorites.save')}
+                aria-pressed={isFavorite}
+                title={isFavorite ? tLanding('favorites.removeShort') : tLanding('favorites.save')}
+                onClick={() => toggleFavorite(page)}
+                className={`inline-flex size-9 items-center justify-center rounded-full border transition ${
+                  isFavorite
+                    ? 'border-rose-500/40 bg-rose-500/10 text-rose-500'
+                    : 'border-border text-muted-foreground hover:border-rose-500/40 hover:text-rose-500'
+                }`}
+              >
+                <Heart className={`size-4 ${isFavorite ? 'fill-current' : ''}`} aria-hidden="true" />
+              </button>
               {isFree ? (
                 <span suppressHydrationWarning className="rounded-full border border-blue-500/40 bg-blue-500/10 px-3 py-1 text-sm font-semibold text-blue-400">
                   Free
@@ -166,8 +190,8 @@ function WebPageCardComponent({
               src={resolveWebPageImageUrl(page.imageUrl)}
               alt={page.title}
               fill
-              priority={animationIndex < 2}
-              lazyAdaptive={animationIndex >= 2}
+              priority={animationIndex === 0}
+              lazyAdaptive={animationIndex !== 0}
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               className="object-cover"
               data-ai-hint={page.imageHint}
@@ -191,7 +215,7 @@ function WebPageCardComponent({
                 asChild
               >
                 <Link
-                  href={`/webpages/${page.demoUrl}/index.html?price=${encodeURIComponent(page.price)}&pageId=${encodeURIComponent(page.id)}&checkout=${encodeURIComponent(itemCheckoutUrl)}`}
+                  href={previewUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="!bg-[#0057ff] !text-white hover:!bg-[#0047d6]"

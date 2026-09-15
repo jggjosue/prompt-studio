@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#070b08" />
+  <meta name="description" content="CodeCraft is a creative full-stack developer portfolio specializing in high-performance web products, immersive 3D experiences, WebGL and motion design." />
+  <meta name="author" content="CodeCraft" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="googlebot" content="index, follow" />
+  <link rel="canonical" href="https://codecraft.dev/" />
+  <link rel="alternate" hreflang="en" href="https://codecraft.dev/" />
+  <link rel="alternate" hreflang="x-default" href="https://codecraft.dev/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CodeCraft" />
+  <meta property="og:title" content="CodeCraft — Creative Full-Stack Developer" />
+  <meta property="og:description" content="High-performance digital products where code, motion and ideas meet. Explore selected web, 3D and creative development work." />
+  <meta property="og:url" content="https://codecraft.dev/" />
+  <meta property="og:locale" content="en_US" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="CodeCraft — Creative Full-Stack Developer" />
+  <meta name="twitter:description" content="High-performance digital products, immersive 3D experiences and creative development." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='12' y='12' width='40' height='40' rx='8' transform='rotate(45 32 32)' fill='%23d4ff43'/%3E%3Crect x='25' y='25' width='14' height='14' rx='3' transform='rotate(45 32 32)' fill='%23070b08'/%3E%3C/svg%3E" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <title>CodeCraft | Creative Full-Stack Developer &amp; 3D Web Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://codecraft.dev/#website",
+        "url": "https://codecraft.dev/",
+        "name": "CodeCraft",
+        "description": "Creative full-stack developer portfolio specializing in high-performance web products and immersive 3D experiences.",
+        "inLanguage": "en-US"
+      },
+      {
+        "@type": "Person",
+        "@id": "https://codecraft.dev/#person",
+        "name": "CodeCraft",
+        "url": "https://codecraft.dev/",
+        "email": "mailto:hello@codecraft.dev",
+        "jobTitle": "Creative Full-Stack Developer",
+        "knowsAbout": ["Frontend Development", "React", "Next.js", "Node.js", "WebGL", "Three.js", "3D Web Experiences", "Motion Design"],
+        "description": "Independent full-stack developer creating fast, clear and memorable digital products."
+      },
+      {
+        "@type": "ProfilePage",
+        "@id": "https://codecraft.dev/#profile",
+        "url": "https://codecraft.dev/",
+        "name": "CodeCraft — Creative Full-Stack Developer",
+        "isPartOf": { "@id": "https://codecraft.dev/#website" },
+        "mainEntity": { "@id": "https://codecraft.dev/#person" },
+        "inLanguage": "en-US"
+      }
+    ]
+  }
+  </script>
+  <style>
+    :root { --ink:#070b08; --panel:#0d130f; --line:rgba(212,255,67,.14); --lime:#d4ff43; --green:#72ff8d; --paper:#eef5ea; --muted:#869188; --mx:50%; --my:20%; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; overflow-x:hidden; }
+    body { background:var(--ink); color:var(--paper); font-family:Manrope, sans-serif; overflow-x:hidden; cursor:default; }
+    body::before { content:""; position:fixed; inset:0; pointer-events:none; z-index:-1; background:radial-gradient(600px circle at var(--mx) var(--my), rgba(122,255,126,.075), transparent 42%); }
+    body::after { content:""; position:fixed; inset:0; opacity:.035; pointer-events:none; z-index:20; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E"); }
+    a { color:inherit; text-decoration:none; }
+    button { color:inherit; font:inherit; }
+    .mono { font-family:"DM Mono", monospace; }
+    .shell { width:min(1240px, calc(100% - 48px)); margin-inline:auto; }
+    .nav { position:fixed; top:16px; left:50%; transform:translateX(-50%); z-index:10; width:min(1180px, calc(100% - 32px)); height:68px; padding:0 10px 0 22px; display:flex; align-items:center; justify-content:space-between; border:1px solid rgba(255,255,255,.08); border-radius:18px; background:rgba(7,11,8,.72); backdrop-filter:blur(18px); box-shadow:0 14px 40px rgba(0,0,0,.25); }
+    .brand { font-weight:800; letter-spacing:-.06em; font-size:20px; display:flex; align-items:center; gap:10px; }
+    .brand-mark { width:28px; height:28px; position:relative; transform:rotate(45deg); border:1px solid var(--lime); border-radius:6px; box-shadow:inset 0 0 12px rgba(212,255,67,.18); }
+    .brand-mark::after { content:""; position:absolute; inset:7px; background:var(--lime); border-radius:2px; }
+    .nav-links { display:flex; gap:32px; align-items:center; }
+    .nav-links>a:not(.nav-cta) { font:400 12px "DM Mono"; color:#a7b0aa; transition:.25s; }
+    .nav-links>a:not(.nav-cta):hover { color:var(--lime); }
+    .nav-cta { display:flex; align-items:center; gap:12px; padding:14px 18px; border-radius:11px; background:var(--lime); color:#0a0e0b; font:500 12px "DM Mono"; }
+    .nav-cta i { width:7px; height:7px; border-radius:50%; background:#0a0e0b; animation:pulse 1.8s infinite; }
+    .hero { position:relative; min-height:100svh; display:grid; grid-template-columns:1.05fr .95fr; align-items:center; padding-top:110px; }
+    .hero-copy { position:relative; z-index:2; }
+    .eyebrow { display:flex; align-items:center; gap:10px; color:var(--lime); font:400 11px "DM Mono"; letter-spacing:.12em; text-transform:uppercase; margin-bottom:28px; }
+    .eyebrow::before { content:""; width:32px; height:1px; background:var(--lime); }
+    h1 { font-size:clamp(64px, 7.6vw, 120px); line-height:.82; letter-spacing:-.075em; font-weight:700; max-width:800px; }
+    h1 .outline { color:transparent; -webkit-text-stroke:1px rgba(238,245,234,.48); font-weight:500; }
+    h1 .accent { color:var(--lime); position:relative; }
+    .hero-bottom { margin-top:42px; display:flex; align-items:center; gap:30px; }
+    .hero-text { color:#9ba69e; max-width:365px; font-size:15px; line-height:1.75; }
+    .arrow-btn { flex:0 0 62px; height:62px; border:1px solid rgba(212,255,67,.5); border-radius:50%; display:grid; place-items:center; color:var(--lime); font-size:25px; transition:.35s cubic-bezier(.2,.8,.2,1); }
+    .arrow-btn:hover { background:var(--lime); color:var(--ink); transform:rotate(-35deg) scale(1.06); }
+    .scene { height:min(700px, 74vh); position:relative; perspective:1000px; display:grid; place-items:center; }
+    .scene-glow { position:absolute; width:75%; aspect-ratio:1; border-radius:50%; background:radial-gradient(circle, rgba(108,255,137,.16), transparent 65%); filter:blur(8px); }
+    .orbital { width:min(480px, 42vw); aspect-ratio:1; position:relative; transform-style:preserve-3d; animation:float 6s ease-in-out infinite; transition:transform .2s ease-out; }
+    .cube { position:absolute; width:190px; height:190px; top:50%; left:50%; margin:-95px; transform-style:preserve-3d; animation:spin 15s linear infinite; }
+    .face { position:absolute; inset:0; display:grid; place-items:center; border:1px solid rgba(212,255,67,.5); background:rgba(17,30,20,.72); backdrop-filter:blur(8px); box-shadow:inset 0 0 50px rgba(116,255,139,.07); color:var(--lime); font:500 38px "DM Mono"; }
+    .front{transform:translateZ(95px)} .back{transform:rotateY(180deg) translateZ(95px)} .right{transform:rotateY(90deg) translateZ(95px)} .left{transform:rotateY(-90deg) translateZ(95px)} .top{transform:rotateX(90deg) translateZ(95px)} .bottom{transform:rotateX(-90deg) translateZ(95px)}
+    .ring { position:absolute; inset:8%; border:1px solid rgba(212,255,67,.32); border-radius:50%; transform-style:preserve-3d; }
+    .ring.r1 { transform:rotateX(68deg) rotateZ(12deg); animation:ring 10s linear infinite; }
+    .ring.r2 { inset:0; border-style:dashed; transform:rotateY(66deg) rotateZ(38deg); animation:ringReverse 16s linear infinite; }
+    .satellite { position:absolute; width:18px; height:18px; border-radius:50%; top:-9px; left:50%; background:var(--lime); box-shadow:0 0 22px var(--lime); }
+    .float-tag { position:absolute; padding:10px 14px; border:1px solid rgba(255,255,255,.1); background:rgba(9,15,11,.78); border-radius:8px; color:#aeb9b0; font:400 10px "DM Mono"; backdrop-filter:blur(10px); }
+    .tag-a{right:-4%;top:19%;animation:drift 5s ease-in-out infinite}.tag-b{left:-3%;bottom:20%;animation:drift 5s 1.2s ease-in-out infinite}.tag-c{right:3%;bottom:7%;animation:drift 5s 2.1s ease-in-out infinite}
+    .tag-dot { color:var(--lime); }
+    .scroll-cue { position:absolute; left:0; bottom:24px; display:flex; align-items:center; gap:12px; color:#687169; font:400 10px "DM Mono"; writing-mode:vertical-rl; }
+    .scroll-cue::after { content:""; height:54px; width:1px; background:linear-gradient(var(--lime),transparent); }
+    .marquee { border-block:1px solid var(--line); overflow:hidden; padding:18px 0; background:#090e0b; transform:rotate(-1.2deg) scale(1.02); }
+    .track { display:flex; width:max-content; animation:marquee 24s linear infinite; }
+    .track span { display:flex; align-items:center; gap:24px; margin-right:24px; color:#89938b; font:400 12px "DM Mono"; letter-spacing:.08em; }
+    .track i { width:7px; height:7px; background:var(--lime); transform:rotate(45deg); }
+    section { padding:140px 0; }
+    .section-head { display:flex; justify-content:space-between; align-items:end; gap:30px; margin-bottom:60px; }
+    .kicker { color:var(--lime); font:400 11px "DM Mono"; margin-bottom:15px; }
+    h2 { font-size:clamp(42px,6vw,78px); letter-spacing:-.065em; line-height:.95; }
+    .section-index { color:#556057; font:400 11px "DM Mono"; }
+    .projects { display:grid; grid-template-columns:repeat(12,1fr); gap:24px; }
+    .project { min-height:480px; grid-column:span 7; border:1px solid rgba(255,255,255,.08); border-radius:24px; overflow:hidden; position:relative; background:#101712; transform-style:preserve-3d; transition:transform .25s ease, border-color .3s; }
+    .project:nth-child(2),.project:nth-child(3){grid-column:span 5}.project:nth-child(4){grid-column:span 7}
+    .project:hover { border-color:rgba(212,255,67,.4); }
+    .project-visual { height:330px; position:relative; overflow:hidden; display:grid; place-items:center; background:radial-gradient(circle at 50% 40%,#203825,#0b110d 65%); }
+    .project:nth-child(2) .project-visual { background:radial-gradient(circle at 50% 40%,#36301e,#11100b 65%); }
+    .project:nth-child(3) .project-visual { background:radial-gradient(circle at 50% 40%,#1c2f35,#0b1011 65%); }
+    .project:nth-child(4) .project-visual { background:radial-gradient(circle at 50% 40%,#38202d,#120b10 65%); }
+    .dashboard { width:76%; height:68%; padding:18px; border:1px solid rgba(255,255,255,.13); border-radius:14px; background:rgba(8,13,9,.88); box-shadow:0 28px 60px rgba(0,0,0,.5); transform:rotateX(8deg) rotateY(-8deg) rotateZ(2deg); transition:.5s; }
+    .project:hover .dashboard { transform:rotateX(0) rotateY(0) rotateZ(0) scale(1.04); }
+    .dash-top { display:flex; gap:5px; margin-bottom:20px}.dash-top i{width:6px;height:6px;border-radius:50%;background:#455047}.dash-top i:first-child{background:var(--lime)}
+    .dash-grid { display:grid; grid-template-columns:1.2fr .8fr; gap:10px; height:75%; }.dash-block{border:1px solid rgba(212,255,67,.12);border-radius:7px;background:linear-gradient(145deg,rgba(212,255,67,.07),transparent)}.dash-block:first-child{grid-row:span 2}.dash-line{height:2px;width:70%;margin:25px auto;background:var(--lime);box-shadow:30px 18px 0 rgba(212,255,67,.25),-10px 36px 0 rgba(212,255,67,.15)}
+    .project-info { height:150px; padding:24px 26px; display:flex; justify-content:space-between; align-items:end; }
+    .project-no { color:var(--lime); font:400 10px "DM Mono"; }.project h3{font-size:26px;letter-spacing:-.04em;margin-top:8px}.project-type{color:#7e8980;font:400 10px "DM Mono";text-transform:uppercase;letter-spacing:.08em}.project-link{width:42px;height:42px;border:1px solid #344037;border-radius:50%;display:grid;place-items:center;transition:.3s}.project:hover .project-link{background:var(--lime);color:#080b09;transform:rotate(-35deg)}
+    .geo { width:150px; height:150px; position:relative; transform-style:preserve-3d; animation:spin 13s linear infinite; }.geo::before,.geo::after{content:"";position:absolute;inset:0;border:1px solid #ffd85c;transform:rotate(45deg);box-shadow:0 0 30px rgba(255,216,92,.15)}.geo::after{transform:rotateX(60deg) rotateZ(45deg)}
+    .sphere { width:150px;height:150px;border:1px solid #65dcff;border-radius:50%;position:relative;box-shadow:0 0 50px rgba(101,220,255,.12);animation:spin 10s linear infinite}.sphere::before,.sphere::after{content:"";position:absolute;border:1px solid #65dcff;border-radius:50%;inset:20% -12%;transform:rotate(45deg)}.sphere::after{transform:rotate(-45deg)}
+    .prism { width:140px;height:140px;border:1px solid #ff72b8;transform:rotate(45deg);box-shadow:0 0 50px rgba(255,114,184,.15);position:relative;animation:float 5s ease-in-out infinite}.prism::before{content:"</>";position:absolute;inset:25px;display:grid;place-items:center;background:#ff72b8;color:#150a10;font:500 25px "DM Mono";transform:rotate(-45deg)}
+    .about { display:grid; grid-template-columns:.8fr 1.2fr; gap:80px; align-items:start; border-top:1px solid var(--line); }
+    .about-copy { font-size:clamp(28px,4vw,54px); line-height:1.17; letter-spacing:-.045em; color:#a4aea6; }
+    .about-copy strong { color:var(--paper); font-weight:600; }
+    .about-copy em { color:var(--lime); font-style:normal; }
+    .capabilities { margin-top:55px; border-top:1px solid rgba(255,255,255,.1); }
+    .cap { display:grid; grid-template-columns:50px 1fr auto; gap:15px; padding:22px 0; border-bottom:1px solid rgba(255,255,255,.1); align-items:center; transition:.25s; }.cap:hover{padding-left:10px;color:var(--lime)}.cap span{font:400 10px "DM Mono";color:#657067}.cap b{font-size:16px;font-weight:500}.cap small{color:#727d74;font:400 10px "DM Mono"}
+    .terminal { background:#0b100c; border:1px solid rgba(255,255,255,.1); border-radius:20px; overflow:hidden; box-shadow:0 30px 80px rgba(0,0,0,.3); }
+    .terminal-head{height:50px;padding:0 18px;display:flex;align-items:center;border-bottom:1px solid rgba(255,255,255,.08);gap:7px}.terminal-head i{width:8px;height:8px;border-radius:50%;background:#344037}.terminal-head i:nth-child(1){background:#ff6b5f}.terminal-head i:nth-child(2){background:#ffc453}.terminal-head i:nth-child(3){background:#62d46e}.terminal-head span{margin-left:auto;color:#5e685f;font:400 9px "DM Mono"}.terminal-body{padding:30px;min-height:340px;font:400 12px/2 "DM Mono";color:#849087}.terminal-body .cmd{color:#eaf1e7}.terminal-body .green{color:var(--lime)}.terminal-body .indent{padding-left:22px}.cursor{display:inline-block;width:7px;height:14px;background:var(--lime);vertical-align:-2px;animation:blink 1s steps(1) infinite}
+    .contact { text-align:center; position:relative; overflow:hidden; padding-bottom:120px; }.contact::before{content:"";position:absolute;width:500px;height:500px;border:1px solid rgba(212,255,67,.08);border-radius:50%;left:50%;top:50%;transform:translate(-50%,-45%);box-shadow:0 0 0 80px rgba(212,255,67,.018),0 0 0 160px rgba(212,255,67,.012)}.contact>*{position:relative}.contact h2{font-size:clamp(62px,10vw,150px)}.contact h2 span{color:var(--lime)}.contact p{color:#89938b;margin:26px auto 38px;max-width:440px}.contact-link{display:inline-flex;align-items:center;gap:20px;background:var(--lime);color:#081009;border-radius:999px;padding:18px 26px;font:500 12px "DM Mono";transition:.3s}.contact-link:hover{transform:scale(1.05);box-shadow:0 0 40px rgba(212,255,67,.2)}
+    footer { border-top:1px solid var(--line); min-height:120px; display:flex; align-items:center; justify-content:space-between; color:#657068; font:400 10px "DM Mono"; }.socials{display:flex;gap:24px}.socials a:hover{color:var(--lime)}
+    .reveal { opacity:0; transform:translateY(35px); transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1); }.reveal.visible{opacity:1;transform:none}
+    @keyframes spin{to{transform:rotateX(360deg) rotateY(360deg)}}@keyframes ring{to{transform:rotateX(68deg) rotateZ(372deg)}}@keyframes ringReverse{to{transform:rotateY(66deg) rotateZ(-322deg)}}@keyframes float{50%{transform:translateY(-16px) rotateZ(2deg)}}@keyframes drift{50%{transform:translateY(-10px)}}@keyframes marquee{to{transform:translateX(-50%)}}@keyframes blink{50%{opacity:0}}@keyframes pulse{50%{box-shadow:0 0 0 5px rgba(10,14,11,.15)}}
+    @media(max-width:900px){.nav-links>a:not(.nav-cta){display:none}.hero{grid-template-columns:1fr;padding-top:150px}.scene{height:500px}.orbital{width:min(430px,85vw)}.projects{display:block}.project{margin-bottom:22px}.about{grid-template-columns:1fr;gap:50px}.scroll-cue{display:none}.section-head{align-items:start}.shell{width:min(100% - 32px,1240px)}}
+    @media(max-width:560px){.nav{height:60px}.brand{font-size:17px}.brand-mark{width:23px;height:23px}.nav-cta{padding:11px 13px}.hero{min-height:auto;padding-top:145px}.hero-bottom{align-items:flex-end}.hero-text{font-size:13px}.scene{height:410px}.cube{width:130px;height:130px;margin:-65px}.front{transform:translateZ(65px)}.back{transform:rotateY(180deg) translateZ(65px)}.right{transform:rotateY(90deg) translateZ(65px)}.left{transform:rotateY(-90deg) translateZ(65px)}.top{transform:rotateX(90deg) translateZ(65px)}.bottom{transform:rotateX(-90deg) translateZ(65px)}section{padding:95px 0}.project{min-height:420px}.project-visual{height:280px}.project-info{height:140px}.float-tag{font-size:8px;padding:8px}.section-head{margin-bottom:36px}.about{padding-top:100px}.terminal-body{padding:22px;font-size:10px}.contact{padding-bottom:90px}footer{flex-direction:column;justify-content:center;gap:18px;text-align:center}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a class="brand" href="#top"><span class="brand-mark"></span>CODECRAFT.</a>
+    <div class="nav-links"><a href="#work">01 / WORK</a><a href="#about">02 / ABOUT</a><a href="#contact">03 / CONTACT</a><a class="nav-cta" href="mailto:hello@codecraft.dev"><i></i> AVAILABLE</a></div>
+  </nav>
+
+  <main id="top">
+    <header class="hero shell">
+      <div class="hero-copy reveal">
+        <div class="eyebrow">Creative developer · 2026</div>
+        <h1>WE BUILD<br><span class="outline">DIGITAL</span><br><span class="accent">WORLDS.</span></h1>
+        <div class="hero-bottom"><p class="hero-text">Independent full-stack developer shaping high-performance products where code, motion and ideas meet.</p><a class="arrow-btn" href="#work" aria-label="View selected work">↘</a></div>
+      </div>
+      <div class="scene" aria-label="Interactive 3D code sculpture">
+        <div class="scene-glow"></div>
+        <div class="orbital" id="orbital">
+          <div class="ring r1"><i class="satellite"></i></div><div class="ring r2"><i class="satellite"></i></div>
+          <div class="cube"><div class="face front">{ }</div><div class="face back">JS</div><div class="face right">01</div><div class="face left">UX</div><div class="face top">+</div><div class="face bottom">∞</div></div>
+          <div class="float-tag tag-a"><span class="tag-dot">●</span> system.online</div><div class="float-tag tag-b">latency: <span class="tag-dot">12ms</span></div><div class="float-tag tag-c">build / <span class="tag-dot">stable</span></div>
+        </div>
+      </div>
+      <div class="scroll-cue">SCROLL TO EXPLORE</div>
+    </header>
+
+    <div class="marquee"><div class="track"><span>REACT <i></i> TYPESCRIPT <i></i> THREE.JS <i></i> NODE.JS <i></i> WEBGL <i></i> NEXT.JS <i></i> CREATIVE DEVELOPMENT <i></i></span><span aria-hidden="true">REACT <i></i> TYPESCRIPT <i></i> THREE.JS <i></i> NODE.JS <i></i> WEBGL <i></i> NEXT.JS <i></i> CREATIVE DEVELOPMENT <i></i></span></div></div>
+
+    <section id="work" class="shell">
+      <div class="section-head reveal"><div><p class="kicker">// SELECTED WORK</p><h2>PROJECTS WITH<br>PURPOSE.</h2></div><p class="section-index">(01 — 04)</p></div>
+      <div class="projects">
+        <article class="project reveal tilt"><div class="project-visual"><div class="dashboard"><div class="dash-top"><i></i><i></i><i></i></div><div class="dash-grid"><div class="dash-block"><div class="dash-line"></div></div><div class="dash-block"></div><div class="dash-block"></div></div></div></div><div class="project-info"><div><span class="project-no">01 / 2026</span><h3>Neural Finance</h3><p class="project-type">Fintech · Product · Engineering</p></div><span class="project-link">↗</span></div></article>
+        <article class="project reveal tilt"><div class="project-visual"><div class="geo"></div></div><div class="project-info"><div><span class="project-no">02 / 2025</span><h3>Prism Studio</h3><p class="project-type">Creative · WebGL · Identity</p></div><span class="project-link">↗</span></div></article>
+        <article class="project reveal tilt"><div class="project-visual"><div class="sphere"></div></div><div class="project-info"><div><span class="project-no">03 / 2025</span><h3>Orbit OS</h3><p class="project-type">SaaS · Platform · Cloud</p></div><span class="project-link">↗</span></div></article>
+        <article class="project reveal tilt"><div class="project-visual"><div class="prism"></div></div><div class="project-info"><div><span class="project-no">04 / 2024</span><h3>Syntax Lab</h3><p class="project-type">Developer tools · Open source</p></div><span class="project-link">↗</span></div></article>
+      </div>
+    </section>
+
+    <section id="about" class="about shell">
+      <div class="reveal"><p class="kicker">// WHAT I DO</p><h2>CODE WITH<br>CHARACTER.</h2><div class="capabilities"><div class="cap"><span>01</span><b>Frontend systems</b><small>React / Next</small></div><div class="cap"><span>02</span><b>Immersive experiences</b><small>WebGL / 3D</small></div><div class="cap"><span>03</span><b>Backend & cloud</b><small>Node / AWS</small></div><div class="cap"><span>04</span><b>Motion & interaction</b><small>GSAP / CSS</small></div></div></div>
+      <div class="reveal"><p class="about-copy">I turn complex ideas into <strong>fast, clear and memorable products.</strong> Strategy in the structure, craft in every interaction, and <em>zero boring pixels.</em></p><div class="terminal"><div class="terminal-head"><i></i><i></i><i></i><span>codecraft — zsh — 80×24</span></div><div class="terminal-body"><p><span class="green">➜</span> <span class="cmd">~/codecraft</span> npm run introduce</p><p class="indent">name: <span class="cmd">"CodeCraft"</span></p><p class="indent">role: <span class="cmd">"Creative Developer"</span></p><p class="indent">experience: <span class="cmd">"8+ years"</span></p><p class="indent">focus: [<span class="green">"performance"</span>, <span class="green">"motion"</span>, <span class="green">"impact"</span>]</p><p class="indent">status: <span class="green">"open_to_build"</span></p><br><p><span class="green">✓</span> Compiled successfully in 0.8s</p><p><span class="green">➜</span> <span class="cmd">~/codecraft</span> <span class="cursor"></span></p></div></div></div>
+    </section>
+
+    <section id="contact" class="contact shell reveal"><p class="kicker">// HAVE AN IDEA?</p><h2>LET'S MAKE<br><span>IT REAL.</span></h2><p>Have a product to launch, a story to tell, or a digital world to invent? Let's build something people remember.</p><a class="contact-link" href="mailto:hello@codecraft.dev">START A PROJECT <span>↗</span></a></section>
+  </main>
+
+  <footer class="shell"><p>© 2026 CODECRAFT / MADE WITH INTENT</p><div class="socials"><a href="#">GITHUB ↗</a><a href="#">LINKEDIN ↗</a><a href="#">X ↗</a></div><a href="#top">BACK TO TOP ↑</a></footer>
+  <script>
+    const root=document.documentElement,orbital=document.querySelector('#orbital');
+    window.addEventListener('pointermove',e=>{root.style.setProperty('--mx',e.clientX+'px');root.style.setProperty('--my',e.clientY+'px');if(orbital){const x=(e.clientX/innerWidth-.5)*18,y=(e.clientY/innerHeight-.5)*-18;orbital.style.transform=`rotateY(${x}deg) rotateX(${y}deg)`;}});
+    const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.12});document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+    document.querySelectorAll('.tilt').forEach(card=>{card.addEventListener('pointermove',e=>{const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;card.style.transform=`perspective(900px) rotateY(${x*4}deg) rotateX(${-y*4}deg) translateY(-4px)`});card.addEventListener('pointerleave',()=>card.style.transform='')});
+  </script>
+</body>
+</html>

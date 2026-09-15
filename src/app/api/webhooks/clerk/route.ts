@@ -1,5 +1,6 @@
 import { Webhook } from 'svix';
 import { NextResponse } from 'next/server';
+import { reportOperationalError } from '@/lib/observability-server';
 import { headers } from 'next/headers';
 
 import { upsertResendContact } from '@/lib/resend';
@@ -66,8 +67,6 @@ export async function POST(req: Request) {
   if (!email) {
     return NextResponse.json({ error: 'User has no primary email' }, { status: 400 });
   }
-
-  const fullName = [evt.data.first_name, evt.data.last_name].filter(Boolean).join(' ').trim();
   const birthDateRaw =
     evt.data.public_metadata?.birthDate ??
     evt.data.public_metadata?.birthday ??
@@ -89,7 +88,7 @@ export async function POST(req: Request) {
     { $setOnInsert: { email } },
     { upsert: true }
   ).catch(error => {
-    console.error('Failed to sync registered user in webhook:', error);
+    reportOperationalError({ category: 'server_error', name: 'clerk_registered_user_sync', route: '/api/webhooks/clerk', userId: evt.data.id, metadata: { operation: 'sync_registered_user', provider: 'clerk', correlationId: evt.data.id, eventType: evt.type } }, error);
   });
 
   await UserProfile.findOneAndUpdate(
@@ -105,7 +104,7 @@ export async function POST(req: Request) {
     },
     { upsert: true, returnDocument: 'after' }
   ).catch(error => {
-    console.error('Failed to sync Clerk profile to Mongo:', error);
+    reportOperationalError({ category: 'server_error', name: 'clerk_profile_sync', route: '/api/webhooks/clerk', userId: evt.data.id, metadata: { operation: 'sync_profile', provider: 'clerk', correlationId: evt.data.id, eventType: evt.type } }, error);
   });
 
   if (evt.type === 'user.created') {
@@ -123,7 +122,7 @@ export async function POST(req: Request) {
         { upsert: true }
       );
     } catch (error) {
-      console.error('Failed to save new Clerk user in user_profiles:', error);
+      reportOperationalError({ category: 'server_error', name: 'clerk_new_user_sync', route: '/api/webhooks/clerk', userId: evt.data.id, metadata: { operation: 'sync_new_user', provider: 'clerk', correlationId: evt.data.id, eventType: evt.type } }, error);
       // Clerk/Svix retries non-2xx webhook responses. The operation is
       // idempotent, so retrying cannot overwrite or duplicate this user.
       return NextResponse.json(
@@ -140,7 +139,7 @@ export async function POST(req: Request) {
   });
 
   if (resendResult.error) {
-    console.error('Failed to sync Clerk user to Resend:', resendResult.error);
+    reportOperationalError({ category: 'server_error', name: 'clerk_resend_sync', route: '/api/webhooks/clerk', userId: evt.data.id, metadata: { operation: 'sync_contact', provider: 'resend', correlationId: evt.data.id, eventType: evt.type } }, new Error('RESEND_SYNC_FAILED'));
     // A non-2xx response tells Clerk/Svix to retry instead of silently losing
     // the contact while reporting the webhook as successfully processed.
     return NextResponse.json(

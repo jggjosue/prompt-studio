@@ -1,0 +1,1 @@
+import type{Metadata}from'next';import{EvaluationSuiteClient}from'./evaluation-suite-client';export const metadata:Metadata={title:'Evaluaciones reproducibles | Prompt Studio'};export default function Page(){return <EvaluationSuiteClient/>}

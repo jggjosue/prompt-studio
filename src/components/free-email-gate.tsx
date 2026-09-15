@@ -73,18 +73,25 @@ export function FreeEmailGate({
         body: JSON.stringify({ email }),
       });
 
-      localStorage.setItem('prompt_studio_free_email_saved', 'true');
-      setHasSavedEmail(true);
-
-      if (!res.ok) {
-        console.error('Failed to save email, but proceeding');
+      /**
+       * Solo se marca como guardado si el servidor lo confirmó. Antes se
+       * marcaba siempre: si la petición fallaba, el correo se perdía y a esa
+       * persona no se le volvía a pedir nunca, sin error visible. Con el índice
+       * roto de `user_profiles` eso ocurría en todas las capturas menos la
+       * primera.
+       */
+      if (res.ok) {
+        localStorage.setItem('prompt_studio_free_email_saved', 'true');
+        setHasSavedEmail(true);
+      } else {
+        console.error('No se pudo guardar el correo; se volverá a pedir.');
       }
 
       setOpen(false);
       // Let Radix finish closing this dialog before an action opens another
       // dialog (the prompt viewer) or starts a download.
       window.setTimeout(onSuccess, 0);
-    } catch (error) {
+    } catch (_error) {
       toast({
         title: t('error'),
         description: t('connectionError'),

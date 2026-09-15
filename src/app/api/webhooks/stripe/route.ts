@@ -13,11 +13,20 @@ import {
 import { registerAffiliateConversion } from '@/lib/affiliate-referral';
 
 import connectToDatabase from '@/lib/mongoose';
+import { errorFingerprint, recordObservabilityEvent, reportOperationalError } from '@/lib/observability-server';
 import AffiliateApplication from '@/models/AffiliateApplication';
+import ComponentPurchase from '@/models/ComponentPurchase';
+import MarketplaceListing from '@/models/MarketplaceListing';
+import MarketplaceSale from '@/models/MarketplaceSale';
+import { marketplaceSplit } from '@/lib/creator-marketplace';
+import { getCreditPack, isValidCreditTopUp } from '@/lib/credit-packs';
+import { applyCreditTopUp, markCreditPurchaseRefunded } from '@/lib/credit-topup';
+import { getComponentProductContent } from '@/lib/component-content-store';
 import { clerkClient } from '@clerk/nextjs/server';
 import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 import type Stripe from 'stripe';
+import { isValidComponentPurchase } from '@/lib/component-purchase-validation';
 
 async function updateUserSubscription(
   clerkUserId: string,
@@ -25,7 +34,7 @@ async function updateUserSubscription(
   stripeCustomerId: string
 ) {
   const client = await clerkClient();
-  const plan = (subscription.metadata?.plan as 'premium' | 'startup') ?? 'premium';
+  const plan = (subscription.metadata?.plan as 'premium' | 'pro' | 'startup') ?? 'premium';
   const user = await client.users.getUser(clerkUserId);
   const meta = user.privateMetadata as AffiliatePrivateMetadata;
   await client.users.updateUserMetadata(clerkUserId, {
@@ -144,7 +153,8 @@ export async function POST(req: Request) {
       sig,
       process.env.STRIPE_WEBHOOK_SECRET!
     );
-  } catch {
+  } catch (error) {
+    void recordObservabilityEvent({ category: 'stripe', name: 'invalid_webhook_signature', route: '/api/webhooks/stripe', status: 'error', fingerprint: errorFingerprint(error, 'stripe_signature') });
     return NextResponse.json({ error: 'Invalid webhook signature' }, { status: 400 });
   }
 
@@ -178,9 +188,155 @@ export async function POST(req: Request) {
           null;
         const buyerKey = clientRef.buyerKey || 'guest';
 
+        // Recarga de créditos: se resuelve aquí y se sale del case, porque no
+        // es la compra de una página y no debe entrar en la lógica de
+        // `purchasedPages` ni de comisiones de afiliado.
+        if (session.mode === 'payment' && sessionAny.metadata?.purchaseType === 'credit_topup') {
+          const pack = getCreditPack(sessionAny.metadata.packId);
+          const purchaserUserId = sessionAny.metadata.purchaserUserId;
+          if (!pack || !purchaserUserId || !isValidCreditTopUp({
+            expectedPackId: pack?.id ?? '',
+            expectedUserId: purchaserUserId ?? '',
+            expectedAmountCents: pack?.priceCents ?? -1,
+            expectedCurrency: pack?.currency ?? '',
+            metadataPackId: sessionAny.metadata?.packId,
+            metadataUserId: purchaserUserId,
+            buyerKey,
+            amountTotal: session.amount_total,
+            currency: session.currency,
+          })) {
+            throw new Error(`Invalid credit top-up metadata for ${session.id}`);
+          }
+          const purchaserEmail = sessionAny.customer_details?.email || session.customer_email;
+          if (!purchaserEmail) throw new Error(`Credit top-up ${session.id} has no purchaser email`);
+          const paymentIntentId = typeof session.payment_intent === 'string' ? session.payment_intent : session.payment_intent?.id;
+          let receiptUrl: string | null = null;
+          if (paymentIntentId) {
+            const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId, { expand: ['latest_charge'] });
+            const charge = typeof paymentIntent.latest_charge === 'object' ? paymentIntent.latest_charge : null;
+            receiptUrl = charge?.receipt_url ?? null;
+          }
+          await applyCreditTopUp({
+            userId: purchaserUserId,
+            userEmail: purchaserEmail,
+            pack,
+            amountPaidCents: session.amount_total ?? pack.priceCents,
+            currency: session.currency ?? pack.currency,
+            stripeCheckoutSessionId: session.id,
+            stripePaymentIntentId: paymentIntentId ?? null,
+            receiptUrl,
+          });
+          break;
+        }
+
         if (session.mode === 'payment' && inferredProductId) {
           // One-time purchase
           const pageId = inferredProductId;
+          if (sessionAny.metadata?.purchaseType === 'marketplace') {
+            const listingId = sessionAny.metadata.listingId;
+            const purchaserUserId = sessionAny.metadata.purchaserUserId;
+            const listing = listingId ? await MarketplaceListing.findOne({ _id: listingId, status: 'approved' }).lean() : null;
+            if (!listing || !purchaserUserId || listing.creatorUserId === purchaserUserId || session.amount_total !== listing.priceCents || session.currency !== listing.currency) {
+              throw new Error(`Invalid marketplace purchase metadata for ${session.id}`);
+            }
+            const purchaserEmail = sessionAny.customer_details?.email || session.customer_email;
+            if (!purchaserEmail) throw new Error(`Marketplace checkout ${session.id} has no purchaser email`);
+            const paymentIntentId = typeof session.payment_intent === 'string' ? session.payment_intent : session.payment_intent?.id;
+            await connectToDatabase();
+            const purchase = await ComponentPurchase.findOneAndUpdate(
+              { stripeCheckoutSessionId: session.id },
+              { $set: { status: 'paid', stripePaymentIntentId: paymentIntentId ?? null, updatedAt: new Date() }, $setOnInsert: { purchaserUserId, purchaserEmail, productId: `marketplace:${listingId}`, productName: listing.title, productKind: listing.kind, amountPaidCents: listing.priceCents, currency: listing.currency, downloadCount: 0, maxDownloads: 5, purchasedAt: new Date() } },
+              { upsert: true, returnDocument: 'after' }
+            );
+            const split = marketplaceSplit(listing.priceCents);
+            await MarketplaceSale.findOneAndUpdate(
+              { stripeCheckoutSessionId: session.id },
+              { $setOnInsert: { listingId: listing._id, creatorUserId: listing.creatorUserId, buyerUserId: purchaserUserId, purchaseId: purchase._id, ...split, currency: listing.currency, status: 'pending', createdAt: new Date() } },
+              { upsert: true }
+            );
+          }
+          if (sessionAny.metadata?.purchaseType === 'component') {
+            const component = await getComponentProductContent(sessionAny.metadata.productId ?? '');
+            const purchaserUserId = sessionAny.metadata.purchaserUserId;
+            if (!component || !purchaserUserId || !isValidComponentPurchase({ expectedProductId: component.id, expectedUserId: purchaserUserId, expectedAmountCents: component.priceCents, expectedCurrency: component.currency, metadataProductId: sessionAny.metadata?.productId, metadataUserId: purchaserUserId, buyerKey, amountTotal: session.amount_total, currency: session.currency })) {
+              throw new Error(`Invalid component purchase metadata for ${session.id}`);
+            }
+            const purchaserEmail = sessionAny.customer_details?.email || session.customer_email;
+            if (!purchaserEmail) throw new Error(`Component checkout ${session.id} has no purchaser email`);
+            let receiptUrl: string | null = null;
+            const paymentIntentId = typeof session.payment_intent === 'string' ? session.payment_intent : session.payment_intent?.id;
+            if (paymentIntentId) {
+              const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId, { expand: ['latest_charge'] });
+              const charge = typeof paymentIntent.latest_charge === 'object' ? paymentIntent.latest_charge : null;
+              receiptUrl = charge && !charge.refunded ? charge.receipt_url : charge?.receipt_url ?? null;
+            }
+            await connectToDatabase();
+            await ComponentPurchase.findOneAndUpdate(
+              { stripeCheckoutSessionId: session.id },
+              {
+                $set: { status: 'paid', receiptUrl, stripePaymentIntentId: paymentIntentId ?? null, updatedAt: new Date() },
+                $setOnInsert: { purchaserUserId, purchaserEmail, productId: component.id, productName: component.name.es, productKind: component.kind, amountPaidCents: component.priceCents, currency: component.currency, downloadCount: 0, maxDownloads: 5, purchasedAt: new Date() },
+              },
+              { upsert: true, returnDocument: 'after' }
+            );
+            /**
+             * Recibo por correo. La marca se reclama en la misma fila de la
+             * compra, así que un reintento del webhook no envía un segundo
+             * correo. El envío va sin `await` y sin propagar el fallo: si
+             * Resend está caído, la compra ya está registrada y devolver un
+             * error a Stripe solo provocaría más reintentos.
+             */
+            const claimReceipt = await ComponentPurchase.updateOne(
+              { stripeCheckoutSessionId: session.id, receiptEmailSentAt: null },
+              { $set: { receiptEmailSentAt: new Date() } }
+            );
+            if (claimReceipt.modifiedCount) {
+              const { sendPurchaseReceipt } = await import('@/lib/transactional-email');
+              void sendPurchaseReceipt({
+                to: purchaserEmail,
+                userId: purchaserUserId,
+                productName: component.name.es,
+                productId: component.id,
+                amountPaidCents: component.priceCents,
+                currency: component.currency,
+                receiptUrl,
+              });
+            }
+            void recordObservabilityEvent({ category: 'commerce', name: 'component_purchase_completed', route: '/api/webhooks/stripe', userId: purchaserUserId, productId: component.id, status: 'completed', value: component.priceCents, unit: component.currency, metadata: { stripeSessionId: session.id, productKind: component.kind } });
+          }
+          if (sessionAny.metadata?.purchaseType === 'component_bundle') {
+            const productIds = (sessionAny.metadata.productIds || '').split(',');
+            const purchaserUserId = sessionAny.metadata.purchaserUserId;
+            if (!purchaserUserId) throw new Error(`Invalid component bundle purchase metadata for ${session.id}`);
+            const purchaserEmail = sessionAny.customer_details?.email || session.customer_email;
+            if (!purchaserEmail) throw new Error(`Component bundle checkout ${session.id} has no purchaser email`);
+
+            let receiptUrl: string | null = null;
+            const paymentIntentId = typeof session.payment_intent === 'string' ? session.payment_intent : session.payment_intent?.id;
+            if (paymentIntentId) {
+              const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId, { expand: ['latest_charge'] });
+              const charge = typeof paymentIntent.latest_charge === 'object' ? paymentIntent.latest_charge : null;
+              receiptUrl = charge && !charge.refunded ? charge.receipt_url : charge?.receipt_url ?? null;
+            }
+
+            await connectToDatabase();
+            for (const productId of productIds) {
+              if (!productId) continue;
+              const component = await getComponentProductContent(productId);
+              if (!component) continue;
+              const uniqueSessionId = `${session.id}_${component.id}`;
+              const amountPaidCents = Math.round(component.priceCents * 0.8);
+              await ComponentPurchase.findOneAndUpdate(
+                { stripeCheckoutSessionId: uniqueSessionId },
+                {
+                  $set: { status: 'paid', receiptUrl, stripePaymentIntentId: paymentIntentId ?? null, updatedAt: new Date() },
+                  $setOnInsert: { purchaserUserId, purchaserEmail, productId: component.id, productName: component.name.es, productKind: component.kind, amountPaidCents, currency: component.currency, downloadCount: 0, maxDownloads: 5, purchasedAt: new Date() },
+                },
+                { upsert: true }
+              );
+            }
+            void recordObservabilityEvent({ category: 'commerce', name: 'component_bundle_purchase_completed', route: '/api/webhooks/stripe', userId: purchaserUserId, productId: 'bundle', status: 'completed', value: session.amount_total ?? 0, unit: session.currency ?? 'usd', metadata: { stripeSessionId: session.id } });
+          }
           if (buyerKey !== 'guest') {
             const clerkUserId = buyerKey;
             const client = await clerkClient();
@@ -304,6 +460,8 @@ export async function POST(req: Request) {
       case 'checkout.session.expired':
       case 'checkout.session.async_payment_failed': {
         // No access or subscription state is granted for unsuccessful checkouts.
+        const failedSession = event.data.object as Stripe.Checkout.Session;
+        void recordObservabilityEvent({ category: 'stripe', name: event.type, route: '/api/webhooks/stripe', productId: failedSession.metadata?.productId ?? failedSession.metadata?.pageId ?? null, status: 'failed', value: failedSession.amount_total ?? null, unit: failedSession.currency ?? null, metadata: { sessionId: failedSession.id } });
         break;
       }
 
@@ -355,11 +513,27 @@ export async function POST(req: Request) {
         });
         break;
       }
+
+      case 'charge.refunded': {
+        const charge = event.data.object as Stripe.Charge;
+        const paymentIntentId = typeof charge.payment_intent === 'string' ? charge.payment_intent : charge.payment_intent?.id;
+        if (paymentIntentId && charge.refunded) {
+          await connectToDatabase();
+          await ComponentPurchase.updateMany({ stripePaymentIntentId: paymentIntentId }, { $set: { status: 'refunded', updatedAt: new Date() } });
+          // Las recargas reembolsadas quedan marcadas pero no se descuenta el
+          // saldo: los créditos pueden estar ya gastados y restarlos dejaría la
+          // cuenta en negativo.
+          await markCreditPurchaseRefunded(paymentIntentId);
+        }
+        break;
+      }
     }
   } catch (err) {
-    console.error('Stripe webhook handler error:', err);
+    reportOperationalError({ category: 'stripe', name: 'webhook_handler_error', route: '/api/webhooks/stripe', metadata: { operation: 'process_webhook', provider: 'stripe', eventId: event.id, eventType: event.type, correlationId: event.id } }, err);
     return NextResponse.json({ error: 'Webhook handler failed' }, { status: 500 });
   }
+
+  void recordObservabilityEvent({ category: 'stripe', name: 'webhook_processed', route: '/api/webhooks/stripe', status: 'success', metadata: { eventId: event.id, eventType: event.type } });
 
   return NextResponse.json({ received: true });
 }

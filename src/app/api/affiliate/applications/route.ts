@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { enforceIpRateLimit, RATE_LIMITS } from '@/lib/rate-limit';
 import connectToDatabase from '@/lib/mongoose';
 import AffiliateApplication from '@/models/AffiliateApplication';
 
@@ -11,6 +12,14 @@ function isValidEmail(value: string) {
 }
 
 export async function POST(request: Request) {
+  /**
+   * Alta pública: cualquiera puede solicitar ser afiliado sin cuenta previa, que
+   * es lo que pide el formulario. Sin límite por IP, eso es una vía directa para
+   * llenar la colección de solicitudes basura.
+   */
+  const limited = await enforceIpRateLimit(request, 'affiliate-applications', RATE_LIMITS.publicWrite);
+  if (limited) return limited;
+
   const body = await request.json().catch(() => null);
 
   const fullName = safeString(body?.fullName);

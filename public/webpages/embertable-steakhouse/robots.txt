@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://embertable-steakhouse.com/sitemap.xml

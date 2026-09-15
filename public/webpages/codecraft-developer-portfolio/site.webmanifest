@@ -1,0 +1,10 @@
+{
+  "name": "CodeCraft — Creative Developer",
+  "short_name": "CodeCraft",
+  "description": "Creative full-stack developer portfolio and immersive 3D web experiences.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#070b08",
+  "theme_color": "#d4ff43",
+  "lang": "en-US"
+}

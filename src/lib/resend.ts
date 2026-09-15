@@ -1,20 +1,31 @@
 import { Resend } from 'resend';
 
-const apiKey = process.env.RESEND_API_KEY;
+/**
+ * El cliente se construye en el primer uso, no al importar el módulo.
+ *
+ * Lanzar al importar convertía un `RESEND_API_KEY` ausente en un fallo de build:
+ * `next build` importa cada módulo de ruta para recolectar datos de página. Un
+ * secreto que falta debe romper el envío del correo, no la compilación.
+ *
+ * Valor de ejemplo en el entorno local: `RESEND_API_KEY=re_xxxxxxxxx`.
+ */
+let cliente: Resend | null = null;
 
-if (!apiKey) {
-  throw new Error('Missing RESEND_API_KEY environment variable');
+function instancia(): Resend {
+  if (cliente) return cliente;
+  const apiKey = process.env.RESEND_API_KEY?.trim();
+  if (!apiKey) throw new Error('Falta RESEND_API_KEY: no se puede enviar correo.');
+  cliente = new Resend(apiKey);
+  return cliente;
 }
 
-export const resend = new Resend(apiKey);
-
-
-
-/**
- * Replace `re_xxxxxxxxx` with your real Resend API key in `RESEND_API_KEY`.
- * Example local env value:
- * RESEND_API_KEY=re_xxxxxxxxx
- */
+export const resend = new Proxy({} as Resend, {
+  get(_destino, propiedad) {
+    const real = instancia() as unknown as Record<PropertyKey, unknown>;
+    const valor = real[propiedad];
+    return typeof valor === 'function' ? valor.bind(real) : valor;
+  },
+});
 
 export async function upsertResendContact(params: {
   email: string;

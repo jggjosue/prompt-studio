@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f4f4ef"/>
+  <circle cx="1028" cy="94" r="270" fill="#c9ff3d" opacity=".75"/>
+  <circle cx="1030" cy="96" r="190" fill="#6957ff"/>
+  <path d="M0 528C250 450 430 650 690 544s328-154 510-75v161H0z" fill="#11120f"/>
+  <text x="75" y="105" fill="#11120f" font-family="Arial,sans-serif" font-size="29" font-weight="700">CaseLab •</text>
+  <text x="75" y="263" fill="#11120f" font-family="Arial,sans-serif" font-size="88" font-weight="700" letter-spacing="-5">Diseño que</text>
+  <text x="75" y="355" fill="#6957ff" font-family="Georgia,serif" font-size="102" font-style="italic" font-weight="700">hace clic.</text>
+  <text x="79" y="427" fill="#656860" font-family="Arial,sans-serif" font-size="25">UX/UI · Product Design · Research · Systems</text>
+  <text x="75" y="580" fill="#f4f4ef" font-family="Arial,sans-serif" font-size="20" letter-spacing="3">PORTAFOLIO DE PRODUCT DESIGN</text>
+</svg>

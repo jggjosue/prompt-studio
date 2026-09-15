@@ -1,0 +1,37 @@
+{
+  "id": "170",
+  "title": {
+    "en": "Buffer Events 3D",
+    "es": "Buffer Events 3D"
+  },
+  "description": {
+    "es": {
+      "nombre": "Landing page 3D para programa de afiliados",
+      "prompt": "Crea una landing page para convertir afiliados, con colores vibrantes, elementos 3D y animaciones interactivas.",
+      "estilo": "Landing page editorial en 3D, vibrante y moderna, con animaciones fluidas."
+    },
+    "en": {
+      "name": "3D affiliate program landing page",
+      "prompt": "Create a landing page designed to convert affiliates, using vibrant colors, 3D elements, and interactive animations."
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "Vibrant 3D affiliate marketing event landing page with floating cards",
+    "es": "Landing page vibrante de afiliados y eventos con tarjetas 3D flotantes"
+  },
+  "demoUrl": "https://www.prompstudio.com/landing-pages/buffer-clone",
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "tags": [
+    "affiliate",
+    "commission",
+    "program",
+    "marketing landing page"
+  ],
+  "membership": "Premium",
+  "price": "15.00"
+}

@@ -1,0 +1,18 @@
+{
+  "name": "Northwind AI",
+  "short_name": "Northwind",
+  "description": "Automatización de ventas impulsada por inteligencia artificial.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f0820",
+  "theme_color": "#1a0b2e",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
+

@@ -1,0 +1,38 @@
+{
+  "id": "170",
+  "title": {
+    "en": "Framehaus — 3D Art Director Portfolio",
+    "es": "Framehaus — Portafolio 3D de Dirección de Arte"
+  },
+  "description": {
+    "es": {
+      "nombre": "Framehaus — Portafolio 3D de Dirección de Arte",
+      "prompt": "Crea un portafolio editorial de dirección de arte con una identidad visual audaz, una escultura 3D interactiva, animaciones fluidas y secciones para proyectos, estudio y contacto.",
+      "estilo": "Editorial contemporáneo, experimental y brutalista; paleta verde ácido, negro, naranja y marfil, tipografía de gran formato y profundidad tridimensional."
+    },
+    "en": {
+      "name": "Framehaus — 3D Art Director Portfolio",
+      "prompt": "Create an editorial art direction portfolio with a bold visual identity, an interactive 3D sculpture, fluid animations, and dedicated work, studio, and contact sections."
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "Experimental art director portfolio with acid green background, oversized black editorial typography, orange accents, and an interactive chrome-like 3D orb",
+    "es": "Portafolio experimental de dirección de arte con fondo verde ácido, tipografía editorial negra de gran formato, acentos naranjas y una esfera 3D interactiva de apariencia cromada"
+  },
+  "demoUrl": "webpages_framehaus-art-director-portfolio_index.html",
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "tags": [
+    "art director portfolio",
+    "3D",
+    "editorial design",
+    "creative portfolio",
+    "interactive landing page"
+  ],
+  "membership": "Premium",
+  "price": "15.00"
+}

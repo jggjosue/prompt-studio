@@ -1,4 +1,3 @@
-import type Stripe from 'stripe';
 import type { StripeUserMetadata } from '@/lib/stripe';
 
 export const AFFILIATE_REF_STORAGE_KEY = 'prompt-studio-affiliate-referrer';

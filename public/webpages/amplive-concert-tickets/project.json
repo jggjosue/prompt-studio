@@ -1,0 +1,37 @@
+{
+  "id": "170",
+  "title": {
+    "en": "AmpLive — 3D Concert Tickets",
+    "es": "AmpLive — Entradas para conciertos en 3D"
+  },
+  "description": {
+    "es": {
+      "nombre": "AmpLive — Entradas para conciertos en 3D",
+      "prompt": "Crea una landing page inmersiva para descubrir conciertos y comprar entradas, con estética oscura, colores neón, elementos 3D, animaciones fluidas, filtros por género y un flujo interactivo de selección de tickets.",
+      "estilo": "Inmersivo, musical y futurista; dirección de arte editorial con fondo oscuro, verde ácido, naranja y violeta, tipografía condensada, fotografía de conciertos y profundidad 3D."
+    },
+    "en": {
+      "name": "AmpLive — 3D Concert Tickets",
+      "prompt": "Create an immersive landing page for discovering concerts and buying tickets, featuring a dark neon aesthetic, 3D elements, fluid animations, genre filters, and an interactive ticket-selection flow."
+    }
+  },
+  "imageUrl": "",
+  "imageHint": {
+    "en": "Dark neon concert ticket website with a live festival crowd, acid green 3D ticket, bold condensed typography, orange and violet accents",
+    "es": "Sitio de entradas para conciertos con estética neón oscura, público en un festival, ticket 3D verde ácido, tipografía condensada y acentos naranjas y violetas"
+  },
+  "demoUrl": "webpages_amplive-concert-tickets_index.html",
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "tags": [
+    "concert",
+    "tickets",
+    "music",
+    "3D landing page"
+  ],
+  "membership": "Premium",
+  "price": "15.00"
+}

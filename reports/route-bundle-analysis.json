@@ -1,0 +1,1188 @@
+{
+  "generatedAt": "2026-09-12T00:01:45.664Z",
+  "note": "Source-level estimate. Run a production Next.js build for compressed chunk sizes.",
+  "routes": [
+    {
+      "route": "/[locale]/gallery/[id]",
+      "clientSourceBytes": 831133,
+      "clientModules": 36,
+      "packages": [
+        "@clerk/nextjs",
+        "@radix-ui/react-accordion",
+        "@radix-ui/react-dropdown-menu",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/my-components",
+      "clientSourceBytes": 673624,
+      "clientModules": 18,
+      "packages": [
+        "clsx",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/component-kits",
+      "clientSourceBytes": 596249,
+      "clientModules": 34,
+      "packages": [
+        "@clerk/nextjs",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/web-animations",
+      "clientSourceBytes": 446210,
+      "clientModules": 49,
+      "packages": [
+        "@clerk/nextjs",
+        "@radix-ui/react-accordion",
+        "@radix-ui/react-checkbox",
+        "@radix-ui/react-dialog",
+        "@radix-ui/react-dropdown-menu",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "framer-motion",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/generate-images",
+      "clientSourceBytes": 338790,
+      "clientModules": 50,
+      "packages": [
+        "@clerk/nextjs",
+        "@genkit-ai/google-genai",
+        "@radix-ui/react-accordion",
+        "@radix-ui/react-dropdown-menu",
+        "@radix-ui/react-label",
+        "@radix-ui/react-select",
+        "@radix-ui/react-slider",
+        "@radix-ui/react-slot",
+        "@radix-ui/react-switch",
+        "@radix-ui/react-tabs",
+        "class-variance-authority",
+        "clsx",
+        "crypto",
+        "framer-motion",
+        "genkit",
+        "lucide-react",
+        "mongoose",
+        "next",
+        "next-intl",
+        "node:crypto",
+        "react",
+        "server-only",
+        "stripe",
+        "tailwind-merge",
+        "zod"
+      ]
+    },
+    {
+      "route": "/[locale]/generate-videos",
+      "clientSourceBytes": 331048,
+      "clientModules": 50,
+      "packages": [
+        "@clerk/nextjs",
+        "@genkit-ai/google-genai",
+        "@radix-ui/react-accordion",
+        "@radix-ui/react-dropdown-menu",
+        "@radix-ui/react-label",
+        "@radix-ui/react-select",
+        "@radix-ui/react-slider",
+        "@radix-ui/react-slot",
+        "@radix-ui/react-switch",
+        "@radix-ui/react-tabs",
+        "class-variance-authority",
+        "clsx",
+        "crypto",
+        "framer-motion",
+        "genkit",
+        "lucide-react",
+        "mongoose",
+        "next",
+        "next-intl",
+        "node:crypto",
+        "react",
+        "server-only",
+        "stripe",
+        "tailwind-merge",
+        "zod"
+      ]
+    },
+    {
+      "route": "/[locale]/generate-webs",
+      "clientSourceBytes": 319414,
+      "clientModules": 57,
+      "packages": [
+        "@clerk/nextjs",
+        "@genkit-ai/google-genai",
+        "@radix-ui/react-accordion",
+        "@radix-ui/react-dropdown-menu",
+        "@radix-ui/react-label",
+        "@radix-ui/react-select",
+        "@radix-ui/react-slider",
+        "@radix-ui/react-slot",
+        "@radix-ui/react-switch",
+        "@radix-ui/react-tabs",
+        "class-variance-authority",
+        "clsx",
+        "crypto",
+        "framer-motion",
+        "genkit",
+        "lucide-react",
+        "mongoose",
+        "next",
+        "next-intl",
+        "node:crypto",
+        "react",
+        "server-only",
+        "stripe",
+        "tailwind-merge",
+        "zod"
+      ]
+    },
+    {
+      "route": "/[locale]/form-components",
+      "clientSourceBytes": 283222,
+      "clientModules": 45,
+      "packages": [
+        "@clerk/nextjs",
+        "@radix-ui/react-dialog",
+        "@radix-ui/react-dropdown-menu",
+        "@radix-ui/react-slot",
+        "@radix-ui/react-tabs",
+        "class-variance-authority",
+        "clsx",
+        "firebase",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/page-composer",
+      "clientSourceBytes": 248326,
+      "clientModules": 34,
+      "packages": [
+        "@radix-ui/react-dropdown-menu",
+        "@radix-ui/react-label",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/landing-pages/[slug]/edit",
+      "clientSourceBytes": 236689,
+      "clientModules": 34,
+      "packages": [
+        "@radix-ui/react-dropdown-menu",
+        "@radix-ui/react-label",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/component-builder",
+      "clientSourceBytes": 224995,
+      "clientModules": 32,
+      "packages": [
+        "@radix-ui/react-label",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/login-components",
+      "clientSourceBytes": 215763,
+      "clientModules": 45,
+      "packages": [
+        "@clerk/nextjs",
+        "@radix-ui/react-dialog",
+        "@radix-ui/react-dropdown-menu",
+        "@radix-ui/react-slot",
+        "@radix-ui/react-tabs",
+        "class-variance-authority",
+        "clsx",
+        "firebase",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/text-components",
+      "clientSourceBytes": 215557,
+      "clientModules": 45,
+      "packages": [
+        "@clerk/nextjs",
+        "@radix-ui/react-dialog",
+        "@radix-ui/react-dropdown-menu",
+        "@radix-ui/react-slot",
+        "@radix-ui/react-tabs",
+        "class-variance-authority",
+        "clsx",
+        "firebase",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/header-components",
+      "clientSourceBytes": 211445,
+      "clientModules": 45,
+      "packages": [
+        "@clerk/nextjs",
+        "@radix-ui/react-dialog",
+        "@radix-ui/react-dropdown-menu",
+        "@radix-ui/react-slot",
+        "@radix-ui/react-tabs",
+        "class-variance-authority",
+        "clsx",
+        "firebase",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/landing-pages",
+      "clientSourceBytes": 191454,
+      "clientModules": 63,
+      "packages": [
+        "@clerk/nextjs",
+        "@radix-ui/react-dialog",
+        "@radix-ui/react-dropdown-menu",
+        "@radix-ui/react-popover",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "firebase",
+        "framer-motion",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/video-prompts",
+      "clientSourceBytes": 185094,
+      "clientModules": 58,
+      "packages": [
+        "@clerk/nextjs",
+        "@radix-ui/react-accordion",
+        "@radix-ui/react-checkbox",
+        "@radix-ui/react-dropdown-menu",
+        "@radix-ui/react-slot",
+        "@radix-ui/react-tabs",
+        "class-variance-authority",
+        "clsx",
+        "framer-motion",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/web-tags",
+      "clientSourceBytes": 158746,
+      "clientModules": 43,
+      "packages": [
+        "@clerk/nextjs",
+        "@radix-ui/react-dropdown-menu",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/image-tags",
+      "clientSourceBytes": 147146,
+      "clientModules": 47,
+      "packages": [
+        "@clerk/nextjs",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "framer-motion",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/video-tags",
+      "clientSourceBytes": 147096,
+      "clientModules": 47,
+      "packages": [
+        "@clerk/nextjs",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "framer-motion",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/prompts",
+      "clientSourceBytes": 130398,
+      "clientModules": 42,
+      "packages": [
+        "@clerk/nextjs",
+        "@radix-ui/react-accordion",
+        "@radix-ui/react-checkbox",
+        "@radix-ui/react-dropdown-menu",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "framer-motion",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/gallery-videos/[id]",
+      "clientSourceBytes": 126769,
+      "clientModules": 39,
+      "packages": [
+        "@clerk/nextjs",
+        "@radix-ui/react-accordion",
+        "@radix-ui/react-dropdown-menu",
+        "@radix-ui/react-progress",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]",
+      "clientSourceBytes": 110520,
+      "clientModules": 31,
+      "packages": [
+        "@clerk/nextjs",
+        "@radix-ui/react-dropdown-menu",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "framer-motion",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/smart-search",
+      "clientSourceBytes": 106902,
+      "clientModules": 32,
+      "packages": [
+        "@clerk/nextjs",
+        "@radix-ui/react-dropdown-menu",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "firebase",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/prices",
+      "clientSourceBytes": 101913,
+      "clientModules": 25,
+      "packages": [
+        "@clerk/nextjs",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "firebase",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/image-prompts",
+      "clientSourceBytes": 101182,
+      "clientModules": 32,
+      "packages": [
+        "@radix-ui/react-dropdown-menu",
+        "@radix-ui/react-slot",
+        "@radix-ui/react-tabs",
+        "class-variance-authority",
+        "clsx",
+        "framer-motion",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/prompts/[modelId]",
+      "clientSourceBytes": 99404,
+      "clientModules": 30,
+      "packages": [
+        "@clerk/nextjs",
+        "@radix-ui/react-dropdown-menu",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/landing-pages/[slug]",
+      "clientSourceBytes": 96753,
+      "clientModules": 29,
+      "packages": [
+        "@clerk/nextjs",
+        "@radix-ui/react-dropdown-menu",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/dashboard/profile",
+      "clientSourceBytes": 90984,
+      "clientModules": 24,
+      "packages": [
+        "@clerk/nextjs",
+        "@radix-ui/react-label",
+        "@radix-ui/react-progress",
+        "@radix-ui/react-separator",
+        "@radix-ui/react-slot",
+        "@radix-ui/react-tabs",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/dashboard/landing-editor",
+      "clientSourceBytes": 88828,
+      "clientModules": 26,
+      "packages": [
+        "@radix-ui/react-label",
+        "@radix-ui/react-popover",
+        "@radix-ui/react-select",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/affiliate-program-terms",
+      "clientSourceBytes": 59003,
+      "clientModules": 3,
+      "packages": [
+        "framer-motion",
+        "next",
+        "react"
+      ]
+    },
+    {
+      "route": "/[locale]/prompt-optimizer",
+      "clientSourceBytes": 53877,
+      "clientModules": 18,
+      "packages": [
+        "@radix-ui/react-checkbox",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/landing-pages/[slug]/preview",
+      "clientSourceBytes": 50243,
+      "clientModules": 12,
+      "packages": [
+        "@radix-ui/react-dialog",
+        "clsx",
+        "firebase",
+        "lucide-react",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/affiliate-program",
+      "clientSourceBytes": 46680,
+      "clientModules": 14,
+      "packages": [
+        "@radix-ui/react-dropdown-menu",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/cookies",
+      "clientSourceBytes": 46663,
+      "clientModules": 14,
+      "packages": [
+        "@radix-ui/react-dropdown-menu",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/licenses",
+      "clientSourceBytes": 46663,
+      "clientModules": 14,
+      "packages": [
+        "@radix-ui/react-dropdown-menu",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/privacy",
+      "clientSourceBytes": 46663,
+      "clientModules": 14,
+      "packages": [
+        "@radix-ui/react-dropdown-menu",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/refunds",
+      "clientSourceBytes": 46663,
+      "clientModules": 14,
+      "packages": [
+        "@radix-ui/react-dropdown-menu",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/terms",
+      "clientSourceBytes": 46663,
+      "clientModules": 14,
+      "packages": [
+        "@radix-ui/react-dropdown-menu",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/manual-actions",
+      "clientSourceBytes": 46200,
+      "clientModules": 13,
+      "packages": [
+        "@radix-ui/react-dropdown-menu",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/publisher-guidelines",
+      "clientSourceBytes": 42385,
+      "clientModules": 14,
+      "packages": [
+        "@radix-ui/react-label",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/dashboard/campaigns",
+      "clientSourceBytes": 34900,
+      "clientModules": 12,
+      "packages": [
+        "@clerk/nextjs",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "framer-motion",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/dashboard/creations",
+      "clientSourceBytes": 30082,
+      "clientModules": 15,
+      "packages": [
+        "@clerk/nextjs",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/dashboard/favorites",
+      "clientSourceBytes": 30082,
+      "clientModules": 15,
+      "packages": [
+        "@clerk/nextjs",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/dashboard/projects",
+      "clientSourceBytes": 25016,
+      "clientModules": 1,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/ask",
+      "clientSourceBytes": 23229,
+      "clientModules": 8,
+      "packages": [
+        "@radix-ui/react-accordion",
+        "clsx",
+        "lucide-react",
+        "next",
+        "next-intl",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/dashboard/credits",
+      "clientSourceBytes": 21910,
+      "clientModules": 7,
+      "packages": [
+        "@radix-ui/react-dialog",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "firebase",
+        "lucide-react",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/category/[slug]",
+      "clientSourceBytes": 20393,
+      "clientModules": 7,
+      "packages": [
+        "clsx",
+        "lucide-react",
+        "next",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/tags/[slug]",
+      "clientSourceBytes": 20393,
+      "clientModules": 7,
+      "packages": [
+        "clsx",
+        "lucide-react",
+        "next",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/dashboard/prompt-lab",
+      "clientSourceBytes": 14477,
+      "clientModules": 8,
+      "packages": [
+        "@radix-ui/react-progress",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/review/[token]",
+      "clientSourceBytes": 12610,
+      "clientModules": 8,
+      "packages": [
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/dashboard/affiliate-applications",
+      "clientSourceBytes": 12401,
+      "clientModules": 4,
+      "packages": [
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/dashboard/library",
+      "clientSourceBytes": 10569,
+      "clientModules": 5,
+      "packages": [
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/dashboard",
+      "clientSourceBytes": 9291,
+      "clientModules": 5,
+      "packages": [
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "next",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/admin/product-reviews",
+      "clientSourceBytes": 5866,
+      "clientModules": 3,
+      "packages": [
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "react",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "route": "/[locale]/dashboard/generations",
+      "clientSourceBytes": 4873,
+      "clientModules": 1,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/dashboard/observability",
+      "clientSourceBytes": 3906,
+      "clientModules": 1,
+      "packages": [
+        "react"
+      ]
+    },
+    {
+      "route": "/[locale]/component-compare",
+      "clientSourceBytes": 815,
+      "clientModules": 1,
+      "packages": [
+        "next"
+      ]
+    },
+    {
+      "route": "/[locale]/(auth)/login",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/(auth)/register",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/admin/affiliate-sales",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/button-components",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/card-components",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/checkout/elite",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/checkout/entrepreneur",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/checkout/mini",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/checkout/professional",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/code-auditor",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/community",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/dashboard/analytics",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/dashboard/assets",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/dashboard/batches",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/dashboard/billing",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/dashboard/brand-kits",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/dashboard/campaign-assistant",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/dashboard/creator-marketplace",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/dashboard/evaluations",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/dashboard/feature-experiments",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/dashboard/human-evaluations",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/dashboard/main-funnel",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/dashboard/model-regressions",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/dashboard/output-contracts",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/dashboard/provider-quality",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/dashboard/publications",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/dashboard/settings",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/demo/reproducible",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/marketplace",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/navigation-components",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/sidebar-components",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/sign-in/[[...sign-in]]",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/sign-up/[[...sign-up]]",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    },
+    {
+      "route": "/[locale]/web-animationsz",
+      "clientSourceBytes": 0,
+      "clientModules": 0,
+      "packages": []
+    }
+  ],
+  "packageUsage": {
+    "react": 54,
+    "clsx": 52,
+    "tailwind-merge": 52,
+    "lucide-react": 51,
+    "@radix-ui/react-slot": 47,
+    "class-variance-authority": 47,
+    "next": 47,
+    "next-intl": 42,
+    "@radix-ui/react-dropdown-menu": 28,
+    "@clerk/nextjs": 26,
+    "framer-motion": 13,
+    "@radix-ui/react-tabs": 10,
+    "@radix-ui/react-accordion": 9,
+    "@radix-ui/react-label": 9,
+    "firebase": 9,
+    "@radix-ui/react-dialog": 8,
+    "@radix-ui/react-checkbox": 4,
+    "@radix-ui/react-select": 4,
+    "@genkit-ai/google-genai": 3,
+    "@radix-ui/react-slider": 3,
+    "@radix-ui/react-switch": 3,
+    "crypto": 3,
+    "genkit": 3,
+    "mongoose": 3,
+    "node:crypto": 3,
+    "server-only": 3,
+    "stripe": 3,
+    "zod": 3,
+    "@radix-ui/react-progress": 3,
+    "@radix-ui/react-popover": 2,
+    "@radix-ui/react-separator": 1
+  }
+}

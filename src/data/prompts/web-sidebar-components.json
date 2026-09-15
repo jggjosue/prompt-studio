@@ -1,0 +1,2058 @@
+{
+  "title_es": "Componentes de sidebar",
+  "title_en": "Sidebar components",
+  "description_es": "Barras laterales interactivas listas para visualizar, personalizar y generar.",
+  "description_en": "Interactive sidebars ready to preview, customize, and generate.",
+  "components": [
+    {
+      "id": "sidebar-001",
+      "name": {
+        "en": "Aurora Glass Workspace Sidebar",
+        "es": "Sidebar Workspace Glass Aurora"
+      },
+      "description": {
+        "en": "floating glass sidebar on the right with collapsible groups and responsive drawer.",
+        "es": "Barra lateral glass floating a la derecha con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Aurora Glass Workspace” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a floating right-side layout for a glass product with primary #8b5cf6, secondary #ec4899, and background #09090b. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Workspace Glass Aurora» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout floating al lado derecho para un producto glass, con color principal #8b5cf6, secundario #ec4899 y fondo #09090b. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "glass",
+        "layout": "floating",
+        "side": "right",
+        "primary": "#8b5cf6",
+        "secondary": "#ec4899",
+        "background": "#09090b",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "glass",
+        "floating",
+        "right",
+        "Responsive"
+      ],
+      "membership": "Free"
+    },
+    {
+      "id": "sidebar-002",
+      "name": {
+        "en": "Ocean Analytics Rail Sidebar",
+        "es": "Sidebar Rail Analítico Océano"
+      },
+      "description": {
+        "en": "flush rail sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral rail flush a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Ocean Analytics Rail” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a flush left-side layout for a rail product with primary #0ea5e9, secondary #14b8a6, and background #effcff. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Rail Analítico Océano» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout flush al lado izquierdo para un producto rail, con color principal #0ea5e9, secundario #14b8a6 y fondo #effcff. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "rail",
+        "layout": "flush",
+        "side": "left",
+        "primary": "#0ea5e9",
+        "secondary": "#14b8a6",
+        "background": "#effcff",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "rail",
+        "flush",
+        "left",
+        "Collapsible"
+      ],
+      "membership": "Free"
+    },
+    {
+      "id": "sidebar-003",
+      "name": {
+        "en": "Midnight SaaS Console Sidebar",
+        "es": "Sidebar Consola SaaS Medianoche"
+      },
+      "description": {
+        "en": "rail saas sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral saas rail a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Midnight SaaS Console” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a rail left-side layout for a saas product with primary #f97316, secondary #facc15, and background #fff7ed. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Consola SaaS Medianoche» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout rail al lado izquierdo para un producto saas, con color principal #f97316, secundario #facc15 y fondo #fff7ed. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "saas",
+        "layout": "rail",
+        "side": "left",
+        "primary": "#f97316",
+        "secondary": "#facc15",
+        "background": "#fff7ed",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "saas",
+        "rail",
+        "left",
+        "Responsive"
+      ],
+      "membership": "Free"
+    },
+    {
+      "id": "sidebar-004",
+      "name": {
+        "en": "Editorial Content Studio Sidebar",
+        "es": "Sidebar Estudio de Contenido Editorial"
+      },
+      "description": {
+        "en": "layered editorial sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral editorial layered a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Editorial Content Studio” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a layered left-side layout for a editorial product with primary #22c55e, secondary #06b6d4, and background #03150d. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Estudio de Contenido Editorial» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout layered al lado izquierdo para un producto editorial, con color principal #22c55e, secundario #06b6d4 y fondo #03150d. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "editorial",
+        "layout": "layered",
+        "side": "left",
+        "primary": "#22c55e",
+        "secondary": "#06b6d4",
+        "background": "#03150d",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "editorial",
+        "layered",
+        "left",
+        "Collapsible"
+      ],
+      "membership": "Free"
+    },
+    {
+      "id": "sidebar-005",
+      "name": {
+        "en": "Emerald Finance Portal Sidebar",
+        "es": "Sidebar Portal Financiero Esmeralda"
+      },
+      "description": {
+        "en": "compact finance sidebar on the right with collapsible groups and responsive drawer.",
+        "es": "Barra lateral finance compact a la derecha con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Emerald Finance Portal” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a compact right-side layout for a finance product with primary #ef4444, secondary #f472b6, and background #fff1f2. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Portal Financiero Esmeralda» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout compact al lado derecho para un producto finance, con color principal #ef4444, secundario #f472b6 y fondo #fff1f2. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "finance",
+        "layout": "compact",
+        "side": "right",
+        "primary": "#ef4444",
+        "secondary": "#f472b6",
+        "background": "#fff1f2",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "finance",
+        "compact",
+        "right",
+        "Responsive"
+      ],
+      "membership": "Free"
+    },
+    {
+      "id": "sidebar-006",
+      "name": {
+        "en": "Coral Creator Hub Sidebar",
+        "es": "Sidebar Hub de Creadores Coral"
+      },
+      "description": {
+        "en": "wide creator sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral creator wide a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Coral Creator Hub” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a wide left-side layout for a creator product with primary #6366f1, secondary #22d3ee, and background #080b1c. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Hub de Creadores Coral» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout wide al lado izquierdo para un producto creator, con color principal #6366f1, secundario #22d3ee y fondo #080b1c. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "creator",
+        "layout": "wide",
+        "side": "left",
+        "primary": "#6366f1",
+        "secondary": "#22d3ee",
+        "background": "#080b1c",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "creator",
+        "wide",
+        "left",
+        "Collapsible"
+      ],
+      "membership": "Free"
+    },
+    {
+      "id": "sidebar-007",
+      "name": {
+        "en": "Mono Developer Tools Sidebar",
+        "es": "Sidebar Herramientas Developer Mono"
+      },
+      "description": {
+        "en": "icons developer sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral developer icons a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Mono Developer Tools” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a icons left-side layout for a developer product with primary #a3e635, secondary #14b8a6, and background #f7fee7. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Herramientas Developer Mono» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout icons al lado izquierdo para un producto developer, con color principal #a3e635, secundario #14b8a6 y fondo #f7fee7. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "developer",
+        "layout": "icons",
+        "side": "left",
+        "primary": "#a3e635",
+        "secondary": "#14b8a6",
+        "background": "#f7fee7",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "developer",
+        "icons",
+        "left",
+        "Responsive"
+      ],
+      "membership": "Free"
+    },
+    {
+      "id": "sidebar-008",
+      "name": {
+        "en": "Lavender Wellness App Sidebar",
+        "es": "Sidebar App de Bienestar Lavanda"
+      },
+      "description": {
+        "en": "grouped wellness sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral wellness grouped a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Lavender Wellness App” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a grouped left-side layout for a wellness product with primary #d946ef, secondary #8b5cf6, and background #16051c. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «App de Bienestar Lavanda» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout grouped al lado izquierdo para un producto wellness, con color principal #d946ef, secundario #8b5cf6 y fondo #16051c. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "wellness",
+        "layout": "grouped",
+        "side": "left",
+        "primary": "#d946ef",
+        "secondary": "#8b5cf6",
+        "background": "#16051c",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "wellness",
+        "grouped",
+        "left",
+        "Collapsible"
+      ],
+      "membership": "Free"
+    },
+    {
+      "id": "sidebar-009",
+      "name": {
+        "en": "Cyber Security Ops Sidebar",
+        "es": "Sidebar Operaciones Cyber Security"
+      },
+      "description": {
+        "en": "gradient security sidebar on the right with collapsible groups and responsive drawer.",
+        "es": "Barra lateral security gradient a la derecha con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Cyber Security Ops” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a gradient right-side layout for a security product with primary #f59e0b, secondary #fb7185, and background #fffbeb. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Operaciones Cyber Security» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout gradient al lado derecho para un producto security, con color principal #f59e0b, secundario #fb7185 y fondo #fffbeb. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "security",
+        "layout": "gradient",
+        "side": "right",
+        "primary": "#f59e0b",
+        "secondary": "#fb7185",
+        "background": "#fffbeb",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "security",
+        "gradient",
+        "right",
+        "Responsive"
+      ],
+      "membership": "Free"
+    },
+    {
+      "id": "sidebar-010",
+      "name": {
+        "en": "Blue Enterprise Admin Sidebar",
+        "es": "Sidebar Administración Empresarial Azul"
+      },
+      "description": {
+        "en": "minimal admin sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral admin minimal a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Blue Enterprise Admin” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a minimal left-side layout for a admin product with primary #38bdf8, secondary #818cf8, and background #071325. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Administración Empresarial Azul» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout minimal al lado izquierdo para un producto admin, con color principal #38bdf8, secundario #818cf8 y fondo #071325. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "admin",
+        "layout": "minimal",
+        "side": "left",
+        "primary": "#38bdf8",
+        "secondary": "#818cf8",
+        "background": "#071325",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "admin",
+        "minimal",
+        "left",
+        "Collapsible"
+      ],
+      "membership": "Free"
+    },
+    {
+      "id": "sidebar-011",
+      "name": {
+        "en": "Rose Beauty Commerce Sidebar",
+        "es": "Sidebar Comercio Beauty Rosa"
+      },
+      "description": {
+        "en": "floating commerce sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral commerce floating a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Rose Beauty Commerce” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a floating left-side layout for a commerce product with primary #8b5cf6, secondary #ec4899, and background #09090b. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Comercio Beauty Rosa» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout floating al lado izquierdo para un producto commerce, con color principal #8b5cf6, secundario #ec4899 y fondo #09090b. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "commerce",
+        "layout": "floating",
+        "side": "left",
+        "primary": "#8b5cf6",
+        "secondary": "#ec4899",
+        "background": "#09090b",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "commerce",
+        "floating",
+        "left",
+        "Responsive"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-012",
+      "name": {
+        "en": "Solar Marketplace Seller Sidebar",
+        "es": "Sidebar Vendedor Marketplace Solar"
+      },
+      "description": {
+        "en": "flush seller sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral seller flush a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Solar Marketplace Seller” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a flush left-side layout for a seller product with primary #0ea5e9, secondary #14b8a6, and background #effcff. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Vendedor Marketplace Solar» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout flush al lado izquierdo para un producto seller, con color principal #0ea5e9, secundario #14b8a6 y fondo #effcff. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "seller",
+        "layout": "flush",
+        "side": "left",
+        "primary": "#0ea5e9",
+        "secondary": "#14b8a6",
+        "background": "#effcff",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "seller",
+        "flush",
+        "left",
+        "Collapsible"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-013",
+      "name": {
+        "en": "Slate Minimal Dashboard Sidebar",
+        "es": "Sidebar Dashboard Minimalista Slate"
+      },
+      "description": {
+        "en": "rail minimal sidebar on the right with collapsible groups and responsive drawer.",
+        "es": "Barra lateral minimal rail a la derecha con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Slate Minimal Dashboard” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a rail right-side layout for a minimal product with primary #f97316, secondary #facc15, and background #fff7ed. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Dashboard Minimalista Slate» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout rail al lado derecho para un producto minimal, con color principal #f97316, secundario #facc15 y fondo #fff7ed. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "minimal",
+        "layout": "rail",
+        "side": "right",
+        "primary": "#f97316",
+        "secondary": "#facc15",
+        "background": "#fff7ed",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "minimal",
+        "rail",
+        "right",
+        "Responsive"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-014",
+      "name": {
+        "en": "Violet AI Studio Sidebar",
+        "es": "Sidebar Estudio IA Violeta"
+      },
+      "description": {
+        "en": "layered ai sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral ai layered a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Violet AI Studio” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a layered left-side layout for a ai product with primary #22c55e, secondary #06b6d4, and background #03150d. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Estudio IA Violeta» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout layered al lado izquierdo para un producto ai, con color principal #22c55e, secundario #06b6d4 y fondo #03150d. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "ai",
+        "layout": "layered",
+        "side": "left",
+        "primary": "#22c55e",
+        "secondary": "#06b6d4",
+        "background": "#03150d",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "ai",
+        "layered",
+        "left",
+        "Collapsible"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-015",
+      "name": {
+        "en": "Mint Health Records Sidebar",
+        "es": "Sidebar Expedientes de Salud Menta"
+      },
+      "description": {
+        "en": "compact health sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral health compact a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Mint Health Records” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a compact left-side layout for a health product with primary #ef4444, secondary #f472b6, and background #fff1f2. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Expedientes de Salud Menta» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout compact al lado izquierdo para un producto health, con color principal #ef4444, secundario #f472b6 y fondo #fff1f2. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "health",
+        "layout": "compact",
+        "side": "left",
+        "primary": "#ef4444",
+        "secondary": "#f472b6",
+        "background": "#fff1f2",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "health",
+        "compact",
+        "left",
+        "Responsive"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-016",
+      "name": {
+        "en": "Ruby Luxury Members Sidebar",
+        "es": "Sidebar Miembros Luxury Rubí"
+      },
+      "description": {
+        "en": "wide membership sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral membership wide a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Ruby Luxury Members” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a wide left-side layout for a membership product with primary #6366f1, secondary #22d3ee, and background #080b1c. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Miembros Luxury Rubí» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout wide al lado izquierdo para un producto membership, con color principal #6366f1, secundario #22d3ee y fondo #080b1c. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "membership",
+        "layout": "wide",
+        "side": "left",
+        "primary": "#6366f1",
+        "secondary": "#22d3ee",
+        "background": "#080b1c",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "membership",
+        "wide",
+        "left",
+        "Collapsible"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-017",
+      "name": {
+        "en": "Indigo Project Manager Sidebar",
+        "es": "Sidebar Gestor de Proyectos Índigo"
+      },
+      "description": {
+        "en": "icons projects sidebar on the right with collapsible groups and responsive drawer.",
+        "es": "Barra lateral projects icons a la derecha con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Indigo Project Manager” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a icons right-side layout for a projects product with primary #a3e635, secondary #14b8a6, and background #f7fee7. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Gestor de Proyectos Índigo» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout icons al lado derecho para un producto projects, con color principal #a3e635, secundario #14b8a6 y fondo #f7fee7. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "projects",
+        "layout": "icons",
+        "side": "right",
+        "primary": "#a3e635",
+        "secondary": "#14b8a6",
+        "background": "#f7fee7",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "projects",
+        "icons",
+        "right",
+        "Responsive"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-018",
+      "name": {
+        "en": "Sand Travel Planner Sidebar",
+        "es": "Sidebar Planificador de Viaje Arena"
+      },
+      "description": {
+        "en": "grouped travel sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral travel grouped a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Sand Travel Planner” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a grouped left-side layout for a travel product with primary #d946ef, secondary #8b5cf6, and background #16051c. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Planificador de Viaje Arena» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout grouped al lado izquierdo para un producto travel, con color principal #d946ef, secundario #8b5cf6 y fondo #16051c. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "travel",
+        "layout": "grouped",
+        "side": "left",
+        "primary": "#d946ef",
+        "secondary": "#8b5cf6",
+        "background": "#16051c",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "travel",
+        "grouped",
+        "left",
+        "Collapsible"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-019",
+      "name": {
+        "en": "Lime Fitness Coach Sidebar",
+        "es": "Sidebar Coach Fitness Lima"
+      },
+      "description": {
+        "en": "gradient fitness sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral fitness gradient a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Lime Fitness Coach” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a gradient left-side layout for a fitness product with primary #f59e0b, secondary #fb7185, and background #fffbeb. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Coach Fitness Lima» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout gradient al lado izquierdo para un producto fitness, con color principal #f59e0b, secundario #fb7185 y fondo #fffbeb. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "fitness",
+        "layout": "gradient",
+        "side": "left",
+        "primary": "#f59e0b",
+        "secondary": "#fb7185",
+        "background": "#fffbeb",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "fitness",
+        "gradient",
+        "left",
+        "Responsive"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-020",
+      "name": {
+        "en": "Sky Learning Portal Sidebar",
+        "es": "Sidebar Portal Educativo Cielo"
+      },
+      "description": {
+        "en": "minimal education sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral education minimal a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Sky Learning Portal” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a minimal left-side layout for a education product with primary #38bdf8, secondary #818cf8, and background #071325. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Portal Educativo Cielo» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout minimal al lado izquierdo para un producto education, con color principal #38bdf8, secundario #818cf8 y fondo #071325. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "education",
+        "layout": "minimal",
+        "side": "left",
+        "primary": "#38bdf8",
+        "secondary": "#818cf8",
+        "background": "#071325",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "education",
+        "minimal",
+        "left",
+        "Collapsible"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-021",
+      "name": {
+        "en": "Obsidian Command Rail Sidebar",
+        "es": "Sidebar Rail de Comandos Obsidiana"
+      },
+      "description": {
+        "en": "floating command sidebar on the right with collapsible groups and responsive drawer.",
+        "es": "Barra lateral command floating a la derecha con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Obsidian Command Rail” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a floating right-side layout for a command product with primary #8b5cf6, secondary #ec4899, and background #09090b. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Rail de Comandos Obsidiana» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout floating al lado derecho para un producto command, con color principal #8b5cf6, secundario #ec4899 y fondo #09090b. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "command",
+        "layout": "floating",
+        "side": "right",
+        "primary": "#8b5cf6",
+        "secondary": "#ec4899",
+        "background": "#09090b",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "command",
+        "floating",
+        "right",
+        "Responsive"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-022",
+      "name": {
+        "en": "Peach Community Groups Sidebar",
+        "es": "Sidebar Grupos de Comunidad Durazno"
+      },
+      "description": {
+        "en": "flush community sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral community flush a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Peach Community Groups” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a flush left-side layout for a community product with primary #0ea5e9, secondary #14b8a6, and background #effcff. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Grupos de Comunidad Durazno» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout flush al lado izquierdo para un producto community, con color principal #0ea5e9, secundario #14b8a6 y fondo #effcff. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "community",
+        "layout": "flush",
+        "side": "left",
+        "primary": "#0ea5e9",
+        "secondary": "#14b8a6",
+        "background": "#effcff",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "community",
+        "flush",
+        "left",
+        "Collapsible"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-023",
+      "name": {
+        "en": "Neon Gaming Lobby Sidebar",
+        "es": "Sidebar Lobby Gaming Neón"
+      },
+      "description": {
+        "en": "rail gaming sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral gaming rail a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Neon Gaming Lobby” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a rail left-side layout for a gaming product with primary #f97316, secondary #facc15, and background #fff7ed. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Lobby Gaming Neón» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout rail al lado izquierdo para un producto gaming, con color principal #f97316, secundario #facc15 y fondo #fff7ed. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "gaming",
+        "layout": "rail",
+        "side": "left",
+        "primary": "#f97316",
+        "secondary": "#facc15",
+        "background": "#fff7ed",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "gaming",
+        "rail",
+        "left",
+        "Responsive"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-024",
+      "name": {
+        "en": "Paper Documentation Sidebar",
+        "es": "Sidebar Documentación Papel"
+      },
+      "description": {
+        "en": "layered docs sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral docs layered a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Paper Documentation” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a layered left-side layout for a docs product with primary #22c55e, secondary #06b6d4, and background #03150d. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Documentación Papel» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout layered al lado izquierdo para un producto docs, con color principal #22c55e, secundario #06b6d4 y fondo #03150d. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "docs",
+        "layout": "layered",
+        "side": "left",
+        "primary": "#22c55e",
+        "secondary": "#06b6d4",
+        "background": "#03150d",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "docs",
+        "layered",
+        "left",
+        "Collapsible"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-025",
+      "name": {
+        "en": "Cobalt Access Control Sidebar",
+        "es": "Sidebar Control de Acceso Cobalto"
+      },
+      "description": {
+        "en": "compact access sidebar on the right with collapsible groups and responsive drawer.",
+        "es": "Barra lateral access compact a la derecha con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Cobalt Access Control” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a compact right-side layout for a access product with primary #ef4444, secondary #f472b6, and background #fff1f2. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Control de Acceso Cobalto» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout compact al lado derecho para un producto access, con color principal #ef4444, secundario #f472b6 y fondo #fff1f2. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "access",
+        "layout": "compact",
+        "side": "right",
+        "primary": "#ef4444",
+        "secondary": "#f472b6",
+        "background": "#fff1f2",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "access",
+        "compact",
+        "right",
+        "Responsive"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-026",
+      "name": {
+        "en": "Amber Data Explorer Sidebar",
+        "es": "Sidebar Explorador de Datos Ámbar"
+      },
+      "description": {
+        "en": "wide data sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral data wide a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Amber Data Explorer” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a wide left-side layout for a data product with primary #6366f1, secondary #22d3ee, and background #080b1c. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Explorador de Datos Ámbar» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout wide al lado izquierdo para un producto data, con color principal #6366f1, secundario #22d3ee y fondo #080b1c. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "data",
+        "layout": "wide",
+        "side": "left",
+        "primary": "#6366f1",
+        "secondary": "#22d3ee",
+        "background": "#080b1c",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "data",
+        "wide",
+        "left",
+        "Collapsible"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-027",
+      "name": {
+        "en": "Forest Impact Admin Sidebar",
+        "es": "Sidebar Administración de Impacto Bosque"
+      },
+      "description": {
+        "en": "icons nonprofit sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral nonprofit icons a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Forest Impact Admin” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a icons left-side layout for a nonprofit product with primary #a3e635, secondary #14b8a6, and background #f7fee7. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Administración de Impacto Bosque» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout icons al lado izquierdo para un producto nonprofit, con color principal #a3e635, secundario #14b8a6 y fondo #f7fee7. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "nonprofit",
+        "layout": "icons",
+        "side": "left",
+        "primary": "#a3e635",
+        "secondary": "#14b8a6",
+        "background": "#f7fee7",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "nonprofit",
+        "icons",
+        "left",
+        "Responsive"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-028",
+      "name": {
+        "en": "Candy Social Inbox Sidebar",
+        "es": "Sidebar Bandeja Social Caramelo"
+      },
+      "description": {
+        "en": "grouped social sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral social grouped a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Candy Social Inbox” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a grouped left-side layout for a social product with primary #d946ef, secondary #8b5cf6, and background #16051c. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Bandeja Social Caramelo» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout grouped al lado izquierdo para un producto social, con color principal #d946ef, secundario #8b5cf6 y fondo #16051c. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "social",
+        "layout": "grouped",
+        "side": "left",
+        "primary": "#d946ef",
+        "secondary": "#8b5cf6",
+        "background": "#16051c",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "social",
+        "grouped",
+        "left",
+        "Collapsible"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-029",
+      "name": {
+        "en": "Graphite Repository Sidebar",
+        "es": "Sidebar Repositorio Grafito"
+      },
+      "description": {
+        "en": "gradient repository sidebar on the right with collapsible groups and responsive drawer.",
+        "es": "Barra lateral repository gradient a la derecha con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Graphite Repository” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a gradient right-side layout for a repository product with primary #f59e0b, secondary #fb7185, and background #fffbeb. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Repositorio Grafito» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout gradient al lado derecho para un producto repository, con color principal #f59e0b, secundario #fb7185 y fondo #fffbeb. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "repository",
+        "layout": "gradient",
+        "side": "right",
+        "primary": "#f59e0b",
+        "secondary": "#fb7185",
+        "background": "#fffbeb",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "repository",
+        "gradient",
+        "right",
+        "Responsive"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-030",
+      "name": {
+        "en": "Ivory Legal Matters Sidebar",
+        "es": "Sidebar Asuntos Legales Marfil"
+      },
+      "description": {
+        "en": "minimal legal sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral legal minimal a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Ivory Legal Matters” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a minimal left-side layout for a legal product with primary #38bdf8, secondary #818cf8, and background #071325. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Asuntos Legales Marfil» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout minimal al lado izquierdo para un producto legal, con color principal #38bdf8, secundario #818cf8 y fondo #071325. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "legal",
+        "layout": "minimal",
+        "side": "left",
+        "primary": "#38bdf8",
+        "secondary": "#818cf8",
+        "background": "#071325",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "legal",
+        "minimal",
+        "left",
+        "Collapsible"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-031",
+      "name": {
+        "en": "Teal Fleet Manager Sidebar",
+        "es": "Sidebar Gestor de Flota Teal"
+      },
+      "description": {
+        "en": "floating fleet sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral fleet floating a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Teal Fleet Manager” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a floating left-side layout for a fleet product with primary #8b5cf6, secondary #ec4899, and background #09090b. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Gestor de Flota Teal» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout floating al lado izquierdo para un producto fleet, con color principal #8b5cf6, secundario #ec4899 y fondo #09090b. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "fleet",
+        "layout": "floating",
+        "side": "left",
+        "primary": "#8b5cf6",
+        "secondary": "#ec4899",
+        "background": "#09090b",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "fleet",
+        "floating",
+        "left",
+        "Responsive"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-032",
+      "name": {
+        "en": "Purple Event Organizer Sidebar",
+        "es": "Sidebar Organizador de Eventos Púrpura"
+      },
+      "description": {
+        "en": "flush events sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral events flush a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Purple Event Organizer” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a flush left-side layout for a events product with primary #0ea5e9, secondary #14b8a6, and background #effcff. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Organizador de Eventos Púrpura» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout flush al lado izquierdo para un producto events, con color principal #0ea5e9, secundario #14b8a6 y fondo #effcff. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "events",
+        "layout": "flush",
+        "side": "left",
+        "primary": "#0ea5e9",
+        "secondary": "#14b8a6",
+        "background": "#effcff",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "events",
+        "flush",
+        "left",
+        "Collapsible"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-033",
+      "name": {
+        "en": "Red Sports Team Sidebar",
+        "es": "Sidebar Equipo Deportivo Rojo"
+      },
+      "description": {
+        "en": "rail sports sidebar on the right with collapsible groups and responsive drawer.",
+        "es": "Barra lateral sports rail a la derecha con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Red Sports Team” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a rail right-side layout for a sports product with primary #f97316, secondary #facc15, and background #fff7ed. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Equipo Deportivo Rojo» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout rail al lado derecho para un producto sports, con color principal #f97316, secundario #facc15 y fondo #fff7ed. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "sports",
+        "layout": "rail",
+        "side": "right",
+        "primary": "#f97316",
+        "secondary": "#facc15",
+        "background": "#fff7ed",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "sports",
+        "rail",
+        "right",
+        "Responsive"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-034",
+      "name": {
+        "en": "Nordic Property Manager Sidebar",
+        "es": "Sidebar Gestor Inmobiliario Nórdico"
+      },
+      "description": {
+        "en": "layered property sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral property layered a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Nordic Property Manager” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a layered left-side layout for a property product with primary #22c55e, secondary #06b6d4, and background #03150d. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Gestor Inmobiliario Nórdico» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout layered al lado izquierdo para un producto property, con color principal #22c55e, secundario #06b6d4 y fondo #03150d. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "property",
+        "layout": "layered",
+        "side": "left",
+        "primary": "#22c55e",
+        "secondary": "#06b6d4",
+        "background": "#03150d",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "property",
+        "layered",
+        "left",
+        "Collapsible"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-035",
+      "name": {
+        "en": "Aqua Wallet Console Sidebar",
+        "es": "Sidebar Consola Wallet Aqua"
+      },
+      "description": {
+        "en": "compact wallet sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral wallet compact a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Aqua Wallet Console” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a compact left-side layout for a wallet product with primary #ef4444, secondary #f472b6, and background #fff1f2. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Consola Wallet Aqua» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout compact al lado izquierdo para un producto wallet, con color principal #ef4444, secundario #f472b6 y fondo #fff1f2. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "wallet",
+        "layout": "compact",
+        "side": "left",
+        "primary": "#ef4444",
+        "secondary": "#f472b6",
+        "background": "#fff1f2",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "wallet",
+        "compact",
+        "left",
+        "Responsive"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-036",
+      "name": {
+        "en": "Plum People Directory Sidebar",
+        "es": "Sidebar Directorio de Personas Ciruela"
+      },
+      "description": {
+        "en": "wide people sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral people wide a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Plum People Directory” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a wide left-side layout for a people product with primary #6366f1, secondary #22d3ee, and background #080b1c. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Directorio de Personas Ciruela» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout wide al lado izquierdo para un producto people, con color principal #6366f1, secundario #22d3ee y fondo #080b1c. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "people",
+        "layout": "wide",
+        "side": "left",
+        "primary": "#6366f1",
+        "secondary": "#22d3ee",
+        "background": "#080b1c",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "people",
+        "wide",
+        "left",
+        "Collapsible"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-037",
+      "name": {
+        "en": "Gold Subscription Center Sidebar",
+        "es": "Sidebar Centro de Suscripciones Oro"
+      },
+      "description": {
+        "en": "icons subscription sidebar on the right with collapsible groups and responsive drawer.",
+        "es": "Barra lateral subscription icons a la derecha con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Gold Subscription Center” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a icons right-side layout for a subscription product with primary #a3e635, secondary #14b8a6, and background #f7fee7. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Centro de Suscripciones Oro» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout icons al lado derecho para un producto subscription, con color principal #a3e635, secundario #14b8a6 y fondo #f7fee7. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "subscription",
+        "layout": "icons",
+        "side": "right",
+        "primary": "#a3e635",
+        "secondary": "#14b8a6",
+        "background": "#f7fee7",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "subscription",
+        "icons",
+        "right",
+        "Responsive"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-038",
+      "name": {
+        "en": "Cloud Productivity Suite Sidebar",
+        "es": "Sidebar Suite de Productividad Cloud"
+      },
+      "description": {
+        "en": "grouped productivity sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral productivity grouped a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Cloud Productivity Suite” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a grouped left-side layout for a productivity product with primary #d946ef, secondary #8b5cf6, and background #16051c. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Suite de Productividad Cloud» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout grouped al lado izquierdo para un producto productivity, con color principal #d946ef, secundario #8b5cf6 y fondo #16051c. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "productivity",
+        "layout": "grouped",
+        "side": "left",
+        "primary": "#d946ef",
+        "secondary": "#8b5cf6",
+        "background": "#16051c",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "productivity",
+        "grouped",
+        "left",
+        "Collapsible"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-039",
+      "name": {
+        "en": "Mango Delivery Dispatch Sidebar",
+        "es": "Sidebar Despacho Delivery Mango"
+      },
+      "description": {
+        "en": "gradient delivery sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral delivery gradient a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Mango Delivery Dispatch” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a gradient left-side layout for a delivery product with primary #f59e0b, secondary #fb7185, and background #fffbeb. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Despacho Delivery Mango» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout gradient al lado izquierdo para un producto delivery, con color principal #f59e0b, secundario #fb7185 y fondo #fffbeb. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "delivery",
+        "layout": "gradient",
+        "side": "left",
+        "primary": "#f59e0b",
+        "secondary": "#fb7185",
+        "background": "#fffbeb",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "delivery",
+        "gradient",
+        "left",
+        "Responsive"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-040",
+      "name": {
+        "en": "Berry Music Library Sidebar",
+        "es": "Sidebar Biblioteca Musical Berry"
+      },
+      "description": {
+        "en": "minimal music sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral music minimal a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Berry Music Library” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a minimal left-side layout for a music product with primary #38bdf8, secondary #818cf8, and background #071325. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Biblioteca Musical Berry» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout minimal al lado izquierdo para un producto music, con color principal #38bdf8, secundario #818cf8 y fondo #071325. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "music",
+        "layout": "minimal",
+        "side": "left",
+        "primary": "#38bdf8",
+        "secondary": "#818cf8",
+        "background": "#071325",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "music",
+        "minimal",
+        "left",
+        "Collapsible"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-041",
+      "name": {
+        "en": "Steel Manufacturing Ops Sidebar",
+        "es": "Sidebar Operaciones Industriales Acero"
+      },
+      "description": {
+        "en": "floating industrial sidebar on the right with collapsible groups and responsive drawer.",
+        "es": "Barra lateral industrial floating a la derecha con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Steel Manufacturing Ops” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a floating right-side layout for a industrial product with primary #8b5cf6, secondary #ec4899, and background #09090b. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Operaciones Industriales Acero» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout floating al lado derecho para un producto industrial, con color principal #8b5cf6, secundario #ec4899 y fondo #09090b. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "industrial",
+        "layout": "floating",
+        "side": "right",
+        "primary": "#8b5cf6",
+        "secondary": "#ec4899",
+        "background": "#09090b",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "industrial",
+        "floating",
+        "right",
+        "Responsive"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-042",
+      "name": {
+        "en": "Blush Customer Care Sidebar",
+        "es": "Sidebar Atención al Cliente Blush"
+      },
+      "description": {
+        "en": "flush support sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral support flush a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Blush Customer Care” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a flush left-side layout for a support product with primary #0ea5e9, secondary #14b8a6, and background #effcff. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Atención al Cliente Blush» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout flush al lado izquierdo para un producto support, con color principal #0ea5e9, secundario #14b8a6 y fondo #effcff. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "support",
+        "layout": "flush",
+        "side": "left",
+        "primary": "#0ea5e9",
+        "secondary": "#14b8a6",
+        "background": "#effcff",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "support",
+        "flush",
+        "left",
+        "Collapsible"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-043",
+      "name": {
+        "en": "Navy Claims Portal Sidebar",
+        "es": "Sidebar Portal de Reclamos Navy"
+      },
+      "description": {
+        "en": "rail claims sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral claims rail a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Navy Claims Portal” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a rail left-side layout for a claims product with primary #f97316, secondary #facc15, and background #fff7ed. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Portal de Reclamos Navy» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout rail al lado izquierdo para un producto claims, con color principal #f97316, secundario #facc15 y fondo #fff7ed. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "claims",
+        "layout": "rail",
+        "side": "left",
+        "primary": "#f97316",
+        "secondary": "#facc15",
+        "background": "#fff7ed",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "claims",
+        "rail",
+        "left",
+        "Responsive"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-044",
+      "name": {
+        "en": "Eco Catalog Manager Sidebar",
+        "es": "Sidebar Gestor de Catálogo Eco"
+      },
+      "description": {
+        "en": "layered catalog sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral catalog layered a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Eco Catalog Manager” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a layered left-side layout for a catalog product with primary #22c55e, secondary #06b6d4, and background #03150d. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Gestor de Catálogo Eco» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout layered al lado izquierdo para un producto catalog, con color principal #22c55e, secundario #06b6d4 y fondo #03150d. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "catalog",
+        "layout": "layered",
+        "side": "left",
+        "primary": "#22c55e",
+        "secondary": "#06b6d4",
+        "background": "#03150d",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "catalog",
+        "layered",
+        "left",
+        "Collapsible"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-045",
+      "name": {
+        "en": "Pixel Portfolio CMS Sidebar",
+        "es": "Sidebar CMS de Portfolio Pixel"
+      },
+      "description": {
+        "en": "compact portfolio sidebar on the right with collapsible groups and responsive drawer.",
+        "es": "Barra lateral portfolio compact a la derecha con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Pixel Portfolio CMS” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a compact right-side layout for a portfolio product with primary #ef4444, secondary #f472b6, and background #fff1f2. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «CMS de Portfolio Pixel» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout compact al lado derecho para un producto portfolio, con color principal #ef4444, secundario #f472b6 y fondo #fff1f2. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "portfolio",
+        "layout": "compact",
+        "side": "right",
+        "primary": "#ef4444",
+        "secondary": "#f472b6",
+        "background": "#fff1f2",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "portfolio",
+        "compact",
+        "right",
+        "Responsive"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-046",
+      "name": {
+        "en": "Terracotta Restaurant Ops Sidebar",
+        "es": "Sidebar Operaciones de Restaurante Terracota"
+      },
+      "description": {
+        "en": "wide restaurant sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral restaurant wide a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Terracotta Restaurant Ops” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a wide left-side layout for a restaurant product with primary #6366f1, secondary #22d3ee, and background #080b1c. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Operaciones de Restaurante Terracota» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout wide al lado izquierdo para un producto restaurant, con color principal #6366f1, secundario #22d3ee y fondo #080b1c. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "restaurant",
+        "layout": "wide",
+        "side": "left",
+        "primary": "#6366f1",
+        "secondary": "#22d3ee",
+        "background": "#080b1c",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "restaurant",
+        "wide",
+        "left",
+        "Collapsible"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-047",
+      "name": {
+        "en": "Arctic Cloud Storage Sidebar",
+        "es": "Sidebar Almacenamiento Cloud Ártico"
+      },
+      "description": {
+        "en": "icons storage sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral storage icons a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Arctic Cloud Storage” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a icons left-side layout for a storage product with primary #a3e635, secondary #14b8a6, and background #f7fee7. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Almacenamiento Cloud Ártico» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout icons al lado izquierdo para un producto storage, con color principal #a3e635, secundario #14b8a6 y fondo #f7fee7. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "storage",
+        "layout": "icons",
+        "side": "left",
+        "primary": "#a3e635",
+        "secondary": "#14b8a6",
+        "background": "#f7fee7",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "storage",
+        "icons",
+        "left",
+        "Responsive"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-048",
+      "name": {
+        "en": "Black Fashion Inventory Sidebar",
+        "es": "Sidebar Inventario de Moda Negra"
+      },
+      "description": {
+        "en": "grouped inventory sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral inventory grouped a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Black Fashion Inventory” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a grouped left-side layout for a inventory product with primary #d946ef, secondary #8b5cf6, and background #16051c. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Inventario de Moda Negra» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout grouped al lado izquierdo para un producto inventory, con color principal #d946ef, secundario #8b5cf6 y fondo #16051c. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "inventory",
+        "layout": "grouped",
+        "side": "left",
+        "primary": "#d946ef",
+        "secondary": "#8b5cf6",
+        "background": "#16051c",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "inventory",
+        "grouped",
+        "left",
+        "Collapsible"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-049",
+      "name": {
+        "en": "Pastel School Admin Sidebar",
+        "es": "Sidebar Administración Escolar Pastel"
+      },
+      "description": {
+        "en": "gradient school sidebar on the right with collapsible groups and responsive drawer.",
+        "es": "Barra lateral school gradient a la derecha con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Pastel School Admin” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a gradient right-side layout for a school product with primary #f59e0b, secondary #fb7185, and background #fffbeb. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Administración Escolar Pastel» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout gradient al lado derecho para un producto school, con color principal #f59e0b, secundario #fb7185 y fondo #fffbeb. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "school",
+        "layout": "gradient",
+        "side": "right",
+        "primary": "#f59e0b",
+        "secondary": "#fb7185",
+        "background": "#fffbeb",
+        "dark": false
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "school",
+        "gradient",
+        "right",
+        "Responsive"
+      ],
+      "membership": "Premium"
+    },
+    {
+      "id": "sidebar-050",
+      "name": {
+        "en": "Signal System Settings Sidebar",
+        "es": "Sidebar Configuración de Sistema Signal"
+      },
+      "description": {
+        "en": "minimal settings sidebar on the left with collapsible groups and responsive drawer.",
+        "es": "Barra lateral settings minimal a la izquierda con grupos colapsables y drawer responsive."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Signal System Settings” sidebar using React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion and Lucide icons. Use a minimal left-side layout for a settings product with primary #38bdf8, secondary #818cf8, and background #071325. Include brand, workspace selector, search, grouped navigation, active route, nested collapsible items, badges, favorites, user menu and footer action. Support expanded, icon-only collapsed, hover-expand, loading, empty, permission-filtered and mobile drawer states. Persist desktop preference without causing hydration mismatch. Add semantic nav landmarks, tooltips for icon-only mode, aria-expanded/controls, keyboard access, Escape, focus trapping/restoration, 44px targets and WCAG AA contrast. Avoid invalid nested controls. Animate transform/opacity, respect reduced motion and prevent content layout shift. Return typed data, reusable components, layout integration, dependencies and tests.",
+        "es": "Crea una sidebar «Configuración de Sistema Signal» lista para producción usando React, Next.js, TypeScript, Tailwind CSS, shadcn/ui Sidebar, Framer Motion e iconos Lucide. Usa un layout minimal al lado izquierdo para un producto settings, con color principal #38bdf8, secundario #818cf8 y fondo #071325. Incluye marca, selector de workspace, búsqueda, navegación agrupada, ruta activa, elementos anidados colapsables, badges, favoritos, menú de usuario y acción de footer. Soporta expandido, colapsado solo iconos, expansión hover, carga, vacío, permisos y drawer móvil. Persiste la preferencia de escritorio sin hydration mismatch. Añade landmarks nav, tooltips en modo icono, aria-expanded/controls, teclado, Escape, focus trap/restauración, objetivos de 44px y contraste WCAG AA. Evita controles anidados inválidos. Anima transform/opacity, respeta movimiento reducido y evita saltos de contenido. Devuelve datos tipados, componentes reutilizables, integración de layout, dependencias y pruebas."
+      },
+      "preview": {
+        "type": "settings",
+        "layout": "minimal",
+        "side": "left",
+        "primary": "#38bdf8",
+        "secondary": "#818cf8",
+        "background": "#071325",
+        "dark": true
+      },
+      "stack": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui Sidebar",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Sidebar",
+        "settings",
+        "minimal",
+        "left",
+        "Collapsible"
+      ],
+      "membership": "Premium"
+    }
+  ]
+}
