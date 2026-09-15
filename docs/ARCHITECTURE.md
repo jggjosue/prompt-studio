@@ -42,6 +42,29 @@ flowchart TD
 | **Models** ([`src/models`](../src/models)) | 45 | Mongoose schemas and their indexes |
 | **Catalog** ([`src/data`](../src/data)) | 15 JSON | Versioned product; intentionally outside of `public/` |
 
+### Implementation index
+
+The diagram is a conceptual view; this index is the maintained bridge to the
+implementation. It favors entry points and shared contracts over an exhaustive
+file list. The full source inventory, including exclusions, is in
+[DOC-002 — Source File Map](audits/SOURCE_FILE_MAP.md), and the order in which
+to extend this documentation is in
+[DOC-003 — High-Impact Source Priorities](audits/HIGH_IMPACT_SOURCE_PRIORITIES.md).
+
+| Layer | Routes and entry points | Shared logic and data contracts | UI or configuration |
+|---|---|---|---|
+| Request boundary | [`src/proxy.ts`](../src/proxy.ts), [`src/middleware.ts`](../src/middleware.ts), [`src/app/[locale]/layout.tsx`](../src/app/[locale]/layout.tsx) | [`src/i18n/request.ts`](../src/i18n/request.ts), [`src/lib/app-routes.ts`](../src/lib/app-routes.ts) | [`next.config.ts`](../next.config.ts), [`vercel.json`](../vercel.json), [`tsconfig.json`](../tsconfig.json) |
+| Pages and server actions | [`src/app/[locale]`](../src/app/[locale]), [`src/app/actions.ts`](../src/app/actions.ts) | [`src/lib`](../src/lib) | [`src/components`](../src/components), [`src/app/[locale]/dashboard/layout.tsx`](../src/app/[locale]/dashboard/layout.tsx) |
+| API | [`src/app/api`](../src/app/api), [`src/app/api/ai/jobs/route.ts`](../src/app/api/ai/jobs/route.ts), [`src/app/api/editor/projects/route.ts`](../src/app/api/editor/projects/route.ts), [`src/app/api/webhooks/stripe/route.ts`](../src/app/api/webhooks/stripe/route.ts), [`src/app/api/webhooks/clerk/route.ts`](../src/app/api/webhooks/clerk/route.ts) | [`src/lib/api-auth.ts`](../src/lib/api-auth.ts), [`src/lib/rate-limit.ts`](../src/lib/rate-limit.ts), [`src/lib/cache-policy.ts`](../src/lib/cache-policy.ts) | Access contract: [API_ACCESS.md](API_ACCESS.md); workflow configuration: [`.github/workflows`](../.github/workflows) |
+| AI jobs | [`src/app/api/ai/jobs/process/route.ts`](../src/app/api/ai/jobs/process/route.ts), [`src/app/api/ai/jobs/[id]/progress/route.ts`](../src/app/api/ai/jobs/[id]/progress/route.ts) | [`src/lib/ai-job-service.ts`](../src/lib/ai-job-service.ts), [`src/lib/ai-job-runner.ts`](../src/lib/ai-job-runner.ts), [`src/lib/ai-job-config.ts`](../src/lib/ai-job-config.ts), [`src/lib/generation`](../src/lib/generation) | [`src/models/AIGenerationJob.ts`](../src/models/AIGenerationJob.ts), [`src/models/AICreditLedger.ts`](../src/models/AICreditLedger.ts), [`src/models/AICreditAccount.ts`](../src/models/AICreditAccount.ts) |
+| Commerce | [`src/app/api/credits`](../src/app/api/credits), [`src/app/api/subscription`](../src/app/api/subscription) | [`src/lib/stripe.ts`](../src/lib/stripe.ts), [`src/lib/credit-topup.ts`](../src/lib/credit-topup.ts), [`src/lib/server-subscription-status.ts`](../src/lib/server-subscription-status.ts) | [`src/models/MarketplaceListing.ts`](../src/models/MarketplaceListing.ts), [`src/models/ComponentLibrary.ts`](../src/models/ComponentLibrary.ts), [Stripe playbook](playbooks/STRIPE_PAYMENTS.md) |
+| Visual editor and projects | [`src/app/api/editor/projects/route.ts`](../src/app/api/editor/projects/route.ts), [`src/app/[locale]/component-builder`](../src/app/[locale]/component-builder), [`src/app/[locale]/page-composer`](../src/app/[locale]/page-composer) | [`src/lib/editor/document.ts`](../src/lib/editor/document.ts), [`src/lib/editor/registry.ts`](../src/lib/editor/registry.ts), [`src/lib/editor/store.ts`](../src/lib/editor/store.ts), [`src/lib/editor/history.ts`](../src/lib/editor/history.ts) | [`src/components/editor`](../src/components/editor), [`src/models/EditorProject.ts`](../src/models/EditorProject.ts), [`src/models/CreativeProject.ts`](../src/models/CreativeProject.ts) |
+| Catalog and assets | [`src/app/api/catalog`](../src/app/api/catalog), [`src/app/sites`](../src/app/sites) | [`src/lib/r2-storage.ts`](../src/lib/r2-storage.ts) | [`src/data`](../src/data), [`public`](../public) |
+
+When changing a row, update the linked contract or playbook in the same pull
+request. This keeps the architecture document useful as a navigation layer,
+without duplicating the source map or API access matrix.
+
 ---
 
 ## 2. Request lifecycle
