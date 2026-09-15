@@ -143,25 +143,39 @@ and honest; details and plan are in [docs/TESTING.md](docs/TESTING.md).
 
 ---
 
-## Project structure
+## Codebase structure
 
-```
-src/
-  app/[locale]/     pages by language
-  app/api/          API routes
-  components/       reusable interface
-  components/editor/ visual component editor
-  lib/              business logic (without React)
-  lib/editor/       document, history, and editor registry
-  models/           Mongoose schemas
-  hooks/            React hooks
-  data/             versioned catalog
-scripts/mjs/        build, audits, and validators
-tests/{unit,data,e2e}/
-docs/               documentation (see docs/CODEBASE_AUDIT.md for real state)
-public/webpages/    generated demos from catalog (content, not code)
-.specstory/         AI session transcripts preserved as history
-```
+Start at the request boundary, then follow the layer that owns the behavior you
+need to change. The [documentation-to-code map](docs/audits/DOCUMENTATION_TO_CODE_MAP.md)
+connects these entry points to the relevant design and operational documents.
+
+| Area | Responsibility | Main entry points |
+|---|---|---|
+| Request boundary and i18n | Selects locale, protects routes, applies redirects and edge headers before Next resolves the page | [`src/proxy.ts`](src/proxy.ts), [`src/middleware.ts`](src/middleware.ts), [`src/i18n`](src/i18n), [`src/app/[locale]/layout.tsx`](<src/app/[locale]/layout.tsx>) |
+| Pages and server actions | App Router pages; server components by default and server actions where a form or legacy client needs them | [`src/app/[locale]`](<src/app/[locale]>), [`src/app/[locale]/page.tsx`](<src/app/[locale]/page.tsx>), [`src/app/actions.ts`](src/app/actions.ts) |
+| API | HTTP handlers that authorize, validate and orchestrate product operations | [`src/app/api`](src/app/api), [`src/app/api/ai/jobs/route.ts`](src/app/api/ai/jobs/route.ts), [`src/app/api/webhooks/stripe/route.ts`](src/app/api/webhooks/stripe/route.ts) |
+| UI | Reusable interface, feature clients and the visual editor shell | [`src/components`](src/components), [`src/components/editor`](src/components/editor), [`src/hooks`](src/hooks) |
+| Business logic | Provider adapters, authorization helpers, caches, billing and feature services; avoid React dependencies here | [`src/lib`](src/lib), [`src/lib/generation`](src/lib/generation), [`src/lib/editor`](src/lib/editor) |
+| Data | Mongoose schemas, database connection and versioned product catalog | [`src/models`](src/models), [`src/lib/mongoose.ts`](src/lib/mongoose.ts), [`src/data`](src/data) |
+| AI flows | Genkit initialization and flows used by server actions and job processing | [`src/ai`](src/ai), [`src/ai/genkit.ts`](src/ai/genkit.ts) |
+| Tooling and verification | Build helpers, audits, unit/data/E2E tests and CI definitions | [`scripts/mjs`](scripts/mjs), [`tests`](tests), [`.github/workflows`](.github/workflows), [`package.json`](package.json) |
+| Runtime configuration | Next, TypeScript, deployment and local environment contracts | [`next.config.ts`](next.config.ts), [`tsconfig.json`](tsconfig.json), [`vercel.json`](vercel.json), [`.env.example`](.env.example) |
+| Generated/public content | Public assets and generated catalog demos; treat it as product content, not application source | [`public`](public), [`public/webpages`](public/webpages) |
+
+### First reading path
+
+1. For an interface change, locate its page under [`src/app/[locale]`](<src/app/[locale]>)
+   and its client component under [`src/components`](src/components) or the same
+   feature directory.
+2. For a request or integration change, start at the handler in
+   [`src/app/api`](src/app/api), then follow imports into [`src/lib`](src/lib)
+   and [`src/models`](src/models).
+3. For cross-cutting behavior, read [`src/proxy.ts`](src/proxy.ts) first; it
+   controls locale rewrites, protected routes and edge behavior.
+4. Before changing a shared contract, consult
+   [ARCHITECTURE.md](docs/ARCHITECTURE.md),
+   [API_ACCESS.md](docs/API_ACCESS.md) or the appropriate playbook in
+   [`docs/playbooks`](docs/playbooks).
 
 ---
 
