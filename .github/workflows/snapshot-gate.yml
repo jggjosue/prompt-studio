@@ -1,0 +1,62 @@
+name: Snapshot Gate
+
+# Genera y valida un snapshot completo y nuevo (issue #75), dejando listos los
+# artefactos reales para el paso de envio: cobertura, preflights, historia y
+# archivo final. Se dispara manualmente (workflow_dispatch) o con un push a
+# develop; no bloquea PRs.
+#
+# Secuencia (npm run snapshot:gate):
+#   1. npm run test:coverage          → coverage/lcov.info (cobertura real)
+#   2. npm run snapshot:verify        → preflight de source/docs/coverage
+#   3. npm run snapshot:verify-history→ identidad e historia real del repo
+#   4. npm run snapshot:history       → reports/snapshot/history.json (git+GH API)
+#   5. build-snapshot-archive         → dist/prompt-studio-snapshot-<sha>.tar.gz
+#   6. inspect-snapshot-archive       → verifica que el archivo se extrae
+#   7. report-snapshot-gradability    → reports/snapshot/gradability.md (que queda
+#                                       gradable y por que)
+on:
+  workflow_dispatch:
+  push:
+    branches: [develop]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  gate:
+    name: Snapshot completo
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - name: Generar y validar snapshot
+        env:
+          EXPECTED_REPOSITORY: ${{ github.repository }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run snapshot:gate
+
+      - name: Publicar archivo de snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: snapshot-archive
+          path: dist/prompt-studio-snapshot-*.tar.gz
+          if-no-files-found: error
+
+      - name: Publicar reporte de gradabilidad
+        uses: actions/upload-artifact@v4
+        with:
+          name: snapshot-report
+          path: |
+            reports/snapshot/gradability.md
+            reports/snapshot/history.json
+          if-no-files-found: error

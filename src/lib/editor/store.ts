@@ -181,12 +181,37 @@ export function createEditorStore(makeId: IdFactory = incrementalIds()): EditorS
       if (firstTry) return firstTry;
 
       // La raíz solo admite estructura. Para que soltar «Lista» o «Botón» en
-      // un canvas vacío sea natural, construimos Section → Container → nodo.
-      const section = this.insertType('section', rootId, direct);
-      if (!section.ok || !section.id) return section;
-      const container = this.insertType('container', section.id, 0);
-      if (!container.ok || !container.id) return container;
-      return this.insertType(type, container.id, 0);
+      // un canvas vacío sea natural, construimos Section → Container → nodo
+      // como un único comando de grupo: un deshacer lo retira entero.
+      const section = createNode('section', makeId);
+      const container = createNode('container', makeId);
+      const node = createNode(type, makeId);
+      const group: EditorCommand = {
+        kind: 'group',
+        steps: [
+          { kind: 'insert', node: section, parentId: rootId, index: direct },
+          { kind: 'insert', node: container, parentId: section.id, index: 0 },
+          { kind: 'insert', node, parentId: container.id, index: 0 },
+        ],
+      };
+      const result = applyCommand(state.document, group, makeId);
+      if ('error' in result) {
+        commit({ ...state, runtime: { ...state.runtime, lastError: result.error } });
+        return { ok: false, error: result.error };
+      }
+      commit({
+        ...state,
+        document: result.document,
+        history: pushHistory(state.history, result.inverse),
+        selection: [node.id],
+        runtime: {
+          ...state.runtime,
+          save: 'dirty',
+          lastError: null,
+          recentTypes: [type, ...state.runtime.recentTypes.filter(t => t !== type)].slice(0, 8),
+        },
+      });
+      return { ok: true, id: node.id };
     },
 
     undo: () => {
