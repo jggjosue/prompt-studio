@@ -174,7 +174,7 @@ function withoutLocalePrefix(pathname: string): string {
   return pathname.slice(prefix.length + 1) || '/';
 }
 
-export default clerkMiddleware(async (auth, req) => {
+const clerkRequestHandler = async (auth: any, req: NextRequest) => {
   const pathname = req.nextUrl.pathname;
 
   if (isProtectedCatalogSource(pathname)) {
@@ -297,7 +297,13 @@ export default clerkMiddleware(async (auth, req) => {
   }
 
   return withEdgeHeaders(withLocaleRewrite(req), req);
-});
+};
+
+// The preview can briefly start without project env vars while the environment
+// is being hydrated. Do not initialize Clerk's edge runtime in that window.
+export default process.env.CLERK_SECRET_KEY
+  ? clerkMiddleware(clerkRequestHandler)
+  : async (req: NextRequest) => withEdgeHeaders(withLocaleRewrite(req), req);
 
 export const config = {
   matcher: [
