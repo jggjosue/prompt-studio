@@ -103,3 +103,20 @@ catálogos y archivos generados excluidos.
 [DOC-003 — High-Impact Source Priorities](audits/HIGH_IMPACT_SOURCE_PRIORITIES.md)
 ordena los módulos que deben recibir documentación explicativa primero, usando
 impacto sistémico, riesgo, reutilización y volumen de código.
+
+[DOC-005 — Documentation to Code Map](audits/DOCUMENTATION_TO_CODE_MAP.md)
+conecta los subsistemas documentados con sus entry points y contratos de
+implementación.
+
+[DOC-007 — Runtime Entry Points](audits/RUNTIME_ENTRY_POINTS.md) describe el
+arranque de runtime y enlaza configuración, routing, providers y bootstrap.
+
+[DOC-008 — Primary Generation Flow](playbooks/PRIMARY_GENERATION_FLOW.md)
+recorre la UI, el estado, las server actions y la ruta durable de generación.
+
+[DOC-009 — Priority Feature Components](playbooks/PRIORITY_FEATURE_COMPONENTS.md)
+enlaza las features de UI prioritarias con sus componentes, hooks, servicios y
+persistencia.
+
+[DOC-010 — Services and APIs](playbooks/SERVICES_AND_APIS.md) conecta los
+handlers centrales con sus servicios, adapters y contratos persistentes.
