@@ -62,8 +62,7 @@ to extend this documentation is in
 | Catalog and assets | [`src/app/api/catalog`](../src/app/api/catalog), [`src/app/sites`](../src/app/sites) | [`src/lib/r2-storage.ts`](../src/lib/r2-storage.ts) | [`src/data`](../src/data), [`public`](../public) |
 
 When changing a row, update the linked contract or playbook in the same pull
-request. This keeps the architecture document useful as a navigation layer,
-without duplicating the source map or API access matrix.
+request. For deep architectural specifications, data structures, algorithms, and invariants of Prompt Studio's custom-engineered modules (B+-Tree index, bilingual readability, Refactory runtime, generation router, prompt lineage, and editor command engine), consult [Custom Subsystems Architecture](CUSTOM_SUBSYSTEMS_ARCHITECTURE.md).
 
 ---
 
