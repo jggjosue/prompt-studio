@@ -15,10 +15,17 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.pull_request.draft == false
     steps:
-      - name: Summarize documentation coupling
+      - uses: actions/checkout@v4
+
+      - name: Measure documentation reach
+        id: measure
+        run: node scripts/mjs/measure-documentation-reach.mjs --json > measured.json
+
+      - name: Report documentation coupling and reach
         uses: actions/github-script@v7
         with:
           script: |
+            const fs = require('fs');
             const files = await github.paginate(github.rest.pulls.listFiles, {
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -33,17 +40,44 @@ jobs:
               name === 'CONTRIBUTING.md' ||
               name === '.swmignore'
             );
+
+            const measured = JSON.parse(fs.readFileSync('measured.json', 'utf8'));
+            const baselinePath = 'docs/reports/documentation-reach-baseline.json';
+            const baseline = fs.existsSync(baselinePath)
+              ? JSON.parse(fs.readFileSync(baselinePath, 'utf8'))
+              : null;
+
+            const deltaPp = baseline ? measured.percentage - baseline.percentage : null;
+            const deltaFiles = baseline ? measured.documentedFiles - baseline.documentedFiles : null;
+            const regression = baseline && (
+              deltaPp < -1.0 ||
+              deltaFiles < -5
+            );
+            const arrow = deltaPp === null ? '—'
+              : deltaPp > 0.05 ? `▲ +${deltaPp.toFixed(2)} pp`
+              : deltaPp < -0.05 ? `▼ ${deltaPp.toFixed(2)} pp`
+              : '◀ sin cambio';
+
             const rows = [
-              [{ data: 'Source files in Documentation Reach scope', header: true }, String(code.length)],
+              [{ data: 'Documented files', header: true }, `${measured.documentedFiles} / ${measured.totalFiles}`],
+              [{ data: 'Documented lines', header: true }, `${measured.documentedLines} / ${measured.totalSourceLines}`],
+              [{ data: 'Reach', header: true }, `${measured.percentage}% (Tier ${measured.tier})`],
+              [{ data: 'Vs baseline', header: true }, baseline ? `${arrow} (baseline ${baseline.percentage}%)` : 'no hay fichero baseline'],
+              [{ data: 'Source files in reach scope changed', header: true }, String(code.length)],
               [{ data: 'Documentation or reach-configuration files', header: true }, String(docs.length)],
               [{ data: 'Swimm status', header: true }, 'Informational — target after baseline: Tier B (≥40%)'],
             ];
 
-            await core.summary
+            const summary = core.summary
               .addHeading('Documentation Reach', 2)
-              .addRaw('This check reports documentation coupling only; it does not block this pull request. Swimm remains the authoritative reach measurement.')
-              .addTable(rows)
-              .write();
+              .addRaw('Metrica local (`npm run docs:reach`) y acoplamiento de documentos. No bloquea este pull request; Swimm sigue siendo la medición de referencia.')
+              .addTable(rows);
+
+            if (baseline && regression) {
+              summary.addRaw(`⚠️ Documented files or reach dropped vs baseline (${baseline.capturedAt}). Review the Documentation Reach checklist in the PR template before merging.`);
+            }
+
+            await summary.write();
 
             if (code.length && !docs.length) {
               core.notice('Source files changed without documentation or reach-configuration changes. Review the Documentation Reach section of the PR template.');
@@ -51,4 +85,7 @@ jobs:
               core.notice('Source and documentation changes were detected together. Confirm the changed source is covered by the linked documentation.');
             } else {
               core.notice('No source changes in Documentation Reach scope were detected.');
+            }
+            if (baseline && regression) {
+              core.notice('Documentation Reach regression vs baseline; the PR template checklist applies.');
             }
