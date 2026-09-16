@@ -1,6 +1,8 @@
-# **App Name**: Visionary Vault
+# Prompt Studio (Historical Blueprint: Prototype Phase)
 
-## Core Features:
+> **Note**: This document preserves the initial January 2026 prototype specification (originally drafted under the provisional working title *Visionary Vault*). The active product specifications, current architecture, and data models are documented in [docs/prd.md](prd.md), [docs/dm.md](dm.md), and [docs/ARCHITECTURE.md](ARCHITECTURE.md).
+
+## Original Prototype Features:
 
 - Image Search: Allow users to search for AI-generated images and videos using keywords.
 - Content Display: Display AI-generated images and videos in a grid layout with filtering and sorting options.
@@ -9,7 +11,7 @@
 - Prompt Generation Tool: Generates image or video creation prompts based on keywords the user enters as input. The AI tool filters existing data from available images/videos, and generates a new prompt that will have similar characteristics, styles or composition.
 - User Registration: Allows users to create accounts and log in to save generated images/videos to collections.
 
-## Style Guidelines:
+## Original Style Guidelines:
 
 - Primary color: Light electric blue (#7DF9FF) for a technological and modern feel.
 - Background color: Almost white (#F5F5FA) for clean and bright design.
