@@ -16,7 +16,6 @@ import { join } from 'node:path';
 const root = process.cwd();
 const lcovPath = join(root, 'coverage', 'lcov.info');
 const manifestPath = join(root, 'reports', 'snapshot', 'history.json');
-const tokenPresent = Boolean(process.env.GH_TOKEN || process.env.GITHUB_TOKEN);
 
 function filesUnder(dir, predicate) {
   const abs = join(root, dir);
