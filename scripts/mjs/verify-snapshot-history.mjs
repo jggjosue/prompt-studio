@@ -16,9 +16,8 @@
  * La recuperacion de pull requests es informativa: si hay token se comprueba
  * que la GitHub API responde PRs reales; si no, se avisa sin fallar.
  */
-import { git, isShallow, remoteOrigin, headInfo, commitStats, repoSlug } from './snapshot-git.mjs';
+import { isShallow, remoteOrigin, headInfo, commitStats, repoSlug } from './snapshot-git.mjs';
 
-const cwd = process.cwd();
 const expectedRepository = process.env.EXPECTED_REPOSITORY || null;
 const expectedRevision = process.env.EXPECTED_REVISION || null;
 const allowShallow = process.env.SNAPSHOT_ALLOW_SHALLOW === '1';

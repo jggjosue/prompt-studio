@@ -21,7 +21,7 @@
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { git, isShallow, remoteOrigin, headInfo, commitStats, repoSlug } from './snapshot-git.mjs';
+import { isShallow, remoteOrigin, headInfo, commitStats, repoSlug } from './snapshot-git.mjs';
 
 const root = process.cwd();
 const outDir = join(root, 'reports', 'snapshot');
