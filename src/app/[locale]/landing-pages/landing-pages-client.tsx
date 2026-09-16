@@ -45,8 +45,8 @@ function matchesCommercialFacet(
   const membership = page.membership?.trim().toLowerCase() ?? '';
   const price = numericPrice(page.price);
 
-  if (facet === 'Premium') return membership === 'premium';
-  if (facet === 'Free') return membership === 'free' || price === 0;
+  if (facet.toLowerCase() === 'premium') return membership === 'premium';
+  if (facet.toLowerCase() === 'free') return membership === 'free' || (price === 0 && membership !== 'premium');
 
   const priceMatch = facet.match(/^\$(\d+(?:\.\d+)?) USD$/);
   if (priceMatch) return price === Number(priceMatch[1]);
