@@ -214,3 +214,15 @@ npm audit --omit=dev
 This is a private repository for a production product. If you find a security
 issue, **do not open a public issue**: write to the site's contact email address
 with steps to reproduce it.
+
+## Related source files
+
+- [`src/lib/api-auth.ts`](../src/lib/api-auth.ts) — `hasValidCronSecret`, `safeEqual` (constant-time)
+- [`src/lib/rate-limit.ts`](../src/lib/rate-limit.ts) — IP rate limiting de escrituras anónimas
+- [`src/lib/server-subscription-status.ts`](../src/lib/server-subscription-status.ts) — gating por plan real (no cache)
+- [`src/lib/admin-auth.ts`](../src/lib/admin-auth.ts) · [`marketplace-admin.ts`](../src/lib/marketplace-admin.ts) · [`cache-admin-auth.ts`](../src/lib/cache-admin-auth.ts) — gating de administradores (tres helpers)
+- [`src/lib/security-headers.ts`](../src/lib/security-headers.ts) — CSP y headers (app vs demo)
+- [`scripts/ts/test-mongo-auth.ts`](../scripts/ts/test-mongo-auth.ts) — script que filtró credenciales por `console.log`
+- [`tests/unit/route-access-matrix.test.ts`](../tests/unit/route-access-matrix.test.ts) — matriz de acceso; regla del pipeline
+- [`tests/unit/catalog-source-exposure.test.ts`](../tests/unit/catalog-source-exposure.test.ts) — bloqueo de producto de pago (recorre el directorio, no lo enumera)
+- [`scripts/mjs/build-route-access-matrix.mjs`](../scripts/mjs/build-route-access-matrix.mjs) — genera la matriz desde código

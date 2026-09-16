@@ -163,3 +163,17 @@ off the `genkit` tree, which pins `@opentelemetry/* ~1.25` when the fix only
 exists in OpenTelemetry 2.x — including its latest version. They do not block
 deployment; details and the reason for not forcing it are in
 [SECURITY.md](SECURITY.md) §6.
+
+## Related source files
+
+- [`vercel.json`](../vercel.json) — build config, header rules, and the cron contract without a scheduler
+- [`next.config.ts`](../next.config.ts) — build pipeline wiring
+- [`.env.example`](../.env.example) — the 91 documented variables and their groups
+- [`.github/workflows/quality.yml`](../.github/workflows/quality.yml) — CI: `validate`, build, browser tests
+- [`src/app/api/ai/jobs/process/route.ts`](<../src/app/api/ai/jobs/process/route.ts>) — queue processor: `CRON_SECRET` auth, `maxDuration = 300`
+- [`src/lib/cache-policy.ts`](../src/lib/cache-policy.ts) — cache policies checked by `cache:audit`
+- [`scripts/mjs/build-paged-catalogs.mjs`](../scripts/mjs/build-paged-catalogs.mjs) — `catalog:build` (prebuild artifact)
+- [`scripts/mjs/build-review-aggregates.mjs`](../scripts/mjs/build-review-aggregates.mjs) — `reviews:aggregates` (prebuild artifact)
+- [`scripts/mjs/minify-public-assets.mjs`](../scripts/mjs/minify-public-assets.mjs) — post-build minification
+- [`scripts/mjs/optimize-public-media.mjs`](../scripts/mjs/optimize-public-media.mjs) — post-build media optimization
+- [`scripts/mjs/precompress-static.mjs`](../scripts/mjs/precompress-static.mjs) — `.br`/`.gz` precompression
