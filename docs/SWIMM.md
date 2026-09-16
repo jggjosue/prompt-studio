@@ -47,6 +47,7 @@ Existing architectural documents in [docs/](.) are coupled directly to source fi
 * [docs/AI_ARCHITECTURE.md](AI_ARCHITECTURE.md) &rarr; [`src/ai/`](../src/ai/), [`src/lib/generation/`](../src/lib/generation/)
 * [docs/DATABASE.md](DATABASE.md) &rarr; [`src/models/`](../src/models/), [`src/lib/mongoose.ts`](../src/lib/mongoose.ts)
 * [docs/API_ACCESS.md](API_ACCESS.md) &rarr; [`src/app/api/`](../src/app/api/)
+* [docs/CUSTOM_SUBSYSTEMS_ARCHITECTURE.md](CUSTOM_SUBSYSTEMS_ARCHITECTURE.md) &rarr; [`src/lib/bplus-tree.ts`](../src/lib/bplus-tree.ts), [`src/lib/readability-analysis.ts`](../src/lib/readability-analysis.ts), [`src/lib/editor/`](../src/lib/editor/), [`src/lib/generation/`](../src/lib/generation/)
 * [docs/CODEBASE_MAP.md](CODEBASE_MAP.md) &rarr; Full source tree catalog
 
 ## 4. High-Impact Playbooks (Phase 3)
@@ -76,12 +77,26 @@ After signing in to the Swimm workspace for this repository, confirm that the
 exclusions in [`.swmignore`](../.swmignore) are also configured for the target
 branch. Swimm remains the authority for the actual Documentation Reach score.
 
-### Informational PR check
+### Local measurement and informational PR check
+
+[`scripts/mjs/measure-documentation-reach.mjs`](../scripts/mjs/measure-documentation-reach.mjs)
+(DOC-019) reproduces the reach metric locally with the same fields each run:
+
+```bash
+npm run docs:reach          # table + tier
+npm run docs:reach:json     # machine-readable
+```
+
+The current baseline is recorded in
+[`docs/reports/documentation-reach-baseline.json`](../docs/reports/documentation-reach-baseline.json)
+and is refreshed by the re-run report (DOC-025).
 
 [`.github/workflows/documentation-reach.yml`](../.github/workflows/documentation-reach.yml)
 adds a passing, non-blocking **Documentation Reach (informational)** check to
-non-draft pull requests. It reports whether files in the documentation-reach
-source scope changed alongside linked documentation or reach configuration.
+non-draft pull requests. It executes the metric on the PR code, compares it
+against the committed baseline (warning on drops below −1.0 pp or −5 documented
+files), and reports whether files in the documentation-reach source scope
+changed alongside linked documentation or reach configuration.
 
 The companion checklist in
 [`.github/pull_request_template.md`](../.github/pull_request_template.md)
@@ -89,12 +104,18 @@ requires authors to review the relevant documentation and workflow report. The
 check intentionally does not enforce a numerical threshold until Swimm has a
 stable baseline; the next enforcement target is **Tier B (≥40%)**.
 
-## 6. Baseline Audit
+## 6. Baseline Audit and Backlog
+
+El desglose completo de tareas canónicas priorizadas (P0–P3) se encuentra centralizado en [DOC Backlog — Documentation Reach](DOCUMENTATION_REACH_BACKLOG.md) ([Issue #32](https://github.com/jggjosue/prompt-studio/issues/32)).
 
 [DOC-001 — Documentation Reach Audit](audits/DOCUMENTATION_REACH_AUDIT.md)
 records the nine-document priority corpus, the historical Swimm baseline, and
 the remaining explanatory coverage gaps. It is the evidence base for the
 granular backlog in [Issue #32](https://github.com/jggjosue/prompt-studio/issues/32).
+
+[DOC-025 — Documentation Reach Report](audits/DOCUMENTATION_REACH_REPORT.md)
+publishes the before/after comparison, scope changes and next targets of the
+re-run measurement.
 
 [DOC-002 — Source File Map](audits/SOURCE_FILE_MAP.md) clasifica el árbol de
 implementación actual por responsabilidad y separa el alcance manual de los
@@ -120,3 +141,25 @@ persistencia.
 
 [DOC-010 — Services and APIs](playbooks/SERVICES_AND_APIS.md) conecta los
 handlers centrales con sus servicios, adapters y contratos persistentes.
+
+## 7. Convención: secciones estándar de enlaces
+
+Toda documentación técnica debe declarar explícitamente los ficheros de código
+de los que habla. Dos secciones estándar, según el tipo de documento:
+
+- **Guía técnica u operativa** (`DEPLOYMENT.md`, `SECURITY.md`, `TESTING.md`,
+  playbooks de flujo…): terminar con una sección `## Related source files`
+  enumerando los ficheros y directorios de implementación relacionados, como
+  enlaces navegables.
+- **Documentación por feature** (`playbooks/FEATURES.md`): usar la sección
+  `## Implementation files` definida en DOC-014, seguida de `## Verificación`.
+
+Reglas:
+
+1. Cada enlace debe apuntar a un fichero o directorio real y resolverse desde
+   el documento (rutas relativas; target *angle-bracket* para rutas con `[`):
+   `[Page](<../../src/app/[locale]/foo/page.tsx>)`.
+2. La primera línea del listado responde a *"¿dónde está el código de lo que
+   acabo de leer?"*; por eso va al final, nunca al principio.
+3. `npm run docs:check-links` valida esta regla (DOC-016) y debe pasar antes de
+   abrir un PR.

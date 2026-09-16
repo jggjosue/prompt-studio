@@ -58,3 +58,10 @@ public/**/*.gz
 
 # Un solo fichero de bloqueo: CI usa package-lock.json.
 yarn.lock
+
+# Manifiesto de snapshot: se genera por commit y se sube como artifact de CI,
+# no se versiona (lo genera npm run snapshot:history).
+reports/snapshot/
+
+# Archivo de snapshot empaquetado (npm run snapshot:gate → dist/).
+dist/
