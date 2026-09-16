@@ -139,6 +139,6 @@ persistencia.
 [DOC-010 — Services and APIs](playbooks/SERVICES_AND_APIS.md) conecta los
 handlers centrales con sus servicios, adapters y contratos persistentes.
 
-[DOC-011 — State Management](playbooks/STATE_MANAGEMENT.md) explica stores,
-providers, hooks compartidos, cachés locales y límites de responsabilidad del
-estado de cliente.
+[DOC-013 — Project Configuration](playbooks/PROJECT_CONFIGURATION.md)
+referencia build, TypeScript, entorno, linting, pruebas, CI y configuración
+global con reglas de cambio.
