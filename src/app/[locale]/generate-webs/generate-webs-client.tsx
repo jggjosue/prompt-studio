@@ -78,7 +78,7 @@ const proxyRunwayPoll = generationProviders.runway.poll;
 
 // Helper to generate custom landing page HTML templates for Web previews
 
-export default function GenerateWebsClient() {
+export default function GenerateWebsClient({ canGenerateWebs }: { canGenerateWebs: boolean }) {
   const { hasPaidPlan } = useMembershipAccess();
   const { brandPromptContext, brandKitName } = useBrandKitContext();
   const isSpanish = true;
@@ -566,6 +566,15 @@ export default function GenerateWebsClient() {
     setGenerationError(null);
 
     if (activeTab === 'pure-text') {
+      return;
+    }
+
+    if (activeTab === 'ai-web' && !canGenerateWebs) {
+      toast({
+        variant: 'destructive',
+        title: 'Generación web no disponible',
+        description: 'De momento, esta función está habilitada únicamente para el superadministrador.',
+      });
       return;
     }
 
@@ -2036,7 +2045,7 @@ Requirements:
                                   gradient: '!bg-gradient-to-r !from-blue-600 !to-cyan-500 hover:!from-blue-700 hover:!to-cyan-600 dark:!from-blue-500 dark:!to-cyan-400 dark:hover:!from-blue-600 dark:hover:!to-cyan-500',
                                   shadow: '!shadow-lg !shadow-blue-500/20 hover:!shadow-blue-500/40 dark:!shadow-emerald-500/15 dark:hover:!shadow-emerald-500/35',
                                   icon: <Globe className="h-4 w-4 !text-white animate-pulse" />,
-                                  text: 'Generate Landing Code',
+                                  text: canGenerateWebs ? 'Generate Landing Code' : 'Generación web no disponible',
                                   border: '!border !border-blue-500/20 dark:!border-emerald-400/30',
                                   ring: 'hover:!ring-2 hover:!ring-offset-2 hover:!ring-offset-background hover:!ring-blue-500/50 dark:hover:!ring-emerald-400/50'
                                 };
@@ -2058,7 +2067,7 @@ Requirements:
                               <div className="pt-2">
                                 <Button
                                   type="submit"
-                                  disabled={!editingText.trim() || isPending || localGenerating}
+                                  disabled={!editingText.trim() || isPending || localGenerating || (activeTab === 'ai-web' && !canGenerateWebs)}
                                   className={`relative group overflow-hidden w-full h-12 ${btn.gradient} !text-white font-extrabold gap-2.5 text-sm rounded-xl transition-all duration-300 ease-out hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center ${btn.shadow} ${btn.border} ${btn.ring}`}
                                 >
                                   {/* Inner glow overlay on hover */}

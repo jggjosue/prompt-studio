@@ -64,7 +64,7 @@ export default async function DashboardLayout({
   // ];
   const navItems: { href: string; icon: React.ReactNode; label: string; badge?: string }[] = [];
   
-  const settingsNavItems: {
+  const allSettingsNavItems: {
     href: string;
     icon: React.ReactNode;
     label: string;
@@ -202,12 +202,13 @@ export default async function DashboardLayout({
     { href: '/dashboard/credits', icon: <Coins className="h-4 w-4" />, label: t('credits'), description: t('creditsDesc') },
     { href: '/dashboard/billing', icon: <CreditCard className="h-4 w-4" />, label: t('billing'), description: t('billingDesc') },
   ];
+  const settingsNavItems = isPremiumJoAdmin ? allSettingsNavItems : [];
 
   return (
     <DashboardShell
       sidebar={
         <div className="flex h-full min-h-0 flex-col gap-2">
-          <div className="flex-1">
+          <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
               {navItems.map(item => (
                 <SidebarNavLink
@@ -221,7 +222,7 @@ export default async function DashboardLayout({
                 </SidebarNavLink>
               ))}
             </nav>
-            <div className="mt-4 px-2 lg:px-4">
+            <div className="mt-4 px-2 pb-4 lg:px-4">
               <h3 className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                 {t('settingsSection')}
               </h3>
