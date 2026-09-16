@@ -1,80 +1,75 @@
-# Gestión de estado
+# Gestión de estado en el cliente y servidor
 
 **Backlog:** [DOC-011](https://github.com/jggjosue/prompt-studio/issues/43) · [backlog principal](https://github.com/jggjosue/prompt-studio/issues/32)
 
-Esta guía explica dónde vive el estado de cliente, qué piezas lo pueden mutar y
-cuándo debe cruzar a API, modelo persistente o caché de servidor. No documenta
-cada `useState` local: se centra en stores, contextos y hooks que coordinan una
-feature completa o que comparten datos entre componentes.
+Esta guía explica la estrategia de gestión de estado en Prompt Studio: stores en el cliente, contextos de React, sincronización externa (`useSyncExternalStore`), cachés de sesión y cachés de servidor.
 
-## Principios
+---
 
-1. El estado persistente vive en API y modelos; el estado de UI solo prepara,
-   refleja u optimiza esa escritura.
-2. Los providers transportan datos compartidos o referencias estables, no deben
-   esconder autorización. La API sigue validando usuario, plan y permisos.
-3. El estado derivado debe recalcularse desde la fuente canónica en vez de
-   duplicarse en varios componentes.
-4. Las actualizaciones optimistas deben tener reversión cuando falla el
-   servidor.
-5. Los hooks de feature deben exponer acciones pequeñas y nombradas; evita que
-   los clientes muten estructuras internas directamente.
+## 1. Principios arquitectónicos de estado
 
-## Mapa de estado compartido
+1. **Evitar dependencias externas innecesarias**: En lugar de librerías globales pesadas (Redux, Zustand) para toda la aplicación, se utiliza el estándar de React 19 (`useSyncExternalStore`, React Context, hooks desacoplados).
+2. **Separación de responsabilidades**:
+   - El estado del documento (lo que se serializa y persiste) está separado del estado efímero de interfaz (paneles, zoom, selección, hover).
+   - El historial de deshacer/rehacer opera sobre comandos del documento y no sobre interacciones visuales efímeras.
+3. **Optimización granular de renders**:
+   - `useSyncExternalStore` permite suscripción selectiva en el editor visual para evitar re-renderizar nodos inactivos durante mutaciones.
+4. **Agrupación de lecturas remotas**:
+   - Estados de catálogo y guardados compartidos se resuelven una única vez por sesión/montaje mediante proveedores (`SavedItemsProvider`, `SubscriptionStatusProvider`) en lugar de consultas individuales por componente o tarjeta.
 
-| Área | Implementación | Responsabilidad | Persistencia y límites |
+---
+
+## 2. Mapa de mecanismos de estado
+
+| Mecanismo | Implementación | Propósito y ciclo de vida | Consumidores principales |
 |---|---|---|---|
-| Editor visual | [`createEditorStore`](../../src/lib/editor/store.ts), [`EditorStoreProvider`](../../src/components/editor/editor-store-context.tsx), [`EditorWorkspace`](../../src/components/editor/editor-workspace.tsx) | Store externo con `useSyncExternalStore`, selectores por slice, historial, selección, viewport, runtime y comandos del documento. | El documento normalizado es la fuente exportable; [`use-editor-autosave`](../../src/hooks/use-editor-autosave.ts) persiste en [`/api/editor/projects`](../../src/app/api/editor/projects/route.ts) y [`EditorProject`](../../src/models/EditorProject.ts). |
-| Biblioteca de componentes | [`use-component-library`](../../src/hooks/use-component-library.ts) | Favoritos, recientes, colecciones y proyectos de componentes con caché local, sincronización entre pestañas y guardado diferido. | `localStorage` es solo caché; la fuente de verdad autenticada es [`/api/component-library`](../../src/app/api/component-library/route.ts) y [`ComponentLibrary`](../../src/models/ComponentLibrary.ts). |
-| Guardados y favoritos globales | [`SavedItemsProvider`](../../src/components/saved-items-provider.tsx), [`SaveItemButton`](../../src/components/save-item-button.tsx) | Carga una sola vez el conjunto guardado, comparte `Set` entre tarjetas y aplica toggles optimistas. | Revertir si falla [`/api/saved`](../../src/app/api/saved/route.ts). La clave compuesta evita colisiones entre tipos de recurso. |
-| Estado de suscripción | [`SubscriptionStatusProvider`](../../src/components/subscription-status-provider.tsx), [`subscription-status-cache`](../../src/lib/subscription-status-cache.ts), [`use-stripe-subscription`](../../src/hooks/use-stripe-subscription.ts) | Snapshot estable de sesión, plan, carga y acceso comercial para evitar peticiones repetidas. | La API de sesión y billing sigue siendo canónica: [`/api/subscription/status`](../../src/app/api/subscription/status/route.ts). Limpia caché al cerrar sesión. |
-| Generadores | [`use-generation-editor`](../../src/hooks/use-generation-editor.ts), [clientes de imagen](<../../src/app/[locale]/generate-images/prompt-editor-client.tsx>), [video](<../../src/app/[locale]/generate-videos/generate-videos-client.tsx>) y [web](<../../src/app/[locale]/generate-webs/generate-webs-client.tsx>) | Estado transitorio de progreso, resultado, errores y pestaña de salida. | Los jobs durables y el ledger pertenecen a [`/api/ai/jobs`](../../src/app/api/ai/jobs/route.ts), [`AIGenerationJob`](../../src/models/AIGenerationJob.ts), [`AICreditLedger`](../../src/models/AICreditLedger.ts). |
-| Brand Kit en generadores | [`use-brand-kit-context`](../../src/hooks/use-brand-kit-context.ts) | Lee `brandKitId` desde URL y carga contexto textual para prompts y herramientas. | No autoriza ni guarda; delega en [`/api/brand-kits/[id]`](<../../src/app/api/brand-kits/[id]/route.ts>) y [`BrandKit`](../../src/models/BrandKit.ts). |
-| Catálogo y búsqueda | [`use-catalog-search-url`](../../src/hooks/use-catalog-search-url.ts), [`use-catalog-facet-filter`](../../src/hooks/use-catalog-facet-filter.ts), [`use-fuzzy-filter`](../../src/hooks/use-fuzzy-filter.ts), [`use-keyset-pagination`](../../src/hooks/use-keyset-pagination.ts) | Mantiene query, filtros, facetado y paginación como estado derivado o URL state. | Para catálogos server-backed, la API canónica está en [`/api/catalog/[kind]`](<../../src/app/api/catalog/[kind]/route.ts>) y los servicios de ranking/búsqueda en [`src/lib`](../../src/lib). |
-| Feature flags | [`use-feature-flags`](../../src/hooks/use-feature-flags.ts), [`/api/feature-flags`](../../src/app/api/feature-flags/route.ts) | Carga flags del usuario y expone helpers `variant` / `isEnabled`. | Las asignaciones persistentes viven en [`FeatureAssignment`](../../src/models/FeatureAssignment.ts) y [`FeatureExperiment`](../../src/models/FeatureExperiment.ts). |
-| Toasts y feedback global | [`use-toast`](../../src/hooks/use-toast.ts), [`Toaster`](../../src/components/ui/toaster.tsx) | Cola efímera en memoria para notificaciones de UI. | No persistir ni usar como auditoría; los eventos importantes deben ir a observabilidad o modelo. |
-| Responsive y viewport | [`use-mobile`](../../src/hooks/use-mobile.tsx), [`use-intersection-in-view`](../../src/hooks/use-intersection-in-view.ts), [`LazyInView`](../../src/components/lazy-in-view.tsx) | Estado de media queries, intersección y carga diferida. | Debe degradar en SSR y no reemplaza validación responsive visual/E2E. |
+| **Editor Visual Store** (`useSyncExternalStore`) | [`src/lib/editor/store.ts`](../../src/lib/editor/store.ts)<br>[`src/components/editor/editor-store-context.tsx`](../../src/components/editor/editor-store-context.tsx) | Árbol normalizado de nodos, selección múltiple, modo preview, breakpoint, paneles UI, comandos e historial de deshacer/rehacer. Vive fuera del árbol de renderizado de React. | [`EditorWorkspace`](../../src/components/editor/editor-workspace.tsx), [`EditorShell`](../../src/components/editor/editor-shell.tsx), [`InspectorPanel`](../../src/components/editor/inspector-panel.tsx), [`EditorCanvas`](../../src/components/editor/editor-canvas.tsx) |
+| **Historial de Comandos** (Undo / Redo) | [`src/lib/editor/history.ts`](../../src/lib/editor/history.ts) | Pila de comandos reversibles con límite de historial. Se ejecuta dentro del store del editor. | Store del editor y atajos de teclado / toolbar. |
+| **Caché y Store de Suscripción** | [`src/lib/subscription-status-cache.ts`](../../src/lib/subscription-status-cache.ts)<br>[`src/components/subscription-status-provider.tsx`](../../src/components/subscription-status-provider.tsx) | Snapshot de estado de suscripción (plan, ciclo, páginas compradas) cacheado en memoria y `sessionStorage`, sincronizado con Clerk. | [`SubscriptionStatusProvider`](../../src/components/subscription-status-provider.tsx), badges de plan, gates de navegación. |
+| **Items Guardados** (Context + Set en memoria) | [`src/components/saved-items-provider.tsx`](../../src/components/saved-items-provider.tsx) | `Set<string>` en memoria con claves compuestas `kind:id` cargadas una sola vez desde `/api/saved`. | Tarjetas de prompts, componentes y recursos en catálogo. |
+| **Hook de Generación Interactiva** | [`src/hooks/use-generation-editor.ts`](../../src/hooks/use-generation-editor.ts) | Estado local reactivo para prompts, parámetros del modelo, previsualización, estados de carga y feedback de generación. | Clientes en [`generate-images`](../../src/app/[locale]/generate-images/prompt-editor-client.tsx), [`generate-videos`](../../src/app/[locale]/generate-videos/generate-videos-client.tsx), [`generate-webs`](../../src/app/[locale]/generate-webs/generate-webs-client.tsx). |
+| **Autoguardado de Proyectos** | [`src/hooks/use-editor-autosave.ts`](../../src/hooks/use-editor-autosave.ts) | Debounce, estado de guardado (`idle`, `dirty`, `saving`, `saved`, `error`) y sincronización con `/api/editor/projects`. | [`EditorWorkspace`](../../src/components/editor/editor-workspace.tsx). |
+| **Caché LRU de Servidor** | [`src/lib/lru-cache-store.ts`](../../src/lib/lru-cache-store.ts)<br>[`src/lib/cache-namespace-policy.ts`](../../src/lib/cache-namespace-policy.ts) | Caché en RAM de Node.js por espacio de nombres con TTL, límites de entradas y expulsión LRU. | Servidores de API, rate limiters, respuestas calculadas. |
+| **Índice de Legibilidad en Servidor** | [`src/lib/landing-readability-store.ts`](../../src/lib/landing-readability-store.ts) | Almacenamiento y caché en memoria y archivo JSON (`data/landing-readability.json`) de reportes de legibilidad bilingüe. | APIs y dashboards de análisis de legibilidad. |
 
-## Límite de responsabilidad
+---
+
+## 3. Flujo y límites de responsabilidad
 
 ```mermaid
-flowchart LR
-    UI[Client component] --> Hook[Feature hook or provider]
-    Hook --> Cache[Local cache or derived state]
-    Hook --> API[Authenticated API]
-    API --> Model[Persistent model]
-    Hook --> Telemetry[Analytics or observability]
+flowchart TD
+    subgraph Cliente ["Cliente (React 19)"]
+        direction TB
+        ES[EditorStore: useSyncExternalStore] --> EC[EditorStoreContext]
+        EC --> EW[EditorWorkspace & Panels]
+        
+        SP[SubscriptionStatusProvider] --> UI_Plan[Badges & Gates]
+        SI[SavedItemsProvider: Set in memory] --> UI_Cards[Catalog Cards]
+        
+        GE[useGenerationEditor] --> UI_Gen[Generation Interfaces]
+    end
+
+    subgraph Persistencia ["Sincronización y Servidor"]
+        EW -- Autosave Hook --> API_Proj[/api/editor/projects/]
+        UI_Cards -- Toggle Action --> API_Save[/api/saved/]
+        API_Proj --> Mongo[(MongoDB Atlas)]
+        API_Save --> Mongo
+        
+        LRU[lru-cache-store] --- API_Proj
+    end
 ```
 
-- El componente presenta y dispara acciones; no conoce detalles de persistencia.
-- El hook/provider normaliza estado local, sincroniza caché y ofrece acciones.
-- La API autentica, valida permisos y aplica límites del dominio.
-- El modelo mantiene la fuente de verdad durable.
-- La telemetría registra eventos principales, pero no debe ser necesaria para
-  reconstruir el estado del producto.
+### Reglas de frontera
+1. **No mezclar estado persistido con estado UI**: Por ejemplo, `EditorDocument` no almacena si el panel lateral izquierdo está colapsado o cuál es el nivel de zoom del usuario.
+2. **Las mutaciones del documento se ejecutan mediante comandos**: Cualquier modificación estructural al árbol del editor visual pasa por `applyCommand` para garantizar que sea serializable y compatible con `history.ts`.
+3. **Los contextos no deben crear cascadas de render**: Los contextos que cambian frecuentemente deben aislar sus selectores o utilizar suscripciones externas (`useSyncExternalStore`).
 
-## Reglas por tipo de cambio
+---
 
-| Si cambias… | Verifica también… |
-|---|---|
-| Store del editor | Selectores, historial, autosave, contrato del documento y [Visual Editor playbook](VISUAL_EDITOR.md). |
-| Provider compartido | Estado inicial SSR, sesión de Clerk, limpieza al cerrar sesión y consumidores sin provider. |
-| Hook con caché local | Estrategia de migración, sincronización entre pestañas, `pagehide`, reintentos y degradación sin `localStorage`. |
-| Actualización optimista | Reversión ante fallo de red/API, estado de error visible y evento analítico correcto. |
-| Estado en URL | Compatibilidad con navegación atrás/adelante, locale y enlaces compartibles. |
-| Estado de billing o créditos | No confiar en valores del cliente; validar en API, Stripe/webhook y ledger. |
-
-## Verificación mínima
-
-```bash
-npm test
-npm run typecheck
-```
-
-Para cambios del editor, añade o ejecuta los tests específicos de contratos de
-UI y core del editor:
+## 4. Verificación y pruebas asociadas
 
 ```bash
 node --import tsx --test tests/unit/editor-core.test.ts
 node --import tsx --test tests/unit/editor-ui-contracts.test.ts
+npm run typecheck
 ```
