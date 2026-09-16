@@ -76,3 +76,6 @@ La secuencia P0 queda confirmada: [DOC-002](https://github.com/jggjosue/prompt-s
 [DOC-008](https://github.com/jggjosue/prompt-studio/issues/40). La medición
 posterior debe compararse con el baseline histórico, sin declarar éxito hasta
 que Swimm publique la nueva evaluación.
+
+La clasificación resultante se mantiene en
+[DOC-002 — Source File Map](SOURCE_FILE_MAP.md).
