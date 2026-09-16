@@ -19,7 +19,12 @@ jobs:
 
       - name: Measure documentation reach
         id: measure
-        run: node scripts/mjs/measure-documentation-reach.mjs --json > measured.json
+        run: |
+          if [ -f scripts/mjs/measure-documentation-reach.mjs ]; then
+            node scripts/mjs/measure-documentation-reach.mjs --json > measured.json
+          else
+            echo '{"note":"metric script not available in this branch yet"}' > measured.json
+          fi
 
       - name: Report documentation coupling and reach
         uses: actions/github-script@v7
@@ -42,27 +47,29 @@ jobs:
             );
 
             const measured = JSON.parse(fs.readFileSync('measured.json', 'utf8'));
+            const metricAvailable = typeof measured.documentedFiles === 'number';
             const baselinePath = 'docs/reports/documentation-reach-baseline.json';
             const baseline = fs.existsSync(baselinePath)
               ? JSON.parse(fs.readFileSync(baselinePath, 'utf8'))
               : null;
 
-            const deltaPp = baseline ? measured.percentage - baseline.percentage : null;
-            const deltaFiles = baseline ? measured.documentedFiles - baseline.documentedFiles : null;
-            const regression = baseline && (
+            const deltaPp = metricAvailable && baseline ? measured.percentage - baseline.percentage : null;
+            const deltaFiles = metricAvailable && baseline ? measured.documentedFiles - baseline.documentedFiles : null;
+            const regression = metricAvailable && baseline && (
               deltaPp < -1.0 ||
               deltaFiles < -5
             );
-            const arrow = deltaPp === null ? '—'
+            const arrow = !metricAvailable ? '—'
+              : deltaPp === null ? '—'
               : deltaPp > 0.05 ? `▲ +${deltaPp.toFixed(2)} pp`
               : deltaPp < -0.05 ? `▼ ${deltaPp.toFixed(2)} pp`
               : '◀ sin cambio';
 
             const rows = [
-              [{ data: 'Documented files', header: true }, `${measured.documentedFiles} / ${measured.totalFiles}`],
-              [{ data: 'Documented lines', header: true }, `${measured.documentedLines} / ${measured.totalSourceLines}`],
-              [{ data: 'Reach', header: true }, `${measured.percentage}% (Tier ${measured.tier})`],
-              [{ data: 'Vs baseline', header: true }, baseline ? `${arrow} (baseline ${baseline.percentage}%)` : 'no hay fichero baseline'],
+              [{ data: 'Documented files', header: true }, metricAvailable ? `${measured.documentedFiles} / ${measured.totalFiles}` : 'script no disponible en esta rama'],
+              [{ data: 'Documented lines', header: true }, metricAvailable ? `${measured.documentedLines} / ${measured.totalSourceLines}` : '—'],
+              [{ data: 'Reach', header: true }, metricAvailable ? `${measured.percentage}% (Tier ${measured.tier})` : '—'],
+              [{ data: 'Vs baseline', header: true }, !metricAvailable ? '—' : baseline ? `${arrow} (baseline ${baseline.percentage}%)` : 'no hay fichero baseline'],
               [{ data: 'Source files in reach scope changed', header: true }, String(code.length)],
               [{ data: 'Documentation or reach-configuration files', header: true }, String(docs.length)],
               [{ data: 'Swimm status', header: true }, 'Informational — target after baseline: Tier B (≥40%)'],
@@ -73,7 +80,7 @@ jobs:
               .addRaw('Metrica local (`npm run docs:reach`) y acoplamiento de documentos. No bloquea este pull request; Swimm sigue siendo la medición de referencia.')
               .addTable(rows);
 
-            if (baseline && regression) {
+            if (metricAvailable && baseline && regression) {
               summary.addRaw(`⚠️ Documented files or reach dropped vs baseline (${baseline.capturedAt}). Review the Documentation Reach checklist in the PR template before merging.`);
             }
 
