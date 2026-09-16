@@ -6,7 +6,7 @@ MongoDB with Mongoose. **45 models** spread across 43 collections. Everything be
 
 ## 1. Connection
 
-`src/lib/mongoose.ts` maintains **a cached connection on the global object**.
+[`src/lib/mongoose.ts`](../src/lib/mongoose.ts) maintains **a cached connection on the global object**.
 
 ```ts
 let cached = (global as any).mongoose;   // survives hot reload
@@ -29,22 +29,22 @@ Every route touching data calls `connectToDatabase()` before the first query.
 
 | Domain | Models | Main collections |
 |---|---|---|
-| **AI Generation** | 11 | `ai_generation_jobs`, `ai_credit_ledger`, `ai_credit_accounts`, `batch_generations`, `output_contracts`, `evaluation_suites`, `human_evaluations`, `prompt_versions`, `prompt_experiments`, `model_regressions` |
-| **Affiliates** | 7 | `affiliate_applications`, `affiliate_clicks`, `affiliate_sales`, `affiliate_payout_accounts`, `affiliate_daily_stats`, `affiliate_user_stats`, `affiliate_referral_stats` |
-| **Commerce** | 6 | `component_purchases`, `credit_purchases`, `marketplace_listings`, `marketplace_sales`, `component_libraries`, `landing_publications` |
-| **User** | 7 | `user_profiles`, `saved_items`, `user_interests`, `cookieconsents`, `useractivities` |
-| **Projects** | 6 | `creative_projects`, `campaign_workflows`, `brand_kits`, `project_client_links`, `project_funnel_events`, `publication_quality_audits` |
-| **Others** | 8 | `observability_events`, `catalog_likes`, `catalog_engagements`, `asset_provenance`, `product_reviews`, `editor_projects`, `feature_experiments`, `feature_assignments` |
+| **AI Generation** | 11 | [`AICreditAccount`](../src/models/AICreditAccount.ts), [`AICreditLedger`](../src/models/AICreditLedger.ts), [`AIGenerationFeedback`](../src/models/AIGenerationFeedback.ts), [`AIGenerationJob`](../src/models/AIGenerationJob.ts), [`BatchGeneration`](../src/models/BatchGeneration.ts), [`EvaluationSuite`](../src/models/EvaluationSuite.ts), [`HumanEvaluation`](../src/models/HumanEvaluation.ts), [`ModelRegression`](../src/models/ModelRegression.ts), [`OutputContract`](../src/models/OutputContract.ts), [`PromptExperiment`](../src/models/PromptExperiment.ts), [`PromptVersion`](../src/models/PromptVersion.ts) |
+| **Affiliates** | 7 | [`AffiliateApplication`](../src/models/AffiliateApplication.ts), [`AffiliateClick`](../src/models/AffiliateClick.ts), [`AffiliateDailyStats`](../src/models/AffiliateDailyStats.ts), [`AffiliatePayoutAccount`](../src/models/AffiliatePayoutAccount.ts), [`AffiliateReferralStats`](../src/models/AffiliateReferralStats.ts), [`AffiliateSale`](../src/models/AffiliateSale.ts), [`AffiliateUserStats`](../src/models/AffiliateUserStats.ts) |
+| **Commerce** | 6 | [`ComponentLibrary`](../src/models/ComponentLibrary.ts), [`ComponentPurchase`](../src/models/ComponentPurchase.ts), [`CreditPurchase`](../src/models/CreditPurchase.ts), [`LandingPublication`](../src/models/LandingPublication.ts), [`MarketplaceListing`](../src/models/MarketplaceListing.ts), [`MarketplaceSale`](../src/models/MarketplaceSale.ts) |
+| **User** | 7 | [`CookieConsent`](../src/models/CookieConsent.ts), [`NewUser`](../src/models/NewUser.ts), [`RegisteredUser`](../src/models/RegisteredUser.ts), [`SavedItem`](../src/models/SavedItem.ts), [`UserActivity`](../src/models/UserActivity.ts), [`UserInterest`](../src/models/UserInterest.ts), [`UserProfile`](../src/models/UserProfile.ts) |
+| **Projects** | 6 | [`BrandKit`](../src/models/BrandKit.ts), [`CampaignWorkflow`](../src/models/CampaignWorkflow.ts), [`CreativeProject`](../src/models/CreativeProject.ts), [`ProjectClientLink`](../src/models/ProjectClientLink.ts), [`ProjectFunnelEvent`](../src/models/ProjectFunnelEvent.ts), [`PublicationQualityAudit`](../src/models/PublicationQualityAudit.ts) |
+| **Others** | 8 | [`AssetProvenance`](../src/models/AssetProvenance.ts), [`CatalogEngagement`](../src/models/CatalogEngagement.ts), [`CatalogLike`](../src/models/CatalogLike.ts), [`EditorProject`](../src/models/EditorProject.ts), [`FeatureAssignment`](../src/models/FeatureAssignment.ts), [`FeatureExperiment`](../src/models/FeatureExperiment.ts), [`ObservabilityEvent`](../src/models/ObservabilityEvent.ts), [`ProductReview`](../src/models/ProductReview.ts) |
 
 ---
 
 ## 3. Three models, one collection: `user_profiles`
 
-`NewUser`, `RegisteredUser`, and `UserProfile` write to the **same collection**. It is deliberate, and the reason lies in `/api/sync-resend`: it iterates through the entire collection to sync with Resend both customers and leads who left their email in a free download without creating an account.
+[`NewUser`](../src/models/NewUser.ts), [`RegisteredUser`](../src/models/RegisteredUser.ts), and [`UserProfile`](../src/models/UserProfile.ts) write to the **same collection**. It is deliberate, and the reason lies in [`/api/sync-resend`](../src/app/api/sync-resend/route.ts): it iterates through the entire collection to sync with Resend both customers and leads who left their email in a free download without creating an account.
 
 **The bug this caused, and how it was fixed.** A lead is inserted without `userId`. MongoDB interprets the missing field as `null`, and with a standard unique index **only the first lead gets in**: all subsequent ones fail with `E11000`. It was happening in production, causing `/api/new-users` to return 500 on every email capture.
 
-The fix is a **partial unique index** (`src/models/UserProfile.ts:46`):
+The fix is a **partial unique index** ([`src/models/UserProfile.ts:46`](../src/models/UserProfile.ts#L46)):
 
 ```ts
 { unique: true, partialFilterExpression: { userId: { $type: 'string' } } }
@@ -60,13 +60,13 @@ Uniqueness only applies to documents whose `userId` is a string, i.e., actual pr
 
 | Model | Indexes | Unique | Purpose |
 |---|---|---|---|
-| `ObservabilityEvent` | 3 | 0 | `{route, productId, createdAt}` and `{category, name, createdAt}` for dashboard aggregates |
-| `AffiliateSale` | 1 | 2 | Lookup by affiliate and by payout status |
-| `MarketplaceListing` | 1 | 1 | Review queue by status and age |
-| `SavedItem` | 2 | 1 | Unique `{userId, itemKind, itemId}`: two simultaneous clicks cannot duplicate |
-| `ComponentLibrary` | 0 | 1 | Unique `userId`: there is one library per account and upserting depends on it |
-| `AICreditLedger` | 1 | 1 | Ledger entries by job |
-| `EditorProject` | 2 | 0 | `{userId, updatedAt}` to list by recency |
+| [`ObservabilityEvent`](../src/models/ObservabilityEvent.ts) | 3 | 0 | `{route, productId, createdAt}` and `{category, name, createdAt}` for dashboard aggregates |
+| [`AffiliateSale`](../src/models/AffiliateSale.ts) | 1 | 2 | Lookup by affiliate and by payout status |
+| [`MarketplaceListing`](../src/models/MarketplaceListing.ts) | 1 | 1 | Review queue by status and age |
+| [`SavedItem`](../src/models/SavedItem.ts) | 2 | 1 | Unique `{userId, itemKind, itemId}`: two simultaneous clicks cannot duplicate |
+| [`ComponentLibrary`](../src/models/ComponentLibrary.ts) | 0 | 1 | Unique `userId`: there is one library per account and upserting depends on it |
+| [`AICreditLedger`](../src/models/AICreditLedger.ts) | 1 | 1 | Ledger entries by job |
+| [`EditorProject`](../src/models/EditorProject.ts) | 2 | 0 | `{userId, updatedAt}` to list by recency |
 
 **General pattern**: wherever there is an idempotent operation—saving a favorite, recording a purchase—there is a unique index that enforces idempotency **in the database**, not just in code. Two concurrent requests cannot create two rows.
 

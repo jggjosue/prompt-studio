@@ -34,13 +34,36 @@ flowchart TD
 
 | Layer | Files | Responsibility |
 |---|---|---|
-| **Middleware** (`src/proxy.ts`) | 1 | Language, canonical redirects, security headers, catalog source protection |
-| **Pages** (`src/app/[locale]`) | 91 routes | Interface composition; server by default, client only where there is interaction |
-| **API** (`src/app/api`) | 105 routes | Authorization, input validation, and orchestration |
-| **Components** (`src/components`) | 156 | Reusable interface, without data access |
-| **Logic** (`src/lib`) | 155 | Pure business rules, without React or Mongo |
-| **Models** (`src/models`) | 45 | Mongoose schemas and their indexes |
-| **Catalog** (`src/data`) | 15 JSON | Versioned product; intentionally outside of `public/` |
+| **Middleware** ([`src/proxy.ts`](../src/proxy.ts)) | 1 | Language, canonical redirects, security headers, catalog source protection |
+| **Pages** ([`src/app/[locale]`](../src/app/[locale])) | 91 routes | Interface composition; server by default, client only where there is interaction |
+| **API** ([`src/app/api`](../src/app/api)) | 105 routes | Authorization, input validation, and orchestration |
+| **Components** ([`src/components`](../src/components)) | 156 | Reusable interface, without data access |
+| **Logic** ([`src/lib`](../src/lib)) | 155 | Pure business rules, without React or Mongo |
+| **Models** ([`src/models`](../src/models)) | 45 | Mongoose schemas and their indexes |
+| **Catalog** ([`src/data`](../src/data)) | 15 JSON | Versioned product; intentionally outside of `public/` |
+
+### Implementation index
+
+The diagram is a conceptual view; this index is the maintained bridge to the
+implementation. It favors entry points and shared contracts over an exhaustive
+file list. The full source inventory, including exclusions, is in
+[DOC-002 — Source File Map](audits/SOURCE_FILE_MAP.md), and the order in which
+to extend this documentation is in
+[DOC-003 — High-Impact Source Priorities](audits/HIGH_IMPACT_SOURCE_PRIORITIES.md).
+
+| Layer | Routes and entry points | Shared logic and data contracts | UI or configuration |
+|---|---|---|---|
+| Request boundary | [`src/proxy.ts`](../src/proxy.ts), [`src/middleware.ts`](../src/middleware.ts), [`src/app/[locale]/layout.tsx`](../src/app/[locale]/layout.tsx) | [`src/i18n/request.ts`](../src/i18n/request.ts), [`src/lib/app-routes.ts`](../src/lib/app-routes.ts) | [`next.config.ts`](../next.config.ts), [`vercel.json`](../vercel.json), [`tsconfig.json`](../tsconfig.json) |
+| Pages and server actions | [`src/app/[locale]`](../src/app/[locale]), [`src/app/actions.ts`](../src/app/actions.ts) | [`src/lib`](../src/lib) | [`src/components`](../src/components), [`src/app/[locale]/dashboard/layout.tsx`](../src/app/[locale]/dashboard/layout.tsx) |
+| API | [`src/app/api`](../src/app/api), [`src/app/api/ai/jobs/route.ts`](../src/app/api/ai/jobs/route.ts), [`src/app/api/editor/projects/route.ts`](../src/app/api/editor/projects/route.ts), [`src/app/api/webhooks/stripe/route.ts`](../src/app/api/webhooks/stripe/route.ts), [`src/app/api/webhooks/clerk/route.ts`](../src/app/api/webhooks/clerk/route.ts) | [`src/lib/api-auth.ts`](../src/lib/api-auth.ts), [`src/lib/rate-limit.ts`](../src/lib/rate-limit.ts), [`src/lib/cache-policy.ts`](../src/lib/cache-policy.ts) | Access contract: [API_ACCESS.md](API_ACCESS.md); workflow configuration: [`.github/workflows`](../.github/workflows) |
+| AI jobs | [`src/app/api/ai/jobs/process/route.ts`](../src/app/api/ai/jobs/process/route.ts), [`src/app/api/ai/jobs/[id]/progress/route.ts`](../src/app/api/ai/jobs/[id]/progress/route.ts) | [`src/lib/ai-job-service.ts`](../src/lib/ai-job-service.ts), [`src/lib/ai-job-runner.ts`](../src/lib/ai-job-runner.ts), [`src/lib/ai-job-config.ts`](../src/lib/ai-job-config.ts), [`src/lib/generation`](../src/lib/generation) | [`src/models/AIGenerationJob.ts`](../src/models/AIGenerationJob.ts), [`src/models/AICreditLedger.ts`](../src/models/AICreditLedger.ts), [`src/models/AICreditAccount.ts`](../src/models/AICreditAccount.ts) |
+| Commerce | [`src/app/api/credits`](../src/app/api/credits), [`src/app/api/subscription`](../src/app/api/subscription) | [`src/lib/stripe.ts`](../src/lib/stripe.ts), [`src/lib/credit-topup.ts`](../src/lib/credit-topup.ts), [`src/lib/server-subscription-status.ts`](../src/lib/server-subscription-status.ts) | [`src/models/MarketplaceListing.ts`](../src/models/MarketplaceListing.ts), [`src/models/ComponentLibrary.ts`](../src/models/ComponentLibrary.ts), [Stripe playbook](playbooks/STRIPE_PAYMENTS.md) |
+| Visual editor and projects | [`src/app/api/editor/projects/route.ts`](../src/app/api/editor/projects/route.ts), [`src/app/[locale]/component-builder`](../src/app/[locale]/component-builder), [`src/app/[locale]/page-composer`](../src/app/[locale]/page-composer) | [`src/lib/editor/document.ts`](../src/lib/editor/document.ts), [`src/lib/editor/registry.ts`](../src/lib/editor/registry.ts), [`src/lib/editor/store.ts`](../src/lib/editor/store.ts), [`src/lib/editor/history.ts`](../src/lib/editor/history.ts) | [`src/components/editor`](../src/components/editor), [`src/models/EditorProject.ts`](../src/models/EditorProject.ts), [`src/models/CreativeProject.ts`](../src/models/CreativeProject.ts) |
+| Catalog and assets | [`src/app/api/catalog`](../src/app/api/catalog), [`src/app/sites`](../src/app/sites) | [`src/lib/r2-storage.ts`](../src/lib/r2-storage.ts) | [`src/data`](../src/data), [`public`](../public) |
+
+When changing a row, update the linked contract or playbook in the same pull
+request. This keeps the architecture document useful as a navigation layer,
+without duplicating the source map or API access matrix.
 
 ---
 
@@ -100,14 +123,14 @@ flowchart LR
 
 | Mechanism | Routes | Where it lives |
 |---|---|---|
-| User session | 60 | `auth()` from Clerk |
-| IP limit | 34 | `src/lib/rate-limit.ts` |
-| Subscription plan | 12 | `src/lib/server-subscription-status.ts` |
-| Administrator | 9 | `src/lib/admin-auth.ts`, `marketplace-admin.ts`, `cache-admin-auth.ts` |
-| Cron secret | 6 | `src/lib/api-auth.ts` |
+| User session | 60 | `auth()` from Clerk ([`src/proxy.ts`](../src/proxy.ts)) |
+| IP limit | 34 | [`src/lib/rate-limit.ts`](../src/lib/rate-limit.ts) |
+| Subscription plan | 12 | [`src/lib/server-subscription-status.ts`](../src/lib/server-subscription-status.ts) |
+| Administrator | 9 | [`src/lib/admin-auth.ts`](../src/lib/admin-auth.ts), [`src/lib/marketplace-admin.ts`](../src/lib/marketplace-admin.ts), [`src/lib/cache-admin-auth.ts`](../src/lib/cache-admin-auth.ts) |
+| Cron secret | 6 | [`src/lib/api-auth.ts`](../src/lib/api-auth.ts) |
 | Webhook signature | 2 | Stripe `constructEvent`, Clerk `svix` |
 | Worker token | 1 | `AI_GENERATION_WORKER_TOKEN` |
-| Disabled (501) | 2 | `api/like`, `api/seed` |
+| Disabled (501) | 2 | [`src/app/api/like/route.ts`](../src/app/api/like/route.ts), [`src/app/api/seed/route.ts`](../src/app/api/seed/route.ts) |
 
 **The problem this created**: with eight mechanisms spread across 105 files, knowing if a route was protected required opening and reading it. This already cost two bugs: two routes under `/api/admin` had the admin check **copied inline** instead of using the helper, and `/api/affiliate/applications` accepted anonymous writes **without IP limits**.
 
@@ -209,7 +232,7 @@ flowchart LR
     DONE --> OC[OutputContract validates output]
 ```
 
-Five provider families behind **a single interface** (`src/lib/generation/provider-adapters.ts`). What makes this registry useful is not unifying calls, but that the rest of the system —credits, retries, evaluation— doesn't need to know which provider responded.
+Five provider families behind **a single interface** ([`src/lib/generation/provider-adapters.ts`](../src/lib/generation/provider-adapters.ts)). What makes this registry useful is not unifying calls, but that the rest of the system —credits, retries, evaluation— doesn't need to know which provider responded.
 
 Includes a **deterministic testing mode**: with `NEXT_PUBLIC_E2E_TEST_MODE`, a prompt containing `[fail-once]` forces a provider failure the first time. Used to test the error path, which is usually untested.
 
@@ -218,6 +241,13 @@ Includes a **deterministic testing mode**: with `NEXT_PUBLIC_E2E_TEST_MODE`, a p
 ## 6. Visual editor
 
 The editor does not share the application's React state: it has its own document, its own history, and its own component registry.
+
+Core implementation:
+- Registry: [`src/lib/editor/registry.ts`](../src/lib/editor/registry.ts) (40 types and nesting rules)
+- Document Tree: [`src/lib/editor/document.ts`](../src/lib/editor/document.ts) (normalized tree)
+- Reactive Store: [`src/lib/editor/store.ts`](../src/lib/editor/store.ts) (6 state slices)
+- Reversible Commands: [`src/lib/editor/history.ts`](../src/lib/editor/history.ts) (undo / redo stack)
+- Editor UI: [`src/components/editor/`](../src/components)
 
 ```mermaid
 flowchart TB

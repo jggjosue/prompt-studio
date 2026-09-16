@@ -15,7 +15,7 @@ confused.
 
 | | Synchronous path | Asynchronous path |
 |---|---|---|
-| Where it lives | `src/lib/generation/provider-adapters.ts` (`'use client'`) | `src/app/api/ai/jobs/**` + `src/lib/ai-job-*.ts` |
+| Where it lives | [`src/lib/generation/provider-adapters.ts`](../src/lib/generation/provider-adapters.ts) (`'use client'`) | [`src/app/api/ai/jobs/`](../src/app/api/ai/jobs/) + [`src/lib/ai-job-config.ts`](../src/lib/ai-job-config.ts), [`src/lib/ai-job-runner.ts`](../src/lib/ai-job-runner.ts), and [`src/lib/ai-job-service.ts`](../src/lib/ai-job-service.ts) |
 | How it calls the provider | *Server actions* proxy (`proxyOpenAIChat`, `proxyGemini`, …) | MongoDB queue, drained by calls to `/api/ai/jobs/process` |
 | When it is used | Interactive editing: the user waits for the response | Long jobs: video, projects, batches |
 | Credits | Does not deduct them | Reserve → capture/refund |
@@ -31,7 +31,7 @@ lies.
 
 ## 2. Providers by job type
 
-`src/lib/ai-job-config.ts` is the **single source of truth**; `isProviderForKind()`
+[`src/lib/ai-job-config.ts`](../src/lib/ai-job-config.ts) is the **single source of truth**; `isProviderForKind()`
 applies it at the API entry point, so that it is not possible to queue a video
 job against an image provider.
 
@@ -63,7 +63,7 @@ stateDiagram-v2
 
 ### How a job is claimed
 
-`/api/ai/jobs/process` does not do "read and then write". It uses an atomic
+[`/api/ai/jobs/process`](../src/app/api/ai/jobs/process/route.ts) does not do "read and then write". It uses an atomic
 `findOneAndUpdate` that in the same operation filters, marks as `processing`,
 increments `attempts`, and sets a **5-minute lease**:
 
@@ -102,7 +102,7 @@ and the user is notified by email indicating the number of attempts.
 
 ## 4. Credits: reserve, capture, refund
 
-`src/lib/ai-job-service.ts`. The account stores three numbers: `balance`,
+[`src/lib/ai-job-service.ts`](../src/lib/ai-job-service.ts) stores the account's three numbers: `balance`,
 `reserved`, and `lifetimeSpent`. Initial balance:
 `Math.max(0, Number(process.env.AI_INITIAL_CREDITS ?? 12))`.
 
@@ -138,7 +138,7 @@ Calling `captureCredits` twice does not charge twice. The system invariant is th
 ## 5. Output contracts
 
 A job can have an associated `OutputContract`. In that case, two functions from
-`src/lib/output-contract.ts` step in:
+[`src/lib/output-contract.ts`](../src/lib/output-contract.ts) step in:
 
 - **`contractInstructions(contract)`** is prepended to the prompt before calling
   the provider: mode (`json` / `code` / `text`), maximum length, language, tone,
@@ -157,7 +157,7 @@ contract is not charged to the user.
 
 ## 6. The external worker
 
-`runAIJob` (`src/lib/ai-job-runner.ts`) has a single local exception: image
+`runAIJob` ([`src/lib/ai-job-runner.ts`](../src/lib/ai-job-runner.ts)) has a single local exception: image
 with `google` and no configured worker is resolved in-process using the Genkit
 flow. Everything else goes to `AI_GENERATION_WORKER_URL` with:
 
@@ -188,7 +188,7 @@ if (prompt.includes('[fail-once]') && e2eOpenAIFailures++ === 0) {
 ```
 
 This makes the retry path testable, which would otherwise only be exercised
-when a real provider failed. It is used by `tests/e2e/user-journeys.spec.ts`.
+when a real provider failed. It is used by [`tests/e2e/user-journeys.spec.ts`](../tests/e2e/user-journeys.spec.ts).
 
 ---
 
