@@ -139,6 +139,6 @@ persistencia.
 [DOC-010 — Services and APIs](playbooks/SERVICES_AND_APIS.md) conecta los
 handlers centrales con sus servicios, adapters y contratos persistentes.
 
-[DOC-012 — Shared Hooks and Utilities](playbooks/SHARED_HOOKS_AND_UTILITIES.md)
-agrupa hooks y utilidades reutilizados por propósito, con enlaces a sus
-contratos y dominios propietarios.
+[DOC-011 — State Management](playbooks/STATE_MANAGEMENT.md) explica stores,
+providers, hooks compartidos, cachés locales y límites de responsabilidad del
+estado de cliente.
