@@ -99,3 +99,7 @@ granular backlog in [Issue #32](https://github.com/jggjosue/prompt-studio/issues
 [DOC-002 — Source File Map](audits/SOURCE_FILE_MAP.md) clasifica el árbol de
 implementación actual por responsabilidad y separa el alcance manual de los
 catálogos y archivos generados excluidos.
+
+[DOC-003 — High-Impact Source Priorities](audits/HIGH_IMPACT_SOURCE_PRIORITIES.md)
+ordena los módulos que deben recibir documentación explicativa primero, usando
+impacto sistémico, riesgo, reutilización y volumen de código.
