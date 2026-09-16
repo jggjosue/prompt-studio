@@ -5,7 +5,7 @@
 > update the corresponding route handler.
 
 The system authorizes requests using eight distinct mechanisms. This matrix details
-the exact authorization strategy for all 105 API routes, which previously required
+the exact authorization strategy for all 109 API routes, which previously required
 manual file-by-file inspection.
 
 The test suite `tests/unit/route-access-matrix.test.ts` verifies that no route lacks
@@ -20,11 +20,11 @@ endpoint breaks the build pipeline instead of slipping into production.
 | Cron or admin secret | 6 |
 | Administrator | 9 |
 | Subscription plan | 12 |
-| User session | 60 |
+| User session | 64 |
 | AI worker token | 1 |
 | IP rate limit | 34 |
 | Disabled (501) | 2 |
-| **Total Routes** | **105** |
+| **Total Routes** | **109** |
 
 ## Public Routes by Design
 
@@ -131,6 +131,10 @@ None of them expose paid prompt data or private account records.
 | [`/api/prompt-experiments/[id]`](../src/app/api/prompt-experiments/[id]/route.ts) | GET, PATCH | User session + IP rate limit |
 | [`/api/prompt-optimizer`](../src/app/api/prompt-optimizer/route.ts) | POST | User session + IP rate limit |
 | [`/api/prompt-versions`](../src/app/api/prompt-versions/route.ts) | GET, POST | User session + IP rate limit |
+| [`/api/prompt-versions/[id]/evaluation`](../src/app/api/prompt-versions/[id]/evaluation/route.ts) | GET | User session |
+| [`/api/prompt-versions/[id]/lineage`](../src/app/api/prompt-versions/[id]/lineage/route.ts) | GET | User session |
+| [`/api/prompt-versions/[id]/provenance`](../src/app/api/prompt-versions/[id]/provenance/route.ts) | GET | User session |
+| [`/api/prompt-versions/compare`](../src/app/api/prompt-versions/compare/route.ts) | GET | User session |
 | [`/api/provider-quality`](../src/app/api/provider-quality/route.ts) | GET | Administrator |
 | [`/api/publication-quality`](../src/app/api/publication-quality/route.ts) | GET | User session |
 | [`/api/publications`](../src/app/api/publications/route.ts) | GET, POST | Subscription plan + User session + IP rate limit |
