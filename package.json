@@ -52,6 +52,7 @@
     "verify:clerk:prod": "node scripts/mjs/verify-clerk-env.mjs production",
     "verify:env-example": "node scripts/mjs/check-env-example.mjs",
     "verify:rotation": "node scripts/mjs/check-leaked-secrets.mjs",
+    "docs:check-links": "node scripts/mjs/check-doc-links.mjs",
     "fix:user-profiles-index": "node scripts/mjs/fix-user-profiles-index.mjs",
     "lint:fix": "eslint . --fix",
     "validate": "npm run lint && npm run typecheck && npm run test:coverage && npm run verify:env-example && npm run cache:audit"

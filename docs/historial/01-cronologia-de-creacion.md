@@ -107,7 +107,7 @@ El mes de mayor densidad. Se pasa de prototipo a catálogo real.
   del error en el mensaje.
 - **Separación de vídeos e imágenes** en fuentes independientes, la única
   decisión de esta etapa que quedó documentada en su momento y por escrito, en
-  [`MIGRATION_SUMMARY.md`](../../MIGRATION_SUMMARY.md) (traza
+  [`MIGRATION_SUMMARY.md`](../MIGRATION_SUMMARY.md) (traza
   [T-03](02-trazas-de-decision.md#t-03--separación-de-vídeos-e-imágenes)).
 - **Firebase Admin** entra en `package.json` el 7 de febrero (`9bd8a158`).
 
