@@ -168,7 +168,7 @@
           "prompt": "A premium landing page for an esports platform where players and organizers can discover tournaments, compete in skill-based rankings, and follow live matches. It features a high-impact hero with a leaderboard, categories for FPS, MOBA, fighting, and sports games, broadcasting with OBS overlays and VOD, ELO-based leagues with seasons and prizes, a tournament builder supporting Swiss and double-elimination formats, community statistics, and strong calls to action to join a competition."
         }
       },
-      "imageUrl": "https://raw.githubusercontent.com/jggjosue/Prompts-images/refs/heads/main/webpages/arenapulse-esports-platform.png",
+      "imageUrl": "/images/webpages/arenapulse-esports-platform.webp",
       "imageHint": {
         "en": "Futuristic esports platform landing page with a live leaderboard, tournament brackets, dark charcoal interface, and electric red neon accents",
         "es": "Landing page futurista de plataforma de esports con clasificación en vivo, llaves de torneo, interfaz negro carbón y detalles en rojo neón eléctrico"
@@ -207,7 +207,7 @@
           "prompt": "A premium landing page for a digital gaming marketplace where users can buy, sell, and trade skins, keys, cards, battle passes, and rare collectibles. It features a hero with highlighted items, category navigation, product cards with pricing and value history, instant escrow, verified sellers, drop alerts, wishlists, two-factor authentication, anti-fraud protection, dispute resolution, marketplace statistics, and strong calls to action to browse or list an item."
         }
       },
-      "imageUrl": "https://raw.githubusercontent.com/jggjosue/Prompts-images/refs/heads/main/webpages/lootvault-game-marketplace.png",
+      "imageUrl": "/images/webpages/lootvault-game-marketplace.webp",
       "imageHint": {
         "en": "Premium dark game marketplace interface with rare skins, glowing loot crates, trading cards, price charts, and metallic gold accents",
         "es": "Interfaz premium de marketplace gaming oscuro con skins raras, cajas de botín luminosas, cartas coleccionables, gráficas de precios y detalles dorados metálicos"
