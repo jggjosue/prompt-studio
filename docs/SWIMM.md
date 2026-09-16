@@ -88,3 +88,10 @@ The companion checklist in
 requires authors to review the relevant documentation and workflow report. The
 check intentionally does not enforce a numerical threshold until Swimm has a
 stable baseline; the next enforcement target is **Tier B (≥40%)**.
+
+## 6. Baseline Audit
+
+[DOC-001 — Documentation Reach Audit](audits/DOCUMENTATION_REACH_AUDIT.md)
+records the nine-document priority corpus, the historical Swimm baseline, and
+the remaining explanatory coverage gaps. It is the evidence base for the
+granular backlog in [Issue #32](https://github.com/jggjosue/prompt-studio/issues/32).
