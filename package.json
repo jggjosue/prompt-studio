@@ -51,6 +51,7 @@
     "verify:clerk": "node scripts/mjs/verify-clerk-env.mjs",
     "verify:clerk:prod": "node scripts/mjs/verify-clerk-env.mjs production",
     "verify:env-example": "node scripts/mjs/check-env-example.mjs",
+    "verify:template-markers": "node scripts/mjs/check-template-markers.mjs",
     "verify:rotation": "node scripts/mjs/check-leaked-secrets.mjs",
     "fix:user-profiles-index": "node scripts/mjs/fix-user-profiles-index.mjs",
     "lint:fix": "eslint . --fix",
