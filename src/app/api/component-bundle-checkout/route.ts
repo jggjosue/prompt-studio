@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     const product = await getComponentProductContent(id);
     if (product) products.push(product);
   }
-  
+
   if (products.length === 0) return NextResponse.json({ error: 'Productos no encontrados.' }, { status: 404, headers });
 
   const client = await clerkClient();
@@ -32,7 +32,7 @@ export async function POST(request: Request) {
   const siteUrl = getSiteUrl().replace(/\/$/, '');
   const publishableKey = process.env.PLAN_PUBLISHABLE_KEY ?? process.env.PLAN_PUBLISHABLE_KEY_DEV;
   if (!publishableKey) return NextResponse.json({ error: 'Stripe no está configurado.' }, { status: 503, headers });
-  
+
   const lineItems = products.map(product => ({
     quantity: 1,
     price_data: {

@@ -200,7 +200,6 @@ export default async function DashboardLayout({
       : []),
     // { href: '/dashboard/settings', icon: <Settings className="h-4 w-4" />, label: t('settings') },
     { href: '/dashboard/credits', icon: <Coins className="h-4 w-4" />, label: t('credits'), description: t('creditsDesc') },
-    { href: '/dashboard/billing', icon: <CreditCard className="h-4 w-4" />, label: t('billing'), description: t('billingDesc') },
   ];
   const settingsNavItems = isPremiumJoAdmin ? allSettingsNavItems : [];
 

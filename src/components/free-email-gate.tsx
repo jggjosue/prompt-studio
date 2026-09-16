@@ -83,14 +83,18 @@ export function FreeEmailGate({
       if (res.ok) {
         localStorage.setItem('prompt_studio_free_email_saved', 'true');
         setHasSavedEmail(true);
+        setOpen(false);
+        // Let Radix finish closing this dialog before an action opens another
+        // dialog (the prompt viewer) or starts a download.
+        window.setTimeout(onSuccess, 0);
       } else {
         console.error('No se pudo guardar el correo; se volverá a pedir.');
+        toast({
+          title: t('error'),
+          description: t('connectionError'),
+          variant: 'destructive',
+        });
       }
-
-      setOpen(false);
-      // Let Radix finish closing this dialog before an action opens another
-      // dialog (the prompt viewer) or starts a download.
-      window.setTimeout(onSuccess, 0);
     } catch (_error) {
       toast({
         title: t('error'),
