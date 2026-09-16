@@ -47,6 +47,7 @@ Existing architectural documents in [docs/](.) are coupled directly to source fi
 * [docs/AI_ARCHITECTURE.md](AI_ARCHITECTURE.md) &rarr; [`src/ai/`](../src/ai/), [`src/lib/generation/`](../src/lib/generation/)
 * [docs/DATABASE.md](DATABASE.md) &rarr; [`src/models/`](../src/models/), [`src/lib/mongoose.ts`](../src/lib/mongoose.ts)
 * [docs/API_ACCESS.md](API_ACCESS.md) &rarr; [`src/app/api/`](../src/app/api/)
+* [docs/CUSTOM_SUBSYSTEMS_ARCHITECTURE.md](CUSTOM_SUBSYSTEMS_ARCHITECTURE.md) &rarr; [`src/lib/bplus-tree.ts`](../src/lib/bplus-tree.ts), [`src/lib/readability-analysis.ts`](../src/lib/readability-analysis.ts), [`src/lib/editor/`](../src/lib/editor/), [`src/lib/generation/`](../src/lib/generation/)
 * [docs/CODEBASE_MAP.md](CODEBASE_MAP.md) &rarr; Full source tree catalog
 
 ## 4. High-Impact Playbooks (Phase 3)
