@@ -1,0 +1,44 @@
+name: Snapshot History
+
+# Garantiza que el empaquetado del snapshot conserva la identidad y la historia
+# real del repositorio (conexion GitHub) que el evaluador necesita para medir
+# commit/PR density. Se ejecuta en cada push y PR con historia completa
+# (fetch-depth: 0): un checkout shallow seccionaria precisamente lo que estas
+# metricas necesitan.
+on:
+  pull_request:
+  push:
+    branches: [main, develop]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  history:
+    name: Commit/PR density inputs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - name: Verify repository identity and real history
+        env:
+          EXPECTED_REPOSITORY: ${{ github.repository }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          node scripts/mjs/verify-snapshot-history.mjs
+          node scripts/mjs/build-snapshot-history.mjs
+
+      - name: Publish history manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: snapshot-history
+          path: reports/snapshot/history.json
+          if-no-files-found: error

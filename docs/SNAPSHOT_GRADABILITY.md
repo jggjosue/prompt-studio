@@ -26,6 +26,25 @@ A preflight check should fail snapshot creation when expected source directories
 
 Commit-density and pull-request-density measurements depend on repository history/metadata rather than application runtime behavior. Snapshot generation should preserve or export the supported metadata required by the evaluator instead of constructing a source-only archive that loses history context.
 
+#### Supported measurement path
+
+The evaluator measures commit/PR density through the **GitHub repository connection**: real commit history and real pull requests read from the repository itself, not from a custom archive format. The repository therefore guarantees, at snapshot time:
+
+- **Identidad y revisión correctas.** El snapshot queda asociado al repositorio real (`remote origin`) y a la revisión exacta (`HEAD`). `EXPECTED_REPOSITORY` y `EXPECTED_REVISION` pinzan esa asociación cuando se quiere verificar contra un valor conocido.
+- **Historia real no seccionada.** El empaquetado no debe clonar con `--depth` ni despojar `.git`: sin historia alcanzable, commit density no es medible. `actions/checkout` dentro del pipeline usa `fetch-depth: 0`.
+- **Nunca se sintetiza historia.** No se generan commits ni PRs ficticios para inflar las métricas.
+
+Comandos disponibles:
+
+```bash
+npm run snapshot:history          # exporta reports/snapshot/history.json (solo registros reales)
+npm run snapshot:verify-history   # falla si identidad/historia estan seccionadas o son incorrectas
+```
+
+`npm run snapshot:history` escribe `reports/snapshot/history.json` con la revisión (`HEAD`, rama, remoto), estadísticas reales de commits (`git rev-list`/`git log`: total, autores, días activos, distribución por día) y, si hay `GH_TOKEN`/`GITHUB_TOKEN`, totales reales de pull requests vía GitHub API. Sin token, la sección de PRs queda marcada como `available: false` con el motivo; nunca se rellena con datos inventados.
+
+`npm run snapshot:verify-history` es el guardarraíl: falla (exit 1) si no hay remote `origin`, si el historial es shallow (salvo `SNAPSHOT_ALLOW_SHALLOW=1`), si no hay commits reales, o si `EXPECTED_REPOSITORY`/`EXPECTED_REVISION` no coinciden con el repositorio/revisión actuales.
+
 ### Validation
 
 Before publishing a snapshot, CI should verify:
@@ -36,5 +55,7 @@ Before publishing a snapshot, CI should verify:
 - required repository-history metadata is available to the snapshot/evaluator;
 - the archive can be extracted and its expected paths enumerated;
 - no required analysis input is replaced by an unsupported opaque file.
+
+The `Snapshot History` workflow ([`.github/workflows/snapshot-history.yml`](../.github/workflows/snapshot-history.yml)) checks out with full history and runs `snapshot:verify-history` plus `snapshot:history` on every push and pull request; the manifest is published as an artifact for the packaging step.
 
 After these checks pass, create a fresh snapshot and confirm all six metrics are gradable.
