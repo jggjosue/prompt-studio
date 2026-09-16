@@ -167,23 +167,23 @@ docs/             Specific operational documentation
 
 ## Technical Capabilities
 
-The documentation for the application —Coding/SWE, applied ML evaluation, Technical PM, Computer Use, MCP, Cybersecurity, enterprise tools, STEM QA, synthetic content, scraping, and Quant Trading— is centralized in [docs/capabilities](docs/capabilities/README.md).
+The documentation for the application —Coding/SWE, applied ML evaluation, Technical PM, Computer Use, MCP, Cybersecurity, enterprise tools, STEM QA, synthetic content, scraping, and Quant Trading— is centralized in [docs/capabilities](capabilities/README.md).
 
 Each spec sheet separates evidence, verification commands, and limits. Areas that are not yet part of the product are explicitly identified to avoid claims that the repository cannot demonstrate.
 
 ## Operational Data Licensing
 
-The proposal for preparing and licensing authorized, anonymized copies of tickets, conversations, documents, and code is documented in [docs/data-licensing](docs/data-licensing/README.md).
+The proposal for preparing and licensing authorized, anonymized copies of tickets, conversations, documents, and code is documented in [docs/data-licensing](data-licensing/README.md).
 
 This is a proposed product line, not an available capability or revenue promise. The documentation covers product flow, consent and rights, sensitive data exclusions, anonymization, quality control, license terms, traceability, and compensation.
 
 ## Organizational Scaling
 
-The plan to evolve the product and the company from a founder core up to scenarios of 10, 20, 30, and 50 people is in [docs/escalamiento](docs/escalamiento/README.md). It includes teams, org charts, supervised agents, engineering, infrastructure, security, operations, metrics, costs, and explicit hiring conditions.
+The plan to evolve the product and the company from a founder core up to scenarios of 10, 20, 30, and 50 people is in [docs/escalamiento](escalamiento/README.md). It includes teams, org charts, supervised agents, engineering, infrastructure, security, operations, metrics, costs, and explicit hiring conditions.
 
 ## CRM Strategy
 
-The de facto CRM audit, comparison of alternatives, and proposed HubSpot plan are in [docs/crm](docs/crm/README.md). The design keeps Clerk, MongoDB, and Stripe as authoritative systems and uses the CRM for sales, onboarding, support, and expansion.
+The de facto CRM audit, comparison of alternatives, and proposed HubSpot plan are in [docs/crm](crm/README.md). The design keeps Clerk, MongoDB, and Stripe as authoritative systems and uses the CRM for sales, onboarding, support, and expansion.
 
 ## Sensitive Integrations
 
