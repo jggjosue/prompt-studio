@@ -40,7 +40,12 @@ export type EditorCommand =
   | { kind: 'setProps'; id: string; patch: Record<string, unknown> }
   | { kind: 'setStyles'; id: string; breakpoint: Breakpoint; patch: Record<string, string | number | null> }
   | { kind: 'rename'; id: string; name: string }
-  | { kind: 'toggle'; id: string; flag: 'hidden' | 'locked' };
+  | { kind: 'toggle'; id: string; flag: 'hidden' | 'locked' }
+  | {
+      kind: 'group';
+      steps: EditorCommand[];
+      /** Lo que toca un grupo atómico (p. ej. sección + contenedor + nodo). */
+    };
 
 /** Lo necesario para revertir un comando ya aplicado. */
 export type CommandInverse =
@@ -50,7 +55,8 @@ export type CommandInverse =
   | { kind: 'setProps'; id: string; patch: Record<string, unknown> }
   | { kind: 'setStyles'; id: string; breakpoint: Breakpoint; patch: Record<string, string | number | null> }
   | { kind: 'rename'; id: string; name: string }
-  | { kind: 'toggle'; id: string; flag: 'hidden' | 'locked' };
+  | { kind: 'toggle'; id: string; flag: 'hidden' | 'locked' }
+  | { kind: 'group'; steps: CommandInverse[] };
 
 export type Applied = {
   document: EditorDocument;
@@ -157,6 +163,26 @@ export function applyCommand(
         inverse: { kind: 'toggle', id: command.id, flag: command.flag },
       };
     }
+    case 'group': {
+      // Atómico: o se aplican todos los pasos, o no se aplica ninguno. Los
+      // inversos se recogen en orden y se invierten: deshacer el grupo es
+      // ejecutarlos al revés.
+      let working = document;
+      const inverses: CommandInverse[] = [];
+      const focusIds: string[] = [];
+      for (const step of command.steps) {
+        const result = applyCommand(working, step, makeId);
+        if ('error' in result) return { error: result.error };
+        working = result.document;
+        inverses.push(result.inverse);
+        if (result.focusId) focusIds.push(result.focusId);
+      }
+      return {
+        document: working,
+        inverse: { kind: 'group', steps: inverses.reverse() },
+        focusId: focusIds[focusIds.length - 1],
+      };
+    }
   }
 }
 
@@ -187,6 +213,19 @@ export function applyInverse(
       return applyCommand(document, inverse, makeId);
     case 'toggle':
       return applyCommand(document, inverse, makeId);
+    case 'group': {
+      // Deshacer un grupo ejecuta sus inversos en orden; el inverso devuelto
+      // es lo que rehace el grupo entero de una vez.
+      let working = document;
+      const redoSteps: CommandInverse[] = [];
+      for (const step of inverse.steps) {
+        const result = applyInverse(working, step, makeId);
+        if ('error' in result) return { error: result.error };
+        working = result.document;
+        redoSteps.push(result.inverse);
+      }
+      return { document: working, inverse: { kind: 'group', steps: redoSteps.reverse() } };
+    }
   }
 }
 

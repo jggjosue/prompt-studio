@@ -8,6 +8,8 @@ import {
   hasComponentBuilderPlan,
 } from '@/lib/server-subscription-status';
 import { getRawWebPageByCatalogId } from '@/lib/web-pages';
+import { migrateDocument } from '@/lib/editor/document';
+import { validateDocument } from '@/lib/editor/constraints';
 import EditorProject, { EDITOR_PROJECT_LIMITS } from '@/models/EditorProject';
 
 export const runtime = 'nodejs';
@@ -54,12 +56,20 @@ function sanitizeDocument(raw: unknown): { document: Record<string, unknown> } |
   if (count > EDITOR_PROJECT_LIMITS.maxNodes) return { error: `demasiados nodos (${count})` };
   if (!(rootId in (nodes as Record<string, unknown>))) return { error: 'la raíz no está en el documento' };
 
+  const rawDocument = candidate as unknown as { schemaVersion?: number } & Record<string, unknown>;
+  const migrated = migrateDocument(rawDocument);
+  if (!migrated) return { error: 'documento no reconocido' };
+  const violations = validateDocument(migrated);
+  if (violations.length > 0) {
+    return { error: `documento inválido (${violations[0].code})` };
+  }
+
   return {
     document: {
-      schemaVersion: typeof candidate.schemaVersion === 'number' ? candidate.schemaVersion : 1,
+      schemaVersion: migrated.schemaVersion,
       rootId,
       nodes,
-      definitions: candidate.definitions && typeof candidate.definitions === 'object' ? candidate.definitions : {},
+      definitions: migrated.definitions,
     },
   };
 }
