@@ -109,7 +109,7 @@ Los 20 ficheros con más commits encima:
 **Dos lecturas que confirman trazas por otra vía:**
 
 - Los **cinco primeros** son exactamente los ficheros que
-  [`MIGRATION_SUMMARY.md`](../../MIGRATION_SUMMARY.md) enumera como afectados por
+  [`MIGRATION_SUMMARY.md`](../MIGRATION_SUMMARY.md) enumera como afectados por
   la separación de imágenes y vídeos (traza
   [T-03](02-trazas-de-decision.md#t-03--separación-de-vídeos-e-imágenes)). El
   churn mide el coste que el documento describe: 253 commits repartidos entre

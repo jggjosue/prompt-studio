@@ -103,7 +103,9 @@ requires authors to review the relevant documentation and workflow report. The
 check intentionally does not enforce a numerical threshold until Swimm has a
 stable baseline; the next enforcement target is **Tier B (≥40%)**.
 
-## 6. Baseline Audit
+## 6. Baseline Audit and Backlog
+
+El desglose completo de tareas canónicas priorizadas (P0–P3) se encuentra centralizado en [DOC Backlog — Documentation Reach](DOCUMENTATION_REACH_BACKLOG.md) ([Issue #32](https://github.com/jggjosue/prompt-studio/issues/32)).
 
 [DOC-001 — Documentation Reach Audit](audits/DOCUMENTATION_REACH_AUDIT.md)
 records the nine-document priority corpus, the historical Swimm baseline, and

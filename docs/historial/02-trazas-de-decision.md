@@ -51,7 +51,7 @@ Convenciones de este documento:
 ## T-03 — Separación de vídeos e imágenes
 
 Es la única decisión de las fases 1 a 6 que se documentó **en su momento**, en
-[`MIGRATION_SUMMARY.md`](../../MIGRATION_SUMMARY.md). Sirve de referencia de lo
+[`MIGRATION_SUMMARY.md`](../MIGRATION_SUMMARY.md). Sirve de referencia de lo
 que las demás no tienen.
 
 | Campo | Contenido |
