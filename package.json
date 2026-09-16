@@ -24,6 +24,8 @@
     "catalog:provenance": "node --experimental-strip-types scripts/mjs/audit-catalog-provenance.mjs",
     "cache:audit": "node scripts/mjs/audit-cache-policies.mjs",
     "analyze:routes": "node scripts/mjs/analyze-route-bundles.mjs",
+    "docs:reach": "node scripts/mjs/measure-documentation-reach.mjs",
+    "docs:reach:json": "node scripts/mjs/measure-documentation-reach.mjs --json",
     "prebuild": "npm run webpages:normalize && npm run catalog:build && npm run reviews:aggregates",
     "dev": "next dev --turbopack -p 3048",
     "genkit:dev": "genkit start -- tsx src/ai/dev.ts",
