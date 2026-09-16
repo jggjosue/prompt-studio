@@ -120,3 +120,7 @@ persistencia.
 
 [DOC-010 — Services and APIs](playbooks/SERVICES_AND_APIS.md) conecta los
 handlers centrales con sus servicios, adapters y contratos persistentes.
+
+[DOC-013 — Project Configuration](playbooks/PROJECT_CONFIGURATION.md)
+referencia build, TypeScript, entorno, linting, pruebas, CI y configuración
+global con reglas de cambio.
