@@ -1,0 +1,22 @@
+{
+  "capturedAt": "2026-09-15",
+  "note": "Línea base local del script docs:reach (DOC-019). Swimm sigue siendo la métrica de referencia. Actualizar con cada re-ejecución (DOC-025).",
+  "corpus": {
+    "documents": 25,
+    "explanatory": 24
+  },
+  "documentedFiles": 235,
+  "totalFiles": 684,
+  "documentedLines": 33730,
+  "totalSourceLines": 78523,
+  "percentage": 42.96,
+  "tier": "B",
+  "reachInclInventoryPercentage": 99.46,
+  "inventoryOnlyFiles": 443,
+  "baselineHistoricalSwimm": {
+    "files": 3,
+    "totalFiles": 575,
+    "sourceLines": 75995,
+    "percentage": 0
+  }
+}
