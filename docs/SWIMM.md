@@ -107,3 +107,6 @@ impacto sistémico, riesgo, reutilización y volumen de código.
 [DOC-005 — Documentation to Code Map](audits/DOCUMENTATION_TO_CODE_MAP.md)
 conecta los subsistemas documentados con sus entry points y contratos de
 implementación.
+
+[DOC-007 — Runtime Entry Points](audits/RUNTIME_ENTRY_POINTS.md) describe el
+arranque de runtime y enlaza configuración, routing, providers y bootstrap.
