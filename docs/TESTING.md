@@ -96,3 +96,14 @@ With 614 modules lacking any test loading them, priorities are clear and in this
 1. Business modules already measured but weak: `component-purchase-validation` (23%), `generation-pricing` (49%), `affiliate` (61%).
 2. API routes: currently checked at the source code level (that they call `auth()`, that they filter by `userId`), not by executing them.
 3. React components: no render tests.
+
+## Related source files
+
+- [`tests/unit`](../tests/unit) — reglas de negocio, autorización y contratos de API
+- [`tests/data`](../tests/data) — integridad de los catálogos versionados
+- [`tests/e2e`](../tests/e2e) — recorridos reales en navegador (Playwright)
+- [`playwright.config.ts`](../playwright.config.ts) — configuración y presupuestos de E2E/rendimiento
+- [`scripts/mjs/build-coverage-report.mjs`](../scripts/mjs/build-coverage-report.mjs) — reporte lcov: dos procesos + módulos sin testear
+- [`src/lib/component-purchase-validation.ts`](../src/lib/component-purchase-validation.ts) — prioridad 1 de cobertura (23%)
+- [`src/lib/generation-pricing.ts`](../src/lib/generation-pricing.ts) — prioridad 1 de cobertura (49%)
+- [`src/lib/affiliate.ts`](../src/lib/affiliate.ts) — prioridad 1 de cobertura (61%)
