@@ -113,3 +113,7 @@ arranque de runtime y enlaza configuración, routing, providers y bootstrap.
 
 [DOC-008 — Primary Generation Flow](playbooks/PRIMARY_GENERATION_FLOW.md)
 recorre la UI, el estado, las server actions y la ruta durable de generación.
+
+[DOC-009 — Priority Feature Components](playbooks/PRIORITY_FEATURE_COMPONENTS.md)
+enlaza las features de UI prioritarias con sus componentes, hooks, servicios y
+persistencia.
