@@ -103,7 +103,9 @@ requires authors to review the relevant documentation and workflow report. The
 check intentionally does not enforce a numerical threshold until Swimm has a
 stable baseline; the next enforcement target is **Tier B (≥40%)**.
 
-## 6. Baseline Audit
+## 6. Baseline Audit and Backlog
+
+El desglose completo de tareas canónicas priorizadas (P0–P3) se encuentra centralizado en [DOC Backlog — Documentation Reach](DOCUMENTATION_REACH_BACKLOG.md) ([Issue #32](https://github.com/jggjosue/prompt-studio/issues/32)).
 
 [DOC-001 — Documentation Reach Audit](audits/DOCUMENTATION_REACH_AUDIT.md)
 records the nine-document priority corpus, the historical Swimm baseline, and
@@ -139,6 +141,24 @@ persistencia.
 [DOC-010 — Services and APIs](playbooks/SERVICES_AND_APIS.md) conecta los
 handlers centrales con sus servicios, adapters y contratos persistentes.
 
-[DOC-014 — Features](playbooks/FEATURES.md) organiza los flujos de producto
-priorizados, con su sección estándar **Implementation files** y la forma de
-verificar cada uno.
+## 7. Convención: secciones estándar de enlaces
+
+Toda documentación técnica debe declarar explícitamente los ficheros de código
+de los que habla. Dos secciones estándar, según el tipo de documento:
+
+- **Guía técnica u operativa** (`DEPLOYMENT.md`, `SECURITY.md`, `TESTING.md`,
+  playbooks de flujo…): terminar con una sección `## Related source files`
+  enumerando los ficheros y directorios de implementación relacionados, como
+  enlaces navegables.
+- **Documentación por feature** (`playbooks/FEATURES.md`): usar la sección
+  `## Implementation files` definida en DOC-014, seguida de `## Verificación`.
+
+Reglas:
+
+1. Cada enlace debe apuntar a un fichero o directorio real y resolverse desde
+   el documento (rutas relativas; target *angle-bracket* para rutas con `[`):
+   `[Page](<../../src/app/[locale]/foo/page.tsx>)`.
+2. La primera línea del listado responde a *"¿dónde está el código de lo que
+   acabo de leer?"*; por eso va al final, nunca al principio.
+3. `npm run docs:check-links` valida esta regla (DOC-016) y debe pasar antes de
+   abrir un PR.
