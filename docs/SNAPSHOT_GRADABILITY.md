@@ -56,6 +56,26 @@ Before publishing a snapshot, CI should verify:
 - the archive can be extracted and its expected paths enumerated;
 - no required analysis input is replaced by an unsupported opaque file.
 
+Commandos del gate (issue #75):
+
+```bash
+npm run snapshot:gate   # cobertura + preflights + historial + archivo + inspeccion + reporte
+```
+
+`npm run snapshot:gate` ejecuta, en orden: `test:coverage` (genera `coverage/lcov.info`)
+→ `snapshot:verify` (preflight de source/docs/coverage) → `snapshot:verify-history`
+(identidad y historia real) → `snapshot:history` (manifest) →
+`scripts/mjs/build-snapshot-archive.mjs` (empaca `dist/prompt-studio-snapshot-<sha>.tar.gz`
+con `src/`, `docs/`, `tests/`, `package.json`, `package-lock.json` y los dos artefactos)
+→ `scripts/mjs/inspect-snapshot-archive.mjs` (comprueba que el archivo se extrae y
+tiene las rutas esperadas) → `scripts/mjs/report-snapshot-gradability.mjs` (escribe
+`reports/snapshot/gradability.md`: que metricas quedaron medibles y la razon verbatim
+del resto).
+
+El workflow [`snapshot-gate.yml`](../.github/workflows/snapshot-gate.yml) ejecuta el
+gate completo en CI (con `GITHUB_TOKEN`, asi PR density queda verificado) y publica el
+archivo y el reporte como artefactos listos para el envio.
+
 The `Snapshot History` workflow ([`.github/workflows/snapshot-history.yml`](../.github/workflows/snapshot-history.yml)) checks out with full history and runs `snapshot:verify-history` plus `snapshot:history` on every push and pull request; the manifest is published as an artifact for the packaging step.
 
 After these checks pass, create a fresh snapshot and confirm all six metrics are gradable.
