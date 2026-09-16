@@ -123,6 +123,6 @@ persistencia.
 [DOC-010 — Services and APIs](playbooks/SERVICES_AND_APIS.md) conecta los
 handlers centrales con sus servicios, adapters y contratos persistentes.
 
-[DOC-011 — State Management](playbooks/STATE_MANAGEMENT.md) detalla los stores
-reactivos con `useSyncExternalStore`, contextos de catálogo/suscripción y cachés
-en servidor y cliente.
+[DOC-014 — Features](playbooks/FEATURES.md) organiza los flujos de producto
+priorizados, con su sección estándar **Implementation files** y la forma de
+verificar cada uno.
