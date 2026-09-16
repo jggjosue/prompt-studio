@@ -3,6 +3,7 @@ import { Suspense } from 'react';
 import GenerateWebsClient from './generate-webs-client';
 import { auth } from '@clerk/nextjs/server';
 import { getServerSubscriptionStatus, hasDownloadPlan } from '@/lib/server-subscription-status';
+import { isPremiumJoAdmin } from '@/lib/admin-auth';
 import { redirect } from 'next/navigation';
 
 export const dynamic = 'force-dynamic';
@@ -19,10 +20,11 @@ export const metadata: Metadata = {
 export default async function PromptEditorPage() {
   const { userId } = await auth();
   if (!userId) redirect(`/sign-in?redirect_url=${encodeURIComponent('/generate-webs')}`);
-  if (!hasDownloadPlan(await getServerSubscriptionStatus())) redirect('/prices?plan=premium');
+  const canGenerateWebs = await isPremiumJoAdmin();
+  if (!canGenerateWebs && !hasDownloadPlan(await getServerSubscriptionStatus())) redirect('/prices?plan=premium');
   return (
     <Suspense fallback={<div className="h-screen w-full flex items-center justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div></div>}>
-      <GenerateWebsClient />
+      <GenerateWebsClient canGenerateWebs={canGenerateWebs} />
     </Suspense>
   );
 }
