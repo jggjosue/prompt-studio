@@ -11,7 +11,6 @@ import {
   Sparkles,
   WandSparkles,
 } from 'lucide-react';
-import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 
 type Props = {
@@ -21,7 +20,7 @@ type Props = {
   title: string;
 };
 
-export function PostPurchaseCustomization({ catalogId, pageId, slug, title }: Props) {
+export function PostPurchaseCustomization({ catalogId, pageId }: Props) {
   const t = useTranslations('landingPages.customization');
   const { plan, purchasedPages, ready } = useStripeSubscription();
   const hasAccess = ready && (
@@ -32,16 +31,13 @@ export function PostPurchaseCustomization({ catalogId, pageId, slug, title }: Pr
   );
   if (!hasAccess) return null;
 
-  const editorBase = `/dashboard/landing-editor?page=${encodeURIComponent(catalogId)}`;
-  const professionalSubject = encodeURIComponent(`Personalización profesional: ${title}`);
-  const professionalBody = encodeURIComponent(`Hola, quiero solicitar una personalización profesional de la plantilla ${title} (${slug}).`);
   const actions = [
-    { icon: PencilRuler, title: 'Editar en canvas', description: 'Abre una copia editable de esta landing en el constructor visual.', href: `/landing-pages/${encodeURIComponent(slug)}/edit` },
-    { icon: Palette, title: t('themeTitle'), description: t('themeDescription'), href: `${editorBase}&tool=theme` },
-    { icon: FileText, title: t('copyTitle'), description: t('copyDescription'), href: `${editorBase}&tool=copy` },
-    { icon: WandSparkles, title: t('aiTitle'), description: t('aiDescription'), href: `/generate-webs?template=${encodeURIComponent(slug)}` },
-    { icon: Download, title: t('exportTitle'), description: t('exportDescription'), href: `/api/landing-pages/${encodeURIComponent(pageId)}/download` },
-    { icon: Headphones, title: t('professionalTitle'), description: t('professionalDescription'), href: `mailto:support@prompstudio.com?subject=${professionalSubject}&body=${professionalBody}` },
+    { icon: PencilRuler, title: 'Editar en canvas', description: 'Abre una copia editable de esta landing en el constructor visual.' },
+    { icon: Palette, title: t('themeTitle'), description: t('themeDescription') },
+    { icon: FileText, title: t('copyTitle'), description: t('copyDescription') },
+    { icon: WandSparkles, title: t('aiTitle'), description: t('aiDescription') },
+    { icon: Download, title: t('exportTitle'), description: t('exportDescription') },
+    { icon: Headphones, title: t('professionalTitle'), description: t('professionalDescription') },
   ];
 
   return (
@@ -53,8 +49,7 @@ export function PostPurchaseCustomization({ catalogId, pageId, slug, title }: Pr
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {actions.map(action => {
           const Icon = action.icon;
-          const external = action.href.startsWith('mailto:');
-          return <article key={action.title} className="flex flex-col rounded-xl border bg-background/80 p-4"><Icon className="mb-3 size-5 text-violet-600" aria-hidden="true" /><h3 className="text-sm font-bold">{action.title}</h3><p className="mb-4 mt-1 flex-1 text-xs leading-5 text-muted-foreground">{action.description}</p><Button asChild variant="outline" size="sm"><Link href={action.href} target={external ? '_blank' : undefined}>{t('open')}</Link></Button></article>;
+          return <article key={action.title} className="flex flex-col rounded-xl border bg-background/80 p-4"><Icon className="mb-3 size-5 text-violet-600" aria-hidden="true" /><h3 className="text-sm font-bold">{action.title}</h3><p className="mb-4 mt-1 flex-1 text-xs leading-5 text-muted-foreground">{action.description}</p><Button type="button" disabled variant="outline" size="sm">{t('open')}</Button></article>;
         })}
       </div>
     </section>
