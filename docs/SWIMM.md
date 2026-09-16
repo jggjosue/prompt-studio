@@ -117,3 +117,6 @@ recorre la UI, el estado, las server actions y la ruta durable de generación.
 [DOC-009 — Priority Feature Components](playbooks/PRIORITY_FEATURE_COMPONENTS.md)
 enlaza las features de UI prioritarias con sus componentes, hooks, servicios y
 persistencia.
+
+[DOC-010 — Services and APIs](playbooks/SERVICES_AND_APIS.md) conecta los
+handlers centrales con sus servicios, adapters y contratos persistentes.
