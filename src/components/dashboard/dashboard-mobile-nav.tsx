@@ -32,7 +32,7 @@ export function DashboardMobileNav({
   const pathname = usePathname();
   const t = useTranslations('dashboard');
 
-  const links = [
+  const links = isPremiumJoAdmin ? [
     // { href: '/dashboard', label: t('dashboard'), icon: LayoutGrid },
     // { href: '/dashboard/analytics', label: t('analytics'), icon: LineChart },
     // { href: '/generate-images', label: t('create'), icon: Clapperboard },
@@ -52,7 +52,7 @@ export function DashboardMobileNav({
     ...(isAffiliate
       ? [{ href: '/dashboard/campaigns', label: t('campaigns'), icon: CreditCard }]
       : []),
-  ];
+  ] : [];
 
   return (
     <nav

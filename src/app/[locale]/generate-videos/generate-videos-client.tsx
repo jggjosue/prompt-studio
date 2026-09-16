@@ -70,7 +70,7 @@ const proxyRunwayPoll = generationProviders.runway.poll;
 
 // Helper to generate custom landing page HTML templates for Web previews
 
-export default function GenerateVideosClient() {
+export default function GenerateVideosClient({ canGenerate }: { canGenerate: boolean }) {
   const { brandPromptContext, brandKitName } = useBrandKitContext();
   const isSpanish = true;
   const [, setMounted] = useState(false);
@@ -548,6 +548,15 @@ export default function GenerateVideosClient() {
   const handleGenerationSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setGenerationError(null);
+
+    if (!canGenerate) {
+      toast({
+        variant: 'destructive',
+        title: 'Generación no disponible',
+        description: 'De momento, esta función está habilitada únicamente para el superadministrador.',
+      });
+      return;
+    }
 
     if (activeTab === 'pure-text') {
       return;
@@ -2324,7 +2333,7 @@ Requirements:
                                 </AccordionItem>
                               </Accordion>
 
-                              <GenerationCostDisclosure kind={activeTab === 'ai-video' ? 'video' : activeTab === 'ai-web' || activeTab === 'pure-text' ? 'project' : 'image'} provider={activeTab === 'ai-video' ? videoProvider : activeTab === 'ai-web' ? webProvider : activeTab === 'pure-text' ? chatProvider : imageProvider} />
+                              <GenerationCostDisclosure kind={activeTab === 'ai-video' ? 'video' : activeTab === 'ai-web' || activeTab === 'pure-text' ? 'project' : 'image'} provider={activeTab === 'ai-video' ? videoProvider : activeTab === 'ai-web' ? webProvider : activeTab === 'pure-text' ? chatProvider : imageProvider} showCosts={false} />
 
                               {/* Trigger button */}
                               {(() => {
@@ -2366,7 +2375,7 @@ Requirements:
                                   <div className="pt-2">
                                     <Button
                                       type="submit"
-                                      disabled={!editingText.trim() || isPending || localGenerating}
+                                      disabled={!canGenerate || !editingText.trim() || isPending || localGenerating}
                                       className={`relative group overflow-hidden w-full h-12 ${btn.gradient} !text-white font-extrabold gap-2.5 text-sm rounded-xl transition-all duration-300 ease-out hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center ${btn.shadow} ${btn.border} ${btn.ring}`}
                                     >
                                       {/* Inner glow overlay on hover */}
