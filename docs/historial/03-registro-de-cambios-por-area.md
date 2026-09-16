@@ -18,7 +18,7 @@ Las fases se refieren a [01-cronologia-de-creacion.md](01-cronologia-de-creacion
 | 2026-02-06 | Semilla de base de datos | `2e58a946` |
 | 2026-02-20 | Carga de URLs de vídeo en 7 lotes | `c29f31d0`…`29d1cfeb` |
 | 2026-02-21 | Cambio de imágenes, adición de vídeos y JSON expuesto en la vista | `617b3de6`, `2e58516c`, `f65075c2` |
-| 2026-02 (fecha no versionada) | Separación de imágenes y vídeos en dos fuentes: 115 imágenes + 42 vídeos, tipo `VideoProp` | [`MIGRATION_SUMMARY.md`](../../MIGRATION_SUMMARY.md), traza [T-03](02-trazas-de-decision.md#t-03--separación-de-vídeos-e-imágenes) |
+| 2026-02 (fecha no versionada) | Separación de imágenes y vídeos en dos fuentes: 115 imágenes + 42 vídeos, tipo `VideoProp` | [`MIGRATION_SUMMARY.md`](../MIGRATION_SUMMARY.md), traza [T-03](02-trazas-de-decision.md#t-03--separación-de-vídeos-e-imágenes) |
 | 2026-03-04 | Nuevo eje del producto: catálogo de prompts **por modelo de IA**. `/prompts`, `/prompts/amp`, `/prompts/anthropic` | `f5243738`, `8adee338`, `27b64f13`, `bad8a381`, `e8fc5d78`, `103522a5` |
 | 2026-03-04 | Partición de prompts por delimitador `#` / `##`, 30 por fichero | `2c0372e9`, `6853397c` |
 | 2026-05-16/17 | Carga de imágenes (3 lotes) y de `webpages` (5 lotes) | `9a6f2cc8`…`e4a99785` |
