@@ -69,3 +69,6 @@ para ordenar archivos por impacto, y da estructura a
 [DOC-009](https://github.com/jggjosue/prompt-studio/issues/41),
 [DOC-010](https://github.com/jggjosue/prompt-studio/issues/42) y
 [DOC-011](https://github.com/jggjosue/prompt-studio/issues/43).
+
+La priorización concreta de esos grupos se mantiene en
+[DOC-003 — High-Impact Source Priorities](HIGH_IMPACT_SOURCE_PRIORITIES.md).
