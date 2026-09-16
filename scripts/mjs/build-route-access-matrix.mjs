@@ -27,37 +27,37 @@ const BASE = join(RAIZ, 'src', 'app', 'api');
  * la matriz no se queda obsoleta en silencio.
  */
 export const MECANISMOS = [
-  { id: 'webhook', etiqueta: 'Firma de webhook', patron: /constructEvent|new Webhook\(|svix/ },
-  { id: 'cron', etiqueta: 'Secreto de cron o admin', patron: /requireCronOrAdmin|hasValidCronSecret/ },
-  { id: 'admin', etiqueta: 'Administrador', patron: /isPremiumJoAdmin|isCacheAdminAuthorized|marketplaceAdmin/ },
-  { id: 'plan', etiqueta: 'Plan de suscripción', patron: /hasComponentBuilderPlan|hasDownloadPlan|hasPublishingPlan|hasMembershipAccess|planAtLeast|getServerSubscriptionStatus/ },
-  { id: 'sesion', etiqueta: 'Sesión de usuario', patron: /\bauth\(\)/ },
-  { id: 'worker-token', etiqueta: 'Token del worker de IA', patron: /AI_GENERATION_WORKER_TOKEN/ },
-  { id: 'rate-limit', etiqueta: 'Límite por IP', patron: /enforceIpRateLimit|rateLimit\(/ },
-  { id: 'deshabilitada', etiqueta: 'Deshabilitada (501)', patron: /status:\s*501/ },
+  { id: 'webhook', etiqueta: 'Webhook signature', patron: /constructEvent|new Webhook\(|svix/ },
+  { id: 'cron', etiqueta: 'Cron or admin secret', patron: /requireCronOrAdmin|hasValidCronSecret/ },
+  { id: 'admin', etiqueta: 'Administrator', patron: /isPremiumJoAdmin|isCacheAdminAuthorized|marketplaceAdmin/ },
+  { id: 'plan', etiqueta: 'Subscription plan', patron: /hasComponentBuilderPlan|hasDownloadPlan|hasPublishingPlan|hasMembershipAccess|planAtLeast|getServerSubscriptionStatus/ },
+  { id: 'sesion', etiqueta: 'User session', patron: /\bauth\(\)/ },
+  { id: 'worker-token', etiqueta: 'AI worker token', patron: /AI_GENERATION_WORKER_TOKEN/ },
+  { id: 'rate-limit', etiqueta: 'IP rate limit', patron: /enforceIpRateLimit|rateLimit\(/ },
+  { id: 'deshabilitada', etiqueta: 'Disabled (501)', patron: /status:\s*501/ },
 ];
 
 /**
- * Rutas públicas por diseño, con el motivo. Estar en esta lista es una decisión
- * explícita: lo que no esté aquí ni tenga mecanismo, falla la prueba.
+ * Public routes by design, with rationale. Being in this list is an explicit
+ * architectural decision; anything not here without an auth mechanism fails tests.
  */
 export const PUBLICAS_JUSTIFICADAS = {
-  'catalog/[kind]': 'Catálogo público paginado; no expone prompts de pago',
-  'catalog/web-pages/[id]': 'Ficha pública de una demo del catálogo',
-  'landing-pages/catalog': 'Listado público de landings',
-  'landing-pages/[pageId]/content': 'Contenido público de una landing publicada',
-  'landing-pages/readability-index': 'Índice de legibilidad, dato agregado y público',
-  'community-reviews': 'Reseñas visibles sin cuenta; la escritura sí exige sesión',
-  'marketplace': 'Escaparate público del marketplace',
-  'provider-quality': 'Métricas agregadas de calidad de proveedores',
-  'demo/reproducible/report': 'Informe de la demo reproducible, pensado para auditoría externa',
-  'refactory-online/[slug]': 'Cargador de demos estáticas',
-  'webpages/assets/[...path]': 'Activos estáticos de las demos',
-  'web-pages/validate-demo-url': 'Validación de formato de URL, sin efectos',
-  'web-page-checkout': 'Inicio de checkout de invitado; Stripe valida la sesión de pago',
-  'stripe/demo-buy-button': 'Configuración pública del botón de compra',
-  'r2/buckets': 'Listado de buckets configurados, sin credenciales',
-  'affiliate/applications': 'Alta de solicitud de afiliado desde el formulario público',
+  'catalog/[kind]': 'Public paginated catalog; does not expose paid prompts',
+  'catalog/web-pages/[id]': 'Public detail view of a catalog demo',
+  'landing-pages/catalog': 'Public list of landing pages',
+  'landing-pages/[pageId]/content': 'Public content of a published landing page',
+  'landing-pages/readability-index': 'Readability index, aggregated public data',
+  'community-reviews': 'Reviews visible without account; submitting requires session',
+  'marketplace': 'Public storefront of the marketplace',
+  'provider-quality': 'Aggregated provider quality metrics',
+  'demo/reproducible/report': 'Reproducible demo report for external audit',
+  'refactory-online/[slug]': 'Static demo loader for interactive showcase previews',
+  'webpages/assets/[...path]': 'Static assets for demos',
+  'web-pages/validate-demo-url': 'URL format validation, side-effect free',
+  'web-page-checkout': 'Guest checkout initiation; Stripe validates payment session',
+  'stripe/demo-buy-button': 'Public configuration for purchase button',
+  'r2/buckets': 'List of configured buckets, no credentials exposed',
+  'affiliate/applications': 'Affiliate application submission from public form',
 };
 
 function listarRutas(dir, acumulado = []) {
@@ -98,8 +98,8 @@ if (process.argv.includes('--json')) {
     .map(r => {
       const protec = r.mecanismos.length
         ? r.mecanismos.map(m => etiquetas[m]).join(' + ')
-        : `Pública — ${PUBLICAS_JUSTIFICADAS[r.clave] ?? 'sin justificar'}`;
-      return `| \`${r.ruta}\` | ${r.verbos.join(', ')} | ${protec} |`;
+        : `Public — ${PUBLICAS_JUSTIFICADAS[r.clave] ?? 'unjustified'}`;
+      return `| [\`${r.ruta}\`](../src/app/api/${r.clave}/route.ts) | ${r.verbos.join(', ')} | ${protec} |`;
     })
     .join('\n');
 
@@ -110,44 +110,44 @@ if (process.argv.includes('--json')) {
 
   writeFileSync(
     join(RAIZ, 'docs', 'API_ACCESS.md'),
-    `# Matriz de acceso de la API
+    `# API Access Matrix
 
-> **Documento generado.** Lo produce \`node scripts/mjs/build-route-access-matrix.mjs\`
-> a partir del código de cada ruta. No se edita a mano: para cambiar una fila,
-> cambia la ruta.
+> **Generated Document (Documento generado).** Produced automatically by \`node scripts/mjs/build-route-access-matrix.mjs\`
+> by inspecting route source files. Do not edit manually: to update a row,
+> update the corresponding route handler.
 
-El proyecto autoriza con siete mecanismos distintos. Esta tabla dice cuál usa
-cada una de las ${rutas.length} rutas, que antes solo se podía averiguar leyendo
-los ficheros uno a uno.
+The system authorizes requests using eight distinct mechanisms. This matrix details
+the exact authorization strategy for all ${rutas.length} API routes, which previously required
+manual file-by-file inspection.
 
-La prueba \`tests/unit/route-access-matrix.test.ts\` falla si aparece una ruta sin
-mecanismo reconocido y sin justificación explícita, así que una ruta nueva
-desprotegida rompe el pipeline.
+The test suite \`tests/unit/route-access-matrix.test.ts\` verifies that no route lacks
+a recognized security mechanism or explicit documented justification. Adding an unprotected
+endpoint breaks the build pipeline instead of slipping into production.
 
-## Resumen
+## Summary
 
-| Mecanismo | Rutas |
+| Mechanism | Routes |
 |---|---|
 ${resumen}
-| **Total de rutas** | **${rutas.length}** |
+| **Total Routes** | **${rutas.length}** |
 
-## Rutas públicas por diseño
+## Public Routes by Design
 
-Son públicas a propósito, cada una con su motivo. Ninguna expone producto de
-pago ni datos de otra cuenta.
+These endpoints are publicly accessible by design, each with an explicit rationale.
+None of them expose paid prompt data or private account records.
 
-${Object.entries(PUBLICAS_JUSTIFICADAS).map(([r, motivo]) => `- \`/api/${r}\` — ${motivo}`).join('\n')}
+${Object.entries(PUBLICAS_JUSTIFICADAS).map(([r, motivo]) => `- [\`/api/${r}\`](../src/app/api/${r}/route.ts) — ${motivo}`).join('\n')}
 
-## Matriz completa
+## Complete Access Matrix
 
-| Ruta | Verbos | Protección |
+| Route | Methods | Protection |
 |---|---|---|
 ${filas}
 `
   );
-  console.log(`docs/API_ACCESS.md generado: ${rutas.length} rutas`);
+  console.log(`docs/API_ACCESS.md generated: ${rutas.length} routes`);
   if (sinProteger.length) {
-    console.error(`\n${sinProteger.length} ruta(s) sin mecanismo reconocido ni justificación:`);
+    console.error(`\n${sinProteger.length} route(s) without recognized mechanism or justification:`);
     for (const r of sinProteger) console.error(`  - ${r.ruta}`);
     process.exitCode = 1;
   }
