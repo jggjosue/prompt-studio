@@ -96,6 +96,10 @@ records the nine-document priority corpus, the historical Swimm baseline, and
 the remaining explanatory coverage gaps. It is the evidence base for the
 granular backlog in [Issue #32](https://github.com/jggjosue/prompt-studio/issues/32).
 
+[DOC-025 — Documentation Reach Report](audits/DOCUMENTATION_REACH_REPORT.md)
+publishes the before/after comparison, scope changes and next targets of the
+re-run measurement.
+
 [DOC-002 — Source File Map](audits/SOURCE_FILE_MAP.md) clasifica el árbol de
 implementación actual por responsabilidad y separa el alcance manual de los
 catálogos y archivos generados excluidos.
