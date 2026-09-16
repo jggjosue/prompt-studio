@@ -76,12 +76,26 @@ After signing in to the Swimm workspace for this repository, confirm that the
 exclusions in [`.swmignore`](../.swmignore) are also configured for the target
 branch. Swimm remains the authority for the actual Documentation Reach score.
 
-### Informational PR check
+### Local measurement and informational PR check
+
+[`scripts/mjs/measure-documentation-reach.mjs`](../scripts/mjs/measure-documentation-reach.mjs)
+(DOC-019) reproduces the reach metric locally with the same fields each run:
+
+```bash
+npm run docs:reach          # table + tier
+npm run docs:reach:json     # machine-readable
+```
+
+The current baseline is recorded in
+[`docs/reports/documentation-reach-baseline.json`](../docs/reports/documentation-reach-baseline.json)
+and is refreshed by the re-run report (DOC-025).
 
 [`.github/workflows/documentation-reach.yml`](../.github/workflows/documentation-reach.yml)
 adds a passing, non-blocking **Documentation Reach (informational)** check to
-non-draft pull requests. It reports whether files in the documentation-reach
-source scope changed alongside linked documentation or reach configuration.
+non-draft pull requests. It executes the metric on the PR code, compares it
+against the committed baseline (warning on drops below −1.0 pp or −5 documented
+files), and reports whether files in the documentation-reach source scope
+changed alongside linked documentation or reach configuration.
 
 The companion checklist in
 [`.github/pull_request_template.md`](../.github/pull_request_template.md)
@@ -95,6 +109,10 @@ stable baseline; the next enforcement target is **Tier B (≥40%)**.
 records the nine-document priority corpus, the historical Swimm baseline, and
 the remaining explanatory coverage gaps. It is the evidence base for the
 granular backlog in [Issue #32](https://github.com/jggjosue/prompt-studio/issues/32).
+
+[DOC-025 — Documentation Reach Report](audits/DOCUMENTATION_REACH_REPORT.md)
+publishes the before/after comparison, scope changes and next targets of the
+re-run measurement.
 
 [DOC-002 — Source File Map](audits/SOURCE_FILE_MAP.md) clasifica el árbol de
 implementación actual por responsabilidad y separa el alcance manual de los
