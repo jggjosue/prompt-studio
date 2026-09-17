@@ -20,7 +20,7 @@
         <h2 id="ps-email-title">Desbloquea el acceso</h2>
         <p>Ingresa tu correo para ver el prompt o descargar esta plantilla. S\xF3lo te lo pediremos una vez.</p>
         <form class="ps-form" data-ps-email-form>
-          <input class="ps-input" data-ps-email-input type="email" autocomplete="email" placeholder="tu@correo.com" required>
+          <input class="ps-input" data-ps-email-input type="email" autocomplete="email" placeholder="user@example.com" required>
           <label class="ps-terms"><input type="checkbox" data-ps-terms required> <span>Acepto los <a href="/terms" target="_blank" rel="noopener noreferrer" style="color:#60a5fa">t\xE9rminos y servicios</a></span></label>
           <button class="ps-button ps-button-primary" type="submit" data-ps-submit>Continuar</button>
           <p class="ps-error" data-ps-error role="alert"></p>
