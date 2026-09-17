@@ -36,8 +36,8 @@ Installation automatically stops if run with an incompatible Node version.
 3. Configure at least the Clerk development credentials:
 
    ```env
-   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
-   CLERK_SECRET_KEY=sk_test_...
+   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=tu_publishable_key
+   CLERK_SECRET_KEY=tu_clerk_secret
    ```
 
 4. Add `MONGODB_URI` and the credentials for the services you plan to use. The full list, with comments and safe example values, is in `.env.example`.

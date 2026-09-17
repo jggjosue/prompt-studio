@@ -26,7 +26,7 @@ const PLACEHOLDER = /^$|^(x{3,}|<.*>|tu[-_]|your[-_]|change[-_]?me|ejemplo|examp
 const TEMPLATE_SUFFIX = /x{6,}$/i;
 /**
  * Marcadores que delatan una plantilla aunque el valor empiece por un prefijo
- * real, como `mongodb+srv://usuario:password@cluster.mongodb.net/...`.
+ * real, como una URI de Mongo con credenciales.
  */
 const TEMPLATE_MARKERS =
   /(usuario|username|user):(password|contrasena|contraseña|pass)@|<[^>]+>|\bxxxx+/i;
