@@ -230,9 +230,9 @@ Output:
  scripts/mjs/check-template-markers.mjs | 104 +++++++++++++++++++++
  5 files changed, 271 insertions(+), 6 deletions(-)
 commit 274bc02b139eeccfa821a1d7e44de0ac7206592f
-Author:     Joshuesito <jggjosue@gmail.com>
+Author:     Joshuesito <user@example.com>
 AuthorDate: Tue Sep 15 23:57:03 2026 -0700
-Commit:     Joshuesito <jggjosue@gmail.com>
+Commit:     Joshuesito <user@example.com>
 CommitDate: Tue Sep 15 23:57:03 2026 -0700
 
     chore(rarity): auditar y eliminar identidad obsoleta de starter template (#29)

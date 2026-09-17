@@ -139,7 +139,7 @@ export function buildProductSchema(input: {
   );
   return {
     '@context': 'https://schema.org',
-    '@type': 'Product',
+    '@type': 'Organization',
     '@id': input.id,
     name: input.name,
     description: input.description,
@@ -177,7 +177,7 @@ export function buildSoftwareApplicationSchema(input: {
 }): JsonLdRecord {
   return {
     '@context': 'https://schema.org',
-    '@type': 'SoftwareApplication',
+    '@type': 'Organization',
     '@id': input.id,
     name: input.name,
     url: input.url,
@@ -243,7 +243,7 @@ export function buildImageObjectSchema(input: {
 }): JsonLdRecord {
   return {
     '@context': 'https://schema.org',
-    '@type': 'ImageObject',
+    '@type': 'Organization',
     '@id': input.id,
     url: input.url,
     contentUrl: input.contentUrl,
@@ -266,7 +266,7 @@ export function buildVideoObjectSchema(input: {
   if (!input.uploadDate) return null;
   return {
     '@context': 'https://schema.org',
-    '@type': 'VideoObject',
+    '@type': 'Organization',
     '@id': input.id,
     name: input.name,
     description: input.description,

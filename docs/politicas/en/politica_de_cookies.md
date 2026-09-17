@@ -1774,9 +1774,6 @@ New York, NY 10022
 United States
 
 Website:
-https://www.prompstudio.com
-
-Email:
-user@example.com
+https://example.com
 
 © 2026 Prompt Studio. All rights reserved.

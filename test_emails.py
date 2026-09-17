@@ -12,7 +12,7 @@ for root, _, files in os.walk('.'):
     if 'node_modules' in root or '.git' in root or 'temp' in root or '.next' in root:
         continue
     for file in files:
-        if file.endswith(('.json', '.ts', '.tsx', '.html', '.css', '.md')):
+        if file.endswith(('.json', '.ts', '.tsx', '.html', '.css', '.md', '.txt', '.dm')):
             path = os.path.join(root, file)
             try:
                 with open(path, 'r', encoding='utf-8') as f:

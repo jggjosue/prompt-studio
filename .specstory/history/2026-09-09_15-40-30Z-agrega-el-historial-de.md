@@ -297,10 +297,10 @@ c6270a70|2026-06-24|Joshuesito|add
   remotes/origin/develop
   remotes/origin/main
 ===AUTHORS===
-   252	Josue Glez <federico01xdz@gmail.com>
-   113	Joshuesito <jggjosue@gmail.com>
-     4	VS Code <vscode@users.noreply.github.com>
-     1	Firebase Studio <noreply@firebase.studio>
+   252	Josue Glez <user@example.com>
+   113	Joshuesito <user@example.com>
+     4	VS Code <user@example.com>
+     1	Firebase Studio <user@example.com>
 ===DATE RANGE===
 2025-12-10 01:12:16 +0000
 2026-07-18 21:12:46 -0700
@@ -3393,8 +3393,7 @@ Joshuesito: 2026-01-21
 2026-03 5641 4452
 2026-04 3078 1859
 2026-05 146202 91852
-2026-06 492221 141496
-2026-07 60887 278794
+2026-06 492221 555-0198-07 60887 278794
 ===TOP 8 commits mas grandes===
 262291|5ff2cde4|2026-07-03|[minify-public]
 110073|7c0c2361|2026-06-12|Modo azul
@@ -4633,8 +4632,8 @@ print('dia_semana:',d['por_dia_semana'])
 
 ```text
 corto,sha,fecha,mes,hora,dia_semana,autor,correo,es_merge,es_fallo,es_instruccion_natural,asunto_largo,asunto_truncado,ficheros,lineas_add,lineas_del,asunto
-f2839bc3,f2839bc33331c39937504486e6ac0d8faad3b3f8,2025-12-10 01:12,2025-12,1,2,Firebase Studio,noreply@firebase.studio,false,false,false,42,false,57,18483,0,Initialized workspace with Firebase Studio
-5bbcc69e,5bbcc69ef3d451610b6c29657325e61019fda024,2026-01-14 21:50,2026-01,21,3,Josue Glez,federico01xdz@gmail.com,false,false,false,17,false,19,766,49,Initial prototype
+f2839bc3,f2839bc33331c39937504486e6ac0d8faad3b3f8,2025-12-10 01:12,2025-12,1,2,Firebase Studio,user@example.com,false,false,false,42,false,57,18483,0,Initialized workspace with Firebase Studio
+5bbcc69e,5bbcc69ef3d451610b6c29657325e61019fda024,2026-01-14 21:50,2026-01,21,3,Josue Glez,user@example.com,false,false,false,17,false,19,766,49,Initial prototype
 ...
 {
  "commits": 364,
@@ -6758,9 +6757,9 @@ sh       2 ficheros      140 lineas
    1 public/offline.html
 === identidades y ventana temporal ===
 correos distintos: 3
- 252 federico01xdz@gmail.com
- 111 jggjosue@gmail.com
-   1 noreply@firebase.studio
+ 252 user@example.com
+ 111 user@example.com
+   1 user@example.com
 dias entre primer y ultimo commit: 220
 === dominio: modelos financieros ===
 AICreditAccount.ts AICreditLedger.ts AffiliatePayoutAccount.ts AffiliateSale.ts ComponentPurchase.ts CreditPurchase.ts MarketplaceListing.ts MarketplaceSale.ts ProductReview.ts
@@ -8894,7 +8893,7 @@ drwxr-xr-x@ 2 josuegonzalez  staff   64 Sep  9 13:57 .
 drwxr-xr-x@ 5 josuegonzalez  staff  160 Sep  9 13:57 ..
 685 /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
 858 /Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/152.0.7977.83/Helpers/chrome_crashpad_handler --monitor-self-annotation=ptype=crashpad-handler --database=/Users/josuegonzalez/Library/Application Support/Google/Chrome/Crashpad --metrics-dir=/Users/josuegonzalez/Library/Application Support/Google/Chrome --url=https://clients2.google.com/cr/report --annotation=channel= --annotation=plat=OS X --annotation=prod=Chrome_Mac --annotation=ver=152.0.7977.83 --handshake-fd=5
-875 /Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/152.0.7977.83/Helpers/Google Chrome Helper.app/Contents/MacOS/Google Chrome Helper --type=gpu-process --metrics-client-id=bcd2ec9a-45f4-4eda-bc23-d46760c61556 --gpu-preferences=WAAAAAAAAAAgAQAEAAAAAAAAAAAAAGAAQAAAAAAAAAADAAAAAAAAADgAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAKAAAAAAAAAAoAAAAAAAAAAgAAAAAAAAADAAAAAEAAAAAAAAAAAAAAAgAAAAAAAAACAAAAAAAAAA= --shared-files --metrics-shmem-handle=1752395122,r,8818873039459489829,7425396805446374448,262144 --field-trial-handle=1718379636,r,7503262571877075996,4169362091406834746,262144 --variations-seed-version=20260908-170052.476000-production --pseudonymization-salt-handle=1935764596,r,4433912631374071922,8979995585279933398,4 --trace-process-track-uuid=3190708988185955192 --seatbelt-client=17
+875 /Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/152.0.7977.83/Helpers/Google Chrome Helper.app/Contents/MacOS/Google Chrome Helper --type=gpu-process --metrics-client-id=bcd2ec9a-45f4-4eda-bc23-d46760c61556 --gpu-preferences=WAAAAAAAAAAgAQAEAAAAAAAAAAAAAGAAQAAAAAAAAAADAAAAAAAAADgAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAKAAAAAAAAAAoAAAAAAAAAAgAAAAAAAAADAAAAAEAAAAAAAAAAAAAAAgAAAAAAAAACAAAAAAAAAA= --shared-files --metrics-shmem-handle=555-0198,r,8818873039459489829,7425396805446374448,262144 --field-trial-handle=555-0198,r,7503262571877075996,4169362091406834746,262144 --variations-seed-version=20260908-170052.476000-production --pseudonymization-salt-handle=555-0198,r,4433912631374071922,8979995585279933398,4 --trace-process-track-uuid=3190708988185955192 --seatbelt-client=17
 ```
 </details></tool-use>
 
@@ -8912,7 +8911,7 @@ cat > scripts/build-webpage-previews.mjs <<'"'"'EOF'"'"'
 #!/usr/bin/env node
 --- playwright chrome? ---
 46425 /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/k1/1h5cg9xx6z5fl8b9gj7_fstw0000gn/T/playwright_chromiumdev_profile-RnK8kT --remote-debugging-pipe --no-startup-window
-47617 /Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/152.0.7977.83/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer) --type=renderer --top-chrome-webui --metrics-client-id=bcd2ec9a-45f4-4eda-bc23-d46760c61556 --noerrdialogs --user-data-dir=/var/folders/k1/1h5cg9xx6z5fl8b9gj7_fstw0000gn/T/playwright_chromiumdev_profile-RnK8kT --no-sandbox --disable-back-forward-cache --disable-background-timer-throttling --disable-breakpad --force-color-profile=srgb --remote-debugging-pipe --allow-pre-commit-input --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --lang=es-419 --num-raster-threads=4 --enable-zero-copy --enable-gpu-memory-buffer-compositor-resources --enable-main-frame-before-activation --renderer-client-id=6 --launch-time-ticks=31506840844 --shared-files --field-trial-handle=1718379636,r,3788813855181776913,8064698079366357890,262144 --enable-features=CDPScreenshotNewSurface --disable-features=AutoDeElevate,AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,OptimizationHints,PaintHolding,RenderDocument,ThirdPartyStoragePartitioning,Translate,msEdgeUpdateLaunchServicesPreferredVersion,msForceBrowserSignIn --variations-seed-version --pseudonymization-salt-handle=1935764596,r,2311153409619438803,14110118724302376415,4 --trace-process-track-uuid=3190708991934122588
+47617 /Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/152.0.7977.83/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer) --type=renderer --top-chrome-webui --metrics-client-id=bcd2ec9a-45f4-4eda-bc23-d46760c61556 --noerrdialogs --user-data-dir=/var/folders/k1/1h5cg9xx6z5fl8b9gj7_fstw0000gn/T/playwright_chromiumdev_profile-RnK8kT --no-sandbox --disable-back-forward-cache --disable-background-timer-throttling --disable-breakpad --force-color-profile=srgb --remote-debugging-pipe --allow-pre-commit-input --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --lang=es-419 --num-raster-threads=4 --enable-zero-copy --enable-gpu-memory-buffer-compositor-resources --enable-main-frame-before-activation --renderer-client-id=6 --launch-time-ticks=31506840844 --shared-files --field-trial-handle=555-0198,r,3788813855181776913,8064698079366357890,262144 --enable-features=CDPScreenshotNewSurface --disable-features=AutoDeElevate,AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,OptimizationHints,PaintHolding,RenderDocument,ThirdPartyStoragePartitioning,Translate,msEdgeUpdateLaunchServicesPreferredVersion,msForceBrowserSignIn --variations-seed-version --pseudonymization-salt-handle=555-0198,r,2311153409619438803,14110118724302376415,4 --trace-process-track-uuid=3190708991934122588
 --- task file ---
 total 8
 drwxr-xr-x@ 4 josuegonzalez  wheel   128 Sep  9 14:00 .
@@ -10981,9 +10980,7 @@ export default async function GalleryDetailPage({ params }: Props) {
   const thumbnailUrl = image;
 
   const productSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Product',
-    '@id': `${canonical}#product`,
+    '@context': 'https://id': `${canonical}#product`,
     name: item.title,
     description: schemaDescription(description, item.title),
     image: [thumbnailUrl],
@@ -17386,10 +17383,7 @@ Module [project]/node_modules/lucide-react/dist/esm/icons/file-text.js [app-clie
 ## Code Frame
   266 |   if (!input.uploadDate) return null;
   267 |   return {
-> 268 |     '@context': 'https://schema.org',
-      |                 ^
-  269 |     '@type': 'VideoObject',
-  270 |     '@id': input.id,
+> 268 |     '@context': 'https://id': input.id,
   271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -22365,7 +22359,7 @@ const DEFINITIONS: ComponentDefinition[] = [
     defaultStyles: { display: 'grid', gap: 'token:spacing.md' },
   }),
   def('input', 'Campo', 'form', 'TextCursorInput', {
-    defaultProps: { label: 'Correo electrónico', placeholder: 'tu@correo.com', required: false, inputType: 'email' },
+    defaultProps: { label: 'Correo electrónico', placeholder: 'user@example.com', required: false, inputType: 'email' },
     rules: { canHaveChildren: false, allowedParents: ['form', 'column', 'container', 'stack', 'card'] },
     inlineTextProp: 'placeholder',
   }),
@@ -39685,7 +39679,7 @@ Documentación (descrita del código, con comandos para reproducir cada dato)
 docs/code/ queda fuera del control de versiones: las transcripciones contienen
 una CLERK_SECRET_KEY sk_live_ real.
 
-Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+Co-Authored-By: Claude Opus 5 <user@example.com>
 MSG
 git log --oneline -1
 ```
@@ -43075,7 +43069,7 @@ Documentación
 
 Verificado: npm run validate en 0 y npm run build completo con next 15.5.25.
 
-Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+Co-Authored-By: Claude Opus 5 <user@example.com>
 MSG
 git log --oneline -1
 git push origin develop 2>&1 | tail -3
@@ -44182,7 +44176,7 @@ Node 23 y una sola ejecución da 5,56 % sobre 62 ficheros medidos y sale en 0.
 Se corrige también la sección 2.7 de IMPROVEMENT_REPORT.md, que atribuía el falso
 verde solo a la versión de Node.
 
-Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+Co-Authored-By: Claude Opus 5 <user@example.com>
 MSG
 git push origin develop 2>&1 | tail -2
 ```
@@ -45776,7 +45770,7 @@ Verified on Node 22.11.0 (the .nvmrc version): npm run validate exits 0, coverag
 5.56 % over 62 measured files, route-access-matrix 7/7, npm audit --omit=dev at
 63 with 0 critical.
 
-Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+Co-Authored-By: Claude Opus 5 <user@example.com>
 MSG
 git log --oneline -1
 git push origin develop 2>&1 | tail -2
@@ -46037,7 +46031,7 @@ git show 426fa229 -- package.json | grep -E "^[-+] +\"(react|react-dom|firebase-
 
 ```text
 commit 426fa229b4257452cbcbbac0bc949fcd330e3c90
-Author: Joshuesito <jggjosue@gmail.com>
+Author: Joshuesito <user@example.com>
 Date:   Fri Sep 11 21:20:14 2026 -0700
 
     mejoras
@@ -47496,7 +47490,7 @@ resolviendo para linux/x64 (`--os=linux --cpu=x64`), `npm run validate` en 0,
 cobertura 5,56 % sobre 62 ficheros medidos, y `npm audit --omit=dev` sigue en 63
 con 0 críticas.
 
-Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+Co-Authored-By: Claude Opus 5 <user@example.com>
 MSG
 git log --oneline -1
 ```
@@ -47549,7 +47543,7 @@ git push origin develop 2>&1 | tail -2
 
 ```text
 commit 05f6f0472a0ff7c67eb70eefd060d9fb87e6aee3
-Author: Joshuesito <jggjosue@gmail.com>
+Author: Joshuesito <user@example.com>
 Date:   Fri Sep 11 22:06:54 2026 -0700
 
     ci: reparar los tres jobs, que fallaban todos en `npm ci`
@@ -49012,7 +49006,7 @@ Efecto lateral medido: al refrescar el árbol, `npm audit --omit=dev` baja de 63
 Verificado con la versión de .nvmrc (22.11.0): `npm run validate` en 0, typecheck
 limpio, cobertura 5,56 % sobre 62 ficheros medidos.
 
-Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+Co-Authored-By: Claude Opus 5 <user@example.com>
 MSG
 git push origin develop 2>&1 | tail -2
 ```
@@ -49734,7 +49728,7 @@ Verificado con la versión de .nvmrc (22.11.0): `npm run validate` en 0, typeche
 limpio, cobertura 5,56 % sobre 62 ficheros medidos. `npm audit --omit=dev`: 60,
 0 críticas, 6 altas.
 
-Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+Co-Authored-By: Claude Opus 5 <user@example.com>
 MSG
 git push origin develop 2>&1 | tail -2
 ```
@@ -50839,7 +50833,7 @@ Comprobado que sirve en ambos lados, no solo en el runner:
 `npm ci` real en esta máquina instala solo los que le tocan y `npm run validate`
 sale en 0, con cobertura 5,56 % sobre 62 ficheros medidos.
 
-Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+Co-Authored-By: Claude Opus 5 <user@example.com>
 MSG
 git push origin develop 2>&1 | tail -2
 ```
@@ -51797,7 +51791,7 @@ secreto ausente en un fallo de build en lugar de un fallo en la llamada.
 Construirlos de forma perezosa sería lo correcto, pero es un cambio de código de
 la aplicación y no pertenece a un arreglo de CI.
 
-Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+Co-Authored-By: Claude Opus 5 <user@example.com>
 MSG
 git push origin develop 2>&1 | tail -2
 ```
@@ -53981,7 +53975,7 @@ tests, cosa que antes no llegaba a ocurrir. Que la suite *pase* es otra
 discusión —está escrita contra un despliegue real, no contra un servidor de
 desarrollo— y queda fuera de este commit.
 
-Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+Co-Authored-By: Claude Opus 5 <user@example.com>
 MSG
 git push origin develop 2>&1 | tail -2
 ```
@@ -54640,7 +54634,7 @@ siguen pasando.
 
 `npm run validate` en 0.
 
-Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+Co-Authored-By: Claude Opus 5 <user@example.com>
 MSG
 git push origin develop 2>&1 | tail -2
 ```
@@ -54710,9 +54704,9 @@ corrige este error: 23:19:17.911 Running build in Washington, D.C., USA (East) �
 23:19:33.228 warning genkit > @genkit-ai/core > @genkit-ai/firebase > @genkit-ai/google-cloud > @google-cloud/opentelemetry-cloud-trace-exporter > @google-cloud/opentelemetry-resource-util@2.4.0: Google Cloud Platform now supports native OpenTelemetry Protocol (OTLP) endpoints via the Telemetry API. Please follow https://github.com/GoogleCloudPlatform/opentelemetry-operations-js/blob/main/MIGRATION.md
 23:19:33.482 warning genkit > @genkit-ai/core > @genkit-ai/firebase > @genkit-ai/google-cloud > @google-cloud/opentelemetry-cloud-monitoring-exporter > googleapis > googleapis-common > uuid@9.0.1: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
 23:19:33.508 warning genkit > @genkit-ai/core > @genkit-ai/firebase > @genkit-ai/google-cloud > @opentelemetry/auto-instrumentations-node > @opentelemetry/instrumentation-aws-sdk > @opentelemetry/propagation-utils@0.30.16: The use of process spans has been removed from Messaging Semantic Conventions. It is now recommended to connect pub/sub spans via Span Links. See https://opentelemetry.io/docs/specs/semconv/messaging/messaging-spans/ for details.
-23:19:33.533 warning genkit > @genkit-ai/core > @genkit-ai/firebase > @genkit-ai/google-cloud > @google-cloud/modelarmor > google-gax > rimraf > glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+23:19:33.533 warning genkit > @genkit-ai/core > @genkit-ai/firebase > @genkit-ai/google-cloud > @google-cloud/modelarmor > google-gax > rimraf > glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting user@example.com
 23:19:35.768 warning recharts@3.0.0-alpha.9: 1.x and 2.x branches are no longer active. Bump to Recharts v3 to receive latest features and bugfixes. See https://github.com/recharts/recharts/wiki/3.0-migration-guide
-23:19:36.983 warning genkit-cli > @genkit-ai/tools-common > glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+23:19:36.983 warning genkit-cli > @genkit-ai/tools-common > glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting user@example.com
 23:19:36.984 warning genkit-cli > @genkit-ai/tools-common > uuid@9.0.1: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
 23:19:38.357 [2/4] Fetching packages...
 23:20:19.384 [3/4] Linking dependencies...
@@ -55680,7 +55674,7 @@ Nota: el log de Vercel construye `main` en b533bf1, que no tiene ninguna de las
 correcciones de las últimas sesiones. Esta corrección va a `develop`, así que el
 despliegue de `main` seguirá fallando hasta que se fusione.
 
-Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+Co-Authored-By: Claude Opus 5 <user@example.com>
 MSG
 git push origin develop 2>&1 | tail -2
 ```
@@ -56378,7 +56372,7 @@ echo "=== qué tocó ==="; git show --stat 55a46031 2>/dev/null | head -25
 55a46031 add correccion de errores
 === qué tocó ===
 commit 55a46031ad7b273822a9534df746d1baa3eca1ec
-Author: Joshuesito <jggjosue@gmail.com>
+Author: Joshuesito <user@example.com>
 Date:   Sat Sep 12 17:54:40 2026 -0700
 
     add correccion de errores
@@ -56418,7 +56412,7 @@ git show --stat 55a46031 2>/dev/null | grep -vE "specstory|\.webp|\.mp4|\.png|\.
 
 ```text
 commit 55a46031ad7b273822a9534df746d1baa3eca1ec
-Author: Joshuesito <jggjosue@gmail.com>
+Author: Joshuesito <user@example.com>
 Date:   Sat Sep 12 17:54:40 2026 -0700
 
     add correccion de errores
@@ -56775,10 +56769,10 @@ grep -rn "NEXT_PUBLIC_CLERK_DOMAIN" src scripts 2>/dev/null | head -5
 ```text
 === dónde aparece 'promptstudio' (con t) en el código ===
 src/app/[locale]/licenses/page.tsx:2071:            <p>https://www.promptstudio.com</p>
-src/app/[locale]/licenses/page.tsx:2073:            <p>support@promptstudio.com</p>
-src/app/[locale]/licenses/page.tsx:2099:            <p>support@promptstudio.com</p>
+src/app/[locale]/licenses/page.tsx:2073:            <p>user@example.com</p>
+src/app/[locale]/licenses/page.tsx:2099:            <p>user@example.com</p>
 src/app/[locale]/licenses/page.tsx:2118:            <p>https://www.promptstudio.com</p>
-src/app/[locale]/licenses/page.tsx:2120:            <p>support@promptstudio.com</p>
+src/app/[locale]/licenses/page.tsx:2120:            <p>user@example.com</p>
 
 === NEXT_PUBLIC_CLERK_DOMAIN: ¿lo usa el código? ===
 src/lib/clerk-config.ts:26:const clerkDomain = process.env.NEXT_PUBLIC_CLERK_DOMAIN?.trim();
@@ -57533,7 +57527,7 @@ Settings → Environment Variables, que es donde viven los valores del despliegu
 
 `npm run validate` en 0.
 
-Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+Co-Authored-By: Claude Opus 5 <user@example.com>
 MSG
 git push origin develop 2>&1 | tail -2
 ```
