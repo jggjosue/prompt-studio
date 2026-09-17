@@ -2769,6 +2769,5 @@ Operado por Magzin LLC
 800 Third Avenue Associates
 New York, NY 10022
 United States
-Sitio web: https://www.prompstudio.com
-Correo electrónico: user@example.com
+Sitio web: https://example.com
 

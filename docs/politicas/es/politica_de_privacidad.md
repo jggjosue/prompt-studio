@@ -89,13 +89,7 @@ Dirección:
 New York, NY 10022
 United States
 Sitio web:
-https://prompstudio.com
-Magzin LLC es responsable de determinar las finalidades y los medios mediante los cuales se tratan los datos personales recopilados por la Plataforma.
- 
-2.1 Datos de contacto
-Para cualquier consulta relacionada con esta Política de Privacidad, los usuarios pueden comunicarse con nosotros mediante:
-Correo electrónico
-user@example.com
+https://example.com
  
 2.2 Servicios administrados
 Magzin LLC administra, desarrolla y opera:
@@ -3083,6 +3077,5 @@ Magzin LLC
 800 Third Avenue Associates
 New York, NY 10022
 United States
-Sitio web: https://www.prompstudio.com
-Correo electrónico: user@example.com
+Sitio web: https://example.com
 

@@ -1591,7 +1591,7 @@ export default function LicensesPolicyPage() {
             <p>New York, NY 10022</p>
             <p>United States</p>
             <p>Correo electrónico oficial:</p>
-            <p>support@prompstudio.com</p>
+            <p>user@example.com</p>
             <p>La presente Política de Licencias regula el uso autorizado de todos los recursos digitales comercializados por Prompt Studio.</p>
             <p>Esta Política forma parte integrante de:</p>
             <ul className="list-disc pl-6 space-y-2">
@@ -2317,11 +2317,11 @@ Read env.example context and search intent route
 
 ```text
 # Prompt Studio
-PROMPT_STUDIO_PREMIUM_JO=jggjosue@gmail.com
-PROMPT_STUDIO_STARTUP_JO=josue.23.glez@gmail.com
+PROMPT_STUDIO_PREMIUM_JO=user@example.com
+PROMPT_STUDIO_STARTUP_JO=user@example.com
 RESEND_API_KEY=[REDACTED:generic-api-key]
 LOOPS_API_KEY=[REDACTED:generic-api-key]
-RESEND_EMAIL=hi@prompstudio.com
+RESEND_EMAIL=user@example.com
 CRON_SECRET=[REDACTED:generic-api-key]
 RESEND_AUDIENCE_ID=272989c5-a177-41aa-b413-82e3ceb71532
 CLERK_WEBHOOK_SECRET=whsec_+E3j+KncMBdda62RIJzzR8u+2Q11TFn+
@@ -2707,7 +2707,7 @@ Read env.example structure with redacted values
    102	NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=prompt-stu…
    103	NEXT_PUBLIC_FIREBASE_PROJECT_ID=prompt-stu…
    104	NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=prompt-stu…
-   105	NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=1424431367…
+   105	NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=555-0198…
    106	NEXT_PUBLIC_FIREBASE_APP_ID=1:14244313…
    107	MEASUREMENT_ID=G-YGJVE5K5…
    108	NEXT_PUBLIC_SHOW_ADS=false…
@@ -2829,11 +2829,11 @@ CLOUDFLARE_API_TOKEN=
 MONGODB_URI=[REDACTED:mongodb-connection-string]
 
 # Prompt Studio
-PROMPT_STUDIO_PREMIUM_JO=admin@example.com
-PROMPT_STUDIO_STARTUP_JO=admin@example.com
+PROMPT_STUDIO_PREMIUM_JO=user@example.com
+PROMPT_STUDIO_STARTUP_JO=user@example.com
 RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxx
 LOOPS_API_KEY=
-RESEND_EMAIL=hi@example.com
+RESEND_EMAIL=user@example.com
 # Secreto compartido de los cron jobs y de las rutas /api/sync-*.
 # Genéralo con: openssl rand -base64 32
 CRON_SECRET=
@@ -8580,7 +8580,7 @@ Error: Event handlers cannot be passed to Client Component props.
                                                         ^^^^^^^^^^^^^^^^^
 If you need interactivity, consider converting part of this to a Client Component.
     at stringify (<anonymous>) {
-  digest: '1580474745'
+  digest: '555-0198'
 }
 Export encountered an error on /dashboard/settings/page: /dashboard/settings, exiting the build.
  ⨯ Next.js build worker exited with code: 1 and signal: null
@@ -24321,8 +24321,8 @@ ${links}
       <div>
         <h2 class="footer-title">Contacto</h2>
         <ul class="footer-list">
-          <li><a href="mailto:hola@ejemplo.com">hola@ejemplo.com</a></li>
-          <li><a href="tel:+34900000000">+34 900 000 000</a></li>
+          <li><a href="mailto:user@example.com">user@example.com</a></li>
+          <li><a href="tel:555-0198">+34 900 000 000</a></li>
           <li class="muted">Lunes a viernes, 9:00–18:00</li>
         </ul>
       </div>

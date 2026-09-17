@@ -26,6 +26,7 @@ import { useMemo } from 'react';
 import type { PromptValidationReport } from '@/lib/prompt-validation';
 import type { ManualActionRisk } from '@/lib/gallery-detail';
 import { LazyInView } from '@/components/lazy-in-view';
+import { PromptGate } from '@/components/prompt-gate';
 
 const LazyVideo = dynamic(() => import('@/components/lazy-video').then(module => module.LazyVideo));
 const PromptValidationCard = dynamic(() => import('@/components/prompt-validation-card').then(module => module.PromptValidationCard));
@@ -136,28 +137,39 @@ export default function GalleryDetailClient({ item, validation, relatedItems, ma
                   </>
                 )}
               </div>
-              <Accordion type="single" collapsible defaultValue="item-1">
+              <Accordion type="multiple">
                 <AccordionItem value="item-1">
                   <AccordionTrigger className="text-lg font-semibold font-headline">
                     View Prompt
                   </AccordionTrigger>
-                  <AccordionContent className="relative text-base text-muted-foreground bg-muted/50 p-4 pr-12 rounded-md">
-                    <pre className="whitespace-pre-wrap font-mono text-xs overflow-x-auto">
-                      {item.description}
-                    </pre>
-                    <Button variant="ghost" size="icon" className="absolute top-2 right-2" onClick={handleCopy}>
-                      <Copy className="h-4 w-4" />
-                      <span className="sr-only">Copy prompt</span>
-                    </Button>
+                  <AccordionContent className="relative text-base text-muted-foreground bg-muted/50 p-4 rounded-md">
+                    <PromptGate>
+                      <pre className="whitespace-pre-wrap font-mono text-xs overflow-x-auto pr-12">
+                        {item.description}
+                      </pre>
+                      <Button variant="ghost" size="icon" className="absolute top-2 right-2" onClick={handleCopy}>
+                        <Copy className="h-4 w-4" />
+                        <span className="sr-only">Copy prompt</span>
+                      </Button>
+                    </PromptGate>
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-2">
+                  <AccordionTrigger className="text-lg font-semibold font-headline">
+                    Prompt versions
+                  </AccordionTrigger>
+                  <AccordionContent className="pt-4">
+                    <PromptGate>
+                      <LazyInView kind="iframe" rootMargin="240px" className="min-h-48">
+                        <PromptVersionManager promptId={item.id} promptKind={item.type === 'video' ? 'video' : 'image'} title={item.title} initialContent={item.description} modelSnapshot={validation.compatibleModels.map(model => `${model.id}:${model.version}`)} locale={locale} />
+                      </LazyInView>
+                    </PromptGate>
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
 
               <LazyInView kind="iframe" rootMargin="320px" className="min-h-48">
                 <PromptValidationCard report={validation} locale={locale} showEstimates={false} />
-              </LazyInView>
-              <LazyInView kind="iframe" rootMargin="240px" className="min-h-48">
-                <PromptVersionManager promptId={item.id} promptKind={item.type === 'video' ? 'video' : 'image'} title={item.title} initialContent={item.description} modelSnapshot={validation.compatibleModels.map(model => `${model.id}:${model.version}`)} locale={locale} />
               </LazyInView>
 
               <div>

@@ -1676,22 +1676,22 @@ CLOUDFLARE_API_TOKEN=[REDACTED:generic-api-key]
 MONGODB_URI=[REDACTED:mongodb-connection-string]
 
 # Prompt Studio
-PROMPT_STUDIO_PREMIUM_JO=jggjosue@gmail.com
-PROMPT_STUDIO_STARTUP_JO=josue.23.glez@gmail.com
+PROMPT_STUDIO_PREMIUM_JO=user@example.com
+PROMPT_STUDIO_STARTUP_JO=user@example.com
 RESEND_API_KEY=[REDACTED:generic-api-key]
 LOOPS_API_KEY=[REDACTED:generic-api-key]
-RESEND_EMAIL=hi@prompstudio.com
+RESEND_EMAIL=user@example.com
 CRON_SECRET=[REDACTED:generic-api-key]
 RESEND_AUDIENCE_ID=272989c5-a177-41aa-b413-82e3ceb71532
 CLERK_WEBHOOK_SECRET=whsec_+E3j+KncMBdda62RIJzzR8u+2Q11TFn+
 CACHE_ADMIN_TOKEN=[REDACTED:generic-api-key]
 GUEST_DOWNLOAD_SECRET=[REDACTED:generic-api-key]
 # Prompt Studio
-PROMPT_STUDIO_PREMIUM_JO=jggjosue@gmail.com
-PROMPT_STUDIO_STARTUP_JO=josue.23.glez@gmail.com
+PROMPT_STUDIO_PREMIUM_JO=user@example.com
+PROMPT_STUDIO_STARTUP_JO=user@example.com
 RESEND_API_KEY=[REDACTED:generic-api-key]
 LOOPS_API_KEY=[REDACTED:generic-api-key]
-RESEND_EMAIL=hi@prompstudio.com
+RESEND_EMAIL=user@example.com
 CRON_SECRET=[REDACTED:generic-api-key]
 RESEND_AUDIENCE_ID=272989c5-a177-41aa-b413-82e3ceb71532
 CLERK_WEBHOOK_SECRET=whsec_+E3j+KncMBdda62RIJzzR8u+2Q11TFn+

@@ -2940,10 +2940,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -6583,10 +6580,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -10207,10 +10201,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -10477,7 +10468,7 @@ Clerk: Refreshing the session token resulted in an infinite redirect loop. This 
     at Array.map (<anonymous>)
     at <unknown> (.next/server/app/[locale]/gallery/[id]/page.js:2:9439)
     at s (.next/server/app/[locale]/gallery/[id]/page.js:2:9688) {
-  digest: '3666748104'
+  digest: '555-0198'
 }
 (node:32828) [MONGOOSE] Warning: mongoose: Duplicate schema index on {"userId":1} for model "UserProfile". This is often due to declaring an index using both "index: true" and "schema.index()". Please remove the duplicate index definition.
 
@@ -13634,10 +13625,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -13833,7 +13821,7 @@ Clerk: Refreshing the session token resulted in an infinite redirect loop. This 
     at Array.map (<anonymous>)
     at <unknown> (.next/server/app/[locale]/gallery/[id]/page.js:2:9439)
     at s (.next/server/app/[locale]/gallery/[id]/page.js:2:9688) {
-  digest: '3666748104'
+  digest: '555-0198'
 }
 (node:32828) [MONGOOSE] Warning: mongoose: Duplicate schema index on {"userId":1} for model "UserProfile". This is often due to declaring an index using both "index: true" and "schema.index()". Please remove the duplicate index definition.
 
@@ -17012,10 +17000,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -17177,7 +17162,7 @@ Clerk: Refreshing the session token resulted in an infinite redirect loop. This 
     at Array.map (<anonymous>)
     at <unknown> (.next/server/app/[locale]/gallery/[id]/page.js:2:9439)
     at s (.next/server/app/[locale]/gallery/[id]/page.js:2:9688) {
-  digest: '3666748104'
+  digest: '555-0198'
 }
 (node:32828) [MONGOOSE] Warning: mongoose: Duplicate schema index on {"userId":1} for model "UserProfile". This is often due to declaring an index using both "index: true" and "schema.index()". Please remove the duplicate index definition.
 
@@ -20524,10 +20509,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -20610,9 +20592,7 @@ AM src/data/prompts/placeholder-images.json
    110	  const thumbnailUrl = image;
    111	
    112	  const productSchema = {
-   113	    '@context': 'https://schema.org',
-   114	    '@type': 'Product',
-   115	    '@id': `${canonical}#product`,
+   113	    '@context': 'https://id': `${canonical}#product`,
    116	    name: item.title,
    117	    description: schemaDescription(description, item.title),
    118	    image: [thumbnailUrl],
@@ -24337,10 +24317,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -28139,10 +28116,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -31918,10 +31892,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -32503,7 +32474,7 @@ Wall time 30.2 seconds
 Output:
 
 npm warn deprecated uuid@9.0.1: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
-npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting user@example.com
 npm warn deprecated uuid@10.0.0: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
 npm warn deprecated uuid@10.0.0: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
 
@@ -35520,10 +35491,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -35972,7 +35940,7 @@ Wall time 30.2 seconds
 Output:
 
 npm warn deprecated uuid@9.0.1: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
-npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting user@example.com
 npm warn deprecated uuid@10.0.0: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
 npm warn deprecated uuid@10.0.0: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
 
@@ -39035,10 +39003,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -39287,7 +39252,7 @@ Wall time 30.2 seconds
 Output:
 
 npm warn deprecated uuid@9.0.1: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
-npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting user@example.com
 npm warn deprecated uuid@10.0.0: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
 npm warn deprecated uuid@10.0.0: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
 
@@ -42412,10 +42377,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -45878,10 +45840,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -49361,10 +49320,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -52859,10 +52815,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -56349,10 +56302,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
