@@ -93,7 +93,7 @@ export default function CookiesPolicyPage() {
             <p>Para cualquier consulta relacionada con esta Política de Cookies, el usuario podrá comunicarse con:</p>
             <p>Prompt Studio</p>
             <p>Sitio web: https://www.prompstudio.com</p>
-            <p>Correo electrónico: support@prompstudio.com</p>
+            <p>Correo electrónico: user@example.com</p>
             <p>Operado por:</p>
             <p>Magzin LLC</p>
             <p>800 Third Avenue Associates</p>
@@ -1114,7 +1114,7 @@ export default function CookiesPolicyPage() {
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">15.8 Ejercicio de derechos</h3>
             <p>Para ejercer cualquiera de los derechos anteriores, el usuario podrá contactar con Prompt Studio mediante:</p>
             <p>Correo electrónico:</p>
-            <p>support@prompstudio.com</p>
+            <p>user@example.com</p>
             <p>Prompt Studio responderá dentro de los plazos previstos por la legislación aplicable.</p>
             <section className="space-y-4 pt-8">
               <h2 className="text-2xl font-bold text-foreground font-headline flex items-center gap-3">
@@ -1237,7 +1237,7 @@ export default function CookiesPolicyPage() {
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">18.2 Contacto</h3>
             <p>Para cualquier consulta relacionada con esta Política de Cookies, el usuario podrá comunicarse con:</p>
             <p>Correo electrónico oficial:</p>
-            <p>support@prompstudio.com</p>
+            <p>user@example.com</p>
             <p>Prompt Studio procurará responder las consultas dentro de un plazo razonable y conforme a la legislación aplicable.</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">18.3 Ejercicio de derechos</h3>
             <p>Las solicitudes relacionadas con:</p>
@@ -1374,7 +1374,7 @@ export default function CookiesPolicyPage() {
             <p>Sitio web:</p>
             <p>https://www.prompstudio.com</p>
             <p>Correo electrónico:</p>
-            <p>support@prompstudio.com</p>
+            <p>user@example.com</p>
             <p>Operado por:</p>
             <p>Magzin LLC</p>
             <p>800 Third Avenue Associates</p>
@@ -1404,7 +1404,7 @@ export default function CookiesPolicyPage() {
             <p>Sitio web:</p>
             <p>https://www.prompstudio.com</p>
             <p>Correo electrónico:</p>
-            <p>support@prompstudio.com</p>
+            <p>user@example.com</p>
             <p>© 2026 Prompt Studio. Todos los derechos reservados.</p>
             <p>Recomendación importante</p>
             <p>Hay un punto que conviene ajustar respecto a lo que hemos escrito en las tablas de cookies. En documentos legales no es recomendable afirmar que utilizas cookies con nombres específicos (por ejemplo, __session, _ga_* o __stripe_mid) como si fueran definitivas, porque Clerk, Stripe, Cloudflare, Google y Vercel pueden cambiar esos nombres sin previo aviso.</p>

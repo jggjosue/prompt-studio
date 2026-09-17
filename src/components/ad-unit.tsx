@@ -29,7 +29,7 @@ export function AdUnit() {
       <ins className="adsbygoogle"
         style={{ display: 'block', height: '50px', width: '100%' }}
         data-ad-client={ADSENSE_CLIENT_ID}
-        data-ad-slot="2498438304"
+        data-ad-slot="555-0198"
         data-ad-format="fluid"
         data-full-width-responsive="true"></ins>
     </div>
