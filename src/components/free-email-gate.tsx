@@ -48,9 +48,21 @@ export function FreeEmailGate({
   }, [user, email]);
 
   React.useEffect(() => {
-    if (localStorage.getItem('prompt_studio_free_email_saved')) {
-      setHasSavedEmail(true);
-    }
+    let alive = true;
+    // «Ya registrado» se pregunta al servidor (que consulta la BD y la cookie
+    // httpOnly), no se lee de un marcador del navegador: un marcador local se
+    // puede falsificar y no refleja si el correo llegó de verdad al registro.
+    void fetch('/api/new-users/status', { cache: 'no-store' })
+      .then(response => (response.ok ? response.json() : null))
+      .then((data: { registered?: boolean } | null) => {
+        if (alive) setHasSavedEmail(data?.registered === true);
+      })
+      .catch(() => {
+        if (alive) setHasSavedEmail(false);
+      });
+    return () => {
+      alive = false;
+    };
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -74,27 +86,26 @@ export function FreeEmailGate({
       });
 
       /**
-       * Solo se marca como guardado si el servidor lo confirmó. Antes se
-       * marcaba siempre: si la petición fallaba, el correo se perdía y a esa
-       * persona no se le volvía a pedir nunca, sin error visible. Con el índice
-       * roto de `user_profiles` eso ocurría en todas las capturas menos la
-       * primera.
+       * Solo se concede el acceso si el servidor confirmó el guardado. Antes un
+       * fallo se tragaba el correo y aun así se abría el prompt o la descarga:
+       * el registro de la persona se perdía y el acceso se regalaba igual.
        */
-      if (res.ok) {
-        localStorage.setItem('prompt_studio_free_email_saved', 'true');
-        setHasSavedEmail(true);
-        setOpen(false);
-        // Let Radix finish closing this dialog before an action opens another
-        // dialog (the prompt viewer) or starts a download.
-        window.setTimeout(onSuccess, 0);
-      } else {
-        console.error('No se pudo guardar el correo; se volverá a pedir.');
+if (!res.ok) {
         toast({
           title: t('error'),
           description: t('connectionError'),
           variant: 'destructive',
         });
+        return;
       }
+
+      // La cookie httpOnly la emite el servidor; aquí solo se refleja el estado.
+      setHasSavedEmail(true);
+
+      setOpen(false);
+      // Let Radix finish closing this dialog before an action opens another
+      // dialog (the prompt viewer) or starts a download.
+      window.setTimeout(onSuccess, 0);
     } catch (_error) {
       toast({
         title: t('error'),
