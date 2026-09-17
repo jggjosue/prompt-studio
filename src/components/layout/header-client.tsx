@@ -98,6 +98,7 @@ type DropdownItem = {
   description: string;
   icon: React.ReactNode;
   group?: WebMenuGroup;
+  disabled?: boolean;
   /** Si viene, la entrada abre un submenú con estas opciones en rejilla. */
   kits?: typeof UI_KITS;
 };
@@ -157,6 +158,7 @@ export default function HeaderClient() {
           label: 'Optimizar prompts',
           description: 'Mejora con objetivos y compara los cambios',
           icon: <Sparkles className="h-4 w-4" />,
+          disabled: true,
         },
         {
           href: '/code-auditor',
@@ -164,6 +166,7 @@ export default function HeaderClient() {
           label: 'Auditor de código',
           description: 'Detecta errores y genera un prompt de corrección',
           icon: <ShieldCheck className="h-4 w-4" />,
+          disabled: true,
         },
         {
           href: '/my-components',
@@ -171,6 +174,7 @@ export default function HeaderClient() {
           label: 'Favoritos y proyectos',
           description: 'Organiza componentes y descarga tus kits',
           icon: <FolderHeart className="h-4 w-4" />,
+          disabled: true,
         },
         {
           href: '/component-compare',
@@ -178,6 +182,7 @@ export default function HeaderClient() {
           label: 'Comparar componentes',
           description: 'Compara hasta tres diseños lado a lado',
           icon: <Scale className="h-4 w-4" />,
+          disabled: true,
         },
         {
           href: '/component-kits',
@@ -185,6 +190,7 @@ export default function HeaderClient() {
           label: 'Kits completos',
           description: 'Colecciones coherentes listas para productos',
           icon: <PackageCheck className="h-4 w-4" />,
+          disabled: true,
         },
         {
           href: '/smart-search',
@@ -192,6 +198,7 @@ export default function HeaderClient() {
           label: 'Buscador inteligente',
           description: 'Busca por tipo, industria, color y función',
           icon: <Search className="h-4 w-4" />,
+          disabled: true,
         },
         {
           href: '/component-builder',
@@ -199,6 +206,7 @@ export default function HeaderClient() {
           label: 'Constructor visual',
           description: 'Personaliza componentes y genera el prompt',
           icon: <WandSparkles className="h-4 w-4" />,
+          disabled: true,
         },
         {
           href: '/page-composer',
@@ -206,6 +214,7 @@ export default function HeaderClient() {
           label: 'Generador de páginas',
           description: 'Combina componentes y descarga Next.js',
           icon: <LayoutTemplate className="h-4 w-4" />,
+          disabled: true,
         },
         {
           href: '/landing-pages',
@@ -220,6 +229,7 @@ export default function HeaderClient() {
           label: 'Componentes UI',
           description: `${UI_KITS.length} kits · ${UI_KITS_TOTAL} piezas con prompts`,
           icon: <Layers3 className="h-4 w-4" />,
+          disabled: true,
           kits: UI_KITS,
         },
         {
@@ -228,6 +238,7 @@ export default function HeaderClient() {
           label: 'Crear Web',
           description: 'Genera nuevas páginas web con IA',
           icon: <Globe className="h-4 w-4" />,
+          disabled: true,
         },
       ],
     },
@@ -409,7 +420,17 @@ export default function HeaderClient() {
                               {group.label ? <p className="mb-1 px-3 text-[10px] font-black uppercase tracking-[0.18em] text-blue-500">{group.label}</p> : null}
                               <div className="grid grid-cols-1 gap-1">
                                 {group.items.map(item => (
-                                  item.kits ? (
+                                  item.disabled ? (
+                                    <div
+                                      key={item.label}
+                                      aria-disabled="true"
+                                      className="flex w-full cursor-not-allowed items-start gap-3 rounded-lg p-3 text-left opacity-45"
+                                    >
+                                      <span className="rounded-md bg-blue-500/10 p-2 text-blue-500">{item.icon}</span>
+                                      <span className="min-w-0 flex-1"><span className="block font-semibold">{item.label}</span><span className="block text-xs font-normal text-muted-foreground">{item.description}</span></span>
+                                      {item.kits ? <ChevronRight className="mt-1 h-4 w-4" /> : null}
+                                    </div>
+                                  ) : item.kits ? (
                                     <button key={item.label} type="button" onClick={() => setWebMenuPanel('kits')} className="flex w-full items-start gap-3 rounded-lg p-3 text-left transition-colors hover:bg-blue-600/10">
                                       <span className="rounded-md bg-blue-500/10 p-2 text-blue-500">{item.icon}</span>
                                       <span className="min-w-0 flex-1"><span className="block font-semibold">{item.label}</span><span className="block text-xs font-normal text-muted-foreground">{item.description}</span></span>
@@ -549,7 +570,17 @@ export default function HeaderClient() {
                         {group.label ? <DropdownMenuLabel className="px-2 pb-1 pt-2 text-[10px] font-black uppercase tracking-[0.18em] text-blue-500">{group.label}</DropdownMenuLabel> : null}
                         <div className="space-y-0.5">
                           {group.items.map(item => (
-                            item.kits ? (
+                            item.disabled ? (
+                              <div
+                                key={item.label}
+                                aria-disabled="true"
+                                className="flex w-full cursor-not-allowed items-start gap-3 rounded-lg p-2.5 text-left opacity-45"
+                              >
+                                <div className="rounded-md bg-blue-500/10 p-1.5 text-blue-500">{item.icon}</div>
+                                <div className="min-w-0 flex-1 text-left"><p className="font-semibold">{item.label}</p><p className="line-clamp-2 text-xs text-muted-foreground">{item.description}</p></div>
+                                {item.kits ? <ChevronRight className="mt-1 h-4 w-4 shrink-0" /> : null}
+                              </div>
+                            ) : item.kits ? (
                               <DropdownMenuItem key={item.label} asChild className="p-0 focus:bg-transparent">
                                 <button type="button" onClick={() => setWebMenuPanel('kits')} className="group flex w-full items-start gap-3 rounded-lg p-2.5 text-left transition-all duration-200 hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white">
                                   <div className="rounded-md bg-blue-500/10 p-1.5 text-blue-500 transition-colors group-hover:bg-white/15 group-hover:text-white group-focus:bg-white/15 group-focus:text-white">{item.icon}</div>

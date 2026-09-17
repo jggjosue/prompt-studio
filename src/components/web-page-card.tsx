@@ -152,12 +152,8 @@ function WebPageCardComponent({
                 <Heart className={`size-4 ${isFavorite ? 'fill-current' : ''}`} aria-hidden="true" />
               </button>
               {isFree ? (
-                <span suppressHydrationWarning className="rounded-full border border-blue-500/40 bg-blue-500/10 px-3 py-1 text-sm font-semibold text-blue-400">
+                <span suppressHydrationWarning className="rounded-full border border-emerald-500/40 bg-emerald-500/10 px-3 py-1 text-sm font-semibold text-emerald-400">
                   Free
-                </span>
-              ) : hasPremium ? (
-                <span suppressHydrationWarning className="rounded-full border border-blue-500/40 bg-blue-500/10 px-3 py-1 text-sm font-semibold text-blue-400">
-                  Premium
                 </span>
               ) : displayedPrice ? (
                 <span suppressHydrationWarning className="rounded-full border border-blue-500/40 bg-blue-500/10 px-3 py-1 text-sm font-semibold tabular-nums text-blue-400">

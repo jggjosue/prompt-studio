@@ -40,8 +40,12 @@ function blanked(block) {
 function listMarkdown(dir, out = []) {
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
     const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) listMarkdown(full, out);
-    else if (entry.isFile() && entry.name.toLowerCase().endsWith('.md')) out.push(full);
+    if (entry.isDirectory()) {
+      if (entry.name === 'code') continue; // docs/code está gitignored y no es documentación técnica viva
+      listMarkdown(full, out);
+    } else if (entry.isFile() && entry.name.toLowerCase().endsWith('.md')) {
+      out.push(full);
+    }
   }
   return out;
 }

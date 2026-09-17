@@ -6,7 +6,7 @@ import { generateImage } from '@/ai/flows/generate-image';
 import { z } from 'zod';
 import { reportOperationalError } from '@/lib/observability-server';
 import { auth } from '@clerk/nextjs/server';
-import { getServerSubscriptionStatus, hasDownloadPlan } from '@/lib/server-subscription-status';
+import { isPremiumJoAdmin } from '@/lib/admin-auth';
 import { isGeminiWebModel } from '@/lib/gemini-web-models';
 
 const promptSchema = z.object({
@@ -466,8 +466,8 @@ export async function proxyGemini(apiKey: string, prompt: string, model: string 
 export async function proxyPremiumGeminiWeb(prompt: string, model: string = 'gemini-2.5-flash') {
   const { userId } = await auth();
   if (!userId) return { error: 'Inicia sesión para generar páginas web.' };
-  if (!hasDownloadPlan(await getServerSubscriptionStatus())) {
-    return { error: 'La generación web con Gemini requiere una suscripción Premium activa.' };
+  if (!(await isPremiumJoAdmin())) {
+    return { error: 'La generación de páginas web está disponible únicamente para el superadministrador.' };
   }
   if (!isGeminiWebModel(model)) return { error: 'Modelo Gemini no compatible.' };
   const cleanPrompt = prompt.trim().slice(0, 20_000);
