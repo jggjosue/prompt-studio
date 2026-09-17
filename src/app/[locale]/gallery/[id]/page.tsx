@@ -110,7 +110,9 @@ export default async function GalleryDetailPage({ params }: Props) {
   const thumbnailUrl = image;
 
   const productSchema = {
-    '@context': 'https://id': `${canonical}#product`,
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    '@id': `${canonical}#product`,
     name: item.title,
     description: schemaDescription(description, item.title),
     image: [thumbnailUrl],
