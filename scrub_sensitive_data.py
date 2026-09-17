@@ -17,7 +17,7 @@ def scrub_file(path):
         
     original = content
     
-    # Scrub URLs with credentials first (e.g. https://user:pass@domain.com -> https://domain.com)
+    # Scrub URLs with credentials first (e.g. strip userinfo from URIs)
     content = url_creds_regex.sub(r'\1\2', content)
     
     # Scrub emails
