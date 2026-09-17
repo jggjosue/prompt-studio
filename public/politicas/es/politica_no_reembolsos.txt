@@ -72,9 +72,7 @@ Al realizar una compra, el usuario declara haber leído:
 Para cualquier consulta relacionada con compras o esta Política, el usuario podrá comunicarse con:
 Prompt Studio
 Sitio web:
-https://www.prompstudio.com
-Correo electrónico:
-support@prompstudio.com
+https://prompstudio.com
 Operado por:
 Magzin LLC
 800 Third Avenue Associates
@@ -244,7 +242,7 @@ Aunque esta Política establece una regla general de no reembolsos, Prompt Studi
 4.7 Procedimiento
 Las solicitudes relacionadas con incidencias deberán enviarse a:
 Correo electrónico:
-support@prompstudio.com
+user@example.com
 El usuario deberá proporcionar toda la información necesaria para que Prompt Studio pueda verificar el caso.
  
 4.8 Alcance de las excepciones
@@ -365,7 +363,7 @@ Este procedimiento es independiente de la Política de No Reembolsos de Prompt S
 7.2 Contacto previo
 Antes de iniciar un contracargo, Prompt Studio recomienda que el usuario contacte a:
 Correo electrónico:
-support@prompstudio.com
+user@example.com
 Muchas incidencias pueden resolverse rápidamente mediante soporte técnico, evitando procesos bancarios innecesarios.
  
 7.3 Investigación
@@ -464,7 +462,7 @@ Estas soluciones no implican necesariamente la realización de un reembolso.
 8.5 Comunicación
 Las incidencias serán atendidas exclusivamente a través de los canales oficiales de Prompt Studio.
 Correo electrónico oficial:
-support@prompstudio.com
+user@example.com
 Prompt Studio podrá solicitar información adicional cuando sea necesaria para verificar la incidencia.
  
 8.6 Colaboración del usuario
@@ -1030,7 +1028,7 @@ Nuestro objetivo es ofrecer una atención clara, profesional y eficiente.
 18.1 Canal oficial
 Las consultas relacionadas con compras deberán dirigirse exclusivamente a:
 Correo electrónico:
-support@prompstudio.com
+user@example.com
  
 18.2 Información recomendada
 Para agilizar la atención, el usuario deberá proporcionar, cuando sea posible:
@@ -1158,9 +1156,7 @@ Prompt Studio trabaja continuamente para:
 Para cualquier consulta relacionada con esta Política:
 Prompt Studio
 Sitio web:
-https://www.prompstudio.com
-Correo electrónico:
-support@prompstudio.com
+https://prompstudio.com
 Operado por:
 Magzin LLC
 800 Third Avenue Associates
@@ -1193,9 +1189,7 @@ Magzin LLC
 New York, NY 10022
 United States
 Sitio web:
-https://www.prompstudio.com
-Correo electrónico:
-support@prompstudio.com
+https://example.com
  
 © 2026 Prompt Studio. Todos los derechos reservados.
 

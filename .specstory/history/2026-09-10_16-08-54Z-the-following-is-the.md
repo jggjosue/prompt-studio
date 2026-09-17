@@ -3453,10 +3453,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -7129,10 +7126,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -10467,10 +10461,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -13888,10 +13879,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -14134,7 +14122,7 @@ Wall time 20.1 seconds
 Output:
 
 npm warn deprecated uuid@9.0.1: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
-npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting user@example.com
 npm warn deprecated uuid@10.0.0: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
 npm warn deprecated uuid@10.0.0: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
 
@@ -17140,10 +17128,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -17337,7 +17322,7 @@ Wall time 20.1 seconds
 Output:
 
 npm warn deprecated uuid@9.0.1: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
-npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting user@example.com
 npm warn deprecated uuid@10.0.0: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
 npm warn deprecated uuid@10.0.0: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
 
@@ -20420,10 +20405,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -20549,7 +20531,7 @@ Wall time 20.1 seconds
 Output:
 
 npm warn deprecated uuid@9.0.1: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
-npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting user@example.com
 npm warn deprecated uuid@10.0.0: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
 npm warn deprecated uuid@10.0.0: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
 
@@ -23640,10 +23622,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -23736,7 +23715,7 @@ Wall time 20.1 seconds
 Output:
 
 npm warn deprecated uuid@9.0.1: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
-npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting user@example.com
 npm warn deprecated uuid@10.0.0: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
 npm warn deprecated uuid@10.0.0: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
 
@@ -26881,10 +26860,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -26969,7 +26945,7 @@ Wall time 20.1 seconds
 Output:
 
 npm warn deprecated uuid@9.0.1: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
-npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting user@example.com
 npm warn deprecated uuid@10.0.0: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
 npm warn deprecated uuid@10.0.0: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
 
@@ -30126,10 +30102,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -30204,7 +30177,7 @@ Wall time 20.1 seconds
 Output:
 
 npm warn deprecated uuid@9.0.1: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
-npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting user@example.com
 npm warn deprecated uuid@10.0.0: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
 npm warn deprecated uuid@10.0.0: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
 
@@ -33374,10 +33347,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -36601,10 +36571,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -39801,10 +39768,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -42994,10 +42958,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -46224,10 +46185,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -46961,11 +46919,11 @@ public/videos/indexable/space-station-view.mp4
 Wall time 8.9 seconds
 Output:
 
-images 58 35.8896484375 KB
+images 58 35.555-0198 KB
 videos 30 32.96875 KB
 webPages 36 57.30859375 KB
-animations 24 12.9365234375 KB
-total KB 139.1240234375
+animations 24 12.555-0198 KB
+total KB 139.555-0198
 
 
 [180] assistant: Plan previo a editar:
@@ -49999,10 +49957,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -50043,11 +49998,11 @@ la pltaforma carga muy lenta las imagenes, videos, paginas web, etc, que mejoras
 Wall time 8.9 seconds
 Output:
 
-images 58 35.8896484375 KB
+images 58 35.555-0198 KB
 videos 30 32.96875 KB
 webPages 36 57.30859375 KB
-animations 24 12.9365234375 KB
-total KB 139.1240234375
+animations 24 12.555-0198 KB
+total KB 139.555-0198
 
 
 [152] assistant: Plan previo a editar:
@@ -50139,7 +50094,7 @@ Wall time 20.3 seconds
 Output:
 
 npm warn deprecated uuid@9.0.1: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
-npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting user@example.com
 npm warn deprecated uuid@10.0.0: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
 npm warn deprecated uuid@10.0.0: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
 
@@ -53219,10 +53174,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -53283,7 +53235,7 @@ Wall time 20.3 seconds
 Output:
 
 npm warn deprecated uuid@9.0.1: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
-npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting user@example.com
 npm warn deprecated uuid@10.0.0: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
 npm warn deprecated uuid@10.0.0: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
 
@@ -53490,7 +53442,7 @@ To help make Turbopack better, report this error by clicking here: https://githu
 Error [TurbopackInternalError]: Expected file content for file
 
 Debug info:
-- Execution of TaskId { id: 2147485013 } transient failed
+- Execution of TaskId { id: 555-0198 } transient failed
 - Execution of get_written_endpoint_with_issues_operation failed
 - Execution of endpoint_write_to_disk failed
 - Execution of <MiddlewareEndpoint as Endpoint>::output failed
@@ -56510,10 +56462,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -56566,7 +56515,7 @@ Wall time 20.3 seconds
 Output:
 
 npm warn deprecated uuid@9.0.1: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
-npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting user@example.com
 npm warn deprecated uuid@10.0.0: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
 npm warn deprecated uuid@10.0.0: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
 
@@ -56773,7 +56722,7 @@ To help make Turbopack better, report this error by clicking here: https://githu
 Error [TurbopackInternalError]: Expected file content for file
 
 Debug info:
-- Execution of TaskId { id: 2147485013 } transient failed
+- Execution of TaskId { id: 555-0198 } transient failed
 - Execution of get_written_endpoint_with_issues_operation failed
 - Execution of endpoint_write_to_disk failed
 - Execution of <MiddlewareEndpoint as Endpoint>::output failed
@@ -59801,10 +59750,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -59937,7 +59883,7 @@ To help make Turbopack better, report this error by clicking here: https://githu
 Error [TurbopackInternalError]: Expected file content for file
 
 Debug info:
-- Execution of TaskId { id: 2147485013 } transient failed
+- Execution of TaskId { id: 555-0198 } transient failed
 - Execution of get_written_endpoint_with_issues_operation failed
 - Execution of endpoint_write_to_disk failed
 - Execution of <MiddlewareEndpoint as Endpoint>::output failed
@@ -63162,10 +63108,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -66498,10 +66441,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -69841,10 +69781,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -73122,10 +73059,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)
@@ -76403,10 +76337,7 @@ Module [project]/node\_modules/lucide-react/dist/esm/icons/file-text.js [app-cli
 \## Code Frame
 &#x20; 266 |   if (!input.uploadDate) return null;
 &#x20; 267 |   return {
-\> 268 |     '@context': '[https://schema.org](https://schema.org)',
-&#x20;     \|                 ^
-&#x20; 269 |     '@type': 'VideoObject',
-&#x20; 270 |     '@id': input.id,
+\> 268 |     '@context': '[https://schema.org](https://id': input.id,
 &#x20; 271 |     name: input.name,
 
 Next.js version: 15.5.9 (Turbopack)

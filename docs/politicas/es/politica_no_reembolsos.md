@@ -1189,9 +1189,7 @@ Magzin LLC
 New York, NY 10022
 United States
 Sitio web:
-https://www.prompstudio.com
-Correo electrónico:
-user@example.com
+https://example.com
  
 © 2026 Prompt Studio. Todos los derechos reservados.
 
