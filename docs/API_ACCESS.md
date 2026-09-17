@@ -5,7 +5,7 @@
 > update the corresponding route handler.
 
 The system authorizes requests using eight distinct mechanisms. This matrix details
-the exact authorization strategy for all 109 API routes, which previously required
+the exact authorization strategy for all 111 API routes, which previously required
 manual file-by-file inspection.
 
 The test suite `tests/unit/route-access-matrix.test.ts` verifies that no route lacks
@@ -20,11 +20,11 @@ endpoint breaks the build pipeline instead of slipping into production.
 | Cron or admin secret | 6 |
 | Administrator | 9 |
 | Subscription plan | 12 |
-| User session | 64 |
+| User session | 65 |
 | AI worker token | 1 |
 | IP rate limit | 34 |
 | Disabled (501) | 2 |
-| **Total Routes** | **109** |
+| **Total Routes** | **111** |
 
 ## Public Routes by Design
 
@@ -47,6 +47,7 @@ None of them expose paid prompt data or private account records.
 - [`/api/stripe/demo-buy-button`](../src/app/api/stripe/demo-buy-button/route.ts) — Public configuration for purchase button
 - [`/api/r2/buckets`](../src/app/api/r2/buckets/route.ts) — List of configured buckets, no credentials exposed
 - [`/api/affiliate/applications`](../src/app/api/affiliate/applications/route.ts) — Affiliate application submission from public form
+- [`/api/new-users/status`](../src/app/api/new-users/status/route.ts) — Boolean free-access status for the email gate; reveals no content or account data
 
 ## Complete Access Matrix
 
@@ -116,8 +117,10 @@ None of them expose paid prompt data or private account records.
 | [`/api/marketplace`](../src/app/api/marketplace/route.ts) | GET | Public — Public storefront of the marketplace |
 | [`/api/marketplace/[id]/checkout`](../src/app/api/marketplace/[id]/checkout/route.ts) | POST | User session |
 | [`/api/marketplace/[id]/download`](../src/app/api/marketplace/[id]/download/route.ts) | GET | User session |
+| [`/api/marketplace/[id]/prompt`](../src/app/api/marketplace/[id]/prompt/route.ts) | GET | User session |
 | [`/api/model-regressions`](../src/app/api/model-regressions/route.ts) | GET, POST | User session |
 | [`/api/new-users`](../src/app/api/new-users/route.ts) | POST | IP rate limit |
+| [`/api/new-users/status`](../src/app/api/new-users/status/route.ts) | GET | Public — Boolean free-access status for the email gate; reveals no content or account data |
 | [`/api/observability/events`](../src/app/api/observability/events/route.ts) | POST | User session |
 | [`/api/output-contracts`](../src/app/api/output-contracts/route.ts) | GET, POST, PATCH | User session + IP rate limit |
 | [`/api/product-reviews`](../src/app/api/product-reviews/route.ts) | GET, POST | User session + IP rate limit |
