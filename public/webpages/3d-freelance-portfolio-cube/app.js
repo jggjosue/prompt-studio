@@ -13,7 +13,7 @@ Cada uno con su propio case study.`,color:5929652},{id:"testimonios",label:"Test
 "Excelente profesional".
 2
 00:00:04,000 --> 00:00:08,000
-"Entreg\xF3 a tiempo y con calidad."`,color:5944442},{id:"contacto",label:"Contacto",meta:"hola@ejemplo.com \xB7 linkedin.com/in/user",tools:["Disponible","Freelance","Remoto"],videoUrl:"https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",caseUrl:"https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",srt:`1
+"Entreg\xF3 a tiempo y con calidad."`,color:5944442},{id:"contacto",label:"Contacto",meta:"user@example.com \xB7 linkedin.com/in/user",tools:["Disponible","Freelance","Remoto"],videoUrl:"https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",caseUrl:"https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",srt:`1
 00:00:01,000 --> 00:00:05,000
 Trabajemos juntos en tu pr\xF3ximo proyecto.
 2
