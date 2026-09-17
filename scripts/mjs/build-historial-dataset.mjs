@@ -18,6 +18,10 @@ import { join } from 'node:path';
 
 const OUT = join('docs', 'historial', 'datos');
 const SEP = '\x1f'; // separador de campo (unit separator)
+
+const EMAIL_REDACTED = 'user@example.com';
+const redactarCorreo = (correo) =>
+  /@/.test(correo) ? EMAIL_REDACTED : correo;
 const REC = '\x1e'; // separador de registro (record separator)
 
 const git = (args) =>
@@ -65,7 +69,7 @@ function leerCommits() {
         // dia de la semana en la hora local del autor (no la del lector)
         dia_semana: new Date(`${fecha.replace(' ', 'T')}:00Z`).getUTCDay(),
         autor,
-        correo,
+        correo: redactarCorreo(correo),
         es_merge: padres.trim().split(' ').filter(Boolean).length > 1,
         asunto,
         asunto_largo: asunto.length,
