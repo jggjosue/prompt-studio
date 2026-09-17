@@ -58,6 +58,7 @@ export const PUBLICAS_JUSTIFICADAS = {
   'stripe/demo-buy-button': 'Public configuration for purchase button',
   'r2/buckets': 'List of configured buckets, no credentials exposed',
   'affiliate/applications': 'Affiliate application submission from public form',
+  'new-users/status': 'Boolean free-access status for the email gate; reveals no content or account data',
 };
 
 function listarRutas(dir, acumulado = []) {
