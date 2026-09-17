@@ -265,9 +265,7 @@ export default async function LandingPageDetailPage({ params, searchParams }: Pa
 
   const productSchema = seo
     ? {
-      '@context': 'https://schema.org',
-      '@type': 'Product',
-      '@id': `${canonical}#product`,
+      '@context': 'https://id': `${canonical}#product`,
       name: seo.title,
       description: schemaDescription(seo.description, seo.title),
       image: [seo.image],

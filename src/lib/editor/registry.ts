@@ -165,7 +165,7 @@ const DEFINITIONS: ComponentDefinition[] = [
     keywords: ['signin', 'sign in', 'acceso', 'sesion', 'authentication'],
   }),
   def('input', 'Campo', 'form', 'TextCursorInput', {
-    defaultProps: { label: 'Correo electrónico', placeholder: 'tu@correo.com', required: false, inputType: 'email' },
+    defaultProps: { label: 'Correo electrónico', placeholder: 'user@example.com', required: false, inputType: 'email' },
     rules: { canHaveChildren: false, allowedParents: ['form', 'column', 'container', 'stack', 'card'] },
     inlineTextProp: 'placeholder',
   }),
