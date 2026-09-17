@@ -44,9 +44,10 @@ function matchesCommercialFacet(
 ): boolean | null {
   const membership = page.membership?.trim().toLowerCase() ?? '';
   const price = numericPrice(page.price);
+  const facetLower = facet.trim().toLowerCase();
 
-  if (facet.toLowerCase() === 'premium') return membership === 'premium';
-  if (facet.toLowerCase() === 'free') return membership === 'free' || (price === 0 && membership !== 'premium');
+  if (facetLower === 'premium') return membership === 'premium';
+  if (facetLower === 'free') return membership === 'free' && price === 0;
 
   const priceMatch = facet.match(/^\$(\d+(?:\.\d+)?) USD$/);
   if (priceMatch) return price === Number(priceMatch[1]);
@@ -66,7 +67,11 @@ function LandingPagesContent() {
   const facetTag = facetTags[0] ?? null;
   const facetStack = facetStacks[0] ?? null;
 
-  const webPages = usePagedWebPages();
+  const webPages = usePagedWebPages({
+    // Eagerly load all pages when a filter is active so the full dataset
+    // is available on first render and no results are missing.
+    preloadAll: facetTags.length > 0 || facetStacks.length > 0,
+  });
   const { isSignedIn } = useUser();
   const { snapshots: readabilityByPageId } = useLandingReadabilityIndex();
   const allPages = useMemo(() => webPages.filter(p => p.imageUrl), [webPages]);
