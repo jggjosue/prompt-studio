@@ -1,14 +1,12 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { FreeEmailGate } from '@/components/free-email-gate';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
-  DialogFooter,
 } from '@/components/ui/dialog';
 import { useMembershipAccess } from '@/hooks/use-membership-access';
 import { useDailyCopyLimit } from '@/hooks/use-daily-copy-limit';
@@ -44,15 +42,9 @@ export function WebPagePromptDialog({
 
   const [copied, setCopied] = React.useState(false);
   // 'closed' | 'email-gate' | 'prompt'
-  const [view, setView] = React.useState<'closed' | 'email-gate' | 'prompt'>('closed');
+  const [view, setView] = React.useState<'closed' | 'prompt'>('closed');
   const [prompt, setPrompt] = React.useState(page.description);
   const [loadingPrompt, setLoadingPrompt] = React.useState(false);
-
-  // Email gate state
-  const [email, setEmail] = React.useState('');
-  const [acceptedTerms, setAcceptedTerms] = React.useState(false);
-  const [savingEmail, setSavingEmail] = React.useState(false);
-  const [emailSaved, setEmailSaved] = React.useState(false);
 
   const pageTitle = pickLocalized(
     page.title as unknown as LocalizedField,
@@ -62,20 +54,6 @@ export function WebPagePromptDialog({
     prompt as unknown as LocalizedField,
     locale
   );
-
-  // Pre-fill email from signed-in user
-  React.useEffect(() => {
-    if (user?.primaryEmailAddress?.emailAddress && !email) {
-      setEmail(user.primaryEmailAddress.emailAddress);
-    }
-  }, [user, email]);
-
-  // Check if email was already saved
-  React.useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setEmailSaved(!!localStorage.getItem(EMAIL_SAVED_KEY));
-    }
-  }, []);
 
   React.useEffect(() => {
     setPrompt(page.description);
@@ -119,10 +97,13 @@ export function WebPagePromptDialog({
 
   const isFree = normalizeMembership(page.membership) === 'free';
   // Paid plan users skip the email gate (they're already tracked)
-  const needsEmailGate = isFree && !hasPaidPlan && !emailSaved;
+  const needsEmailGate = isFree && !hasPaidPlan;
 
-  const handleViewPromptClick = () => {
+  const handleViewPromptClick = (e: React.MouseEvent) => {
+    let accessGranted = false;
+    
     if (hasPurchased) {
+      accessGranted = true;
       trackAnalyticsEvent('web_view_prompt', {
         page_id: page.id,
         page_title: pageTitle,
@@ -132,71 +113,31 @@ export function WebPagePromptDialog({
         membership: page.membership,
         action_source: 'prompt-dialog',
       });
-      if (needsEmailGate) {
-        setView('email-gate');
-      } else {
-        openAndLoadPrompt();
-      }
+    } else {
+      runWithAccess(page.membership, () => {
+        accessGranted = true;
+        if (isSignedIn) {
+          trackAnalyticsEvent('web_view_prompt', {
+            page_id: page.id,
+            page_title: pageTitle,
+            item_id: page.id,
+            item_name: pageTitle,
+            item_category: 'landing-page-prompt',
+            membership: page.membership,
+            action_source: 'prompt-dialog',
+          });
+        }
+      });
+    }
+
+    if (!accessGranted) {
+      e.preventDefault();
       return;
     }
 
-    runWithAccess(page.membership, () => {
-      if (isSignedIn) {
-        trackAnalyticsEvent('web_view_prompt', {
-          page_id: page.id,
-          page_title: pageTitle,
-          item_id: page.id,
-          item_name: pageTitle,
-          item_category: 'landing-page-prompt',
-          membership: page.membership,
-          action_source: 'prompt-dialog',
-        });
-      }
-      if (needsEmailGate) {
-        setView('email-gate');
-      } else {
-        openAndLoadPrompt();
-      }
-    });
-  };
-
-  const handleEmailSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email || !email.includes('@')) {
-      toast({
-        title: tCommon('invalidEmail'),
-        description: tCommon('invalidEmailDescription'),
-        variant: 'destructive',
-      });
-      return;
-    }
-    setSavingEmail(true);
-    try {
-      const res = await fetch('/api/new-users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
-      if (res.ok) {
-        localStorage.setItem(EMAIL_SAVED_KEY, 'true');
-        setEmailSaved(true);
-        // Transition directly to the prompt view
-        openAndLoadPrompt();
-      } else {
-        toast({
-          title: tCommon('error'),
-          description: tCommon('connectionError'),
-          variant: 'destructive',
-        });
-      }
-    } catch {
-      toast({
-        title: tCommon('error'),
-        description: tCommon('connectionError'),
-        variant: 'destructive',
-      });
-    } finally {
-      setSavingEmail(false);
+    if (!needsEmailGate) {
+      e.preventDefault();
+      openAndLoadPrompt();
     }
   };
 
@@ -213,61 +154,23 @@ export function WebPagePromptDialog({
     </Button>
   );
 
+  const wrappedTrigger = needsEmailGate ? (
+    <FreeEmailGate
+      title={t('viewPrompt')}
+      description={t('unlockPromptDescription')}
+      submitText={t('viewPromptNow')}
+      onSuccess={openAndLoadPrompt}
+    >
+      {triggerButton}
+    </FreeEmailGate>
+  ) : (
+    triggerButton
+  );
+
   return (
     <>
-      {triggerButton}
+      {wrappedTrigger}
       <Dialog open={view !== 'closed'} onOpenChange={open => { if (!open) setView('closed'); }}>
-        {view === 'email-gate' && (
-          <DialogContent className="sm:max-w-md">
-            <DialogHeader>
-              <DialogTitle>{t('viewPrompt')}</DialogTitle>
-              <DialogDescription>{t('unlockPromptDescription')}</DialogDescription>
-            </DialogHeader>
-            <form onSubmit={handleEmailSubmit} className="space-y-4">
-              <div className="flex flex-col gap-3">
-                <Input
-                  type="email"
-                  placeholder={tCommon('emailPlaceholder')}
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  required
-                  className="w-full"
-                  autoFocus
-                />
-                <div className="flex items-center gap-2 px-1 text-sm">
-                  <input
-                    type="checkbox"
-                    id="accept-terms-prompt"
-                    checked={acceptedTerms}
-                    onChange={e => setAcceptedTerms(e.target.checked)}
-                    className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 bg-slate-900 border-white/10 cursor-pointer"
-                  />
-                  <label htmlFor="accept-terms-prompt" className="text-muted-foreground select-none cursor-pointer">
-                    {tCommon('acceptTerms')}{' '}
-                    <a
-                      href="/terms"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-400 hover:text-blue-300 underline font-medium"
-                    >
-                      {tCommon('termsAndServices')}
-                    </a>
-                  </label>
-                </div>
-              </div>
-              <DialogFooter className="sm:justify-start">
-                <Button
-                  type="submit"
-                  disabled={savingEmail || !acceptedTerms}
-                  className="w-full !bg-blue-600 !text-white hover:!bg-blue-700"
-                >
-                  {savingEmail && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  {savingEmail ? tCommon('processing') : t('viewPromptNow')}
-                </Button>
-              </DialogFooter>
-            </form>
-          </DialogContent>
-        )}
         {view === 'prompt' && (
           <DialogContent className="w-[calc(100vw-2rem)] max-w-2xl max-h-[85vh] overflow-y-auto">
             <DialogHeader className="flex-row items-start justify-between gap-2 space-y-0 pr-8">
