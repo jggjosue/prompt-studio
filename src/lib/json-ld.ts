@@ -83,7 +83,9 @@ export function buildOrganizationSchema(input: {
   sameAs?: string[];
 }): JsonLdRecord {
   return {
-    '@context': 'https://id': `${input.url}#organization`,
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': `${input.url}#organization`,
     name: input.name,
     url: input.url,
     logo: { '@type': 'ImageObject', url: input.logoUrl },
@@ -136,7 +138,9 @@ export function buildProductSchema(input: {
     review.author.trim() && Number.isFinite(review.rating) && review.rating >= 1 && review.rating <= 5
   );
   return {
-    '@context': 'https://id': input.id,
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    '@id': input.id,
     name: input.name,
     description: input.description,
     image: input.images,
@@ -172,7 +176,9 @@ export function buildSoftwareApplicationSchema(input: {
   offer?: { price: number | string; currency: string };
 }): JsonLdRecord {
   return {
-    '@context': 'https://id': input.id,
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    '@id': input.id,
     name: input.name,
     url: input.url,
     description: input.description,
@@ -236,7 +242,9 @@ export function buildImageObjectSchema(input: {
   description: string;
 }): JsonLdRecord {
   return {
-    '@context': 'https://id': input.id,
+    '@context': 'https://schema.org',
+    '@type': 'ImageObject',
+    '@id': input.id,
     url: input.url,
     contentUrl: input.contentUrl,
     name: input.name,
@@ -257,7 +265,9 @@ export function buildVideoObjectSchema(input: {
   // Google exige una fecha real. No se inventa una fecha para completar el schema.
   if (!input.uploadDate) return null;
   return {
-    '@context': 'https://id': input.id,
+    '@context': 'https://schema.org',
+    '@type': 'VideoObject',
+    '@id': input.id,
     name: input.name,
     description: input.description,
     thumbnailUrl: [input.thumbnailUrl],

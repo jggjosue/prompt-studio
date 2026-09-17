@@ -85,7 +85,9 @@ export default async function GalleryVideoDetailPage({ params }: Props) {
       : `${SITE_URL}/og-image.png`;
 
   const productSchema = {
-    '@context': 'https://id': `${canonical}#product`,
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    '@id': `${canonical}#product`,
     name: item.title,
     description: schemaDescription(description, item.title),
     image: [thumbnailUrl],
