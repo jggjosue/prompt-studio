@@ -487,7 +487,7 @@ export default function ProfileClient({ user, isPremiumJo, hasApprovedAffiliateA
                         <Input
                           id="paypal-email"
                           type="email"
-                          placeholder="tu-correo@paypal.com"
+                          placeholder="user@example.com"
                           value={paypalEmail}
                           onChange={event => setPaypalEmail(event.target.value)}
                           className="bg-background/80"

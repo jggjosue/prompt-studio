@@ -334,7 +334,7 @@ Crea la Política de Cookies: tengo una pagina que funciona como una plataforma 
 | Firebase Analytics | Eventos de interacción del cliente |
 | Google Analytics 4 | Analítica de navegación e intención de conversión |
 | Vercel Analytics | Métricas de tráfico y rendimiento 
-Base de datos MongoDB. La plataforma se llama: Prompt Studio. (https://www.prompstudio.com), su correo es: support@prompstudio.com. Y esta hecha por: Magzin LLC, 800 Third Avenue Associates, New York, NY, 10022, United States
+Base de datos MongoDB. La plataforma se llama: Prompt Studio. (https://prompstudio.com. Y esta hecha por: Magzin LLC, 800 Third Avenue Associates, New York, NY, 10022, United States
 
 
 ✅ Política de Privacidad (40 secciones)

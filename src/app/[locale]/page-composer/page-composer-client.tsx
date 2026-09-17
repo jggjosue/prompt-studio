@@ -367,7 +367,7 @@ function RenderBlock({
           <div className="mt-6 space-y-4">
             <div>
               <label className="text-xs font-semibold text-zinc-300">Email de trabajo</label>
-              <div className="mt-1.5 h-11 rounded-xl border border-white/10 bg-black/50 px-3 flex items-center text-sm text-zinc-500">nombre@empresa.com</div>
+              <div className="mt-1.5 h-11 rounded-xl border border-white/10 bg-black/50 px-3 flex items-center text-sm text-zinc-500">user@example.com</div>
             </div>
             {key === 'form' && (
               <div>

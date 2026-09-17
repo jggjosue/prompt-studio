@@ -106,7 +106,7 @@ export default function RefundsPolicyPage() {
             <p>Sitio web:</p>
             <p>https://www.prompstudio.com</p>
             <p>Correo electrónico:</p>
-            <p>support@prompstudio.com</p>
+            <p>user@example.com</p>
             <p>Operado por:</p>
             <p>Magzin LLC</p>
             <p>800 Third Avenue Associates</p>
@@ -295,7 +295,7 @@ export default function RefundsPolicyPage() {
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">4.7 Procedimiento</h3>
             <p>Las solicitudes relacionadas con incidencias deberán enviarse a:</p>
             <p>Correo electrónico:</p>
-            <p>support@prompstudio.com</p>
+            <p>user@example.com</p>
             <p>El usuario deberá proporcionar toda la información necesaria para que Prompt Studio pueda verificar el caso.</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">4.8 Alcance de las excepciones</h3>
             <p>Las excepciones previstas en esta sección no constituyen un reconocimiento general del derecho al reembolso.</p>
@@ -430,7 +430,7 @@ export default function RefundsPolicyPage() {
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">7.2 Contacto previo</h3>
             <p>Antes de iniciar un contracargo, Prompt Studio recomienda que el usuario contacte a:</p>
             <p>Correo electrónico:</p>
-            <p>support@prompstudio.com</p>
+            <p>user@example.com</p>
             <p>Muchas incidencias pueden resolverse rápidamente mediante soporte técnico, evitando procesos bancarios innecesarios.</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">7.3 Investigación</h3>
             <p>Cuando Prompt Studio reciba una notificación de contracargo podrá revisar, entre otros elementos:</p>
@@ -537,7 +537,7 @@ export default function RefundsPolicyPage() {
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">8.5 Comunicación</h3>
             <p>Las incidencias serán atendidas exclusivamente a través de los canales oficiales de Prompt Studio.</p>
             <p>Correo electrónico oficial:</p>
-            <p>support@prompstudio.com</p>
+            <p>user@example.com</p>
             <p>Prompt Studio podrá solicitar información adicional cuando sea necesaria para verificar la incidencia.</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">8.6 Colaboración del usuario</h3>
             <p>El usuario se compromete a colaborar razonablemente durante la investigación de cualquier incidencia, proporcionando información veraz y suficiente para permitir su análisis.</p>
@@ -1164,7 +1164,7 @@ export default function RefundsPolicyPage() {
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">18.1 Canal oficial</h3>
             <p>Las consultas relacionadas con compras deberán dirigirse exclusivamente a:</p>
             <p>Correo electrónico:</p>
-            <p>support@prompstudio.com</p>
+            <p>user@example.com</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">18.2 Información recomendada</h3>
             <p>Para agilizar la atención, el usuario deberá proporcionar, cuando sea posible:</p>
             <ul className="list-disc pl-6 space-y-2">
@@ -1299,7 +1299,7 @@ export default function RefundsPolicyPage() {
             <p>Sitio web:</p>
             <p>https://www.prompstudio.com</p>
             <p>Correo electrónico:</p>
-            <p>support@prompstudio.com</p>
+            <p>user@example.com</p>
             <p>Operado por:</p>
             <p>Magzin LLC</p>
             <p>800 Third Avenue Associates</p>
@@ -1334,7 +1334,7 @@ export default function RefundsPolicyPage() {
             <p>Sitio web:</p>
             <p>https://www.prompstudio.com</p>
             <p>Correo electrónico:</p>
-            <p>support@prompstudio.com</p>
+            <p>user@example.com</p>
             <p>© 2026 Prompt Studio. Todos los derechos reservados.</p>
           </div>
         </div>

@@ -9,7 +9,7 @@ Magzin LLC
 New York, NY 10022
 United States
 Correo electrónico oficial:
-support@prompstudio.com
+user@example.com
 Al acceder o utilizar Prompt Studio, el usuario acepta quedar obligado por los presentes Términos y Condiciones.
 Si el usuario no está de acuerdo con cualquiera de estas disposiciones, deberá abstenerse de utilizar la Plataforma.
  
@@ -307,7 +307,7 @@ Si el usuario detecta un acceso no autorizado, deberá comunicarlo inmediatament
  
 5.7 Eliminación de la cuenta
 El usuario podrá eliminar su cuenta en cualquier momento desde la configuración correspondiente o contactando a:
-support@prompstudio.com
+user@example.com
 La eliminación de la cuenta se realizará conforme a la Política de Privacidad y podrá implicar la pérdida de acceso a determinados recursos y servicios.
  
 5.8 Derecho de rechazo
@@ -428,7 +428,7 @@ Prompt Studio nunca solicitará al usuario por correo electrónico o por otros m
 •	Códigos MFA.
 •	Información bancaria completa.
 Si el usuario recibe una solicitud sospechosa haciéndose pasar por Prompt Studio, deberá comunicarlo inmediatamente a:
-support@prompstudio.com
+user@example.com
  
 7.6 Actividad sospechosa
 Prompt Studio podrá supervisar determinados eventos de seguridad para detectar:
@@ -450,7 +450,7 @@ Cuando el usuario detecte:
 •	Cambios inesperados en su perfil.
 •	Actividad sospechosa.
 deberá notificarlo lo antes posible mediante:
-support@prompstudio.com
+user@example.com
 Prompt Studio colaborará razonablemente para investigar el incidente y restaurar la seguridad de la cuenta cuando sea posible.
  
 Sección 8. Uso Permitido de la Plataforma
@@ -852,7 +852,7 @@ El usuario podrá cancelar la renovación automática en cualquier momento media
 •	La configuración de su cuenta.
 •	Los mecanismos disponibles dentro de Prompt Studio.
 •	Contactando a:
-support@prompstudio.com
+user@example.com
 La cancelación impedirá futuras renovaciones, pero no afectará el acceso correspondiente al período previamente pagado.
  
 13.6 Cambios de plan
@@ -985,7 +985,7 @@ Estos documentos podrán ser emitidos directamente por Stripe o por Prompt Studi
  
 15.5 Errores de facturación
 Si el usuario detecta un error en una factura o comprobante, deberá comunicarlo a Prompt Studio lo antes posible mediante:
-support@prompstudio.com
+user@example.com
 Prompt Studio realizará las verificaciones necesarias y, cuando corresponda, emitirá la documentación corregida conforme a la legislación aplicable.
  
 15.6 Obligaciones fiscales del usuario
@@ -1046,7 +1046,7 @@ Cada solicitud será evaluada individualmente.
  
 16.4 Solicitud de reembolso
 Las solicitudes deberán enviarse a:
-support@prompstudio.com
+user@example.com
 La solicitud deberá incluir, cuando sea posible:
 •	Nombre del comprador.
 •	Correo electrónico de la cuenta.
@@ -1455,7 +1455,7 @@ En dichos casos:
 21.8 Solicitudes relacionadas con propiedad intelectual
 Las consultas o reclamaciones relacionadas con derechos de autor, marcas o propiedad intelectual podrán enviarse a:
 Correo electrónico:
-support@prompstudio.com
+user@example.com
 Prompt Studio analizará cada solicitud conforme a la legislación aplicable y podrá solicitar información adicional para verificar la titularidad de los derechos invocados.
  
 Sección 22. Contenido Generado por los Usuarios
@@ -1850,7 +1850,7 @@ El usuario podrá solicitar la eliminación de su cuenta mediante:
 •	Los mecanismos proporcionados por el sistema de autenticación.
 •	El correo electrónico oficial de soporte.
 Las solicitudes deberán enviarse a:
-support@prompstudio.com
+user@example.com
  
 27.2 Eliminación mediante Clerk
 Prompt Studio utiliza Clerk como proveedor de autenticación.
@@ -1972,7 +1972,7 @@ La suspensión o terminación de la cuenta no limita el ejercicio de dichas acci
  
 28.8 Solicitudes de revisión
 Cuando un usuario considere que su cuenta ha sido suspendida o cancelada por error, podrá solicitar una revisión enviando un correo a:
-support@prompstudio.com
+user@example.com
 Prompt Studio revisará la solicitud de buena fe y comunicará su decisión dentro de un plazo razonable. La presentación de una solicitud de revisión no garantiza el restablecimiento de la cuenta.
 Sección 29. Descargos de Responsabilidad
 Prompt Studio pone a disposición de los usuarios una plataforma destinada a facilitar el acceso a recursos digitales, herramientas de Inteligencia Artificial y contenido relacionado con la creación de imágenes, videos, aplicaciones y sitios web.
@@ -2551,9 +2551,7 @@ En caso de discrepancia entre versiones traducidas, prevalecerá la versión ori
 Para cualquier consulta relacionada con estos Términos y Condiciones, el usuario podrá comunicarse con:
 Prompt Studio
 Sitio web:
-https://www.prompstudio.com
-Correo electrónico:
-support@prompstudio.com
+https://prompstudio.com
 Operado por:
 Magzin LLC
 800 Third Avenue Associates
@@ -2612,7 +2610,7 @@ Si el usuario considera que existe un problema relacionado con:
 •	El funcionamiento de la Plataforma.
 deberá contactar inicialmente a Prompt Studio mediante:
 Correo electrónico:
-support@prompstudio.com
+user@example.com
 Prompt Studio realizará esfuerzos razonables para responder dentro de un plazo adecuado.
  
 38.2 Negociación amistosa
@@ -2741,9 +2739,7 @@ En caso de discrepancia entre distintas versiones, prevalecerá la versión ofic
 Para cualquier consulta relacionada con estos Términos y Condiciones, el usuario podrá contactar a:
 Prompt Studio
 Sitio web:
-https://www.prompstudio.com
-Correo electrónico:
-support@prompstudio.com
+https://prompstudio.com
 Operado por:
 Magzin LLC
 800 Third Avenue Associates
@@ -2774,5 +2770,5 @@ Operado por Magzin LLC
 New York, NY 10022
 United States
 Sitio web: https://www.prompstudio.com
-Correo electrónico: support@prompstudio.com
+Correo electrónico: user@example.com
 
