@@ -238,7 +238,6 @@ export default function HeaderClient() {
           label: 'Crear Web',
           description: 'Genera nuevas páginas web con IA',
           icon: <Globe className="h-4 w-4" />,
-          disabled: true,
         },
       ],
     },
