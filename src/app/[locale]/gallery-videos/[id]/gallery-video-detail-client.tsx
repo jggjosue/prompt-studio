@@ -25,6 +25,7 @@ import { PromptValidationCard } from '@/components/prompt-validation-card';
 import type { PromptValidationReport } from '@/lib/prompt-validation';
 import { useLocale } from 'next-intl';
 import { PromptVersionManager } from '@/components/prompt-version-manager';
+import { PromptGate } from '@/components/prompt-gate';
 
 export default function GalleryVideoDetailClient({ item, validation }: { item: VideoProp; validation: PromptValidationReport }) {
   const locale = useLocale();
@@ -94,25 +95,36 @@ export default function GalleryVideoDetailClient({ item, validation }: { item: V
                   </div>
               </div>
 
-              <Accordion type="single" collapsible defaultValue="item-1">
+              <Accordion type="multiple">
                 <AccordionItem value="item-1">
                   <AccordionTrigger className="text-lg font-semibold font-headline">
                     View Prompt
                   </AccordionTrigger>
-                  <AccordionContent className="relative text-base text-muted-foreground bg-muted/50 p-4 pr-12 rounded-md">
-                    <pre className="whitespace-pre-wrap font-mono text-xs overflow-x-auto">
-                      {item.description}
-                    </pre>
-                    <Button variant="ghost" size="icon" className="absolute top-2 right-2" onClick={handleCopy}>
-                      <Copy className="h-4 w-4" />
-                      <span className="sr-only">Copy prompt</span>
-                    </Button>
+                  <AccordionContent className="relative text-base text-muted-foreground bg-muted/50 p-4 rounded-md">
+                    <PromptGate>
+                      <pre className="whitespace-pre-wrap font-mono text-xs overflow-x-auto pr-12">
+                        {item.description}
+                      </pre>
+                      <Button variant="ghost" size="icon" className="absolute top-2 right-2" onClick={handleCopy}>
+                        <Copy className="h-4 w-4" />
+                        <span className="sr-only">Copy prompt</span>
+                      </Button>
+                    </PromptGate>
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-2">
+                  <AccordionTrigger className="text-lg font-semibold font-headline">
+                    Prompt versions
+                  </AccordionTrigger>
+                  <AccordionContent className="pt-4">
+                    <PromptGate>
+                      <PromptVersionManager promptId={item.id} promptKind="video" title={item.title} initialContent={item.description} modelSnapshot={validation.compatibleModels.map(model => `${model.id}:${model.version}`)} locale={locale} />
+                    </PromptGate>
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
 
               <PromptValidationCard report={validation} locale={locale} />
-              <PromptVersionManager promptId={item.id} promptKind="video" title={item.title} initialContent={item.description} modelSnapshot={validation.compatibleModels.map(model => `${model.id}:${model.version}`)} locale={locale} />
 
               <div>
                 <h3 className="text-2xl font-bold font-headline mt-8 mb-4">
