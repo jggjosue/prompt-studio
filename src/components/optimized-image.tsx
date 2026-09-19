@@ -2,8 +2,7 @@
 
 import { LazyPlaceholder } from '@/components/lazy-in-view';
 import { useIntersectionInView } from '@/hooks/use-intersection-in-view';
-import { shouldUnoptimizeImage } from '@/lib/utils';
-import { cn } from '@/lib/utils';
+import { cn, shouldUnoptimizeImage } from '@/lib/utils';
 import { ImageOff } from 'lucide-react';
 import Image, { type ImageProps } from 'next/image';
 import { useEffect, useState } from 'react';

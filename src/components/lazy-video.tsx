@@ -1,11 +1,11 @@
 'use client';
 
 import { LazyPlaceholder } from '@/components/lazy-in-view';
+import { OptimizedImage } from '@/components/optimized-image';
 import { useIntersectionInView } from '@/hooks/use-intersection-in-view';
 import { cn } from '@/lib/utils';
 import { AlertCircle, LoaderCircle } from 'lucide-react';
 import { type ComponentProps, useEffect, useRef, useState } from 'react';
-import { OptimizedImage } from '@/components/optimized-image';
 
 type LazyVideoProps = ComponentProps<'video'> & {
   /** Carga inmediata (p. ej. hero principal). */
