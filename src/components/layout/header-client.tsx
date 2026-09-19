@@ -235,40 +235,19 @@ export default function HeaderClient() {
         {
           href: '/generate',
           group: 'Crear',
-          label: 'Crear Web',
+          label: 'Generador Web',
           description: 'Genera nuevas páginas web con IA',
           icon: <Globe className="h-4 w-4" />,
         },
       ],
     },
     {
-      id: 'image',
-      label: 'Imagen',
+      id: 'media',
+      label: 'Imágenes y Videos',
       activePrefixes: [
         '/image-prompts',
         '/gallery',
         '/image-tags',
-        '/generate',
-      ],
-      dropdown: [
-        {
-          href: '/image-prompts',
-          label: tNav('images'),
-          description: tNav('imagesDesc'),
-          icon: <ImageIcon className="h-4 w-4" />,
-        },
-        {
-          href: '/generate',
-          label: 'Crear Imagen',
-          description: 'Genera nuevas imágenes con IA',
-          icon: <Sparkles className="h-4 w-4" />,
-        },
-      ],
-    },
-    {
-      id: 'video',
-      label: 'Video',
-      activePrefixes: [
         '/video-prompts',
         '/gallery-videos',
         '/video-tags',
@@ -276,49 +255,52 @@ export default function HeaderClient() {
       ],
       dropdown: [
         {
+          href: '/image-prompts',
+          group: 'Explorar',
+          label: tNav('images'),
+          description: tNav('imagesDesc'),
+          icon: <ImageIcon className="h-4 w-4" />,
+        },
+        {
           href: '/video-prompts',
+          group: 'Explorar',
           label: tNav('videos'),
           description: tNav('videosDesc'),
           icon: <Video className="h-4 w-4" />,
         },
         {
           href: '/generate',
-          label: 'Crear Video',
-          description: 'Genera nuevos videos con IA',
-          icon: <Sparkles className="h-4 w-4" />,
+          group: 'Crear',
+          label: 'Generar Imagen',
+          description: 'Crea imágenes hiperrealistas con IA',
+          icon: <ImageIcon className="h-4 w-4" />,
+        },
+        {
+          href: '/generate',
+          group: 'Crear',
+          label: 'Generar Video',
+          description: 'Crea videos cinematográficos con IA',
+          icon: <Video className="h-4 w-4" />,
         },
       ],
     },
     {
-      id: 'resources',
-      label: tNav('resources'),
-      activePrefixes: [
-        '/prices',
-        '/pricing',
-        '/affiliate-program',
-        '/affiliate-program-terms',
-        '/ask',
-      ],
-      dropdown: [
-        {
-          href: '/prices',
-          label: tNav('prices'),
-          description: 'Planes, suscripciones y recarga de créditos',
-          icon: <CreditCard className="h-4 w-4" />,
-        },
-        {
-          href: '/affiliate-program',
-          label: tNav('affiliateProgram'),
-          description: 'Únete y gana comisiones recomendando',
-          icon: <Handshake className="h-4 w-4" />,
-        },
-        {
-          href: '/ask',
-          label: tNav('questions'),
-          description: 'Preguntas frecuentes, soporte y respuestas',
-          icon: <HelpCircle className="h-4 w-4" />,
-        },
-      ],
+      id: 'affiliate',
+      href: '/affiliate-program',
+      label: tNav('affiliateProgram'),
+      activePrefixes: ['/affiliate-program', '/affiliate-program-terms'],
+    },
+    {
+      id: 'ask',
+      href: '/ask',
+      label: tNav('questions'),
+      activePrefixes: ['/ask'],
+    },
+    {
+      id: 'pricing',
+      href: '/prices',
+      label: tNav('prices'),
+      activePrefixes: ['/prices', '/pricing'],
     },
   ];
 
@@ -538,7 +520,7 @@ href="/generate"
                   {link.label}{' '}
                   <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" />
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className={cn('max-h-[min(78vh,680px)] overflow-y-auto p-2', link.id === 'webs' ? 'w-[min(92vw,680px)]' : 'w-72')}>
+                <DropdownMenuContent className={cn('max-h-[min(78vh,680px)] overflow-y-auto p-2', (link.id === 'webs' || link.id === 'media') ? 'w-[min(92vw,680px)]' : 'w-72')}>
                   {link.id === 'webs' && webMenuPanel === 'kits' ? (
                     <div className="p-1">
                       <div className="mb-2 flex items-center justify-between border-b border-border/60 px-2 pb-2">
@@ -563,7 +545,7 @@ href="/generate"
                       </DropdownMenuItem>
                     </div>
                   ) : (
-                  <div className={cn('grid gap-3', link.id === 'webs' ? 'sm:grid-cols-2' : 'grid-cols-1')}>
+                  <div className={cn('grid gap-3', (link.id === 'webs' || link.id === 'media') ? 'sm:grid-cols-2' : 'grid-cols-1')}>
                     {groupDropdownItems(link.dropdown ?? []).map(group => (
                       <section key={group.label || link.id} aria-label={group.label || link.label} className="rounded-xl border border-border/60 bg-background/40 p-1.5">
                         {group.label ? <DropdownMenuLabel className="px-2 pb-1 pt-2 text-[10px] font-black uppercase tracking-[0.18em] text-blue-500">{group.label}</DropdownMenuLabel> : null}
