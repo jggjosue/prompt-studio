@@ -158,7 +158,6 @@ export default function HeaderClient() {
           label: 'Optimizar prompts',
           description: 'Mejora con objetivos y compara los cambios',
           icon: <Sparkles className="h-4 w-4" />,
-          disabled: true,
         },
         {
           href: '/code-auditor',
@@ -166,7 +165,6 @@ export default function HeaderClient() {
           label: 'Auditor de código',
           description: 'Detecta errores y genera un prompt de corrección',
           icon: <ShieldCheck className="h-4 w-4" />,
-          disabled: true,
         },
         {
           href: '/my-components',
@@ -174,7 +172,6 @@ export default function HeaderClient() {
           label: 'Favoritos y proyectos',
           description: 'Organiza componentes y descarga tus kits',
           icon: <FolderHeart className="h-4 w-4" />,
-          disabled: true,
         },
         {
           href: '/component-compare',
@@ -182,7 +179,6 @@ export default function HeaderClient() {
           label: 'Comparar componentes',
           description: 'Compara hasta tres diseños lado a lado',
           icon: <Scale className="h-4 w-4" />,
-          disabled: true,
         },
         {
           href: '/component-kits',
@@ -190,7 +186,6 @@ export default function HeaderClient() {
           label: 'Kits completos',
           description: 'Colecciones coherentes listas para productos',
           icon: <PackageCheck className="h-4 w-4" />,
-          disabled: true,
         },
         {
           href: '/smart-search',
@@ -198,7 +193,6 @@ export default function HeaderClient() {
           label: 'Buscador inteligente',
           description: 'Busca por tipo, industria, color y función',
           icon: <Search className="h-4 w-4" />,
-          disabled: true,
         },
         {
           href: '/component-builder',
@@ -206,7 +200,6 @@ export default function HeaderClient() {
           label: 'Constructor visual',
           description: 'Personaliza componentes y genera el prompt',
           icon: <WandSparkles className="h-4 w-4" />,
-          disabled: true,
         },
         {
           href: '/page-composer',
@@ -214,7 +207,6 @@ export default function HeaderClient() {
           label: 'Generador de páginas',
           description: 'Combina componentes y descarga Next.js',
           icon: <LayoutTemplate className="h-4 w-4" />,
-          disabled: true,
         },
         {
           href: '/landing-pages',
@@ -229,7 +221,6 @@ export default function HeaderClient() {
           label: 'Componentes UI',
           description: `${UI_KITS.length} kits · ${UI_KITS_TOTAL} piezas con prompts`,
           icon: <Layers3 className="h-4 w-4" />,
-          disabled: true,
           kits: UI_KITS,
         },
         {
@@ -562,8 +553,8 @@ href="/generate"
                                 {item.kits ? <ChevronRight className="mt-1 h-4 w-4 shrink-0" /> : null}
                               </div>
                             ) : item.kits ? (
-                              <DropdownMenuItem key={item.label} asChild className="p-0 focus:bg-transparent">
-                                <button type="button" onClick={() => setWebMenuPanel('kits')} className="group flex w-full items-start gap-3 rounded-lg p-2.5 text-left transition-all duration-200 hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white">
+                              <DropdownMenuItem key={item.label} onSelect={(e) => e.preventDefault()} asChild className="p-0 focus:bg-transparent">
+                                <button type="button" onClick={(e) => { e.preventDefault(); setWebMenuPanel('kits'); }} className="group flex w-full items-start gap-3 rounded-lg p-2.5 text-left transition-all duration-200 hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white">
                                   <div className="rounded-md bg-blue-500/10 p-1.5 text-blue-500 transition-colors group-hover:bg-white/15 group-hover:text-white group-focus:bg-white/15 group-focus:text-white">{item.icon}</div>
                                   <div className="min-w-0 flex-1 text-left"><p className="font-semibold">{item.label}</p><p className="line-clamp-2 text-xs text-muted-foreground transition-colors group-hover:text-blue-100 group-focus:text-blue-100">{item.description}</p></div>
                                   <ChevronRight className="mt-1 h-4 w-4 shrink-0" />

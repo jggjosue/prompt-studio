@@ -2,7 +2,9 @@
 
 import { useSavedItems, type SavedItemInput } from '@/components/saved-items-provider';
 import { cn } from '@/lib/utils';
+import { useClerk } from '@clerk/nextjs';
 import { Bookmark } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { memo, useState } from 'react';
 
@@ -13,20 +15,20 @@ type SaveItemButtonProps = SavedItemInput & {
 /**
  * Icono de guardar en la esquina de cada tarjeta del catálogo.
  *
- * No se pinta si el usuario no ha iniciado sesión: un botón que al pulsarlo
- * solo dice «inicia sesión» añade ruido a una cuadrícula de 24 tarjetas. La
- * llamada a la API igualmente exige sesión, así que esto es presentación, no
- * autorización.
+ * Si el usuario ha iniciado sesión, alterna el estado guardado/favorito.
+ * Si el usuario NO ha iniciado sesión, al hacer clic lo redirige a crear una cuenta (/sign-up).
  */
 function SaveItemButtonComponent({ className, ...item }: SaveItemButtonProps) {
   const saved = useSavedItems();
+  const clerk = useClerk();
+  const pathname = usePathname();
   const t = useTranslations('saved');
   const [busy, setBusy] = useState(false);
 
-  // Sin proveedor, sin sesión, o mientras carga el estado inicial: nada.
-  if (!saved || !saved.isSignedIn || saved.savedKeys === null) return null;
+  // Si aún está cargando la sesión o el estado inicial
+  if (!saved || (saved.isSignedIn && saved.savedKeys === null)) return null;
 
-  const isSaved = saved.isSaved(item.itemKind, item.itemId);
+  const isSaved = saved.isSignedIn ? saved.isSaved(item.itemKind, item.itemId) : false;
 
   return (
     <button
@@ -39,6 +41,14 @@ function SaveItemButtonComponent({ className, ...item }: SaveItemButtonProps) {
         // La tarjeta entera suele ser un enlace: sin esto, guardar navega.
         event.preventDefault();
         event.stopPropagation();
+
+        if (!saved.isSignedIn) {
+          clerk.redirectToSignUp({
+            redirectUrl: pathname || '/my-components',
+          });
+          return;
+        }
+
         setBusy(true);
         await saved.toggle(item);
         setBusy(false);
@@ -58,3 +68,4 @@ function SaveItemButtonComponent({ className, ...item }: SaveItemButtonProps) {
 }
 
 export const SaveItemButton = memo(SaveItemButtonComponent);
+
