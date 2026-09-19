@@ -115,9 +115,22 @@ function PromptCatalogCardComponent({
               Use this prompt
             </Link>
           </LiquidButton>
-          <Button variant="secondary" size="sm" asChild>
-            <Link href={galleryHref}>View</Link>
+          <Button variant="secondary" size="sm" asChild className={actionClassName}>
+            <Link
+              href={`${item.type === 'video' ? '/generate-videos' : '/generate'}?prompt=${encodeURIComponent(JSON.stringify({
+                type: item.type,
+                title: item.title,
+                description: item.description ?? '',
+                imageUrl: item.imageUrl,
+                tags: item.tags,
+              }))}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Personalizar
+            </Link>
           </Button>
+
         </CardFooter>
       </Card>
     </ParallaxReveal>

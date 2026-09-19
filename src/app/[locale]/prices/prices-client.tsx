@@ -142,8 +142,8 @@ const PLANS: PaidPlan[] = [
 export default function PricesClient() {
   const t = useTranslations('prices');
   const tCommon = useTranslations('common');
-  const locale = useLocale();
-  const isSpanish = locale === 'es';
+  const locale = useLocale() ?? 'en';
+  const isSpanish = locale.startsWith('es');
   const [isAnnual, setIsAnnual] = useState(false);
   const searchParams = useSearchParams();
   const refreshSubscription = useRefreshSubscriptionStatus();
