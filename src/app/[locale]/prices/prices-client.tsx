@@ -224,22 +224,19 @@ export default function PricesClient() {
       );
     }
 
+    // Usuario no autenticado → signUp y luego vuelve a /prices
     if (!isSignedIn) {
       return (
         <SignUpButton mode="redirect" forceRedirectUrl="/prices">
-          <div className="w-full cursor-pointer">
-            <Button
-              className="w-full pointer-events-none"
-              onClick={() => handleSelectPlan(paidPlan.id)}
-            >
-              <UserPlus className="w-4 h-4 mr-2" />
-              {paidPlan.cta}
-            </Button>
-          </div>
+          <Button className="w-full" onClick={() => handleSelectPlan(paidPlan.id)}>
+            <UserPlus className="w-4 h-4 mr-2" />
+            {paidPlan.cta}
+          </Button>
         </SignUpButton>
       );
     }
 
+    // Autenticado pero sin URL de Stripe configurada
     if (!checkoutUrl) {
       return (
         <Button className="w-full" disabled>
@@ -248,12 +245,17 @@ export default function PricesClient() {
       );
     }
 
+    // Autenticado con URL de Stripe → enlace directo al checkout
     return (
-      <Button
-        className="w-full"
-        asChild
-        onClick={() => handleSelectPlan(paidPlan.id)}
-      >
+      <Button className="w-full" asChild onClick={() => {
+        handleSelectPlan(paidPlan.id);
+        trackAnalyticsEvent('begin_checkout', {
+          plan: paidPlan.id,
+          billing_period: isAnnual ? 'yearly' : 'monthly',
+          price: getPlanPrice(paidPlan.id, isAnnual),
+          currency: 'USD',
+        });
+      }}>
         <a href={checkoutUrl} target="_blank" rel="noopener noreferrer">
           {paidPlan.cta}
         </a>
