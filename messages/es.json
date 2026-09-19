@@ -52,7 +52,11 @@
     "nextTestimonial": "Siguiente testimonio",
     "creator": "Creator",
     "studio": "Studio",
-    "pro": "Pro"
+    "pro": "Pro",
+    "billedMonthly": "Facturación mensual · activa la facturación anual arriba para ahorrar",
+    "comingSoon": "Próximamente",
+    "monthlyBilling": "Mensual",
+    "yearlyBilling": "Anual"
   },
   "internalLinks": {
     "hubTitle": "Explora la biblioteca de prompts",
@@ -444,7 +448,8 @@
     "proCTA": "Empezar Pro",
     "studioCTA": "Empezar Studio",
     "freeCTA": "Empezar gratis",
-    "chooseHowYouCreate": "Elige cómo creas con IA"
+    "chooseHowYouCreate": "Elige cómo creas con IA",
+    "checkout": "Suscribirse"
   },
   "dashboard": {
     "dashboard": "Panel",

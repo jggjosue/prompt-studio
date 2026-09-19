@@ -35,8 +35,8 @@
     "free": "Free",
     "premium": "Premium",
     "startup": "Startup",
-    "perMonth": "/month",
-    "perYear": "/year",
+    "perMonth": "/mo",
+    "perYear": "/yr",
     "forever": "/forever",
     "buy": "Buy",
     "buyTooltip": "To download the web page files",
@@ -52,7 +52,11 @@
     "nextTestimonial": "Next testimonial",
     "creator": "Creator",
     "studio": "Studio",
-    "pro": "Pro"
+    "pro": "Pro",
+    "billedMonthly": "Billed every month · enable annual billing above to save",
+    "comingSoon": "Coming soon",
+    "monthlyBilling": "Monthly",
+    "yearlyBilling": "Yearly"
   },
   "internalLinks": {
     "hubTitle": "Explore the prompt library",
@@ -444,7 +448,8 @@
     "proCTA": "Start Pro",
     "studioCTA": "Start Studio",
     "freeCTA": "Get started free",
-    "chooseHowYouCreate": "Choose how you create with AI"
+    "chooseHowYouCreate": "Choose how you create with AI",
+    "checkout": "Subscribe"
   },
   "dashboard": {
     "dashboard": "Dashboard",
