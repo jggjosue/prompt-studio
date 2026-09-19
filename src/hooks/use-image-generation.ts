@@ -41,44 +41,71 @@ export function useImageGeneration() {
   }, [openAIKey, replicateKey, vertexKey]);
 
   const generate = useCallback(async (prompt: string, params: ChatParams): Promise<{ result?: ChatMessageResult; error?: string }> => {
-    const provider = (params.provider || imageProvider) as 'openai' | 'fal' | 'google';
-    const key = getApiKey(provider);
-    if (!key && provider === 'fal') return { error: `API key requerida para ${provider}.` };
-    const creditCost = imageVariationPack ? 8.0 : 1.0;
-    if (credits < creditCost) return { error: `Sin créditos. Requiere ${creditCost}.` };
-
-    const openAISize = imageRatio === '9-16' ? '1024x1536' : imageRatio === '16-9' ? '1536x1024' : '1024x1024';
-        let imageOutputUrl = '';
-    let apiError = '';
+    const provider = (params.provider || imageProvider) as string;
+    const requestedModel = params.model || (provider === 'openai' ? 'dall-e-3' : provider === 'fal' ? 'fal-ai/flux/schnell' : 'imagen-4.0-fast-generate-001');
+    const finalPrompt = prompt + buildImageSuffix(params);
 
     try {
-      if (provider === 'openai') {
-                const data = referenceImage
-          ? await generationProviders.openai.editImage(key, prompt + buildImageSuffix(params), referenceImage, params.model || 'gpt-image-1-mini', openAISize)
-          : await generationProviders.openai.image(key, prompt + buildImageSuffix(params), params.model || 'dall-e-3', openAISize);
-        if (e2eMode && prompt.includes('[fail-once]')) return { error: 'Temporary provider failure' };
-        if (data && 'error' in data && data.error) { apiError = data.error; }
-        else { imageOutputUrl = data.data?.[0]?.url || (data.data?.[0]?.b64_json ? `data:image/png;base64,${data.data[0].b64_json}` : ''); }
-      } else if (provider === 'fal' && key) {
-                const response = await fetch(`https://fal.run/${params.model || 'fal-ai/flux/schnell'}`, {
-          method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': key.startsWith('Key ') ? key : `Key ${key}` },
-          body: JSON.stringify({ prompt: prompt + buildImageSuffix(params), image_size: 'square_hd', sync_mode: true })
-        });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const data = await response.json();
-        imageOutputUrl = data.images?.[0]?.url || '';
-      } else if (provider === 'google') {
-                const data = await generationProviders.google.generate(key, prompt + buildImageSuffix(params), params.model || 'gemini-2.5-flash');
-        if (data && 'error' in data && data.error) { apiError = data.error; }
-        else { const text = data.candidates?.[0]?.content?.parts?.[0]?.text; if (text) imageOutputUrl = `data:text/gemini,${encodeURIComponent(text)}`; else apiError = 'No content'; }
-      }
-    } catch (err: any) { apiError = err.message || 'Error contacting provider'; }
+      const jobRes = await fetch('/api/ai/jobs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Idempotency-Key': crypto.randomUUID(),
+        },
+        body: JSON.stringify({
+          kind: 'image',
+          provider,
+          model: requestedModel,
+          input: {
+            prompt: finalPrompt,
+            model: requestedModel,
+          },
+        }),
+      });
 
-    if (apiError || !imageOutputUrl) return { error: apiError || 'Generación de imagen fallida.' };
-    setOutputImageUrl(imageOutputUrl);
-    setCredits(prev => Math.max(0, prev - creditCost));
-    return { result: { imageUrl: imageOutputUrl, creditsUsed: creditCost, provider } };
-  }, [imageProvider, credits, referenceImage, getApiKey]);
+      const jobData = await jobRes.json();
+      if (!jobRes.ok || jobData.error) {
+        const errMsg = typeof jobData.error === 'object' ? jobData.error.message : (jobData.error || 'Fallo al iniciar el trabajo de imagen.');
+        return { error: errMsg };
+      }
+
+      const jobId = jobData.job.id;
+      let completed = false;
+      let attempts = 0;
+      let imageOutputUrl = '';
+
+      while (!completed && attempts < 25) {
+        attempts++;
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        try {
+          const pollRes = await fetch(`/api/ai/jobs/${jobId}`);
+          const pollData = await pollRes.json();
+          if (pollData.error) return { error: pollData.error };
+
+          const status = pollData.job?.status;
+          if (status === 'completed') {
+            const result = pollData.job.result;
+            imageOutputUrl = result?.imageUri || result?.url || result?.output?.[0] || result?.data?.[0]?.url || result?.images?.[0]?.url || '';
+            completed = true;
+          } else if (status === 'failed') {
+            return { error: pollData.job?.lastError || 'El trabajo falló en el servidor.' };
+          }
+        } catch (pollErr: any) {
+          console.warn('Poll error:', pollErr);
+        }
+      }
+
+      if (!imageOutputUrl) return { error: 'Tiempo de espera agotado al generar la imagen.' };
+
+      setOutputImageUrl(imageOutputUrl);
+      if (jobData.credits?.balance !== undefined) {
+        setCredits(jobData.credits.balance);
+      }
+      return { result: { imageUrl: imageOutputUrl, creditsUsed: jobData.job?.creditCost || 1, provider } };
+    } catch (err: any) {
+      return { error: err.message || 'Error al conectar con el servidor.' };
+    }
+  }, [imageProvider, credits]);
 
   return {
     imageProvider, setImageProvider, openAIKey, setOpenAIKey, replicateKey, setReplicateKey,

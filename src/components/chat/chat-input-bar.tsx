@@ -12,7 +12,14 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
 
   const handleSend = () => {
     if (!prompt.trim() || localGenerating) return;
-    generate(prompt.trim(), { ...chat.params, model: selectedMode }, selectedMode);
+    const provider = chat.params.provider || (selectedMode === 'video' ? 'google' : selectedMode === 'project' ? 'google' : 'google');
+    const defaultModel = selectedMode === 'image'
+      ? (provider === 'openai' ? 'dall-e-3' : provider === 'fal' ? 'fal-ai/flux/schnell' : 'imagen-4.0-fast-generate-001')
+      : selectedMode === 'video'
+        ? (provider === 'runway' ? 'gen-3' : 'veo-2.0-generate-001')
+        : (provider === 'openai' ? 'gpt-4o' : provider === 'anthropic' ? 'claude-3-5-sonnet-20240620' : 'gemini-2.5-flash');
+    const model = chat.params.model || defaultModel;
+    generate(prompt.trim(), { ...chat.params, provider, model }, selectedMode);
     setDraftPrompt('');
   };
 

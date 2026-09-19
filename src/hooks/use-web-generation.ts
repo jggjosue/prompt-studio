@@ -20,8 +20,7 @@ export function useWebGeneration() {
 
   const generate = useCallback(async (prompt: string, params: ChatParams): Promise<{ result?: ChatMessageResult; error?: string }> => {
     const provider = (params.provider || webProvider) as string;
-    const creditCost = 2.0;
-    if (credits < creditCost) return { error: `Sin créditos. Requiere ${creditCost}.` };
+    const requestedModel = params.model || (provider === 'openai' ? 'gpt-4o' : provider === 'anthropic' ? 'claude-3-5-sonnet-20240620' : 'gemini-2.5-flash');
 
     const systemInstruction = `You are a premium web developer and designer.
 Generate a fully responsive, visually stunning single-file HTML landing page utilizing Tailwind CSS.
@@ -34,35 +33,76 @@ Requirements:
 - Accent palette: ${params.webColor || webColor}
 - Prompt: ${prompt}`;
 
-        let generatedHTML = '';
-    let apiError = '';
-
     try {
-      if (provider === 'anthropic' && anthropicKey) {
-                const data = await generationProviders.anthropic.chat(anthropicKey, systemInstruction, systemInstruction, params.model || 'claude-3-5-sonnet-20240620');
-        if (data && 'error' in data && data.error) { apiError = data.error; }
-        else { generatedHTML = data.content?.[0]?.text || ''; }
-      } else if (provider === 'openai') {
-                const data = await generationProviders.openai.chat(openAIKey, systemInstruction, systemInstruction, params.model || 'gpt-4o');
-        if (data && 'error' in data && data.error) { apiError = data.error; }
-        else { generatedHTML = data.choices?.[0]?.message?.content || ''; }
-      } else if (provider === 'google') {
-                const data = await generationProviders.google.generate(vertexKey, systemInstruction, params.model || 'gemini-2.5-flash');
-        if (data && 'error' in data && data.error) { apiError = data.error; }
-        else { generatedHTML = data.candidates?.[0]?.content?.parts?.[0]?.text || ''; }
-      }
-    } catch (err: any) { apiError = err.message || 'Error contacting provider'; }
+      const jobRes = await fetch('/api/ai/jobs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Idempotency-Key': crypto.randomUUID(),
+        },
+        body: JSON.stringify({
+          kind: 'project',
+          provider,
+          model: requestedModel,
+          input: {
+            prompt: systemInstruction,
+            model: requestedModel,
+          },
+        }),
+      });
 
-    if (apiError || !generatedHTML) return { error: apiError || 'Generación web fallida.' };
-    let cleanHTML = generatedHTML.trim();
-    if (cleanHTML.startsWith('```html')) cleanHTML = cleanHTML.substring(7);
-    else if (cleanHTML.startsWith('```')) cleanHTML = cleanHTML.substring(3);
-    if (cleanHTML.endsWith('```')) cleanHTML = cleanHTML.substring(0, cleanHTML.length - 3);
-    cleanHTML = cleanHTML.trim();
-    setOutputWebHTML(cleanHTML);
-    setCredits(prev => Math.max(0, prev - creditCost));
-    return { result: { html: cleanHTML, creditsUsed: creditCost, provider } };
-  }, [webProvider, credits, openAIKey, anthropicKey, vertexKey]);
+      const jobData = await jobRes.json();
+      if (!jobRes.ok || jobData.error) {
+        const errMsg = typeof jobData.error === 'object' ? jobData.error.message : (jobData.error || 'Fallo al iniciar el trabajo web.');
+        return { error: errMsg };
+      }
+
+      const jobId = jobData.job.id;
+      let completed = false;
+      let attempts = 0;
+      let generatedHTML = '';
+
+      while (!completed && attempts < 40) {
+        attempts++;
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        try {
+          const pollRes = await fetch(`/api/ai/jobs/${jobId}`);
+          const pollData = await pollRes.json();
+          if (pollData.error) return { error: pollData.error };
+
+          const status = pollData.job?.status;
+          if (status === 'completed') {
+            const result = pollData.job.result;
+            generatedHTML = result?.output || result?.text || result?.html || '';
+            if (!generatedHTML && result?.candidates?.[0]?.content?.parts?.[0]?.text) {
+              generatedHTML = result.candidates[0].content.parts[0].text;
+            }
+            completed = true;
+          } else if (status === 'failed') {
+            return { error: pollData.job?.lastError || 'El trabajo falló en el servidor.' };
+          }
+        } catch (pollErr: any) {
+          console.warn('Poll error:', pollErr);
+        }
+      }
+
+      if (!generatedHTML) return { error: 'Tiempo de espera agotado al generar la página web.' };
+
+      let cleanHTML = generatedHTML.trim();
+      if (cleanHTML.startsWith('```html')) cleanHTML = cleanHTML.substring(7);
+      else if (cleanHTML.startsWith('```')) cleanHTML = cleanHTML.substring(3);
+      if (cleanHTML.endsWith('```')) cleanHTML = cleanHTML.substring(0, cleanHTML.length - 3);
+      cleanHTML = cleanHTML.trim();
+
+      setOutputWebHTML(cleanHTML);
+      if (jobData.credits?.balance !== undefined) {
+        setCredits(jobData.credits.balance);
+      }
+      return { result: { html: cleanHTML, creditsUsed: jobData.job?.creditCost || 2, provider } };
+    } catch (err: any) {
+      return { error: err.message || 'Error al conectar con el servidor.' };
+    }
+  }, [webProvider, credits, webTheme, webColor]);
 
   return {
     webProvider, setWebProvider, openAIKey, setOpenAIKey, anthropicKey, setAnthropicKey,

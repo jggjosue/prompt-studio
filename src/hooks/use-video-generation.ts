@@ -21,44 +21,74 @@ export function useVideoGeneration() {
 
   const generate = useCallback(async (prompt: string, params: ChatParams): Promise<{ result?: ChatMessageResult; error?: string }> => {
     const provider = (params.provider || videoProvider) as string;
-    const creditCost = 3.0;
-    if (credits < creditCost) return { error: `Sin créditos. Requiere ${creditCost}.` };
-
+    const requestedModel = params.model || (provider === 'runway' ? 'gen-3' : 'veo-2.0-generate-001');
     const finalPrompt = prompt + buildVideoSuffix(params);
-        let videoOutputUrl = '';
-    let apiError = '';
 
     try {
-      if (provider === 'runway') {
-                const data = await generationProviders.runway.start(runwayKey, finalPrompt, parseInt(String(params.videoDuration || videoDuration)) || 4);
-        if (data && 'error' in data && data.error) { apiError = data.error; }
-        else {
-          const taskId = data.id;
-          let completed = false; let attempts = 0;
-          while (!completed && attempts < 10) {
-            attempts++;
-            await new Promise(resolve => setTimeout(resolve, 3000));
-            try {
-              const pollData = await generationProviders.runway.poll(runwayKey, taskId);
-              if (pollData && 'error' in pollData && pollData.error) throw new Error(pollData.error);
-              else if (pollData.status === 'SUCCEEDED') { videoOutputUrl = pollData.output?.[0] || ''; completed = true; }
-              else if (pollData.status === 'FAILED') throw new Error(pollData.error || 'Runway task failed');
-            } catch (pollErr: any) { console.warn('Runway poll error:', pollErr); }
-          }
-          if (!videoOutputUrl) throw new Error('Timeout waiting for video generation.');
-        }
-      } else if (provider === 'veo') {
-                const data = await generationProviders.google.video(veoKey, finalPrompt, parseInt(String(params.videoDuration || videoDuration)) || 4, params.model || 'veo-2.0-generate-001');
-        if (data && 'error' in data && data.error) { apiError = data.error; }
-        else { videoOutputUrl = data.videoUri || ''; }
-      }
-    } catch (err: any) { apiError = err.message || 'Error contacting provider'; }
+      const jobRes = await fetch('/api/ai/jobs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Idempotency-Key': crypto.randomUUID(),
+        },
+        body: JSON.stringify({
+          kind: 'video',
+          provider,
+          model: requestedModel,
+          input: {
+            prompt: finalPrompt,
+            model: requestedModel,
+            videoDurationSeconds: parseInt(String(params.videoDuration || videoDuration)) || 4,
+          },
+        }),
+      });
 
-    if (apiError || !videoOutputUrl) return { error: apiError || 'Generación de video fallida.' };
-    setOutputVideoUrl(videoOutputUrl);
-    setCredits(prev => Math.max(0, prev - creditCost));
-    return { result: { videoUrl: videoOutputUrl, creditsUsed: creditCost, provider } };
-  }, [videoProvider, credits, runwayKey, veoKey]);
+      const jobData = await jobRes.json();
+      if (!jobRes.ok || jobData.error) {
+        const errMsg = typeof jobData.error === 'object' ? jobData.error.message : (jobData.error || 'Fallo al iniciar el trabajo de video.');
+        return { error: errMsg };
+      }
+
+      const jobId = jobData.job.id;
+      let completed = false;
+      let attempts = 0;
+      let videoOutputUrl = '';
+
+      while (!completed && attempts < 40) {
+        attempts++;
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        try {
+          const pollRes = await fetch(`/api/ai/jobs/${jobId}`);
+          const pollData = await pollRes.json();
+          if (pollData.error) return { error: pollData.error };
+
+          const status = pollData.job?.status;
+          if (status === 'completed') {
+            const result = pollData.job.result;
+            videoOutputUrl = result?.videoUri || result?.output?.[0] || result?.videoUrl || '';
+            if (videoOutputUrl && !videoOutputUrl.startsWith('http') && !videoOutputUrl.startsWith('data:')) {
+              videoOutputUrl = `data:video/mp4;base64,${videoOutputUrl}`;
+            }
+            completed = true;
+          } else if (status === 'failed') {
+            return { error: pollData.job?.lastError || 'El trabajo falló en el servidor.' };
+          }
+        } catch (pollErr: any) {
+          console.warn('Poll error:', pollErr);
+        }
+      }
+
+      if (!videoOutputUrl) return { error: 'Tiempo de espera agotado al generar el video.' };
+
+      setOutputVideoUrl(videoOutputUrl);
+      if (jobData.credits?.balance !== undefined) {
+        setCredits(jobData.credits.balance);
+      }
+      return { result: { videoUrl: videoOutputUrl, creditsUsed: jobData.job?.creditCost || 3, provider } };
+    } catch (err: any) {
+      return { error: err.message || 'Error al conectar con el servidor.' };
+    }
+  }, [videoProvider, credits, videoDuration]);
 
   return {
     videoProvider, setVideoProvider, runwayKey, setRunwayKey, veoKey, setVeoKey, credits, setCredits,

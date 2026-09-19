@@ -1,3 +1,5 @@
+import { describe, it } from 'node:test';
+import assert from 'node:assert';
 import { estimateAICredits, type CreditEstimateInput, getAIModelConfig, AI_MODEL_CONFIG } from '../../src/lib/ai-credit-config';
 
 describe('AI Credit Estimator', () => {
@@ -9,8 +11,8 @@ describe('AI Credit Estimator', () => {
       input: 'A simple prompt',
     };
     const estimate = estimateAICredits(input);
-    expect(estimate.credits).toBeGreaterThanOrEqual(1);
-    expect(estimate.estimatedApiCostUsd).toBeGreaterThanOrEqual(0);
+    assert.ok(estimate.credits >= 1);
+    assert.ok(estimate.estimatedApiCostUsd >= 0);
   });
 
   it('calculates minimum credits for expensive Gemini models', () => {
@@ -21,7 +23,7 @@ describe('AI Credit Estimator', () => {
       input: 'A complex prompt for pro',
     };
     const estimate = estimateAICredits(input);
-    expect(estimate.credits).toBeGreaterThanOrEqual(3);
+    assert.ok(estimate.credits >= 3);
   });
 
   it('calculates minimum credits for Claude models', () => {
@@ -32,7 +34,7 @@ describe('AI Credit Estimator', () => {
       input: 'A complex prompt for claude',
     };
     const estimate = estimateAICredits(input);
-    expect(estimate.credits).toBeGreaterThanOrEqual(8);
+    assert.ok(estimate.credits >= 8);
   });
 
   it('calculates increased credits for large context', () => {
@@ -50,8 +52,8 @@ describe('AI Credit Estimator', () => {
     const smallEstimate = estimateAICredits(smallInput);
     
     // The large context should result in equal or higher credit cost
-    expect(largeEstimate.credits).toBeGreaterThanOrEqual(smallEstimate.credits);
-    expect(largeEstimate.estimatedApiCostUsd).toBeGreaterThan(smallEstimate.estimatedApiCostUsd);
+    assert.ok(largeEstimate.credits >= smallEstimate.credits);
+    assert.ok(largeEstimate.estimatedApiCostUsd > smallEstimate.estimatedApiCostUsd);
   });
 
   it('throws for unsupported models', () => {
@@ -61,6 +63,6 @@ describe('AI Credit Estimator', () => {
       kind: 'project',
       input: 'Test',
     };
-    expect(() => estimateAICredits(input)).toThrow('MODEL_NOT_ALLOWED');
+    assert.throws(() => estimateAICredits(input), /MODEL_NOT_ALLOWED/);
   });
 });
