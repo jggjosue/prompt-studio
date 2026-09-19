@@ -1,9 +1,8 @@
 'use client';
 
 import type { ChatMessageResult, ChatParams } from '@/lib/chat-types';
-import { generationProviders } from '@/lib/generation/provider-adapters';
+import { safeJson, extractErrorMessage } from '@/lib/safe-json';
 import { useCallback, useState } from 'react';
-
 
 export function useVideoGeneration() {
   const [videoProvider, setVideoProvider] = useState<'runway' | 'veo' | 'anthropic' | 'fal' | 'google'>('runway');
@@ -43,13 +42,14 @@ export function useVideoGeneration() {
         }),
       });
 
-      const jobData = await jobRes.json();
-      if (!jobRes.ok || jobData.error) {
-        const errMsg = typeof jobData.error === 'object' ? jobData.error.message : (jobData.error || 'Fallo al iniciar el trabajo de video.');
-        return { error: errMsg };
+      const jobData = await safeJson(jobRes);
+      if (!jobRes.ok || !jobData || jobData.error) {
+        return { error: extractErrorMessage(jobData, 'Fallo al iniciar el trabajo de video.') };
       }
 
-      const jobId = jobData.job.id;
+      const jobId = (jobData.job as Record<string, unknown>)?.id as string | undefined;
+      if (!jobId) return { error: 'El servidor no devolvió un identificador de trabajo.' };
+
       let completed = false;
       let attempts = 0;
       let videoOutputUrl = '';
@@ -59,21 +59,28 @@ export function useVideoGeneration() {
         await new Promise(resolve => setTimeout(resolve, 3000));
         try {
           const pollRes = await fetch(`/api/ai/jobs/${jobId}`);
-          const pollData = await pollRes.json();
-          if (pollData.error) return { error: pollData.error };
+          const pollData = await safeJson(pollRes);
+          if (!pollData) continue;
+          if (pollData.error) return { error: extractErrorMessage(pollData, 'Error al consultar el estado del trabajo.') };
 
-          const status = pollData.job?.status;
+          const job = pollData.job as Record<string, unknown> | undefined;
+          const status = job?.status as string | undefined;
           if (status === 'completed') {
-            const result = pollData.job.result;
-            videoOutputUrl = result?.videoUri || result?.output?.[0] || result?.videoUrl || '';
+            const result = job?.result as Record<string, unknown> | undefined;
+            videoOutputUrl = (
+              result?.videoUri ||
+              (result?.output as string[] | undefined)?.[0] ||
+              result?.videoUrl ||
+              ''
+            ) as string;
             if (videoOutputUrl && !videoOutputUrl.startsWith('http') && !videoOutputUrl.startsWith('data:')) {
               videoOutputUrl = `data:video/mp4;base64,${videoOutputUrl}`;
             }
             completed = true;
           } else if (status === 'failed') {
-            return { error: pollData.job?.lastError || 'El trabajo falló en el servidor.' };
+            return { error: (job?.lastError as string | undefined) || 'El trabajo falló en el servidor.' };
           }
-        } catch (pollErr: any) {
+        } catch (pollErr: unknown) {
           console.warn('Poll error:', pollErr);
         }
       }
@@ -81,12 +88,12 @@ export function useVideoGeneration() {
       if (!videoOutputUrl) return { error: 'Tiempo de espera agotado al generar el video.' };
 
       setOutputVideoUrl(videoOutputUrl);
-      if (jobData.credits?.balance !== undefined) {
-        setCredits(jobData.credits.balance);
-      }
-      return { result: { videoUrl: videoOutputUrl, creditsUsed: jobData.job?.creditCost || 3, provider } };
-    } catch (err: any) {
-      return { error: err.message || 'Error al conectar con el servidor.' };
+      const creditsBalance = (jobData.credits as Record<string, unknown> | undefined)?.balance;
+      if (typeof creditsBalance === 'number') setCredits(creditsBalance);
+      const creditCost = (jobData.job as Record<string, unknown> | undefined)?.creditCost;
+      return { result: { videoUrl: videoOutputUrl, creditsUsed: typeof creditCost === 'number' ? creditCost : 3, provider } };
+    } catch (err: unknown) {
+      return { error: err instanceof Error ? err.message : 'Error al conectar con el servidor.' };
     }
   }, [videoProvider, credits, videoDuration]);
 

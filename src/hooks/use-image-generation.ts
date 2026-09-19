@@ -1,10 +1,8 @@
 'use client';
 
 import type { ChatMessageResult, ChatParams } from '@/lib/chat-types';
-import { generationProviders } from '@/lib/generation/provider-adapters';
+import { safeJson, extractErrorMessage } from '@/lib/safe-json';
 import { useCallback, useState } from 'react';
-
-const e2eMode = process.env.NEXT_PUBLIC_E2E_TEST_MODE === 'true';
 
 export function useImageGeneration() {
   const [imageProvider, setImageProvider] = useState<'openai' | 'fal' | 'google'>('openai');
@@ -12,7 +10,6 @@ export function useImageGeneration() {
   const [replicateKey, setReplicateKey] = useState('');
   const [vertexKey, setVertexKey] = useState('');
   const [credits, setCredits] = useState(12.0);
-  // image params
   const [imageStyle, setImageStyle] = useState('cinematic');
   const [imageRatio, setImageRatio] = useState('1-1');
   const [imageRes, setImageRes] = useState('1k');
@@ -29,20 +26,16 @@ export function useImageGeneration() {
   const [imageVariationPack, setImageVariationPack] = useState(false);
   const [referenceImage, setReferenceImage] = useState('');
   const [referenceInstructions, setReferenceInstructions] = useState('');
-  // output
   const [outputImageUrl, setOutputImageUrl] = useState('');
   const [outputImageVariations, setOutputImageVariations] = useState<Array<{ label: string; url: string }>>([]);
 
-  const getApiKey = useCallback((provider: string) => {
-    if (provider === 'openai') return openAIKey;
-    if (provider === 'fal') return replicateKey;
-    if (provider === 'google') return vertexKey;
-    return '';
-  }, [openAIKey, replicateKey, vertexKey]);
-
   const generate = useCallback(async (prompt: string, params: ChatParams): Promise<{ result?: ChatMessageResult; error?: string }> => {
     const provider = (params.provider || imageProvider) as string;
-    const requestedModel = params.model || (provider === 'openai' ? 'dall-e-3' : provider === 'fal' ? 'fal-ai/flux/schnell' : 'imagen-4.0-fast-generate-001');
+    const requestedModel = params.model || (
+      provider === 'openai' ? 'dall-e-3' :
+      provider === 'fal' ? 'fal-ai/flux/schnell' :
+      'imagen-4.0-fast-generate-001'
+    );
     const finalPrompt = prompt + buildImageSuffix(params);
 
     try {
@@ -56,20 +49,18 @@ export function useImageGeneration() {
           kind: 'image',
           provider,
           model: requestedModel,
-          input: {
-            prompt: finalPrompt,
-            model: requestedModel,
-          },
+          input: { prompt: finalPrompt, model: requestedModel },
         }),
       });
 
-      const jobData = await jobRes.json();
-      if (!jobRes.ok || jobData.error) {
-        const errMsg = typeof jobData.error === 'object' ? jobData.error.message : (jobData.error || 'Fallo al iniciar el trabajo de imagen.');
-        return { error: errMsg };
+      const jobData = await safeJson(jobRes);
+      if (!jobRes.ok || !jobData || jobData.error) {
+        return { error: extractErrorMessage(jobData, 'Fallo al iniciar el trabajo de imagen.') };
       }
 
-      const jobId = jobData.job.id;
+      const jobId = (jobData.job as Record<string, unknown>)?.id as string | undefined;
+      if (!jobId) return { error: 'El servidor no devolvió un identificador de trabajo.' };
+
       let completed = false;
       let attempts = 0;
       let imageOutputUrl = '';
@@ -79,18 +70,27 @@ export function useImageGeneration() {
         await new Promise(resolve => setTimeout(resolve, 2000));
         try {
           const pollRes = await fetch(`/api/ai/jobs/${jobId}`);
-          const pollData = await pollRes.json();
-          if (pollData.error) return { error: pollData.error };
+          const pollData = await safeJson(pollRes);
+          if (!pollData) continue; // empty body, keep polling
+          if (pollData.error) return { error: extractErrorMessage(pollData, 'Error al consultar el estado del trabajo.') };
 
-          const status = pollData.job?.status;
+          const job = pollData.job as Record<string, unknown> | undefined;
+          const status = job?.status as string | undefined;
           if (status === 'completed') {
-            const result = pollData.job.result;
-            imageOutputUrl = result?.imageUri || result?.url || result?.output?.[0] || result?.data?.[0]?.url || result?.images?.[0]?.url || '';
+            const result = job?.result as Record<string, unknown> | undefined;
+            imageOutputUrl = (
+              result?.imageUri ||
+              result?.url ||
+              (result?.output as string[] | undefined)?.[0] ||
+              (result?.data as Array<{ url: string }> | undefined)?.[0]?.url ||
+              (result?.images as Array<{ url: string }> | undefined)?.[0]?.url ||
+              ''
+            ) as string;
             completed = true;
           } else if (status === 'failed') {
-            return { error: pollData.job?.lastError || 'El trabajo falló en el servidor.' };
+            return { error: (job?.lastError as string | undefined) || 'El trabajo falló en el servidor.' };
           }
-        } catch (pollErr: any) {
+        } catch (pollErr: unknown) {
           console.warn('Poll error:', pollErr);
         }
       }
@@ -98,12 +98,12 @@ export function useImageGeneration() {
       if (!imageOutputUrl) return { error: 'Tiempo de espera agotado al generar la imagen.' };
 
       setOutputImageUrl(imageOutputUrl);
-      if (jobData.credits?.balance !== undefined) {
-        setCredits(jobData.credits.balance);
-      }
-      return { result: { imageUrl: imageOutputUrl, creditsUsed: jobData.job?.creditCost || 1, provider } };
-    } catch (err: any) {
-      return { error: err.message || 'Error al conectar con el servidor.' };
+      const creditsBalance = (jobData.credits as Record<string, unknown> | undefined)?.balance;
+      if (typeof creditsBalance === 'number') setCredits(creditsBalance);
+      const creditCost = (jobData.job as Record<string, unknown> | undefined)?.creditCost;
+      return { result: { imageUrl: imageOutputUrl, creditsUsed: typeof creditCost === 'number' ? creditCost : 1, provider } };
+    } catch (err: unknown) {
+      return { error: err instanceof Error ? err.message : 'Error al conectar con el servidor.' };
     }
   }, [imageProvider, credits]);
 

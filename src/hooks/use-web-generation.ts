@@ -1,9 +1,8 @@
 'use client';
 
 import type { ChatMessageResult, ChatParams } from '@/lib/chat-types';
-import { generationProviders } from '@/lib/generation/provider-adapters';
+import { safeJson, extractErrorMessage } from '@/lib/safe-json';
 import { useCallback, useState } from 'react';
-
 
 export function useWebGeneration() {
   const [webProvider, setWebProvider] = useState<'anthropic' | 'openai' | 'google'>('openai');
@@ -20,7 +19,11 @@ export function useWebGeneration() {
 
   const generate = useCallback(async (prompt: string, params: ChatParams): Promise<{ result?: ChatMessageResult; error?: string }> => {
     const provider = (params.provider || webProvider) as string;
-    const requestedModel = params.model || (provider === 'openai' ? 'gpt-4o' : provider === 'anthropic' ? 'claude-3-5-sonnet-20240620' : 'gemini-2.5-flash');
+    const requestedModel = params.model || (
+      provider === 'openai' ? 'gpt-4o' :
+      provider === 'anthropic' ? 'claude-3-5-sonnet-20240620' :
+      'gemini-2.5-flash'
+    );
 
     const systemInstruction = `You are a premium web developer and designer.
 Generate a fully responsive, visually stunning single-file HTML landing page utilizing Tailwind CSS.
@@ -44,20 +47,18 @@ Requirements:
           kind: 'project',
           provider,
           model: requestedModel,
-          input: {
-            prompt: systemInstruction,
-            model: requestedModel,
-          },
+          input: { prompt: systemInstruction, model: requestedModel },
         }),
       });
 
-      const jobData = await jobRes.json();
-      if (!jobRes.ok || jobData.error) {
-        const errMsg = typeof jobData.error === 'object' ? jobData.error.message : (jobData.error || 'Fallo al iniciar el trabajo web.');
-        return { error: errMsg };
+      const jobData = await safeJson(jobRes);
+      if (!jobRes.ok || !jobData || jobData.error) {
+        return { error: extractErrorMessage(jobData, 'Fallo al iniciar el trabajo web.') };
       }
 
-      const jobId = jobData.job.id;
+      const jobId = (jobData.job as Record<string, unknown>)?.id as string | undefined;
+      if (!jobId) return { error: 'El servidor no devolvió un identificador de trabajo.' };
+
       let completed = false;
       let attempts = 0;
       let generatedHTML = '';
@@ -67,27 +68,32 @@ Requirements:
         await new Promise(resolve => setTimeout(resolve, 3000));
         try {
           const pollRes = await fetch(`/api/ai/jobs/${jobId}`);
-          const pollData = await pollRes.json();
-          if (pollData.error) return { error: pollData.error };
+          const pollData = await safeJson(pollRes);
+          if (!pollData) continue;
+          if (pollData.error) return { error: extractErrorMessage(pollData, 'Error al consultar el estado del trabajo.') };
 
-          const status = pollData.job?.status;
+          const job = pollData.job as Record<string, unknown> | undefined;
+          const status = job?.status as string | undefined;
           if (status === 'completed') {
-            const result = pollData.job.result;
-            generatedHTML = result?.output || result?.text || result?.html || '';
-            if (!generatedHTML && result?.candidates?.[0]?.content?.parts?.[0]?.text) {
-              generatedHTML = result.candidates[0].content.parts[0].text;
+            const result = job?.result as Record<string, unknown> | undefined;
+            generatedHTML = (result?.output || result?.text || result?.html || '') as string;
+            // Fallback for Gemini candidates format
+            if (!generatedHTML) {
+              const candidates = result?.candidates as Array<{ content: { parts: Array<{ text: string }> } }> | undefined;
+              generatedHTML = candidates?.[0]?.content?.parts?.[0]?.text || '';
             }
             completed = true;
           } else if (status === 'failed') {
-            return { error: pollData.job?.lastError || 'El trabajo falló en el servidor.' };
+            return { error: (job?.lastError as string | undefined) || 'El trabajo falló en el servidor.' };
           }
-        } catch (pollErr: any) {
+        } catch (pollErr: unknown) {
           console.warn('Poll error:', pollErr);
         }
       }
 
       if (!generatedHTML) return { error: 'Tiempo de espera agotado al generar la página web.' };
 
+      // Strip markdown fences if present
       let cleanHTML = generatedHTML.trim();
       if (cleanHTML.startsWith('```html')) cleanHTML = cleanHTML.substring(7);
       else if (cleanHTML.startsWith('```')) cleanHTML = cleanHTML.substring(3);
@@ -95,12 +101,12 @@ Requirements:
       cleanHTML = cleanHTML.trim();
 
       setOutputWebHTML(cleanHTML);
-      if (jobData.credits?.balance !== undefined) {
-        setCredits(jobData.credits.balance);
-      }
-      return { result: { html: cleanHTML, creditsUsed: jobData.job?.creditCost || 2, provider } };
-    } catch (err: any) {
-      return { error: err.message || 'Error al conectar con el servidor.' };
+      const creditsBalance = (jobData.credits as Record<string, unknown> | undefined)?.balance;
+      if (typeof creditsBalance === 'number') setCredits(creditsBalance);
+      const creditCost = (jobData.job as Record<string, unknown> | undefined)?.creditCost;
+      return { result: { html: cleanHTML, creditsUsed: typeof creditCost === 'number' ? creditCost : 2, provider } };
+    } catch (err: unknown) {
+      return { error: err instanceof Error ? err.message : 'Error al conectar con el servidor.' };
     }
   }, [webProvider, credits, webTheme, webColor]);
 
