@@ -2,10 +2,10 @@ import { stripe, extractSubscriptionMeta } from '@/lib/stripe';
 import type { StripeUserMetadata } from '@/lib/stripe';
 import { auth, clerkClient } from '@clerk/nextjs/server';
 import type Stripe from 'stripe';
-import { planAtLeast } from '@/lib/subscription-plans';
+import { planAtLeast, normalizeExistingPlan } from '@/lib/subscription-plans';
 
 export type ServerSubscriptionStatus = {
-  plan: 'free' | 'premium' | 'pro' | 'startup';
+  plan: 'free' | 'creator' | 'pro' | 'studio';
   status: StripeUserMetadata['stripeStatus'] | null;
   currentPeriodEnd: number | null;
   billingCycle: 'monthly' | 'annual' | null;
@@ -20,8 +20,8 @@ const FREE: ServerSubscriptionStatus = {
   purchasedPages: [],
 };
 
-const DEV_PREMIUM: ServerSubscriptionStatus = {
-  plan: 'premium',
+const DEV_CREATOR: ServerSubscriptionStatus = {
+  plan: 'creator',
   status: 'active',
   currentPeriodEnd: null,
   billingCycle: 'monthly',
@@ -36,8 +36,8 @@ const DEV_PRO: ServerSubscriptionStatus = {
   purchasedPages: [],
 };
 
-const DEV_STARTUP: ServerSubscriptionStatus = {
-  plan: 'startup',
+const DEV_STUDIO: ServerSubscriptionStatus = {
+  plan: 'studio',
   status: 'active',
   currentPeriodEnd: null,
   billingCycle: 'monthly',
@@ -68,25 +68,25 @@ export async function getServerSubscriptionStatus(): Promise<ServerSubscriptionS
   const user = await client.users.getUser(userId);
   const meta = user.privateMetadata as Partial<StripeUserMetadata> & { purchasedPages?: string[] };
   const userEmail = user.emailAddresses[0]?.emailAddress?.trim().toLowerCase();
-  const premiumJoEmail = process.env.PROMPT_STUDIO_PREMIUM_JO
+  const creatorJoEmail = process.env.PROMPT_STUDIO_PREMIUM_JO
     ?.trim()
     .toLowerCase();
-  const startupJoEmail = process.env.PROMPT_STUDIO_STARTUP_JO
+  const proJoEmail = process.env.PROMPT_STUDIO_PRO_JO?.trim().toLowerCase();
+  const studioJoEmail = process.env.PROMPT_STUDIO_STARTUP_JO
     ?.trim()
     .toLowerCase();
   const purchasedPages = Array.isArray(meta.purchasedPages) ? meta.purchasedPages : [];
 
-  if (premiumJoEmail && userEmail === premiumJoEmail) {
-    return { ...DEV_PREMIUM, purchasedPages };
+  if (creatorJoEmail && userEmail === creatorJoEmail) {
+    return { ...DEV_CREATOR, purchasedPages };
   }
 
-  const proJoEmail = process.env.PROMPT_STUDIO_PRO_JO?.trim().toLowerCase();
-    if (proJoEmail && userEmail === proJoEmail) {
-      return { ...DEV_PRO, purchasedPages };
-    }
+  if (proJoEmail && userEmail === proJoEmail) {
+    return { ...DEV_PRO, purchasedPages };
+  }
 
-    if (startupJoEmail && userEmail === startupJoEmail) {
-    return { ...DEV_STARTUP, purchasedPages };
+  if (studioJoEmail && userEmail === studioJoEmail) {
+    return { ...DEV_STUDIO, purchasedPages };
   }
 
   if (meta.stripeCustomerId) {
@@ -98,11 +98,14 @@ export async function getServerSubscriptionStatus(): Promise<ServerSubscriptionS
 
     if (subscriptions.length === 0) return { ...FREE, purchasedPages };
 
+    const rawPlan = meta.stripePlan ?? 'creator';
+    const normalizedPlan = normalizeExistingPlan(rawPlan);
+
     return toStatus(
       extractSubscriptionMeta(
         subscriptions[0],
         meta.stripeCustomerId,
-        meta.stripePlan ?? 'premium'
+        normalizedPlan
       ),
       purchasedPages
     );
@@ -127,7 +130,7 @@ export async function getServerSubscriptionStatus(): Promise<ServerSubscriptionS
     const freshMeta = extractSubscriptionMeta(
       subscriptions[0] as Stripe.Subscription,
       customer.id,
-      'premium'
+      'creator'
     );
 
     await client.users.updateUserMetadata(userId, {
@@ -147,34 +150,16 @@ export async function getServerSubscriptionStatus(): Promise<ServerSubscriptionS
 }
 
 export function hasDownloadPlan(status: ServerSubscriptionStatus): boolean {
-  return planAtLeast(status.plan, 'premium');
+  return planAtLeast(status.plan, 'creator');
 }
 
-/**
- * Constructor visual de componentes (`/component-builder`).
- *
- * Mismo umbral que las descargas y que las rutas que ya lo aplicaban
- * (`api/component-personalization`, `api/component-export/*`): el backend
- * respondía 403 a quien no paga, pero la página se servía a cualquiera. Aquí
- * queda el umbral en un solo sitio para que página y API no se separen.
- */
 export function hasComponentBuilderPlan(status: ServerSubscriptionStatus): boolean {
-  return planAtLeast(status.plan, 'premium');
+  return planAtLeast(status.plan, 'creator');
 }
 
-/**
- * Publicar una landing en dominio propio y usar brand kits.
- *
- * Es el diferenciador del tramo `pro`. Hasta ahora ambas cosas estaban
- * disponibles sin ninguna comprobación de plan, así que **activar esta puerta
- * quita a los usuarios actuales un acceso que hoy tienen**. Por eso está detrás
- * de una bandera que arranca desactivada: desplegar el código no cambia nada
- * hasta que se pone `PRO_PLAN_ENFORCED=1`.
- */
 export function hasPublishingPlan(status: ServerSubscriptionStatus): boolean {
   if (!PRO_PLAN_ENFORCED) return true;
   return planAtLeast(status.plan, 'pro');
 }
 
-/** Puerta del tramo `pro`. Desactivada salvo que se pida explícitamente. */
 export const PRO_PLAN_ENFORCED = process.env.PRO_PLAN_ENFORCED === '1';

@@ -34,21 +34,21 @@ export const INTERNAL_LINK_NODES: InternalLinkNode[] = [
     parent: '/',
   },
   {
-    path: '/generate-webs',
+    path: '/generate',
     rank: 0.88,
     tier: 1,
     labelKey: 'nav.createWeb',
     parent: '/',
   },
   {
-    path: '/generate-images',
+    path: '/generate',
     rank: 0.88,
     tier: 1,
     labelKey: 'nav.generateImages',
     parent: '/',
   },
   {
-    path: '/generate-videos',
+    path: '/generate',
     rank: 0.88,
     tier: 1,
     labelKey: 'nav.generateVideos',
@@ -189,19 +189,15 @@ const NODE_BY_PATH = new Map(
 
 /** Enlaces editoriales según la siguiente intención útil del visitante. */
 const INTENT_RELATED_PATHS: Record<string, string[]> = {
-  '/': ['/image-prompts', '/video-prompts', '/landing-pages', '/generate-images', '/generate-videos', '/generate-webs'],
-  '/prompts': ['/image-prompts', '/video-prompts', '/generate-images', '/generate-videos'],
-  '/image-prompts': ['/generate-images', '/image-tags', '/prompts'],
-  '/image-tags': ['/image-prompts', '/generate-images'],
-  '/generate-images': ['/image-prompts', '/image-tags', '/prompts'],
-  '/video-prompts': ['/generate-videos', '/video-tags', '/prompts'],
-  '/video-tags': ['/video-prompts', '/generate-videos'],
-  '/generate-videos': ['/video-prompts', '/video-tags', '/prompts'],
-  '/landing-pages': ['/generate-webs', '/web-tags', '/component-builder', '/component-kits'],
-  '/web-tags': ['/landing-pages', '/generate-webs', '/component-builder'],
-  '/generate-webs': ['/landing-pages', '/web-tags', '/component-builder', '/component-kits'],
-  '/component-builder': ['/component-kits', '/landing-pages', '/generate-webs'],
-  '/component-kits': ['/component-builder', '/landing-pages', '/generate-webs'],
+  '/': ['/image-prompts', '/video-prompts', '/landing-pages', '/generate'],
+  '/prompts': ['/image-prompts', '/video-prompts', '/generate'],
+  '/image-prompts': ['/generate', '/image-tags', '/prompts'],
+  '/image-tags': ['/image-prompts', '/generate'],
+  '/generate': ['/image-prompts', '/image-tags', '/prompts', '/video-prompts', '/video-tags', '/landing-pages', '/web-tags', '/component-builder', '/component-kits'],
+  '/video-prompts': ['/generate', '/video-tags', '/prompts'],
+  '/video-tags': ['/video-prompts', '/generate'],
+  '/landing-pages': ['/generate', '/web-tags', '/component-builder', '/component-kits'],
+  '/web-tags': ['/landing-pages', '/generate', '/component-builder'],
 };
 
 /** Hubs de primer nivel (máxima autoridad desde /). */

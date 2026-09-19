@@ -16,8 +16,9 @@ export type AccessRequestResult = true | false | 'pending';
 
 function stripeGrantsMembership(plan: string, required: ContentMembership): boolean {
   if (required === 'free') return true;
-  if (plan === 'startup') return true;
-  if (required === 'premium') return plan === 'premium';
+  if (plan === 'studio') return true;
+  if (required === 'creator') return plan === 'creator' || plan === 'pro' || plan === 'studio';
+  if (required === 'pro') return plan === 'pro' || plan === 'studio';
   return false;
 }
 
@@ -26,7 +27,7 @@ export function useMembershipAccess() {
   const { plan, ready } = useStripeSubscription();
   const router = useRouter();
 
-  const hasPaidPlan = plan === 'premium' || plan === 'startup';
+  const hasPaidPlan = plan === 'creator' || plan === 'pro' || plan === 'studio';
 
   const canAccessMembership = useCallback(
     (membership?: string) => {

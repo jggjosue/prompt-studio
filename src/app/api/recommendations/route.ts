@@ -16,8 +16,8 @@ export async function GET(){const{userId}=await auth();if(!userId)return NextRes
   ...pages.slice(0,180).map(item=>({id:item.id,kind:'template' as const,title:item.title,description:item.description.slice(0,150),href:`/landing-pages/${item.demoUrl}`,tags:[...item.tags,...item.stack,'web'],imageUrl:item.imageUrl})),
   ...components.map(item=>({id:item.id,kind:'component' as const,title:item.name.es,description:item.description.es,href:`/${item.kind}-components`,tags:[...item.tags,...item.stack,item.kind]})),
   {id:'model-google',kind:'model',title:'Gemini',description:'Recomendado para generación multimodal y optimización estructurada.',href:'/prompts/nano-banana-pro',tags:['image','project','google'],provider:'google'},
-  {id:'model-openai',kind:'model',title:'OpenAI',description:'Recomendado para imágenes y respuestas estructuradas.',href:'/generate-images',tags:['image','project','openai'],provider:'openai'},
-  {id:'model-runway',kind:'model',title:'Runway',description:'Recomendado para flujos de generación de video.',href:'/generate-videos',tags:['video','runway'],provider:'runway'},
+  {id:'model-openai',kind:'model',title:'OpenAI',description:'Recomendado para imágenes y respuestas estructuradas.',href:'/generate',tags:['image','project','openai'],provider:'openai'},
+  {id:'model-runway',kind:'model',title:'Runway',description:'Recomendado para flujos de generación de video.',href:'/generate',tags:['video','runway'],provider:'runway'},
  ];
  const recommendations=rankRecommendations(candidates,signals,12);const latest=jobs[0];
  const continueItem=latest?{kind:'continue',title:`Continúa tu generación de ${latest.kind}`,description:latest.status==='completed'?'Revisa el resultado, crea una variante o valora su calidad.':'Consulta el progreso y reintenta si fuera necesario.',href:'/dashboard/generations',reason:`Tu actividad más reciente fue con ${latest.provider}.`}:null;

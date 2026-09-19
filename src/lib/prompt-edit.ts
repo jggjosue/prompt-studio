@@ -1,4 +1,4 @@
-export const PROMPT_EDIT_PATH = '/generate-images';
+export const PROMPT_EDIT_PATH = '/generate';
 
 /** Set to true when the prompt editor route should be available. */
 export const PROMPT_EDIT_ENABLED = true;

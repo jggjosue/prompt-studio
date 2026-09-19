@@ -1,13 +1,5 @@
 import Stripe from 'stripe';
 
-/**
- * El cliente se construye en el primer uso, no al importar el módulo.
- *
- * Construirlo arriba rompía el build: `next build` importa cada módulo de ruta
- * para recolectar datos de página, y Stripe lanza «Neither apiKey nor
- * config.authenticator provided» con clave vacía. Un secreto ausente debe
- * fallar en la llamada que lo necesita, no impedir que la aplicación compile.
- */
 let cliente: Stripe | null = null;
 
 function instancia(): Stripe {
@@ -29,7 +21,7 @@ export const stripe = new Proxy({} as Stripe, {
 export type StripeUserMetadata = {
   stripeCustomerId: string;
   stripeSubscriptionId: string;
-  stripePlan: 'premium' | 'pro' | 'startup';
+  stripePlan: 'free' | 'creator' | 'pro' | 'studio';
   stripeStatus: 'active' | 'canceled' | 'past_due' | 'trialing' | 'unpaid';
   stripeCurrentPeriodEnd: number;
   stripeBillingCycle: 'monthly' | 'annual';
@@ -40,7 +32,7 @@ type StripeSubCompat = Stripe.Subscription & { current_period_end: number };
 export function extractSubscriptionMeta(
   sub: Stripe.Subscription,
   customerId: string,
-  plan: 'premium' | 'pro' | 'startup' = 'premium'
+  plan: 'free' | 'creator' | 'pro' | 'studio' = 'creator'
 ): StripeUserMetadata {
   const interval = sub.items.data[0]?.price?.recurring?.interval;
   return {
@@ -52,3 +44,12 @@ export function extractSubscriptionMeta(
     stripeBillingCycle: interval === 'year' ? 'annual' : 'monthly',
   };
 }
+
+/**
+ * Planes legacy mapeados a sus equivalentes actuales.
+ * Se usa para migración de suscriptores existentes.
+ */
+export const LEGACY_PLAN_MAP: Record<string, 'free' | 'creator' | 'pro' | 'studio'> = {
+  premium: 'creator',
+  startup: 'studio',
+};

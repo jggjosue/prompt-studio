@@ -58,7 +58,7 @@ export default async function DashboardLayout({
   // const navItems = [
   //   { href: '/dashboard', icon: <LayoutGrid className="h-4 w-4" />, label: t('dashboard') },
   //   { href: '/dashboard/analytics', icon: <LineChart className="h-4 w-4" />, label: t('analytics') },
-  //   { href: '/generate-images', icon: <Clapperboard className="h-4 w-4" />, label: t('create') },
+  //   { href: '/generate', icon: <Clapperboard className="h-4 w-4" />, label: t('create') },
   //   { href: '/dashboard/creations', icon: <Image className="h-4 w-4" />, label: t('myCreations'), badge: '5' },
   //   { href: '/dashboard/favorites', icon: <Heart className="h-4 w-4" />, label: t('favorites') },
   // ];

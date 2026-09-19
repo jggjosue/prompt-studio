@@ -35,7 +35,7 @@ export function DashboardMobileNav({
   const links = isPremiumJoAdmin ? [
     // { href: '/dashboard', label: t('dashboard'), icon: LayoutGrid },
     // { href: '/dashboard/analytics', label: t('analytics'), icon: LineChart },
-    // { href: '/generate-images', label: t('create'), icon: Clapperboard },
+    // { href: '/generate', label: t('create'), icon: Clapperboard },
     // { href: '/dashboard/creations', label: t('creations'), icon: Image },
     // { href: '/dashboard/favorites', label: t('favorites'), icon: Heart },
     { href: '/dashboard/profile', label: t('profile'), icon: UserCircle },

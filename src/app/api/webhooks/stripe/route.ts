@@ -34,7 +34,7 @@ async function updateUserSubscription(
   stripeCustomerId: string
 ) {
   const client = await clerkClient();
-  const plan = (subscription.metadata?.plan as 'premium' | 'pro' | 'startup') ?? 'premium';
+  const plan = (subscription.metadata?.plan as 'creator' | 'pro' | 'studio') ?? 'creator';
   const user = await client.users.getUser(clerkUserId);
   const meta = user.privateMetadata as AffiliatePrivateMetadata;
   await client.users.updateUserMetadata(clerkUserId, {

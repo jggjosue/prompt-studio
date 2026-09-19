@@ -150,7 +150,7 @@ export default function HeaderClient() {
     {
       id: 'webs',
       label: tNav('webs'),
-      activePrefixes: ['/landing-pages', '/web-animations', '/login-components', '/header-components', '/text-components', '/form-components', '/button-components', '/card-components', '/navigation-components', '/sidebar-components', '/component-builder', '/page-composer', '/smart-search', '/prompt-optimizer', '/component-kits', '/component-compare', '/my-components', '/code-auditor', '/web-tags', '/generate-webs'],
+      activePrefixes: ['/landing-pages', '/web-animations', '/login-components', '/header-components', '/text-components', '/form-components', '/button-components', '/card-components', '/navigation-components', '/sidebar-components', '/component-builder', '/page-composer', '/smart-search', '/prompt-optimizer', '/component-kits', '/component-compare', '/my-components', '/code-auditor', '/web-tags', '/generate'],
       dropdown: [
         {
           href: '/prompt-optimizer',
@@ -233,7 +233,7 @@ export default function HeaderClient() {
           kits: UI_KITS,
         },
         {
-          href: '/generate-webs',
+          href: '/generate',
           group: 'Crear',
           label: 'Crear Web',
           description: 'Genera nuevas páginas web con IA',
@@ -248,7 +248,7 @@ export default function HeaderClient() {
         '/image-prompts',
         '/gallery',
         '/image-tags',
-        '/generate-images',
+        '/generate',
       ],
       dropdown: [
         {
@@ -258,7 +258,7 @@ export default function HeaderClient() {
           icon: <ImageIcon className="h-4 w-4" />,
         },
         {
-          href: '/generate-images',
+          href: '/generate',
           label: 'Crear Imagen',
           description: 'Genera nuevas imágenes con IA',
           icon: <Sparkles className="h-4 w-4" />,
@@ -272,7 +272,7 @@ export default function HeaderClient() {
         '/video-prompts',
         '/gallery-videos',
         '/video-tags',
-        '/generate-videos',
+        '/generate',
       ],
       dropdown: [
         {
@@ -282,7 +282,7 @@ export default function HeaderClient() {
           icon: <Video className="h-4 w-4" />,
         },
         {
-          href: '/generate-videos',
+          href: '/generate',
           label: 'Crear Video',
           description: 'Genera nuevos videos con IA',
           icon: <Sparkles className="h-4 w-4" />,
@@ -349,7 +349,7 @@ export default function HeaderClient() {
             </ClientLink>
             <SheetClose asChild>
               <ClientLink
-                href="/generate-webs"
+href="/generate"
                 className="mb-5 flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-3 font-bold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-500"
               >
                 <WandSparkles className="h-4 w-4" />
@@ -628,9 +628,9 @@ export default function HeaderClient() {
 
         <div className="flex items-center gap-2 ml-auto shrink-0">
           <ClientLink
-            href="/generate-webs"
+            href="/generate"
             className="hidden h-10 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-blue-600 via-cyan-500 to-violet-600 px-3 text-sm font-bold text-white shadow-[0_0_28px_rgba(59,130,246,0.35)] transition hover:scale-[1.02] hover:shadow-[0_0_34px_rgba(59,130,246,0.5)] md:inline-flex xl:px-5"
-            aria-current={pathMatchesPrefix(pathname, '/generate-webs') ? 'page' : undefined}
+            aria-current={pathMatchesPrefix(pathname, '/generate') ? 'page' : undefined}
           >
             <WandSparkles className="h-4 w-4" />
             <span className="hidden xl:inline">Crear con IA</span>

@@ -126,7 +126,7 @@ function SectionCard({ section }: { section: PromptBlock }) {
           variant="secondary"
           size="sm"
           className="w-full text-xs h-8"
-          href={`/generate-images?prompt=${encodeURIComponent(section.description)}`}
+          href={`/generate?prompt=${encodeURIComponent(section.description)}`}
         >
           <Wand2 className="h-3.5 w-3.5 mr-2" />
           Test Prompt
@@ -188,7 +188,7 @@ export default function ModelDetailClient({
                 <PromptEditButton
                   size="lg"
                   className="w-full md:w-auto shadow-md text-sm sm:text-base"
-                  href={`/generate-images?model=${encodeURIComponent(modelName)}`}
+                  href={`/generate?model=${encodeURIComponent(modelName)}`}
                 >
                   <Wand2 className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                   Open Generator

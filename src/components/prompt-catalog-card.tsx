@@ -95,7 +95,7 @@ function PromptCatalogCardComponent({
             <Link
               href={
                 item.description
-                  ? `${item.type === 'video' ? '/generate-videos' : '/generate-images'}?prompt=${encodeURIComponent(
+                  ? `${item.type === 'video' ? '/generate' : '/generate'}?prompt=${encodeURIComponent(
                     JSON.stringify({
                       type: item.type,
                       title: item.title,
@@ -105,8 +105,8 @@ function PromptCatalogCardComponent({
                     })
                   )}`
                   : item.type === 'video'
-                    ? '/generate-videos'
-                    : '/generate-images'
+                    ? '/generate'
+                    : '/generate'
               }
             >
               <Wand2 className="w-4 h-4 mr-2" />

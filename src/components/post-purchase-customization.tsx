@@ -24,8 +24,8 @@ export function PostPurchaseCustomization({ catalogId, pageId }: Props) {
   const t = useTranslations('landingPages.customization');
   const { plan, purchasedPages, ready } = useStripeSubscription();
   const hasAccess = ready && (
-    plan === 'premium' ||
-    plan === 'startup' ||
+    plan === 'creator' ||
+    plan === 'studio' ||
     purchasedPages.includes(pageId) ||
     purchasedPages.includes(catalogId)
   );

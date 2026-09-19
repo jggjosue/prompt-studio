@@ -24,7 +24,7 @@ const TEMPLATES: Template[] = [
 
 /**
  * El generador web recibe el contenido editable mediante `prompt`. Mandar solo
- * el id de la plantilla dejaba el formulario vacío porque `/generate-webs` no
+ * el id de la plantilla dejaba el formulario vacío porque `/generate` no
  * consume ese parámetro. Esta especificación incluye todas las secciones que
  * el Page Composer crea en el borrador.
  */
@@ -40,7 +40,7 @@ function templateGeneratorHref(template: Template): string {
         'Genera la página completa y mantén editables todos los textos, colores, imágenes, componentes, navegación, secciones, estilos responsive y footer.',
       ].join('\n');
   const params = new URLSearchParams({ prompt, template: template.id, source: 'page-composer' });
-  return `/generate-webs?${params.toString()}`;
+  return `/generate?${params.toString()}`;
 }
 
 function templateDocument(template: Template): EditorDocument {

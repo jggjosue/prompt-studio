@@ -38,7 +38,7 @@ function saveUsage(usage: { date: string; count: number }): void {
 export function useDailyCopyLimit() {
   const { plan } = useStripeSubscription();
   const router = useRouter();
-  const hasUnlimitedCopies = plan === 'premium' || plan === 'startup';
+  const hasUnlimitedCopies = plan === 'creator' || plan === 'studio';
   const copyWithDailyLimit = useCallback(
     async (copyAction: () => Promise<boolean>): Promise<CopyLimitResult> => {
       if (hasUnlimitedCopies) {
