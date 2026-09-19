@@ -234,7 +234,7 @@ export default function HeaderClient() {
     },
     {
       id: 'media',
-      label: 'Imágenes y Videos',
+      label: 'Media',
       activePrefixes: [
         '/image-prompts',
         '/gallery',
