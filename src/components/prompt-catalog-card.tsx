@@ -118,12 +118,12 @@ function PromptCatalogCardComponent({
           <Button variant="secondary" size="sm" asChild className={actionClassName}>
             <Link
               href={`${item.type === 'video' ? '/generate-videos' : '/generate'}?prompt=${encodeURIComponent(JSON.stringify({
-                type: item.type,
-                title: item.title,
-                description: item.description ?? '',
-                imageUrl: item.imageUrl,
-                tags: item.tags,
-              }))}`}
+                  type: item.type,
+                  title: item.title,
+                  description: item.description ?? '',
+                  imageUrl: item.imageUrl,
+                  tags: item.tags,
+                }))}`}
               target="_blank"
               rel="noopener noreferrer"
             >
