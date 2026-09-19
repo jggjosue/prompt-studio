@@ -1,8 +1,8 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import type { ChatMessageResult, ChatParams } from '@/lib/chat-types';
 import { generationProviders } from '@/lib/generation/provider-adapters';
-import type { ChatParams, ChatMessageResult } from '@/lib/chat-types';
+import { useCallback, useState } from 'react';
 
 
 export function useVideoGeneration() {
@@ -29,7 +29,7 @@ export function useVideoGeneration() {
     let apiError = '';
 
     try {
-      if (provider === 'runway' && runwayKey) {
+      if (provider === 'runway') {
                 const data = await generationProviders.runway.start(runwayKey, finalPrompt, parseInt(String(params.videoDuration || videoDuration)) || 4);
         if (data && 'error' in data && data.error) { apiError = data.error; }
         else {
@@ -47,7 +47,7 @@ export function useVideoGeneration() {
           }
           if (!videoOutputUrl) throw new Error('Timeout waiting for video generation.');
         }
-      } else if (provider === 'veo' && veoKey) {
+      } else if (provider === 'veo') {
                 const data = await generationProviders.google.video(veoKey, finalPrompt, parseInt(String(params.videoDuration || videoDuration)) || 4, params.model || 'veo-2.0-generate-001');
         if (data && 'error' in data && data.error) { apiError = data.error; }
         else { videoOutputUrl = data.videoUri || ''; }

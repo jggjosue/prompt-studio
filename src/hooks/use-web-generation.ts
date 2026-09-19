@@ -1,8 +1,8 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import type { ChatMessageResult, ChatParams } from '@/lib/chat-types';
 import { generationProviders } from '@/lib/generation/provider-adapters';
-import type { ChatParams, ChatMessageResult } from '@/lib/chat-types';
+import { useCallback, useState } from 'react';
 
 
 export function useWebGeneration() {
@@ -42,11 +42,11 @@ Requirements:
                 const data = await generationProviders.anthropic.chat(anthropicKey, systemInstruction, systemInstruction, params.model || 'claude-3-5-sonnet-20240620');
         if (data && 'error' in data && data.error) { apiError = data.error; }
         else { generatedHTML = data.content?.[0]?.text || ''; }
-      } else if (provider === 'openai' && openAIKey) {
+      } else if (provider === 'openai') {
                 const data = await generationProviders.openai.chat(openAIKey, systemInstruction, systemInstruction, params.model || 'gpt-4o');
         if (data && 'error' in data && data.error) { apiError = data.error; }
         else { generatedHTML = data.choices?.[0]?.message?.content || ''; }
-      } else if (provider === 'google' && vertexKey) {
+      } else if (provider === 'google') {
                 const data = await generationProviders.google.generate(vertexKey, systemInstruction, params.model || 'gemini-2.5-flash');
         if (data && 'error' in data && data.error) { apiError = data.error; }
         else { generatedHTML = data.candidates?.[0]?.content?.parts?.[0]?.text || ''; }

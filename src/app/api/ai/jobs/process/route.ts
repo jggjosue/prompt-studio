@@ -1,17 +1,17 @@
-import { NextResponse } from 'next/server';
-import { hasValidCronSecret } from '@/lib/api-auth';
-import { cacheHeaders } from '@/lib/cache-policy';
-import connectToDatabase from '@/lib/mongoose';
 import { runAIJob } from '@/lib/ai-job-runner';
 import { captureCredits, notifyJobFinished, refundCredits } from '@/lib/ai-job-service';
-import AIGenerationJob from '@/models/AIGenerationJob';
-import { observeOperation, recordObservabilityEvent, reportOperationalError } from '@/lib/observability-server';
-import { actualProviderCost, generationQuote } from '@/lib/generation-pricing';
-import { validateAndRepairOutput } from '@/lib/output-contract';
-import OutputContract from '@/models/OutputContract';
-import { finalizeModelRegressionForJob } from '@/lib/model-regression-server';
+import { hasValidCronSecret } from '@/lib/api-auth';
 import { recordAssetProvenance } from '@/lib/asset-provenance-server';
+import { cacheHeaders } from '@/lib/cache-policy';
+import { actualProviderCost, generationQuote, providerUsage } from '@/lib/generation-pricing';
+import { finalizeModelRegressionForJob } from '@/lib/model-regression-server';
+import connectToDatabase from '@/lib/mongoose';
+import { observeOperation, recordObservabilityEvent, reportOperationalError } from '@/lib/observability-server';
+import { validateAndRepairOutput } from '@/lib/output-contract';
 import { recordProjectFunnelEvent } from '@/lib/project-funnel-events';
+import AIGenerationJob from '@/models/AIGenerationJob';
+import OutputContract from '@/models/OutputContract';
+import { NextResponse } from 'next/server';
 
 export const maxDuration = 300;
 
@@ -42,7 +42,10 @@ async function processOne() {
     }
     const quote = generationQuote(job.kind, job.provider);
     const resultMeta = job.result as Record<string, unknown>;
-    job.actualCostUsd = actualProviderCost(job.result);
+    const usage = providerUsage(job.result);
+    job.actualInputTokens = usage.inputTokens;
+    job.actualOutputTokens = usage.outputTokens;
+    job.actualCostUsd = usage.costUsd ?? actualProviderCost(job.result);
     job.actualDurationMs = Math.round(performance.now() - generationStarted);
     job.outputResolution = typeof resultMeta.resolution === 'string' ? resultMeta.resolution.slice(0, 80) : quote.resolution;
     job.outputQuality = typeof resultMeta.quality === 'string' ? resultMeta.quality.slice(0, 80) : quote.quality;

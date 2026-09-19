@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
-import { ChevronRight } from 'lucide-react';
 import type { ChatGeneratorReturn } from '@/lib/chat-types';
+import { ChevronRight } from 'lucide-react';
+import { useState } from 'react';
 
 export function SettingsSidebar({ chat }: { chat: ChatGeneratorReturn }) {
   const [open, setOpen] = useState(true);
-  const { imageGen, videoGen, selectedMode } = chat;
+  const { imageGen, selectedMode, params, setParams } = chat;
+  const updateParam = (key: keyof typeof params, value: string | number) => setParams(previous => ({ ...previous, [key]: value }));
 
   return (
     <aside className={`${open ? 'w-72' : 'w-10'} border-l border-border bg-muted/20 transition-all duration-200 flex flex-col overflow-hidden`}>
@@ -20,20 +21,17 @@ export function SettingsSidebar({ chat }: { chat: ChatGeneratorReturn }) {
           {selectedMode === 'image' && (
             <div className="space-y-2">
               <label className="block">Aspecto</label>
-              <select className="w-full border rounded p-1 text-xs bg-background">
-                <option value="1-1">1:1</option>
-                <option value="16-9">16:9</option>
-                <option value="9-16">9:16</option>
-                <option value="4-3">4:3</option>
+              <select value={params.imageRatio || '1-1'} onChange={e => updateParam('imageRatio', e.target.value)} className="w-full border rounded p-1 text-xs bg-background">
+                <option value="1-1">1:1</option><option value="16-9">16:9</option><option value="9-16">9:16</option><option value="4-3">4:3</option>
               </select>
             </div>
           )}
           {selectedMode === 'video' && (
             <div className="space-y-2">
               <label className="block">Duración (s)</label>
-              <input type="number" className="w-full border rounded p-1 text-xs bg-background" value={videoGen.videoDuration} onChange={e => videoGen.setVideoDuration(e.target.value)} />
+              <input type="number" className="w-full border rounded p-1 text-xs bg-background" value={params.videoDuration || 8} onChange={e => updateParam('videoDuration', Number(e.target.value))} />
               <label className="block">Estilo</label>
-              <select className="w-full border rounded p-1 text-xs bg-background">
+              <select value={params.videoStyle || 'photorealistic'} onChange={e => updateParam('videoStyle', e.target.value)} className="w-full border rounded p-1 text-xs bg-background">
                 <option value="photorealistic">Fotorrealista</option>
                 <option value="cinematic">Cinematográfico</option>
                 <option value="anime">Anime</option>
@@ -43,7 +41,7 @@ export function SettingsSidebar({ chat }: { chat: ChatGeneratorReturn }) {
           {selectedMode === 'project' && (
             <div className="space-y-2">
               <label className="block">Framework</label>
-              <select className="w-full border rounded p-1 text-xs bg-background">
+              <select value={params.webFramework || 'nextjs'} onChange={e => updateParam('webFramework', e.target.value)} className="w-full border rounded p-1 text-xs bg-background">
                 <option value="nextjs">Next.js</option>
                 <option value="react">React</option>
                 <option value="html">HTML</option>

@@ -38,6 +38,15 @@ export interface ChatSession {
 
 export interface ChatGeneratorReturn {
   messages: ChatGeneratorMessage[];
+  params: ChatParams;
+  draftPrompt: string;
+  setDraftPrompt: (prompt: string) => void;
+  setParams: (params: ChatParams | ((previous: ChatParams) => ChatParams)) => void;
+  sessions: Array<{ id: string; title: string; mode: ChatMode }>;
+  activeSessionId: string | null;
+  createSession: () => Promise<void>;
+  loadSession: (id: string) => Promise<void>;
+  deleteSession: (id: string) => Promise<void>;
   selectedMode: ChatMode;
   setSelectedMode: (m: ChatMode) => void;
   localGenerating: boolean;

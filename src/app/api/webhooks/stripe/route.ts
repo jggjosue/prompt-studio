@@ -1,32 +1,34 @@
-import { stripe, extractSubscriptionMeta, type StripeUserMetadata } from '@/lib/stripe';
 import {
-  appendUniqueCommission,
-  AFFILIATE_COMMISSION_RATE,
-  createCommissionRecord,
-  normalizeCommissionRecords,
-  type AffiliatePrivateMetadata,
+    AFFILIATE_COMMISSION_RATE,
+    appendUniqueCommission,
+    createCommissionRecord,
+    normalizeCommissionRecords,
+    type AffiliatePrivateMetadata,
 } from '@/lib/affiliate';
 import {
-  syncAffiliateDashboardStats,
-  upsertAffiliateSaleFromCommission,
+    syncAffiliateDashboardStats,
+    upsertAffiliateSaleFromCommission,
 } from '@/lib/affiliate-mongo';
 import { registerAffiliateConversion } from '@/lib/affiliate-referral';
+import { extractSubscriptionMeta, stripe, type StripeUserMetadata } from '@/lib/stripe';
 
+import { expireSubscriptionCredits, grantSubscriptionCredits } from '@/lib/ai-job-service';
+import { getComponentProductContent } from '@/lib/component-content-store';
+import { isValidComponentPurchase } from '@/lib/component-purchase-validation';
+import { marketplaceSplit } from '@/lib/creator-marketplace';
+import { getCreditPack, isValidCreditTopUp } from '@/lib/credit-packs';
+import { applyCreditTopUp, markCreditPurchaseRefunded } from '@/lib/credit-topup';
 import connectToDatabase from '@/lib/mongoose';
 import { errorFingerprint, recordObservabilityEvent, reportOperationalError } from '@/lib/observability-server';
+import { getPlanCredits, normalizeExistingPlan, type PlanId } from '@/lib/subscription-plans';
 import AffiliateApplication from '@/models/AffiliateApplication';
 import ComponentPurchase from '@/models/ComponentPurchase';
 import MarketplaceListing from '@/models/MarketplaceListing';
 import MarketplaceSale from '@/models/MarketplaceSale';
-import { marketplaceSplit } from '@/lib/creator-marketplace';
-import { getCreditPack, isValidCreditTopUp } from '@/lib/credit-packs';
-import { applyCreditTopUp, markCreditPurchaseRefunded } from '@/lib/credit-topup';
-import { getComponentProductContent } from '@/lib/component-content-store';
 import { clerkClient } from '@clerk/nextjs/server';
 import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 import type Stripe from 'stripe';
-import { isValidComponentPurchase } from '@/lib/component-purchase-validation';
 
 async function updateUserSubscription(
   clerkUserId: string,
@@ -489,6 +491,21 @@ export async function POST(req: Request) {
         const customerId = invoice.customer as string;
         const clerkUserId = await getClerkUserIdFromCustomer(customerId);
         if (!clerkUserId) break;
+        const subscriptionId = typeof invoiceAny.subscription === 'string' ? invoiceAny.subscription : null;
+        if (subscriptionId) {
+          const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+          const rawPlan = subscription.metadata?.plan;
+          const plan = normalizeExistingPlan(rawPlan || 'free') as PlanId;
+          if (plan !== 'free') {
+            await expireSubscriptionCredits(clerkUserId, invoice.id);
+            await grantSubscriptionCredits(clerkUserId, getPlanCredits(plan), invoice.id, {
+              stripeInvoiceId: invoice.id,
+              stripeSubscriptionId: subscriptionId,
+              plan,
+              billingReason: invoice.billing_reason,
+            });
+          }
+        }
         const customer = await stripe.customers.retrieve(customerId);
         if (customer.deleted) break;
         const affiliateReferrerId = customer.metadata?.affiliateReferrerId as string | undefined;

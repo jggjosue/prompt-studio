@@ -24,47 +24,66 @@ export type CreditPack = {
 
 export const CREDIT_PACKS: readonly CreditPack[] = [
   {
-    id: 'topup-20',
-    credits: 20,
+    id: 'topup-500',
+    credits: 500,
     bonusCredits: 0,
-    priceCents: 900,
+    priceCents: 600,
     currency: 'usd',
-    name: { es: 'Recarga 20 créditos', en: '20 credit top-up' },
+    name: { es: 'Recarga 500 créditos', en: '500 credit top-up' },
     description: {
-      es: 'Para terminar un encargo suelto sin cambiar de plan.',
-      en: 'Finish a one-off job without changing your plan.',
+      es: 'Para ampliar tu saldo sin cambiar de plan.',
+      en: 'Add balance without changing your plan.',
     },
   },
   {
-    id: 'topup-60',
-    credits: 66,
-    bonusCredits: 6,
-    priceCents: 2400,
+    id: 'topup-1500',
+    credits: 1500,
+    bonusCredits: 0,
+    priceCents: 1500,
     currency: 'usd',
-    name: { es: 'Recarga 60 créditos', en: '60 credit top-up' },
+    name: { es: 'Recarga 1.500 créditos', en: '1,500 credit top-up' },
     description: {
-      es: '60 créditos más 6 de regalo. El equilibrio habitual para una campaña.',
-      en: '60 credits plus 6 free. The usual fit for one campaign.',
+      es: 'Saldo para proyectos de mayor volumen.',
+      en: 'Balance for higher-volume projects.',
     },
     featured: true,
   },
   {
-    id: 'topup-150',
-    credits: 172,
-    bonusCredits: 22,
-    priceCents: 5400,
+    id: 'topup-5000',
+    credits: 5000,
+    bonusCredits: 0,
+    priceCents: 4500,
     currency: 'usd',
-    name: { es: 'Recarga 150 créditos', en: '150 credit top-up' },
+    name: { es: 'Recarga 5.000 créditos', en: '5,000 credit top-up' },
     description: {
-      es: '150 créditos más 22 de regalo, el mejor precio por crédito.',
-      en: '150 credits plus 22 free, the best price per credit.',
+      es: 'Para flujos de producción continuos.',
+      en: 'For continuous production workflows.',
+    },
+  },
+  {
+    id: 'topup-10000',
+    credits: 10000,
+    bonusCredits: 0,
+    priceCents: 8500,
+    currency: 'usd',
+    name: { es: 'Recarga 10.000 créditos', en: '10,000 credit top-up' },
+    description: {
+      es: 'El mejor precio por crédito para equipos.',
+      en: 'The best per-credit price for teams.',
     },
   },
 ] as const;
 
+/** Legacy IDs remain readable so an already-paid Stripe session can settle. */
+const LEGACY_CREDIT_PACKS: readonly CreditPack[] = [
+  { id: 'topup-20', credits: 20, bonusCredits: 0, priceCents: 900, currency: 'usd', name: { es: 'Recarga legacy 20 créditos', en: 'Legacy 20 credit top-up' }, description: { es: 'Pack legacy', en: 'Legacy pack' } },
+  { id: 'topup-60', credits: 66, bonusCredits: 6, priceCents: 2400, currency: 'usd', name: { es: 'Recarga legacy 60 créditos', en: 'Legacy 60 credit top-up' }, description: { es: 'Pack legacy', en: 'Legacy pack' }, featured: true },
+  { id: 'topup-150', credits: 172, bonusCredits: 22, priceCents: 5400, currency: 'usd', name: { es: 'Recarga legacy 150 créditos', en: 'Legacy 150 credit top-up' }, description: { es: 'Pack legacy', en: 'Legacy pack' } },
+];
+
 export function getCreditPack(id: unknown): CreditPack | null {
   if (typeof id !== 'string' || !id) return null;
-  return CREDIT_PACKS.find(pack => pack.id === id) ?? null;
+  return [...CREDIT_PACKS, ...LEGACY_CREDIT_PACKS].find(pack => pack.id === id) ?? null;
 }
 
 export function isCreditPackId(id: unknown): id is string {

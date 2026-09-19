@@ -1,8 +1,8 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import type { ChatMessageResult, ChatParams } from '@/lib/chat-types';
 import { generationProviders } from '@/lib/generation/provider-adapters';
-import type { ChatParams, ChatMessageResult } from '@/lib/chat-types';
+import { useCallback, useState } from 'react';
 
 const e2eMode = process.env.NEXT_PUBLIC_E2E_TEST_MODE === 'true';
 
@@ -43,7 +43,7 @@ export function useImageGeneration() {
   const generate = useCallback(async (prompt: string, params: ChatParams): Promise<{ result?: ChatMessageResult; error?: string }> => {
     const provider = (params.provider || imageProvider) as 'openai' | 'fal' | 'google';
     const key = getApiKey(provider);
-    if (!key) return { error: `API key requerida para ${provider}.` };
+    if (!key && provider === 'fal') return { error: `API key requerida para ${provider}.` };
     const creditCost = imageVariationPack ? 8.0 : 1.0;
     if (credits < creditCost) return { error: `Sin créditos. Requiere ${creditCost}.` };
 
@@ -52,7 +52,7 @@ export function useImageGeneration() {
     let apiError = '';
 
     try {
-      if (provider === 'openai' && key) {
+      if (provider === 'openai') {
                 const data = referenceImage
           ? await generationProviders.openai.editImage(key, prompt + buildImageSuffix(params), referenceImage, params.model || 'gpt-image-1-mini', openAISize)
           : await generationProviders.openai.image(key, prompt + buildImageSuffix(params), params.model || 'dall-e-3', openAISize);
@@ -67,7 +67,7 @@ export function useImageGeneration() {
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
         imageOutputUrl = data.images?.[0]?.url || '';
-      } else if (provider === 'google' && key) {
+      } else if (provider === 'google') {
                 const data = await generationProviders.google.generate(key, prompt + buildImageSuffix(params), params.model || 'gemini-2.5-flash');
         if (data && 'error' in data && data.error) { apiError = data.error; }
         else { const text = data.candidates?.[0]?.content?.parts?.[0]?.text; if (text) imageOutputUrl = `data:text/gemini,${encodeURIComponent(text)}`; else apiError = 'No content'; }

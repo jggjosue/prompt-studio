@@ -1,12 +1,11 @@
 'use client';
 
-import { User, Bot, Loader2 } from 'lucide-react';
-import { ImageResult, VideoResult, WebResult } from './message-renderers';
 import type { ChatGeneratorMessage } from '@/lib/chat-types';
+import { Bot, Loader2, User } from 'lucide-react';
+import { ImageResult, VideoResult, WebResult } from './message-renderers';
 
 export function ChatMessageItem({ message }: { message: ChatGeneratorMessage }) {
   const isUser = message.role === 'user';
-  const isAssistant = message.role === 'assistant';
 
   return (
     <div className={`flex gap-3 ${isUser ? 'justify-end' : 'justify-start'}`}>
@@ -17,7 +16,7 @@ export function ChatMessageItem({ message }: { message: ChatGeneratorMessage }) 
           {message.status === 'pending' && <Loader2 className="h-3 w-3 animate-spin" />}
         </div>
         <p className="text-sm whitespace-pre-wrap">{message.prompt}</p>
-        {isAssistant && message.result && (
+        {message.result && (
           <div className="mt-2">
             {message.result.imageUrl || message.result.imageUrls ? <ImageResult result={message.result} /> : null}
             {message.result.videoUrl ? <VideoResult result={message.result} /> : null}
