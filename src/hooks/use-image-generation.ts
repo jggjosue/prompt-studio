@@ -53,8 +53,16 @@ export function useImageGeneration() {
       });
 
       const jobData = await safeJson(jobRes);
+      // Debug: log exact server response to diagnose failures
+      if (!jobRes.ok) {
+        console.error('[image-gen] Job creation failed', {
+          status: jobRes.status,
+          data: jobData,
+        });
+      }
       if (!jobRes.ok || !jobData || jobData.error) {
-        return { error: extractErrorMessage(jobData, 'Fallo al iniciar el trabajo de imagen.') };
+        const msg = extractErrorMessage(jobData, `Error ${jobRes.status}: Fallo al iniciar el trabajo de imagen.`);
+        return { error: msg };
       }
 
       const jobId = (jobData.job as Record<string, unknown>)?.id as string | undefined;

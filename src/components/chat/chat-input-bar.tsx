@@ -1,6 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import type { ChatGeneratorReturn } from '@/lib/chat-types';
@@ -14,7 +15,7 @@ import {
   ChevronDown,
   Loader2,
 } from 'lucide-react';
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect } from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,6 +25,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useAuth, useClerk } from '@clerk/nextjs';
 
 // ── Actual models from ai-credit-config (no invented IDs) ──
 const MODEL_OPTIONS = {
@@ -74,6 +76,9 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
     imageGen,
   } = chat;
 
+  const { userId } = useAuth();
+  const clerk = useClerk();
+
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // Resolve selected model/provider from params, defaulting to first option for the mode
@@ -98,6 +103,10 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
   };
 
   const handleSend = () => {
+    if (!userId) {
+      clerk.openSignUp({ fallbackRedirectUrl: '/generate' });
+      return;
+    }
     if (!prompt.trim() || localGenerating) return;
     generate(prompt.trim(), { ...params, provider: currentModel.provider, model: currentModel.model }, selectedMode);
     setDraftPrompt('');
@@ -243,9 +252,9 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
       {hasInsufficientCredits && (
         <p className="mt-2 text-center text-xs text-muted-foreground">
           Necesitas {currentModel.credits} créditos para esta generación.{' '}
-          <a href="/prices" className="text-blue-400 underline underline-offset-2 hover:text-blue-300">
+          <Link href="/prices" className="text-blue-400 underline underline-offset-2 hover:text-blue-300">
             Ver planes
-          </a>
+          </Link>
         </p>
       )}
 
