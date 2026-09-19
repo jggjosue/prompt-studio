@@ -2,22 +2,20 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import type { PromptValidationReport } from '@/lib/prompt-validation';
-import { Activity, CheckCircle2, Clock3, DollarSign, History, ShieldCheck, Sparkles } from 'lucide-react';
-
-import { calculateModelCreditCost } from '@/lib/generation-pricing';
+import { Activity, CheckCircle2, Clock3, DollarSign, History, ShieldCheck } from 'lucide-react';
 
 const copy = {
   es: {
     title: 'Validación del prompt', verified: 'Comprobado', review: 'Requiere revisión',
     checked: 'Última comprobación', consistency: 'Consistencia estimada', models: 'Modelos compatibles',
-    time: 'Tiempo estimado', cost: 'Créditos aprox.', changes: 'Cambios de modelo', result: 'Resultado disponible',
+    time: 'Tiempo estimado', cost: 'Costo estimado', changes: 'Cambios de modelo', result: 'Resultado disponible',
     disclosure: 'Compatibilidad, tiempo, costo y consistencia son estimaciones automáticas; pueden variar según proveedor, plan y configuración.',
     disclosureWithoutEstimates: 'La compatibilidad y la consistencia son estimaciones automáticas; pueden variar según el proveedor, el modelo y la configuración.',
   },
   en: {
     title: 'Prompt validation', verified: 'Checked', review: 'Review needed',
     checked: 'Last checked', consistency: 'Estimated consistency', models: 'Compatible models',
-    time: 'Estimated time', cost: 'Approx. credits', changes: 'Model changes', result: 'Result available',
+    time: 'Estimated time', cost: 'Estimated cost', changes: 'Model changes', result: 'Result available',
     disclosure: 'Compatibility, time, cost, and consistency are automated estimates; they vary by provider, plan, and settings.',
     disclosureWithoutEstimates: 'Compatibility and consistency are automated estimates; they may vary by provider, model, and configuration.',
   },
@@ -33,11 +31,6 @@ export function PromptValidationCard({
   showEstimates?: boolean;
 }) {
   const t = locale.startsWith('es') ? copy.es : copy.en;
-  
-  // Infer tab for pricing based on the models in the report
-  const isVideo = report.compatibleModels.some(m => m.id === 'veo-3-1' || m.id === 'sora-2-pro' || m.id === 'runway');
-  const pricingTab = isVideo ? 'ai-video' : 'ai-image';
-
   return (
     <Card className="border-emerald-500/30 bg-emerald-500/[0.03]">
       <CardHeader className="pb-3">
@@ -60,7 +53,7 @@ export function PromptValidationCard({
             {report.compatibleModels.map(model => (
               <div key={model.id} className="rounded-lg border bg-background/80 p-3">
                 <div className="font-semibold">{model.name}</div><div className="mb-2 text-xs text-muted-foreground">{model.provider}</div>
-                {showEstimates ? <div className="space-y-1 text-xs"><p className="flex items-center gap-1.5"><Clock3 className="size-3.5" />{t.time}: {model.estimatedSeconds.min}–{model.estimatedSeconds.max}s</p><p className="flex items-center gap-1.5"><Sparkles className="size-3.5" />{t.cost}: ≈ {calculateModelCreditCost(pricingTab, model.provider, model.id)}</p></div> : null}
+                {showEstimates ? <div className="space-y-1 text-xs"><p className="flex items-center gap-1.5"><Clock3 className="size-3.5" />{t.time}: {model.estimatedSeconds.min}–{model.estimatedSeconds.max}s</p><p className="flex items-center gap-1.5"><DollarSign className="size-3.5" />{t.cost}: ${model.estimatedCostUsd.min.toFixed(2)}–${model.estimatedCostUsd.max.toFixed(2)}</p></div> : null}
               </div>
             ))}
           </div>

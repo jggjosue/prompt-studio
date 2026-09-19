@@ -1,8 +1,11 @@
 'use client';
 
-import { LazyVideo } from '@/components/lazy-video';
+import { FreeEmailGate } from '@/components/free-email-gate';
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
+import { LazyVideo } from '@/components/lazy-video';
+import { PromptValidationCard } from '@/components/prompt-validation-card';
+import { PromptVersionManager } from '@/components/prompt-version-manager';
 import {
   Accordion,
   AccordionContent,
@@ -11,21 +14,18 @@ import {
 } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { LiquidButton } from '@/components/ui/liquid-glass-button';
 import { Card, CardContent } from '@/components/ui/card';
-import { useToast } from '@/hooks/use-toast';
+import { LiquidButton } from '@/components/ui/liquid-glass-button';
 import { useDailyCopyLimit } from '@/hooks/use-daily-copy-limit';
+import { usePagedPlaceholderVideos } from '@/hooks/use-paged-catalog';
+import { useToast } from '@/hooks/use-toast';
 import { copyToClipboard } from '@/lib/copy-to-clipboard';
 import type { VideoProp } from '@/lib/placeholder-videos';
-import { usePagedPlaceholderVideos } from '@/hooks/use-paged-catalog';
+import type { PromptValidationReport } from '@/lib/prompt-validation';
 import { ArrowLeft, Copy, Wand2 } from 'lucide-react';
+import { useLocale } from 'next-intl';
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
-import { PromptValidationCard } from '@/components/prompt-validation-card';
-import type { PromptValidationReport } from '@/lib/prompt-validation';
-import { useLocale } from 'next-intl';
-import { PromptVersionManager } from '@/components/prompt-version-manager';
-import { FreeEmailGate } from '@/components/free-email-gate';
 
 export default function GalleryVideoDetailClient({ item, validation }: { item: VideoProp; validation: PromptValidationReport }) {
   const locale = useLocale();

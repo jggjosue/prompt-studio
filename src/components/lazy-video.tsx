@@ -1,11 +1,11 @@
 'use client';
 
 import { LazyPlaceholder } from '@/components/lazy-in-view';
+import { OptimizedImage } from '@/components/optimized-image';
 import { useIntersectionInView } from '@/hooks/use-intersection-in-view';
 import { cn } from '@/lib/utils';
 import { AlertCircle, LoaderCircle } from 'lucide-react';
 import { type ComponentProps, useEffect, useRef, useState } from 'react';
-import { OptimizedImage } from '@/components/optimized-image';
 
 type LazyVideoProps = ComponentProps<'video'> & {
   /** Carga inmediata (p. ej. hero principal). */
@@ -58,7 +58,7 @@ export function LazyVideo({
             ref={videoRef}
             src={src}
             playsInline
-            preload={preload === 'none' ? 'metadata' : preload}
+            preload={preload}
             poster={poster}
             className={cn(
               'w-full h-full object-cover transition-[opacity,filter] duration-500',
@@ -67,10 +67,6 @@ export function LazyVideo({
                 : 'opacity-0 blur-sm',
               className
             )}
-            onLoadedMetadata={event => {
-              setIsReady(true);
-              props.onLoadedMetadata?.(event);
-            }}
             onLoadedData={event => {
               setIsReady(true);
               onLoadedData?.(event);

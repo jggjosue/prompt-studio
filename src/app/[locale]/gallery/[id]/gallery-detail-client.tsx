@@ -1,7 +1,10 @@
 'use client';
 
+import { FreeEmailGate } from '@/components/free-email-gate';
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
+import { LazyInView } from '@/components/lazy-in-view';
+import { OptimizedImage } from '@/components/optimized-image';
 import {
   Accordion,
   AccordionContent,
@@ -11,22 +14,19 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { useToast } from '@/hooks/use-toast';
 import { useDailyCopyLimit } from '@/hooks/use-daily-copy-limit';
+import { useToast } from '@/hooks/use-toast';
 import { copyToClipboard } from '@/lib/copy-to-clipboard';
+import type { ManualActionRisk } from '@/lib/gallery-detail';
+import { isRenderableVideoUrl, resolveRenderableMediaUrl } from '@/lib/media-resolver';
 import type { ImagePlaceholder } from '@/lib/placeholder-images';
 import type { VideoProp } from '@/lib/placeholder-videos';
-import { useLocale } from 'next-intl';
-import { isRenderableVideoUrl, resolveRenderableMediaUrl } from '@/lib/media-resolver';
-import { ArrowLeft, Copy, Wand2 } from 'lucide-react';
-import { OptimizedImage } from '@/components/optimized-image';
-import Link from 'next/link';
-import dynamic from 'next/dynamic';
-import { useMemo, useState } from 'react';
 import type { PromptValidationReport } from '@/lib/prompt-validation';
-import type { ManualActionRisk } from '@/lib/gallery-detail';
-import { LazyInView } from '@/components/lazy-in-view';
-import { FreeEmailGate } from '@/components/free-email-gate';
+import { ArrowLeft, Copy, Wand2 } from 'lucide-react';
+import { useLocale } from 'next-intl';
+import dynamic from 'next/dynamic';
+import Link from 'next/link';
+import { useMemo, useState } from 'react';
 
 const LazyVideo = dynamic(() => import('@/components/lazy-video').then(module => module.LazyVideo));
 const PromptValidationCard = dynamic(() => import('@/components/prompt-validation-card').then(module => module.PromptValidationCard));

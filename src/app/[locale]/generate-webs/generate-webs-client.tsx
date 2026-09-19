@@ -2058,7 +2058,7 @@ Requirements:
                               <div className="pt-2">
                                 <Button
                                   type="submit"
-                                  disabled={true || !editingText.trim() || isPending || localGenerating || (activeTab === 'ai-web' && !canGenerateWebs)}
+                                  disabled={!editingText.trim() || isPending || localGenerating}
                                   className={`relative group overflow-hidden w-full h-12 ${btn.gradient} !text-white font-extrabold gap-2.5 text-sm rounded-xl transition-all duration-300 ease-out hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center ${btn.shadow} ${btn.border} ${btn.ring}`}
                                 >
                                   {/* Inner glow overlay on hover */}
