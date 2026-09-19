@@ -20,11 +20,12 @@ import type { VideoProp } from '@/lib/placeholder-videos';
 import { usePagedPlaceholderVideos } from '@/hooks/use-paged-catalog';
 import { ArrowLeft, Copy, Wand2 } from 'lucide-react';
 import Link from 'next/link';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { PromptValidationCard } from '@/components/prompt-validation-card';
 import type { PromptValidationReport } from '@/lib/prompt-validation';
 import { useLocale } from 'next-intl';
 import { PromptVersionManager } from '@/components/prompt-version-manager';
+import { FreeEmailGate } from '@/components/free-email-gate';
 
 export default function GalleryVideoDetailClient({ item, validation }: { item: VideoProp; validation: PromptValidationReport }) {
   const locale = useLocale();
@@ -50,6 +51,11 @@ export default function GalleryVideoDetailClient({ item, validation }: { item: V
             description: "Prompt copied to clipboard.",
         });
     }
+  };
+
+  const [accordionValue, setAccordionValue] = useState<string[]>([]);
+  const toggleAccordion = (val: string) => {
+    setAccordionValue(prev => prev.includes(val) ? prev.filter(v => v !== val) : [...prev, val]);
   };
 
   return (
@@ -94,19 +100,41 @@ export default function GalleryVideoDetailClient({ item, validation }: { item: V
                   </div>
               </div>
 
-              <Accordion type="single" collapsible defaultValue="item-1">
+              <Accordion type="multiple" value={accordionValue} onValueChange={setAccordionValue}>
                 <AccordionItem value="item-1">
-                  <AccordionTrigger className="text-lg font-semibold font-headline">
-                    View Prompt
-                  </AccordionTrigger>
-                  <AccordionContent className="relative text-base text-muted-foreground bg-muted/50 p-4 pr-12 rounded-md">
-                    <pre className="whitespace-pre-wrap font-mono text-xs overflow-x-auto">
-                      {item.description}
-                    </pre>
-                    <Button variant="ghost" size="icon" className="absolute top-2 right-2" onClick={handleCopy}>
-                      <Copy className="h-4 w-4" />
-                      <span className="sr-only">Copy prompt</span>
-                    </Button>
+                  <FreeEmailGate
+                    title={locale === 'es' ? 'Accede al Prompt' : 'Access the Prompt'}
+                    description={locale === 'es' ? 'Ingresa tu correo para ver los detalles del prompt.' : 'Enter your email to view prompt details.'}
+                    submitText={locale === 'es' ? 'Ver Prompt' : 'View Prompt'}
+                    onSuccess={() => toggleAccordion('item-1')}
+                  >
+                    <AccordionTrigger className="text-lg font-semibold font-headline">
+                      View Prompt
+                    </AccordionTrigger>
+                  </FreeEmailGate>
+                  <AccordionContent className="relative text-base text-muted-foreground bg-muted/50 p-4 rounded-md">
+                      <pre className="whitespace-pre-wrap font-mono text-xs overflow-x-auto pr-12">
+                        {item.description}
+                      </pre>
+                      <Button variant="ghost" size="icon" className="absolute top-2 right-2" onClick={handleCopy}>
+                        <Copy className="h-4 w-4" />
+                        <span className="sr-only">Copy prompt</span>
+                      </Button>
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-2">
+                  <FreeEmailGate
+                    title={locale === 'es' ? 'Accede a las versiones' : 'Access versions'}
+                    description={locale === 'es' ? 'Ingresa tu correo para ver los detalles de las versiones.' : 'Enter your email to view version details.'}
+                    submitText={locale === 'es' ? 'Ver Versiones' : 'View Versions'}
+                    onSuccess={() => toggleAccordion('item-2')}
+                  >
+                    <AccordionTrigger className="text-lg font-semibold font-headline">
+                      Prompt versions
+                    </AccordionTrigger>
+                  </FreeEmailGate>
+                  <AccordionContent className="pt-4">
+                      <PromptVersionManager promptId={item.id} promptKind="video" title={item.title} initialContent={item.description} modelSnapshot={validation.compatibleModels.map(model => `${model.id}:${model.version}`)} locale={locale} />
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>

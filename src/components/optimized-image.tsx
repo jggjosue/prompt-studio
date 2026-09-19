@@ -83,7 +83,7 @@ export function OptimizedImage({
           width={fallbackDimensions.width}
           height={fallbackDimensions.height}
           priority={priority}
-          loading={priority ? undefined : 'lazy'}
+          loading={useAdaptiveLazy ? 'eager' : (priority ? undefined : 'lazy')}
           quality={quality}
           unoptimized={skipOptimize}
           decoding="async"

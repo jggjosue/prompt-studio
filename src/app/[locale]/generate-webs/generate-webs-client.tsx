@@ -1,18 +1,23 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
+import { motion } from 'framer-motion';
 
-import { generationProviders } from '@/lib/generation/provider-adapters';
-import { calculateModelCreditCost, validateCreditCost } from '@/lib/generation-pricing';
-import { useMembershipAccess } from '@/hooks/use-membership-access';
-import { useGenerationEditor } from '@/hooks/use-generation-editor';
-import { GenerationErrorNotice, GenerationProgress } from '@/components/generation/generation-feedback';
 import { GenerationCostDisclosure } from '@/components/generation/generation-cost-disclosure';
+import { GenerationErrorNotice, GenerationProgress } from '@/components/generation/generation-feedback';
+import { useGenerationEditor } from '@/hooks/use-generation-editor';
+import { useMembershipAccess } from '@/hooks/use-membership-access';
+import { calculateModelCreditCost, validateCreditCost } from '@/lib/generation-pricing';
+import { generationProviders } from '@/lib/generation/provider-adapters';
 
+import { OptimizedImage } from '@/components/optimized-image';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
@@ -20,49 +25,44 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Slider } from '@/components/ui/slider';
+import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
-import { Badge } from '@/components/ui/badge';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { Input } from '@/components/ui/input';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Slider } from '@/components/ui/slider';
+import { useBrandKitContext } from '@/hooks/use-brand-kit-context';
 import { useToast } from '@/hooks/use-toast';
+import { CREDIT_PACKS, formatCreditPackPrice } from '@/lib/credit-packs';
 import {
-  Clapperboard,
-  ClipboardPaste,
-  Image as ImageIcon,
-  Loader2,
-  Sparkles,
-  Globe,
-  Code,
-  Eye,
-  Copy,
+  AlertCircle,
   Check,
-  Wand2,
-  Trash2,
-  Play,
-  Tv,
-  MessageSquare,
-  KeyRound,
-  Plus,
-  SlidersHorizontal,
-  Menu,
-  Search,
-  Zap,
   ChevronDown,
   ChevronUp,
-  AlertCircle,
-  ShoppingCart
+  Clapperboard,
+  ClipboardPaste,
+  Code,
+  Copy,
+  Eye,
+  Globe,
+  Image as ImageIcon,
+  KeyRound,
+  Loader2,
+  Menu,
+  MessageSquare,
+  Play,
+  Plus,
+  Search,
+  ShoppingCart,
+  SlidersHorizontal,
+  Sparkles,
+  Trash2,
+  Tv,
+  Wand2,
+  Zap
 } from 'lucide-react';
-import { OptimizedImage } from '@/components/optimized-image';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState, useTransition, useRef, Suspense } from 'react';
-import { CREDIT_PACKS, formatCreditPackPrice } from '@/lib/credit-packs';
-import { useBrandKitContext } from '@/hooks/use-brand-kit-context';
+import { Suspense, useEffect, useRef, useState, useTransition } from 'react';
 
 const WebRequirementsBuilder = dynamic(() => import('@/components/web-requirements-builder').then(module => module.WebRequirementsBuilder), { ssr: false });
 const WebCodeAuditor = dynamic(() => import('@/components/web-code-auditor').then(module => module.WebCodeAuditor), { ssr: false });
@@ -2058,7 +2058,7 @@ Requirements:
                               <div className="pt-2">
                                 <Button
                                   type="submit"
-                                  disabled={!editingText.trim() || isPending || localGenerating}
+                                  disabled={true || !editingText.trim() || isPending || localGenerating || (activeTab === 'ai-web' && !canGenerateWebs)}
                                   className={`relative group overflow-hidden w-full h-12 ${btn.gradient} !text-white font-extrabold gap-2.5 text-sm rounded-xl transition-all duration-300 ease-out hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center ${btn.shadow} ${btn.border} ${btn.ring}`}
                                 >
                                   {/* Inner glow overlay on hover */}

@@ -58,7 +58,7 @@ export function LazyVideo({
             ref={videoRef}
             src={src}
             playsInline
-            preload={preload}
+            preload={preload === 'none' ? 'metadata' : preload}
             poster={poster}
             className={cn(
               'w-full h-full object-cover transition-[opacity,filter] duration-500',
@@ -67,6 +67,10 @@ export function LazyVideo({
                 : 'opacity-0 blur-sm',
               className
             )}
+            onLoadedMetadata={event => {
+              setIsReady(true);
+              props.onLoadedMetadata?.(event);
+            }}
             onLoadedData={event => {
               setIsReady(true);
               onLoadedData?.(event);
