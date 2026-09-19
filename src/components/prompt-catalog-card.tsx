@@ -108,6 +108,8 @@ function PromptCatalogCardComponent({
                     ? '/generate'
                     : '/generate'
               }
+              target="_blank"
+              rel="noopener noreferrer"
             >
               <Wand2 className="w-4 h-4 mr-2" />
               Use this prompt

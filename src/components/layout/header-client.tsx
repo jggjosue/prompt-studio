@@ -99,6 +99,8 @@ type DropdownItem = {
   icon: React.ReactNode;
   group?: WebMenuGroup;
   disabled?: boolean;
+  target?: string;
+  rel?: string;
   /** Si viene, la entrada abre un submenú con estas opciones en rejilla. */
   kits?: typeof UI_KITS;
 };
@@ -145,6 +147,8 @@ export default function HeaderClient() {
     label: string;
     activePrefixes?: string[];
     dropdown?: DropdownItem[];
+    target?: string;
+    rel?: string;
   }> = [
     { id: 'home', href: '/', label: tNav('discover') },
     {
@@ -225,6 +229,8 @@ export default function HeaderClient() {
         },
         {
           href: '/generate',
+          target: '_blank',
+          rel: 'noopener noreferrer',
           group: 'Crear',
           label: 'Generador Web',
           description: 'Genera nuevas páginas web con IA',
@@ -261,6 +267,8 @@ export default function HeaderClient() {
         },
         {
           href: '/generate',
+          target: '_blank',
+          rel: 'noopener noreferrer',
           group: 'Crear',
           label: 'Generar Imagen',
           description: 'Crea imágenes hiperrealistas con IA',
@@ -268,6 +276,8 @@ export default function HeaderClient() {
         },
         {
           href: '/generate',
+          target: '_blank',
+          rel: 'noopener noreferrer',
           group: 'Crear',
           label: 'Generar Video',
           description: 'Crea videos cinematográficos con IA',
@@ -322,7 +332,9 @@ export default function HeaderClient() {
             </ClientLink>
             <SheetClose asChild>
               <ClientLink
-href="/generate"
+                href="/generate"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="mb-5 flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-3 font-bold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-500"
               >
                 <WandSparkles className="h-4 w-4" />
@@ -335,6 +347,8 @@ href="/generate"
                   <SheetClose asChild key={link.id}>
                     <ClientLink
                       href={link.href}
+                      target={link.target}
+                      rel={link.rel}
                       className={cn(
                         'text-lg font-medium hover:text-foreground/80 transition-colors',
                         isNavItemActive(
@@ -412,6 +426,8 @@ href="/generate"
                                   <SheetClose asChild key={item.label}>
                                     <ClientLink
                                       href={item.href}
+                                      target={item.target}
+                                      rel={item.rel}
                                       className={cn(
                                         'group flex items-start gap-3 rounded-lg p-3 transition-all duration-200 hover:bg-blue-600 hover:text-white',
                                         pathMatchesPrefix(pathname, item.href) &&
@@ -481,6 +497,8 @@ href="/generate"
               <ClientLink
                 key={link.id}
                 href={link.href}
+                target={link.target}
+                rel={link.rel}
                 className={linkClassName(link.href, link.activePrefixes)}
                 aria-current={
                   isNavItemActive(pathname, link.href, link.activePrefixes)
@@ -568,6 +586,8 @@ href="/generate"
                             >
                               <ClientLink
                                 href={item.href}
+                                target={item.target}
+                                rel={item.rel}
                                 className={cn(
                                   'group flex w-full items-start gap-3 rounded-lg p-2.5 transition-all duration-200 hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white',
                                   pathMatchesPrefix(pathname, item.href) &&
@@ -602,6 +622,8 @@ href="/generate"
         <div className="flex items-center gap-2 ml-auto shrink-0">
           <ClientLink
             href="/generate"
+            target="_blank"
+            rel="noopener noreferrer"
             className="hidden h-10 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-blue-600 via-cyan-500 to-violet-600 px-3 text-sm font-bold text-white shadow-[0_0_28px_rgba(59,130,246,0.35)] transition hover:scale-[1.02] hover:shadow-[0_0_34px_rgba(59,130,246,0.5)] md:inline-flex xl:px-5"
             aria-current={pathMatchesPrefix(pathname, '/generate') ? 'page' : undefined}
           >

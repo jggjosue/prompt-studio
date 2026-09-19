@@ -93,6 +93,8 @@ export default function PromptGenerator() {
             <Button asChild className="w-full md:w-auto">
               <Link
                 href={`/generate?prompt=${encodeURIComponent(textareaValue)}`}
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <Wand2 className="mr-2 h-4 w-4" />
                 {tCommon('generatePrompt')}
