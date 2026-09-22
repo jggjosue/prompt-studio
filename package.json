@@ -17,7 +17,7 @@
     "test:e2e": "playwright test",
     "test:e2e:performance": "playwright test tests/e2e/performance.spec.ts",
     "demo:verify": "node --import tsx scripts/ts/verify-reproducible-demo.ts",
-    "test:ci": "npm run lint && npm run verify:env-example && npm run typecheck && npm run test:coverage && npm run cache:audit",
+    "test:ci": "npm run lint && npm run verify:env-example && npm run typecheck && npm run test:coverage && npm run cache:audit && npm run architecture:check",
     "catalog:build": "node scripts/mjs/build-paged-catalogs.mjs",
     "webpages:normalize": "node scripts/mjs/normalize-webpage-entrypoints.mjs",
     "reviews:aggregates": "node scripts/mjs/build-review-aggregates.mjs",
@@ -56,7 +56,8 @@
     "fix:user-profiles-index": "node scripts/mjs/fix-user-profiles-index.mjs",
     "lint:fix": "eslint . --fix",
     "validate": "npm run lint && npm run typecheck && npm run test:coverage && npm run verify:env-example && npm run cache:audit",
-    "audit:vercel-storage": "node scripts/mjs/audit-vercel-storage.mjs"
+    "audit:vercel-storage": "node scripts/mjs/audit-vercel-storage.mjs",
+    "architecture:check": "node --import tsx scripts/ts/check-domain-architecture.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1049.0",
