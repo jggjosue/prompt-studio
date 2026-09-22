@@ -1,0 +1,46 @@
+name: Vercel storage audit
+
+on:
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'public/**'
+      - 'next.config.*'
+      - 'package*.json'
+      - 'scripts/mjs/audit-vercel-storage.mjs'
+      - '.github/workflows/vercel-storage-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+      CI: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.11.0'
+          cache: npm
+      - run: npm ci
+      - name: Production build
+        run: npm run build
+      - name: Route bundle analysis
+        run: npm run analyze:routes
+      - name: Storage audit
+        run: npm run audit:vercel-storage | tee vercel-storage-audit.txt
+      - name: Upload audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vercel-storage-audit
+          path: |
+            vercel-storage-audit.txt
+            reports/
+          if-no-files-found: ignore
+          retention-days: 7
