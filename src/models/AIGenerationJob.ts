@@ -8,6 +8,8 @@ export interface IAIGenerationJob extends Document {
   userEmail: string;
   kind: AIJobKind;
   provider: string;
+  modelId?: string | null;
+  operation?: string | null;
   promptVersionId?: string | null;
   promptVersionNumber?: number | null;
   projectId?: string | null;
@@ -20,7 +22,14 @@ export interface IAIGenerationJob extends Document {
   progressMessage: string;
   idempotencyKey: string;
   creditCost: number;
+  creditsCharged?: number | null;
+  reservedSubscriptionCredits?: number;
+  reservedPurchasedCredits?: number;
   estimatedCostUsd: number;
+  estimatedInputTokens?: number | null;
+  estimatedOutputTokens?: number | null;
+  actualInputTokens?: number | null;
+  actualOutputTokens?: number | null;
   actualCostUsd?: number | null;
   actualDurationMs?: number | null;
   outputResolution?: string | null;
@@ -45,6 +54,8 @@ const AIGenerationJobSchema = new Schema<IAIGenerationJob>({
   userEmail: { type: String, required: true },
   kind: { type: String, required: true, enum: ['image', 'video', 'project'], index: true },
   provider: { type: String, required: true },
+  modelId: { type: String, default: null, maxlength: 120, index: true },
+  operation: { type: String, default: null, maxlength: 80 },
   promptVersionId: { type: String, default: null, index: true },
   promptVersionNumber: { type: Number, default: null, min: 1 },
   projectId: { type: String, default: null, index: true },
@@ -57,7 +68,14 @@ const AIGenerationJobSchema = new Schema<IAIGenerationJob>({
   progressMessage: { type: String, default: 'Esperando procesamiento' },
   idempotencyKey: { type: String, required: true },
   creditCost: { type: Number, required: true, min: 0 },
+  creditsCharged: { type: Number, default: null, min: 0 },
+  reservedSubscriptionCredits: { type: Number, default: 0, min: 0 },
+  reservedPurchasedCredits: { type: Number, default: 0, min: 0 },
   estimatedCostUsd: { type: Number, required: true, min: 0 },
+  estimatedInputTokens: { type: Number, default: null, min: 0 },
+  estimatedOutputTokens: { type: Number, default: null, min: 0 },
+  actualInputTokens: { type: Number, default: null, min: 0 },
+  actualOutputTokens: { type: Number, default: null, min: 0 },
   actualCostUsd: { type: Number, default: null, min: 0 },
   actualDurationMs: { type: Number, default: null, min: 0 },
   outputResolution: { type: String, default: null, maxlength: 80 },

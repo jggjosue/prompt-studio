@@ -1,34 +1,56 @@
 /**
- * Jerarquía de planes, de menor a mayor: `free` < `premium` < `pro` < `startup`.
+ * Jerarquía de planes, de menor a mayor: `free` < `creator` < `pro` < `studio`.
  *
- * `pro` es el tramo intermedio. Se diferencia por **publicar en dominio propio**
- * y por los brand kits, no por créditos: no existe ningún mecanismo que conceda
- * créditos por plan —ni mensual ni al renovar—, así que un tramo vendido por
- * créditos no podría entregar nada. Ver `docs/marketing.md`.
+ * Precios (créditos mensuales incluidos):
+ * - Free: $0 / 1 crédito inicial
+ * - Creator: $9/mes · 250 créditos
+ * - Pro: $19/mes · 1,000 créditos (Más Popular)
+ * - Studio: $39/mes · 3,000 créditos
+ *
+ * El plan `creator` reemplaza al antiguo `premium` (mismo precio, renombrado).
+ * El plan `studio` reemplaza al antiguo `startup`.
+ * Los suscriptores existentes con `stripePlan: 'premium'` se mapean a `creator`
+ * automáticamente mediante `normalizeExistingPlan()`.
  */
-export type PlanId = 'free' | 'premium' | 'pro' | 'startup';
+export type PlanId = 'free' | 'creator' | 'pro' | 'studio';
 export type BillingCycle = 'monthly' | 'annual';
 
 export const PLAN_PRICES = {
-  premium: { monthly: 9, annual: 54 },
-  pro: { monthly: 39, annual: 390 },
-  startup: { monthly: 1000, annual: 10000 },
+  creator: { monthly: 9, annual: 90 },
+  pro: { monthly: 19, annual: 190 },
+  studio: { monthly: 39, annual: 390 },
 } as const;
 
-/**
- * Orden para comparar planes. Evita cadenas de `||` que se olvidan al añadir un
- * tramo, que es justo lo que hacía falta tocar en ocho sitios distintos.
- */
-const PLAN_RANK: Record<PlanId, number> = { free: 0, premium: 1, pro: 2, startup: 3 };
+export const PLAN_CREDITS = {
+  creator: 250,
+  pro: 1000,
+  studio: 3000,
+} as const;
 
-/** `true` si `plan` cubre al menos lo que exige `required`. */
+const PLAN_RANK: Record<PlanId, number> = { free: 0, creator: 1, pro: 2, studio: 3 };
+
 export function planAtLeast(plan: PlanId, required: PlanId): boolean {
   return PLAN_RANK[plan] >= PLAN_RANK[required];
+}
+
+/**
+ * Mapea planes legacy (`premium`, `startup`) a los nuevos nombres.
+ * Esto preserva el acceso de suscriptores existentes.
+ */
+export function normalizeExistingPlan(plan: string): PlanId {
+  if (plan === 'premium') return 'creator';
+  if (plan === 'startup') return 'studio';
+  return plan as PlanId;
 }
 
 export function getPlanPrice(plan: PlanId, cycle: BillingCycle): number {
   if (plan === 'free') return 0;
   return PLAN_PRICES[plan][cycle === 'annual' ? 'annual' : 'monthly'];
+}
+
+export function getPlanCredits(plan: PlanId): number {
+  if (plan === 'free') return 1;
+  return PLAN_CREDITS[plan];
 }
 
 export function formatPlanAmount(amount: number, cycle: BillingCycle): string {

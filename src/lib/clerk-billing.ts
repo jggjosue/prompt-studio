@@ -1,20 +1,15 @@
 import type { ContentMembership } from '@/lib/membership-access';
 
-/**
- * Slugs must match Clerk Dashboard → Billing → Plans for Users.
- * @see https://clerk.com/docs/nextjs/guides/billing/for-b2c
- */
 export const CLERK_USER_PLANS = {
-  premium: 'premium',
+  creator: 'creator',
   pro: 'pro',
-  startup: 'startup',
+  studio: 'studio',
 } as const;
 
-/** Optional Features attached to plans in the Clerk Dashboard. */
 export const CLERK_FEATURES = {
-  premiumAccess: 'premium_access',
+  creatorAccess: 'creator_access',
   proAccess: 'pro_access',
-  startupAccess: 'startup_access',
+  studioAccess: 'studio_access',
 } as const;
 
 export type ClerkHasFn = (params: {
@@ -32,35 +27,39 @@ export function clerkGrantsMembership(
   if (required === 'free') return true;
   if (!isSignedIn || !has) return false;
 
-  const hasPremium =
-    has({ plan: CLERK_USER_PLANS.premium }) ||
-    has({ feature: CLERK_FEATURES.premiumAccess });
+  const hasCreator =
+    has({ plan: CLERK_USER_PLANS.creator }) ||
+    has({ feature: CLERK_FEATURES.creatorAccess });
 
   const hasPro =
     has({ plan: CLERK_USER_PLANS.pro }) ||
     has({ feature: CLERK_FEATURES.proAccess });
 
-  const hasStartup =
-    has({ plan: CLERK_USER_PLANS.startup }) ||
-    has({ feature: CLERK_FEATURES.startupAccess });
+  const hasStudio =
+    has({ plan: CLERK_USER_PLANS.studio }) ||
+    has({ feature: CLERK_FEATURES.studioAccess });
 
-  if (required === 'premium') {
-    return hasPremium || hasPro || hasStartup;
+  if (required === 'creator') {
+    return hasCreator || hasPro || hasStudio;
   }
 
-  return hasStartup;
+  if (required === 'pro') {
+    return hasPro || hasStudio;
+  }
+
+  return hasStudio;
 }
 
 export function activeClerkPlanLabel(
   has: ClerkHasFn | undefined,
   isSignedIn: boolean
-): 'free' | 'premium' | 'pro' | 'startup' {
+): 'free' | 'creator' | 'pro' | 'studio' {
   if (!isSignedIn || !has) return 'free';
   if (
-    has({ plan: CLERK_USER_PLANS.startup }) ||
-    has({ feature: CLERK_FEATURES.startupAccess })
+    has({ plan: CLERK_USER_PLANS.studio }) ||
+    has({ feature: CLERK_FEATURES.studioAccess })
   ) {
-    return 'startup';
+    return 'studio';
   }
   if (
     has({ plan: CLERK_USER_PLANS.pro }) ||
@@ -69,10 +68,10 @@ export function activeClerkPlanLabel(
     return 'pro';
   }
   if (
-    has({ plan: CLERK_USER_PLANS.premium }) ||
-    has({ feature: CLERK_FEATURES.premiumAccess })
+    has({ plan: CLERK_USER_PLANS.creator }) ||
+    has({ feature: CLERK_FEATURES.creatorAccess })
   ) {
-    return 'premium';
+    return 'creator';
   }
   return 'free';
 }

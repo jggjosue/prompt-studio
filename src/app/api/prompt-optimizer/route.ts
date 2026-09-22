@@ -1,9 +1,10 @@
-import { auth } from '@clerk/nextjs/server';
-import { NextResponse } from 'next/server';
-import { cacheHeaders } from '@/lib/cache-policy';
-import { rateLimit, RATE_LIMITS, tooManyRequests } from '@/lib/rate-limit';
 import { optimizePrompt } from '@/ai/flows/optimize-prompt';
 import { isPromptGoal } from '@/ai/flows/prompt-goals';
+import { cacheHeaders } from '@/lib/cache-policy';
+import { AICreditError, runMeteredInlineAI } from '@/lib/inline-ai-service';
+import { RATE_LIMITS, rateLimit, tooManyRequests } from '@/lib/rate-limit';
+import { auth, clerkClient } from '@clerk/nextjs/server';
+import { NextResponse } from 'next/server';
 
 const headers = () => cacheHeaders('private-no-store');
 const clean = (value: unknown, max: number) => typeof value === 'string' ? value.trim().slice(0, max) : '';
@@ -16,7 +17,13 @@ export async function POST(request: Request) {
   const goals = Array.isArray(body?.goals) ? [...new Set(body.goals)].filter(isPromptGoal) : [];
   const input = { prompt: clean(body?.prompt, 20_000), goals, sourceProvider: clean(body?.sourceProvider, 40) || 'generic', targetProvider: clean(body?.targetProvider, 40) || 'generic', targetLanguage: clean(body?.targetLanguage, 40) || 'same as source' };
   if (input.prompt.length < 10 || goals.length === 0) return NextResponse.json({ error: 'Incluye un prompt y al menos un objetivo.' }, { status: 400, headers: headers() });
-  try { return NextResponse.json({ result: await optimizePrompt(input) }, { headers: headers() }); }
-  catch { return NextResponse.json({ error: 'El proveedor no pudo completar la optimización estructurada. Inténtalo de nuevo.' }, { status: 502, headers: headers() }); }
+  try {
+    const user = await (await clerkClient()).users.getUser(userId);
+    const metered = await runMeteredInlineAI({ userId, userEmail: user.primaryEmailAddress?.emailAddress ?? '', kind: 'project', provider: 'google', modelId: 'gemini-2.5-flash', operation: 'prompt_optimization', requestId: request.headers.get('Idempotency-Key') || crypto.randomUUID(), payload: input, execute: () => optimizePrompt(input) });
+    return NextResponse.json({ result: metered.result, creditsCharged: metered.creditsCharged, duplicate: metered.duplicate }, { headers: headers() });
+  } catch (error) {
+    if (error instanceof AICreditError) return NextResponse.json({ error: { code: error.code, message: `Necesitas ${error.required} créditos y tienes ${error.available}.` }, required: error.required, available: error.available }, { status: 402, headers: headers() });
+    return NextResponse.json({ error: 'El proveedor no pudo completar la optimización estructurada. Inténtalo de nuevo.' }, { status: 502, headers: headers() });
+  }
 }
 

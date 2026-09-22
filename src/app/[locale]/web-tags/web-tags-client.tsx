@@ -281,7 +281,7 @@ function WebTagsContent() {
               All landing pages
             </Link>
           </Button>
-          <PromptEditButton href="/generate-webs">
+          <PromptEditButton href="/generate">
             <Wand2 className="mr-2 h-4 w-4" />
             Generate a page
           </PromptEditButton>

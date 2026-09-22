@@ -22,7 +22,11 @@ export type FirebaseAnalyticsEvent =
   | 'component_favorite_add'
   | 'component_project_add'
   | 'free_to_premium_conversion'
-  | 'next_project_download';
+  | 'next_project_download'
+  | 'view_pricing'
+  | 'select_plan'
+  | 'begin_checkout'
+  | 'purchase';
 
 export type FirebaseAnalyticsParams = Record<string, string | number | boolean | null | undefined>;
 
@@ -74,5 +78,5 @@ export async function logFirebaseEvent(
     return;
   }
 
-  logEvent(analytics, eventName, params);
+  logEvent(analytics, eventName as string, params);
 }

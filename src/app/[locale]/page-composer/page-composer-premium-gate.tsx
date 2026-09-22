@@ -47,7 +47,7 @@ export default function PageComposerPremiumGate({
                 <Button asChild size="lg" className="h-12 rounded-full px-6"><Link href={signUpUrl}><Sparkles className="mr-2 size-4" />{es ? 'Crear cuenta' : 'Create account'}</Link></Button>
                 <Button asChild size="lg" variant="outline" className="h-12 rounded-full px-6"><Link href={signInUrl}><LogIn className="mr-2 size-4" />{es ? 'Ya tengo cuenta' : 'I already have an account'}</Link></Button>
               </> : <>
-                <Button asChild size="lg" className="h-12 rounded-full px-6"><Link href="/prices?plan=premium"><Crown className="mr-2 size-4" />{es ? `Activar Premium · $${PLAN_PRICES.premium.monthly}/mes` : `Get Premium · $${PLAN_PRICES.premium.monthly}/mo`}<ArrowRight className="ml-2 size-4" /></Link></Button>
+                <Button asChild size="lg" className="h-12 rounded-full px-6"><Link href="/prices?plan=creator"><Crown className="mr-2 size-4" />{es ? `Activar Creator · $${PLAN_PRICES.creator.monthly}/mes` : `Get Creator · $${PLAN_PRICES.creator.monthly}/mo`}<ArrowRight className="ml-2 size-4" /></Link></Button>
                 <Button asChild size="lg" variant="outline" className="h-12 rounded-full px-6"><Link href="/dashboard/billing">{es ? 'Ver mi facturación' : 'View billing'}</Link></Button>
               </>}
             </div>

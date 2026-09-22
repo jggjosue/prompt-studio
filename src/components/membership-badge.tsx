@@ -36,7 +36,7 @@ export function MembershipBadge({
     );
   }
 
-  if (tier === 'premium') {
+  if (tier === 'creator') {
     return (
       <Badge
         className={cn(

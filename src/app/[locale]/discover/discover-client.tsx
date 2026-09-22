@@ -81,11 +81,7 @@ function getDemoHref(item: MediaItem): string {
 
 function getPersonalizeHref(item: { kind: Filter; prompt?: string; titleText?: string }): string {
   const prompt = item.prompt || item.titleText || '';
-  const route = item.kind === 'image'
-    ? '/generate-images'
-    : item.kind === 'video'
-      ? '/generate-videos'
-      : '/generate-webs';
+  const route = '/generate';
 
   return route + '?prompt=' + encodeURIComponent(prompt);
 }
@@ -209,7 +205,7 @@ function VirtualFeedItem({ item, index, metric, onTrack, onToggleLike }: {
       : item.kind === 'web'
         ? getDemoHref(item)
         : item.kind === 'animation'
-          ? `/generate-webs?prompt=${encodeURIComponent(item.prompt)}`
+          ? `/generate?prompt=${encodeURIComponent(item.prompt)}`
           : `/gallery/${item.detailId}`;
   const personalizeHref = getPersonalizeHref(item);
 

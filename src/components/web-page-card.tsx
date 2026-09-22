@@ -100,7 +100,7 @@ function WebPageCardComponent({
   const hasPremium =
     ready &&
     isSignedIn &&
-    (plan === 'premium' || plan === 'startup');
+    (plan === 'creator' || plan === 'studio');
   const stripeUrl = getWebPageCheckoutUrl(page.price);
   const itemCheckoutUrl = buildCheckoutUrl(stripeUrl, page.id, userId);
   const previewUrl = `/landing-pages/${encodeURIComponent(page.demoUrl)}/preview?price=${encodeURIComponent(page.price)}&pageId=${encodeURIComponent(page.id)}&checkout=${encodeURIComponent(itemCheckoutUrl)}`;

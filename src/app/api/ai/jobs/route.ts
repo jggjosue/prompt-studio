@@ -1,22 +1,22 @@
-import { auth, clerkClient } from '@clerk/nextjs/server';
-import { NextResponse } from 'next/server';
-import { cacheHeaders } from '@/lib/cache-policy';
-import connectToDatabase from '@/lib/mongoose';
-import { AI_JOB_COSTS, isAIJobKind, isProviderForKind } from '@/lib/ai-job-config';
-import { geminiWebQuote, isGeminiWebModel } from '@/lib/gemini-web-models';
-import { getServerSubscriptionStatus, hasDownloadPlan } from '@/lib/server-subscription-status';
+import { estimateAICredits, resolveAIModelId } from '@/lib/ai-credit-config';
+import { isAIJobKind, isProviderForKind } from '@/lib/ai-job-config';
 import { serializeAIJob } from '@/lib/ai-job-serializer';
 import { AIGenerationJob, getCreditBalance, reserveCredits } from '@/lib/ai-job-service';
-import { rateLimit, RATE_LIMITS, tooManyRequests } from '@/lib/rate-limit';
-import PromptVersion from '@/models/PromptVersion';
-import mongoose from 'mongoose';
-import CreativeProject from '@/models/CreativeProject';
+import { cacheHeaders } from '@/lib/cache-policy';
+import connectToDatabase from '@/lib/mongoose';
+import { contractInstructions } from '@/lib/output-contract';
+import { evaluateBudgetOperation } from '@/lib/project-budget';
 import { isProviderObjective } from '@/lib/provider-quality';
 import { recommendedProvider } from '@/lib/provider-quality-server';
-import { evaluateBudgetOperation } from '@/lib/project-budget';
-import { contractInstructions } from '@/lib/output-contract';
-import OutputContract from '@/models/OutputContract';
+import { RATE_LIMITS, rateLimit, tooManyRequests } from '@/lib/rate-limit';
+import { getServerSubscriptionStatus, hasDownloadPlan } from '@/lib/server-subscription-status';
 import BrandKit from '@/models/BrandKit';
+import CreativeProject from '@/models/CreativeProject';
+import OutputContract from '@/models/OutputContract';
+import PromptVersion from '@/models/PromptVersion';
+import { auth, clerkClient } from '@clerk/nextjs/server';
+import mongoose from 'mongoose';
+import { NextResponse } from 'next/server';
 
 const headers = () => cacheHeaders('private-no-store');
 const clean = (value: unknown, max: number) => typeof value === 'string' ? value.trim().slice(0, max) : '';
@@ -42,9 +42,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Proveedor, prompt o clave idempotente inválidos.' }, { status: 400, headers: headers() });
   }
   const requestedModel = clean(input.model, 80);
-  if (provider === 'google') {
-    if (!isGeminiWebModel(requestedModel)) return NextResponse.json({ error: 'Modelo Gemini no compatible.' }, { status: 400, headers: headers() });
-    if (!hasDownloadPlan(await getServerSubscriptionStatus())) return NextResponse.json({ error: 'Gemini para generación web requiere una suscripción Premium activa.' }, { status: 403, headers: headers() });
+  const modelId = resolveAIModelId(raw.kind, provider, requestedModel);
+  if (!modelId) return NextResponse.json({ error: { code: 'MODEL_NOT_ALLOWED', message: 'El modelo solicitado no está disponible para esta operación.' } }, { status: 400, headers: headers() });
+  if (provider === 'google' && raw.kind === 'project' && !hasDownloadPlan(await getServerSubscriptionStatus())) {
+    return NextResponse.json({ error: { code: 'PLAN_REQUIRED', message: 'Gemini para generación web requiere una suscripción Premium activa.' } }, { status: 403, headers: headers() });
   }
   const client = await clerkClient();
   const user = await client.users.getUser(userId);
@@ -73,9 +74,13 @@ export async function POST(request: Request) {
   }
   const existing = await AIGenerationJob.findOne({ userId, idempotencyKey });
   if (existing) return NextResponse.json({ job: serializeAIJob(existing), credits: await getCreditBalance(userId), duplicate: true }, { status: 200, headers: headers() });
-  const cost = provider === 'google' && isGeminiWebModel(requestedModel)
-    ? geminiWebQuote(raw.kind, requestedModel) ?? AI_JOB_COSTS[raw.kind]
-    : AI_JOB_COSTS[raw.kind];
+  let cost;
+  try {
+    cost = estimateAICredits({ provider, model: modelId, kind: raw.kind, input });
+  } catch (error) {
+    const code = error instanceof Error ? error.message : 'MODEL_NOT_ALLOWED';
+    return NextResponse.json({ error: { code, message: 'La configuración de generación no está disponible.' } }, { status: 400, headers: headers() });
+  }
   const requestedContractId = clean(raw.outputContractId, 80) || project?.outputContractId || '';
   let outputContract = null;
   if (requestedContractId) {
@@ -86,14 +91,14 @@ export async function POST(request: Request) {
   if (project) {
     const jobs = await AIGenerationJob.find({ projectId, userId }).select('kind provider status creditsState creditCost estimatedCostUsd actualCostUsd').lean();
     const settings = { limitCredits: project.budget?.limitCredits ?? null, limitUsd: project.budget?.limitUsd ?? null, warningPercent: project.budget?.warningPercent ?? 80, approvalCredits: project.budget?.approvalCredits ?? null, approvalUsd: project.budget?.approvalUsd ?? null };
-    const decision = evaluateBudgetOperation(settings, jobs.map(job => ({ kind: job.kind, provider: job.provider, status: job.status, creditsState: job.creditsState, creditCost: job.creditCost, estimatedCostUsd: job.estimatedCostUsd, actualCostUsd: job.actualCostUsd ?? null })), { credits: cost.credits, estimatedUsd: cost.estimatedUsd }, raw.projectBudgetApproved === true);
+    const decision = evaluateBudgetOperation(settings, jobs.map(job => ({ kind: job.kind, provider: job.provider, status: job.status, creditsState: job.creditsState, creditCost: job.creditCost, estimatedCostUsd: job.estimatedCostUsd, actualCostUsd: job.actualCostUsd ?? null })), { credits: cost.credits, estimatedUsd: cost.estimatedApiCostUsd }, raw.projectBudgetApproved === true);
     if (!decision.allowed) return NextResponse.json({ error: decision.approvalRequired ? 'Esta operación requiere aprobación manual por su costo.' : 'La operación excede el presupuesto del proyecto.', approvalRequired: decision.approvalRequired, exceedsCredits: decision.exceedsCredits, exceedsUsd: decision.exceedsUsd, projection: { credits: decision.nextCredits, usd: decision.nextUsd }, budget: settings }, { status: 409, headers: headers() });
   }
   let job;
   try {
     job = await AIGenerationJob.create({
-      userId, userEmail, kind: raw.kind, provider, input: { ...input, prompt, brandKitId: brandKitId || null, ...(outputContract ? { outputContractInstructions: contractInstructions(outputContract) } : {}) }, idempotencyKey, promptVersionId: promptVersionId || null, promptVersionNumber, projectId: projectId || null, outputContractId: outputContract ? String(outputContract._id) : null,
-      creditCost: cost.credits, estimatedCostUsd: cost.estimatedUsd,
+      userId, userEmail, kind: raw.kind, provider, modelId, operation: raw.kind, input: { ...input, prompt, brandKitId: brandKitId || null, ...(outputContract ? { outputContractInstructions: contractInstructions(outputContract) } : {}) }, idempotencyKey, promptVersionId: promptVersionId || null, promptVersionNumber, projectId: projectId || null, outputContractId: outputContract ? String(outputContract._id) : null,
+      creditCost: cost.credits, estimatedCostUsd: cost.estimatedApiCostUsd, estimatedInputTokens: cost.estimatedInputTokens, estimatedOutputTokens: cost.estimatedOutputTokens,
       notifyOnComplete: raw.notifyOnComplete !== false,
     });
   } catch (error: unknown) {
@@ -107,7 +112,7 @@ export async function POST(request: Request) {
   if (balance === null) {
     await AIGenerationJob.deleteOne({ _id: job._id });
     const credits = await getCreditBalance(userId);
-    return NextResponse.json({ error: 'Créditos insuficientes.', required: cost.credits, credits }, { status: 402, headers: headers() });
+    return NextResponse.json({ error: { code: 'INSUFFICIENT_CREDITS', message: `Necesitas ${cost.credits} créditos para esta generación y tienes ${credits.balance}.` }, required: cost.credits, credits }, { status: 402, headers: headers() });
   }
   return NextResponse.json({ job: serializeAIJob(job), credits: { balance }, duplicate: false }, { status: 202, headers: headers() });
 }

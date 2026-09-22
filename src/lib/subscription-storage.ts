@@ -28,5 +28,5 @@ export function saveStoredProfile(data: StoredProfile) {
 }
 
 export function hasActivePaidPlan(plan: PlanId): boolean {
-  return plan === 'premium' || plan === 'startup';
+  return plan === 'creator' || plan === 'pro' || plan === 'studio';
 }

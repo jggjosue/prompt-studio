@@ -205,7 +205,7 @@ function ImagePromptsContent() {
               className="!bg-blue-600 !text-white shadow-md shadow-blue-950/20 hover:!bg-blue-700"
               asChild
             >
-              <Link href="/generate-images">
+              <Link href="/generate">
                 <Wand2 className="mr-2" />
                 Generate an Image
               </Link>

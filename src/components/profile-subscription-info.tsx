@@ -18,15 +18,14 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
 const PLAN_PRICES = {
-  premium: { monthly: 9, annual: 54 },
-  startup: { monthly: 25, annual: 270 },
+  creator: { monthly: 9, annual: 90 },
+  studio: { monthly: 39, annual: 390 },
 } as const;
 
 function formatDate(unix: number): string {
   return new Date(unix * 1000).toLocaleDateString(undefined, {
     year: 'numeric',
     month: 'long',
-    day: 'numeric',
   });
 }
 
@@ -55,7 +54,7 @@ export function ProfileSubscriptionInfo() {
 
   const price = PLAN_PRICES[plan as keyof typeof PLAN_PRICES]?.[billingCycle];
   const cycleLabel = billingCycle === 'annual' ? tCommon('perYear') : tCommon('perMonth');
-  const planLabel = plan === 'premium' ? tCommon('premium') : tCommon('startup');
+  const planLabel = plan === 'creator' ? tCommon('creator') : tCommon('studio');
 
   async function handleDownload() {
     setDownloading(true);

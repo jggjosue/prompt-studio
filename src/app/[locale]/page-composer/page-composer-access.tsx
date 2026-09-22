@@ -10,8 +10,8 @@ import PageComposerClient from './page-composer-client';
 
 function PremiumAccessGate({ loading, isSignedIn }: { loading: boolean; isSignedIn: boolean }) {
   const checkoutUrl = isSignedIn
-    ? buildCheckoutUrl({ plan: 'premium' })
-    : buildSignUpUrl(buildCheckoutUrl({ plan: 'premium' }));
+    ? buildCheckoutUrl({ plan: 'creator' })
+    : buildSignUpUrl(buildCheckoutUrl({ plan: 'creator' }));
 
   return (
     <main className="relative flex min-h-[calc(100vh-4rem)] items-center justify-center overflow-hidden bg-zinc-950 px-5 py-16 text-white">
@@ -64,7 +64,7 @@ function PremiumAccessGate({ loading, isSignedIn }: { loading: boolean; isSigned
 
 export default function PageComposerAccess() {
   const { ready, isSignedIn, plan } = useMembershipAccess();
-  const hasPremiumAccess = ready && isSignedIn && plan === 'premium';
+  const hasPremiumAccess = ready && isSignedIn && plan === 'creator';
 
   if (!ready) return <PremiumAccessGate loading isSignedIn={Boolean(isSignedIn)} />;
   if (!hasPremiumAccess) return <PremiumAccessGate loading={false} isSignedIn={Boolean(isSignedIn)} />;

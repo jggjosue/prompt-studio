@@ -1,13 +1,13 @@
 
 'use server';
 
-import { generateImageVideoPrompt } from '@/ai/flows/generate-image-video-prompts';
 import { generateImage } from '@/ai/flows/generate-image';
-import { z } from 'zod';
-import { reportOperationalError } from '@/lib/observability-server';
-import { auth } from '@clerk/nextjs/server';
+import { generateImageVideoPrompt } from '@/ai/flows/generate-image-video-prompts';
 import { isPremiumJoAdmin } from '@/lib/admin-auth';
 import { isGeminiWebModel } from '@/lib/gemini-web-models';
+import { reportOperationalError } from '@/lib/observability-server';
+import { auth } from '@clerk/nextjs/server';
+import { z } from 'zod';
 
 const promptSchema = z.object({
   keywords: z.string().min(3, 'Keywords must be at least 3 characters long.'),
@@ -91,7 +91,12 @@ export async function handleImageGeneration(
 
 // --- PROXY API ENDPOINTS (Bypassing CORS) ---
 
+function configuredKey(key: string, envName: 'OPENAI_API_KEY' | 'GEMINI_API_KEY'): string {
+  return key || process.env[envName] || '';
+}
+
 export async function proxyOpenAIImage(apiKey: string, prompt: string, model: string = 'dall-e-3', size: string = '1024x1024') {
+  apiKey = configuredKey(apiKey, 'OPENAI_API_KEY');
   try {
     const response = await fetch('https://api.openai.com/v1/images/generations', {
       method: 'POST',
@@ -118,6 +123,7 @@ export async function proxyOpenAIImage(apiKey: string, prompt: string, model: st
 }
 
 export async function proxyOpenAIImageEdit(apiKey: string, prompt: string, imageDataUrl: string, model: string = 'gpt-image-1-mini', size: string = '1024x1024') {
+  apiKey = configuredKey(apiKey, 'OPENAI_API_KEY');
   try {
     const match = /^data:(image\/(?:png|jpeg|webp));base64,([A-Za-z0-9+/=]+)$/.exec(imageDataUrl);
     if (!match) return { error: 'Invalid reference image.' };
@@ -140,6 +146,7 @@ export async function proxyOpenAIImageEdit(apiKey: string, prompt: string, image
 }
 
 export async function proxyOpenAIChat(apiKey: string, systemPrompt: string, userPrompt: string, model: string = 'gpt-4o') {
+  apiKey = configuredKey(apiKey, 'OPENAI_API_KEY');
   try {
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -347,6 +354,7 @@ function findVideoInResponse(obj: any): string | null {
 }
 
 export async function proxyVeoVideo(apiKey: string, prompt: string, durationSeconds: number, model: string = 'veo-2.0-generate-001') {
+  apiKey = configuredKey(apiKey, 'GEMINI_API_KEY');
   try {
     let accessToken = apiKey.trim();
     let projectId = '';
@@ -435,6 +443,7 @@ export async function proxyVeoVideo(apiKey: string, prompt: string, durationSeco
 }
 
 export async function proxyGemini(apiKey: string, prompt: string, model: string = 'gemini-2.5-flash') {
+  apiKey = configuredKey(apiKey, 'GEMINI_API_KEY');
   try {
     const key = apiKey || process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || '';
     if (!key) {

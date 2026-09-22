@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { auth } from '@clerk/nextjs/server';
 import { setRequestLocale } from 'next-intl/server';
 import { getServerSubscriptionStatus, hasComponentBuilderPlan } from '@/lib/server-subscription-status';
-import ComponentBuilderClient from './component-builder-editor-client';
+import ComponentBuilderClient from './component-builder-client';
 import ComponentBuilderPremiumGate from './premium-gate';
 
 export const metadata: Metadata = {

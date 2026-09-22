@@ -13,7 +13,13 @@ export async function POST(request: Request) {
   if (size > 64_000) return NextResponse.json({ error: 'Payload demasiado grande.' }, { status: 413, headers });
   const raw = await request.json().catch(() => null) as { events?: ObservabilityInput[] } | null;
   if (!Array.isArray(raw?.events)) return NextResponse.json({ error: 'Eventos inválidos.' }, { status: 400, headers });
-  const { userId } = await auth();
+  let userId: string | null = null;
+  try {
+    const session = await auth();
+    userId = session.userId;
+  } catch {
+    // Clerk middleware may not be active — continue without auth
+  }
   const events = raw.events.slice(0, 25).filter(event => allowed.has(event?.category)).map(event => normalizeObservabilityEvent(event, userId)).filter(Boolean);
   if (events.length) {
     await connectToDatabase();

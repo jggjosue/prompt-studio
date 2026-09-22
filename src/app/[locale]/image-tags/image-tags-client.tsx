@@ -173,7 +173,7 @@ function ImageTagsContent() {
               Nano Banana Pro
             </Link>
           </Button>
-          <PromptEditButton href="/generate-images">
+          <PromptEditButton href="/generate">
             <Wand2 className="mr-2 h-4 w-4" />
             Generate an Image
           </PromptEditButton>

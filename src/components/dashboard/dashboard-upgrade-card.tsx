@@ -20,13 +20,13 @@ export function DashboardUpgradeCard() {
 
   if (!ready) return null;
 
-  if (plan === 'premium' || plan === 'startup') {
+  if (plan === 'creator' || plan === 'studio') {
     return (
       <Card className="border-primary/30 bg-primary/5">
         <CardHeader className="p-2 pt-0 md:p-4">
           <CardTitle className="flex items-center gap-2 text-base">
             <Crown className="h-4 w-4 text-primary" />
-            {plan === 'startup' ? tCommon('startup') : tCommon('premium')}
+            {plan === 'studio' ? tCommon('startup') : tCommon('premium')}
           </CardTitle>
           <CardDescription>{t('premiumActiveDesc')}</CardDescription>
         </CardHeader>

@@ -94,8 +94,8 @@ export default function ComponentBuilderPremiumGate({
                     <Link href={checkoutUrl}>
                       <Crown className="mr-2 h-4 w-4" />
                       {es
-                        ? `Activar Premium · $${PLAN_PRICES.premium.monthly}/mes`
-                        : `Get Premium · $${PLAN_PRICES.premium.monthly}/mo`}
+                        ? `Activar Creator · $${PLAN_PRICES.creator.monthly}/mes`
+                        : `Get Creator · $${PLAN_PRICES.creator.monthly}/mo`}
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                   </Button>

@@ -5,14 +5,14 @@ import PricesClient from './prices-client';
 export const metadata: Metadata = {
   title: 'Prices | Prompt Studio',
   description:
-    'Compare Free, Premium, and Developer plans. Download free prompts, unlock Premium content, or get full project source code and install guides.',
+    'Choose how you create with AI. Start free and upgrade when you need more AI credits, advanced models and creative tools.',
   alternates: {
     canonical: '/prices',
   },
   openGraph: {
     title: 'Prices | Prompt Studio',
     description:
-      'Compare Free, Premium, and Developer plans. Download free prompts, unlock Premium content, or get full project source code and install guides.',
+      'Choose how you create with AI. Start free and upgrade when you need more AI credits, advanced models and creative tools.',
     url: '/prices',
     siteName: 'Prompt Studio',
     type: 'website',
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Prices | Prompt Studio',
     description:
-      'Compare Free, Premium, and Developer plans. Download free prompts, unlock Premium content, or get full project source code and install guides.',
+      'Choose how you create with AI. Start free and upgrade when you need more AI credits, advanced models and creative tools.',
   },
 };
 
