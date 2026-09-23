@@ -21,6 +21,10 @@ jobs:
     env:
       NEXT_TELEMETRY_DISABLED: '1'
       CI: 'true'
+      # Build-time public auth configuration. These are non-secret test values;
+      # the storage audit measures bundles and must not depend on production credentials.
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: 'pk_test_Y2xlcmsuY2ktc3RvcmFnZS1hdWRpdCQ'
+      CLERK_SECRET_KEY: 'sk_test_Y2xlcmsuY2ktc3RvcmFnZS1hdWRpdCQ'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
