@@ -22,6 +22,7 @@
     "webpages:normalize": "node scripts/mjs/normalize-webpage-entrypoints.mjs",
     "reviews:aggregates": "node scripts/mjs/build-review-aggregates.mjs",
     "catalog:provenance": "node --experimental-strip-types scripts/mjs/audit-catalog-provenance.mjs",
+    "rarity:verify": "node scripts/mjs/verify-rarity-gate.mjs",
     "cache:audit": "node scripts/mjs/audit-cache-policies.mjs",
     "analyze:routes": "node scripts/mjs/analyze-route-bundles.mjs",
     "prebuild": "npm run webpages:normalize && npm run catalog:build && npm run reviews:aggregates",
