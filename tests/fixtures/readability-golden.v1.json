@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "cases": [
+    {
+      "id": "en-simple",
+      "locale": "en",
+      "text": "Build a clear website. Show your work. Help customers choose the right service.",
+      "expectedLocale": "en",
+      "minScore": 55
+    },
+    {
+      "id": "en-complex",
+      "locale": "en",
+      "text": "The extraordinarily sophisticated implementation demonstrates multifaceted organizational characteristics while simultaneously facilitating interdisciplinary operationalization.",
+      "expectedLocale": "en",
+      "maxScore": 75
+    },
+    {
+      "id": "es-simple",
+      "locale": "es",
+      "text": "Crea una página clara. Muestra tu trabajo. Ayuda a tus clientes a elegir el servicio correcto.",
+      "expectedLocale": "es",
+      "minScore": 55
+    },
+    {
+      "id": "es-complex",
+      "locale": "es",
+      "text": "La extraordinaria implementación multidisciplinaria incorpora características organizacionales complejas para facilitar simultáneamente la operacionalización institucional.",
+      "expectedLocale": "es",
+      "maxScore": 75
+    }
+  ]
+}
