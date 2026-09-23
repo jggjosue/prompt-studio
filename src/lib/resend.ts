@@ -1,3 +1,4 @@
+import 'server-only';
 import { Resend } from 'resend';
 
 /**
@@ -7,7 +8,8 @@ import { Resend } from 'resend';
  * `next build` importa cada módulo de ruta para recolectar datos de página. Un
  * secreto que falta debe romper el envío del correo, no la compilación.
  *
- * Valor de ejemplo en el entorno local: `RESEND_API_KEY=re_xxxxxxxxx`.
+ * La misma variable debe configurarse con credenciales distintas por entorno
+ * en el proveedor de despliegue. Nunca se expone mediante `NEXT_PUBLIC_*`.
  */
 let cliente: Resend | null = null;
 
