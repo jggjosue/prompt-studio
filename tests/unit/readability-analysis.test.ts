@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {analyzeReadability} from '../../src/lib/readability-analysis';
+test('Fernández-Huerta keeps ordinary Spanish copy in a meaningful range',()=>{const report=analyzeReadability({locale:'es',text:'Crea una página clara. Explica tu servicio. Ayuda a tus clientes a elegir una opción sencilla.'});assert.ok(report.readingEase>40, `expected meaningful Spanish ease, got ${report.readingEase}`);assert.ok(report.readingEase<=100);});

@@ -11,5 +11,12 @@ export class CatalogIndexService<T extends CatalogIndexItem>{
  diagnostics():CatalogIndexDiagnostics{const stats=this.index?.getStats(this.items.length);return {generation:this.generation,itemCount:this.items.length,tokenCount:stats?.tokenCount??0,indexed:Boolean(this.index),lookups:this.lookups,hits:this.hits,fallbacks:this.fallbacks,lastBuildMs:Math.round(this.lastBuildMs*1000)/1000}}
  static usefulFor(itemCount:number){return itemCount>=CATALOG_INDEX_MIN_ITEMS}
 }
-const registry=new Map<string,CatalogIndexService<any>>();
-export function catalogIndexFor<T extends CatalogIndexItem>(key:string,items:readonly T[]){let service=registry.get(key) as CatalogIndexService<T>|undefined;if(!service){service=new CatalogIndexService<T>();service.rebuild(items);registry.set(key,service)}return service}
+type RegistryEntry={service:CatalogIndexService<CatalogIndexItem>;signature:string};
+const registry=new Map<string,RegistryEntry>();
+function catalogSignature(items:readonly CatalogIndexItem[]){return items.map(i=>[i.id,i.title,i.description,i.tags.join(','),i.stack.join(',')].join('\u001f')).join('\u001e')}
+export function catalogIndexFor<T extends CatalogIndexItem>(key:string,items:readonly T[]){
+ const signature=catalogSignature(items);let entry=registry.get(key);
+ if(!entry){const service=new CatalogIndexService<CatalogIndexItem>();service.rebuild(items);entry={service,signature};registry.set(key,entry)}
+ else if(entry.signature!==signature){entry.service.update(items);entry.signature=signature}
+ return entry.service as CatalogIndexService<T>
+}
