@@ -60,8 +60,8 @@ const nextConfig: NextConfig = {
   /**
    * Keep catalog assets traced only for the API routes that still read them.
    *
-   * Do NOT trace `public/webpages/**/*` into landing-page download functions:
-   * files under `public/` are deployment assets and tracing the complete
+   * Do NOT trace the entire public/webpages tree into landing-page download functions.
+   * Files under public/ are deployment assets and tracing the complete
    * webpage corpus into every matching server function duplicates those bytes
    * in function packages. Landing-page downloads must resolve the selected
    * public asset without a broad server-function trace.

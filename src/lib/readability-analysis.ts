@@ -127,7 +127,9 @@ function computeReadingEase(
 
   if (locale === 'es') {
     const p = asw * 100;
-    const f = asl * 100;
+    // Fernández-Huerta: P = syllables per 100 words; F = words per sentence.
+    // Only P is scaled by 100. Scaling F as well collapses normal Spanish copy to 0.
+    const f = asl;
     return clamp(206.84 - 0.6 * p - 1.02 * f, 0, 100);
   }
 

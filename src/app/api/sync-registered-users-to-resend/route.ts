@@ -18,12 +18,12 @@ export async function GET(request: Request) {
     const configuredAudienceId =
       process.env.RESEND_AUDIENCE_ID?.trim() || undefined;
     let audienceId = configuredAudienceId;
-    let audienceFallbackReason: string | null = null;
+    let usedAudienceFallback = false;
 
     if (audienceId) {
       const { error } = await resend.audiences.get(audienceId);
       if (error) {
-        audienceFallbackReason = error.message;
+        usedAudienceFallback = true;
         audienceId = undefined;
       }
     }
@@ -64,7 +64,6 @@ export async function GET(request: Request) {
     let addedCount = 0;
     let alreadyRegisteredCount = 0;
     let errorCount = 0;
-    const errors: string[] = [];
 
     for (const user of registeredUsers) {
       const email = normalizeEmail(user.email);
@@ -92,15 +91,13 @@ export async function GET(request: Request) {
             alreadyRegisteredCount++;
           } else {
             errorCount++;
-            errors.push(`Error for ${email}: ${error.message}`);
           }
         } else {
           resendEmails.add(email);
           addedCount++;
         }
-      } catch (err: any) {
+      } catch {
         errorCount++;
-        errors.push(`Exception for ${email}: ${err.message}`);
       }
     }
 
@@ -108,18 +105,15 @@ export async function GET(request: Request) {
       message: 'Additive sync complete (prompt-studio.user_profiles to Resend)',
       database: DATABASE_NAME,
       collection: COLLECTION_NAME,
-      audienceId: audienceId ?? null,
       destination: audienceId ? 'audience' : 'global_contacts',
-      configuredAudienceId: configuredAudienceId ?? null,
-      audienceFallbackReason,
+      usedAudienceFallback,
       totalFoundInDatabase: registeredUsers.length,
       addedCount,
       alreadyRegisteredCount,
       errorCount,
-      errors: errors.slice(0, 10),
     });
-  } catch (error: any) {
-    console.error('Error syncing user_profiles to Resend:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch {
+    console.error('Resend contact synchronization failed');
+    return NextResponse.json({ error: 'RESEND_SYNC_FAILED' }, { status: 500 });
   }
 }

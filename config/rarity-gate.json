@@ -1,0 +1,42 @@
+{
+  "minimumExternalScore": 71,
+  "requiredEvidence": [
+    {
+      "id": "domain-architecture",
+      "implementation": "src/domain/architecture.ts",
+      "workflow": "src/app/api/search/intent/route.ts",
+      "test": "tests/unit/domain-architecture.test.ts",
+      "documentation": "docs/prompt-studio-domain-architecture.md"
+    },
+    {
+      "id": "bplus-catalog-index",
+      "implementation": "src/domain/catalog-search/catalog-index-service.ts",
+      "workflow": "src/domain/catalog-search/discover-and-rank.ts",
+      "test": "tests/unit/bplus-catalog-index.test.ts",
+      "documentation": "docs/bplus-catalog-index.md"
+    },
+    {
+      "id": "bilingual-copy-quality",
+      "implementation": "src/domain/quality/copy-quality-engine.ts",
+      "workflow": "src/app/api/landing-pages/[pageId]/readability/route.ts",
+      "test": "tests/unit/copy-quality-engine.test.ts",
+      "documentation": "docs/bilingual-copy-quality.md"
+    },
+    {
+      "id": "refactory-runtime",
+      "implementation": "src/domain/refactory-runtime/verified-bundle-runtime.ts",
+      "workflow": "src/app/api/refactory-online/[slug]/route.ts",
+      "test": "tests/integration/refactory-runtime.test.ts",
+      "documentation": "docs/refactory-verifiable-runtime.md"
+    }
+  ],
+  "forbiddenTemplateMarkers": [
+    "Create Next App",
+    "create-next-app",
+    "Next.js starter template"
+  ],
+  "templateMarkerScan": [
+    "README.md",
+    "src/app"
+  ]
+}

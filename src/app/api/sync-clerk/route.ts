@@ -94,6 +94,15 @@ export async function GET(request: Request) {
         { upsert: true }
       );
       
+      // Sincronizar en Resend
+      await upsertResendContact({
+        email,
+        firstName: user.firstName ?? undefined,
+        lastName: user.lastName ?? undefined,
+      }).catch(() => {
+        console.error('Failed to sync Clerk user to Resend');
+      });
+      
       usersAdded++;
     }
     
