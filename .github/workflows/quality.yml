@@ -45,6 +45,7 @@ jobs:
       - name: Guardarraíles de secretos y caché
         run: |
           npm run verify:env-example
+          npm run verify:resend-secrets
           npm run cache:audit
           npm run verify:template-markers
       # El informe se publica siempre, también cuando las pruebas fallan: es

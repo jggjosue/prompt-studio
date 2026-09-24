@@ -100,8 +100,8 @@ export async function GET(request: Request) {
         email,
         firstName: user.firstName ?? undefined,
         lastName: user.lastName ?? undefined,
-      }).catch(error => {
-        console.error(`Failed to sync Clerk user ${email} to Resend:`, error);
+      }).catch(() => {
+        console.error('Failed to sync Clerk user to Resend');
       });
       
       usersAdded++;
