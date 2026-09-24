@@ -17,7 +17,7 @@ export async function GET(request: Request) {
   
   try {
     await connectToDatabase();
-    const users = await NewUser.find({});
+    const users = await NewUser.find({ marketingStatus: 'confirmed' });
     
     let successCount = 0;
     let errorCount = 0;

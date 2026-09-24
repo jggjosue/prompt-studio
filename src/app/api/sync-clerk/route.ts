@@ -5,7 +5,6 @@ import connectToDatabase from '@/lib/mongoose';
 import RegisteredUser from '@/models/RegisteredUser';
 import UserProfile from '@/models/UserProfile';
 import NewUser from '@/models/NewUser';
-import { upsertResendContact } from '@/lib/resend';
 
 export async function GET(request: Request) {
   const denied = await requireCronOrAdmin(request);
@@ -94,15 +93,6 @@ export async function GET(request: Request) {
         { $setOnInsert: { email, createdAt: new Date(user.createdAt) } },
         { upsert: true }
       );
-      
-      // Sincronizar en Resend
-      await upsertResendContact({
-        email,
-        firstName: user.firstName ?? undefined,
-        lastName: user.lastName ?? undefined,
-      }).catch(error => {
-        console.error(`Failed to sync Clerk user ${email} to Resend:`, error);
-      });
       
       usersAdded++;
     }
