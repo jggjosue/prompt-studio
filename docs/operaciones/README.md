@@ -18,6 +18,7 @@ leyeron de la fuente en el momento de escribir, no se estimaron.
 | Documento | Qué cubre |
 |---|---|
 | [sop-generacion-ia.md](sop-generacion-ia.md) | Ciclo de vida de un trabajo de generación con IA: cola, créditos, reintentos, fallos |
+| [runbook-incidentes-proveedores-ia.md](runbook-incidentes-proveedores-ia.md) | Respuesta, contención, recuperación y postmortem ante fallos de proveedores de IA |
 | [sop-comercial.md](sop-comercial.md) | Venta, cobro, reembolso, y el programa de afiliados de punta a punta |
 | [sop-catalogo.md](sop-catalogo.md) | Cómo se publica contenido nuevo y cómo se regenera el catálogo |
 | [sop-despliegue-y-qa.md](sop-despliegue-y-qa.md) | Puertas de calidad, CI, proceso de release y qué hacer si falla |

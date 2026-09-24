@@ -105,6 +105,10 @@ esperado.
 
 Panel: `/dashboard/observability` (solo el correo administrador configurado).
 
+Para una degradación o caída de proveedor, seguir el
+[runbook de incidentes de proveedores de IA](runbook-incidentes-proveedores-ia.md),
+que define severidad, contención, recuperación, rollback y comunicación.
+
 ## 6. Lo que este procedimiento no cubre
 
 No se registra **ninguna valoración humana del resultado**. Se sabe si el
