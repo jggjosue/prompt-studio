@@ -99,6 +99,8 @@ type DropdownItem = {
   icon: React.ReactNode;
   group?: WebMenuGroup;
   disabled?: boolean;
+  target?: string;
+  rel?: string;
   /** Si viene, la entrada abre un submenú con estas opciones en rejilla. */
   kits?: typeof UI_KITS;
 };
@@ -145,6 +147,8 @@ export default function HeaderClient() {
     label: string;
     activePrefixes?: string[];
     dropdown?: DropdownItem[];
+    target?: string;
+    rel?: string;
   }> = [
     { id: 'home', href: '/', label: tNav('discover') },
     {
@@ -158,7 +162,6 @@ export default function HeaderClient() {
           label: 'Optimizar prompts',
           description: 'Mejora con objetivos y compara los cambios',
           icon: <Sparkles className="h-4 w-4" />,
-          disabled: true,
         },
         {
           href: '/code-auditor',
@@ -166,7 +169,6 @@ export default function HeaderClient() {
           label: 'Auditor de código',
           description: 'Detecta errores y genera un prompt de corrección',
           icon: <ShieldCheck className="h-4 w-4" />,
-          disabled: true,
         },
         {
           href: '/my-components',
@@ -174,7 +176,6 @@ export default function HeaderClient() {
           label: 'Favoritos y proyectos',
           description: 'Organiza componentes y descarga tus kits',
           icon: <FolderHeart className="h-4 w-4" />,
-          disabled: true,
         },
         {
           href: '/component-compare',
@@ -182,7 +183,6 @@ export default function HeaderClient() {
           label: 'Comparar componentes',
           description: 'Compara hasta tres diseños lado a lado',
           icon: <Scale className="h-4 w-4" />,
-          disabled: true,
         },
         {
           href: '/component-kits',
@@ -190,7 +190,6 @@ export default function HeaderClient() {
           label: 'Kits completos',
           description: 'Colecciones coherentes listas para productos',
           icon: <PackageCheck className="h-4 w-4" />,
-          disabled: true,
         },
         {
           href: '/smart-search',
@@ -198,7 +197,6 @@ export default function HeaderClient() {
           label: 'Buscador inteligente',
           description: 'Busca por tipo, industria, color y función',
           icon: <Search className="h-4 w-4" />,
-          disabled: true,
         },
         {
           href: '/component-builder',
@@ -206,7 +204,6 @@ export default function HeaderClient() {
           label: 'Constructor visual',
           description: 'Personaliza componentes y genera el prompt',
           icon: <WandSparkles className="h-4 w-4" />,
-          disabled: true,
         },
         {
           href: '/page-composer',
@@ -214,7 +211,6 @@ export default function HeaderClient() {
           label: 'Generador de páginas',
           description: 'Combina componentes y descarga Next.js',
           icon: <LayoutTemplate className="h-4 w-4" />,
-          disabled: true,
         },
         {
           href: '/landing-pages',
@@ -229,46 +225,26 @@ export default function HeaderClient() {
           label: 'Componentes UI',
           description: `${UI_KITS.length} kits · ${UI_KITS_TOTAL} piezas con prompts`,
           icon: <Layers3 className="h-4 w-4" />,
-          disabled: true,
           kits: UI_KITS,
         },
         {
           href: '/generate',
+          target: '_blank',
+          rel: 'noopener noreferrer',
           group: 'Crear',
-          label: 'Crear Web',
+          label: 'Generador Web',
           description: 'Genera nuevas páginas web con IA',
           icon: <Globe className="h-4 w-4" />,
         },
       ],
     },
     {
-      id: 'image',
-      label: 'Imagen',
+      id: 'media',
+      label: 'Media',
       activePrefixes: [
         '/image-prompts',
         '/gallery',
         '/image-tags',
-        '/generate',
-      ],
-      dropdown: [
-        {
-          href: '/image-prompts',
-          label: tNav('images'),
-          description: tNav('imagesDesc'),
-          icon: <ImageIcon className="h-4 w-4" />,
-        },
-        {
-          href: '/generate',
-          label: 'Crear Imagen',
-          description: 'Genera nuevas imágenes con IA',
-          icon: <Sparkles className="h-4 w-4" />,
-        },
-      ],
-    },
-    {
-      id: 'video',
-      label: 'Video',
-      activePrefixes: [
         '/video-prompts',
         '/gallery-videos',
         '/video-tags',
@@ -276,49 +252,56 @@ export default function HeaderClient() {
       ],
       dropdown: [
         {
+          href: '/image-prompts',
+          group: 'Explorar',
+          label: tNav('images'),
+          description: tNav('imagesDesc'),
+          icon: <ImageIcon className="h-4 w-4" />,
+        },
+        {
           href: '/video-prompts',
+          group: 'Explorar',
           label: tNav('videos'),
           description: tNav('videosDesc'),
           icon: <Video className="h-4 w-4" />,
         },
         {
           href: '/generate',
-          label: 'Crear Video',
-          description: 'Genera nuevos videos con IA',
-          icon: <Sparkles className="h-4 w-4" />,
+          target: '_blank',
+          rel: 'noopener noreferrer',
+          group: 'Crear',
+          label: 'Generar Imagen',
+          description: 'Crea imágenes hiperrealistas con IA',
+          icon: <ImageIcon className="h-4 w-4" />,
+        },
+        {
+          href: '/generate',
+          target: '_blank',
+          rel: 'noopener noreferrer',
+          group: 'Crear',
+          label: 'Generar Video',
+          description: 'Crea videos cinematográficos con IA',
+          icon: <Video className="h-4 w-4" />,
         },
       ],
     },
     {
-      id: 'resources',
-      label: tNav('resources'),
-      activePrefixes: [
-        '/prices',
-        '/pricing',
-        '/affiliate-program',
-        '/affiliate-program-terms',
-        '/ask',
-      ],
-      dropdown: [
-        {
-          href: '/prices',
-          label: tNav('prices'),
-          description: 'Planes, suscripciones y recarga de créditos',
-          icon: <CreditCard className="h-4 w-4" />,
-        },
-        {
-          href: '/affiliate-program',
-          label: tNav('affiliateProgram'),
-          description: 'Únete y gana comisiones recomendando',
-          icon: <Handshake className="h-4 w-4" />,
-        },
-        {
-          href: '/ask',
-          label: tNav('questions'),
-          description: 'Preguntas frecuentes, soporte y respuestas',
-          icon: <HelpCircle className="h-4 w-4" />,
-        },
-      ],
+      id: 'affiliate',
+      href: '/affiliate-program',
+      label: tNav('affiliateProgram'),
+      activePrefixes: ['/affiliate-program', '/affiliate-program-terms'],
+    },
+    {
+      id: 'ask',
+      href: '/ask',
+      label: tNav('questions'),
+      activePrefixes: ['/ask'],
+    },
+    {
+      id: 'pricing',
+      href: '/prices',
+      label: tNav('prices'),
+      activePrefixes: ['/prices', '/pricing'],
     },
   ];
 
@@ -349,7 +332,9 @@ export default function HeaderClient() {
             </ClientLink>
             <SheetClose asChild>
               <ClientLink
-href="/generate"
+                href="/generate"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="mb-5 flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-3 font-bold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-500"
               >
                 <WandSparkles className="h-4 w-4" />
@@ -362,6 +347,8 @@ href="/generate"
                   <SheetClose asChild key={link.id}>
                     <ClientLink
                       href={link.href}
+                      target={link.target}
+                      rel={link.rel}
                       className={cn(
                         'text-lg font-medium hover:text-foreground/80 transition-colors',
                         isNavItemActive(
@@ -439,6 +426,8 @@ href="/generate"
                                   <SheetClose asChild key={item.label}>
                                     <ClientLink
                                       href={item.href}
+                                      target={item.target}
+                                      rel={item.rel}
                                       className={cn(
                                         'group flex items-start gap-3 rounded-lg p-3 transition-all duration-200 hover:bg-blue-600 hover:text-white',
                                         pathMatchesPrefix(pathname, item.href) &&
@@ -508,6 +497,8 @@ href="/generate"
               <ClientLink
                 key={link.id}
                 href={link.href}
+                target={link.target}
+                rel={link.rel}
                 className={linkClassName(link.href, link.activePrefixes)}
                 aria-current={
                   isNavItemActive(pathname, link.href, link.activePrefixes)
@@ -538,7 +529,7 @@ href="/generate"
                   {link.label}{' '}
                   <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" />
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className={cn('max-h-[min(78vh,680px)] overflow-y-auto p-2', link.id === 'webs' ? 'w-[min(92vw,680px)]' : 'w-72')}>
+                <DropdownMenuContent className={cn('max-h-[min(78vh,680px)] overflow-y-auto p-2', (link.id === 'webs' || link.id === 'media') ? 'w-[min(92vw,680px)]' : 'w-72')}>
                   {link.id === 'webs' && webMenuPanel === 'kits' ? (
                     <div className="p-1">
                       <div className="mb-2 flex items-center justify-between border-b border-border/60 px-2 pb-2">
@@ -563,7 +554,7 @@ href="/generate"
                       </DropdownMenuItem>
                     </div>
                   ) : (
-                  <div className={cn('grid gap-3', link.id === 'webs' ? 'sm:grid-cols-2' : 'grid-cols-1')}>
+                  <div className={cn('grid gap-3', (link.id === 'webs' || link.id === 'media') ? 'sm:grid-cols-2' : 'grid-cols-1')}>
                     {groupDropdownItems(link.dropdown ?? []).map(group => (
                       <section key={group.label || link.id} aria-label={group.label || link.label} className="rounded-xl border border-border/60 bg-background/40 p-1.5">
                         {group.label ? <DropdownMenuLabel className="px-2 pb-1 pt-2 text-[10px] font-black uppercase tracking-[0.18em] text-blue-500">{group.label}</DropdownMenuLabel> : null}
@@ -580,8 +571,8 @@ href="/generate"
                                 {item.kits ? <ChevronRight className="mt-1 h-4 w-4 shrink-0" /> : null}
                               </div>
                             ) : item.kits ? (
-                              <DropdownMenuItem key={item.label} asChild className="p-0 focus:bg-transparent">
-                                <button type="button" onClick={() => setWebMenuPanel('kits')} className="group flex w-full items-start gap-3 rounded-lg p-2.5 text-left transition-all duration-200 hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white">
+                              <DropdownMenuItem key={item.label} onSelect={(e) => e.preventDefault()} asChild className="p-0 focus:bg-transparent">
+                                <button type="button" onClick={(e) => { e.preventDefault(); setWebMenuPanel('kits'); }} className="group flex w-full items-start gap-3 rounded-lg p-2.5 text-left transition-all duration-200 hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white">
                                   <div className="rounded-md bg-blue-500/10 p-1.5 text-blue-500 transition-colors group-hover:bg-white/15 group-hover:text-white group-focus:bg-white/15 group-focus:text-white">{item.icon}</div>
                                   <div className="min-w-0 flex-1 text-left"><p className="font-semibold">{item.label}</p><p className="line-clamp-2 text-xs text-muted-foreground transition-colors group-hover:text-blue-100 group-focus:text-blue-100">{item.description}</p></div>
                                   <ChevronRight className="mt-1 h-4 w-4 shrink-0" />
@@ -595,6 +586,8 @@ href="/generate"
                             >
                               <ClientLink
                                 href={item.href}
+                                target={item.target}
+                                rel={item.rel}
                                 className={cn(
                                   'group flex w-full items-start gap-3 rounded-lg p-2.5 transition-all duration-200 hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white',
                                   pathMatchesPrefix(pathname, item.href) &&
@@ -629,6 +622,8 @@ href="/generate"
         <div className="flex items-center gap-2 ml-auto shrink-0">
           <ClientLink
             href="/generate"
+            target="_blank"
+            rel="noopener noreferrer"
             className="hidden h-10 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-blue-600 via-cyan-500 to-violet-600 px-3 text-sm font-bold text-white shadow-[0_0_28px_rgba(59,130,246,0.35)] transition hover:scale-[1.02] hover:shadow-[0_0_34px_rgba(59,130,246,0.5)] md:inline-flex xl:px-5"
             aria-current={pathMatchesPrefix(pathname, '/generate') ? 'page' : undefined}
           >

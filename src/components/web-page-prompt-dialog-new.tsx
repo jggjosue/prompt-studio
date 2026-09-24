@@ -202,7 +202,7 @@ export function WebPagePromptDialog({
                     imageUrl: page.imageUrl,
                     stack: page.stack,
                     tags: page.tags
-                  }))}`}>
+                  }))}`} target="_blank" rel="noopener noreferrer">
                     <Wand2 className="h-3.5 w-3.5 mr-1.5" />
                     {t('usePrompt')}
                   </Link>

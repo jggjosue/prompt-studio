@@ -5,7 +5,7 @@
 > update the corresponding route handler.
 
 The system authorizes requests using eight distinct mechanisms. This matrix details
-the exact authorization strategy for all 111 API routes, which previously required
+the exact authorization strategy for all 115 API routes, which previously required
 manual file-by-file inspection.
 
 The test suite `tests/unit/route-access-matrix.test.ts` verifies that no route lacks
@@ -20,11 +20,11 @@ endpoint breaks the build pipeline instead of slipping into production.
 | Cron or admin secret | 6 |
 | Administrator | 9 |
 | Subscription plan | 12 |
-| User session | 65 |
+| User session | 70 |
 | AI worker token | 1 |
-| IP rate limit | 34 |
+| IP rate limit | 38 |
 | Disabled (501) | 2 |
-| **Total Routes** | **111** |
+| **Total Routes** | **115** |
 
 ## Public Routes by Design
 
@@ -64,6 +64,9 @@ None of them expose paid prompt data or private account records.
 | [`/api/admin/product-reviews`](../src/app/api/admin/product-reviews/route.ts) | GET, PATCH | Administrator + User session |
 | [`/api/affiliate/applications`](../src/app/api/affiliate/applications/route.ts) | POST | IP rate limit |
 | [`/api/affiliate/click`](../src/app/api/affiliate/click/route.ts) | POST | IP rate limit |
+| [`/api/ai/chats`](../src/app/api/ai/chats/route.ts) | GET, POST | User session + IP rate limit |
+| [`/api/ai/chats/[chatId]`](../src/app/api/ai/chats/[chatId]/route.ts) | GET, DELETE | User session + IP rate limit |
+| [`/api/ai/chats/[chatId]/messages`](../src/app/api/ai/chats/[chatId]/messages/route.ts) | GET, POST | User session + IP rate limit |
 | [`/api/ai/jobs`](../src/app/api/ai/jobs/route.ts) | POST, GET | Subscription plan + User session + IP rate limit |
 | [`/api/ai/jobs/[id]`](../src/app/api/ai/jobs/[id]/route.ts) | GET | User session |
 | [`/api/ai/jobs/[id]/feedback`](../src/app/api/ai/jobs/[id]/feedback/route.ts) | POST, DELETE | User session + IP rate limit |
@@ -94,11 +97,12 @@ None of them expose paid prompt data or private account records.
 | [`/api/component-export/sandbox`](../src/app/api/component-export/sandbox/route.ts) | POST | Subscription plan |
 | [`/api/component-library`](../src/app/api/component-library/route.ts) | GET, PUT | User session + IP rate limit |
 | [`/api/component-library/export`](../src/app/api/component-library/export/route.ts) | POST | Subscription plan |
-| [`/api/component-personalization`](../src/app/api/component-personalization/route.ts) | POST | Subscription plan |
+| [`/api/component-personalization`](../src/app/api/component-personalization/route.ts) | POST | Subscription plan + User session + IP rate limit |
 | [`/api/creator/listings`](../src/app/api/creator/listings/route.ts) | GET, POST | User session + IP rate limit |
 | [`/api/creator/listings/[id]`](../src/app/api/creator/listings/[id]/route.ts) | PATCH | User session |
 | [`/api/credits`](../src/app/api/credits/route.ts) | GET | User session |
 | [`/api/credits/checkout`](../src/app/api/credits/checkout/route.ts) | POST | User session + IP rate limit |
+| [`/api/credits/estimate`](../src/app/api/credits/estimate/route.ts) | POST | User session |
 | [`/api/csp-report`](../src/app/api/csp-report/route.ts) | POST | IP rate limit |
 | [`/api/demo/reproducible/report`](../src/app/api/demo/reproducible/report/route.ts) | GET | Public — Reproducible demo report for external audit |
 | [`/api/editor/projects`](../src/app/api/editor/projects/route.ts) | GET, PUT, DELETE | Subscription plan + User session + IP rate limit |

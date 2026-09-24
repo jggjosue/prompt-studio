@@ -1,10 +1,10 @@
-import 'server-only';
-import connectToDatabase from '@/lib/mongoose';
-import { ensureCreditAccount } from '@/lib/ai-job-service';
+import { ensureCreditAccount, getCreditBalance, grantPurchasedCredits } from '@/lib/ai-job-service';
 import type { CreditPack } from '@/lib/credit-packs';
+import connectToDatabase from '@/lib/mongoose';
+import { recordObservabilityEvent } from '@/lib/observability-server';
 import AICreditAccount from '@/models/AICreditAccount';
 import CreditPurchase from '@/models/CreditPurchase';
-import { recordObservabilityEvent } from '@/lib/observability-server';
+import 'server-only';
 
 export type TopUpResult = {
   /** true solo la primera vez que esta sesión de Stripe abona saldo. */
@@ -81,11 +81,14 @@ export async function applyCreditTopUp(params: {
   }
 
   try {
-    const account = await AICreditAccount.findOneAndUpdate(
-      { userId },
-      { $inc: { balance: pack.credits }, $set: { updatedAt: new Date() } },
-      { returnDocument: 'after' }
-    );
+    // grantPurchasedCredits performs the atomic $inc: { balance: ... } and
+    // records the immutable TOPUP_PURCHASE ledger entry.
+    await grantPurchasedCredits(userId, pack.credits, `topup:${stripeCheckoutSessionId}`, {
+      stripeCheckoutSessionId,
+      stripePaymentIntentId: params.stripePaymentIntentId ?? null,
+      packId: pack.id,
+    });
+    const balance = await getCreditBalance(userId);
     void recordObservabilityEvent({
       category: 'commerce',
       name: 'credit_topup_applied',
@@ -116,12 +119,12 @@ export async function applyCreditTopUp(params: {
         credits: pack.credits,
         amountPaidCents: params.amountPaidCents,
         currency: params.currency,
-        balance: account?.balance ?? 0,
+        balance: balance.balance,
         receiptUrl: params.receiptUrl ?? null,
       });
     }
 
-    return { credited: true, duplicate: false, balance: account?.balance ?? 0 };
+    return { credited: true, duplicate: false, balance: balance.balance };
   } catch (error) {
     // Devolvemos la compra a `pending` para que el reintento de Stripe la complete.
     await CreditPurchase.updateOne(

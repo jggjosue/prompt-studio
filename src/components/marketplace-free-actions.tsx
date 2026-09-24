@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { useTranslations } from 'next-intl';
-import { Download, FileText } from 'lucide-react';
+import { FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -47,39 +47,11 @@ export function MarketplaceFreeActions({ id, title }: MarketplaceFreeActionsProp
     }
   }, [endpoint, content, t, toast]);
 
-  const handleDownload = React.useCallback(async () => {
-    try {
-      const response = await fetch(`${endpoint}/download`, { cache: 'no-store' });
-      if (!response.ok) throw new Error(`Download failed with status ${response.status}`);
-
-      const blobUrl = URL.createObjectURL(await response.blob());
-      const disposition = response.headers.get('content-disposition');
-      const fileName = disposition?.match(/filename="([^"]+)"/i)?.[1] ?? `${id}.zip`;
-      const link = document.createElement('a');
-      link.href = blobUrl;
-      link.download = fileName;
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      URL.revokeObjectURL(blobUrl);
-
-      toast({ title: t('downloadStarted'), description: t('downloadStartedDescription') });
-    } catch {
-      toast({ title: t('downloadFailed'), description: t('downloadFailedDescription'), variant: 'destructive' });
-    }
-  }, [endpoint, id, t, toast]);
 
   const promptButton = (
     <Button size="sm" variant="outline" className="border-blue-500/35 text-blue-400 hover:border-blue-500/55 hover:bg-blue-500/10 hover:text-blue-300">
       <FileText className="w-4 h-4 mr-2" />
       {t('viewPrompt')}
-    </Button>
-  );
-
-  const downloadButton = (
-    <Button size="sm" variant="secondary" className="border border-blue-500/25 text-blue-300 hover:border-blue-500/40 hover:bg-blue-500/10 hover:text-blue-200">
-      <Download className="mr-2 h-4 w-4" />
-      {t('download')}
     </Button>
   );
 
@@ -93,14 +65,6 @@ export function MarketplaceFreeActions({ id, title }: MarketplaceFreeActionsProp
           onSuccess={handleOpenPrompt}
         >
           {promptButton}
-        </FreeEmailGate>
-        <FreeEmailGate
-          title={t('downloadComponent')}
-          description={t('downloadDescription')}
-          submitText={t('downloadNow')}
-          onSuccess={handleDownload}
-        >
-          {downloadButton}
         </FreeEmailGate>
       </div>
       <Dialog open={promptOpen} onOpenChange={setPromptOpen}>

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
+import { setRequestLocale } from 'next-intl/server';
 import MyComponentsClient from './my-components-client';
 
 /**
@@ -26,7 +27,10 @@ export const metadata: Metadata = {
  *
  * `redirect_url` conserva el destino para volver aquí al terminar.
  */
-export default async function MyComponentsPage() {
+export default async function MyComponentsPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
   const { userId } = await auth();
   if (!userId) {
     redirect(`/sign-up?redirect_url=${encodeURIComponent('/my-components')}`);
