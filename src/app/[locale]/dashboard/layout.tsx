@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import type React from 'react';
 import { auth, clerkClient } from '@clerk/nextjs/server';
 import { SidebarNavLink } from '@/components/dashboard/sidebar-nav-link';
-import { Activity, BarChart3, Braces, Clock3, Coins, CreditCard, Fingerprint, Flag, FlaskConical, FolderKanban, Gauge, Layers3, Library, Megaphone, Palette, Rocket, ShoppingCart, Store, UserCircle, UsersRound } from 'lucide-react';
+import { Activity, BarChart3, Braces, Clock3, Coins, Fingerprint, Flag, FlaskConical, FolderKanban, Gauge, Layers3, Library, Megaphone, Palette, Rocket, ShoppingCart, Store, UserCircle, UsersRound } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import Header from '@/components/layout/header';
 import { DashboardMobileNav } from '@/components/dashboard/dashboard-mobile-nav';
@@ -62,7 +62,28 @@ export default async function DashboardLayout({
   //   { href: '/dashboard/creations', icon: <Image className="h-4 w-4" />, label: t('myCreations'), badge: '5' },
   //   { href: '/dashboard/favorites', icon: <Heart className="h-4 w-4" />, label: t('favorites') },
   // ];
-  const navItems: { href: string; icon: React.ReactNode; label: string; badge?: string }[] = [];
+  const navItems: { href: string; icon: React.ReactNode; label: string; badge?: string }[] = [
+    {
+      href: '/dashboard/projects',
+      icon: <FolderKanban className="h-4 w-4" />,
+      label: 'Proyectos',
+    },
+    {
+      href: '/dashboard/generations',
+      icon: <Clock3 className="h-4 w-4" />,
+      label: 'Generaciones',
+    },
+    {
+      href: '/dashboard/brand-kits',
+      icon: <Palette className="h-4 w-4" />,
+      label: 'Brand Kits',
+    },
+    {
+      href: '/dashboard/publications',
+      icon: <Rocket className="h-4 w-4" />,
+      label: 'Publicaciones',
+    },
+  ];
   
   const allSettingsNavItems: {
     href: string;
@@ -201,7 +222,10 @@ export default async function DashboardLayout({
     // { href: '/dashboard/settings', icon: <Settings className="h-4 w-4" />, label: t('settings') },
     { href: '/dashboard/credits', icon: <Coins className="h-4 w-4" />, label: t('credits'), description: t('creditsDesc') },
   ];
-  const settingsNavItems = isPremiumJoAdmin ? allSettingsNavItems : [];
+  const primaryPaths = new Set(navItems.map(item => item.href));
+  const settingsNavItems = isPremiumJoAdmin
+    ? allSettingsNavItems.filter(item => !primaryPaths.has(item.href))
+    : [];
 
   return (
     <DashboardShell

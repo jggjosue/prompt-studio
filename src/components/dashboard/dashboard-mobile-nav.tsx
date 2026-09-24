@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 import {
   // Clapperboard,
   CreditCard,
+  FolderKanban,
   // Heart,
   // Image,
   // LayoutGrid,
@@ -32,7 +33,8 @@ export function DashboardMobileNav({
   const pathname = usePathname();
   const t = useTranslations('dashboard');
 
-  const links = isPremiumJoAdmin ? [
+  const links = [
+    { href: '/dashboard/projects', label: 'Proyectos', icon: FolderKanban },
     // { href: '/dashboard', label: t('dashboard'), icon: LayoutGrid },
     // { href: '/dashboard/analytics', label: t('analytics'), icon: LineChart },
     // { href: '/generate', label: t('create'), icon: Clapperboard },
@@ -52,7 +54,7 @@ export function DashboardMobileNav({
     ...(isAffiliate
       ? [{ href: '/dashboard/campaigns', label: t('campaigns'), icon: CreditCard }]
       : []),
-  ] : [];
+  ];
 
   return (
     <nav
