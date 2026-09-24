@@ -15,7 +15,7 @@ import CreativeProject from '@/models/CreativeProject';
 import { recordProjectFunnelEvent } from '@/lib/project-funnel-events';
 
 const headers = { 'Cache-Control': 'private, no-store' };
-const serialize = (p: any) => ({ id: String(p._id), pageId: p.pageId, name: p.name, slug: p.slug, url: publicUrl(p.slug), customDomain: p.customDomain, domainStatus: p.domainStatus, version: p.version, status: p.status, github: p.github, vercel: p.vercel, updatedAt: p.updatedAt });
+const serialize = (p: any) => ({ id: String(p._id), projectId: p.projectId ?? null, pageId: p.pageId, name: p.name, slug: p.slug, url: publicUrl(p.slug), customDomain: p.customDomain, domainStatus: p.domainStatus, version: p.version, status: p.status, github: p.github, vercel: p.vercel, updatedAt: p.updatedAt });
 
 export async function GET() {
   const { userId } = await auth();
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
   if (quality.status === 'blocked') return NextResponse.json({ error: 'La publicación fue bloqueada por controles de calidad.', quality: { id: String(audit._id), ...quality } }, { status: 422, headers });
   let slug = base;
   for (let n = 2; await LandingPublication.exists({ slug }); n += 1) slug = `${base.slice(0, 55)}-${n}`;
-  const created = await LandingPublication.create({ userId, pageId, name: (body?.name?.trim() || base).slice(0, 160), slug, folder });
+  const created = await LandingPublication.create({ userId, projectId, pageId, name: (body?.name?.trim() || base).slice(0, 160), slug, folder });
   audit.publicationId = created._id;
   await audit.save();
   if (assetIds.length) await AssetProvenance.updateMany({ _id: { $in: assetIds }, userId }, { $push: { publications: { publicationId: created._id, name: created.name, version: created.version, addedAt: new Date() } }, $set: { updatedAt: new Date() } });

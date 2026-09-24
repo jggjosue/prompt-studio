@@ -133,6 +133,7 @@ None of them expose paid prompt data or private account records.
 | [`/api/project-client/[token]`](../src/app/api/project-client/[token]/route.ts) | GET, POST | IP rate limit |
 | [`/api/projects`](../src/app/api/projects/route.ts) | GET, POST | User session + IP rate limit |
 | [`/api/projects/[id]`](../src/app/api/projects/[id]/route.ts) | GET, PATCH | User session + IP rate limit |
+| [`/api/projects/[id]/associations`](../src/app/api/projects/[id]/associations/route.ts) | GET | Project owner or collaborator session |
 | [`/api/projects/[id]/collaboration`](../src/app/api/projects/[id]/collaboration/route.ts) | GET, POST | User session + IP rate limit |
 | [`/api/prompt-experiments`](../src/app/api/prompt-experiments/route.ts) | GET, POST | User session + IP rate limit |
 | [`/api/prompt-experiments/[id]`](../src/app/api/prompt-experiments/[id]/route.ts) | GET, PATCH | User session + IP rate limit |
