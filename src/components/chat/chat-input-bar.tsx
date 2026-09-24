@@ -1,21 +1,54 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Send, Image, Video, Globe } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useSearchParams } from 'next/navigation';
 import type { ChatGeneratorReturn } from '@/lib/chat-types';
 import { ChatMode } from '@/lib/chat-types';
 
 export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
   const [prompt, setPrompt] = useState('');
-  const { selectedMode, setSelectedMode, generate, localGenerating } = chat;
+  const searchParams = useSearchParams();
+  const { selectedMode, setSelectedMode, generate, localGenerating, messages } = chat;
 
-  const handleSend = () => {
+  // Pre-fill from URL params
+  useEffect(() => {
+    const promptParam = searchParams.get('prompt');
+    if (promptParam && messages.length === 0) {
+      setPrompt(decodeURIComponent(promptParam));
+    }
+  }, [searchParams, messages.length]);
+
+  const handleSend = async () => {
     if (!prompt.trim() || localGenerating) return;
-    generate(prompt.trim(), { model: selectedMode }, selectedMode);
+    const trimmed = prompt.trim();
     setPrompt('');
+
+    // Crear chat session primero si no hay
+    try {
+      const createRes = await fetch('/api/ai/chats', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: trimmed.slice(0, 80), mode: selectedMode }),
+      });
+      const createData = await createRes.json();
+      if (createData.chat) {
+        // Enviar mensaje
+        await fetch(`/api/ai/chats/${createData.chat.id}/messages`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt: trimmed, mode: selectedMode, role: 'user' }),
+        });
+      }
+    } catch (err) {
+      console.error('Error creating chat:', err);
+    }
+
+    // Ejecutar generación
+    await generate(trimmed, { model: selectedMode }, selectedMode);
   };
 
   return (
