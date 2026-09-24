@@ -42,6 +42,7 @@
     "buyTooltip": "Para poder descargar los archivos de la pagina web",
     "emailPlaceholder": "user@example.com",
     "acceptTerms": "Acepto los",
+    "newsletterOptIn": "Quiero recibir novedades y promociones por correo. Me enviarás un enlace para confirmar.",
     "termsAndServices": "términos y servicios",
     "processing": "Procesando...",
     "invalidEmail": "Correo inválido",
