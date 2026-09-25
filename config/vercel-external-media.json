@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "provider": "cloudflare-r2",
+  "objects": [
+    { "path": "webpages/Kylian/output/mbappe-electric-5s.mp4", "bytes": 1239831, "sha256": "ae3bcfd8ca9a468bdf2990d6417e087bcf8c68e24fef5a06fb51d4e2005680ac" },
+    { "path": "webpages/cr7/videos/CR7_AURA_can_explosion_202606091340.mp4", "bytes": 3019540, "sha256": "a4f6d07676024c1bf68ec2d56b97935fc9f8b8f812c269043c4301b81d4be67f" },
+    { "path": "webpages/cr7/videos/CR7_AURA_can_explosion_202606091341.mp4", "bytes": 3430075, "sha256": "84ac27e07c7900c9ef481fde94e84e2fded8931cb9ece79465bf1b1735369ea2" },
+    { "path": "webpages/cr7/videos/CR7_AURA_can_explosion_202606091342.mp4", "bytes": 3087030, "sha256": "9a12fb3c0a2e8b633071953e84ad5580c68542113ac47762cd71f91de9309e0b" },
+    { "path": "webpages/cr7/videos/CR7_AURA_can_explosion_202606091343.mp4", "bytes": 2955230, "sha256": "1d92edaca49b69e6d94dfda423f8e94503167cd8f6d90500927fa3b6d1da7064" },
+    { "path": "webpages/cristiano-ronaldo/cr7_portugal_2026_ad_5s_4k60.mp4", "bytes": 3433566, "sha256": "389fe055d89e61bf343253edd915a68d30efddc3c41898a977eaafa4adeb6146" },
+    { "path": "webpages/mega-estadio/videos/Futuristic_stadium_light_explosion_202606091422 (1).mp4", "bytes": 5351693, "sha256": "b943d9eb011184178b041d843948b86476b2b9d7f2f0639734f6dc397e989a6f" },
+    { "path": "webpages/mega-estadio/videos/Futuristic_stadium_light_explosion_202606091422.mp4", "bytes": 5984645, "sha256": "3df69ea1e99042e67a165d3d138f0c76939e954e886ee73b2718518c23d80e1c" },
+    { "path": "webpages/messi/messi_ad_4k_60fps.mp4", "bytes": 3253132, "sha256": "3c575998ef2ef1602ca0291971789bba77389e2458f4e76af26d1a6e6664a841" }
+  ]
+}
