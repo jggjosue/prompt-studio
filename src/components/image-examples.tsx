@@ -70,7 +70,7 @@ function ImageExamplesContent() {
                     Use this prompt
                   </Link>
                 </LiquidButton>
-                 <Button
+                <Button
                   variant="secondary"
                   size="sm"
                   asChild
