@@ -42,25 +42,32 @@ function PaidPlanPrice({ isAnnual, monthly, yearly }: { isAnnual: boolean; month
   const displayPrice = isAnnual ? yearly : monthly;
   const priceSuffix = isAnnual ? '/año' : '/mes';
   const savings = monthly * 12 - yearly;
+  const discountPercent = monthly > 0 ? Math.round((savings / (monthly * 12)) * 100) : 0;
 
   return (
     <>
-      <div className="mb-2">
+      <div className="mb-2 flex items-baseline gap-2">
         <span className="text-5xl font-bold tabular-nums">${displayPrice}</span>
         <span className="text-muted-foreground">{priceSuffix}</span>
+        {isAnnual && savings > 0 && (
+          <span className="ml-1 inline-flex items-center rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+            {discountPercent}% OFF
+          </span>
+        )}
       </div>
       {monthly === 0 ? (
         <p className="text-sm text-muted-foreground mb-6">Sin tarjeta de crédito</p>
       ) : isAnnual ? (
-        <p className="text-sm text-muted-foreground mb-6">
-          {tPrices('equivalentMonthly', { amount: formatMonthlyEquivalent(yearly) })}
+        <div className="mb-6 space-y-1">
+          <p className="text-sm text-muted-foreground">
+            {tPrices('equivalentMonthly', { amount: formatMonthlyEquivalent(yearly) })}
+          </p>
           {savings > 0 && (
-            <span className="text-blue-500 font-medium">
-              {' '}
-              {tPrices('savePerYear', { amount: savings })}
-            </span>
+            <p className="text-xs font-medium text-emerald-600 dark:text-emerald-400">
+              Ahorras ${savings}/año ({discountPercent}% de descuento)
+            </p>
           )}
-        </p>
+        </div>
       ) : (
         <p className="text-sm text-muted-foreground mb-6">{tPrices('billedMonthly')}</p>
       )}
@@ -274,13 +281,16 @@ export default function PricesClient() {
               type="button"
               onClick={() => setIsAnnual(true)}
               aria-pressed={isAnnual}
-              className={`rounded-full px-7 py-3 text-sm font-semibold transition-all duration-200 sm:px-9 ${
+              className={`flex items-center gap-2 rounded-full px-7 py-3 text-sm font-semibold transition-all duration-200 sm:px-9 ${
                 isAnnual
                   ? '!bg-blue-600 !text-white shadow-[0_8px_24px_rgba(37,99,235,0.4)] ring-1 ring-blue-400'
                   : '!text-slate-200 hover:!bg-blue-950/60 hover:!text-white'
               }`}
             >
-              Anual
+              <span>Anual</span>
+              <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-xs font-bold text-emerald-400 border border-emerald-500/30">
+                Ahorra ~17%
+              </span>
             </button>
           </div>
 
