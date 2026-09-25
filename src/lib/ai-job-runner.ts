@@ -1,5 +1,4 @@
 import 'server-only';
-import { generateImage } from '@/ai/flows/generate-image';
 import type { IAIGenerationJob } from '@/models/AIGenerationJob';
 
 function asResult(value: unknown): Record<string, unknown> {
@@ -32,6 +31,7 @@ export async function runAIJob(job: IAIGenerationJob): Promise<Record<string, un
   const prompt = instructions ? `${basePrompt}\n\n${instructions}` : basePrompt;
   if (!prompt) throw new Error('El trabajo no contiene un prompt válido.');
   if (job.kind === 'image' && job.provider === 'google' && !process.env.AI_GENERATION_WORKER_URL) {
+    const { generateImage } = await import('@/ai/flows/generate-image');
     return generateImage({ prompt });
   }
   return runExternalWorker(job);
