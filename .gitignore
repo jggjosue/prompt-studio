@@ -28,6 +28,10 @@ lint-output.txt
 temp-accordion.txt
 *.scratch.*
 
+# dev artifacts (not deployable)
+/temp-screenshots/
+/.specstory/
+
 # debug
 npm-debug.log*
 yarn-debug.log*
