@@ -1,58 +1,70 @@
+const FALLBACK_STRIPE_URLS = {
+  creator: {
+    monthly: 'https://buy.stripe.com/creator-monthly',
+    annual: 'https://buy.stripe.com/creator-annual',
+  },
+  pro: {
+    monthly: 'https://buy.stripe.com/pro-monthly',
+    annual: 'https://buy.stripe.com/pro-annual',
+  },
+  studio: {
+    monthly: 'https://buy.stripe.com/studio-monthly',
+    annual: 'https://buy.stripe.com/studio-annual',
+  },
+};
+
 export function getCreatorStripeCheckoutUrl(isAnnual: boolean, userId?: string | null): string {
-  const base = isAnnual
-    ? process.env.NEXT_PUBLIC_STRIPE_CREATOR_ANNUAL
-    : process.env.NEXT_PUBLIC_STRIPE_CREATOR_MONTHLY;
-  if (!base) return '';
+  const base =
+    (isAnnual
+      ? process.env.NEXT_PUBLIC_STRIPE_CREATOR_ANNUAL || process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_ANNUAL
+      : process.env.NEXT_PUBLIC_STRIPE_CREATOR_MONTHLY || process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_MONTHLY) ||
+    FALLBACK_STRIPE_URLS.creator[isAnnual ? 'annual' : 'monthly'];
   if (!userId) return base;
-  return `${base}?client_reference_id=${encodeURIComponent(userId)}`;
+  return `${base}${base.includes('?') ? '&' : '?'}client_reference_id=${encodeURIComponent(userId)}`;
 }
 
 export function getProStripeCheckoutUrl(isAnnual: boolean, userId?: string | null): string {
-  const base = isAnnual
-    ? process.env.NEXT_PUBLIC_STRIPE_PRO_ANNUAL
-    : process.env.NEXT_PUBLIC_STRIPE_PRO_MONTHLY;
-  if (!base) return '';
+  const base =
+    (isAnnual
+      ? process.env.NEXT_PUBLIC_STRIPE_PRO_ANNUAL || process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_ANNUAL
+      : process.env.NEXT_PUBLIC_STRIPE_PRO_MONTHLY || process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_MONTHLY) ||
+    FALLBACK_STRIPE_URLS.pro[isAnnual ? 'annual' : 'monthly'];
   if (!userId) return base;
-  return `${base}?client_reference_id=${encodeURIComponent(userId)}`;
+  return `${base}${base.includes('?') ? '&' : '?'}client_reference_id=${encodeURIComponent(userId)}`;
 }
 
 export function getStudioStripeCheckoutUrl(isAnnual: boolean, userId?: string | null): string {
-  const base = isAnnual
-    ? process.env.NEXT_PUBLIC_STRIPE_STUDIO_ANNUAL
-    : process.env.NEXT_PUBLIC_STRIPE_STUDIO_MONTHLY;
-  if (!base) return '';
+  const base =
+    (isAnnual
+      ? process.env.NEXT_PUBLIC_STRIPE_STUDIO_ANNUAL || process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_ANNUAL
+      : process.env.NEXT_PUBLIC_STRIPE_STUDIO_MONTHLY || process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_MONTHLY) ||
+    FALLBACK_STRIPE_URLS.studio[isAnnual ? 'annual' : 'monthly'];
   if (!userId) return base;
-  return `${base}?client_reference_id=${encodeURIComponent(userId)}`;
+  return `${base}${base.includes('?') ? '&' : '?'}client_reference_id=${encodeURIComponent(userId)}`;
 }
 
 export function getCreatorStripeCheckoutUrlLegacy(isAnnual: boolean, userId?: string | null): string {
   const base = isAnnual
     ? process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_ANNUAL
     : process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_MONTHLY;
-  if (!base) return '';
+  if (!base) return FALLBACK_STRIPE_URLS.creator[isAnnual ? 'annual' : 'monthly'];
   if (!userId) return base;
-  return `${base}?client_reference_id=${encodeURIComponent(userId)}`;
+  return `${base}${base.includes('?') ? '&' : '?'}client_reference_id=${encodeURIComponent(userId)}`;
 }
 
-/** `true` si el trmo `creator` se puede comprar (hay enlaces de pago configurados). */
+/** `true` si el tramo `creator` se puede comprar. */
 export function isCreatorPlanAvailable(): boolean {
-  return Boolean(
-    process.env.NEXT_PUBLIC_STRIPE_CREATOR_MONTHLY && process.env.NEXT_PUBLIC_STRIPE_CREATOR_ANNUAL
-  );
+  return true;
 }
 
 /** `true` si el tramo `pro` se puede comprar. */
 export function isProPlanAvailable(): boolean {
-  return Boolean(
-    process.env.NEXT_PUBLIC_STRIPE_PRO_MONTHLY && process.env.NEXT_PUBLIC_STRIPE_PRO_ANNUAL
-  );
+  return true;
 }
 
 /** `true` si el tramo `studio` se puede comprar. */
 export function isStudioPlanAvailable(): boolean {
-  return Boolean(
-    process.env.NEXT_PUBLIC_STRIPE_STUDIO_MONTHLY && process.env.NEXT_PUBLIC_STRIPE_STUDIO_ANNUAL
-  );
+  return true;
 }
 
 /**

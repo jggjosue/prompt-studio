@@ -14,9 +14,9 @@ import {
   isPlanAvailable,
 } from '@/lib/stripe-checkout';
 import { trackAnalyticsEvent } from '@/lib/analytics';
-import { SignUpButton, useAuth } from '@clerk/nextjs';
-import { Check, Crown, Sparkles, UserPlus, Zap } from 'lucide-react';
-import { useTranslations, useLocale } from 'next-intl';
+import { useAuth } from '@clerk/nextjs';
+import { Check, Crown, Sparkles, Zap } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
@@ -38,9 +38,9 @@ function formatMonthlyEquivalent(yearly: number) {
 }
 
 function PaidPlanPrice({ isAnnual, monthly, yearly }: { isAnnual: boolean; monthly: number; yearly: number }) {
-  const tCommon = useTranslations('common');
+  const tPrices = useTranslations('prices');
   const displayPrice = isAnnual ? yearly : monthly;
-  const priceSuffix = isAnnual ? tCommon('perYear') : tCommon('perMonth');
+  const priceSuffix = isAnnual ? '/año' : '/mes';
   const savings = monthly * 12 - yearly;
 
   return (
@@ -49,18 +49,20 @@ function PaidPlanPrice({ isAnnual, monthly, yearly }: { isAnnual: boolean; month
         <span className="text-5xl font-bold tabular-nums">${displayPrice}</span>
         <span className="text-muted-foreground">{priceSuffix}</span>
       </div>
-      {isAnnual ? (
+      {monthly === 0 ? (
+        <p className="text-sm text-muted-foreground mb-6">Sin tarjeta de crédito</p>
+      ) : isAnnual ? (
         <p className="text-sm text-muted-foreground mb-6">
-          {tCommon('equivalentMonthly', { amount: formatMonthlyEquivalent(yearly) })}
+          {tPrices('equivalentMonthly', { amount: formatMonthlyEquivalent(yearly) })}
           {savings > 0 && (
             <span className="text-blue-500 font-medium">
               {' '}
-              {tCommon('savePerYear', { amount: savings })}
+              {tPrices('savePerYear', { amount: savings })}
             </span>
           )}
         </p>
       ) : (
-        <p className="text-sm text-muted-foreground mb-6">{tCommon('billedMonthly')}</p>
+        <p className="text-sm text-muted-foreground mb-6">{tPrices('billedMonthly')}</p>
       )}
     </>
   );
@@ -72,45 +74,42 @@ const PLANS: PaidPlan[] = [
     name: 'Free',
     monthly: 0,
     annual: 0,
-    credits: 1,
+    credits: 0,
     isMostPopular: false,
     features: [
       'Explora prompts y herramientas de IA gratuitas',
       'Copia prompts libres',
       'Acceso al chat básico',
-      '1 crédito para probar generación',
       'Sin tarjeta de crédito',
-      'Anuncios incluidos',
+      'Incluye anuncios',
     ],
-    cta: 'Get started free',
+    cta: 'Explorar gratis',
   },
   {
     id: 'creator',
     name: 'Creator',
     monthly: 9,
     annual: 90,
-    credits: 250,
+    credits: 0,
     isMostPopular: false,
     features: [
       'Todo en Free',
-      '250 créditos de IA cada ciclo',
       'Editor Creative Prompt Studio',
-      'Generación de imágenes',
+      'Generación de imágenes con IA',
       'Modelos Gemini, OpenAI y Claude',
       'Sin anuncios',
     ],
-    cta: 'Start Creator',
+    cta: 'Empezar con Creator',
   },
   {
     id: 'pro',
     name: 'Pro',
     monthly: 19,
     annual: 190,
-    credits: 1000,
+    credits: 0,
     isMostPopular: true,
     features: [
       'Todo en Creator',
-      '1,000 créditos cada ciclo',
       'Web Creator y herramientas web',
       'Herramientas avanzadas de imagen',
       'Modelos de IA avanzados',
@@ -118,32 +117,28 @@ const PLANS: PaidPlan[] = [
       'Límites de generación más altos',
       'Sin anuncios',
     ],
-    cta: 'Start Pro',
+    cta: 'Empezar con Pro',
   },
   {
     id: 'studio',
     name: 'Studio',
     monthly: 39,
     annual: 390,
-    credits: 3000,
+    credits: 0,
     isMostPopular: false,
     features: [
       'Todo en Pro',
-      '3,000 créditos cada ciclo',
       'Límites de generación más altos',
       'Acceso prioritario',
       'Más proyectos e historial',
       'Acceso anticipado a nuevas funciones',
     ],
-    cta: 'Start Studio',
+    cta: 'Empezar con Studio',
   },
 ];
 
 export default function PricesClient() {
   const t = useTranslations('prices');
-  const tCommon = useTranslations('common');
-  const locale = useLocale() ?? 'en';
-  const isSpanish = locale.startsWith('es');
   const [isAnnual, setIsAnnual] = useState(false);
   const searchParams = useSearchParams();
   const refreshSubscription = useRefreshSubscriptionStatus();
@@ -188,7 +183,6 @@ export default function PricesClient() {
 
   const getCheckoutUrl = (planId: PlanId) => {
     if (planId === 'free') return '/prompts';
-    if (!isSignedIn) return null;
     return getPlanCheckoutUrl(planId as 'creator' | 'pro' | 'studio', isAnnual, userId);
   };
 
@@ -204,9 +198,7 @@ export default function PricesClient() {
       );
     }
 
-    const checkoutUrl = getCheckoutUrl(paidPlan.id);
-
-    if (!mounted || !isLoaded || !ready) {
+    if (!mounted) {
       return <div className="h-10 w-full animate-pulse rounded-md bg-muted" />;
     }
 
@@ -224,38 +216,22 @@ export default function PricesClient() {
       );
     }
 
-    // Usuario no autenticado → signUp y luego vuelve a /prices
-    if (!isSignedIn) {
-      return (
-        <SignUpButton mode="redirect" forceRedirectUrl="/prices">
-          <Button className="w-full" onClick={() => handleSelectPlan(paidPlan.id)}>
-            <UserPlus className="w-4 h-4 mr-2" />
-            {paidPlan.cta}
-          </Button>
-        </SignUpButton>
-      );
-    }
+    const checkoutUrl = getCheckoutUrl(paidPlan.id);
 
-    // Autenticado pero sin URL de Stripe configurada
-    if (!checkoutUrl) {
-      return (
-        <Button className="w-full" disabled>
-          {tCommon('comingSoon')}
-        </Button>
-      );
-    }
-
-    // Autenticado con URL de Stripe → enlace directo al checkout
     return (
-      <Button className="w-full" asChild onClick={() => {
-        handleSelectPlan(paidPlan.id);
-        trackAnalyticsEvent('begin_checkout', {
-          plan: paidPlan.id,
-          billing_period: isAnnual ? 'yearly' : 'monthly',
-          price: getPlanPrice(paidPlan.id, isAnnual),
-          currency: 'USD',
-        });
-      }}>
+      <Button
+        className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+        asChild
+        onClick={() => {
+          handleSelectPlan(paidPlan.id);
+          trackAnalyticsEvent('begin_checkout', {
+            plan: paidPlan.id,
+            billing_period: isAnnual ? 'yearly' : 'monthly',
+            price: getPlanPrice(paidPlan.id, isAnnual),
+            currency: 'USD',
+          });
+        }}
+      >
         <a href={checkoutUrl} target="_blank" rel="noopener noreferrer">
           {paidPlan.cta}
         </a>
@@ -273,7 +249,7 @@ export default function PricesClient() {
               {t('chooseHowYouCreate')}
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              {t('subtitle')}
+              Comienza gratis y mejora cuando necesites más funciones premium, modelos avanzados y herramientas creativas.
             </p>
           </div>
 
@@ -292,7 +268,7 @@ export default function PricesClient() {
                   : '!text-slate-200 hover:!bg-blue-950/60 hover:!text-white'
               }`}
             >
-              {tCommon('monthlyBilling')}
+              Mensual
             </button>
             <button
               type="button"
@@ -304,7 +280,7 @@ export default function PricesClient() {
                   : '!text-slate-200 hover:!bg-blue-950/60 hover:!text-white'
               }`}
             >
-              {tCommon('yearlyBilling')}
+              Anual
             </button>
           </div>
 
@@ -342,32 +318,22 @@ export default function PricesClient() {
                       </CardTitle>
                     </div>
                     <p className="text-muted-foreground text-sm leading-relaxed">
-                      {isSpanish
-                        ? plan.id === 'free' ? 'Explora gratis las herramientas de IA'
-                          : plan.id === 'creator' ? 'Herramientas creativas con créditos'
-                          : plan.id === 'pro' ? 'El más popular. Máximas herramientas'
-                          : 'El máximo nivel de creación'
-                        : plan.id === 'free' ? 'Explore AI tools for free'
-                          : plan.id === 'creator' ? 'Creative tools with credits'
-                          : plan.id === 'pro' ? 'Most popular. Maximum tools'
-                          : 'The ultimate creation tier'}
+                      {plan.id === 'free'
+                        ? 'Explora gratis las herramientas de IA'
+                        : plan.id === 'creator'
+                        ? 'Herramientas creativas de IA'
+                        : plan.id === 'pro'
+                        ? 'El más popular. Máximas herramientas'
+                        : 'El máximo nivel de creación'}
                     </p>
                   </CardHeader>
                   <CardContent className="flex flex-col flex-grow">
-                    <div className="space-y-3 mb-6">
+                    <div className="mb-6">
                       <PaidPlanPrice
                         isAnnual={isAnnual}
                         monthly={plan.monthly}
                         yearly={plan.annual}
                       />
-                      <div className="inline-flex items-center gap-1.5 rounded-lg border border-blue-500/20 bg-blue-500/5 px-2.5 py-1 text-xs font-semibold text-muted-foreground">
-                        <Zap className="h-3.5 w-3.5 text-blue-500" />
-                        <span>
-                          {isSpanish
-                            ? `${plan.credits} ${plan.id === 'free' ? 'crédito inicial' : 'créditos'} de IA`
-                            : `${plan.credits} ${plan.id === 'free' ? 'free credit' : 'AI credits'}`}
-                        </span>
-                      </div>
                     </div>
                     <ul className="space-y-3 mb-8 flex-grow">
                       {plan.features.map((feature) => (
@@ -384,40 +350,6 @@ export default function PricesClient() {
                 </Card>
               );
             })}
-          </div>
-
-          {/* ── Cómo funcionan los créditos ── */}
-          <div className="mt-20 border-t border-border/40 pt-16">
-            <div className="text-center mb-10">
-              <Badge className="mb-3 bg-violet-500/15 text-violet-400 border border-violet-500/30">
-                {t('howCreditsWork')}
-              </Badge>
-              <h2 className="text-3xl md:text-4xl font-bold font-headline mb-3">
-                {t('howCreditsWork')}
-              </h2>
-              <p className="text-muted-foreground max-w-xl mx-auto text-sm md:text-base">
-                {t('creditsExplanation')}
-              </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-              {[
-                { label: t('creditExampleFast'), icon: '⚡' },
-                { label: t('creditExampleAdvanced'), icon: '🔬' },
-                { label: t('creditExamplePremium'), icon: '⭐' },
-                { label: t('creditExampleImage'), icon: '🖼️' },
-                { label: t('creditExampleVideo'), icon: '🎬' },
-              ].map((item) => (
-                <div key={item.label} className="flex items-center gap-3 rounded-lg border border-border/60 p-4">
-                  <span className="text-2xl">{item.icon}</span>
-                  <span className="text-sm font-medium">{item.label}</span>
-                </div>
-              ))}
-            </div>
-            <div className="mt-8 text-center">
-              <p className="text-sm text-muted-foreground">
-                {t('needMoreCredits')}
-              </p>
-            </div>
           </div>
 
           <p className="text-center text-sm text-muted-foreground mt-12 max-w-2xl mx-auto">

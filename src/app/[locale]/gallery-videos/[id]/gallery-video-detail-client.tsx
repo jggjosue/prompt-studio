@@ -31,7 +31,7 @@ export default function GalleryVideoDetailClient({ item, validation }: { item: V
   const locale = useLocale();
   const placeholderVideos = usePagedPlaceholderVideos();
   const otherItems = useMemo(() => {
-    const itemTags = new Set(item.tags);
+    const itemTags = new Set((item.tags || []).filter((tag): tag is string => typeof tag === 'string'));
     return placeholderVideos
       .filter(candidate => candidate.id !== item.id)
       .sort((a, b) => b.tags.filter(tag => itemTags.has(tag)).length - a.tags.filter(tag => itemTags.has(tag)).length)
@@ -65,7 +65,7 @@ export default function GalleryVideoDetailClient({ item, validation }: { item: V
                   {item.title}
                 </h1>
                 <div className="flex flex-wrap gap-2 mt-4">
-                  {item.tags?.map(tag => (
+                  {(item.tags || []).filter((tag): tag is string => typeof tag === 'string' && tag.trim().length > 0).map(tag => (
                     <Badge key={tag} variant="secondary">
                       {tag}
                     </Badge>

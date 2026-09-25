@@ -8,6 +8,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useDailyCopyLimit } from '@/hooks/use-daily-copy-limit';
+import { useMembershipAccess } from '@/hooks/use-membership-access';
+import { useRouter } from 'next/navigation';
 import { trackAnalyticsEvent } from '@/lib/analytics';
 import { copyToClipboard } from '@/lib/copy-to-clipboard';
 import { DndContext, DragOverlay, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, useDraggable, DragStartEvent, DragEndEvent } from '@dnd-kit/core';
@@ -19,11 +21,9 @@ import {
   Check,
   ChevronDown,
   Copy,
-  Download,
   GripVertical,
   Layers3,
   LayoutTemplate,
-  Loader2,
   Monitor,
   MousePointer2,
   Plus,
@@ -448,6 +448,8 @@ function RenderBlock({
 export default function PageComposerClient() {
   const es = useLocale().toLowerCase().startsWith('es');
   const { copyWithDailyLimit } = useDailyCopyLimit();
+  const { hasPaidPlan } = useMembershipAccess();
+  const router = useRouter();
 
   // Load catalogs
   const options = useMemo<Record<Key, Choice[]>>(() => ({
@@ -495,7 +497,6 @@ export default function PageComposerClient() {
   const [selectedCategory, setSelectedCategory] = useState<Key | null>(null);
   const [activeDragItem, setActiveDragItem] = useState<{ id: string, type: 'layer' | 'new', data?: any } | null>(null);
   const [copied, setCopied] = useState(false);
-  const [downloading, setDownloading] = useState(false);
 
   // --- History Management ---
   const saveHistory = (newBlocks: Block[]) => {
@@ -648,45 +649,13 @@ export default function PageComposerClient() {
   const masterPrompt = `Build a cohesive production-ready Next.js 15 website named “${projectName}” for “${brand}”.\n\nBRAND SYSTEM\n- Description: ${description}\n- Primary: ${primary}; secondary: ${secondary}; background: ${background}.\n- Use App Router, React 19, TypeScript, Tailwind CSS, semantic HTML, responsive design, WCAG AA, keyboard support, next/font and reduced-motion fallbacks.\n\nSELECTED SECTIONS\n${blocks.map(b => `## ${b.key.toUpperCase()}: ${b.title} (${b.choiceId})\n${b.prompt}${b.content ? `\n\nREQUIRED CONTENT OVERRIDES (MUST USE THESE TEXTS):\n${JSON.stringify(b.content, null, 2)}` : ''}`).join('\n\n')}\n\nCOHERENCE RULES\nUse one token system for color, typography, radius, spacing, shadows and motion. Compose sections in this order: ${blocks.map(b => b.key).join(' → ')}. Avoid duplicate navigation or CTAs. Include metadata, Open Graph, accessibility, performance, mobile behavior, README and tests. Return the complete file tree and code.`;
 
   const copy = async () => {
+    if (!hasPaidPlan) {
+      router.push('/prices');
+      return;
+    }
     if (await copyWithDailyLimit(() => copyToClipboard(masterPrompt)) === 'copied') {
       setCopied(true);
       window.setTimeout(() => setCopied(false), 1800);
-    }
-  };
-
-  const download = async () => {
-    setDownloading(true);
-    try {
-      const response = await fetch('/api/component-composer/export', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          projectName, brand, description, primary, secondary, background, 
-          includeSidebar: blocks.some(b => b.key === 'sidebar'), 
-          selections: {
-            header: blocks.find(b => b.key === 'header') || options.header[0],
-            sidebar: blocks.find(b => b.key === 'sidebar') || options.sidebar[0],
-            hero: blocks.find(b => b.key === 'hero') || options.hero[0],
-            card: blocks.find(b => b.key === 'card') || options.card[0],
-            form: blocks.find(b => b.key === 'form') || options.form[0],
-            button: blocks.find(b => b.key === 'button') || options.button[0],
-            footer: blocks.find(b => b.key === 'footer') || options.footer[0],
-            ...Object.fromEntries(blocks.map(b => [b.key, { id: b.choiceId, title: b.title, prompt: b.prompt }]))
-          }, 
-          masterPrompt 
-        })
-      });
-      if (!response.ok) throw new Error('Export failed');
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = (projectName.toLowerCase().replace(/[^a-z0-9]+/g, '-') || 'next-project') + '.zip';
-      link.click();
-      URL.revokeObjectURL(url);
-      trackAnalyticsEvent('next_project_download', { item_id: projectName, item_name: projectName, item_category: 'nextjs-project', component_count: blocks.length, action_source: 'page-composer' });
-    } finally {
-      setDownloading(false);
     }
   };
 
@@ -740,10 +709,6 @@ export default function PageComposerClient() {
           <Button variant="ghost" size="sm" onClick={copy} className="h-8 text-xs font-semibold text-zinc-300 hover:bg-white/5 hover:text-white">
             {copied ? <Check className="mr-2 size-3 text-emerald-400"/> : <Copy className="mr-2 size-3"/>}
             Prompt
-          </Button>
-          <Button size="sm" onClick={download} disabled={downloading} className="h-8 bg-violet-600 text-xs font-bold text-white hover:bg-violet-700 shadow-[0_0_20px_rgba(124,58,237,0.3)]">
-            {downloading ? <Loader2 className="mr-2 size-3 animate-spin"/> : <Download className="mr-2 size-3"/>}
-            Exportar Proyecto
           </Button>
         </div>
       </div>
