@@ -181,6 +181,17 @@ const nextConfig: NextConfig = {
     }
     return config;
   },
+  async redirects() {
+    return [
+      {
+        // Demo videos were moved to R2. Preserve every former public URL while
+        // the API issues a direct signed redirect without proxying the bytes.
+        source: '/webpages/:path*.mp4',
+        destination: '/api/webpages/assets/:path*.mp4',
+        permanent: false,
+      },
+    ];
+  },
   async headers() {
     return [
       /**

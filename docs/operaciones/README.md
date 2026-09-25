@@ -28,7 +28,7 @@ leyeron de la fuente en el momento de escribir, no se estimaron.
 | [../historial/](../historial/README.md) | Historial ampliado: cronología por fases, trazas de decisión, métricas, registro de fallos, inventario de derechos y dataset |
 | [base-de-conocimiento.md](base-de-conocimiento.md) | Trampas conocidas, decisiones tomadas y su porqué |
 | [feedback-ia.md](feedback-ia.md) | Qué se registra hoy de las generaciones y qué falta |
-| [vercel-function-dependencies.md](vercel-function-dependencies.md) | Mapa, carga diferida y medición de dependencias pesadas en Vercel Functions |
+| [vercel-static-media.md](vercel-static-media.md) | Inventario y migración de videos de demos desde Vercel hacia Cloudflare R2 |
 
 También en `docs/`, generados antes: [ai-generation-queue.md](../ai-generation-queue.md),
 [observability.md](../observability.md), [testing.md](../testing.md).
