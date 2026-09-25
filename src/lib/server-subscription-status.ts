@@ -1,4 +1,3 @@
-import { stripe, extractSubscriptionMeta } from '@/lib/stripe';
 import type { StripeUserMetadata } from '@/lib/stripe';
 import { auth, clerkClient } from '@clerk/nextjs/server';
 import type Stripe from 'stripe';
@@ -88,6 +87,10 @@ export async function getServerSubscriptionStatus(): Promise<ServerSubscriptionS
   if (studioJoEmail && userEmail === studioJoEmail) {
     return { ...DEV_STUDIO, purchasedPages };
   }
+
+  if (!meta.stripeCustomerId && !userEmail) return { ...FREE, purchasedPages };
+
+  const { stripe, extractSubscriptionMeta } = await import('@/lib/stripe');
 
   if (meta.stripeCustomerId) {
     const { data: subscriptions } = await stripe.subscriptions.list({

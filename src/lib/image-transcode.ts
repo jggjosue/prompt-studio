@@ -1,5 +1,3 @@
-import sharp from 'sharp';
-
 export type ModernImageFormat = 'avif' | 'webp' | 'original';
 
 const RASTER_EXT = /\.(jpe?g|png)$/i;
@@ -57,6 +55,7 @@ export async function transcodeRasterImage(
     };
   }
 
+  const { default: sharp } = await import('sharp');
   let pipeline = sharp(input, { failOn: 'none' }).rotate();
 
   if (width && width > 0) {
