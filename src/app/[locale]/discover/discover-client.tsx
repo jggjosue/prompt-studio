@@ -79,6 +79,29 @@ function getDemoHref(item: MediaItem): string {
     : `${url.pathname}${url.search}`;
 }
 
+/**
+ * Builds the Next.js preview wrapper URL (/landing-pages/[slug]/preview)
+ * so the purchase button is visible when the user clicks "Previsualizar".
+ */
+function getWebPreviewHref(item: MediaItem): string {
+  const demoUrl = item.demoUrl ?? '';
+  if (!demoUrl) return '/landing-pages';
+  const pageId = String(item.id ?? demoUrl);
+  const params = new URLSearchParams();
+  if (item.price) {
+    params.set('price', item.price);
+    const checkoutParams = new URLSearchParams({
+      price: item.price,
+      client_reference_id: `guest___${pageId}`,
+      affiliate_product_id: pageId,
+    });
+    params.set('checkout', `/api/web-page-checkout?${checkoutParams.toString()}`);
+  }
+  if (pageId) params.set('pageId', pageId);
+  const qs = params.toString();
+  return `/landing-pages/${encodeURIComponent(demoUrl)}/preview${qs ? `?${qs}` : ''}`;
+}
+
 function getPersonalizeHref(item: { kind: Filter; prompt?: string; titleText?: string }): string {
   const prompt = item.prompt || item.titleText || '';
   const route = '/generate';
@@ -207,6 +230,9 @@ function VirtualFeedItem({ item, index, metric, onTrack, onToggleLike }: {
         : item.kind === 'animation'
           ? `/generate?prompt=${encodeURIComponent(item.prompt)}`
           : `/gallery/${item.detailId}`;
+  // For web items, the "Previsualizar" button must go through the Next.js
+  // preview wrapper so the purchase button is rendered.
+  const previewHref = item.kind === 'web' ? getWebPreviewHref(item) : href;
   const personalizeHref = getPersonalizeHref(item);
 
   return (
@@ -268,7 +294,7 @@ function VirtualFeedItem({ item, index, metric, onTrack, onToggleLike }: {
                 </Link>
               </Button>
               <Button asChild size="sm" variant="outline" className="border-white/15 bg-white/5 text-white hover:bg-white/10 hover:text-white">
-                <a href={href} target="_blank" rel="noopener noreferrer" onClick={() => onTrack(item, 'click')}>
+                <a href={previewHref} target="_blank" rel="noopener noreferrer" onClick={() => onTrack(item, 'click')}>
                   <Eye className="mr-1.5 h-3.5 w-3.5" />
                   Previsualizar
                 </a>
