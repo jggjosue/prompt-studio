@@ -116,7 +116,7 @@ const PLANS: PaidPlan[] = [
       'Todo en Free',
       'Catálogo completo de botones, cards, headers y más (Premium)',
       'Copias de prompts de Paginas Web (Premium)',
-      'Kids Completosn (Premium)',
+      'Copias de prompts den Kids Completos (Premium)',
       'Constructor visual de componentes (Component Builder)',
       'Page Composer para componer páginas completas'
     ],
