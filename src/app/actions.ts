@@ -447,27 +447,63 @@ export async function proxyGemini(apiKey: string, prompt: string, model: string 
   try {
     const key = apiKey || process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || '';
     if (!key) {
-      return { error: 'No Gemini API Key configured on platform or provided.' };
+      return { error: 'No se ha configurado la API Key de Gemini en la plataforma o no fue provista.' };
     }
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        contents: [{
-          parts: [{ text: prompt }]
-        }]
-      })
+
+    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
+    const payload = JSON.stringify({
+      contents: [{
+        parts: [{ text: prompt }]
+      }]
     });
 
-    if (!response.ok) {
+    const maxRetries = 3;
+    let delay = 1000;
+
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: payload
+      });
+
+      if (response.ok) {
+        return await response.json();
+      }
+
       const errData = await response.json().catch(() => ({}));
-      return { error: errData.error?.message || `HTTP ${response.status}` };
+      const apiMessage = errData.error?.message;
+      const status = response.status;
+
+      // Si es un error temporal de Rate Limit (429) o Servicio No Disponible (503), intentamos un reintento con backoff exponencial.
+      if ((status === 429 || status === 503) && attempt < maxRetries) {
+        await new Promise((res) => setTimeout(res, delay));
+        delay *= 2;
+        continue;
+      }
+
+      // Mapeo detallado y amigable de códigos de error de Gemini API
+      let customError = apiMessage || `Error de servidor HTTP ${status}`;
+      if (status === 400) {
+        customError = apiMessage || 'Solicitud incorrecta (400 Bad Request): verifica la estructura o parámetros enviados a la API de Gemini.';
+      } else if (status === 403) {
+        customError = 'Acceso denegado (403 Forbidden): La API Key no es válida o no tiene permisos habilitados para esta API de Gemini.';
+      } else if (status === 404) {
+        customError = `Modelo no encontrado (404 Not Found): El modelo '${model}' no existe o no está disponible en tu región/proyecto.`;
+      } else if (status === 429) {
+        customError = 'Límite de cuota o solicitudes excedido (429 Too Many Requests): Has superado el límite de llamadas a la API de Gemini. Por favor espera un momento e intenta nuevamente.';
+      } else if (status === 503) {
+        customError = 'Servicio de Gemini no disponible temporalmente (503 Service Unavailable). Por favor intenta de nuevo más tarde.';
+      }
+
+      return { error: customError, statusCode: status };
     }
-    return await response.json();
+
+    return { error: 'Se excedió el número máximo de reintentos con la API de Gemini.' };
   } catch (err: any) {
-    return { error: err.message || 'Network error contacting Gemini API' };
+    return { error: err.message || 'Error de red al conectar con la API de Gemini.' };
   }
 }
 
