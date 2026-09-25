@@ -85,10 +85,23 @@ const PLANS: PaidPlan[] = [
     credits: 0,
     isMostPopular: false,
     features: [
-      'Explora prompts y herramientas de IA gratuitas',
-      'Copia prompts libres',
-      'Acceso al chat básico',
-      'Sin tarjeta de crédito',
+      'Catálogo completo de botones, cards, headers y más',
+      'Animaciones web gratuitas con código copiable',
+      'Vista previa interactiva de todos los componentes',
+      'Prompts visibles en catálogo sin límite de lectura',
+      'Buscador Inteligente',
+      'Descarga de prompts personalizados',
+      'Exportación de prompts por plataforma',
+      'Copias de prompts ilimitadas por día',
+      'Copias de prompts de Componentes UI',
+      'Copias de prompts de Animaciones',
+      'Copias de prompts de Videos',
+      'Copias de prompts de Imagenes',
+      'Copias de prompts de Paginas Web',
+      'Buscador Inteligente',
+      'Comparador de Componentes',
+      'Sin tarjeta de crédito requerida',
+      'Sin anuncios',
     ],
     cta: 'Explorar gratis',
   },
@@ -101,8 +114,10 @@ const PLANS: PaidPlan[] = [
     isMostPopular: false,
     features: [
       'Todo en Free',
-      'Editor Creative Prompt Studio',
-      'Sin anuncios',
+      'Generación de Paginas con Page Composer',
+      'Catálogo completo de botones, cards, headers y más (Premium)',
+      'Copias de prompts de Paginas Web (Premium)',
+      'Kids Completosn (Premium)'
     ],
     cta: 'Empezar con Creator',
   },
@@ -116,12 +131,11 @@ const PLANS: PaidPlan[] = [
     comingSoon: true,
     features: [
       'Todo en Creator',
-      'Web Creator y herramientas web',
-      'Herramientas avanzadas de imagen',
+      'Web Creator y herramientas web avanzadas',
+      'Herramientas avanzadas de imagen y generación',
       'Modelos de IA avanzados',
-      'Catálogo Premium completo',
-      'Límites de generación más altos',
-      'Sin anuncios',
+      'Catálogo Premium completo desbloqueado',
+      'Publicación y exportación de páginas web',
     ],
     cta: 'Empezar con Pro',
   },
@@ -135,9 +149,12 @@ const PLANS: PaidPlan[] = [
     comingSoon: true,
     features: [
       'Todo en Pro',
-      'Límites de generación más altos',
-      'Acceso prioritario',
-      'Más proyectos e historial',
+      'Generación ilimitada de prompts y exportaciones',
+      'Acceso prioritario a servidores',
+      'Más proyectos e historial extendido',
+      'Kids Completos para construir productos',
+      'Web creator para desarrollar aplicaciones web con IA',
+
       'Acceso anticipado a nuevas funciones',
     ],
     cta: 'Empezar con Studio',
@@ -270,8 +287,8 @@ export default function PricesClient() {
               onClick={() => setIsAnnual(false)}
               aria-pressed={!isAnnual}
               className={`rounded-full px-7 py-3 text-sm font-semibold transition-all duration-200 sm:px-9 ${!isAnnual
-                  ? '!bg-blue-600 !text-white shadow-[0_8px_24px_rgba(37,99,235,0.4)] ring-1 ring-blue-400'
-                  : '!text-slate-200 hover:!bg-blue-950/60 hover:!text-white'
+                ? '!bg-blue-600 !text-white shadow-[0_8px_24px_rgba(37,99,235,0.4)] ring-1 ring-blue-400'
+                : '!text-slate-200 hover:!bg-blue-950/60 hover:!text-white'
                 }`}
             >
               Mensual
@@ -281,8 +298,8 @@ export default function PricesClient() {
               onClick={() => setIsAnnual(true)}
               aria-pressed={isAnnual}
               className={`flex items-center gap-2 rounded-full px-7 py-3 text-sm font-semibold transition-all duration-200 sm:px-9 ${isAnnual
-                  ? '!bg-blue-600 !text-white shadow-[0_8px_24px_rgba(37,99,235,0.4)] ring-1 ring-blue-400'
-                  : '!text-slate-200 hover:!bg-blue-950/60 hover:!text-white'
+                ? '!bg-blue-600 !text-white shadow-[0_8px_24px_rgba(37,99,235,0.4)] ring-1 ring-blue-400'
+                : '!text-slate-200 hover:!bg-blue-950/60 hover:!text-white'
                 }`}
             >
               <span>Anual</span>
@@ -303,8 +320,8 @@ export default function PricesClient() {
                 <Card
                   key={paidPlanItem.id}
                   className={`relative flex flex-col overflow-hidden transition-all duration-300 hover:shadow-xl ${paidPlanItem.isMostPopular
-                      ? 'border-violet-500 shadow-lg shadow-violet-500/10 scale-[1.02]'
-                      : 'border-muted-foreground/20 shadow-sm'
+                    ? 'border-violet-500 shadow-lg shadow-violet-500/10 scale-[1.02]'
+                    : 'border-muted-foreground/20 shadow-sm'
                     } ${paidPlanItem.comingSoon ? 'opacity-60 select-none' : ''} ${!available && !paidPlanItem.comingSoon ? 'opacity-50 pointer-events-none' : ''}`}
                 >
                   {paidPlanItem.comingSoon && (
@@ -334,12 +351,12 @@ export default function PricesClient() {
                     </div>
                     <p className="text-muted-foreground text-sm leading-relaxed">
                       {paidPlanItem.id === 'free'
-                        ? 'Explora gratis las herramientas de IA'
+                        ? 'Explora el catálogo completo de componentes gratis'
                         : paidPlanItem.id === 'creator'
-                          ? 'Herramientas creativas de IA'
+                          ? 'Constructor visual, descargas y Page Composer'
                           : paidPlanItem.id === 'pro'
-                            ? 'El más popular. Máximas herramientas'
-                            : 'El máximo nivel de creación'}
+                            ? 'El más popular. Máximas herramientas y catálogo Premium'
+                            : 'El máximo nivel de creación sin límites'}
                     </p>
                   </CardHeader>
                   <CardContent className="flex flex-col flex-grow">
