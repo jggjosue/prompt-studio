@@ -9,6 +9,13 @@ Prompt Studio treats `/dashboard/projects` as the authenticated workspace entry 
 - Empty accounts keep the existing create-project state instead of creating data implicitly.
 - Route-level loading and recoverable error states cover slow or failed server rendering.
 - Project mutations continue through `/api/projects/[id]`, where owner/editor/reviewer permissions are enforced server-side.
+- Expensive generations no longer accept a client-provided approval flag. They
+  require the project to be in `approved` or `published`, with no open change
+  requests; those transitions are authorized in
+  `/api/projects/[id]/collaboration`.
+- Publishing a project-linked result is treated as sensitive and applies the
+  same human-verification gate. A blocked check returns HTTP 409 and emits the
+  sanitized `human_verification_blocked` observability event.
 
 ## Rollback
 
