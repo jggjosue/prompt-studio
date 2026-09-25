@@ -92,7 +92,7 @@ function PromptCatalogCardComponent({
         </CardContent>
         <CardFooter className="bg-muted/50 p-4 border-t flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-between gap-2">
           <LiquidButton size="sm" className={actionClassName} asChild>
-            <Link href={`/generate?prompt=${encodeURIComponent(item.description || item.title)}`}>
+            <Link href={galleryHref}>
               <Wand2 className="w-4 h-4 mr-2" />
               Use this prompt
             </Link>
