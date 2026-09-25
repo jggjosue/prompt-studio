@@ -80,9 +80,11 @@ export default function GalleryVideoDetailClient({ item, validation }: { item: V
                     className="w-full h-full object-cover"
                   />
                  <div className="absolute bottom-4 right-4 flex items-start gap-4 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
-                    <LiquidButton size="sm" disabled>
-                          <Wand2 className="mr-2" />
-                          Use this prompt
+                    <LiquidButton size="sm" asChild>
+                      <Link href={`/generate?prompt=${encodeURIComponent(item.description)}`}>
+                        <Wand2 className="mr-2" />
+                        Use this prompt
+                      </Link>
                     </LiquidButton>
                   </div>
               </div>
@@ -116,7 +118,7 @@ export default function GalleryVideoDetailClient({ item, validation }: { item: V
                 </AccordionItem>
               </Accordion>
 
-              <PromptValidationCard report={validation} locale={locale} />
+              <PromptValidationCard report={validation} locale={locale} showEstimates={false} />
 
               <div>
                 <h3 className="text-2xl font-bold font-headline mt-8 mb-4">
