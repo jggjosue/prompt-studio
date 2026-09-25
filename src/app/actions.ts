@@ -1,8 +1,6 @@
 
 'use server';
 
-import { generateImage } from '@/ai/flows/generate-image';
-import { generateImageVideoPrompt } from '@/ai/flows/generate-image-video-prompts';
 import { isPremiumJoAdmin } from '@/lib/admin-auth';
 import { isGeminiWebModel } from '@/lib/gemini-web-models';
 import { reportOperationalError } from '@/lib/observability-server';
@@ -35,6 +33,7 @@ export async function handlePromptGeneration(
   }
 
   try {
+    const { generateImageVideoPrompt } = await import('@/ai/flows/generate-image-video-prompts');
     const result = await generateImageVideoPrompt({
       keywords: validatedFields.data.keywords,
     });
@@ -75,6 +74,7 @@ export async function handleImageGeneration(
   }
 
   try {
+    const { generateImage } = await import('@/ai/flows/generate-image');
     const result = await generateImage({
       prompt: validatedFields.data.prompt,
     });

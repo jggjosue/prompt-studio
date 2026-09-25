@@ -1,7 +1,7 @@
 'use server';
 
 import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import {z} from 'zod';
 
 const InputSchema=z.object({brief:z.string().min(5).max(800),componentType:z.string().max(40),componentName:z.string().max(160),basePrompt:z.string().max(12000),current:z.object({primary:z.string(),secondary:z.string(),background:z.string(),heading:z.string(),body:z.string(),cta:z.string(),icon:z.string(),fields:z.array(z.string()).max(8)})});
 const OutputSchema=z.object({primary:z.string().regex(/^#[0-9a-f]{6}$/i),secondary:z.string().regex(/^#[0-9a-f]{6}$/i),background:z.string().regex(/^#[0-9a-f]{6}$/i),heading:z.string().min(2).max(90),body:z.string().min(5).max(240),cta:z.string().min(2).max(45),icon:z.enum(['sparkles','heart','mail','settings','dashboard']),fields:z.array(z.string().min(1).max(50)).min(2).max(6),dark:z.boolean(),promptAddendum:z.string().min(20).max(3000),rationale:z.string().min(10).max(500)});

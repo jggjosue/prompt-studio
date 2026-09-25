@@ -59,6 +59,7 @@
     "lint:fix": "eslint . --fix",
     "validate": "npm run lint && npm run typecheck && npm run test:coverage && npm run verify:env-example && npm run cache:audit",
     "audit:vercel-storage": "node scripts/mjs/audit-vercel-storage.mjs",
+    "audit:vercel-functions": "node scripts/mjs/audit-server-dependencies.mjs",
     "architecture:check": "node --import tsx scripts/ts/check-domain-architecture.ts",
     "benchmark:catalog-index": "node --import tsx scripts/ts/benchmark-catalog-index.ts",
     "test:refactory-runtime": "node --import tsx --test tests/unit/refactory-bundle-contract.test.ts tests/integration/refactory-runtime.test.ts"
