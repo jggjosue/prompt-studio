@@ -80,17 +80,9 @@ export default function GalleryVideoDetailClient({ item, validation }: { item: V
                     className="w-full h-full object-cover"
                   />
                  <div className="absolute bottom-4 right-4 flex items-start gap-4 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
-                    <LiquidButton size="sm" asChild>
-                      <Link href={`/generate?prompt=${encodeURIComponent(JSON.stringify({
-                        type: 'video',
-                        title: item.title,
-                        description: item.description,
-                        imageUrl: item.imageUrl,
-                        tags: item.tags
-                      }))}`}>
+                    <LiquidButton size="sm" disabled>
                           <Wand2 className="mr-2" />
                           Use this prompt
-                      </Link>
                     </LiquidButton>
                   </div>
               </div>

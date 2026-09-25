@@ -91,44 +91,12 @@ function PromptCatalogCardComponent({
           <AdUnit />
         </CardContent>
         <CardFooter className="bg-muted/50 p-4 border-t flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-between gap-2">
-          <LiquidButton size="sm" className={actionClassName} asChild>
-            <Link
-              href={
-                item.description
-                  ? `${item.type === 'video' ? '/generate' : '/generate'}?prompt=${encodeURIComponent(
-                    JSON.stringify({
-                      type: item.type,
-                      title: item.title,
-                      description: item.description,
-                      imageUrl: item.imageUrl,
-                      tags: item.tags,
-                    })
-                  )}`
-                  : item.type === 'video'
-                    ? '/generate'
-                    : '/generate'
-              }
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+          <LiquidButton size="sm" className={actionClassName} disabled>
               <Wand2 className="w-4 h-4 mr-2" />
               Use this prompt
-            </Link>
           </LiquidButton>
-          <Button variant="secondary" size="sm" asChild className={actionClassName}>
-            <Link
-              href={`${item.type === 'video' ? '/generate-videos' : '/generate'}?prompt=${encodeURIComponent(JSON.stringify({
-                type: item.type,
-                title: item.title,
-                description: item.description ?? '',
-                imageUrl: item.imageUrl,
-                tags: item.tags,
-              }))}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+          <Button variant="secondary" size="sm" className={actionClassName} disabled>
               Personalizar
-            </Link>
           </Button>
 
         </CardFooter>
