@@ -24,7 +24,7 @@ export async function GET(_: Request, { params }: { params: Promise<{ id: string
   const tasks = campaign.tasks as Task[];
   const [jobs, project] = await Promise.all([
     AIGenerationJob.find({ _id: { $in: tasks.map(task => task.jobId) }, userId }),
-    CreativeProject.findOne({ _id: campaign.projectId, userId }).select('brand prompts exports budget').lean(),
+    CreativeProject.findOne({ _id: campaign.projectId, userId }).select('brand prompts exports decisions reviewStatus budget').lean(),
   ]);
   const byId = new Map(jobs.map(job => [String(job._id), serializeAIJob(job)]));
   const serializedJobs = tasks.map(task => byId.get(String(task.jobId))).filter(Boolean);
@@ -34,7 +34,8 @@ export async function GET(_: Request, { params }: { params: Promise<{ id: string
     brandConfigured: Boolean(brand?.name || brand?.voice || brand?.colors?.length || brand?.headingFont || brand?.bodyFont),
     promptCount: project?.prompts?.length ?? tasks.length,
     jobs: serializedJobs.map(job => ({ status: job!.status, progress: job!.progress, creditCost: job!.creditCost, estimatedCostUsd: job!.estimatedCostUsd, actualCostUsd: job!.actualCostUsd, feedbackUseful: job!.feedbackUseful })),
-    publicationCount: project?.exports?.length ?? 0,
+    reviewStatus: project?.reviewStatus ?? 'draft',
+    publicationCount: (project?.exports?.length ?? 0) + (project?.decisions?.some(decision => decision.status === 'published') ? 1 : 0),
   });
   const budgetSettings = { limitCredits: project?.budget?.limitCredits ?? null, limitUsd: project?.budget?.limitUsd ?? null, warningPercent: project?.budget?.warningPercent ?? 80, approvalCredits: project?.budget?.approvalCredits ?? null, approvalUsd: project?.budget?.approvalUsd ?? null };
   const budget = { ...budgetSettings, ...projectBudgetSnapshot(budgetSettings, serializedJobs.map(job => ({ kind: job!.kind, provider: job!.provider, status: job!.status, creditsState: job!.creditsState, creditCost: job!.creditCost, estimatedCostUsd: job!.estimatedCostUsd, actualCostUsd: job!.actualCostUsd }))) };
