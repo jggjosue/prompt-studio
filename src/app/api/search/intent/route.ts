@@ -9,5 +9,5 @@ export async function GET(request:Request){
  if(!query)return NextResponse.json({intent:[],items:[]},{headers:cacheHeaders('public-catalog')});
  const pages=getWebPages(locale);
  const workflow=discoverAndRankCatalog(query,pages.map(page=>({id:page.id,title:page.title,description:page.imageHint,imageHint:page.imageHint,tags:page.tags,stack:page.stack,membership:page.membership,price:page.price,searchDocument:page})));
- return NextResponse.json({intent:workflow.signals,items:workflow.result.map(({searchDocument,...item})=>item),workflow:workflow.workflow},{headers:cacheHeaders('public-catalog')});
+ return NextResponse.json({intent:workflow.signals,items:workflow.result.map(({searchDocument,...item})=>({...item,demoUrl:searchDocument.demoUrl})),workflow:workflow.workflow},{headers:cacheHeaders('public-catalog')});
 }
