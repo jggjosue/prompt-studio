@@ -34,7 +34,6 @@ export function EditorWorkspace({
   // versión durante Fast Refresh (el aviso “changed size between renders”).
   const initialDocumentRef = useRef(initialDocument);
   const sourcePageIdRef = useRef(sourcePageId);
-  useEditorAutosave(store, { name, sourcePageId, enabled: loaded });
 
   /** Carga el último proyecto o siembra una sección para no arrancar en blanco. */
   useEffect(() => {

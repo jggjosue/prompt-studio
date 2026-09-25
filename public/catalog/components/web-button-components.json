@@ -1,1 +1,2158 @@
-{"title_es":"Componentes de botones","title_en":"Button components","description_es":"Botones interactivos listos para visualizar, personalizar y generar con prompts profesionales.","description_en":"Interactive buttons ready to preview, customize, and generate with professional prompts.","components":[{"id":"button-001","name":{"en":"Aurora Gradient Button","es":"Botón Degradado Aurora"},"description":{"en":"gradient rounded button with complete interactive states.","es":"Botón gradient rounded con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Aurora Gradient” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Start creating” with a gradient visual treatment, rounded shape, arrow icon, primary #8b5cf6, secondary #ec4899, and background #09090b. Include default, hover, focus-visible, active, loading, success, disabled and destructive-safe states. Support button and anchor semantics, left/right icons, icon-only mode, sizes, full width, async actions and prevention of duplicate clicks. Animate transform and opacity without layout shift; respect prefers-reduced-motion. Require keyboard access, accessible name, aria-busy, WCAG AA contrast and a 44px touch target. Return typed variants, reusable component, demo, dependencies and tests.","es":"Crea un botón «Degradado Aurora» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Start creating» con tratamiento gradient, forma rounded, icono arrow, color principal #8b5cf6, secundario #ec4899 y fondo #09090b. Incluye estados default, hover, focus-visible, activo, carga, éxito, deshabilitado y protección para acciones destructivas. Soporta semántica button y anchor, iconos a izquierda/derecha, modo solo icono, tamaños, ancho completo, acciones asíncronas y prevención de clics duplicados. Anima transform y opacity sin layout shift; respeta prefers-reduced-motion. Exige teclado, nombre accesible, aria-busy, contraste WCAG AA y área táctil de 44px. Devuelve variantes tipadas, componente reutilizable, demo, dependencias y pruebas."},"preview":{"style":"gradient","shape":"rounded","icon":"arrow","primary":"#8b5cf6","secondary":"#ec4899","background":"#09090b","dark":true},"label":"Start creating","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","gradient","rounded","Accessible","Action"],"membership":"Free","price":"5.00","detailEndpoint":"/api/catalog/components/button-001"},{"id":"button-002","name":{"en":"Ocean Ripple Button","es":"Botón Onda Océano"},"description":{"en":"ripple pill button with complete interactive states.","es":"Botón ripple pill con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Ocean Ripple” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Explore collection” with a ripple visual treatment, pill shape, spark icon, primary #0ea5e9, secondary #14b8a6, and background #effcff. Include default, hover, focus-visible, active, loading, success, disabled and destructive-safe states. Support button and anchor semantics, left/right icons, icon-only mode, sizes, full width, async actions and prevention of duplicate clicks. Animate transform and opacity without layout shift; respect prefers-reduced-motion. Require keyboard access, accessible name, aria-busy, WCAG AA contrast and a 44px touch target. Return typed variants, reusable component, demo, dependencies and tests.","es":"Crea un botón «Onda Océano» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Explore collection» con tratamiento ripple, forma pill, icono spark, color principal #0ea5e9, secundario #14b8a6 y fondo #effcff. Incluye estados default, hover, focus-visible, activo, carga, éxito, deshabilitado y protección para acciones destructivas. Soporta semántica button y anchor, iconos a izquierda/derecha, modo solo icono, tamaños, ancho completo, acciones asíncronas y prevención de clics duplicados. Anima transform y opacity sin layout shift; respeta prefers-reduced-motion. Exige teclado, nombre accesible, aria-busy, contraste WCAG AA y área táctil de 44px. Devuelve variantes tipadas, componente reutilizable, demo, dependencias y pruebas."},"preview":{"style":"ripple","shape":"pill","icon":"spark","primary":"#0ea5e9","secondary":"#14b8a6","background":"#effcff","dark":false},"label":"Explore collection","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","ripple","pill","Animated","CTA"],"membership":"Free","price":"5.00","detailEndpoint":"/api/catalog/components/button-002"},{"id":"button-003","name":{"en":"Midnight Glow Button","es":"Botón Brillo Medianoche"},"description":{"en":"glow square button with complete interactive states.","es":"Botón glow square con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Midnight Glow” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Launch project” with a glow visual treatment, square shape, check icon, primary #f97316, secondary #facc15, and background #fff7ed. Include default, hover, focus-visible, active, loading, success, disabled and destructive-safe states. Support button and anchor semantics, left/right icons, icon-only mode, sizes, full width, async actions and prevention of duplicate clicks. Animate transform and opacity without layout shift; respect prefers-reduced-motion. Require keyboard access, accessible name, aria-busy, WCAG AA contrast and a 44px touch target. Return typed variants, reusable component, demo, dependencies and tests.","es":"Crea un botón «Brillo Medianoche» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Launch project» con tratamiento glow, forma square, icono check, color principal #f97316, secundario #facc15 y fondo #fff7ed. Incluye estados default, hover, focus-visible, activo, carga, éxito, deshabilitado y protección para acciones destructivas. Soporta semántica button y anchor, iconos a izquierda/derecha, modo solo icono, tamaños, ancho completo, acciones asíncronas y prevención de clics duplicados. Anima transform y opacity sin layout shift; respeta prefers-reduced-motion. Exige teclado, nombre accesible, aria-busy, contraste WCAG AA y área táctil de 44px. Devuelve variantes tipadas, componente reutilizable, demo, dependencias y pruebas."},"preview":{"style":"glow","shape":"square","icon":"check","primary":"#f97316","secondary":"#facc15","background":"#fff7ed","dark":false},"label":"Launch project","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","glow","square","Accessible","CTA"],"membership":"Free","price":"5.00","detailEndpoint":"/api/catalog/components/button-003"},{"id":"button-004","name":{"en":"Editorial Arrow Button","es":"Botón Flecha Editorial"},"description":{"en":"editorial soft button with complete interactive states.","es":"Botón editorial soft con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Editorial Arrow” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Read the story” with a editorial visual treatment, soft shape, plus icon, primary #22c55e, secondary #06b6d4, and background #03150d. Include default, hover, focus-visible, active, loading, success, disabled and destructive-safe states. Support button and anchor semantics, left/right icons, icon-only mode, sizes, full width, async actions and prevention of duplicate clicks. Animate transform and opacity without layout shift; respect prefers-reduced-motion. Require keyboard access, accessible name, aria-busy, WCAG AA contrast and a 44px touch target. Return typed variants, reusable component, demo, dependencies and tests.","es":"Crea un botón «Flecha Editorial» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Read the story» con tratamiento editorial, forma soft, icono plus, color principal #22c55e, secundario #06b6d4 y fondo #03150d. Incluye estados default, hover, focus-visible, activo, carga, éxito, deshabilitado y protección para acciones destructivas. Soporta semántica button y anchor, iconos a izquierda/derecha, modo solo icono, tamaños, ancho completo, acciones asíncronas y prevención de clics duplicados. Anima transform y opacity sin layout shift; respeta prefers-reduced-motion. Exige teclado, nombre accesible, aria-busy, contraste WCAG AA y área táctil de 44px. Devuelve variantes tipadas, componente reutilizable, demo, dependencias y pruebas."},"preview":{"style":"editorial","shape":"soft","icon":"plus","primary":"#22c55e","secondary":"#06b6d4","background":"#03150d","dark":true},"label":"Read the story","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","editorial","soft","Animated","Action"],"membership":"Free","price":"5.00","detailEndpoint":"/api/catalog/components/button-004"},{"id":"button-005","name":{"en":"Emerald Success Button","es":"Botón Éxito Esmeralda"},"description":{"en":"success cut button with complete interactive states.","es":"Botón success cut con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Emerald Success” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Complete order” with a success visual treatment, cut shape, download icon, primary #ef4444, secondary #f472b6, and background #fff1f2. Include default, hover, focus-visible, active, loading, success, disabled and destructive-safe states. Support button and anchor semantics, left/right icons, icon-only mode, sizes, full width, async actions and prevention of duplicate clicks. Animate transform and opacity without layout shift; respect prefers-reduced-motion. Require keyboard access, accessible name, aria-busy, WCAG AA contrast and a 44px touch target. Return typed variants, reusable component, demo, dependencies and tests.","es":"Crea un botón «Éxito Esmeralda» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Complete order» con tratamiento success, forma cut, icono download, color principal #ef4444, secundario #f472b6 y fondo #fff1f2. Incluye estados default, hover, focus-visible, activo, carga, éxito, deshabilitado y protección para acciones destructivas. Soporta semántica button y anchor, iconos a izquierda/derecha, modo solo icono, tamaños, ancho completo, acciones asíncronas y prevención de clics duplicados. Anima transform y opacity sin layout shift; respeta prefers-reduced-motion. Exige teclado, nombre accesible, aria-busy, contraste WCAG AA y área táctil de 44px. Devuelve variantes tipadas, componente reutilizable, demo, dependencias y pruebas."},"preview":{"style":"success","shape":"cut","icon":"download","primary":"#ef4444","secondary":"#f472b6","background":"#fff1f2","dark":false},"label":"Complete order","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","success","cut","Accessible","CTA"],"membership":"Free","price":"5.00","detailEndpoint":"/api/catalog/components/button-005"},{"id":"button-006","name":{"en":"Coral Magnetic Button","es":"Botón Magnético Coral"},"description":{"en":"magnetic rounded button with complete interactive states.","es":"Botón magnetic rounded con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Coral Magnetic” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Get started” with a magnetic visual treatment, rounded shape, arrow icon, primary #6366f1, secondary #22d3ee, and background #080b1c. Include default, hover, focus-visible, active, loading, success, disabled and destructive-safe states. Support button and anchor semantics, left/right icons, icon-only mode, sizes, full width, async actions and prevention of duplicate clicks. Animate transform and opacity without layout shift; respect prefers-reduced-motion. Require keyboard access, accessible name, aria-busy, WCAG AA contrast and a 44px touch target. Return typed variants, reusable component, demo, dependencies and tests.","es":"Crea un botón «Magnético Coral» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Get started» con tratamiento magnetic, forma rounded, icono arrow, color principal #6366f1, secundario #22d3ee y fondo #080b1c. Incluye estados default, hover, focus-visible, activo, carga, éxito, deshabilitado y protección para acciones destructivas. Soporta semántica button y anchor, iconos a izquierda/derecha, modo solo icono, tamaños, ancho completo, acciones asíncronas y prevención de clics duplicados. Anima transform y opacity sin layout shift; respeta prefers-reduced-motion. Exige teclado, nombre accesible, aria-busy, contraste WCAG AA y área táctil de 44px. Devuelve variantes tipadas, componente reutilizable, demo, dependencias y pruebas."},"preview":{"style":"magnetic","shape":"rounded","icon":"arrow","primary":"#6366f1","secondary":"#22d3ee","background":"#080b1c","dark":true},"label":"Get started","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","magnetic","rounded","Animated","CTA"],"membership":"Free","price":"5.00","detailEndpoint":"/api/catalog/components/button-006"},{"id":"button-007","name":{"en":"Mono Brutalist Button","es":"Botón Brutalista Mono"},"description":{"en":"brutal pill button with complete interactive states.","es":"Botón brutal pill con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Mono Brutalist” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “SUBMIT NOW” with a brutal visual treatment, pill shape, spark icon, primary #a3e635, secondary #14b8a6, and background #f7fee7. Include default, hover, focus-visible, active, loading, success, disabled and destructive-safe states. Support button and anchor semantics, left/right icons, icon-only mode, sizes, full width, async actions and prevention of duplicate clicks. Animate transform and opacity without layout shift; respect prefers-reduced-motion. Require keyboard access, accessible name, aria-busy, WCAG AA contrast and a 44px touch target. Return typed variants, reusable component, demo, dependencies and tests.","es":"Crea un botón «Brutalista Mono» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «SUBMIT NOW» con tratamiento brutal, forma pill, icono spark, color principal #a3e635, secundario #14b8a6 y fondo #f7fee7. Incluye estados default, hover, focus-visible, activo, carga, éxito, deshabilitado y protección para acciones destructivas. Soporta semántica button y anchor, iconos a izquierda/derecha, modo solo icono, tamaños, ancho completo, acciones asíncronas y prevención de clics duplicados. Anima transform y opacity sin layout shift; respeta prefers-reduced-motion. Exige teclado, nombre accesible, aria-busy, contraste WCAG AA y área táctil de 44px. Devuelve variantes tipadas, componente reutilizable, demo, dependencias y pruebas."},"preview":{"style":"brutal","shape":"pill","icon":"spark","primary":"#a3e635","secondary":"#14b8a6","background":"#f7fee7","dark":false},"label":"SUBMIT NOW","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","brutal","pill","Accessible","Action"],"membership":"Free","price":"5.00","detailEndpoint":"/api/catalog/components/button-007"},{"id":"button-008","name":{"en":"Lavender Soft Button","es":"Botón Suave Lavanda"},"description":{"en":"soft square button with complete interactive states.","es":"Botón soft square con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Lavender Soft” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Continue” with a soft visual treatment, square shape, check icon, primary #d946ef, secondary #8b5cf6, and background #16051c. Include default, hover, focus-visible, active, loading, success, disabled and destructive-safe states. Support button and anchor semantics, left/right icons, icon-only mode, sizes, full width, async actions and prevention of duplicate clicks. Animate transform and opacity without layout shift; respect prefers-reduced-motion. Require keyboard access, accessible name, aria-busy, WCAG AA contrast and a 44px touch target. Return typed variants, reusable component, demo, dependencies and tests.","es":"Crea un botón «Suave Lavanda» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Continue» con tratamiento soft, forma square, icono check, color principal #d946ef, secundario #8b5cf6 y fondo #16051c. Incluye estados default, hover, focus-visible, activo, carga, éxito, deshabilitado y protección para acciones destructivas. Soporta semántica button y anchor, iconos a izquierda/derecha, modo solo icono, tamaños, ancho completo, acciones asíncronas y prevención de clics duplicados. Anima transform y opacity sin layout shift; respeta prefers-reduced-motion. Exige teclado, nombre accesible, aria-busy, contraste WCAG AA y área táctil de 44px. Devuelve variantes tipadas, componente reutilizable, demo, dependencias y pruebas."},"preview":{"style":"soft","shape":"square","icon":"check","primary":"#d946ef","secondary":"#8b5cf6","background":"#16051c","dark":true},"label":"Continue","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","soft","square","Animated","CTA"],"membership":"Free","price":"5.00","detailEndpoint":"/api/catalog/components/button-008"},{"id":"button-009","name":{"en":"Cyber Scanline Button","es":"Botón Scanline Cyber"},"description":{"en":"cyber soft button with complete interactive states.","es":"Botón cyber soft con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Cyber Scanline” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Initialize” with a cyber visual treatment, soft shape, plus icon, primary #f59e0b, secondary #fb7185, and background #fffbeb. Include default, hover, focus-visible, active, loading, success, disabled and destructive-safe states. Support button and anchor semantics, left/right icons, icon-only mode, sizes, full width, async actions and prevention of duplicate clicks. Animate transform and opacity without layout shift; respect prefers-reduced-motion. Require keyboard access, accessible name, aria-busy, WCAG AA contrast and a 44px touch target. Return typed variants, reusable component, demo, dependencies and tests.","es":"Crea un botón «Scanline Cyber» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Initialize» con tratamiento cyber, forma soft, icono plus, color principal #f59e0b, secundario #fb7185 y fondo #fffbeb. Incluye estados default, hover, focus-visible, activo, carga, éxito, deshabilitado y protección para acciones destructivas. Soporta semántica button y anchor, iconos a izquierda/derecha, modo solo icono, tamaños, ancho completo, acciones asíncronas y prevención de clics duplicados. Anima transform y opacity sin layout shift; respeta prefers-reduced-motion. Exige teclado, nombre accesible, aria-busy, contraste WCAG AA y área táctil de 44px. Devuelve variantes tipadas, componente reutilizable, demo, dependencias y pruebas."},"preview":{"style":"cyber","shape":"soft","icon":"plus","primary":"#f59e0b","secondary":"#fb7185","background":"#fffbeb","dark":false},"label":"Initialize","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","cyber","soft","Accessible","CTA"],"membership":"Free","price":"5.00","detailEndpoint":"/api/catalog/components/button-009"},{"id":"button-010","name":{"en":"Blue Enterprise Button","es":"Botón Empresarial Azul"},"description":{"en":"corporate cut button with complete interactive states.","es":"Botón corporate cut con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Blue Enterprise” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Request demo” with a corporate visual treatment, cut shape, download icon, primary #38bdf8, secondary #818cf8, and background #071325. Include default, hover, focus-visible, active, loading, success, disabled and destructive-safe states. Support button and anchor semantics, left/right icons, icon-only mode, sizes, full width, async actions and prevention of duplicate clicks. Animate transform and opacity without layout shift; respect prefers-reduced-motion. Require keyboard access, accessible name, aria-busy, WCAG AA contrast and a 44px touch target. Return typed variants, reusable component, demo, dependencies and tests.","es":"Crea un botón «Empresarial Azul» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Request demo» con tratamiento corporate, forma cut, icono download, color principal #38bdf8, secundario #818cf8 y fondo #071325. Incluye estados default, hover, focus-visible, activo, carga, éxito, deshabilitado y protección para acciones destructivas. Soporta semántica button y anchor, iconos a izquierda/derecha, modo solo icono, tamaños, ancho completo, acciones asíncronas y prevención de clics duplicados. Anima transform y opacity sin layout shift; respeta prefers-reduced-motion. Exige teclado, nombre accesible, aria-busy, contraste WCAG AA y área táctil de 44px. Devuelve variantes tipadas, componente reutilizable, demo, dependencias y pruebas."},"preview":{"style":"corporate","shape":"cut","icon":"download","primary":"#38bdf8","secondary":"#818cf8","background":"#071325","dark":true},"label":"Request demo","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","corporate","cut","Animated","Action"],"membership":"Free","price":"5.00","detailEndpoint":"/api/catalog/components/button-010"},{"id":"button-011","name":{"en":"Rose Shine Button","es":"Botón Brillo Rosa"},"description":{"en":"shine rounded button with complete interactive states.","es":"Botón shine rounded con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Rose Shine” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Shop the edit” with a shine visual treatment, rounded shape, arrow icon, primary #8b…","es":"Crea un botón «Brillo Rosa» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Shop the edit» con tratamiento shine, forma rounded, icono arrow, color principal #8b5cf6,…"},"preview":{"style":"shine","shape":"rounded","icon":"arrow","primary":"#8b5cf6","secondary":"#ec4899","background":"#09090b","dark":true},"label":"Shop the edit","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","shine","rounded","Accessible","CTA"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-011"},{"id":"button-012","name":{"en":"Solar Cart Button","es":"Botón Carrito Solar"},"description":{"en":"cart pill button with complete interactive states.","es":"Botón cart pill con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Solar Cart” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Add to cart” with a cart visual treatment, pill shape, spark icon, primary #0ea5e9, …","es":"Crea un botón «Carrito Solar» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Add to cart» con tratamiento cart, forma pill, icono spark, color principal #0ea5e9, sec…"},"preview":{"style":"cart","shape":"pill","icon":"spark","primary":"#0ea5e9","secondary":"#14b8a6","background":"#effcff","dark":false},"label":"Add to cart","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","cart","pill","Animated","CTA"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-012"},{"id":"button-013","name":{"en":"Slate Minimal Button","es":"Botón Minimalista Slate"},"description":{"en":"minimal square button with complete interactive states.","es":"Botón minimal square con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Slate Minimal” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Learn more” with a minimal visual treatment, square shape, check icon, primary #f…","es":"Crea un botón «Minimalista Slate» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Learn more» con tratamiento minimal, forma square, icono check, color principal #f97…"},"preview":{"style":"minimal","shape":"square","icon":"check","primary":"#f97316","secondary":"#facc15","background":"#fff7ed","dark":false},"label":"Learn more","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","minimal","square","Accessible","Action"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-013"},{"id":"button-014","name":{"en":"Violet AI Spark Button","es":"Botón Destello IA Violeta"},"description":{"en":"spark soft button with complete interactive states.","es":"Botón spark soft con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Violet AI Spark” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Generate with AI” with a spark visual treatment, soft shape, plus icon, primary…","es":"Crea un botón «Destello IA Violeta» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Generate with AI» con tratamiento spark, forma soft, icono plus, color principal #…"},"preview":{"style":"spark","shape":"soft","icon":"plus","primary":"#22c55e","secondary":"#06b6d4","background":"#03150d","dark":true},"label":"Generate with AI","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","spark","soft","Animated","CTA"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-014"},{"id":"button-015","name":{"en":"Mint Confirm Button","es":"Botón Confirmación Menta"},"description":{"en":"confirm cut button with complete interactive states.","es":"Botón confirm cut con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Mint Confirm” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Confirm booking” with a confirm visual treatment, cut shape, download icon, primar…","es":"Crea un botón «Confirmación Menta» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Confirm booking» con tratamiento confirm, forma cut, icono download, color principa…"},"preview":{"style":"confirm","shape":"cut","icon":"download","primary":"#ef4444","secondary":"#f472b6","background":"#fff1f2","dark":false},"label":"Confirm booking","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","confirm","cut","Accessible","CTA"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-015"},{"id":"button-016","name":{"en":"Ruby Luxury Button","es":"Botón Lujo Rubí"},"description":{"en":"luxury rounded button with complete interactive states.","es":"Botón luxury rounded con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Ruby Luxury” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Discover more” with a luxury visual treatment, rounded shape, arrow icon, primary #…","es":"Crea un botón «Lujo Rubí» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Discover more» con tratamiento luxury, forma rounded, icono arrow, color principal #6366f1, …"},"preview":{"style":"luxury","shape":"rounded","icon":"arrow","primary":"#6366f1","secondary":"#22d3ee","background":"#080b1c","dark":true},"label":"Discover more","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","luxury","rounded","Animated","Action"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-016"},{"id":"button-017","name":{"en":"Indigo Split Button","es":"Botón Dividido Índigo"},"description":{"en":"split pill button with complete interactive states.","es":"Botón split pill con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Indigo Split” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Open workspace” with a split visual treatment, pill shape, spark icon, primary #a3…","es":"Crea un botón «Dividido Índigo» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Open workspace» con tratamiento split, forma pill, icono spark, color principal #a3e63…"},"preview":{"style":"split","shape":"pill","icon":"spark","primary":"#a3e635","secondary":"#14b8a6","background":"#f7fee7","dark":false},"label":"Open workspace","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","split","pill","Accessible","CTA"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-017"},{"id":"button-018","name":{"en":"Sand Travel Button","es":"Botón Viaje Arena"},"description":{"en":"travel square button with complete interactive states.","es":"Botón travel square con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Sand Travel” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Plan my trip” with a travel visual treatment, square shape, check icon, primary #d9…","es":"Crea un botón «Viaje Arena» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Plan my trip» con tratamiento travel, forma square, icono check, color principal #d946ef, …"},"preview":{"style":"travel","shape":"square","icon":"check","primary":"#d946ef","secondary":"#8b5cf6","background":"#16051c","dark":true},"label":"Plan my trip","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","travel","square","Animated","CTA"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-018"},{"id":"button-019","name":{"en":"Lime Fitness Button","es":"Botón Fitness Lima"},"description":{"en":"energy soft button with complete interactive states.","es":"Botón energy soft con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Lime Fitness” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Start workout” with a energy visual treatment, soft shape, plus icon, primary #f59…","es":"Crea un botón «Fitness Lima» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Start workout» con tratamiento energy, forma soft, icono plus, color principal #f59e0b, s…"},"preview":{"style":"energy","shape":"soft","icon":"plus","primary":"#f59e0b","secondary":"#fb7185","background":"#fffbeb","dark":false},"label":"Start workout","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","energy","soft","Accessible","Action"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-019"},{"id":"button-020","name":{"en":"Sky Download Button","es":"Botón Descarga Cielo"},"description":{"en":"download cut button with complete interactive states.","es":"Botón download cut con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Sky Download” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Download file” with a download visual treatment, cut shape, download icon, primary…","es":"Crea un botón «Descarga Cielo» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Download file» con tratamiento download, forma cut, icono download, color principal #38…"},"preview":{"style":"download","shape":"cut","icon":"download","primary":"#38bdf8","secondary":"#818cf8","background":"#071325","dark":true},"label":"Download file","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","download","cut","Animated","CTA"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-020"},{"id":"button-021","name":{"en":"Obsidian Outline Button","es":"Botón Outline Obsidiana"},"description":{"en":"outline rounded button with complete interactive states.","es":"Botón outline rounded con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Obsidian Outline” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “View details” with a outline visual treatment, rounded shape, arrow icon, prim…","es":"Crea un botón «Outline Obsidiana» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «View details» con tratamiento outline, forma rounded, icono arrow, color principal #…"},"preview":{"style":"outline","shape":"rounded","icon":"arrow","primary":"#8b5cf6","secondary":"#ec4899","background":"#09090b","dark":true},"label":"View details","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","outline","rounded","Accessible","CTA"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-021"},{"id":"button-022","name":{"en":"Peach Community Button","es":"Botón Comunidad Durazno"},"description":{"en":"community pill button with complete interactive states.","es":"Botón community pill con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Peach Community” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Join community” with a community visual treatment, pill shape, spark icon, prim…","es":"Crea un botón «Comunidad Durazno» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Join community» con tratamiento community, forma pill, icono spark, color principal …"},"preview":{"style":"community","shape":"pill","icon":"spark","primary":"#0ea5e9","secondary":"#14b8a6","background":"#effcff","dark":false},"label":"Join community","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","community","pill","Animated","Action"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-022"},{"id":"button-023","name":{"en":"Neon Gaming Button","es":"Botón Gaming Neón"},"description":{"en":"neon square button with complete interactive states.","es":"Botón neon square con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Neon Gaming” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “PLAY NOW” with a neon visual treatment, square shape, check icon, primary #f97316, …","es":"Crea un botón «Gaming Neón» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «PLAY NOW» con tratamiento neon, forma square, icono check, color principal #f97316, secund…"},"preview":{"style":"neon","shape":"square","icon":"check","primary":"#f97316","secondary":"#facc15","background":"#fff7ed","dark":false},"label":"PLAY NOW","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","neon","square","Accessible","CTA"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-023"},{"id":"button-024","name":{"en":"Paper Underline Button","es":"Botón Subrayado Papel"},"description":{"en":"underline soft button with complete interactive states.","es":"Botón underline soft con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Paper Underline” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “See the journal” with a underline visual treatment, soft shape, plus icon, prim…","es":"Crea un botón «Subrayado Papel» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «See the journal» con tratamiento underline, forma soft, icono plus, color principal #2…"},"preview":{"style":"underline","shape":"soft","icon":"plus","primary":"#22c55e","secondary":"#06b6d4","background":"#03150d","dark":true},"label":"See the journal","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","underline","soft","Animated","CTA"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-024"},{"id":"button-025","name":{"en":"Cobalt Security Button","es":"Botón Seguridad Cobalto"},"description":{"en":"secure cut button with complete interactive states.","es":"Botón secure cut con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Cobalt Security” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Verify identity” with a secure visual treatment, cut shape, download icon, prim…","es":"Crea un botón «Seguridad Cobalto» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Verify identity» con tratamiento secure, forma cut, icono download, color principal …"},"preview":{"style":"secure","shape":"cut","icon":"download","primary":"#ef4444","secondary":"#f472b6","background":"#fff1f2","dark":false},"label":"Verify identity","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","secure","cut","Accessible","Action"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-025"},{"id":"button-026","name":{"en":"Amber Loading Button","es":"Botón Carga Ámbar"},"description":{"en":"loading rounded button with complete interactive states.","es":"Botón loading rounded con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Amber Loading” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Processing” with a loading visual treatment, rounded shape, arrow icon, primary #…","es":"Crea un botón «Carga Ámbar» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Processing» con tratamiento loading, forma rounded, icono arrow, color principal #6366f1, …"},"preview":{"style":"loading","shape":"rounded","icon":"arrow","primary":"#6366f1","secondary":"#22d3ee","background":"#080b1c","dark":true},"label":"Processing","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","loading","rounded","Animated","CTA"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-026"},{"id":"button-027","name":{"en":"Forest Donation Button","es":"Botón Donación Bosque"},"description":{"en":"donate pill button with complete interactive states.","es":"Botón donate pill con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Forest Donation” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Donate securely” with a donate visual treatment, pill shape, spark icon, primar…","es":"Crea un botón «Donación Bosque» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Donate securely» con tratamiento donate, forma pill, icono spark, color principal #a3e…"},"preview":{"style":"donate","shape":"pill","icon":"spark","primary":"#a3e635","secondary":"#14b8a6","background":"#f7fee7","dark":false},"label":"Donate securely","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","donate","pill","Accessible","CTA"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-027"},{"id":"button-028","name":{"en":"Candy Social Button","es":"Botón Social Caramelo"},"description":{"en":"social square button with complete interactive states.","es":"Botón social square con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Candy Social” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Share post” with a social visual treatment, square shape, check icon, primary #d94…","es":"Crea un botón «Social Caramelo» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Share post» con tratamiento social, forma square, icono check, color principal #d946ef…"},"preview":{"style":"social","shape":"square","icon":"check","primary":"#d946ef","secondary":"#8b5cf6","background":"#16051c","dark":true},"label":"Share post","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","social","square","Animated","Action"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-028"},{"id":"button-029","name":{"en":"Graphite Developer Button","es":"Botón Developer Grafito"},"description":{"en":"terminal soft button with complete interactive states.","es":"Botón terminal soft con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Graphite Developer” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Deploy build” with a terminal visual treatment, soft shape, plus icon, prima…","es":"Crea un botón «Developer Grafito» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Deploy build» con tratamiento terminal, forma soft, icono plus, color principal #f59…"},"preview":{"style":"terminal","shape":"soft","icon":"plus","primary":"#f59e0b","secondary":"#fb7185","background":"#fffbeb","dark":false},"label":"Deploy build","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","terminal","soft","Accessible","CTA"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-029"},{"id":"button-030","name":{"en":"Ivory Legal Button","es":"Botón Legal Marfil"},"description":{"en":"legal cut button with complete interactive states.","es":"Botón legal cut con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Ivory Legal” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Review document” with a legal visual treatment, cut shape, download icon, primary #…","es":"Crea un botón «Legal Marfil» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Review document» con tratamiento legal, forma cut, icono download, color principal #38bdf…"},"preview":{"style":"legal","shape":"cut","icon":"download","primary":"#38bdf8","secondary":"#818cf8","background":"#071325","dark":true},"label":"Review document","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","legal","cut","Animated","CTA"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-030"},{"id":"button-031","name":{"en":"Teal Icon Morph Button","es":"Botón Icono Morph Teal"},"description":{"en":"morph rounded button with complete interactive states.","es":"Botón morph rounded con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Teal Icon Morph” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Send message” with a morph visual treatment, rounded shape, arrow icon, primary…","es":"Crea un botón «Icono Morph Teal» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Send message» con tratamiento morph, forma rounded, icono arrow, color principal #8b5…"},"preview":{"style":"morph","shape":"rounded","icon":"arrow","primary":"#8b5cf6","secondary":"#ec4899","background":"#09090b","dark":true},"label":"Send message","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","morph","rounded","Accessible","Action"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-031"},{"id":"button-032","name":{"en":"Purple Event Button","es":"Botón Evento Púrpura"},"description":{"en":"event pill button with complete interactive states.","es":"Botón event pill con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Purple Event” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Reserve seat” with a event visual treatment, pill shape, spark icon, primary #0ea5…","es":"Crea un botón «Evento Púrpura» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Reserve seat» con tratamiento event, forma pill, icono spark, color principal #0ea5e9, …"},"preview":{"style":"event","shape":"pill","icon":"spark","primary":"#0ea5e9","secondary":"#14b8a6","background":"#effcff","dark":false},"label":"Reserve seat","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","event","pill","Animated","CTA"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-032"},{"id":"button-033","name":{"en":"Red Sports Button","es":"Botón Deportes Rojo"},"description":{"en":"speed square button with complete interactive states.","es":"Botón speed square con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Red Sports” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Join the race” with a speed visual treatment, square shape, check icon, primary #f97…","es":"Crea un botón «Deportes Rojo» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Join the race» con tratamiento speed, forma square, icono check, color principal #f97316…"},"preview":{"style":"speed","shape":"square","icon":"check","primary":"#f97316","secondary":"#facc15","background":"#fff7ed","dark":false},"label":"Join the race","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","speed","square","Accessible","CTA"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-033"},{"id":"button-034","name":{"en":"Nordic Home Button","es":"Botón Hogar Nórdico"},"description":{"en":"nordic soft button with complete interactive states.","es":"Botón nordic soft con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Nordic Home” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “View property” with a nordic visual treatment, soft shape, plus icon, primary #22c5…","es":"Crea un botón «Hogar Nórdico» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «View property» con tratamiento nordic, forma soft, icono plus, color principal #22c55e, …"},"preview":{"style":"nordic","shape":"soft","icon":"plus","primary":"#22c55e","secondary":"#06b6d4","background":"#03150d","dark":true},"label":"View property","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","nordic","soft","Animated","Action"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-034"},{"id":"button-035","name":{"en":"Aqua Crypto Button","es":"Botón Cripto Aqua"},"description":{"en":"crypto cut button with complete interactive states.","es":"Botón crypto cut con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Aqua Crypto” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Connect wallet” with a crypto visual treatment, cut shape, download icon, primary #…","es":"Crea un botón «Cripto Aqua» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Connect wallet» con tratamiento crypto, forma cut, icono download, color principal #ef4444…"},"preview":{"style":"crypto","shape":"cut","icon":"download","primary":"#ef4444","secondary":"#f472b6","background":"#fff1f2","dark":false},"label":"Connect wallet","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","crypto","cut","Accessible","CTA"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-035"},{"id":"button-036","name":{"en":"Plum Profile Button","es":"Botón Perfil Ciruela"},"description":{"en":"profile rounded button with complete interactive states.","es":"Botón profile rounded con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Plum Profile” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Edit profile” with a profile visual treatment, rounded shape, arrow icon, primary …","es":"Crea un botón «Perfil Ciruela» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Edit profile» con tratamiento profile, forma rounded, icono arrow, color principal #636…"},"preview":{"style":"profile","shape":"rounded","icon":"arrow","primary":"#6366f1","secondary":"#22d3ee","background":"#080b1c","dark":true},"label":"Edit profile","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","profile","rounded","Animated","CTA"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-036"},{"id":"button-037","name":{"en":"Gold Membership Button","es":"Botón Membresía Oro"},"description":{"en":"premium pill button with complete interactive states.","es":"Botón premium pill con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Gold Membership” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Upgrade to Pro” with a premium visual treatment, pill shape, spark icon, primar…","es":"Crea un botón «Membresía Oro» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Upgrade to Pro» con tratamiento premium, forma pill, icono spark, color principal #a3e63…"},"preview":{"style":"premium","shape":"pill","icon":"spark","primary":"#a3e635","secondary":"#14b8a6","background":"#f7fee7","dark":false},"label":"Upgrade to Pro","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","premium","pill","Accessible","Action"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-037"},{"id":"button-038","name":{"en":"Cloud Toggle Button","es":"Botón Toggle Cloud"},"description":{"en":"toggle square button with complete interactive states.","es":"Botón toggle square con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Cloud Toggle” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Enable feature” with a toggle visual treatment, square shape, check icon, primary …","es":"Crea un botón «Toggle Cloud» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Enable feature» con tratamiento toggle, forma square, icono check, color principal #d946e…"},"preview":{"style":"toggle","shape":"square","icon":"check","primary":"#d946ef","secondary":"#8b5cf6","background":"#16051c","dark":true},"label":"Enable feature","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","toggle","square","Animated","CTA"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-038"},{"id":"button-039","name":{"en":"Mango Delivery Button","es":"Botón Delivery Mango"},"description":{"en":"delivery soft button with complete interactive states.","es":"Botón delivery soft con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Mango Delivery” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Track order” with a delivery visual treatment, soft shape, plus icon, primary #f…","es":"Crea un botón «Delivery Mango» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Track order» con tratamiento delivery, forma soft, icono plus, color principal #f59e0b,…"},"preview":{"style":"delivery","shape":"soft","icon":"plus","primary":"#f59e0b","secondary":"#fb7185","background":"#fffbeb","dark":false},"label":"Track order","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","delivery","soft","Accessible","CTA"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-039"},{"id":"button-040","name":{"en":"Berry Music Button","es":"Botón Música Berry"},"description":{"en":"music cut button with complete interactive states.","es":"Botón music cut con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Berry Music” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Play preview” with a music visual treatment, cut shape, download icon, primary #38b…","es":"Crea un botón «Música Berry» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Play preview» con tratamiento music, forma cut, icono download, color principal #38bdf8, …"},"preview":{"style":"music","shape":"cut","icon":"download","primary":"#38bdf8","secondary":"#818cf8","background":"#071325","dark":true},"label":"Play preview","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","music","cut","Animated","Action"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-040"},{"id":"button-041","name":{"en":"Steel Industrial Button","es":"Botón Industrial Acero"},"description":{"en":"industrial rounded button with complete interactive states.","es":"Botón industrial rounded con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Steel Industrial” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “View specifications” with a industrial visual treatment, rounded shape, arrow …","es":"Crea un botón «Industrial Acero» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «View specifications» con tratamiento industrial, forma rounded, icono arrow, color pr…"},"preview":{"style":"industrial","shape":"rounded","icon":"arrow","primary":"#8b5cf6","secondary":"#ec4899","background":"#09090b","dark":true},"label":"View specifications","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","industrial","rounded","Accessible","CTA"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-041"},{"id":"button-042","name":{"en":"Blush Beauty Button","es":"Botón Belleza Blush"},"description":{"en":"beauty pill button with complete interactive states.","es":"Botón beauty pill con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Blush Beauty” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Find my shade” with a beauty visual treatment, pill shape, spark icon, primary #0e…","es":"Crea un botón «Belleza Blush» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Find my shade» con tratamiento beauty, forma pill, icono spark, color principal #0ea5e9,…"},"preview":{"style":"beauty","shape":"pill","icon":"spark","primary":"#0ea5e9","secondary":"#14b8a6","background":"#effcff","dark":false},"label":"Find my shade","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","beauty","pill","Animated","CTA"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-042"},{"id":"button-043","name":{"en":"Navy Insurance Button","es":"Botón Seguros Navy"},"description":{"en":"insurance square button with complete interactive states.","es":"Botón insurance square con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Navy Insurance” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Get coverage” with a insurance visual treatment, square shape, check icon, prima…","es":"Crea un botón «Seguros Navy» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Get coverage» con tratamiento insurance, forma square, icono check, color principal #f973…"},"preview":{"style":"insurance","shape":"square","icon":"check","primary":"#f97316","secondary":"#facc15","background":"#fff7ed","dark":false},"label":"Get coverage","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","insurance","square","Accessible","Action"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-043"},{"id":"button-044","name":{"en":"Eco Marketplace Button","es":"Botón Marketplace Eco"},"description":{"en":"eco soft button with complete interactive states.","es":"Botón eco soft con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Eco Marketplace” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Buy responsibly” with a eco visual treatment, soft shape, plus icon, primary #2…","es":"Crea un botón «Marketplace Eco» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Buy responsibly» con tratamiento eco, forma soft, icono plus, color principal #22c55e,…"},"preview":{"style":"eco","shape":"soft","icon":"plus","primary":"#22c55e","secondary":"#06b6d4","background":"#03150d","dark":true},"label":"Buy responsibly","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","eco","soft","Animated","CTA"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-044"},{"id":"button-045","name":{"en":"Pixel Portfolio Button","es":"Botón Portfolio Pixel"},"description":{"en":"pixel cut button with complete interactive states.","es":"Botón pixel cut con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Pixel Portfolio” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “View project” with a pixel visual treatment, cut shape, download icon, primary …","es":"Crea un botón «Portfolio Pixel» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «View project» con tratamiento pixel, forma cut, icono download, color principal #ef444…"},"preview":{"style":"pixel","shape":"cut","icon":"download","primary":"#ef4444","secondary":"#f472b6","background":"#fff1f2","dark":false},"label":"View project","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","pixel","cut","Accessible","CTA"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-045"},{"id":"button-046","name":{"en":"Terracotta Food Button","es":"Botón Comida Terracota"},"description":{"en":"food rounded button with complete interactive states.","es":"Botón food rounded con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Terracotta Food” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Book a table” with a food visual treatment, rounded shape, arrow icon, primary …","es":"Crea un botón «Comida Terracota» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Book a table» con tratamiento food, forma rounded, icono arrow, color principal #6366…"},"preview":{"style":"food","shape":"rounded","icon":"arrow","primary":"#6366f1","secondary":"#22d3ee","background":"#080b1c","dark":true},"label":"Book a table","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","food","rounded","Animated","Action"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-046"},{"id":"button-047","name":{"en":"Arctic Glass Button","es":"Botón Cristal Ártico"},"description":{"en":"glass pill button with complete interactive states.","es":"Botón glass pill con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Arctic Glass” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Open dashboard” with a glass visual treatment, pill shape, spark icon, primary #a3…","es":"Crea un botón «Cristal Ártico» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Open dashboard» con tratamiento glass, forma pill, icono spark, color principal #a3e635…"},"preview":{"style":"glass","shape":"pill","icon":"spark","primary":"#a3e635","secondary":"#14b8a6","background":"#f7fee7","dark":false},"label":"Open dashboard","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","glass","pill","Accessible","CTA"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-047"},{"id":"button-048","name":{"en":"Black Fashion Button","es":"Botón Moda Negra"},"description":{"en":"fashion square button with complete interactive states.","es":"Botón fashion square con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Black Fashion” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Shop now” with a fashion visual treatment, square shape, check icon, primary #d94…","es":"Crea un botón «Moda Negra» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Shop now» con tratamiento fashion, forma square, icono check, color principal #d946ef, secu…"},"preview":{"style":"fashion","shape":"square","icon":"check","primary":"#d946ef","secondary":"#8b5cf6","background":"#16051c","dark":true},"label":"Shop now","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","fashion","square","Animated","CTA"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-048"},{"id":"button-049","name":{"en":"Pastel Kids Button","es":"Botón Infantil Pastel"},"description":{"en":"playful soft button with complete interactive states.","es":"Botón playful soft con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Pastel Kids” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Let’s explore” with a playful visual treatment, soft shape, plus icon, primary #f59…","es":"Crea un botón «Infantil Pastel» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Let’s explore» con tratamiento playful, forma soft, icono plus, color principal #f59e0…"},"preview":{"style":"playful","shape":"soft","icon":"plus","primary":"#f59e0b","secondary":"#fb7185","background":"#fffbeb","dark":false},"label":"Let’s explore","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","playful","soft","Accessible","Action"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-049"},{"id":"button-050","name":{"en":"Signal Destructive Button","es":"Botón Destructivo Signal"},"description":{"en":"destructive cut button with complete interactive states.","es":"Botón destructive cut con estados interactivos completos."},"prompt":{"en":"Build a production-ready “Signal Destructive” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Delete item” with a destructive visual treatment, cut shape, download icon, …","es":"Crea un botón «Destructivo Signal» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Delete item» con tratamiento destructive, forma cut, icono download, color principa…"},"preview":{"style":"destructive","shape":"cut","icon":"download","primary":"#38bdf8","secondary":"#818cf8","background":"#071325","dark":true},"label":"Delete item","stack":["React","TypeScript","Tailwind CSS","shadcn/ui","Framer Motion","Lucide React"],"tags":["Button","destructive","cut","Animated","CTA"],"membership":"Premium","price":"5.00","detailEndpoint":"/api/catalog/components/button-050"}]}
+{
+  "title_es": "Componentes de botones",
+  "title_en": "Button components",
+  "description_es": "Botones interactivos listos para visualizar, personalizar y generar con prompts profesionales.",
+  "description_en": "Interactive buttons ready to preview, customize, and generate with professional prompts.",
+  "components": [
+    {
+      "id": "button-001",
+      "name": {
+        "en": "Aurora Gradient Button",
+        "es": "Botón Degradado Aurora"
+      },
+      "description": {
+        "en": "gradient rounded button with complete interactive states.",
+        "es": "Botón gradient rounded con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Aurora Gradient” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Start creating” with a gradient visual treatment, rounded shape, arrow icon, primary #8b5cf6, secondary #ec4899, and background #09090b. Include default, hover, focus-visible, active, loading, success, disabled and destructive-safe states. Support button and anchor semantics, left/right icons, icon-only mode, sizes, full width, async actions and prevention of duplicate clicks. Animate transform and opacity without layout shift; respect prefers-reduced-motion. Require keyboard access, accessible name, aria-busy, WCAG AA contrast and a 44px touch target. Return typed variants, reusable component, demo, dependencies and tests.",
+        "es": "Crea un botón «Degradado Aurora» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Start creating» con tratamiento gradient, forma rounded, icono arrow, color principal #8b5cf6, secundario #ec4899 y fondo #09090b. Incluye estados default, hover, focus-visible, activo, carga, éxito, deshabilitado y protección para acciones destructivas. Soporta semántica button y anchor, iconos a izquierda/derecha, modo solo icono, tamaños, ancho completo, acciones asíncronas y prevención de clics duplicados. Anima transform y opacity sin layout shift; respeta prefers-reduced-motion. Exige teclado, nombre accesible, aria-busy, contraste WCAG AA y área táctil de 44px. Devuelve variantes tipadas, componente reutilizable, demo, dependencias y pruebas."
+      },
+      "preview": {
+        "style": "gradient",
+        "shape": "rounded",
+        "icon": "arrow",
+        "primary": "#8b5cf6",
+        "secondary": "#ec4899",
+        "background": "#09090b",
+        "dark": true
+      },
+      "label": "Start creating",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "gradient",
+        "rounded",
+        "Accessible",
+        "Action"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-001"
+    },
+    {
+      "id": "button-002",
+      "name": {
+        "en": "Ocean Ripple Button",
+        "es": "Botón Onda Océano"
+      },
+      "description": {
+        "en": "ripple pill button with complete interactive states.",
+        "es": "Botón ripple pill con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Ocean Ripple” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Explore collection” with a ripple visual treatment, pill shape, spark icon, primary #0ea5e9, secondary #14b8a6, and background #effcff. Include default, hover, focus-visible, active, loading, success, disabled and destructive-safe states. Support button and anchor semantics, left/right icons, icon-only mode, sizes, full width, async actions and prevention of duplicate clicks. Animate transform and opacity without layout shift; respect prefers-reduced-motion. Require keyboard access, accessible name, aria-busy, WCAG AA contrast and a 44px touch target. Return typed variants, reusable component, demo, dependencies and tests.",
+        "es": "Crea un botón «Onda Océano» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Explore collection» con tratamiento ripple, forma pill, icono spark, color principal #0ea5e9, secundario #14b8a6 y fondo #effcff. Incluye estados default, hover, focus-visible, activo, carga, éxito, deshabilitado y protección para acciones destructivas. Soporta semántica button y anchor, iconos a izquierda/derecha, modo solo icono, tamaños, ancho completo, acciones asíncronas y prevención de clics duplicados. Anima transform y opacity sin layout shift; respeta prefers-reduced-motion. Exige teclado, nombre accesible, aria-busy, contraste WCAG AA y área táctil de 44px. Devuelve variantes tipadas, componente reutilizable, demo, dependencias y pruebas."
+      },
+      "preview": {
+        "style": "ripple",
+        "shape": "pill",
+        "icon": "spark",
+        "primary": "#0ea5e9",
+        "secondary": "#14b8a6",
+        "background": "#effcff",
+        "dark": false
+      },
+      "label": "Explore collection",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "ripple",
+        "pill",
+        "Animated",
+        "CTA"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-002"
+    },
+    {
+      "id": "button-003",
+      "name": {
+        "en": "Midnight Glow Button",
+        "es": "Botón Brillo Medianoche"
+      },
+      "description": {
+        "en": "glow square button with complete interactive states.",
+        "es": "Botón glow square con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Midnight Glow” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Launch project” with a glow visual treatment, square shape, check icon, primary #f97316, secondary #facc15, and background #fff7ed. Include default, hover, focus-visible, active, loading, success, disabled and destructive-safe states. Support button and anchor semantics, left/right icons, icon-only mode, sizes, full width, async actions and prevention of duplicate clicks. Animate transform and opacity without layout shift; respect prefers-reduced-motion. Require keyboard access, accessible name, aria-busy, WCAG AA contrast and a 44px touch target. Return typed variants, reusable component, demo, dependencies and tests.",
+        "es": "Crea un botón «Brillo Medianoche» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Launch project» con tratamiento glow, forma square, icono check, color principal #f97316, secundario #facc15 y fondo #fff7ed. Incluye estados default, hover, focus-visible, activo, carga, éxito, deshabilitado y protección para acciones destructivas. Soporta semántica button y anchor, iconos a izquierda/derecha, modo solo icono, tamaños, ancho completo, acciones asíncronas y prevención de clics duplicados. Anima transform y opacity sin layout shift; respeta prefers-reduced-motion. Exige teclado, nombre accesible, aria-busy, contraste WCAG AA y área táctil de 44px. Devuelve variantes tipadas, componente reutilizable, demo, dependencias y pruebas."
+      },
+      "preview": {
+        "style": "glow",
+        "shape": "square",
+        "icon": "check",
+        "primary": "#f97316",
+        "secondary": "#facc15",
+        "background": "#fff7ed",
+        "dark": false
+      },
+      "label": "Launch project",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "glow",
+        "square",
+        "Accessible",
+        "CTA"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-003"
+    },
+    {
+      "id": "button-004",
+      "name": {
+        "en": "Editorial Arrow Button",
+        "es": "Botón Flecha Editorial"
+      },
+      "description": {
+        "en": "editorial soft button with complete interactive states.",
+        "es": "Botón editorial soft con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Editorial Arrow” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Read the story” with a editorial visual treatment, soft shape, plus icon, primary #22c55e, secondary #06b6d4, and background #03150d. Include default, hover, focus-visible, active, loading, success, disabled and destructive-safe states. Support button and anchor semantics, left/right icons, icon-only mode, sizes, full width, async actions and prevention of duplicate clicks. Animate transform and opacity without layout shift; respect prefers-reduced-motion. Require keyboard access, accessible name, aria-busy, WCAG AA contrast and a 44px touch target. Return typed variants, reusable component, demo, dependencies and tests.",
+        "es": "Crea un botón «Flecha Editorial» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Read the story» con tratamiento editorial, forma soft, icono plus, color principal #22c55e, secundario #06b6d4 y fondo #03150d. Incluye estados default, hover, focus-visible, activo, carga, éxito, deshabilitado y protección para acciones destructivas. Soporta semántica button y anchor, iconos a izquierda/derecha, modo solo icono, tamaños, ancho completo, acciones asíncronas y prevención de clics duplicados. Anima transform y opacity sin layout shift; respeta prefers-reduced-motion. Exige teclado, nombre accesible, aria-busy, contraste WCAG AA y área táctil de 44px. Devuelve variantes tipadas, componente reutilizable, demo, dependencias y pruebas."
+      },
+      "preview": {
+        "style": "editorial",
+        "shape": "soft",
+        "icon": "plus",
+        "primary": "#22c55e",
+        "secondary": "#06b6d4",
+        "background": "#03150d",
+        "dark": true
+      },
+      "label": "Read the story",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "editorial",
+        "soft",
+        "Animated",
+        "Action"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-004"
+    },
+    {
+      "id": "button-005",
+      "name": {
+        "en": "Emerald Success Button",
+        "es": "Botón Éxito Esmeralda"
+      },
+      "description": {
+        "en": "success cut button with complete interactive states.",
+        "es": "Botón success cut con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Emerald Success” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Complete order” with a success visual treatment, cut shape, download icon, primary #ef4444, secondary #f472b6, and background #fff1f2. Include default, hover, focus-visible, active, loading, success, disabled and destructive-safe states. Support button and anchor semantics, left/right icons, icon-only mode, sizes, full width, async actions and prevention of duplicate clicks. Animate transform and opacity without layout shift; respect prefers-reduced-motion. Require keyboard access, accessible name, aria-busy, WCAG AA contrast and a 44px touch target. Return typed variants, reusable component, demo, dependencies and tests.",
+        "es": "Crea un botón «Éxito Esmeralda» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Complete order» con tratamiento success, forma cut, icono download, color principal #ef4444, secundario #f472b6 y fondo #fff1f2. Incluye estados default, hover, focus-visible, activo, carga, éxito, deshabilitado y protección para acciones destructivas. Soporta semántica button y anchor, iconos a izquierda/derecha, modo solo icono, tamaños, ancho completo, acciones asíncronas y prevención de clics duplicados. Anima transform y opacity sin layout shift; respeta prefers-reduced-motion. Exige teclado, nombre accesible, aria-busy, contraste WCAG AA y área táctil de 44px. Devuelve variantes tipadas, componente reutilizable, demo, dependencias y pruebas."
+      },
+      "preview": {
+        "style": "success",
+        "shape": "cut",
+        "icon": "download",
+        "primary": "#ef4444",
+        "secondary": "#f472b6",
+        "background": "#fff1f2",
+        "dark": false
+      },
+      "label": "Complete order",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "success",
+        "cut",
+        "Accessible",
+        "CTA"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-005"
+    },
+    {
+      "id": "button-006",
+      "name": {
+        "en": "Coral Magnetic Button",
+        "es": "Botón Magnético Coral"
+      },
+      "description": {
+        "en": "magnetic rounded button with complete interactive states.",
+        "es": "Botón magnetic rounded con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Coral Magnetic” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Get started” with a magnetic visual treatment, rounded shape, arrow icon, primary #6366f1, secondary #22d3ee, and background #080b1c. Include default, hover, focus-visible, active, loading, success, disabled and destructive-safe states. Support button and anchor semantics, left/right icons, icon-only mode, sizes, full width, async actions and prevention of duplicate clicks. Animate transform and opacity without layout shift; respect prefers-reduced-motion. Require keyboard access, accessible name, aria-busy, WCAG AA contrast and a 44px touch target. Return typed variants, reusable component, demo, dependencies and tests.",
+        "es": "Crea un botón «Magnético Coral» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Get started» con tratamiento magnetic, forma rounded, icono arrow, color principal #6366f1, secundario #22d3ee y fondo #080b1c. Incluye estados default, hover, focus-visible, activo, carga, éxito, deshabilitado y protección para acciones destructivas. Soporta semántica button y anchor, iconos a izquierda/derecha, modo solo icono, tamaños, ancho completo, acciones asíncronas y prevención de clics duplicados. Anima transform y opacity sin layout shift; respeta prefers-reduced-motion. Exige teclado, nombre accesible, aria-busy, contraste WCAG AA y área táctil de 44px. Devuelve variantes tipadas, componente reutilizable, demo, dependencias y pruebas."
+      },
+      "preview": {
+        "style": "magnetic",
+        "shape": "rounded",
+        "icon": "arrow",
+        "primary": "#6366f1",
+        "secondary": "#22d3ee",
+        "background": "#080b1c",
+        "dark": true
+      },
+      "label": "Get started",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "magnetic",
+        "rounded",
+        "Animated",
+        "CTA"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-006"
+    },
+    {
+      "id": "button-007",
+      "name": {
+        "en": "Mono Brutalist Button",
+        "es": "Botón Brutalista Mono"
+      },
+      "description": {
+        "en": "brutal pill button with complete interactive states.",
+        "es": "Botón brutal pill con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Mono Brutalist” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “SUBMIT NOW” with a brutal visual treatment, pill shape, spark icon, primary #a3e635, secondary #14b8a6, and background #f7fee7. Include default, hover, focus-visible, active, loading, success, disabled and destructive-safe states. Support button and anchor semantics, left/right icons, icon-only mode, sizes, full width, async actions and prevention of duplicate clicks. Animate transform and opacity without layout shift; respect prefers-reduced-motion. Require keyboard access, accessible name, aria-busy, WCAG AA contrast and a 44px touch target. Return typed variants, reusable component, demo, dependencies and tests.",
+        "es": "Crea un botón «Brutalista Mono» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «SUBMIT NOW» con tratamiento brutal, forma pill, icono spark, color principal #a3e635, secundario #14b8a6 y fondo #f7fee7. Incluye estados default, hover, focus-visible, activo, carga, éxito, deshabilitado y protección para acciones destructivas. Soporta semántica button y anchor, iconos a izquierda/derecha, modo solo icono, tamaños, ancho completo, acciones asíncronas y prevención de clics duplicados. Anima transform y opacity sin layout shift; respeta prefers-reduced-motion. Exige teclado, nombre accesible, aria-busy, contraste WCAG AA y área táctil de 44px. Devuelve variantes tipadas, componente reutilizable, demo, dependencias y pruebas."
+      },
+      "preview": {
+        "style": "brutal",
+        "shape": "pill",
+        "icon": "spark",
+        "primary": "#a3e635",
+        "secondary": "#14b8a6",
+        "background": "#f7fee7",
+        "dark": false
+      },
+      "label": "SUBMIT NOW",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "brutal",
+        "pill",
+        "Accessible",
+        "Action"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-007"
+    },
+    {
+      "id": "button-008",
+      "name": {
+        "en": "Lavender Soft Button",
+        "es": "Botón Suave Lavanda"
+      },
+      "description": {
+        "en": "soft square button with complete interactive states.",
+        "es": "Botón soft square con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Lavender Soft” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Continue” with a soft visual treatment, square shape, check icon, primary #d946ef, secondary #8b5cf6, and background #16051c. Include default, hover, focus-visible, active, loading, success, disabled and destructive-safe states. Support button and anchor semantics, left/right icons, icon-only mode, sizes, full width, async actions and prevention of duplicate clicks. Animate transform and opacity without layout shift; respect prefers-reduced-motion. Require keyboard access, accessible name, aria-busy, WCAG AA contrast and a 44px touch target. Return typed variants, reusable component, demo, dependencies and tests.",
+        "es": "Crea un botón «Suave Lavanda» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Continue» con tratamiento soft, forma square, icono check, color principal #d946ef, secundario #8b5cf6 y fondo #16051c. Incluye estados default, hover, focus-visible, activo, carga, éxito, deshabilitado y protección para acciones destructivas. Soporta semántica button y anchor, iconos a izquierda/derecha, modo solo icono, tamaños, ancho completo, acciones asíncronas y prevención de clics duplicados. Anima transform y opacity sin layout shift; respeta prefers-reduced-motion. Exige teclado, nombre accesible, aria-busy, contraste WCAG AA y área táctil de 44px. Devuelve variantes tipadas, componente reutilizable, demo, dependencias y pruebas."
+      },
+      "preview": {
+        "style": "soft",
+        "shape": "square",
+        "icon": "check",
+        "primary": "#d946ef",
+        "secondary": "#8b5cf6",
+        "background": "#16051c",
+        "dark": true
+      },
+      "label": "Continue",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "soft",
+        "square",
+        "Animated",
+        "CTA"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-008"
+    },
+    {
+      "id": "button-009",
+      "name": {
+        "en": "Cyber Scanline Button",
+        "es": "Botón Scanline Cyber"
+      },
+      "description": {
+        "en": "cyber soft button with complete interactive states.",
+        "es": "Botón cyber soft con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Cyber Scanline” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Initialize” with a cyber visual treatment, soft shape, plus icon, primary #f59e0b, secondary #fb7185, and background #fffbeb. Include default, hover, focus-visible, active, loading, success, disabled and destructive-safe states. Support button and anchor semantics, left/right icons, icon-only mode, sizes, full width, async actions and prevention of duplicate clicks. Animate transform and opacity without layout shift; respect prefers-reduced-motion. Require keyboard access, accessible name, aria-busy, WCAG AA contrast and a 44px touch target. Return typed variants, reusable component, demo, dependencies and tests.",
+        "es": "Crea un botón «Scanline Cyber» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Initialize» con tratamiento cyber, forma soft, icono plus, color principal #f59e0b, secundario #fb7185 y fondo #fffbeb. Incluye estados default, hover, focus-visible, activo, carga, éxito, deshabilitado y protección para acciones destructivas. Soporta semántica button y anchor, iconos a izquierda/derecha, modo solo icono, tamaños, ancho completo, acciones asíncronas y prevención de clics duplicados. Anima transform y opacity sin layout shift; respeta prefers-reduced-motion. Exige teclado, nombre accesible, aria-busy, contraste WCAG AA y área táctil de 44px. Devuelve variantes tipadas, componente reutilizable, demo, dependencias y pruebas."
+      },
+      "preview": {
+        "style": "cyber",
+        "shape": "soft",
+        "icon": "plus",
+        "primary": "#f59e0b",
+        "secondary": "#fb7185",
+        "background": "#fffbeb",
+        "dark": false
+      },
+      "label": "Initialize",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "cyber",
+        "soft",
+        "Accessible",
+        "CTA"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-009"
+    },
+    {
+      "id": "button-010",
+      "name": {
+        "en": "Blue Enterprise Button",
+        "es": "Botón Empresarial Azul"
+      },
+      "description": {
+        "en": "corporate cut button with complete interactive states.",
+        "es": "Botón corporate cut con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Blue Enterprise” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Request demo” with a corporate visual treatment, cut shape, download icon, primary #38bdf8, secondary #818cf8, and background #071325. Include default, hover, focus-visible, active, loading, success, disabled and destructive-safe states. Support button and anchor semantics, left/right icons, icon-only mode, sizes, full width, async actions and prevention of duplicate clicks. Animate transform and opacity without layout shift; respect prefers-reduced-motion. Require keyboard access, accessible name, aria-busy, WCAG AA contrast and a 44px touch target. Return typed variants, reusable component, demo, dependencies and tests.",
+        "es": "Crea un botón «Empresarial Azul» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Request demo» con tratamiento corporate, forma cut, icono download, color principal #38bdf8, secundario #818cf8 y fondo #071325. Incluye estados default, hover, focus-visible, activo, carga, éxito, deshabilitado y protección para acciones destructivas. Soporta semántica button y anchor, iconos a izquierda/derecha, modo solo icono, tamaños, ancho completo, acciones asíncronas y prevención de clics duplicados. Anima transform y opacity sin layout shift; respeta prefers-reduced-motion. Exige teclado, nombre accesible, aria-busy, contraste WCAG AA y área táctil de 44px. Devuelve variantes tipadas, componente reutilizable, demo, dependencias y pruebas."
+      },
+      "preview": {
+        "style": "corporate",
+        "shape": "cut",
+        "icon": "download",
+        "primary": "#38bdf8",
+        "secondary": "#818cf8",
+        "background": "#071325",
+        "dark": true
+      },
+      "label": "Request demo",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "corporate",
+        "cut",
+        "Animated",
+        "Action"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-010"
+    },
+    {
+      "id": "button-011",
+      "name": {
+        "en": "Rose Shine Button",
+        "es": "Botón Brillo Rosa"
+      },
+      "description": {
+        "en": "shine rounded button with complete interactive states.",
+        "es": "Botón shine rounded con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Rose Shine” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Shop the edit” with a shine visual treatment, rounded shape, arrow icon, primary #8b…",
+        "es": "Crea un botón «Brillo Rosa» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Shop the edit» con tratamiento shine, forma rounded, icono arrow, color principal #8b5cf6,…"
+      },
+      "preview": {
+        "style": "shine",
+        "shape": "rounded",
+        "icon": "arrow",
+        "primary": "#8b5cf6",
+        "secondary": "#ec4899",
+        "background": "#09090b",
+        "dark": true
+      },
+      "label": "Shop the edit",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "shine",
+        "rounded",
+        "Accessible",
+        "CTA"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-011"
+    },
+    {
+      "id": "button-012",
+      "name": {
+        "en": "Solar Cart Button",
+        "es": "Botón Carrito Solar"
+      },
+      "description": {
+        "en": "cart pill button with complete interactive states.",
+        "es": "Botón cart pill con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Solar Cart” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Add to cart” with a cart visual treatment, pill shape, spark icon, primary #0ea5e9, …",
+        "es": "Crea un botón «Carrito Solar» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Add to cart» con tratamiento cart, forma pill, icono spark, color principal #0ea5e9, sec…"
+      },
+      "preview": {
+        "style": "cart",
+        "shape": "pill",
+        "icon": "spark",
+        "primary": "#0ea5e9",
+        "secondary": "#14b8a6",
+        "background": "#effcff",
+        "dark": false
+      },
+      "label": "Add to cart",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "cart",
+        "pill",
+        "Animated",
+        "CTA"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-012"
+    },
+    {
+      "id": "button-013",
+      "name": {
+        "en": "Slate Minimal Button",
+        "es": "Botón Minimalista Slate"
+      },
+      "description": {
+        "en": "minimal square button with complete interactive states.",
+        "es": "Botón minimal square con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Slate Minimal” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Learn more” with a minimal visual treatment, square shape, check icon, primary #f…",
+        "es": "Crea un botón «Minimalista Slate» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Learn more» con tratamiento minimal, forma square, icono check, color principal #f97…"
+      },
+      "preview": {
+        "style": "minimal",
+        "shape": "square",
+        "icon": "check",
+        "primary": "#f97316",
+        "secondary": "#facc15",
+        "background": "#fff7ed",
+        "dark": false
+      },
+      "label": "Learn more",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "minimal",
+        "square",
+        "Accessible",
+        "Action"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-013"
+    },
+    {
+      "id": "button-014",
+      "name": {
+        "en": "Violet AI Spark Button",
+        "es": "Botón Destello IA Violeta"
+      },
+      "description": {
+        "en": "spark soft button with complete interactive states.",
+        "es": "Botón spark soft con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Violet AI Spark” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Generate with AI” with a spark visual treatment, soft shape, plus icon, primary…",
+        "es": "Crea un botón «Destello IA Violeta» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Generate with AI» con tratamiento spark, forma soft, icono plus, color principal #…"
+      },
+      "preview": {
+        "style": "spark",
+        "shape": "soft",
+        "icon": "plus",
+        "primary": "#22c55e",
+        "secondary": "#06b6d4",
+        "background": "#03150d",
+        "dark": true
+      },
+      "label": "Generate with AI",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "spark",
+        "soft",
+        "Animated",
+        "CTA"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-014"
+    },
+    {
+      "id": "button-015",
+      "name": {
+        "en": "Mint Confirm Button",
+        "es": "Botón Confirmación Menta"
+      },
+      "description": {
+        "en": "confirm cut button with complete interactive states.",
+        "es": "Botón confirm cut con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Mint Confirm” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Confirm booking” with a confirm visual treatment, cut shape, download icon, primar…",
+        "es": "Crea un botón «Confirmación Menta» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Confirm booking» con tratamiento confirm, forma cut, icono download, color principa…"
+      },
+      "preview": {
+        "style": "confirm",
+        "shape": "cut",
+        "icon": "download",
+        "primary": "#ef4444",
+        "secondary": "#f472b6",
+        "background": "#fff1f2",
+        "dark": false
+      },
+      "label": "Confirm booking",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "confirm",
+        "cut",
+        "Accessible",
+        "CTA"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-015"
+    },
+    {
+      "id": "button-016",
+      "name": {
+        "en": "Ruby Luxury Button",
+        "es": "Botón Lujo Rubí"
+      },
+      "description": {
+        "en": "luxury rounded button with complete interactive states.",
+        "es": "Botón luxury rounded con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Ruby Luxury” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Discover more” with a luxury visual treatment, rounded shape, arrow icon, primary #…",
+        "es": "Crea un botón «Lujo Rubí» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Discover more» con tratamiento luxury, forma rounded, icono arrow, color principal #6366f1, …"
+      },
+      "preview": {
+        "style": "luxury",
+        "shape": "rounded",
+        "icon": "arrow",
+        "primary": "#6366f1",
+        "secondary": "#22d3ee",
+        "background": "#080b1c",
+        "dark": true
+      },
+      "label": "Discover more",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "luxury",
+        "rounded",
+        "Animated",
+        "Action"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-016"
+    },
+    {
+      "id": "button-017",
+      "name": {
+        "en": "Indigo Split Button",
+        "es": "Botón Dividido Índigo"
+      },
+      "description": {
+        "en": "split pill button with complete interactive states.",
+        "es": "Botón split pill con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Indigo Split” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Open workspace” with a split visual treatment, pill shape, spark icon, primary #a3…",
+        "es": "Crea un botón «Dividido Índigo» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Open workspace» con tratamiento split, forma pill, icono spark, color principal #a3e63…"
+      },
+      "preview": {
+        "style": "split",
+        "shape": "pill",
+        "icon": "spark",
+        "primary": "#a3e635",
+        "secondary": "#14b8a6",
+        "background": "#f7fee7",
+        "dark": false
+      },
+      "label": "Open workspace",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "split",
+        "pill",
+        "Accessible",
+        "CTA"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-017"
+    },
+    {
+      "id": "button-018",
+      "name": {
+        "en": "Sand Travel Button",
+        "es": "Botón Viaje Arena"
+      },
+      "description": {
+        "en": "travel square button with complete interactive states.",
+        "es": "Botón travel square con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Sand Travel” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Plan my trip” with a travel visual treatment, square shape, check icon, primary #d9…",
+        "es": "Crea un botón «Viaje Arena» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Plan my trip» con tratamiento travel, forma square, icono check, color principal #d946ef, …"
+      },
+      "preview": {
+        "style": "travel",
+        "shape": "square",
+        "icon": "check",
+        "primary": "#d946ef",
+        "secondary": "#8b5cf6",
+        "background": "#16051c",
+        "dark": true
+      },
+      "label": "Plan my trip",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "travel",
+        "square",
+        "Animated",
+        "CTA"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-018"
+    },
+    {
+      "id": "button-019",
+      "name": {
+        "en": "Lime Fitness Button",
+        "es": "Botón Fitness Lima"
+      },
+      "description": {
+        "en": "energy soft button with complete interactive states.",
+        "es": "Botón energy soft con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Lime Fitness” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Start workout” with a energy visual treatment, soft shape, plus icon, primary #f59…",
+        "es": "Crea un botón «Fitness Lima» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Start workout» con tratamiento energy, forma soft, icono plus, color principal #f59e0b, s…"
+      },
+      "preview": {
+        "style": "energy",
+        "shape": "soft",
+        "icon": "plus",
+        "primary": "#f59e0b",
+        "secondary": "#fb7185",
+        "background": "#fffbeb",
+        "dark": false
+      },
+      "label": "Start workout",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "energy",
+        "soft",
+        "Accessible",
+        "Action"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-019"
+    },
+    {
+      "id": "button-020",
+      "name": {
+        "en": "Sky Download Button",
+        "es": "Botón Descarga Cielo"
+      },
+      "description": {
+        "en": "download cut button with complete interactive states.",
+        "es": "Botón download cut con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Sky Download” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Download file” with a download visual treatment, cut shape, download icon, primary…",
+        "es": "Crea un botón «Descarga Cielo» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Download file» con tratamiento download, forma cut, icono download, color principal #38…"
+      },
+      "preview": {
+        "style": "download",
+        "shape": "cut",
+        "icon": "download",
+        "primary": "#38bdf8",
+        "secondary": "#818cf8",
+        "background": "#071325",
+        "dark": true
+      },
+      "label": "Download file",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "download",
+        "cut",
+        "Animated",
+        "CTA"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-020"
+    },
+    {
+      "id": "button-021",
+      "name": {
+        "en": "Obsidian Outline Button",
+        "es": "Botón Outline Obsidiana"
+      },
+      "description": {
+        "en": "outline rounded button with complete interactive states.",
+        "es": "Botón outline rounded con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Obsidian Outline” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “View details” with a outline visual treatment, rounded shape, arrow icon, prim…",
+        "es": "Crea un botón «Outline Obsidiana» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «View details» con tratamiento outline, forma rounded, icono arrow, color principal #…"
+      },
+      "preview": {
+        "style": "outline",
+        "shape": "rounded",
+        "icon": "arrow",
+        "primary": "#8b5cf6",
+        "secondary": "#ec4899",
+        "background": "#09090b",
+        "dark": true
+      },
+      "label": "View details",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "outline",
+        "rounded",
+        "Accessible",
+        "CTA"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-021"
+    },
+    {
+      "id": "button-022",
+      "name": {
+        "en": "Peach Community Button",
+        "es": "Botón Comunidad Durazno"
+      },
+      "description": {
+        "en": "community pill button with complete interactive states.",
+        "es": "Botón community pill con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Peach Community” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Join community” with a community visual treatment, pill shape, spark icon, prim…",
+        "es": "Crea un botón «Comunidad Durazno» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Join community» con tratamiento community, forma pill, icono spark, color principal …"
+      },
+      "preview": {
+        "style": "community",
+        "shape": "pill",
+        "icon": "spark",
+        "primary": "#0ea5e9",
+        "secondary": "#14b8a6",
+        "background": "#effcff",
+        "dark": false
+      },
+      "label": "Join community",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "community",
+        "pill",
+        "Animated",
+        "Action"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-022"
+    },
+    {
+      "id": "button-023",
+      "name": {
+        "en": "Neon Gaming Button",
+        "es": "Botón Gaming Neón"
+      },
+      "description": {
+        "en": "neon square button with complete interactive states.",
+        "es": "Botón neon square con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Neon Gaming” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “PLAY NOW” with a neon visual treatment, square shape, check icon, primary #f97316, …",
+        "es": "Crea un botón «Gaming Neón» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «PLAY NOW» con tratamiento neon, forma square, icono check, color principal #f97316, secund…"
+      },
+      "preview": {
+        "style": "neon",
+        "shape": "square",
+        "icon": "check",
+        "primary": "#f97316",
+        "secondary": "#facc15",
+        "background": "#fff7ed",
+        "dark": false
+      },
+      "label": "PLAY NOW",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "neon",
+        "square",
+        "Accessible",
+        "CTA"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-023"
+    },
+    {
+      "id": "button-024",
+      "name": {
+        "en": "Paper Underline Button",
+        "es": "Botón Subrayado Papel"
+      },
+      "description": {
+        "en": "underline soft button with complete interactive states.",
+        "es": "Botón underline soft con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Paper Underline” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “See the journal” with a underline visual treatment, soft shape, plus icon, prim…",
+        "es": "Crea un botón «Subrayado Papel» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «See the journal» con tratamiento underline, forma soft, icono plus, color principal #2…"
+      },
+      "preview": {
+        "style": "underline",
+        "shape": "soft",
+        "icon": "plus",
+        "primary": "#22c55e",
+        "secondary": "#06b6d4",
+        "background": "#03150d",
+        "dark": true
+      },
+      "label": "See the journal",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "underline",
+        "soft",
+        "Animated",
+        "CTA"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-024"
+    },
+    {
+      "id": "button-025",
+      "name": {
+        "en": "Cobalt Security Button",
+        "es": "Botón Seguridad Cobalto"
+      },
+      "description": {
+        "en": "secure cut button with complete interactive states.",
+        "es": "Botón secure cut con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Cobalt Security” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Verify identity” with a secure visual treatment, cut shape, download icon, prim…",
+        "es": "Crea un botón «Seguridad Cobalto» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Verify identity» con tratamiento secure, forma cut, icono download, color principal …"
+      },
+      "preview": {
+        "style": "secure",
+        "shape": "cut",
+        "icon": "download",
+        "primary": "#ef4444",
+        "secondary": "#f472b6",
+        "background": "#fff1f2",
+        "dark": false
+      },
+      "label": "Verify identity",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "secure",
+        "cut",
+        "Accessible",
+        "Action"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-025"
+    },
+    {
+      "id": "button-026",
+      "name": {
+        "en": "Amber Loading Button",
+        "es": "Botón Carga Ámbar"
+      },
+      "description": {
+        "en": "loading rounded button with complete interactive states.",
+        "es": "Botón loading rounded con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Amber Loading” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Processing” with a loading visual treatment, rounded shape, arrow icon, primary #…",
+        "es": "Crea un botón «Carga Ámbar» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Processing» con tratamiento loading, forma rounded, icono arrow, color principal #6366f1, …"
+      },
+      "preview": {
+        "style": "loading",
+        "shape": "rounded",
+        "icon": "arrow",
+        "primary": "#6366f1",
+        "secondary": "#22d3ee",
+        "background": "#080b1c",
+        "dark": true
+      },
+      "label": "Processing",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "loading",
+        "rounded",
+        "Animated",
+        "CTA"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-026"
+    },
+    {
+      "id": "button-027",
+      "name": {
+        "en": "Forest Donation Button",
+        "es": "Botón Donación Bosque"
+      },
+      "description": {
+        "en": "donate pill button with complete interactive states.",
+        "es": "Botón donate pill con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Forest Donation” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Donate securely” with a donate visual treatment, pill shape, spark icon, primar…",
+        "es": "Crea un botón «Donación Bosque» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Donate securely» con tratamiento donate, forma pill, icono spark, color principal #a3e…"
+      },
+      "preview": {
+        "style": "donate",
+        "shape": "pill",
+        "icon": "spark",
+        "primary": "#a3e635",
+        "secondary": "#14b8a6",
+        "background": "#f7fee7",
+        "dark": false
+      },
+      "label": "Donate securely",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "donate",
+        "pill",
+        "Accessible",
+        "CTA"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-027"
+    },
+    {
+      "id": "button-028",
+      "name": {
+        "en": "Candy Social Button",
+        "es": "Botón Social Caramelo"
+      },
+      "description": {
+        "en": "social square button with complete interactive states.",
+        "es": "Botón social square con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Candy Social” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Share post” with a social visual treatment, square shape, check icon, primary #d94…",
+        "es": "Crea un botón «Social Caramelo» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Share post» con tratamiento social, forma square, icono check, color principal #d946ef…"
+      },
+      "preview": {
+        "style": "social",
+        "shape": "square",
+        "icon": "check",
+        "primary": "#d946ef",
+        "secondary": "#8b5cf6",
+        "background": "#16051c",
+        "dark": true
+      },
+      "label": "Share post",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "social",
+        "square",
+        "Animated",
+        "Action"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-028"
+    },
+    {
+      "id": "button-029",
+      "name": {
+        "en": "Graphite Developer Button",
+        "es": "Botón Developer Grafito"
+      },
+      "description": {
+        "en": "terminal soft button with complete interactive states.",
+        "es": "Botón terminal soft con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Graphite Developer” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Deploy build” with a terminal visual treatment, soft shape, plus icon, prima…",
+        "es": "Crea un botón «Developer Grafito» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Deploy build» con tratamiento terminal, forma soft, icono plus, color principal #f59…"
+      },
+      "preview": {
+        "style": "terminal",
+        "shape": "soft",
+        "icon": "plus",
+        "primary": "#f59e0b",
+        "secondary": "#fb7185",
+        "background": "#fffbeb",
+        "dark": false
+      },
+      "label": "Deploy build",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "terminal",
+        "soft",
+        "Accessible",
+        "CTA"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-029"
+    },
+    {
+      "id": "button-030",
+      "name": {
+        "en": "Ivory Legal Button",
+        "es": "Botón Legal Marfil"
+      },
+      "description": {
+        "en": "legal cut button with complete interactive states.",
+        "es": "Botón legal cut con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Ivory Legal” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Review document” with a legal visual treatment, cut shape, download icon, primary #…",
+        "es": "Crea un botón «Legal Marfil» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Review document» con tratamiento legal, forma cut, icono download, color principal #38bdf…"
+      },
+      "preview": {
+        "style": "legal",
+        "shape": "cut",
+        "icon": "download",
+        "primary": "#38bdf8",
+        "secondary": "#818cf8",
+        "background": "#071325",
+        "dark": true
+      },
+      "label": "Review document",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "legal",
+        "cut",
+        "Animated",
+        "CTA"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-030"
+    },
+    {
+      "id": "button-031",
+      "name": {
+        "en": "Teal Icon Morph Button",
+        "es": "Botón Icono Morph Teal"
+      },
+      "description": {
+        "en": "morph rounded button with complete interactive states.",
+        "es": "Botón morph rounded con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Teal Icon Morph” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Send message” with a morph visual treatment, rounded shape, arrow icon, primary…",
+        "es": "Crea un botón «Icono Morph Teal» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Send message» con tratamiento morph, forma rounded, icono arrow, color principal #8b5…"
+      },
+      "preview": {
+        "style": "morph",
+        "shape": "rounded",
+        "icon": "arrow",
+        "primary": "#8b5cf6",
+        "secondary": "#ec4899",
+        "background": "#09090b",
+        "dark": true
+      },
+      "label": "Send message",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "morph",
+        "rounded",
+        "Accessible",
+        "Action"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-031"
+    },
+    {
+      "id": "button-032",
+      "name": {
+        "en": "Purple Event Button",
+        "es": "Botón Evento Púrpura"
+      },
+      "description": {
+        "en": "event pill button with complete interactive states.",
+        "es": "Botón event pill con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Purple Event” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Reserve seat” with a event visual treatment, pill shape, spark icon, primary #0ea5…",
+        "es": "Crea un botón «Evento Púrpura» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Reserve seat» con tratamiento event, forma pill, icono spark, color principal #0ea5e9, …"
+      },
+      "preview": {
+        "style": "event",
+        "shape": "pill",
+        "icon": "spark",
+        "primary": "#0ea5e9",
+        "secondary": "#14b8a6",
+        "background": "#effcff",
+        "dark": false
+      },
+      "label": "Reserve seat",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "event",
+        "pill",
+        "Animated",
+        "CTA"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-032"
+    },
+    {
+      "id": "button-033",
+      "name": {
+        "en": "Red Sports Button",
+        "es": "Botón Deportes Rojo"
+      },
+      "description": {
+        "en": "speed square button with complete interactive states.",
+        "es": "Botón speed square con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Red Sports” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Join the race” with a speed visual treatment, square shape, check icon, primary #f97…",
+        "es": "Crea un botón «Deportes Rojo» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Join the race» con tratamiento speed, forma square, icono check, color principal #f97316…"
+      },
+      "preview": {
+        "style": "speed",
+        "shape": "square",
+        "icon": "check",
+        "primary": "#f97316",
+        "secondary": "#facc15",
+        "background": "#fff7ed",
+        "dark": false
+      },
+      "label": "Join the race",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "speed",
+        "square",
+        "Accessible",
+        "CTA"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-033"
+    },
+    {
+      "id": "button-034",
+      "name": {
+        "en": "Nordic Home Button",
+        "es": "Botón Hogar Nórdico"
+      },
+      "description": {
+        "en": "nordic soft button with complete interactive states.",
+        "es": "Botón nordic soft con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Nordic Home” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “View property” with a nordic visual treatment, soft shape, plus icon, primary #22c5…",
+        "es": "Crea un botón «Hogar Nórdico» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «View property» con tratamiento nordic, forma soft, icono plus, color principal #22c55e, …"
+      },
+      "preview": {
+        "style": "nordic",
+        "shape": "soft",
+        "icon": "plus",
+        "primary": "#22c55e",
+        "secondary": "#06b6d4",
+        "background": "#03150d",
+        "dark": true
+      },
+      "label": "View property",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "nordic",
+        "soft",
+        "Animated",
+        "Action"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-034"
+    },
+    {
+      "id": "button-035",
+      "name": {
+        "en": "Aqua Crypto Button",
+        "es": "Botón Cripto Aqua"
+      },
+      "description": {
+        "en": "crypto cut button with complete interactive states.",
+        "es": "Botón crypto cut con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Aqua Crypto” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Connect wallet” with a crypto visual treatment, cut shape, download icon, primary #…",
+        "es": "Crea un botón «Cripto Aqua» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Connect wallet» con tratamiento crypto, forma cut, icono download, color principal #ef4444…"
+      },
+      "preview": {
+        "style": "crypto",
+        "shape": "cut",
+        "icon": "download",
+        "primary": "#ef4444",
+        "secondary": "#f472b6",
+        "background": "#fff1f2",
+        "dark": false
+      },
+      "label": "Connect wallet",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "crypto",
+        "cut",
+        "Accessible",
+        "CTA"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-035"
+    },
+    {
+      "id": "button-036",
+      "name": {
+        "en": "Plum Profile Button",
+        "es": "Botón Perfil Ciruela"
+      },
+      "description": {
+        "en": "profile rounded button with complete interactive states.",
+        "es": "Botón profile rounded con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Plum Profile” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Edit profile” with a profile visual treatment, rounded shape, arrow icon, primary …",
+        "es": "Crea un botón «Perfil Ciruela» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Edit profile» con tratamiento profile, forma rounded, icono arrow, color principal #636…"
+      },
+      "preview": {
+        "style": "profile",
+        "shape": "rounded",
+        "icon": "arrow",
+        "primary": "#6366f1",
+        "secondary": "#22d3ee",
+        "background": "#080b1c",
+        "dark": true
+      },
+      "label": "Edit profile",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "profile",
+        "rounded",
+        "Animated",
+        "CTA"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-036"
+    },
+    {
+      "id": "button-037",
+      "name": {
+        "en": "Gold Membership Button",
+        "es": "Botón Membresía Oro"
+      },
+      "description": {
+        "en": "premium pill button with complete interactive states.",
+        "es": "Botón premium pill con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Gold Membership” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Upgrade to Pro” with a premium visual treatment, pill shape, spark icon, primar…",
+        "es": "Crea un botón «Membresía Oro» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Upgrade to Pro» con tratamiento premium, forma pill, icono spark, color principal #a3e63…"
+      },
+      "preview": {
+        "style": "premium",
+        "shape": "pill",
+        "icon": "spark",
+        "primary": "#a3e635",
+        "secondary": "#14b8a6",
+        "background": "#f7fee7",
+        "dark": false
+      },
+      "label": "Upgrade to Pro",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "premium",
+        "pill",
+        "Accessible",
+        "Action"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-037"
+    },
+    {
+      "id": "button-038",
+      "name": {
+        "en": "Cloud Toggle Button",
+        "es": "Botón Toggle Cloud"
+      },
+      "description": {
+        "en": "toggle square button with complete interactive states.",
+        "es": "Botón toggle square con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Cloud Toggle” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Enable feature” with a toggle visual treatment, square shape, check icon, primary …",
+        "es": "Crea un botón «Toggle Cloud» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Enable feature» con tratamiento toggle, forma square, icono check, color principal #d946e…"
+      },
+      "preview": {
+        "style": "toggle",
+        "shape": "square",
+        "icon": "check",
+        "primary": "#d946ef",
+        "secondary": "#8b5cf6",
+        "background": "#16051c",
+        "dark": true
+      },
+      "label": "Enable feature",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "toggle",
+        "square",
+        "Animated",
+        "CTA"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-038"
+    },
+    {
+      "id": "button-039",
+      "name": {
+        "en": "Mango Delivery Button",
+        "es": "Botón Delivery Mango"
+      },
+      "description": {
+        "en": "delivery soft button with complete interactive states.",
+        "es": "Botón delivery soft con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Mango Delivery” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Track order” with a delivery visual treatment, soft shape, plus icon, primary #f…",
+        "es": "Crea un botón «Delivery Mango» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Track order» con tratamiento delivery, forma soft, icono plus, color principal #f59e0b,…"
+      },
+      "preview": {
+        "style": "delivery",
+        "shape": "soft",
+        "icon": "plus",
+        "primary": "#f59e0b",
+        "secondary": "#fb7185",
+        "background": "#fffbeb",
+        "dark": false
+      },
+      "label": "Track order",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "delivery",
+        "soft",
+        "Accessible",
+        "CTA"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-039"
+    },
+    {
+      "id": "button-040",
+      "name": {
+        "en": "Berry Music Button",
+        "es": "Botón Música Berry"
+      },
+      "description": {
+        "en": "music cut button with complete interactive states.",
+        "es": "Botón music cut con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Berry Music” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Play preview” with a music visual treatment, cut shape, download icon, primary #38b…",
+        "es": "Crea un botón «Música Berry» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Play preview» con tratamiento music, forma cut, icono download, color principal #38bdf8, …"
+      },
+      "preview": {
+        "style": "music",
+        "shape": "cut",
+        "icon": "download",
+        "primary": "#38bdf8",
+        "secondary": "#818cf8",
+        "background": "#071325",
+        "dark": true
+      },
+      "label": "Play preview",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "music",
+        "cut",
+        "Animated",
+        "Action"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-040"
+    },
+    {
+      "id": "button-041",
+      "name": {
+        "en": "Steel Industrial Button",
+        "es": "Botón Industrial Acero"
+      },
+      "description": {
+        "en": "industrial rounded button with complete interactive states.",
+        "es": "Botón industrial rounded con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Steel Industrial” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “View specifications” with a industrial visual treatment, rounded shape, arrow …",
+        "es": "Crea un botón «Industrial Acero» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «View specifications» con tratamiento industrial, forma rounded, icono arrow, color pr…"
+      },
+      "preview": {
+        "style": "industrial",
+        "shape": "rounded",
+        "icon": "arrow",
+        "primary": "#8b5cf6",
+        "secondary": "#ec4899",
+        "background": "#09090b",
+        "dark": true
+      },
+      "label": "View specifications",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "industrial",
+        "rounded",
+        "Accessible",
+        "CTA"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-041"
+    },
+    {
+      "id": "button-042",
+      "name": {
+        "en": "Blush Beauty Button",
+        "es": "Botón Belleza Blush"
+      },
+      "description": {
+        "en": "beauty pill button with complete interactive states.",
+        "es": "Botón beauty pill con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Blush Beauty” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Find my shade” with a beauty visual treatment, pill shape, spark icon, primary #0e…",
+        "es": "Crea un botón «Belleza Blush» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Find my shade» con tratamiento beauty, forma pill, icono spark, color principal #0ea5e9,…"
+      },
+      "preview": {
+        "style": "beauty",
+        "shape": "pill",
+        "icon": "spark",
+        "primary": "#0ea5e9",
+        "secondary": "#14b8a6",
+        "background": "#effcff",
+        "dark": false
+      },
+      "label": "Find my shade",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "beauty",
+        "pill",
+        "Animated",
+        "CTA"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-042"
+    },
+    {
+      "id": "button-043",
+      "name": {
+        "en": "Navy Insurance Button",
+        "es": "Botón Seguros Navy"
+      },
+      "description": {
+        "en": "insurance square button with complete interactive states.",
+        "es": "Botón insurance square con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Navy Insurance” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Get coverage” with a insurance visual treatment, square shape, check icon, prima…",
+        "es": "Crea un botón «Seguros Navy» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Get coverage» con tratamiento insurance, forma square, icono check, color principal #f973…"
+      },
+      "preview": {
+        "style": "insurance",
+        "shape": "square",
+        "icon": "check",
+        "primary": "#f97316",
+        "secondary": "#facc15",
+        "background": "#fff7ed",
+        "dark": false
+      },
+      "label": "Get coverage",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "insurance",
+        "square",
+        "Accessible",
+        "Action"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-043"
+    },
+    {
+      "id": "button-044",
+      "name": {
+        "en": "Eco Marketplace Button",
+        "es": "Botón Marketplace Eco"
+      },
+      "description": {
+        "en": "eco soft button with complete interactive states.",
+        "es": "Botón eco soft con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Eco Marketplace” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Buy responsibly” with a eco visual treatment, soft shape, plus icon, primary #2…",
+        "es": "Crea un botón «Marketplace Eco» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Buy responsibly» con tratamiento eco, forma soft, icono plus, color principal #22c55e,…"
+      },
+      "preview": {
+        "style": "eco",
+        "shape": "soft",
+        "icon": "plus",
+        "primary": "#22c55e",
+        "secondary": "#06b6d4",
+        "background": "#03150d",
+        "dark": true
+      },
+      "label": "Buy responsibly",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "eco",
+        "soft",
+        "Animated",
+        "CTA"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-044"
+    },
+    {
+      "id": "button-045",
+      "name": {
+        "en": "Pixel Portfolio Button",
+        "es": "Botón Portfolio Pixel"
+      },
+      "description": {
+        "en": "pixel cut button with complete interactive states.",
+        "es": "Botón pixel cut con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Pixel Portfolio” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “View project” with a pixel visual treatment, cut shape, download icon, primary …",
+        "es": "Crea un botón «Portfolio Pixel» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «View project» con tratamiento pixel, forma cut, icono download, color principal #ef444…"
+      },
+      "preview": {
+        "style": "pixel",
+        "shape": "cut",
+        "icon": "download",
+        "primary": "#ef4444",
+        "secondary": "#f472b6",
+        "background": "#fff1f2",
+        "dark": false
+      },
+      "label": "View project",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "pixel",
+        "cut",
+        "Accessible",
+        "CTA"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-045"
+    },
+    {
+      "id": "button-046",
+      "name": {
+        "en": "Terracotta Food Button",
+        "es": "Botón Comida Terracota"
+      },
+      "description": {
+        "en": "food rounded button with complete interactive states.",
+        "es": "Botón food rounded con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Terracotta Food” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Book a table” with a food visual treatment, rounded shape, arrow icon, primary …",
+        "es": "Crea un botón «Comida Terracota» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Book a table» con tratamiento food, forma rounded, icono arrow, color principal #6366…"
+      },
+      "preview": {
+        "style": "food",
+        "shape": "rounded",
+        "icon": "arrow",
+        "primary": "#6366f1",
+        "secondary": "#22d3ee",
+        "background": "#080b1c",
+        "dark": true
+      },
+      "label": "Book a table",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "food",
+        "rounded",
+        "Animated",
+        "Action"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-046"
+    },
+    {
+      "id": "button-047",
+      "name": {
+        "en": "Arctic Glass Button",
+        "es": "Botón Cristal Ártico"
+      },
+      "description": {
+        "en": "glass pill button with complete interactive states.",
+        "es": "Botón glass pill con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Arctic Glass” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Open dashboard” with a glass visual treatment, pill shape, spark icon, primary #a3…",
+        "es": "Crea un botón «Cristal Ártico» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Open dashboard» con tratamiento glass, forma pill, icono spark, color principal #a3e635…"
+      },
+      "preview": {
+        "style": "glass",
+        "shape": "pill",
+        "icon": "spark",
+        "primary": "#a3e635",
+        "secondary": "#14b8a6",
+        "background": "#f7fee7",
+        "dark": false
+      },
+      "label": "Open dashboard",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "glass",
+        "pill",
+        "Accessible",
+        "CTA"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-047"
+    },
+    {
+      "id": "button-048",
+      "name": {
+        "en": "Black Fashion Button",
+        "es": "Botón Moda Negra"
+      },
+      "description": {
+        "en": "fashion square button with complete interactive states.",
+        "es": "Botón fashion square con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Black Fashion” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Shop now” with a fashion visual treatment, square shape, check icon, primary #d94…",
+        "es": "Crea un botón «Moda Negra» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Shop now» con tratamiento fashion, forma square, icono check, color principal #d946ef, secu…"
+      },
+      "preview": {
+        "style": "fashion",
+        "shape": "square",
+        "icon": "check",
+        "primary": "#d946ef",
+        "secondary": "#8b5cf6",
+        "background": "#16051c",
+        "dark": true
+      },
+      "label": "Shop now",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "fashion",
+        "square",
+        "Animated",
+        "CTA"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-048"
+    },
+    {
+      "id": "button-049",
+      "name": {
+        "en": "Pastel Kids Button",
+        "es": "Botón Infantil Pastel"
+      },
+      "description": {
+        "en": "playful soft button with complete interactive states.",
+        "es": "Botón playful soft con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Pastel Kids” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Let’s explore” with a playful visual treatment, soft shape, plus icon, primary #f59…",
+        "es": "Crea un botón «Infantil Pastel» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Let’s explore» con tratamiento playful, forma soft, icono plus, color principal #f59e0…"
+      },
+      "preview": {
+        "style": "playful",
+        "shape": "soft",
+        "icon": "plus",
+        "primary": "#f59e0b",
+        "secondary": "#fb7185",
+        "background": "#fffbeb",
+        "dark": false
+      },
+      "label": "Let’s explore",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "playful",
+        "soft",
+        "Accessible",
+        "Action"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-049"
+    },
+    {
+      "id": "button-050",
+      "name": {
+        "en": "Signal Destructive Button",
+        "es": "Botón Destructivo Signal"
+      },
+      "description": {
+        "en": "destructive cut button with complete interactive states.",
+        "es": "Botón destructive cut con estados interactivos completos."
+      },
+      "prompt": {
+        "en": "Build a production-ready “Signal Destructive” button component using React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion and Lucide icons. Display the label “Delete item” with a destructive visual treatment, cut shape, download icon, …",
+        "es": "Crea un botón «Destructivo Signal» listo para producción usando React, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion e iconos Lucide. Muestra el texto «Delete item» con tratamiento destructive, forma cut, icono download, color principa…"
+      },
+      "preview": {
+        "style": "destructive",
+        "shape": "cut",
+        "icon": "download",
+        "primary": "#38bdf8",
+        "secondary": "#818cf8",
+        "background": "#071325",
+        "dark": true
+      },
+      "label": "Delete item",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Framer Motion",
+        "Lucide React"
+      ],
+      "tags": [
+        "Button",
+        "destructive",
+        "cut",
+        "Animated",
+        "CTA"
+      ],
+      "membership": "Free",
+      "price": "5.00",
+      "detailEndpoint": "/api/catalog/components/button-050"
+    }
+  ]
+}
