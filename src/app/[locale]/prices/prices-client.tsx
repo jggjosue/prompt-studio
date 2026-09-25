@@ -269,11 +269,10 @@ export default function PricesClient() {
               type="button"
               onClick={() => setIsAnnual(false)}
               aria-pressed={!isAnnual}
-              className={`rounded-full px-7 py-3 text-sm font-semibold transition-all duration-200 sm:px-9 ${
-                !isAnnual
+              className={`rounded-full px-7 py-3 text-sm font-semibold transition-all duration-200 sm:px-9 ${!isAnnual
                   ? '!bg-blue-600 !text-white shadow-[0_8px_24px_rgba(37,99,235,0.4)] ring-1 ring-blue-400'
                   : '!text-slate-200 hover:!bg-blue-950/60 hover:!text-white'
-              }`}
+                }`}
             >
               Mensual
             </button>
@@ -281,11 +280,10 @@ export default function PricesClient() {
               type="button"
               onClick={() => setIsAnnual(true)}
               aria-pressed={isAnnual}
-              className={`flex items-center gap-2 rounded-full px-7 py-3 text-sm font-semibold transition-all duration-200 sm:px-9 ${
-                isAnnual
+              className={`flex items-center gap-2 rounded-full px-7 py-3 text-sm font-semibold transition-all duration-200 sm:px-9 ${isAnnual
                   ? '!bg-blue-600 !text-white shadow-[0_8px_24px_rgba(37,99,235,0.4)] ring-1 ring-blue-400'
                   : '!text-slate-200 hover:!bg-blue-950/60 hover:!text-white'
-              }`}
+                }`}
             >
               <span>Anual</span>
               <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-xs font-bold text-emerald-400 border border-emerald-500/30">
@@ -304,11 +302,10 @@ export default function PricesClient() {
               return (
                 <Card
                   key={paidPlanItem.id}
-                  className={`relative flex flex-col overflow-hidden transition-all duration-300 hover:shadow-xl ${
-                    paidPlanItem.isMostPopular
+                  className={`relative flex flex-col overflow-hidden transition-all duration-300 hover:shadow-xl ${paidPlanItem.isMostPopular
                       ? 'border-violet-500 shadow-lg shadow-violet-500/10 scale-[1.02]'
                       : 'border-muted-foreground/20 shadow-sm'
-                  } ${paidPlanItem.comingSoon ? 'opacity-60 select-none' : ''} ${!available && !paidPlanItem.comingSoon ? 'opacity-50 pointer-events-none' : ''}`}
+                    } ${paidPlanItem.comingSoon ? 'opacity-60 select-none' : ''} ${!available && !paidPlanItem.comingSoon ? 'opacity-50 pointer-events-none' : ''}`}
                 >
                   {paidPlanItem.comingSoon && (
                     <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-slate-500 via-slate-400 to-slate-500" />
@@ -339,10 +336,10 @@ export default function PricesClient() {
                       {paidPlanItem.id === 'free'
                         ? 'Explora gratis las herramientas de IA'
                         : paidPlanItem.id === 'creator'
-                        ? 'Herramientas creativas de IA'
-                        : paidPlanItem.id === 'pro'
-                        ? 'El más popular. Máximas herramientas'
-                        : 'El máximo nivel de creación'}
+                          ? 'Herramientas creativas de IA'
+                          : paidPlanItem.id === 'pro'
+                            ? 'El más popular. Máximas herramientas'
+                            : 'El máximo nivel de creación'}
                     </p>
                   </CardHeader>
                   <CardContent className="flex flex-col flex-grow">
