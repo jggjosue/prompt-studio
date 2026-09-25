@@ -66,9 +66,9 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
           onChange={e => setPrompt(e.target.value)}
           placeholder="Escribe tu prompt..."
           className="flex-1 min-h-[40px] max-h-32 resize-none"
-          onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
+          onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); } }}
         />
-        <Button onClick={handleSend} disabled={localGenerating || !prompt.trim()} size="icon">
+        <Button onClick={handleSend} disabled size="icon">
           <Send className="h-4 w-4" />
         </Button>
       </div>
