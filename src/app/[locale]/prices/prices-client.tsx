@@ -114,10 +114,11 @@ const PLANS: PaidPlan[] = [
     isMostPopular: false,
     features: [
       'Todo en Free',
-      'Generación de Paginas con Page Composer',
       'Catálogo completo de botones, cards, headers y más (Premium)',
       'Copias de prompts de Paginas Web (Premium)',
-      'Kids Completosn (Premium)'
+      'Kids Completosn (Premium)',
+      'Constructor visual de componentes (Component Builder)',
+      'Page Composer para componer páginas completas'
     ],
     cta: 'Empezar con Creator',
   },
