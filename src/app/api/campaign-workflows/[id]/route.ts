@@ -35,7 +35,7 @@ export async function GET(_: Request, { params }: { params: Promise<{ id: string
     promptCount: project?.prompts?.length ?? tasks.length,
     jobs: serializedJobs.map(job => ({ status: job!.status, progress: job!.progress, creditCost: job!.creditCost, estimatedCostUsd: job!.estimatedCostUsd, actualCostUsd: job!.actualCostUsd, feedbackUseful: job!.feedbackUseful })),
     reviewStatus: project?.reviewStatus ?? 'draft',
-    publicationCount: (project?.exports?.length ?? 0) + (project?.decisions?.some(decision => decision.status === 'published') ? 1 : 0),
+    publicationCount: (project?.exports?.length ?? 0) + (project?.decisions?.some((decision: { status?: string }) => decision.status === 'published') ? 1 : 0),
   });
   const budgetSettings = { limitCredits: project?.budget?.limitCredits ?? null, limitUsd: project?.budget?.limitUsd ?? null, warningPercent: project?.budget?.warningPercent ?? 80, approvalCredits: project?.budget?.approvalCredits ?? null, approvalUsd: project?.budget?.approvalUsd ?? null };
   const budget = { ...budgetSettings, ...projectBudgetSnapshot(budgetSettings, serializedJobs.map(job => ({ kind: job!.kind, provider: job!.provider, status: job!.status, creditsState: job!.creditsState, creditCost: job!.creditCost, estimatedCostUsd: job!.estimatedCostUsd, actualCostUsd: job!.actualCostUsd }))) };

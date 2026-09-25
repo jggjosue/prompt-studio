@@ -5,6 +5,7 @@ import connectToDatabase from '@/lib/mongoose';
 import RegisteredUser from '@/models/RegisteredUser';
 import UserProfile from '@/models/UserProfile';
 import NewUser from '@/models/NewUser';
+import { upsertResendContact } from '@/lib/resend';
 
 export async function GET(request: Request) {
   const denied = await requireCronOrAdmin(request);

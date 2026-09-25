@@ -222,17 +222,27 @@ function VirtualFeedItem({ item, index, metric, onTrack, onToggleLike }: {
   const rotateX = useTransform(scrollYProgress, [0, 0.5, 1], [15, 0, -15]);
   const rotateY = useTransform(scrollYProgress, [0, 0.5, 1], [direction * 5, 0, direction * -5]);
 
+  const animationDetailsHref = item.detailId || item.id
+    ? `/web-animations?id=${encodeURIComponent(String(item.detailId || item.id))}`
+    : `/web-animations?q=${encodeURIComponent(item.titleText)}`;
+
   const href =
     item.kind === 'video'
       ? `/gallery-videos/${item.detailId}`
       : item.kind === 'web'
         ? getDemoHref(item)
         : item.kind === 'animation'
-          ? `/generate?prompt=${encodeURIComponent(item.prompt)}`
+          ? animationDetailsHref
           : `/gallery/${item.detailId}`;
   // For web items, the "Previsualizar" button must go through the Next.js
   // preview wrapper so the purchase button is rendered.
-  const previewHref = item.kind === 'web' ? getWebPreviewHref(item) : href;
+  // For animation items, redirect to the web-animations details page.
+  const previewHref =
+    item.kind === 'web'
+      ? getWebPreviewHref(item)
+      : item.kind === 'animation'
+        ? animationDetailsHref
+        : href;
   const personalizeHref = getPersonalizeHref(item);
 
   return (
@@ -366,7 +376,7 @@ export default function DiscoverClient({
     });
     const animationItems: FeedItem[] = animations.map((item, index) => {
       const contentId = stableCatalogId(item.id, `animation-${index + 1}`);
-      return { key: `animation-${contentId}`, contentKey: `animation:${contentId}`, contentId, editorialIndex: index, kind: 'animation', titleText: text(item.name), prompt: text(item.prompt), tags: ['CSS', 'Motion', 'Interactive'], imageUrl: undefined, demoUrl: undefined };
+      return { id: item.id, detailId: String(item.id), key: `animation-${contentId}`, contentKey: `animation:${contentId}`, contentId, editorialIndex: index, kind: 'animation', titleText: text(item.name), prompt: text(item.prompt), tags: ['CSS', 'Motion', 'Interactive'], imageUrl: undefined, demoUrl: undefined };
     });
     return interleaveFeedGroups<FeedItem>([imageItems, videoItems, webItems, animationItems])
       .map((item, editorialIndex) => ({ ...item, editorialIndex }));
