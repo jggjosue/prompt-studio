@@ -9,7 +9,7 @@ export function useImageGeneration() {
   const [openAIKey, setOpenAIKey] = useState('');
   const [replicateKey, setReplicateKey] = useState('');
   const [vertexKey, setVertexKey] = useState('');
-  const [credits, setCredits] = useState(12.0);
+  const [credits, setCredits] = useState(0.0);
   const [imageStyle, setImageStyle] = useState('cinematic');
   const [imageRatio, setImageRatio] = useState('1-1');
   const [imageRes, setImageRes] = useState('1k');

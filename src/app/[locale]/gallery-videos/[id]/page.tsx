@@ -155,7 +155,7 @@ export default async function GalleryVideoDetailPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
       />
-      <GalleryVideoDetailClient item={item} validation={validateCatalogPrompt(item)} />
+      <GalleryVideoDetailClient item={item} validation={validateCatalogPrompt(item)} poster={thumbnailUrl} />
     </>
   );
 }

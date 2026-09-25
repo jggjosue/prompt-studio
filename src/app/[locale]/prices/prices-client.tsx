@@ -29,6 +29,7 @@ type PaidPlan = {
   annual: number;
   credits: number;
   isMostPopular: boolean;
+  comingSoon?: boolean;
   features: string[];
   cta: string;
 };
@@ -88,7 +89,6 @@ const PLANS: PaidPlan[] = [
       'Copia prompts libres',
       'Acceso al chat básico',
       'Sin tarjeta de crédito',
-      'Incluye anuncios',
     ],
     cta: 'Explorar gratis',
   },
@@ -102,8 +102,6 @@ const PLANS: PaidPlan[] = [
     features: [
       'Todo en Free',
       'Editor Creative Prompt Studio',
-      'Generación de imágenes con IA',
-      'Modelos Gemini, OpenAI y Claude',
       'Sin anuncios',
     ],
     cta: 'Empezar con Creator',
@@ -115,6 +113,7 @@ const PLANS: PaidPlan[] = [
     annual: 190,
     credits: 0,
     isMostPopular: true,
+    comingSoon: true,
     features: [
       'Todo en Creator',
       'Web Creator y herramientas web',
@@ -133,6 +132,7 @@ const PLANS: PaidPlan[] = [
     annual: 390,
     credits: 0,
     isMostPopular: false,
+    comingSoon: true,
     features: [
       'Todo en Pro',
       'Límites de generación más altos',
@@ -295,22 +295,25 @@ export default function PricesClient() {
           </div>
 
           <div className="grid grid-cols-1 gap-8 mx-auto lg:grid-cols-4 max-w-7xl">
-            {PLANS.map((plan) => {
-              const available = plan.id === 'free' ||
-                (plan.id === 'creator' && isCreatorAvailable) ||
-                (plan.id === 'pro' && isProAvailable) ||
-                (plan.id === 'studio' && isStudioAvailable);
+            {PLANS.map((paidPlanItem) => {
+              const available = paidPlanItem.id === 'free' ||
+                (paidPlanItem.id === 'creator' && isCreatorAvailable) ||
+                (paidPlanItem.id === 'pro' && isProAvailable) ||
+                (paidPlanItem.id === 'studio' && isStudioAvailable);
 
               return (
                 <Card
-                  key={plan.id}
+                  key={paidPlanItem.id}
                   className={`relative flex flex-col overflow-hidden transition-all duration-300 hover:shadow-xl ${
-                    plan.isMostPopular
+                    paidPlanItem.isMostPopular
                       ? 'border-violet-500 shadow-lg shadow-violet-500/10 scale-[1.02]'
                       : 'border-muted-foreground/20 shadow-sm'
-                  } ${!available ? 'opacity-50 pointer-events-none' : ''}`}
+                  } ${paidPlanItem.comingSoon ? 'opacity-60 select-none' : ''} ${!available && !paidPlanItem.comingSoon ? 'opacity-50 pointer-events-none' : ''}`}
                 >
-                  {plan.isMostPopular && (
+                  {paidPlanItem.comingSoon && (
+                    <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-slate-500 via-slate-400 to-slate-500" />
+                  )}
+                  {paidPlanItem.isMostPopular && !paidPlanItem.comingSoon && (
                     <>
                       <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-violet-500 via-fuchsia-400 to-violet-500" />
                       <Badge className="absolute top-4 right-4 bg-violet-500 text-white hover:bg-violet-600">
@@ -318,21 +321,26 @@ export default function PricesClient() {
                       </Badge>
                     </>
                   )}
+                  {paidPlanItem.comingSoon && (
+                    <Badge className="absolute top-4 right-4 bg-slate-600 text-white hover:bg-slate-600 border-0">
+                      Próximamente
+                    </Badge>
+                  )}
                   <CardHeader className="pb-4 pt-8">
                     <div className="flex items-center justify-between gap-2">
                       <CardTitle className="font-headline text-2xl">
-                        {plan.id === 'creator' && <Crown className="w-6 h-6 text-blue-500 mr-2 inline" />}
-                        {plan.id === 'pro' && <Sparkles className="w-6 h-6 text-violet-500 mr-2 inline" />}
-                        {plan.id === 'studio' && <Zap className="w-6 h-6 text-amber-500 mr-2 inline" />}
-                        {plan.name}
+                        {paidPlanItem.id === 'creator' && <Crown className="w-6 h-6 text-blue-500 mr-2 inline" />}
+                        {paidPlanItem.id === 'pro' && <Sparkles className="w-6 h-6 text-violet-500 mr-2 inline" />}
+                        {paidPlanItem.id === 'studio' && <Zap className="w-6 h-6 text-amber-500 mr-2 inline" />}
+                        {paidPlanItem.name}
                       </CardTitle>
                     </div>
                     <p className="text-muted-foreground text-sm leading-relaxed">
-                      {plan.id === 'free'
+                      {paidPlanItem.id === 'free'
                         ? 'Explora gratis las herramientas de IA'
-                        : plan.id === 'creator'
+                        : paidPlanItem.id === 'creator'
                         ? 'Herramientas creativas de IA'
-                        : plan.id === 'pro'
+                        : paidPlanItem.id === 'pro'
                         ? 'El más popular. Máximas herramientas'
                         : 'El máximo nivel de creación'}
                     </p>
@@ -341,12 +349,12 @@ export default function PricesClient() {
                     <div className="mb-6">
                       <PaidPlanPrice
                         isAnnual={isAnnual}
-                        monthly={plan.monthly}
-                        yearly={plan.annual}
+                        monthly={paidPlanItem.monthly}
+                        yearly={paidPlanItem.annual}
                       />
                     </div>
                     <ul className="space-y-3 mb-8 flex-grow">
-                      {plan.features.map((feature) => (
+                      {paidPlanItem.features.map((feature) => (
                         <li key={feature} className="flex items-start gap-3 text-sm">
                           <Check className="w-5 h-5 shrink-0 mt-0.5 text-blue-500" />
                           <span>{feature}</span>
@@ -354,7 +362,16 @@ export default function PricesClient() {
                       ))}
                     </ul>
                     <div className="mt-auto">
-                      {getCTA(plan)}
+                      {paidPlanItem.comingSoon ? (
+                        <Button
+                          className="w-full bg-slate-700 hover:bg-slate-700 text-slate-300 cursor-not-allowed"
+                          disabled
+                        >
+                          Próximamente
+                        </Button>
+                      ) : (
+                        getCTA(paidPlanItem)
+                      )}
                     </div>
                   </CardContent>
                 </Card>

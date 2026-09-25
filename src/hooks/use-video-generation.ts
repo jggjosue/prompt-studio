@@ -8,7 +8,7 @@ export function useVideoGeneration() {
   const [videoProvider, setVideoProvider] = useState<'runway' | 'veo' | 'anthropic' | 'fal' | 'google'>('runway');
   const [runwayKey, setRunwayKey] = useState('');
   const [veoKey, setVeoKey] = useState('');
-  const [credits, setCredits] = useState(12.0);
+  const [credits, setCredits] = useState(0.0);
   const [videoMotion, setVideoMotion] = useState('medium');
   const [videoCamera, setVideoCamera] = useState('none');
   const [videoDuration, setVideoDuration] = useState('8');
