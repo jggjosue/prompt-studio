@@ -121,17 +121,9 @@ export default function GalleryDetailClient({ item, validation, relatedItems, ma
                       data-ai-hint={item.imageHint}
                     />
                     <div className="absolute bottom-4 right-4 flex items-start gap-4 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
-                      <Button size="sm" asChild>
-                        <Link href={`/generate?prompt=${encodeURIComponent(JSON.stringify({
-                          type: item.type || 'image',
-                          title: item.title,
-                          description: item.description,
-                          imageUrl: resolveRenderableMediaUrl(item, locale),
-                          tags: item.tags
-                        }))}`}>
+                      <Button size="sm" disabled>
                             <Wand2 className="mr-2" />
                             Use this prompt
-                        </Link>
                       </Button>
                     </div>
                   </>
