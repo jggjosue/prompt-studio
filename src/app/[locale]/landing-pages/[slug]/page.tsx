@@ -297,7 +297,7 @@ export default async function LandingPageDetailPage({ params, searchParams }: Pa
        * dominio entero, así que `buildAggregateRatingSchema` devuelve `null`
        * salvo que haya al menos una reseña real.
        */
-      ...(aggregateRating ? { aggregateRating } : {}), s
+      ...(aggregateRating ? { aggregateRating } : {}),
     }
     : null;
 
