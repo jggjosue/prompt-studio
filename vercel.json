@@ -1,5 +1,8 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "crons": [
+    { "path": "/api/ai/jobs/process", "schedule": "*/1 * * * *" }
+  ],
   "headers": [
     {
       "source": "/(.*)",
