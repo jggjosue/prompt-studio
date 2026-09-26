@@ -3,6 +3,8 @@ import { generateImage } from '@/ai/flows/generate-image';
 import { getAIModelConfig } from '@/lib/ai-credit-config';
 import type { IAIGenerationJob } from '@/models/AIGenerationJob';
 
+import { stripReferenceMedia } from '@/lib/reference-media-strip';
+
 function asResult(value: unknown): Record<string, unknown> {
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('El proveedor devolvió un resultado inválido.');
   return value as Record<string, unknown>;
@@ -14,7 +16,8 @@ async function runExternalWorker(job: IAIGenerationJob) {
   if (!url || !token) throw new Error(`No hay un worker configurado para ${job.kind}/${job.provider}.`);
   const config = getAIModelConfig(job.provider, job.modelId ?? '');
   const apiModelId = (config?.modelId && config.modelId !== job.modelId) ? config.modelId : job.modelId;
-  const input = { ...job.input, model: apiModelId };
+  const safeInput = job.kind === 'image' || job.kind === 'video' ? stripReferenceMedia(job.input) : job.input;
+  const input = { ...safeInput, model: apiModelId };
   const response = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}`, 'Idempotency-Key': job.idempotencyKey },
