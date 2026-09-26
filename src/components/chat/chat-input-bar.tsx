@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Send, Image, Video, Globe, ListPlus, Play, RotateCcw, Trash2 } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
@@ -13,6 +13,7 @@ import { ChatMode } from '@/lib/chat-types';
 
 export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
   const [prompt, setPrompt] = useState('');
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const searchParams = useSearchParams();
   const { selectedMode, setSelectedMode, params, generate, localGenerating, messages, queue, queueRunning, enqueue, startQueue, removeQueueItem, retryQueueItem, clearQueue } = chat;
 
@@ -23,6 +24,14 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
       setPrompt(decodeURIComponent(promptParam));
     }
   }, [searchParams, messages.length]);
+
+  // Auto-grow del textarea hasta max-h
+  useEffect(() => {
+    const el = textareaRef.current;
+    if (!el) return;
+    el.style.height = 'auto';
+    el.style.height = `${Math.min(el.scrollHeight, 288)}px`;
+  }, [prompt]);
 
   const handleSend = async () => {
     if (!prompt.trim() || localGenerating) return;
@@ -135,10 +144,11 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
           </TabsList>
         </Tabs>
         <Textarea
+          ref={textareaRef}
           value={prompt}
           onChange={e => setPrompt(e.target.value)}
           placeholder="Escribe tu prompt..."
-          className="w-full min-h-[80px] resize-none text-sm leading-relaxed sm:min-h-[88px] max-h-64"
+          className="w-full min-h-[110px] resize-none text-sm leading-relaxed sm:min-h-[120px] max-h-72"
           onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
         />
         <div className="flex flex-wrap items-center justify-end gap-2">
