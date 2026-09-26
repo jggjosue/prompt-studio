@@ -222,7 +222,7 @@ export const NodeView = memo(function NodeView({ id, depth = 0 }: NodeViewProps)
         return (
           <div style={{ display: 'grid', gap: 16, padding: 28, border: `1px solid ${resolveToken('token:color.border', tokens)}`, borderRadius: 16, background: 'color-mix(in srgb, currentColor 3%, transparent)' }}>
             <div><strong style={{ display: 'block', fontSize: 22 }}>{text('title') || 'Iniciar sesión'}</strong><span style={{ fontSize: 13, color: resolveToken('token:color.muted', tokens) }}>Accede a tu cuenta para continuar.</span></div>
-            {[text('emailLabel') || 'Correo electrónico', text('passwordLabel') || 'Contraseña'].map((label, index) => <label key={label} style={{ display: 'grid', gap: 6, fontSize: 12, fontWeight: 700 }}><span>{label}</span><span style={{ height: 42, border: `1px solid ${resolveToken('token:color.border', tokens)}`, borderRadius: 10, padding: '11px 12px', color: resolveToken('token:color.muted', tokens), fontWeight: 400 }}>{index === 0 ? 'user@example.com' : '••••••••'}</span></label>)}
+            {[text('emailLabel') || 'Correo electrónico', text('passwordLabel') || 'Contraseña'].map((label, index) => <label key={label} style={{ display: 'grid', gap: 6, fontSize: 12, fontWeight: 700 }}><span>{label}</span><span style={{ height: 42, border: `1px solid ${resolveToken('token:color.border', tokens)}`, borderRadius: 10, padding: '11px 12px', color: resolveToken('token:color.muted', tokens), fontWeight: 400 }}>{index === 0 ? 'help@prompstudio.com' : '••••••••'}</span></label>)}
             <span style={{ display: 'inline-flex', justifyContent: 'center', borderRadius: 10, padding: '11px 16px', background: resolveToken('token:color.primary', tokens), color: '#fff', fontWeight: 800 }}>{text('submitLabel') || 'Iniciar sesión'}</span>
             <span style={{ fontSize: 12, textAlign: 'center', color: resolveToken('token:color.primary', tokens) }}>{text('helper') || '¿Olvidaste tu contraseña?'}</span>
           </div>
@@ -367,13 +367,17 @@ export const NodeView = memo(function NodeView({ id, depth = 0 }: NodeViewProps)
       window.removeEventListener('pointercancel', finishPointer);
       const finalRect = element.getBoundingClientRect();
       if (kind === 'move') {
-        store.run({ kind: 'setStyles', id, breakpoint, patch: {
-          position: 'absolute', left: Math.max(0, (finalRect.left - parentRect.left) / zoom), top: Math.max(0, (finalRect.top - parentRect.top) / zoom),
-        } });
+        store.run({
+          kind: 'setStyles', id, breakpoint, patch: {
+            position: 'absolute', left: Math.max(0, (finalRect.left - parentRect.left) / zoom), top: Math.max(0, (finalRect.top - parentRect.top) / zoom),
+          }
+        });
       } else {
-        store.run({ kind: 'setStyles', id, breakpoint, patch: {
-          width: Math.max(48, finalRect.width / zoom), height: Math.max(32, finalRect.height / zoom), overflow: 'hidden',
-        } });
+        store.run({
+          kind: 'setStyles', id, breakpoint, patch: {
+            width: Math.max(48, finalRect.width / zoom), height: Math.max(32, finalRect.height / zoom), overflow: 'hidden',
+          }
+        });
       }
       if (control.hasPointerCapture(pointerId)) control.releasePointerCapture(pointerId);
       void upEvent;

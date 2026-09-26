@@ -1,9 +1,11 @@
 'use client';
 
-import { cn } from '@/lib/utils';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
+import { useState, useEffect } from 'react';
+import { Send, Image, Video, Globe } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useSearchParams } from 'next/navigation';
 import type { ChatGeneratorReturn } from '@/lib/chat-types';
 import { ChatMode, type ChatParams } from '@/lib/chat-types';
 import {
@@ -104,47 +106,53 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
       clerk.openSignUp({ fallbackRedirectUrl: '/generate' });
       return;
     }
+  }, [searchParams, messages.length]);
+
+  const handleSend = async () => {
     if (!prompt.trim() || localGenerating) return;
-    generate(prompt.trim(), { ...params, provider: currentModel.provider, model: currentModel.model }, selectedMode);
-    setDraftPrompt('');
+    const trimmed = prompt.trim();
+    setPrompt('');
+
+    // Crear chat session primero si no hay
+    try {
+      const createRes = await fetch('/api/ai/chats', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: trimmed.slice(0, 80), mode: selectedMode }),
+      });
+      const createData = await createRes.json();
+      if (createData.chat) {
+        // Enviar mensaje
+        await fetch(`/api/ai/chats/${createData.chat.id}/messages`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt: trimmed, mode: selectedMode, role: 'user' }),
+        });
+      }
+    } catch (err) {
+      console.error('Error creating chat:', err);
+    }
+
+    // Ejecutar generación
+    await generate(trimmed, { model: selectedMode }, selectedMode);
   };
 
-  // Auto-grow textarea
-  useEffect(() => {
-    const el = textareaRef.current;
-    if (!el) return;
-    el.style.height = 'auto';
-    el.style.height = `${Math.min(el.scrollHeight, 200)}px`;
-  }, [prompt]);
-
-  const credits = imageGen.credits;
-  const creditsDisplay = Number.isInteger(credits) ? credits.toString() : credits.toFixed(1);
-  const hasInsufficientCredits = credits < currentModel.credits;
-
   return (
-    <div className="shrink-0 border-t border-border/60 bg-background/80 backdrop-blur-sm p-3">
-      {/* Composer card */}
-      <div className={cn(
-        'rounded-xl border border-border/60 bg-card/60 transition-all duration-200',
-        'focus-within:border-blue-500/60 focus-within:shadow-[0_0_0_3px_rgba(59,130,246,0.08)]'
-      )}>
-        {/* Textarea */}
+    <div className="border-t border-border p-4 bg-background">
+      <div className="flex items-end gap-2">
+        <Tabs value={selectedMode} onValueChange={(v) => setSelectedMode(v as ChatMode)} className="w-fit">
+          <TabsList>
+            <TabsTrigger value="image"><Image className="h-3 w-3 mr-1" />Imagen</TabsTrigger>
+            <TabsTrigger value="video"><Video className="h-3 w-3 mr-1" />Video</TabsTrigger>
+            <TabsTrigger value="project"><Globe className="h-3 w-3 mr-1" />Web</TabsTrigger>
+          </TabsList>
+        </Tabs>
         <Textarea
-          ref={textareaRef}
-          id="chat-composer"
           value={prompt}
-          onChange={e => setDraftPrompt(e.target.value)}
-          placeholder={MODE_CONFIG[selectedMode].placeholder}
-          disabled={localGenerating}
-          className="min-h-[72px] max-h-[200px] resize-none border-0 bg-transparent px-4 pt-3 pb-1 text-sm placeholder:text-muted-foreground/50 focus-visible:ring-0 focus-visible:ring-offset-0 disabled:opacity-50"
-          onKeyDown={e => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-              e.preventDefault();
-              handleSend();
-            }
-          }}
-          aria-label="Describe lo que quieres crear"
-          aria-multiline="true"
+          onChange={e => setPrompt(e.target.value)}
+          placeholder="Escribe tu prompt..."
+          className="flex-1 min-h-[40px] max-h-32 resize-none"
+          onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); } }}
         />
 
         {/* Toolbar */}
@@ -244,20 +252,6 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
           </Button>
         </div>
       </div>
-
-      {/* Insufficient credits warning */}
-      {hasInsufficientCredits && (
-        <p className="mt-2 text-center text-xs text-muted-foreground">
-          Necesitas {currentModel.credits} créditos para esta generación.{' '}
-          <Link href="/prices" className="text-blue-400 underline underline-offset-2 hover:text-blue-300">
-            Ver planes
-          </Link>
-        </p>
-      )}
-
-      <p className="mt-1.5 text-center text-[11px] text-muted-foreground/40">
-        Enter para crear · Shift+Enter para nueva línea
-      </p>
     </div>
   );
 }

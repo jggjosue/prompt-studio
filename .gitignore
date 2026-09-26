@@ -65,3 +65,9 @@ reports/snapshot/
 
 # Archivo de snapshot empaquetado (npm run snapshot:gate → dist/).
 dist/
+
+# Local screenshot/browser captures and their generated dependencies.
+/temp-screenshots/
+
+# Local AI/development transcript history; keep durable project docs under docs/.
+/.specstory/

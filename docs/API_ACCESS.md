@@ -5,7 +5,7 @@
 > update the corresponding route handler.
 
 The system authorizes requests using eight distinct mechanisms. This matrix details
-the exact authorization strategy for all 115 API routes, which previously required
+the exact authorization strategy for all 118 API routes, which previously required
 manual file-by-file inspection.
 
 The test suite `tests/unit/route-access-matrix.test.ts` verifies that no route lacks
@@ -17,14 +17,14 @@ endpoint breaks the build pipeline instead of slipping into production.
 | Mechanism | Routes |
 |---|---|
 | Webhook signature | 2 |
-| Cron or admin secret | 6 |
+| Cron or admin secret | 7 |
 | Administrator | 9 |
 | Subscription plan | 12 |
-| User session | 70 |
+| User session | 71 |
 | AI worker token | 1 |
 | IP rate limit | 38 |
 | Disabled (501) | 2 |
-| **Total Routes** | **115** |
+| **Total Routes** | **118** |
 
 ## Public Routes by Design
 
@@ -125,6 +125,8 @@ None of them expose paid prompt data or private account records.
 | [`/api/model-regressions`](../src/app/api/model-regressions/route.ts) | GET, POST | User session |
 | [`/api/new-users`](../src/app/api/new-users/route.ts) | POST | IP rate limit |
 | [`/api/new-users/status`](../src/app/api/new-users/status/route.ts) | GET | Public — Boolean free-access status for the email gate; reveals no content or account data |
+| [`/api/newsletter/confirm`](../src/app/api/newsletter/confirm/route.ts) | GET | Public — unjustified |
+| [`/api/newsletter/metrics`](../src/app/api/newsletter/metrics/route.ts) | GET | Cron or admin secret |
 | [`/api/observability/events`](../src/app/api/observability/events/route.ts) | POST | User session |
 | [`/api/output-contracts`](../src/app/api/output-contracts/route.ts) | GET, POST, PATCH | User session + IP rate limit |
 | [`/api/product-reviews`](../src/app/api/product-reviews/route.ts) | GET, POST | User session + IP rate limit |
@@ -133,6 +135,7 @@ None of them expose paid prompt data or private account records.
 | [`/api/project-client/[token]`](../src/app/api/project-client/[token]/route.ts) | GET, POST | IP rate limit |
 | [`/api/projects`](../src/app/api/projects/route.ts) | GET, POST | User session + IP rate limit |
 | [`/api/projects/[id]`](../src/app/api/projects/[id]/route.ts) | GET, PATCH | User session + IP rate limit |
+| [`/api/projects/[id]/associations`](../src/app/api/projects/[id]/associations/route.ts) | GET | User session |
 | [`/api/projects/[id]/collaboration`](../src/app/api/projects/[id]/collaboration/route.ts) | GET, POST | User session + IP rate limit |
 | [`/api/prompt-experiments`](../src/app/api/prompt-experiments/route.ts) | GET, POST | User session + IP rate limit |
 | [`/api/prompt-experiments/[id]`](../src/app/api/prompt-experiments/[id]/route.ts) | GET, PATCH | User session + IP rate limit |

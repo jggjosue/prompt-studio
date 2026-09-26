@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import type React from 'react';
 import { auth, clerkClient } from '@clerk/nextjs/server';
 import { SidebarNavLink } from '@/components/dashboard/sidebar-nav-link';
-import { Activity, BarChart3, Braces, Clock3, Coins, CreditCard, Fingerprint, Flag, FlaskConical, FolderKanban, Gauge, Layers3, Library, Megaphone, Palette, Rocket, ShoppingCart, Store, UserCircle, UsersRound } from 'lucide-react';
+import { Activity, BarChart3, Braces, Clock3, Coins, Fingerprint, Flag, FlaskConical, FolderKanban, Gauge, Layers3, Library, Megaphone, Palette, Rocket, ShoppingCart, Store, UserCircle, UsersRound } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import Header from '@/components/layout/header';
 import { DashboardMobileNav } from '@/components/dashboard/dashboard-mobile-nav';
@@ -69,7 +69,28 @@ export default async function DashboardLayout({
   //   { href: '/dashboard/creations', icon: <Image className="h-4 w-4" />, label: t('myCreations'), badge: '5' },
   //   { href: '/dashboard/favorites', icon: <Heart className="h-4 w-4" />, label: t('favorites') },
   // ];
-  const navItems: { href: string; icon: React.ReactNode; label: string; badge?: string }[] = [];
+  const navItems: { href: string; icon: React.ReactNode; label: string; badge?: string }[] = [
+    {
+      href: '/dashboard/projects',
+      icon: <FolderKanban className="h-4 w-4" />,
+      label: 'Proyectos',
+    },
+    {
+      href: '/dashboard/generations',
+      icon: <Clock3 className="h-4 w-4" />,
+      label: 'Generaciones',
+    },
+    {
+      href: '/dashboard/brand-kits',
+      icon: <Palette className="h-4 w-4" />,
+      label: 'Brand Kits',
+    },
+    {
+      href: '/dashboard/publications',
+      icon: <Rocket className="h-4 w-4" />,
+      label: 'Publicaciones',
+    },
+  ];
   
   const allSettingsNavItems: {
     href: string;
@@ -218,7 +239,7 @@ export default async function DashboardLayout({
         <div className="flex h-full min-h-0 flex-col gap-2">
           <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-              {navItems.map(item => (
+              {isPremiumJoAdmin && navItems.map(item => (
                 <SidebarNavLink
                   key={item.label}
                   href={item.href}
@@ -231,9 +252,11 @@ export default async function DashboardLayout({
               ))}
             </nav>
             <div className="mt-4 px-2 pb-4 lg:px-4">
-              <h3 className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                {t('settingsSection')}
-              </h3>
+              {isPremiumJoAdmin && (
+                <h3 className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  {t('settingsSection')}
+                </h3>
+              )}
               <nav className="grid gap-2 items-start text-sm font-medium">
                 {settingsNavItems.map(item => (
                   <SidebarNavLink
@@ -270,9 +293,11 @@ export default async function DashboardLayout({
       }
       compactSidebar={
         <div className="flex flex-col items-center gap-3 py-5">
-          <span className="text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground [writing-mode:vertical-rl]">
-            {t('settingsSection')}
-          </span>
+          {isPremiumJoAdmin && (
+            <span className="text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground [writing-mode:vertical-rl]">
+              {t('settingsSection')}
+            </span>
+          )}
           <nav className="grid gap-2">
             {settingsNavItems.map(item => (
               <SidebarNavLink

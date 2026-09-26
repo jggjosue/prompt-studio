@@ -1,6 +1,6 @@
 'use server';
 import { ai } from '@/ai/genkit';
-import { z } from 'genkit';
+import { z } from 'zod';
 import { PROMPT_GOALS } from '@/ai/flows/prompt-goals';
 
 /**
@@ -55,4 +55,3 @@ const flow = ai.defineFlow({ name: 'objectivePromptOptimizerFlow', inputSchema: 
   return output;
 });
 export async function optimizePrompt(input: OptimizePromptInput) { return flow(input); }
-

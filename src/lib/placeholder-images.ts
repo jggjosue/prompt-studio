@@ -47,7 +47,7 @@ function mapImageEntry(image: RawImageEntry, index: number, locale: Locale | str
     imageUrl: image.imageUrl,
     imageHint,
     type: image.type,
-    tags: image.tags,
+    tags: (image.tags || []).filter((tag): tag is string => typeof tag === 'string' && tag.trim().length > 0),
     membership: image.membership,
   };
 }

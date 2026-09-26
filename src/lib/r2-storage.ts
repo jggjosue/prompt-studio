@@ -4,6 +4,7 @@ import {
   ListObjectsV2Command,
   S3Client,
 } from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { cacheGetAsync, cacheSet } from '@/lib/server-cache';
 import {
   getDemoProjectKind,
@@ -123,6 +124,31 @@ export async function getR2ObjectBytes(objectKey: string): Promise<Buffer | null
     const bytes = Buffer.from(await response.Body.transformToByteArray());
     await cacheSet('r2-bytes', objectKey, bytes, { ttlMs: 6 * 60 * 60 * 1000 });
     return bytes;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Produces a short-lived direct R2 download URL. The application only issues
+ * the redirect; the object bytes never pass through a Vercel Function.
+ */
+export async function getR2ObjectDownloadUrl(
+  objectKey: string,
+  expiresIn = 60 * 60
+): Promise<string | null> {
+  const client = getR2S3Client();
+  if (!client) return null;
+
+  try {
+    return await getSignedUrl(
+      client,
+      new GetObjectCommand({
+        Bucket: getR2BucketName(),
+        Key: objectKey,
+      }),
+      { expiresIn }
+    );
   } catch {
     return null;
   }

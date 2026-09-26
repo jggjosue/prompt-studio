@@ -34,11 +34,8 @@ import {
   ArrowLeft,
   ChevronDown,
   ChevronRight,
-  CreditCard,
   FolderHeart,
   Globe,
-  Handshake,
-  HelpCircle,
   ImageIcon,
   LayoutTemplate,
   Layers3,
@@ -244,8 +241,6 @@ export default function HeaderClient() {
           label: 'Generador Web',
           description: 'Genera nuevas páginas web con IA',
           icon: <Globe className="h-4 w-4" />,
-          disabled: true,
-          disabledBadge: 'Próximamente',
         },
       ],
     },
@@ -698,7 +693,7 @@ export default function HeaderClient() {
               <Show when="signed-in">
                 <div className="flex items-center gap-3">
                   <ClientLink
-                    href="/dashboard"
+                    href="/dashboard/projects"
                     className="hidden rounded-full border border-cyan-200/25 px-5 py-2.5 text-sm font-semibold text-slate-100 transition hover:border-cyan-200/60 sm:block"
                   >
                     Dashboard

@@ -8,7 +8,7 @@ import AIGenerationJob, { type IAIGenerationJob } from '@/models/AIGenerationJob
 import mongoose from 'mongoose';
 import 'server-only';
 
-const initialCredits = Math.max(0, Number(process.env.AI_INITIAL_CREDITS ?? 12));
+const initialCredits = Math.max(0, Number(process.env.AI_INITIAL_CREDITS ?? 0));
 
 type CreditSession = mongoose.ClientSession;
 

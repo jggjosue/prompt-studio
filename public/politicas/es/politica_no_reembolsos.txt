@@ -242,7 +242,7 @@ Aunque esta Política establece una regla general de no reembolsos, Prompt Studi
 4.7 Procedimiento
 Las solicitudes relacionadas con incidencias deberán enviarse a:
 Correo electrónico:
-user@example.com
+help@prompstudio.com
 El usuario deberá proporcionar toda la información necesaria para que Prompt Studio pueda verificar el caso.
  
 4.8 Alcance de las excepciones
@@ -363,7 +363,7 @@ Este procedimiento es independiente de la Política de No Reembolsos de Prompt S
 7.2 Contacto previo
 Antes de iniciar un contracargo, Prompt Studio recomienda que el usuario contacte a:
 Correo electrónico:
-user@example.com
+help@prompstudio.com
 Muchas incidencias pueden resolverse rápidamente mediante soporte técnico, evitando procesos bancarios innecesarios.
  
 7.3 Investigación
@@ -462,7 +462,7 @@ Estas soluciones no implican necesariamente la realización de un reembolso.
 8.5 Comunicación
 Las incidencias serán atendidas exclusivamente a través de los canales oficiales de Prompt Studio.
 Correo electrónico oficial:
-user@example.com
+help@prompstudio.com
 Prompt Studio podrá solicitar información adicional cuando sea necesaria para verificar la incidencia.
  
 8.6 Colaboración del usuario
@@ -1028,7 +1028,7 @@ Nuestro objetivo es ofrecer una atención clara, profesional y eficiente.
 18.1 Canal oficial
 Las consultas relacionadas con compras deberán dirigirse exclusivamente a:
 Correo electrónico:
-user@example.com
+help@prompstudio.com
  
 18.2 Información recomendada
 Para agilizar la atención, el usuario deberá proporcionar, cuando sea posible:

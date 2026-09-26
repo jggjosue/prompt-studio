@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 import {
   // Clapperboard,
   CreditCard,
+  FolderKanban,
   // Heart,
   // Image,
   // LayoutGrid,

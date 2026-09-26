@@ -5,6 +5,7 @@ import { useDailyCopyLimit } from '@/hooks/use-daily-copy-limit';
 import { useMembershipAccess } from '@/hooks/use-membership-access';
 import { copyToClipboard } from '@/lib/copy-to-clipboard';
 import { Braces, Check, Code2, Download, ExternalLink, FileJson, FolderDown } from 'lucide-react';
+import { PremiumAccessLink } from '@/components/premium-access-link';
 import Link from 'next/link';
 import { useState } from 'react';
 
@@ -121,7 +122,7 @@ export default function ComponentExportPanel({ config }: { config: ComponentExpo
       <Button size="sm" variant="outline" onClick={() => openSandbox('stackblitz')} disabled={opening !== null}><ExternalLink className="mr-1 size-3.5" />StackBlitz</Button>
       <Button size="sm" variant="outline" onClick={() => openSandbox('codesandbox')} disabled={opening !== null}><ExternalLink className="mr-1 size-3.5" />CodeSandbox</Button>
     </div>
-    <Button asChild className="mt-2 w-full bg-violet-600 hover:bg-violet-700"><Link href="/page-composer"><FolderDown className="mr-2 size-4" />Descargar proyecto Next.js</Link></Button>
+    <Button asChild className="mt-2 w-full bg-violet-600 hover:bg-violet-700"><PremiumAccessLink href="/page-composer" membership="Premium"><FolderDown className="mr-2 size-4" />Descargar proyecto Next.js</PremiumAccessLink></Button>
     <p className="mt-2 text-[9px] text-muted-foreground">Componente, Registry, sandboxes y proyecto requieren Premium.</p>
   </div>;
 }

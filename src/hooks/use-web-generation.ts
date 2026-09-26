@@ -9,7 +9,7 @@ export function useWebGeneration() {
   const [openAIKey, setOpenAIKey] = useState('');
   const [anthropicKey, setAnthropicKey] = useState('');
   const [vertexKey, setVertexKey] = useState('');
-  const [credits, setCredits] = useState(12.0);
+  const [credits, setCredits] = useState(0.0);
   const [webFramework, setWebFramework] = useState('nextjs');
   const [webTheme, setWebTheme] = useState('glassmorphism');
   const [webComponent, setWebComponent] = useState('hero');

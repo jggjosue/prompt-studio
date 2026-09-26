@@ -1,4 +1,4 @@
-import Cloudflare from 'cloudflare';
+import type Cloudflare from 'cloudflare';
 import fs from 'fs';
 import path from 'path';
 import {
@@ -58,12 +58,13 @@ export function isR2Configured(): boolean {
   return isR2S3Configured() || isCloudflareR2Configured();
 }
 
-export function createCloudflareClient(): Cloudflare {
+export async function createCloudflareClient(): Promise<Cloudflare> {
   const apiToken = getApiToken();
   if (!apiToken) {
     throw new Error('CLOUDFLARE_API_TOKEN no está configurado');
   }
-  return new Cloudflare({ apiToken });
+  const { default: CloudflareClient } = await import('cloudflare');
+  return new CloudflareClient({ apiToken });
 }
 
 export async function listR2Buckets(): Promise<R2BucketSummary[]> {
@@ -72,7 +73,7 @@ export async function listR2Buckets(): Promise<R2BucketSummary[]> {
     throw new Error('CLOUDFLARE_ACCOUNT_ID no está configurado');
   }
 
-  const client = createCloudflareClient();
+  const client = await createCloudflareClient();
   const buckets: R2BucketSummary[] = [];
   let cursor: string | undefined;
 

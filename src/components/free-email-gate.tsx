@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
 import { useUser } from '@clerk/nextjs';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 type FreeEmailGateProps = {
   children: ReactNode;
@@ -33,12 +33,14 @@ export function FreeEmailGate({
   onSuccess,
 }: FreeEmailGateProps) {
   const t = useTranslations('common');
+  const locale = useLocale();
   const { user } = useUser();
   const [open, setOpen] = React.useState(false);
   const [email, setEmail] = React.useState('');
   const [loading, setLoading] = React.useState(false);
   const [hasSavedEmail, setHasSavedEmail] = React.useState(false);
   const [acceptedTerms, setAcceptedTerms] = React.useState(false);
+  const [marketingConsent, setMarketingConsent] = React.useState(false);
   const { toast } = useToast();
 
   React.useEffect(() => {
@@ -82,7 +84,7 @@ export function FreeEmailGate({
       const res = await fetch('/api/new-users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, marketingConsent, locale }),
       });
 
       /**
@@ -177,6 +179,18 @@ if (!res.ok) {
                 >
                   {t('termsAndServices')}
                 </a>
+              </label>
+            </div>
+            <div className="flex items-start gap-2 px-1 text-sm">
+              <input
+                type="checkbox"
+                id="newsletter-opt-in"
+                checked={marketingConsent}
+                onChange={(e) => setMarketingConsent(e.target.checked)}
+                className="mt-0.5 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 bg-slate-900 border-white/10 cursor-pointer"
+              />
+              <label htmlFor="newsletter-opt-in" className="text-muted-foreground select-none cursor-pointer">
+                {t('newsletterOptIn')}
               </label>
             </div>
           </div>

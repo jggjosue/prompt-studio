@@ -2831,7 +2831,7 @@ MONGODB_URI=[REDACTED:mongodb-connection-string]
 # Prompt Studio
 PROMPT_STUDIO_PREMIUM_JO=admin@example.com
 PROMPT_STUDIO_STARTUP_JO=admin@example.com
-RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxx
+RESEND_API_KEY=[REDACTED_RESEND_API_KEY]
 LOOPS_API_KEY=
 RESEND_EMAIL=hi@example.com
 # Secreto compartido de los cron jobs y de las rutas /api/sync-*.

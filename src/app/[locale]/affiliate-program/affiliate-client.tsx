@@ -538,7 +538,7 @@ export default function AffiliateClient() {
   };
 
   const metricsData = [
-    { label: t('metrics.commission'), value: 20, suffix: t('metrics.suffixCommission'), Icon: DollarSign },
+    { label: t('metrics.commission'), value: 30, suffix: t('metrics.suffixCommission'), Icon: DollarSign },
     { label: t('metrics.cookie'), value: 60, suffix: t('metrics.suffixCookie'), Icon: MousePointerClick },
     { label: t('metrics.product'), value: 1, suffix: t('metrics.suffixProduct'), Icon: BookOpen },
     { label: t('metrics.payouts'), value: 12, suffix: t('metrics.suffixPayouts'), Icon: TrendingUp },
@@ -553,6 +553,7 @@ export default function AffiliateClient() {
 
   // Cada tarjeta de tier usa el mismo esquema: nombre, porcentaje y descripción de negocio.
   const tiersData = [
+    { name: t('commissions.tier1Name'), rate: t('commissions.tier1Rate'), desc: t('commissions.tier1Desc') },
     { name: tier2Name, rate: t('commissions.tier2Rate'), desc: t('commissions.tier2Desc') },
     { name: tier3Name, rate: t('commissions.tier3Rate'), desc: t('commissions.tier3Desc') },
   ];

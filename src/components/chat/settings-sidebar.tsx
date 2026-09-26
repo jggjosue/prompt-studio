@@ -82,9 +82,10 @@ function Divider() {
 export function SettingsSidebar({ chat }: { chat: ChatGeneratorReturn }) {
   const [open, setOpen] = useState(true);
   const [showAdvanced, setShowAdvanced] = useState(false);
-  const { imageGen, selectedMode, params, setParams } = chat;
+  const { imageGen, videoGen, webGen, selectedMode, params, setParams } = chat;
 
-  const credits = imageGen.credits;
+  const activeGen = selectedMode === 'video' ? videoGen : selectedMode === 'project' ? webGen : imageGen;
+  const credits = activeGen.credits;
   const creditsDisplay = Number.isInteger(credits) ? credits.toString() : credits.toFixed(1);
 
   // Estimate credit cost from current model config
@@ -492,7 +493,7 @@ export function SettingsSidebar({ chat }: { chat: ChatGeneratorReturn }) {
                 <span className="text-muted-foreground">Costo estimado</span>
                 <span className="flex items-center gap-1 font-semibold">
                   <Zap className="h-3 w-3 text-yellow-400" />
-                  ~{estimatedCredits} créditos
+                  0 créditos
                 </span>
               </div>
               <div className="flex items-center justify-between text-xs">
