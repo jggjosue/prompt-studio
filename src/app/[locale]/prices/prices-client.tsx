@@ -61,7 +61,7 @@ function PaidPlanPrice({ isAnnual, monthly, yearly }: { isAnnual: boolean; month
 
   return (
     <>
-      <div className="mb-2 flex items-baseline gap-2">
+      <div className="mb-2 flex flex-wrap items-baseline gap-x-2">
         <span className="text-5xl font-bold tabular-nums">${displayPrice}</span>
         <span className="text-muted-foreground">{priceSuffix}</span>
         {isAnnual && savings > 0 && (
@@ -293,7 +293,7 @@ export default function PricesClient() {
               type="button"
               onClick={() => setIsAnnual(false)}
               aria-pressed={!isAnnual}
-                className={`flex-1 rounded-full px-3 py-3 text-sm font-semibold transition-all duration-200 sm:px-9 ${
+              className={`min-w-0 flex-1 rounded-full px-3 py-3 text-xs font-semibold whitespace-nowrap transition-all duration-200 sm:px-6 sm:text-sm ${
                 !isAnnual
                   ? '!bg-blue-600 !text-white shadow-[0_8px_24px_rgba(37,99,235,0.4)] ring-1 ring-blue-400'
                   : '!text-slate-200 hover:!bg-blue-950/60 hover:!text-white'
@@ -305,7 +305,7 @@ export default function PricesClient() {
               type="button"
               onClick={() => setIsAnnual(true)}
               aria-pressed={isAnnual}
-                className={`flex-1 rounded-full px-3 py-3 text-sm font-semibold transition-all duration-200 sm:px-9 ${
+              className={`min-w-0 flex-1 rounded-full px-3 py-3 text-xs font-semibold whitespace-nowrap transition-all duration-200 sm:px-6 sm:text-sm ${
                 isAnnual
                   ? '!bg-blue-600 !text-white shadow-[0_8px_24px_rgba(37,99,235,0.4)] ring-1 ring-blue-400'
                   : '!text-slate-200 hover:!bg-blue-950/60 hover:!text-white'

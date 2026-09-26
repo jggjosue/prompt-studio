@@ -79,14 +79,13 @@ function Divider() {
   return <hr className="border-border/40" />;
 }
 
-export function SettingsSidebar({ chat }: { chat: ChatGeneratorReturn }) {
+export function SettingsSidebar({ chat, isDeveloperAdmin = false }: { chat: ChatGeneratorReturn; isDeveloperAdmin?: boolean }) {
   const [open, setOpen] = useState(true);
   const [showAdvanced, setShowAdvanced] = useState(false);
   const { imageGen, videoGen, webGen, selectedMode, params, setParams } = chat;
 
-  const activeGen = selectedMode === 'video' ? videoGen : selectedMode === 'project' ? webGen : imageGen;
-  const credits = activeGen.credits;
-  const creditsDisplay = Number.isInteger(credits) ? credits.toString() : credits.toFixed(1);
+  const credits = imageGen.credits;
+  const creditsDisplay = isDeveloperAdmin ? 'Ilimitados' : Number.isInteger(credits) ? credits.toString() : credits.toFixed(1);
 
   // Estimate credit cost from current model config
   const CREDIT_ESTIMATES: Record<string, number> = {
@@ -103,20 +102,9 @@ export function SettingsSidebar({ chat }: { chat: ChatGeneratorReturn }) {
     'claude-3-5-sonnet-20240620': 50,
   };
   const currentModel = params.model ?? '';
-  const tierCosts = selectedMode === 'image'
-    ? { fast: 5, quality: 10, pro: 25 }
-    : selectedMode === 'video'
-      ? { fast: 60, quality: 120, cinematic: 400 }
-      : { fast: 10, advanced: 20, pro: 50 };
-  const estimatedCredits = tierCosts[params.generationTier as keyof typeof tierCosts]
-    ?? CREDIT_ESTIMATES[currentModel]
-    ?? (selectedMode === 'image' ? 5 : selectedMode === 'video' ? 60 : 10);
-  const balanceAfter = Math.max(0, credits - estimatedCredits);
-  const insufficient = credits < estimatedCredits;
-  const tierLabels = {
-    fast: '⚡ Fast', quality: '✨ Quality', pro: '💎 Pro', cinematic: '💎 Cinematic', advanced: '✨ Advanced',
-  } as const;
-  const tier = params.generationTier ?? (selectedMode === 'video' ? 'quality' : 'fast');
+  const estimatedCredits = CREDIT_ESTIMATES[currentModel] ?? (selectedMode === 'image' ? 10 : selectedMode === 'video' ? 20 : 2);
+  const balanceAfter = isDeveloperAdmin ? 0 : Math.max(0, credits - estimatedCredits);
+  const insufficient = !isDeveloperAdmin && credits < estimatedCredits;
 
   return (
     <aside
@@ -505,7 +493,9 @@ export function SettingsSidebar({ chat }: { chat: ChatGeneratorReturn }) {
               {!insufficient && (
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-muted-foreground">Tras generar</span>
-                  <span className="font-semibold text-muted-foreground">~{balanceAfter}</span>
+                  <span className="font-semibold text-muted-foreground">
+                    {isDeveloperAdmin ? 'Ilimitados' : `~${balanceAfter}`}
+                  </span>
                 </div>
               )}
               {insufficient && (
