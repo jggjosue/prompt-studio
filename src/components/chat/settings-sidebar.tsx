@@ -142,15 +142,6 @@ export function SettingsSidebar({ chat, isDeveloperAdmin = false }: { chat: Chat
             <p className="text-[10px] font-black uppercase tracking-[0.18em] text-blue-500">
               {selectedMode === 'image' ? '✦ Imagen' : selectedMode === 'video' ? '▶ Video' : '◈ Web'}
             </p>
-            <div className="rounded-xl border border-blue-500/20 bg-blue-500/5 p-3">
-              <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                {selectedMode === 'image' ? 'Image Model' : selectedMode === 'video' ? 'Video Model' : 'Website Model'}
-              </p>
-              <div className="mt-1 flex items-center justify-between gap-2">
-                <span className="font-semibold text-foreground">{tierLabels[tier]}</span>
-                <span className="text-xs text-blue-400">{estimatedCredits} credits</span>
-              </div>
-            </div>
 
             {/* ── IMAGE settings ── */}
             {selectedMode === 'image' && (

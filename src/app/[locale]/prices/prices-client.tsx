@@ -334,10 +334,10 @@ export default function PricesClient() {
                       : 'border-muted-foreground/20 shadow-sm'
                   } ${!available ? 'opacity-50 pointer-events-none' : ''}`}
                 >
-                  {paidPlan.comingSoon && (
+                  {plan.comingSoon && (
                     <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-slate-500 via-slate-400 to-slate-500" />
                   )}
-                  {paidPlan.isMostPopular && !paidPlan.comingSoon && (
+                  {plan.isMostPopular && !plan.comingSoon && (
                     <>
                       <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-violet-500 via-fuchsia-400 to-violet-500" />
                       <Badge className="absolute top-4 right-4 bg-violet-500 text-white hover:bg-violet-600">
@@ -345,7 +345,7 @@ export default function PricesClient() {
                       </Badge>
                     </>
                   )}
-                  {paidPlan.comingSoon && (
+                  {plan.comingSoon && (
                     <Badge className="absolute top-4 right-4 bg-slate-600 text-white hover:bg-slate-600 border-0">
                       {t('comingSoon')}
                     </Badge>
@@ -353,27 +353,27 @@ export default function PricesClient() {
                   <CardHeader className="pb-4 pt-8">
                     <div className="flex items-center justify-between gap-2">
                       <CardTitle className="font-headline text-2xl">
-                        {paidPlan.id === 'creator' && <Crown className="w-6 h-6 text-blue-500 mr-2 inline" />}
-                        {paidPlan.id === 'premium' && <Crown className="w-6 h-6 text-cyan-400 mr-2 inline" />}
-                        {paidPlan.id === 'pro' && <Sparkles className="w-6 h-6 text-violet-500 mr-2 inline" />}
-                        {paidPlan.id === 'studio' && <Zap className="w-6 h-6 text-amber-500 mr-2 inline" />}
-                        {paidPlan.name}
+                        {plan.id === 'creator' && <Crown className="w-6 h-6 text-blue-500 mr-2 inline" />}
+                        {plan.id === 'premium' && <Crown className="w-6 h-6 text-cyan-400 mr-2 inline" />}
+                        {plan.id === 'pro' && <Sparkles className="w-6 h-6 text-violet-500 mr-2 inline" />}
+                        {plan.id === 'studio' && <Zap className="w-6 h-6 text-amber-500 mr-2 inline" />}
+                        {plan.name}
                       </CardTitle>
                     </div>
                     <p className="text-muted-foreground text-sm leading-relaxed">
-                      {paidPlan.desc}
+                      {plan.desc}
                     </p>
                   </CardHeader>
                   <CardContent className="flex flex-col flex-grow">
                     <div className="mb-6">
                       <PaidPlanPrice
                         isAnnual={isAnnual}
-                        monthly={paidPlan.monthly}
-                        yearly={paidPlan.annual}
+                        monthly={plan.monthly}
+                        yearly={plan.annual}
                       />
                     </div>
                     <ul className="space-y-3 mb-8 flex-grow">
-                      {paidPlan.features.map((feature) => (
+                      {plan.features.map((feature) => (
                         <li key={feature} className="flex items-start gap-3 text-sm">
                           <Check className="w-5 h-5 shrink-0 mt-0.5 text-blue-500" />
                           <span>{feature}</span>
@@ -381,7 +381,7 @@ export default function PricesClient() {
                       ))}
                     </ul>
                     <div className="mt-auto">
-                      {paidPlan.comingSoon ? (
+                      {plan.comingSoon ? (
                         <Button
                           className="w-full bg-slate-700 hover:bg-slate-700 text-slate-300 cursor-not-allowed"
                           disabled
@@ -389,7 +389,7 @@ export default function PricesClient() {
                           {t('comingSoon')}
                         </Button>
                       ) : (
-                        getCTA(paidPlan)
+                        getCTA(plan)
                       )}
                     </div>
                   </CardContent>
