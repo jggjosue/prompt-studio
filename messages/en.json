@@ -40,7 +40,7 @@
     "forever": "/forever",
     "buy": "Buy",
     "buyTooltip": "To download the web page files",
-    "emailPlaceholder": "user@example.com",
+    "emailPlaceholder": "help@prompstudio.com",
     "acceptTerms": "I accept the",
     "newsletterOptIn": "I want product news and promotions by email. You will send me a link to confirm.",
     "termsAndServices": "terms and services",
@@ -360,7 +360,7 @@
       },
       {
         "question": "How do I contact support?",
-        "answer": "You can contact our support team by emailing user@example.com. We are always happy to help!"
+        "answer": "You can contact our support team by emailing help@prompstudio.com. We are always happy to help!"
       }
     ]
   },

@@ -5,12 +5,15 @@
     "category": "Energía",
     "duration": 45,
     "language": "en",
-    "contact": "user@example.com",
+    "contact": "help@prompstudio.com",
     "srt": "assets/stand-01.srt",
     "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
     "demoVideoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
     "thumbnailUrl": "",
-    "position": { "x": -3, "z": -2 }
+    "position": {
+      "x": -3,
+      "z": -2
+    }
   },
   {
     "id": "stand-02",
@@ -18,12 +21,15 @@
     "category": "Realidad Aumentada",
     "duration": 60,
     "language": "en",
-    "contact": "user@example.com",
+    "contact": "help@prompstudio.com",
     "srt": "assets/stand-02.srt",
     "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
     "demoVideoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
     "thumbnailUrl": "",
-    "position": { "x": 3, "z": -2 }
+    "position": {
+      "x": 3,
+      "z": -2
+    }
   },
   {
     "id": "stand-03",
@@ -31,12 +37,15 @@
     "category": "Analítica",
     "duration": 35,
     "language": "es",
-    "contact": "user@example.com",
+    "contact": "help@prompstudio.com",
     "srt": "assets/stand-03.srt",
     "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
     "demoVideoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
     "thumbnailUrl": "",
-    "position": { "x": -3, "z": 2 }
+    "position": {
+      "x": -3,
+      "z": 2
+    }
   },
   {
     "id": "stand-04",
@@ -44,12 +53,15 @@
     "category": "Infraestructura",
     "duration": 50,
     "language": "en",
-    "contact": "user@example.com",
+    "contact": "help@prompstudio.com",
     "srt": "assets/stand-04.srt",
     "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
     "demoVideoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
     "thumbnailUrl": "",
-    "position": { "x": 3, "z": 2 }
+    "position": {
+      "x": 3,
+      "z": 2
+    }
   },
   {
     "id": "stand-05",
@@ -57,11 +69,14 @@
     "category": "Sostenibilidad",
     "duration": 40,
     "language": "en",
-    "contact": "user@example.com",
+    "contact": "help@prompstudio.com",
     "srt": "assets/stand-05.srt",
     "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
     "demoVideoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
     "thumbnailUrl": "",
-    "position": { "x": 0, "z": -3.5 }
+    "position": {
+      "x": 0,
+      "z": -3.5
+    }
   }
 ]

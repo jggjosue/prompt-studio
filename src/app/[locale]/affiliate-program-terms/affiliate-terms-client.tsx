@@ -92,7 +92,7 @@ const termSections: TermSection[] = [
     title: 'Company Information',
     body: [
       'Magzin LLC, 800 Third Avenue Associates, New York, NY 10022, United States.',
-      'Contact: user@example.com',
+      'Contact: help@prompstudio.com',
       'Copyright 2026 Prompt Studio. All rights reserved.',
     ],
   },
@@ -410,7 +410,7 @@ const termSections: TermSection[] = [
     title: 'Contact Us',
     body: [
       'If you have questions about these Affiliate Program Terms, please contact Magzin LLC, 800 Third Avenue Associates, New York, NY 10022, United States.',
-      'Email: user@example.com',
+      'Email: help@prompstudio.com',
       'Copyright 2026 Prompt Studio. All rights reserved.',
     ],
   },
@@ -881,7 +881,7 @@ export default function AffiliateTermsClient() {
               <Link href="/affiliate-program" className="rounded-full bg-gradient-to-r from-blue-500 to-violet-500 px-7 py-3.5 font-bold text-white shadow-[0_0_38px_rgba(59,130,246,0.45)]">
                 Become an Affiliate
               </Link>
-              <a href="mailto:user@example.com" className="rounded-full border border-white/15 bg-black/30 px-7 py-3.5 font-bold text-white">
+              <a href="mailto:help@prompstudio.com" className="rounded-full border border-white/15 bg-black/30 px-7 py-3.5 font-bold text-white">
                 Contact Support
               </a>
             </div>

@@ -70,10 +70,10 @@ const DEVICES: Array<{
   width: string;
   icon: typeof Monitor;
 }> = [
-  { id: 'desktop', label: 'Escritorio', width: 'max-w-[1440px]', icon: Monitor },
-  { id: 'tablet', label: 'Tablet', width: 'max-w-[768px]', icon: Tablet },
-  { id: 'mobile', label: 'Móvil', width: 'max-w-[390px]', icon: Smartphone },
-];
+    { id: 'desktop', label: 'Escritorio', width: 'max-w-[1440px]', icon: Monitor },
+    { id: 'tablet', label: 'Tablet', width: 'max-w-[768px]', icon: Tablet },
+    { id: 'mobile', label: 'Móvil', width: 'max-w-[390px]', icon: Smartphone },
+  ];
 
 export function PreviewFrame({ src, title, slug, productName }: PreviewFrameProps) {
   const observerRef = useRef<MutationObserver | null>(null);
@@ -241,11 +241,10 @@ export function PreviewFrame({ src, title, slug, productName }: PreviewFrameProp
               aria-pressed={active}
               title={option.label}
               onClick={() => setDevice(option.id)}
-              className={`inline-flex min-h-9 items-center gap-2 rounded-lg px-3 text-xs font-semibold transition sm:text-sm ${
-                active
+              className={`inline-flex min-h-9 items-center gap-2 rounded-lg px-3 text-xs font-semibold transition sm:text-sm ${active
                   ? 'bg-blue-600 text-white shadow-sm'
                   : 'text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950'
-              }`}
+                }`}
             >
               <Icon className="size-4" aria-hidden="true" />
               <span className="hidden sm:inline">{option.label}</span>
@@ -267,11 +266,10 @@ export function PreviewFrame({ src, title, slug, productName }: PreviewFrameProp
           aria-pressed={isFullscreen}
           title={isFullscreen ? 'Salir de pantalla completa' : 'Pantalla completa'}
           onClick={() => void toggleFullscreen()}
-          className={`inline-flex min-h-9 items-center gap-2 rounded-lg px-3 text-xs font-semibold transition sm:text-sm ${
-            isFullscreen
+          className={`inline-flex min-h-9 items-center gap-2 rounded-lg px-3 text-xs font-semibold transition sm:text-sm ${isFullscreen
               ? 'bg-zinc-900 text-white'
               : 'text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950'
-          }`}
+            }`}
         >
           <Maximize2 className="size-4" aria-hidden="true" />
           <span className="hidden sm:inline">
@@ -290,8 +288,8 @@ export function PreviewFrame({ src, title, slug, productName }: PreviewFrameProp
               <label className="text-xs font-bold">Título principal<input value={customization.headline} onChange={event => updateCustomization('headline', event.target.value)} placeholder="Encuentra un hogar extraordinario" maxLength={100} className="mt-1.5 h-10 w-full rounded-lg border border-zinc-300 px-3 font-normal" /></label>
               <label className="text-xs font-bold">Texto principal<textarea value={customization.supportingText} onChange={event => updateCustomization('supportingText', event.target.value)} placeholder="Describe tu oferta en una frase." maxLength={180} rows={3} className="mt-1.5 w-full resize-none rounded-lg border border-zinc-300 p-3 font-normal" /></label>
               <label className="text-xs font-bold">CTA<input value={customization.cta} onChange={event => updateCustomization('cta', event.target.value)} placeholder="Agendar una visita" maxLength={40} className="mt-1.5 h-10 w-full rounded-lg border border-zinc-300 px-3 font-normal" /></label>
-              <div className="rounded-xl border border-violet-100 bg-violet-50 p-3"><p className="text-xs font-black text-violet-900">Elementos que aumentan conversión</p><p className="mt-1 text-[11px] text-violet-700">Se muestran como badges en la demo; tendrás el código al comprar.</p><div className="mt-3 grid gap-3"><label className="text-xs font-bold">Oferta o beneficio<input value={customization.offer} onChange={event => updateCustomization('offer', event.target.value)} placeholder="Evaluación sin costo · Esta semana" maxLength={80} className="mt-1.5 h-10 w-full rounded-lg border border-violet-200 bg-white px-3 font-normal" /></label><label className="text-xs font-bold">Prueba de confianza<input value={customization.trust} onChange={event => updateCustomization('trust', event.target.value)} placeholder="Más de 2,000 clientes satisfechos" maxLength={100} className="mt-1.5 h-10 w-full rounded-lg border border-violet-200 bg-white px-3 font-normal" /></label><label className="text-xs font-bold">Contacto visible<input value={customization.contact} onChange={event => updateCustomization('contact', event.target.value)} placeholder="user@example.com · 555-0198" maxLength={80} className="mt-1.5 h-10 w-full rounded-lg border border-violet-200 bg-white px-3 font-normal" /></label></div></div>
-              <div><p className="text-xs font-bold">Estilo visual</p><div className="mt-1.5 grid grid-cols-3 gap-2">{([['minimal','Minimal'],['editorial','Editorial'],['bold','Impactante']] as const).map(([style,label])=><button key={style} type="button" onClick={() => updateCustomization('style', style)} className={`rounded-lg border px-2 py-2 text-[11px] font-bold ${customization.style===style?'border-violet-600 bg-violet-600 text-white':'border-zinc-300 bg-white text-zinc-700 hover:border-violet-300'}`}>{label}</button>)}</div></div>
+              <div className="rounded-xl border border-violet-100 bg-violet-50 p-3"><p className="text-xs font-black text-violet-900">Elementos que aumentan conversión</p><p className="mt-1 text-[11px] text-violet-700">Se muestran como badges en la demo; tendrás el código al comprar.</p><div className="mt-3 grid gap-3"><label className="text-xs font-bold">Oferta o beneficio<input value={customization.offer} onChange={event => updateCustomization('offer', event.target.value)} placeholder="Evaluación sin costo · Esta semana" maxLength={80} className="mt-1.5 h-10 w-full rounded-lg border border-violet-200 bg-white px-3 font-normal" /></label><label className="text-xs font-bold">Prueba de confianza<input value={customization.trust} onChange={event => updateCustomization('trust', event.target.value)} placeholder="Más de 2,000 clientes satisfechos" maxLength={100} className="mt-1.5 h-10 w-full rounded-lg border border-violet-200 bg-white px-3 font-normal" /></label><label className="text-xs font-bold">Contacto visible<input value={customization.contact} onChange={event => updateCustomization('contact', event.target.value)} placeholder="help@prompstudio.com · 555-0198" maxLength={80} className="mt-1.5 h-10 w-full rounded-lg border border-violet-200 bg-white px-3 font-normal" /></label></div></div>
+              <div><p className="text-xs font-bold">Estilo visual</p><div className="mt-1.5 grid grid-cols-3 gap-2">{([['minimal', 'Minimal'], ['editorial', 'Editorial'], ['bold', 'Impactante']] as const).map(([style, label]) => <button key={style} type="button" onClick={() => updateCustomization('style', style)} className={`rounded-lg border px-2 py-2 text-[11px] font-bold ${customization.style === style ? 'border-violet-600 bg-violet-600 text-white' : 'border-zinc-300 bg-white text-zinc-700 hover:border-violet-300'}`}>{label}</button>)}</div></div>
               <div className="grid grid-cols-2 gap-3"><label className="text-xs font-bold">Color principal<input type="color" value={customization.primary} onChange={event => updateCustomization('primary', event.target.value)} className="mt-1.5 h-10 w-full cursor-pointer rounded-lg border border-zinc-300 bg-white p-1" /></label><label className="text-xs font-bold">Color secundario<input type="color" value={customization.secondary} onChange={event => updateCustomization('secondary', event.target.value)} className="mt-1.5 h-10 w-full cursor-pointer rounded-lg border border-zinc-300 bg-white p-1" /></label></div>
             </div>
             <div className="mt-3 flex items-center gap-2 rounded-lg bg-emerald-50 px-3 py-2 text-[11px] font-semibold text-emerald-800"><CheckCircle2 className="size-4 shrink-0" />Vista personalizada guardada localmente antes de pagar.</div>
