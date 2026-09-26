@@ -11,7 +11,7 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import type { ChatMode } from '@/lib/chat-types';
 
-export function ChatLayout() {
+export function ChatLayout({ isDeveloperAdmin = false }: { isDeveloperAdmin?: boolean }) {
   const chat = useChatGenerator();
   const searchParams = useSearchParams();
 
@@ -34,7 +34,7 @@ export function ChatLayout() {
         <ChatHistorySidebar chat={chat} />
         <div className="flex flex-1 flex-col overflow-hidden">
           <ChatArea chat={chat} />
-          <ChatInputBar chat={chat} />
+          <ChatInputBar chat={chat} isDeveloperAdmin={isDeveloperAdmin} />
         </div>
         <SettingsSidebar chat={chat} />
       </div>
