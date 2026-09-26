@@ -90,6 +90,30 @@ function PaidPlanPrice({ isAnnual, monthly, yearly }: { isAnnual: boolean; month
   );
 }
 
+function CreatorCoupon({ isAnnual }: { isAnnual: boolean }) {
+  const tPrices = useTranslations('prices');
+  const couponCode = isAnnual ? 'CREATOR_ANNUAL' : 'CREATOR26';
+
+  return (
+    <div className="mb-6 rounded-2xl border border-blue-500/40 bg-gradient-to-br from-blue-500/15 via-blue-500/5 to-emerald-500/10 p-4 shadow-[0_12px_35px_rgba(37,99,235,0.12)]">
+      <p className="text-xs font-bold uppercase tracking-[0.18em] text-blue-500 dark:text-blue-300">
+        {tPrices('creatorCouponLabel')}
+      </p>
+      <p className="mt-1 text-sm font-semibold text-foreground">
+        {isAnnual
+          ? tPrices('creatorAnnualCouponOffer')
+          : tPrices('creatorMonthlyCouponOffer')}
+      </p>
+      <p className="mt-3 text-xs text-muted-foreground">
+        {tPrices('creatorCouponCodeLabel')}
+      </p>
+      <code className="mt-1 block break-all font-mono text-2xl font-black tracking-wide text-foreground sm:text-3xl">
+        {couponCode}
+      </code>
+    </div>
+  );
+}
+
 const PLAN_METADATA: PlanMetadata[] = [
   {
     id: 'free',
@@ -372,6 +396,7 @@ export default function PricesClient() {
                         yearly={plan.annual}
                       />
                     </div>
+                    {plan.id === 'creator' && <CreatorCoupon isAnnual={isAnnual} />}
                     <ul className="space-y-3 mb-8 flex-grow">
                       {plan.features.map((feature) => (
                         <li key={feature} className="flex items-start gap-3 text-sm">
