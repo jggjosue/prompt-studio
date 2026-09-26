@@ -10,6 +10,24 @@
     "dark": "Dark",
     "system": "System"
   },
+  "metadata": {
+    "site": {
+      "title": "Prompt Studio — AI prompts and creative tools",
+      "description": "Discover prompts, customize them, and create images, videos, components, and landing pages with AI tools."
+    },
+    "home": {
+      "title": "Discover | Prompt Studio",
+      "description": "Discover images, videos, web pages, and animations created to inspire your next project."
+    },
+    "imagePrompts": {
+      "title": "Prompts for generating AI images",
+      "description": "Explore image prompts with visual examples for portraits, products, fashion, and creative scenes; customize them and take them to the generator."
+    },
+    "videoPrompts": {
+      "title": "Prompts for generating AI videos",
+      "description": "Explore video prompts for cinematic shots, camera movement, ads, and social content; adapt an idea and create your video."
+    }
+  },
   "common": {
     "toggleMenu": "Toggle Menu",
     "signIn": "Sign in",
@@ -27,6 +45,7 @@
     "search": "Search",
     "noResults": "No results found.",
     "useThisPrompt": "Use this prompt",
+    "customize": "Customize",
     "generatePrompt": "Generate Prompt",
     "durationSeconds": "Duration: 5 seconds",
     "noCreditCard": "No credit card required",
@@ -81,7 +100,7 @@
     "marketplace": "Marketplace",
     "animations": "Animations",
     "animationsDesc": "Explore interactive web animations",
-    "templates": "Plantillas",
+    "templates": "Templates",
     "templatesDesc": "Explore landing page templates",
     "affiliateProgram": "Affiliate",
     "editor": "Studio",
@@ -105,7 +124,8 @@
     "webTags": "Webs",
     "webTagsDesc": "Browse by page style",
     "componentBuilder": "Component builder",
-    "componentKits": "Component kits"
+    "componentKits": "Component kits",
+    "createWithAI": "Create with AI"
   },
   "header": {
     "brand": "Prompt Studio",
@@ -117,9 +137,17 @@
     "signIn": "Sign in",
     "accountMenu": "Account"
   },
+  "workspaceHeader": {
+    "homeLabel": "Go to the Prompt Studio home page",
+    "exploreSections": "Explore site sections",
+    "explore": "Explore",
+    "credits": "credits",
+    "creditsLabel": "{credits} credits available.",
+    "lowCreditsLabel": "{credits} credits available. Credits are low; buy more."
+  },
   "footer": {
     "brand": "Prompt Studio",
-    "tagline": "Your ultimate collection of AI video prompts. Gather inspiration, explore examples, and create stunning videos with AI.",
+    "tagline": "Your ultimate collection of AI prompts. Gather inspiration, explore examples, and create with AI.",
     "copyright": "All rights reserved.",
     "links": "Links",
     "contact": "Contact",
@@ -571,6 +599,7 @@
     "subscriptionDesc": "Choose a plan and billing cycle. Premium and Startup unlock paid content.",
     "subscriptionClerkDesc": "Payments are handled by Clerk Billing (Stripe). Choose or change your plan below.",
     "currentPlan": "Current plan",
+    "nextBilling": "Next billing date",
     "downloadInvoice": "Download invoice",
     "cancelSubscription": "Cancel subscription",
     "additionalPurchases": "Additional purchases",
@@ -644,6 +673,56 @@
     "customTitle": "Need a custom prompt?",
     "customSubtitle": "Use our AI-powered generator to create high-quality prompts for any of these models in seconds.",
     "goToGenerator": "Go to Generator"
+  },
+  "promptHubs": {
+    "imageTitle": "Explore AI Image Prompts",
+    "imageSubtitle": "Discover thousands of AI image prompts and examples. Get inspired and create your own AI-generated images.",
+    "videoTitle": "Explore AI Video Prompts",
+    "videoSubtitle": "Discover thousands of AI video prompts and examples. Get inspired and create your own AI-generated videos.",
+    "allPrompts": "All Prompts",
+    "generateImage": "Generate an Image",
+    "generateVideo": "Generate a Video",
+    "resultCount": "{count, plural, one {# result} other {# results}}",
+    "resultsFor": "for \"{query}\"",
+    "tagsApplied": "tags: {tags}"
+  },
+  "discover": {
+    "title": "Discover what you can create with AI.",
+    "subtitle": "Images, videos, web experiences, and animations selected from our real catalogs.",
+    "startWithIdea": "Start with an idea",
+    "noBlankPage": "No need to start from scratch",
+    "searchPlaceholder": "Search ideas, styles, or technologies...",
+    "featuredWeb": "Featured website",
+    "journeyLabel": "Your journey",
+    "journeyTitle": "From inspiration to a usable result",
+    "journeySubtitle": "Every Prompt Studio tool supports these four stages.",
+    "step": "Step {number}",
+    "journey": {
+      "discover": "Discover",
+      "discoverDetail": "Find a starting point",
+      "customize": "Customize",
+      "customizeDetail": "Adapt the prompt",
+      "preview": "Preview",
+      "previewDetail": "Check the result",
+      "get": "Get it",
+      "getDetail": "Download or buy"
+    },
+    "filters": {
+      "all": "All",
+      "images": "Images",
+      "videos": "Videos",
+      "animations": "Animations"
+    },
+    "feedStep": "Step 1 · Discover",
+    "feedTitle": "Choose an idea to customize",
+    "results": "{count, plural, one {# result} other {# results}}",
+    "loadMore": "Load more results",
+    "customize": "Customize",
+    "preview": "Preview",
+    "like": "Like {title}",
+    "removeLike": "Remove Like from {title}",
+    "verifiedRatings": "{count, plural, one {# verified rating} other {# verified ratings}}",
+    "views": "Views"
   },
   "gallery": {
     "backToGallery": "Back to gallery",
@@ -736,7 +815,15 @@
     "landingTopTags": "Landing — top tags",
     "landingTopStacks": "Landing — top stacks",
     "imageTopTags": "Images — top tags",
-    "videoTopTags": "Videos — top tags"
+    "videoTopTags": "Videos — top tags",
+    "categoryVisualStyles": "Visual Styles",
+    "categorySubjects": "Subjects",
+    "categoryComposition": "Composition",
+    "categoryBrandsProducts": "Brands & Products",
+    "categoryLighting": "Lighting",
+    "categoryEffectsTechniques": "Effects & Techniques",
+    "categorySettings": "Settings",
+    "categoryOtherTags": "Other Tags"
   },
   "landingEditor": {
     "title": "Landing page editor",

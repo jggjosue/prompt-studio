@@ -15,12 +15,6 @@ import { defaultLocale, isLocale, LOCALE_COOKIE, type Locale } from './config.ts
  * puede probar sin levantar un servidor.
  */
 
-/** Países hispanohablantes de Latinoamérica más España. */
-const SPANISH_SPEAKING_COUNTRIES = new Set([
-  'AR', 'BO', 'BR', 'CL', 'CO', 'CR', 'CU', 'DO', 'EC', 'SV',
-  'GT', 'HN', 'MX', 'NI', 'PA', 'PY', 'PE', 'PR', 'UY', 'VE', 'ES',
-]);
-
 /**
  * Lee la cookie de idioma de la cabecera `cookie` sin depender de `next/headers`.
  */
@@ -44,25 +38,13 @@ export function localeFromCookieHeader(cookieHeader: string | null): Locale | nu
 }
 
 /**
- * Orden de preferencia: cookie explícita del usuario → idioma del navegador →
- * país detectado en el edge → `defaultLocale`.
+ * Orden de preferencia: cookie explícita del usuario → `defaultLocale`.
  *
- * La cookie manda siempre: si alguien la fijó con el selector de idioma, no se
- * le debe contradecir por su IP o su `accept-language`.
+ * Todos los visitantes empiezan en inglés, sin importar su país o el idioma
+ * configurado en el navegador. Solo una elección explícita en el selector del
+ * footer puede cambiar la experiencia a español.
  */
 export function detectLocale(headers: Headers): Locale {
   const fromCookie = localeFromCookieHeader(headers.get('cookie'));
-  if (fromCookie) return fromCookie;
-
-  const acceptLanguage = (headers.get('accept-language') || '').toLowerCase();
-  if (acceptLanguage.includes('es')) return 'es';
-
-  const country = (
-    headers.get('x-vercel-ip-country') ||
-    headers.get('x-edge-country') ||
-    ''
-  ).toUpperCase();
-  if (SPANISH_SPEAKING_COUNTRIES.has(country)) return 'es';
-
-  return defaultLocale;
+  return fromCookie ?? defaultLocale;
 }

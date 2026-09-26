@@ -4,18 +4,20 @@ import { getPlaceholderVideos } from '@/lib/placeholder-videos';
 import { RelatedInternalLinks } from '@/components/related-internal-links';
 import { JsonLd } from '@/components/json-ld';
 import { SITE_URL } from '@/lib/site-url';
+import { getTranslations } from 'next-intl/server';
+import { defaultLocale, isLocale } from '@/i18n/config';
 
-export const metadata: Metadata = {
-  title: 'Prompts para generar videos con IA',
-  description: 'Explora prompts de video para planos cinematográficos, movimiento de cámara, anuncios y contenido social; adapta una idea y crea tu video.',
-  alternates: {
-    canonical: '/video-prompts',
-  },
-  keywords: ['prompts para videos IA', 'prompts cinematográficos', 'movimientos de cámara para IA', 'prompts para anuncios en video'],
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const requestedLocale = (await params).locale;
+  const locale = isLocale(requestedLocale) ? requestedLocale : defaultLocale;
+  const t = await getTranslations({ locale, namespace: 'metadata.videoPrompts' });
+  return { title: t('title'), description: t('description'), alternates: { canonical: '/video-prompts' } };
+}
 
-export default function VideoPromptsPage() {
-  const videos = getPlaceholderVideos('en');
+export default async function VideoPromptsPage({ params }: { params: Promise<{ locale: string }> }) {
+  const requestedLocale = (await params).locale;
+  const locale = isLocale(requestedLocale) ? requestedLocale : defaultLocale;
+  const videos = getPlaceholderVideos(locale);
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
