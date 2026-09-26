@@ -42,6 +42,17 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
         id: chat.id || chat._id || '', title: chat.title, mode: chat.mode,
       })).filter((chat: { id: string }) => chat.id)))
       .catch(() => {});
+
+    fetch('/api/credits')
+      .then(response => response.ok ? response.json() : null)
+      .then(data => {
+        if (data?.credits && typeof data.credits.balance === 'number') {
+          imageGen.setCredits(data.credits.balance);
+          videoGen.setCredits(data.credits.balance);
+          webGen.setCredits(data.credits.balance);
+        }
+      })
+      .catch(() => {});
   }, []);
 
   const createSession = useCallback(async () => {

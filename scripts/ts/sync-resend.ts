@@ -2,9 +2,6 @@ import 'dotenv/config';
 import mongoose from 'mongoose';
 import { Resend } from 'resend';
 
-// Initialize Resend
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 // Define NewUser schema manually to avoid Next.js module resolution issues
 const NewUserSchema = new mongoose.Schema({
   email: String,
@@ -22,6 +19,8 @@ async function main() {
     console.error('Missing RESEND_API_KEY');
     process.exit(1);
   }
+
+  const resend = new Resend(process.env.RESEND_API_KEY);
 
   console.log('Connecting to MongoDB...');
   await mongoose.connect(process.env.MONGODB_URI);
@@ -43,14 +42,14 @@ async function main() {
       });
 
       if (response.error) {
-        console.error(`Error adding ${user.email}:`, response.error.message);
+        console.error('Error adding Resend contact');
         errorCount++;
       } else {
-        console.log(`Successfully added ${user.email}`);
+        console.log('Successfully added Resend contact');
         successCount++;
       }
-    } catch (e) {
-      console.error(`Exception adding ${user.email}:`, e);
+    } catch {
+      console.error('Exception adding Resend contact');
       errorCount++;
     }
   }
@@ -59,4 +58,7 @@ async function main() {
   await mongoose.disconnect();
 }
 
-main().catch(console.error);
+main().catch(() => {
+  console.error('Resend synchronization failed');
+  process.exitCode = 1;
+});

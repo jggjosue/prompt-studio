@@ -20,7 +20,7 @@ test('la observabilidad elimina prompts, credenciales y datos personales', () =>
     prompt: 'retrato privado',
     apiKey: 'sk-secret',
     authorization: 'Bearer secret',
-    email: 'user@example.com',
+    email: 'help@prompstudio.com',
     responseBody: { private: true },
     arbitraryPayload: 'not allowlisted',
   });

@@ -17,11 +17,10 @@ export async function GET(request: Request) {
   
   try {
     await connectToDatabase();
-    const users = await NewUser.find({});
+    const users = await NewUser.find({ marketingStatus: 'confirmed' });
     
     let successCount = 0;
     let errorCount = 0;
-    const errors: string[] = [];
 
     for (const user of users) {
       if (!user.email) continue;
@@ -33,7 +32,6 @@ export async function GET(request: Request) {
 
       if (error) {
         errorCount++;
-        errors.push(`Error for ${user.email}: ${error.message}`);
       } else {
         successCount++;
       }
@@ -44,9 +42,8 @@ export async function GET(request: Request) {
       total: users.length,
       successCount,
       errorCount,
-      errors: errors.slice(0, 10), // only return first 10 errors
     });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch {
+    return NextResponse.json({ error: 'RESEND_SYNC_FAILED' }, { status: 500 });
   }
 }

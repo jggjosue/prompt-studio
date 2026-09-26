@@ -6,6 +6,7 @@ export interface IComponentPurchase extends Document {
   productId: string;
   productName: string;
   productKind: string;
+  marketplaceReleaseId?: mongoose.Types.ObjectId | null;
   amountPaidCents: number;
   currency: string;
   status: 'paid' | 'refunded';
@@ -26,6 +27,7 @@ const ComponentPurchaseSchema = new Schema<IComponentPurchase>({
   productId: { type: String, required: true, index: true },
   productName: { type: String, required: true },
   productKind: { type: String, required: true },
+  marketplaceReleaseId: { type: Schema.Types.ObjectId, ref: 'MarketplaceRelease', default: null, index: true },
   amountPaidCents: { type: Number, required: true },
   currency: { type: String, required: true },
   status: { type: String, enum: ['paid', 'refunded'], default: 'paid', index: true },

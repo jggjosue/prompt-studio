@@ -13,9 +13,12 @@ import AssetProvenance from '@/models/AssetProvenance';
 import PublicationQualityAudit from '@/models/PublicationQualityAudit';
 import CreativeProject from '@/models/CreativeProject';
 import { recordProjectFunnelEvent } from '@/lib/project-funnel-events';
+import { humanVerificationDecision } from '@/lib/human-verification';
+import { recordObservabilityEvent } from '@/lib/observability-server';
 
 const headers = { 'Cache-Control': 'private, no-store' };
-const serialize = (p: any) => ({ id: String(p._id), pageId: p.pageId, name: p.name, slug: p.slug, url: publicUrl(p.slug), customDomain: p.customDomain, domainStatus: p.domainStatus, version: p.version, status: p.status, github: p.github, vercel: p.vercel, updatedAt: p.updatedAt });
+type PublicationRow = { _id: unknown; projectId?: string | null; pageId: string; name: string; slug: string; customDomain?: string | null; domainStatus: string; version: number; status: string; github?: unknown; vercel?: unknown; updatedAt: Date };
+const serialize = (p: PublicationRow) => ({ id: String(p._id), projectId: p.projectId ?? null, pageId: p.pageId, name: p.name, slug: p.slug, url: publicUrl(p.slug), customDomain: p.customDomain, domainStatus: p.domainStatus, version: p.version, status: p.status, github: p.github, vercel: p.vercel, updatedAt: p.updatedAt });
 
 export async function GET() {
   const { userId } = await auth();
@@ -39,7 +42,15 @@ export async function POST(request: Request) {
   const assetIds = [...new Set((body?.assetIds || []).filter(id => mongoose.isValidObjectId(id)))].slice(0, 50);
   await connectToDatabase();
   const projectId = typeof body?.projectId === 'string' && mongoose.isValidObjectId(body.projectId) ? body.projectId : null;
-  if (projectId && !(await CreativeProject.exists({ _id: projectId, userId }))) return NextResponse.json({ error: 'El proyecto no pertenece al usuario.' }, { status: 403, headers });
+  if (projectId) {
+    const project = await CreativeProject.findOne({ _id: projectId, userId }).select('reviewStatus changeRequests').lean();
+    if (!project) return NextResponse.json({ error: 'El proyecto no pertenece al usuario.' }, { status: 403, headers });
+    const verification = humanVerificationDecision({ costly: false, sensitive: true, reviewStatus: project.reviewStatus, hasOpenChanges: project.changeRequests?.some((item: { status: string }) => item.status === 'open') ?? false });
+    if (!verification.approved) {
+      void recordObservabilityEvent({ category: 'commerce', name: 'human_verification_blocked', route: '/api/publications', userId, productId: projectId, status: 'blocked', metadata: { operation: 'publish', reasons: verification.reasons } });
+      return NextResponse.json({ error: 'La publicación requiere aprobación humana del proyecto y no puede tener cambios pendientes.', approvalRequired: true, verification: { reviewStatus: project.reviewStatus ?? 'draft', hasOpenChanges: verification.reasons.includes('open_change_requests') } }, { status: 409, headers });
+    }
+  }
   const assets = assetIds.length ? await AssetProvenance.find({ _id: { $in: assetIds }, userId }).select('license').lean() : [];
   if (assets.length !== assetIds.length) return NextResponse.json({ error: 'Uno de los activos no pertenece al usuario.' }, { status: 403, headers });
   let files;
@@ -50,7 +61,7 @@ export async function POST(request: Request) {
   if (quality.status === 'blocked') return NextResponse.json({ error: 'La publicación fue bloqueada por controles de calidad.', quality: { id: String(audit._id), ...quality } }, { status: 422, headers });
   let slug = base;
   for (let n = 2; await LandingPublication.exists({ slug }); n += 1) slug = `${base.slice(0, 55)}-${n}`;
-  const created = await LandingPublication.create({ userId, pageId, name: (body?.name?.trim() || base).slice(0, 160), slug, folder });
+  const created = await LandingPublication.create({ userId, projectId, pageId, name: (body?.name?.trim() || base).slice(0, 160), slug, folder });
   audit.publicationId = created._id;
   await audit.save();
   if (assetIds.length) await AssetProvenance.updateMany({ _id: { $in: assetIds }, userId }, { $push: { publications: { publicationId: created._id, name: created.name, version: created.version, addedAt: new Date() } }, $set: { updatedAt: new Date() } });

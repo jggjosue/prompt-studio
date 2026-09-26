@@ -16,6 +16,7 @@ import { expireSubscriptionCredits, grantSubscriptionCredits } from '@/lib/ai-jo
 import { getComponentProductContent } from '@/lib/component-content-store';
 import { isValidComponentPurchase } from '@/lib/component-purchase-validation';
 import { marketplaceSplit } from '@/lib/creator-marketplace';
+import { marketplaceLedger } from '@/lib/marketplace-asset';
 import { getCreditPack, isValidCreditTopUp } from '@/lib/credit-packs';
 import { applyCreditTopUp, markCreditPurchaseRefunded } from '@/lib/credit-topup';
 import connectToDatabase from '@/lib/mongoose';
@@ -24,6 +25,8 @@ import { getPlanCredits, normalizeExistingPlan, type PlanId } from '@/lib/subscr
 import AffiliateApplication from '@/models/AffiliateApplication';
 import ComponentPurchase from '@/models/ComponentPurchase';
 import MarketplaceListing from '@/models/MarketplaceListing';
+import MarketplaceRelease from '@/models/MarketplaceRelease';
+import MarketplaceAttributionEvent from '@/models/MarketplaceAttributionEvent';
 import MarketplaceSale from '@/models/MarketplaceSale';
 import { clerkClient } from '@clerk/nextjs/server';
 import { headers } from 'next/headers';
@@ -236,9 +239,11 @@ export async function POST(req: Request) {
           const pageId = inferredProductId;
           if (sessionAny.metadata?.purchaseType === 'marketplace') {
             const listingId = sessionAny.metadata.listingId;
+            const releaseId = sessionAny.metadata.releaseId;
             const purchaserUserId = sessionAny.metadata.purchaserUserId;
             const listing = listingId ? await MarketplaceListing.findOne({ _id: listingId, status: 'approved' }).lean() : null;
-            if (!listing || !purchaserUserId || listing.creatorUserId === purchaserUserId || session.amount_total !== listing.priceCents || session.currency !== listing.currency) {
+            const release = releaseId ? await MarketplaceRelease.findOne({ _id: releaseId, listingId }).lean() : null;
+            if (!listing || !release || !purchaserUserId || listing.creatorUserId === purchaserUserId || session.amount_total !== listing.priceCents || session.currency !== listing.currency) {
               throw new Error(`Invalid marketplace purchase metadata for ${session.id}`);
             }
             const purchaserEmail = sessionAny.customer_details?.email || session.customer_email;
@@ -247,13 +252,18 @@ export async function POST(req: Request) {
             await connectToDatabase();
             const purchase = await ComponentPurchase.findOneAndUpdate(
               { stripeCheckoutSessionId: session.id },
-              { $set: { status: 'paid', stripePaymentIntentId: paymentIntentId ?? null, updatedAt: new Date() }, $setOnInsert: { purchaserUserId, purchaserEmail, productId: `marketplace:${listingId}`, productName: listing.title, productKind: listing.kind, amountPaidCents: listing.priceCents, currency: listing.currency, downloadCount: 0, maxDownloads: 5, purchasedAt: new Date() } },
+              { $set: { status: 'paid', stripePaymentIntentId: paymentIntentId ?? null, updatedAt: new Date() }, $setOnInsert: { purchaserUserId, purchaserEmail, productId: `marketplace:${listingId}`, productName: listing.title, productKind: listing.kind, marketplaceReleaseId: release._id, amountPaidCents: listing.priceCents, currency: listing.currency, downloadCount: 0, maxDownloads: 5, purchasedAt: new Date() } },
               { upsert: true, returnDocument: 'after' }
             );
             const split = marketplaceSplit(listing.priceCents);
             await MarketplaceSale.findOneAndUpdate(
               { stripeCheckoutSessionId: session.id },
-              { $setOnInsert: { listingId: listing._id, creatorUserId: listing.creatorUserId, buyerUserId: purchaserUserId, purchaseId: purchase._id, ...split, currency: listing.currency, status: 'pending', createdAt: new Date() } },
+              { $setOnInsert: { listingId: listing._id, releaseId: release._id, creatorUserId: listing.creatorUserId, buyerUserId: purchaserUserId, purchaseId: purchase._id, ...split, currency: listing.currency, status: 'pending', createdAt: new Date() } },
+              { upsert: true }
+            );
+            await MarketplaceAttributionEvent.findOneAndUpdate(
+              { stripeCheckoutSessionId: session.id },
+              { $setOnInsert: { listingId: listing._id, releaseId: release._id, purchaseId: purchase._id, creatorUserId: listing.creatorUserId, affiliateId: sessionAny.metadata.affiliateId ?? null, grossCents: listing.priceCents, entries: marketplaceLedger(listing.priceCents), currency: listing.currency, createdAt: new Date() } },
               { upsert: true }
             );
           }

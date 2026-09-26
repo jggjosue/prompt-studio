@@ -1,5 +1,5 @@
 import { auth } from '@clerk/nextjs/server';
-import { analyzeReadability } from '@/lib/readability-analysis';
+import { evaluateGeneratedCopyForPublication } from '@/domain/quality/publication-copy-gate';
 import {
   getLandingReadabilitySnapshot,
   saveLandingReadabilitySnapshot,
@@ -66,12 +66,8 @@ export async function POST(
     return NextResponse.json({ error: 'Cuerpo JSON inválido' }, { status: 400 });
   }
 
-  const report = analyzeReadability({
-    text: body.text,
-    html: body.html ?? '',
-    locale: body.locale,
-    focusKeyword: body.focusKeyword,
-  });
+  const evaluation = evaluateGeneratedCopyForPublication({ generatedText: body.text, generatedHtml: body.html ?? '', locale: body.locale, focusKeyword: body.focusKeyword });
+  const report = evaluation.quality.readability;
 
   const snapshot = summarizeReport(pageId, body.locale, report, {
     demoSlug: raw.demoUrl,
@@ -84,5 +80,7 @@ export async function POST(
   return NextResponse.json({
     ok: true,
     snapshot: saved,
+    quality: evaluation.quality,
+    publishDecision: evaluation.publishDecision,
   });
 }

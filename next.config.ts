@@ -57,11 +57,16 @@ const nextConfig: NextConfig = {
       '@radix-ui/react-tooltip',
     ],
   },
-  /** La API de descargas genera el ZIP desde public/webpages en tiempo de ejecución. */
+  /**
+   * Keep catalog assets traced only for the API routes that still read them.
+   *
+   * Do NOT trace the entire public/webpages tree into landing-page download functions.
+   * Files under public/ are deployment assets and tracing the complete
+   * webpage corpus into every matching server function duplicates those bytes
+   * in function packages. Landing-page downloads must resolve the selected
+   * public asset without a broad server-function trace.
+   */
   outputFileTracingIncludes: {
-    '/api/landing-pages/*/download': [
-      './public/webpages/**/*',
-    ],
     '/api/catalog/*': ['./public/catalog/**/*'],
   },
   // Genkit / OpenTelemetry use optional exporters; keep them external on the server bundle.
@@ -175,6 +180,17 @@ const nextConfig: NextConfig = {
       };
     }
     return config;
+  },
+  async redirects() {
+    return [
+      {
+        // Demo videos were moved to R2. Preserve every former public URL while
+        // the API issues a direct signed redirect without proxying the bytes.
+        source: '/webpages/:path*.mp4',
+        destination: '/api/webpages/assets/:path*.mp4',
+        permanent: false,
+      },
+    ];
   },
   async headers() {
     return [

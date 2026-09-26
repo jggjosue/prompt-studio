@@ -357,7 +357,7 @@ export default function VideoPromptsClient() {
         <Header />
       </Suspense>
       <main className="flex-1 py-12 md:py-16">
-        <div className="container max-w-7xl">
+        <div className="container max-w-[90rem] min-w-0 px-4 sm:px-6 md:px-8">
           <Suspense fallback={<VideoPromptsSkeleton />}>
             <VideoPromptsContent />
           </Suspense>
