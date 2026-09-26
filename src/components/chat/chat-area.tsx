@@ -75,9 +75,13 @@ export function ChatArea({ chat }: ChatAreaProps) {
 
   useEffect(() => {
     if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+      // Smooth auto-scroll to bottom, but only if user hasn't manually scrolled up
+      const isAtBottom = scrollRef.current.scrollHeight - scrollRef.current.clientHeight - scrollRef.current.scrollTop < 100;
+      if (isAtBottom) {
+        scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+      }
     }
-  }, [messages.length, localGenerating]);
+  }, [messages.length, localGenerating, scrollRef.current?.scrollTop]);
 
   const handleQuickStart = (qs: QuickStart) => {
     chat.setDraftPrompt(qs.prompt);
