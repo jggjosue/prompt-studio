@@ -13,19 +13,26 @@ import type { ChatMode } from '@/lib/chat-types';
 
 export function ChatLayout() {
   const chat = useChatGenerator();
+  const { setSelectedMode, setDraftPrompt } = chat;
   const searchParams = useSearchParams();
 
-  // Leer parámetros de URL: ?prompt=hello&mode=video
+  // Analiza la URL (?mode=image|video|project&prompt=...) para cambiar la
+  // pestaña (imagen/video/web) y sus atributos según el origen del visitante:
+  // menú "Media", catálogos de prompts, etc.
+  const modeParam = searchParams.get('mode');
+  const promptParam = searchParams.get('prompt');
+
   useEffect(() => {
-    const prompt = searchParams.get('prompt');
-    const mode = searchParams.get('mode');
-    if (prompt) {
-      // El prompt se establecerá en el input bar
+    if (modeParam && ['image', 'video', 'project'].includes(modeParam)) {
+      setSelectedMode(modeParam as ChatMode);
     }
-    if (mode && ['image', 'video', 'project'].includes(mode)) {
-      chat.setSelectedMode(mode as ChatMode);
+  }, [modeParam, setSelectedMode]);
+
+  useEffect(() => {
+    if (promptParam) {
+      setDraftPrompt(promptParam);
     }
-  }, [searchParams]);
+  }, [promptParam, setDraftPrompt]);
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
