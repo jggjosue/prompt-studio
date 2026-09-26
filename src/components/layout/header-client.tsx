@@ -56,7 +56,7 @@ import { RoutePrefetchProvider } from '@/components/route-prefetch-provider';
 import { isNavActive } from '@/lib/app-routes';
 import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 // import { ThemeToggle } from '../theme-toggle';
 import { SiteBreadcrumbs } from '@/components/site-breadcrumbs';
 import Logo from './logo';
@@ -88,6 +88,18 @@ export const UI_KITS: Array<{ href: string; label: string; count: number; unit: 
 ];
 
 export const UI_KITS_TOTAL = UI_KITS.reduce((total, kit) => total + kit.count, 0);
+
+const EN_UI_KITS: typeof UI_KITS = [
+  { href: '/web-animations', label: 'Animations', count: 180, unit: 'animaciones', description: 'Web interactions and micro-animations' },
+  { href: '/login-components', label: 'Login UI', count: 50, unit: 'componentes', description: 'Authentication, registration, and recovery' },
+  { href: '/header-components', label: 'Header UI', count: 50, unit: 'componentes', description: 'Responsive headers and top navigation' },
+  { href: '/text-components', label: 'Text UI', count: 50, unit: 'componentes', description: 'Typography compositions and hierarchies' },
+  { href: '/form-components', label: 'Form UI', count: 100, unit: 'componentes', description: 'Forms with validation and states' },
+  { href: '/button-components', label: 'Button UI', count: 50, unit: 'componentes', description: 'Buttons, states, and variants' },
+  { href: '/card-components', label: 'Card UI', count: 50, unit: 'componentes', description: 'Product, profile, and content cards' },
+  { href: '/navigation-components', label: 'Navigation UI', count: 50, unit: 'componentes', description: 'Navigation systems and menus' },
+  { href: '/sidebar-components', label: 'Sidebar UI', count: 50, unit: 'componentes', description: 'Sidebars and panels' },
+];
 
 type DropdownItem = {
   href: string;
@@ -138,6 +150,45 @@ export default function HeaderClient() {
   const tNav = useTranslations('nav');
   const tHeader = useTranslations('header');
   const tCommon = useTranslations('common');
+  const isSpanish = useLocale().startsWith('es');
+  const uiKits = isSpanish ? UI_KITS : EN_UI_KITS;
+  const copy = isSpanish ? {
+    tools: 'Herramientas', library: 'Mi biblioteca', explore: 'Explorar', create: 'Crear',
+    optimize: 'Optimizar prompts', optimizeDesc: 'Mejora con objetivos y compara los cambios',
+    auditor: 'Auditor de código', auditorDesc: 'Detecta errores y genera un prompt de corrección',
+    favorites: 'Favoritos y proyectos', favoritesDesc: 'Organiza componentes y descarga tus kits',
+    compare: 'Comparar componentes', compareDesc: 'Compara hasta tres diseños lado a lado',
+    kits: 'Kits completos', kitsDesc: 'Colecciones coherentes listas para productos',
+    search: 'Buscador inteligente', searchDesc: 'Busca por tipo, industria, color y función',
+    builder: 'Constructor visual', builderDesc: 'Personaliza componentes y genera el prompt',
+    composer: 'Generador de páginas', composerDesc: 'Combina componentes y descarga Next.js',
+    components: 'Componentes UI', pieces: 'piezas con prompts', webGenerator: 'Generador Web',
+    webGeneratorDesc: 'Genera nuevas páginas web con IA', imageGenerator: 'Generar Imagen',
+    imageGeneratorDesc: 'Crea imágenes hiperrealistas con IA', videoGenerator: 'Generar Video',
+    videoGeneratorDesc: 'Crea videos cinematográficos con IA', comingSoon: 'Próximamente',
+    back: 'Volver', viewAll: 'Ver todos los kits',
+  } : {
+    tools: 'Tools', library: 'My library', explore: 'Explore', create: 'Create',
+    optimize: 'Optimize prompts', optimizeDesc: 'Improve prompts with goals and compare changes',
+    auditor: 'Code auditor', auditorDesc: 'Detect errors and generate a correction prompt',
+    favorites: 'Favorites and projects', favoritesDesc: 'Organize components and download your kits',
+    compare: 'Compare components', compareDesc: 'Compare up to three designs side by side',
+    kits: 'Complete kits', kitsDesc: 'Consistent collections ready for products',
+    search: 'Smart search', searchDesc: 'Search by type, industry, color, and function',
+    builder: 'Visual builder', builderDesc: 'Customize components and generate the prompt',
+    composer: 'Page generator', composerDesc: 'Combine components and download Next.js',
+    components: 'UI Components', pieces: 'prompt-ready pieces', webGenerator: 'Web Generator',
+    webGeneratorDesc: 'Generate new web pages with AI', imageGenerator: 'Generate Image',
+    imageGeneratorDesc: 'Create hyperrealistic images with AI', videoGenerator: 'Generate Video',
+    videoGeneratorDesc: 'Create cinematic videos with AI', comingSoon: 'Coming soon',
+    back: 'Back', viewAll: 'View all kits',
+  };
+  const groupLabel = (label: string) => ({
+    Herramientas: copy.tools,
+    'Mi biblioteca': copy.library,
+    Explorar: copy.explore,
+    Crear: copy.create,
+  })[label] ?? label;
 
   const navLinks: Array<{
     id: string;
@@ -157,66 +208,66 @@ export default function HeaderClient() {
         {
           href: '/prompt-optimizer',
           group: 'Herramientas',
-          label: 'Optimizar prompts',
-          description: 'Mejora con objetivos y compara los cambios',
+          label: copy.optimize,
+          description: copy.optimizeDesc,
           icon: <Sparkles className="h-4 w-4" />,
           disabled: true,
-          disabledBadge: 'Próximamente',
+          disabledBadge: copy.comingSoon,
         },
         {
           href: '/code-auditor',
           group: 'Herramientas',
-          label: 'Auditor de código',
-          description: 'Detecta errores y genera un prompt de corrección',
+          label: copy.auditor,
+          description: copy.auditorDesc,
           icon: <ShieldCheck className="h-4 w-4" />,
           disabled: true,
-          disabledBadge: 'Próximamente',
+          disabledBadge: copy.comingSoon,
         },
         {
           href: '/my-components',
           group: 'Mi biblioteca',
-          label: 'Favoritos y proyectos',
-          description: 'Organiza componentes y descarga tus kits',
+          label: copy.favorites,
+          description: copy.favoritesDesc,
           icon: <FolderHeart className="h-4 w-4" />,
         },
         {
           href: '/component-compare',
           group: 'Herramientas',
-          label: 'Comparar componentes',
-          description: 'Compara hasta tres diseños lado a lado',
+          label: copy.compare,
+          description: copy.compareDesc,
           icon: <Scale className="h-4 w-4" />,
         },
         {
           href: '/component-kits',
           group: 'Explorar',
-          label: 'Kits completos',
-          description: 'Colecciones coherentes listas para productos',
+          label: copy.kits,
+          description: copy.kitsDesc,
           icon: <PackageCheck className="h-4 w-4" />,
         },
         {
           href: '/smart-search',
           group: 'Explorar',
-          label: 'Buscador inteligente',
-          description: 'Busca por tipo, industria, color y función',
+          label: copy.search,
+          description: copy.searchDesc,
           icon: <Search className="h-4 w-4" />,
         },
         {
           href: '/component-builder',
           group: 'Crear',
-          label: 'Constructor visual',
-          description: 'Personaliza componentes y genera el prompt',
+          label: copy.builder,
+          description: copy.builderDesc,
           icon: <WandSparkles className="h-4 w-4" />,
           disabled: true,
-          disabledBadge: 'Próximamente',
+          disabledBadge: copy.comingSoon,
         },
         {
           href: '/page-composer',
           group: 'Crear',
-          label: 'Generador de páginas',
-          description: 'Combina componentes y descarga Next.js',
+          label: copy.composer,
+          description: copy.composerDesc,
           icon: <LayoutTemplate className="h-4 w-4" />,
           disabled: true,
-          disabledBadge: 'Próximamente',
+          disabledBadge: copy.comingSoon,
         },
         {
           href: '/landing-pages',
@@ -228,18 +279,18 @@ export default function HeaderClient() {
         {
           href: '/component-kits',
           group: 'Explorar',
-          label: 'Componentes UI',
-          description: `${UI_KITS.length} kits · ${UI_KITS_TOTAL} piezas con prompts`,
+          label: copy.components,
+          description: `${uiKits.length} kits · ${UI_KITS_TOTAL} ${copy.pieces}`,
           icon: <Layers3 className="h-4 w-4" />,
-          kits: UI_KITS,
+          kits: uiKits,
         },
         {
           href: '/generate',
           target: '_blank',
           rel: 'noopener noreferrer',
           group: 'Crear',
-          label: 'Generador Web',
-          description: 'Genera nuevas páginas web con IA',
+          label: copy.webGenerator,
+          description: copy.webGeneratorDesc,
           icon: <Globe className="h-4 w-4" />,
         },
       ],
@@ -276,8 +327,8 @@ export default function HeaderClient() {
           target: '_blank',
           rel: 'noopener noreferrer',
           group: 'Crear',
-          label: 'Generar Imagen',
-          description: 'Crea imágenes hiperrealistas con IA',
+          label: copy.imageGenerator,
+          description: copy.imageGeneratorDesc,
           icon: <ImageIcon className="h-4 w-4" />,
         },
         {
@@ -285,8 +336,8 @@ export default function HeaderClient() {
           target: '_blank',
           rel: 'noopener noreferrer',
           group: 'Crear',
-          label: 'Generar Video',
-          description: 'Crea videos cinematográficos con IA',
+          label: copy.videoGenerator,
+          description: copy.videoGeneratorDesc,
           icon: <Video className="h-4 w-4" />,
         },
       ],
@@ -344,7 +395,7 @@ export default function HeaderClient() {
                 className="mb-5 flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-3 font-bold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-500"
               >
                 <WandSparkles className="h-4 w-4" />
-                Crear con IA
+                {tNav('createWithAI')}
               </ClientLink>
             </SheetClose>
             <div className="flex flex-col gap-4">
@@ -391,11 +442,11 @@ export default function HeaderClient() {
                         {link.id === 'webs' && webMenuPanel === 'kits' ? (
                           <div className="space-y-2 py-2 pl-2">
                             <button type="button" onClick={() => setWebMenuPanel('main')} className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-bold hover:bg-blue-600/10">
-                              <ArrowLeft className="h-4 w-4" /> Volver a Webs
+                              <ArrowLeft className="h-4 w-4" /> {copy.back}
                             </button>
-                            <p className="px-3 text-[10px] font-black uppercase tracking-[0.18em] text-blue-500">Componentes UI</p>
+                            <p className="px-3 text-[10px] font-black uppercase tracking-[0.18em] text-blue-500">{copy.components}</p>
                             <div className="grid grid-cols-2 gap-1.5 px-1">
-                              {UI_KITS.map(kit => (
+                              {uiKits.map(kit => (
                                 <SheetClose asChild key={kit.href}>
                                   <ClientLink href={kit.href} className={cn('rounded-lg border border-border/60 p-2.5 transition-colors hover:border-blue-500/40 hover:bg-blue-600 hover:text-white', pathMatchesPrefix(pathname, kit.href) && 'border-blue-500 bg-blue-600 text-white')} aria-current={pathMatchesPrefix(pathname, kit.href) ? 'page' : undefined}>
                                     <span className="flex items-center justify-between gap-1.5"><span className="truncate text-sm font-semibold">{kit.label}</span><span className="shrink-0 text-[10px] font-black tabular-nums opacity-70">{kit.count}</span></span>
@@ -403,13 +454,13 @@ export default function HeaderClient() {
                                 </SheetClose>
                               ))}
                             </div>
-                            <SheetClose asChild><ClientLink href="/component-kits" className="flex items-center justify-between rounded-lg px-3 py-2 text-xs font-bold text-blue-500 hover:bg-blue-600/10">Ver todos los kits <ChevronRight className="h-3.5 w-3.5" /></ClientLink></SheetClose>
+                            <SheetClose asChild><ClientLink href="/component-kits" className="flex items-center justify-between rounded-lg px-3 py-2 text-xs font-bold text-blue-500 hover:bg-blue-600/10">{copy.viewAll} <ChevronRight className="h-3.5 w-3.5" /></ClientLink></SheetClose>
                           </div>
                         ) : (
                         <div className="space-y-4 py-2 pl-2">
                           {groupDropdownItems(link.dropdown ?? []).map(group => (
-                            <section key={group.label || link.id} aria-label={group.label || link.label}>
-                              {group.label ? <p className="mb-1 px-3 text-[10px] font-black uppercase tracking-[0.18em] text-blue-500">{group.label}</p> : null}
+                            <section key={group.label || link.id} aria-label={groupLabel(group.label) || link.label}>
+                              {group.label ? <p className="mb-1 px-3 text-[10px] font-black uppercase tracking-[0.18em] text-blue-500">{groupLabel(group.label)}</p> : null}
                               <div className="grid grid-cols-1 gap-1">
                                 {group.items.map(item => (
                                   item.disabled ? (
@@ -550,12 +601,12 @@ export default function HeaderClient() {
                     <div className="p-1">
                       <div className="mb-2 flex items-center justify-between border-b border-border/60 px-2 pb-2">
                         <button type="button" onClick={() => setWebMenuPanel('main')} className="inline-flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm font-bold hover:bg-blue-600/10">
-                          <ArrowLeft className="h-4 w-4" /> Volver
+                          <ArrowLeft className="h-4 w-4" /> {copy.back}
                         </button>
-                        <span className="text-xs font-black uppercase tracking-[0.16em] text-blue-500">Componentes UI</span>
+                        <span className="text-xs font-black uppercase tracking-[0.16em] text-blue-500">{copy.components}</span>
                       </div>
                       <div className="grid gap-1 sm:grid-cols-2">
-                        {UI_KITS.map(kit => (
+                        {uiKits.map(kit => (
                           <DropdownMenuItem key={kit.href} asChild className="p-0 focus:bg-transparent">
                             <ClientLink href={kit.href} className={cn('group flex w-full flex-col gap-0.5 rounded-lg p-2.5 transition-all duration-200 hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white', pathMatchesPrefix(pathname, kit.href) && 'bg-blue-600 text-white')} aria-current={pathMatchesPrefix(pathname, kit.href) ? 'page' : undefined}>
                               <span className="flex items-center justify-between gap-2"><span className="font-semibold">{kit.label}</span><span className="rounded-full bg-blue-500/10 px-2 py-0.5 text-[10px] font-black tabular-nums text-blue-500 transition-colors group-hover:bg-white/20 group-hover:text-white">{kit.count}</span></span>
@@ -566,14 +617,14 @@ export default function HeaderClient() {
                       </div>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem asChild className="p-0 focus:bg-transparent">
-                        <ClientLink href="/component-kits" className="flex w-full items-center justify-between rounded-lg p-2.5 text-xs font-bold transition-colors hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white">Ver todos los kits <ChevronRight className="h-3.5 w-3.5" /></ClientLink>
+                        <ClientLink href="/component-kits" className="flex w-full items-center justify-between rounded-lg p-2.5 text-xs font-bold transition-colors hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white">{copy.viewAll} <ChevronRight className="h-3.5 w-3.5" /></ClientLink>
                       </DropdownMenuItem>
                     </div>
                   ) : (
                   <div className={cn('grid gap-3', (link.id === 'webs' || link.id === 'media') ? 'sm:grid-cols-2' : 'grid-cols-1')}>
                     {groupDropdownItems(link.dropdown ?? []).map(group => (
-                      <section key={group.label || link.id} aria-label={group.label || link.label} className="rounded-xl border border-border/60 bg-background/40 p-1.5">
-                        {group.label ? <DropdownMenuLabel className="px-2 pb-1 pt-2 text-[10px] font-black uppercase tracking-[0.18em] text-blue-500">{group.label}</DropdownMenuLabel> : null}
+                      <section key={group.label || link.id} aria-label={groupLabel(group.label) || link.label} className="rounded-xl border border-border/60 bg-background/40 p-1.5">
+                        {group.label ? <DropdownMenuLabel className="px-2 pb-1 pt-2 text-[10px] font-black uppercase tracking-[0.18em] text-blue-500">{groupLabel(group.label)}</DropdownMenuLabel> : null}
                         <div className="space-y-0.5">
                           {group.items.map(item => (
                             item.disabled ? (
@@ -654,8 +705,8 @@ export default function HeaderClient() {
             aria-current={pathMatchesPrefix(pathname, '/generate') ? 'page' : undefined}
           >
             <WandSparkles className="h-4 w-4" />
-            <span className="hidden xl:inline">Crear con IA</span>
-            <span className="sr-only xl:hidden">Crear con IA</span>
+            <span className="hidden xl:inline">{tNav('createWithAI')}</span>
+            <span className="sr-only xl:hidden">{tNav('createWithAI')}</span>
           </ClientLink>
           {/* Theme selector disabled: the site now always uses dark mode. */}
           {/* <ThemeToggle /> */}

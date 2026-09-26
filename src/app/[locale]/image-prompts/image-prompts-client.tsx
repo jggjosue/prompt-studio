@@ -52,6 +52,7 @@ function ImagePromptsContent() {
   const tTags = useTranslations('tags');
   const tFacets = useTranslations('facets');
   const tCommon = useTranslations('common');
+  const tHub = useTranslations('promptHubs');
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -69,6 +70,18 @@ function ImagePromptsContent() {
 
   const { categories } = useImageTagsCatalogPipeline(allImages);
 
+  const categoryLabels: Record<string, string> =
+    tFacets('browseByFacet') === 'Explorar por faceta'
+      ? {
+          'Visual Styles': 'Estilos visuales',
+          Subjects: 'Sujetos',
+          Composition: 'Composición',
+          'Brands & Products': 'Marcas y productos',
+          Lighting: 'Iluminación',
+          'Other Tags': 'Otras etiquetas',
+        }
+      : {};
+
   const facetByTag = useMemo(() => {
     if (facetTags.length === 0) return allImages;
     return allImages.filter(item =>
@@ -76,12 +89,10 @@ function ImagePromptsContent() {
     );
   }, [allImages, facetTags]);
 
-  const customCategories = useMemo(() => {
-    return categories.map(cat => ({
-      label: cat.name,
-      entries: cat.tags.map(t => ({ key: t.name, count: t.count })),
-    }));
-  }, [categories]);
+  const customCategories = categories.map(cat => ({
+    label: categoryLabels[cat.name] ?? cat.name,
+    entries: cat.tags.map(t => ({ key: t.name, count: t.count })),
+  }));
 
   const facetFiltered = useMemo(() => {
     if (!NANO_BANANA_TAB_ENABLED || filter !== 'nano-banana') {
@@ -147,11 +158,10 @@ function ImagePromptsContent() {
       <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-[240px_1fr] md:gap-x-8 lg:grid-cols-[280px_1fr]">
         <div className="flex flex-col items-center space-y-4 text-center md:col-start-2 md:row-start-1">
           <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
-            Explore AI Image Prompts
+            {tHub('imageTitle')}
           </h1>
           <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-            Discover thousands of AI image prompts and examples. Get inspired and
-            create your own AI generated images.
+            {tHub('imageSubtitle')}
           </p>
 
           <SearchInput
@@ -166,11 +176,9 @@ function ImagePromptsContent() {
             <p className="text-sm text-muted-foreground">
               {imageContent.length === 0
                 ? tCommon('noResults')
-                : `${imageContent.length} result${imageContent.length !== 1 ? 's' : ''}${
-                    debouncedQuery.trim()
-                      ? ` for "${debouncedQuery.trim()}"`
-                      : ''
-                  }${facetTags.length ? ` · tags: ${facetTags.join(', ')}` : ''}`}
+                : `${tHub('resultCount', { count: imageContent.length })}${
+                    debouncedQuery.trim() ? ` ${tHub('resultsFor', { query: debouncedQuery.trim() })}` : ''
+                  }${facetTags.length ? ` · ${tHub('tagsApplied', { tags: facetTags.join(', ') })}` : ''}`}
             </p>
           )}
 
@@ -181,7 +189,7 @@ function ImagePromptsContent() {
               onValueChange={value => setFilter(value)}
             >
               <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="all">All Prompts</TabsTrigger>
+                <TabsTrigger value="all">{tHub('allPrompts')}</TabsTrigger>
                 <TabsTrigger value="nano-banana">
                   <Sparkles className="mr-2 h-4 w-4" />
                   Nano Banana Pro
@@ -207,7 +215,7 @@ function ImagePromptsContent() {
             >
               <Link href="/generate?mode=image">
                 <Wand2 className="mr-2" />
-                Generate an Image
+                {tHub('generateImage')}
               </Link>
             </Button>
           </div>

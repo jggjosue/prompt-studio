@@ -15,12 +15,6 @@ import { defaultLocale, isLocale, LOCALE_COOKIE, type Locale } from './config.ts
  * puede probar sin levantar un servidor.
  */
 
-/** Países hispanohablantes de Latinoamérica más España. */
-const SPANISH_SPEAKING_COUNTRIES = new Set([
-  'AR', 'BO', 'BR', 'CL', 'CO', 'CR', 'CU', 'DO', 'EC', 'SV',
-  'GT', 'HN', 'MX', 'NI', 'PA', 'PY', 'PE', 'PR', 'UY', 'VE', 'ES',
-]);
-
 /**
  * Lee la cookie de idioma de la cabecera `cookie` sin depender de `next/headers`.
  */

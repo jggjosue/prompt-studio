@@ -8,12 +8,15 @@ import { JsonLd } from '@/components/json-ld';
 import { buildOrganizationSchema, buildWebSiteSchema } from '@/lib/json-ld';
 import { SITE_URL } from '@/lib/site-url';
 import { HOME_FEED_LIMITS } from '@/lib/progressive-feed';
+import { getTranslations } from 'next-intl/server';
+import { isLocale, defaultLocale } from '@/i18n/config';
 
-export const metadata: Metadata = {
-  title: 'Descubrir | Prompt Studio',
-  description: 'Descubre imágenes, videos, páginas web y animaciones creadas para inspirar tu próximo proyecto.',
-  alternates: { canonical: '/' },
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const requestedLocale = (await params).locale;
+  const locale = isLocale(requestedLocale) ? requestedLocale : defaultLocale;
+  const t = await getTranslations({ locale, namespace: 'metadata.home' });
+  return { title: t('title'), description: t('description'), alternates: { canonical: '/' } };
+}
 
 export default function HomePage() {
   const organizationId = `${SITE_URL}#organization`;

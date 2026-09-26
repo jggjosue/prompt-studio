@@ -1,0 +1,1902 @@
+# Inventario actual de URLs
+
+Generado: 2026-09-26T21:59:17.926Z
+
+Dominio de referencia: https://www.prompstudio.com
+
+## Resumen
+
+| Grupo | Cantidad |
+|---|---:|
+| URLs de páginas concretas conocidas | 1642 |
+| URLs canónicas incluidas en sitemap | 817 |
+| Demos HTML concretas no canónicas | 241 |
+| Rutas de página declaradas en Next.js | 92 |
+| Patrones de página dinámicos | 11 |
+| Patrones API | 118 |
+| Route handlers fuera de API | 1 |
+| Endpoints de infraestructura | 4 |
+| Alias y redirecciones documentadas | 8 |
+
+> El total de páginas concretas elimina duplicados. Los patrones dinámicos y APIs se cuentan aparte porque pueden producir un número variable de URLs según IDs, tokens o datos de la base de datos.
+
+> Las URLs públicas no llevan `/en` ni `/es`: el middleware selecciona el idioma internamente y redirige cualquier prefijo de idioma a la URL canónica.
+
+## 1. Páginas estáticas de la aplicación
+
+Total: **83**
+
+- https://www.prompstudio.com/
+- https://www.prompstudio.com/admin/affiliate-sales
+- https://www.prompstudio.com/admin/product-reviews
+- https://www.prompstudio.com/affiliate-program
+- https://www.prompstudio.com/affiliate-program-terms
+- https://www.prompstudio.com/ask
+- https://www.prompstudio.com/button-components
+- https://www.prompstudio.com/card-components
+- https://www.prompstudio.com/checkout/elite
+- https://www.prompstudio.com/checkout/entrepreneur
+- https://www.prompstudio.com/checkout/mini
+- https://www.prompstudio.com/checkout/professional
+- https://www.prompstudio.com/code-auditor
+- https://www.prompstudio.com/community
+- https://www.prompstudio.com/component-builder
+- https://www.prompstudio.com/component-compare
+- https://www.prompstudio.com/component-kits
+- https://www.prompstudio.com/cookies
+- https://www.prompstudio.com/dashboard
+- https://www.prompstudio.com/dashboard/affiliate-applications
+- https://www.prompstudio.com/dashboard/analytics
+- https://www.prompstudio.com/dashboard/assets
+- https://www.prompstudio.com/dashboard/batches
+- https://www.prompstudio.com/dashboard/billing
+- https://www.prompstudio.com/dashboard/brand-kits
+- https://www.prompstudio.com/dashboard/campaign-assistant
+- https://www.prompstudio.com/dashboard/campaigns
+- https://www.prompstudio.com/dashboard/creations
+- https://www.prompstudio.com/dashboard/creator-marketplace
+- https://www.prompstudio.com/dashboard/credits
+- https://www.prompstudio.com/dashboard/evaluations
+- https://www.prompstudio.com/dashboard/favorites
+- https://www.prompstudio.com/dashboard/feature-experiments
+- https://www.prompstudio.com/dashboard/generations
+- https://www.prompstudio.com/dashboard/human-evaluations
+- https://www.prompstudio.com/dashboard/landing-editor
+- https://www.prompstudio.com/dashboard/library
+- https://www.prompstudio.com/dashboard/main-funnel
+- https://www.prompstudio.com/dashboard/model-regressions
+- https://www.prompstudio.com/dashboard/observability
+- https://www.prompstudio.com/dashboard/output-contracts
+- https://www.prompstudio.com/dashboard/profile
+- https://www.prompstudio.com/dashboard/projects
+- https://www.prompstudio.com/dashboard/prompt-lab
+- https://www.prompstudio.com/dashboard/provider-quality
+- https://www.prompstudio.com/dashboard/publications
+- https://www.prompstudio.com/dashboard/settings
+- https://www.prompstudio.com/demo/reproducible
+- https://www.prompstudio.com/form-components
+- https://www.prompstudio.com/generate
+- https://www.prompstudio.com/generate-images
+- https://www.prompstudio.com/generate-videos
+- https://www.prompstudio.com/generate-webs
+- https://www.prompstudio.com/header-components
+- https://www.prompstudio.com/image-prompts
+- https://www.prompstudio.com/image-tags
+- https://www.prompstudio.com/landing-pages
+- https://www.prompstudio.com/licenses
+- https://www.prompstudio.com/login
+- https://www.prompstudio.com/login-components
+- https://www.prompstudio.com/manual-actions
+- https://www.prompstudio.com/marketplace
+- https://www.prompstudio.com/my-components
+- https://www.prompstudio.com/navigation-components
+- https://www.prompstudio.com/page-composer
+- https://www.prompstudio.com/prices
+- https://www.prompstudio.com/privacy
+- https://www.prompstudio.com/prompt-optimizer
+- https://www.prompstudio.com/prompts
+- https://www.prompstudio.com/publisher-guidelines
+- https://www.prompstudio.com/refunds
+- https://www.prompstudio.com/register
+- https://www.prompstudio.com/sidebar-components
+- https://www.prompstudio.com/sign-in
+- https://www.prompstudio.com/sign-up
+- https://www.prompstudio.com/smart-search
+- https://www.prompstudio.com/terms
+- https://www.prompstudio.com/text-components
+- https://www.prompstudio.com/video-prompts
+- https://www.prompstudio.com/video-tags
+- https://www.prompstudio.com/web-animations
+- https://www.prompstudio.com/web-animationsz
+- https://www.prompstudio.com/web-tags
+
+## 2. URLs canónicas del sitemap
+
+Total: **817**
+
+### Páginas base del sitemap (14)
+
+- https://www.prompstudio.com/
+- https://www.prompstudio.com/affiliate-program
+- https://www.prompstudio.com/ask
+- https://www.prompstudio.com/code-auditor
+- https://www.prompstudio.com/image-prompts
+- https://www.prompstudio.com/image-tags
+- https://www.prompstudio.com/landing-pages
+- https://www.prompstudio.com/prices
+- https://www.prompstudio.com/prompt-optimizer
+- https://www.prompstudio.com/prompts
+- https://www.prompstudio.com/smart-search
+- https://www.prompstudio.com/video-prompts
+- https://www.prompstudio.com/video-tags
+- https://www.prompstudio.com/web-tags
+
+### Categorías programáticas (3)
+
+- https://www.prompstudio.com/category/image-prompts
+- https://www.prompstudio.com/category/landing-pages
+- https://www.prompstudio.com/category/video-prompts
+
+### Etiquetas programáticas (63)
+
+- https://www.prompstudio.com/tags/3d
+- https://www.prompstudio.com/tags/3d-landing-page
+- https://www.prompstudio.com/tags/abstract
+- https://www.prompstudio.com/tags/advertising-mockups
+- https://www.prompstudio.com/tags/amazon-and-marketplaces
+- https://www.prompstudio.com/tags/amazon-y-marketplaces
+- https://www.prompstudio.com/tags/automotive
+- https://www.prompstudio.com/tags/automoviles
+- https://www.prompstudio.com/tags/bienes-raices
+- https://www.prompstudio.com/tags/business
+- https://www.prompstudio.com/tags/cinematic
+- https://www.prompstudio.com/tags/clone
+- https://www.prompstudio.com/tags/commercial
+- https://www.prompstudio.com/tags/corporate
+- https://www.prompstudio.com/tags/cosmeticos
+- https://www.prompstudio.com/tags/cosmetics
+- https://www.prompstudio.com/tags/e-commerce
+- https://www.prompstudio.com/tags/elegant
+- https://www.prompstudio.com/tags/fantasy
+- https://www.prompstudio.com/tags/fashion
+- https://www.prompstudio.com/tags/fotografia-de-producto
+- https://www.prompstudio.com/tags/gsap
+- https://www.prompstudio.com/tags/hotspots
+- https://www.prompstudio.com/tags/human-portrait
+- https://www.prompstudio.com/tags/interactive
+- https://www.prompstudio.com/tags/jewelry
+- https://www.prompstudio.com/tags/joyeria
+- https://www.prompstudio.com/tags/landing-3d
+- https://www.prompstudio.com/tags/landing-page
+- https://www.prompstudio.com/tags/landscape
+- https://www.prompstudio.com/tags/light-mode
+- https://www.prompstudio.com/tags/marketplace
+- https://www.prompstudio.com/tags/minimalist
+- https://www.prompstudio.com/tags/mockups-publicitarios
+- https://www.prompstudio.com/tags/moda
+- https://www.prompstudio.com/tags/modern
+- https://www.prompstudio.com/tags/motion
+- https://www.prompstudio.com/tags/multipagina
+- https://www.prompstudio.com/tags/nature
+- https://www.prompstudio.com/tags/next-js
+- https://www.prompstudio.com/tags/outdoor
+- https://www.prompstudio.com/tags/photography
+- https://www.prompstudio.com/tags/photorealistic
+- https://www.prompstudio.com/tags/portfolio
+- https://www.prompstudio.com/tags/portrait
+- https://www.prompstudio.com/tags/product-photography
+- https://www.prompstudio.com/tags/product-reel
+- https://www.prompstudio.com/tags/product-scroll-3d
+- https://www.prompstudio.com/tags/real-estate
+- https://www.prompstudio.com/tags/realism
+- https://www.prompstudio.com/tags/realistic
+- https://www.prompstudio.com/tags/reel-de-producto
+- https://www.prompstudio.com/tags/responsive
+- https://www.prompstudio.com/tags/restaurantes
+- https://www.prompstudio.com/tags/restaurants
+- https://www.prompstudio.com/tags/sci-fi
+- https://www.prompstudio.com/tags/scroll-3d
+- https://www.prompstudio.com/tags/slow
+- https://www.prompstudio.com/tags/surreal
+- https://www.prompstudio.com/tags/three-js
+- https://www.prompstudio.com/tags/urban
+- https://www.prompstudio.com/tags/vertical
+- https://www.prompstudio.com/tags/webgl
+
+### Landing pages canónicas (241)
+
+- https://www.prompstudio.com/landing-pages/3d-agencia-viajes-orbita-lenta
+- https://www.prompstudio.com/landing-pages/3d-architecture-portfolio-pro
+- https://www.prompstudio.com/landing-pages/3d-architecture-portfolio-walkthrough
+- https://www.prompstudio.com/landing-pages/3d-architecture-walkthrough
+- https://www.prompstudio.com/landing-pages/3d-art-museum-guided-curation
+- https://www.prompstudio.com/landing-pages/3d-artist-pipeline-breakdown
+- https://www.prompstudio.com/landing-pages/3d-biotech-celmira-labs
+- https://www.prompstudio.com/landing-pages/3d-bodega-terrada-vinos
+- https://www.prompstudio.com/landing-pages/3d-charity-gala
+- https://www.prompstudio.com/landing-pages/3d-cinematic-scene-short-film-timeline
+- https://www.prompstudio.com/landing-pages/3d-cinematic-typography-music
+- https://www.prompstudio.com/landing-pages/3d-cinematic-typography-video
+- https://www.prompstudio.com/landing-pages/3d-classroom-simulations
+- https://www.prompstudio.com/landing-pages/3d-classroom-synchronized-video-lessons
+- https://www.prompstudio.com/landing-pages/3d-clinica-dental-nova-sonrisa
+- https://www.prompstudio.com/landing-pages/3d-coach-session-room
+- https://www.prompstudio.com/landing-pages/3d-compliance-audit-center
+- https://www.prompstudio.com/landing-pages/3d-conference-main-stage
+- https://www.prompstudio.com/landing-pages/3d-conference-room-stream
+- https://www.prompstudio.com/landing-pages/3d-conference-room-streaming
+- https://www.prompstudio.com/landing-pages/3d-consultant-boardroom-cases
+- https://www.prompstudio.com/landing-pages/3d-corporate-campus-light-tour
+- https://www.prompstudio.com/landing-pages/3d-corporate-campus-tour
+- https://www.prompstudio.com/landing-pages/3d-corporate-library-training
+- https://www.prompstudio.com/landing-pages/3d-corporate-library-training-pro
+- https://www.prompstudio.com/landing-pages/3d-corporate-lobby-welcome-agenda
+- https://www.prompstudio.com/landing-pages/3d-corporate-performance-dashboard
+- https://www.prompstudio.com/landing-pages/3d-corporate-timeline-dioramas
+- https://www.prompstudio.com/landing-pages/3d-coworking-lobby
+- https://www.prompstudio.com/landing-pages/3d-coworking-seating-map
+- https://www.prompstudio.com/landing-pages/3d-creative-consultant-workshops
+- https://www.prompstudio.com/landing-pages/3d-data-visualizer-widgets
+- https://www.prompstudio.com/landing-pages/3d-educational-library-search
+- https://www.prompstudio.com/landing-pages/3d-escuela-musica-cadencia
+- https://www.prompstudio.com/landing-pages/3d-fashion-showroom-runway
+- https://www.prompstudio.com/landing-pages/3d-fashion-showroom-runway-backstage
+- https://www.prompstudio.com/landing-pages/3d-film-festival
+- https://www.prompstudio.com/landing-pages/3d-financial-data-visualizer
+- https://www.prompstudio.com/landing-pages/3d-freelance-dev-landing
+- https://www.prompstudio.com/landing-pages/3d-freelance-portfolio-cube
+- https://www.prompstudio.com/landing-pages/3d-gastronomic-fair
+- https://www.prompstudio.com/landing-pages/3d-gimnasio-forja-atletica
+- https://www.prompstudio.com/landing-pages/3d-hybrid-event-venue
+- https://www.prompstudio.com/landing-pages/3d-illustrator-portfolio-gallery
+- https://www.prompstudio.com/landing-pages/3d-immersive-trade-fair
+- https://www.prompstudio.com/landing-pages/3d-inmobiliaria-altura-living
+- https://www.prompstudio.com/landing-pages/3d-innovation-garden-routes
+- https://www.prompstudio.com/landing-pages/3d-innovation-garden-tours
+- https://www.prompstudio.com/landing-pages/3d-interactive-library-educational-clips
+- https://www.prompstudio.com/landing-pages/3d-interview-room-replays-annotations
+- https://www.prompstudio.com/landing-pages/3d-joyeria-lumen-atelier
+- https://www.prompstudio.com/landing-pages/3d-library-educational-clips-semantic-search
+- https://www.prompstudio.com/landing-pages/3d-luxury-product-gallery-microinteractions
+- https://www.prompstudio.com/landing-pages/3d-luxury-product-storytelling
+- https://www.prompstudio.com/landing-pages/3d-motion-designer-showreel-stems
+- https://www.prompstudio.com/landing-pages/3d-music-festival-stage
+- https://www.prompstudio.com/landing-pages/3d-paisajismo-verdal-estudio
+- https://www.prompstudio.com/landing-pages/3d-personal-brand-cube
+- https://www.prompstudio.com/landing-pages/3d-personal-brand-showreel-microvideos
+- https://www.prompstudio.com/landing-pages/3d-photo-portfolio-light
+- https://www.prompstudio.com/landing-pages/3d-photography-portfolio-video-projections
+- https://www.prompstudio.com/landing-pages/3d-portfolio-creative-studio-reels
+- https://www.prompstudio.com/landing-pages/3d-product-designer-showroom
+- https://www.prompstudio.com/landing-pages/3d-product-gallery-display-cases
+- https://www.prompstudio.com/landing-pages/3d-product-gallery-light-filters
+- https://www.prompstudio.com/landing-pages/3d-product-showroom-corporate-demos
+- https://www.prompstudio.com/landing-pages/3d-recording-studio-mixing
+- https://www.prompstudio.com/landing-pages/3d-saas-product-video-demo
+- https://www.prompstudio.com/landing-pages/3d-scientific-congress
+- https://www.prompstudio.com/landing-pages/3d-sports-stadium
+- https://www.prompstudio.com/landing-pages/3d-tech-expo
+- https://www.prompstudio.com/landing-pages/3d-tech-product-video-hotspots
+- https://www.prompstudio.com/landing-pages/3d-tech-showroom-hotspots
+- https://www.prompstudio.com/landing-pages/3d-tech-showroom-pro
+- https://www.prompstudio.com/landing-pages/3d-timeline-dioramas
+- https://www.prompstudio.com/landing-pages/3d-tostadero-cafe-raiz
+- https://www.prompstudio.com/landing-pages/3d-translator-voice-library
+- https://www.prompstudio.com/landing-pages/3d-ux-designer-walkthrough
+- https://www.prompstudio.com/landing-pages/3d-videographer-studio
+- https://www.prompstudio.com/landing-pages/3d-wedding-photographer-timeline
+- https://www.prompstudio.com/landing-pages/3d-wellness-garden-meditation
+- https://www.prompstudio.com/landing-pages/3d-writer-library-readings
+- https://www.prompstudio.com/landing-pages/affiliate-program
+- https://www.prompstudio.com/landing-pages/airbnb-clone
+- https://www.prompstudio.com/landing-pages/airbnb-clone-landing
+- https://www.prompstudio.com/landing-pages/airtable-clone
+- https://www.prompstudio.com/landing-pages/amplive-concert-tickets
+- https://www.prompstudio.com/landing-pages/aniwave-anime-streaming
+- https://www.prompstudio.com/landing-pages/apple-iphone-video-scrub-hero
+- https://www.prompstudio.com/landing-pages/arenalive-sports-events
+- https://www.prompstudio.com/landing-pages/arenapulse-esports-platform
+- https://www.prompstudio.com/landing-pages/artisanbox-handmade-market
+- https://www.prompstudio.com/landing-pages/artwalk-culture-festival
+- https://www.prompstudio.com/landing-pages/atelier-creative-studio-portfolio
+- https://www.prompstudio.com/landing-pages/bank-corporate-blue
+- https://www.prompstudio.com/landing-pages/beatforge-marketplace
+- https://www.prompstudio.com/landing-pages/benchmarks
+- https://www.prompstudio.com/landing-pages/brandmint-freelance-strategist
+- https://www.prompstudio.com/landing-pages/breathspace-breathing
+- https://www.prompstudio.com/landing-pages/buffer-clone
+- https://www.prompstudio.com/landing-pages/canva-clone
+- https://www.prompstudio.com/landing-pages/caselab-ux-design-portfolio
+- https://www.prompstudio.com/landing-pages/cats
+- https://www.prompstudio.com/landing-pages/chorus-music-lessons
+- https://www.prompstudio.com/landing-pages/codecraft-developer-portfolio
+- https://www.prompstudio.com/landing-pages/codenova-midnight-hacker
+- https://www.prompstudio.com/landing-pages/collective-freelance-agency
+- https://www.prompstudio.com/landing-pages/corporate-3d-investor-tour
+- https://www.prompstudio.com/landing-pages/cosplayhub-community
+- https://www.prompstudio.com/landing-pages/cozyloft-home-decor
+- https://www.prompstudio.com/landing-pages/crunchyroll-clone
+- https://www.prompstudio.com/landing-pages/cryptopulse-trading
+- https://www.prompstudio.com/landing-pages/cyberpunk-neon
+- https://www.prompstudio.com/landing-pages/dashboard
+- https://www.prompstudio.com/landing-pages/duolingo-clone
+- https://www.prompstudio.com/landing-pages/earthy-brutalist
+- https://www.prompstudio.com/landing-pages/echocast-podcast-music
+- https://www.prompstudio.com/landing-pages/editorial-minimal
+- https://www.prompstudio.com/landing-pages/elegant-3d-corporate-lobby
+- https://www.prompstudio.com/landing-pages/embertable-steakhouse
+- https://www.prompstudio.com/landing-pages/espacios-coworking
+- https://www.prompstudio.com/landing-pages/estadio-futurista
+- https://www.prompstudio.com/landing-pages/fiverr-clone
+- https://www.prompstudio.com/landing-pages/forma-architecture-portfolio
+- https://www.prompstudio.com/landing-pages/framehaus-art-director-portfolio
+- https://www.prompstudio.com/landing-pages/futbol
+- https://www.prompstudio.com/landing-pages/gearlend-renta-equipo-outdoor
+- https://www.prompstudio.com/landing-pages/glowlab-beauty-shop
+- https://www.prompstudio.com/landing-pages/grain-film-photography
+- https://www.prompstudio.com/landing-pages/guildforge-mmo-community
+- https://www.prompstudio.com/landing-pages/healmatch-terapias-wellness
+- https://www.prompstudio.com/landing-pages/ink-quarterly-magazine
+- https://www.prompstudio.com/landing-pages/inkwell-illustrator-portfolio
+- https://www.prompstudio.com/landing-pages/insuregrid-insurtech
+- https://www.prompstudio.com/landing-pages/job-html-css
+- https://www.prompstudio.com/landing-pages/ledgerflow-accounting
+- https://www.prompstudio.com/landing-pages/lendwise-personal-loans
+- https://www.prompstudio.com/landing-pages/lenshire-freelance-photographer
+- https://www.prompstudio.com/landing-pages/linea-design-studio
+- https://www.prompstudio.com/landing-pages/linear-clone
+- https://www.prompstudio.com/landing-pages/linkedin-clone
+- https://www.prompstudio.com/landing-pages/loopline-devtool
+- https://www.prompstudio.com/landing-pages/lootvault-game-marketplace
+- https://www.prompstudio.com/landing-pages/luxethread-fashion-store
+- https://www.prompstudio.com/landing-pages/luxury-3d-showroom-product-video
+- https://www.prompstudio.com/landing-pages/magzin-clone
+- https://www.prompstudio.com/landing-pages/magzin-job-dark
+- https://www.prompstudio.com/landing-pages/magzin-job-light
+- https://www.prompstudio.com/landing-pages/magzin-studio
+- https://www.prompstudio.com/landing-pages/mangashelf-digital-library
+- https://www.prompstudio.com/landing-pages/meetpoint-community-meetups
+- https://www.prompstudio.com/landing-pages/mega-estadio
+- https://www.prompstudio.com/landing-pages/messi
+- https://www.prompstudio.com/landing-pages/monday-clone
+- https://www.prompstudio.com/landing-pages/mononote-writing-app
+- https://www.prompstudio.com/landing-pages/neonstrike-game-launch
+- https://www.prompstudio.com/landing-pages/netflix-clone
+- https://www.prompstudio.com/landing-pages/nightmarket-food-events
+- https://www.prompstudio.com/landing-pages/nomadstay-budget-hostels
+- https://www.prompstudio.com/landing-pages/norte-atelier
+- https://www.prompstudio.com/landing-pages/notion-clone
+- https://www.prompstudio.com/landing-pages/otakucon-anime-convention
+- https://www.prompstudio.com/landing-pages/pawpark-pet-supplies
+- https://www.prompstudio.com/landing-pages/pixelframe-photography-portfolio
+- https://www.prompstudio.com/landing-pages/pixelshelf-indie-game-store
+- https://www.prompstudio.com/landing-pages/pizzaalta-neapolitan
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-advertising-mockups-01-pitch-objects
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-advertising-mockups-02-brandstage
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-advertising-mockups-03-mockup-orbit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-advertising-mockups-04-canvas-lab
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-advertising-mockups-05-adframe
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-advertising-mockups-06-studio-scene
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-amazon-marketplaces-01-market-hero
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-amazon-marketplaces-02-prime-shelf
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-amazon-marketplaces-03-cartflow
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-amazon-marketplaces-04-listing-pro
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-amazon-marketplaces-05-buybox
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-amazon-marketplaces-06-seller-vista
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-automotive-01-apex-motors
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-automotive-02-torque-one
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-automotive-03-volta-drive
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-automotive-04-nox-auto
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-automotive-05-velocity
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-automotive-06-aero-gt
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-cosmetics-01-aura-skin
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-cosmetics-02-nebula-beauty
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-cosmetics-03-ritual-lab
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-cosmetics-04-savia-derm
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-cosmetics-05-luma-care
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-cosmetics-06-onda-serum
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-cosmetics-07-velvet-glow
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-fashion-01-forma-studio
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-fashion-02-norte-atelier
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-fashion-03-silhouette
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-fashion-04-atempo
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-fashion-05-materia
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-fashion-06-vanta-wear
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-jewelry-01-aurelia
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-jewelry-02-maison-oro
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-jewelry-03-nocturne-gems
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-jewelry-04-lustre
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-jewelry-05-alma-joya
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-jewelry-06-elan-fine
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-jewelry-07-circulo
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-real-estate-01-habitat-one
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-real-estate-02-lumen-estates
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-real-estate-03-terra-living
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-real-estate-04-altura
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-real-estate-05-nomada-homes
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-real-estate-06-casa-atlas
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-restaurants-01-fuego-mesa
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-restaurants-02-casa-umami
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-restaurants-03-origen
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-restaurants-04-brasa-norte
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-restaurants-05-lima-sal
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-restaurants-06-savia-cocina
+- https://www.prompstudio.com/landing-pages/promptstudio-experience
+- https://www.prompstudio.com/landing-pages/refactory-online
+- https://www.prompstudio.com/landing-pages/salesforce-clone
+- https://www.prompstudio.com/landing-pages/skill-future
+- https://www.prompstudio.com/landing-pages/skyroute-flight-deals
+- https://www.prompstudio.com/landing-pages/snapchat-clone
+- https://www.prompstudio.com/landing-pages/snowflake-clone
+- https://www.prompstudio.com/landing-pages/soundcloud-clone
+- https://www.prompstudio.com/landing-pages/spotify-clone
+- https://www.prompstudio.com/landing-pages/square-clone
+- https://www.prompstudio.com/landing-pages/stillmind-meditation-app
+- https://www.prompstudio.com/landing-pages/studio
+- https://www.prompstudio.com/landing-pages/studioneko-anime-production
+- https://www.prompstudio.com/landing-pages/substack-clone
+- https://www.prompstudio.com/landing-pages/sunset-glassmorphism
+- https://www.prompstudio.com/landing-pages/target-clone
+- https://www.prompstudio.com/landing-pages/terraguide-local-experiences
+- https://www.prompstudio.com/landing-pages/trailpath-adventure-tours
+- https://www.prompstudio.com/landing-pages/trello-clone
+- https://www.prompstudio.com/landing-pages/twilio-clone
+- https://www.prompstudio.com/landing-pages/vaultpay-neobank
+- https://www.prompstudio.com/landing-pages/vertex
+- https://www.prompstudio.com/landing-pages/viable-clone
+- https://www.prompstudio.com/landing-pages/voyage-cruise-line
+- https://www.prompstudio.com/landing-pages/vuelos
+
+### Galería de imágenes (299)
+
+- https://www.prompstudio.com/gallery/img-1
+- https://www.prompstudio.com/gallery/img-10
+- https://www.prompstudio.com/gallery/img-100
+- https://www.prompstudio.com/gallery/img-101
+- https://www.prompstudio.com/gallery/img-102
+- https://www.prompstudio.com/gallery/img-103
+- https://www.prompstudio.com/gallery/img-104
+- https://www.prompstudio.com/gallery/img-105
+- https://www.prompstudio.com/gallery/img-106
+- https://www.prompstudio.com/gallery/img-107
+- https://www.prompstudio.com/gallery/img-108
+- https://www.prompstudio.com/gallery/img-109
+- https://www.prompstudio.com/gallery/img-11
+- https://www.prompstudio.com/gallery/img-110
+- https://www.prompstudio.com/gallery/img-111
+- https://www.prompstudio.com/gallery/img-112
+- https://www.prompstudio.com/gallery/img-113
+- https://www.prompstudio.com/gallery/img-114
+- https://www.prompstudio.com/gallery/img-115
+- https://www.prompstudio.com/gallery/img-116
+- https://www.prompstudio.com/gallery/img-117
+- https://www.prompstudio.com/gallery/img-118
+- https://www.prompstudio.com/gallery/img-119
+- https://www.prompstudio.com/gallery/img-12
+- https://www.prompstudio.com/gallery/img-120
+- https://www.prompstudio.com/gallery/img-121
+- https://www.prompstudio.com/gallery/img-122
+- https://www.prompstudio.com/gallery/img-123
+- https://www.prompstudio.com/gallery/img-124
+- https://www.prompstudio.com/gallery/img-125
+- https://www.prompstudio.com/gallery/img-126
+- https://www.prompstudio.com/gallery/img-127
+- https://www.prompstudio.com/gallery/img-128
+- https://www.prompstudio.com/gallery/img-129
+- https://www.prompstudio.com/gallery/img-13
+- https://www.prompstudio.com/gallery/img-130
+- https://www.prompstudio.com/gallery/img-131
+- https://www.prompstudio.com/gallery/img-132
+- https://www.prompstudio.com/gallery/img-133
+- https://www.prompstudio.com/gallery/img-134
+- https://www.prompstudio.com/gallery/img-135
+- https://www.prompstudio.com/gallery/img-136
+- https://www.prompstudio.com/gallery/img-137
+- https://www.prompstudio.com/gallery/img-138
+- https://www.prompstudio.com/gallery/img-139
+- https://www.prompstudio.com/gallery/img-14
+- https://www.prompstudio.com/gallery/img-140
+- https://www.prompstudio.com/gallery/img-141
+- https://www.prompstudio.com/gallery/img-142
+- https://www.prompstudio.com/gallery/img-143
+- https://www.prompstudio.com/gallery/img-144
+- https://www.prompstudio.com/gallery/img-145
+- https://www.prompstudio.com/gallery/img-146
+- https://www.prompstudio.com/gallery/img-147
+- https://www.prompstudio.com/gallery/img-148
+- https://www.prompstudio.com/gallery/img-149
+- https://www.prompstudio.com/gallery/img-15
+- https://www.prompstudio.com/gallery/img-150
+- https://www.prompstudio.com/gallery/img-151
+- https://www.prompstudio.com/gallery/img-152
+- https://www.prompstudio.com/gallery/img-153
+- https://www.prompstudio.com/gallery/img-154
+- https://www.prompstudio.com/gallery/img-155
+- https://www.prompstudio.com/gallery/img-156
+- https://www.prompstudio.com/gallery/img-157
+- https://www.prompstudio.com/gallery/img-158
+- https://www.prompstudio.com/gallery/img-159
+- https://www.prompstudio.com/gallery/img-16
+- https://www.prompstudio.com/gallery/img-160
+- https://www.prompstudio.com/gallery/img-161
+- https://www.prompstudio.com/gallery/img-162
+- https://www.prompstudio.com/gallery/img-163
+- https://www.prompstudio.com/gallery/img-164
+- https://www.prompstudio.com/gallery/img-165
+- https://www.prompstudio.com/gallery/img-166
+- https://www.prompstudio.com/gallery/img-167
+- https://www.prompstudio.com/gallery/img-168
+- https://www.prompstudio.com/gallery/img-169
+- https://www.prompstudio.com/gallery/img-17
+- https://www.prompstudio.com/gallery/img-170
+- https://www.prompstudio.com/gallery/img-171
+- https://www.prompstudio.com/gallery/img-172
+- https://www.prompstudio.com/gallery/img-173
+- https://www.prompstudio.com/gallery/img-174
+- https://www.prompstudio.com/gallery/img-175
+- https://www.prompstudio.com/gallery/img-176
+- https://www.prompstudio.com/gallery/img-177
+- https://www.prompstudio.com/gallery/img-178
+- https://www.prompstudio.com/gallery/img-179
+- https://www.prompstudio.com/gallery/img-18
+- https://www.prompstudio.com/gallery/img-180
+- https://www.prompstudio.com/gallery/img-181
+- https://www.prompstudio.com/gallery/img-182
+- https://www.prompstudio.com/gallery/img-183
+- https://www.prompstudio.com/gallery/img-184
+- https://www.prompstudio.com/gallery/img-185
+- https://www.prompstudio.com/gallery/img-186
+- https://www.prompstudio.com/gallery/img-187
+- https://www.prompstudio.com/gallery/img-188
+- https://www.prompstudio.com/gallery/img-189
+- https://www.prompstudio.com/gallery/img-19
+- https://www.prompstudio.com/gallery/img-190
+- https://www.prompstudio.com/gallery/img-191
+- https://www.prompstudio.com/gallery/img-192
+- https://www.prompstudio.com/gallery/img-193
+- https://www.prompstudio.com/gallery/img-194
+- https://www.prompstudio.com/gallery/img-195
+- https://www.prompstudio.com/gallery/img-196
+- https://www.prompstudio.com/gallery/img-197
+- https://www.prompstudio.com/gallery/img-198
+- https://www.prompstudio.com/gallery/img-199
+- https://www.prompstudio.com/gallery/img-2
+- https://www.prompstudio.com/gallery/img-20
+- https://www.prompstudio.com/gallery/img-200
+- https://www.prompstudio.com/gallery/img-201
+- https://www.prompstudio.com/gallery/img-202
+- https://www.prompstudio.com/gallery/img-203
+- https://www.prompstudio.com/gallery/img-204
+- https://www.prompstudio.com/gallery/img-205
+- https://www.prompstudio.com/gallery/img-206
+- https://www.prompstudio.com/gallery/img-207
+- https://www.prompstudio.com/gallery/img-208
+- https://www.prompstudio.com/gallery/img-209
+- https://www.prompstudio.com/gallery/img-21
+- https://www.prompstudio.com/gallery/img-210
+- https://www.prompstudio.com/gallery/img-211
+- https://www.prompstudio.com/gallery/img-212
+- https://www.prompstudio.com/gallery/img-213
+- https://www.prompstudio.com/gallery/img-214
+- https://www.prompstudio.com/gallery/img-215
+- https://www.prompstudio.com/gallery/img-216
+- https://www.prompstudio.com/gallery/img-217
+- https://www.prompstudio.com/gallery/img-218
+- https://www.prompstudio.com/gallery/img-219
+- https://www.prompstudio.com/gallery/img-22
+- https://www.prompstudio.com/gallery/img-220
+- https://www.prompstudio.com/gallery/img-221
+- https://www.prompstudio.com/gallery/img-222
+- https://www.prompstudio.com/gallery/img-223
+- https://www.prompstudio.com/gallery/img-224
+- https://www.prompstudio.com/gallery/img-225
+- https://www.prompstudio.com/gallery/img-226
+- https://www.prompstudio.com/gallery/img-227
+- https://www.prompstudio.com/gallery/img-228
+- https://www.prompstudio.com/gallery/img-229
+- https://www.prompstudio.com/gallery/img-23
+- https://www.prompstudio.com/gallery/img-230
+- https://www.prompstudio.com/gallery/img-231
+- https://www.prompstudio.com/gallery/img-232
+- https://www.prompstudio.com/gallery/img-233
+- https://www.prompstudio.com/gallery/img-234
+- https://www.prompstudio.com/gallery/img-235
+- https://www.prompstudio.com/gallery/img-236
+- https://www.prompstudio.com/gallery/img-237
+- https://www.prompstudio.com/gallery/img-238
+- https://www.prompstudio.com/gallery/img-239
+- https://www.prompstudio.com/gallery/img-24
+- https://www.prompstudio.com/gallery/img-240
+- https://www.prompstudio.com/gallery/img-241
+- https://www.prompstudio.com/gallery/img-242
+- https://www.prompstudio.com/gallery/img-243
+- https://www.prompstudio.com/gallery/img-244
+- https://www.prompstudio.com/gallery/img-245
+- https://www.prompstudio.com/gallery/img-246
+- https://www.prompstudio.com/gallery/img-247
+- https://www.prompstudio.com/gallery/img-248
+- https://www.prompstudio.com/gallery/img-249
+- https://www.prompstudio.com/gallery/img-25
+- https://www.prompstudio.com/gallery/img-250
+- https://www.prompstudio.com/gallery/img-251
+- https://www.prompstudio.com/gallery/img-252
+- https://www.prompstudio.com/gallery/img-253
+- https://www.prompstudio.com/gallery/img-254
+- https://www.prompstudio.com/gallery/img-255
+- https://www.prompstudio.com/gallery/img-256
+- https://www.prompstudio.com/gallery/img-257
+- https://www.prompstudio.com/gallery/img-258
+- https://www.prompstudio.com/gallery/img-259
+- https://www.prompstudio.com/gallery/img-26
+- https://www.prompstudio.com/gallery/img-260
+- https://www.prompstudio.com/gallery/img-261
+- https://www.prompstudio.com/gallery/img-262
+- https://www.prompstudio.com/gallery/img-263
+- https://www.prompstudio.com/gallery/img-264
+- https://www.prompstudio.com/gallery/img-265
+- https://www.prompstudio.com/gallery/img-266
+- https://www.prompstudio.com/gallery/img-267
+- https://www.prompstudio.com/gallery/img-268
+- https://www.prompstudio.com/gallery/img-269
+- https://www.prompstudio.com/gallery/img-27
+- https://www.prompstudio.com/gallery/img-270
+- https://www.prompstudio.com/gallery/img-271
+- https://www.prompstudio.com/gallery/img-272
+- https://www.prompstudio.com/gallery/img-273
+- https://www.prompstudio.com/gallery/img-274
+- https://www.prompstudio.com/gallery/img-275
+- https://www.prompstudio.com/gallery/img-276
+- https://www.prompstudio.com/gallery/img-277
+- https://www.prompstudio.com/gallery/img-278
+- https://www.prompstudio.com/gallery/img-279
+- https://www.prompstudio.com/gallery/img-28
+- https://www.prompstudio.com/gallery/img-280
+- https://www.prompstudio.com/gallery/img-281
+- https://www.prompstudio.com/gallery/img-282
+- https://www.prompstudio.com/gallery/img-283
+- https://www.prompstudio.com/gallery/img-284
+- https://www.prompstudio.com/gallery/img-285
+- https://www.prompstudio.com/gallery/img-286
+- https://www.prompstudio.com/gallery/img-287
+- https://www.prompstudio.com/gallery/img-288
+- https://www.prompstudio.com/gallery/img-289
+- https://www.prompstudio.com/gallery/img-29
+- https://www.prompstudio.com/gallery/img-290
+- https://www.prompstudio.com/gallery/img-291
+- https://www.prompstudio.com/gallery/img-292
+- https://www.prompstudio.com/gallery/img-293
+- https://www.prompstudio.com/gallery/img-294
+- https://www.prompstudio.com/gallery/img-295
+- https://www.prompstudio.com/gallery/img-296
+- https://www.prompstudio.com/gallery/img-297
+- https://www.prompstudio.com/gallery/img-298
+- https://www.prompstudio.com/gallery/img-299
+- https://www.prompstudio.com/gallery/img-3
+- https://www.prompstudio.com/gallery/img-30
+- https://www.prompstudio.com/gallery/img-31
+- https://www.prompstudio.com/gallery/img-32
+- https://www.prompstudio.com/gallery/img-33
+- https://www.prompstudio.com/gallery/img-34
+- https://www.prompstudio.com/gallery/img-35
+- https://www.prompstudio.com/gallery/img-36
+- https://www.prompstudio.com/gallery/img-37
+- https://www.prompstudio.com/gallery/img-38
+- https://www.prompstudio.com/gallery/img-39
+- https://www.prompstudio.com/gallery/img-4
+- https://www.prompstudio.com/gallery/img-40
+- https://www.prompstudio.com/gallery/img-41
+- https://www.prompstudio.com/gallery/img-42
+- https://www.prompstudio.com/gallery/img-43
+- https://www.prompstudio.com/gallery/img-44
+- https://www.prompstudio.com/gallery/img-45
+- https://www.prompstudio.com/gallery/img-46
+- https://www.prompstudio.com/gallery/img-47
+- https://www.prompstudio.com/gallery/img-48
+- https://www.prompstudio.com/gallery/img-49
+- https://www.prompstudio.com/gallery/img-5
+- https://www.prompstudio.com/gallery/img-50
+- https://www.prompstudio.com/gallery/img-51
+- https://www.prompstudio.com/gallery/img-52
+- https://www.prompstudio.com/gallery/img-53
+- https://www.prompstudio.com/gallery/img-54
+- https://www.prompstudio.com/gallery/img-55
+- https://www.prompstudio.com/gallery/img-56
+- https://www.prompstudio.com/gallery/img-57
+- https://www.prompstudio.com/gallery/img-58
+- https://www.prompstudio.com/gallery/img-59
+- https://www.prompstudio.com/gallery/img-6
+- https://www.prompstudio.com/gallery/img-60
+- https://www.prompstudio.com/gallery/img-61
+- https://www.prompstudio.com/gallery/img-62
+- https://www.prompstudio.com/gallery/img-63
+- https://www.prompstudio.com/gallery/img-64
+- https://www.prompstudio.com/gallery/img-65
+- https://www.prompstudio.com/gallery/img-66
+- https://www.prompstudio.com/gallery/img-67
+- https://www.prompstudio.com/gallery/img-68
+- https://www.prompstudio.com/gallery/img-69
+- https://www.prompstudio.com/gallery/img-7
+- https://www.prompstudio.com/gallery/img-70
+- https://www.prompstudio.com/gallery/img-71
+- https://www.prompstudio.com/gallery/img-72
+- https://www.prompstudio.com/gallery/img-73
+- https://www.prompstudio.com/gallery/img-74
+- https://www.prompstudio.com/gallery/img-75
+- https://www.prompstudio.com/gallery/img-76
+- https://www.prompstudio.com/gallery/img-77
+- https://www.prompstudio.com/gallery/img-78
+- https://www.prompstudio.com/gallery/img-79
+- https://www.prompstudio.com/gallery/img-8
+- https://www.prompstudio.com/gallery/img-80
+- https://www.prompstudio.com/gallery/img-81
+- https://www.prompstudio.com/gallery/img-82
+- https://www.prompstudio.com/gallery/img-83
+- https://www.prompstudio.com/gallery/img-84
+- https://www.prompstudio.com/gallery/img-85
+- https://www.prompstudio.com/gallery/img-86
+- https://www.prompstudio.com/gallery/img-87
+- https://www.prompstudio.com/gallery/img-88
+- https://www.prompstudio.com/gallery/img-89
+- https://www.prompstudio.com/gallery/img-9
+- https://www.prompstudio.com/gallery/img-90
+- https://www.prompstudio.com/gallery/img-91
+- https://www.prompstudio.com/gallery/img-92
+- https://www.prompstudio.com/gallery/img-93
+- https://www.prompstudio.com/gallery/img-94
+- https://www.prompstudio.com/gallery/img-95
+- https://www.prompstudio.com/gallery/img-96
+- https://www.prompstudio.com/gallery/img-97
+- https://www.prompstudio.com/gallery/img-98
+- https://www.prompstudio.com/gallery/img-99
+
+### Galería de videos (197)
+
+- https://www.prompstudio.com/gallery-videos/v-1
+- https://www.prompstudio.com/gallery-videos/v-10
+- https://www.prompstudio.com/gallery-videos/v-100
+- https://www.prompstudio.com/gallery-videos/v-101
+- https://www.prompstudio.com/gallery-videos/v-102
+- https://www.prompstudio.com/gallery-videos/v-103
+- https://www.prompstudio.com/gallery-videos/v-104
+- https://www.prompstudio.com/gallery-videos/v-105
+- https://www.prompstudio.com/gallery-videos/v-106
+- https://www.prompstudio.com/gallery-videos/v-107
+- https://www.prompstudio.com/gallery-videos/v-108
+- https://www.prompstudio.com/gallery-videos/v-109
+- https://www.prompstudio.com/gallery-videos/v-11
+- https://www.prompstudio.com/gallery-videos/v-110
+- https://www.prompstudio.com/gallery-videos/v-111
+- https://www.prompstudio.com/gallery-videos/v-112
+- https://www.prompstudio.com/gallery-videos/v-113
+- https://www.prompstudio.com/gallery-videos/v-114
+- https://www.prompstudio.com/gallery-videos/v-115
+- https://www.prompstudio.com/gallery-videos/v-116
+- https://www.prompstudio.com/gallery-videos/v-117
+- https://www.prompstudio.com/gallery-videos/v-118
+- https://www.prompstudio.com/gallery-videos/v-119
+- https://www.prompstudio.com/gallery-videos/v-12
+- https://www.prompstudio.com/gallery-videos/v-120
+- https://www.prompstudio.com/gallery-videos/v-121
+- https://www.prompstudio.com/gallery-videos/v-122
+- https://www.prompstudio.com/gallery-videos/v-123
+- https://www.prompstudio.com/gallery-videos/v-124
+- https://www.prompstudio.com/gallery-videos/v-125
+- https://www.prompstudio.com/gallery-videos/v-126
+- https://www.prompstudio.com/gallery-videos/v-127
+- https://www.prompstudio.com/gallery-videos/v-128
+- https://www.prompstudio.com/gallery-videos/v-129
+- https://www.prompstudio.com/gallery-videos/v-13
+- https://www.prompstudio.com/gallery-videos/v-130
+- https://www.prompstudio.com/gallery-videos/v-131
+- https://www.prompstudio.com/gallery-videos/v-132
+- https://www.prompstudio.com/gallery-videos/v-133
+- https://www.prompstudio.com/gallery-videos/v-134
+- https://www.prompstudio.com/gallery-videos/v-135
+- https://www.prompstudio.com/gallery-videos/v-136
+- https://www.prompstudio.com/gallery-videos/v-137
+- https://www.prompstudio.com/gallery-videos/v-138
+- https://www.prompstudio.com/gallery-videos/v-139
+- https://www.prompstudio.com/gallery-videos/v-14
+- https://www.prompstudio.com/gallery-videos/v-140
+- https://www.prompstudio.com/gallery-videos/v-141
+- https://www.prompstudio.com/gallery-videos/v-142
+- https://www.prompstudio.com/gallery-videos/v-143
+- https://www.prompstudio.com/gallery-videos/v-144
+- https://www.prompstudio.com/gallery-videos/v-145
+- https://www.prompstudio.com/gallery-videos/v-146
+- https://www.prompstudio.com/gallery-videos/v-147
+- https://www.prompstudio.com/gallery-videos/v-148
+- https://www.prompstudio.com/gallery-videos/v-149
+- https://www.prompstudio.com/gallery-videos/v-15
+- https://www.prompstudio.com/gallery-videos/v-150
+- https://www.prompstudio.com/gallery-videos/v-151
+- https://www.prompstudio.com/gallery-videos/v-152
+- https://www.prompstudio.com/gallery-videos/v-153
+- https://www.prompstudio.com/gallery-videos/v-154
+- https://www.prompstudio.com/gallery-videos/v-155
+- https://www.prompstudio.com/gallery-videos/v-156
+- https://www.prompstudio.com/gallery-videos/v-157
+- https://www.prompstudio.com/gallery-videos/v-158
+- https://www.prompstudio.com/gallery-videos/v-159
+- https://www.prompstudio.com/gallery-videos/v-16
+- https://www.prompstudio.com/gallery-videos/v-160
+- https://www.prompstudio.com/gallery-videos/v-161
+- https://www.prompstudio.com/gallery-videos/v-162
+- https://www.prompstudio.com/gallery-videos/v-163
+- https://www.prompstudio.com/gallery-videos/v-164
+- https://www.prompstudio.com/gallery-videos/v-165
+- https://www.prompstudio.com/gallery-videos/v-166
+- https://www.prompstudio.com/gallery-videos/v-167
+- https://www.prompstudio.com/gallery-videos/v-168
+- https://www.prompstudio.com/gallery-videos/v-169
+- https://www.prompstudio.com/gallery-videos/v-17
+- https://www.prompstudio.com/gallery-videos/v-170
+- https://www.prompstudio.com/gallery-videos/v-171
+- https://www.prompstudio.com/gallery-videos/v-172
+- https://www.prompstudio.com/gallery-videos/v-173
+- https://www.prompstudio.com/gallery-videos/v-174
+- https://www.prompstudio.com/gallery-videos/v-175
+- https://www.prompstudio.com/gallery-videos/v-176
+- https://www.prompstudio.com/gallery-videos/v-177
+- https://www.prompstudio.com/gallery-videos/v-178
+- https://www.prompstudio.com/gallery-videos/v-179
+- https://www.prompstudio.com/gallery-videos/v-18
+- https://www.prompstudio.com/gallery-videos/v-180
+- https://www.prompstudio.com/gallery-videos/v-181
+- https://www.prompstudio.com/gallery-videos/v-182
+- https://www.prompstudio.com/gallery-videos/v-183
+- https://www.prompstudio.com/gallery-videos/v-184
+- https://www.prompstudio.com/gallery-videos/v-185
+- https://www.prompstudio.com/gallery-videos/v-186
+- https://www.prompstudio.com/gallery-videos/v-187
+- https://www.prompstudio.com/gallery-videos/v-188
+- https://www.prompstudio.com/gallery-videos/v-189
+- https://www.prompstudio.com/gallery-videos/v-19
+- https://www.prompstudio.com/gallery-videos/v-190
+- https://www.prompstudio.com/gallery-videos/v-191
+- https://www.prompstudio.com/gallery-videos/v-192
+- https://www.prompstudio.com/gallery-videos/v-193
+- https://www.prompstudio.com/gallery-videos/v-194
+- https://www.prompstudio.com/gallery-videos/v-195
+- https://www.prompstudio.com/gallery-videos/v-196
+- https://www.prompstudio.com/gallery-videos/v-197
+- https://www.prompstudio.com/gallery-videos/v-2
+- https://www.prompstudio.com/gallery-videos/v-20
+- https://www.prompstudio.com/gallery-videos/v-21
+- https://www.prompstudio.com/gallery-videos/v-22
+- https://www.prompstudio.com/gallery-videos/v-23
+- https://www.prompstudio.com/gallery-videos/v-24
+- https://www.prompstudio.com/gallery-videos/v-25
+- https://www.prompstudio.com/gallery-videos/v-26
+- https://www.prompstudio.com/gallery-videos/v-27
+- https://www.prompstudio.com/gallery-videos/v-28
+- https://www.prompstudio.com/gallery-videos/v-29
+- https://www.prompstudio.com/gallery-videos/v-3
+- https://www.prompstudio.com/gallery-videos/v-30
+- https://www.prompstudio.com/gallery-videos/v-31
+- https://www.prompstudio.com/gallery-videos/v-32
+- https://www.prompstudio.com/gallery-videos/v-33
+- https://www.prompstudio.com/gallery-videos/v-34
+- https://www.prompstudio.com/gallery-videos/v-35
+- https://www.prompstudio.com/gallery-videos/v-36
+- https://www.prompstudio.com/gallery-videos/v-37
+- https://www.prompstudio.com/gallery-videos/v-38
+- https://www.prompstudio.com/gallery-videos/v-39
+- https://www.prompstudio.com/gallery-videos/v-4
+- https://www.prompstudio.com/gallery-videos/v-40
+- https://www.prompstudio.com/gallery-videos/v-41
+- https://www.prompstudio.com/gallery-videos/v-42
+- https://www.prompstudio.com/gallery-videos/v-43
+- https://www.prompstudio.com/gallery-videos/v-44
+- https://www.prompstudio.com/gallery-videos/v-45
+- https://www.prompstudio.com/gallery-videos/v-46
+- https://www.prompstudio.com/gallery-videos/v-47
+- https://www.prompstudio.com/gallery-videos/v-48
+- https://www.prompstudio.com/gallery-videos/v-49
+- https://www.prompstudio.com/gallery-videos/v-5
+- https://www.prompstudio.com/gallery-videos/v-50
+- https://www.prompstudio.com/gallery-videos/v-51
+- https://www.prompstudio.com/gallery-videos/v-52
+- https://www.prompstudio.com/gallery-videos/v-53
+- https://www.prompstudio.com/gallery-videos/v-54
+- https://www.prompstudio.com/gallery-videos/v-55
+- https://www.prompstudio.com/gallery-videos/v-56
+- https://www.prompstudio.com/gallery-videos/v-57
+- https://www.prompstudio.com/gallery-videos/v-58
+- https://www.prompstudio.com/gallery-videos/v-59
+- https://www.prompstudio.com/gallery-videos/v-6
+- https://www.prompstudio.com/gallery-videos/v-60
+- https://www.prompstudio.com/gallery-videos/v-61
+- https://www.prompstudio.com/gallery-videos/v-62
+- https://www.prompstudio.com/gallery-videos/v-63
+- https://www.prompstudio.com/gallery-videos/v-64
+- https://www.prompstudio.com/gallery-videos/v-65
+- https://www.prompstudio.com/gallery-videos/v-66
+- https://www.prompstudio.com/gallery-videos/v-67
+- https://www.prompstudio.com/gallery-videos/v-68
+- https://www.prompstudio.com/gallery-videos/v-69
+- https://www.prompstudio.com/gallery-videos/v-7
+- https://www.prompstudio.com/gallery-videos/v-70
+- https://www.prompstudio.com/gallery-videos/v-71
+- https://www.prompstudio.com/gallery-videos/v-72
+- https://www.prompstudio.com/gallery-videos/v-73
+- https://www.prompstudio.com/gallery-videos/v-74
+- https://www.prompstudio.com/gallery-videos/v-75
+- https://www.prompstudio.com/gallery-videos/v-76
+- https://www.prompstudio.com/gallery-videos/v-77
+- https://www.prompstudio.com/gallery-videos/v-78
+- https://www.prompstudio.com/gallery-videos/v-79
+- https://www.prompstudio.com/gallery-videos/v-8
+- https://www.prompstudio.com/gallery-videos/v-80
+- https://www.prompstudio.com/gallery-videos/v-81
+- https://www.prompstudio.com/gallery-videos/v-82
+- https://www.prompstudio.com/gallery-videos/v-83
+- https://www.prompstudio.com/gallery-videos/v-84
+- https://www.prompstudio.com/gallery-videos/v-85
+- https://www.prompstudio.com/gallery-videos/v-86
+- https://www.prompstudio.com/gallery-videos/v-87
+- https://www.prompstudio.com/gallery-videos/v-88
+- https://www.prompstudio.com/gallery-videos/v-89
+- https://www.prompstudio.com/gallery-videos/v-9
+- https://www.prompstudio.com/gallery-videos/v-90
+- https://www.prompstudio.com/gallery-videos/v-91
+- https://www.prompstudio.com/gallery-videos/v-92
+- https://www.prompstudio.com/gallery-videos/v-93
+- https://www.prompstudio.com/gallery-videos/v-94
+- https://www.prompstudio.com/gallery-videos/v-95
+- https://www.prompstudio.com/gallery-videos/v-96
+- https://www.prompstudio.com/gallery-videos/v-97
+- https://www.prompstudio.com/gallery-videos/v-98
+- https://www.prompstudio.com/gallery-videos/v-99
+
+## 3. Páginas de modelos de prompts
+
+Total: **33**
+
+- https://www.prompstudio.com/prompts/amp
+- https://www.prompstudio.com/prompts/anthropic
+- https://www.prompstudio.com/prompts/assets
+- https://www.prompstudio.com/prompts/augment-code
+- https://www.prompstudio.com/prompts/cluely
+- https://www.prompstudio.com/prompts/codebuddy-prompts
+- https://www.prompstudio.com/prompts/comet-assistant
+- https://www.prompstudio.com/prompts/cursor-prompts
+- https://www.prompstudio.com/prompts/devin-ai
+- https://www.prompstudio.com/prompts/dia
+- https://www.prompstudio.com/prompts/emergent
+- https://www.prompstudio.com/prompts/google
+- https://www.prompstudio.com/prompts/junie
+- https://www.prompstudio.com/prompts/kiro
+- https://www.prompstudio.com/prompts/leap.new
+- https://www.prompstudio.com/prompts/lovable
+- https://www.prompstudio.com/prompts/manus-agent-tools-%26-prompts
+- https://www.prompstudio.com/prompts/notionai
+- https://www.prompstudio.com/prompts/open-source-prompts
+- https://www.prompstudio.com/prompts/orchids.app
+- https://www.prompstudio.com/prompts/perplexity
+- https://www.prompstudio.com/prompts/poke
+- https://www.prompstudio.com/prompts/qoder
+- https://www.prompstudio.com/prompts/replit
+- https://www.prompstudio.com/prompts/same.dev
+- https://www.prompstudio.com/prompts/trae
+- https://www.prompstudio.com/prompts/traycer-ai
+- https://www.prompstudio.com/prompts/v0-prompts-and-tools
+- https://www.prompstudio.com/prompts/vscode-agent
+- https://www.prompstudio.com/prompts/warp.dev
+- https://www.prompstudio.com/prompts/windsurf
+- https://www.prompstudio.com/prompts/xcode
+- https://www.prompstudio.com/prompts/z.ai-code
+
+## 4. Previews y editores de landing pages
+
+Total: **482** (241 previews + 241 editores)
+
+- https://www.prompstudio.com/landing-pages/3d-agencia-viajes-orbita-lenta/edit
+- https://www.prompstudio.com/landing-pages/3d-agencia-viajes-orbita-lenta/preview
+- https://www.prompstudio.com/landing-pages/3d-architecture-portfolio-pro/edit
+- https://www.prompstudio.com/landing-pages/3d-architecture-portfolio-pro/preview
+- https://www.prompstudio.com/landing-pages/3d-architecture-portfolio-walkthrough/edit
+- https://www.prompstudio.com/landing-pages/3d-architecture-portfolio-walkthrough/preview
+- https://www.prompstudio.com/landing-pages/3d-architecture-walkthrough/edit
+- https://www.prompstudio.com/landing-pages/3d-architecture-walkthrough/preview
+- https://www.prompstudio.com/landing-pages/3d-art-museum-guided-curation/edit
+- https://www.prompstudio.com/landing-pages/3d-art-museum-guided-curation/preview
+- https://www.prompstudio.com/landing-pages/3d-artist-pipeline-breakdown/edit
+- https://www.prompstudio.com/landing-pages/3d-artist-pipeline-breakdown/preview
+- https://www.prompstudio.com/landing-pages/3d-biotech-celmira-labs/edit
+- https://www.prompstudio.com/landing-pages/3d-biotech-celmira-labs/preview
+- https://www.prompstudio.com/landing-pages/3d-bodega-terrada-vinos/edit
+- https://www.prompstudio.com/landing-pages/3d-bodega-terrada-vinos/preview
+- https://www.prompstudio.com/landing-pages/3d-charity-gala/edit
+- https://www.prompstudio.com/landing-pages/3d-charity-gala/preview
+- https://www.prompstudio.com/landing-pages/3d-cinematic-scene-short-film-timeline/edit
+- https://www.prompstudio.com/landing-pages/3d-cinematic-scene-short-film-timeline/preview
+- https://www.prompstudio.com/landing-pages/3d-cinematic-typography-music/edit
+- https://www.prompstudio.com/landing-pages/3d-cinematic-typography-music/preview
+- https://www.prompstudio.com/landing-pages/3d-cinematic-typography-video/edit
+- https://www.prompstudio.com/landing-pages/3d-cinematic-typography-video/preview
+- https://www.prompstudio.com/landing-pages/3d-classroom-simulations/edit
+- https://www.prompstudio.com/landing-pages/3d-classroom-simulations/preview
+- https://www.prompstudio.com/landing-pages/3d-classroom-synchronized-video-lessons/edit
+- https://www.prompstudio.com/landing-pages/3d-classroom-synchronized-video-lessons/preview
+- https://www.prompstudio.com/landing-pages/3d-clinica-dental-nova-sonrisa/edit
+- https://www.prompstudio.com/landing-pages/3d-clinica-dental-nova-sonrisa/preview
+- https://www.prompstudio.com/landing-pages/3d-coach-session-room/edit
+- https://www.prompstudio.com/landing-pages/3d-coach-session-room/preview
+- https://www.prompstudio.com/landing-pages/3d-compliance-audit-center/edit
+- https://www.prompstudio.com/landing-pages/3d-compliance-audit-center/preview
+- https://www.prompstudio.com/landing-pages/3d-conference-main-stage/edit
+- https://www.prompstudio.com/landing-pages/3d-conference-main-stage/preview
+- https://www.prompstudio.com/landing-pages/3d-conference-room-stream/edit
+- https://www.prompstudio.com/landing-pages/3d-conference-room-stream/preview
+- https://www.prompstudio.com/landing-pages/3d-conference-room-streaming/edit
+- https://www.prompstudio.com/landing-pages/3d-conference-room-streaming/preview
+- https://www.prompstudio.com/landing-pages/3d-consultant-boardroom-cases/edit
+- https://www.prompstudio.com/landing-pages/3d-consultant-boardroom-cases/preview
+- https://www.prompstudio.com/landing-pages/3d-corporate-campus-light-tour/edit
+- https://www.prompstudio.com/landing-pages/3d-corporate-campus-light-tour/preview
+- https://www.prompstudio.com/landing-pages/3d-corporate-campus-tour/edit
+- https://www.prompstudio.com/landing-pages/3d-corporate-campus-tour/preview
+- https://www.prompstudio.com/landing-pages/3d-corporate-library-training-pro/edit
+- https://www.prompstudio.com/landing-pages/3d-corporate-library-training-pro/preview
+- https://www.prompstudio.com/landing-pages/3d-corporate-library-training/edit
+- https://www.prompstudio.com/landing-pages/3d-corporate-library-training/preview
+- https://www.prompstudio.com/landing-pages/3d-corporate-lobby-welcome-agenda/edit
+- https://www.prompstudio.com/landing-pages/3d-corporate-lobby-welcome-agenda/preview
+- https://www.prompstudio.com/landing-pages/3d-corporate-performance-dashboard/edit
+- https://www.prompstudio.com/landing-pages/3d-corporate-performance-dashboard/preview
+- https://www.prompstudio.com/landing-pages/3d-corporate-timeline-dioramas/edit
+- https://www.prompstudio.com/landing-pages/3d-corporate-timeline-dioramas/preview
+- https://www.prompstudio.com/landing-pages/3d-coworking-lobby/edit
+- https://www.prompstudio.com/landing-pages/3d-coworking-lobby/preview
+- https://www.prompstudio.com/landing-pages/3d-coworking-seating-map/edit
+- https://www.prompstudio.com/landing-pages/3d-coworking-seating-map/preview
+- https://www.prompstudio.com/landing-pages/3d-creative-consultant-workshops/edit
+- https://www.prompstudio.com/landing-pages/3d-creative-consultant-workshops/preview
+- https://www.prompstudio.com/landing-pages/3d-data-visualizer-widgets/edit
+- https://www.prompstudio.com/landing-pages/3d-data-visualizer-widgets/preview
+- https://www.prompstudio.com/landing-pages/3d-educational-library-search/edit
+- https://www.prompstudio.com/landing-pages/3d-educational-library-search/preview
+- https://www.prompstudio.com/landing-pages/3d-escuela-musica-cadencia/edit
+- https://www.prompstudio.com/landing-pages/3d-escuela-musica-cadencia/preview
+- https://www.prompstudio.com/landing-pages/3d-fashion-showroom-runway-backstage/edit
+- https://www.prompstudio.com/landing-pages/3d-fashion-showroom-runway-backstage/preview
+- https://www.prompstudio.com/landing-pages/3d-fashion-showroom-runway/edit
+- https://www.prompstudio.com/landing-pages/3d-fashion-showroom-runway/preview
+- https://www.prompstudio.com/landing-pages/3d-film-festival/edit
+- https://www.prompstudio.com/landing-pages/3d-film-festival/preview
+- https://www.prompstudio.com/landing-pages/3d-financial-data-visualizer/edit
+- https://www.prompstudio.com/landing-pages/3d-financial-data-visualizer/preview
+- https://www.prompstudio.com/landing-pages/3d-freelance-dev-landing/edit
+- https://www.prompstudio.com/landing-pages/3d-freelance-dev-landing/preview
+- https://www.prompstudio.com/landing-pages/3d-freelance-portfolio-cube/edit
+- https://www.prompstudio.com/landing-pages/3d-freelance-portfolio-cube/preview
+- https://www.prompstudio.com/landing-pages/3d-gastronomic-fair/edit
+- https://www.prompstudio.com/landing-pages/3d-gastronomic-fair/preview
+- https://www.prompstudio.com/landing-pages/3d-gimnasio-forja-atletica/edit
+- https://www.prompstudio.com/landing-pages/3d-gimnasio-forja-atletica/preview
+- https://www.prompstudio.com/landing-pages/3d-hybrid-event-venue/edit
+- https://www.prompstudio.com/landing-pages/3d-hybrid-event-venue/preview
+- https://www.prompstudio.com/landing-pages/3d-illustrator-portfolio-gallery/edit
+- https://www.prompstudio.com/landing-pages/3d-illustrator-portfolio-gallery/preview
+- https://www.prompstudio.com/landing-pages/3d-immersive-trade-fair/edit
+- https://www.prompstudio.com/landing-pages/3d-immersive-trade-fair/preview
+- https://www.prompstudio.com/landing-pages/3d-inmobiliaria-altura-living/edit
+- https://www.prompstudio.com/landing-pages/3d-inmobiliaria-altura-living/preview
+- https://www.prompstudio.com/landing-pages/3d-innovation-garden-routes/edit
+- https://www.prompstudio.com/landing-pages/3d-innovation-garden-routes/preview
+- https://www.prompstudio.com/landing-pages/3d-innovation-garden-tours/edit
+- https://www.prompstudio.com/landing-pages/3d-innovation-garden-tours/preview
+- https://www.prompstudio.com/landing-pages/3d-interactive-library-educational-clips/edit
+- https://www.prompstudio.com/landing-pages/3d-interactive-library-educational-clips/preview
+- https://www.prompstudio.com/landing-pages/3d-interview-room-replays-annotations/edit
+- https://www.prompstudio.com/landing-pages/3d-interview-room-replays-annotations/preview
+- https://www.prompstudio.com/landing-pages/3d-joyeria-lumen-atelier/edit
+- https://www.prompstudio.com/landing-pages/3d-joyeria-lumen-atelier/preview
+- https://www.prompstudio.com/landing-pages/3d-library-educational-clips-semantic-search/edit
+- https://www.prompstudio.com/landing-pages/3d-library-educational-clips-semantic-search/preview
+- https://www.prompstudio.com/landing-pages/3d-luxury-product-gallery-microinteractions/edit
+- https://www.prompstudio.com/landing-pages/3d-luxury-product-gallery-microinteractions/preview
+- https://www.prompstudio.com/landing-pages/3d-luxury-product-storytelling/edit
+- https://www.prompstudio.com/landing-pages/3d-luxury-product-storytelling/preview
+- https://www.prompstudio.com/landing-pages/3d-motion-designer-showreel-stems/edit
+- https://www.prompstudio.com/landing-pages/3d-motion-designer-showreel-stems/preview
+- https://www.prompstudio.com/landing-pages/3d-music-festival-stage/edit
+- https://www.prompstudio.com/landing-pages/3d-music-festival-stage/preview
+- https://www.prompstudio.com/landing-pages/3d-paisajismo-verdal-estudio/edit
+- https://www.prompstudio.com/landing-pages/3d-paisajismo-verdal-estudio/preview
+- https://www.prompstudio.com/landing-pages/3d-personal-brand-cube/edit
+- https://www.prompstudio.com/landing-pages/3d-personal-brand-cube/preview
+- https://www.prompstudio.com/landing-pages/3d-personal-brand-showreel-microvideos/edit
+- https://www.prompstudio.com/landing-pages/3d-personal-brand-showreel-microvideos/preview
+- https://www.prompstudio.com/landing-pages/3d-photo-portfolio-light/edit
+- https://www.prompstudio.com/landing-pages/3d-photo-portfolio-light/preview
+- https://www.prompstudio.com/landing-pages/3d-photography-portfolio-video-projections/edit
+- https://www.prompstudio.com/landing-pages/3d-photography-portfolio-video-projections/preview
+- https://www.prompstudio.com/landing-pages/3d-portfolio-creative-studio-reels/edit
+- https://www.prompstudio.com/landing-pages/3d-portfolio-creative-studio-reels/preview
+- https://www.prompstudio.com/landing-pages/3d-product-designer-showroom/edit
+- https://www.prompstudio.com/landing-pages/3d-product-designer-showroom/preview
+- https://www.prompstudio.com/landing-pages/3d-product-gallery-display-cases/edit
+- https://www.prompstudio.com/landing-pages/3d-product-gallery-display-cases/preview
+- https://www.prompstudio.com/landing-pages/3d-product-gallery-light-filters/edit
+- https://www.prompstudio.com/landing-pages/3d-product-gallery-light-filters/preview
+- https://www.prompstudio.com/landing-pages/3d-product-showroom-corporate-demos/edit
+- https://www.prompstudio.com/landing-pages/3d-product-showroom-corporate-demos/preview
+- https://www.prompstudio.com/landing-pages/3d-recording-studio-mixing/edit
+- https://www.prompstudio.com/landing-pages/3d-recording-studio-mixing/preview
+- https://www.prompstudio.com/landing-pages/3d-saas-product-video-demo/edit
+- https://www.prompstudio.com/landing-pages/3d-saas-product-video-demo/preview
+- https://www.prompstudio.com/landing-pages/3d-scientific-congress/edit
+- https://www.prompstudio.com/landing-pages/3d-scientific-congress/preview
+- https://www.prompstudio.com/landing-pages/3d-sports-stadium/edit
+- https://www.prompstudio.com/landing-pages/3d-sports-stadium/preview
+- https://www.prompstudio.com/landing-pages/3d-tech-expo/edit
+- https://www.prompstudio.com/landing-pages/3d-tech-expo/preview
+- https://www.prompstudio.com/landing-pages/3d-tech-product-video-hotspots/edit
+- https://www.prompstudio.com/landing-pages/3d-tech-product-video-hotspots/preview
+- https://www.prompstudio.com/landing-pages/3d-tech-showroom-hotspots/edit
+- https://www.prompstudio.com/landing-pages/3d-tech-showroom-hotspots/preview
+- https://www.prompstudio.com/landing-pages/3d-tech-showroom-pro/edit
+- https://www.prompstudio.com/landing-pages/3d-tech-showroom-pro/preview
+- https://www.prompstudio.com/landing-pages/3d-timeline-dioramas/edit
+- https://www.prompstudio.com/landing-pages/3d-timeline-dioramas/preview
+- https://www.prompstudio.com/landing-pages/3d-tostadero-cafe-raiz/edit
+- https://www.prompstudio.com/landing-pages/3d-tostadero-cafe-raiz/preview
+- https://www.prompstudio.com/landing-pages/3d-translator-voice-library/edit
+- https://www.prompstudio.com/landing-pages/3d-translator-voice-library/preview
+- https://www.prompstudio.com/landing-pages/3d-ux-designer-walkthrough/edit
+- https://www.prompstudio.com/landing-pages/3d-ux-designer-walkthrough/preview
+- https://www.prompstudio.com/landing-pages/3d-videographer-studio/edit
+- https://www.prompstudio.com/landing-pages/3d-videographer-studio/preview
+- https://www.prompstudio.com/landing-pages/3d-wedding-photographer-timeline/edit
+- https://www.prompstudio.com/landing-pages/3d-wedding-photographer-timeline/preview
+- https://www.prompstudio.com/landing-pages/3d-wellness-garden-meditation/edit
+- https://www.prompstudio.com/landing-pages/3d-wellness-garden-meditation/preview
+- https://www.prompstudio.com/landing-pages/3d-writer-library-readings/edit
+- https://www.prompstudio.com/landing-pages/3d-writer-library-readings/preview
+- https://www.prompstudio.com/landing-pages/affiliate-program/edit
+- https://www.prompstudio.com/landing-pages/affiliate-program/preview
+- https://www.prompstudio.com/landing-pages/airbnb-clone-landing/edit
+- https://www.prompstudio.com/landing-pages/airbnb-clone-landing/preview
+- https://www.prompstudio.com/landing-pages/airbnb-clone/edit
+- https://www.prompstudio.com/landing-pages/airbnb-clone/preview
+- https://www.prompstudio.com/landing-pages/airtable-clone/edit
+- https://www.prompstudio.com/landing-pages/airtable-clone/preview
+- https://www.prompstudio.com/landing-pages/amplive-concert-tickets/edit
+- https://www.prompstudio.com/landing-pages/amplive-concert-tickets/preview
+- https://www.prompstudio.com/landing-pages/aniwave-anime-streaming/edit
+- https://www.prompstudio.com/landing-pages/aniwave-anime-streaming/preview
+- https://www.prompstudio.com/landing-pages/apple-iphone-video-scrub-hero/edit
+- https://www.prompstudio.com/landing-pages/apple-iphone-video-scrub-hero/preview
+- https://www.prompstudio.com/landing-pages/arenalive-sports-events/edit
+- https://www.prompstudio.com/landing-pages/arenalive-sports-events/preview
+- https://www.prompstudio.com/landing-pages/arenapulse-esports-platform/edit
+- https://www.prompstudio.com/landing-pages/arenapulse-esports-platform/preview
+- https://www.prompstudio.com/landing-pages/artisanbox-handmade-market/edit
+- https://www.prompstudio.com/landing-pages/artisanbox-handmade-market/preview
+- https://www.prompstudio.com/landing-pages/artwalk-culture-festival/edit
+- https://www.prompstudio.com/landing-pages/artwalk-culture-festival/preview
+- https://www.prompstudio.com/landing-pages/atelier-creative-studio-portfolio/edit
+- https://www.prompstudio.com/landing-pages/atelier-creative-studio-portfolio/preview
+- https://www.prompstudio.com/landing-pages/bank-corporate-blue/edit
+- https://www.prompstudio.com/landing-pages/bank-corporate-blue/preview
+- https://www.prompstudio.com/landing-pages/beatforge-marketplace/edit
+- https://www.prompstudio.com/landing-pages/beatforge-marketplace/preview
+- https://www.prompstudio.com/landing-pages/benchmarks/edit
+- https://www.prompstudio.com/landing-pages/benchmarks/preview
+- https://www.prompstudio.com/landing-pages/brandmint-freelance-strategist/edit
+- https://www.prompstudio.com/landing-pages/brandmint-freelance-strategist/preview
+- https://www.prompstudio.com/landing-pages/breathspace-breathing/edit
+- https://www.prompstudio.com/landing-pages/breathspace-breathing/preview
+- https://www.prompstudio.com/landing-pages/buffer-clone/edit
+- https://www.prompstudio.com/landing-pages/buffer-clone/preview
+- https://www.prompstudio.com/landing-pages/canva-clone/edit
+- https://www.prompstudio.com/landing-pages/canva-clone/preview
+- https://www.prompstudio.com/landing-pages/caselab-ux-design-portfolio/edit
+- https://www.prompstudio.com/landing-pages/caselab-ux-design-portfolio/preview
+- https://www.prompstudio.com/landing-pages/cats/edit
+- https://www.prompstudio.com/landing-pages/cats/preview
+- https://www.prompstudio.com/landing-pages/chorus-music-lessons/edit
+- https://www.prompstudio.com/landing-pages/chorus-music-lessons/preview
+- https://www.prompstudio.com/landing-pages/codecraft-developer-portfolio/edit
+- https://www.prompstudio.com/landing-pages/codecraft-developer-portfolio/preview
+- https://www.prompstudio.com/landing-pages/codenova-midnight-hacker/edit
+- https://www.prompstudio.com/landing-pages/codenova-midnight-hacker/preview
+- https://www.prompstudio.com/landing-pages/collective-freelance-agency/edit
+- https://www.prompstudio.com/landing-pages/collective-freelance-agency/preview
+- https://www.prompstudio.com/landing-pages/corporate-3d-investor-tour/edit
+- https://www.prompstudio.com/landing-pages/corporate-3d-investor-tour/preview
+- https://www.prompstudio.com/landing-pages/cosplayhub-community/edit
+- https://www.prompstudio.com/landing-pages/cosplayhub-community/preview
+- https://www.prompstudio.com/landing-pages/cozyloft-home-decor/edit
+- https://www.prompstudio.com/landing-pages/cozyloft-home-decor/preview
+- https://www.prompstudio.com/landing-pages/crunchyroll-clone/edit
+- https://www.prompstudio.com/landing-pages/crunchyroll-clone/preview
+- https://www.prompstudio.com/landing-pages/cryptopulse-trading/edit
+- https://www.prompstudio.com/landing-pages/cryptopulse-trading/preview
+- https://www.prompstudio.com/landing-pages/cyberpunk-neon/edit
+- https://www.prompstudio.com/landing-pages/cyberpunk-neon/preview
+- https://www.prompstudio.com/landing-pages/dashboard/edit
+- https://www.prompstudio.com/landing-pages/dashboard/preview
+- https://www.prompstudio.com/landing-pages/duolingo-clone/edit
+- https://www.prompstudio.com/landing-pages/duolingo-clone/preview
+- https://www.prompstudio.com/landing-pages/earthy-brutalist/edit
+- https://www.prompstudio.com/landing-pages/earthy-brutalist/preview
+- https://www.prompstudio.com/landing-pages/echocast-podcast-music/edit
+- https://www.prompstudio.com/landing-pages/echocast-podcast-music/preview
+- https://www.prompstudio.com/landing-pages/editorial-minimal/edit
+- https://www.prompstudio.com/landing-pages/editorial-minimal/preview
+- https://www.prompstudio.com/landing-pages/elegant-3d-corporate-lobby/edit
+- https://www.prompstudio.com/landing-pages/elegant-3d-corporate-lobby/preview
+- https://www.prompstudio.com/landing-pages/embertable-steakhouse/edit
+- https://www.prompstudio.com/landing-pages/embertable-steakhouse/preview
+- https://www.prompstudio.com/landing-pages/espacios-coworking/edit
+- https://www.prompstudio.com/landing-pages/espacios-coworking/preview
+- https://www.prompstudio.com/landing-pages/estadio-futurista/edit
+- https://www.prompstudio.com/landing-pages/estadio-futurista/preview
+- https://www.prompstudio.com/landing-pages/fiverr-clone/edit
+- https://www.prompstudio.com/landing-pages/fiverr-clone/preview
+- https://www.prompstudio.com/landing-pages/forma-architecture-portfolio/edit
+- https://www.prompstudio.com/landing-pages/forma-architecture-portfolio/preview
+- https://www.prompstudio.com/landing-pages/framehaus-art-director-portfolio/edit
+- https://www.prompstudio.com/landing-pages/framehaus-art-director-portfolio/preview
+- https://www.prompstudio.com/landing-pages/futbol/edit
+- https://www.prompstudio.com/landing-pages/futbol/preview
+- https://www.prompstudio.com/landing-pages/gearlend-renta-equipo-outdoor/edit
+- https://www.prompstudio.com/landing-pages/gearlend-renta-equipo-outdoor/preview
+- https://www.prompstudio.com/landing-pages/glowlab-beauty-shop/edit
+- https://www.prompstudio.com/landing-pages/glowlab-beauty-shop/preview
+- https://www.prompstudio.com/landing-pages/grain-film-photography/edit
+- https://www.prompstudio.com/landing-pages/grain-film-photography/preview
+- https://www.prompstudio.com/landing-pages/guildforge-mmo-community/edit
+- https://www.prompstudio.com/landing-pages/guildforge-mmo-community/preview
+- https://www.prompstudio.com/landing-pages/healmatch-terapias-wellness/edit
+- https://www.prompstudio.com/landing-pages/healmatch-terapias-wellness/preview
+- https://www.prompstudio.com/landing-pages/ink-quarterly-magazine/edit
+- https://www.prompstudio.com/landing-pages/ink-quarterly-magazine/preview
+- https://www.prompstudio.com/landing-pages/inkwell-illustrator-portfolio/edit
+- https://www.prompstudio.com/landing-pages/inkwell-illustrator-portfolio/preview
+- https://www.prompstudio.com/landing-pages/insuregrid-insurtech/edit
+- https://www.prompstudio.com/landing-pages/insuregrid-insurtech/preview
+- https://www.prompstudio.com/landing-pages/job-html-css/edit
+- https://www.prompstudio.com/landing-pages/job-html-css/preview
+- https://www.prompstudio.com/landing-pages/ledgerflow-accounting/edit
+- https://www.prompstudio.com/landing-pages/ledgerflow-accounting/preview
+- https://www.prompstudio.com/landing-pages/lendwise-personal-loans/edit
+- https://www.prompstudio.com/landing-pages/lendwise-personal-loans/preview
+- https://www.prompstudio.com/landing-pages/lenshire-freelance-photographer/edit
+- https://www.prompstudio.com/landing-pages/lenshire-freelance-photographer/preview
+- https://www.prompstudio.com/landing-pages/linea-design-studio/edit
+- https://www.prompstudio.com/landing-pages/linea-design-studio/preview
+- https://www.prompstudio.com/landing-pages/linear-clone/edit
+- https://www.prompstudio.com/landing-pages/linear-clone/preview
+- https://www.prompstudio.com/landing-pages/linkedin-clone/edit
+- https://www.prompstudio.com/landing-pages/linkedin-clone/preview
+- https://www.prompstudio.com/landing-pages/loopline-devtool/edit
+- https://www.prompstudio.com/landing-pages/loopline-devtool/preview
+- https://www.prompstudio.com/landing-pages/lootvault-game-marketplace/edit
+- https://www.prompstudio.com/landing-pages/lootvault-game-marketplace/preview
+- https://www.prompstudio.com/landing-pages/luxethread-fashion-store/edit
+- https://www.prompstudio.com/landing-pages/luxethread-fashion-store/preview
+- https://www.prompstudio.com/landing-pages/luxury-3d-showroom-product-video/edit
+- https://www.prompstudio.com/landing-pages/luxury-3d-showroom-product-video/preview
+- https://www.prompstudio.com/landing-pages/magzin-clone/edit
+- https://www.prompstudio.com/landing-pages/magzin-clone/preview
+- https://www.prompstudio.com/landing-pages/magzin-job-dark/edit
+- https://www.prompstudio.com/landing-pages/magzin-job-dark/preview
+- https://www.prompstudio.com/landing-pages/magzin-job-light/edit
+- https://www.prompstudio.com/landing-pages/magzin-job-light/preview
+- https://www.prompstudio.com/landing-pages/magzin-studio/edit
+- https://www.prompstudio.com/landing-pages/magzin-studio/preview
+- https://www.prompstudio.com/landing-pages/mangashelf-digital-library/edit
+- https://www.prompstudio.com/landing-pages/mangashelf-digital-library/preview
+- https://www.prompstudio.com/landing-pages/meetpoint-community-meetups/edit
+- https://www.prompstudio.com/landing-pages/meetpoint-community-meetups/preview
+- https://www.prompstudio.com/landing-pages/mega-estadio/edit
+- https://www.prompstudio.com/landing-pages/mega-estadio/preview
+- https://www.prompstudio.com/landing-pages/messi/edit
+- https://www.prompstudio.com/landing-pages/messi/preview
+- https://www.prompstudio.com/landing-pages/monday-clone/edit
+- https://www.prompstudio.com/landing-pages/monday-clone/preview
+- https://www.prompstudio.com/landing-pages/mononote-writing-app/edit
+- https://www.prompstudio.com/landing-pages/mononote-writing-app/preview
+- https://www.prompstudio.com/landing-pages/neonstrike-game-launch/edit
+- https://www.prompstudio.com/landing-pages/neonstrike-game-launch/preview
+- https://www.prompstudio.com/landing-pages/netflix-clone/edit
+- https://www.prompstudio.com/landing-pages/netflix-clone/preview
+- https://www.prompstudio.com/landing-pages/nightmarket-food-events/edit
+- https://www.prompstudio.com/landing-pages/nightmarket-food-events/preview
+- https://www.prompstudio.com/landing-pages/nomadstay-budget-hostels/edit
+- https://www.prompstudio.com/landing-pages/nomadstay-budget-hostels/preview
+- https://www.prompstudio.com/landing-pages/norte-atelier/edit
+- https://www.prompstudio.com/landing-pages/norte-atelier/preview
+- https://www.prompstudio.com/landing-pages/notion-clone/edit
+- https://www.prompstudio.com/landing-pages/notion-clone/preview
+- https://www.prompstudio.com/landing-pages/otakucon-anime-convention/edit
+- https://www.prompstudio.com/landing-pages/otakucon-anime-convention/preview
+- https://www.prompstudio.com/landing-pages/pawpark-pet-supplies/edit
+- https://www.prompstudio.com/landing-pages/pawpark-pet-supplies/preview
+- https://www.prompstudio.com/landing-pages/pixelframe-photography-portfolio/edit
+- https://www.prompstudio.com/landing-pages/pixelframe-photography-portfolio/preview
+- https://www.prompstudio.com/landing-pages/pixelshelf-indie-game-store/edit
+- https://www.prompstudio.com/landing-pages/pixelshelf-indie-game-store/preview
+- https://www.prompstudio.com/landing-pages/pizzaalta-neapolitan/edit
+- https://www.prompstudio.com/landing-pages/pizzaalta-neapolitan/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-advertising-mockups-01-pitch-objects/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-advertising-mockups-01-pitch-objects/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-advertising-mockups-02-brandstage/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-advertising-mockups-02-brandstage/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-advertising-mockups-03-mockup-orbit/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-advertising-mockups-03-mockup-orbit/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-advertising-mockups-04-canvas-lab/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-advertising-mockups-04-canvas-lab/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-advertising-mockups-05-adframe/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-advertising-mockups-05-adframe/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-advertising-mockups-06-studio-scene/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-advertising-mockups-06-studio-scene/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-amazon-marketplaces-01-market-hero/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-amazon-marketplaces-01-market-hero/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-amazon-marketplaces-02-prime-shelf/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-amazon-marketplaces-02-prime-shelf/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-amazon-marketplaces-03-cartflow/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-amazon-marketplaces-03-cartflow/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-amazon-marketplaces-04-listing-pro/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-amazon-marketplaces-04-listing-pro/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-amazon-marketplaces-05-buybox/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-amazon-marketplaces-05-buybox/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-amazon-marketplaces-06-seller-vista/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-amazon-marketplaces-06-seller-vista/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-automotive-01-apex-motors/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-automotive-01-apex-motors/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-automotive-02-torque-one/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-automotive-02-torque-one/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-automotive-03-volta-drive/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-automotive-03-volta-drive/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-automotive-04-nox-auto/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-automotive-04-nox-auto/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-automotive-05-velocity/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-automotive-05-velocity/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-automotive-06-aero-gt/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-automotive-06-aero-gt/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-cosmetics-01-aura-skin/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-cosmetics-01-aura-skin/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-cosmetics-02-nebula-beauty/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-cosmetics-02-nebula-beauty/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-cosmetics-03-ritual-lab/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-cosmetics-03-ritual-lab/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-cosmetics-04-savia-derm/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-cosmetics-04-savia-derm/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-cosmetics-05-luma-care/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-cosmetics-05-luma-care/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-cosmetics-06-onda-serum/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-cosmetics-06-onda-serum/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-cosmetics-07-velvet-glow/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-cosmetics-07-velvet-glow/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-fashion-01-forma-studio/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-fashion-01-forma-studio/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-fashion-02-norte-atelier/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-fashion-02-norte-atelier/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-fashion-03-silhouette/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-fashion-03-silhouette/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-fashion-04-atempo/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-fashion-04-atempo/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-fashion-05-materia/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-fashion-05-materia/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-fashion-06-vanta-wear/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-fashion-06-vanta-wear/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-jewelry-01-aurelia/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-jewelry-01-aurelia/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-jewelry-02-maison-oro/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-jewelry-02-maison-oro/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-jewelry-03-nocturne-gems/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-jewelry-03-nocturne-gems/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-jewelry-04-lustre/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-jewelry-04-lustre/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-jewelry-05-alma-joya/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-jewelry-05-alma-joya/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-jewelry-06-elan-fine/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-jewelry-06-elan-fine/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-jewelry-07-circulo/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-jewelry-07-circulo/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-real-estate-01-habitat-one/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-real-estate-01-habitat-one/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-real-estate-02-lumen-estates/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-real-estate-02-lumen-estates/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-real-estate-03-terra-living/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-real-estate-03-terra-living/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-real-estate-04-altura/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-real-estate-04-altura/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-real-estate-05-nomada-homes/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-real-estate-05-nomada-homes/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-real-estate-06-casa-atlas/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-real-estate-06-casa-atlas/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-restaurants-01-fuego-mesa/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-restaurants-01-fuego-mesa/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-restaurants-02-casa-umami/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-restaurants-02-casa-umami/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-restaurants-03-origen/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-restaurants-03-origen/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-restaurants-04-brasa-norte/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-restaurants-04-brasa-norte/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-restaurants-05-lima-sal/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-restaurants-05-lima-sal/preview
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-restaurants-06-savia-cocina/edit
+- https://www.prompstudio.com/landing-pages/product-scroll-3d-restaurants-06-savia-cocina/preview
+- https://www.prompstudio.com/landing-pages/promptstudio-experience/edit
+- https://www.prompstudio.com/landing-pages/promptstudio-experience/preview
+- https://www.prompstudio.com/landing-pages/refactory-online/edit
+- https://www.prompstudio.com/landing-pages/refactory-online/preview
+- https://www.prompstudio.com/landing-pages/salesforce-clone/edit
+- https://www.prompstudio.com/landing-pages/salesforce-clone/preview
+- https://www.prompstudio.com/landing-pages/skill-future/edit
+- https://www.prompstudio.com/landing-pages/skill-future/preview
+- https://www.prompstudio.com/landing-pages/skyroute-flight-deals/edit
+- https://www.prompstudio.com/landing-pages/skyroute-flight-deals/preview
+- https://www.prompstudio.com/landing-pages/snapchat-clone/edit
+- https://www.prompstudio.com/landing-pages/snapchat-clone/preview
+- https://www.prompstudio.com/landing-pages/snowflake-clone/edit
+- https://www.prompstudio.com/landing-pages/snowflake-clone/preview
+- https://www.prompstudio.com/landing-pages/soundcloud-clone/edit
+- https://www.prompstudio.com/landing-pages/soundcloud-clone/preview
+- https://www.prompstudio.com/landing-pages/spotify-clone/edit
+- https://www.prompstudio.com/landing-pages/spotify-clone/preview
+- https://www.prompstudio.com/landing-pages/square-clone/edit
+- https://www.prompstudio.com/landing-pages/square-clone/preview
+- https://www.prompstudio.com/landing-pages/stillmind-meditation-app/edit
+- https://www.prompstudio.com/landing-pages/stillmind-meditation-app/preview
+- https://www.prompstudio.com/landing-pages/studio/edit
+- https://www.prompstudio.com/landing-pages/studio/preview
+- https://www.prompstudio.com/landing-pages/studioneko-anime-production/edit
+- https://www.prompstudio.com/landing-pages/studioneko-anime-production/preview
+- https://www.prompstudio.com/landing-pages/substack-clone/edit
+- https://www.prompstudio.com/landing-pages/substack-clone/preview
+- https://www.prompstudio.com/landing-pages/sunset-glassmorphism/edit
+- https://www.prompstudio.com/landing-pages/sunset-glassmorphism/preview
+- https://www.prompstudio.com/landing-pages/target-clone/edit
+- https://www.prompstudio.com/landing-pages/target-clone/preview
+- https://www.prompstudio.com/landing-pages/terraguide-local-experiences/edit
+- https://www.prompstudio.com/landing-pages/terraguide-local-experiences/preview
+- https://www.prompstudio.com/landing-pages/trailpath-adventure-tours/edit
+- https://www.prompstudio.com/landing-pages/trailpath-adventure-tours/preview
+- https://www.prompstudio.com/landing-pages/trello-clone/edit
+- https://www.prompstudio.com/landing-pages/trello-clone/preview
+- https://www.prompstudio.com/landing-pages/twilio-clone/edit
+- https://www.prompstudio.com/landing-pages/twilio-clone/preview
+- https://www.prompstudio.com/landing-pages/vaultpay-neobank/edit
+- https://www.prompstudio.com/landing-pages/vaultpay-neobank/preview
+- https://www.prompstudio.com/landing-pages/vertex/edit
+- https://www.prompstudio.com/landing-pages/vertex/preview
+- https://www.prompstudio.com/landing-pages/viable-clone/edit
+- https://www.prompstudio.com/landing-pages/viable-clone/preview
+- https://www.prompstudio.com/landing-pages/voyage-cruise-line/edit
+- https://www.prompstudio.com/landing-pages/voyage-cruise-line/preview
+- https://www.prompstudio.com/landing-pages/vuelos/edit
+- https://www.prompstudio.com/landing-pages/vuelos/preview
+
+## 5. Demos HTML no canónicas
+
+Total: **241**
+
+> Estas URLs muestran los demos publicados. Su URL canónica correspondiente está bajo `/landing-pages/:slug`.
+
+- https://www.prompstudio.com/webpages/3d-agencia-viajes-orbita-lenta/index.html
+- https://www.prompstudio.com/webpages/3d-architecture-portfolio-pro/index.html
+- https://www.prompstudio.com/webpages/3d-architecture-portfolio-walkthrough/index.html
+- https://www.prompstudio.com/webpages/3d-architecture-walkthrough/index.html
+- https://www.prompstudio.com/webpages/3d-art-museum-guided-curation/index.html
+- https://www.prompstudio.com/webpages/3d-artist-pipeline-breakdown/index.html
+- https://www.prompstudio.com/webpages/3d-biotech-celmira-labs/index.html
+- https://www.prompstudio.com/webpages/3d-bodega-terrada-vinos/index.html
+- https://www.prompstudio.com/webpages/3d-charity-gala/index.html
+- https://www.prompstudio.com/webpages/3d-cinematic-scene-short-film-timeline/index.html
+- https://www.prompstudio.com/webpages/3d-cinematic-typography-music/index.html
+- https://www.prompstudio.com/webpages/3d-cinematic-typography-video/index.html
+- https://www.prompstudio.com/webpages/3d-classroom-simulations/index.html
+- https://www.prompstudio.com/webpages/3d-classroom-synchronized-video-lessons/index.html
+- https://www.prompstudio.com/webpages/3d-clinica-dental-nova-sonrisa/index.html
+- https://www.prompstudio.com/webpages/3d-coach-session-room/index.html
+- https://www.prompstudio.com/webpages/3d-compliance-audit-center/index.html
+- https://www.prompstudio.com/webpages/3d-conference-main-stage/index.html
+- https://www.prompstudio.com/webpages/3d-conference-room-stream/index.html
+- https://www.prompstudio.com/webpages/3d-conference-room-streaming/index.html
+- https://www.prompstudio.com/webpages/3d-consultant-boardroom-cases/index.html
+- https://www.prompstudio.com/webpages/3d-corporate-campus-light-tour/index.html
+- https://www.prompstudio.com/webpages/3d-corporate-campus-tour/index.html
+- https://www.prompstudio.com/webpages/3d-corporate-library-training-pro/index.html
+- https://www.prompstudio.com/webpages/3d-corporate-library-training/index.html
+- https://www.prompstudio.com/webpages/3d-corporate-lobby-welcome-agenda/index.html
+- https://www.prompstudio.com/webpages/3d-corporate-performance-dashboard/index.html
+- https://www.prompstudio.com/webpages/3d-corporate-timeline-dioramas/index.html
+- https://www.prompstudio.com/webpages/3d-coworking-lobby/index.html
+- https://www.prompstudio.com/webpages/3d-coworking-seating-map/index.html
+- https://www.prompstudio.com/webpages/3d-creative-consultant-workshops/index.html
+- https://www.prompstudio.com/webpages/3d-data-visualizer-widgets/index.html
+- https://www.prompstudio.com/webpages/3d-educational-library-search/index.html
+- https://www.prompstudio.com/webpages/3d-escuela-musica-cadencia/index.html
+- https://www.prompstudio.com/webpages/3d-fashion-showroom-runway-backstage/index.html
+- https://www.prompstudio.com/webpages/3d-fashion-showroom-runway/index.html
+- https://www.prompstudio.com/webpages/3d-film-festival/index.html
+- https://www.prompstudio.com/webpages/3d-financial-data-visualizer/index.html
+- https://www.prompstudio.com/webpages/3d-freelance-dev-landing/index.html
+- https://www.prompstudio.com/webpages/3d-freelance-portfolio-cube/index.html
+- https://www.prompstudio.com/webpages/3d-gastronomic-fair/index.html
+- https://www.prompstudio.com/webpages/3d-gimnasio-forja-atletica/index.html
+- https://www.prompstudio.com/webpages/3d-hybrid-event-venue/index.html
+- https://www.prompstudio.com/webpages/3d-illustrator-portfolio-gallery/index.html
+- https://www.prompstudio.com/webpages/3d-immersive-trade-fair/index.html
+- https://www.prompstudio.com/webpages/3d-inmobiliaria-altura-living/index.html
+- https://www.prompstudio.com/webpages/3d-innovation-garden-routes/index.html
+- https://www.prompstudio.com/webpages/3d-innovation-garden-tours/index.html
+- https://www.prompstudio.com/webpages/3d-interactive-library-educational-clips/index.html
+- https://www.prompstudio.com/webpages/3d-interview-room-replays-annotations/index.html
+- https://www.prompstudio.com/webpages/3d-joyeria-lumen-atelier/index.html
+- https://www.prompstudio.com/webpages/3d-library-educational-clips-semantic-search/index.html
+- https://www.prompstudio.com/webpages/3d-luxury-product-gallery-microinteractions/index.html
+- https://www.prompstudio.com/webpages/3d-luxury-product-storytelling/index.html
+- https://www.prompstudio.com/webpages/3d-motion-designer-showreel-stems/index.html
+- https://www.prompstudio.com/webpages/3d-music-festival-stage/index.html
+- https://www.prompstudio.com/webpages/3d-paisajismo-verdal-estudio/index.html
+- https://www.prompstudio.com/webpages/3d-personal-brand-cube/index.html
+- https://www.prompstudio.com/webpages/3d-personal-brand-showreel-microvideos/index.html
+- https://www.prompstudio.com/webpages/3d-photo-portfolio-light/index.html
+- https://www.prompstudio.com/webpages/3d-photography-portfolio-video-projections/index.html
+- https://www.prompstudio.com/webpages/3d-portfolio-creative-studio-reels/index.html
+- https://www.prompstudio.com/webpages/3d-product-designer-showroom/index.html
+- https://www.prompstudio.com/webpages/3d-product-gallery-display-cases/index.html
+- https://www.prompstudio.com/webpages/3d-product-gallery-light-filters/index.html
+- https://www.prompstudio.com/webpages/3d-product-showroom-corporate-demos/index.html
+- https://www.prompstudio.com/webpages/3d-recording-studio-mixing/index.html
+- https://www.prompstudio.com/webpages/3d-saas-product-video-demo/index.html
+- https://www.prompstudio.com/webpages/3d-scientific-congress/index.html
+- https://www.prompstudio.com/webpages/3d-sports-stadium/index.html
+- https://www.prompstudio.com/webpages/3d-tech-expo/index.html
+- https://www.prompstudio.com/webpages/3d-tech-product-video-hotspots/index.html
+- https://www.prompstudio.com/webpages/3d-tech-showroom-hotspots/index.html
+- https://www.prompstudio.com/webpages/3d-tech-showroom-pro/index.html
+- https://www.prompstudio.com/webpages/3d-timeline-dioramas/index.html
+- https://www.prompstudio.com/webpages/3d-tostadero-cafe-raiz/index.html
+- https://www.prompstudio.com/webpages/3d-translator-voice-library/index.html
+- https://www.prompstudio.com/webpages/3d-ux-designer-walkthrough/index.html
+- https://www.prompstudio.com/webpages/3d-videographer-studio/index.html
+- https://www.prompstudio.com/webpages/3d-wedding-photographer-timeline/index.html
+- https://www.prompstudio.com/webpages/3d-wellness-garden-meditation/index.html
+- https://www.prompstudio.com/webpages/3d-writer-library-readings/index.html
+- https://www.prompstudio.com/webpages/affiliate-program/index.html
+- https://www.prompstudio.com/webpages/airbnb-clone-landing/index.html
+- https://www.prompstudio.com/webpages/airbnb-clone/index.html
+- https://www.prompstudio.com/webpages/airtable-clone/index.html
+- https://www.prompstudio.com/webpages/amplive-concert-tickets/index.html
+- https://www.prompstudio.com/webpages/aniwave-anime-streaming/index.html
+- https://www.prompstudio.com/webpages/apple-iphone-video-scrub-hero/index.html
+- https://www.prompstudio.com/webpages/arenalive-sports-events/index.html
+- https://www.prompstudio.com/webpages/arenapulse-esports-platform/index.html
+- https://www.prompstudio.com/webpages/artisanbox-handmade-market/index.html
+- https://www.prompstudio.com/webpages/artwalk-culture-festival/index.html
+- https://www.prompstudio.com/webpages/atelier-creative-studio-portfolio/index.html
+- https://www.prompstudio.com/webpages/bank-corporate-blue/index.html
+- https://www.prompstudio.com/webpages/beatforge-marketplace/index.html
+- https://www.prompstudio.com/webpages/benchmarks/index.html
+- https://www.prompstudio.com/webpages/brandmint-freelance-strategist/index.html
+- https://www.prompstudio.com/webpages/breathspace-breathing/index.html
+- https://www.prompstudio.com/webpages/buffer-clone/index.html
+- https://www.prompstudio.com/webpages/canva-clone/index.html
+- https://www.prompstudio.com/webpages/caselab-ux-design-portfolio/index.html
+- https://www.prompstudio.com/webpages/cats/index.html
+- https://www.prompstudio.com/webpages/chorus-music-lessons/index.html
+- https://www.prompstudio.com/webpages/codecraft-developer-portfolio/index.html
+- https://www.prompstudio.com/webpages/codenova-midnight-hacker/index.html
+- https://www.prompstudio.com/webpages/collective-freelance-agency/index.html
+- https://www.prompstudio.com/webpages/corporate-3d-investor-tour/index.html
+- https://www.prompstudio.com/webpages/cosplayhub-community/index.html
+- https://www.prompstudio.com/webpages/cozyloft-home-decor/index.html
+- https://www.prompstudio.com/webpages/crunchyroll-clone/index.html
+- https://www.prompstudio.com/webpages/cryptopulse-trading/index.html
+- https://www.prompstudio.com/webpages/cyberpunk-neon/index.html
+- https://www.prompstudio.com/webpages/dashboard/index.html
+- https://www.prompstudio.com/webpages/duolingo-clone/index.html
+- https://www.prompstudio.com/webpages/earthy-brutalist/index.html
+- https://www.prompstudio.com/webpages/echocast-podcast-music/index.html
+- https://www.prompstudio.com/webpages/editorial-minimal/index.html
+- https://www.prompstudio.com/webpages/elegant-3d-corporate-lobby/index.html
+- https://www.prompstudio.com/webpages/embertable-steakhouse/index.html
+- https://www.prompstudio.com/webpages/espacios-coworking/index.html
+- https://www.prompstudio.com/webpages/estadio-futurista/index.html
+- https://www.prompstudio.com/webpages/fiverr-clone/index.html
+- https://www.prompstudio.com/webpages/forma-architecture-portfolio/index.html
+- https://www.prompstudio.com/webpages/framehaus-art-director-portfolio/index.html
+- https://www.prompstudio.com/webpages/futbol/index.html
+- https://www.prompstudio.com/webpages/gearlend-renta-equipo-outdoor/index.html
+- https://www.prompstudio.com/webpages/glowlab-beauty-shop/index.html
+- https://www.prompstudio.com/webpages/grain-film-photography/index.html
+- https://www.prompstudio.com/webpages/guildforge-mmo-community/index.html
+- https://www.prompstudio.com/webpages/healmatch-terapias-wellness/index.html
+- https://www.prompstudio.com/webpages/ink-quarterly-magazine/index.html
+- https://www.prompstudio.com/webpages/inkwell-illustrator-portfolio/index.html
+- https://www.prompstudio.com/webpages/insuregrid-insurtech/index.html
+- https://www.prompstudio.com/webpages/job-html-css/index.html
+- https://www.prompstudio.com/webpages/ledgerflow-accounting/index.html
+- https://www.prompstudio.com/webpages/lendwise-personal-loans/index.html
+- https://www.prompstudio.com/webpages/lenshire-freelance-photographer/index.html
+- https://www.prompstudio.com/webpages/linea-design-studio/index.html
+- https://www.prompstudio.com/webpages/linear-clone/index.html
+- https://www.prompstudio.com/webpages/linkedin-clone/index.html
+- https://www.prompstudio.com/webpages/loopline-devtool/index.html
+- https://www.prompstudio.com/webpages/lootvault-game-marketplace/index.html
+- https://www.prompstudio.com/webpages/luxethread-fashion-store/index.html
+- https://www.prompstudio.com/webpages/luxury-3d-showroom-product-video/index.html
+- https://www.prompstudio.com/webpages/magzin-clone/index.html
+- https://www.prompstudio.com/webpages/magzin-job-dark/index.html
+- https://www.prompstudio.com/webpages/magzin-job-light/index.html
+- https://www.prompstudio.com/webpages/magzin-studio/index.html
+- https://www.prompstudio.com/webpages/mangashelf-digital-library/index.html
+- https://www.prompstudio.com/webpages/meetpoint-community-meetups/index.html
+- https://www.prompstudio.com/webpages/mega-estadio/index.html
+- https://www.prompstudio.com/webpages/messi/index.html
+- https://www.prompstudio.com/webpages/monday-clone/index.html
+- https://www.prompstudio.com/webpages/mononote-writing-app/index.html
+- https://www.prompstudio.com/webpages/neonstrike-game-launch/index.html
+- https://www.prompstudio.com/webpages/netflix-clone/index.html
+- https://www.prompstudio.com/webpages/nightmarket-food-events/index.html
+- https://www.prompstudio.com/webpages/nomadstay-budget-hostels/index.html
+- https://www.prompstudio.com/webpages/norte-atelier/index.html
+- https://www.prompstudio.com/webpages/notion-clone/index.html
+- https://www.prompstudio.com/webpages/otakucon-anime-convention/index.html
+- https://www.prompstudio.com/webpages/pawpark-pet-supplies/index.html
+- https://www.prompstudio.com/webpages/pixelframe-photography-portfolio/index.html
+- https://www.prompstudio.com/webpages/pixelshelf-indie-game-store/index.html
+- https://www.prompstudio.com/webpages/pizzaalta-neapolitan/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-advertising-mockups-01-pitch-objects/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-advertising-mockups-02-brandstage/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-advertising-mockups-03-mockup-orbit/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-advertising-mockups-04-canvas-lab/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-advertising-mockups-05-adframe/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-advertising-mockups-06-studio-scene/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-amazon-marketplaces-01-market-hero/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-amazon-marketplaces-02-prime-shelf/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-amazon-marketplaces-03-cartflow/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-amazon-marketplaces-04-listing-pro/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-amazon-marketplaces-05-buybox/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-amazon-marketplaces-06-seller-vista/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-automotive-01-apex-motors/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-automotive-02-torque-one/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-automotive-03-volta-drive/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-automotive-04-nox-auto/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-automotive-05-velocity/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-automotive-06-aero-gt/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-cosmetics-01-aura-skin/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-cosmetics-02-nebula-beauty/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-cosmetics-03-ritual-lab/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-cosmetics-04-savia-derm/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-cosmetics-05-luma-care/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-cosmetics-06-onda-serum/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-cosmetics-07-velvet-glow/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-fashion-01-forma-studio/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-fashion-02-norte-atelier/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-fashion-03-silhouette/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-fashion-04-atempo/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-fashion-05-materia/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-fashion-06-vanta-wear/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-jewelry-01-aurelia/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-jewelry-02-maison-oro/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-jewelry-03-nocturne-gems/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-jewelry-04-lustre/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-jewelry-05-alma-joya/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-jewelry-06-elan-fine/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-jewelry-07-circulo/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-real-estate-01-habitat-one/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-real-estate-02-lumen-estates/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-real-estate-03-terra-living/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-real-estate-04-altura/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-real-estate-05-nomada-homes/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-real-estate-06-casa-atlas/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-restaurants-01-fuego-mesa/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-restaurants-02-casa-umami/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-restaurants-03-origen/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-restaurants-04-brasa-norte/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-restaurants-05-lima-sal/index.html
+- https://www.prompstudio.com/webpages/product-scroll-3d-restaurants-06-savia-cocina/index.html
+- https://www.prompstudio.com/webpages/promptstudio-experience/index.html
+- https://www.prompstudio.com/webpages/refactory-online/index.html
+- https://www.prompstudio.com/webpages/salesforce-clone/index.html
+- https://www.prompstudio.com/webpages/skill-future/index.html
+- https://www.prompstudio.com/webpages/skyroute-flight-deals/index.html
+- https://www.prompstudio.com/webpages/snapchat-clone/index.html
+- https://www.prompstudio.com/webpages/snowflake-clone/index.html
+- https://www.prompstudio.com/webpages/soundcloud-clone/index.html
+- https://www.prompstudio.com/webpages/spotify-clone/index.html
+- https://www.prompstudio.com/webpages/square-clone/index.html
+- https://www.prompstudio.com/webpages/stillmind-meditation-app/index.html
+- https://www.prompstudio.com/webpages/studio/index.html
+- https://www.prompstudio.com/webpages/studioneko-anime-production/index.html
+- https://www.prompstudio.com/webpages/substack-clone/index.html
+- https://www.prompstudio.com/webpages/sunset-glassmorphism/index.html
+- https://www.prompstudio.com/webpages/target-clone/index.html
+- https://www.prompstudio.com/webpages/terraguide-local-experiences/index.html
+- https://www.prompstudio.com/webpages/trailpath-adventure-tours/index.html
+- https://www.prompstudio.com/webpages/trello-clone/index.html
+- https://www.prompstudio.com/webpages/twilio-clone/index.html
+- https://www.prompstudio.com/webpages/vaultpay-neobank/index.html
+- https://www.prompstudio.com/webpages/vertex/index.html
+- https://www.prompstudio.com/webpages/viable-clone/index.html
+- https://www.prompstudio.com/webpages/voyage-cruise-line/index.html
+- https://www.prompstudio.com/webpages/vuelos/index.html
+
+## 6. Patrones de páginas dinámicas
+
+Total: **11**
+
+- `/category/:slug` — `src/app/[locale]/category/[slug]/page.tsx`
+- `/gallery-videos/:id` — `src/app/[locale]/gallery-videos/[id]/page.tsx`
+- `/gallery/:id` — `src/app/[locale]/gallery/[id]/page.tsx`
+- `/landing-pages/:slug` — `src/app/[locale]/landing-pages/[slug]/page.tsx`
+- `/landing-pages/:slug/edit` — `src/app/[locale]/landing-pages/[slug]/edit/page.tsx`
+- `/landing-pages/:slug/preview` — `src/app/[locale]/landing-pages/[slug]/preview/page.tsx`
+- `/prompts/:modelId` — `src/app/[locale]/prompts/[modelId]/page.tsx`
+- `/review/:token` — `src/app/[locale]/review/[token]/page.tsx`
+- `/sign-in/:sign-in*?` — `src/app/[locale]/sign-in/[[...sign-in]]/page.tsx`
+- `/sign-up/:sign-up*?` — `src/app/[locale]/sign-up/[[...sign-up]]/page.tsx`
+- `/tags/:slug` — `src/app/[locale]/tags/[slug]/page.tsx`
+
+### Patrones cuyo total no se puede resolver sin datos externos
+
+- `/review/:token` — `src/app/[locale]/review/[token]/page.tsx`
+- `/sign-in/:sign-in*?` — `src/app/[locale]/sign-in/[[...sign-in]]/page.tsx`
+- `/sign-up/:sign-up*?` — `src/app/[locale]/sign-up/[[...sign-up]]/page.tsx`
+
+## 7. Endpoints API
+
+Total: **118** patrones
+
+- `/api/activity/ping` — POST — `src/app/api/activity/ping/route.ts`
+- `/api/admin/affiliate-applications/:applicationId` — PATCH — `src/app/api/admin/affiliate-applications/[applicationId]/route.ts`
+- `/api/admin/affiliate-sales` — GET — `src/app/api/admin/affiliate-sales/route.ts`
+- `/api/admin/feature-experiments` — GET, POST, PATCH — `src/app/api/admin/feature-experiments/route.ts`
+- `/api/admin/main-funnel` — GET — `src/app/api/admin/main-funnel/route.ts`
+- `/api/admin/marketplace` — GET — `src/app/api/admin/marketplace/route.ts`
+- `/api/admin/marketplace/:id` — PATCH — `src/app/api/admin/marketplace/[id]/route.ts`
+- `/api/admin/observability` — GET — `src/app/api/admin/observability/route.ts`
+- `/api/admin/product-reviews` — GET, PATCH — `src/app/api/admin/product-reviews/route.ts`
+- `/api/affiliate/applications` — POST — `src/app/api/affiliate/applications/route.ts`
+- `/api/affiliate/click` — POST — `src/app/api/affiliate/click/route.ts`
+- `/api/ai/chats` — GET, POST — `src/app/api/ai/chats/route.ts`
+- `/api/ai/chats/:chatId` — GET, DELETE — `src/app/api/ai/chats/[chatId]/route.ts`
+- `/api/ai/chats/:chatId/messages` — GET, POST — `src/app/api/ai/chats/[chatId]/messages/route.ts`
+- `/api/ai/jobs` — GET, POST — `src/app/api/ai/jobs/route.ts`
+- `/api/ai/jobs/:id` — GET — `src/app/api/ai/jobs/[id]/route.ts`
+- `/api/ai/jobs/:id/feedback` — POST, DELETE — `src/app/api/ai/jobs/[id]/feedback/route.ts`
+- `/api/ai/jobs/:id/progress` — PATCH — `src/app/api/ai/jobs/[id]/progress/route.ts`
+- `/api/ai/jobs/:id/retry` — POST — `src/app/api/ai/jobs/[id]/retry/route.ts`
+- `/api/ai/jobs/process` — GET, POST — `src/app/api/ai/jobs/process/route.ts`
+- `/api/ai/providers/recommend` — GET — `src/app/api/ai/providers/recommend/route.ts`
+- `/api/assets/provenance` — GET, PATCH — `src/app/api/assets/provenance/route.ts`
+- `/api/batches` — GET, POST — `src/app/api/batches/route.ts`
+- `/api/batches/:id` — GET, PATCH — `src/app/api/batches/[id]/route.ts`
+- `/api/batches/:id/export` — GET — `src/app/api/batches/[id]/export/route.ts`
+- `/api/brand-kits` — GET, POST — `src/app/api/brand-kits/route.ts`
+- `/api/brand-kits/:id` — GET, PATCH — `src/app/api/brand-kits/[id]/route.ts`
+- `/api/cache/invalidate` — POST — `src/app/api/cache/invalidate/route.ts`
+- `/api/cache/stats` — GET — `src/app/api/cache/stats/route.ts`
+- `/api/campaign-workflows` — GET, POST — `src/app/api/campaign-workflows/route.ts`
+- `/api/campaign-workflows/:id` — GET, PATCH — `src/app/api/campaign-workflows/[id]/route.ts`
+- `/api/campaign-workflows/:id/export` — GET — `src/app/api/campaign-workflows/[id]/export/route.ts`
+- `/api/catalog-engagement` — GET, POST — `src/app/api/catalog-engagement/route.ts`
+- `/api/catalog/:kind` — GET — `src/app/api/catalog/[kind]/route.ts`
+- `/api/catalog/components/:id` — GET — `src/app/api/catalog/components/[id]/route.ts`
+- `/api/catalog/web-pages/:id` — GET — `src/app/api/catalog/web-pages/[id]/route.ts`
+- `/api/community-reviews` — GET — `src/app/api/community-reviews/route.ts`
+- `/api/component-bundle-checkout` — POST — `src/app/api/component-bundle-checkout/route.ts`
+- `/api/component-checkout` — POST — `src/app/api/component-checkout/route.ts`
+- `/api/component-composer/export` — POST — `src/app/api/component-composer/export/route.ts`
+- `/api/component-export/download` — POST — `src/app/api/component-export/download/route.ts`
+- `/api/component-export/sandbox` — POST — `src/app/api/component-export/sandbox/route.ts`
+- `/api/component-library` — GET, PUT — `src/app/api/component-library/route.ts`
+- `/api/component-library/export` — POST — `src/app/api/component-library/export/route.ts`
+- `/api/component-personalization` — POST — `src/app/api/component-personalization/route.ts`
+- `/api/creator/listings` — GET, POST — `src/app/api/creator/listings/route.ts`
+- `/api/creator/listings/:id` — PATCH — `src/app/api/creator/listings/[id]/route.ts`
+- `/api/credits` — GET — `src/app/api/credits/route.ts`
+- `/api/credits/checkout` — POST — `src/app/api/credits/checkout/route.ts`
+- `/api/credits/estimate` — POST — `src/app/api/credits/estimate/route.ts`
+- `/api/csp-report` — POST — `src/app/api/csp-report/route.ts`
+- `/api/demo/reproducible/report` — GET — `src/app/api/demo/reproducible/report/route.ts`
+- `/api/editor/projects` — GET, PUT, DELETE — `src/app/api/editor/projects/route.ts`
+- `/api/evaluation-suites` — GET, POST — `src/app/api/evaluation-suites/route.ts`
+- `/api/evaluation-suites/:id` — GET — `src/app/api/evaluation-suites/[id]/route.ts`
+- `/api/evaluation-suites/:id/export` — GET — `src/app/api/evaluation-suites/[id]/export/route.ts`
+- `/api/feature-flags` — GET — `src/app/api/feature-flags/route.ts`
+- `/api/human-evaluations` — GET, POST — `src/app/api/human-evaluations/route.ts`
+- `/api/interests/track` — POST — `src/app/api/interests/track/route.ts`
+- `/api/landing-pages/:pageId/content` — GET — `src/app/api/landing-pages/[pageId]/content/route.ts`
+- `/api/landing-pages/:pageId/download` — GET — `src/app/api/landing-pages/[pageId]/download/route.ts`
+- `/api/landing-pages/:pageId/readability` — GET, POST — `src/app/api/landing-pages/[pageId]/readability/route.ts`
+- `/api/landing-pages/catalog` — GET — `src/app/api/landing-pages/catalog/route.ts`
+- `/api/landing-pages/readability-index` — GET — `src/app/api/landing-pages/readability-index/route.ts`
+- `/api/like` — POST — `src/app/api/like/route.ts`
+- `/api/marketplace` — GET — `src/app/api/marketplace/route.ts`
+- `/api/marketplace/:id/checkout` — POST — `src/app/api/marketplace/[id]/checkout/route.ts`
+- `/api/marketplace/:id/download` — GET — `src/app/api/marketplace/[id]/download/route.ts`
+- `/api/marketplace/:id/prompt` — GET — `src/app/api/marketplace/[id]/prompt/route.ts`
+- `/api/model-regressions` — GET, POST — `src/app/api/model-regressions/route.ts`
+- `/api/new-users` — POST — `src/app/api/new-users/route.ts`
+- `/api/new-users/status` — GET — `src/app/api/new-users/status/route.ts`
+- `/api/newsletter/confirm` — GET — `src/app/api/newsletter/confirm/route.ts`
+- `/api/newsletter/metrics` — GET — `src/app/api/newsletter/metrics/route.ts`
+- `/api/observability/events` — POST — `src/app/api/observability/events/route.ts`
+- `/api/output-contracts` — GET, POST, PATCH — `src/app/api/output-contracts/route.ts`
+- `/api/product-reviews` — GET, POST — `src/app/api/product-reviews/route.ts`
+- `/api/product-reviews/me` — GET — `src/app/api/product-reviews/me/route.ts`
+- `/api/profile/paypal` — POST — `src/app/api/profile/paypal/route.ts`
+- `/api/project-client/:token` — GET, POST — `src/app/api/project-client/[token]/route.ts`
+- `/api/projects` — GET, POST — `src/app/api/projects/route.ts`
+- `/api/projects/:id` — GET, PATCH — `src/app/api/projects/[id]/route.ts`
+- `/api/projects/:id/associations` — GET — `src/app/api/projects/[id]/associations/route.ts`
+- `/api/projects/:id/collaboration` — GET, POST — `src/app/api/projects/[id]/collaboration/route.ts`
+- `/api/prompt-experiments` — GET, POST — `src/app/api/prompt-experiments/route.ts`
+- `/api/prompt-experiments/:id` — GET, PATCH — `src/app/api/prompt-experiments/[id]/route.ts`
+- `/api/prompt-optimizer` — POST — `src/app/api/prompt-optimizer/route.ts`
+- `/api/prompt-versions` — GET, POST — `src/app/api/prompt-versions/route.ts`
+- `/api/prompt-versions/:id/evaluation` — GET — `src/app/api/prompt-versions/[id]/evaluation/route.ts`
+- `/api/prompt-versions/:id/lineage` — GET — `src/app/api/prompt-versions/[id]/lineage/route.ts`
+- `/api/prompt-versions/:id/provenance` — GET — `src/app/api/prompt-versions/[id]/provenance/route.ts`
+- `/api/prompt-versions/compare` — GET — `src/app/api/prompt-versions/compare/route.ts`
+- `/api/provider-quality` — GET — `src/app/api/provider-quality/route.ts`
+- `/api/publication-quality` — GET — `src/app/api/publication-quality/route.ts`
+- `/api/publications` — GET, POST — `src/app/api/publications/route.ts`
+- `/api/publications/:id` — PATCH — `src/app/api/publications/[id]/route.ts`
+- `/api/publications/:id/export` — GET — `src/app/api/publications/[id]/export/route.ts`
+- `/api/purchases` — GET — `src/app/api/purchases/route.ts`
+- `/api/purchases/:purchaseId/download-token` — POST — `src/app/api/purchases/[purchaseId]/download-token/route.ts`
+- `/api/purchases/download` — GET — `src/app/api/purchases/download/route.ts`
+- `/api/r2/buckets` — GET — `src/app/api/r2/buckets/route.ts`
+- `/api/recommendations` — GET — `src/app/api/recommendations/route.ts`
+- `/api/refactory-online/:slug` — GET — `src/app/api/refactory-online/[slug]/route.ts`
+- `/api/saved` — GET, POST, DELETE — `src/app/api/saved/route.ts`
+- `/api/search/intent` — GET — `src/app/api/search/intent/route.ts`
+- `/api/seed` — GET — `src/app/api/seed/route.ts`
+- `/api/stripe/demo-buy-button` — GET — `src/app/api/stripe/demo-buy-button/route.ts`
+- `/api/subscription/invoice` — GET — `src/app/api/subscription/invoice/route.ts`
+- `/api/subscription/portal` — POST — `src/app/api/subscription/portal/route.ts`
+- `/api/subscription/status` — GET — `src/app/api/subscription/status/route.ts`
+- `/api/sync-clerk` — GET — `src/app/api/sync-clerk/route.ts`
+- `/api/sync-registered-users-to-resend` — GET — `src/app/api/sync-registered-users-to-resend/route.ts`
+- `/api/sync-resend` — GET — `src/app/api/sync-resend/route.ts`
+- `/api/web-page-checkout` — GET — `src/app/api/web-page-checkout/route.ts`
+- `/api/web-pages/validate-demo-url` — GET — `src/app/api/web-pages/validate-demo-url/route.ts`
+- `/api/webhooks/clerk` — POST — `src/app/api/webhooks/clerk/route.ts`
+- `/api/webhooks/stripe` — POST — `src/app/api/webhooks/stripe/route.ts`
+- `/api/webpages/assets/:path*` — GET — `src/app/api/webpages/assets/[...path]/route.ts`
+
+## 8. Route handlers fuera de `/api`
+
+Total: **1**
+
+- `/sites/:slug` — GET — `src/app/sites/[slug]/route.ts`
+
+## 9. Endpoints de infraestructura
+
+- https://www.prompstudio.com/manifest.webmanifest
+- https://www.prompstudio.com/robots.txt
+- https://www.prompstudio.com/sitemap.xml
+- https://www.prompstudio.com/sw.js
+
+## 10. Alias y redirecciones
+
+- `/pricing` → `/prices`
+- `/gallery/:numericId` → `/gallery/img-:numericId`
+- `/webpages/instagram-clone` → `/landing-pages`
+- `/landing-pages/samsung-clone` → `/landing-pages`
+- `/landing-pages/cozyloft-home-decor` → `/landing-pages`
+- `/landing-pages/voltgear-tech-shop` → `/landing-pages/3d-tech-showroom-pro`
+- `/landing-pages/motionlab-freelance-video` → `/landing-pages/3d-photography-portfolio-video-projections`
+- `/landing-pages/magzin-job-html-css` → `/landing-pages/magzin-job-dark`
+
+## Criterio del inventario
+
+- Se incluyen las páginas declaradas en `src/app`, las URLs generadas por `src/app/sitemap.ts`, los modelos de `src/lib/models-list.ts`, las variantes preview/edit y los demos HTML de cada landing page conocida.
+- Las rutas con IDs, tokens o slugs almacenados en MongoDB se muestran como patrones y no se inventan valores.
+- Los parámetros de consulta (`?tag=`, `?filter=`, referencias de afiliado, etc.) no se cuentan como URLs separadas.
+- Los assets individuales de `public/`, `_next/` y de los demos no se cuentan como páginas; sí se incluye el `index.html` de cada demo.
+- Las URLs del sitemap también pueden aparecer entre las páginas estáticas; el total de páginas concretas elimina esas repeticiones.
+
+<!-- sitemap-only:803; model-only:33 -->

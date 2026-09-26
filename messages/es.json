@@ -10,6 +10,24 @@
     "dark": "Oscuro",
     "system": "Sistema"
   },
+  "metadata": {
+    "site": {
+      "title": "Prompt Studio — Prompts y herramientas creativas con IA",
+      "description": "Descubre prompts, personalízalos y crea imágenes, videos, componentes y landing pages con herramientas de IA."
+    },
+    "home": {
+      "title": "Descubrir | Prompt Studio",
+      "description": "Descubre imágenes, videos, páginas web y animaciones creadas para inspirar tu próximo proyecto."
+    },
+    "imagePrompts": {
+      "title": "Prompts para generar imágenes con IA",
+      "description": "Explora prompts de imagen con ejemplos visuales para retratos, producto, moda y escenas creativas; personalízalos y llévalos al generador."
+    },
+    "videoPrompts": {
+      "title": "Prompts para generar videos con IA",
+      "description": "Explora prompts de video para planos cinematográficos, movimiento de cámara, anuncios y contenido social; adapta una idea y crea tu video."
+    }
+  },
   "common": {
     "toggleMenu": "Abrir menú",
     "signIn": "Iniciar sesión",
@@ -27,6 +45,7 @@
     "search": "Buscar",
     "noResults": "No se encontraron resultados.",
     "useThisPrompt": "Usar este prompt",
+    "customize": "Personalizar",
     "generatePrompt": "Generar prompt",
     "durationSeconds": "Duración: 5 segundos",
     "noCreditCard": "No se requiere tarjeta de crédito",
@@ -105,7 +124,8 @@
     "webTags": "Webs",
     "webTagsDesc": "Explora por estilo de página",
     "componentBuilder": "Constructor de componentes",
-    "componentKits": "Kits de componentes"
+    "componentKits": "Kits de componentes",
+    "createWithAI": "Crear con IA"
   },
   "header": {
     "brand": "Prompt Studio",
@@ -117,9 +137,17 @@
     "signIn": "Iniciar sesión",
     "accountMenu": "Cuenta"
   },
+  "workspaceHeader": {
+    "homeLabel": "Ir al inicio de Prompt Studio",
+    "exploreSections": "Explorar secciones del sitio",
+    "explore": "Explorar",
+    "credits": "créditos",
+    "creditsLabel": "{credits} créditos disponibles.",
+    "lowCreditsLabel": "{credits} créditos disponibles. Créditos bajos; compra más."
+  },
   "footer": {
     "brand": "Prompt Studio",
-    "tagline": "Tu colección definitiva de prompts de video con IA. Inspírate, explora ejemplos y crea videos impresionantes con IA.",
+    "tagline": "Tu colección definitiva de prompts de IA. Inspírate, explora ejemplos y crea con IA.",
     "copyright": "Todos los derechos reservados.",
     "links": "Enlaces",
     "contact": "Contacto",
@@ -391,6 +419,10 @@
     "billedMonthly": "Facturación mensual · activa la facturación anual arriba para ahorrar",
     "equivalentMonthly": "Equivalente a ${amount}/mes, facturado anualmente",
     "savePerYear": "· Ahorra ${amount}/año",
+    "creatorCouponLabel": "Descuento Creator",
+    "creatorMonthlyCouponOffer": "1 mes gratis (US$8 de descuento)",
+    "creatorAnnualCouponOffer": "50% de descuento en la facturación anual",
+    "creatorCouponCodeLabel": "Usa el código",
     "freeName": "Free",
     "creatorName": "Creator",
     "premiumName": "Premium",
@@ -414,21 +446,17 @@
     "proCredits": "1,000 créditos de IA",
     "studioCredits": "3,000 créditos de IA",
     "freeFeatures": [
-      "Catálogo completo de botones, cards, headers y más",
-      "Animaciones web gratuitas con código copiable",
-      "Vista previa interactiva de todos los componentes",
-      "Prompts visibles en catálogo sin límite de lectura",
-      "Buscador Inteligente",
-      "Descarga de prompts personalizados",
-      "Exportación de prompts por plataforma",
-      "Copias de prompts ilimitadas por día",
-      "Copias de prompts de Componentes UI",
-      "Copias de prompts de Animaciones",
-      "Copias de prompts de Videos",
-      "Copias de prompts de Imagenes",
-      "Copias de prompts de Paginas Web",
-      "Comparador de Componentes",
-      "Sin tarjeta de crédito requerida",
+      "Catálogo UI completo",
+      "Animaciones web + código",
+      "Vistas previas interactivas",
+      "Lectura ilimitada de prompts",
+      "Búsqueda inteligente",
+      "Prompts a medida",
+      "Exportación por plataforma",
+      "Copias ilimitadas de prompts",
+      "Todos los prompts gratuitos",
+      "Comparador de componentes",
+      "Sin tarjeta de crédito",
       "Sin anuncios"
     ],
     "creatorFeatures": [
@@ -642,6 +670,56 @@
     "customSubtitle": "Usa nuestro generador con IA para crear prompts de alta calidad para cualquiera de estos modelos en segundos.",
     "goToGenerator": "Ir al generador"
   },
+  "promptHubs": {
+    "imageTitle": "Explora prompts de imágenes con IA",
+    "imageSubtitle": "Descubre miles de prompts y ejemplos de imágenes con IA. Inspírate y crea tus propias imágenes generadas con IA.",
+    "videoTitle": "Explora prompts de videos con IA",
+    "videoSubtitle": "Descubre miles de prompts y ejemplos de videos con IA. Inspírate y crea tus propios videos generados con IA.",
+    "allPrompts": "Todos los prompts",
+    "generateImage": "Generar una imagen",
+    "generateVideo": "Generar un video",
+    "resultCount": "{count, plural, one {# resultado} other {# resultados}}",
+    "resultsFor": "para \"{query}\"",
+    "tagsApplied": "etiquetas: {tags}"
+  },
+  "discover": {
+    "title": "Descubre lo que puedes crear con IA.",
+    "subtitle": "Imágenes, videos, experiencias web y animaciones seleccionadas desde nuestros catálogos reales.",
+    "startWithIdea": "Empieza por una idea",
+    "noBlankPage": "Sin empezar desde cero",
+    "searchPlaceholder": "Buscar ideas, estilos o tecnologías...",
+    "featuredWeb": "Web destacada",
+    "journeyLabel": "Tu recorrido",
+    "journeyTitle": "De la inspiración a un resultado utilizable",
+    "journeySubtitle": "Todas las herramientas de Prompt Studio acompañan estas cuatro etapas.",
+    "step": "Paso {number}",
+    "journey": {
+      "discover": "Descubre",
+      "discoverDetail": "Encuentra una base",
+      "customize": "Personaliza",
+      "customizeDetail": "Adapta el prompt",
+      "preview": "Previsualiza",
+      "previewDetail": "Comprueba el resultado",
+      "get": "Obtén",
+      "getDetail": "Descarga o compra"
+    },
+    "filters": {
+      "all": "Todo",
+      "images": "Imágenes",
+      "videos": "Videos",
+      "animations": "Animaciones"
+    },
+    "feedStep": "Paso 1 · Descubre",
+    "feedTitle": "Elige una idea para personalizar",
+    "results": "{count, plural, one {# resultado} other {# resultados}}",
+    "loadMore": "Cargar más resultados",
+    "customize": "Personalizar",
+    "preview": "Previsualizar",
+    "like": "Me gusta {title}",
+    "removeLike": "Quitar Me gusta de {title}",
+    "verifiedRatings": "{count, plural, one {# valoración verificada} other {# valoraciones verificadas}}",
+    "views": "Visualizaciones"
+  },
   "gallery": {
     "backToGallery": "Volver a la galería",
     "promptDetails": "Detalles del prompt",
@@ -733,7 +811,15 @@
     "landingTopTags": "Landings — top tags",
     "landingTopStacks": "Landings — top stacks",
     "imageTopTags": "Imágenes — top tags",
-    "videoTopTags": "Videos — top tags"
+    "videoTopTags": "Videos — top tags",
+    "categoryVisualStyles": "Estilos visuales",
+    "categorySubjects": "Sujetos",
+    "categoryComposition": "Composición",
+    "categoryBrandsProducts": "Marcas y productos",
+    "categoryLighting": "Iluminación",
+    "categoryEffectsTechniques": "Efectos y técnicas",
+    "categorySettings": "Escenarios",
+    "categoryOtherTags": "Otras etiquetas"
   },
   "landingEditor": {
     "title": "Editor de landing pages",
@@ -753,8 +839,7 @@
     "loadPageError": "No se pudo cargar el contenido",
     "openEditor": "Abrir editor de landings",
     "savedBadgeHint": "Último análisis guardado",
-    "openSavedAnalysis": "Abrir análisis de legibilidad guardado",
-    "test": ""
+    "openSavedAnalysis": "Abrir análisis de legibilidad guardado"
   },
   "affiliate": {
     "pageTitle": "Programa de Afiliados | Prompt Studio",
