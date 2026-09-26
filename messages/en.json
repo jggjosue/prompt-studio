@@ -765,7 +765,7 @@
       "ctaHowItWorks": "How It Works"
     },
     "metrics": {
-      "commission": "Up to 30% Commission",
+      "commission": "30% Commission",
       "cookie": "60-Day Cookie Window",
       "product": "Digital Product",
       "payouts": "Monthly Payouts",
@@ -783,7 +783,7 @@
       },
       "commission": {
         "title": "Attractive commission",
-        "desc": "Earn up to 30% on every qualifying digital product sale."
+        "desc": "Earn 30% on every qualifying digital product sale."
       },
       "link": {
         "title": "Unique affiliate link",
@@ -808,7 +808,7 @@
       "benefit1": "Proven and optimized prompts for Midjourney, Runway, Luma, and more.",
       "benefit2": "Designed for creators, agencies, designers, and developers.",
       "benefit3": "Includes ready-to-copy prompts for web pages, videos, and images.",
-      "benefit4": "Earn up to 30% commission per qualified sale.",
+      "benefit4": "Earn 30% commission per qualified sale.",
       "ctaPreview": "Product Preview",
       "ctaLink": "Get Affiliate Link",
       "ebookLabel": "CATALOG",
@@ -1041,7 +1041,7 @@
         },
         {
           "q": "How much commission can I earn?",
-          "a": "Approved partners can earn 30% depending on tier and performance."
+          "a": "Approved partners can earn 30% on every qualifying plan purchase."
         },
         {
           "q": "When are commissions paid?",

@@ -9,18 +9,18 @@ import {
   useRefreshSubscriptionStatus,
   useStripeSubscription,
 } from '@/hooks/use-stripe-subscription';
+import { trackAnalyticsEvent } from '@/lib/analytics';
 import {
   getPlanCheckoutUrl,
   isPlanAvailable,
 } from '@/lib/stripe-checkout';
-import { trackAnalyticsEvent } from '@/lib/analytics';
+import { type PlanId } from '@/lib/subscription-plans';
 import { useAuth } from '@clerk/nextjs';
 import { Check, Crown, Sparkles, Zap } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import { type PlanId } from '@/lib/subscription-plans';
 
 type PlanMetadata = {
   id: PlanId;
@@ -273,7 +273,7 @@ export default function PricesClient() {
     <div className="flex min-h-screen w-full flex-col bg-background">
       <Header />
       <main className="flex-1 py-12 md:py-20">
-        <div className="container max-w-6xl min-w-0 px-4 sm:px-6">
+        <div className="container max-w-7xl min-w-0 px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold font-headline mb-4">
               {t('chooseHowYouCreate')}
@@ -318,13 +318,12 @@ export default function PricesClient() {
             </button>
           </div>
 
-          {/* Plans grid */}
-          <div className="grid grid-cols-1 gap-6 mx-auto sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 max-w-[90rem]">
-            {PLANS.map((paidPlan) => {
-              const available = paidPlan.id === 'free' ||
-                (paidPlan.id === 'creator' && isCreatorAvailable) ||
-                (paidPlan.id === 'pro' && isProAvailable) ||
-                (paidPlan.id === 'studio' && isStudioAvailable);
+          <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4 xl:gap-8">
+            {PLANS.map((plan) => {
+              const available = plan.id === 'free' ||
+                (plan.id === 'creator' && isCreatorAvailable) ||
+                (plan.id === 'pro' && isProAvailable) ||
+                (plan.id === 'studio' && isStudioAvailable);
 
               return (
                 <Card

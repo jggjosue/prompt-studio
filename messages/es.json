@@ -767,7 +767,7 @@
       "ctaHowItWorks": "Cómo Funciona"
     },
     "metrics": {
-      "commission": "Hasta 30% de Comisión",
+      "commission": "30% de Comisión",
       "cookie": "Ventana de Cookie de 60 Días",
       "product": "Producto Digital",
       "payouts": "Pagos Mensuales",
@@ -785,7 +785,7 @@
       },
       "commission": {
         "title": "Comisión atractiva",
-        "desc": "Gana hasta el 30% en cada venta calificada del producto digital."
+        "desc": "Gana el 30% en cada venta calificada del producto digital."
       },
       "link": {
         "title": "Enlace de afiliado único",
@@ -810,7 +810,7 @@
       "benefit1": "Prompts probados y optimizados para Midjourney, Runway, Luma y más.",
       "benefit2": "Diseñado para creadores, agencias, diseñadores y desarrolladores.",
       "benefit3": "Incluye prompts listos para copiar de páginas web, videos e imágenes.",
-      "benefit4": "Gana hasta el 30% de comisión por cada venta calificada.",
+      "benefit4": "Gana el 30% de comisión por cada venta calificada.",
       "ctaPreview": "Vista Previa del Producto",
       "ctaLink": "Obtener Enlace de Afiliado",
       "ebookLabel": "CATÁLOGO",
@@ -1043,7 +1043,7 @@
         },
         {
           "q": "¿Cuánta comisión puedo ganar?",
-          "a": "Los partners aprobados pueden ganar 30% según el nivel y el rendimiento."
+          "a": "Los partners aprobados pueden ganar el 30% por cada compra calificada de un plan."
         },
         {
           "q": "¿Cuándo se pagan las comisiones?",

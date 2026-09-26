@@ -523,13 +523,13 @@ function HeroScene() {
 
       card(width * 0.08 + px, height * 0.22 + py, 150, 88, 'Referral Link', 'rgba(125,211,252,0.55)');
       card(width * 0.34 + px, height * 0.14 + py, 185, 118, 'Referral Dashboard', 'rgba(167,139,250,0.55)');
-      card(width * 0.63 + px, height * 0.12 + py, 190, 108, '20% Commission', 'rgba(134,239,172,0.62)');
+      card(width * 0.63 + px, height * 0.12 + py, 190, 108, '30% Commission', 'rgba(134,239,172,0.62)');
       card(width * 0.53 + px, height * 0.52 + py, 142, 116, 'Prompt Card', 'rgba(96,165,250,0.55)');
       card(width * 0.77 + px, height * 0.46 + py, 150, 132, 'Terms Secure', 'rgba(45,212,191,0.5)');
 
       ctx.fillStyle = 'rgba(134,239,172,0.96)';
       ctx.font = '800 54px sans-serif';
-      ctx.fillText('20%', width * 0.66 + px, height * 0.2 + py + 46);
+      ctx.fillText('30%', width * 0.66 + px, height * 0.2 + py + 46);
       ctx.fillStyle = 'rgba(226,232,240,0.92)';
       ctx.font = '600 14px sans-serif';
       ctx.fillText('commission', width * 0.67 + px, height * 0.2 + py + 70);
