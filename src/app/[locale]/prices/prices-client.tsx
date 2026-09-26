@@ -107,7 +107,7 @@ function CreatorCoupon({ isAnnual }: { isAnnual: boolean }) {
       <p className="mt-3 text-xs text-muted-foreground">
         {tPrices('creatorCouponCodeLabel')}
       </p>
-      <code className="mt-1 block break-all font-mono text-2xl font-black tracking-wide text-foreground sm:text-3xl">
+      <code className="mt-1 block break-all font-mono text-3xl font-black tracking-wide text-foreground sm:text-4xl">
         {couponCode}
       </code>
     </div>
@@ -382,7 +382,7 @@ export default function PricesClient() {
                         yearly={plan.annual}
                       />
                     </div>
-                    {plan.id === 'creator' && <CreatorCoupon isAnnual={isAnnual} />}
+                    {plan.id !== 'free' && <CreatorCoupon isAnnual={isAnnual} />}
                     <ul className="space-y-3 mb-8 flex-grow">
                       {plan.features.map((feature) => (
                         <li key={feature} className="flex items-start gap-3 text-sm">
