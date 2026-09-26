@@ -38,13 +38,39 @@ export function localeFromCookieHeader(cookieHeader: string | null): Locale | nu
 }
 
 /**
- * Orden de preferencia: cookie explícita del usuario → `defaultLocale`.
+ * Orden de preferencia: `defaultLocale` → cookie explícita del usuario →
+ * idioma del navegador → país detectado en el edge.
  *
- * Todos los visitantes empiezan en inglés, sin importar su país o el idioma
- * configurado en el navegador. Solo una elección explícita en el selector del
- * footer puede cambiar la experiencia a español.
+ * El `defaultLocale` siempre gana al iniciar, así la app comienza en inglés
+ * aunque el usuario haya cambiado a español en una sesión anterior (la cookie
+ * se ignora hasta que el usuario selecciona activamente el idioma).
+ *
+ * Si el usuario quiere español, debe usar el LanguageToggle en el footer,
+ * que establece la cookie y recarga la página.
  */
 export function detectLocale(headers: Headers): Locale {
+  // 1. Default locale: la app siempre inicia en inglés por defecto
+  //    A menos que el usuario haya guardado una preferencia en cookie.
+  const fromDefault = defaultLocale;
+
+  // 2. Cookie explícita del usuario (solo si ya fue establecido previamente)
+  //    Si el usuario cambió de idioma antes, respetamos su elección.
   const fromCookie = localeFromCookieHeader(headers.get('cookie'));
-  return fromCookie ?? defaultLocale;
+
+  // 3. Idioma del navegador (accept-language) — solo si no hay cookie
+  const acceptLanguage = (headers.get('accept-language') || '').toLowerCase();
+
+  // 4. País detectado en el edge — solo si no hay cookie
+  const country = (
+    headers.get('x-vercel-ip-country') ||
+    headers.get('x-edge-country') ||
+    ''
+  ).toUpperCase();
+
+  // Si el usuario tenía guardada una preferencia de idioma en cookie, usarla
+  if (fromCookie) return fromCookie;
+
+  // Por defecto: inglés (defaultLocale), ignorando el idioma del navegador
+  // el usuario puede cambiar a español usando el LanguageToggle en el footer
+  return fromDefault;
 }

@@ -1,8 +1,6 @@
 import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import { ChatLayout } from '@/components/chat/chat-layout';
-import { currentUser } from '@clerk/nextjs/server';
-import { isPromptStudioAdminEmail } from '@/lib/prompt-studio-admin';
 
 export const metadata: Metadata = {
   title: 'Crear con IA | Prompt Studio',
@@ -12,11 +10,9 @@ export const metadata: Metadata = {
 };
 
 export default async function GeneratePage() {
-  const user = await currentUser();
-  const isDeveloperAdmin = isPromptStudioAdminEmail(user?.primaryEmailAddress?.emailAddress);
   return (
     <Suspense>
-      <ChatLayout isDeveloperAdmin={isDeveloperAdmin} />
+      <ChatLayout />
     </Suspense>
   );
 }

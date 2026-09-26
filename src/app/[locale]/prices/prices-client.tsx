@@ -138,18 +138,6 @@ const PLAN_METADATA: PlanMetadata[] = [
     isMostPopular: false,
   },
   {
-    id: 'premium',
-    nameKey: 'premiumName',
-    descKey: 'premiumDesc',
-    ctaKey: 'premiumSubscribe',
-    featuresKey: 'premiumFeatures',
-    monthly: 15,
-    annual: 150,
-    credits: 0,
-    isMostPopular: false,
-    comingSoon: true,
-  },
-  {
     id: 'pro',
     nameKey: 'proName',
     descKey: 'proDesc',
@@ -217,9 +205,8 @@ export default function PricesClient() {
 
   const getPlanPrice = (planId: PlanId, annual: boolean): number => {
     if (planId === 'free') return 0;
-    const prices: Record<'creator' | 'premium' | 'pro' | 'studio', { monthly: number; annual: number }> = {
+    const prices: Record<'creator' | 'pro' | 'studio', { monthly: number; annual: number }> = {
       creator: { monthly: 9, annual: 90 },
-      premium: { monthly: 15, annual: 150 },
       pro: { monthly: 25, annual: 250 },
       studio: { monthly: 39, annual: 390 },
     };
@@ -378,7 +365,6 @@ export default function PricesClient() {
                     <div className="flex items-center justify-between gap-2">
                       <CardTitle className="font-headline text-2xl">
                         {plan.id === 'creator' && <Crown className="w-6 h-6 text-blue-500 mr-2 inline" />}
-                        {plan.id === 'premium' && <Crown className="w-6 h-6 text-cyan-400 mr-2 inline" />}
                         {plan.id === 'pro' && <Sparkles className="w-6 h-6 text-violet-500 mr-2 inline" />}
                         {plan.id === 'studio' && <Zap className="w-6 h-6 text-amber-500 mr-2 inline" />}
                         {plan.name}
