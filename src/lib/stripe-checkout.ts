@@ -96,7 +96,7 @@ export function isPlanAvailable(plan: 'creator' | 'pro' | 'studio'): boolean {
 export function getPlanPriceFromConfig(plan: 'creator' | 'pro' | 'studio', isAnnual: boolean): number {
   switch (plan) {
     case 'creator': return isAnnual ? 90 : 9;
-    case 'pro': return isAnnual ? 190 : 19;
+    case 'pro': return isAnnual ? 250 : 25;
     case 'studio': return isAnnual ? 390 : 39;
   }
 }

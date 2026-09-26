@@ -223,9 +223,26 @@ export default async function DashboardLayout({
     { href: '/dashboard/credits', icon: <Coins className="h-4 w-4" />, label: t('credits'), description: t('creditsDesc') },
   ];
   const primaryPaths = new Set(navItems.map(item => item.href));
+
+  // Regular users only see Mis compras + Profile in the settings section
+  const regularUserSettingsItems: typeof allSettingsNavItems = [
+    {
+      href: '/dashboard/library',
+      icon: <Library className="h-4 w-4" />,
+      label: 'Mis compras',
+      description: 'Recibos y descargas',
+    },
+    {
+      href: '/dashboard/profile',
+      icon: <UserCircle className="h-4 w-4" />,
+      label: t('profile'),
+      description: t('profileDesc'),
+    },
+  ];
+
   const settingsNavItems = isPremiumJoAdmin
     ? allSettingsNavItems.filter(item => !primaryPaths.has(item.href))
-    : [];
+    : regularUserSettingsItems;
 
   return (
     <DashboardShell
@@ -233,7 +250,7 @@ export default async function DashboardLayout({
         <div className="flex h-full min-h-0 flex-col gap-2">
           <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-              {navItems.map(item => (
+              {isPremiumJoAdmin && navItems.map(item => (
                 <SidebarNavLink
                   key={item.label}
                   href={item.href}
@@ -246,9 +263,11 @@ export default async function DashboardLayout({
               ))}
             </nav>
             <div className="mt-4 px-2 pb-4 lg:px-4">
-              <h3 className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                {t('settingsSection')}
-              </h3>
+              {isPremiumJoAdmin && (
+                <h3 className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  {t('settingsSection')}
+                </h3>
+              )}
               <nav className="grid gap-2 items-start text-sm font-medium">
                 {settingsNavItems.map(item => (
                   <SidebarNavLink
@@ -285,9 +304,11 @@ export default async function DashboardLayout({
       }
       compactSidebar={
         <div className="flex flex-col items-center gap-3 py-5">
-          <span className="text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground [writing-mode:vertical-rl]">
-            {t('settingsSection')}
-          </span>
+          {isPremiumJoAdmin && (
+            <span className="text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground [writing-mode:vertical-rl]">
+              {t('settingsSection')}
+            </span>
+          )}
           <nav className="grid gap-2">
             {settingsNavItems.map(item => (
               <SidebarNavLink

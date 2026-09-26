@@ -22,16 +22,30 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { type PlanId } from '@/lib/subscription-plans';
 
-type PaidPlan = {
+type PlanMetadata = {
   id: PlanId;
-  name: string;
+  nameKey: string;
+  descKey: string;
+  ctaKey: string;
+  featuresKey: string;
   monthly: number;
   annual: number;
   credits: number;
   isMostPopular: boolean;
   comingSoon?: boolean;
-  features: string[];
+};
+
+type PaidPlan = {
+  id: PlanId;
+  name: string;
+  desc: string;
   cta: string;
+  features: string[];
+  monthly: number;
+  annual: number;
+  credits: number;
+  isMostPopular: boolean;
+  comingSoon?: boolean;
 };
 
 function formatMonthlyEquivalent(yearly: number) {
@@ -41,7 +55,7 @@ function formatMonthlyEquivalent(yearly: number) {
 function PaidPlanPrice({ isAnnual, monthly, yearly }: { isAnnual: boolean; monthly: number; yearly: number }) {
   const tPrices = useTranslations('prices');
   const displayPrice = isAnnual ? yearly : monthly;
-  const priceSuffix = isAnnual ? '/año' : '/mes';
+  const priceSuffix = isAnnual ? tPrices('perYear') : tPrices('perMonth');
   const savings = monthly * 12 - yearly;
   const discountPercent = monthly > 0 ? Math.round((savings / (monthly * 12)) * 100) : 0;
 
@@ -57,7 +71,7 @@ function PaidPlanPrice({ isAnnual, monthly, yearly }: { isAnnual: boolean; month
         )}
       </div>
       {monthly === 0 ? (
-        <p className="text-sm text-muted-foreground mb-6">Sin tarjeta de crédito</p>
+        <p className="text-sm text-muted-foreground mb-6">{tPrices('noCreditCard')}</p>
       ) : isAnnual ? (
         <div className="mb-6 space-y-1">
           <p className="text-sm text-muted-foreground">
@@ -65,7 +79,7 @@ function PaidPlanPrice({ isAnnual, monthly, yearly }: { isAnnual: boolean; month
           </p>
           {savings > 0 && (
             <p className="text-xs font-medium text-emerald-600 dark:text-emerald-400">
-              Ahorras ${savings}/año ({discountPercent}% de descuento)
+              {tPrices('savePerYearDiscount', { amount: savings, percent: discountPercent })}
             </p>
           )}
         </div>
@@ -76,89 +90,64 @@ function PaidPlanPrice({ isAnnual, monthly, yearly }: { isAnnual: boolean; month
   );
 }
 
-const PLANS: PaidPlan[] = [
+const PLAN_METADATA: PlanMetadata[] = [
   {
     id: 'free',
-    name: 'Free',
+    nameKey: 'freeName',
+    descKey: 'freeDesc',
+    ctaKey: 'freeSubscribe',
+    featuresKey: 'freeFeatures',
     monthly: 0,
     annual: 0,
     credits: 0,
     isMostPopular: false,
-    features: [
-      'Catálogo completo de botones, cards, headers y más',
-      'Animaciones web gratuitas con código copiable',
-      'Vista previa interactiva de todos los componentes',
-      'Prompts visibles en catálogo sin límite de lectura',
-      'Buscador Inteligente',
-      'Descarga de prompts personalizados',
-      'Exportación de prompts por plataforma',
-      'Copias de prompts ilimitadas por día',
-      'Copias de prompts de Componentes UI',
-      'Copias de prompts de Animaciones',
-      'Copias de prompts de Videos',
-      'Copias de prompts de Imagenes',
-      'Copias de prompts de Paginas Web',
-      'Buscador Inteligente',
-      'Comparador de Componentes',
-      'Sin tarjeta de crédito requerida',
-      'Sin anuncios',
-    ],
-    cta: 'Explorar gratis',
   },
   {
     id: 'creator',
-    name: 'Creator',
+    nameKey: 'creatorName',
+    descKey: 'creatorDesc',
+    ctaKey: 'creatorSubscribe',
+    featuresKey: 'creatorFeatures',
     monthly: 9,
     annual: 90,
     credits: 0,
     isMostPopular: false,
-    features: [
-      'Todo en Free',
-      'Catálogo completo de botones, cards, headers y más (Premium)',
-      'Copias de prompts de Paginas Web (Premium)',
-      'Copias de prompts den Kids Completos (Premium)',
-      'Constructor visual de componentes (Component Builder)',
-      'Page Composer para componer páginas completas'
-    ],
-    cta: 'Empezar con Creator',
+  },
+  {
+    id: 'premium',
+    nameKey: 'premiumName',
+    descKey: 'premiumDesc',
+    ctaKey: 'premiumSubscribe',
+    featuresKey: 'premiumFeatures',
+    monthly: 15,
+    annual: 150,
+    credits: 0,
+    isMostPopular: false,
+    comingSoon: true,
   },
   {
     id: 'pro',
-    name: 'Pro',
-    monthly: 19,
-    annual: 190,
+    nameKey: 'proName',
+    descKey: 'proDesc',
+    ctaKey: 'proSubscribe',
+    featuresKey: 'proFeatures',
+    monthly: 25,
+    annual: 250,
     credits: 0,
     isMostPopular: true,
     comingSoon: true,
-    features: [
-      'Todo en Creator',
-      'Web Creator y herramientas web avanzadas',
-      'Herramientas avanzadas de imagen y generación',
-      'Modelos de IA avanzados',
-      'Catálogo Premium completo desbloqueado',
-      'Publicación y exportación de páginas web',
-    ],
-    cta: 'Empezar con Pro',
   },
   {
     id: 'studio',
-    name: 'Studio',
+    nameKey: 'studioName',
+    descKey: 'studioDesc',
+    ctaKey: 'studioSubscribe',
+    featuresKey: 'studioFeatures',
     monthly: 39,
     annual: 390,
     credits: 0,
     isMostPopular: false,
     comingSoon: true,
-    features: [
-      'Todo en Pro',
-      'Generación ilimitada de prompts y exportaciones',
-      'Acceso prioritario a servidores',
-      'Más proyectos e historial extendido',
-      'Kids Completos para construir productos',
-      'Web creator para desarrollar aplicaciones web con IA',
-
-      'Acceso anticipado a nuevas funciones',
-    ],
-    cta: 'Empezar con Studio',
   },
 ];
 
@@ -187,14 +176,30 @@ export default function PricesClient() {
   const isCreatorAvailable = isPlanAvailable('creator');
   const isProAvailable = isPlanAvailable('pro');
   const isStudioAvailable = isPlanAvailable('studio');
-  const getPlanPrice = (planId: PlanId, isAnnual: boolean): number => {
+
+  // Build localized plan objects from metadata + translation keys
+  const PLANS: PaidPlan[] = PLAN_METADATA.map((meta) => ({
+    id: meta.id,
+    name: t(meta.nameKey as Parameters<typeof t>[0]),
+    desc: t(meta.descKey as Parameters<typeof t>[0]),
+    cta: t(meta.ctaKey as Parameters<typeof t>[0]),
+    features: t.raw(meta.featuresKey as Parameters<typeof t>[0]) as string[],
+    monthly: meta.monthly,
+    annual: meta.annual,
+    credits: meta.credits,
+    isMostPopular: meta.isMostPopular,
+    comingSoon: meta.comingSoon,
+  }));
+
+  const getPlanPrice = (planId: PlanId, annual: boolean): number => {
     if (planId === 'free') return 0;
-    const prices: Record<'creator' | 'pro' | 'studio', { monthly: number; annual: number }> = {
+    const prices: Record<'creator' | 'premium' | 'pro' | 'studio', { monthly: number; annual: number }> = {
       creator: { monthly: 9, annual: 90 },
-      pro: { monthly: 19, annual: 190 },
+      premium: { monthly: 15, annual: 150 },
+      pro: { monthly: 25, annual: 250 },
       studio: { monthly: 39, annual: 390 },
     };
-    return prices[planId][isAnnual ? 'annual' : 'monthly'];
+    return prices[planId as keyof typeof prices]?.[annual ? 'annual' : 'monthly'] ?? 0;
   };
 
   const handleSelectPlan = (planId: PlanId) => {
@@ -268,16 +273,17 @@ export default function PricesClient() {
     <div className="flex min-h-screen w-full flex-col bg-background">
       <Header />
       <main className="flex-1 py-12 md:py-20">
-        <div className="container max-w-6xl min-w-0">
+        <div className="container max-w-[90rem] min-w-0 px-4 sm:px-6">
           <div className="text-center mb-10">
-            <h1 className="text-4xl md:text-5xl font-bold font-headline mb-4">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold font-headline mb-4">
               {t('chooseHowYouCreate')}
             </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Comienza gratis y mejora cuando necesites más funciones premium, modelos avanzados y herramientas creativas.
+            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
+              {t('subtitle')}
             </p>
           </div>
 
+          {/* Billing toggle */}
           <div
             className="mb-10 mx-auto flex w-fit rounded-full border border-blue-500/55 bg-slate-950 p-1.5 shadow-[0_12px_35px_rgba(37,99,235,0.18)]"
             role="group"
@@ -287,48 +293,49 @@ export default function PricesClient() {
               type="button"
               onClick={() => setIsAnnual(false)}
               aria-pressed={!isAnnual}
-              className={`rounded-full px-7 py-3 text-sm font-semibold transition-all duration-200 sm:px-9 ${!isAnnual
+              className={`rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-200 sm:px-9 sm:py-3 ${!isAnnual
                 ? '!bg-blue-600 !text-white shadow-[0_8px_24px_rgba(37,99,235,0.4)] ring-1 ring-blue-400'
                 : '!text-slate-200 hover:!bg-blue-950/60 hover:!text-white'
                 }`}
             >
-              Mensual
+              {t('monthlyBilling')}
             </button>
             <button
               type="button"
               onClick={() => setIsAnnual(true)}
               aria-pressed={isAnnual}
-              className={`flex items-center gap-2 rounded-full px-7 py-3 text-sm font-semibold transition-all duration-200 sm:px-9 ${isAnnual
+              className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-200 sm:px-9 sm:py-3 ${isAnnual
                 ? '!bg-blue-600 !text-white shadow-[0_8px_24px_rgba(37,99,235,0.4)] ring-1 ring-blue-400'
                 : '!text-slate-200 hover:!bg-blue-950/60 hover:!text-white'
                 }`}
             >
-              <span>Anual</span>
+              <span>{t('yearlyBilling')}</span>
               <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-xs font-bold text-emerald-400 border border-emerald-500/30">
-                Ahorra ~17%
+                {t('savePercentTag')}
               </span>
             </button>
           </div>
 
-          <div className="grid grid-cols-1 gap-8 mx-auto lg:grid-cols-4 max-w-7xl">
-            {PLANS.map((paidPlanItem) => {
-              const available = paidPlanItem.id === 'free' ||
-                (paidPlanItem.id === 'creator' && isCreatorAvailable) ||
-                (paidPlanItem.id === 'pro' && isProAvailable) ||
-                (paidPlanItem.id === 'studio' && isStudioAvailable);
+          {/* Plans grid */}
+          <div className="grid grid-cols-1 gap-6 mx-auto sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 max-w-[90rem]">
+            {PLANS.map((paidPlan) => {
+              const available = paidPlan.id === 'free' ||
+                (paidPlan.id === 'creator' && isCreatorAvailable) ||
+                (paidPlan.id === 'pro' && isProAvailable) ||
+                (paidPlan.id === 'studio' && isStudioAvailable);
 
               return (
                 <Card
-                  key={paidPlanItem.id}
-                  className={`relative flex flex-col overflow-hidden transition-all duration-300 hover:shadow-xl ${paidPlanItem.isMostPopular
+                  key={paidPlan.id}
+                  className={`relative flex flex-col overflow-hidden transition-all duration-300 hover:shadow-xl ${paidPlan.isMostPopular
                     ? 'border-violet-500 shadow-lg shadow-violet-500/10 scale-[1.02]'
                     : 'border-muted-foreground/20 shadow-sm'
-                    } ${paidPlanItem.comingSoon ? 'opacity-60 select-none' : ''} ${!available && !paidPlanItem.comingSoon ? 'opacity-50 pointer-events-none' : ''}`}
+                    } ${paidPlan.comingSoon ? 'opacity-60 select-none' : ''} ${!available && !paidPlan.comingSoon ? 'opacity-50 pointer-events-none' : ''}`}
                 >
-                  {paidPlanItem.comingSoon && (
+                  {paidPlan.comingSoon && (
                     <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-slate-500 via-slate-400 to-slate-500" />
                   )}
-                  {paidPlanItem.isMostPopular && !paidPlanItem.comingSoon && (
+                  {paidPlan.isMostPopular && !paidPlan.comingSoon && (
                     <>
                       <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-violet-500 via-fuchsia-400 to-violet-500" />
                       <Badge className="absolute top-4 right-4 bg-violet-500 text-white hover:bg-violet-600">
@@ -336,40 +343,35 @@ export default function PricesClient() {
                       </Badge>
                     </>
                   )}
-                  {paidPlanItem.comingSoon && (
+                  {paidPlan.comingSoon && (
                     <Badge className="absolute top-4 right-4 bg-slate-600 text-white hover:bg-slate-600 border-0">
-                      Próximamente
+                      {t('comingSoon')}
                     </Badge>
                   )}
                   <CardHeader className="pb-4 pt-8">
                     <div className="flex items-center justify-between gap-2">
                       <CardTitle className="font-headline text-2xl">
-                        {paidPlanItem.id === 'creator' && <Crown className="w-6 h-6 text-blue-500 mr-2 inline" />}
-                        {paidPlanItem.id === 'pro' && <Sparkles className="w-6 h-6 text-violet-500 mr-2 inline" />}
-                        {paidPlanItem.id === 'studio' && <Zap className="w-6 h-6 text-amber-500 mr-2 inline" />}
-                        {paidPlanItem.name}
+                        {paidPlan.id === 'creator' && <Crown className="w-6 h-6 text-blue-500 mr-2 inline" />}
+                        {paidPlan.id === 'premium' && <Crown className="w-6 h-6 text-cyan-400 mr-2 inline" />}
+                        {paidPlan.id === 'pro' && <Sparkles className="w-6 h-6 text-violet-500 mr-2 inline" />}
+                        {paidPlan.id === 'studio' && <Zap className="w-6 h-6 text-amber-500 mr-2 inline" />}
+                        {paidPlan.name}
                       </CardTitle>
                     </div>
                     <p className="text-muted-foreground text-sm leading-relaxed">
-                      {paidPlanItem.id === 'free'
-                        ? 'Explora el catálogo completo de componentes gratis'
-                        : paidPlanItem.id === 'creator'
-                          ? 'Constructor visual, descargas y Page Composer'
-                          : paidPlanItem.id === 'pro'
-                            ? 'El más popular. Máximas herramientas y catálogo Premium'
-                            : 'El máximo nivel de creación sin límites'}
+                      {paidPlan.desc}
                     </p>
                   </CardHeader>
                   <CardContent className="flex flex-col flex-grow">
                     <div className="mb-6">
                       <PaidPlanPrice
                         isAnnual={isAnnual}
-                        monthly={paidPlanItem.monthly}
-                        yearly={paidPlanItem.annual}
+                        monthly={paidPlan.monthly}
+                        yearly={paidPlan.annual}
                       />
                     </div>
                     <ul className="space-y-3 mb-8 flex-grow">
-                      {paidPlanItem.features.map((feature) => (
+                      {paidPlan.features.map((feature) => (
                         <li key={feature} className="flex items-start gap-3 text-sm">
                           <Check className="w-5 h-5 shrink-0 mt-0.5 text-blue-500" />
                           <span>{feature}</span>
@@ -377,15 +379,15 @@ export default function PricesClient() {
                       ))}
                     </ul>
                     <div className="mt-auto">
-                      {paidPlanItem.comingSoon ? (
+                      {paidPlan.comingSoon ? (
                         <Button
                           className="w-full bg-slate-700 hover:bg-slate-700 text-slate-300 cursor-not-allowed"
                           disabled
                         >
-                          Próximamente
+                          {t('comingSoon')}
                         </Button>
                       ) : (
-                        getCTA(paidPlanItem)
+                        getCTA(paidPlan)
                       )}
                     </div>
                   </CardContent>

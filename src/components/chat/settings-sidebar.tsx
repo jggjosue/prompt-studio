@@ -100,7 +100,7 @@ export function SettingsSidebar({ chat }: { chat: ChatGeneratorReturn }) {
     'claude-3-5-sonnet-20240620': 8,
   };
   const currentModel = params.model ?? '';
-  const estimatedCredits = CREDIT_ESTIMATES[currentModel] ?? (selectedMode === 'image' ? 10 : selectedMode === 'video' ? 20 : 2);
+  const estimatedCredits = 0;
   const balanceAfter = Math.max(0, credits - estimatedCredits);
   const insufficient = credits < estimatedCredits;
 
@@ -470,7 +470,7 @@ export function SettingsSidebar({ chat }: { chat: ChatGeneratorReturn }) {
                 <span className="text-muted-foreground">Costo estimado</span>
                 <span className="flex items-center gap-1 font-semibold">
                   <Zap className="h-3 w-3 text-yellow-400" />
-                  ~{estimatedCredits} créditos
+                  ~0 créditos
                 </span>
               </div>
               <div className="flex items-center justify-between text-xs">
