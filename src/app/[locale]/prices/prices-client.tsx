@@ -92,7 +92,7 @@ function PaidPlanPrice({ isAnnual, monthly, yearly }: { isAnnual: boolean; month
 
 function CreatorCoupon({ isAnnual }: { isAnnual: boolean }) {
   const tPrices = useTranslations('prices');
-  const couponCode = isAnnual ? 'CREATOR_ANNUAL' : 'CREATOR26';
+  const couponCode = isAnnual ? 'CREATOR_ANNUAL' : 'CREATOR_MONTH';
 
   return (
     <div className="mb-6 rounded-2xl border border-blue-500/40 bg-gradient-to-br from-blue-500/15 via-blue-500/5 to-emerald-500/10 p-4 shadow-[0_12px_35px_rgba(37,99,235,0.12)]">
