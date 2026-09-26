@@ -13,7 +13,6 @@ export interface ChatParams {
   webFramework?: string; webTheme?: string; webComponent?: string; webColor?: string;
   webModel?: string; webPages?: number;
   model?: string; provider?: string; aspectRatio?: string;
-  generationTier?: 'fast' | 'quality' | 'pro' | 'cinematic' | 'advanced';
 }
 
 export interface ChatMessageResult {
@@ -35,6 +34,13 @@ export interface ChatSession {
   id?: string; userId: string; title: string; mode: ChatMode;
   messages?: ChatGeneratorMessage[]; isArchived?: boolean;
   createdAt?: Date; updatedAt?: Date;
+}
+
+export type ChatQueueStatus = 'queued' | 'processing' | 'completed' | 'failed';
+
+export interface ChatQueueItem {
+  id: string; prompt: string; status: ChatQueueStatus; progress: number;
+  result?: ChatMessageResult; error?: string;
 }
 
 export interface ChatGeneratorReturn {
@@ -61,6 +67,13 @@ export interface ChatGeneratorReturn {
   copiedCode: boolean;
   generate: (prompt: string, params: ChatParams, mode: ChatMode) => Promise<string>;
   reset: () => void;
+  queue: ChatQueueItem[];
+  queueRunning: boolean;
+  enqueue: (prompt: string) => boolean;
+  startQueue: () => void;
+  removeQueueItem: (id: string) => void;
+  retryQueueItem: (id: string) => void;
+  clearQueue: () => void;
   imageGen: {
     imageProvider: 'openai' | 'fal' | 'google'; setImageProvider: (p: 'openai' | 'fal' | 'google') => void;
     openAIKey: string; setOpenAIKey: (k: string) => void; replicateKey: string; setReplicateKey: (k: string) => void;

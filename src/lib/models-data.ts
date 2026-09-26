@@ -8,6 +8,46 @@ export type AiModel = {
   tags: string[];
 };
 
+export type ModelTier = {
+  key: string;
+  label: string;
+  icon: string;
+  credits: number;
+  modelId: string;
+};
+
+export type ModelTierGroup = {
+  label: string;
+  tiers: ModelTier[];
+};
+
+export const MODEL_TIERS: Record<'image' | 'video' | 'project', ModelTierGroup> = {
+  image: {
+    label: 'Image Model',
+    tiers: [
+      { key: 'fast', icon: '⚡', label: 'Fast', credits: 5, modelId: 'nano-banana-2-lite' },
+      { key: 'quality', icon: '✨', label: 'Quality', credits: 10, modelId: 'nano-banana-2' },
+      { key: 'pro', icon: '💎', label: 'Pro', credits: 25, modelId: 'nano-banana-pro' },
+    ],
+  },
+  video: {
+    label: 'Video Model',
+    tiers: [
+      { key: 'fast', icon: '⚡', label: 'Fast', credits: 60, modelId: 'veo-fast' },
+      { key: 'quality', icon: '✨', label: 'Quality', credits: 120, modelId: 'veo-quality' },
+      { key: 'cinematic', icon: '💎', label: 'Cinematic', credits: 400, modelId: 'veo-cinematic' },
+    ],
+  },
+  project: {
+    label: 'Website Model',
+    tiers: [
+      { key: 'fast', icon: '⚡', label: 'Fast', credits: 10, modelId: 'gemini-2.0-flash' },
+      { key: 'advanced', icon: '✨', label: 'Advanced', credits: 20, modelId: 'gemini-2.5-flash' },
+      { key: 'pro', icon: '💎', label: 'Pro', credits: 50, modelId: 'gemini-2.5-pro' },
+    ],
+  },
+};
+
 export const AiModels: AiModel[] = [
   {
     id: 'veo-3-1',
