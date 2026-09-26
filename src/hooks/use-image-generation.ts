@@ -31,7 +31,7 @@ export function useImageGeneration() {
 
   const generate = useCallback(async (prompt: string, params: ChatParams): Promise<{ result?: ChatMessageResult; error?: string }> => {
     const provider = 'google';
-    const model = params.model || resolveDefaultImageModel(provider);
+    const model = GOOGLE_IMAGE_MODELS.has(params.model ?? '') ? params.model! : resolveDefaultImageModel(provider);
     const finalPrompt = prompt + buildImageSuffix(params);
 
     // Build provider-specific input payload
@@ -74,12 +74,13 @@ export function useImageGeneration() {
         headers: { 'Content-Type': 'application/json' },
       });
 
-      // Poll para completación (ampliado a 2 min para cubrir el intervalo del cron)
+      // Poll para completación (hasta 3 min para cubrir el intervalo del cron)
       let completed = false;
       let attempts = 0;
       let imageOutputUrl = '';
+      let lastProgress = '';
 
-      while (!completed && attempts < 60) {
+      while (!completed && attempts < 90) {
         attempts++;
         await new Promise(resolve => setTimeout(resolve, 2000));
         try {
@@ -97,12 +98,13 @@ export function useImageGeneration() {
           } else if (status === 'failed') {
             return { error: (job?.lastError as string | undefined) || 'El trabajo falló en el servidor.' };
           }
+          if (typeof job?.progressMessage === 'string' && job.progressMessage) lastProgress = job.progressMessage;
         } catch (pollErr: unknown) {
           console.warn('Poll error:', pollErr);
         }
       }
 
-      if (!imageOutputUrl) return { error: 'Tiempo de espera agotado al generar la imagen.' };
+      if (!imageOutputUrl) return { error: lastProgress ? `Generación en curso: ${lastProgress}. Inténtalo de nuevo en un momento.` : 'Tiempo de espera agotado al generar la imagen. Vuelve a intentarlo.' };
 
       setOutputImageUrl(imageOutputUrl);
       const creditsBalance = (jobData.credits as Record<string, unknown> | undefined)?.balance;
@@ -129,6 +131,9 @@ export function useImageGeneration() {
 }
 
 // ── Per-provider default models ─────────────────────────────────────────────
+
+// Solo se admiten modelos de imagen de Google (Imagen 4).
+export const GOOGLE_IMAGE_MODELS = new Set(['nano-banana-2', 'nano-banana-2-lite', 'nano-banana-pro']);
 
 function resolveDefaultImageModel(provider: string): string {
   switch (provider) {
@@ -181,6 +186,9 @@ function extractImageUrl(result: unknown): string {
   // Google Imagen: { imageUri: "gs://..." } or { predictions: [{ bytesBase64Encoded, mimeType }] }
   if (typeof r.imageUri === 'string') return r.imageUri;
 
+  // Flujo GenKit / worker externo: { imageUrl: "data:...|https://..." }
+  if (typeof r.imageUrl === 'string') return r.imageUrl;
+
   // Standard URL field
   if (typeof r.url === 'string') return r.url;
 
@@ -201,6 +209,12 @@ function extractImageUrl(result: unknown): string {
       return `data:${mime};base64,${p.bytesBase64Encoded}`;
     }
     if (typeof p.imageUri === 'string') return p.imageUri;
+  }
+
+  // Base64 directo: { bytesBase64Encoded, mimeType }
+  if (typeof r.bytesBase64Encoded === 'string') {
+    const mime = typeof r.mimeType === 'string' ? r.mimeType : 'image/png';
+    return `data:${mime};base64,${r.bytesBase64Encoded}`;
   }
 
   // Generic output array

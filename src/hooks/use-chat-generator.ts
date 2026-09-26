@@ -39,6 +39,10 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
   const videoGen = useVideoGeneration();
   const webGen = useWebGeneration();
 
+  const imageGenerate = imageGen.generate;
+  const videoGenerate = videoGen.generate;
+  const webGenerate = webGen.generate;
+
   useEffect(() => {
     fetch('/api/ai/chats')
       .then(response => response.ok ? response.json() : { chats: [] })
@@ -134,12 +138,16 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
     setQueue(prev => prev.map(item => item.id === next.id ? { ...item, status: 'processing', progress: 5 } : item));
     void (async () => {
       let res: { result?: ChatMessageResult; error?: string } | undefined;
-      if (next.mode === 'image') {
-        res = await imageGen.generate(next.prompt, params);
-      } else if (next.mode === 'video') {
-        res = await videoGen.generate(next.prompt, params);
-      } else {
-        res = await webGen.generate(next.prompt, params);
+      try {
+        if (next.mode === 'image') {
+          res = await imageGenerate(next.prompt, params);
+        } else if (next.mode === 'video') {
+          res = await videoGenerate(next.prompt, params);
+        } else {
+          res = await webGenerate(next.prompt, params);
+        }
+      } catch (err: unknown) {
+        res = { error: err instanceof Error ? err.message : 'Error inesperado al generar.' };
       }
 
       setQueue(prev => prev.map(item => item.id === next.id ? {
@@ -158,7 +166,7 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
       queueWorkerRef.current = false;
       setQueueRunning(false);
     });
-  }, [queue, queueActive, params, imageGen, videoGen, webGen, addMessage, updateMessage]);
+  }, [queue, queueActive, params, imageGenerate, videoGenerate, webGenerate, addMessage, updateMessage]);
 
   const generate = useCallback(async (prompt: string, params: ChatParams, mode: ChatMode) => {
     let sessionId = activeSessionId;

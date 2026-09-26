@@ -45,7 +45,7 @@ export function ChatMessageItem({ message }: { message: ChatGeneratorMessage }) 
 
         {/* Prompt text */}
         <p className={cn(
-          'text-sm whitespace-pre-wrap break-words leading-relaxed max-h-[240px] overflow-y-auto pr-1',
+          'text-sm whitespace-pre-wrap break-words leading-relaxed max-h-32 overflow-y-auto pr-1',
           isUser ? 'text-white' : 'text-foreground'
         )}>
           {message.prompt}
@@ -53,7 +53,7 @@ export function ChatMessageItem({ message }: { message: ChatGeneratorMessage }) 
 
         {/* Result */}
         {message.result && (
-          <div className="mt-3 max-h-[360px] overflow-y-auto pr-1">
+          <div className="mt-3 max-h-80 overflow-y-auto pr-1">
             {(message.result.imageUrl || message.result.imageUrls) ? (
               <ImageResult result={message.result} />
             ) : null}
