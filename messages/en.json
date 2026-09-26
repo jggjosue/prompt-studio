@@ -420,7 +420,7 @@
     "equivalentMonthly": "Equivalent to ${amount}/month, billed annually",
     "savePerYear": "· Save ${amount}/year",
     "creatorCouponLabel": "Creator discount",
-    "creatorMonthlyCouponOffer": "7 USD discount",
+    "creatorMonthlyCouponOffer": "1 month free (50% discount)",
     "creatorAnnualCouponOffer": "50% off annual billing",
     "creatorCouponCodeLabel": "Use the code",
     "freeName": "Free",
