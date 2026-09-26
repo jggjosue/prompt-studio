@@ -36,7 +36,7 @@ export function ChatLayout({ isDeveloperAdmin = false }: { isDeveloperAdmin?: bo
           <ChatArea chat={chat} />
           <ChatInputBar chat={chat} isDeveloperAdmin={isDeveloperAdmin} />
         </div>
-        <SettingsSidebar chat={chat} />
+        <SettingsSidebar chat={chat} isDeveloperAdmin={isDeveloperAdmin} />
       </div>
       <Footer />
     </div>

@@ -76,13 +76,13 @@ function Divider() {
   return <hr className="border-border/40" />;
 }
 
-export function SettingsSidebar({ chat }: { chat: ChatGeneratorReturn }) {
+export function SettingsSidebar({ chat, isDeveloperAdmin = false }: { chat: ChatGeneratorReturn; isDeveloperAdmin?: boolean }) {
   const [open, setOpen] = useState(true);
   const [showAdvanced, setShowAdvanced] = useState(false);
   const { imageGen, selectedMode, params, setParams } = chat;
 
   const credits = imageGen.credits;
-  const creditsDisplay = Number.isInteger(credits) ? credits.toString() : credits.toFixed(1);
+  const creditsDisplay = isDeveloperAdmin ? 'Ilimitados' : Number.isInteger(credits) ? credits.toString() : credits.toFixed(1);
 
   // Estimate credit cost from current model config
   const CREDIT_ESTIMATES: Record<string, number> = {
@@ -100,8 +100,8 @@ export function SettingsSidebar({ chat }: { chat: ChatGeneratorReturn }) {
   };
   const currentModel = params.model ?? '';
   const estimatedCredits = CREDIT_ESTIMATES[currentModel] ?? (selectedMode === 'image' ? 10 : selectedMode === 'video' ? 20 : 2);
-  const balanceAfter = Math.max(0, credits - estimatedCredits);
-  const insufficient = credits < estimatedCredits;
+  const balanceAfter = isDeveloperAdmin ? 0 : Math.max(0, credits - estimatedCredits);
+  const insufficient = !isDeveloperAdmin && credits < estimatedCredits;
 
   return (
     <aside
@@ -481,7 +481,9 @@ export function SettingsSidebar({ chat }: { chat: ChatGeneratorReturn }) {
               {!insufficient && (
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-muted-foreground">Tras generar</span>
-                  <span className="font-semibold text-muted-foreground">~{balanceAfter}</span>
+                  <span className="font-semibold text-muted-foreground">
+                    {isDeveloperAdmin ? 'Ilimitados' : `~${balanceAfter}`}
+                  </span>
                 </div>
               )}
               {insufficient && (

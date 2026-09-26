@@ -45,7 +45,7 @@ function PaidPlanPrice({ isAnnual, monthly, yearly }: { isAnnual: boolean; month
 
   return (
     <>
-      <div className="mb-2">
+      <div className="mb-2 flex flex-wrap items-baseline gap-x-2">
         <span className="text-5xl font-bold tabular-nums">${displayPrice}</span>
         <span className="text-muted-foreground">{priceSuffix}</span>
       </div>
@@ -278,7 +278,7 @@ export default function PricesClient() {
           </div>
 
           <div
-            className="mb-10 mx-auto flex w-fit rounded-full border border-blue-500/55 bg-slate-950 p-1.5 shadow-[0_12px_35px_rgba(37,99,235,0.18)]"
+            className="mb-10 mx-auto flex w-full max-w-sm rounded-full border border-blue-500/55 bg-slate-950 p-1.5 shadow-[0_12px_35px_rgba(37,99,235,0.18)]"
             role="group"
             aria-label={t('billingCycle')}
           >
@@ -286,7 +286,7 @@ export default function PricesClient() {
               type="button"
               onClick={() => setIsAnnual(false)}
               aria-pressed={!isAnnual}
-              className={`rounded-full px-7 py-3 text-sm font-semibold transition-all duration-200 sm:px-9 ${
+              className={`min-w-0 flex-1 rounded-full px-3 py-3 text-xs font-semibold whitespace-nowrap transition-all duration-200 sm:px-6 sm:text-sm ${
                 !isAnnual
                   ? '!bg-blue-600 !text-white shadow-[0_8px_24px_rgba(37,99,235,0.4)] ring-1 ring-blue-400'
                   : '!text-slate-200 hover:!bg-blue-950/60 hover:!text-white'
@@ -298,7 +298,7 @@ export default function PricesClient() {
               type="button"
               onClick={() => setIsAnnual(true)}
               aria-pressed={isAnnual}
-              className={`rounded-full px-7 py-3 text-sm font-semibold transition-all duration-200 sm:px-9 ${
+              className={`min-w-0 flex-1 rounded-full px-3 py-3 text-xs font-semibold whitespace-nowrap transition-all duration-200 sm:px-6 sm:text-sm ${
                 isAnnual
                   ? '!bg-blue-600 !text-white shadow-[0_8px_24px_rgba(37,99,235,0.4)] ring-1 ring-blue-400'
                   : '!text-slate-200 hover:!bg-blue-950/60 hover:!text-white'
