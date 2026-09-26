@@ -147,7 +147,7 @@ export function SettingsSidebar({ chat }: { chat: ChatGeneratorReturn }) {
   return (
     <aside
       className={cn(
-        'flex flex-col border-l border-border/60 bg-background/50 backdrop-blur-sm transition-all duration-300 overflow-hidden shrink-0',
+        'hidden flex-col border-l border-border/60 bg-background/50 backdrop-blur-sm transition-all duration-300 overflow-hidden shrink-0 md:flex',
         open ? 'w-72' : 'w-10'
       )}
       aria-label="Configuración de creación"
@@ -184,35 +184,7 @@ export function SettingsSidebar({ chat }: { chat: ChatGeneratorReturn }) {
             {/* ── IMAGE settings ── */}
             {selectedMode === 'image' && (
               <div className="space-y-3">
-                <ParamSelect
-                  label="Proveedor"
-                  value={params.provider ?? 'google'}
-                  onChange={v => updateParam(setParams, 'provider', v)}
-                >
-                  <option value="google">Google</option>
-                  <option value="openai">OpenAI</option>
-                  <option value="fal">Fal.ai</option>
-                </ParamSelect>
-
-                {params.provider === 'google' ? (
-                  <ModelTiersSelect group="image" value={params.model ?? 'nano-banana-2'} onChange={v => updateParam(setParams, 'model', v)} />
-                ) : (
-                  <ParamSelect
-                    label="Modelo"
-                    value={params.model ?? (params.provider === 'openai' ? 'dall-e-3' : 'fal-ai/flux/schnell')}
-                    onChange={v => updateParam(setParams, 'model', v)}
-                  >
-                    {params.provider === 'openai' && (
-                      <>
-                        <option value="dall-e-3">DALL-E 3</option>
-                        <option value="gpt-image-1-mini">GPT Image 1 Mini</option>
-                      </>
-                    )}
-                    {params.provider === 'fal' && (
-                      <option value="fal-ai/flux/schnell">Flux Schnell</option>
-                    )}
-                  </ParamSelect>
-                )}
+                <ModelTiersSelect group="image" value={params.model ?? 'nano-banana-2'} onChange={v => updateParam(setParams, 'model', v)} />
 
                 <Divider />
 
