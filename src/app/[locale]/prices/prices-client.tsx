@@ -267,7 +267,7 @@ export default function PricesClient() {
     <div className="flex min-h-screen w-full flex-col bg-background">
       <Header />
       <main className="flex-1 py-12 md:py-20">
-        <div className="container max-w-6xl min-w-0">
+        <div className="container max-w-7xl min-w-0 px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
             <h1 className="text-4xl md:text-5xl font-bold font-headline mb-4">
               {t('chooseHowYouCreate')}
@@ -308,7 +308,7 @@ export default function PricesClient() {
             </button>
           </div>
 
-          <div className="grid grid-cols-1 gap-8 mx-auto lg:grid-cols-4 max-w-7xl">
+          <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4 xl:gap-8">
             {PLANS.map((plan) => {
               const available = plan.id === 'free' ||
                 (plan.id === 'creator' && isCreatorAvailable) ||

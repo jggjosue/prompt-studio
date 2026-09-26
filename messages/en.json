@@ -737,7 +737,7 @@
       "ctaHowItWorks": "How It Works"
     },
     "metrics": {
-      "commission": "Up to 20% Commission",
+      "commission": "30% Commission",
       "cookie": "60-Day Cookie Window",
       "product": "Digital Product",
       "payouts": "Monthly Payouts",
@@ -755,7 +755,7 @@
       },
       "commission": {
         "title": "Attractive commission",
-        "desc": "Earn up to 20% on every qualifying digital product sale."
+        "desc": "Earn 30% on every qualifying digital product sale."
       },
       "link": {
         "title": "Unique affiliate link",
@@ -780,7 +780,7 @@
       "benefit1": "Proven and optimized prompts for Midjourney, Runway, Luma, and more.",
       "benefit2": "Designed for creators, agencies, designers, and developers.",
       "benefit3": "Includes ready-to-copy prompts for web pages, videos, and images.",
-      "benefit4": "Earn up to 20% commission per qualified sale.",
+      "benefit4": "Earn 30% commission per qualified sale.",
       "ctaPreview": "Product Preview",
       "ctaLink": "Get Affiliate Link",
       "ebookLabel": "CATALOG",
@@ -805,13 +805,13 @@
       "title": "Simple and Transparent Commission Plan",
       "subtitle": "Pick the tier that matches your audience and promotion strategy. Every plan includes qualified sales review, monthly payouts and partner resources.",
       "tier1Name": "Product Affiliate",
-      "tier1Rate": "20%",
+      "tier1Rate": "30%",
       "tier1Desc": "For creators starting with affiliate offers.",
       "tier2Name": "Premium Affiliate",
-      "tier2Rate": "20%",
+      "tier2Rate": "30%",
       "tier2Desc": "For partners with proven content or engaged lists.",
       "tier3Name": "Startup Affiliate",
-      "tier3Rate": "20%",
+      "tier3Rate": "30%",
       "tier3Desc": "For high-performing partners and strategic channels.",
       "featureQualified": "Qualified sales",
       "featurePayout": "Monthly payout",
@@ -1013,7 +1013,7 @@
         },
         {
           "q": "How much commission can I earn?",
-          "a": "Approved partners can earn 20% depending on tier and performance."
+          "a": "Approved partners can earn 30% on every qualifying plan purchase."
         },
         {
           "q": "When are commissions paid?",

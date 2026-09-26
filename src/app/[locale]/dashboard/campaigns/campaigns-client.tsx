@@ -184,7 +184,7 @@ export function CampaignsClient({ products, affiliate }: CampaignsClientProps) {
                         </span>
                       </div>
                       <p className="text-xs text-muted-foreground">
-                        Este enlace identifica la sesión del usuario y el producto para atribuir la comisión correcta al 20%.
+                        Este enlace identifica la sesión del usuario y el producto para atribuir la comisión correcta al 30%.
                       </p>
                     </div>
                   </div>
