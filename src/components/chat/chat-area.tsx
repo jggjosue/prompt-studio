@@ -58,6 +58,13 @@ const GEN_STATUS_MESSAGES: Record<string, string> = {
   project: 'Construyendo tu página...',
 };
 
+function friendlyError(message: string): string {
+  if (/does not support image input|Cannot read/i.test(message)) {
+    return 'El modelo seleccionado no admite la imagen de referencia. Cambia a un modelo de generación de imágenes o quita la imagen.';
+  }
+  return message;
+}
+
 interface ChatAreaProps {
   chat: ChatGeneratorReturn;
 }
@@ -145,7 +152,7 @@ export function ChatArea({ chat }: ChatAreaProps) {
               <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-destructive" aria-hidden="true" />
               <div className="min-w-0 flex-1">
                 <p className="font-semibold text-sm">{generationError.title}</p>
-                <p className="mt-0.5 text-xs text-muted-foreground">{generationError.message}</p>
+                <p className="mt-0.5 text-xs text-muted-foreground">{friendlyError(generationError.message)}</p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {isInsufficientCredits ? (
                     <>
