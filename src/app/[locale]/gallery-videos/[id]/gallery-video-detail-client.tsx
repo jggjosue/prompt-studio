@@ -27,11 +27,19 @@ import { useLocale } from 'next-intl';
 import { PromptVersionManager } from '@/components/prompt-version-manager';
 import { PromptGate } from '@/components/prompt-gate';
 
-export default function GalleryVideoDetailClient({ item, validation }: { item: VideoProp; validation: PromptValidationReport }) {
+export default function GalleryVideoDetailClient({
+  item,
+  validation,
+  poster,
+}: {
+  item: VideoProp;
+  validation: PromptValidationReport;
+  poster?: string;
+}) {
   const locale = useLocale();
   const placeholderVideos = usePagedPlaceholderVideos();
   const otherItems = useMemo(() => {
-    const itemTags = new Set(item.tags);
+    const itemTags = new Set((item.tags || []).filter((tag): tag is string => typeof tag === 'string'));
     return placeholderVideos
       .filter(candidate => candidate.id !== item.id)
       .sort((a, b) => b.tags.filter(tag => itemTags.has(tag)).length - a.tags.filter(tag => itemTags.has(tag)).length)
@@ -65,31 +73,28 @@ export default function GalleryVideoDetailClient({ item, validation }: { item: V
                   {item.title}
                 </h1>
                 <div className="flex flex-wrap gap-2 mt-4">
-                  {item.tags?.map(tag => (
+                  {(item.tags || []).filter((tag): tag is string => typeof tag === 'string' && tag.trim().length > 0).map(tag => (
                     <Badge key={tag} variant="secondary">
                       {tag}
                     </Badge>
                   ))}
                 </div>
               </div>
-              <div className="relative aspect-[9/16] rounded-lg overflow-hidden border group">
+              <div className="relative aspect-[9/16] rounded-lg overflow-hidden border group bg-muted/40">
                 <LazyVideo
-                    src={item.imageUrl}
-                    eager
-                    controls
-                    className="w-full h-full object-cover"
-                  />
+                  src={item.imageUrl}
+                  poster={poster}
+                  eager
+                  preload="auto"
+                  controls
+                  playsInline
+                  className="w-full h-full object-cover"
+                />
                  <div className="absolute bottom-4 right-4 flex items-start gap-4 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                     <LiquidButton size="sm" asChild>
-                      <Link href={`/generate?prompt=${encodeURIComponent(JSON.stringify({
-                        type: 'video',
-                        title: item.title,
-                        description: item.description,
-                        imageUrl: item.imageUrl,
-                        tags: item.tags
-                      }))}`}>
-                          <Wand2 className="mr-2" />
-                          Use this prompt
+                      <Link href={`/generate?prompt=${encodeURIComponent(item.description)}`}>
+                        <Wand2 className="mr-2" />
+                        Use this prompt
                       </Link>
                     </LiquidButton>
                   </div>
@@ -124,7 +129,7 @@ export default function GalleryVideoDetailClient({ item, validation }: { item: V
                 </AccordionItem>
               </Accordion>
 
-              <PromptValidationCard report={validation} locale={locale} />
+              <PromptValidationCard report={validation} locale={locale} showEstimates={false} />
 
               <div>
                 <h3 className="text-2xl font-bold font-headline mt-8 mb-4">
@@ -182,11 +187,12 @@ export default function GalleryVideoDetailClient({ item, validation }: { item: V
                       <CardContent className="p-0">
                         <div className="relative aspect-[9/16]">
                            <LazyVideo
-                              src={other.imageUrl}
-                              muted
-                              preload="none"
-                              className="object-cover transition-transform group-hover:scale-105 w-full h-full"
-                            />
+                             src={other.imageUrl}
+                             muted
+                             playsInline
+                             preload="metadata"
+                             className="object-cover transition-transform group-hover:scale-105 w-full h-full"
+                           />
                         </div>
                         <div className="p-4">
                           <p className="font-semibold line-clamp-1">

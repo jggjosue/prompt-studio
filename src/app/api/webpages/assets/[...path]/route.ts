@@ -4,7 +4,12 @@ import {
   pickModernImageFormat,
   transcodeRasterImage,
 } from '@/lib/image-transcode';
-import { getR2AssetBytes, getR2ObjectBytes } from '@/lib/r2-storage';
+import {
+  getR2AssetBytes,
+  getR2ObjectBytes,
+  getR2ObjectDownloadUrl,
+  r2ObjectExists,
+} from '@/lib/r2-storage';
 import { githubWebPageAssetUrl } from '@/lib/web-page-media';
 import { NextResponse } from 'next/server';
 
@@ -63,10 +68,26 @@ export async function GET(
   const width = parseWidthParam(searchParams.get('w'));
   const quality = parseQualityParam(searchParams.get('q'));
   const format = pickModernImageFormat(request.headers.get('accept'));
+  const isVideo = /\.(mp4|webm|avi|mov)$/i.test(filename);
 
   // Reject empty paths or traversal attempts
   if (!filename || filename.includes('..') || !ASSET_RE.test(filename)) {
     return NextResponse.json({ error: 'Ruta de asset no válida' }, { status: 400 });
+  }
+
+  // Large immutable videos live in R2. Return a short-lived direct URL so the
+  // Function performs authorization/routing only and never proxies the bytes.
+  if (isVideo) {
+    for (const key of r2KeysForSluggedPath(path)) {
+      if (!(await r2ObjectExists(key))) continue;
+      const directUrl = await getR2ObjectDownloadUrl(key);
+      if (directUrl) {
+        return NextResponse.redirect(directUrl, {
+          status: 307,
+          headers: { 'Cache-Control': 'private, no-store' },
+        });
+      }
+    }
   }
 
   // Try slug-aware R2 keys first, then fall back to getR2AssetBytes
@@ -115,8 +136,6 @@ export async function GET(
   }
 
   const assetKey = webAssetCacheKey(filename, width, quality, format);
-  const isVideo = filename.toLowerCase().match(/\.(mp4|webm|avi|mov)$/);
-
   if (isVideo) {
     return new NextResponse(new Uint8Array(bytes), {
       headers: {

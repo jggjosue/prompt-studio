@@ -1379,7 +1379,7 @@ Where processing is based on consent or performance of a contract and is technic
 To exercise any of the rights above, users may contact Prompt Studio at:
 
 Email:
-user@example.com
+help@prompstudio.com
 
 Prompt Studio will respond within the time limits established by applicable law.
 
@@ -1548,7 +1548,7 @@ United States
 For questions related to this Cookie Policy, users may contact:
 
 Official Email:
-user@example.com
+help@prompstudio.com
 
 Prompt Studio will seek to respond within a reasonable period and in accordance with applicable law.
 

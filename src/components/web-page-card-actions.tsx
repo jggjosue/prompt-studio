@@ -1,6 +1,5 @@
 'use client';
 
-import { PremiumMembershipButton } from '@/components/web-page-premium-button';
 import { WebPagePromptDialog } from '@/components/web-page-prompt-dialog-new';
 import { useStripeSubscription } from '@/hooks/use-stripe-subscription';
 import type { WebPageEntry } from '@/lib/web-pages';
@@ -22,14 +21,6 @@ export default function WebPageCardActions({
   return (
     <>
       <WebPagePromptDialog page={page} hasPurchased={hasPurchased} />
-      <PremiumMembershipButton
-        hasPremium={hasPremium}
-        pageId={page.id}
-        membership={page.membership}
-        price={page.price}
-        plan={plan}
-        pageTitle={page.title}
-      />
     </>
   );
 }

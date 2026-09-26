@@ -5,7 +5,7 @@ Bienvenido a Prompt Studio, disponible en https://www.prompstudio.com, operado p
 New York, NY 10022
 United States
 Correo electrónico oficial:
-user@example.com
+help@prompstudio.com
 La presente Política de Licencias regula el uso autorizado de todos los recursos digitales comercializados por Prompt Studio.
 Esta Política forma parte integrante de:
 •	Términos y Condiciones.
@@ -95,7 +95,7 @@ Esta Política deberá interpretarse junto con:
 Para cualquier consulta relacionada con licencias:
 Prompt Studio
 https://www.prompstudio.com
-user@example.com
+help@prompstudio.com
 Operado por:
 Magzin LLC
 800 Third Avenue Associates
@@ -1543,7 +1543,7 @@ Si una persona considera que un recurso disponible en Prompt Studio infringe sus
  
 24.1 Presentación de una reclamación
 Las reclamaciones deberán enviarse al siguiente correo electrónico:
-user@example.com
+help@prompstudio.com
 La comunicación deberá incluir información suficiente para permitir la identificación del contenido reclamado.
  
 24.2 Información requerida
@@ -1655,7 +1655,7 @@ Antes de iniciar procedimientos judiciales, administrativos o arbitrales, las pa
 26.1 Contacto previo
 Toda consulta relacionada con licencias deberá dirigirse inicialmente a:
 Correo electrónico oficial:
-user@example.com
+help@prompstudio.com
 Prompt Studio analizará la situación y responderá dentro de un plazo razonable.
  
 26.2 Resolución amistosa
@@ -1877,7 +1877,7 @@ United States
 https://www.promptstudio.com
  
 30.4 Correo electrónico oficial
-user@example.com
+help@prompstudio.com
  
 30.5 Consultas sobre licencias
 Las consultas relacionadas con:
@@ -1902,7 +1902,7 @@ podrán contactar con Prompt Studio para solicitar una propuesta personalizada.
  
 30.7 Derechos de terceros
 Si un tercero considera que algún contenido publicado en Prompt Studio infringe sus derechos de propiedad intelectual, podrá contactar mediante:
-user@example.com
+help@prompstudio.com
 Prompt Studio analizará la reclamación conforme al procedimiento previsto en la Política DMCA y Copyright.
  
 30.8 Declaración de cierre

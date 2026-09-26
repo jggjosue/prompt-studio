@@ -5,6 +5,8 @@ import { AIGenerationJob, getCreditBalance, reserveCredits } from '@/lib/ai-job-
 import { cacheHeaders } from '@/lib/cache-policy';
 import connectToDatabase from '@/lib/mongoose';
 import { contractInstructions } from '@/lib/output-contract';
+import { humanVerificationDecision } from '@/lib/human-verification';
+import { recordObservabilityEvent } from '@/lib/observability-server';
 import { evaluateBudgetOperation } from '@/lib/project-budget';
 import { isProviderObjective } from '@/lib/provider-quality';
 import { recommendedProvider } from '@/lib/provider-quality-server';
@@ -70,7 +72,7 @@ export async function POST(request: Request) {
   let project = null;
   if (projectId) {
     if (!mongoose.isValidObjectId(projectId)) return NextResponse.json({ error: 'El proyecto no pertenece al usuario o está archivado.' }, { status: 403, headers: headers() });
-    project = await CreativeProject.findOne({ _id: projectId, userId, status: 'active' }).select('budget outputContractId').lean();
+    project = await CreativeProject.findOne({ _id: projectId, userId, status: 'active' }).select('budget outputContractId reviewStatus changeRequests').lean();
     if (!project) return NextResponse.json({ error: 'El proyecto no pertenece al usuario o está archivado.' }, { status: 403, headers: headers() });
   }
   const existing = await AIGenerationJob.findOne({ userId, idempotencyKey });
@@ -94,8 +96,14 @@ export async function POST(request: Request) {
   if (project) {
     const jobs = await AIGenerationJob.find({ projectId, userId }).select('kind provider status creditsState creditCost estimatedCostUsd actualCostUsd').lean();
     const settings = { limitCredits: project.budget?.limitCredits ?? null, limitUsd: project.budget?.limitUsd ?? null, warningPercent: project.budget?.warningPercent ?? 80, approvalCredits: project.budget?.approvalCredits ?? null, approvalUsd: project.budget?.approvalUsd ?? null };
-    const decision = evaluateBudgetOperation(settings, jobs.map(job => ({ kind: job.kind, provider: job.provider, status: job.status, creditsState: job.creditsState, creditCost: job.creditCost, estimatedCostUsd: job.estimatedCostUsd, actualCostUsd: job.actualCostUsd ?? null })), { credits: cost.credits, estimatedUsd: cost.estimatedApiCostUsd }, raw.projectBudgetApproved === true);
-    if (!decision.allowed) return NextResponse.json({ error: decision.approvalRequired ? 'Esta operación requiere aprobación manual por su costo.' : 'La operación excede el presupuesto del proyecto.', approvalRequired: decision.approvalRequired, exceedsCredits: decision.exceedsCredits, exceedsUsd: decision.exceedsUsd, projection: { credits: decision.nextCredits, usd: decision.nextUsd }, budget: settings }, { status: 409, headers: headers() });
+    const budgetJobs = jobs.map(job => ({ kind: job.kind, provider: job.provider, status: job.status, creditsState: job.creditsState, creditCost: job.creditCost, estimatedCostUsd: job.estimatedCostUsd, actualCostUsd: job.actualCostUsd ?? null }));
+    const pendingDecision = evaluateBudgetOperation(settings, budgetJobs, { credits: cost.credits, estimatedUsd: cost.estimatedApiCostUsd }, false);
+    const verification = humanVerificationDecision({ costly: pendingDecision.approvalRequired, sensitive: false, reviewStatus: project.reviewStatus, hasOpenChanges: project.changeRequests?.some((item: { status: string }) => item.status === 'open') ?? false });
+    const decision = evaluateBudgetOperation(settings, budgetJobs, { credits: cost.credits, estimatedUsd: cost.estimatedApiCostUsd }, verification.approved);
+    if (!decision.allowed) {
+      if (decision.approvalRequired) void recordObservabilityEvent({ category: 'ai_generation', name: 'human_verification_blocked', route: '/api/ai/jobs', userId, productId: projectId, status: 'blocked', costUsd: cost.estimatedApiCostUsd, value: cost.credits, unit: 'credits', metadata: { kind: raw.kind, provider, reasons: verification.reasons } });
+      return NextResponse.json({ error: decision.approvalRequired ? 'Esta operación requiere que un propietario o revisor apruebe el proyecto.' : 'La operación excede el presupuesto del proyecto.', approvalRequired: decision.approvalRequired, verification: { required: verification.required, approved: verification.approved, reviewStatus: project.reviewStatus ?? 'draft', hasOpenChanges: project.changeRequests?.some((item: { status: string }) => item.status === 'open') ?? false }, exceedsCredits: decision.exceedsCredits, exceedsUsd: decision.exceedsUsd, projection: { credits: decision.nextCredits, usd: decision.nextUsd }, budget: settings }, { status: 409, headers: headers() });
+    }
   }
   let job;
   try {

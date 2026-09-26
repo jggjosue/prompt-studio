@@ -15,7 +15,8 @@ export const preferredRegion = [
   'gru1',
   'hnd1',
 ];
-import { resolveDemoBundle } from '@/lib/refactory-bundle';
+import { resolveVerifiedRefactoryBundle } from '@/domain/refactory-runtime/verified-bundle-runtime';
+import { sandboxPolicy } from '@/domain/refactory-runtime/bundle-contract';
 import { getRawWebPageByDemoSlug } from '@/lib/web-pages';
 
 const SLUG_RE = /^[a-z0-9][a-z0-9-]*$/i;
@@ -52,13 +53,14 @@ export async function GET(
     );
   }
 
-  const bundle = await resolveDemoBundle(slug, demoUrl, stack);
+  const resolved = await resolveVerifiedRefactoryBundle(demoUrl, stack);
 
-  if (bundle) {
-    return compressedJsonResponse(request, bundle, {
+  if (resolved.status === 'ready') {
+    return compressedJsonResponse(request, { ...resolved.bundle, sandbox: sandboxPolicy() }, {
       headers: cdnCacheHeaders('staleWhileRevalidate'),
     });
   }
+  if (resolved.status === 'invalid') return NextResponse.json({ code: 'BUNDLE_INVALID', errors: resolved.errors }, { status: 422 });
 
   const validation = await validateDemoUrl(demoUrl, stack);
 

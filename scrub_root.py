@@ -21,7 +21,7 @@ def scrub_file(path):
     original = content
     
     content = url_creds_regex.sub(r'\1\2', content)
-    content = email_regex.sub('user@example.com', content)
+    content = email_regex.sub('help@prompstudio.com', content)
     content = phone_regex.sub('555-0198', content)
     
     if content != original:
