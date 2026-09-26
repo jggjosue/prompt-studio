@@ -47,6 +47,7 @@
     "seo:validate-catalog-coverage": "node scripts/mjs/validate-catalog-coverage.mjs",
     "seo:validate-search-console": "node scripts/mjs/validate-search-console-seo.mjs",
     "seo:validate-live-sitemap-http": "node scripts/mjs/validate-live-sitemap-http.mjs",
+    "urls:inventory": "tsx scripts/ts/generate-url-inventory.ts",
     "seo:validate-all": "npm run seo:audit-webpages && npm run seo:validate-canonicals && npm run seo:validate-sitemap && npm run seo:validate-robots && npm run seo:validate-metadata && npm run seo:validate-schema && npm run seo:validate-internal-links && npm run seo:validate-duplicates && npm run seo:validate-performance && npm run seo:validate-catalog-coverage && npm run seo:validate-search-console && npm run seo:validate-live-sitemap-http",
     "sync:refactory": "node scripts/mjs/sync-refactory-manifest.mjs",
     "verify:clerk": "node scripts/mjs/verify-clerk-env.mjs",
