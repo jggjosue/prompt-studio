@@ -502,7 +502,7 @@ done
 echo "===MIGRATION_SUMMARY==="; cat MIGRATION_SUMMARY.md
 ```
 
-```text
+````text
 clerk: 0
 kinde: 3
 firebase: 7
@@ -653,7 +653,7 @@ export type VideoProp = {
 ---
 **Estado Final**: ✅ Separación completada y validada
 **Fecha**: 2024
-```
+````
 </details></tool-use>
 
 _**Agent (claude-opus-5 2026-09-09 15:41:22Z)**_
@@ -913,7 +913,7 @@ echo "===historial-proyecto.md==="; cat docs/operaciones/historial-proyecto.md
 echo; echo "===operaciones/README==="; head -40 docs/operaciones/README.md
 ```
 
-```text
+````text
 ===historial-proyecto.md===
 # Historial del proyecto
 
@@ -1049,7 +1049,7 @@ de seguridad).
 ## Qué NO contiene esta carpeta
 
 Se dice explícitamente para que nadie lo busque ni lo presuponga:
-```
+````
 </details></tool-use>
 
 _**Agent (claude-opus-5 2026-09-09 15:42:05Z)**_
@@ -1252,7 +1252,7 @@ echo "===AGENTES headings==="; grep -n '^#' docs/agentes.md | head -40
 echo "===CI==="; ls .github/workflows 2>/dev/null && head -40 .github/workflows/* 2>/dev/null | head -50
 ```
 
-```text
+````text
 ===BASE CONOCIMIENTO===
 # Base de conocimiento
 
@@ -1483,7 +1483,7 @@ jobs:
       - run: npm run test:e2e
         env:
           PLAYWRIGHT_BASE_URL: ${{ vars.PLAYWRIGHT_BASE_URL }}
-```
+````
 </details></tool-use>
 
 _**Agent (claude-opus-5 2026-09-09 15:42:51Z)**_
@@ -4806,7 +4806,7 @@ PY
 sed -n '170,200p' docs/historial/06-metricas-del-repositorio.md
 ```
 
-```text
+````text
 ok
 Longitud del asunto sobre los 364 commits:
 
@@ -4838,7 +4838,7 @@ En el otro extremo, 80 commits tienen 15 caracteres o menos (`add`, `addd`,
 `update`, `fixes`, `ads`). Ahí no hay truncamiento: no se escribió nada.
 
 ## 6. Lo que el historial no contiene
-```
+````
 </details></tool-use>
 
 _**Agent (claude-opus-5 2026-09-09 16:05:15Z)**_
@@ -6172,7 +6172,7 @@ sed -n '1,49p' src/lib/generation/provider-adapters.ts
 echo "===ls api/ai/providers==="; ls -R src/app/api/ai | head -20
 ```
 
-```text
+````text
 'use client';
 
 import {
@@ -6242,7 +6242,7 @@ route.ts
 
 src/app/api/ai/jobs/[id]/progress:
 route.ts
-```
+````
 </details></tool-use>
 
 _**Agent (claude-opus-5 2026-09-09 16:14:22Z)**_
@@ -33401,7 +33401,7 @@ ls -la docs/testing.md docs/TESTING.md 2>&1 | head -3
 echo "=== contenido actual ==="; wc -l docs/testing.md; head -20 docs/testing.md
 ```
 
-```text
+````text
 -rw-r--r--@ 1 josuegonzalez  staff  1697 Sep 11 16:23 docs/TESTING.md
 -rw-r--r--@ 1 josuegonzalez  staff  1697 Sep 11 16:23 docs/testing.md
 === contenido actual ===
@@ -33426,7 +33426,7 @@ Para medir JavaScript comprimido contra un deployment real:
 
 ```bash
 PLAYWRIGHT_BASE_URL=https://www.prompstudio.com npm run test:e2e:performance
-```
+````
 </details></tool-use>
 
 _**Agent (claude-opus-5 2026-09-12 00:19:11Z)**_
@@ -37851,7 +37851,7 @@ PY
 sed -n '55,80p' docs/DATABASE.md
 ````
 
-```text
+````text
 73:| `MarketplaceListing` | 1 | 1 | Cola de revisión por estado y antigüedad |
 normal **solo el primer lead entra**: todos los siguientes fallan con `E11000`.
 Ocurría en producción y hacía que `/api/new-users` devolviera 500 en cada captura
@@ -37879,7 +37879,7 @@ muchos.
 | `ObservabilityEvent` | 3 | 0 | `{route, productId, createdAt}` y `{category, name, createdAt}` para los agregados del panel |
 | `AffiliateSale` | 1 | 2 | Búsqueda por afiliado y por estado de liquidación |
 | `MarketplaceListing` | 1 | 1 | Cola de revisión por estado y antigüedad |
-```
+````
 </details></tool-use>
 
 _**Agent (claude-opus-5 2026-09-12 01:05:44Z)**_
@@ -37971,7 +37971,7 @@ echo "=== provider-adapters ==="; sed -n '1,40p' src/lib/generation/provider-ada
 echo "=== rutas ai ==="; find src/app/api/ai -name route.ts | sort
 ```
 
-```text
+````text
 === runner ===
 import 'server-only';
 import { generateImage } from '@/ai/flows/generate-image';
@@ -38079,7 +38079,7 @@ src/app/api/ai/jobs/[id]/route.ts
 src/app/api/ai/jobs/process/route.ts
 src/app/api/ai/jobs/route.ts
 src/app/api/ai/providers/recommend/route.ts
-```
+````
 </details></tool-use>
 
 _**Agent (claude-opus-5 2026-09-12 01:05:55Z)**_
@@ -42214,7 +42214,7 @@ cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
 sed -n '/## 6. Dependencias/,/^## 7\|^---$/p' docs/SECURITY.md | head -40
 ```
 
-```text
+````text
 ## 6. Dependencias
 
 **Estado a 11 de septiembre de 2026**: `npm audit --omit=dev` reporta **88
@@ -42255,7 +42255,7 @@ npm audit --omit=dev
 Este es un repositorio privado de un producto en producción. Si encuentras un
 fallo de seguridad, **no abras una incidencia pública**: escribe a la dirección
 de contacto del sitio con los pasos para reproducirlo.
-```
+````
 </details></tool-use>
 
 _**Agent (claude-opus-5 2026-09-12 01:55:50Z)**_
@@ -42702,7 +42702,7 @@ cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
 sed -n '140,170p' docs/IMPROVEMENT_REPORT.md
 ```
 
-```text
+````text
 ### 2.6 Tres pasos del build que nunca se ejecutaron
 
 Al validar el build tras la actualización de dependencias apareció un fallo que
@@ -42732,7 +42732,7 @@ La corrección es `path.join(__dirname, '..', '..')` en los tres.
 const _r = await compressFile(file);
 if (r) results.push(r);          // r ya no existe
 ```
-```
+````
 </details></tool-use>
 
 _**Agent (claude-opus-5 2026-09-12 01:57:13Z)**_
@@ -45038,7 +45038,7 @@ cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
 sed -n '70,190p' docs/IMPROVEMENT_REPORT.md
 ```
 
-```text
+````text
 cada ruta según 8 mecanismos detectados en el código (webhook, cron, admin, plan,
 sesión, token de worker, límite por IP, deshabilitada). Las rutas públicas
 legítimas están enumeradas con **justificación escrita**.
@@ -45159,7 +45159,7 @@ repositorio corresponde a quien los mantiene.
 Durante la validación aparecieron dos formas de obtener un informe de cobertura
 vacío que el script presentaba como **0,00 %**, indistinguible de un resultado
 real:
-```
+````
 </details></tool-use>
 
 _**Agent (claude-opus-5 2026-09-12 04:53:49Z)**_
@@ -45173,7 +45173,7 @@ cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
 sed -n '190,356p' docs/IMPROVEMENT_REPORT.md
 ```
 
-```text
+````text
 - **Node < 22.** `--test-coverage-include` existe desde Node 22; con Node 20,
   Node rechaza la bandera y no se recoge nada.
 - **Dos ejecuciones simultáneas.** Ambas escriben en `coverage/` y la segunda
@@ -45340,7 +45340,7 @@ Dos reglas guiaron el trabajo y explican por qué algunos números no son mejore
 El resultado es un repositorio cuyas afirmaciones de calidad pueden comprobarse
 con un comando. Eso es lo que cambió: no que el código sea mejor de lo que era,
 sino que ahora se sabe, y se puede demostrar, cómo de bueno es.
-```
+````
 </details></tool-use>
 
 _**Agent (claude-opus-5 2026-09-12 04:54:58Z)**_
@@ -54133,7 +54133,7 @@ cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
 sed -n '1,10p' docs/DEPLOYMENT.md; echo "-----"; sed -n '28,60p' docs/DEPLOYMENT.md
 ```
 
-```text
+````text
 # Deployment
 
 Platform: **Vercel**. Production branch: `main`. Each open branch generates a
@@ -54178,7 +54178,7 @@ See [AI_ARCHITECTURE.md](AI_ARCHITECTURE.md) §3.
 `vercel.json` defines 9 header rules. The two that are not cosmetic:
 
 | Route | Policy | Reason |
-```
+````
 </details></tool-use>
 
 _**Agent (claude-opus-5 2026-09-12 06:08:54Z)**_
@@ -57144,7 +57144,7 @@ cd /Users/josuegonzalez/Projects/Web3D/prompt-studio
 sed -n '110,126p' docs/DEPLOYMENT.md
 ```
 
-```text
+````text
 | Resend | No completed job notifications; generation works as usual. Lazy client too, so the build is unaffected |
 
 Two checks before deploying:
@@ -57161,7 +57161,7 @@ environment.
 ---
 
 ## 5. Before pushing to `main`
-```
+````
 </details></tool-use>
 
 _**Agent (claude-opus-5 2026-09-14 14:38:31Z)**_
