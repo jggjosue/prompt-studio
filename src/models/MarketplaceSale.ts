@@ -1,1 +1,13 @@
-import mongoose,{Schema}from'mongoose';const MarketplaceSaleSchema=new Schema({listingId:{type:Schema.Types.ObjectId,ref:'MarketplaceListing',required:true,index:true},creatorUserId:{type:String,required:true,index:true},buyerUserId:{type:String,required:true,index:true},purchaseId:{type:Schema.Types.ObjectId,ref:'ComponentPurchase',default:null},grossCents:{type:Number,required:true},platformFeeCents:{type:Number,required:true},creatorNetCents:{type:Number,required:true},currency:{type:String,required:true},status:{type:String,enum:['pending','available','paid','refunded'],default:'pending',index:true},stripeCheckoutSessionId:{type:String,required:true,unique:true},createdAt:{type:Date,default:Date.now,index:true}},{versionKey:false});MarketplaceSaleSchema.index({creatorUserId:1,createdAt:-1});export default mongoose.models.MarketplaceSale||mongoose.model('MarketplaceSale',MarketplaceSaleSchema,'marketplace_sales');
+import mongoose, { Schema } from 'mongoose';
+
+const MarketplaceSaleSchema = new Schema({
+  listingId: { type: Schema.Types.ObjectId, ref: 'MarketplaceListing', required: true, index: true },
+  releaseId: { type: Schema.Types.ObjectId, ref: 'MarketplaceRelease', required: true, index: true },
+  creatorUserId: { type: String, required: true, index: true }, buyerUserId: { type: String, required: true, index: true },
+  purchaseId: { type: Schema.Types.ObjectId, ref: 'ComponentPurchase', default: null }, grossCents: { type: Number, required: true },
+  platformFeeCents: { type: Number, required: true }, creatorNetCents: { type: Number, required: true }, currency: { type: String, required: true },
+  status: { type: String, enum: ['pending', 'available', 'paid', 'refunded'], default: 'pending', index: true },
+  stripeCheckoutSessionId: { type: String, required: true, unique: true }, createdAt: { type: Date, default: Date.now, index: true },
+}, { versionKey: false });
+MarketplaceSaleSchema.index({ creatorUserId: 1, createdAt: -1 });
+export default mongoose.models.MarketplaceSale || mongoose.model('MarketplaceSale', MarketplaceSaleSchema, 'marketplace_sales');

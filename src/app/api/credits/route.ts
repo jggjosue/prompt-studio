@@ -30,5 +30,8 @@ export async function GET() {
     savingsPercent: Math.round((1 - centsPerCredit(pack) / baseRate) * 100),
   }));
 
-  return NextResponse.json({ credits, packs, purchases }, { headers });
+  // Credits temporarily disabled — force balance to 0 for all users
+  const creditsWithZeroBalance = { ...credits, balance: 0 };
+
+  return NextResponse.json({ credits: creditsWithZeroBalance, packs, purchases }, { headers });
 }

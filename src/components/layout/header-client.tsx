@@ -34,11 +34,8 @@ import {
   ArrowLeft,
   ChevronDown,
   ChevronRight,
-  CreditCard,
   FolderHeart,
   Globe,
-  Handshake,
-  HelpCircle,
   ImageIcon,
   LayoutTemplate,
   Layers3,
@@ -99,6 +96,7 @@ type DropdownItem = {
   icon: React.ReactNode;
   group?: WebMenuGroup;
   disabled?: boolean;
+  disabledBadge?: string;
   target?: string;
   rel?: string;
   /** Si viene, la entrada abre un submenú con estas opciones en rejilla. */
@@ -162,6 +160,8 @@ export default function HeaderClient() {
           label: 'Optimizar prompts',
           description: 'Mejora con objetivos y compara los cambios',
           icon: <Sparkles className="h-4 w-4" />,
+          disabled: true,
+          disabledBadge: 'Próximamente',
         },
         {
           href: '/code-auditor',
@@ -169,6 +169,8 @@ export default function HeaderClient() {
           label: 'Auditor de código',
           description: 'Detecta errores y genera un prompt de corrección',
           icon: <ShieldCheck className="h-4 w-4" />,
+          disabled: true,
+          disabledBadge: 'Próximamente',
         },
         {
           href: '/my-components',
@@ -204,6 +206,8 @@ export default function HeaderClient() {
           label: 'Constructor visual',
           description: 'Personaliza componentes y genera el prompt',
           icon: <WandSparkles className="h-4 w-4" />,
+          disabled: true,
+          disabledBadge: 'Próximamente',
         },
         {
           href: '/page-composer',
@@ -211,6 +215,8 @@ export default function HeaderClient() {
           label: 'Generador de páginas',
           description: 'Combina componentes y descarga Next.js',
           icon: <LayoutTemplate className="h-4 w-4" />,
+          disabled: true,
+          disabledBadge: 'Próximamente',
         },
         {
           href: '/landing-pages',
@@ -273,6 +279,8 @@ export default function HeaderClient() {
           label: 'Generar Imagen',
           description: 'Crea imágenes hiperrealistas con IA',
           icon: <ImageIcon className="h-4 w-4" />,
+          disabled: true,
+          disabledBadge: 'Próximamente',
         },
         {
           href: '/generate',
@@ -282,6 +290,8 @@ export default function HeaderClient() {
           label: 'Generar Video',
           description: 'Crea videos cinematográficos con IA',
           icon: <Video className="h-4 w-4" />,
+          disabled: true,
+          disabledBadge: 'Próximamente',
         },
       ],
     },
@@ -410,10 +420,20 @@ export default function HeaderClient() {
                                     <div
                                       key={item.label}
                                       aria-disabled="true"
-                                      className="flex w-full cursor-not-allowed items-start gap-3 rounded-lg p-3 text-left opacity-45"
+                                      className="flex w-full cursor-not-allowed items-start gap-3 rounded-lg p-3 text-left opacity-50 select-none"
                                     >
-                                      <span className="rounded-md bg-blue-500/10 p-2 text-blue-500">{item.icon}</span>
-                                      <span className="min-w-0 flex-1"><span className="block font-semibold">{item.label}</span><span className="block text-xs font-normal text-muted-foreground">{item.description}</span></span>
+                                      <span className="rounded-md bg-muted p-2 text-muted-foreground">{item.icon}</span>
+                                      <span className="min-w-0 flex-1">
+                                        <div className="flex items-center gap-1.5">
+                                          <span className="block font-semibold text-muted-foreground">{item.label}</span>
+                                          {item.disabledBadge && (
+                                            <span className="rounded-full bg-muted px-1.5 py-0.2 text-[9px] font-medium text-muted-foreground border border-border/50">
+                                              {item.disabledBadge}
+                                            </span>
+                                          )}
+                                        </div>
+                                        <span className="block text-xs font-normal text-muted-foreground/80">{item.description}</span>
+                                      </span>
                                       {item.kits ? <ChevronRight className="mt-1 h-4 w-4" /> : null}
                                     </div>
                                   ) : item.kits ? (
@@ -470,7 +490,7 @@ export default function HeaderClient() {
                         </SignUpButton>
                       </SheetClose>
                       <SheetClose asChild>
-                        <SignInButton mode="redirect" forceRedirectUrl="/dashboard">
+                        <SignInButton mode="redirect" forceRedirectUrl="/dashboard/profile">
                           <span className="flex w-full items-center justify-center gap-2 rounded-md bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-700">
                             <LogIn className="h-4 w-4" />
                             {tHeader('signIn')}
@@ -564,10 +584,20 @@ export default function HeaderClient() {
                               <div
                                 key={item.label}
                                 aria-disabled="true"
-                                className="flex w-full cursor-not-allowed items-start gap-3 rounded-lg p-2.5 text-left opacity-45"
+                                className="flex w-full cursor-not-allowed items-start gap-3 rounded-lg p-2.5 text-left opacity-50 select-none"
                               >
-                                <div className="rounded-md bg-blue-500/10 p-1.5 text-blue-500">{item.icon}</div>
-                                <div className="min-w-0 flex-1 text-left"><p className="font-semibold">{item.label}</p><p className="line-clamp-2 text-xs text-muted-foreground">{item.description}</p></div>
+                                <div className="rounded-md bg-muted p-1.5 text-muted-foreground">{item.icon}</div>
+                                <div className="min-w-0 flex-1 text-left">
+                                  <div className="flex items-center gap-1.5">
+                                    <p className="font-semibold text-muted-foreground">{item.label}</p>
+                                    {item.disabledBadge && (
+                                      <span className="rounded-full bg-muted px-1.5 py-0.2 text-[9px] font-medium text-muted-foreground border border-border/50">
+                                        {item.disabledBadge}
+                                      </span>
+                                    )}
+                                  </div>
+                                  <p className="line-clamp-2 text-xs text-muted-foreground/80">{item.description}</p>
+                                </div>
                                 {item.kits ? <ChevronRight className="mt-1 h-4 w-4 shrink-0" /> : null}
                               </div>
                             ) : item.kits ? (
@@ -641,7 +671,7 @@ export default function HeaderClient() {
             <>
               <Show when="signed-out">
                 <div className="hidden md:flex items-center gap-3">
-                  <SignInButton mode="redirect" forceRedirectUrl="/dashboard">
+                  <SignInButton mode="redirect" forceRedirectUrl="/dashboard/profile">
                     <button className="rounded-full border border-cyan-200/25 px-5 py-2.5 text-sm font-semibold text-slate-100 transition hover:border-cyan-200/60">
                       {tHeader('signIn')}
                     </button>
@@ -653,7 +683,7 @@ export default function HeaderClient() {
                   </SignUpButton>
                 </div>
                 <div className="flex md:hidden items-center">
-                  <SignInButton mode="redirect" forceRedirectUrl="/dashboard">
+                    <SignInButton mode="redirect" forceRedirectUrl="/dashboard/profile">
                     <button className="rounded-full border border-cyan-200/25 px-3.5 py-1.5 text-xs font-semibold text-slate-100 transition hover:border-cyan-200/60">
                       {tHeader('signIn')}
                     </button>
@@ -663,7 +693,7 @@ export default function HeaderClient() {
               <Show when="signed-in">
                 <div className="flex items-center gap-3">
                   <ClientLink
-                    href="/dashboard"
+                    href="/dashboard/projects"
                     className="hidden rounded-full border border-cyan-200/25 px-5 py-2.5 text-sm font-semibold text-slate-100 transition hover:border-cyan-200/60 sm:block"
                   >
                     Dashboard

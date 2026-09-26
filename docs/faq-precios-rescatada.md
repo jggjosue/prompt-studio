@@ -39,7 +39,7 @@ corregirlo al alza: se está infravalorando el propio descuento.
 
 ### El correo de soporte apunta a un dominio que no es el del sitio
 
-El texto daba `user@example.com`. El dominio configurado en
+El texto daba `help@prompstudio.com`. El dominio configurado en
 `src/lib/site-url.ts` es **`prompstudio.com`** —sin la «t» tras «promp»—, así que
 ese buzón probablemente no existe. Hay que confirmar cuál es la dirección real
 antes de publicarla en una página de precios.

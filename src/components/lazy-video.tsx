@@ -24,6 +24,7 @@ export function LazyVideo({
   preload = 'metadata',
   onCanPlay,
   onLoadedData,
+  onLoadedMetadata,
   onError,
   ...props
 }: LazyVideoProps) {
@@ -41,11 +42,20 @@ export function LazyVideo({
   useEffect(() => {
     setIsReady(false);
     setHasError(false);
+    if (videoRef.current && videoRef.current.readyState >= 1) {
+      setIsReady(true);
+    }
   }, [src]);
 
   useEffect(() => {
-    if (!isNearView) videoRef.current?.pause();
-  }, [isNearView]);
+    if (shouldLoad && videoRef.current && videoRef.current.readyState >= 1) {
+      setIsReady(true);
+    }
+  }, [shouldLoad]);
+
+  useEffect(() => {
+    if (!isNearView && !eager) videoRef.current?.pause();
+  }, [isNearView, eager]);
 
   return (
     <div
@@ -67,6 +77,10 @@ export function LazyVideo({
                 : 'opacity-0 blur-sm',
               className
             )}
+            onLoadedMetadata={event => {
+              setIsReady(true);
+              onLoadedMetadata?.(event);
+            }}
             onLoadedData={event => {
               setIsReady(true);
               onLoadedData?.(event);
@@ -74,6 +88,10 @@ export function LazyVideo({
             onCanPlay={event => {
               setIsReady(true);
               onCanPlay?.(event);
+            }}
+            onPlay={event => {
+              setIsReady(true);
+              props.onPlay?.(event);
             }}
             onError={event => {
               setHasError(true);

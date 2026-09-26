@@ -252,9 +252,9 @@ export default function ProfileClient({ user, isPremiumJo, hasApprovedAffiliateA
             'grid w-full max-w-lg',
             // Perfil y Guardados son fijas; afiliado y partners, condicionales.
             TAB_COLUMNS[
-              2 +
-                (hasApprovedAffiliateApplication ? 1 : 0) +
-                (isPremiumJo ? 1 : 0)
+            2 +
+            (hasApprovedAffiliateApplication ? 1 : 0) +
+            (isPremiumJo ? 1 : 0)
             ]
           )}
         >
@@ -435,361 +435,361 @@ export default function ProfileClient({ user, isPremiumJo, hasApprovedAffiliateA
         </TabsContent>
 
         {hasApprovedAffiliateApplication ? (
-        <TabsContent value="affiliate" className="space-y-6">
-          <Card className="border-primary/20 bg-primary/5">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 font-headline">
-                <Link2 className="h-5 w-5" />
-                {t('affiliateTitle')}
-              </CardTitle>
-              <CardDescription>{t('affiliateDesc')}</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
-                <div className="space-y-4">
-                  <div className="rounded-2xl border bg-background/55 p-4 sm:p-5">
-                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                      <div>
-                        <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground">{t('affiliateLink')}</p>
-                        <p className="text-sm text-muted-foreground">
-                          Comparte este enlace para rastrear las ventas.
-                        </p>
+          <TabsContent value="affiliate" className="space-y-6">
+            <Card className="border-primary/20 bg-primary/5">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 font-headline">
+                  <Link2 className="h-5 w-5" />
+                  {t('affiliateTitle')}
+                </CardTitle>
+                <CardDescription>{t('affiliateDesc')}</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
+                  <div className="space-y-4">
+                    <div className="rounded-2xl border bg-background/55 p-4 sm:p-5">
+                      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                        <div>
+                          <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground">{t('affiliateLink')}</p>
+                          <p className="text-sm text-muted-foreground">
+                            Comparte este enlace para rastrear las ventas.
+                          </p>
+                        </div>
+                        <Badge variant={copied ? 'default' : 'secondary'} className="w-fit">
+                          {copied ? 'Copiado' : 'Activo'}
+                        </Badge>
                       </div>
-                      <Badge variant={copied ? 'default' : 'secondary'} className="w-fit">
-                        {copied ? 'Copiado' : 'Activo'}
-                      </Badge>
+                      <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+                        <Input
+                          id="affiliate-link"
+                          value={affiliateLink}
+                          readOnly
+                          className="bg-background/80 font-mono text-xs"
+                        />
+                        <Button variant="outline" onClick={copyLink} className="gap-2 sm:w-40">
+                          <Copy className="h-4 w-4" />
+                          {copied ? t('copied') : t('copyLink')}
+                        </Button>
+                      </div>
+                      <p className="mt-3 text-xs text-muted-foreground">
+                        {t('affiliateLinkHint')}
+                      </p>
                     </div>
-                    <div className="mt-4 flex flex-col gap-3 sm:flex-row">
-                      <Input
-                        id="affiliate-link"
-                        value={affiliateLink}
-                        readOnly
-                        className="bg-background/80 font-mono text-xs"
-                      />
-                      <Button variant="outline" onClick={copyLink} className="gap-2 sm:w-40">
-                        <Copy className="h-4 w-4" />
-                        {copied ? t('copied') : t('copyLink')}
-                      </Button>
+
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div className="rounded-2xl border bg-background/55 p-4">
+                        <p className="text-xs uppercase tracking-wide text-muted-foreground">Correo de PayPal</p>
+                        <p className="mt-1 text-sm text-muted-foreground">
+                          {affiliatePaypalEmail || 'Aún no has guardado un correo de pago.'}
+                        </p>
+                        <div className="mt-4 space-y-2">
+                          <Label htmlFor="paypal-email">Actualizar correo</Label>
+                          <Input
+                            id="paypal-email"
+                            type="email"
+                            placeholder="help@prompstudio.com"
+                            value={paypalEmail}
+                            onChange={event => setPaypalEmail(event.target.value)}
+                            className="bg-background/80"
+                          />
+                        </div>
+                        <div className="mt-3 flex flex-wrap items-center gap-3">
+                          <Button
+                            type="button"
+                            onClick={savePaypalEmail}
+                            disabled={savingPaypal || !paypalEmail.trim()}
+                            className="gap-2"
+                          >
+                            {savingPaypal ? 'Guardando...' : 'Guardar correo'}
+                          </Button>
+                          {paypalSaved && (
+                            <span className="text-sm text-emerald-500">Correo guardado.</span>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="rounded-2xl border bg-background/55 p-4">
+                        <div className="flex items-center justify-between gap-3">
+                          <div>
+                            <p className="text-xs uppercase tracking-wide text-muted-foreground">Payout</p>
+                            <p className="mt-1 text-sm text-muted-foreground">Saldo disponible y mínimo de retiro.</p>
+                          </div>
+                          <Badge variant={affiliate.canRequestManualPayout ? 'default' : 'secondary'}>
+                            {affiliate.canRequestManualPayout ? 'Listo' : 'Pendiente'}
+                          </Badge>
+                        </div>
+                        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                          <div className="rounded-xl border bg-background/70 p-4">
+                            <p className="text-xs uppercase tracking-wide text-muted-foreground">{t('moneyEarned')}</p>
+                            <p className="mt-1 text-2xl font-bold">{money(paidRevenue)}</p>
+                          </div>
+                          <div className="rounded-xl border bg-background/70 p-4">
+                            <p className="text-xs uppercase tracking-wide text-muted-foreground">Disponible</p>
+                            <p className="mt-1 text-2xl font-bold">{money(availablePayout)}</p>
+                          </div>
+                          <div className="rounded-xl border bg-background/70 p-4">
+                            <p className="text-xs uppercase tracking-wide text-muted-foreground">{t('conversionRate')}</p>
+                            <p className="mt-1 text-2xl font-bold">{conversionRate}%</p>
+                          </div>
+                          <div className="rounded-xl border bg-background/70 p-4">
+                            <p className="text-xs uppercase tracking-wide text-muted-foreground">{t('clicks')}</p>
+                            <p className="mt-1 text-2xl font-bold">{clicks}</p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <p className="mt-3 text-xs text-muted-foreground">
-                      {t('affiliateLinkHint')}
-                    </p>
                   </div>
 
-                  <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="space-y-4">
                     <div className="rounded-2xl border bg-background/55 p-4">
-                      <p className="text-xs uppercase tracking-wide text-muted-foreground">Correo de PayPal</p>
-                      <p className="mt-1 text-sm text-muted-foreground">
-                        {affiliatePaypalEmail || 'Aún no has guardado un correo de pago.'}
+                      <p className="text-xs uppercase tracking-wide text-muted-foreground">{t('totalTracked')}</p>
+                      <p className="mt-1 text-3xl font-bold">{money(totalRevenue)}</p>
+                      <p className="mt-2 text-xs text-muted-foreground">{t('summaryLine2')}</p>
+                    </div>
+                    <div className="rounded-2xl border bg-background/55 p-4">
+                      <p className="text-xs uppercase tracking-wide text-muted-foreground">Mínimo de pago</p>
+                      <p className="mt-1 text-3xl font-bold">{money(payoutThreshold)}</p>
+                      <p className="mt-2 text-xs text-muted-foreground">
+                        {affiliate.canRequestManualPayout ? 'Listo para pagar por PayPal o Wise.' : 'Aún no alcanza el mínimo.'}
                       </p>
-                      <div className="mt-4 space-y-2">
-                        <Label htmlFor="paypal-email">Actualizar correo</Label>
-                        <Input
-                          id="paypal-email"
-                          type="email"
-                          placeholder="user@example.com"
-                          value={paypalEmail}
-                          onChange={event => setPaypalEmail(event.target.value)}
-                          className="bg-background/80"
-                        />
-                      </div>
-                      <div className="mt-3 flex flex-wrap items-center gap-3">
-                        <Button
-                          type="button"
-                          onClick={savePaypalEmail}
-                          disabled={savingPaypal || !paypalEmail.trim()}
-                          className="gap-2"
-                        >
-                          {savingPaypal ? 'Guardando...' : 'Guardar correo'}
-                        </Button>
-                        {paypalSaved && (
-                          <span className="text-sm text-emerald-500">Correo guardado.</span>
-                        )}
+                      <div className="mt-4">
+                        <Progress value={Math.min(100, (availablePayout / payoutThreshold) * 100)} />
                       </div>
                     </div>
-
                     <div className="rounded-2xl border bg-background/55 p-4">
                       <div className="flex items-center justify-between gap-3">
                         <div>
-                          <p className="text-xs uppercase tracking-wide text-muted-foreground">Payout</p>
-                          <p className="mt-1 text-sm text-muted-foreground">Saldo disponible y mínimo de retiro.</p>
+                          <p className="text-xs uppercase tracking-wide text-muted-foreground">Método</p>
+                          <p className="mt-1 text-sm font-medium">PayPal / Wise manual</p>
                         </div>
-                        <Badge variant={affiliate.canRequestManualPayout ? 'default' : 'secondary'}>
-                          {affiliate.canRequestManualPayout ? 'Listo' : 'Pendiente'}
-                        </Badge>
+                        <Sparkles className="h-5 w-5 text-primary" />
                       </div>
-                      <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                        <div className="rounded-xl border bg-background/70 p-4">
-                          <p className="text-xs uppercase tracking-wide text-muted-foreground">{t('moneyEarned')}</p>
-                          <p className="mt-1 text-2xl font-bold">{money(paidRevenue)}</p>
-                        </div>
-                        <div className="rounded-xl border bg-background/70 p-4">
-                          <p className="text-xs uppercase tracking-wide text-muted-foreground">Disponible</p>
-                          <p className="mt-1 text-2xl font-bold">{money(availablePayout)}</p>
-                        </div>
-                        <div className="rounded-xl border bg-background/70 p-4">
-                          <p className="text-xs uppercase tracking-wide text-muted-foreground">{t('conversionRate')}</p>
-                          <p className="mt-1 text-2xl font-bold">{conversionRate}%</p>
-                        </div>
-                        <div className="rounded-xl border bg-background/70 p-4">
-                          <p className="text-xs uppercase tracking-wide text-muted-foreground">{t('clicks')}</p>
-                          <p className="mt-1 text-2xl font-bold">{clicks}</p>
-                        </div>
-                      </div>
+                      <p className="mt-2 text-xs text-muted-foreground">
+                        Tu correo guardado se usa para transferencias manuales cuando el pago esté disponible.
+                      </p>
                     </div>
                   </div>
-                </div>
-
-                <div className="space-y-4">
-                  <div className="rounded-2xl border bg-background/55 p-4">
-                    <p className="text-xs uppercase tracking-wide text-muted-foreground">{t('totalTracked')}</p>
-                    <p className="mt-1 text-3xl font-bold">{money(totalRevenue)}</p>
-                    <p className="mt-2 text-xs text-muted-foreground">{t('summaryLine2')}</p>
-                  </div>
-                  <div className="rounded-2xl border bg-background/55 p-4">
-                    <p className="text-xs uppercase tracking-wide text-muted-foreground">Mínimo de pago</p>
-                    <p className="mt-1 text-3xl font-bold">{money(payoutThreshold)}</p>
-                    <p className="mt-2 text-xs text-muted-foreground">
-                      {affiliate.canRequestManualPayout ? 'Listo para pagar por PayPal o Wise.' : 'Aún no alcanza el mínimo.'}
-                    </p>
-                    <div className="mt-4">
-                      <Progress value={Math.min(100, (availablePayout / payoutThreshold) * 100)} />
-                    </div>
-                  </div>
-                  <div className="rounded-2xl border bg-background/55 p-4">
-                    <div className="flex items-center justify-between gap-3">
-                      <div>
-                        <p className="text-xs uppercase tracking-wide text-muted-foreground">Método</p>
-                        <p className="mt-1 text-sm font-medium">PayPal / Wise manual</p>
-                      </div>
-                      <Sparkles className="h-5 w-5 text-primary" />
-                    </div>
-                    <p className="mt-2 text-xs text-muted-foreground">
-                      Tu correo guardado se usa para transferencias manuales cuando el pago esté disponible.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 font-headline">
-                  <Package className="h-5 w-5" />
-                  {t('salesTitle')}
-                </CardTitle>
-                <CardDescription>{t('salesDesc')}</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-3">
-                  {affiliateSales.map((sale, index) => (
-                    <div
-                      key={`${sale.product}-${sale.date}`}
-                      className="rounded-xl border bg-background/60 p-4"
-                    >
-                      <div className="flex flex-wrap items-center justify-between gap-2">
-                        <div>
-                          <p className="font-medium">{sale.product}</p>
-                          <p className="text-xs text-muted-foreground">{sale.date}</p>
-                        </div>
-                        <Badge variant={sale.status === 'paid' ? 'default' : 'secondary'} className="capitalize">
-                          {sale.status}
-                        </Badge>
-                      </div>
-                      <div className="mt-3 flex items-center justify-between gap-3 text-sm">
-                        <span className="text-muted-foreground">{t('saleAmount')}</span>
-                        <span className="font-semibold">{money(sale.amount)}</span>
-                      </div>
-                      <div className="mt-3 h-2 rounded-full bg-muted">
-                        <div
-                          className={cn(
-                            'h-2 rounded-full bg-gradient-to-r from-cyan-500 to-emerald-400 transition-all',
-                            index === 0 ? 'w-[82%]' : index === 1 ? 'w-[64%]' : index === 2 ? 'w-[47%]' : 'w-[91%]'
-                          )}
-                        />
-                      </div>
-                    </div>
-                  ))}
                 </div>
               </CardContent>
             </Card>
 
-            <div className="space-y-6">
+            <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 font-headline">
-                    <LineChart className="h-5 w-5" />
-                    {t('performanceTitle')}
+                    <Package className="h-5 w-5" />
+                    {t('salesTitle')}
                   </CardTitle>
-                  <CardDescription>{t('performanceDesc')}</CardDescription>
+                  <CardDescription>{t('salesDesc')}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="space-y-4">
-                    {topProducts.map(item => (
-                      <div key={item.label} className="space-y-2">
-                        <div className="flex items-center justify-between text-sm">
-                          <span className="text-muted-foreground">{item.label}</span>
-                          <span className="font-medium">{item.value}</span>
+                  <div className="space-y-3">
+                    {affiliateSales.map((sale, index) => (
+                      <div
+                        key={`${sale.product}-${sale.date}`}
+                        className="rounded-xl border bg-background/60 p-4"
+                      >
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <div>
+                            <p className="font-medium">{sale.product}</p>
+                            <p className="text-xs text-muted-foreground">{sale.date}</p>
+                          </div>
+                          <Badge variant={sale.status === 'paid' ? 'default' : 'secondary'} className="capitalize">
+                            {sale.status}
+                          </Badge>
                         </div>
-                        <Progress value={item.value * 2} />
+                        <div className="mt-3 flex items-center justify-between gap-3 text-sm">
+                          <span className="text-muted-foreground">{t('saleAmount')}</span>
+                          <span className="font-semibold">{money(sale.amount)}</span>
+                        </div>
+                        <div className="mt-3 h-2 rounded-full bg-muted">
+                          <div
+                            className={cn(
+                              'h-2 rounded-full bg-gradient-to-r from-cyan-500 to-emerald-400 transition-all',
+                              index === 0 ? 'w-[82%]' : index === 1 ? 'w-[64%]' : index === 2 ? 'w-[47%]' : 'w-[91%]'
+                            )}
+                          />
+                        </div>
                       </div>
                     ))}
-                  </div>
-                  <Separator />
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">{t('totalTracked')}</span>
-                    <span className="font-semibold">{affiliate.salesRegistered}</span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">{t('currentPlan')}</span>
-                    <span className="font-semibold capitalize">{plan}</span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">{t('stripeStatus')}</span>
-                    <span className="font-semibold capitalize">{status ?? 'free'}</span>
-                  </div>
-                  <Separator />
-                  <div className="space-y-4">
-                    <div className="flex flex-wrap items-center justify-between gap-3">
-                      <div className="space-y-1">
-                        <p className="text-sm font-medium">Ingresos históricos</p>
-                        <p className="text-xs text-muted-foreground">
-                          Vista {chartMode === 'day' ? 'diaria' : 'semanal'} de ingresos y comisiones basada en MongoDB.
-                        </p>
-                      </div>
-                      <div className="flex rounded-full border bg-background/60 p-1 text-xs">
-                        <Button
-                          type="button"
-                          size="sm"
-                          variant={chartMode === 'day' ? 'default' : 'ghost'}
-                          className="h-8 rounded-full px-3"
-                          onClick={() => setChartMode('day')}
-                        >
-                          Día
-                        </Button>
-                        <Button
-                          type="button"
-                          size="sm"
-                          variant={chartMode === 'week' ? 'default' : 'ghost'}
-                          className="h-8 rounded-full px-3"
-                          onClick={() => setChartMode('week')}
-                        >
-                          Semana
-                        </Button>
-                      </div>
-                    </div>
-                    <div className="flex flex-wrap items-center gap-3 text-[11px] text-muted-foreground">
-                      <span className="inline-flex items-center gap-2">
-                        <span className="h-2 w-2 rounded-full bg-gradient-to-r from-cyan-500 to-emerald-400" />
-                        Ingresos
-                      </span>
-                      <span className="inline-flex items-center gap-2">
-                        <span className="h-2 w-2 rounded-full bg-gradient-to-r from-fuchsia-500 to-amber-400" />
-                        Comisiones
-                      </span>
-                    </div>
-                    <div className="relative flex items-end gap-2 h-32 rounded-2xl border bg-background/40 px-3 py-4 overflow-hidden">
-                      {chartPoints.length > 1 && (
-                        <svg
-                          aria-hidden="true"
-                          className="pointer-events-none absolute inset-0 h-full w-full"
-                          viewBox="0 0 100 100"
-                          preserveAspectRatio="none"
-                        >
-                          <defs>
-                            <linearGradient id="affiliateTrendLine" x1="0%" y1="0%" x2="100%" y2="0%">
-                              <stop offset="0%" stopColor="#22d3ee" />
-                              <stop offset="50%" stopColor="#60a5fa" />
-                              <stop offset="100%" stopColor="#34d399" />
-                            </linearGradient>
-                          </defs>
-                          <path
-                            d={chartLinePath}
-                            fill="none"
-                            stroke="url(#affiliateTrendLine)"
-                            strokeWidth="1.8"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            vectorEffect="non-scaling-stroke"
-                          />
-                          <path
-                            d={commissionLinePath}
-                            fill="none"
-                            stroke="url(#affiliateCommissionLine)"
-                            strokeWidth="1.8"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeDasharray="4 2"
-                            vectorEffect="non-scaling-stroke"
-                          />
-                          <defs>
-                            <linearGradient id="affiliateCommissionLine" x1="0%" y1="0%" x2="100%" y2="0%">
-                              <stop offset="0%" stopColor="#d946ef" />
-                              <stop offset="100%" stopColor="#f59e0b" />
-                            </linearGradient>
-                          </defs>
-                          {chartPoints.map((point, index) => (
-                            <circle
-                              key={`${chartMode}-trend-${index}`}
-                              cx={point.x}
-                              cy={point.y}
-                              r="1.6"
-                              fill="#e0f2fe"
-                              stroke="#22d3ee"
-                              strokeWidth="0.6"
-                            />
-                          ))}
-                          {commissionPoints.map((point, index) => (
-                            <circle
-                              key={`${chartMode}-commission-${index}`}
-                              cx={point.x}
-                              cy={point.y}
-                              r="1.5"
-                              fill="#fde68a"
-                              stroke="#d946ef"
-                              strokeWidth="0.55"
-                            />
-                          ))}
-                        </svg>
-                      )}
-                      {chartSeries.map(item => {
-                        const height = Math.max(14, Math.round((item.revenueCents / chartMax) * 100));
-                        return (
-                          <div key={`${chartMode}-${item.label}`} className="flex-1 space-y-2 text-center">
-                            <div className="relative mx-auto flex h-24 w-full max-w-10 items-end rounded-full bg-muted/50 p-1">
-                              <div
-                                className="w-full rounded-full bg-gradient-to-t from-cyan-500 via-blue-500 to-emerald-400 shadow-[0_0_18px_rgba(34,211,238,0.28)] transition-all"
-                                style={{ height: `${height}%` }}
-                                title={`${item.label}: ${money(item.revenueCents / 100)}`}
-                              />
-                            </div>
-                            <p className="text-[10px] text-muted-foreground">{item.label}</p>
-                            <p className="text-[10px] font-medium">{money(item.revenueCents / 100)}</p>
-                          </div>
-                        );
-                      })}
-                    </div>
                   </div>
                 </CardContent>
               </Card>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 font-headline">
-                    <Sparkles className="h-5 w-5" />
-                    {t('affiliateSummary')}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3 text-sm text-muted-foreground">
-                  <p>{t('summaryLine1')}</p>
-                  <p>{t('summaryLine2')}</p>
-                </CardContent>
-              </Card>
+              <div className="space-y-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 font-headline">
+                      <LineChart className="h-5 w-5" />
+                      {t('performanceTitle')}
+                    </CardTitle>
+                    <CardDescription>{t('performanceDesc')}</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="space-y-4">
+                      {topProducts.map(item => (
+                        <div key={item.label} className="space-y-2">
+                          <div className="flex items-center justify-between text-sm">
+                            <span className="text-muted-foreground">{item.label}</span>
+                            <span className="font-medium">{item.value}</span>
+                          </div>
+                          <Progress value={item.value * 2} />
+                        </div>
+                      ))}
+                    </div>
+                    <Separator />
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-muted-foreground">{t('totalTracked')}</span>
+                      <span className="font-semibold">{affiliate.salesRegistered}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-muted-foreground">{t('currentPlan')}</span>
+                      <span className="font-semibold capitalize">{plan}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-muted-foreground">{t('stripeStatus')}</span>
+                      <span className="font-semibold capitalize">{status ?? 'free'}</span>
+                    </div>
+                    <Separator />
+                    <div className="space-y-4">
+                      <div className="flex flex-wrap items-center justify-between gap-3">
+                        <div className="space-y-1">
+                          <p className="text-sm font-medium">Ingresos históricos</p>
+                          <p className="text-xs text-muted-foreground">
+                            Vista {chartMode === 'day' ? 'diaria' : 'semanal'} de ingresos y comisiones basada en MongoDB.
+                          </p>
+                        </div>
+                        <div className="flex rounded-full border bg-background/60 p-1 text-xs">
+                          <Button
+                            type="button"
+                            size="sm"
+                            variant={chartMode === 'day' ? 'default' : 'ghost'}
+                            className="h-8 rounded-full px-3"
+                            onClick={() => setChartMode('day')}
+                          >
+                            Día
+                          </Button>
+                          <Button
+                            type="button"
+                            size="sm"
+                            variant={chartMode === 'week' ? 'default' : 'ghost'}
+                            className="h-8 rounded-full px-3"
+                            onClick={() => setChartMode('week')}
+                          >
+                            Semana
+                          </Button>
+                        </div>
+                      </div>
+                      <div className="flex flex-wrap items-center gap-3 text-[11px] text-muted-foreground">
+                        <span className="inline-flex items-center gap-2">
+                          <span className="h-2 w-2 rounded-full bg-gradient-to-r from-cyan-500 to-emerald-400" />
+                          Ingresos
+                        </span>
+                        <span className="inline-flex items-center gap-2">
+                          <span className="h-2 w-2 rounded-full bg-gradient-to-r from-fuchsia-500 to-amber-400" />
+                          Comisiones
+                        </span>
+                      </div>
+                      <div className="relative flex items-end gap-2 h-32 rounded-2xl border bg-background/40 px-3 py-4 overflow-hidden">
+                        {chartPoints.length > 1 && (
+                          <svg
+                            aria-hidden="true"
+                            className="pointer-events-none absolute inset-0 h-full w-full"
+                            viewBox="0 0 100 100"
+                            preserveAspectRatio="none"
+                          >
+                            <defs>
+                              <linearGradient id="affiliateTrendLine" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stopColor="#22d3ee" />
+                                <stop offset="50%" stopColor="#60a5fa" />
+                                <stop offset="100%" stopColor="#34d399" />
+                              </linearGradient>
+                            </defs>
+                            <path
+                              d={chartLinePath}
+                              fill="none"
+                              stroke="url(#affiliateTrendLine)"
+                              strokeWidth="1.8"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              vectorEffect="non-scaling-stroke"
+                            />
+                            <path
+                              d={commissionLinePath}
+                              fill="none"
+                              stroke="url(#affiliateCommissionLine)"
+                              strokeWidth="1.8"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeDasharray="4 2"
+                              vectorEffect="non-scaling-stroke"
+                            />
+                            <defs>
+                              <linearGradient id="affiliateCommissionLine" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stopColor="#d946ef" />
+                                <stop offset="100%" stopColor="#f59e0b" />
+                              </linearGradient>
+                            </defs>
+                            {chartPoints.map((point, index) => (
+                              <circle
+                                key={`${chartMode}-trend-${index}`}
+                                cx={point.x}
+                                cy={point.y}
+                                r="1.6"
+                                fill="#e0f2fe"
+                                stroke="#22d3ee"
+                                strokeWidth="0.6"
+                              />
+                            ))}
+                            {commissionPoints.map((point, index) => (
+                              <circle
+                                key={`${chartMode}-commission-${index}`}
+                                cx={point.x}
+                                cy={point.y}
+                                r="1.5"
+                                fill="#fde68a"
+                                stroke="#d946ef"
+                                strokeWidth="0.55"
+                              />
+                            ))}
+                          </svg>
+                        )}
+                        {chartSeries.map(item => {
+                          const height = Math.max(14, Math.round((item.revenueCents / chartMax) * 100));
+                          return (
+                            <div key={`${chartMode}-${item.label}`} className="flex-1 space-y-2 text-center">
+                              <div className="relative mx-auto flex h-24 w-full max-w-10 items-end rounded-full bg-muted/50 p-1">
+                                <div
+                                  className="w-full rounded-full bg-gradient-to-t from-cyan-500 via-blue-500 to-emerald-400 shadow-[0_0_18px_rgba(34,211,238,0.28)] transition-all"
+                                  style={{ height: `${height}%` }}
+                                  title={`${item.label}: ${money(item.revenueCents / 100)}`}
+                                />
+                              </div>
+                              <p className="text-[10px] text-muted-foreground">{item.label}</p>
+                              <p className="text-[10px] font-medium">{money(item.revenueCents / 100)}</p>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 font-headline">
+                      <Sparkles className="h-5 w-5" />
+                      {t('affiliateSummary')}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3 text-sm text-muted-foreground">
+                    <p>{t('summaryLine1')}</p>
+                    <p>{t('summaryLine2')}</p>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
-          </div>
-        </TabsContent>
+          </TabsContent>
         ) : null}
       </Tabs>
     </div>

@@ -1,2 +1,2 @@
 import { ProjectsClient } from './projects-client';
-export default function ProjectsPage(){return <ProjectsClient/>}
+export default async function ProjectsPage({searchParams}:{searchParams:Promise<{project?:string}>}){const{project}=await searchParams;return <ProjectsClient initialProjectId={project}/>}

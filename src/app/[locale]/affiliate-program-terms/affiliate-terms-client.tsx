@@ -9,8 +9,8 @@ import { CSSProperties, MouseEvent, ReactNode, useEffect, useMemo, useRef } from
 
 const summaryCards = [
   {
-    title: '20% Commission',
-    text: 'Approved affiliates may earn 20% commission on qualifying eligible product or membership sales.',
+    title: '30% Commission',
+    text: 'Approved affiliates may earn 30% commission on qualifying eligible product or membership sales.',
     icon: '%',
     tone: 'text-emerald-200',
   },
@@ -57,12 +57,12 @@ const steps = [
   },
   {
     title: 'Earn Commissions',
-    text: 'Earn 20% commission on qualifying sales that are properly tracked, paid, and not refunded, disputed, or charged back.',
+    text: 'Earn 30% commission on qualifying sales that are properly tracked, paid, and not refunded, disputed, or charged back.',
   },
 ];
 
 const trustItems = [
-  'Clear 20% Commission',
+  'Clear 30% Commission',
   'Transparent Tracking',
   'Honest Promotions',
   'Required Affiliate Disclosures',
@@ -92,7 +92,7 @@ const termSections: TermSection[] = [
     title: 'Company Information',
     body: [
       'Magzin LLC, 800 Third Avenue Associates, New York, NY 10022, United States.',
-      'Contact: user@example.com',
+      'Contact: help@prompstudio.com',
       'Copyright 2026 Prompt Studio. All rights reserved.',
     ],
   },
@@ -145,7 +145,7 @@ const termSections: TermSection[] = [
   {
     title: 'Commission Rate',
     body: [
-      'Unless otherwise stated in writing, approved affiliates may earn a commission equal to 20% of net revenue from qualifying sales of eligible Prompt Studio products or memberships.',
+      'Unless otherwise stated in writing, approved affiliates may earn a commission equal to 30% of net revenue from qualifying sales of eligible Prompt Studio products or memberships.',
       'Net revenue means the amount actually received by Prompt Studio from a qualifying sale after deductions.',
       'Commissions are calculated only on eligible sales that are successfully tracked, paid, and not refunded, canceled, disputed, or charged back.',
     ],
@@ -410,7 +410,7 @@ const termSections: TermSection[] = [
     title: 'Contact Us',
     body: [
       'If you have questions about these Affiliate Program Terms, please contact Magzin LLC, 800 Third Avenue Associates, New York, NY 10022, United States.',
-      'Email: user@example.com',
+      'Email: help@prompstudio.com',
       'Copyright 2026 Prompt Studio. All rights reserved.',
     ],
   },
@@ -763,10 +763,10 @@ export default function AffiliateTermsClient() {
         <ParallaxBand tone="emerald">
           <div className="grid gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
             <TiltCard className="p-8 md:p-10">
-              <div className="text-8xl font-black tracking-tight text-emerald-200 drop-shadow-[0_0_32px_rgba(110,231,183,0.42)]">20%</div>
+              <div className="text-8xl font-black tracking-tight text-emerald-200 drop-shadow-[0_0_32px_rgba(110,231,183,0.42)]">30%</div>
               <h2 className="mt-4 text-3xl font-semibold text-white">Commission on Qualifying Sales</h2>
               <p className="mt-5 text-base leading-8 text-slate-300">
-                Approved affiliates may earn 20% of net revenue from eligible Prompt Studio product or membership sales.
+                Approved affiliates may earn 30% of net revenue from eligible Prompt Studio product or membership sales.
                 Net revenue means the amount actually received by Prompt Studio after deductions such as discounts,
                 refunds, chargebacks, taxes, payment processing fees, credits, fraud adjustments, and other transaction-related costs.
               </p>
@@ -881,7 +881,7 @@ export default function AffiliateTermsClient() {
               <Link href="/affiliate-program" className="rounded-full bg-gradient-to-r from-blue-500 to-violet-500 px-7 py-3.5 font-bold text-white shadow-[0_0_38px_rgba(59,130,246,0.45)]">
                 Become an Affiliate
               </Link>
-              <a href="mailto:user@example.com" className="rounded-full border border-white/15 bg-black/30 px-7 py-3.5 font-bold text-white">
+              <a href="mailto:help@prompstudio.com" className="rounded-full border border-white/15 bg-black/30 px-7 py-3.5 font-bold text-white">
                 Contact Support
               </a>
             </div>

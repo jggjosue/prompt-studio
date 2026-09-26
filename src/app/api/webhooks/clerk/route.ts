@@ -3,7 +3,6 @@ import { NextResponse } from 'next/server';
 import { reportOperationalError } from '@/lib/observability-server';
 import { headers } from 'next/headers';
 
-import { upsertResendContact } from '@/lib/resend';
 import connectToDatabase from '@/lib/mongoose';
 import NewUser from '@/models/NewUser';
 import UserProfile from '@/models/UserProfile';
@@ -130,22 +129,6 @@ export async function POST(req: Request) {
         { status: 503 }
       );
     }
-  }
-
-  const resendResult = await upsertResendContact({
-    email,
-    firstName: evt.data.first_name ?? undefined,
-    lastName: evt.data.last_name ?? undefined,
-  });
-
-  if (resendResult.error) {
-    reportOperationalError({ category: 'server_error', name: 'clerk_resend_sync', route: '/api/webhooks/clerk', userId: evt.data.id, metadata: { operation: 'sync_contact', provider: 'resend', correlationId: evt.data.id, eventType: evt.type } }, new Error('RESEND_SYNC_FAILED'));
-    // A non-2xx response tells Clerk/Svix to retry instead of silently losing
-    // the contact while reporting the webhook as successfully processed.
-    return NextResponse.json(
-      { error: 'Resend contact synchronization failed' },
-      { status: 503 }
-    );
   }
 
   return NextResponse.json({ received: true });

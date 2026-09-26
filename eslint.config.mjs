@@ -30,6 +30,9 @@ export default [
       'playwright-report/**',
       'next-env.d.ts',
       'src/data/**',
+      // Generated/static demo corpus: validated by dedicated catalog/data checks.
+      // Linting hundreds of copied micro-sites duplicates identical Next link warnings.
+      'src/components/demos/**',
     ],
   },
 

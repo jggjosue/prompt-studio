@@ -40,7 +40,7 @@ export default function TermsAndConditionsPage() {
             <p>New York, NY 10022</p>
             <p>United States</p>
             <p>Correo electrónico oficial:</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <p>Al acceder o utilizar Prompt Studio, el usuario acepta quedar obligado por los presentes Términos y Condiciones.</p>
             <p>Si el usuario no está de acuerdo con cualquiera de estas disposiciones, deberá abstenerse de utilizar la Plataforma.</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">1.1 Objeto</h3>
@@ -351,7 +351,7 @@ export default function TermsAndConditionsPage() {
             <p>Si el usuario detecta un acceso no autorizado, deberá comunicarlo inmediatamente a Prompt Studio.</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">5.7 Eliminación de la cuenta</h3>
             <p>El usuario podrá eliminar su cuenta en cualquier momento desde la configuración correspondiente o contactando a:</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <p>La eliminación de la cuenta se realizará conforme a la Política de Privacidad y podrá implicar la pérdida de acceso a determinados recursos y servicios.</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">5.8 Derecho de rechazo</h3>
             <p>Prompt Studio se reserva el derecho de rechazar el registro o cancelar una cuenta cuando existan motivos razonables, incluyendo:</p>
@@ -484,7 +484,7 @@ export default function TermsAndConditionsPage() {
               <li>Información bancaria completa.</li>
             </ul>
             <p>Si el usuario recibe una solicitud sospechosa haciéndose pasar por Prompt Studio, deberá comunicarlo inmediatamente a:</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">7.6 Actividad sospechosa</h3>
             <p>Prompt Studio podrá supervisar determinados eventos de seguridad para detectar:</p>
             <ul className="list-disc pl-6 space-y-2">
@@ -507,7 +507,7 @@ export default function TermsAndConditionsPage() {
               <li>Actividad sospechosa.</li>
             </ul>
             <p>deberá notificarlo lo antes posible mediante:</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <p>Prompt Studio colaborará razonablemente para investigar el incidente y restaurar la seguridad de la cuenta cuando sea posible.</p>
             <section className="space-y-4 pt-8">
               <h2 className="text-2xl font-bold text-foreground font-headline flex items-center gap-3">
@@ -951,7 +951,7 @@ export default function TermsAndConditionsPage() {
               <li>Los mecanismos disponibles dentro de Prompt Studio.</li>
               <li>Contactando a:</li>
             </ul>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <p>La cancelación impedirá futuras renovaciones, pero no afectará el acceso correspondiente al período previamente pagado.</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">13.6 Cambios de plan</h3>
             <p>Cuando la Plataforma lo permita, el usuario podrá:</p>
@@ -1103,7 +1103,7 @@ export default function TermsAndConditionsPage() {
             <p>Estos documentos podrán ser emitidos directamente por Stripe o por Prompt Studio, según el tipo de operación y la legislación aplicable.</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">15.5 Errores de facturación</h3>
             <p>Si el usuario detecta un error en una factura o comprobante, deberá comunicarlo a Prompt Studio lo antes posible mediante:</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <p>Prompt Studio realizará las verificaciones necesarias y, cuando corresponda, emitirá la documentación corregida conforme a la legislación aplicable.</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">15.6 Obligaciones fiscales del usuario</h3>
             <p>El usuario será responsable de cumplir con las obligaciones fiscales derivadas del uso comercial de los recursos adquiridos, incluyendo:</p>
@@ -1172,7 +1172,7 @@ export default function TermsAndConditionsPage() {
             <p>Cada solicitud será evaluada individualmente.</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">16.4 Solicitud de reembolso</h3>
             <p>Las solicitudes deberán enviarse a:</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <p>La solicitud deberá incluir, cuando sea posible:</p>
             <ul className="list-disc pl-6 space-y-2">
               <li>Nombre del comprador.</li>
@@ -1623,7 +1623,7 @@ export default function TermsAndConditionsPage() {
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">21.8 Solicitudes relacionadas con propiedad intelectual</h3>
             <p>Las consultas o reclamaciones relacionadas con derechos de autor, marcas o propiedad intelectual podrán enviarse a:</p>
             <p>Correo electrónico:</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <p>Prompt Studio analizará cada solicitud conforme a la legislación aplicable y podrá solicitar información adicional para verificar la titularidad de los derechos invocados.</p>
             <section className="space-y-4 pt-8">
               <h2 className="text-2xl font-bold text-foreground font-headline flex items-center gap-3">
@@ -2074,7 +2074,7 @@ export default function TermsAndConditionsPage() {
               <li>El correo electrónico oficial de soporte.</li>
             </ul>
             <p>Las solicitudes deberán enviarse a:</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">27.2 Eliminación mediante Clerk</h3>
             <p>Prompt Studio utiliza Clerk como proveedor de autenticación.</p>
             <p>Cuando el usuario elimine su cuenta:</p>
@@ -2208,7 +2208,7 @@ export default function TermsAndConditionsPage() {
             <p>La suspensión o terminación de la cuenta no limita el ejercicio de dichas acciones.</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">28.8 Solicitudes de revisión</h3>
             <p>Cuando un usuario considere que su cuenta ha sido suspendida o cancelada por error, podrá solicitar una revisión enviando un correo a:</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <p>Prompt Studio revisará la solicitud de buena fe y comunicará su decisión dentro de un plazo razonable. La presentación de una solicitud de revisión no garantiza el restablecimiento de la cuenta.</p>
             <section className="space-y-4 pt-8">
               <h2 className="text-2xl font-bold text-foreground font-headline flex items-center gap-3">
@@ -2849,7 +2849,7 @@ export default function TermsAndConditionsPage() {
             <p>Sitio web:</p>
             <p>https://www.prompstudio.com</p>
             <p>Correo electrónico:</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <p>Operado por:</p>
             <p>Magzin LLC</p>
             <p>800 Third Avenue Associates</p>
@@ -2910,7 +2910,7 @@ export default function TermsAndConditionsPage() {
             </ul>
             <p>deberá contactar inicialmente a Prompt Studio mediante:</p>
             <p>Correo electrónico:</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <p>Prompt Studio realizará esfuerzos razonables para responder dentro de un plazo adecuado.</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">38.2 Negociación amistosa</h3>
             <p>Las partes procurarán resolver cualquier controversia mediante negociaciones de buena fe antes de acudir a procedimientos judiciales.</p>
@@ -3043,7 +3043,7 @@ export default function TermsAndConditionsPage() {
             <p>Sitio web:</p>
             <p>https://www.prompstudio.com</p>
             <p>Correo electrónico:</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <p>Operado por:</p>
             <p>Magzin LLC</p>
             <p>800 Third Avenue Associates</p>
@@ -3072,7 +3072,7 @@ export default function TermsAndConditionsPage() {
             <p>New York, NY 10022</p>
             <p>United States</p>
             <p>Sitio web: https://www.prompstudio.com</p>
-            <p>Correo electrónico: user@example.com</p>
+            <p>Correo electrónico: help@prompstudio.com</p>
           </div>
         </div>
       </main>

@@ -20,11 +20,10 @@ import { Check, Code2, Copy, ExternalLink, Loader2, Tag, X } from 'lucide-react'
 import { useCatalogSearchUrl } from '@/hooks/use-catalog-search-url';
 import { useInfiniteScroll } from '@/hooks/use-infinite-scroll';
 import { useFuzzyFilter } from '@/hooks/use-fuzzy-filter';
-import { useDailyCopyLimit } from '@/hooks/use-daily-copy-limit';
 import { copyToClipboard } from '@/lib/copy-to-clipboard';
 import { useLocale } from 'next-intl';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Suspense, useMemo, useState, type CSSProperties } from 'react';
+import { Suspense, useEffect, useMemo, useState, type CSSProperties } from 'react';
 import animationCatalog from '../../../data/prompts/web-animations.json';
 import { AdUnit } from '@/components/ad-unit';
 import { ViewportRender } from '@/components/viewport-render';
@@ -151,7 +150,6 @@ function AnimationPreview({
 }
 
 export default function WebAnimationsClient() {
-  const { copyWithDailyLimit } = useDailyCopyLimit();
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
@@ -262,13 +260,22 @@ export default function WebAnimationsClient() {
 
   const copyCode = async () => {
     if (!selected) return;
-    const result = await copyWithDailyLimit(() =>
-      copyToClipboard(selected.prompt)
-    );
-    if (result !== 'copied') return;
+    const ok = await copyToClipboard(selected.prompt);
+    if (!ok) return;
     setCopied(true);
     window.setTimeout(() => setCopied(false), 1800);
   };
+
+  const animationIdParam = searchParams.get('id') || searchParams.get('animation');
+
+  useEffect(() => {
+    if (!animationIdParam || !animations.length) return;
+    const found = animations.find(a => a.id === animationIdParam || a.name.toLowerCase() === animationIdParam.toLowerCase());
+    if (found) {
+      setDialogMode('animation');
+      setSelected(found);
+    }
+  }, [animationIdParam, animations]);
 
   const openAnimation = (animation: AnimationItem) => {
     setDialogMode('animation');
@@ -287,7 +294,7 @@ export default function WebAnimationsClient() {
       </Suspense>
 
       <main className="flex-1 py-12 md:py-16">
-        <div className="container max-w-7xl">
+        <div className="container max-w-[90rem] min-w-0 px-4 sm:px-6 md:px-8">
           <div className="mb-10 flex flex-col items-center space-y-4 text-center">
             <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
               {pageTitle}

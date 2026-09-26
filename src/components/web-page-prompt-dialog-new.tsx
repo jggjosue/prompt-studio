@@ -193,19 +193,10 @@ export function WebPagePromptDialog({
                 <Button
                   size="sm"
                   className="!bg-blue-600 !text-white hover:!bg-blue-700"
-                  asChild
+                  disabled
                 >
-                  <Link href={`/generate?prompt=${encodeURIComponent(JSON.stringify({
-                    type: 'web',
-                    title: pageTitle,
-                    description: pageDescription,
-                    imageUrl: page.imageUrl,
-                    stack: page.stack,
-                    tags: page.tags
-                  }))}`} target="_blank" rel="noopener noreferrer">
                     <Wand2 className="h-3.5 w-3.5 mr-1.5" />
                     {t('usePrompt')}
-                  </Link>
                 </Button>
               </div>
             </DialogHeader>
