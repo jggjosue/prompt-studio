@@ -294,7 +294,7 @@ export default function WebAnimationsClient() {
       </Suspense>
 
       <main className="flex-1 py-12 md:py-16">
-        <div className="container max-w-7xl">
+        <div className="container max-w-[90rem] min-w-0 px-4 sm:px-6 md:px-8">
           <div className="mb-10 flex flex-col items-center space-y-4 text-center">
             <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
               {pageTitle}

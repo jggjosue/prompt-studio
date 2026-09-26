@@ -470,7 +470,7 @@ export function SettingsSidebar({ chat }: { chat: ChatGeneratorReturn }) {
                 <span className="text-muted-foreground">Costo estimado</span>
                 <span className="flex items-center gap-1 font-semibold">
                   <Zap className="h-3 w-3 text-yellow-400" />
-                  ~0 créditos
+                  0 créditos
                 </span>
               </div>
               <div className="flex items-center justify-between text-xs">
