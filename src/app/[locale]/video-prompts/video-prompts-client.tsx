@@ -70,6 +70,7 @@ function VideoPromptsContent() {
   const tTags = useTranslations('tags');
   const tFacets = useTranslations('facets');
   const tCommon = useTranslations('common');
+  const tHub = useTranslations('promptHubs');
   const router = useRouter();
   const { isSignedIn } = useUser();
   const pathname = usePathname();
@@ -114,6 +115,18 @@ function VideoPromptsContent() {
 
   const { categories } = useVideoTagsCatalogPipeline(allVideos);
 
+  const categoryLabels: Record<string, string> =
+    tFacets('browseByFacet') === 'Explorar por faceta'
+      ? {
+          'Visual Styles': 'Estilos visuales',
+          'Brands & Products': 'Marcas y productos',
+          'Effects & Techniques': 'Efectos y técnicas',
+          Subjects: 'Sujetos',
+          Settings: 'Escenarios',
+          'Other Tags': 'Otras etiquetas',
+        }
+      : {};
+
   const facetByTag = useMemo(() => {
     if (facetTags.length === 0) return allVideos;
     return allVideos.filter(item =>
@@ -121,12 +134,10 @@ function VideoPromptsContent() {
     );
   }, [allVideos, facetTags]);
 
-  const customCategories = useMemo(() => {
-    return categories.map(cat => ({
-      label: cat.name,
-      entries: cat.tags.map(t => ({ key: t.name, count: t.count })),
-    }));
-  }, [categories]);
+  const customCategories = categories.map(cat => ({
+    label: categoryLabels[cat.name] ?? cat.name,
+    entries: cat.tags.map(t => ({ key: t.name, count: t.count })),
+  }));
 
   const facetFiltered = useMemo(() => {
     if (filter !== 'nano-banana') return facetByTag;
@@ -192,11 +203,10 @@ function VideoPromptsContent() {
       <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-[240px_1fr] md:gap-x-8 lg:grid-cols-[280px_1fr]">
         <div className="flex flex-col items-center space-y-4 text-center md:col-start-2 md:row-start-1">
           <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
-            Explore AI Video Prompts
+            {tHub('videoTitle')}
           </h1>
           <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-            Discover thousands of AI video prompts and examples. Get inspired and
-            create your own AI generated videos.
+            {tHub('videoSubtitle')}
           </p>
 
           <SearchInput
@@ -211,11 +221,9 @@ function VideoPromptsContent() {
             <p className="text-sm text-muted-foreground">
               {videoContent.length === 0
                 ? tCommon('noResults')
-                : `${videoContent.length} result${videoContent.length !== 1 ? 's' : ''}${
-                    debouncedQuery.trim()
-                      ? ` for "${debouncedQuery.trim()}"`
-                      : ''
-                  }${facetTags.length ? ` · tags: ${facetTags.join(', ')}` : ''}`}
+                : `${tHub('resultCount', { count: videoContent.length })}${
+                    debouncedQuery.trim() ? ` ${tHub('resultsFor', { query: debouncedQuery.trim() })}` : ''
+                  }${facetTags.length ? ` · ${tHub('tagsApplied', { tags: facetTags.join(', ') })}` : ''}`}
             </p>
           )}
 
@@ -226,7 +234,7 @@ function VideoPromptsContent() {
             onValueChange={value => setFilter(value)}
           >
             <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="all">All Prompts</TabsTrigger>
+              <TabsTrigger value="all">{tHub('allPrompts')}</TabsTrigger>
               <TabsTrigger value="nano-banana">
                 <Sparkles className="mr-2 h-4 w-4" />
                 Nano Banana Pro
@@ -251,7 +259,7 @@ function VideoPromptsContent() {
             >
               <Link href="/generate" target="_blank" rel="noopener noreferrer">
                 <Wand2 className="mr-2" />
-                Generate a Video
+                {tHub('generateVideo')}
               </Link>
             </Button>
           </div>

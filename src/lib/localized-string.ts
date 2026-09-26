@@ -29,6 +29,19 @@ export function pickLocalized(
   if (field == null) return '';
   if (typeof field === 'string') return field;
   const key = locale === 'es' ? 'es' : 'en';
+  const projects = (field as RichLocalizedValue).projects;
+  if (Array.isArray(projects)) {
+    const localizedProjects = projects
+      .map(project => {
+        if (!project || typeof project !== 'object') return null;
+        const record = project as RichLocalizedValue;
+        return record[key] ?? record.en ?? record.es ?? null;
+      })
+      .filter(Boolean);
+    return localizedValueToString(
+      localizedProjects.length === 1 ? localizedProjects[0] : localizedProjects
+    );
+  }
   const value = field[key] ?? field.en ?? field.es ?? field;
 
   return localizedValueToString(value);

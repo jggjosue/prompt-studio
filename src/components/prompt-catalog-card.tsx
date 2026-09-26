@@ -11,6 +11,7 @@ import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Tag, Wand2 } from 'lucide-react';
 import Link from 'next/link';
 import { memo } from 'react';
+import { useTranslations } from 'next-intl';
 
 export type PromptCatalogItem = {
   id: string;
@@ -43,6 +44,7 @@ function PromptCatalogCardComponent({
   actionClassName,
 }: PromptCatalogCardProps) {
   const eagerMedia = animationIndex === 0;
+  const t = useTranslations('common');
 
   return (
     <ParallaxReveal reverse={animationIndex % 2 === 1}>
@@ -94,12 +96,12 @@ function PromptCatalogCardComponent({
           <LiquidButton size="sm" className={actionClassName} asChild>
             <Link href={galleryHref}>
               <Wand2 className="w-4 h-4 mr-2" />
-              Use this prompt
+              {t('useThisPrompt')}
             </Link>
           </LiquidButton>
           <Button variant="secondary" size="sm" className={actionClassName} asChild>
             <Link href={`/generate?prompt=${encodeURIComponent(item.description || item.title)}`}>
-              Personalizar
+              {t('customize')}
             </Link>
           </Button>
 
