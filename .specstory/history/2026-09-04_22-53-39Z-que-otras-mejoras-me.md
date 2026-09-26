@@ -12913,7 +12913,7 @@ _**Agent (claude-opus-5 2026-09-05 01:23:56Z)**_
 <tool-use data-tool-type="write" data-tool-name="Write"><details>
 <summary>Tool use: **Write**</summary>
 
-````md
+````markdown
 # Rotación de credenciales
 
 `.env.example` está versionado (`.gitignore` lo exceptúa con `!.env.example`) y
@@ -13505,7 +13505,7 @@ _**Agent (claude-opus-5 2026-09-05 01:28:59Z)**_
 <tool-use data-tool-type="write" data-tool-name="Write"><details>
 <summary>Tool use: **Write**</summary>
 
-```md
+```markdown
 # PRD — Prompt Studio
 
 Documento de requisitos del producto **tal como existe hoy**, no como está
@@ -13866,7 +13866,7 @@ _**Agent (claude-opus-5 2026-09-05 01:30:18Z)**_
 <tool-use data-tool-type="write" data-tool-name="Write"><details>
 <summary>Tool use: **Write**</summary>
 
-````md
+````markdown
 # DM — Modelo de datos
 
 Entidades del sistema y su forma real. Escrito para que quien programe —persona
@@ -14794,7 +14794,7 @@ _**Agent (claude-opus-5 2026-09-05 01:37:45Z)**_
 <tool-use data-tool-type="write" data-tool-name="Write"><details>
 <summary>Tool use: **Write**</summary>
 
-````md
+````markdown
 # Mejoras recomendadas
 
 Lista priorizada para Prompt Studio como plataforma de venta de prompts. Cada
@@ -18218,7 +18218,7 @@ _**Agent (claude-opus-5 2026-09-05 02:11:01Z)**_
 <tool-use data-tool-type="write" data-tool-name="Write"><details>
 <summary>Tool use: **Write**</summary>
 
-```md
+```markdown
 # Catálogo de documentación operativa — Prompt Studio
 
 Documentación de cómo opera Prompt Studio (Magzin LLC): procedimientos,
@@ -18291,7 +18291,7 @@ _**Agent (claude-opus-5 2026-09-05 02:11:33Z)**_
 <tool-use data-tool-type="write" data-tool-name="Write"><details>
 <summary>Tool use: **Write**</summary>
 
-```md
+```markdown
 # SOP — Generación con IA
 
 Procedimiento del ciclo de vida completo de un trabajo de generación, desde que
@@ -18417,7 +18417,7 @@ _**Agent (claude-opus-5 2026-09-05 02:12:08Z)**_
 <tool-use data-tool-type="write" data-tool-name="Write"><details>
 <summary>Tool use: **Write**</summary>
 
-```md
+```markdown
 # SOP — Venta, cobro, reembolso y afiliados
 
 Flujos que mueven dinero. Implementados en
@@ -18567,7 +18567,7 @@ _**Agent (claude-opus-5 2026-09-05 02:12:37Z)**_
 <tool-use data-tool-type="write" data-tool-name="Write"><details>
 <summary>Tool use: **Write**</summary>
 
-````md
+````markdown
 # SOP — Publicar contenido en el catálogo
 
 Procedimiento para añadir o modificar recursos y regenerar el catálogo servido.
@@ -18703,7 +18703,7 @@ _**Agent (claude-opus-5 2026-09-05 02:13:13Z)**_
 <tool-use data-tool-type="write" data-tool-name="Write"><details>
 <summary>Tool use: **Write**</summary>
 
-````md
+````markdown
 # SOP — Control de calidad y despliegue
 
 ## 1. Puertas de calidad
@@ -18843,7 +18843,7 @@ _**Agent (claude-opus-5 2026-09-05 02:13:49Z)**_
 <tool-use data-tool-type="write" data-tool-name="Write"><details>
 <summary>Tool use: **Write**</summary>
 
-```md
+```markdown
 # CRM — Modelo y procesos
 
 Cómo se representa y se trabaja la relación con el cliente.
@@ -19013,7 +19013,7 @@ _**Agent (claude-opus-5 2026-09-05 02:14:19Z)**_
 <tool-use data-tool-type="write" data-tool-name="Write"><details>
 <summary>Tool use: **Write**</summary>
 
-````md
+````markdown
 # Historial del proyecto
 
 Evolución medida sobre el historial de git, no reconstruida de memoria. Todo lo
@@ -19120,7 +19120,7 @@ _**Agent (claude-opus-5 2026-09-05 02:15:04Z)**_
 <tool-use data-tool-type="write" data-tool-name="Write"><details>
 <summary>Tool use: **Write**</summary>
 
-````md
+````markdown
 # Base de conocimiento
 
 Cosas que cuestan horas de descubrir y minutos de leer. Cada entrada es un
@@ -19310,7 +19310,7 @@ _**Agent (claude-opus-5 2026-09-05 02:15:47Z)**_
 <tool-use data-tool-type="write" data-tool-name="Write"><details>
 <summary>Tool use: **Write**</summary>
 
-````md
+````markdown
 # Feedback sobre salidas de IA
 
 Qué se registra hoy de cada generación, qué no, y qué haría falta para recoger
@@ -20165,7 +20165,7 @@ _**Agent (claude-opus-5 2026-09-05 02:19:55Z)**_
 <tool-use data-tool-type="write" data-tool-name="Write"><details>
 <summary>Tool use: **Write**</summary>
 
-```tsx
+```typescript
 'use client';
 
 import { useAuth } from '@clerk/nextjs';
@@ -20302,7 +20302,7 @@ _**Agent (claude-opus-5 2026-09-05 02:20:08Z)**_
 <tool-use data-tool-type="write" data-tool-name="Write"><details>
 <summary>Tool use: **Write**</summary>
 
-```tsx
+```typescript
 'use client';
 
 import { useSavedItems, type SavedItemInput } from '@/components/saved-items-provider';
@@ -20697,7 +20697,7 @@ _**Agent (claude-opus-5 2026-09-05 02:22:34Z)**_
 <tool-use data-tool-type="write" data-tool-name="Write"><details>
 <summary>Tool use: **Write**</summary>
 
-```tsx
+```typescript
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -22000,7 +22000,7 @@ _**Agent (claude-opus-5 2026-09-05 02:32:48Z)**_
 <tool-use data-tool-type="write" data-tool-name="Write"><details>
 <summary>Tool use: **Write**</summary>
 
-```tsx
+```typescript
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -22858,7 +22858,7 @@ _**Agent (claude-opus-5 2026-09-05 02:42:16Z)**_
 <tool-use data-tool-type="write" data-tool-name="Write"><details>
 <summary>Tool use: **Write**</summary>
 
-```md
+```markdown
 # Feedback sobre salidas de IA
 
 Qué se registra de cada generación, incluido el juicio humano sobre el

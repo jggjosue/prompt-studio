@@ -2371,7 +2371,10 @@ Ejemplo conceptual:
 
 ```json
 {
-  "@context": "https://type": "WebPage",
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
       "@id": "https://www.prompstudio.com/landing-pages/mononote-writing-app#webpage",
       "url": "https://www.prompstudio.com/landing-pages/mononote-writing-app",
       "name": "MonoNote Writing App Landing Page Template"
