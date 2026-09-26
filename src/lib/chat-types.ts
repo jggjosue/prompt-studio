@@ -13,6 +13,7 @@ export interface ChatParams {
   webFramework?: string; webTheme?: string; webComponent?: string; webColor?: string;
   webModel?: string; webPages?: number;
   model?: string; provider?: string; aspectRatio?: string;
+  generationTier?: 'fast' | 'quality' | 'pro' | 'cinematic' | 'advanced';
 }
 
 export interface ChatMessageResult {

@@ -18,7 +18,7 @@ type Props = {
 
 export default async function SignUpPage({ searchParams }: Props) {
   const { redirect_url: redirectUrl } = await searchParams;
-  const afterSignUp = redirectUrl ?? '/prices';
+  const afterSignUp = redirectUrl ?? '/dashboard/profile';
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-muted/40 p-4">

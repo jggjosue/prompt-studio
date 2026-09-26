@@ -273,7 +273,7 @@ export default function PricesClient() {
     <div className="flex min-h-screen w-full flex-col bg-background">
       <Header />
       <main className="flex-1 py-12 md:py-20">
-        <div className="container max-w-[90rem] min-w-0 px-4 sm:px-6">
+        <div className="container max-w-6xl min-w-0 px-4 sm:px-6">
           <div className="text-center mb-10">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold font-headline mb-4">
               {t('chooseHowYouCreate')}
@@ -285,7 +285,7 @@ export default function PricesClient() {
 
           {/* Billing toggle */}
           <div
-            className="mb-10 mx-auto flex w-fit rounded-full border border-blue-500/55 bg-slate-950 p-1.5 shadow-[0_12px_35px_rgba(37,99,235,0.18)]"
+            className="mb-10 mx-auto flex w-full max-w-sm rounded-full border border-blue-500/55 bg-slate-950 p-1.5 shadow-[0_12px_35px_rgba(37,99,235,0.18)]"
             role="group"
             aria-label={t('billingCycle')}
           >
@@ -293,10 +293,11 @@ export default function PricesClient() {
               type="button"
               onClick={() => setIsAnnual(false)}
               aria-pressed={!isAnnual}
-              className={`rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-200 sm:px-9 sm:py-3 ${!isAnnual
-                ? '!bg-blue-600 !text-white shadow-[0_8px_24px_rgba(37,99,235,0.4)] ring-1 ring-blue-400'
-                : '!text-slate-200 hover:!bg-blue-950/60 hover:!text-white'
-                }`}
+                className={`flex-1 rounded-full px-3 py-3 text-sm font-semibold transition-all duration-200 sm:px-9 ${
+                !isAnnual
+                  ? '!bg-blue-600 !text-white shadow-[0_8px_24px_rgba(37,99,235,0.4)] ring-1 ring-blue-400'
+                  : '!text-slate-200 hover:!bg-blue-950/60 hover:!text-white'
+              }`}
             >
               {t('monthlyBilling')}
             </button>
@@ -304,10 +305,11 @@ export default function PricesClient() {
               type="button"
               onClick={() => setIsAnnual(true)}
               aria-pressed={isAnnual}
-              className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-200 sm:px-9 sm:py-3 ${isAnnual
-                ? '!bg-blue-600 !text-white shadow-[0_8px_24px_rgba(37,99,235,0.4)] ring-1 ring-blue-400'
-                : '!text-slate-200 hover:!bg-blue-950/60 hover:!text-white'
-                }`}
+                className={`flex-1 rounded-full px-3 py-3 text-sm font-semibold transition-all duration-200 sm:px-9 ${
+                isAnnual
+                  ? '!bg-blue-600 !text-white shadow-[0_8px_24px_rgba(37,99,235,0.4)] ring-1 ring-blue-400'
+                  : '!text-slate-200 hover:!bg-blue-950/60 hover:!text-white'
+              }`}
             >
               <span>{t('yearlyBilling')}</span>
               <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-xs font-bold text-emerald-400 border border-emerald-500/30">
@@ -326,11 +328,12 @@ export default function PricesClient() {
 
               return (
                 <Card
-                  key={paidPlan.id}
-                  className={`relative flex flex-col overflow-hidden transition-all duration-300 hover:shadow-xl ${paidPlan.isMostPopular
-                    ? 'border-violet-500 shadow-lg shadow-violet-500/10 scale-[1.02]'
-                    : 'border-muted-foreground/20 shadow-sm'
-                    } ${paidPlan.comingSoon ? 'opacity-60 select-none' : ''} ${!available && !paidPlan.comingSoon ? 'opacity-50 pointer-events-none' : ''}`}
+                  key={plan.id}
+                  className={`relative flex flex-col overflow-hidden transition-all duration-300 hover:shadow-xl ${
+                    plan.isMostPopular
+                      ? 'border-violet-500 shadow-lg shadow-violet-500/10 lg:scale-[1.02]'
+                      : 'border-muted-foreground/20 shadow-sm'
+                  } ${!available ? 'opacity-50 pointer-events-none' : ''}`}
                 >
                   {paidPlan.comingSoon && (
                     <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-slate-500 via-slate-400 to-slate-500" />
