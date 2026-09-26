@@ -1,70 +1,175 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import { useAuth, useClerk } from '@clerk/nextjs';
-import { Globe, Image as ImageIcon, Send, Video } from 'lucide-react';
-import { useSearchParams } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useState, useEffect } from 'react';
+import { Send, Image, Video, Globe, ListPlus, Play, RotateCcw, Trash2 } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
-import type { ChatGeneratorReturn, ChatMode, ChatParams } from '@/lib/chat-types';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useSearchParams } from 'next/navigation';
+import type { ChatGeneratorReturn, ChatQueueItem, ChatQueueStatus } from '@/lib/chat-types';
+import { ChatMode } from '@/lib/chat-types';
 
-const MODEL_BY_MODE: Record<ChatMode, { provider: string; model: string; generationTier: ChatParams['generationTier'] }> = {
-  image: { provider: 'google', model: 'imagen-4.0-fast-generate-001', generationTier: 'fast' },
-  video: { provider: 'google', model: 'veo-2.0-generate-001', generationTier: 'fast' },
-  project: { provider: 'google', model: 'gemini-2.5-flash', generationTier: 'fast' },
-};
-
-export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn; isDeveloperAdmin?: boolean }) {
-  const { isSignedIn } = useAuth();
-  const clerk = useClerk();
+export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
+  const [prompt, setPrompt] = useState('');
   const searchParams = useSearchParams();
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const { selectedMode, setSelectedMode, generate, localGenerating, draftPrompt, setDraftPrompt, messages, params, setParams } = chat;
+  const { selectedMode, setSelectedMode, generate, localGenerating, messages, queue, queueRunning, enqueue, startQueue, removeQueueItem, retryQueueItem, clearQueue } = chat;
 
+  // Pre-fill from URL params
   useEffect(() => {
-    const prompt = searchParams.get('prompt');
-    if (prompt && messages.length === 0) setDraftPrompt(prompt);
-  }, [messages.length, searchParams, setDraftPrompt]);
+    const promptParam = searchParams.get('prompt');
+    if (promptParam && messages.length === 0) {
+      setPrompt(decodeURIComponent(promptParam));
+    }
+  }, [searchParams, messages.length]);
 
-  useEffect(() => {
-    const textarea = textareaRef.current;
-    if (!textarea) return;
-    textarea.style.height = 'auto';
-    textarea.style.height = `${Math.min(textarea.scrollHeight, 160)}px`;
-  }, [draftPrompt]);
+  const handleSend = async () => {
+    if (!prompt.trim() || localGenerating) return;
+    const trimmed = prompt.trim();
+    setPrompt('');
 
-  const handleModeChange = (mode: ChatMode) => {
-    setSelectedMode(mode);
-    setParams(previous => ({ ...previous, ...MODEL_BY_MODE[mode] }));
+    // Crear chat session primero si no hay
+    try {
+      const createRes = await fetch('/api/ai/chats', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: trimmed.slice(0, 80), mode: selectedMode }),
+      });
+      const createData = await createRes.json();
+      if (createData.chat) {
+        // Enviar mensaje
+        await fetch(`/api/ai/chats/${createData.chat.id}/messages`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt: trimmed, mode: selectedMode, role: 'user' }),
+        });
+      }
+    } catch (err) {
+      console.error('Error creating chat:', err);
+    }
+
+    // Ejecutar generación
+    await generate(trimmed, { model: selectedMode }, selectedMode);
   };
 
-  const handleSend = () => {
-    const prompt = draftPrompt.trim();
-    if (!isSignedIn) {
-      clerk.openSignUp({ fallbackRedirectUrl: '/generate' });
-      return;
+  const handleAddToQueue = () => {
+    if (!prompt.trim()) return;
+    enqueue(prompt);
+    setPrompt('');
+  };
+
+  const handleStartQueue = () => {
+    startQueue();
+    // Vaciar la caja de texto pendiente como nuevo ítem encolado
+    if (prompt.trim()) {
+      enqueue(prompt);
+      setPrompt('');
     }
-    if (!prompt || localGenerating) return;
-    generate(prompt, { ...params, ...MODEL_BY_MODE[selectedMode] }, selectedMode);
-    setDraftPrompt('');
+  };
+
+  const queueStatusConfig: Record<ChatQueueStatus, { label: string; variant: 'default' | 'secondary' | 'destructive' | 'outline' }> = {
+    queued: { label: 'En cola', variant: 'secondary' },
+    processing: { label: 'Generando…', variant: 'default' },
+    completed: { label: 'Listo', variant: 'outline' },
+    failed: { label: 'Error', variant: 'destructive' },
+  };
+
+  const renderQueueItem = (item: ChatQueueItem) => {
+    const config = queueStatusConfig[item.status];
+    return (
+      <li key={item.id} className="rounded-lg border border-border/60 bg-card/40 p-2 pl-3">
+        <div className="flex items-center justify-between gap-2">
+          <p className="min-w-0 flex-1 truncate text-xs">{item.prompt}</p>
+          <Badge variant={config.variant}>{config.label}</Badge>
+          {item.status !== 'processing' && (
+            <button
+              type="button"
+              onClick={() => removeQueueItem(item.id)}
+              className="rounded p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              aria-label={`Quitar de la cola: ${item.prompt}`}
+            >
+              <Trash2 className="h-3.5 w-3.5" />
+            </button>
+          )}
+        </div>
+        {item.status === 'processing' && <Progress value={item.progress} className="mt-2 h-2" />}
+        {item.status === 'failed' && (
+          <div className="mt-2 flex items-center justify-between gap-2">
+            <p className="truncate text-[11px] text-destructive">{item.error}</p>
+            <button
+              type="button"
+              onClick={() => retryQueueItem(item.id)}
+              className="inline-flex shrink-0 items-center gap-1 rounded border border-border/60 px-2 py-0.5 text-[11px] font-semibold transition-colors hover:bg-muted"
+            >
+              <RotateCcw className="h-3 w-3" /> Reintentar
+            </button>
+          </div>
+        )}
+        {item.status === 'completed' && item.result?.imageUrl && (
+          <img src={item.result.imageUrl} alt={item.prompt} className="mt-2 h-16 rounded-md object-cover" />
+        )}
+      </li>
+    );
   };
 
   return (
-    <div className="shrink-0 border-t border-border bg-background p-3 sm:p-4">
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-end">
-        <Tabs value={selectedMode} onValueChange={value => handleModeChange(value as ChatMode)} className="w-full sm:w-fit">
-          <TabsList className="grid w-full grid-cols-3 sm:flex sm:w-fit">
-            <TabsTrigger value="image"><ImageIcon className="mr-1 h-3 w-3" />Imagen</TabsTrigger>
-            <TabsTrigger value="video"><Video className="mr-1 h-3 w-3" />Video</TabsTrigger>
-            <TabsTrigger value="project"><Globe className="mr-1 h-3 w-3" />Web</TabsTrigger>
+    <div className="border-t border-border p-4 bg-background">
+      <div className="flex items-end gap-2">
+        <Tabs value={selectedMode} onValueChange={(v) => setSelectedMode(v as ChatMode)} className="w-fit">
+          <TabsList>
+            <TabsTrigger value="image"><Image className="h-3 w-3 mr-1" />Imagen</TabsTrigger>
+            <TabsTrigger value="video"><Video className="h-3 w-3 mr-1" />Video</TabsTrigger>
+            <TabsTrigger value="project"><Globe className="h-3 w-3 mr-1" />Web</TabsTrigger>
           </TabsList>
         </Tabs>
-        <div className="flex min-w-0 flex-1 items-end gap-2">
-          <Textarea ref={textareaRef} value={draftPrompt} onChange={event => setDraftPrompt(event.target.value)} placeholder="Escribe tu prompt..." className="min-h-10 max-h-40 min-w-0 flex-1 resize-none" disabled={localGenerating} onKeyDown={event => { if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); handleSend(); } }} aria-label="Escribe tu prompt" />
-          <Button onClick={handleSend} disabled={localGenerating || !draftPrompt.trim()} size="icon" aria-label="Generar"><Send className="h-4 w-4" /></Button>
-        </div>
+        <Textarea
+          value={prompt}
+          onChange={e => setPrompt(e.target.value)}
+          placeholder="Escribe tu prompt..."
+          className="flex-1 min-h-[40px] max-h-32 resize-none"
+          onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
+        />
+        <Button variant="outline" onClick={handleAddToQueue} disabled={!prompt.trim()} className="h-10 px-3" title="Agregar a la cola de generación">
+          <ListPlus className="h-4 w-4" />
+        </Button>
+        <Button onClick={handleSend} disabled={localGenerating || !prompt.trim()} size="icon">
+          <Send className="h-4 w-4" />
+        </Button>
       </div>
+
+      {queue.length > 0 && (
+        <div className="mt-3 space-y-2">
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-xs font-semibold text-muted-foreground">
+              Cola de generación ({queue.filter(i => i.status !== 'completed').length} pendientes · {queue.length} total)
+            </p>
+            <div className="flex gap-1">
+              <Button
+                variant="outline"
+                className="h-7 px-2 text-xs"
+                onClick={handleStartQueue}
+                disabled={queueRunning || !queue.some(i => i.status === 'queued')}
+              >
+                <Play className="mr-1 h-3 w-3" />
+                {queueRunning ? 'Generando…' : 'Generar'}
+              </Button>
+              <Button
+                variant="ghost"
+                className="h-7 px-2 text-xs"
+                onClick={clearQueue}
+                disabled={queueRunning}
+                title="Quitar los ítems finalizados"
+              >
+                <Trash2 className="h-3 w-3" />
+              </Button>
+            </div>
+          </div>
+          <ul className="max-h-44 space-y-2 overflow-y-auto pr-1">
+            {queue.map(renderQueueItem)}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }

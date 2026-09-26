@@ -1,6 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
+import { MODEL_TIERS } from '@/lib/models-data';
 import type { ChatGeneratorReturn } from '@/lib/chat-types';
 import { ChevronRight, Zap, Settings2, ExternalLink } from 'lucide-react';
 import { useState } from 'react';
@@ -44,6 +45,47 @@ function AspectControl({
   );
 }
 
+// ── Tier-based model selector ──
+function ModelTiersSelect({
+  group,
+  value,
+  onChange,
+}: {
+  group: keyof typeof MODEL_TIERS;
+  value: string;
+  onChange: (modelId: string) => void;
+}) {
+  const tiers = MODEL_TIERS[group].tiers;
+  return (
+    <div className="space-y-1.5">
+      <label className="block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Modelo</label>
+      <div className="grid grid-cols-3 gap-1">
+        {tiers.map(tier => {
+          const active = value === tier.modelId;
+          return (
+            <button
+              key={tier.key}
+              type="button"
+              onClick={() => onChange(tier.modelId)}
+              className={cn(
+                'flex flex-col items-center rounded-lg border px-1.5 py-2 text-[10px] font-semibold transition-all',
+                active
+                  ? 'border-blue-500/60 bg-blue-500/15 text-blue-300'
+                  : 'border-border/50 bg-muted/30 text-muted-foreground hover:border-border hover:text-foreground'
+              )}
+              aria-pressed={active}
+            >
+              <span className="text-base leading-none">{tier.icon}</span>
+              <span className="mt-0.5">{tier.label}</span>
+              <span className="text-[9px] opacity-70">{tier.credits} cr</span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 // ── Select wrapper ──
 function ParamSelect({
   label,
@@ -56,9 +98,6 @@ function ParamSelect({
   onChange: (v: string) => void;
   children: React.ReactNode;
 }) {
-  // Los proveedores y modelos son detalles internos; la selección amigable
-  // vive en el selector de nivel del composer.
-  if (label === 'Proveedor' || label === 'Modelo') return null;
   return (
     <div className="space-y-1.5">
       <label className="block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
@@ -79,37 +118,36 @@ function Divider() {
   return <hr className="border-border/40" />;
 }
 
-export function SettingsSidebar({ chat, isDeveloperAdmin = false }: { chat: ChatGeneratorReturn; isDeveloperAdmin?: boolean }) {
+export function SettingsSidebar({ chat }: { chat: ChatGeneratorReturn }) {
   const [open, setOpen] = useState(true);
   const [showAdvanced, setShowAdvanced] = useState(false);
-  const { imageGen, videoGen, webGen, selectedMode, params, setParams } = chat;
+  const { imageGen, selectedMode, params, setParams } = chat;
 
   const credits = imageGen.credits;
-  const creditsDisplay = isDeveloperAdmin ? 'Ilimitados' : Number.isInteger(credits) ? credits.toString() : credits.toFixed(1);
+  const creditsDisplay = Number.isInteger(credits) ? credits.toString() : credits.toFixed(1);
 
   // Estimate credit cost from current model config
-  const CREDIT_ESTIMATES: Record<string, number> = {
-    'imagen-4.0-fast-generate-001': 5,
-    'dall-e-3': 10,
-    'gpt-image-1-mini': 25,
-    'fal-ai/flux/schnell': 10,
-    'veo-2.0-generate-001': 120,
-    'gen-3': 120,
-    'gemini-2.5-flash': 10,
-    'gemini-2.5-pro': 20,
-    'gemini-2.0-flash': 10,
-    'gpt-4o': 20,
-    'claude-3-5-sonnet-20240620': 50,
+  const CREDIT_ESTIMATES_RAW: Record<string, number> = {
+    'dall-e-3': 10, 'gpt-image-1-mini': 15, 'fal-ai/flux/schnell': 10,
+    'veo-2.0-generate-001': 20, 'gen-3': 20,
+    'gpt-4o': 4, 'claude-3-5-sonnet-20240620': 8,
+  };
+  const getEstimatedCredits = (modelId: string) => {
+    for (const group of Object.values(MODEL_TIERS)) {
+      const tier = group.tiers.find(t => t.modelId === modelId);
+      if (tier) return tier.credits;
+    }
+    return CREDIT_ESTIMATES_RAW[modelId] ?? (selectedMode === 'image' ? 10 : selectedMode === 'video' ? 20 : 2);
   };
   const currentModel = params.model ?? '';
-  const estimatedCredits = CREDIT_ESTIMATES[currentModel] ?? (selectedMode === 'image' ? 10 : selectedMode === 'video' ? 20 : 2);
-  const balanceAfter = isDeveloperAdmin ? 0 : Math.max(0, credits - estimatedCredits);
-  const insufficient = !isDeveloperAdmin && credits < estimatedCredits;
+  const estimatedCredits = getEstimatedCredits(currentModel);
+  const balanceAfter = Math.max(0, credits - estimatedCredits);
+  const insufficient = credits < estimatedCredits;
 
   return (
     <aside
       className={cn(
-        'hidden flex-col border-l border-border/60 bg-background/50 backdrop-blur-sm transition-all duration-300 overflow-hidden shrink-0 lg:flex',
+        'flex flex-col border-l border-border/60 bg-background/50 backdrop-blur-sm transition-all duration-300 overflow-hidden shrink-0',
         open ? 'w-72' : 'w-10'
       )}
       aria-label="Configuración de creación"
@@ -156,24 +194,25 @@ export function SettingsSidebar({ chat, isDeveloperAdmin = false }: { chat: Chat
                   <option value="fal">Fal.ai</option>
                 </ParamSelect>
 
-                <ParamSelect
-                  label="Modelo"
-                  value={params.model ?? (params.provider === 'openai' ? 'dall-e-3' : params.provider === 'fal' ? 'fal-ai/flux/schnell' : 'imagen-4.0-fast-generate-001')}
-                  onChange={v => updateParam(setParams, 'model', v)}
-                >
-                  {params.provider === 'openai' && (
-                    <>
-                      <option value="dall-e-3">DALL-E 3</option>
-                      <option value="gpt-image-1-mini">GPT Image 1 Mini</option>
-                    </>
-                  )}
-                  {params.provider === 'fal' && (
-                    <option value="fal-ai/flux/schnell">Flux Schnell</option>
-                  )}
-                  {(!params.provider || params.provider === 'google') && (
-                    <option value="imagen-4.0-fast-generate-001">Imagen 4.0 Fast</option>
-                  )}
-                </ParamSelect>
+                {params.provider === 'google' ? (
+                  <ModelTiersSelect group="image" value={params.model ?? 'nano-banana-2'} onChange={v => updateParam(setParams, 'model', v)} />
+                ) : (
+                  <ParamSelect
+                    label="Modelo"
+                    value={params.model ?? (params.provider === 'openai' ? 'dall-e-3' : 'fal-ai/flux/schnell')}
+                    onChange={v => updateParam(setParams, 'model', v)}
+                  >
+                    {params.provider === 'openai' && (
+                      <>
+                        <option value="dall-e-3">DALL-E 3</option>
+                        <option value="gpt-image-1-mini">GPT Image 1 Mini</option>
+                      </>
+                    )}
+                    {params.provider === 'fal' && (
+                      <option value="fal-ai/flux/schnell">Flux Schnell</option>
+                    )}
+                  </ParamSelect>
+                )}
 
                 <Divider />
 
@@ -273,17 +312,17 @@ export function SettingsSidebar({ chat, isDeveloperAdmin = false }: { chat: Chat
                   <option value="runway">Runway</option>
                 </ParamSelect>
 
-                <ParamSelect
-                  label="Modelo"
-                  value={params.model ?? (params.provider === 'runway' ? 'gen-3' : 'veo-2.0-generate-001')}
-                  onChange={v => updateParam(setParams, 'model', v)}
-                >
-                  {params.provider === 'runway' ? (
+                {params.provider === 'google' ? (
+                  <ModelTiersSelect group="video" value={params.model ?? 'veo-fast'} onChange={v => updateParam(setParams, 'model', v)} />
+                ) : (
+                  <ParamSelect
+                    label="Modelo"
+                    value={params.model ?? 'gen-3'}
+                    onChange={v => updateParam(setParams, 'model', v)}
+                  >
                     <option value="gen-3">Gen-3 Alpha</option>
-                  ) : (
-                    <option value="veo-2.0-generate-001">Veo 2.0</option>
-                  )}
-                </ParamSelect>
+                  </ParamSelect>
+                )}
 
                 <Divider />
 
@@ -382,25 +421,18 @@ export function SettingsSidebar({ chat, isDeveloperAdmin = false }: { chat: Chat
                   <option value="anthropic">Anthropic</option>
                 </ParamSelect>
 
-                <ParamSelect
-                  label="Modelo"
-                  value={params.model ?? (params.provider === 'openai' ? 'gpt-4o' : params.provider === 'anthropic' ? 'claude-3-5-sonnet-20240620' : 'gemini-2.5-flash')}
-                  onChange={v => updateParam(setParams, 'model', v)}
-                >
-                  {params.provider === 'openai' && (
-                    <option value="gpt-4o">GPT-4o</option>
-                  )}
-                  {params.provider === 'anthropic' && (
-                    <option value="claude-3-5-sonnet-20240620">Claude 3.5 Sonnet</option>
-                  )}
-                  {(!params.provider || params.provider === 'google') && (
-                    <>
-                      <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
-                      <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
-                      <option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
-                    </>
-                  )}
-                </ParamSelect>
+                {params.provider === 'google' ? (
+                  <ModelTiersSelect group="project" value={params.model ?? 'gemini-2.5-flash'} onChange={v => updateParam(setParams, 'model', v)} />
+                ) : (
+                  <ParamSelect
+                    label="Modelo"
+                    value={params.model ?? (params.provider === 'openai' ? 'gpt-4o' : 'claude-3-5-sonnet-20240620')}
+                    onChange={v => updateParam(setParams, 'model', v)}
+                  >
+                    {params.provider === 'openai' && (<option value="gpt-4o">GPT-4o</option>)}
+                    {params.provider === 'anthropic' && (<option value="claude-3-5-sonnet-20240620">Claude 3.5 Sonnet</option>)}
+                  </ParamSelect>
+                )}
 
                 <Divider />
 
@@ -472,7 +504,7 @@ export function SettingsSidebar({ chat, isDeveloperAdmin = false }: { chat: Chat
                 <span className="text-muted-foreground">Costo estimado</span>
                 <span className="flex items-center gap-1 font-semibold">
                   <Zap className="h-3 w-3 text-yellow-400" />
-                  0 créditos
+                  ~{estimatedCredits} créditos
                 </span>
               </div>
               <div className="flex items-center justify-between text-xs">
@@ -484,9 +516,7 @@ export function SettingsSidebar({ chat, isDeveloperAdmin = false }: { chat: Chat
               {!insufficient && (
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-muted-foreground">Tras generar</span>
-                  <span className="font-semibold text-muted-foreground">
-                    {isDeveloperAdmin ? 'Ilimitados' : `~${balanceAfter}`}
-                  </span>
+                  <span className="font-semibold text-muted-foreground">~{balanceAfter}</span>
                 </div>
               )}
               {insufficient && (

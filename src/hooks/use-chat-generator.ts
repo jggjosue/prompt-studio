@@ -2,8 +2,8 @@
 
 import { useGenerationEditor } from '@/hooks/use-generation-editor';
 import { parseGenerateQuery } from '@/lib/chat-query';
-import type { ChatGeneratorMessage, ChatGeneratorReturn, ChatMessageResult, ChatMode, ChatParams } from '@/lib/chat-types';
-import { useCallback, useEffect, useState } from 'react';
+import type { ChatGeneratorMessage, ChatGeneratorReturn, ChatMessageResult, ChatMode, ChatParams, ChatQueueItem } from '@/lib/chat-types';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useImageGeneration } from './use-image-generation';
 import { useVideoGeneration } from './use-video-generation';
 import { useWebGeneration } from './use-web-generation';
@@ -22,6 +22,10 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
   const [draftPrompt, setDraftPrompt] = useState(initial.prompt);
   const [sessions, setSessions] = useState<Array<{ id: string; title: string; mode: ChatMode }>>([]);
   const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
+  const [queue, setQueue] = useState<ChatQueueItem[]>([]);
+  const [queueActive, setQueueActive] = useState(false);
+  const [queueRunning, setQueueRunning] = useState(false);
+  const queueWorkerRef = useRef(false);
   const {
     localGenerating, setLocalGenerating, genProgress, setGenProgress,
     genStatus, setGenStatus, generationError, setGenerationError,
@@ -41,17 +45,6 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
       .then(data => setSessions((data.chats || []).map((chat: { id?: string; _id?: string; title: string; mode: ChatMode }) => ({
         id: chat.id || chat._id || '', title: chat.title, mode: chat.mode,
       })).filter((chat: { id: string }) => chat.id)))
-      .catch(() => {});
-
-    fetch('/api/credits')
-      .then(response => response.ok ? response.json() : null)
-      .then(data => {
-        if (data?.credits && typeof data.credits.balance === 'number') {
-          imageGen.setCredits(data.credits.balance);
-          videoGen.setCredits(data.credits.balance);
-          webGen.setCredits(data.credits.balance);
-        }
-      })
       .catch(() => {});
   }, []);
 
@@ -100,6 +93,59 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
   const updateMessage = useCallback((id: string, update: Partial<ChatGeneratorMessage>) => {
     setMessages(prev => prev.map(m => m.id === id ? { ...m, ...update } : m));
   }, []);
+
+  const enqueue = useCallback((prompt: string): boolean => {
+    const trimmed = prompt.trim();
+    if (!trimmed) return false;
+    setQueue(prev => {
+      if (prev.length >= 50 || prev.some(item => item.status === 'queued' && item.prompt === trimmed)) return prev;
+      return [...prev, { id: `q-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, prompt: trimmed, status: 'queued', progress: 0 }];
+    });
+    return true;
+  }, []);
+
+  const startQueue = useCallback(() => setQueueActive(true), []);
+
+  const removeQueueItem = useCallback((id: string) => {
+    setQueue(prev => prev.filter(item => item.id !== id));
+  }, []);
+
+  const retryQueueItem = useCallback((id: string) => {
+    setQueue(prev => prev.map(item => item.id === id && item.status === 'failed'
+      ? { ...item, status: 'queued', progress: 0, result: undefined, error: undefined }
+      : item));
+    setQueueActive(true);
+  }, []);
+
+  const clearQueue = useCallback(() => {
+    setQueue(prev => prev.filter(item => item.status === 'processing'));
+  }, []);
+
+  useEffect(() => {
+    if (!queueActive || queueWorkerRef.current) return;
+    const next = queue.find(item => item.status === 'queued');
+    if (!next) {
+      if (queue.some(item => item.status === 'processing')) return;
+      setQueueActive(false);
+      return;
+    }
+    queueWorkerRef.current = true;
+    setQueueRunning(true);
+    setQueue(prev => prev.map(item => item.id === next.id ? { ...item, status: 'processing', progress: 5 } : item));
+    void (async () => {
+      const res = await imageGen.generate(next.prompt, params);
+      setQueue(prev => prev.map(item => item.id === next.id ? {
+        ...item,
+        status: res.error ? 'failed' : 'completed',
+        error: res.error,
+        result: res.result,
+        progress: res.error ? 0 : 100,
+      } : item));
+    })().finally(() => {
+      queueWorkerRef.current = false;
+      setQueueRunning(false);
+    });
+  }, [queue, queueActive, params, imageGen]);
 
   const generate = useCallback(async (prompt: string, params: ChatParams, mode: ChatMode) => {
     let sessionId = activeSessionId;
@@ -197,6 +243,7 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
     localGenerating, genProgress, genStatus, generationError,
     outputImageUrl, outputImageVariations, outputVideoUrl, outputWebHTML, copiedCode,
     generate, reset, imageGen, videoGen, webGen,
+    queue, queueRunning, enqueue, startQueue, removeQueueItem, retryQueueItem, clearQueue,
     setOutputImageUrl, setOutputImageVariations, setOutputVideoUrl, setOutputWebHTML, setCopiedCode,
     setCredits: imageGen.setCredits,
   };

@@ -1,4 +1,6 @@
 import 'server-only';
+import { generateImage } from '@/ai/flows/generate-image';
+import { getAIModelConfig } from '@/lib/ai-credit-config';
 import type { IAIGenerationJob } from '@/models/AIGenerationJob';
 
 function asResult(value: unknown): Record<string, unknown> {
@@ -10,11 +12,14 @@ async function runExternalWorker(job: IAIGenerationJob) {
   const url = process.env.AI_GENERATION_WORKER_URL?.trim();
   const token = process.env.AI_GENERATION_WORKER_TOKEN?.trim();
   if (!url || !token) throw new Error(`No hay un worker configurado para ${job.kind}/${job.provider}.`);
+  const config = getAIModelConfig(job.provider, job.modelId ?? '');
+  const apiModelId = (config?.modelId && config.modelId !== job.modelId) ? config.modelId : job.modelId;
+  const input = { ...job.input, model: apiModelId };
   const response = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}`, 'Idempotency-Key': job.idempotencyKey },
     body: JSON.stringify({
-      jobId: String(job._id), kind: job.kind, provider: job.provider, input: job.input,
+      jobId: String(job._id), kind: job.kind, provider: job.provider, input,
       ...((job.input.experiment === true || job.input.evaluationSuite === true) ? { evaluationRequested: { scale: 100, dimensions: Array.isArray(job.input.evaluationRubric) ? job.input.evaluationRubric.slice(0, 6) : ['fidelity', 'quality'], expected: typeof job.input.expected === 'string' ? job.input.expected : '', seed: typeof job.input.seed === 'number' ? job.input.seed : undefined, temperature: typeof job.input.temperature === 'number' ? job.input.temperature : undefined } } : {}),
     }),
     signal: AbortSignal.timeout(270_000),
@@ -31,7 +36,6 @@ export async function runAIJob(job: IAIGenerationJob): Promise<Record<string, un
   const prompt = instructions ? `${basePrompt}\n\n${instructions}` : basePrompt;
   if (!prompt) throw new Error('El trabajo no contiene un prompt válido.');
   if (job.kind === 'image' && job.provider === 'google' && !process.env.AI_GENERATION_WORKER_URL) {
-    const { generateImage } = await import('@/ai/flows/generate-image');
     return generateImage({ prompt });
   }
   return runExternalWorker(job);

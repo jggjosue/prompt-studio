@@ -5,11 +5,11 @@ import { safeJson, extractErrorMessage } from '@/lib/safe-json';
 import { useCallback, useState } from 'react';
 
 export function useImageGeneration() {
-  const [imageProvider, setImageProvider] = useState<'openai' | 'fal' | 'google'>('google');
+  const [imageProvider, setImageProvider] = useState<'openai' | 'fal' | 'google'>('openai');
   const [openAIKey, setOpenAIKey] = useState('');
   const [replicateKey, setReplicateKey] = useState('');
   const [vertexKey, setVertexKey] = useState('');
-  const [credits, setCredits] = useState(0.0);
+  const [credits, setCredits] = useState(12.0);
   const [imageStyle, setImageStyle] = useState('cinematic');
   const [imageRatio, setImageRatio] = useState('1-1');
   const [imageRes, setImageRes] = useState('1k');
@@ -68,12 +68,18 @@ export function useImageGeneration() {
       const jobId = (jobData.job as Record<string, unknown>)?.id as string | undefined;
       if (!jobId) return { error: 'El servidor no devolvió un identificador de trabajo.' };
 
-      // Poll for completion
+      // Disparar el procesamiento en segundo plano (el servidor o un cron lo ejecuta)
+      void fetch('/api/ai/jobs/process', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      // Poll para completación (ampliado a 2 min para cubrir el intervalo del cron)
       let completed = false;
       let attempts = 0;
       let imageOutputUrl = '';
 
-      while (!completed && attempts < 25) {
+      while (!completed && attempts < 60) {
         attempts++;
         await new Promise(resolve => setTimeout(resolve, 2000));
         try {
@@ -128,7 +134,7 @@ function resolveDefaultImageModel(provider: string): string {
   switch (provider) {
     case 'openai': return 'dall-e-3';
     case 'fal':    return 'fal-ai/flux/schnell';
-    case 'google': return 'imagen-4.0-fast-generate-001';
+    case 'google': return 'nano-banana-2';
     default:       return 'dall-e-3';
   }
 }
@@ -164,7 +170,7 @@ function buildImageInput(
   prompt: string,
   params: ChatParams
 ): Record<string, unknown> {
-  const base = { prompt, model, generationTier: params.generationTier };
+  const base = { prompt, model };
 
   switch (provider) {
     // ── OpenAI: DALL-E 3 / GPT Image ──────────────────────────────────────
