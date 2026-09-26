@@ -5,7 +5,7 @@ import { safeJson, extractErrorMessage } from '@/lib/safe-json';
 import { useCallback, useState } from 'react';
 
 export function useWebGeneration() {
-  const [webProvider, setWebProvider] = useState<'anthropic' | 'openai' | 'google'>('openai');
+  const [webProvider, setWebProvider] = useState<'anthropic' | 'openai' | 'google'>('google');
   const [openAIKey, setOpenAIKey] = useState('');
   const [anthropicKey, setAnthropicKey] = useState('');
   const [vertexKey, setVertexKey] = useState('');
@@ -113,13 +113,13 @@ function buildWebInput(
   userPrompt: string,
   params: ChatParams
 ): Record<string, unknown> {
+  const base = { prompt: userPrompt, model, generationTier: params.generationTier };
   switch (provider) {
     // ── OpenAI Chat Completions ─────────────────────────────────────────
     // POST /v1/chat/completions
     case 'openai':
       return {
-        prompt: userPrompt, // base field the backend uses
-        model,
+        ...base, // base field the backend uses
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt },
@@ -144,8 +144,8 @@ function buildWebInput(
     // POST /v1beta/models/{model}:generateContent
     case 'google':
       return {
+        ...base,
         prompt: `${systemPrompt}\n\n${userPrompt}`, // Gemini uses single prompt field
-        model,
         contents: [
           {
             parts: [{ text: `${systemPrompt}\n\n${userPrompt}` }],
@@ -158,7 +158,7 @@ function buildWebInput(
       };
 
     default:
-      return { prompt: userPrompt, model };
+      return base;
   }
 }
 

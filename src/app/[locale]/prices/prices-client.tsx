@@ -267,7 +267,7 @@ export default function PricesClient() {
     <div className="flex min-h-screen w-full flex-col bg-background">
       <Header />
       <main className="flex-1 py-12 md:py-20">
-        <div className="container max-w-6xl min-w-0">
+        <div className="container max-w-6xl min-w-0 px-4 sm:px-6">
           <div className="text-center mb-10">
             <h1 className="text-4xl md:text-5xl font-bold font-headline mb-4">
               {t('chooseHowYouCreate')}
@@ -278,7 +278,7 @@ export default function PricesClient() {
           </div>
 
           <div
-            className="mb-10 mx-auto flex w-fit rounded-full border border-blue-500/55 bg-slate-950 p-1.5 shadow-[0_12px_35px_rgba(37,99,235,0.18)]"
+            className="mb-10 mx-auto flex w-full max-w-sm rounded-full border border-blue-500/55 bg-slate-950 p-1.5 shadow-[0_12px_35px_rgba(37,99,235,0.18)]"
             role="group"
             aria-label={t('billingCycle')}
           >
@@ -286,7 +286,7 @@ export default function PricesClient() {
               type="button"
               onClick={() => setIsAnnual(false)}
               aria-pressed={!isAnnual}
-              className={`rounded-full px-7 py-3 text-sm font-semibold transition-all duration-200 sm:px-9 ${
+                className={`flex-1 rounded-full px-3 py-3 text-sm font-semibold transition-all duration-200 sm:px-9 ${
                 !isAnnual
                   ? '!bg-blue-600 !text-white shadow-[0_8px_24px_rgba(37,99,235,0.4)] ring-1 ring-blue-400'
                   : '!text-slate-200 hover:!bg-blue-950/60 hover:!text-white'
@@ -298,7 +298,7 @@ export default function PricesClient() {
               type="button"
               onClick={() => setIsAnnual(true)}
               aria-pressed={isAnnual}
-              className={`rounded-full px-7 py-3 text-sm font-semibold transition-all duration-200 sm:px-9 ${
+                className={`flex-1 rounded-full px-3 py-3 text-sm font-semibold transition-all duration-200 sm:px-9 ${
                 isAnnual
                   ? '!bg-blue-600 !text-white shadow-[0_8px_24px_rgba(37,99,235,0.4)] ring-1 ring-blue-400'
                   : '!text-slate-200 hover:!bg-blue-950/60 hover:!text-white'
@@ -320,7 +320,7 @@ export default function PricesClient() {
                   key={plan.id}
                   className={`relative flex flex-col overflow-hidden transition-all duration-300 hover:shadow-xl ${
                     plan.isMostPopular
-                      ? 'border-violet-500 shadow-lg shadow-violet-500/10 scale-[1.02]'
+                      ? 'border-violet-500 shadow-lg shadow-violet-500/10 lg:scale-[1.02]'
                       : 'border-muted-foreground/20 shadow-sm'
                   } ${!available ? 'opacity-50 pointer-events-none' : ''}`}
                 >

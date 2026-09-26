@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import type { ChatGeneratorReturn } from '@/lib/chat-types';
-import { ChatMode } from '@/lib/chat-types';
+import { ChatMode, type ChatParams } from '@/lib/chat-types';
 import {
   Globe,
   Image as ImageIcon,
@@ -27,26 +27,24 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useAuth, useClerk } from '@clerk/nextjs';
 
-// ── Actual models from ai-credit-config (no invented IDs) ──
+// Los IDs se mantienen internos; la interfaz presenta capacidades y niveles.
 const MODEL_OPTIONS = {
   image: [
-    { provider: 'google', model: 'imagen-4.0-fast-generate-001', label: 'Imagen 4.0 Fast', credits: 10, description: 'Rápido · Google' },
-    { provider: 'openai', model: 'dall-e-3', label: 'DALL-E 3', credits: 10, description: 'Calidad alta · OpenAI' },
-    { provider: 'openai', model: 'gpt-image-1-mini', label: 'GPT Image Mini', credits: 15, description: 'Avanzado · OpenAI' },
-    { provider: 'fal', model: 'fal-ai/flux/schnell', label: 'Flux Schnell', credits: 10, description: 'Rápido · Fal.ai' },
+    { provider: 'google', model: 'imagen-4.0-fast-generate-001', tier: 'fast', icon: '⚡', label: 'Fast', credits: 5, description: 'Resultados rápidos para explorar ideas' },
+    { provider: 'google', model: 'imagen-4.0-fast-generate-001', tier: 'quality', icon: '✨', label: 'Quality', credits: 10, description: 'Más detalle y consistencia visual' },
+    { provider: 'google', model: 'imagen-4.0-fast-generate-001', tier: 'pro', icon: '💎', label: 'Pro', credits: 25, description: 'La mejor calidad para entregables finales' },
   ],
   video: [
-    { provider: 'google', model: 'veo-2.0-generate-001', label: 'Veo 2.0', credits: 20, description: 'Calidad · Google' },
-    { provider: 'runway', model: 'gen-3', label: 'Gen-3 Alpha', credits: 20, description: 'Cinemático · Runway' },
+    { provider: 'google', model: 'veo-2.0-generate-001', tier: 'fast', icon: '⚡', label: 'Fast', credits: 60, description: 'Itera rápidamente sobre tu concepto' },
+    { provider: 'google', model: 'veo-2.0-generate-001', tier: 'quality', icon: '✨', label: 'Quality', credits: 120, description: 'Movimiento y detalle equilibrados' },
+    { provider: 'google', model: 'veo-2.0-generate-001', tier: 'cinematic', icon: '💎', label: 'Cinematic', credits: 400, description: 'Máximo detalle para escenas finales' },
   ],
   project: [
-    { provider: 'google', model: 'gemini-2.5-flash', label: 'Gemini 2.5 Flash', credits: 1, description: 'Rápido · Google' },
-    { provider: 'google', model: 'gemini-2.5-pro', label: 'Gemini 2.5 Pro', credits: 3, description: 'Avanzado · Google' },
-    { provider: 'google', model: 'gemini-2.0-flash', label: 'Gemini 2.0 Flash', credits: 1, description: 'Rápido · Google' },
-    { provider: 'openai', model: 'gpt-4o', label: 'GPT-4o', credits: 4, description: 'Avanzado · OpenAI' },
-    { provider: 'anthropic', model: 'claude-3-5-sonnet-20240620', label: 'Claude 3.5 Sonnet', credits: 8, description: 'Premium · Anthropic' },
+    { provider: 'google', model: 'gemini-2.5-flash', tier: 'fast', icon: '⚡', label: 'Fast', credits: 10, description: 'Una web funcional en pocos segundos' },
+    { provider: 'google', model: 'gemini-2.5-pro', tier: 'advanced', icon: '✨', label: 'Advanced', credits: 20, description: 'Mejor estructura, contenido y componentes' },
+    { provider: 'google', model: 'gemini-2.5-pro', tier: 'pro', icon: '💎', label: 'Pro', credits: 50, description: 'La experiencia web más completa' },
   ],
-} as const satisfies Record<ChatMode, Array<{ provider: string; model: string; label: string; credits: number; description: string }>>;
+} as const satisfies Record<ChatMode, Array<{ provider: string; model: string; tier: string; icon: string; label: string; credits: number; description: string }>>;
 
 const MODE_CONFIG: Record<ChatMode, { label: string; icon: React.ReactNode; color: string; placeholder: string }> = {
   image: {
@@ -84,22 +82,21 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
   // Resolve selected model/provider from params, defaulting to first option for the mode
   const modeModels = MODEL_OPTIONS[selectedMode];
   const currentModel = modeModels.find(
-    m => m.provider === (params.provider ?? modeModels[0].provider) && m.model === (params.model ?? modeModels[0].model)
+    m => m.tier === params.generationTier || (m.provider === params.provider && m.model === params.model)
   ) ?? modeModels[0];
 
-  const modelKey = `${currentModel.provider}:${currentModel.model}`;
+  const modelKey = currentModel.tier;
 
   const handleModelSelect = (key: string) => {
-    const [provider, ...rest] = key.split(':');
-    const model = rest.join(':');
-    setParams(prev => ({ ...prev, provider, model }));
+    const selected = modeModels.find(m => m.tier === key) ?? modeModels[0];
+    setParams(prev => ({ ...prev, provider: selected.provider, model: selected.model, generationTier: selected.tier as ChatParams['generationTier'] }));
   };
 
   // When mode switches, reset provider/model to first available
   const handleModeChange = (mode: ChatMode) => {
     const defaults = MODEL_OPTIONS[mode][0];
     setSelectedMode(mode);
-    setParams(prev => ({ ...prev, provider: defaults.provider, model: defaults.model }));
+    setParams(prev => ({ ...prev, provider: defaults.provider, model: defaults.model, generationTier: defaults.tier as ChatParams['generationTier'] }));
   };
 
   const handleSend = () => {
@@ -182,24 +179,24 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
                 className="flex items-center gap-1.5 rounded-md border border-border/40 bg-muted/40 px-2.5 py-1 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 aria-label="Seleccionar modelo de IA"
               >
-                <span className="max-w-[120px] truncate">{currentModel.label}</span>
+                <span className="max-w-[120px] truncate">{currentModel.icon} {MODE_CONFIG[selectedMode].label} Model</span>
                 <ChevronDown className="h-3 w-3 shrink-0" aria-hidden="true" />
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="w-64">
               <DropdownMenuLabel className="text-[10px] uppercase tracking-widest text-muted-foreground">
-                Modelos para {MODE_CONFIG[selectedMode].label}
+                {MODE_CONFIG[selectedMode].label} Model · elige tu nivel
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuRadioGroup value={modelKey} onValueChange={handleModelSelect}>
                 {modeModels.map(m => (
                   <DropdownMenuRadioItem
                     key={`${m.provider}:${m.model}`}
-                    value={`${m.provider}:${m.model}`}
+                    value={m.tier}
                     className="flex flex-col items-start gap-0.5 py-2.5"
                   >
                     <div className="flex w-full items-center justify-between">
-                      <span className="font-medium">{m.label}</span>
+                      <span className="font-medium">{m.icon} {m.label}</span>
                       <span className="text-[10px] text-muted-foreground">~{m.credits} créditos</span>
                     </div>
                     <span className="text-[11px] text-muted-foreground">{m.description}</span>

@@ -495,7 +495,7 @@ export default function HeaderClient() {
                         </SignUpButton>
                       </SheetClose>
                       <SheetClose asChild>
-                        <SignInButton mode="redirect" forceRedirectUrl="/dashboard">
+                        <SignInButton mode="redirect" forceRedirectUrl="/dashboard/profile">
                           <span className="flex w-full items-center justify-center gap-2 rounded-md bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-700">
                             <LogIn className="h-4 w-4" />
                             {tHeader('signIn')}
@@ -676,7 +676,7 @@ export default function HeaderClient() {
             <>
               <Show when="signed-out">
                 <div className="hidden md:flex items-center gap-3">
-                  <SignInButton mode="redirect" forceRedirectUrl="/dashboard">
+                  <SignInButton mode="redirect" forceRedirectUrl="/dashboard/profile">
                     <button className="rounded-full border border-cyan-200/25 px-5 py-2.5 text-sm font-semibold text-slate-100 transition hover:border-cyan-200/60">
                       {tHeader('signIn')}
                     </button>
@@ -688,7 +688,7 @@ export default function HeaderClient() {
                   </SignUpButton>
                 </div>
                 <div className="flex md:hidden items-center">
-                  <SignInButton mode="redirect" forceRedirectUrl="/dashboard">
+                    <SignInButton mode="redirect" forceRedirectUrl="/dashboard/profile">
                     <button className="rounded-full border border-cyan-200/25 px-3.5 py-1.5 text-xs font-semibold text-slate-100 transition hover:border-cyan-200/60">
                       {tHeader('signIn')}
                     </button>

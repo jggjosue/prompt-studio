@@ -41,7 +41,7 @@ export const AI_MODEL_CONFIG: Record<string, AIModelConfig> = {
   'google:gemini-2.5-pro': model({ provider: 'google', modelId: 'gemini-2.5-pro', category: 'project', minimumCredits: 3, inputTokenPriceUsdPerMillion: 1.25, outputTokenPriceUsdPerMillion: 10, defaultOutputTokens: 4_000, pricingStatus: 'verified', enabled: true }),
   'google:gemini-2.0-flash': model({ provider: 'google', modelId: 'gemini-2.0-flash', category: 'project', minimumCredits: 1, inputTokenPriceUsdPerMillion: null, outputTokenPriceUsdPerMillion: null, defaultOutputTokens: 4_000, pricingStatus: 'unverified', enabled: true }),
   'google:imagen-4.0-fast-generate-001': model({ provider: 'google', modelId: 'imagen-4.0-fast-generate-001', category: 'image', minimumCredits: 10, imagePriceUsd: 0.04, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
-  'google:veo-2.0-generate-001': model({ provider: 'google', modelId: 'veo-2.0-generate-001', category: 'video', minimumCredits: 20, videoPriceUsdPerSecond: null, defaultOutputTokens: 0, pricingStatus: 'unverified', enabled: true }),
+  'google:veo-2.0-generate-001': model({ provider: 'google', modelId: 'veo-2.0-generate-001', category: 'video', minimumCredits: 20, maxCredits: 500, videoPriceUsdPerSecond: null, defaultOutputTokens: 0, pricingStatus: 'unverified', enabled: true }),
   'openai:gpt-4o': model({ provider: 'openai', modelId: 'gpt-4o', category: 'project', minimumCredits: 4, inputTokenPriceUsdPerMillion: 2.50, outputTokenPriceUsdPerMillion: 10, defaultOutputTokens: 4_000, pricingStatus: 'legacy-estimate', enabled: true }),
   'openai:dall-e-3': model({ provider: 'openai', modelId: 'dall-e-3', category: 'image', minimumCredits: 10, imagePriceUsd: 0.04, defaultOutputTokens: 0, pricingStatus: 'legacy-estimate', enabled: true }),
   'openai:gpt-image-1-mini': model({ provider: 'openai', modelId: 'gpt-image-1-mini', category: 'image', minimumCredits: 15, imagePriceUsd: null, defaultOutputTokens: 0, pricingStatus: 'unverified', enabled: true }),
@@ -113,7 +113,16 @@ export function estimateAICredits(input: CreditEstimateInput): CreditEstimate {
   const imageCost = (input.imageCount ?? (config.category === 'image' ? 1 : 0)) * (config.imagePriceUsd ?? 0);
   const videoCost = (input.videoDurationSeconds ?? 0) * (config.videoPriceUsdPerSecond ?? 0);
   const estimatedApiCostUsd = inputCost + outputCost + imageCost + videoCost;
-  const calculatedCredits = Math.ceil(estimatedApiCostUsd / TARGET_COST_PER_CREDIT_USD);
+  const requestedTier = typeof input.input === 'object' && input.input !== null && 'generationTier' in input.input
+    ? String((input.input as { generationTier?: unknown }).generationTier ?? '')
+    : '';
+  const abstractCreditCost: Record<string, number> = input.kind === 'image'
+    ? { fast: 5, quality: 10, pro: 25 }
+    : input.kind === 'video'
+      ? { fast: 60, quality: 120, cinematic: 400 }
+      : { fast: 10, advanced: 20, pro: 50 };
+  const calculatedCredits = abstractCreditCost[requestedTier]
+    ?? Math.ceil(estimatedApiCostUsd / TARGET_COST_PER_CREDIT_USD);
   const credits = Math.min(config.maxCredits, Math.max(config.minimumCredits, calculatedCredits));
 
   return {

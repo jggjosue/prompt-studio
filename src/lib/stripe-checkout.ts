@@ -1,7 +1,7 @@
 export function getCreatorStripeCheckoutUrl(isAnnual: boolean, userId?: string | null): string {
   const base = isAnnual
-    ? process.env.NEXT_PUBLIC_STRIPE_CREATOR_ANNUAL
-    : process.env.NEXT_PUBLIC_STRIPE_CREATOR_MONTHLY;
+    ? process.env.NEXT_PUBLIC_STRIPE_CREATOR_ANNUAL || process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_ANNUAL
+    : process.env.NEXT_PUBLIC_STRIPE_CREATOR_MONTHLY || process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_MONTHLY;
   if (!base) return '';
   if (!userId) return base;
   return `${base}?client_reference_id=${encodeURIComponent(userId)}`;

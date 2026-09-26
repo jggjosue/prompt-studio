@@ -5,7 +5,7 @@ import { safeJson, extractErrorMessage } from '@/lib/safe-json';
 import { useCallback, useState } from 'react';
 
 export function useVideoGeneration() {
-  const [videoProvider, setVideoProvider] = useState<'runway' | 'veo' | 'anthropic' | 'fal' | 'google'>('runway');
+  const [videoProvider, setVideoProvider] = useState<'runway' | 'veo' | 'anthropic' | 'fal' | 'google'>('google');
   const [runwayKey, setRunwayKey] = useState('');
   const [veoKey, setVeoKey] = useState('');
   const [credits, setCredits] = useState(12.0);
@@ -135,7 +135,7 @@ function buildVideoInput(
   params: ChatParams,
   durationSeconds: number
 ): Record<string, unknown> {
-  const base = { prompt, model };
+  const base = { prompt, model, generationTier: params.generationTier };
 
   switch (provider) {
     // ── Runway Gen-3 ───────────────────────────────────────────────────

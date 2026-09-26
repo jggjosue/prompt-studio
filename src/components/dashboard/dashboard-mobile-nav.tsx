@@ -32,7 +32,7 @@ export function DashboardMobileNav({
   const pathname = usePathname();
   const t = useTranslations('dashboard');
 
-  const links = isPremiumJoAdmin ? [
+  const links = [
     // { href: '/dashboard', label: t('dashboard'), icon: LayoutGrid },
     // { href: '/dashboard/analytics', label: t('analytics'), icon: LineChart },
     // { href: '/generate', label: t('create'), icon: Clapperboard },
@@ -49,10 +49,12 @@ export function DashboardMobileNav({
       : []),
     // { href: '/dashboard/settings', label: t('settings'), icon: Settings },
     // { href: '/dashboard/billing', label: t('billing'), icon: CreditCard },
+    { href: '/dashboard/library', label: 'Mis compras', icon: CreditCard },
     ...(isAffiliate
       ? [{ href: '/dashboard/campaigns', label: t('campaigns'), icon: CreditCard }]
       : []),
-  ] : [];
+  ]
+    .filter(link => isPremiumJoAdmin || link.href === '/dashboard/profile' || link.href === '/dashboard/library');
 
   return (
     <nav

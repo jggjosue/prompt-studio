@@ -35,9 +35,16 @@ export default async function DashboardLayout({
       const user = await client.users.getUser(userId);
       const meta = (user.privateMetadata ?? {}) as { affiliateReferralCode?: string };
       isAffiliate = Boolean(meta.affiliateReferralCode);
-      const adminEmail = process.env.PROMPT_STUDIO_PREMIUM_JO?.trim().toLowerCase();
       const userEmail = user.primaryEmailAddress?.emailAddress?.trim().toLowerCase();
-      isPremiumJoAdmin = Boolean(adminEmail && userEmail === adminEmail);
+      const adminEmails = [
+        process.env.PROMPT_STUDIO_CREATOR_JO,
+        process.env.PROMPT_STUDIO_PRO_JO,
+        process.env.PROMPT_STUDIO_STUDIO_JO,
+        process.env.PROMPT_STUDIO_PREMIUM_JO,
+      ]
+        .map(email => email?.trim().toLowerCase())
+        .filter((email): email is string => Boolean(email));
+      isPremiumJoAdmin = Boolean(userEmail && adminEmails.includes(userEmail));
 
       if (userEmail) {
         await connectToDatabase();
@@ -201,7 +208,9 @@ export default async function DashboardLayout({
     // { href: '/dashboard/settings', icon: <Settings className="h-4 w-4" />, label: t('settings') },
     { href: '/dashboard/credits', icon: <Coins className="h-4 w-4" />, label: t('credits'), description: t('creditsDesc') },
   ];
-  const settingsNavItems = isPremiumJoAdmin ? allSettingsNavItems : [];
+  const settingsNavItems = isPremiumJoAdmin
+    ? allSettingsNavItems
+    : allSettingsNavItems.filter(item => item.href === '/dashboard/profile' || item.href === '/dashboard/library');
 
   return (
     <DashboardShell

@@ -692,14 +692,14 @@ export default function AffiliateClient() {
       />
       <motion.div
         style={{ y: railY }}
-        className="pointer-events-none fixed left-1/2 top-0 z-0 h-[140vh] w-[72rem] -translate-x-1/2 opacity-30 [mask-image:linear-gradient(180deg,transparent,black_16%,black_82%,transparent)]"
+        className="pointer-events-none fixed left-1/2 top-0 z-0 h-[140vh] w-[min(72rem,100vw)] -translate-x-1/2 opacity-30 [mask-image:linear-gradient(180deg,transparent,black_16%,black_82%,transparent)]"
       >
         <div className="h-full w-full bg-[linear-gradient(115deg,transparent_0%,rgba(34,211,238,0.13)_18%,transparent_34%,transparent_54%,rgba(52,211,153,0.12)_70%,transparent_86%)]" />
       </motion.div>
 
       <main id="top" className="relative z-10 scroll-mt-0">
         {/* Hero */}
-        <section ref={heroRef} className="relative mx-auto grid min-h-screen max-w-7xl items-center gap-14 overflow-hidden px-6 pb-24 pt-32 lg:grid-cols-[0.92fr_1.08fr] lg:pb-28 lg:pt-36">
+        <section ref={heroRef} className="relative mx-auto grid min-h-screen max-w-7xl items-center gap-10 overflow-hidden px-4 pb-16 pt-24 sm:px-6 sm:pb-24 sm:pt-32 lg:grid-cols-[0.92fr_1.08fr] lg:gap-14 lg:pb-28 lg:pt-36">
           <motion.div
             style={{ y: heroRibbonY, x: heroRibbonX }}
             className="pointer-events-none absolute left-[-8rem] top-24 hidden h-56 w-[34rem] rotate-[-14deg] rounded-full border border-cyan-200/15 bg-cyan-300/5 blur-sm lg:block"
@@ -715,7 +715,7 @@ export default function AffiliateClient() {
             transition={{ duration: 0.75 }}
             className="max-w-3xl"
           >
-            <h1 className="text-4xl font-semibold tracking-tight text-white md:text-6xl lg:text-7xl">
+            <h1 className="text-4xl font-semibold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
               {t('hero.title')}
             </h1>
             <p className="mt-8 max-w-2xl text-lg leading-9 text-slate-300">

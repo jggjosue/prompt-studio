@@ -5,7 +5,7 @@ import { safeJson, extractErrorMessage } from '@/lib/safe-json';
 import { useCallback, useState } from 'react';
 
 export function useImageGeneration() {
-  const [imageProvider, setImageProvider] = useState<'openai' | 'fal' | 'google'>('openai');
+  const [imageProvider, setImageProvider] = useState<'openai' | 'fal' | 'google'>('google');
   const [openAIKey, setOpenAIKey] = useState('');
   const [replicateKey, setReplicateKey] = useState('');
   const [vertexKey, setVertexKey] = useState('');
@@ -164,7 +164,7 @@ function buildImageInput(
   prompt: string,
   params: ChatParams
 ): Record<string, unknown> {
-  const base = { prompt, model };
+  const base = { prompt, model, generationTier: params.generationTier };
 
   switch (provider) {
     // ── OpenAI: DALL-E 3 / GPT Image ──────────────────────────────────────

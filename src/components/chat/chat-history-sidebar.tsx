@@ -67,7 +67,7 @@ export function ChatHistorySidebar({ chat }: { chat: ChatGeneratorReturn }) {
   return (
     <aside
       className={cn(
-        'flex flex-col border-r border-border/60 bg-background/50 backdrop-blur-sm transition-all duration-300 overflow-hidden shrink-0',
+        'hidden flex-col border-r border-border/60 bg-background/50 backdrop-blur-sm transition-all duration-300 overflow-hidden shrink-0 lg:flex',
         collapsed ? 'w-12' : 'w-60'
       )}
       aria-label="Historial de creaciones"

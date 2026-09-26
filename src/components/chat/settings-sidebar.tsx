@@ -56,6 +56,9 @@ function ParamSelect({
   onChange: (v: string) => void;
   children: React.ReactNode;
 }) {
+  // Los proveedores y modelos son detalles internos; la selección amigable
+  // vive en el selector de nivel del composer.
+  if (label === 'Proveedor' || label === 'Modelo') return null;
   return (
     <div className="space-y-1.5">
       <label className="block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
@@ -86,27 +89,38 @@ export function SettingsSidebar({ chat }: { chat: ChatGeneratorReturn }) {
 
   // Estimate credit cost from current model config
   const CREDIT_ESTIMATES: Record<string, number> = {
-    'imagen-4.0-fast-generate-001': 10,
+    'imagen-4.0-fast-generate-001': 5,
     'dall-e-3': 10,
-    'gpt-image-1-mini': 15,
+    'gpt-image-1-mini': 25,
     'fal-ai/flux/schnell': 10,
-    'veo-2.0-generate-001': 20,
-    'gen-3': 20,
-    'gemini-2.5-flash': 1,
-    'gemini-2.5-pro': 3,
-    'gemini-2.0-flash': 1,
-    'gpt-4o': 4,
-    'claude-3-5-sonnet-20240620': 8,
+    'veo-2.0-generate-001': 120,
+    'gen-3': 120,
+    'gemini-2.5-flash': 10,
+    'gemini-2.5-pro': 20,
+    'gemini-2.0-flash': 10,
+    'gpt-4o': 20,
+    'claude-3-5-sonnet-20240620': 50,
   };
   const currentModel = params.model ?? '';
-  const estimatedCredits = CREDIT_ESTIMATES[currentModel] ?? (selectedMode === 'image' ? 10 : selectedMode === 'video' ? 20 : 2);
+  const tierCosts = selectedMode === 'image'
+    ? { fast: 5, quality: 10, pro: 25 }
+    : selectedMode === 'video'
+      ? { fast: 60, quality: 120, cinematic: 400 }
+      : { fast: 10, advanced: 20, pro: 50 };
+  const estimatedCredits = tierCosts[params.generationTier as keyof typeof tierCosts]
+    ?? CREDIT_ESTIMATES[currentModel]
+    ?? (selectedMode === 'image' ? 5 : selectedMode === 'video' ? 60 : 10);
   const balanceAfter = Math.max(0, credits - estimatedCredits);
   const insufficient = credits < estimatedCredits;
+  const tierLabels = {
+    fast: '⚡ Fast', quality: '✨ Quality', pro: '💎 Pro', cinematic: '💎 Cinematic', advanced: '✨ Advanced',
+  } as const;
+  const tier = params.generationTier ?? (selectedMode === 'video' ? 'quality' : 'fast');
 
   return (
     <aside
       className={cn(
-        'flex flex-col border-l border-border/60 bg-background/50 backdrop-blur-sm transition-all duration-300 overflow-hidden shrink-0',
+        'hidden flex-col border-l border-border/60 bg-background/50 backdrop-blur-sm transition-all duration-300 overflow-hidden shrink-0 lg:flex',
         open ? 'w-72' : 'w-10'
       )}
       aria-label="Configuración de creación"
@@ -139,6 +153,15 @@ export function SettingsSidebar({ chat }: { chat: ChatGeneratorReturn }) {
             <p className="text-[10px] font-black uppercase tracking-[0.18em] text-blue-500">
               {selectedMode === 'image' ? '✦ Imagen' : selectedMode === 'video' ? '▶ Video' : '◈ Web'}
             </p>
+            <div className="rounded-xl border border-blue-500/20 bg-blue-500/5 p-3">
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                {selectedMode === 'image' ? 'Image Model' : selectedMode === 'video' ? 'Video Model' : 'Website Model'}
+              </p>
+              <div className="mt-1 flex items-center justify-between gap-2">
+                <span className="font-semibold text-foreground">{tierLabels[tier]}</span>
+                <span className="text-xs text-blue-400">{estimatedCredits} credits</span>
+              </div>
+            </div>
 
             {/* ── IMAGE settings ── */}
             {selectedMode === 'image' && (
