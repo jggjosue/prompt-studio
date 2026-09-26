@@ -68,12 +68,18 @@ export function useImageGeneration() {
       const jobId = (jobData.job as Record<string, unknown>)?.id as string | undefined;
       if (!jobId) return { error: 'El servidor no devolvió un identificador de trabajo.' };
 
-      // Poll for completion
+      // Disparar el procesamiento en segundo plano (el servidor o un cron lo ejecuta)
+      void fetch('/api/ai/jobs/process', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      // Poll para completación (ampliado a 2 min para cubrir el intervalo del cron)
       let completed = false;
       let attempts = 0;
       let imageOutputUrl = '';
 
-      while (!completed && attempts < 25) {
+      while (!completed && attempts < 60) {
         attempts++;
         await new Promise(resolve => setTimeout(resolve, 2000));
         try {
