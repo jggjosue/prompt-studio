@@ -19,6 +19,7 @@ import PromptVersion from '@/models/PromptVersion';
 import { auth, clerkClient } from '@clerk/nextjs/server';
 import mongoose from 'mongoose';
 import { NextResponse } from 'next/server';
+import { isPromptStudioAdminEmail } from '@/lib/prompt-studio-admin';
 
 const headers = () => cacheHeaders('private-no-store');
 const clean = (value: unknown, max: number) => typeof value === 'string' ? value.trim().slice(0, max) : '';
@@ -83,6 +84,8 @@ export async function POST(request: Request) {
     const code = error instanceof Error ? error.message : 'MODEL_NOT_ALLOWED';
     return NextResponse.json({ error: { code, message: 'La configuración de generación no está disponible.' } }, { status: 400, headers: headers() });
   }
+  // El superadministrador puede probar el flujo en desarrollo sin saldo.
+  if (isPromptStudioAdminEmail(userEmail)) cost = { ...cost, credits: 0 };
   const requestedContractId = clean(raw.outputContractId, 80) || project?.outputContractId || '';
   let outputContract = null;
   if (requestedContractId) {
