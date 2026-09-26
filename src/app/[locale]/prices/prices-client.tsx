@@ -110,6 +110,9 @@ function CreatorCoupon({ isAnnual }: { isAnnual: boolean }) {
       <code className="mt-1 block break-all font-mono text-xl font-black tracking-wide text-foreground sm:text-2xl">
         {couponCode}
       </code>
+      <p className="mt-2 text-[11px] text-muted-foreground">
+        {tPrices('creatorCouponOneTime')}
+      </p>
     </div>
   );
 }
