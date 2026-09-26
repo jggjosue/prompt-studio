@@ -6,6 +6,7 @@ import { ChatMessageItem } from './chat-message-item';
 import { GenerationProgress } from '@/components/generation/generation-feedback';
 import type { ChatGeneratorReturn } from '@/lib/chat-types';
 import type { ChatMode } from '@/lib/chat-types';
+import { friendlyError } from '@/lib/chat-error';
 
 interface QuickStart {
   label: string;
@@ -58,13 +59,6 @@ const GEN_STATUS_MESSAGES: Record<string, string> = {
   project: 'Construyendo tu página...',
 };
 
-function friendlyError(message: string): string {
-  if (/does not support image input|Cannot read/i.test(message)) {
-    return 'El modelo seleccionado no admite la imagen de referencia. Cambia a un modelo de generación de imágenes o quita la imagen.';
-  }
-  return message;
-}
-
 interface ChatAreaProps {
   chat: ChatGeneratorReturn;
 }
@@ -74,10 +68,13 @@ export function ChatArea({ chat }: ChatAreaProps) {
   const { messages, genProgress, genStatus, generationError, localGenerating, selectedMode } = chat;
 
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    const el = scrollRef.current;
+    if (!el) return;
+    const nearBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 160;
+    if (nearBottom) {
+      el.scrollTop = el.scrollHeight;
     }
-  }, [messages.length, localGenerating]);
+  }, [messages.length, genProgress, localGenerating]);
 
   const handleQuickStart = (qs: QuickStart) => {
     chat.setDraftPrompt(qs.prompt);

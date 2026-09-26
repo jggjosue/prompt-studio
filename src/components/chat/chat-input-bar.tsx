@@ -14,7 +14,7 @@ import { ChatMode } from '@/lib/chat-types';
 export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
   const [prompt, setPrompt] = useState('');
   const searchParams = useSearchParams();
-  const { selectedMode, setSelectedMode, generate, localGenerating, messages, queue, queueRunning, enqueue, startQueue, removeQueueItem, retryQueueItem, clearQueue } = chat;
+  const { selectedMode, setSelectedMode, params, generate, localGenerating, messages, queue, queueRunning, enqueue, startQueue, removeQueueItem, retryQueueItem, clearQueue } = chat;
 
   // Pre-fill from URL params
   useEffect(() => {
@@ -50,7 +50,7 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
     }
 
     // Ejecutar generación
-    await generate(trimmed, { model: selectedMode }, selectedMode);
+    await generate(trimmed, params, selectedMode);
   };
 
   const handleAddToQueue = () => {
@@ -77,10 +77,21 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
 
   const renderQueueItem = (item: ChatQueueItem) => {
     const config = queueStatusConfig[item.status];
+    const modeMeta = item.mode === 'image'
+      ? { icon: <Image className="h-3 w-3 text-violet-400" />, label: 'Imagen' }
+      : item.mode === 'video'
+        ? { icon: <Video className="h-3 w-3 text-rose-400" />, label: 'Video' }
+        : { icon: <Globe className="h-3 w-3 text-cyan-400" />, label: 'Web' };
     return (
       <li key={item.id} className="rounded-lg border border-border/60 bg-card/40 p-2 pl-3">
         <div className="flex items-center justify-between gap-2">
-          <p className="min-w-0 flex-1 truncate text-xs">{item.prompt}</p>
+          <div className="flex min-w-0 flex-1 items-center gap-1.5">
+            <span className="flex items-center gap-1 rounded border border-border/50 px-1 py-0.5 text-[10px] font-semibold text-muted-foreground">
+              {modeMeta.icon}
+              <span className="hidden sm:inline">{modeMeta.label}</span>
+            </span>
+            <p className="min-w-0 flex-1 truncate text-xs">{item.prompt}</p>
+          </div>
           <Badge variant={config.variant}>{config.label}</Badge>
           {item.status !== 'processing' && (
             <button
@@ -114,8 +125,8 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
   };
 
   return (
-    <div className="border-t border-border p-4 bg-background">
-      <div className="flex items-end gap-2">
+    <div className="border-t border-border bg-background p-3 sm:p-4">
+      <div className="mx-auto flex w-full max-w-3xl flex-col gap-2">
         <Tabs value={selectedMode} onValueChange={(v) => setSelectedMode(v as ChatMode)} className="w-fit">
           <TabsList>
             <TabsTrigger value="image"><Image className="h-3 w-3 mr-1" />Imagen</TabsTrigger>
@@ -127,19 +138,23 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
           value={prompt}
           onChange={e => setPrompt(e.target.value)}
           placeholder="Escribe tu prompt..."
-          className="flex-1 min-h-[40px] max-h-32 resize-none"
+          className="w-full min-h-[80px] resize-none text-sm leading-relaxed sm:min-h-[88px] max-h-64"
           onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
         />
-        <Button variant="outline" onClick={handleAddToQueue} disabled={!prompt.trim()} className="h-10 px-3" title="Agregar a la cola de generación">
-          <ListPlus className="h-4 w-4" />
-        </Button>
-        <Button onClick={handleSend} disabled={localGenerating || !prompt.trim()} size="icon">
-          <Send className="h-4 w-4" />
-        </Button>
+        <div className="flex flex-wrap items-center justify-end gap-2">
+          <Button variant="outline" onClick={handleAddToQueue} disabled={!prompt.trim()} className="h-10 px-3 text-xs sm:text-sm" title="Agregar a la cola de generación">
+            <ListPlus className="h-4 w-4" />
+            <span className="ml-1.5 hidden sm:inline">Agregar a cola</span>
+          </Button>
+          <Button onClick={handleSend} disabled={localGenerating || !prompt.trim()} size="icon" className="h-10 w-10">
+            <Send className="h-4 w-4" />
+            <span className="sr-only">Enviar</span>
+          </Button>
+        </div>
       </div>
 
       {queue.length > 0 && (
-        <div className="mt-3 space-y-2">
+        <div className="mx-auto mt-3 w-full max-w-3xl space-y-2">
           <div className="flex items-center justify-between gap-2">
             <p className="text-xs font-semibold text-muted-foreground">
               Cola de generación ({queue.filter(i => i.status !== 'completed').length} pendientes · {queue.length} total)

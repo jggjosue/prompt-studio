@@ -13,6 +13,7 @@ export interface ChatParams {
   webFramework?: string; webTheme?: string; webComponent?: string; webColor?: string;
   webModel?: string; webPages?: number;
   model?: string; provider?: string; aspectRatio?: string;
+  generationTier?: string;
 }
 
 export interface ChatMessageResult {
@@ -39,7 +40,7 @@ export interface ChatSession {
 export type ChatQueueStatus = 'queued' | 'processing' | 'completed' | 'failed';
 
 export interface ChatQueueItem {
-  id: string; prompt: string; status: ChatQueueStatus; progress: number;
+  id: string; prompt: string; mode: ChatMode; status: ChatQueueStatus; progress: number;
   result?: ChatMessageResult; error?: string;
 }
 

@@ -2,6 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import type { ChatGeneratorMessage } from '@/lib/chat-types';
+import { friendlyError } from '@/lib/chat-error';
 import { Bot, Loader2, User } from 'lucide-react';
 import { ImageResult, VideoResult, WebResult } from './message-renderers';
 
@@ -44,7 +45,7 @@ export function ChatMessageItem({ message }: { message: ChatGeneratorMessage }) 
 
         {/* Prompt text */}
         <p className={cn(
-          'text-sm whitespace-pre-wrap leading-relaxed',
+          'text-sm whitespace-pre-wrap break-words leading-relaxed max-h-[240px] overflow-y-auto pr-1',
           isUser ? 'text-white' : 'text-foreground'
         )}>
           {message.prompt}
@@ -52,7 +53,7 @@ export function ChatMessageItem({ message }: { message: ChatGeneratorMessage }) 
 
         {/* Result */}
         {message.result && (
-          <div className="mt-3">
+          <div className="mt-3 max-h-[360px] overflow-y-auto pr-1">
             {(message.result.imageUrl || message.result.imageUrls) ? (
               <ImageResult result={message.result} />
             ) : null}
@@ -63,7 +64,7 @@ export function ChatMessageItem({ message }: { message: ChatGeneratorMessage }) 
               <WebResult result={message.result} />
             ) : null}
             {message.result.error && (
-              <p className="text-xs text-destructive mt-1">{message.result.error}</p>
+              <p className="text-xs text-destructive mt-1">{friendlyError(message.result.error)}</p>
             )}
           </div>
         )}

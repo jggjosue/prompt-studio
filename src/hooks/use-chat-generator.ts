@@ -99,10 +99,10 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
     if (!trimmed) return false;
     setQueue(prev => {
       if (prev.length >= 50 || prev.some(item => item.status === 'queued' && item.prompt === trimmed)) return prev;
-      return [...prev, { id: `q-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, prompt: trimmed, status: 'queued', progress: 0 }];
+      return [...prev, { id: `q-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, prompt: trimmed, mode: selectedMode, status: 'queued', progress: 0 }];
     });
     return true;
-  }, []);
+  }, [selectedMode]);
 
   const startQueue = useCallback(() => setQueueActive(true), []);
 
@@ -133,19 +133,32 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
     setQueueRunning(true);
     setQueue(prev => prev.map(item => item.id === next.id ? { ...item, status: 'processing', progress: 5 } : item));
     void (async () => {
-      const res = await imageGen.generate(next.prompt, params);
+      let res: { result?: ChatMessageResult; error?: string } | undefined;
+      if (next.mode === 'image') {
+        res = await imageGen.generate(next.prompt, params);
+      } else if (next.mode === 'video') {
+        res = await videoGen.generate(next.prompt, params);
+      } else {
+        res = await webGen.generate(next.prompt, params);
+      }
+
       setQueue(prev => prev.map(item => item.id === next.id ? {
         ...item,
-        status: res.error ? 'failed' : 'completed',
-        error: res.error,
-        result: res.result,
-        progress: res.error ? 0 : 100,
+        status: res?.error ? 'failed' : 'completed',
+        error: res?.error,
+        result: res?.result,
+        progress: res?.error ? 0 : 100,
       } : item));
+
+      const entry = addMessage({ role: 'user', mode: next.mode, prompt: next.prompt, params, status: 'pending', progress: 0 });
+      updateMessage(entry.id, res?.error
+        ? { status: 'failed', progress: 0, result: { error: res.error } }
+        : { status: 'completed', progress: 100, result: res?.result });
     })().finally(() => {
       queueWorkerRef.current = false;
       setQueueRunning(false);
     });
-  }, [queue, queueActive, params, imageGen]);
+  }, [queue, queueActive, params, imageGen, videoGen, webGen, addMessage, updateMessage]);
 
   const generate = useCallback(async (prompt: string, params: ChatParams, mode: ChatMode) => {
     let sessionId = activeSessionId;

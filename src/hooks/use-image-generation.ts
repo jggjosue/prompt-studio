@@ -5,7 +5,7 @@ import { safeJson, extractErrorMessage } from '@/lib/safe-json';
 import { useCallback, useState } from 'react';
 
 export function useImageGeneration() {
-  const [imageProvider, setImageProvider] = useState<'openai' | 'fal' | 'google'>('openai');
+  const [imageProvider, setImageProvider] = useState<'openai' | 'fal' | 'google'>('google');
   const [openAIKey, setOpenAIKey] = useState('');
   const [replicateKey, setReplicateKey] = useState('');
   const [vertexKey, setVertexKey] = useState('');
@@ -30,7 +30,7 @@ export function useImageGeneration() {
   const [outputImageVariations, setOutputImageVariations] = useState<Array<{ label: string; url: string }>>([]);
 
   const generate = useCallback(async (prompt: string, params: ChatParams): Promise<{ result?: ChatMessageResult; error?: string }> => {
-    const provider = (params.provider || imageProvider) as string;
+    const provider = 'google';
     const model = params.model || resolveDefaultImageModel(provider);
     const finalPrompt = prompt + buildImageSuffix(params);
 
@@ -112,7 +112,7 @@ export function useImageGeneration() {
     } catch (err: unknown) {
       return { error: err instanceof Error ? err.message : 'Error al conectar con el servidor.' };
     }
-  }, [imageProvider, credits]);
+  }, [setOutputImageUrl, setCredits]);
 
   return {
     imageProvider, setImageProvider, openAIKey, setOpenAIKey, replicateKey, setReplicateKey,
@@ -132,25 +132,12 @@ export function useImageGeneration() {
 
 function resolveDefaultImageModel(provider: string): string {
   switch (provider) {
-    case 'openai': return 'dall-e-3';
-    case 'fal':    return 'fal-ai/flux/schnell';
-    case 'google': return 'imagen-4.0-fast-generate-001';
-    default:       return 'dall-e-3';
+    case 'google': return 'nano-banana-2';
+    default:       return 'nano-banana-2';
   }
 }
 
 // ── Provider-specific input builders ────────────────────────────────────────
-
-function aspectRatioToSize(ratio: string | undefined): string {
-  // OpenAI DALL-E 3 / GPT Image size values
-  switch (ratio) {
-    case '16-9': return '1792x1024';
-    case '9-16': return '1024x1792';
-    case '4-3':  return '1024x1024'; // closest square
-    case '1-1':
-    default:     return '1024x1024';
-  }
-}
 
 function aspectRatioToGoogleValue(ratio: string | undefined): string {
   // Imagen 4 aspectRatio values
@@ -172,54 +159,17 @@ function buildImageInput(
 ): Record<string, unknown> {
   const base = { prompt, model };
 
-  switch (provider) {
-    // ── OpenAI: DALL-E 3 / GPT Image ──────────────────────────────────────
-    case 'openai':
-      return {
-        ...base,
-        n: 1,
-        size: aspectRatioToSize(params.imageRatio),
-        quality: 'hd', // DALL-E 3 supports "standard" | "hd"
-        style: params.imageStyle === 'photorealistic' ? 'natural' : 'vivid', // DALL-E 3: "natural" | "vivid"
-        response_format: 'url',
-      };
-
-    // ── Google Imagen 4 ──────────────────────────────────────────────────
-    case 'google':
-      return {
-        ...base,
-        aspectRatio: aspectRatioToGoogleValue(params.imageRatio),
-        numberOfImages: 1,
-        outputMimeType: 'image/png',
-        negativePrompt: params.imageNegative || 'blurry, low quality, distorted',
-      };
-
-    // ── Fal.ai / Flux ────────────────────────────────────────────────────
-    case 'fal':
-      return {
-        ...base,
-        // Flux Schnell uses image_size or width/height
-        image_size: falImageSize(params.imageRatio),
-        num_images: 1,
-        num_inference_steps: params.imageCFG ? Math.round(params.imageCFG) : 4, // Schnell: 1-8 steps
-        enable_safety_checker: true,
-        output_format: 'jpeg',
-      };
-
-    default:
-      return base;
+  // Only Google Imagen 4 is supported for image generation.
+  if (provider === 'google') {
+    return {
+      ...base,
+      aspectRatio: aspectRatioToGoogleValue(params.imageRatio),
+      numberOfImages: 1,
+      outputMimeType: 'image/png',
+      negativePrompt: params.imageNegative || 'blurry, low quality, distorted',
+    };
   }
-}
-
-function falImageSize(ratio: string | undefined): { width: number; height: number } {
-  switch (ratio) {
-    case '16-9': return { width: 1280, height: 720 };
-    case '9-16': return { width: 720, height: 1280 };
-    case '4-3':  return { width: 1024, height: 768 };
-    case '3-4':  return { width: 768, height: 1024 };
-    case '1-1':
-    default:     return { width: 1024, height: 1024 };
-  }
+  return base;
 }
 
 // ── Image URL extraction (handles each provider's response shape) ─────────
