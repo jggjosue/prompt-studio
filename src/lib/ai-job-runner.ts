@@ -4,6 +4,7 @@ import { getAIModelConfig } from '@/lib/ai-credit-config';
 import { recordObservabilityEvent } from '@/lib/observability-server';
 import { GeminiImageSuccess, parseGeminiImageResponse, GeminiImageResult } from '@/lib/gemini-image-parser';
 import { generatedImageKey, putR2Object } from '@/lib/r2-storage';
+import { captureCredits } from '@/lib/ai-job-service';
 import type { IAIGenerationJob } from '@/models/AIGenerationJob';
 import { stripReferenceMedia } from '@/lib/reference-media-strip';
 
@@ -252,8 +253,12 @@ export async function runAIJob(job: IAIGenerationJob): Promise<Record<string, un
             errorCategory: category, // internal only, not exposed to client
           },
         });
+        // Capturar créditos solo si la generación fue exitja.
+        // reserveCredits ya fue llamado en el API route; aquí los pasamos a 'captured'.
+        await captureCredits(job);
       } catch {
         // La observabilidad no debe romper la generación.
+        // Si captureCredits falla, la reserva permanece y el cron la reconciliará.
       }
       return { imageUrl: r2Url };
     }
