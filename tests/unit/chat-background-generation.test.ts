@@ -28,3 +28,29 @@ test('/generate separates the user prompt from the assistant result', async () =
   assert.match(generator, /role: 'assistant'.*status: 'pending'/);
   assert.match(generator, /updateMessage\(responseEntry\.id/);
 });
+
+test('/generate uses a viewport shell with independent history scrolling', async () => {
+  const layout = await source('src/components/chat/chat-layout.tsx');
+  const history = await source('src/components/chat/chat-history-sidebar.tsx');
+
+  assert.match(layout, /h-dvh/);
+  assert.doesNotMatch(layout, /<Footer/);
+  assert.match(history, /overflow-y-auto/);
+  assert.match(history, /overscroll-contain/);
+  assert.match(history, /scrollbar-gutter:stable/);
+});
+
+test('queued generations keep the settings selected when they were added', async () => {
+  const generator = await source('src/hooks/use-chat-generator.ts');
+
+  assert.match(generator, /params: \{ \.\.\.params \}/);
+  assert.match(generator, /imageGenerate\(next\.prompt, next\.params\)/);
+  assert.match(generator, /role: 'user'.*params: next\.params/);
+});
+
+test('/generate displays the settings used beside the original prompt', async () => {
+  const message = await source('src/components/chat/chat-message-item.tsx');
+
+  assert.match(message, /selectedChatConfiguration\(message\.mode, message\.params\)/);
+  assert.match(message, /aria-label="Configuración usada"/);
+});

@@ -1,6 +1,7 @@
 'use client';
 
 import type { ChatMessageResult, ChatParams } from '@/lib/chat-types';
+import { buildConfiguredImagePrompt } from '@/lib/chat-configuration';
 import { safeJson, extractErrorMessage } from '@/lib/safe-json';
 import { useCallback, useState } from 'react';
 
@@ -29,7 +30,7 @@ export async function runGeneration(
   }
   const provider = 'google';
   const model = GOOGLE_IMAGE_MODELS.has(cleanParams.model ?? '') ? cleanParams.model! : resolveDefaultImageModel(provider);
-  const finalPrompt = prompt + buildImageSuffix(cleanParams);
+  const finalPrompt = buildConfiguredImagePrompt(prompt, cleanParams);
   const input = buildImageInput(provider, model, finalPrompt, cleanParams);
   updateGeneration(jobId, { status: 'generating', progressMessage: 'Enviando al proveedor…' });
   try {
@@ -47,7 +48,19 @@ export async function runGeneration(
     }
     const jobIdFromRes = (jobData.job as Record<string, unknown>)?.id as string | undefined;
     if (!jobIdFromRes) { updateGeneration(jobId, { status: 'failed', error: 'El servidor no devolvió un identificador de trabajo.' }); return { error: 'El servidor no devolvió un identificador de trabajo.' }; }
-    void fetch('/api/ai/jobs/process', { method: 'POST', headers: { 'Content-Type': 'application/json' } });
+    // La petición permanece abierta mientras el servidor genera la imagen. No la esperamos aquí
+    // para poder consultar y pintar el progreso dentro del mensaje del asistente.
+    let processingError = '';
+    const processingRequest = fetch(`/api/ai/jobs/process?jobId=${encodeURIComponent(jobIdFromRes)}&limit=1`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    }).then(async response => {
+      if (response.ok) return;
+      const body = await safeJson(response);
+      throw new Error(extractErrorMessage(body, `Error ${response.status}: No se pudo procesar la imagen.`));
+    }).catch((error: unknown) => {
+      processingError = error instanceof Error ? error.message : 'No se pudo procesar la imagen.';
+    });
     updateGeneration(jobId, { status: 'generating', progressMessage: 'Generando…' });
     let imageOutputUrl = '';
     let lastProgress = '';
@@ -62,10 +75,14 @@ export async function runGeneration(
         const status = job?.status as string | undefined;
         if (status === 'completed') { imageOutputUrl = extractImageUrl(job?.result); updateGeneration(jobId, { status: 'uploading' }); break; }
         if (status === 'failed') { const msg = (job?.lastError as string | undefined) || 'El trabajo falló en el servidor.'; updateGeneration(jobId, { status: 'failed', error: msg }); return { error: msg }; }
-        if (typeof job?.progressMessage === 'string' && job.progressMessage) lastProgress = job.progressMessage;
+        if (typeof job?.progressMessage === 'string' && job.progressMessage) {
+          lastProgress = job.progressMessage;
+          updateGeneration(jobId, { progressMessage: lastProgress });
+        }
       } catch (pollErr: unknown) { console.warn('Poll error:', pollErr); }
     }
-    if (!imageOutputUrl) { const msg = lastProgress ? `Generación en curso: ${lastProgress}. Inténtalo de nuevo en un momento.` : 'Tiempo de espera agotado al generar la imagen. Vuelve a intentarlo.'; updateGeneration(jobId, { status: 'failed', error: msg }); return { error: msg }; }
+    await processingRequest;
+    if (!imageOutputUrl) { const msg = processingError || (lastProgress ? `Generación en curso: ${lastProgress}. Inténtalo de nuevo en un momento.` : 'Tiempo de espera agotado al generar la imagen. Vuelve a intentarlo.'); updateGeneration(jobId, { status: 'failed', error: msg }); return { error: msg }; }
     updateGeneration(jobId, { status: 'completed', imageUrl: imageOutputUrl });
     const creditCost = (jobData.job as Record<string, unknown> | undefined)?.creditCost;
     return { result: { imageUrl: imageOutputUrl, creditsUsed: typeof creditCost === 'number' ? creditCost : 10, provider } };
@@ -150,20 +167,6 @@ export function useImageGeneration() {
     outputImageVariations, setOutputImageVariations,
     generations, generate, retryGeneration, removeGeneration, updateGeneration,
   };
-}
-
-function buildImageSuffix(params: ChatParams): string {
-  let s = '';
-  if (params.imageStyle) s += `, ${params.imageStyle} style`;
-  if (params.imageLighting) s += `, ${params.imageLighting} lighting`;
-  if (params.imageCamera) s += `, ${params.imageCamera} shot`;
-  if (params.imageLens) s += `, ${params.imageLens} lens`;
-  if (params.imageComposition) s += `, ${params.imageComposition} composition`;
-  s += `, ${params.imageRealism ?? 80}% realism, ${params.imageColors ?? 'natural'} color palette`;
-  if (params.imageRatio) s += `, ${params.imageRatio.replace('-', ':')} aspect ratio`;
-  if (params.imageNegative) s += `. Avoid: ${params.imageNegative}`;
-  if (params.referenceInstructions) s += `. Reference instructions: ${params.referenceInstructions}`;
-  return s;
 }
 
 export const GOOGLE_IMAGE_MODELS = new Set(['nano-banana-2-lite', 'nano-banana-2', 'nano-banana-pro', 'gemini-2.0-flash', 'gemini-2.5-flash', 'gemini-2.5-pro']);

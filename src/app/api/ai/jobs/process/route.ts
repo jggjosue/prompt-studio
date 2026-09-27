@@ -12,17 +12,19 @@ import { recordProjectFunnelEvent } from '@/lib/project-funnel-events';
 import AIGenerationJob from '@/models/AIGenerationJob';
 import OutputContract from '@/models/OutputContract';
 import { auth } from '@clerk/nextjs/server';
+import mongoose from 'mongoose';
 import { NextResponse } from 'next/server';
 
 export const maxDuration = 300;
 
-async function processOne(userId?: string, leaseMinutes = 5) {
+async function processOne(userId?: string, leaseMinutes = 5, jobId?: string) {
   const now = new Date();
   const claimFilter: Record<string, unknown> = {
     status: { $in: ['queued', 'retrying', 'processing'] },
     nextAttemptAt: { $lte: now },
     $or: [{ leaseExpiresAt: null }, { leaseExpiresAt: { $lte: now } }],
     ...(userId ? { userId } : {}),
+    ...(jobId ? { _id: jobId } : {}),
   };
   const job = await observeOperation({ category: 'slow_query', name: 'ai_job_claim', route: '/api/ai/jobs/process' }, () => AIGenerationJob.findOneAndUpdate(
     claimFilter,
@@ -102,7 +104,12 @@ async function handle(request: Request) {
   const isCron = hasValidCronSecret(request);
   if (!isCron && !userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers });
   await connectToDatabase();
-  const requested = Number(new URL(request.url).searchParams.get('limit') ?? 3);
+  const searchParams = new URL(request.url).searchParams;
+  const jobId = searchParams.get('jobId')?.trim() || undefined;
+  if (jobId && !mongoose.isValidObjectId(jobId)) {
+    return NextResponse.json({ error: 'Identificador de trabajo inválido.' }, { status: 400, headers });
+  }
+  const requested = Number(searchParams.get('limit') ?? (jobId ? 1 : 3));
   const limit = Math.min(5, Math.max(1, Number.isFinite(requested) ? Math.floor(requested) : 3));
 
   if (isCron) {
@@ -115,20 +122,17 @@ async function handle(request: Request) {
     return NextResponse.json({ processed, count: processed.length }, { headers });
   }
 
-  // Disparado por el usuario: procesa solo sus trabajos en segundo plano (lease corto para que el cron
-  // lo recupere rápido si la instancia se apaga) y retorna inmediato.
-  void (async () => {
-    try {
-      await connectToDatabase();
-      for (let index = 0; index < limit; index += 1) {
-        const result = await processOne(userId || undefined, 0.5);
-        if (!result) break;
-      }
-    } catch {
-      // El cron recuperará los trabajos pendientes.
-    }
-  })();
-  return NextResponse.json({ triggered: true }, { headers });
+  // En serverless no es seguro responder y continuar trabajando en una promesa suelta:
+  // la instancia puede congelarse justo después de enviar la respuesta. Conservamos esta
+  // petición abierta hasta que el proveedor termine y el cliente consulta el progreso en paralelo.
+  const processed = [];
+  for (let index = 0; index < limit; index += 1) {
+    const result = await processOne(userId || undefined, 5, jobId);
+    if (!result) break;
+    processed.push(result);
+    if (jobId) break;
+  }
+  return NextResponse.json({ processed, count: processed.length }, { headers });
 }
 
 export const GET = handle;

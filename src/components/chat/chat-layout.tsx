@@ -1,7 +1,6 @@
 'use client';
 
 import Header from '@/components/layout/header';
-import Footer from '@/components/layout/footer';
 import { ChatArea } from './chat-area';
 import { ChatInputBar } from './chat-input-bar';
 import { ChatHistorySidebar } from './chat-history-sidebar';
@@ -37,7 +36,7 @@ export function ChatLayout() {
   }, [promptParam, setDraftPrompt]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-background">
+    <div className="flex h-dvh flex-col overflow-hidden bg-background">
       <Header />
       <div className="flex flex-1 overflow-hidden min-h-0">
         <ChatHistorySidebar chat={chat} />
@@ -67,7 +66,6 @@ export function ChatLayout() {
           onMobileClose={() => setMobileSettingsOpen(false)}
         />
       </div>
-      <Footer />
     </div>
   );
 }

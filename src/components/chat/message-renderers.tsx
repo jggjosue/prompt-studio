@@ -28,6 +28,7 @@ export function ImageResult({ result }: { result: ChatMessageResult }) {
         <div key={url} className="group relative w-full max-w-sm overflow-hidden rounded-xl border border-border/60">
           <OptimizedImage
             src={url}
+            forceUnoptimized
             alt={`Imagen generada${urls.length > 1 ? ` - variación ${i + 1}` : ''}`}
             className="w-full object-contain"
           />

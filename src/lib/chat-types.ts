@@ -52,6 +52,7 @@ export type ChatQueueStatus = 'queued' | 'processing' | 'completed' | 'failed';
 
 export interface ChatQueueItem {
   id: string; prompt: string; mode: ChatMode; status: ChatQueueStatus; progress: number;
+  params: ChatParams;
   result?: ChatMessageResult; error?: string;
 }
 

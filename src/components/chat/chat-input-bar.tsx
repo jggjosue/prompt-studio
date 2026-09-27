@@ -109,7 +109,7 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
         )}
         {item.status === 'completed' && item.result?.imageUrl && (
           <div className="relative mt-2 h-16 w-16 overflow-hidden rounded-md">
-            <OptimizedImage src={item.result.imageUrl} alt={item.prompt} fill className="object-cover" />
+            <OptimizedImage src={item.result.imageUrl} alt={item.prompt} fill forceUnoptimized className="object-cover" />
           </div>
         )}
       </li>

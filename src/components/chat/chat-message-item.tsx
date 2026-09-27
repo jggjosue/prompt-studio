@@ -3,6 +3,7 @@
 import { cn } from '@/lib/utils';
 import type { ChatGeneratorMessage } from '@/lib/chat-types';
 import { friendlyError } from '@/lib/chat-error';
+import { selectedChatConfiguration } from '@/lib/chat-configuration';
 import { Bot, Loader2, RotateCcw, Sparkles, User } from 'lucide-react';
 import { ImageResult, VideoResult, WebResult } from './message-renderers';
 
@@ -15,6 +16,7 @@ const MODE_LABELS: Record<string, string> = {
 export function ChatMessageItem({ message, onRetry }: { message: ChatGeneratorMessage; onRetry?: () => void }) {
   const isUser = message.role === 'user';
   const isPending = !isUser && message.status === 'pending';
+  const configuration = selectedChatConfiguration(message.mode, message.params);
 
   return (
     <div className={cn('flex gap-3', isUser ? 'justify-end' : 'justify-start')}>
@@ -45,9 +47,19 @@ export function ChatMessageItem({ message, onRetry }: { message: ChatGeneratorMe
         </div>
 
         {isUser && (
-          <p className="max-h-32 overflow-y-auto whitespace-pre-wrap break-words pr-1 text-sm leading-relaxed text-white">
-            {message.prompt}
-          </p>
+          <div className="space-y-2">
+            <p className="max-h-32 overflow-y-auto whitespace-pre-wrap break-words pr-1 text-sm leading-relaxed text-white">
+              {message.prompt}
+            </p>
+            <dl className="flex max-w-xl flex-wrap gap-1.5" aria-label="Configuración usada">
+              {configuration.map(item => (
+                <div key={item.label} className="rounded-md border border-white/15 bg-white/10 px-2 py-1 text-[10px] leading-none text-blue-50">
+                  <dt className="sr-only">{item.label}</dt>
+                  <dd><span className="text-blue-200">{item.label}:</span> {item.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
         )}
 
         {isPending && (

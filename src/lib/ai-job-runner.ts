@@ -7,6 +7,7 @@ import { generatedImageKey, putR2Object } from '@/lib/r2-storage';
 import { captureCredits } from '@/lib/ai-job-service';
 import type { IAIGenerationJob } from '@/models/AIGenerationJob';
 import { stripReferenceMedia } from '@/lib/reference-media-strip';
+import { parseGeneratedImageSource } from '@/lib/generated-image-source';
 
 export type ErrorCategory =
   | 'BAD_REQUEST'
@@ -94,29 +95,23 @@ export function mapGeminiError(
   };
 }
 
-async function dataUrlToBuffer(dataUrl: string): Promise<{ buffer: Buffer; mimeType: string }> {
-  const match = dataUrl.match(/^data:([^;]+);base64,(.+)$/);
-  if (!match) throw new Error('Data URL inválido.');
-  return { buffer: Buffer.from(match[2], 'base64'), mimeType: match[1] };
-}
-
-async function saveGeneratedImageToR2(imageUrl: string, job: IAIGenerationJob): Promise<string> {
+async function saveGeneratedImageToR2(imageUrl: string, job: IAIGenerationJob): Promise<{ imageUrl: string; imageKey: string }> {
   let buffer: Buffer;
   let mimeType: string;
-  if (imageUrl.startsWith('data:')) {
-    const decoded = await dataUrlToBuffer(imageUrl);
-    buffer = decoded.buffer;
-    mimeType = decoded.mimeType;
+  const source = parseGeneratedImageSource(imageUrl);
+  if (source.kind === 'inline') {
+    buffer = source.buffer;
+    mimeType = source.mimeType;
   } else {
-    const res = await fetch(imageUrl);
+    const res = await fetch(source.url);
     if (!res.ok) throw new Error(`No se pudo obtener la imagen para R2: ${res.status}.`);
     buffer = Buffer.from(await res.arrayBuffer());
     mimeType = res.headers.get('content-type') || 'image/png';
   }
   const key = generatedImageKey(job.userId, String(job._id), mimeType);
-  const r2Url = await putR2Object(key, buffer, mimeType);
-  if (!r2Url) throw new Error('No se pudo guardar la imagen en R2.');
-  return r2Url;
+  const stored = await putR2Object(key, buffer, mimeType);
+  if (!stored) throw new Error('No se pudo guardar la imagen en R2.');
+  return { imageUrl: `/api/ai/jobs/${String(job._id)}/asset`, imageKey: key };
 }
 
 async function generateGeminiImage(prompt: string, model: string): Promise<{ imageUrl: string; result: GeminiImageSuccess }> {
@@ -226,7 +221,35 @@ export async function runAIJob(job: IAIGenerationJob): Promise<Record<string, un
         // Use the category from the catch block (which reflects the actual error).
       }
       const durationMs = Math.round(performance.now() - startedAt);
-      const r2Url = await saveGeneratedImageToR2(imageUrl, job);
+      if (status === 'failed' || !imageUrl) {
+        await recordObservabilityEvent({
+          category: 'ai_generation',
+          name: 'gemini_image_metadata',
+          route: '/api/ai/jobs',
+          userId: job.userId,
+          productId: String(job._id).slice(0, 120),
+          status: 'failed',
+          durationMs,
+          value: job.creditCost,
+          unit: 'credits',
+          metadata: {
+            operation: 'generate',
+            kind: job.kind,
+            provider: job.provider,
+            modelId: job.modelId,
+            requestId: job.idempotencyKey?.slice(0, 64) ?? null,
+            correlationId: String(job._id),
+            finishReason,
+            hasText,
+            hasInlineData,
+            mimeType,
+            base64Length,
+            errorCategory: category,
+          },
+        }).catch(() => undefined);
+        throw new Error(_userMessage);
+      }
+      const storedImage = await saveGeneratedImageToR2(imageUrl, job);
       try {
         await recordObservabilityEvent({
           category: 'ai_generation',
@@ -260,11 +283,10 @@ export async function runAIJob(job: IAIGenerationJob): Promise<Record<string, un
         // La observabilidad no debe romper la generación.
         // Si captureCredits falla, la reserva permanece y el cron la reconciliará.
       }
-      return { imageUrl: r2Url };
+      return storedImage;
     }
     const imagenResult = await generateImage({ prompt });
-    const r2Url = await saveGeneratedImageToR2(imagenResult.imageUrl, job);
-    return { imageUrl: r2Url };
+    return saveGeneratedImageToR2(imagenResult.imageUrl, job);
   }
   return runExternalWorker(job);
 }
