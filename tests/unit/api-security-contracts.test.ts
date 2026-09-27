@@ -18,6 +18,19 @@ test('checkout price is server-owned and webhook signature is verified', async (
   assert.ok(webhook.includes('isValidComponentPurchase'));
 });
 
+test('AI generation responses carry private-no-store cache headers to prevent stale caching', async () => {
+  const routes = [
+    'src/app/api/ai/jobs/route.ts',
+    'src/app/api/ai/jobs/process/route.ts',
+    'src/app/api/ai/jobs/[id]/route.ts',
+    'src/app/api/debug/gemini-image/route.ts',
+  ];
+  for (const route of routes) {
+    const src = await source(route);
+    assert.ok(src.includes("cacheHeaders('private-no-store')"), `${route} debe marcar private-no-store`);
+  }
+});
+
 test('AI generation is idempotent, credit-controlled and processed outside creation request', async () => {
   const create = await source('src/app/api/ai/jobs/route.ts');
   const process = await source('src/app/api/ai/jobs/process/route.ts');
