@@ -2,8 +2,23 @@ import 'server-only';
 import { generateImage } from '@/ai/flows/generate-image';
 import { getAIModelConfig } from '@/lib/ai-credit-config';
 import type { IAIGenerationJob } from '@/models/AIGenerationJob';
-
 import { stripReferenceMedia } from '@/lib/reference-media-strip';
+
+async function generateGeminiImage(prompt: string, model: string): Promise<Record<string, unknown>> {
+  const key = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || '';
+  if (!key) throw new Error('No se ha configurado la API Key de Gemini.');
+  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
+  const body = JSON.stringify({
+    contents: [{ parts: [{ text: prompt }] }],
+    generationConfig: { imageGenerationConfig: { numberOfImages: 1 } },
+  });
+  const res = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body, signal: AbortSignal.timeout(270_000) });
+  if (!res.ok) throw new Error(`Gemini generación de imagen falló: ${res.status}.`);
+  const data = await res.json();
+  const imageUrl = data.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data as string | undefined;
+  if (!imageUrl) throw new Error('Gemini no devolvió una imagen.');
+  return { imageUrl: `data:image/png;base64,${imageUrl}` };
+}
 
 function asResult(value: unknown): Record<string, unknown> {
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('El proveedor devolvió un resultado inválido.');
@@ -39,6 +54,9 @@ export async function runAIJob(job: IAIGenerationJob): Promise<Record<string, un
   const prompt = instructions ? `${basePrompt}\n\n${instructions}` : basePrompt;
   if (!prompt) throw new Error('El trabajo no contiene un prompt válido.');
   if (job.kind === 'image' && job.provider === 'google' && !process.env.AI_GENERATION_WORKER_URL) {
+    if (job.modelId?.startsWith('gemini-')) {
+      return generateGeminiImage(prompt, job.modelId);
+    }
     return generateImage({ prompt });
   }
   return runExternalWorker(job);

@@ -133,7 +133,7 @@ export function useImageGeneration() {
 // ── Per-provider default models ─────────────────────────────────────────────
 
 // Solo se admiten modelos de imagen de Google (Imagen 4).
-export const GOOGLE_IMAGE_MODELS = new Set(['nano-banana-2', 'nano-banana-2-lite', 'nano-banana-pro']);
+export const GOOGLE_IMAGE_MODELS = new Set(['nano-banana-2-lite', 'nano-banana-2', 'nano-banana-pro', 'gemini-2.0-flash', 'gemini-2.5-flash', 'gemini-2.5-pro']);
 
 function resolveDefaultImageModel(provider: string): string {
   switch (provider) {
@@ -164,8 +164,18 @@ function buildImageInput(
 ): Record<string, unknown> {
   const base = { prompt, model };
 
-  // Only Google Imagen 4 is supported for image generation.
+  const cleanedParams = { ...params };
+  for (const key of ['referenceImage', 'reference_image', 'imageBase64', 'base64Image', 'image', 'media', 'attachment']) {
+    delete (cleanedParams as Record<string, unknown>)[key];
+  }
+
   if (provider === 'google') {
+    if (model.startsWith('gemini-')) {
+      return {
+        ...base,
+        generationConfig: { imageGenerationConfig: { numberOfImages: 1 } },
+      };
+    }
     return {
       ...base,
       aspectRatio: aspectRatioToGoogleValue(params.imageRatio),
