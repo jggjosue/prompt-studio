@@ -83,7 +83,7 @@ export function resolveAIModelId(kind: AIJobKind, provider: string, requestedMod
   const explicit = requestedModel?.trim();
   if (explicit) {
     const config = getAIModelConfig(provider, explicit);
-    return config && (config.category === kind || (kind === 'project' && config.category === 'text')) ? explicit : null;
+    return config && (config.category === kind || (kind === 'project' && config.category === 'text') || (kind === 'image' && provider === 'google' && explicit.startsWith('gemini-'))) ? explicit : null;
   }
   const defaults: Record<string, string> = {
     'google:image': 'nano-banana-2',
@@ -106,7 +106,7 @@ export function estimateTokens(value: unknown): number {
 export function estimateAICredits(input: CreditEstimateInput): CreditEstimate {
   const config = getAIModelConfig(input.provider, input.model);
   if (!config) throw new Error('MODEL_NOT_ALLOWED');
-  if (!(config.category === input.kind || (input.kind === 'project' && config.category === 'text'))) throw new Error('MODEL_KIND_NOT_ALLOWED');
+  if (!(config.category === input.kind || (input.kind === 'project' && config.category === 'text') || (input.kind === 'image' && input.provider === 'google' && input.model?.startsWith('gemini-')))) throw new Error('MODEL_KIND_NOT_ALLOWED');
 
   const serializedInput = typeof input.input === 'string' ? input.input : JSON.stringify(input.input ?? '');
   if (serializedInput.length > DEFAULT_MAX_INPUT_CHARS) throw new Error('INPUT_TOO_LARGE');

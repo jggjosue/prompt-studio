@@ -25,8 +25,8 @@ export const MODEL_TIERS: Record<'image' | 'video' | 'project', ModelTierGroup> 
   image: {
     label: 'Image Model',
     tiers: [
-      { key: 'fast', icon: '⚡', label: 'Fast', credits: 5, modelId: 'nano-banana-2-lite' },
-      { key: 'quality', icon: '✨', label: 'Quality', credits: 10, modelId: 'nano-banana-2' },
+      { key: 'fast', icon: '⚡', label: 'Fast', credits: 5, modelId: 'gemini-2.0-flash' },
+      { key: 'quality', icon: '✨', label: 'Quality', credits: 10, modelId: 'gemini-2.5-flash' },
       { key: 'pro', icon: '💎', label: 'Pro', credits: 25, modelId: 'nano-banana-pro' },
     ],
   },
