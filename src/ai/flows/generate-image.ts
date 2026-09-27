@@ -47,9 +47,8 @@ const generateImageFlow = ai.defineFlow(
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'unknown';
       const key = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || '';
-      console.warn('Genkit image generation failed. Falling back to mock image.', msg.replace(key, '[KEY_REDACTED]'));
-      // Fallback mock image for testing
-      return { imageUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop' };
+      console.warn('Genkit image generation failed.', msg.replace(key, '[KEY_REDACTED]'));
+      throw err;
     }
   }
 );
