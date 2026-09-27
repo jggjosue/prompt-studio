@@ -2,12 +2,37 @@ import 'server-only';
 import { generateImage } from '@/ai/flows/generate-image';
 import { getAIModelConfig } from '@/lib/ai-credit-config';
 import { recordObservabilityEvent } from '@/lib/observability-server';
-import type { GeminiImageSuccess } from '@/lib/gemini-image-parser';
-import { parseGeminiImageResponse } from '@/lib/gemini-image-parser';
+import { GeminiImageSuccess, parseGeminiImageResponse } from '@/lib/gemini-image-parser';
+import { generatedImageKey, putR2Object } from '@/lib/r2-storage';
 import type { IAIGenerationJob } from '@/models/AIGenerationJob';
 import { stripReferenceMedia } from '@/lib/reference-media-strip';
 
-async function generateGeminiImage(prompt: string, model: string): Promise<{ imageUrl: string; result: GeminiImageSuccess }> {
+async function dataUrlToBuffer(dataUrl: string): Promise<{ buffer: Buffer; mimeType: string }> {
+  const match = dataUrl.match(/^data:([^;]+);base64,(.+)$/);
+  if (!match) throw new Error('Data URL inválido.');
+  return { buffer: Buffer.from(match[2], 'base64'), mimeType: match[1] };
+}
+
+async function saveGeneratedImageToR2(imageUrl: string, job: IAIGenerationJob): Promise<string> {
+  let buffer: Buffer;
+  let mimeType: string;
+  if (imageUrl.startsWith('data:')) {
+    const decoded = await dataUrlToBuffer(imageUrl);
+    buffer = decoded.buffer;
+    mimeType = decoded.mimeType;
+  } else {
+    const res = await fetch(imageUrl);
+    if (!res.ok) throw new Error(`No se pudo obtener la imagen para R2: ${res.status}.`);
+    buffer = Buffer.from(await res.arrayBuffer());
+    mimeType = res.headers.get('content-type') || 'image/png';
+  }
+  const key = generatedImageKey(job.userId, String(job._id), mimeType);
+  const r2Url = await putR2Object(key, buffer, mimeType);
+  if (!r2Url) throw new Error('No se pudo guardar la imagen en R2.');
+  return r2Url;
+}
+
+async function generateGeminiImage(prompt: string, model: string): Promise<{ imageUrl: string; result: Awaited<ReturnType<typeof parseGeminiImageResponse>> }> {
   const key = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || '';
   if (!key) throw new Error('No se ha configurado la API Key de Gemini.');
   const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
@@ -19,7 +44,7 @@ async function generateGeminiImage(prompt: string, model: string): Promise<{ ima
     const res = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body, signal: AbortSignal.timeout(270_000) });
     if (!res.ok) throw new Error(`Gemini generación de imagen falló: ${res.status}.`);
     const data = await res.json() as Record<string, unknown>;
-    const result = parseGeminiImageResponse(data) as GeminiImageSuccess;
+    const result = parseGeminiImageResponse(data) as Awaited<ReturnType<typeof parseGeminiImageResponse>> & GeminiImageSuccess;
     const imageUrl = result.imageUrl;
     if (!imageUrl) throw new Error('Gemini no generó una imagen.');
     return { imageUrl, result };
@@ -67,7 +92,9 @@ export async function runAIJob(job: IAIGenerationJob): Promise<Record<string, un
     if (job.modelId?.startsWith('gemini-')) {
       const startedAt = performance.now();
       const { imageUrl, result } = await generateGeminiImage(prompt, job.modelId);
+      const success = result as GeminiImageSuccess;
       const durationMs = Math.round(performance.now() - startedAt);
+      const r2Url = await saveGeneratedImageToR2(imageUrl, job);
       try {
         await recordObservabilityEvent({
           category: 'ai_generation',
@@ -86,19 +113,21 @@ export async function runAIJob(job: IAIGenerationJob): Promise<Record<string, un
             modelId: job.modelId,
             requestId: job.idempotencyKey?.slice(0, 64) ?? null,
             correlationId: String(job._id),
-            finishReason: result.finishReason,
-            hasText: result.hasText,
-            hasInlineData: result.kind === 'IMAGE',
-            mimeType: result.mimeType,
-            base64Length: result.base64Length,
+            finishReason: success.finishReason,
+            hasText: success.hasText,
+            hasInlineData: success.kind === 'IMAGE',
+            mimeType: success.mimeType,
+            base64Length: success.base64Length,
           },
         });
       } catch {
         // La observabilidad no debe romper la generación.
       }
-      return { imageUrl };
+      return { imageUrl: r2Url };
     }
-    return generateImage({ prompt });
+    const imagenResult = await generateImage({ prompt });
+    const r2Url = await saveGeneratedImageToR2(imagenResult.imageUrl, job);
+    return { imageUrl: r2Url };
   }
   return runExternalWorker(job);
 }
