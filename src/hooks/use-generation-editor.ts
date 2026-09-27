@@ -20,7 +20,7 @@ export type GenerationError = {
 } | null;
 
 export function useGenerationEditor() {
-  const [localGenerating, setLocalGenerating] = useState(false);
+  const [activeGenerations, setActiveGenerations] = useState(0);
   const [genProgress, setGenProgress] = useState(0);
   const [genStatus, setGenStatus] = useState('');
   const [generationError, setGenerationError] = useState<GenerationError>(null);
@@ -30,6 +30,11 @@ export function useGenerationEditor() {
   const [outputWebHTML, setOutputWebHTML] = useState('');
   const [outputWebTab, setOutputWebTab] = useState<'preview' | 'code'>('preview');
   const [copiedCode, setCopiedCode] = useState(false);
+
+  const localGenerating = activeGenerations > 0;
+  const setLocalGenerating = useCallback((value: boolean) => {
+    setActiveGenerations(prev => value ? prev + 1 : Math.max(0, prev - 1));
+  }, []);
 
   const updateGeneration = useCallback((jobId: string, patch: Partial<GenerationEntry>) => {
     setGenerations(prev => {
@@ -54,17 +59,17 @@ export function useGenerationEditor() {
     setGenStatus(status);
     setGenProgress(10);
     setLocalGenerating(true);
-  }, []);
+  }, [setLocalGenerating]);
 
   const finishGeneration = useCallback(() => {
     setGenProgress(100);
     setLocalGenerating(false);
-  }, []);
+  }, [setLocalGenerating]);
 
   const failGeneration = useCallback((title: string, message: string) => {
     setGenerationError({ title, message });
     setLocalGenerating(false);
-  }, []);
+  }, [setLocalGenerating]);
 
   const outputImageUrl = Array.from(generations.values()).reverse().find(g => g.imageUrl)?.imageUrl ?? '';
   const setOutputImageUrl = useCallback((url: string) => {
