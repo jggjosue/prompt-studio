@@ -66,7 +66,7 @@ async function processOne(userId?: string, leaseMinutes = 5) {
     await recordAssetProvenance(job).catch(() => undefined);
     if (job.projectId) await recordProjectFunnelEvent({ userId: job.userId, projectId: job.projectId, stage: 'first_generation', occurredAt: job.completedAt || new Date(), sourceId: String(job._id) }).catch(() => undefined);
     await finalizeModelRegressionForJob(String(job._id)).catch(() => undefined);
-    void recordObservabilityEvent({ category: 'ai_generation', name: 'generation_completed', route: '/api/ai/jobs/process', userId: job.userId, productId: observedProductId, status: 'completed', durationMs: Math.round(performance.now() - generationStarted), costUsd: job.estimatedCostUsd, value: job.creditCost, unit: 'credits', metadata: { operation: 'generate', kind: job.kind, provider: job.provider, attempts: job.attempts, jobId: String(job._id), correlationId: String(job._id) } });
+      void recordObservabilityEvent({ category: 'ai_generation', name: 'generation_completed', route: '/api/ai/jobs/process', userId: job.userId, productId: observedProductId, status: 'completed', durationMs: Math.round(performance.now() - generationStarted), costUsd: job.estimatedCostUsd, value: job.creditCost, unit: 'credits', metadata: { operation: 'generate', kind: job.kind, provider: job.provider, modelId: job.modelId, attempts: job.attempts, jobId: String(job._id), correlationId: String(job._id) } });
   } catch (error) {
     const durationMs = Math.round(performance.now() - generationStarted);
     job.lastError = error instanceof Error ? error.message.slice(0, 500) : 'Error desconocido del proveedor.';
@@ -78,7 +78,7 @@ async function processOne(userId?: string, leaseMinutes = 5) {
       job.progress = 0;
       job.progressMessage = `Reintento ${job.attempts + 1} de ${job.maxAttempts}`;
       job.nextAttemptAt = new Date(Date.now() + delayMinutes * 60_000);
-      reportOperationalError({ category: 'ai_generation', name: 'generation_retry_scheduled', route: '/api/ai/jobs/process', userId: job.userId, productId: observedProductId, durationMs, costUsd: job.estimatedCostUsd, value: job.creditCost, unit: 'credits', metadata: { operation: 'generate', kind: job.kind, provider: job.provider, attempts: job.attempts, jobId: String(job._id), correlationId: String(job._id) } }, error);
+      reportOperationalError({ category: 'ai_generation', name: 'generation_retry_scheduled', route: '/api/ai/jobs/process', userId: job.userId, productId: observedProductId, durationMs, costUsd: job.estimatedCostUsd, value: job.creditCost, unit: 'credits', metadata: { operation: 'generate', kind: job.kind, provider: job.provider, modelId: job.modelId, attempts: job.attempts, jobId: String(job._id), correlationId: String(job._id) } }, error);
     } else {
       job.status = 'failed';
       job.progress = 100;
@@ -88,7 +88,7 @@ async function processOne(userId?: string, leaseMinutes = 5) {
       job.actualCostUsd = null;
       await refundCredits(job);
       await notifyJobFinished(job);
-      reportOperationalError({ category: 'ai_generation', name: 'generation_failed', route: '/api/ai/jobs/process', userId: job.userId, productId: observedProductId, durationMs, costUsd: job.estimatedCostUsd, value: job.creditCost, unit: 'credits', metadata: { operation: 'generate', kind: job.kind, provider: job.provider, attempts: job.attempts, jobId: String(job._id), correlationId: String(job._id) } }, error);
+      reportOperationalError({ category: 'ai_generation', name: 'generation_failed', route: '/api/ai/jobs/process', userId: job.userId, productId: observedProductId, durationMs, costUsd: job.estimatedCostUsd, value: job.creditCost, unit: 'credits', metadata: { operation: 'generate', kind: job.kind, provider: job.provider, modelId: job.modelId, attempts: job.attempts, jobId: String(job._id), correlationId: String(job._id) } }, error);
     }
     await job.save();
     if (job.status === 'failed') await finalizeModelRegressionForJob(String(job._id)).catch(() => undefined);

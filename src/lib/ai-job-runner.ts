@@ -12,12 +12,18 @@ async function generateGeminiImage(prompt: string, model: string): Promise<Recor
     contents: [{ parts: [{ text: prompt }] }],
     generationConfig: { imageGenerationConfig: { numberOfImages: 1 } },
   });
-  const res = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body, signal: AbortSignal.timeout(270_000) });
-  if (!res.ok) throw new Error(`Gemini generación de imagen falló: ${res.status}.`);
-  const data = await res.json();
-  const imageUrl = data.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data as string | undefined;
-  if (!imageUrl) throw new Error('Gemini no devolvió una imagen.');
-  return { imageUrl: `data:image/png;base64,${imageUrl}` };
+  try {
+    const res = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body, signal: AbortSignal.timeout(270_000) });
+    if (!res.ok) throw new Error(`Gemini generación de imagen falló: ${res.status}.`);
+    const data = await res.json();
+    const imageUrl = data.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data as string | undefined;
+    if (!imageUrl) throw new Error('Gemini no devolvió una imagen.');
+    return { imageUrl: `data:image/png;base64,${imageUrl}` };
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : 'Error desconocido';
+    const sanitized = msg.replace(endpoint, '[GEMINI_ENDPOINT_REDACTED]').replace(key, '[KEY_REDACTED]');
+    throw new Error(sanitized);
+  }
 }
 
 function asResult(value: unknown): Record<string, unknown> {
