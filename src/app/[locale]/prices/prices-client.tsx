@@ -16,14 +16,14 @@ import {
 } from '@/lib/stripe-checkout';
 import { type PlanId } from '@/lib/subscription-plans';
 import { useAuth } from '@clerk/nextjs';
-import { Check, Crown, Sparkles, Zap } from 'lucide-react';
+import { Check, Crown, Gem, Sparkles, Zap } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 type PlanMetadata = {
-  id: PlanId;
+  id: PlanId | 'premium';
   nameKey: string;
   descKey: string;
   ctaKey: string;
@@ -36,7 +36,7 @@ type PlanMetadata = {
 };
 
 type PaidPlan = {
-  id: PlanId;
+  id: PlanId | 'premium';
   name: string;
   desc: string;
   cta: string;
@@ -90,7 +90,7 @@ function PaidPlanPrice({ isAnnual, monthly, yearly }: { isAnnual: boolean; month
   );
 }
 
-function CreatorCoupon({ isAnnual }: { isAnnual: boolean }) {
+function CreatorCoupon({ planId, isAnnual }: { planId: PlanId | 'premium'; isAnnual: boolean }) {
   const tPrices = useTranslations('prices');
   const couponCode = isAnnual ? 'CREATOR_ANNUAL' : 'CREATOR_MONTH';
 
@@ -100,14 +100,16 @@ function CreatorCoupon({ isAnnual }: { isAnnual: boolean }) {
         {tPrices('creatorCouponLabel')}
       </p>
       <p className="mt-1 text-sm font-semibold text-foreground">
-        {isAnnual
-          ? tPrices('creatorAnnualCouponOffer')
-          : tPrices('creatorMonthlyCouponOffer')}
+        {planId === 'creator'
+          ? isAnnual
+            ? tPrices('creatorAnnualCouponOffer')
+            : tPrices('creatorMonthlyCouponOffer')
+          : tPrices('otherPlanCouponOffer')}
       </p>
       <p className="mt-3 text-xs text-muted-foreground">
         {tPrices('creatorCouponCodeLabel')}
       </p>
-      <code className="mt-1 block break-all font-mono text-xl font-black tracking-wide text-foreground sm:text-2xl">
+      <code className="mt-1 block break-all font-mono text-sm font-black tracking-wide text-foreground sm:text-base">
         {couponCode}
       </code>
       <p className="mt-2 text-[11px] text-muted-foreground">
@@ -139,6 +141,18 @@ const PLAN_METADATA: PlanMetadata[] = [
     annual: 90,
     credits: 0,
     isMostPopular: false,
+  },
+  {
+    id: 'premium',
+    nameKey: 'premiumName',
+    descKey: 'premiumDesc',
+    ctaKey: 'premiumSubscribe',
+    featuresKey: 'premiumFeatures',
+    monthly: 9,
+    annual: 90,
+    credits: 0,
+    isMostPopular: false,
+    comingSoon: true,
   },
   {
     id: 'pro',
@@ -206,8 +220,8 @@ export default function PricesClient() {
     comingSoon: meta.comingSoon,
   }));
 
-  const getPlanPrice = (planId: PlanId, annual: boolean): number => {
-    if (planId === 'free') return 0;
+  const getPlanPrice = (planId: PlanId | 'premium', annual: boolean): number => {
+    if (planId === 'free' || planId === 'premium') return 0;
     const prices: Record<'creator' | 'pro' | 'studio', { monthly: number; annual: number }> = {
       creator: { monthly: 9, annual: 90 },
       pro: { monthly: 25, annual: 250 },
@@ -216,7 +230,7 @@ export default function PricesClient() {
     return prices[planId as keyof typeof prices]?.[annual ? 'annual' : 'monthly'] ?? 0;
   };
 
-  const handleSelectPlan = (planId: PlanId) => {
+  const handleSelectPlan = (planId: PlanId | 'premium') => {
     trackAnalyticsEvent('select_plan', {
       plan: planId,
       billing_period: isAnnual ? 'yearly' : 'monthly',
@@ -225,9 +239,9 @@ export default function PricesClient() {
     });
   };
 
-  const getCheckoutUrl = (planId: PlanId) => {
-    if (planId === 'free') return '/prompts';
-    return getPlanCheckoutUrl(planId as 'creator' | 'pro' | 'studio', isAnnual, userId);
+  const getCheckoutUrl = (planId: PlanId | 'premium') => {
+    if (planId === 'free' || planId === 'premium') return '/prompts';
+    return getPlanCheckoutUrl(planId, isAnnual, userId);
   };
 
   const getCTA = (paidPlan: PaidPlan) => {
@@ -332,9 +346,10 @@ export default function PricesClient() {
             </button>
           </div>
 
-          <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4 xl:gap-8">
+          <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 xl:gap-8">
             {PLANS.map((plan) => {
               const available = plan.id === 'free' ||
+                plan.id === 'premium' ||
                 (plan.id === 'creator' && isCreatorAvailable) ||
                 (plan.id === 'pro' && isProAvailable) ||
                 (plan.id === 'studio' && isStudioAvailable);
@@ -367,6 +382,7 @@ export default function PricesClient() {
                   <CardHeader className="pb-4 pt-8">
                     <div className="flex items-center justify-between gap-2">
                       <CardTitle className="font-headline text-2xl">
+                        {plan.id === 'premium' && <Gem className="w-6 h-6 text-emerald-500 mr-2 inline" />}
                         {plan.id === 'creator' && <Crown className="w-6 h-6 text-blue-500 mr-2 inline" />}
                         {plan.id === 'pro' && <Sparkles className="w-6 h-6 text-violet-500 mr-2 inline" />}
                         {plan.id === 'studio' && <Zap className="w-6 h-6 text-amber-500 mr-2 inline" />}
@@ -385,7 +401,7 @@ export default function PricesClient() {
                         yearly={plan.annual}
                       />
                     </div>
-                    {plan.id !== 'free' && <CreatorCoupon isAnnual={isAnnual} />}
+                    {plan.id !== 'free' && <CreatorCoupon planId={plan.id} isAnnual={isAnnual} />}
                     <ul className="space-y-3 mb-8 flex-grow">
                       {plan.features.map((feature) => (
                         <li key={feature} className="flex items-start gap-3 text-sm">

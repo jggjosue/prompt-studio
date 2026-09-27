@@ -1,12 +1,11 @@
 'use client';
 
-import { cn } from '@/lib/utils';
 import { OptimizedImage } from '@/components/optimized-image';
 import { LazyVideo } from '@/components/lazy-video';
 import { CodePreviewTabs } from '@/components/code-preview-tabs';
 import type { CodePreview } from '@/lib/web-page-code-preview';
 import type { ChatMessageResult } from '@/lib/chat-types';
-import { Download, Repeat2, Bookmark } from 'lucide-react';
+import { Download } from 'lucide-react';
 
 function downloadAsset(url: string, filename: string) {
   const a = document.createElement('a');
@@ -26,7 +25,7 @@ export function ImageResult({ result }: { result: ChatMessageResult }) {
   return (
     <div className="space-y-3">
       {urls.map((url, i) => (
-        <div key={url} className="group relative overflow-hidden rounded-xl border border-border/60">
+        <div key={url} className="group relative w-full max-w-sm overflow-hidden rounded-xl border border-border/60">
           <OptimizedImage
             src={url}
             alt={`Imagen generada${urls.length > 1 ? ` - variación ${i + 1}` : ''}`}
