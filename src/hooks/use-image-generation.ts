@@ -30,12 +30,16 @@ export function useImageGeneration() {
   const [outputImageVariations, setOutputImageVariations] = useState<Array<{ label: string; url: string }>>([]);
 
   const generate = useCallback(async (prompt: string, params: ChatParams): Promise<{ result?: ChatMessageResult; error?: string }> => {
+    const cleanParams = { ...params };
+    for (const key of ['referenceImage', 'reference_image', 'imageBase64', 'base64Image', 'image', 'media', 'attachment']) {
+      delete (cleanParams as Record<string, unknown>)[key];
+    }
     const provider = 'google';
-    const model = GOOGLE_IMAGE_MODELS.has(params.model ?? '') ? params.model! : resolveDefaultImageModel(provider);
-    const finalPrompt = prompt + buildImageSuffix(params);
+    const model = GOOGLE_IMAGE_MODELS.has(cleanParams.model ?? '') ? cleanParams.model! : resolveDefaultImageModel(provider);
+    const finalPrompt = prompt + buildImageSuffix(cleanParams);
 
     // Build provider-specific input payload
-    const input = buildImageInput(provider, model, finalPrompt, params);
+    const input = buildImageInput(provider, model, finalPrompt, cleanParams);
 
     try {
       const jobRes = await fetch('/api/ai/jobs', {
