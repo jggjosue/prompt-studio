@@ -14,6 +14,12 @@ const defaultParams: ChatParams = {
   webFramework: 'nextjs', webTheme: 'glassmorphism', webComponent: 'hero', webColor: 'blue',
 };
 
+const generationFailureTitle = (mode: ChatMode) => mode === 'image'
+  ? 'No pudimos generar la imagen'
+  : mode === 'video'
+    ? 'No pudimos generar el video'
+    : 'No pudimos generar la página';
+
 export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
   const initial = parseGenerateQuery(initialQuery);
   const [messages, setMessages] = useState<ChatGeneratorMessage[]>([]);
@@ -158,8 +164,9 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
         progress: res?.error ? 0 : 100,
       } : item));
 
-      const entry = addMessage({ role: 'user', mode: next.mode, prompt: next.prompt, params, status: 'pending', progress: 0 });
-      updateMessage(entry.id, res?.error
+      addMessage({ role: 'user', mode: next.mode, prompt: next.prompt, params, status: 'completed', progress: 100 });
+      const responseEntry = addMessage({ role: 'assistant', mode: next.mode, prompt: next.prompt, params, status: 'pending', progress: 10 });
+      updateMessage(responseEntry.id, res?.error
         ? { status: 'failed', progress: 0, result: { error: res.error } }
         : { status: 'completed', progress: 100, result: res?.result });
     })().finally(() => {
@@ -169,6 +176,10 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
   }, [queue, queueActive, params, imageGenerate, videoGenerate, webGenerate, addMessage, updateMessage]);
 
   const generate = useCallback(async (prompt: string, params: ChatParams, mode: ChatMode) => {
+    const entry = addMessage({ role: 'user', mode, prompt, params, status: 'completed', progress: 100 });
+    const responseEntry = addMessage({ role: 'assistant', mode, prompt, params, status: 'pending', progress: 10 });
+    beginGeneration(`Generating ${mode}...`);
+
     let sessionId = activeSessionId;
     if (!sessionId) {
       try {
@@ -186,14 +197,12 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
         }
       } catch {}
     }
-    const entry = addMessage({ role: 'user', mode, prompt, params, status: 'pending', progress: 0 });
     if (sessionId) {
       void fetch(`/api/ai/chats/${sessionId}/messages`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ role: 'user', mode, prompt, params }),
       }).catch(() => {});
     }
-    beginGeneration(`Generating ${mode}...`);
     setGenProgress(10);
     let result: ChatMessageResult | undefined;
     let error: string | undefined;
@@ -218,17 +227,21 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
       }
 
       if (error) {
-        failGeneration(`${mode} generation failed`, error);
-        updateMessage(entry.id!, { status: 'failed', progress: 0, result: { error } });
+        failGeneration(generationFailureTitle(mode), error);
+        updateMessage(responseEntry.id, { status: 'failed', progress: 0, result: { error } });
       } else if (result) {
         finishGeneration();
         setGenProgress(100);
-        updateMessage(entry.id!, { status: 'completed', progress: 100, result });
+        updateMessage(responseEntry.id, { status: 'completed', progress: 100, result });
+      } else {
+        error = 'No se recibió un resultado del proveedor.';
+        failGeneration(generationFailureTitle(mode), error);
+        updateMessage(responseEntry.id, { status: 'failed', progress: 0, result: { error } });
       }
-    } catch (err: any) {
-      error = err.message || 'Unknown error';
-      failGeneration(`${mode} generation failed`, err.message || 'Unknown error');
-      updateMessage(entry.id!, { status: 'failed', progress: 0, result: { error } });
+    } catch (err: unknown) {
+      error = err instanceof Error ? err.message : 'Unknown error';
+      failGeneration(generationFailureTitle(mode), error);
+      updateMessage(responseEntry.id, { status: 'failed', progress: 0, result: { error } });
     }
 
     if (sessionId) {
@@ -243,21 +256,19 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
       }).catch(() => {});
     }
 
-    setLocalGenerating(false);
     return entry.id;
-  }, [activeSessionId, addMessage, beginGeneration, finishGeneration, failGeneration, updateMessage, imageGen, videoGen, webGen]);
+  }, [activeSessionId, addMessage, beginGeneration, finishGeneration, failGeneration, updateMessage, imageGen, videoGen, webGen, setGenProgress, setOutputImageVariations, setOutputVideoUrl, setOutputWebHTML]);
 
   const reset = useCallback(() => {
     setMessages([]);
     setLocalGenerating(false);
     setGenerationError(null);
-    imageGen.generations.clear();
     setOutputVideoUrl('');
     setOutputWebHTML('');
     setGenProgress(0);
     setGenStatus('');
     imageGen.generations.clear();
-  }, [setLocalGenerating, setGenerationError, setOutputImageVariations, setOutputVideoUrl, setOutputWebHTML, setGenProgress, setGenStatus]);
+  }, [imageGen.generations, setLocalGenerating, setGenerationError, setOutputVideoUrl, setOutputWebHTML, setGenProgress, setGenStatus]);
 
   const latestImage = Array.from(imageGen.generations.values()).reverse().find(g => g.imageUrl)?.imageUrl ?? '';
 

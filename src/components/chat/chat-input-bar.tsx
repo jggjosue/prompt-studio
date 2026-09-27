@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { Send, Image, Video, Globe, ListPlus, Play, RotateCcw, Trash2 } from 'lucide-react';
+import { Send, Image as ImageIcon, Video, Globe, ListPlus, Play, RotateCcw, Trash2 } from 'lucide-react';
+import { OptimizedImage } from '@/components/optimized-image';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -16,6 +17,7 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const searchParams = useSearchParams();
   const { selectedMode, setSelectedMode, params, generate, localGenerating, messages, queue, queueRunning, enqueue, startQueue, removeQueueItem, retryQueueItem, clearQueue } = chat;
+  const activeResponses = messages.filter(message => message.role === 'assistant' && message.status === 'pending').length;
 
   // Pre-fill from URL params
   useEffect(() => {
@@ -33,33 +35,12 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
     el.style.height = `${Math.min(el.scrollHeight, 288)}px`;
   }, [prompt]);
 
-  const handleSend = async () => {
-    if (!prompt.trim() || localGenerating) return;
+  const handleSend = () => {
+    if (!prompt.trim()) return;
     const trimmed = prompt.trim();
     setPrompt('');
-
-    // Crear chat session primero si no hay
-    try {
-      const createRes = await fetch('/api/ai/chats', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: trimmed.slice(0, 80), mode: selectedMode }),
-      });
-      const createData = await createRes.json();
-      if (createData.chat) {
-        // Enviar mensaje
-        await fetch(`/api/ai/chats/${createData.chat.id}/messages`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ prompt: trimmed, mode: selectedMode, role: 'user' }),
-        });
-      }
-    } catch (err) {
-      console.error('Error creating chat:', err);
-    }
-
-    // Ejecutar generación
-    await generate(trimmed, params, selectedMode);
+    void generate(trimmed, params, selectedMode);
+    requestAnimationFrame(() => textareaRef.current?.focus());
   };
 
   const handleAddToQueue = () => {
@@ -87,7 +68,7 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
   const renderQueueItem = (item: ChatQueueItem) => {
     const config = queueStatusConfig[item.status];
     const modeMeta = item.mode === 'image'
-      ? { icon: <Image className="h-3 w-3 text-violet-400" />, label: 'Imagen' }
+      ? { icon: <ImageIcon className="h-3 w-3 text-violet-400" />, label: 'Imagen' }
       : item.mode === 'video'
         ? { icon: <Video className="h-3 w-3 text-rose-400" />, label: 'Video' }
         : { icon: <Globe className="h-3 w-3 text-cyan-400" />, label: 'Web' };
@@ -127,7 +108,9 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
           </div>
         )}
         {item.status === 'completed' && item.result?.imageUrl && (
-          <img src={item.result.imageUrl} alt={item.prompt} className="mt-2 h-16 rounded-md object-cover" />
+          <div className="relative mt-2 h-16 w-16 overflow-hidden rounded-md">
+            <OptimizedImage src={item.result.imageUrl} alt={item.prompt} fill className="object-cover" />
+          </div>
         )}
       </li>
     );
@@ -138,7 +121,7 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
       <div className="mx-auto flex w-full max-w-3xl flex-col gap-2">
         <Tabs value={selectedMode} onValueChange={(v) => setSelectedMode(v as ChatMode)} className="w-fit">
           <TabsList>
-            <TabsTrigger value="image"><Image className="h-3 w-3 mr-1" />Imagen</TabsTrigger>
+            <TabsTrigger value="image"><ImageIcon className="h-3 w-3 mr-1" />Imagen</TabsTrigger>
             <TabsTrigger value="video"><Video className="h-3 w-3 mr-1" />Video</TabsTrigger>
             <TabsTrigger value="project"><Globe className="h-3 w-3 mr-1" />Web</TabsTrigger>
           </TabsList>
@@ -147,16 +130,25 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
           ref={textareaRef}
           value={prompt}
           onChange={e => setPrompt(e.target.value)}
-          placeholder="Escribe tu prompt..."
+          placeholder={localGenerating ? 'Pide otra creación mientras terminamos…' : 'Escribe tu prompt...'}
           className="w-full min-h-[110px] resize-none text-sm leading-relaxed sm:min-h-[120px] max-h-72"
           onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
         />
-        <div className="flex flex-wrap items-center justify-end gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          {activeResponses > 0 && (
+            <span className="mr-auto inline-flex items-center gap-2 text-[11px] text-muted-foreground" role="status">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500" />
+              </span>
+              {activeResponses === 1 ? '1 creación en segundo plano' : `${activeResponses} creaciones en segundo plano`}
+            </span>
+          )}
           <Button variant="outline" onClick={handleAddToQueue} disabled={!prompt.trim()} className="h-10 px-3 text-xs sm:text-sm" title="Agregar a la cola de generación">
             <ListPlus className="h-4 w-4" />
             <span className="ml-1.5 hidden sm:inline">Agregar a cola</span>
           </Button>
-          <Button onClick={handleSend} disabled={localGenerating || !prompt.trim()} size="icon" className="h-10 w-10">
+          <Button onClick={handleSend} disabled={!prompt.trim()} size="icon" className="h-10 w-10">
             <Send className="h-4 w-4" />
             <span className="sr-only">Enviar</span>
           </Button>

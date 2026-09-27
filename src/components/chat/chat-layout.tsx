@@ -10,7 +10,6 @@ import { useChatGenerator } from '@/hooks/use-chat-generator';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Settings2 } from 'lucide-react';
-import { ImageTray } from './image-tray';
 import type { ChatMode } from '@/lib/chat-types';
 
 export function ChatLayout() {
@@ -60,7 +59,6 @@ export function ChatLayout() {
             </button>
           </div>
           <ChatArea chat={chat} />
-          <ImageTray />
           <ChatInputBar chat={chat} />
         </div>
         <SettingsSidebar

@@ -1,12 +1,10 @@
 'use client';
 
 import { useRef, useEffect } from 'react';
-import { AlertCircle, Image as ImageIcon, Sparkles, Video, Globe, Wand2, Camera, Film, Layout, Shuffle } from 'lucide-react';
+import { Wand2, Camera, Film, Layout, Shuffle } from 'lucide-react';
 import { ChatMessageItem } from './chat-message-item';
-import { GenerationProgress } from '@/components/generation/generation-feedback';
 import type { ChatGeneratorReturn } from '@/lib/chat-types';
 import type { ChatMode } from '@/lib/chat-types';
-import { friendlyError } from '@/lib/chat-error';
 
 interface QuickStart {
   label: string;
@@ -47,25 +45,13 @@ const QUICK_STARTS: QuickStart[] = [
   },
 ];
 
-const MODE_ICONS: Record<string, React.ReactNode> = {
-  image: <ImageIcon className="h-5 w-5" />,
-  video: <Video className="h-5 w-5" />,
-  project: <Globe className="h-5 w-5" />,
-};
-
-const GEN_STATUS_MESSAGES: Record<string, string> = {
-  image: 'Creando tu imagen...',
-  video: 'Preparando tu video...',
-  project: 'Construyendo tu página...',
-};
-
 interface ChatAreaProps {
   chat: ChatGeneratorReturn;
 }
 
 export function ChatArea({ chat }: ChatAreaProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const { messages, genProgress, genStatus, generationError, localGenerating, selectedMode } = chat;
+  const { messages } = chat;
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -74,16 +60,12 @@ export function ChatArea({ chat }: ChatAreaProps) {
     if (nearBottom) {
       el.scrollTop = el.scrollHeight;
     }
-  }, [messages.length, genProgress, localGenerating]);
+  }, [messages.length]);
 
   const handleQuickStart = (qs: QuickStart) => {
     chat.setDraftPrompt(qs.prompt);
     chat.setSelectedMode(qs.mode);
   };
-
-  const errorCode = (generationError?.title ?? '').toLowerCase();
-  const isInsufficientCredits = errorCode.includes('credit') || errorCode.includes('insufficient') || errorCode.includes('crédito');
-  const isAuthRequired = errorCode.includes('auth') || errorCode.includes('401') || errorCode.includes('session');
 
   return (
     <div ref={scrollRef} className="flex-1 overflow-y-auto" role="log" aria-label="Conversación de creación" aria-live="polite">
@@ -122,70 +104,14 @@ export function ChatArea({ chat }: ChatAreaProps) {
       ) : (
         <div className="space-y-6 p-4 pb-2">
           {messages.map(msg => (
-            <ChatMessageItem key={msg.id} message={msg} />
-          ))}
-        </div>
-      )}
-
-      {/* Generation in progress */}
-      {localGenerating && (
-        <div className="px-4 pb-4">
-          <div className="rounded-xl border border-blue-500/20 bg-blue-500/5 p-4">
-            <GenerationProgress
-              active={true}
-              progress={genProgress}
-              status={GEN_STATUS_MESSAGES[selectedMode] ?? genStatus}
-              pending={false}
+            <ChatMessageItem
+              key={msg.id}
+              message={msg}
+              onRetry={msg.role === 'assistant' && msg.status === 'failed'
+                ? () => void chat.generate(msg.prompt, msg.params, msg.mode)
+                : undefined}
             />
-          </div>
-        </div>
-      )}
-
-      {/* Error state */}
-      {generationError && (
-        <div className="px-4 pb-4">
-          <div className="rounded-xl border border-destructive/30 bg-destructive/5 p-4">
-            <div className="flex items-start gap-3">
-              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-destructive" aria-hidden="true" />
-              <div className="min-w-0 flex-1">
-                <p className="font-semibold text-sm">{generationError.title}</p>
-                <p className="mt-0.5 text-xs text-muted-foreground">{friendlyError(generationError.message)}</p>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {isInsufficientCredits ? (
-                    <>
-                      <a
-                        href="/prices"
-                        className="inline-flex items-center gap-1.5 rounded-md bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                      >
-                        Ver planes
-                      </a>
-                      <a
-                        href="/prices#credits"
-                        className="inline-flex items-center gap-1.5 rounded-md border border-border/60 px-3 py-1.5 text-xs font-semibold transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                      >
-                        Comprar créditos
-                      </a>
-                    </>
-                  ) : isAuthRequired ? (
-                    <a
-                      href="/sign-in"
-                      className="inline-flex items-center gap-1.5 rounded-md bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                    >
-                      Iniciar sesión
-                    </a>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => chat.generate((chat.draftPrompt || messages[messages.length - 1]?.prompt) ?? '', chat.params, chat.selectedMode)}
-                      className="inline-flex items-center gap-1.5 rounded-md border border-border/60 px-3 py-1.5 text-xs font-semibold transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                    >
-                      Reintentar
-                    </button>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
       )}
     </div>
