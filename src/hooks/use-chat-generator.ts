@@ -30,7 +30,7 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
     localGenerating, setLocalGenerating, genProgress, setGenProgress,
     genStatus, setGenStatus, generationError, setGenerationError,
     failGeneration, beginGeneration, finishGeneration,
-    outputImageUrl, setOutputImageUrl, outputImageVariations, setOutputImageVariations,
+    outputImageVariations, setOutputImageVariations,
     outputVideoUrl, setOutputVideoUrl, outputWebHTML, setOutputWebHTML,
     copiedCode, setCopiedCode,
   } = useGenerationEditor();
@@ -203,7 +203,7 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
         const res = await imageGen.generate(prompt, params);
         result = res.result;
         error = res.error;
-        if (result?.imageUrl) setOutputImageUrl(result.imageUrl);
+        if (result?.imageUrl) { /* generation entry already updated by imageGen */ }
         if (result?.imageUrls) setOutputImageVariations(result.imageUrls.map((url, i) => ({ label: `Variation ${i + 1}`, url })));
       } else if (mode === 'video') {
         const res = await videoGen.generate(prompt, params);
@@ -251,21 +251,24 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
     setMessages([]);
     setLocalGenerating(false);
     setGenerationError(null);
-    setOutputImageUrl('');
+    imageGen.generations.clear();
     setOutputVideoUrl('');
     setOutputWebHTML('');
     setGenProgress(0);
     setGenStatus('');
-  }, [setLocalGenerating, setGenerationError, setOutputImageUrl, setOutputVideoUrl, setOutputWebHTML, setGenProgress, setGenStatus]);
+    imageGen.generations.clear();
+  }, [setLocalGenerating, setGenerationError, setOutputImageVariations, setOutputVideoUrl, setOutputWebHTML, setGenProgress, setGenStatus]);
+
+  const latestImage = Array.from(imageGen.generations.values()).reverse().find(g => g.imageUrl)?.imageUrl ?? '';
 
   return {
     messages, params, setParams, draftPrompt, setDraftPrompt, sessions, activeSessionId,
     createSession, loadSession, deleteSession, selectedMode, setSelectedMode,
     localGenerating, genProgress, genStatus, generationError,
-    outputImageUrl, outputImageVariations, outputVideoUrl, outputWebHTML, copiedCode,
+    outputImageUrl: latestImage, outputImageVariations, outputVideoUrl, outputWebHTML, copiedCode,
     generate, reset, imageGen, videoGen, webGen,
     queue, queueRunning, enqueue, startQueue, removeQueueItem, retryQueueItem, clearQueue,
-    setOutputImageUrl, setOutputImageVariations, setOutputVideoUrl, setOutputWebHTML, setCopiedCode,
+    setOutputImageVariations, setOutputVideoUrl, setOutputWebHTML, setCopiedCode,
     setCredits: imageGen.setCredits,
   };
 }

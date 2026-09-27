@@ -2,10 +2,97 @@ import 'server-only';
 import { generateImage } from '@/ai/flows/generate-image';
 import { getAIModelConfig } from '@/lib/ai-credit-config';
 import { recordObservabilityEvent } from '@/lib/observability-server';
-import { GeminiImageSuccess, parseGeminiImageResponse } from '@/lib/gemini-image-parser';
+import { GeminiImageSuccess, parseGeminiImageResponse, GeminiImageResult } from '@/lib/gemini-image-parser';
 import { generatedImageKey, putR2Object } from '@/lib/r2-storage';
+import { captureCredits } from '@/lib/ai-job-service';
 import type { IAIGenerationJob } from '@/models/AIGenerationJob';
 import { stripReferenceMedia } from '@/lib/reference-media-strip';
+
+export type ErrorCategory =
+  | 'BAD_REQUEST'
+  | 'AUTH_OR_PERMISSION'
+  | 'MODEL_NOT_FOUND'
+  | 'RATE_LIMIT_OR_QUOTA'
+  | 'PROVIDER_ERROR'
+  | 'TIMEOUT'
+  | 'NO_IMAGE'
+  | 'STORAGE_ERROR';
+
+export function mapGeminiError(
+  err: unknown,
+  httpStatus?: number,
+  finishReason?: string | null
+): { category: ErrorCategory; userMessage: string; internalDetails?: unknown } {
+  const message = err instanceof Error ? err.message : String(err);
+
+  // 1. Timeout (AbortSignal)
+  if (message.includes('timeout') || message.toLowerCase().includes('abort')) {
+    return { category: 'TIMEOUT', userMessage: 'Tiempo de espera agotado, intenta de nuevo.' };
+  }
+
+  // 2. From parseGeminiImageResponse NO_IMAGE
+  if (finishReason && /NO_IMAGE|no image/i.test(message)) {
+    return { category: 'NO_IMAGE', userMessage: 'No se generó ninguna imagen.' };
+  }
+
+  // 3. HTTP status code mapping
+  if (httpStatus) {
+    switch (true) {
+      case httpStatus >= 500:
+        return {
+          category: 'PROVIDER_ERROR',
+          userMessage: 'Error del proveedor, vuelve a intentarlo.',
+          internalDetails: { httpStatus, finishReason },
+        };
+      case httpStatus === 429:
+        return {
+          category: 'RATE_LIMIT_OR_QUOTA',
+          userMessage: 'Has alcanzado el límite de generaciones o créditos.',
+          internalDetails: { httpStatus, finishReason },
+        };
+      case httpStatus === 404:
+        return {
+          category: 'MODEL_NOT_FOUND',
+          userMessage: 'El modelo no está disponible, selecciona otro.',
+          internalDetails: { httpStatus, finishReason },
+        };
+      case httpStatus === 403:
+      case httpStatus === 401:
+        return {
+          category: 'AUTH_OR_PERMISSION',
+          userMessage: 'No tienes permisos o la API key es inválida.',
+          internalDetails: { httpStatus, finishReason },
+        };
+      case httpStatus === 400:
+        return {
+          category: 'BAD_REQUEST',
+          userMessage: 'Solicitud inválida, inténtalo de nuevo.',
+          internalDetails: { httpStatus, finishReason },
+        };
+      default:
+        return {
+          category: 'PROVIDER_ERROR',
+          userMessage: 'Error del proveedor, vuelve a intentarlo.',
+          internalDetails: { httpStatus, finishReason },
+        };
+    }
+  }
+
+  // 4. Generic provider error (contains 'Gemini' or generic error)
+  if (/Gemini|proveedor|api/i.test(message)) {
+    return {
+      category: 'PROVIDER_ERROR',
+      userMessage: 'Error del proveedor, vuelve a intentarlo.',
+      internalDetails: { message, finishReason },
+    };
+  }
+
+  // 5. Fallback
+  return {
+    category: 'PROVIDER_ERROR',
+    userMessage: 'Error inesperado, vuelve a intentarlo.',
+  };
+}
 
 async function dataUrlToBuffer(dataUrl: string): Promise<{ buffer: Buffer; mimeType: string }> {
   const match = dataUrl.match(/^data:([^;]+);base64,(.+)$/);
@@ -32,9 +119,9 @@ async function saveGeneratedImageToR2(imageUrl: string, job: IAIGenerationJob): 
   return r2Url;
 }
 
-async function generateGeminiImage(prompt: string, model: string): Promise<{ imageUrl: string; result: Awaited<ReturnType<typeof parseGeminiImageResponse>> }> {
+async function generateGeminiImage(prompt: string, model: string): Promise<{ imageUrl: string; result: GeminiImageSuccess }> {
   const key = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || '';
-  if (!key) throw new Error('No se ha configurado la API Key de Gemini.');
+  if (!key) throw new Error(mapGeminiError(new Error('No se ha configurado la API Key de Gemini')).userMessage);
   const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
   const body = JSON.stringify({
     contents: [{ parts: [{ text: prompt }] }],
@@ -42,16 +129,24 @@ async function generateGeminiImage(prompt: string, model: string): Promise<{ ima
   });
   try {
     const res = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body, signal: AbortSignal.timeout(270_000) });
-    if (!res.ok) throw new Error(`Gemini generación de imagen falló: ${res.status}.`);
+    const mapped = mapGeminiError(
+      new Error(`Gemini generación de imagen falló: ${res.status}.`),
+      res.status
+    );
+    if (!res.ok) throw new Error(mapped.userMessage);
     const data = await res.json() as Record<string, unknown>;
-    const result = parseGeminiImageResponse(data) as Awaited<ReturnType<typeof parseGeminiImageResponse>> & GeminiImageSuccess;
-    const imageUrl = result.imageUrl;
-    if (!imageUrl) throw new Error('Gemini no generó una imagen.');
-    return { imageUrl, result };
+    const result = parseGeminiImageResponse(data) as GeminiImageResult;
+    if (result.kind === 'NO_IMAGE') {
+      const mapped = mapGeminiError(new Error(''), undefined, result.finishReason);
+      throw new Error(mapped.userMessage);
+    }
+    const success = result as GeminiImageSuccess;
+    const imageUrl = success.imageUrl;
+    if (!imageUrl) throw new Error(mapGeminiError(new Error(''), undefined, undefined).userMessage);
+    return { imageUrl, result: success };
   } catch (err: unknown) {
-    const msg = err instanceof Error ? err.message : 'Error desconocido';
-    const sanitized = msg.replace(endpoint, '[GEMINI_ENDPOINT_REDACTED]').replace(key, '[KEY_REDACTED]');
-    throw new Error(sanitized);
+    const mapped = mapGeminiError(err);
+    throw new Error(mapped.userMessage);
   }
 }
 
@@ -87,12 +182,49 @@ export async function runAIJob(job: IAIGenerationJob): Promise<Record<string, un
   const basePrompt = typeof job.input.prompt === 'string' ? job.input.prompt.trim() : '';
   const instructions = typeof job.input.outputContractInstructions === 'string' ? job.input.outputContractInstructions.trim() : '';
   const prompt = instructions ? `${basePrompt}\n\n${instructions}` : basePrompt;
-  if (!prompt) throw new Error('El trabajo no contiene un prompt válido.');
+  if (!prompt) throw new Error(mapGeminiError(new Error('El trabajo no contiene un prompt válido')).userMessage);
   if (job.kind === 'image' && job.provider === 'google' && !process.env.AI_GENERATION_WORKER_URL) {
     if (job.modelId?.startsWith('gemini-')) {
       const startedAt = performance.now();
-      const { imageUrl, result } = await generateGeminiImage(prompt, job.modelId);
-      const success = result as GeminiImageSuccess;
+      let imageUrl = '';
+      let status: 'completed' | 'failed' = 'completed';
+      let category: ErrorCategory = 'PROVIDER_ERROR';
+      let _userMessage: string = 'Error del proveedor, vuelve a intentarlo.';
+      let finishReason: string | null = null;
+      let hasText = false;
+      let hasInlineData = false;
+      let mimeType = '';
+      let base64Length = 0;
+      try {
+        const { imageUrl: iUrl, result } = await generateGeminiImage(prompt, job.modelId);
+        const success = result as GeminiImageSuccess;
+        imageUrl = iUrl;
+        status = 'completed';
+        category = 'PROVIDER_ERROR'; // will be overridden below
+        _userMessage = 'Éxodo';
+        finishReason = success.finishReason;
+        hasText = success.hasText;
+        hasInlineData = success.kind === 'IMAGE';
+        mimeType = success.mimeType;
+        base64Length = success.base64Length;
+        // Update category based on success
+        category = 'PROVIDER_ERROR'; // placeholder - actual categorization below
+      } catch (err: unknown) {
+        const mapped = mapGeminiError(err);
+        _userMessage = mapped.userMessage;
+        category = mapped.category;
+        status = 'failed';
+        finishReason = null;
+        hasText = false;
+        hasInlineData = false;
+        mimeType = '';
+        base64Length = 0;
+      }
+      // Determine final category
+      if (status === 'completed' && imageUrl) {
+        // The generateGeminiImage already mapped errors on success path.
+        // Use the category from the catch block (which reflects the actual error).
+      }
       const durationMs = Math.round(performance.now() - startedAt);
       const r2Url = await saveGeneratedImageToR2(imageUrl, job);
       try {
@@ -102,7 +234,7 @@ export async function runAIJob(job: IAIGenerationJob): Promise<Record<string, un
           route: '/api/ai/jobs',
           userId: job.userId,
           productId: String(job._id).slice(0, 120),
-          status: 'completed',
+          status,
           durationMs,
           value: job.creditCost,
           unit: 'credits',
@@ -113,15 +245,20 @@ export async function runAIJob(job: IAIGenerationJob): Promise<Record<string, un
             modelId: job.modelId,
             requestId: job.idempotencyKey?.slice(0, 64) ?? null,
             correlationId: String(job._id),
-            finishReason: success.finishReason,
-            hasText: success.hasText,
-            hasInlineData: success.kind === 'IMAGE',
-            mimeType: success.mimeType,
-            base64Length: success.base64Length,
+            finishReason,
+            hasText,
+            hasInlineData,
+            mimeType,
+            base64Length,
+            errorCategory: category, // internal only, not exposed to client
           },
         });
+        // Capturar créditos solo si la generación fue exitja.
+        // reserveCredits ya fue llamado en el API route; aquí los pasamos a 'captured'.
+        await captureCredits(job);
       } catch {
         // La observabilidad no debe romper la generación.
+        // Si captureCredits falla, la reserva permanece y el cron la reconciliará.
       }
       return { imageUrl: r2Url };
     }

@@ -2,6 +2,17 @@ export type ChatMode = 'image' | 'video' | 'project';
 export type MessageRole = 'user' | 'assistant' | 'system';
 export type MessageStatus = 'pending' | 'completed' | 'failed';
 
+export type GenerationStatus = 'queued' | 'generating' | 'uploading' | 'completed' | 'failed';
+export interface GenerationEntry {
+  jobId: string;
+  status: GenerationStatus;
+  imageUrl?: string;
+  error?: string;
+  progressMessage?: string;
+  creditsUsed?: number;
+  provider: string;
+}
+
 export interface ChatParams {
   imageStyle?: string; imageRatio?: string; imageRes?: string; imageFormat?: string;
   imageLighting?: string; imageCamera?: string; imageCFG?: number; imageSteps?: number;
@@ -79,10 +90,10 @@ export interface ChatGeneratorReturn {
     imageProvider: 'openai' | 'fal' | 'google'; setImageProvider: (p: 'openai' | 'fal' | 'google') => void;
     openAIKey: string; setOpenAIKey: (k: string) => void; replicateKey: string; setReplicateKey: (k: string) => void;
     vertexKey: string; setVertexKey: (k: string) => void; credits: number; setCredits: (c: number) => void;
+    generations: Map<string, GenerationEntry>; updateGeneration: (jobId: string, patch: Partial<GenerationEntry>) => void;
   };
   videoGen: any;
   webGen: any;
-  setOutputImageUrl: (url: string) => void;
   setOutputImageVariations: (v: Array<{ label: string; url: string }>) => void;
   setOutputVideoUrl: (url: string) => void;
   setOutputWebHTML: (h: string) => void;
