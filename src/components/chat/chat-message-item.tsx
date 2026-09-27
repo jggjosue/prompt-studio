@@ -3,7 +3,7 @@
 import { cn } from '@/lib/utils';
 import type { ChatGeneratorMessage } from '@/lib/chat-types';
 import { friendlyError } from '@/lib/chat-error';
-import { Bot, Loader2, User } from 'lucide-react';
+import { Bot, Loader2, RotateCcw, Sparkles, User } from 'lucide-react';
 import { ImageResult, VideoResult, WebResult } from './message-renderers';
 
 const MODE_LABELS: Record<string, string> = {
@@ -12,8 +12,9 @@ const MODE_LABELS: Record<string, string> = {
   project: 'Web',
 };
 
-export function ChatMessageItem({ message }: { message: ChatGeneratorMessage }) {
+export function ChatMessageItem({ message, onRetry }: { message: ChatGeneratorMessage; onRetry?: () => void }) {
   const isUser = message.role === 'user';
+  const isPending = !isUser && message.status === 'pending';
 
   return (
     <div className={cn('flex gap-3', isUser ? 'justify-end' : 'justify-start')}>
@@ -43,13 +44,29 @@ export function ChatMessageItem({ message }: { message: ChatGeneratorMessage }) 
           )}
         </div>
 
-        {/* Prompt text */}
-        <p className={cn(
-          'text-sm whitespace-pre-wrap break-words leading-relaxed max-h-32 overflow-y-auto pr-1',
-          isUser ? 'text-white' : 'text-foreground'
-        )}>
-          {message.prompt}
-        </p>
+        {isUser && (
+          <p className="max-h-32 overflow-y-auto whitespace-pre-wrap break-words pr-1 text-sm leading-relaxed text-white">
+            {message.prompt}
+          </p>
+        )}
+
+        {isPending && (
+          <div className="min-w-[220px] space-y-3 py-1 sm:min-w-[300px]" role="status" aria-live="polite">
+            <div className="flex items-center gap-2.5">
+              <span className="relative flex h-8 w-8 items-center justify-center rounded-full bg-blue-500/10 text-blue-400">
+                <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                <Sparkles className="absolute -right-0.5 -top-0.5 h-3 w-3 animate-pulse" aria-hidden="true" />
+              </span>
+              <div>
+                <p className="text-sm font-medium">Creando tu {MODE_LABELS[message.mode]?.toLowerCase() ?? 'contenido'}…</p>
+                <p className="text-[11px] text-muted-foreground">Trabajando en segundo plano</p>
+              </div>
+            </div>
+            <div className="h-1.5 overflow-hidden rounded-full bg-muted">
+              <div className="h-full w-2/5 animate-pulse rounded-full bg-gradient-to-r from-blue-600 via-violet-500 to-blue-400" />
+            </div>
+          </div>
+        )}
 
         {/* Result */}
         {message.result && (
@@ -64,7 +81,18 @@ export function ChatMessageItem({ message }: { message: ChatGeneratorMessage }) 
               <WebResult result={message.result} />
             ) : null}
             {message.result.error && (
-              <p className="text-xs text-destructive mt-1">{friendlyError(message.result.error)}</p>
+              <div className="space-y-2">
+                <p className="mt-1 text-xs text-destructive">{friendlyError(message.result.error)}</p>
+                {onRetry && (
+                  <button
+                    type="button"
+                    onClick={onRetry}
+                    className="inline-flex items-center gap-1.5 rounded-md border border-border/60 px-2.5 py-1 text-[11px] font-semibold transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
+                    <RotateCcw className="h-3 w-3" /> Reintentar
+                  </button>
+                )}
+              </div>
             )}
           </div>
         )}
