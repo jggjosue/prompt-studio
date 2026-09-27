@@ -1,4 +1,5 @@
 import { hasValidCronSecret } from '@/lib/api-auth';
+import { cacheHeaders } from '@/lib/cache-policy';
 import { ai } from '@/ai/genkit';
 import { NextResponse } from 'next/server';
 
@@ -28,13 +29,14 @@ async function toDataUrl(imageUrl: string): Promise<string> {
 }
 
 export async function POST(request: Request) {
+  const headers = cacheHeaders('private-no-store');
   if (!hasValidCronSecret(request)) {
-    return NextResponse.json({ error: 'Unauthorized.' }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized.' }, { status: 401, headers });
   }
 
   const raw = await request.json().catch(() => null) as { prompt?: string } | null;
   if (!raw || typeof raw.prompt !== 'string' || !raw.prompt.trim()) {
-    return NextResponse.json({ error: 'Prompt requerido.' }, { status: 400 });
+    return NextResponse.json({ error: 'Prompt requerido.' }, { status: 400, headers });
   }
 
   const prompt = raw.prompt.trim();
@@ -52,9 +54,9 @@ export async function POST(request: Request) {
     }
 
     const dataUrl = await toDataUrl(imageUrl);
-    return NextResponse.json({ imageUrl: dataUrl });
+    return NextResponse.json({ imageUrl: dataUrl }, { headers });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : 'Error desconocido del proveedor.';
-    return NextResponse.json({ error: message }, { status: 500 });
+    return NextResponse.json({ error: message }, { status: 500, headers });
   }
 }
