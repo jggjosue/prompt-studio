@@ -61,6 +61,14 @@ export function reportOperationalError(input: Omit<ObservabilityInput, 'status' 
     errorCode,
     correlationId: normalized?.metadata.correlationId ?? normalized?.metadata.jobId ?? null,
     provider: normalized?.metadata.provider ?? null,
+    service: normalized?.metadata.service ?? null,
+    host: normalized?.metadata.host ?? null,
+    endpointLabel: normalized?.metadata.endpointLabel ?? null,
+    httpStatus: normalized?.metadata.httpStatus ?? null,
+    modelId: normalized?.metadata.modelId ?? normalized?.metadata.model ?? null,
+    retryable: normalized?.metadata.retryable ?? null,
+    providerErrorCode: normalized?.metadata.providerErrorCode ?? null,
+    providerErrorMessage: normalized?.metadata.providerErrorMessage ?? null,
   }));
   void recordObservabilityEvent(event);
 }
