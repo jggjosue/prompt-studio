@@ -8,6 +8,8 @@ import { captureCredits } from '@/lib/ai-job-service';
 import type { IAIGenerationJob } from '@/models/AIGenerationJob';
 import { stripReferenceMedia } from '@/lib/reference-media-strip';
 import { parseGeneratedImageSource } from '@/lib/generated-image-source';
+import { observedGenerationFetch, recordGenerationRequest, type GenerationRequestContext } from '@/lib/generation-request-observability';
+import { providerHttpStatus, safeProviderHost } from '@/lib/provider-error-safety';
 
 export type ErrorCategory =
   | 'BAD_REQUEST'
@@ -18,6 +20,11 @@ export type ErrorCategory =
   | 'TIMEOUT'
   | 'NO_IMAGE'
   | 'STORAGE_ERROR';
+
+function requestContext(job: IAIGenerationJob, input: Pick<GenerationRequestContext, 'service' | 'host' | 'endpointLabel' | 'method'>, modelId = job.modelId): GenerationRequestContext {
+  const jobId = String(job._id);
+  return { ...input, provider: job.provider, jobId, correlationId: jobId, modelId, userId: job.userId };
+}
 
 export function mapGeminiError(
   err: unknown,
@@ -103,18 +110,34 @@ async function saveGeneratedImageToR2(imageUrl: string, job: IAIGenerationJob): 
     buffer = source.buffer;
     mimeType = source.mimeType;
   } else {
-    const res = await fetch(source.url);
+    const res = await observedGenerationFetch(requestContext(job, {
+      service: 'generated-image-source', host: safeProviderHost(source.url), endpointLabel: 'generated-image-download', method: 'GET',
+    }), () => fetch(source.url, { signal: AbortSignal.timeout(60_000) }));
     if (!res.ok) throw new Error(`No se pudo obtener la imagen para R2: ${res.status}.`);
     buffer = Buffer.from(await res.arrayBuffer());
     mimeType = res.headers.get('content-type') || 'image/png';
   }
   const key = generatedImageKey(job.userId, String(job._id), mimeType);
-  const stored = await putR2Object(key, buffer, mimeType);
+  const r2Context = requestContext(job, {
+    service: 'cloudflare-r2', host: 'r2.cloudflarestorage.com', endpointLabel: 'r2-put-object', method: 'PUT',
+  });
+  const r2StartedAt = performance.now();
+  let stored: string | null;
+  try {
+    stored = await putR2Object(key, buffer, mimeType);
+    await recordGenerationRequest(r2Context, {
+      httpStatus: stored ? 200 : 503, durationMs: Math.round(performance.now() - r2StartedAt),
+      ...(!stored ? { providerErrorCode: 'R2_NOT_CONFIGURED', providerErrorMessage: 'R2 storage is unavailable.' } : {}),
+    });
+  } catch (error) {
+    await recordGenerationRequest(r2Context, { error, httpStatus: providerHttpStatus(error), durationMs: Math.round(performance.now() - r2StartedAt) });
+    throw error;
+  }
   if (!stored) throw new Error('No se pudo guardar la imagen en R2.');
   return { imageUrl: `/api/ai/jobs/${String(job._id)}/asset`, imageKey: key };
 }
 
-async function generateGeminiImage(prompt: string, model: string): Promise<{ imageUrl: string; result: GeminiImageSuccess }> {
+async function generateGeminiImage(prompt: string, model: string, job: IAIGenerationJob): Promise<{ imageUrl: string; result: GeminiImageSuccess }> {
   const key = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || '';
   if (!key) throw new Error(mapGeminiError(new Error('No se ha configurado la API Key de Gemini')).userMessage);
   const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
@@ -123,7 +146,9 @@ async function generateGeminiImage(prompt: string, model: string): Promise<{ ima
     generationConfig: { imageGenerationConfig: { numberOfImages: 1 } },
   });
   try {
-    const res = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body, signal: AbortSignal.timeout(270_000) });
+    const res = await observedGenerationFetch(requestContext(job, {
+      service: 'google-gemini', host: 'generativelanguage.googleapis.com', endpointLabel: 'v1beta/models/:generateContent', method: 'POST',
+    }, model), () => fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body, signal: AbortSignal.timeout(270_000) }));
     const mapped = mapGeminiError(
       new Error(`Gemini generación de imagen falló: ${res.status}.`),
       res.status
@@ -158,7 +183,9 @@ async function runExternalWorker(job: IAIGenerationJob) {
   const apiModelId = (config?.modelId && config.modelId !== job.modelId) ? config.modelId : job.modelId;
   const safeInput = job.kind === 'image' || job.kind === 'video' ? stripReferenceMedia(job.input) : job.input;
   const input = { ...safeInput, model: apiModelId };
-  const response = await fetch(url, {
+  const response = await observedGenerationFetch(requestContext(job, {
+    service: 'ai-generation-worker', host: safeProviderHost(url), endpointLabel: 'configured-generation-worker', method: 'POST',
+  }, apiModelId), () => fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}`, 'Idempotency-Key': job.idempotencyKey },
     body: JSON.stringify({
@@ -166,7 +193,7 @@ async function runExternalWorker(job: IAIGenerationJob) {
       ...((job.input.experiment === true || job.input.evaluationSuite === true) ? { evaluationRequested: { scale: 100, dimensions: Array.isArray(job.input.evaluationRubric) ? job.input.evaluationRubric.slice(0, 6) : ['fidelity', 'quality'], expected: typeof job.input.expected === 'string' ? job.input.expected : '', seed: typeof job.input.seed === 'number' ? job.input.seed : undefined, temperature: typeof job.input.temperature === 'number' ? job.input.temperature : undefined } } : {}),
     }),
     signal: AbortSignal.timeout(270_000),
-  });
+  }));
   if (!response.ok) throw new Error(`Worker externo respondió ${response.status}.`);
   const result = asResult(await response.json());
   if (JSON.stringify(result).length > 2_000_000) throw new Error('El resultado excede el límite de 2 MB; guárdalo en R2 y devuelve una URL.');
@@ -191,7 +218,7 @@ export async function runAIJob(job: IAIGenerationJob): Promise<Record<string, un
       let mimeType = '';
       let base64Length = 0;
       try {
-        const { imageUrl: iUrl, result } = await generateGeminiImage(prompt, job.modelId);
+        const { imageUrl: iUrl, result } = await generateGeminiImage(prompt, job.modelId, job);
         const success = result as GeminiImageSuccess;
         imageUrl = iUrl;
         status = 'completed';
@@ -285,8 +312,18 @@ export async function runAIJob(job: IAIGenerationJob): Promise<Record<string, un
       }
       return storedImage;
     }
-    const imagenResult = await generateImage({ prompt });
-    return saveGeneratedImageToR2(imagenResult.imageUrl, job);
+    const imagenContext = requestContext(job, {
+      service: 'google-imagen', host: 'generativelanguage.googleapis.com', endpointLabel: 'genkit/imagen-generate', method: 'POST',
+    }, getAIModelConfig(job.provider, job.modelId ?? '')?.modelId ?? job.modelId);
+    const imagenStartedAt = performance.now();
+    try {
+      const imagenResult = await generateImage({ prompt });
+      await recordGenerationRequest(imagenContext, { httpStatus: 200, durationMs: Math.round(performance.now() - imagenStartedAt) });
+      return saveGeneratedImageToR2(imagenResult.imageUrl, job);
+    } catch (error) {
+      await recordGenerationRequest(imagenContext, { error, httpStatus: providerHttpStatus(error), durationMs: Math.round(performance.now() - imagenStartedAt) });
+      throw error;
+    }
   }
   return runExternalWorker(job);
 }

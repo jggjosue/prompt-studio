@@ -40,3 +40,17 @@ test('el código de error conserva clasificación sin guardar el mensaje', () =>
   assert.equal(safeErrorCode(error), 'RATE_LIMITED');
   assert.equal(safeErrorCode(new Error('private payload')), 'Error');
 });
+
+test('la lista segura conserva diagnóstico del proveedor sin aceptar payloads', () => {
+  const safe = sanitizeObservabilityMetadata({
+    service: 'google-gemini', host: 'generativelanguage.googleapis.com', endpointLabel: 'v1beta/models/:generateContent',
+    modelId: 'gemini-2.0-flash', httpStatus: 400, retryable: false,
+    providerErrorCode: 'INVALID_ARGUMENT', providerErrorMessage: 'Unsupported generation config',
+    requestBody: 'private', responseBody: 'private', authorization: 'Bearer private',
+  });
+  assert.deepEqual(safe, {
+    service: 'google-gemini', host: 'generativelanguage.googleapis.com', endpointLabel: 'v1beta/models/:generateContent',
+    modelId: 'gemini-2.0-flash', httpStatus: 400, retryable: false,
+    providerErrorCode: 'INVALID_ARGUMENT', providerErrorMessage: 'Unsupported generation config',
+  });
+});

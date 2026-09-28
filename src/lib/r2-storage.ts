@@ -161,8 +161,8 @@ export async function putR2Object(key: string, buffer: Buffer, contentType: stri
   try {
     await client.send(new PutObjectCommand({ Bucket: getR2BucketName(), Key: key, Body: buffer, ContentType: contentType, CacheControl: 'public, max-age=31536000' }));
     return `https://${getR2BucketName()}.r2.cloudflarestorage.com/${key}`;
-  } catch {
-    return null;
+  } catch (error) {
+    throw error;
   }
 }
 
