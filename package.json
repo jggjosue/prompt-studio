@@ -52,6 +52,7 @@
     "sync:refactory": "node scripts/mjs/sync-refactory-manifest.mjs",
     "verify:clerk": "node scripts/mjs/verify-clerk-env.mjs",
     "verify:clerk:prod": "node scripts/mjs/verify-clerk-env.mjs production",
+    "verify:gemini:prod": "node --import tsx scripts/ts/verify-gemini-production.ts",
     "verify:env-example": "node scripts/mjs/check-env-example.mjs",
     "verify:template-markers": "node scripts/mjs/check-template-markers.mjs",
     "verify:rotation": "node scripts/mjs/check-leaked-secrets.mjs",

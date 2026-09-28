@@ -1,6 +1,7 @@
 import { hasValidCronSecret } from '@/lib/api-auth';
 import { cacheHeaders } from '@/lib/cache-policy';
 import { ai } from '@/ai/genkit';
+import { GOOGLE_IMAGE_MODEL } from '@/lib/google-image-config';
 import { NextResponse } from 'next/server';
 
 /**
@@ -43,9 +44,9 @@ export async function POST(request: Request) {
 
   try {
     const { media } = await ai.generate({
-      model: 'googleai/gemini-2.5-flash',
+      model: `googleai/${GOOGLE_IMAGE_MODEL}`,
       prompt,
-      config: { imageGenerationConfig: { numberOfImages: 1 } },
+      config: { responseModalities: ['TEXT', 'IMAGE'] },
     });
 
     const imageUrl = media?.url;

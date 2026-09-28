@@ -10,6 +10,7 @@ import { stripReferenceMedia } from '@/lib/reference-media-strip';
 import { parseGeneratedImageSource } from '@/lib/generated-image-source';
 import { observedGenerationFetch, recordGenerationRequest, type GenerationRequestContext } from '@/lib/generation-request-observability';
 import { providerHttpStatus, safeProviderHost } from '@/lib/provider-error-safety';
+import { GOOGLE_IMAGE_API_VERSION, GOOGLE_IMAGE_ENDPOINT_LABEL, googleImageModelFor } from '@/lib/google-image-config';
 
 export type ErrorCategory =
   | 'BAD_REQUEST'
@@ -140,15 +141,16 @@ async function saveGeneratedImageToR2(imageUrl: string, job: IAIGenerationJob): 
 async function generateGeminiImage(prompt: string, model: string, job: IAIGenerationJob): Promise<{ imageUrl: string; result: GeminiImageSuccess }> {
   const key = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || '';
   if (!key) throw new Error(mapGeminiError(new Error('No se ha configurado la API Key de Gemini')).userMessage);
-  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
+  const selectedModel = googleImageModelFor(model);
+  const endpoint = `https://generativelanguage.googleapis.com/${GOOGLE_IMAGE_API_VERSION}/models/${selectedModel}:generateContent`;
   const body = JSON.stringify({
     contents: [{ parts: [{ text: prompt }] }],
-    generationConfig: { imageGenerationConfig: { numberOfImages: 1 } },
+    generationConfig: { responseModalities: ['TEXT', 'IMAGE'] },
   });
   try {
     const res = await observedGenerationFetch(requestContext(job, {
-      service: 'google-gemini', host: 'generativelanguage.googleapis.com', endpointLabel: 'v1beta/models/:generateContent', method: 'POST',
-    }, model), () => fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body, signal: AbortSignal.timeout(270_000) }));
+      service: 'google-gemini', host: 'generativelanguage.googleapis.com', endpointLabel: GOOGLE_IMAGE_ENDPOINT_LABEL, method: 'POST',
+    }, selectedModel), () => fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key }, body, signal: AbortSignal.timeout(270_000) }));
     const mapped = mapGeminiError(
       new Error(`Gemini generación de imagen falló: ${res.status}.`),
       res.status
@@ -206,7 +208,8 @@ export async function runAIJob(job: IAIGenerationJob): Promise<Record<string, un
   const prompt = instructions ? `${basePrompt}\n\n${instructions}` : basePrompt;
   if (!prompt) throw new Error(mapGeminiError(new Error('El trabajo no contiene un prompt válido')).userMessage);
   if (job.kind === 'image' && job.provider === 'google' && !process.env.AI_GENERATION_WORKER_URL) {
-    if (job.modelId?.startsWith('gemini-')) {
+    const configuredModel = getAIModelConfig(job.provider, job.modelId ?? '')?.modelId ?? job.modelId;
+    if (configuredModel?.startsWith('gemini-')) {
       const startedAt = performance.now();
       let imageUrl = '';
       let status: 'completed' | 'failed' = 'completed';
@@ -218,7 +221,7 @@ export async function runAIJob(job: IAIGenerationJob): Promise<Record<string, un
       let mimeType = '';
       let base64Length = 0;
       try {
-        const { imageUrl: iUrl, result } = await generateGeminiImage(prompt, job.modelId, job);
+        const { imageUrl: iUrl, result } = await generateGeminiImage(prompt, configuredModel, job);
         const success = result as GeminiImageSuccess;
         imageUrl = iUrl;
         status = 'completed';
