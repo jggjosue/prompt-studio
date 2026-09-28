@@ -8,6 +8,7 @@
  */
 
 import {ai} from '@/ai/genkit';
+import {GOOGLE_IMAGE_MODEL} from '@/lib/google-image-config';
 import {z} from 'zod';
 
 const GenerateImageInputSchema = z.object({
@@ -35,8 +36,9 @@ const generateImageFlow = ai.defineFlow(
   async input => {
     try {
       const {media} = await ai.generate({
-        model: 'googleai/imagen-4.0-fast-generate-001',
+        model: `googleai/${GOOGLE_IMAGE_MODEL}`,
         prompt: input.prompt,
+        config: {responseModalities: ['TEXT', 'IMAGE']},
       });
       
       const imageUrl = media?.url;

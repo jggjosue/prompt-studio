@@ -1,4 +1,5 @@
 import type { AIJobKind } from '@/models/AIGenerationJob';
+import { GOOGLE_IMAGE_MODEL } from '@/lib/google-image-config';
 
 export type AIModelCategory = 'text' | 'project' | 'image' | 'video';
 
@@ -40,10 +41,13 @@ export const AI_MODEL_CONFIG: Record<string, AIModelConfig> = {
    'google:gemini-2.5-flash': model({ provider: 'google', modelId: 'gemini-2.5-flash', category: 'project', minimumCredits: 20, inputTokenPriceUsdPerMillion: 0.30, outputTokenPriceUsdPerMillion: 2.50, defaultOutputTokens: 4_000, pricingStatus: 'verified', enabled: true }),
    'google:gemini-2.0-flash': model({ provider: 'google', modelId: 'gemini-2.0-flash', category: 'project', minimumCredits: 10, inputTokenPriceUsdPerMillion: null, outputTokenPriceUsdPerMillion: null, defaultOutputTokens: 4_000, pricingStatus: 'unverified', enabled: true }),
    'google:gemini-2.5-pro': model({ provider: 'google', modelId: 'gemini-2.5-pro', category: 'project', minimumCredits: 50, inputTokenPriceUsdPerMillion: 1.25, outputTokenPriceUsdPerMillion: 10, defaultOutputTokens: 4_000, pricingStatus: 'verified', enabled: true }),
-   'google:imagen-4.0-fast-generate-001': model({ provider: 'google', modelId: 'imagen-4.0-fast-generate-001', category: 'image', minimumCredits: 10, imagePriceUsd: 0.04, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
-   'google:nano-banana-2-lite': model({ provider: 'google', modelId: 'imagen-4.0-fast-generate-001', category: 'image', minimumCredits: 5, imagePriceUsd: 0.02, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
-   'google:nano-banana-2': model({ provider: 'google', modelId: 'imagen-4.0-fast-generate-001', category: 'image', minimumCredits: 10, imagePriceUsd: 0.04, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
-   'google:nano-banana-pro': model({ provider: 'google', modelId: 'imagen-4.0-fast-generate-001', category: 'image', minimumCredits: 25, imagePriceUsd: 0.10, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
+   [`google:${GOOGLE_IMAGE_MODEL}`]: model({ provider: 'google', modelId: GOOGLE_IMAGE_MODEL, category: 'image', minimumCredits: 10, imagePriceUsd: null, defaultOutputTokens: 0, pricingStatus: 'unverified', enabled: true }),
+   // Compatibility aliases exposed by the product UI. They all resolve to the
+   // current Google image model; the retired Imagen 4 endpoint is never called.
+   'google:imagen-4.0-fast-generate-001': model({ provider: 'google', modelId: GOOGLE_IMAGE_MODEL, category: 'image', minimumCredits: 10, imagePriceUsd: null, defaultOutputTokens: 0, pricingStatus: 'unverified', enabled: true }),
+   'google:nano-banana-2-lite': model({ provider: 'google', modelId: GOOGLE_IMAGE_MODEL, category: 'image', minimumCredits: 5, imagePriceUsd: null, defaultOutputTokens: 0, pricingStatus: 'unverified', enabled: true }),
+   'google:nano-banana-2': model({ provider: 'google', modelId: GOOGLE_IMAGE_MODEL, category: 'image', minimumCredits: 10, imagePriceUsd: null, defaultOutputTokens: 0, pricingStatus: 'unverified', enabled: true }),
+   'google:nano-banana-pro': model({ provider: 'google', modelId: GOOGLE_IMAGE_MODEL, category: 'image', minimumCredits: 25, imagePriceUsd: null, defaultOutputTokens: 0, pricingStatus: 'unverified', enabled: true }),
    'google:veo-2.0-generate-001': model({ provider: 'google', modelId: 'veo-2.0-generate-001', category: 'video', minimumCredits: 20, videoPriceUsdPerSecond: null, defaultOutputTokens: 0, pricingStatus: 'unverified', enabled: true }),
    'google:veo-fast': model({ provider: 'google', modelId: 'veo-2.0-generate-001', category: 'video', minimumCredits: 60, videoPriceUsdPerSecond: null, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
    'google:veo-quality': model({ provider: 'google', modelId: 'veo-2.0-generate-001', category: 'video', minimumCredits: 120, videoPriceUsdPerSecond: null, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
@@ -83,7 +87,7 @@ export function resolveAIModelId(kind: AIJobKind, provider: string, requestedMod
   const explicit = requestedModel?.trim();
   if (explicit) {
     const config = getAIModelConfig(provider, explicit);
-    return config && (config.category === kind || (kind === 'project' && config.category === 'text') || (kind === 'image' && provider === 'google' && explicit.startsWith('gemini-'))) ? explicit : null;
+    return config && (config.category === kind || (kind === 'project' && config.category === 'text')) ? explicit : null;
   }
   const defaults: Record<string, string> = {
     'google:image': 'nano-banana-2',
@@ -106,7 +110,7 @@ export function estimateTokens(value: unknown): number {
 export function estimateAICredits(input: CreditEstimateInput): CreditEstimate {
   const config = getAIModelConfig(input.provider, input.model);
   if (!config) throw new Error('MODEL_NOT_ALLOWED');
-  if (!(config.category === input.kind || (input.kind === 'project' && config.category === 'text') || (input.kind === 'image' && input.provider === 'google' && input.model?.startsWith('gemini-')))) throw new Error('MODEL_KIND_NOT_ALLOWED');
+  if (!(config.category === input.kind || (input.kind === 'project' && config.category === 'text'))) throw new Error('MODEL_KIND_NOT_ALLOWED');
 
   const serializedInput = typeof input.input === 'string' ? input.input : JSON.stringify(input.input ?? '');
   if (serializedInput.length > DEFAULT_MAX_INPUT_CHARS) throw new Error('INPUT_TOO_LARGE');
