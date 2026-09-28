@@ -42,6 +42,30 @@ Después de crear, corregir o rotar la variable hay que desplegar de nuevo
 Production. Una ejecución local con variables descargadas no demuestra que el
 último despliegue las haya recibido.
 
+## Prueba de humo de imagen
+
+Después del preflight, ejecutar la prueba aislada contra el despliegue que se
+quiere comprobar. No usa créditos, cola, MongoDB, R2 ni historial del chat:
+
+```bash
+curl --fail-with-body --request POST \
+  --header "Authorization: Bearer $CRON_SECRET" \
+  --header "Content-Type: application/json" \
+  --data '{"prompt":"A photorealistic orange cat running through a green field"}' \
+  https://TU-DOMINIO/api/debug/gemini-image
+```
+
+También puede ejecutarlo un administrador autenticado en Prompt Studio. El
+secreto sólo se admite en `Authorization`; `?secret=` se rechaza para evitar
+que termine en URLs, logs o historial.
+
+Un resultado válido contiene `status=passed`, `correlationId`, proveedor,
+modelo, estado HTTP, duración y una imagen `data:` cuyos bytes fueron validados
+como PNG, JPEG, WebP o GIF. El resultado fallido contiene sólo categoría,
+estado, código seguro y si es reintentable. No devuelve el prompt, credenciales
+ni el cuerpo arbitrario del proveedor. El mismo `correlationId` se escribe en
+el log estructurado `gemini_image_smoke`.
+
 ## Atribuir un 401
 
 Buscar el evento estructurado `generation_provider_request` añadido en #780:

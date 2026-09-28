@@ -40,3 +40,12 @@ test('AI generation is idempotent, credit-controlled and processed outside creat
   assert.ok(process.includes('runAIJob(job)'));
   assert.ok(process.includes('refundCredits(job)'));
 });
+
+test('Gemini smoke test is operations-only and never accepts secrets in the URL', async () => {
+  const route = await source('src/app/api/debug/gemini-image/route.ts');
+  assert.ok(route.includes('hasValidCronSecretHeader'));
+  assert.ok(route.includes('isPremiumJoAdmin'));
+  assert.ok(!route.includes("searchParams.get('secret')"));
+  assert.ok(route.includes('validateGeminiSmokeImage'));
+  assert.ok(route.includes('correlationId'));
+});
