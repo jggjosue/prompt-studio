@@ -12,12 +12,15 @@ export function StaticComponentPreview({
   type,
   preview,
   children,
+  liveByDefault = false,
 }: {
   title: string;
   type: string;
   preview: PreviewPalette;
   /** Optional live component shown on hover */
   children?: ReactNode;
+  /** Show the live component immediately instead of waiting for hover. */
+  liveByDefault?: boolean;
 }) {
   const primary = preview.primary ?? '#2563eb';
   const secondary = preview.secondary ?? '#8b5cf6';
@@ -30,6 +33,7 @@ export function StaticComponentPreview({
 
   const { ref, isNearView } = useIntersectionInView({ rootMargin: '700px 0px', once: false });
   const [isHovered, setIsHovered] = useState(false);
+  const showLivePreview = Boolean(children) && (liveByDefault || type === 'form' || isHovered);
 
   return (
     <div
@@ -49,8 +53,8 @@ export function StaticComponentPreview({
       {isNearView && (
         <div
           className="absolute inset-0 flex flex-col transition-opacity duration-300"
-          style={{ opacity: children && isHovered ? 0 : 1 }}
-          aria-hidden={children && isHovered ? true : undefined}
+          style={{ opacity: showLivePreview ? 0 : 1 }}
+          aria-hidden={showLivePreview ? true : undefined}
         >
           {/* Ambient glow blobs */}
           <div
@@ -263,8 +267,8 @@ export function StaticComponentPreview({
       {children && isNearView && (
         <div
           className="absolute inset-0 transition-opacity duration-300"
-          style={{ opacity: isHovered ? 1 : 0, pointerEvents: isHovered ? 'auto' : 'none' }}
-          aria-hidden={!isHovered}
+          style={{ opacity: showLivePreview ? 1 : 0, pointerEvents: showLivePreview ? 'auto' : 'none' }}
+          aria-hidden={!showLivePreview}
         >
           {children}
           {/* Live badge */}
@@ -272,7 +276,7 @@ export function StaticComponentPreview({
             className="absolute bottom-2 right-2 flex items-center gap-1 rounded-full px-2 py-0.5 text-[8px] font-bold text-white shadow-lg transition-opacity duration-300"
             style={{
               background: `linear-gradient(90deg,${primary},${secondary})`,
-              opacity: isHovered ? 1 : 0,
+              opacity: showLivePreview ? 1 : 0,
             }}
           >
             <Sparkles className="size-2.5" />
@@ -283,4 +287,3 @@ export function StaticComponentPreview({
     </div>
   );
 }
-

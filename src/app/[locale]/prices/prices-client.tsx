@@ -142,6 +142,7 @@ const PLAN_METADATA: PlanMetadata[] = [
     credits: 0,
     isMostPopular: false,
   },
+  /* Future plans: keep these definitions ready, but do not show them on /prices yet.
   {
     id: 'premium',
     nameKey: 'premiumName',
@@ -178,6 +179,7 @@ const PLAN_METADATA: PlanMetadata[] = [
     isMostPopular: false,
     comingSoon: true,
   },
+  */
 ];
 
 export default function PricesClient() {
@@ -346,7 +348,7 @@ export default function PricesClient() {
             </button>
           </div>
 
-          <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 xl:gap-8">
+          <div className="mx-auto grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-2 xl:gap-8">
             {PLANS.map((plan) => {
               const available = plan.id === 'free' ||
                 plan.id === 'premium' ||

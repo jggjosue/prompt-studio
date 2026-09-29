@@ -1,6 +1,7 @@
 import data from '../data/prompts/placeholder-images.json';
 import type { Locale } from '@/i18n/config';
 import { pickLocalized, type LocalizedField } from '@/lib/localized-string';
+import { serializeCatalogPrompt } from '@/lib/catalog-prompt';
 
 export type ImagePlaceholder = {
   id: string;
@@ -28,22 +29,12 @@ type RawImageEntry = {
 function mapImageEntry(image: RawImageEntry, index: number, locale: Locale | string): ImagePlaceholder {
   const generatedId = `img-${index + 1}`;
   const title = pickLocalized(image.title, locale);
-  const descriptionText = pickLocalized(image.description, locale);
   const imageHint = pickLocalized(image.imageHint, locale);
-
-  const { id: _sourceId, randomId: _randomId, imageUrl, membership: _membership, ...rest } = image;
-  const cleanMetadata = {
-    ...rest,
-    title,
-    description: descriptionText,
-    imageHint,
-  };
-  delete (cleanMetadata as { randomId?: string }).randomId;
 
   return {
     id: generatedId,
     title,
-    description: JSON.stringify(cleanMetadata, null, 2),
+    description: serializeCatalogPrompt(image, locale),
     imageUrl: image.imageUrl,
     imageHint,
     type: image.type,

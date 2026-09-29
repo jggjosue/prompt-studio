@@ -118,7 +118,9 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
   useEffect(() => {
     const promptParam = searchParams.get('prompt');
     if (promptParam && messages.length === 0) {
-      setPrompt(decodeURIComponent(promptParam));
+      // URLSearchParams already decodes the value. Decoding it again corrupts
+      // valid prompt content containing percent signs or encoded-looking text.
+      setPrompt(promptParam);
     }
   }, [searchParams, messages.length]);
 
