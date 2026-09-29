@@ -2,7 +2,7 @@
 
 Platform: **Vercel**. Production branch: `main`. Each open branch generates a
 *preview*. This document covers only what is not obvious from the Vercel
-dashboard: what the build does on its own, why the AI queue has no scheduler,
+dashboard: what the build does on its own, how the AI queue is dispatched,
 and what breaks if an environment variable is missing.
 
 ---
@@ -29,49 +29,31 @@ build. It is the price of serving the catalog as static.
 
 ---
 
-## 2. The AI queue has no scheduler
+## 2. Immediate AI dispatch and recovery cron
 
-`vercel.json` **declares no cron job**. It used to declare one:
+`POST /api/ai/jobs` persists the job, reserves credits, and then publishes its
+ID to Upstash QStash. QStash immediately sends a signed request to the existing
+processor, so normal user jobs do not wait for a cron sweep.
 
-```json
-{ "path": "/api/ai/jobs/process?limit=3", "schedule": "* * * * *" }
-```
+`vercel.json` still calls `/api/ai/jobs/process` every minute. This cron is a
+recovery mechanism for failed publishes, expired leases, scheduled application
+retries, and reconciliation; it is not the primary user trigger.
 
-It was removed because Vercel's Hobby plan only allows cron jobs that run **once
-per day**; a per-minute expression is rejected and the deployment fails.
+Operational details:
 
-**What this means, plainly: nothing advances the AI queue by itself.** A job
-submitted to `/api/ai/jobs` stays in `queued` with its credits `reserved` until
-something calls `/api/ai/jobs/process`. That endpoint still exists and still
-works; it simply has no scheduler behind it.
-
-To process the queue, call it with the cron secret:
-
-```bash
-curl -H "Authorization: Bearer $CRON_SECRET" \
-  "https://<dominio>/api/ai/jobs/process?limit=3"
-```
-
-Ways to put a scheduler back, when the queue is needed:
-
-| Option | Cost |
-|---|---|
-| Vercel Pro | Restores `schedule: "* * * * *"`; per-minute precision |
-| Hobby with `"schedule": "0 * * * *"` | Not allowed either — Hobby caps at once per day |
-| An external scheduler (GitHub Actions `schedule`, cron-job.org, Upstash QStash) | Free; calls the URL above with the secret |
-
-Other details that still apply when a scheduler is in place:
-
-- The route authenticates with `hasValidCronSecret`, **not** with a session.
-  Without `CRON_SECRET` it returns 401 with no noise at all, and the queue stops
-  advancing with credits still reserved. The symptom is `reserved` growing in
-  `ai_credit_accounts`.
+- QStash deliveries require a valid `Upstash-Signature`; cron requests require
+  `CRON_SECRET`. A Clerk session can still process a user-owned job explicitly.
+- If QStash is unavailable, creation still returns a durable queued job and
+  records `generation_queue_fallback`; cron picks it up.
+- `AI_QUEUE_KILL_SWITCH=true` disables publishing immediately and deliberately
+  returns all new work to cron recovery.
 - `maxDuration = 300` on the route. The external worker timeout is 270 s
   precisely to fail before the platform does.
 - A one-minute cadence with a 5-minute lease means a hung job is not retried
   until those 5 minutes have passed, not on the following minute.
 
-See [AI_ARCHITECTURE.md](AI_ARCHITECTURE.md) §3.
+See [AI Generation Queue](ai-generation-queue.md) and
+[ADR 004](architecture/adr-004-immediate-generation-dispatch.md).
 
 ---
 
@@ -103,7 +85,8 @@ breaks when each group is missing:
 |---|---|
 | `MONGODB_URI` | Everything that persists. Immediate and loud failure (`bufferCommands: false`) |
 | Clerk | No session; all authenticated routes return 401 |
-| `CRON_SECRET` | Nothing can drain the AI queue: `/api/ai/jobs/process` returns 401 with no noise (§2) |
+| QStash keys | Immediate dispatch falls back to the durable queue and recovery cron (§2) |
+| `CRON_SECRET` | Recovery/reconciliation cannot drain jobs missed by QStash (§2) |
 | Stripe | Payments fail at checkout; webhooks return 400. **The build still succeeds**: the client is built lazily, so a missing key breaks the call, not the compilation |
 | `AI_GENERATION_WORKER_URL` / `_TOKEN` | Only in-process image+`google` works; the rest of the jobs fail and refund credits |
 | R2 | Uploads fail; already uploaded assets continue to be served |
@@ -171,7 +154,7 @@ deployment; details and the reason for not forcing it are in
 
 ## Related source files
 
-- [`vercel.json`](../vercel.json) — build config, header rules, and the cron contract without a scheduler
+- [`vercel.json`](../vercel.json) — build config, header rules, and the recovery cron
 - [`next.config.ts`](../next.config.ts) — build pipeline wiring
 - [`.env.example`](../.env.example) — the 91 documented variables and their groups
 - [`.github/workflows/quality.yml`](../.github/workflows/quality.yml) — CI: `validate`, build, browser tests
