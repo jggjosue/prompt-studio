@@ -43,7 +43,7 @@ export function selectedChatConfiguration(mode: ChatMode, params: ChatParams): C
     ];
   }
   return [
-    { label: 'Modelo', value: display(params.model ?? params.webModel, 'gemini-2.5-flash') },
+    { label: 'Modelo', value: display(params.model ?? params.webModel, 'gemini-3.1-flash-lite') },
     { label: 'Sección', value: display(params.webComponent, 'hero') },
     { label: 'Framework', value: display(params.webFramework, 'nextjs') },
     { label: 'Tema', value: display(params.webTheme, 'glassmorphism') },

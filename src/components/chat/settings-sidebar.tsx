@@ -60,7 +60,7 @@ function ModelTiersSelect({
   return (
     <div className="space-y-1.5">
       <label className="block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Modelo</label>
-      <div className="grid grid-cols-3 gap-1">
+      <div className={cn('grid gap-1', tiers.length === 1 ? 'grid-cols-1' : 'grid-cols-3')}>
         {tiers.map(tier => {
           const active = value === tier.modelId;
           return (
@@ -370,7 +370,7 @@ export function SettingsSidebar({ chat, mobileOpen, onMobileClose }: {
             </ParamSelect>
 
             {params.provider === 'google' ? (
-              <ModelTiersSelect group="project" value={params.model ?? 'gemini-2.5-flash'} onChange={v => updateParam(setParams, 'model', v)} />
+              <ModelTiersSelect group="project" value={params.model ?? 'gemini-3.1-flash-lite'} onChange={v => updateParam(setParams, 'model', v)} />
             ) : (
               <ParamSelect
                 label="Modelo"

@@ -38,6 +38,7 @@ const model = (config: Omit<AIModelConfig, 'maxCredits' | 'maxInputTokens' | 'ma
  * in production; it is never inferred from a client-supplied value.
  */
 export const AI_MODEL_CONFIG: Record<string, AIModelConfig> = {
+   'google:gemini-3.1-flash-lite': model({ provider: 'google', modelId: 'gemini-3.1-flash-lite', category: 'project', minimumCredits: 2, inputTokenPriceUsdPerMillion: 0.25, outputTokenPriceUsdPerMillion: 1.50, defaultOutputTokens: 4_000, maxOutputTokens: 65_536, pricingStatus: 'verified', enabled: true }),
    'google:gemini-2.5-flash': model({ provider: 'google', modelId: 'gemini-2.5-flash', category: 'project', minimumCredits: 20, inputTokenPriceUsdPerMillion: 0.30, outputTokenPriceUsdPerMillion: 2.50, defaultOutputTokens: 4_000, pricingStatus: 'verified', enabled: true }),
    'google:gemini-2.0-flash': model({ provider: 'google', modelId: 'gemini-2.0-flash', category: 'project', minimumCredits: 10, inputTokenPriceUsdPerMillion: null, outputTokenPriceUsdPerMillion: null, defaultOutputTokens: 4_000, pricingStatus: 'unverified', enabled: true }),
    'google:gemini-2.5-pro': model({ provider: 'google', modelId: 'gemini-2.5-pro', category: 'project', minimumCredits: 50, inputTokenPriceUsdPerMillion: 1.25, outputTokenPriceUsdPerMillion: 10, defaultOutputTokens: 4_000, pricingStatus: 'verified', enabled: true }),
@@ -92,7 +93,7 @@ export function resolveAIModelId(kind: AIJobKind, provider: string, requestedMod
   const defaults: Record<string, string> = {
     'google:image': 'nano-banana-2',
     'google:video': 'veo-fast',
-    'google:project': 'gemini-2.5-flash',
+    'google:project': 'gemini-3.1-flash-lite',
     'openai:image': 'dall-e-3',
     'openai:project': 'gpt-4o',
     'anthropic:project': 'claude-3-5-sonnet-20240620',
