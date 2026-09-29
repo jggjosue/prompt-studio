@@ -11,6 +11,7 @@ import { providerHttpStatus, safeProviderHost } from '@/lib/provider-error-safet
 import { GOOGLE_IMAGE_API_VERSION, GOOGLE_IMAGE_ENDPOINT_LABEL, googleImageModelFor } from '@/lib/google-image-config';
 import { createGeminiTextInteraction } from '@/lib/gemini-interactions';
 import { getAIModelConfig } from '@/lib/ai-credit-config';
+import { generationSubmissionKey } from '@/lib/generation-idempotency';
 
 export type ErrorCategory =
   | 'BAD_REQUEST'
@@ -20,7 +21,8 @@ export type ErrorCategory =
   | 'PROVIDER_ERROR'
   | 'TIMEOUT'
   | 'NO_IMAGE'
-  | 'STORAGE_ERROR';
+  | 'STORAGE_ERROR'
+  | 'CONTENT_BLOCKED';
 
 function requestContext(job: IAIGenerationJob, input: Pick<GenerationRequestContext, 'service' | 'host' | 'endpointLabel' | 'method'>, modelId = job.modelId): GenerationRequestContext {
   const jobId = String(job._id);
@@ -51,8 +53,30 @@ export function mapGeminiError(
     return { category: 'NO_IMAGE', userMessage: 'No se generó ninguna imagen.' };
   }
 
-  if (errorCode === 'CREDENTIAL_MISSING') {
-    return { category: 'AUTH_OR_PERMISSION', userMessage: 'No tienes permisos o la API key es inválida.' };
+  // 2.5 API error codes based on Gemini documentation
+  const blockedCodes = ['safety', 'recitation', 'language', 'prohibited_content', 'spii', 'blocklist', 'image_safety', 'image_prohibited_content', 'image_recitation', 'image_other', 'content_blocked'];
+  if (blockedCodes.includes(errorCode) || (resolvedFinishReason && blockedCodes.includes(resolvedFinishReason.toLowerCase()))) {
+    return { category: 'CONTENT_BLOCKED', userMessage: 'La generación fue bloqueada por políticas de seguridad o contenido. Por favor, modifica tu prompt.', internalDetails: { errorCode, finishReason: resolvedFinishReason } };
+  }
+
+  if (['invalid_request', 'failed_precondition', 'out_of_range', 'parameter_unknown'].includes(errorCode)) {
+    return { category: 'BAD_REQUEST', userMessage: 'Solicitud inválida o parámetros incorrectos.', internalDetails: { errorCode } };
+  }
+
+  if (['authentication', 'permission_denied', 'CREDENTIAL_MISSING'].includes(errorCode)) {
+    return { category: 'AUTH_OR_PERMISSION', userMessage: 'No tienes permisos o la API key es inválida.', internalDetails: { errorCode } };
+  }
+
+  if (errorCode === 'payment_required' || ['rate_limit_exceeded', 'quota_exceeded', 'too_many_requests'].includes(errorCode)) {
+    return { category: 'RATE_LIMIT_OR_QUOTA', userMessage: 'Has alcanzado el límite de cuota o se requiere pago.', internalDetails: { errorCode } };
+  }
+
+  if (errorCode === 'model_not_found') {
+    return { category: 'MODEL_NOT_FOUND', userMessage: 'El modelo no está disponible, selecciona otro.', internalDetails: { errorCode } };
+  }
+
+  if (['deadline_exceeded', 'cancelled'].includes(errorCode)) {
+    return { category: 'TIMEOUT', userMessage: 'Tiempo de espera agotado o cancelado, intenta de nuevo.', internalDetails: { errorCode } };
   }
 
   // 3. HTTP status code mapping
@@ -127,13 +151,17 @@ async function runExternalWorker(job: IAIGenerationJob) {
   const apiModelId = (config?.modelId && config.modelId !== job.modelId) ? config.modelId : job.modelId;
   const safeInput = job.kind === 'image' || job.kind === 'video' ? stripReferenceMedia(job.input) : job.input;
   const input = { ...safeInput, model: apiModelId };
+  // Stable for the lifetime of this generation. A lease recovery gets a new
+  // ownership token but must reuse this key so the worker/provider can replay
+  // the original result instead of starting and charging another generation.
+  const generationIdempotencyKey = generationSubmissionKey(job);
   const response = await observedGenerationFetch(requestContext(job, {
     service: 'ai-generation-worker', host: safeProviderHost(url), endpointLabel: 'configured-generation-worker', method: 'POST',
   }, apiModelId), () => fetch(url, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}`, 'Idempotency-Key': job.idempotencyKey },
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}`, 'Idempotency-Key': generationIdempotencyKey },
     body: JSON.stringify({
-      jobId: String(job._id), ownershipToken: job.lockToken, kind: job.kind, provider: job.provider, input,
+      jobId: String(job._id), generationIdempotencyKey, ownershipToken: job.lockToken, kind: job.kind, provider: job.provider, input,
       ...((job.input.experiment === true || job.input.evaluationSuite === true) ? { evaluationRequested: { scale: 100, dimensions: Array.isArray(job.input.evaluationRubric) ? job.input.evaluationRubric.slice(0, 6) : ['fidelity', 'quality'], expected: typeof job.input.expected === 'string' ? job.input.expected : '', seed: typeof job.input.seed === 'number' ? job.input.seed : undefined, temperature: typeof job.input.temperature === 'number' ? job.input.temperature : undefined } } : {}),
     }),
     signal: AbortSignal.timeout(270_000),

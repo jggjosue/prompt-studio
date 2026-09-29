@@ -7,7 +7,7 @@ import {
 import mongoose, { Document, Schema } from 'mongoose';
 
 export type AIJobKind = 'image' | 'video' | 'project' | 'vision' | 'text' | 'videoUnderstanding';
-export type AIJobStatus = 'queued' | 'processing' | 'retrying' | 'completed' | 'failed';
+export type AIJobStatus = 'queued' | 'processing' | 'retrying' | 'uploading' | 'finalizing' | 'completed' | 'failed' | 'dead_letter' | 'cancelled';
 
 export interface IAIGenerationJob extends Document {
   userId: string;
@@ -29,9 +29,12 @@ export interface IAIGenerationJob extends Document {
   assetRef?: string | null;
   outputRef?: string | null;
   errorCategory?: GenerationJobErrorCategory | null;
+  retryable?: boolean | null;
+  failureMetadata?: { category: GenerationJobErrorCategory; code?: string | null; httpStatus?: number | null; retryable: boolean; attempt: number; occurredAt: Date } | null;
   progress: number;
   progressMessage: string;
   idempotencyKey: string;
+  generationIdempotencyKey: string;
   creditCost: number;
   creditsCharged?: number | null;
   reservedSubscriptionCredits?: number;
@@ -45,7 +48,7 @@ export interface IAIGenerationJob extends Document {
   actualDurationMs?: number | null;
   outputResolution?: string | null;
   outputQuality?: string | null;
-  creditsState: 'reserved' | 'captured' | 'refunded';
+  creditsState: 'pending' | 'reserved' | 'captured' | 'refunded';
   attempts: number;
   maxAttempts: number;
   nextAttemptAt: Date;
@@ -62,6 +65,10 @@ export interface IAIGenerationJob extends Document {
   uploadingAt?: Date | null;
   finalizingAt?: Date | null;
   completedAt?: Date | null;
+  deadLetterAt?: Date | null;
+  reprocessedAt?: Date | null;
+  reprocessedJobId?: string | null;
+  reprocessReason?: string | null;
   cancelledAt?: Date | null;
   updatedAt: Date;
 }
@@ -85,10 +92,13 @@ const AIGenerationJobSchema = new Schema<IAIGenerationJob>({
   providerRequestId: { type: String, default: null, maxlength: 200 },
   assetRef: { type: String, default: null, maxlength: 500 },
   outputRef: { type: String, default: null, maxlength: 500 },
-  errorCategory: { type: String, default: null, enum: ['bad_request', 'auth_or_permission', 'model_not_found', 'rate_limit_or_quota', 'timeout', 'provider_error', 'storage_error', 'cancelled', 'unknown'] },
+  errorCategory: { type: String, default: null, enum: ['bad_request', 'auth_or_permission', 'model_not_found', 'rate_limit_or_quota', 'timeout', 'provider_error', 'provider_unavailable', 'storage_error', 'validation_error', 'configuration_error', 'cancelled', 'unknown'] },
+  retryable: { type: Boolean, default: null },
+  failureMetadata: { type: new Schema({ category: { type: String, required: true }, code: { type: String, default: null, maxlength: 100 }, httpStatus: { type: Number, default: null }, retryable: { type: Boolean, required: true }, attempt: { type: Number, required: true, min: 0 }, occurredAt: { type: Date, required: true } }, { _id: false }), default: null },
   progress: { type: Number, default: 0, min: 0, max: 100 },
   progressMessage: { type: String, default: 'Esperando procesamiento' },
   idempotencyKey: { type: String, required: true },
+  generationIdempotencyKey: { type: String, required: true, default: () => randomUUID(), maxlength: 120 },
   creditCost: { type: Number, required: true, min: 0 },
   creditsCharged: { type: Number, default: null, min: 0 },
   reservedSubscriptionCredits: { type: Number, default: 0, min: 0 },
@@ -102,7 +112,7 @@ const AIGenerationJobSchema = new Schema<IAIGenerationJob>({
   actualDurationMs: { type: Number, default: null, min: 0 },
   outputResolution: { type: String, default: null, maxlength: 80 },
   outputQuality: { type: String, default: null, maxlength: 80 },
-  creditsState: { type: String, enum: ['reserved', 'captured', 'refunded'], default: 'reserved' },
+  creditsState: { type: String, enum: ['pending', 'reserved', 'captured', 'refunded'], default: 'pending' },
   attempts: { type: Number, default: 0 },
   maxAttempts: { type: Number, default: 3, min: 1, max: 5 },
   nextAttemptAt: { type: Date, default: Date.now, index: true },
@@ -123,11 +133,19 @@ const AIGenerationJobSchema = new Schema<IAIGenerationJob>({
   uploadingAt: { type: Date, default: null },
   finalizingAt: { type: Date, default: null },
   completedAt: { type: Date, default: null },
+  deadLetterAt: { type: Date, default: null, index: true },
+  reprocessedAt: { type: Date, default: null },
+  reprocessedJobId: { type: String, default: null, maxlength: 80 },
+  reprocessReason: { type: String, default: null, maxlength: 500 },
   cancelledAt: { type: Date, default: null },
   updatedAt: { type: Date, default: Date.now },
 }, { versionKey: false, suppressReservedKeysWarning: true });
 
 AIGenerationJobSchema.index({ userId: 1, idempotencyKey: 1 }, { unique: true });
+AIGenerationJobSchema.index(
+  { generationIdempotencyKey: 1 },
+  { unique: true, partialFilterExpression: { generationIdempotencyKey: { $type: 'string' } } },
+);
 AIGenerationJobSchema.index({ status: 1, nextAttemptAt: 1, leaseExpiresAt: 1 });
 
 export default mongoose.models.AIGenerationJob || mongoose.model<IAIGenerationJob>('AIGenerationJob', AIGenerationJobSchema, 'ai_generation_jobs');

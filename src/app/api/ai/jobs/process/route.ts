@@ -8,6 +8,7 @@ import { generationJobErrorCategory, type GenerationJobState } from '@/lib/gener
 import { verifyGenerationQueueRequest } from '@/lib/generation-queue-dispatch';
 import {
   claimGenerationJob,
+  claimExhaustedGenerationJob,
   GenerationJobOwnershipError,
   transitionGenerationJob,
   updateOwnedGenerationJob,
@@ -28,16 +29,37 @@ export const maxDuration = 300;
 
 async function processOne(userId?: string, leaseMinutes = 5, jobId?: string) {
   const leaseMs = leaseMinutes * 60_000;
-  const claimed = await observeOperation(
+  const claimInput = {
+    owner: process.env.VERCEL_REGION ? `vercel:${process.env.VERCEL_REGION}` : 'prompt-studio-local',
+    leaseMs,
+    userId,
+    jobId,
+  };
+  let claimed = await observeOperation(
     { category: 'slow_query', name: 'ai_job_claim', route: '/api/ai/jobs/process' },
-    () => claimGenerationJob({
-      owner: process.env.VERCEL_REGION ? `vercel:${process.env.VERCEL_REGION}` : 'prompt-studio-local',
-      leaseMs,
-      userId,
-      jobId,
-    }),
+    () => claimGenerationJob(claimInput),
   );
-  if (!claimed) return null;
+  if (!claimed) {
+    claimed = await claimExhaustedGenerationJob(claimInput);
+    if (!claimed) return null;
+    const exhausted = claimed.job;
+    await refundCredits(exhausted);
+    const failed = await transitionGenerationJob({
+      jobId: String(exhausted._id),
+      from: 'processing',
+      to: 'failed',
+      lockToken: claimed.lockToken,
+      patch: {
+        progressMessage: 'La generación agotó sus intentos y los créditos fueron devueltos',
+        lastError: exhausted.lastError || 'El worker perdió su lease en el último intento.',
+        errorCategory: exhausted.errorCategory || 'unknown',
+        creditsState: exhausted.creditsState,
+      },
+    });
+    await notifyJobFinished(failed);
+    await failed.save();
+    return { id: String(failed._id), status: 'failed', recoveredExpiredLease: true };
+  }
   let job = claimed.job;
   const { lockToken } = claimed;
   let currentState: GenerationJobState = 'processing';
@@ -129,13 +151,23 @@ async function processOne(userId?: string, leaseMinutes = 5, jobId?: string) {
       return { id: String(job._id), status: currentState };
     }
     const lastError = error instanceof Error ? error.message.slice(0, 500) : 'Error desconocido del proveedor.';
+    const httpStatus = providerHttpStatus(error);
+    const errorCode = safeErrorCode(error);
     const errorCategory = generationJobErrorCategory({
-      httpStatus: providerHttpStatus(error),
-      code: safeErrorCode(error),
+      httpStatus,
+      code: errorCode,
       message: lastError,
     });
-    if (job.attempts < job.maxAttempts) {
-      const delayMinutes = 2 ** Math.max(0, job.attempts - 1);
+    const retry = generationRetryDecision({ category: errorCategory, attempt: job.attempts, maxAttempts: job.maxAttempts });
+    const failureMetadata = {
+      category: errorCategory,
+      code: errorCode || null,
+      httpStatus,
+      retryable: retry.retryable,
+      attempt: job.attempts,
+      occurredAt: new Date(),
+    };
+    if (retry.action === 'retry') {
       job = await transitionGenerationJob({
         jobId: String(job._id),
         from: currentState,
@@ -143,9 +175,11 @@ async function processOne(userId?: string, leaseMinutes = 5, jobId?: string) {
         lockToken,
         patch: {
           progressMessage: `Reintento ${job.attempts + 1} de ${job.maxAttempts}`,
-          nextAttemptAt: new Date(Date.now() + delayMinutes * 60_000),
+          nextAttemptAt: retry.nextAttemptAt,
           lastError,
           errorCategory,
+          retryable: true,
+          failureMetadata,
         },
       });
       currentState = 'queued';
@@ -155,23 +189,27 @@ async function processOne(userId?: string, leaseMinutes = 5, jobId?: string) {
       job = await transitionGenerationJob({
         jobId: String(job._id),
         from: currentState,
-        to: 'failed',
+        to: 'dead_letter',
         lockToken,
         patch: {
-          progressMessage: 'La generación falló y los créditos fueron devueltos',
+          progressMessage: retry.retryable
+            ? 'La generación agotó sus intentos y requiere revisión'
+            : 'La generación requiere corregir su configuración antes de reprocesarla',
           lastError,
           errorCategory,
+          retryable: retry.retryable,
+          failureMetadata,
           actualDurationMs: durationMs,
           actualCostUsd: null,
           creditsState: job.creditsState,
         },
       });
-      currentState = 'failed';
+      currentState = 'dead_letter';
       await notifyJobFinished(job);
       await job.save();
-      reportOperationalError({ category: 'ai_generation', name: 'generation_failed', route: '/api/ai/jobs/process', userId: job.userId, productId: observedProductId, durationMs, costUsd: job.estimatedCostUsd, value: job.creditCost, unit: 'credits', metadata: { operation: 'generate', kind: job.kind, provider: job.provider, modelId: job.modelId, attempts: job.attempts, jobId: String(job._id), correlationId: job.correlationId || String(job._id) } }, error);
+      reportOperationalError({ category: 'ai_generation', name: 'generation_dead_lettered', route: '/api/ai/jobs/process', userId: job.userId, productId: observedProductId, durationMs, costUsd: job.estimatedCostUsd, value: job.creditCost, unit: 'credits', metadata: { operation: 'generate', kind: job.kind, provider: job.provider, modelId: job.modelId, attempts: job.attempts, jobId: String(job._id), correlationId: job.correlationId || String(job._id), errorCategory, retryable: retry.retryable } }, error);
     }
-    if (currentState === 'failed') await finalizeModelRegressionForJob(String(job._id)).catch(() => undefined);
+    if (currentState === 'dead_letter') await finalizeModelRegressionForJob(String(job._id)).catch(() => undefined);
   }
   return { id: String(job._id), status: currentState };
 }
