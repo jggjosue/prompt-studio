@@ -11,6 +11,7 @@ import { providerHttpStatus, safeProviderHost } from '@/lib/provider-error-safet
 import { GOOGLE_IMAGE_API_VERSION, GOOGLE_IMAGE_ENDPOINT_LABEL, googleImageModelFor } from '@/lib/google-image-config';
 import { createGeminiTextInteraction } from '@/lib/gemini-interactions';
 import { getAIModelConfig } from '@/lib/ai-credit-config';
+import { generationSubmissionKey } from '@/lib/generation-idempotency';
 
 export type ErrorCategory =
   | 'BAD_REQUEST'
@@ -127,13 +128,17 @@ async function runExternalWorker(job: IAIGenerationJob) {
   const apiModelId = (config?.modelId && config.modelId !== job.modelId) ? config.modelId : job.modelId;
   const safeInput = job.kind === 'image' || job.kind === 'video' ? stripReferenceMedia(job.input) : job.input;
   const input = { ...safeInput, model: apiModelId };
+  // Stable for the lifetime of this generation. A lease recovery gets a new
+  // ownership token but must reuse this key so the worker/provider can replay
+  // the original result instead of starting and charging another generation.
+  const generationIdempotencyKey = generationSubmissionKey(job);
   const response = await observedGenerationFetch(requestContext(job, {
     service: 'ai-generation-worker', host: safeProviderHost(url), endpointLabel: 'configured-generation-worker', method: 'POST',
   }, apiModelId), () => fetch(url, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}`, 'Idempotency-Key': job.idempotencyKey },
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}`, 'Idempotency-Key': generationIdempotencyKey },
     body: JSON.stringify({
-      jobId: String(job._id), ownershipToken: job.lockToken, kind: job.kind, provider: job.provider, input,
+      jobId: String(job._id), generationIdempotencyKey, ownershipToken: job.lockToken, kind: job.kind, provider: job.provider, input,
       ...((job.input.experiment === true || job.input.evaluationSuite === true) ? { evaluationRequested: { scale: 100, dimensions: Array.isArray(job.input.evaluationRubric) ? job.input.evaluationRubric.slice(0, 6) : ['fidelity', 'quality'], expected: typeof job.input.expected === 'string' ? job.input.expected : '', seed: typeof job.input.seed === 'number' ? job.input.seed : undefined, temperature: typeof job.input.temperature === 'number' ? job.input.temperature : undefined } } : {}),
     }),
     signal: AbortSignal.timeout(270_000),

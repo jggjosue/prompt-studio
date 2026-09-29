@@ -8,6 +8,7 @@ import { generationJobErrorCategory, type GenerationJobState } from '@/lib/gener
 import { generationRetryDecision } from '@/lib/generation-retry-policy';
 import {
   claimGenerationJob,
+  claimExhaustedGenerationJob,
   GenerationJobOwnershipError,
   transitionGenerationJob,
   updateOwnedGenerationJob,
@@ -28,16 +29,37 @@ export const maxDuration = 300;
 
 async function processOne(userId?: string, leaseMinutes = 5, jobId?: string) {
   const leaseMs = leaseMinutes * 60_000;
-  const claimed = await observeOperation(
+  const claimInput = {
+    owner: process.env.VERCEL_REGION ? `vercel:${process.env.VERCEL_REGION}` : 'prompt-studio-local',
+    leaseMs,
+    userId,
+    jobId,
+  };
+  let claimed = await observeOperation(
     { category: 'slow_query', name: 'ai_job_claim', route: '/api/ai/jobs/process' },
-    () => claimGenerationJob({
-      owner: process.env.VERCEL_REGION ? `vercel:${process.env.VERCEL_REGION}` : 'prompt-studio-local',
-      leaseMs,
-      userId,
-      jobId,
-    }),
+    () => claimGenerationJob(claimInput),
   );
-  if (!claimed) return null;
+  if (!claimed) {
+    claimed = await claimExhaustedGenerationJob(claimInput);
+    if (!claimed) return null;
+    const exhausted = claimed.job;
+    await refundCredits(exhausted);
+    const failed = await transitionGenerationJob({
+      jobId: String(exhausted._id),
+      from: 'processing',
+      to: 'failed',
+      lockToken: claimed.lockToken,
+      patch: {
+        progressMessage: 'La generación agotó sus intentos y los créditos fueron devueltos',
+        lastError: exhausted.lastError || 'El worker perdió su lease en el último intento.',
+        errorCategory: exhausted.errorCategory || 'unknown',
+        creditsState: exhausted.creditsState,
+      },
+    });
+    await notifyJobFinished(failed);
+    await failed.save();
+    return { id: String(failed._id), status: 'failed', recoveredExpiredLease: true };
+  }
   let job = claimed.job;
   const { lockToken } = claimed;
   let currentState: GenerationJobState = 'processing';
