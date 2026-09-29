@@ -6,6 +6,7 @@ import {
   type GenerationJobState,
   isTerminalGenerationJobState,
   persistedStatesFor,
+  progressForGenerationJobState,
 } from '@/lib/generation-job-state';
 import AIGenerationJob, { type IAIGenerationJob } from '@/models/AIGenerationJob';
 
@@ -22,7 +23,7 @@ export async function claimGenerationJob(input: {
   userId?: string;
   jobId?: string;
 }): Promise<{ job: IAIGenerationJob; lockToken: string } | null> {
-  return claimGenerationJobAtomically(AIGenerationJob, input);
+  return claimGenerationJobAtomically<IAIGenerationJob>(AIGenerationJob, input);
 }
 
 export async function claimExhaustedGenerationJob(input: {
@@ -31,7 +32,7 @@ export async function claimExhaustedGenerationJob(input: {
   userId?: string;
   jobId?: string;
 }): Promise<{ job: IAIGenerationJob; lockToken: string } | null> {
-  return claimExhaustedGenerationJobAtomically(AIGenerationJob, input);
+  return claimExhaustedGenerationJobAtomically<IAIGenerationJob>(AIGenerationJob, input);
 }
 
 export async function updateOwnedGenerationJob(

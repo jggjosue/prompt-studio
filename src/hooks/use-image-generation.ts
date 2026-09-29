@@ -75,6 +75,16 @@ export async function runGeneration(
         const status = job?.status as string | undefined;
         if (status === 'completed') { imageOutputUrl = extractImageUrl(job?.result); updateGeneration(jobId, { status: 'uploading' }); break; }
         if (status === 'failed') { const msg = (job?.lastError as string | undefined) || 'El trabajo falló en el servidor.'; updateGeneration(jobId, { status: 'failed', error: msg }); return { error: msg }; }
+        // `cancelled` y `dead_letter` también son terminales: sin este caso el
+        // bucle agotaba los 90 intentos y solo mostraba un tiempo de espera.
+        if (status === 'cancelled' || status === 'dead_letter') {
+          const fallback = status === 'cancelled'
+            ? 'Generación cancelada; los créditos fueron devueltos.'
+            : 'La generación se detuvo y los créditos fueron devueltos.';
+          const msg = (job?.progressMessage as string | undefined) || fallback;
+          updateGeneration(jobId, { status: 'failed', error: msg });
+          return { error: msg };
+        }
         if (typeof job?.progressMessage === 'string' && job.progressMessage) {
           lastProgress = job.progressMessage;
           updateGeneration(jobId, { progressMessage: lastProgress });
@@ -181,17 +191,6 @@ function resolveDefaultImageModel(provider: string): string {
 }
 
 // ── Provider-specific input builders ────────────────────────────────────────
-
-function aspectRatioToSize(ratio: string | undefined): string {
-  // OpenAI DALL-E 3 / GPT Image size values
-  switch (ratio) {
-    case '16-9': return '1792x1024';
-    case '9-16': return '1024x1792';
-    case '4-3':  return '1024x1024'; // closest square
-    case '1-1':
-    default:     return '1024x1024';
-  }
-}
 
 function aspectRatioToGoogleValue(ratio: string | undefined): string {
   // Imagen 4 aspectRatio values
