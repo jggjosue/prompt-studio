@@ -57,6 +57,11 @@ firestore-debug.log
 # Precompresión Brotli/Gzip (scripts/precompress-static.mjs, postbuild)
 public/**/*.br
 public/**/*.gz
+
+# Catálogos comprimidos generados por catalog:build (npm run prebuild).
+# No se versionan: prebuild los regenera antes de cualquier deploy.
+*.json.gz
+
 # Transcripciones de desarrollo: contienen claves reales. No subir.
 /docs/code/
 
