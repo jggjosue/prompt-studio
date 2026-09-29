@@ -1,7 +1,13 @@
+import { randomUUID } from 'node:crypto';
+import {
+  GENERATION_JOB_STATES,
+  type GenerationJobErrorCategory,
+  type PersistedGenerationJobState,
+} from '@/lib/generation-job-state';
 import mongoose, { Document, Schema } from 'mongoose';
 
 export type AIJobKind = 'image' | 'video' | 'project';
-export type AIJobStatus = 'queued' | 'processing' | 'retrying' | 'completed' | 'failed';
+export type AIJobStatus = PersistedGenerationJobState;
 
 export interface IAIGenerationJob extends Document {
   userId: string;
@@ -18,6 +24,11 @@ export interface IAIGenerationJob extends Document {
   input: Record<string, unknown>;
   result?: Record<string, unknown> | null;
   status: AIJobStatus;
+  correlationId: string;
+  providerRequestId?: string | null;
+  assetRef?: string | null;
+  outputRef?: string | null;
+  errorCategory?: GenerationJobErrorCategory | null;
   progress: number;
   progressMessage: string;
   idempotencyKey: string;
@@ -39,13 +50,19 @@ export interface IAIGenerationJob extends Document {
   maxAttempts: number;
   nextAttemptAt: Date;
   leaseExpiresAt?: Date | null;
+  lockOwner?: string | null;
+  lockToken?: string | null;
+  lockAcquiredAt?: Date | null;
   lastError?: string | null;
   feedbackUseful: boolean | null;
   notifyOnComplete: boolean;
   notificationSentAt?: Date | null;
   createdAt: Date;
   startedAt?: Date | null;
+  uploadingAt?: Date | null;
+  finalizingAt?: Date | null;
   completedAt?: Date | null;
+  cancelledAt?: Date | null;
   updatedAt: Date;
 }
 
@@ -63,7 +80,12 @@ const AIGenerationJobSchema = new Schema<IAIGenerationJob>({
   outputValidation: { type: new Schema({ status:{type:String,enum:['valid','repaired','invalid'],required:true},errors:{type:[String],default:[]},repaired:{type:Boolean,default:false} },{_id:false}), default:null },
   input: { type: Schema.Types.Mixed, required: true },
   result: { type: Schema.Types.Mixed, default: null },
-  status: { type: String, required: true, enum: ['queued', 'processing', 'retrying', 'completed', 'failed'], default: 'queued', index: true },
+  status: { type: String, required: true, enum: [...GENERATION_JOB_STATES, 'retrying'], default: 'queued', index: true },
+  correlationId: { type: String, required: true, default: () => randomUUID(), maxlength: 120, index: true },
+  providerRequestId: { type: String, default: null, maxlength: 200 },
+  assetRef: { type: String, default: null, maxlength: 500 },
+  outputRef: { type: String, default: null, maxlength: 500 },
+  errorCategory: { type: String, default: null, enum: ['bad_request', 'auth_or_permission', 'model_not_found', 'rate_limit_or_quota', 'timeout', 'provider_error', 'storage_error', 'cancelled', 'unknown'] },
   progress: { type: Number, default: 0, min: 0, max: 100 },
   progressMessage: { type: String, default: 'Esperando procesamiento' },
   idempotencyKey: { type: String, required: true },
@@ -85,6 +107,9 @@ const AIGenerationJobSchema = new Schema<IAIGenerationJob>({
   maxAttempts: { type: Number, default: 3, min: 1, max: 5 },
   nextAttemptAt: { type: Date, default: Date.now, index: true },
   leaseExpiresAt: { type: Date, default: null, index: true },
+  lockOwner: { type: String, default: null, maxlength: 200 },
+  lockToken: { type: String, default: null, maxlength: 120, index: true },
+  lockAcquiredAt: { type: Date, default: null },
   lastError: { type: String, default: null },
   /**
    * Copia del veredicto humano (`AIGenerationFeedback`). Permite filtrar y
@@ -95,7 +120,10 @@ const AIGenerationJobSchema = new Schema<IAIGenerationJob>({
   notificationSentAt: { type: Date, default: null },
   createdAt: { type: Date, default: Date.now, index: true },
   startedAt: { type: Date, default: null },
+  uploadingAt: { type: Date, default: null },
+  finalizingAt: { type: Date, default: null },
   completedAt: { type: Date, default: null },
+  cancelledAt: { type: Date, default: null },
   updatedAt: { type: Date, default: Date.now },
 }, { versionKey: false });
 

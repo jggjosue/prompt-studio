@@ -233,7 +233,7 @@ export async function notifyJobFinished(job: IAIGenerationJob) {
       name: 'job_notification',
       route: 'ai-job-service',
       userId: job.userId,
-      metadata: { operation: 'notify_completion', provider: 'resend', jobId: String(job._id), correlationId: String(job._id), kind: job.kind, attempts: job.attempts },
+      metadata: { operation: 'notify_completion', provider: 'resend', jobId: String(job._id), correlationId: job.correlationId || String(job._id), kind: job.kind, attempts: job.attempts },
     }, error);
   }
 }
