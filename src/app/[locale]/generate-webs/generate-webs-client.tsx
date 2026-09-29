@@ -31,6 +31,13 @@ import { useBrandKitContext } from '@/hooks/use-brand-kit-context';
 import { useToast } from '@/hooks/use-toast';
 import { CREDIT_PACKS, formatCreditPackPrice } from '@/lib/credit-packs';
 import {
+  LONG_GENERATION_POLL_SCHEDULE,
+  isTerminalGenerationStatus,
+  nextGenerationPollDelayMs,
+  terminalGenerationMessage,
+  waitForGenerationPollWindow,
+} from '@/lib/generation-polling';
+import {
   AlertCircle,
   Check,
   ChevronDown,
@@ -68,6 +75,14 @@ const WebCodeAuditor = dynamic(() => import('@/components/web-code-auditor').the
 
 
 // Sample video placeholders to simulate dynamic generation
+
+/**
+ * Presupuestos de espera de este flujo. Mantienen el tiempo total que el usuario
+ * ya esperaba antes (40 × 5 s y 20 × 2 s); el backoff adaptativo solo cambia
+ * cuántas peticiones se hacen dentro de esa misma ventana.
+ */
+const VIDEO_WEB_POLL_BUDGET_MS = 200_000;
+const IMAGE_WEB_POLL_BUDGET_MS = 40_000;
 
 // Helper to generate custom landing page HTML templates for Web previews
 
@@ -699,13 +714,16 @@ export default function GenerateWebsClient({ canGenerateWebs }: { canGenerateWeb
 
         const jobId = jobData.job.id;
         let completed = false;
-        let attempts = 0;
+        let attempt = 0;
+        let elapsedMs = 0;
         setGenStatus('Trabajo en cola. Esperando generación de video...');
 
-        while (!completed && attempts < 40) {
-          attempts++;
-          setGenProgress(Math.min(90, 10 + attempts * 5));
-          await new Promise(resolve => setTimeout(resolve, 5000));
+        while (!completed && elapsedMs < VIDEO_WEB_POLL_BUDGET_MS) {
+          const waitMs = nextGenerationPollDelayMs(attempt);
+          if (!(await waitForGenerationPollWindow(waitMs))) break;
+          elapsedMs += waitMs;
+          attempt += 1;
+          setGenProgress(Math.min(90, 10 + Math.round((elapsedMs / VIDEO_WEB_POLL_BUDGET_MS) * 80)));
 
           try {
             const pollRes = await fetch(`/api/ai/jobs/${jobId}`);
@@ -720,8 +738,10 @@ export default function GenerateWebsClient({ canGenerateWebs }: { canGenerateWeb
                 videoOutputUrl = `data:video/mp4;base64,${videoOutputUrl}`;
               }
               completed = true;
-            } else if (status === 'failed') {
-              throw new Error(pollData.job.lastError || 'El trabajo falló en el servidor.');
+            } else if (isTerminalGenerationStatus(status)) {
+              // `cancelled` y `dead_letter` también cortan el sondeo; si no, el
+              // bucle sigue preguntando hasta agotar el presupuesto.
+              throw new Error(terminalGenerationMessage(pollData.job, status));
             }
           } catch (pollErr: any) {
             console.warn('Poll error:', pollErr);
@@ -805,13 +825,16 @@ Requirements:
 
         const jobId = jobData.job.id;
         let completed = false;
-        let attempts = 0;
+        let attempt = 0;
+        let elapsedMs = 0;
         setGenStatus('Trabajo en cola. Esperando generación web...');
 
-        while (!completed && attempts < 40) {
-          attempts++;
-          setGenProgress(Math.min(90, 10 + attempts * 5));
-          await new Promise(resolve => setTimeout(resolve, 3000));
+        while (!completed && elapsedMs < LONG_GENERATION_POLL_SCHEDULE.maxElapsedMs) {
+          const waitMs = nextGenerationPollDelayMs(attempt);
+          if (!(await waitForGenerationPollWindow(waitMs))) break;
+          elapsedMs += waitMs;
+          attempt += 1;
+          setGenProgress(Math.min(90, 10 + Math.round((elapsedMs / LONG_GENERATION_POLL_SCHEDULE.maxElapsedMs) * 80)));
 
           try {
             const pollRes = await fetch(`/api/ai/jobs/${jobId}`);
@@ -826,8 +849,10 @@ Requirements:
                 generatedHTML = result.candidates[0].content.parts[0].text;
               }
               completed = true;
-            } else if (status === 'failed') {
-              throw new Error(pollData.job.lastError || 'El trabajo falló en el servidor.');
+            } else if (isTerminalGenerationStatus(status)) {
+              // `cancelled` y `dead_letter` también cortan el sondeo; si no, el
+              // bucle sigue preguntando hasta agotar el presupuesto.
+              throw new Error(terminalGenerationMessage(pollData.job, status));
             }
           } catch (pollErr: any) {
             console.warn('Poll error:', pollErr);
@@ -920,13 +945,16 @@ Requirements:
 
       const jobId = jobData.job.id;
       let completed = false;
-      let attempts = 0;
+      let attempt = 0;
+      let elapsedMs = 0;
       setGenStatus('Trabajo en cola. Esperando generación de imagen...');
 
-      while (!completed && attempts < 20) {
-        attempts++;
-        setGenProgress(Math.min(90, 10 + attempts * 4));
-        await new Promise(resolve => setTimeout(resolve, 2000));
+      while (!completed && elapsedMs < IMAGE_WEB_POLL_BUDGET_MS) {
+        const waitMs = nextGenerationPollDelayMs(attempt);
+        if (!(await waitForGenerationPollWindow(waitMs))) break;
+        elapsedMs += waitMs;
+        attempt += 1;
+        setGenProgress(Math.min(90, 10 + Math.round((elapsedMs / IMAGE_WEB_POLL_BUDGET_MS) * 80)));
 
         try {
           const pollRes = await fetch(`/api/ai/jobs/${jobId}`);
@@ -944,8 +972,10 @@ Requirements:
               imageOutputUrl = result.images[0].url;
             }
             completed = true;
-          } else if (status === 'failed') {
-            throw new Error(pollData.job.lastError || 'El trabajo falló en el servidor.');
+          } else if (isTerminalGenerationStatus(status)) {
+            // `cancelled` y `dead_letter` también cortan el sondeo; si no, el
+            // bucle sigue preguntando hasta agotar el presupuesto.
+            throw new Error(terminalGenerationMessage(pollData.job, status));
           }
         } catch (pollErr: any) {
           console.warn('Poll error:', pollErr);
