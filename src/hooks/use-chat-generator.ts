@@ -39,6 +39,7 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
     localGenerating, setLocalGenerating, genProgress, setGenProgress,
     genStatus, setGenStatus, generationError, setGenerationError,
     failGeneration, beginGeneration, finishGeneration,
+    outputImageUrl, setOutputImageUrl,
     outputImageVariations, setOutputImageVariations,
     outputVideoUrl, setOutputVideoUrl, outputWebHTML, setOutputWebHTML,
     copiedCode, setCopiedCode,
@@ -295,7 +296,8 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
     createSession, loadSession, deleteSession, selectedMode, setSelectedMode,
     localGenerating, genProgress, genStatus, generationError,
     outputImageUrl, outputImageVariations, outputVideoUrl, outputWebHTML, copiedCode,
-    generate, reset, imageGen, videoGen, webGen, visionGen, textGen, videoUnderstandingGen,
+    generate, reset, queue, queueRunning, enqueue, startQueue, removeQueueItem, retryQueueItem, clearQueue,
+    imageGen, videoGen, webGen, visionGen, textGen, videoUnderstandingGen,
     setOutputImageUrl, setOutputImageVariations, setOutputVideoUrl, setOutputWebHTML, setCopiedCode,
     setCredits: imageGen.setCredits,
   };

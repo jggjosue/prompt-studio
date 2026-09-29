@@ -10,6 +10,7 @@ import { observedGenerationFetch, recordGenerationRequest, type GenerationReques
 import { providerHttpStatus, safeProviderHost } from '@/lib/provider-error-safety';
 import { GOOGLE_IMAGE_API_VERSION, GOOGLE_IMAGE_ENDPOINT_LABEL, googleImageModelFor } from '@/lib/google-image-config';
 import { createGeminiTextInteraction } from '@/lib/gemini-interactions';
+import { getAIModelConfig } from '@/lib/ai-credit-config';
 
 export type ErrorCategory =
   | 'BAD_REQUEST'
@@ -113,55 +114,6 @@ export function mapGeminiError(
   };
 }
 
-async function saveGeneratedImageToR2(imageUrl: string, job: IAIGenerationJob): Promise<{ imageUrl: string; imageKey: string }> {
-  let buffer: Buffer;
-  let mimeType: string;
-  const source = parseGeneratedImageSource(imageUrl);
-  if (source.kind === 'inline') {
-    buffer = source.buffer;
-    mimeType = source.mimeType;
-  } else {
-    const res = await observedGenerationFetch(requestContext(job, {
-      service: 'generated-image-source', host: safeProviderHost(source.url), endpointLabel: 'generated-image-download', method: 'GET',
-    }), () => fetch(source.url, { signal: AbortSignal.timeout(60_000) }));
-    if (!res.ok) throw new Error(`No se pudo obtener la imagen para R2: ${res.status}.`);
-    buffer = Buffer.from(await res.arrayBuffer());
-    mimeType = res.headers.get('content-type') || 'image/png';
-  }
-  const key = generatedImageKey(job.userId, String(job._id), mimeType);
-  const r2Context = requestContext(job, {
-    service: 'cloudflare-r2', host: 'r2.cloudflarestorage.com', endpointLabel: 'r2-put-object', method: 'PUT',
-  });
-  const r2StartedAt = performance.now();
-  let stored: string | null;
-  try {
-    stored = await putR2Object(key, buffer, mimeType);
-    await recordGenerationRequest(r2Context, {
-      httpStatus: stored ? 200 : 503, durationMs: Math.round(performance.now() - r2StartedAt),
-      ...(!stored ? { providerErrorCode: 'R2_NOT_CONFIGURED', providerErrorMessage: 'R2 storage is unavailable.' } : {}),
-    });
-  } catch (error) {
-    await recordGenerationRequest(r2Context, { error, httpStatus: providerHttpStatus(error), durationMs: Math.round(performance.now() - r2StartedAt) });
-    throw error;
-  }
-  if (!stored) throw new Error('No se pudo guardar la imagen en R2.');
-  return { imageUrl: `/api/ai/jobs/${String(job._id)}/asset`, imageKey: key };
-}
-
-async function generateGeminiImage(prompt: string, model: string, job: IAIGenerationJob): Promise<{ imageUrl: string; result: GeminiImageSuccess }> {
-  const key = googleImageApiKey();
-  const selectedModel = googleImageModelFor(model);
-  const { result } = await requestGoogleImage({
-    prompt,
-    requestedModel: selectedModel,
-    apiKey: key,
-    fetchImpl: (input, init) => observedGenerationFetch(requestContext(job, {
-      service: 'google-gemini', host: 'generativelanguage.googleapis.com', endpointLabel: GOOGLE_IMAGE_ENDPOINT_LABEL, method: 'POST',
-    }, selectedModel), () => fetch(input, init)),
-  });
-  return { imageUrl: result.imageUrl, result };
-}
-
 function asResult(value: unknown): Record<string, unknown> {
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('El proveedor devolvió un resultado inválido.');
   return value as Record<string, unknown>;
@@ -201,18 +153,18 @@ export async function runAIJob(job: IAIGenerationJob): Promise<Record<string, un
     return createGeminiTextInteraction(prompt);
   }
   if (job.kind === 'image' && job.provider === 'google' && !process.env.AI_GENERATION_WORKER_URL) {
-    return generateImage({ prompt, model: job.modelId });
+    return generateImage({ prompt, model: job.modelId ?? undefined });
   }
 
   if (job.kind === 'vision' && job.provider === 'google' && !process.env.AI_GENERATION_WORKER_URL) {
     const referenceImage = (job.input as Record<string, unknown>).referenceImage as string | undefined;
-    return generateVision({ prompt, model: job.modelId, referenceImage });
+    return generateVision({ prompt, model: job.modelId ?? undefined, referenceImage });
   }
 
   if (job.kind === 'text' && job.provider === 'google' && !process.env.AI_GENERATION_WORKER_URL) {
     const thinkingLevel = (job.input as Record<string, unknown>).thinkingLevel as string | undefined;
     const systemInstruction = (job.input as Record<string, unknown>).systemInstruction as string | undefined;
-    return generateText({ prompt, model: job.modelId, thinkingLevel, systemInstruction });
+    return generateText({ prompt, model: job.modelId ?? undefined, thinkingLevel, systemInstruction });
   }
 
   if (job.kind === 'videoUnderstanding' && job.provider === 'google' && !process.env.AI_GENERATION_WORKER_URL) {

@@ -6,6 +6,7 @@ export const AI_JOB_COSTS: Record<AIJobKind, { credits: number; estimatedUsd: nu
   project: { credits: 2, estimatedUsd: 0.08 },
   vision: { credits: 1, estimatedUsd: 0.02 },
   text: { credits: 1, estimatedUsd: 0.01 },
+  videoUnderstanding: { credits: 2, estimatedUsd: 0.02 },
 };
 
 export const AI_JOB_PROVIDERS: Record<AIJobKind, readonly string[]> = {
@@ -14,10 +15,18 @@ export const AI_JOB_PROVIDERS: Record<AIJobKind, readonly string[]> = {
   project: ['google', 'openai', 'anthropic', 'deepseek'],
   vision: ['google', 'openai', 'anthropic'],
   text: ['google', 'openai', 'anthropic', 'deepseek'],
+  videoUnderstanding: ['google'],
 };
 
 export function isAIJobKind(value: unknown): value is AIJobKind {
-  return value === 'image' || value === 'video' || value === 'project' || value === 'vision' || value === 'text';
+  return (
+    value === 'image' ||
+    value === 'video' ||
+    value === 'project' ||
+    value === 'vision' ||
+    value === 'text' ||
+    value === 'videoUnderstanding'
+  );
 }
 
 export function isProviderForKind(kind: AIJobKind, provider: string): boolean {
