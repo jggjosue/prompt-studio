@@ -173,8 +173,35 @@ export const GOOGLE_IMAGE_MODELS = new Set(['nano-banana-2-lite', 'nano-banana-2
 
 function resolveDefaultImageModel(provider: string): string {
   switch (provider) {
-    case 'google': return 'nano-banana-2';
-    default:       return 'nano-banana-2';
+    case 'openai': return 'dall-e-3';
+    case 'fal':    return 'fal-ai/flux/schnell';
+    case 'google': return 'gemini-3.1-flash-image';
+    default:       return 'dall-e-3';
+  }
+}
+
+// ── Provider-specific input builders ────────────────────────────────────────
+
+function aspectRatioToSize(ratio: string | undefined): string {
+  // OpenAI DALL-E 3 / GPT Image size values
+  switch (ratio) {
+    case '16-9': return '1792x1024';
+    case '9-16': return '1024x1792';
+    case '4-3':  return '1024x1024'; // closest square
+    case '1-1':
+    default:     return '1024x1024';
+  }
+}
+
+function aspectRatioToGoogleValue(ratio: string | undefined): string {
+  // Imagen 4 aspectRatio values
+  switch (ratio) {
+    case '16-9': return '16:9';
+    case '9-16': return '9:16';
+    case '4-3':  return '4:3';
+    case '3-4':  return '3:4';
+    case '1-1':
+    default:     return '1:1';
   }
 }
 

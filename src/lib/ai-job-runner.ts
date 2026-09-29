@@ -1,10 +1,8 @@
 import 'server-only';
 import { generateImage } from '@/ai/flows/generate-image';
-import { getAIModelConfig } from '@/lib/ai-credit-config';
-import { recordObservabilityEvent } from '@/lib/observability-server';
-import { GeminiImageSuccess } from '@/lib/gemini-image-parser';
-import { generatedImageKey, putR2Object } from '@/lib/r2-storage';
-import { captureCredits } from '@/lib/ai-job-service';
+import { generateVision } from '@/ai/flows/generate-vision';
+import { generateText } from '@/ai/flows/generate-text';
+import { generateVideoUnderstanding } from '@/ai/flows/generate-video-understanding';
 import type { IAIGenerationJob } from '@/models/AIGenerationJob';
 import { stripReferenceMedia } from '@/lib/reference-media-strip';
 import { parseGeneratedImageSource } from '@/lib/generated-image-source';
@@ -203,125 +201,33 @@ export async function runAIJob(job: IAIGenerationJob): Promise<Record<string, un
     return createGeminiTextInteraction(prompt);
   }
   if (job.kind === 'image' && job.provider === 'google' && !process.env.AI_GENERATION_WORKER_URL) {
-    const configuredModel = getAIModelConfig(job.provider, job.modelId ?? '')?.modelId ?? job.modelId;
-    if (configuredModel?.startsWith('gemini-')) {
-      const startedAt = performance.now();
-      let imageUrl = '';
-      let status: 'completed' | 'failed' = 'completed';
-      let category: ErrorCategory = 'PROVIDER_ERROR';
-      let _userMessage: string = 'Error del proveedor, vuelve a intentarlo.';
-      let finishReason: string | null = null;
-      let hasText = false;
-      let hasInlineData = false;
-      let mimeType = '';
-      let base64Length = 0;
-      try {
-        const { imageUrl: iUrl, result } = await generateGeminiImage(prompt, configuredModel, job);
-        const success = result as GeminiImageSuccess;
-        imageUrl = iUrl;
-        status = 'completed';
-        category = 'PROVIDER_ERROR'; // will be overridden below
-        _userMessage = 'Éxodo';
-        finishReason = success.finishReason;
-        hasText = success.hasText;
-        hasInlineData = success.kind === 'IMAGE';
-        mimeType = success.mimeType;
-        base64Length = success.base64Length;
-        // Update category based on success
-        category = 'PROVIDER_ERROR'; // placeholder - actual categorization below
-      } catch (err: unknown) {
-        const mapped = mapGeminiError(err);
-        _userMessage = mapped.userMessage;
-        category = mapped.category;
-        status = 'failed';
-        finishReason = null;
-        hasText = false;
-        hasInlineData = false;
-        mimeType = '';
-        base64Length = 0;
-      }
-      // Determine final category
-      if (status === 'completed' && imageUrl) {
-        // The generateGeminiImage already mapped errors on success path.
-        // Use the category from the catch block (which reflects the actual error).
-      }
-      const durationMs = Math.round(performance.now() - startedAt);
-      if (status === 'failed' || !imageUrl) {
-        await recordObservabilityEvent({
-          category: 'ai_generation',
-          name: 'gemini_image_metadata',
-          route: '/api/ai/jobs',
-          userId: job.userId,
-          productId: String(job._id).slice(0, 120),
-          status: 'failed',
-          durationMs,
-          value: job.creditCost,
-          unit: 'credits',
-          metadata: {
-            operation: 'generate',
-            kind: job.kind,
-            provider: job.provider,
-            modelId: job.modelId,
-            requestId: job.idempotencyKey?.slice(0, 64) ?? null,
-            correlationId: job.correlationId || String(job._id),
-            finishReason,
-            hasText,
-            hasInlineData,
-            mimeType,
-            base64Length,
-            errorCategory: category,
-          },
-        }).catch(() => undefined);
-        throw new Error(_userMessage);
-      }
-      const storedImage = await saveGeneratedImageToR2(imageUrl, job);
-      try {
-        await recordObservabilityEvent({
-          category: 'ai_generation',
-          name: 'gemini_image_metadata',
-          route: '/api/ai/jobs',
-          userId: job.userId,
-          productId: String(job._id).slice(0, 120),
-          status,
-          durationMs,
-          value: job.creditCost,
-          unit: 'credits',
-          metadata: {
-            operation: 'generate',
-            kind: job.kind,
-            provider: job.provider,
-            modelId: job.modelId,
-            requestId: job.idempotencyKey?.slice(0, 64) ?? null,
-            correlationId: job.correlationId || String(job._id),
-            finishReason,
-            hasText,
-            hasInlineData,
-            mimeType,
-            base64Length,
-            errorCategory: category, // internal only, not exposed to client
-          },
-        });
-        // Capturar créditos solo si la generación fue exitja.
-        // reserveCredits ya fue llamado en el API route; aquí los pasamos a 'captured'.
-        await captureCredits(job);
-      } catch {
-        // La observabilidad no debe romper la generación.
-        // Si captureCredits falla, la reserva permanece y el cron la reconciliará.
-      }
-      return storedImage;
-    }
-    const imagenContext = requestContext(job, {
-      service: 'google-imagen', host: 'generativelanguage.googleapis.com', endpointLabel: 'genkit/imagen-generate', method: 'POST',
-    }, getAIModelConfig(job.provider, job.modelId ?? '')?.modelId ?? job.modelId);
-    const imagenStartedAt = performance.now();
-    try {
-      const imagenResult = await generateImage({ prompt });
-      await recordGenerationRequest(imagenContext, { httpStatus: 200, durationMs: Math.round(performance.now() - imagenStartedAt) });
-      return saveGeneratedImageToR2(imagenResult.imageUrl, job);
-    } catch (error) {
-      await recordGenerationRequest(imagenContext, { error, httpStatus: providerHttpStatus(error), durationMs: Math.round(performance.now() - imagenStartedAt) });
-      throw error;
-    }
+    return generateImage({ prompt, model: job.modelId });
+  }
+
+  if (job.kind === 'vision' && job.provider === 'google' && !process.env.AI_GENERATION_WORKER_URL) {
+    const referenceImage = (job.input as Record<string, unknown>).referenceImage as string | undefined;
+    return generateVision({ prompt, model: job.modelId, referenceImage });
+  }
+
+  if (job.kind === 'text' && job.provider === 'google' && !process.env.AI_GENERATION_WORKER_URL) {
+    const thinkingLevel = (job.input as Record<string, unknown>).thinkingLevel as string | undefined;
+    const systemInstruction = (job.input as Record<string, unknown>).systemInstruction as string | undefined;
+    return generateText({ prompt, model: job.modelId, thinkingLevel, systemInstruction });
+  }
+
+  if (job.kind === 'videoUnderstanding' && job.provider === 'google' && !process.env.AI_GENERATION_WORKER_URL) {
+    const inp = job.input as Record<string, unknown>;
+    return generateVideoUnderstanding({
+      prompt,
+      model: job.modelId ?? undefined,
+      videoUrl: inp.videoUrl as string | undefined,
+      videoBase64: inp.videoBase64 as string | undefined,
+      videoMimeType: inp.videoMimeType as string | undefined,
+      processingMode: (inp.processingMode as 'agentic' | 'static' | undefined) ?? 'agentic',
+      startOffset: inp.startOffset as number | undefined,
+      endOffset: inp.endOffset as number | undefined,
+      fps: inp.fps as number | undefined,
+    });
   }
   return runExternalWorker(job);
 }

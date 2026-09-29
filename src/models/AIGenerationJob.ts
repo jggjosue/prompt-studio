@@ -6,8 +6,8 @@ import {
 } from '@/lib/generation-job-state';
 import mongoose, { Document, Schema } from 'mongoose';
 
-export type AIJobKind = 'image' | 'video' | 'project';
-export type AIJobStatus = PersistedGenerationJobState;
+export type AIJobKind = 'image' | 'video' | 'project' | 'vision' | 'text' | 'videoUnderstanding';
+export type AIJobStatus = 'queued' | 'processing' | 'retrying' | 'completed' | 'failed';
 
 export interface IAIGenerationJob extends Document {
   userId: string;
@@ -69,7 +69,7 @@ export interface IAIGenerationJob extends Document {
 const AIGenerationJobSchema = new Schema<IAIGenerationJob>({
   userId: { type: String, required: true, index: true },
   userEmail: { type: String, required: true },
-  kind: { type: String, required: true, enum: ['image', 'video', 'project'], index: true },
+  kind: { type: String, required: true, enum: ['image', 'video', 'project', 'vision', 'text', 'videoUnderstanding'], index: true },
   provider: { type: String, required: true },
   modelId: { type: String, default: null, maxlength: 120, index: true },
   operation: { type: String, default: null, maxlength: 80 },

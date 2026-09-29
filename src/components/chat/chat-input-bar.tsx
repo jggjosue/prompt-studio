@@ -11,6 +11,98 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSearchParams } from 'next/navigation';
 import type { ChatGeneratorReturn, ChatQueueItem, ChatQueueStatus } from '@/lib/chat-types';
 import { ChatMode } from '@/lib/chat-types';
+import {
+  Globe,
+  Image as ImageIcon,
+  SendHorizonal,
+  Video,
+  Zap,
+  ChevronDown,
+  Loader2,
+  ScanSearch,
+} from 'lucide-react';
+import { useRef, useEffect } from 'react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { useAuth, useClerk } from '@clerk/nextjs';
+
+// ── Actual models from ai-credit-config (no invented IDs) ──
+const MODEL_OPTIONS = {
+  image: [
+    { provider: 'google', model: 'imagen-4.0-fast-generate-001', label: 'Imagen 4.0 Fast', credits: 10, description: 'Rápido · Google' },
+    { provider: 'openai', model: 'dall-e-3', label: 'DALL-E 3', credits: 10, description: 'Calidad alta · OpenAI' },
+    { provider: 'openai', model: 'gpt-image-1-mini', label: 'GPT Image Mini', credits: 15, description: 'Avanzado · OpenAI' },
+    { provider: 'fal', model: 'fal-ai/flux/schnell', label: 'Flux Schnell', credits: 10, description: 'Rápido · Fal.ai' },
+  ],
+  video: [
+    { provider: 'google', model: 'gemini-omni-flash', label: 'Gemini Omni Flash', credits: 15, description: 'Edición conversacional · Google' },
+    { provider: 'google', model: 'veo-3.1-generate-001', label: 'Veo 3.1', credits: 25, description: 'Audio nativo · Google' },
+    { provider: 'google', model: 'veo-2.0-generate-001', label: 'Veo 2.0', credits: 20, description: 'Calidad · Google' },
+    { provider: 'runway', model: 'gen-3', label: 'Gen-3 Alpha', credits: 20, description: 'Cinemático · Runway' },
+  ],
+  project: [
+    { provider: 'google', model: 'gemini-2.5-flash', label: 'Gemini 2.5 Flash', credits: 1, description: 'Rápido · Google' },
+    { provider: 'google', model: 'gemini-2.5-pro', label: 'Gemini 2.5 Pro', credits: 3, description: 'Avanzado · Google' },
+    { provider: 'google', model: 'gemini-2.0-flash', label: 'Gemini 2.0 Flash', credits: 1, description: 'Rápido · Google' },
+    { provider: 'openai', model: 'gpt-4o', label: 'GPT-4o', credits: 4, description: 'Avanzado · OpenAI' },
+    { provider: 'anthropic', model: 'claude-3-5-sonnet-20240620', label: 'Claude 3.5 Sonnet', credits: 8, description: 'Premium · Anthropic' },
+  ],
+  vision: [
+    { provider: 'google', model: 'gemini-3.8-flash', label: 'Gemini 3.8 Flash (Vision)', credits: 1, description: 'Visión rápida · Google' },
+  ],
+  text: [
+    { provider: 'google', model: 'gemini-3.8-flash', label: 'Gemini 3.8 Flash', credits: 1, description: 'Generación rápida de texto · Google' },
+  ],
+  videoUnderstanding: [
+    { provider: 'google', model: 'gemini-3.8-flash', label: 'Gemini 3.8 Flash', credits: 2, description: 'Análisis de video · Google' },
+  ],
+} as const satisfies Record<ChatMode, Array<{ provider: string; model: string; label: string; credits: number; description: string }>>;
+
+const MODE_CONFIG: Record<ChatMode, { label: string; icon: React.ReactNode; color: string; placeholder: string }> = {
+  image: {
+    label: 'Imagen',
+    icon: <ImageIcon className="h-3.5 w-3.5" />,
+    color: 'text-violet-400 border-violet-500/40 bg-violet-500/10 hover:bg-violet-500/20',
+    placeholder: 'Describe la imagen que quieres crear...',
+  },
+  video: {
+    label: 'Video',
+    icon: <Video className="h-3.5 w-3.5" />,
+    color: 'text-rose-400 border-rose-500/40 bg-rose-500/10 hover:bg-rose-500/20',
+    placeholder: 'Describe el video que quieres crear...',
+  },
+  project: {
+    label: 'Web',
+    icon: <Globe className="h-3.5 w-3.5" />,
+    color: 'text-cyan-400 border-cyan-500/40 bg-cyan-500/10 hover:bg-cyan-500/20',
+    placeholder: 'Describe la página o componente web que quieres crear...',
+  },
+  vision: {
+    label: 'Visión',
+    icon: <ImageIcon className="h-3.5 w-3.5" />,
+    color: 'text-green-400 border-green-500/40 bg-green-500/10 hover:bg-green-500/20',
+    placeholder: 'Analiza una imagen o detecta objetos...',
+  },
+  text: {
+    label: 'Texto',
+    icon: <Globe className="h-3.5 w-3.5" />,
+    color: 'text-orange-400 border-orange-500/40 bg-orange-500/10 hover:bg-orange-500/20',
+    placeholder: 'Redacta un ensayo, traduce texto o explora ideas...',
+  },
+  videoUnderstanding: {
+    label: 'Video IA',
+    icon: <ScanSearch className="h-3.5 w-3.5" />,
+    color: 'text-teal-400 border-teal-500/40 bg-teal-500/10 hover:bg-teal-500/20',
+    placeholder: 'Pregunta sobre el video, resume, extrae momentos clave...',
+  },
+};
 
 export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
   const [prompt, setPrompt] = useState('');
