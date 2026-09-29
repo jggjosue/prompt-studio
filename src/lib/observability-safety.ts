@@ -7,10 +7,8 @@ const SAFE_METADATA_KEYS = new Set([
   'routeType', 'cached', 'host', 'productKind', 'stripeSessionId',
   'service', 'endpointLabel', 'modelId', 'retryable', 'providerErrorCode',
   'providerErrorMessage', 'requestId', 'finishReason', 'hasText', 'hasInlineData',
-  'mimeType', 'base64Length', 'errorCategory',
-  // Barrido de recuperación (#788): `sweepId` correlaciona un trabajo con la
-  // pasada que lo recuperó, y `recoveryReason` es un enum cerrado de la política.
-  'sweepId', 'recoveryReason',
+  'mimeType', 'base64Length', 'byteLength', 'storageKind', 'storageOutcome',
+  'creditsEstimated', 'creditsState', 'creditOperation', 'errorCategory',
 ]);
 
 const cleanText = (value: unknown, max: number) => typeof value === 'string' ? value.trim().slice(0, max) : '';

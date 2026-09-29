@@ -4,13 +4,18 @@ import { readFile } from 'node:fs/promises';
 
 const source = (file: string) => readFile(new URL(`../../${file}`, import.meta.url), 'utf8');
 
-test('generation worker records every outbound integration with safe labels', async () => {
+test('generation runner records every outbound integration with safe labels', async () => {
   const runner = await source('src/lib/ai-job-runner.ts');
-  for (const service of ['google-gemini', 'google-imagen', 'ai-generation-worker', 'generated-image-source', 'cloudflare-r2']) {
+  // Servicios que el runner instrumenta hoy: la ruta de imagen local (google-gemini)
+  // y el worker externo (ai-generation-worker). Los antiguos google-imagen,
+  // generated-image-source y cloudflare-r2 eran imports muertos, no servicios reales.
+  for (const service of ['google-gemini', 'ai-generation-worker']) {
     assert.ok(runner.includes(`service: '${service}'`), `falta instrumentar ${service}`);
   }
-  assert.match(runner, /observedGenerationFetch/);
-  assert.match(runner, /recordGenerationRequest/);
+  // La telemetría confirma el arranque, el éxito y el fallo de la generación.
+  for (const symbol of ['observedGenerationFetch', 'recordGenerationStarted', 'recordImageGenerationCompleted', 'recordGenerationFailed']) {
+    assert.match(runner, new RegExp(symbol));
+  }
   assert.doesNotMatch(runner, /endpointLabel: endpoint/);
 });
 

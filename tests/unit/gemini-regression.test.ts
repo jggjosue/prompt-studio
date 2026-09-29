@@ -69,7 +69,11 @@ test('generación fallada es observable por correlation ID', async () => {
   );
   const runner = await source('src/lib/ai-job-runner.ts');
   assert.ok(
-    runner.includes('recordGenerationRequest'),
-    'runAIJob registra cada request y su error vía recordGenerationRequest'
+    runner.includes('recordGenerationFailed'),
+    'la ruta de imagen registra el fallo vía recordGenerationFailed'
+  );
+  assert.ok(
+    runner.includes('correlationId') && runner.includes('errorCategory'),
+    'el evento de fallo mantiene correlationId y la categoría del error'
   );
 });
