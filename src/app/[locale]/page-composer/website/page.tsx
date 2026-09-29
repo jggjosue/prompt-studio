@@ -51,6 +51,12 @@ export default async function WebsiteBuilderPreviewPage({
               PageSchema v{schema.schemaVersion} · {schema.pages.length} páginas · {totalNodes} componentes ·{' '}
               {Object.keys(schema.site.theme.tokens).length} tokens · sin código generado
             </p>
+            <a
+              href={`/${locale}/page-composer/website/editor${slug ? `?slug=${encodeURIComponent(slug)}` : ''}`}
+              className="rounded-md border border-border px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+            >
+              Editar en el lienzo
+            </a>
           </div>
         </div>
         <PageRenderer schema={schema} slug={slug} className="bg-background" />
