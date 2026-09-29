@@ -5,30 +5,31 @@ import { readFile } from 'node:fs/promises';
 const source = (file: string) => readFile(new URL(`../../${file}`, import.meta.url), 'utf8');
 
 test('tres prompts distintos producen imágenes únicas', async () => {
-  const prompts = [
-    'orange cat running',
-    'red sports car in snow', 
-    'astronaut on the moon'
-  ];
-  
-  for (const prompt of prompts) {
-    const route = await source('src/app/api/ai/jobs/route.ts');
-    assert.ok(
-      route.includes('idempotencyKey'),
-      'la ruta debe validar la clave idempotente'
-    );
-  }
+  const route = await source('src/app/api/ai/jobs/route.ts');
+  assert.ok(
+    route.includes('idempotencyKey'),
+    'la ruta debe validar la clave idempotente'
+  );
 });
 
 test('fallo del proveedor no consume créditos permanentemente', async () => {
-  const route = await source('src/lib/ai-job-runner.ts');
+  const runner = await source('src/lib/ai-job-runner.ts');
   assert.ok(
-    route.includes('mapGeminiError'),
+    runner.includes('mapGeminiError'),
     'debe usar mapGeminiError para categorizar errores'
   );
   assert.ok(
-    route.includes('AICreditLedger'),
-    'debe verificar ledger entry antes de cobrar'
+    !runner.includes('captureCredits'),
+    'runAIJob no debe capturar créditos; la propiedad es de processOne'
+  );
+  const service = await source('src/lib/ai-job-service.ts');
+  assert.ok(
+    service.includes('captureCredits') && service.includes('refundCredits'),
+    'la captura/reembolso de créditos debe vivir en ai-job-service'
+  );
+  assert.ok(
+    service.includes("if (job.creditsState !== 'reserved') return;"),
+    'capturar/reembolsar solo sobre reservas vigentes'
   );
 });
 
