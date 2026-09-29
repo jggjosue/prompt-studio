@@ -21,8 +21,8 @@ def scrub_file(path):
     content = url_creds_regex.sub(r'\1\2', content)
     
     # Scrub emails
-    # Replace all emails with "user@example.com"
-    content = email_regex.sub('user@example.com', content)
+    # Replace all emails with "help@prompstudio.com"
+    content = email_regex.sub('help@prompstudio.com', content)
     
     # Scrub phone numbers
     # We use a strict regex to avoid replacing random numbers, and we replace with 555-0198 (standard fiction number)

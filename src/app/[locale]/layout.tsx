@@ -11,29 +11,37 @@ import { ClerkProvider } from '@clerk/nextjs';
 import { clerkProviderProps } from '@/lib/clerk-config';
 import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages, setRequestLocale } from 'next-intl/server';
+import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import { isLocale, locales, type Locale } from '@/i18n/config';
+import { defaultLocale, isLocale, locales, type Locale } from '@/i18n/config';
 import Script from 'next/script';
 import { UserSync } from '@/components/user-sync';
 import { CookieBanner } from '@/components/cookie-banner';
 import { SITE_URL } from '@/lib/site-url';
 import { ADSENSE_CLIENT_ID, areAdsEnabled } from '@/lib/ads';
 
-export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
-  title: 'Prompt Studio — Prompts y herramientas creativas con IA',
-  description: 'Descubre prompts, personalízalos y crea imágenes, videos, componentes y landing pages con herramientas de IA.',
-  alternates: {
-    canonical: '/',
-  },
-  manifest: '/manifest.webmanifest',
-  appleWebApp: {
-    capable: true,
-    title: 'Prompt Studio',
-    statusBarStyle: 'black-translucent',
-  },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const requestedLocale = (await params).locale;
+  const locale = isLocale(requestedLocale) ? requestedLocale : defaultLocale;
+  const t = await getTranslations({ locale, namespace: 'metadata.site' });
+
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: t('title'),
+    description: t('description'),
+    alternates: { canonical: '/' },
+    manifest: '/manifest.webmanifest',
+    appleWebApp: {
+      capable: true,
+      title: 'Prompt Studio',
+      statusBarStyle: 'black-translucent',
+    },
+  };
+}
 
 /**
  * Prerenderiza el árbol completo en los dos idiomas. El middleware reescribe

@@ -2,8 +2,10 @@ import {
   GetObjectCommand,
   HeadObjectCommand,
   ListObjectsV2Command,
+  PutObjectCommand,
   S3Client,
 } from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { cacheGetAsync, cacheSet } from '@/lib/server-cache';
 import {
   getDemoProjectKind,
@@ -126,6 +128,49 @@ export async function getR2ObjectBytes(objectKey: string): Promise<Buffer | null
   } catch {
     return null;
   }
+}
+
+/**
+ * Produces a short-lived direct R2 download URL. The application only issues
+ * the redirect; the object bytes never pass through a Vercel Function.
+ */
+export async function getR2ObjectDownloadUrl(
+  objectKey: string,
+  expiresIn = 60 * 60
+): Promise<string | null> {
+  const client = getR2S3Client();
+  if (!client) return null;
+
+  try {
+    return await getSignedUrl(
+      client,
+      new GetObjectCommand({
+        Bucket: getR2BucketName(),
+        Key: objectKey,
+      }),
+      { expiresIn }
+    );
+  } catch {
+    return null;
+  }
+}
+
+export async function putR2Object(key: string, buffer: Buffer, contentType: string): Promise<string | null> {
+  const client = getR2S3Client();
+  if (!client) return null;
+  try {
+    await client.send(new PutObjectCommand({ Bucket: getR2BucketName(), Key: key, Body: buffer, ContentType: contentType, CacheControl: 'public, max-age=31536000' }));
+    return `https://${getR2BucketName()}.r2.cloudflarestorage.com/${key}`;
+  } catch (error) {
+    throw error;
+  }
+}
+
+const MIME_TO_EXT: Record<string, string> = { 'image/png': 'png', 'image/jpeg': 'jpg', 'image/webp': 'webp', 'image/avif': 'avif', 'image/gif': 'gif', 'image/svg+xml': 'svg' };
+
+export function generatedImageKey(userId: string, generationId: string, contentType: string): string {
+  const ext = MIME_TO_EXT[contentType] ?? 'png';
+  return `users/${userId}/generations/${generationId}.${ext}`;
 }
 
 /** Claves posibles para un asset en /webpages/nombre.png */

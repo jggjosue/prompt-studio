@@ -45,7 +45,7 @@ export default function GalleryDetailClient({ item, validation, relatedItems, ma
   const { toast } = useToast();
   const { copyWithDailyLimit } = useDailyCopyLimit();
   const isPaywalled = useMemo(
-    () => item.tags.some(tag => ['paywall', 'subscription', 'members only'].includes(tag.toLowerCase())),
+    () => (item.tags || []).filter((tag): tag is string => typeof tag === 'string').some(tag => ['paywall', 'subscription', 'members only'].includes(tag.toLowerCase())),
     [item.tags]
   );
   const structuredData = useMemo(
@@ -94,7 +94,7 @@ export default function GalleryDetailClient({ item, validation, relatedItems, ma
                   {item.title}
                 </h1>
                 <div className="flex flex-wrap gap-2 mt-4">
-                  {item.tags?.map(tag => (
+                  {(item.tags || []).filter((tag): tag is string => typeof tag === 'string' && tag.trim().length > 0).map(tag => (
                     <Badge key={tag} variant="secondary">
                       {tag}
                     </Badge>
@@ -122,15 +122,9 @@ export default function GalleryDetailClient({ item, validation, relatedItems, ma
                     />
                     <div className="absolute bottom-4 right-4 flex items-start gap-4 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                       <Button size="sm" asChild>
-                        <Link href={`/generate?prompt=${encodeURIComponent(JSON.stringify({
-                          type: item.type || 'image',
-                          title: item.title,
-                          description: item.description,
-                          imageUrl: resolveRenderableMediaUrl(item, locale),
-                          tags: item.tags
-                        }))}`}>
-                            <Wand2 className="mr-2" />
-                            Use this prompt
+                        <Link href={`/generate?prompt=${encodeURIComponent(item.description)}`}>
+                          <Wand2 className="mr-2" />
+                          Use this prompt
                         </Link>
                       </Button>
                     </div>

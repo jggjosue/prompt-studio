@@ -5,16 +5,16 @@ import { safeJson, extractErrorMessage } from '@/lib/safe-json';
 import { useCallback, useState } from 'react';
 
 export function useWebGeneration() {
-  const [webProvider, setWebProvider] = useState<'anthropic' | 'openai' | 'google'>('openai');
+  const [webProvider, setWebProvider] = useState<'anthropic' | 'openai' | 'google'>('google');
   const [openAIKey, setOpenAIKey] = useState('');
   const [anthropicKey, setAnthropicKey] = useState('');
   const [vertexKey, setVertexKey] = useState('');
-  const [credits, setCredits] = useState(12.0);
+  const [credits, setCredits] = useState(0.0);
   const [webFramework, setWebFramework] = useState('nextjs');
   const [webTheme, setWebTheme] = useState('glassmorphism');
   const [webComponent, setWebComponent] = useState('hero');
   const [webColor, setWebColor] = useState('blue');
-  const [webModel, setWebModel] = useState('gemini-2.5-flash');
+  const [webModel, setWebModel] = useState('gemini-3.1-flash-lite');
   const [outputWebHTML, setOutputWebHTML] = useState('');
 
   const generate = useCallback(async (prompt: string, params: ChatParams): Promise<{ result?: ChatMessageResult; error?: string }> => {
@@ -96,7 +96,7 @@ function resolveDefaultWebModel(provider: string): string {
   switch (provider) {
     case 'openai':    return 'gpt-4o';
     case 'anthropic': return 'claude-3-5-sonnet-20240620';
-    case 'google':    return 'gemini-2.5-flash';
+    case 'google':    return 'gemini-3.1-flash-lite';
     default:          return 'gpt-4o';
   }
 }
@@ -113,13 +113,13 @@ function buildWebInput(
   userPrompt: string,
   params: ChatParams
 ): Record<string, unknown> {
+  const base = { prompt: userPrompt, model, generationTier: params.generationTier };
   switch (provider) {
     // ── OpenAI Chat Completions ─────────────────────────────────────────
     // POST /v1/chat/completions
     case 'openai':
       return {
-        prompt: userPrompt, // base field the backend uses
-        model,
+        ...base, // base field the backend uses
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt },
@@ -140,12 +140,11 @@ function buildWebInput(
         temperature: 0.7,
       };
 
-    // ── Google Gemini generateContent ───────────────────────────────────
-    // POST /v1beta/models/{model}:generateContent
+    // ── Google Gemini Interactions API ──────────────────────────────────
     case 'google':
       return {
+        ...base,
         prompt: `${systemPrompt}\n\n${userPrompt}`, // Gemini uses single prompt field
-        model,
         contents: [
           {
             parts: [{ text: `${systemPrompt}\n\n${userPrompt}` }],
@@ -158,7 +157,7 @@ function buildWebInput(
       };
 
     default:
-      return { prompt: userPrompt, model };
+      return base;
   }
 }
 
@@ -196,6 +195,7 @@ function extractWebOutput(result: unknown): string {
   // Direct text/html/output fields (set by worker)
   if (typeof r.output === 'string') return r.output;
   if (typeof r.text === 'string') return r.text;
+  if (typeof r.output_text === 'string') return r.output_text;
   if (typeof r.html === 'string') return r.html;
 
   // OpenAI Chat Completions: { choices: [{ message: { content } }] }
@@ -213,7 +213,7 @@ function extractWebOutput(result: unknown): string {
     }
   }
 
-  // Gemini generateContent: { candidates: [{ content: { parts: [{ text }] } }] }
+  // Compatibility shape returned alongside Interactions API `output_text`.
   const candidates = r.candidates as Array<Record<string, unknown>> | undefined;
   if (Array.isArray(candidates) && candidates[0]) {
     const c = candidates[0].content as Record<string, unknown> | undefined;

@@ -9,28 +9,43 @@ import {
   useRefreshSubscriptionStatus,
   useStripeSubscription,
 } from '@/hooks/use-stripe-subscription';
+import { trackAnalyticsEvent } from '@/lib/analytics';
 import {
   getPlanCheckoutUrl,
   isPlanAvailable,
 } from '@/lib/stripe-checkout';
-import { trackAnalyticsEvent } from '@/lib/analytics';
-import { SignUpButton, useAuth } from '@clerk/nextjs';
-import { Check, Crown, Sparkles, UserPlus, Zap } from 'lucide-react';
-import { useTranslations, useLocale } from 'next-intl';
+import { type PlanId } from '@/lib/subscription-plans';
+import { useAuth } from '@clerk/nextjs';
+import { Check, Crown, Gem, Sparkles, Zap } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import { type PlanId } from '@/lib/subscription-plans';
 
-type PaidPlan = {
-  id: PlanId;
-  name: string;
+type PlanMetadata = {
+  id: PlanId | 'premium';
+  nameKey: string;
+  descKey: string;
+  ctaKey: string;
+  featuresKey: string;
   monthly: number;
   annual: number;
   credits: number;
   isMostPopular: boolean;
-  features: string[];
+  comingSoon?: boolean;
+};
+
+type PaidPlan = {
+  id: PlanId | 'premium';
+  name: string;
+  desc: string;
   cta: string;
+  features: string[];
+  monthly: number;
+  annual: number;
+  credits: number;
+  isMostPopular: boolean;
+  comingSoon?: boolean;
 };
 
 function formatMonthlyEquivalent(yearly: number) {
@@ -38,112 +53,135 @@ function formatMonthlyEquivalent(yearly: number) {
 }
 
 function PaidPlanPrice({ isAnnual, monthly, yearly }: { isAnnual: boolean; monthly: number; yearly: number }) {
-  const tCommon = useTranslations('common');
+  const tPrices = useTranslations('prices');
   const displayPrice = isAnnual ? yearly : monthly;
-  const priceSuffix = isAnnual ? tCommon('perYear') : tCommon('perMonth');
+  const priceSuffix = isAnnual ? tPrices('perYear') : tPrices('perMonth');
   const savings = monthly * 12 - yearly;
+  const discountPercent = monthly > 0 ? Math.round((savings / (monthly * 12)) * 100) : 0;
 
   return (
     <>
-      <div className="mb-2">
+      <div className="mb-2 flex flex-wrap items-baseline gap-x-2">
         <span className="text-5xl font-bold tabular-nums">${displayPrice}</span>
         <span className="text-muted-foreground">{priceSuffix}</span>
+        {isAnnual && savings > 0 && (
+          <span className="ml-1 inline-flex items-center rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+            {discountPercent}% OFF
+          </span>
+        )}
       </div>
-      {isAnnual ? (
-        <p className="text-sm text-muted-foreground mb-6">
-          {tCommon('equivalentMonthly', { amount: formatMonthlyEquivalent(yearly) })}
+      {monthly === 0 ? (
+        <p className="text-sm text-muted-foreground mb-6">{tPrices('noCreditCard')}</p>
+      ) : isAnnual ? (
+        <div className="mb-6 space-y-1">
+          <p className="text-sm text-muted-foreground">
+            {tPrices('equivalentMonthly', { amount: formatMonthlyEquivalent(yearly) })}
+          </p>
           {savings > 0 && (
-            <span className="text-blue-500 font-medium">
-              {' '}
-              {tCommon('savePerYear', { amount: savings })}
-            </span>
+            <p className="text-xs font-medium text-emerald-600 dark:text-emerald-400">
+              {tPrices('savePerYearDiscount', { amount: savings, percent: discountPercent })}
+            </p>
           )}
-        </p>
+        </div>
       ) : (
-        <p className="text-sm text-muted-foreground mb-6">{tCommon('billedMonthly')}</p>
+        <p className="text-sm text-muted-foreground mb-6">{tPrices('billedMonthly')}</p>
       )}
     </>
   );
 }
 
-const PLANS: PaidPlan[] = [
+function CreatorCoupon({ planId, isAnnual }: { planId: PlanId | 'premium'; isAnnual: boolean }) {
+  const tPrices = useTranslations('prices');
+  const couponCode = isAnnual ? 'CREATOR_ANNUAL' : 'CREATOR_MONTH';
+
+  return (
+    <div className="mb-6 rounded-2xl border border-blue-500/40 bg-gradient-to-br from-blue-500/15 via-blue-500/5 to-emerald-500/10 p-4 shadow-[0_12px_35px_rgba(37,99,235,0.12)]">
+      <p className="text-xs font-bold uppercase tracking-[0.18em] text-blue-500 dark:text-blue-300">
+        {tPrices('creatorCouponLabel')}
+      </p>
+      <p className="mt-1 text-sm font-semibold text-foreground">
+        {planId === 'creator'
+          ? isAnnual
+            ? tPrices('creatorAnnualCouponOffer')
+            : tPrices('creatorMonthlyCouponOffer')
+          : tPrices('otherPlanCouponOffer')}
+      </p>
+      <p className="mt-3 text-xs text-muted-foreground">
+        {tPrices('creatorCouponCodeLabel')}
+      </p>
+      <code className="mt-1 block break-all font-mono text-sm font-black tracking-wide text-foreground sm:text-base">
+        {couponCode}
+      </code>
+      <p className="mt-2 text-[11px] text-muted-foreground">
+        {tPrices('creatorCouponOneTime')}
+      </p>
+    </div>
+  );
+}
+
+const PLAN_METADATA: PlanMetadata[] = [
   {
     id: 'free',
-    name: 'Free',
+    nameKey: 'freeName',
+    descKey: 'freeDesc',
+    ctaKey: 'freeSubscribe',
+    featuresKey: 'freeFeatures',
     monthly: 0,
     annual: 0,
-    credits: 1,
+    credits: 0,
     isMostPopular: false,
-    features: [
-      'Explora prompts y herramientas de IA gratuitas',
-      'Copia prompts libres',
-      'Acceso al chat básico',
-      '1 crédito para probar generación',
-      'Sin tarjeta de crédito',
-      'Anuncios incluidos',
-    ],
-    cta: 'Get started free',
   },
   {
     id: 'creator',
-    name: 'Creator',
+    nameKey: 'creatorName',
+    descKey: 'creatorDesc',
+    ctaKey: 'creatorSubscribe',
+    featuresKey: 'creatorFeatures',
     monthly: 9,
     annual: 90,
-    credits: 250,
+    credits: 0,
     isMostPopular: false,
-    features: [
-      'Todo en Free',
-      '250 créditos de IA cada ciclo',
-      'Editor Creative Prompt Studio',
-      'Generación de imágenes',
-      'Modelos Gemini, OpenAI y Claude',
-      'Sin anuncios',
-    ],
-    cta: 'Start Creator',
+  },
+  {
+    id: 'premium',
+    nameKey: 'premiumName',
+    descKey: 'premiumDesc',
+    ctaKey: 'premiumSubscribe',
+    featuresKey: 'premiumFeatures',
+    monthly: 19,
+    annual: 190,
+    credits: 0,
+    isMostPopular: false,
+    comingSoon: true,
   },
   {
     id: 'pro',
-    name: 'Pro',
-    monthly: 19,
-    annual: 190,
-    credits: 1000,
+    nameKey: 'proName',
+    descKey: 'proDesc',
+    ctaKey: 'proSubscribe',
+    featuresKey: 'proFeatures',
+    monthly: 25,
+    annual: 250,
+    credits: 0,
     isMostPopular: true,
-    features: [
-      'Todo en Creator',
-      '1,000 créditos cada ciclo',
-      'Web Creator y herramientas web',
-      'Herramientas avanzadas de imagen',
-      'Modelos de IA avanzados',
-      'Catálogo Premium completo',
-      'Límites de generación más altos',
-      'Sin anuncios',
-    ],
-    cta: 'Start Pro',
+    comingSoon: true,
   },
   {
     id: 'studio',
-    name: 'Studio',
+    nameKey: 'studioName',
+    descKey: 'studioDesc',
+    ctaKey: 'studioSubscribe',
+    featuresKey: 'studioFeatures',
     monthly: 39,
     annual: 390,
-    credits: 3000,
+    credits: 0,
     isMostPopular: false,
-    features: [
-      'Todo en Pro',
-      '3,000 créditos cada ciclo',
-      'Límites de generación más altos',
-      'Acceso prioritario',
-      'Más proyectos e historial',
-      'Acceso anticipado a nuevas funciones',
-    ],
-    cta: 'Start Studio',
+    comingSoon: true,
   },
 ];
 
 export default function PricesClient() {
   const t = useTranslations('prices');
-  const tCommon = useTranslations('common');
-  const locale = useLocale() ?? 'en';
-  const isSpanish = locale.startsWith('es');
   const [isAnnual, setIsAnnual] = useState(false);
   const searchParams = useSearchParams();
   const refreshSubscription = useRefreshSubscriptionStatus();
@@ -167,17 +205,32 @@ export default function PricesClient() {
   const isCreatorAvailable = isPlanAvailable('creator');
   const isProAvailable = isPlanAvailable('pro');
   const isStudioAvailable = isPlanAvailable('studio');
-  const getPlanPrice = (planId: PlanId, isAnnual: boolean): number => {
-    if (planId === 'free') return 0;
+
+  // Build localized plan objects from metadata + translation keys
+  const PLANS: PaidPlan[] = PLAN_METADATA.map((meta) => ({
+    id: meta.id,
+    name: t(meta.nameKey as Parameters<typeof t>[0]),
+    desc: t(meta.descKey as Parameters<typeof t>[0]),
+    cta: t(meta.ctaKey as Parameters<typeof t>[0]),
+    features: t.raw(meta.featuresKey as Parameters<typeof t>[0]) as string[],
+    monthly: meta.monthly,
+    annual: meta.annual,
+    credits: meta.credits,
+    isMostPopular: meta.isMostPopular,
+    comingSoon: meta.comingSoon,
+  }));
+
+  const getPlanPrice = (planId: PlanId | 'premium', annual: boolean): number => {
+    if (planId === 'free' || planId === 'premium') return 0;
     const prices: Record<'creator' | 'pro' | 'studio', { monthly: number; annual: number }> = {
       creator: { monthly: 9, annual: 90 },
-      pro: { monthly: 19, annual: 190 },
+      pro: { monthly: 25, annual: 250 },
       studio: { monthly: 39, annual: 390 },
     };
-    return prices[planId][isAnnual ? 'annual' : 'monthly'];
+    return prices[planId as keyof typeof prices]?.[annual ? 'annual' : 'monthly'] ?? 0;
   };
 
-  const handleSelectPlan = (planId: PlanId) => {
+  const handleSelectPlan = (planId: PlanId | 'premium') => {
     trackAnalyticsEvent('select_plan', {
       plan: planId,
       billing_period: isAnnual ? 'yearly' : 'monthly',
@@ -186,10 +239,9 @@ export default function PricesClient() {
     });
   };
 
-  const getCheckoutUrl = (planId: PlanId) => {
-    if (planId === 'free') return '/prompts';
-    if (!isSignedIn) return null;
-    return getPlanCheckoutUrl(planId as 'creator' | 'pro' | 'studio', isAnnual, userId);
+  const getCheckoutUrl = (planId: PlanId | 'premium') => {
+    if (planId === 'free' || planId === 'premium') return '/prompts';
+    return getPlanCheckoutUrl(planId, isAnnual, userId);
   };
 
   const getCTA = (paidPlan: PaidPlan) => {
@@ -204,9 +256,7 @@ export default function PricesClient() {
       );
     }
 
-    const checkoutUrl = getCheckoutUrl(paidPlan.id);
-
-    if (!mounted || !isLoaded || !ready) {
+    if (!mounted) {
       return <div className="h-10 w-full animate-pulse rounded-md bg-muted" />;
     }
 
@@ -224,38 +274,22 @@ export default function PricesClient() {
       );
     }
 
-    // Usuario no autenticado → signUp y luego vuelve a /prices
-    if (!isSignedIn) {
-      return (
-        <SignUpButton mode="redirect" forceRedirectUrl="/prices">
-          <Button className="w-full" onClick={() => handleSelectPlan(paidPlan.id)}>
-            <UserPlus className="w-4 h-4 mr-2" />
-            {paidPlan.cta}
-          </Button>
-        </SignUpButton>
-      );
-    }
+    const checkoutUrl = getCheckoutUrl(paidPlan.id);
 
-    // Autenticado pero sin URL de Stripe configurada
-    if (!checkoutUrl) {
-      return (
-        <Button className="w-full" disabled>
-          {tCommon('comingSoon')}
-        </Button>
-      );
-    }
-
-    // Autenticado con URL de Stripe → enlace directo al checkout
     return (
-      <Button className="w-full" asChild onClick={() => {
-        handleSelectPlan(paidPlan.id);
-        trackAnalyticsEvent('begin_checkout', {
-          plan: paidPlan.id,
-          billing_period: isAnnual ? 'yearly' : 'monthly',
-          price: getPlanPrice(paidPlan.id, isAnnual),
-          currency: 'USD',
-        });
-      }}>
+      <Button
+        className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+        asChild
+        onClick={() => {
+          handleSelectPlan(paidPlan.id);
+          trackAnalyticsEvent('begin_checkout', {
+            plan: paidPlan.id,
+            billing_period: isAnnual ? 'yearly' : 'monthly',
+            price: getPlanPrice(paidPlan.id, isAnnual),
+            currency: 'USD',
+          });
+        }}
+      >
         <a href={checkoutUrl} target="_blank" rel="noopener noreferrer">
           {paidPlan.cta}
         </a>
@@ -267,18 +301,19 @@ export default function PricesClient() {
     <div className="flex min-h-screen w-full flex-col bg-background">
       <Header />
       <main className="flex-1 py-12 md:py-20">
-        <div className="container max-w-6xl min-w-0">
+        <div className="container max-w-7xl min-w-0 px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h1 className="text-4xl md:text-5xl font-bold font-headline mb-4">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold font-headline mb-4">
               {t('chooseHowYouCreate')}
             </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
               {t('subtitle')}
             </p>
           </div>
 
+          {/* Billing toggle */}
           <div
-            className="mb-10 mx-auto flex w-fit rounded-full border border-blue-500/55 bg-slate-950 p-1.5 shadow-[0_12px_35px_rgba(37,99,235,0.18)]"
+            className="mb-10 mx-auto flex w-full max-w-sm rounded-full border border-blue-500/55 bg-slate-950 p-1.5 shadow-[0_12px_35px_rgba(37,99,235,0.18)]"
             role="group"
             aria-label={t('billingCycle')}
           >
@@ -286,31 +321,35 @@ export default function PricesClient() {
               type="button"
               onClick={() => setIsAnnual(false)}
               aria-pressed={!isAnnual}
-              className={`rounded-full px-7 py-3 text-sm font-semibold transition-all duration-200 sm:px-9 ${
+              className={`min-w-0 flex-1 rounded-full px-3 py-3 text-xs font-semibold whitespace-nowrap transition-all duration-200 sm:px-6 sm:text-sm ${
                 !isAnnual
                   ? '!bg-blue-600 !text-white shadow-[0_8px_24px_rgba(37,99,235,0.4)] ring-1 ring-blue-400'
                   : '!text-slate-200 hover:!bg-blue-950/60 hover:!text-white'
               }`}
             >
-              {tCommon('monthlyBilling')}
+              {t('monthlyBilling')}
             </button>
             <button
               type="button"
               onClick={() => setIsAnnual(true)}
               aria-pressed={isAnnual}
-              className={`rounded-full px-7 py-3 text-sm font-semibold transition-all duration-200 sm:px-9 ${
+              className={`min-w-0 flex-1 rounded-full px-3 py-3 text-xs font-semibold whitespace-nowrap transition-all duration-200 sm:px-6 sm:text-sm ${
                 isAnnual
                   ? '!bg-blue-600 !text-white shadow-[0_8px_24px_rgba(37,99,235,0.4)] ring-1 ring-blue-400'
                   : '!text-slate-200 hover:!bg-blue-950/60 hover:!text-white'
               }`}
             >
-              {tCommon('yearlyBilling')}
+              <span>{t('yearlyBilling')}</span>
+              <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-xs font-bold text-emerald-400 border border-emerald-500/30">
+                {t('savePercentTag')}
+              </span>
             </button>
           </div>
 
-          <div className="grid grid-cols-1 gap-8 mx-auto lg:grid-cols-4 max-w-7xl">
+          <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 xl:gap-8">
             {PLANS.map((plan) => {
               const available = plan.id === 'free' ||
+                plan.id === 'premium' ||
                 (plan.id === 'creator' && isCreatorAvailable) ||
                 (plan.id === 'pro' && isProAvailable) ||
                 (plan.id === 'studio' && isStudioAvailable);
@@ -320,11 +359,14 @@ export default function PricesClient() {
                   key={plan.id}
                   className={`relative flex flex-col overflow-hidden transition-all duration-300 hover:shadow-xl ${
                     plan.isMostPopular
-                      ? 'border-violet-500 shadow-lg shadow-violet-500/10 scale-[1.02]'
+                      ? 'border-violet-500 shadow-lg shadow-violet-500/10 lg:scale-[1.02]'
                       : 'border-muted-foreground/20 shadow-sm'
                   } ${!available ? 'opacity-50 pointer-events-none' : ''}`}
                 >
-                  {plan.isMostPopular && (
+                  {plan.comingSoon && (
+                    <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-slate-500 via-slate-400 to-slate-500" />
+                  )}
+                  {plan.isMostPopular && !plan.comingSoon && (
                     <>
                       <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-violet-500 via-fuchsia-400 to-violet-500" />
                       <Badge className="absolute top-4 right-4 bg-violet-500 text-white hover:bg-violet-600">
@@ -332,9 +374,15 @@ export default function PricesClient() {
                       </Badge>
                     </>
                   )}
+                  {plan.comingSoon && (
+                    <Badge className="absolute top-4 right-4 bg-slate-600 text-white hover:bg-slate-600 border-0">
+                      {t('comingSoon')}
+                    </Badge>
+                  )}
                   <CardHeader className="pb-4 pt-8">
                     <div className="flex items-center justify-between gap-2">
                       <CardTitle className="font-headline text-2xl">
+                        {plan.id === 'premium' && <Gem className="w-6 h-6 text-emerald-500 mr-2 inline" />}
                         {plan.id === 'creator' && <Crown className="w-6 h-6 text-blue-500 mr-2 inline" />}
                         {plan.id === 'pro' && <Sparkles className="w-6 h-6 text-violet-500 mr-2 inline" />}
                         {plan.id === 'studio' && <Zap className="w-6 h-6 text-amber-500 mr-2 inline" />}
@@ -342,33 +390,18 @@ export default function PricesClient() {
                       </CardTitle>
                     </div>
                     <p className="text-muted-foreground text-sm leading-relaxed">
-                      {isSpanish
-                        ? plan.id === 'free' ? 'Explora gratis las herramientas de IA'
-                          : plan.id === 'creator' ? 'Herramientas creativas con créditos'
-                          : plan.id === 'pro' ? 'El más popular. Máximas herramientas'
-                          : 'El máximo nivel de creación'
-                        : plan.id === 'free' ? 'Explore AI tools for free'
-                          : plan.id === 'creator' ? 'Creative tools with credits'
-                          : plan.id === 'pro' ? 'Most popular. Maximum tools'
-                          : 'The ultimate creation tier'}
+                      {plan.desc}
                     </p>
                   </CardHeader>
                   <CardContent className="flex flex-col flex-grow">
-                    <div className="space-y-3 mb-6">
+                    <div className="mb-6">
                       <PaidPlanPrice
                         isAnnual={isAnnual}
                         monthly={plan.monthly}
                         yearly={plan.annual}
                       />
-                      <div className="inline-flex items-center gap-1.5 rounded-lg border border-blue-500/20 bg-blue-500/5 px-2.5 py-1 text-xs font-semibold text-muted-foreground">
-                        <Zap className="h-3.5 w-3.5 text-blue-500" />
-                        <span>
-                          {isSpanish
-                            ? `${plan.credits} ${plan.id === 'free' ? 'crédito inicial' : 'créditos'} de IA`
-                            : `${plan.credits} ${plan.id === 'free' ? 'free credit' : 'AI credits'}`}
-                        </span>
-                      </div>
                     </div>
+                    {plan.id !== 'free' && <CreatorCoupon planId={plan.id} isAnnual={isAnnual} />}
                     <ul className="space-y-3 mb-8 flex-grow">
                       {plan.features.map((feature) => (
                         <li key={feature} className="flex items-start gap-3 text-sm">
@@ -378,46 +411,21 @@ export default function PricesClient() {
                       ))}
                     </ul>
                     <div className="mt-auto">
-                      {getCTA(plan)}
+                      {plan.comingSoon ? (
+                        <Button
+                          className="w-full bg-slate-700 hover:bg-slate-700 text-slate-300 cursor-not-allowed"
+                          disabled
+                        >
+                          {t('comingSoon')}
+                        </Button>
+                      ) : (
+                        getCTA(plan)
+                      )}
                     </div>
                   </CardContent>
                 </Card>
               );
             })}
-          </div>
-
-          {/* ── Cómo funcionan los créditos ── */}
-          <div className="mt-20 border-t border-border/40 pt-16">
-            <div className="text-center mb-10">
-              <Badge className="mb-3 bg-violet-500/15 text-violet-400 border border-violet-500/30">
-                {t('howCreditsWork')}
-              </Badge>
-              <h2 className="text-3xl md:text-4xl font-bold font-headline mb-3">
-                {t('howCreditsWork')}
-              </h2>
-              <p className="text-muted-foreground max-w-xl mx-auto text-sm md:text-base">
-                {t('creditsExplanation')}
-              </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-              {[
-                { label: t('creditExampleFast'), icon: '⚡' },
-                { label: t('creditExampleAdvanced'), icon: '🔬' },
-                { label: t('creditExamplePremium'), icon: '⭐' },
-                { label: t('creditExampleImage'), icon: '🖼️' },
-                { label: t('creditExampleVideo'), icon: '🎬' },
-              ].map((item) => (
-                <div key={item.label} className="flex items-center gap-3 rounded-lg border border-border/60 p-4">
-                  <span className="text-2xl">{item.icon}</span>
-                  <span className="text-sm font-medium">{item.label}</span>
-                </div>
-              ))}
-            </div>
-            <div className="mt-8 text-center">
-              <p className="text-sm text-muted-foreground">
-                {t('needMoreCredits')}
-              </p>
-            </div>
           </div>
 
           <p className="text-center text-sm text-muted-foreground mt-12 max-w-2xl mx-auto">

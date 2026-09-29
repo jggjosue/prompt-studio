@@ -13,7 +13,7 @@ import { OptimizedImage } from '@/components/optimized-image';
 import { pickLocalized } from '@/lib/localized-string';
 import { resolveWebPageImageUrl } from '@/lib/web-page-media';
 import { getWebPageCheckoutUrl } from '@/lib/web-page-checkout';
-import { getCatalogIdByDemoSlug, getRawWebPageByDemoSlug, getRawWebPages } from '@/lib/web-pages';
+import { getCatalogIdByDemoSlug, getRawWebPageByDemoSlug, getRawWebPageById, getRawWebPageByCatalogId, getRawWebPages } from '@/lib/web-pages';
 import { normalizeDemoFolder } from '@/lib/refactory-online';
 import { normalizeMembership } from '@/lib/membership-access';
 import {
@@ -104,7 +104,7 @@ async function getLandingPageSeoData(
   slug: string
 ): Promise<LandingPageSeoData | null> {
   const locale = await getLocale();
-  const page = getRawWebPageByDemoSlug(slug);
+  const page = getRawWebPageByDemoSlug(slug) || getRawWebPageById(slug) || getRawWebPageByCatalogId(slug);
 
   if (!page) return null;
 
@@ -212,7 +212,7 @@ export default async function LandingPageDetailPage({ params, searchParams }: Pa
   const resolvedSearchParams = await searchParams;
   const locale = await getLocale();
   const t = await getTranslations('landingPages');
-  const page = getRawWebPageByDemoSlug(slug);
+  const page = getRawWebPageByDemoSlug(slug) || getRawWebPageById(slug) || getRawWebPageByCatalogId(slug);
 
   if (!page) notFound();
 

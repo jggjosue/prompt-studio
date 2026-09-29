@@ -18,6 +18,8 @@ import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Check, Download, Eye, Globe, Heart, Image as ImageIcon, MoveUpRight, Search, Sparkles, Star, Video, Wand2 } from 'lucide-react';
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
+import { pickLocalized, type LocalizedField } from '@/lib/localized-string';
 
 type Localized = { es?: string; en?: string };
 type MediaItem = {
@@ -45,7 +47,8 @@ type FeedItem = MediaItem & {
   prompt: string;
 };
 
-const text = (value?: Localized) => value?.es || value?.en || '';
+const text = (value: LocalizedField | undefined, locale: string) =>
+  pickLocalized(value, locale);
 
 function stableCatalogId(value: unknown, fallback: string): string {
   const source = String(value ?? fallback).trim().toLowerCase();
@@ -79,19 +82,35 @@ function getDemoHref(item: MediaItem): string {
     : `${url.pathname}${url.search}`;
 }
 
+/**
+ * Builds the Next.js preview wrapper URL (/landing-pages/[slug]/preview)
+ * so the purchase button is visible when the user clicks "Previsualizar".
+ */
+function getWebPreviewHref(item: MediaItem): string {
+  const demoUrl = item.demoUrl ?? '';
+  if (!demoUrl) return '/landing-pages';
+  const pageId = String(item.id ?? demoUrl);
+  const params = new URLSearchParams();
+  if (item.price) {
+    params.set('price', item.price);
+    const checkoutParams = new URLSearchParams({
+      price: item.price,
+      client_reference_id: `guest___${pageId}`,
+      affiliate_product_id: pageId,
+    });
+    params.set('checkout', `/api/web-page-checkout?${checkoutParams.toString()}`);
+  }
+  if (pageId) params.set('pageId', pageId);
+  const qs = params.toString();
+  return `/landing-pages/${encodeURIComponent(demoUrl)}/preview${qs ? `?${qs}` : ''}`;
+}
+
 function getPersonalizeHref(item: { kind: Filter; prompt?: string; titleText?: string }): string {
   const prompt = item.prompt || item.titleText || '';
   const route = '/generate';
 
   return route + '?prompt=' + encodeURIComponent(prompt);
 }
-
-const journeySteps = [
-  { label: 'Descubre', detail: 'Encuentra una base', icon: Search },
-  { label: 'Personaliza', detail: 'Adapta el prompt', icon: Wand2 },
-  { label: 'Previsualiza', detail: 'Comprueba el resultado', icon: Eye },
-  { label: 'Obtén', detail: 'Descarga o compra', icon: Download },
-] as const;
 
 const FALLBACK_IMAGE = '/images/product-photography/product-photo-368-advertising-mockups.webp';
 const FALLBACK_VIDEO = '/videos/product-reels/product-reel-023.mp4';
@@ -159,6 +178,7 @@ function VirtualFeedItem({ item, index, metric, onTrack, onToggleLike }: {
   onTrack: (item: FeedItem, action: 'view' | 'click') => void;
   onToggleLike: (item: FeedItem, liked: boolean) => void;
 }) {
+  const t = useTranslations('discover');
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { margin: "300px 0px" });
   const [height, setHeight] = useState<number | null>(null);
@@ -199,14 +219,27 @@ function VirtualFeedItem({ item, index, metric, onTrack, onToggleLike }: {
   const rotateX = useTransform(scrollYProgress, [0, 0.5, 1], [15, 0, -15]);
   const rotateY = useTransform(scrollYProgress, [0, 0.5, 1], [direction * 5, 0, direction * -5]);
 
+  const animationDetailsHref = item.detailId || item.id
+    ? `/web-animations?id=${encodeURIComponent(String(item.detailId || item.id))}`
+    : `/web-animations?q=${encodeURIComponent(item.titleText)}`;
+
   const href =
     item.kind === 'video'
       ? `/gallery-videos/${item.detailId}`
       : item.kind === 'web'
         ? getDemoHref(item)
         : item.kind === 'animation'
-          ? `/generate?prompt=${encodeURIComponent(item.prompt)}`
+          ? animationDetailsHref
           : `/gallery/${item.detailId}`;
+  // For web items, the "Previsualizar" button must go through the Next.js
+  // preview wrapper so the purchase button is rendered.
+  // For animation items, redirect to the web-animations details page.
+  const previewHref =
+    item.kind === 'web'
+      ? getWebPreviewHref(item)
+      : item.kind === 'animation'
+        ? animationDetailsHref
+        : href;
   const personalizeHref = getPersonalizeHref(item);
 
   return (
@@ -244,7 +277,9 @@ function VirtualFeedItem({ item, index, metric, onTrack, onToggleLike }: {
             <div className="mt-3 flex items-center gap-3 text-xs text-zinc-400">
               <button
                 type="button"
-                aria-label={metric?.likedByMe ? `Quitar Me gusta de ${item.titleText}` : `Me gusta ${item.titleText}`}
+                aria-label={metric?.likedByMe
+                  ? t('removeLike', { title: item.titleText })
+                  : t('like', { title: item.titleText })}
                 aria-pressed={metric?.likedByMe ?? false}
                 onClick={() => onToggleLike(item, metric?.likedByMe ?? false)}
                 className={`inline-flex min-h-9 items-center gap-1.5 rounded-full border px-3 transition ${metric?.likedByMe ? 'border-rose-400/50 bg-rose-500/15 text-rose-300' : 'border-white/10 bg-white/[0.04] hover:border-rose-400/40 hover:text-rose-300'}`}
@@ -253,24 +288,24 @@ function VirtualFeedItem({ item, index, metric, onTrack, onToggleLike }: {
                 <span>{metric?.likes ?? 0}</span>
               </button>
               {(metric?.ratingCount ?? 0) > 0 ? (
-                <span className="inline-flex items-center gap-1" title={`${metric?.ratingCount} valoraciones verificadas`}>
+                <span className="inline-flex items-center gap-1" title={t('verifiedRatings', { count: metric?.ratingCount ?? 0 })}>
                   <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
                   {metric?.rating.toFixed(1)}
                 </span>
               ) : null}
-              <span className="ml-auto inline-flex items-center gap-1" title="Visualizaciones"><Eye className="h-3.5 w-3.5" /> {metric?.views ?? 0}</span>
+              <span className="ml-auto inline-flex items-center gap-1" title={t('views')}><Eye className="h-3.5 w-3.5" /> {metric?.views ?? 0}</span>
             </div>
             <div className="mt-3 grid grid-cols-2 gap-2 border-t border-white/10 pt-4">
               <Button asChild size="sm" className="bg-blue-600 text-white hover:bg-blue-500">
                 <Link href={personalizeHref} onClick={() => onTrack(item, 'click')}>
                   <Wand2 className="mr-1.5 h-3.5 w-3.5" />
-                  Personalizar
+                  {t('customize')}
                 </Link>
               </Button>
               <Button asChild size="sm" variant="outline" className="border-white/15 bg-white/5 text-white hover:bg-white/10 hover:text-white">
-                <a href={href} target="_blank" rel="noopener noreferrer" onClick={() => onTrack(item, 'click')}>
+                <a href={previewHref} target="_blank" rel="noopener noreferrer" onClick={() => onTrack(item, 'click')}>
                   <Eye className="mr-1.5 h-3.5 w-3.5" />
-                  Previsualizar
+                  {t('preview')}
                 </a>
               </Button>
             </div>
@@ -293,6 +328,8 @@ export default function DiscoverClient({
   webPages: MediaItem[];
   animations: AnimationItem[];
 }) {
+  const locale = useLocale();
+  const t = useTranslations('discover');
   const [filter, setFilter] = useState<Filter>('all');
   const [query, setQuery] = useState('');
   const [metrics, setMetrics] = useState<Map<string, CatalogMetrics>>(new Map());
@@ -314,6 +351,12 @@ export default function DiscoverClient({
   const heroRotate = useTransform(scrollYProgress, [0, 0.35], [0, -4]);
   const orbOneY = useTransform(scrollYProgress, [0, 1], [0, 460]);
   const orbTwoY = useTransform(scrollYProgress, [0, 1], [180, -260]);
+  const journeySteps = useMemo(() => [
+    { label: t('journey.discover'), detail: t('journey.discoverDetail'), icon: Search },
+    { label: t('journey.customize'), detail: t('journey.customizeDetail'), icon: Wand2 },
+    { label: t('journey.preview'), detail: t('journey.previewDetail'), icon: Eye },
+    { label: t('journey.get'), detail: t('journey.getDetail'), icon: Download },
+  ], [t]);
 
   const baseItems = useMemo(() => {
     const imageItems: FeedItem[] =
@@ -321,11 +364,11 @@ export default function DiscoverClient({
       // feed solo sirve de respaldo: aqui el orden ya esta filtrado y mezclado.
       images.map((item, index) => {
         const contentId = stableCatalogId(item.detailId, `img-${index + 1}`);
-        return { ...item, key: `image-${contentId}`, contentKey: `image:${contentId}`, contentId, editorialIndex: index, kind: 'image' as const, detailId: item.detailId ?? `img-${index + 1}`, titleText: text(item.title), prompt: typeof item.description === 'object' ? text(item.description as Localized) : '' };
+        return { ...item, key: `image-${contentId}`, contentKey: `image:${contentId}`, contentId, editorialIndex: index, kind: 'image' as const, detailId: item.detailId ?? `img-${index + 1}`, titleText: text(item.title, locale), prompt: typeof item.description === 'object' ? text(item.description as LocalizedField, locale) : '' };
       });
     const videoItems: FeedItem[] = videos.map((item, index) => {
       const contentId = stableCatalogId(item.detailId, `v-${index + 1}`);
-      return { ...item, key: `video-${contentId}`, contentKey: `video:${contentId}`, contentId, editorialIndex: index, kind: 'video', detailId: item.detailId ?? `v-${index + 1}`, titleText: text(item.title), prompt: text(item.description as Localized) };
+      return { ...item, key: `video-${contentId}`, contentKey: `video:${contentId}`, contentId, editorialIndex: index, kind: 'video', detailId: item.detailId ?? `v-${index + 1}`, titleText: text(item.title, locale), prompt: text(item.description as LocalizedField, locale) };
     });
     const webReviewIdCounts = new Map<string, number>();
     for (const page of webPages) {
@@ -336,15 +379,15 @@ export default function DiscoverClient({
       const productId = item.id ? String(item.id) : '';
       // IDs duplicados del JSON no deben mezclar la valoración de productos distintos.
       const reviewProductId = productId && webReviewIdCounts.get(productId) === 1 ? productId : undefined;
-      return { ...item, key: `web-${contentId}`, contentKey: `web:${contentId}`, contentId, reviewProductId, editorialIndex: index, kind: 'web', titleText: text(item.title), prompt: text(item.description as Localized) || text(item.title) };
+      return { ...item, key: `web-${contentId}`, contentKey: `web:${contentId}`, contentId, reviewProductId, editorialIndex: index, kind: 'web', titleText: text(item.title, locale), prompt: text(item.description as LocalizedField, locale) || text(item.title, locale) };
     });
     const animationItems: FeedItem[] = animations.map((item, index) => {
       const contentId = stableCatalogId(item.id, `animation-${index + 1}`);
-      return { key: `animation-${contentId}`, contentKey: `animation:${contentId}`, contentId, editorialIndex: index, kind: 'animation', titleText: text(item.name), prompt: text(item.prompt), tags: ['CSS', 'Motion', 'Interactive'], imageUrl: undefined, demoUrl: undefined };
+      return { id: item.id, detailId: String(item.id), key: `animation-${contentId}`, contentKey: `animation:${contentId}`, contentId, editorialIndex: index, kind: 'animation', titleText: text(item.name, locale), prompt: text(item.prompt, locale), tags: ['CSS', 'Motion', 'Interactive'], imageUrl: undefined, demoUrl: undefined };
     });
     return interleaveFeedGroups<FeedItem>([imageItems, videoItems, webItems, animationItems])
       .map((item, editorialIndex) => ({ ...item, editorialIndex }));
-  }, [animations, images, videos, webPages]);
+  }, [animations, images, locale, videos, webPages]);
 
   const items = useMemo(() => {
     return rankCatalogItems(baseItems, rankingMetrics).filter((item) => {
@@ -432,30 +475,30 @@ export default function DiscoverClient({
           <motion.div style={{ y: heroY, rotateX: heroRotate }} className="mx-auto grid max-w-7xl origin-top gap-8 transform-gpu lg:grid-cols-[1.05fr_.95fr] lg:items-center motion-reduce:transform-none">
             <motion.div initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7 }}>
               <p className="mb-4 text-xs font-black uppercase tracking-[0.28em] text-blue-400">Prompt Studio Discover</p>
-              <h1 className="max-w-3xl text-4xl font-black tracking-tight sm:text-6xl">Descubre lo que puedes crear con IA.</h1>
-              <p className="mt-5 max-w-2xl text-base leading-7 text-zinc-400 sm:text-lg">Imágenes, videos, experiencias web y animaciones seleccionadas desde nuestros catálogos reales.</p>
+              <h1 className="max-w-3xl text-4xl font-black tracking-tight sm:text-6xl">{t('title')}</h1>
+              <p className="mt-5 max-w-2xl text-base leading-7 text-zinc-400 sm:text-lg">{t('subtitle')}</p>
               <div className="mt-7 flex flex-wrap items-center gap-3">
                 <Button asChild size="lg" className="h-12 rounded-full bg-blue-600 px-6 text-white hover:bg-blue-500">
                   <a href="#inspiration-feed">
-                    Empieza por una idea <ArrowRight className="ml-2 h-4 w-4" />
+                    {t('startWithIdea')} <ArrowRight className="ml-2 h-4 w-4" />
                   </a>
                 </Button>
                 <p className="flex items-center gap-2 text-sm text-zinc-400">
-                  <Check className="h-4 w-4 text-emerald-400" /> Sin empezar desde cero
+                  <Check className="h-4 w-4 text-emerald-400" /> {t('noBlankPage')}
                 </p>
               </div>
               <div className="relative mt-8 max-w-xl">
                 <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-zinc-500" />
-                <Input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Buscar ideas, estilos o tecnologías..." className="h-14 rounded-xl border-white/15 bg-white/5 pl-12 text-white placeholder:text-zinc-500" />
+                <Input value={query} onChange={(event) => setQuery(event.target.value)} placeholder={t('searchPlaceholder')} className="h-14 rounded-xl border-white/15 bg-white/5 pl-12 text-white placeholder:text-zinc-500" />
               </div>
             </motion.div>
             {featured?.imageUrl && (
               <motion.div initial={{ opacity: 0, x: 50, rotateY: -8 }} animate={{ opacity: 1, x: 0, rotateY: 0 }} transition={{ duration: 0.8 }} whileHover={{ rotateY: -3, rotateX: 2, scale: 1.015 }} className="transform-gpu [transform-style:preserve-3d]">
                 <Link href={getDemoHref(featured)} className="group relative block aspect-[16/10] overflow-hidden rounded-2xl border border-white/10 bg-zinc-900 shadow-2xl shadow-blue-950/30">
-                  <OptimizedImage src={featured.imageUrl} alt={text(featured.title)} fill priority sizes="(max-width: 1024px) 100vw, 48vw" className="object-cover transition duration-700 group-hover:scale-105" />
+                  <OptimizedImage src={featured.imageUrl} alt={text(featured.title, locale)} fill priority sizes="(max-width: 1024px) 100vw, 48vw" className="object-cover transition duration-700 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent" />
                   <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-6">
-                    <div><span className="text-xs font-bold uppercase tracking-widest text-blue-400">Web destacada</span><h2 className="mt-1 text-2xl font-black">{text(featured.title)}</h2></div>
+                    <div><span className="text-xs font-bold uppercase tracking-widest text-blue-400">{t('featuredWeb')}</span><h2 className="mt-1 text-2xl font-black">{text(featured.title, locale)}</h2></div>
                     <MoveUpRight className="h-6 w-6" />
                   </div>
                 </Link>
@@ -468,10 +511,10 @@ export default function DiscoverClient({
           <div className="mx-auto max-w-7xl">
             <div className="mb-5 flex flex-col justify-between gap-2 sm:flex-row sm:items-end">
               <div>
-                <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-400">Tu recorrido</p>
-                <h2 id="creative-journey-title" className="mt-1 text-xl font-black sm:text-2xl">De la inspiración a un resultado utilizable</h2>
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-400">{t('journeyLabel')}</p>
+                <h2 id="creative-journey-title" className="mt-1 text-xl font-black sm:text-2xl">{t('journeyTitle')}</h2>
               </div>
-              <p className="max-w-md text-sm text-zinc-400">Todas las herramientas de Prompt Studio acompañan estas cuatro etapas.</p>
+              <p className="max-w-md text-sm text-zinc-400">{t('journeySubtitle')}</p>
             </div>
             <ol className="grid gap-2 md:grid-cols-4">
               {journeySteps.map((step, index) => {
@@ -482,7 +525,7 @@ export default function DiscoverClient({
                       <Icon className="h-4 w-4" aria-hidden="true" />
                     </span>
                     <div>
-                      <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Paso {index + 1}</p>
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">{t('step', { number: index + 1 })}</p>
                       <p className="font-bold">{step.label}</p>
                       <p className="text-xs text-zinc-500">{step.detail}</p>
                     </div>
@@ -497,11 +540,11 @@ export default function DiscoverClient({
         <section className="sticky top-0 z-20 border-b border-white/10 bg-[#08090b]/90 px-4 py-4 backdrop-blur-xl">
           <div className="mx-auto flex max-w-7xl gap-2 overflow-x-auto">
             {([
-              ['all', 'Todo', Sparkles],
-              ['image', 'Imágenes', ImageIcon],
-              ['video', 'Videos', Video],
+              ['all', t('filters.all'), Sparkles],
+              ['image', t('filters.images'), ImageIcon],
+              ['video', t('filters.videos'), Video],
               ['web', 'Webs', Globe],
-              ['animation', 'Animaciones', Wand2],
+              ['animation', t('filters.animations'), Wand2],
             ] as const).map(([value, label, Icon]) => (
               <Button key={value} type="button" variant="ghost" onClick={() => setFilter(value)} className={`shrink-0 gap-2 rounded-full border px-5 ${filter === value ? 'border-blue-500 bg-blue-600 text-white hover:bg-blue-600' : 'border-white/10 bg-white/5 text-zinc-300 hover:bg-white/10 hover:text-white'}`}>
                 <Icon className="h-4 w-4" /> {label}
@@ -512,7 +555,7 @@ export default function DiscoverClient({
 
         <section id="inspiration-feed" className="scroll-mt-24 px-4 py-10">
           <div className="mx-auto max-w-7xl">
-            <div className="mb-6 flex items-end justify-between"><div><p className="text-xs font-bold uppercase tracking-widest text-blue-400">Paso 1 · Descubre</p><h2 className="mt-1 text-3xl font-black">Elige una idea para personalizar</h2></div><span className="text-sm text-zinc-500">{items.length} resultados</span></div>
+            <div className="mb-6 flex items-end justify-between"><div><p className="text-xs font-bold uppercase tracking-widest text-blue-400">{t('feedStep')}</p><h2 className="mt-1 text-3xl font-black">{t('feedTitle')}</h2></div><span className="text-sm text-zinc-500">{t('results', { count: items.length })}</span></div>
             <div className="columns-1 gap-4 sm:columns-2 lg:columns-3 xl:columns-4">
 
               {visibleItems.map((item, index) => (
@@ -538,7 +581,7 @@ export default function DiscoverClient({
                   className="border-white/15 bg-white/5 text-white hover:bg-white/10 hover:text-white"
                   onClick={() => setVisibleCount(current => nextFeedItemCount(current, items.length))}
                 >
-                  Cargar más resultados
+                  {t('loadMore')}
                 </Button>
               </div>
             ) : null}

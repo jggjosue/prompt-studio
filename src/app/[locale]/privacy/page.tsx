@@ -134,12 +134,12 @@ export default function PrivacyPolicyPage() {
             <p>Sitio web:</p>
             <p>https://www.prompstudio.com</p>
             <p>Correo de soporte:</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <p>Magzin LLC es responsable de determinar las finalidades y los medios mediante los cuales se tratan los datos personales recopilados por la Plataforma.</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">2.1 Datos de contacto</h3>
             <p>Para cualquier consulta relacionada con esta Política de Privacidad, los usuarios pueden comunicarse con nosotros mediante:</p>
             <p>Correo electrónico</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">2.2 Servicios administrados</h3>
             <p>Magzin LLC administra, desarrolla y opera:</p>
             <ul className="list-disc pl-6 space-y-2">
@@ -182,7 +182,7 @@ export default function PrivacyPolicyPage() {
               <li>Incidentes relacionados con privacidad.</li>
             </ul>
             <p>deberán enviarse a:</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <section className="space-y-4 pt-8">
               <h2 className="text-2xl font-bold text-foreground font-headline flex items-center gap-3">
                 Sección 3. Ámbito de Aplicación
@@ -1036,7 +1036,7 @@ export default function PrivacyPolicyPage() {
             </ul>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">10.7 Eliminación de la cuenta</h3>
             <p>El usuario podrá eliminar su cuenta en cualquier momento utilizando las herramientas disponibles en Clerk o solicitándolo mediante:</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <p>Una vez eliminada la cuenta:</p>
             <ul className="list-disc pl-6 space-y-2">
               <li>Se cancelará el acceso.</li>
@@ -1198,7 +1198,7 @@ export default function PrivacyPolicyPage() {
               <li>La configuración de su cuenta.</li>
               <li>Contactando con:</li>
             </ul>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <p>La cancelación impedirá futuras renovaciones, pero no afectará el acceso al período previamente pagado, salvo que la legislación aplicable disponga otra cosa.</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">12.5 Cambios de plan</h3>
             <p>Cuando la Plataforma lo permita, el usuario podrá:</p>
@@ -1716,7 +1716,7 @@ export default function PrivacyPolicyPage() {
               <li>Las preferencias de la cuenta, cuando estén disponibles.</li>
               <li>Una solicitud enviada a:</li>
             </ul>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <p>La cancelación será procesada dentro de un plazo razonable.</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">18.4 Comunicaciones obligatorias</h3>
             <p>La cancelación del newsletter no impedirá que Prompt Studio envíe comunicaciones necesarias para:</p>
@@ -2337,7 +2337,7 @@ export default function PrivacyPolicyPage() {
               <li>Revocación del consentimiento.</li>
             </ul>
             <p>Las solicitudes podrán enviarse a:</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">24.8 Finalización de la participación</h3>
             <p>Cuando un afiliado deje de participar en el programa:</p>
             <ul className="list-disc pl-6 space-y-2">
@@ -2597,7 +2597,7 @@ export default function PrivacyPolicyPage() {
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">27.8 Solicitudes de eliminación</h3>
             <p>Las solicitudes relacionadas con la eliminación de la cuenta podrán enviarse a:</p>
             <p>Correo electrónico:</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <p>Prompt Studio responderá dentro de un plazo razonable y, cuando resulte aplicable, dentro de los plazos establecidos por la legislación vigente.</p>
             <section className="space-y-4 pt-8">
               <h2 className="text-2xl font-bold text-foreground font-headline flex items-center gap-3">
@@ -2650,7 +2650,7 @@ export default function PrivacyPolicyPage() {
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">28.8 Derecho a presentar una reclamación</h3>
             <p>Si el usuario considera que Prompt Studio ha tratado sus datos personales de manera contraria al RGPD, podrá presentar una reclamación ante la autoridad de control competente de su país de residencia o del lugar donde se haya producido la presunta infracción.</p>
             <p>Asimismo, podrá contactar previamente con Prompt Studio a través de:</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <p>con el fin de intentar resolver la situación de forma amistosa.</p>
             <section className="space-y-4 pt-8">
               <h2 className="text-2xl font-bold text-foreground font-headline flex items-center gap-3">
@@ -2705,7 +2705,7 @@ export default function PrivacyPolicyPage() {
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">29.7 Procedimiento para ejercer los derechos</h3>
             <p>Las solicitudes relacionadas con derechos ARCO deberán enviarse a:</p>
             <p>Correo electrónico:</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <p>La solicitud deberá incluir, cuando sea posible:</p>
             <ul className="list-disc pl-6 space-y-2">
               <li>Nombre del titular.</li>
@@ -2770,7 +2770,7 @@ export default function PrivacyPolicyPage() {
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">30.8 Ejercicio de derechos</h3>
             <p>Los usuarios podrán ejercer sus derechos enviando una solicitud a:</p>
             <p>Correo electrónico:</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <p>Prompt Studio podrá solicitar información razonable para verificar la identidad del solicitante antes de atender la solicitud.</p>
             <section className="space-y-4 pt-8">
               <h2 className="text-2xl font-bold text-foreground font-headline flex items-center gap-3">
@@ -2876,7 +2876,7 @@ export default function PrivacyPolicyPage() {
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">32.4 Solicitudes de eliminación</h3>
             <p>Si un padre, madre o tutor considera que un menor ha proporcionado información personal sin la autorización correspondiente, podrá solicitar la eliminación de dicha información escribiendo a:</p>
             <p>Correo electrónico:</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <p>Prompt Studio adoptará las medidas razonables para verificar la solicitud y atenderla conforme a la legislación aplicable.</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">32.5 Contenido generado mediante IA</h3>
             <p>Las herramientas de Inteligencia Artificial disponibles en Prompt Studio no están diseñadas específicamente para menores de edad.</p>
@@ -3110,7 +3110,7 @@ export default function PrivacyPolicyPage() {
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">35.6 Infracción de derechos</h3>
             <p>Prompt Studio respeta los derechos de propiedad intelectual de terceros.</p>
             <p>Si una persona considera que algún contenido disponible en la Plataforma infringe sus derechos, podrá comunicarse con:</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <p>La solicitud deberá incluir información suficiente que permita identificar el contenido y acreditar la titularidad de los derechos invocados.</p>
             <p>Prompt Studio evaluará la solicitud y, cuando corresponda, adoptará las medidas razonables previstas por la legislación aplicable.</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">35.7 Protección del contenido</h3>
@@ -3200,7 +3200,7 @@ export default function PrivacyPolicyPage() {
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">36.8 Contacto para consultas</h3>
             <p>Si el usuario tiene preguntas sobre las modificaciones de esta Política o sobre el tratamiento de sus datos personales, podrá comunicarse con:</p>
             <p>Correo electrónico:</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <p>Prompt Studio procurará responder las consultas dentro de un plazo razonable y conforme a la legislación aplicable.</p>
             <section className="space-y-4 pt-8">
               <h2 className="text-2xl font-bold text-foreground font-headline flex items-center gap-3">
@@ -3218,7 +3218,7 @@ export default function PrivacyPolicyPage() {
             <p>Sitio web</p>
             <p>https://www.prompstudio.com</p>
             <p>Correo electrónico de soporte</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">37.2 Solicitudes relacionadas con privacidad</h3>
             <p>Los usuarios podrán ponerse en contacto con Prompt Studio para solicitar información relacionada con:</p>
             <ul className="list-disc pl-6 space-y-2">
@@ -3236,7 +3236,7 @@ export default function PrivacyPolicyPage() {
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">37.3 Forma de presentar una solicitud</h3>
             <p>Las solicitudes deberán enviarse a:</p>
             <p>Correo electrónico</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <p>Para proteger la información personal de nuestros usuarios, Prompt Studio podrá solicitar información adicional que permita verificar razonablemente la identidad del solicitante antes de atender la petición.</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">37.4 Información recomendada</h3>
             <p>Para agilizar la atención de la solicitud, recomendamos incluir:</p>
@@ -3311,7 +3311,7 @@ export default function PrivacyPolicyPage() {
             <p>Toda cooperación se realizará respetando los principios de legalidad, necesidad y proporcionalidad.</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">38.6 Resolución amistosa</h3>
             <p>Antes de acudir a una autoridad competente, invitamos al usuario a comunicarse con Prompt Studio mediante:</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <p>Nuestro objetivo será resolver cualquier duda, reclamación o incidencia relacionada con la privacidad de manera rápida, transparente y de buena fe.</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">38.7 Conservación de evidencia</h3>
             <p>Prompt Studio podrá conservar registros relacionados con solicitudes de privacidad y reclamaciones con el fin de:</p>
@@ -3428,7 +3428,7 @@ export default function PrivacyPolicyPage() {
             <p>Sitio web:</p>
             <p>https://www.prompstudio.com</p>
             <p>Correo electrónico:</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <p>Operado por:</p>
             <p>Magzin LLC</p>
             <p>800 Third Avenue Associates</p>
@@ -3462,7 +3462,7 @@ export default function PrivacyPolicyPage() {
             <p>New York, NY 10022</p>
             <p>United States</p>
             <p>Sitio web: https://www.prompstudio.com</p>
-            <p>Correo electrónico: user@example.com</p>
+            <p>Correo electrónico: help@prompstudio.com</p>
           </div>
         </div>
       </main>

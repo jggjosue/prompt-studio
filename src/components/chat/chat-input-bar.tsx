@@ -1,10 +1,15 @@
 'use client';
 
-import { cn } from '@/lib/utils';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
+import { useState, useEffect, useRef } from 'react';
+import { Send, Image as ImageIcon, Video, Globe, ListPlus, Play, RotateCcw, Trash2 } from 'lucide-react';
+import { OptimizedImage } from '@/components/optimized-image';
 import { Textarea } from '@/components/ui/textarea';
-import type { ChatGeneratorReturn } from '@/lib/chat-types';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useSearchParams } from 'next/navigation';
+import type { ChatGeneratorReturn, ChatQueueItem, ChatQueueStatus } from '@/lib/chat-types';
 import { ChatMode } from '@/lib/chat-types';
 import {
   Globe,
@@ -100,197 +105,180 @@ const MODE_CONFIG: Record<ChatMode, { label: string; icon: React.ReactNode; colo
 };
 
 export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
-  const {
-    selectedMode, setSelectedMode, generate, localGenerating,
-    draftPrompt: prompt, setDraftPrompt, params, setParams,
-    imageGen,
-  } = chat;
-
-  const { userId } = useAuth();
-  const clerk = useClerk();
-
+  const [prompt, setPrompt] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const searchParams = useSearchParams();
+  const { selectedMode, setSelectedMode, params, generate, localGenerating, messages, queue, queueRunning, enqueue, startQueue, removeQueueItem, retryQueueItem, clearQueue } = chat;
+  const activeResponses = messages.filter(message => message.role === 'assistant' && message.status === 'pending').length;
 
-  // Resolve selected model/provider from params, defaulting to first option for the mode
-  const modeModels = MODEL_OPTIONS[selectedMode];
-  const currentModel = modeModels.find(
-    m => m.provider === (params.provider ?? modeModels[0].provider) && m.model === (params.model ?? modeModels[0].model)
-  ) ?? modeModels[0];
-
-  const modelKey = `${currentModel.provider}:${currentModel.model}`;
-
-  const handleModelSelect = (key: string) => {
-    const [provider, ...rest] = key.split(':');
-    const model = rest.join(':');
-    setParams(prev => ({ ...prev, provider, model }));
-  };
-
-  // When mode switches, reset provider/model to first available
-  const handleModeChange = (mode: ChatMode) => {
-    const defaults = MODEL_OPTIONS[mode][0];
-    setSelectedMode(mode);
-    setParams(prev => ({ ...prev, provider: defaults.provider, model: defaults.model }));
-  };
-
-  const handleSend = () => {
-    if (!userId) {
-      clerk.openSignUp({ fallbackRedirectUrl: '/generate' });
-      return;
+  // Pre-fill from URL params
+  useEffect(() => {
+    const promptParam = searchParams.get('prompt');
+    if (promptParam && messages.length === 0) {
+      setPrompt(decodeURIComponent(promptParam));
     }
-    if (!prompt.trim() || localGenerating) return;
-    generate(prompt.trim(), { ...params, provider: currentModel.provider, model: currentModel.model }, selectedMode);
-    setDraftPrompt('');
-  };
+  }, [searchParams, messages.length]);
 
-  // Auto-grow textarea
+  // Auto-grow del textarea hasta max-h
   useEffect(() => {
     const el = textareaRef.current;
     if (!el) return;
     el.style.height = 'auto';
-    el.style.height = `${Math.min(el.scrollHeight, 200)}px`;
+    el.style.height = `${Math.min(el.scrollHeight, 288)}px`;
   }, [prompt]);
 
-  const credits = imageGen.credits;
-  const creditsDisplay = Number.isInteger(credits) ? credits.toString() : credits.toFixed(1);
-  const hasInsufficientCredits = credits < currentModel.credits;
+  const handleSend = () => {
+    if (!prompt.trim()) return;
+    const trimmed = prompt.trim();
+    setPrompt('');
+    void generate(trimmed, params, selectedMode);
+    requestAnimationFrame(() => textareaRef.current?.focus());
+  };
+
+  const handleAddToQueue = () => {
+    if (!prompt.trim()) return;
+    enqueue(prompt);
+    setPrompt('');
+  };
+
+  const handleStartQueue = () => {
+    startQueue();
+    // Vaciar la caja de texto pendiente como nuevo ítem encolado
+    if (prompt.trim()) {
+      enqueue(prompt);
+      setPrompt('');
+    }
+  };
+
+  const queueStatusConfig: Record<ChatQueueStatus, { label: string; variant: 'default' | 'secondary' | 'destructive' | 'outline' }> = {
+    queued: { label: 'En cola', variant: 'secondary' },
+    processing: { label: 'Generando…', variant: 'default' },
+    completed: { label: 'Listo', variant: 'outline' },
+    failed: { label: 'Error', variant: 'destructive' },
+  };
+
+  const renderQueueItem = (item: ChatQueueItem) => {
+    const config = queueStatusConfig[item.status];
+    const modeMeta = item.mode === 'image'
+      ? { icon: <ImageIcon className="h-3 w-3 text-violet-400" />, label: 'Imagen' }
+      : item.mode === 'video'
+        ? { icon: <Video className="h-3 w-3 text-rose-400" />, label: 'Video' }
+        : { icon: <Globe className="h-3 w-3 text-cyan-400" />, label: 'Web' };
+    return (
+      <li key={item.id} className="rounded-lg border border-border/60 bg-card/40 p-2 pl-3">
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex min-w-0 flex-1 items-center gap-1.5">
+            <span className="flex items-center gap-1 rounded border border-border/50 px-1 py-0.5 text-[10px] font-semibold text-muted-foreground">
+              {modeMeta.icon}
+              <span className="hidden sm:inline">{modeMeta.label}</span>
+            </span>
+            <p className="min-w-0 flex-1 truncate text-xs">{item.prompt}</p>
+          </div>
+          <Badge variant={config.variant}>{config.label}</Badge>
+          {item.status !== 'processing' && (
+            <button
+              type="button"
+              onClick={() => removeQueueItem(item.id)}
+              className="rounded p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              aria-label={`Quitar de la cola: ${item.prompt}`}
+            >
+              <Trash2 className="h-3.5 w-3.5" />
+            </button>
+          )}
+        </div>
+        {item.status === 'processing' && <Progress value={item.progress} className="mt-2 h-2" />}
+        {item.status === 'failed' && (
+          <div className="mt-2 flex items-center justify-between gap-2">
+            <p className="truncate text-[11px] text-destructive">{item.error}</p>
+            <button
+              type="button"
+              onClick={() => retryQueueItem(item.id)}
+              className="inline-flex shrink-0 items-center gap-1 rounded border border-border/60 px-2 py-0.5 text-[11px] font-semibold transition-colors hover:bg-muted"
+            >
+              <RotateCcw className="h-3 w-3" /> Reintentar
+            </button>
+          </div>
+        )}
+        {item.status === 'completed' && item.result?.imageUrl && (
+          <div className="relative mt-2 h-16 w-16 overflow-hidden rounded-md">
+            <OptimizedImage src={item.result.imageUrl} alt={item.prompt} fill forceUnoptimized className="object-cover" />
+          </div>
+        )}
+      </li>
+    );
+  };
 
   return (
-    <div className="shrink-0 border-t border-border/60 bg-background/80 backdrop-blur-sm p-3">
-      {/* Composer card */}
-      <div className={cn(
-        'rounded-xl border border-border/60 bg-card/60 transition-all duration-200',
-        'focus-within:border-blue-500/60 focus-within:shadow-[0_0_0_3px_rgba(59,130,246,0.08)]'
-      )}>
-        {/* Textarea */}
+    <div className="border-t border-border bg-background p-3 sm:p-4">
+      <div className="mx-auto flex w-full max-w-3xl flex-col gap-2">
+        <Tabs value={selectedMode} onValueChange={(v) => setSelectedMode(v as ChatMode)} className="w-fit">
+          <TabsList>
+            <TabsTrigger value="image"><ImageIcon className="h-3 w-3 mr-1" />Imagen</TabsTrigger>
+            <TabsTrigger value="video"><Video className="h-3 w-3 mr-1" />Video</TabsTrigger>
+            <TabsTrigger value="project"><Globe className="h-3 w-3 mr-1" />Web</TabsTrigger>
+          </TabsList>
+        </Tabs>
         <Textarea
           ref={textareaRef}
-          id="chat-composer"
           value={prompt}
-          onChange={e => setDraftPrompt(e.target.value)}
-          placeholder={MODE_CONFIG[selectedMode].placeholder}
-          disabled={localGenerating}
-          className="min-h-[72px] max-h-[200px] resize-none border-0 bg-transparent px-4 pt-3 pb-1 text-sm placeholder:text-muted-foreground/50 focus-visible:ring-0 focus-visible:ring-offset-0 disabled:opacity-50"
-          onKeyDown={e => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-              e.preventDefault();
-              handleSend();
-            }
-          }}
-          aria-label="Describe lo que quieres crear"
-          aria-multiline="true"
+          onChange={e => setPrompt(e.target.value)}
+          placeholder={localGenerating ? 'Pide otra creación mientras terminamos…' : 'Escribe tu prompt...'}
+          className="w-full min-h-[110px] resize-none text-sm leading-relaxed sm:min-h-[120px] max-h-72"
+          onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
         />
-
-        {/* Toolbar */}
-        <div className="flex items-center gap-2 px-3 pb-2.5 pt-1 flex-wrap">
-          {/* Mode selector */}
-          <div className="flex items-center gap-1 rounded-lg border border-border/40 bg-muted/40 p-0.5" role="group" aria-label="Modo de creación">
-            {(Object.entries(MODE_CONFIG) as Array<[ChatMode, typeof MODE_CONFIG[ChatMode]]>).map(([mode, config]) => (
-              <button
-                key={mode}
-                type="button"
-                onClick={() => handleModeChange(mode)}
-                className={cn(
-                  'flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium transition-all duration-150',
-                  selectedMode === mode
-                    ? config.color + ' shadow-sm'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-                )}
-                aria-pressed={selectedMode === mode}
-                aria-label={`Modo ${config.label}`}
-              >
-                {config.icon}
-                {config.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Model selector */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button
-                type="button"
-                className="flex items-center gap-1.5 rounded-md border border-border/40 bg-muted/40 px-2.5 py-1 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                aria-label="Seleccionar modelo de IA"
-              >
-                <span className="max-w-[120px] truncate">{currentModel.label}</span>
-                <ChevronDown className="h-3 w-3 shrink-0" aria-hidden="true" />
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-64">
-              <DropdownMenuLabel className="text-[10px] uppercase tracking-widest text-muted-foreground">
-                Modelos para {MODE_CONFIG[selectedMode].label}
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuRadioGroup value={modelKey} onValueChange={handleModelSelect}>
-                {modeModels.map(m => (
-                  <DropdownMenuRadioItem
-                    key={`${m.provider}:${m.model}`}
-                    value={`${m.provider}:${m.model}`}
-                    className="flex flex-col items-start gap-0.5 py-2.5"
-                  >
-                    <div className="flex w-full items-center justify-between">
-                      <span className="font-medium">{m.label}</span>
-                      <span className="text-[10px] text-muted-foreground">~{m.credits} créditos</span>
-                    </div>
-                    <span className="text-[11px] text-muted-foreground">{m.description}</span>
-                  </DropdownMenuRadioItem>
-                ))}
-              </DropdownMenuRadioGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          {/* Spacer */}
-          <div className="flex-1" aria-hidden="true" />
-
-          {/* Credit estimate */}
-          <div
-            className={cn(
-              'flex items-center gap-1 text-xs',
-              hasInsufficientCredits ? 'text-destructive' : 'text-muted-foreground'
-            )}
-            aria-label={`Créditos disponibles: ${creditsDisplay}. Costo estimado: ~${currentModel.credits} créditos`}
-          >
-            <Zap className="h-3 w-3" aria-hidden="true" />
-            <span>
-              {hasInsufficientCredits
-                ? `Sin créditos · ${creditsDisplay} disponibles`
-                : `~${currentModel.credits} · ${creditsDisplay} disponibles`
-              }
+        <div className="flex flex-wrap items-center gap-2">
+          {activeResponses > 0 && (
+            <span className="mr-auto inline-flex items-center gap-2 text-[11px] text-muted-foreground" role="status">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500" />
+              </span>
+              {activeResponses === 1 ? '1 creación en segundo plano' : `${activeResponses} creaciones en segundo plano`}
             </span>
-          </div>
-
-          {/* Send button */}
-          <Button
-            type="button"
-            size="sm"
-            onClick={handleSend}
-            disabled={localGenerating || !prompt.trim() || hasInsufficientCredits}
-            className="h-8 gap-1.5 rounded-lg px-3"
-            aria-label={localGenerating ? 'Generando...' : 'Generar'}
-          >
-            {localGenerating ? (
-              <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" />
-            ) : (
-              <SendHorizonal className="h-3.5 w-3.5" aria-hidden="true" />
-            )}
-            <span className="hidden sm:inline">{localGenerating ? 'Generando...' : 'Crear'}</span>
+          )}
+          <Button variant="outline" onClick={handleAddToQueue} disabled={!prompt.trim()} className="h-10 px-3 text-xs sm:text-sm" title="Agregar a la cola de generación">
+            <ListPlus className="h-4 w-4" />
+            <span className="ml-1.5 hidden sm:inline">Agregar a cola</span>
+          </Button>
+          <Button onClick={handleSend} disabled={!prompt.trim()} size="icon" className="h-10 w-10">
+            <Send className="h-4 w-4" />
+            <span className="sr-only">Enviar</span>
           </Button>
         </div>
       </div>
 
-      {/* Insufficient credits warning */}
-      {hasInsufficientCredits && (
-        <p className="mt-2 text-center text-xs text-muted-foreground">
-          Necesitas {currentModel.credits} créditos para esta generación.{' '}
-          <Link href="/prices" className="text-blue-400 underline underline-offset-2 hover:text-blue-300">
-            Ver planes
-          </Link>
-        </p>
+      {queue.length > 0 && (
+        <div className="mx-auto mt-3 w-full max-w-3xl space-y-2">
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-xs font-semibold text-muted-foreground">
+              Cola de generación ({queue.filter(i => i.status !== 'completed').length} pendientes · {queue.length} total)
+            </p>
+            <div className="flex gap-1">
+              <Button
+                variant="outline"
+                className="h-7 px-2 text-xs"
+                onClick={handleStartQueue}
+                disabled={queueRunning || !queue.some(i => i.status === 'queued')}
+              >
+                <Play className="mr-1 h-3 w-3" />
+                {queueRunning ? 'Generando…' : 'Generar'}
+              </Button>
+              <Button
+                variant="ghost"
+                className="h-7 px-2 text-xs"
+                onClick={clearQueue}
+                disabled={queueRunning}
+                title="Quitar los ítems finalizados"
+              >
+                <Trash2 className="h-3 w-3" />
+              </Button>
+            </div>
+          </div>
+          <ul className="max-h-44 space-y-2 overflow-y-auto pr-1">
+            {queue.map(renderQueueItem)}
+          </ul>
+        </div>
       )}
-
-      <p className="mt-1.5 text-center text-[11px] text-muted-foreground/40">
-        Enter para crear · Shift+Enter para nueva línea
-      </p>
     </div>
   );
 }

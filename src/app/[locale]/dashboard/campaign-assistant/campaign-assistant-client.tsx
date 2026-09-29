@@ -76,7 +76,7 @@ export function CampaignAssistantClient() {
   return <div className="mx-auto max-w-7xl space-y-6">
     <div className="flex flex-wrap items-end justify-between gap-4">
       <div><Badge className="mb-2 bg-fuchsia-600"><Megaphone className="mr-1 size-3.5" />Centro de campaña</Badge><h1 className="text-3xl font-black">Del brief a la publicación</h1><p className="mt-2 max-w-2xl text-muted-foreground">Una vista operativa para saber qué está listo, qué falta, cuánto cuesta y cuál es la siguiente decisión.</p></div>
-      {detail ? <Button variant="outline" asChild><a href={`/dashboard/projects`}><ExternalLink className="mr-2 size-4" />Abrir proyecto</a></Button> : null}
+      {detail ? <Button variant="outline" asChild><a href={`/dashboard/projects?project=${encodeURIComponent(detail.projectId)}`}><ExternalLink className="mr-2 size-4" />Abrir proyecto</a></Button> : null}
     </div>
 
     {detail ? <>
@@ -87,7 +87,7 @@ export function CampaignAssistantClient() {
         </CardContent>
       </Card>
 
-      <section aria-label="Recorrido de campaña" className="grid gap-3 md:grid-cols-3 xl:grid-cols-6">
+      <section aria-label="Recorrido de campaña" className="grid gap-3 md:grid-cols-4 xl:grid-cols-7">
         {detail.control.stages.map((stage, index) => <StageCard key={stage.key} stage={stage} index={index + 1} />)}
       </section>
 

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function GeneratePage() {
+export default async function GeneratePage() {
   return (
     <Suspense>
       <ChatLayout />

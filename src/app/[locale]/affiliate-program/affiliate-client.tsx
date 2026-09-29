@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { motion, useInView, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import {
   ArrowRight,
   BarChart3,
@@ -25,14 +26,14 @@ import {
   Users,
   X,
 } from 'lucide-react';
-import { motion, useInView, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import { type ChangeEvent, type FormEvent, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 
-import { AFFILIATE_COMMISSION_PERCENT,
+import {
+  AFFILIATE_COMMISSION_PERCENT,
   AFFILIATE_FIRST_REF_STORAGE_KEY,
-  AFFILIATE_REF_STORAGE_KEY,
   AFFILIATE_OWNER_STORAGE_KEY,
+  AFFILIATE_REF_STORAGE_KEY,
 } from '@/lib/affiliate';
 
 type ModalContent = {
@@ -164,6 +165,75 @@ function ParallaxFloat({
     <motion.div ref={ref} style={{ y, rotate }} className={className}>
       {children}
     </motion.div>
+  );
+}
+
+function EarningsSimulator() {
+  const plans = [
+    { id: 'creator', name: 'Creator', monthly: 9, annual: 90, accent: 'text-cyan-300' },
+    { id: 'premium', name: 'Premium', monthly: 15, annual: 150, accent: 'text-emerald-300' },
+    { id: 'pro', name: 'Pro', monthly: 19, annual: 190, accent: 'text-blue-300' },
+    { id: 'studio', name: 'Studio', monthly: 39, annual: 390, accent: 'text-violet-300' },
+  ] as const;
+  const [users, setUsers] = useState(10);
+  const [planId, setPlanId] = useState<(typeof plans)[number]['id']>('creator');
+  const [annual, setAnnual] = useState(false);
+  const plan = plans.find(item => item.id === planId) ?? plans[0];
+  const price = annual ? plan.annual : plan.monthly;
+  const commission = Math.round(price * (AFFILIATE_COMMISSION_PERCENT / 100) * 100) / 100;
+  const monthlyTotal = Math.round(users * commission * 100) / 100;
+  const annualTotal = Math.round(monthlyTotal * (annual ? 1 : 12) * 100) / 100;
+  const formatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+
+  return (
+    <GlowCard className="mx-auto mt-12 max-w-6xl overflow-visible border-cyan-300/20 bg-slate-950/55 p-5 sm:p-8">
+      <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+        <div>
+          <div className="mb-6 flex items-center gap-3">
+            <div className="rounded-2xl bg-cyan-400/10 p-3 text-cyan-300"><TrendingUp className="h-6 w-6" /></div>
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-cyan-200">Calculadora interactiva</p>
+              <h3 className="mt-1 text-2xl font-bold text-white sm:text-3xl">Descubre tu potencial</h3>
+            </div>
+          </div>
+          <p className="mb-7 max-w-xl leading-7 text-slate-300">Simula cuánto podrías ganar según el número de usuarios que refieras y el programa que elijan.</p>
+
+          <label className="block text-sm font-semibold text-white" htmlFor="affiliate-users">Usuarios referidos</label>
+          <div className="mt-3 flex items-center gap-4">
+            <input id="affiliate-users" type="range" min="1" max="500" step="1" value={users} onChange={event => setUsers(Number(event.target.value))} className="h-2 w-full accent-cyan-300" />
+            <input aria-label="Número de usuarios referidos" type="number" min="1" max="500" value={users} onChange={event => setUsers(Math.max(1, Math.min(500, Number(event.target.value) || 1)))} className="w-24 rounded-xl border border-white/15 bg-white/10 px-3 py-2 text-center font-bold text-white outline-none focus:border-cyan-300" />
+          </div>
+
+          <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {plans.map(item => (
+              <button key={item.id} type="button" onClick={() => setPlanId(item.id)} className={`rounded-2xl border p-4 text-left transition ${planId === item.id ? 'border-cyan-300 bg-cyan-300/10 shadow-[0_0_24px_rgba(103,232,249,0.12)]' : 'border-white/10 bg-white/[0.03] hover:border-white/25'}`}>
+                <span className={`block text-sm font-bold ${item.accent}`}>{item.name}</span>
+                <span className="mt-1 block text-xs text-slate-400">${item.monthly}/mes · ${item.annual}/año</span>
+              </button>
+            ))}
+          </div>
+
+          <div className="mt-5 flex w-full max-w-sm rounded-full border border-white/15 bg-white/[0.04] p-1">
+            {([false, true] as const).map(value => (
+              <button key={String(value)} type="button" onClick={() => setAnnual(value)} className={`flex-1 rounded-full px-3 py-2 text-sm font-semibold transition ${annual === value ? 'bg-cyan-300 text-slate-950' : 'text-slate-300 hover:text-white'}`}>
+                {value ? 'Plan anual' : 'Plan mensual'}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <motion.div key={`${planId}-${annual}-${users}`} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="rounded-3xl border border-cyan-300/20 bg-gradient-to-br from-cyan-300/10 via-blue-500/10 to-violet-500/10 p-6 sm:p-8">
+          <p className="text-sm text-slate-300">Con {users} {users === 1 ? 'usuario referido' : 'usuarios referidos'} en {plan.name}</p>
+          <p className="mt-3 text-5xl font-black tracking-tight text-white sm:text-6xl">{formatter.format(monthlyTotal)}</p>
+          <p className="mt-2 text-sm text-cyan-200">{annual ? 'por año' : 'por mes'} en comisiones estimadas</p>
+          <div className="mt-8 grid grid-cols-2 gap-3">
+            <div className="rounded-2xl border border-white/10 bg-slate-950/35 p-4"><p className="text-xs text-slate-400">Por usuario</p><p className="mt-1 text-xl font-bold text-white">{formatter.format(commission)}</p></div>
+            <div className="rounded-2xl border border-white/10 bg-slate-950/35 p-4"><p className="text-xs text-slate-400">Proyección anual</p><p className="mt-1 text-xl font-bold text-white">{formatter.format(annualTotal)}</p></div>
+          </div>
+          <p className="mt-6 text-xs leading-5 text-slate-400">Estimación basada en una comisión del {AFFILIATE_COMMISSION_PERCENT}%. Las comisiones reales dependen de ventas calificadas, pagos completados y posibles reembolsos.</p>
+        </motion.div>
+      </div>
+    </GlowCard>
   );
 }
 
@@ -538,7 +608,7 @@ export default function AffiliateClient() {
   };
 
   const metricsData = [
-    { label: t('metrics.commission'), value: 20, suffix: t('metrics.suffixCommission'), Icon: DollarSign },
+    { label: t('metrics.commission'), value: AFFILIATE_COMMISSION_PERCENT, suffix: t('metrics.suffixCommission'), Icon: DollarSign },
     { label: t('metrics.cookie'), value: 60, suffix: t('metrics.suffixCookie'), Icon: MousePointerClick },
     { label: t('metrics.product'), value: 1, suffix: t('metrics.suffixProduct'), Icon: BookOpen },
     { label: t('metrics.payouts'), value: 12, suffix: t('metrics.suffixPayouts'), Icon: TrendingUp },
@@ -553,6 +623,7 @@ export default function AffiliateClient() {
 
   // Cada tarjeta de tier usa el mismo esquema: nombre, porcentaje y descripción de negocio.
   const tiersData = [
+    { name: t('commissions.tier1Name'), rate: t('commissions.tier1Rate'), desc: t('commissions.tier1Desc') },
     { name: tier2Name, rate: t('commissions.tier2Rate'), desc: t('commissions.tier2Desc') },
     { name: tier3Name, rate: t('commissions.tier3Rate'), desc: t('commissions.tier3Desc') },
   ];
@@ -692,14 +763,14 @@ export default function AffiliateClient() {
       />
       <motion.div
         style={{ y: railY }}
-        className="pointer-events-none fixed left-1/2 top-0 z-0 h-[140vh] w-[72rem] -translate-x-1/2 opacity-30 [mask-image:linear-gradient(180deg,transparent,black_16%,black_82%,transparent)]"
+        className="pointer-events-none fixed left-1/2 top-0 z-0 h-[140vh] w-[min(72rem,100vw)] -translate-x-1/2 opacity-30 [mask-image:linear-gradient(180deg,transparent,black_16%,black_82%,transparent)]"
       >
         <div className="h-full w-full bg-[linear-gradient(115deg,transparent_0%,rgba(34,211,238,0.13)_18%,transparent_34%,transparent_54%,rgba(52,211,153,0.12)_70%,transparent_86%)]" />
       </motion.div>
 
       <main id="top" className="relative z-10 scroll-mt-0">
         {/* Hero */}
-        <section ref={heroRef} className="relative mx-auto grid min-h-screen max-w-7xl items-center gap-14 overflow-hidden px-6 pb-24 pt-32 lg:grid-cols-[0.92fr_1.08fr] lg:pb-28 lg:pt-36">
+        <section ref={heroRef} className="relative mx-auto grid min-h-screen max-w-7xl items-center gap-10 overflow-hidden px-4 pb-16 pt-24 sm:px-6 sm:pb-24 sm:pt-32 lg:grid-cols-[0.92fr_1.08fr] lg:gap-14 lg:pb-28 lg:pt-36">
           <motion.div
             style={{ y: heroRibbonY, x: heroRibbonX }}
             className="pointer-events-none absolute left-[-8rem] top-24 hidden h-56 w-[34rem] rotate-[-14deg] rounded-full border border-cyan-200/15 bg-cyan-300/5 blur-sm lg:block"
@@ -715,7 +786,7 @@ export default function AffiliateClient() {
             transition={{ duration: 0.75 }}
             className="max-w-3xl"
           >
-            <h1 className="text-4xl font-semibold tracking-tight text-white md:text-6xl lg:text-7xl">
+            <h1 className="text-4xl font-semibold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
               {t('hero.title')}
             </h1>
             <p className="mt-8 max-w-2xl text-lg leading-9 text-slate-300">
@@ -950,6 +1021,7 @@ export default function AffiliateClient() {
               </ParallaxFloat>
             ))}
           </div>
+          <EarningsSimulator />
         </ParallaxSection>
 
         {/* Tracking */}

@@ -92,6 +92,13 @@ export default async function GalleryDetailPage({ params }: Props) {
     notFound();
   }
 
+  if (item.type === 'video') {
+    // If an item in placeholderImages is actually a video or has a video ID format like v-*, redirect to gallery-videos
+    const { redirect } = await import('next/navigation');
+    const targetId = item.id.startsWith('v-') ? item.id : id;
+    redirect(`/gallery-videos/${targetId}`);
+  }
+
   const canonicalPath = `/gallery/${id}`;
   const canonical = `${SITE_URL}${canonicalPath}`;
   const description = promptDescription(item.description, item.title);

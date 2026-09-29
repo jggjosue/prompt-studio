@@ -70,11 +70,9 @@ function ContentGridContent() {
               )}
             </CardContent>
             <CardFooter className="bg-muted/50 p-4 border-t flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-between gap-2">
-              <Button size="sm" asChild>
-                <Link href={`/generate?prompt=${encodeURIComponent(item.description)}`} target="_blank" rel="noopener noreferrer">
+              <Button size="sm" disabled>
                     <Wand2 className="w-4 h-4 mr-2" />
                     {tCommon('useThisPrompt')}
-                </Link>
               </Button>
                <Button
                 variant="secondary"

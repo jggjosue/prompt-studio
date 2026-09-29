@@ -7,7 +7,6 @@ import Logo from '@/components/layout/logo';
 import { Zap, ChevronDown, ExternalLink } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { ChatGeneratorReturn } from '@/lib/chat-types';
-import { useState } from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,20 +16,24 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { SignInButton } from '@clerk/nextjs';
+import { useTranslations } from 'next-intl';
 
 const QUICK_NAV = [
-  { href: '/', label: 'Inicio' },
-  { href: '/image-prompts', label: 'Imágenes' },
-  { href: '/video-prompts', label: 'Videos' },
-  { href: '/landing-pages', label: 'Webs' },
-  { href: '/prices', label: 'Precios' },
-];
+  { href: '/', labelKey: 'discover' },
+  { href: '/image-prompts', labelKey: 'images' },
+  { href: '/video-prompts', labelKey: 'videos' },
+  { href: '/landing-pages', labelKey: 'webs' },
+  { href: '/prices', labelKey: 'prices' },
+] as const;
 
 interface WorkspaceHeaderProps {
   chat: ChatGeneratorReturn;
 }
 
 export function WorkspaceHeader({ chat }: WorkspaceHeaderProps) {
+  const t = useTranslations('workspaceHeader');
+  const tNav = useTranslations('nav');
+  const tHeader = useTranslations('header');
   const { isSignedIn, isLoaded } = useAuth();
   const credits = chat.imageGen.credits;
   const creditsDisplay = Number.isInteger(credits) ? credits.toString() : credits.toFixed(1);
@@ -45,7 +48,7 @@ export function WorkspaceHeader({ chat }: WorkspaceHeaderProps) {
       <Link
         href="/"
         className="flex items-center gap-2 rounded-md px-1 py-0.5 text-foreground transition-colors hover:text-blue-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-        aria-label="Ir al inicio de Prompt Studio"
+        aria-label={t('homeLabel')}
       >
         <Logo />
         <span className="hidden text-sm font-bold sm:inline">Prompt Studio</span>
@@ -53,8 +56,8 @@ export function WorkspaceHeader({ chat }: WorkspaceHeaderProps) {
 
       {/* Workspace label */}
       <div className="hidden h-5 w-px bg-border/60 sm:block" aria-hidden="true" />
-      <span className="hidden text-xs font-semibold text-muted-foreground sm:inline" aria-label="Crear con IA">
-        Crear con IA
+      <span className="hidden text-xs font-semibold text-muted-foreground sm:inline" aria-label={tNav('createWithAI')}>
+        {tNav('createWithAI')}
       </span>
 
       {/* Quick nav (unobtrusive) */}
@@ -63,15 +66,15 @@ export function WorkspaceHeader({ chat }: WorkspaceHeaderProps) {
           <button
             type="button"
             className="hidden items-center gap-1 rounded-md px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:flex"
-            aria-label="Explorar secciones del sitio"
+            aria-label={t('exploreSections')}
           >
-            Explorar
+            {t('explore')}
             <ChevronDown className="h-3 w-3" aria-hidden="true" />
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start" className="w-44">
           <DropdownMenuLabel className="text-[10px] uppercase tracking-widest text-muted-foreground">
-            Descubrir
+            {tNav('discover')}
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           {QUICK_NAV.map(item => (
@@ -80,7 +83,7 @@ export function WorkspaceHeader({ chat }: WorkspaceHeaderProps) {
                 href={item.href}
                 className="flex items-center justify-between"
               >
-                {item.label}
+                {tNav(item.labelKey)}
                 <ExternalLink className="h-3 w-3 text-muted-foreground" aria-hidden="true" />
               </Link>
             </DropdownMenuItem>
@@ -101,11 +104,13 @@ export function WorkspaceHeader({ chat }: WorkspaceHeaderProps) {
               ? 'border-amber-500/40 bg-amber-500/10 text-amber-400 hover:bg-amber-500/20'
               : 'border-border/60 bg-muted/40 text-muted-foreground hover:bg-muted hover:text-foreground'
           )}
-          aria-label={`${creditsDisplay} créditos disponibles. ${lowCredits ? 'Créditos bajos, comprar más.' : ''}`}
+          aria-label={lowCredits
+            ? t('lowCreditsLabel', { credits: creditsDisplay })
+            : t('creditsLabel', { credits: creditsDisplay })}
         >
           <Zap className={cn('h-3 w-3', lowCredits ? 'text-amber-400' : 'text-blue-400')} aria-hidden="true" />
           <span>{creditsDisplay}</span>
-          <span className="hidden sm:inline text-muted-foreground font-normal">créditos</span>
+          <span className="hidden sm:inline text-muted-foreground font-normal">{t('credits')}</span>
         </Link>
       )}
 
@@ -124,7 +129,7 @@ export function WorkspaceHeader({ chat }: WorkspaceHeaderProps) {
             type="button"
             className="rounded-full border border-border/60 px-3 py-1 text-xs font-semibold text-muted-foreground transition-colors hover:border-border hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            Iniciar sesión
+            {tHeader('signIn')}
           </button>
         </SignInButton>
       )}

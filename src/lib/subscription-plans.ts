@@ -17,7 +17,7 @@ export type BillingCycle = 'monthly' | 'annual';
 
 export const PLAN_PRICES = {
   creator: { monthly: 9, annual: 90 },
-  pro: { monthly: 19, annual: 190 },
+  pro: { monthly: 25, annual: 250 },
   studio: { monthly: 39, annual: 390 },
 } as const;
 
