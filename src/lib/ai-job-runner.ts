@@ -20,7 +20,8 @@ export type ErrorCategory =
   | 'PROVIDER_ERROR'
   | 'TIMEOUT'
   | 'NO_IMAGE'
-  | 'STORAGE_ERROR';
+  | 'STORAGE_ERROR'
+  | 'CONTENT_BLOCKED';
 
 function requestContext(job: IAIGenerationJob, input: Pick<GenerationRequestContext, 'service' | 'host' | 'endpointLabel' | 'method'>, modelId = job.modelId): GenerationRequestContext {
   const jobId = String(job._id);
@@ -51,8 +52,30 @@ export function mapGeminiError(
     return { category: 'NO_IMAGE', userMessage: 'No se generó ninguna imagen.' };
   }
 
-  if (errorCode === 'CREDENTIAL_MISSING') {
-    return { category: 'AUTH_OR_PERMISSION', userMessage: 'No tienes permisos o la API key es inválida.' };
+  // 2.5 API error codes based on Gemini documentation
+  const blockedCodes = ['safety', 'recitation', 'language', 'prohibited_content', 'spii', 'blocklist', 'image_safety', 'image_prohibited_content', 'image_recitation', 'image_other', 'content_blocked'];
+  if (blockedCodes.includes(errorCode) || (resolvedFinishReason && blockedCodes.includes(resolvedFinishReason.toLowerCase()))) {
+    return { category: 'CONTENT_BLOCKED', userMessage: 'La generación fue bloqueada por políticas de seguridad o contenido. Por favor, modifica tu prompt.', internalDetails: { errorCode, finishReason: resolvedFinishReason } };
+  }
+
+  if (['invalid_request', 'failed_precondition', 'out_of_range', 'parameter_unknown'].includes(errorCode)) {
+    return { category: 'BAD_REQUEST', userMessage: 'Solicitud inválida o parámetros incorrectos.', internalDetails: { errorCode } };
+  }
+
+  if (['authentication', 'permission_denied', 'CREDENTIAL_MISSING'].includes(errorCode)) {
+    return { category: 'AUTH_OR_PERMISSION', userMessage: 'No tienes permisos o la API key es inválida.', internalDetails: { errorCode } };
+  }
+
+  if (errorCode === 'payment_required' || ['rate_limit_exceeded', 'quota_exceeded', 'too_many_requests'].includes(errorCode)) {
+    return { category: 'RATE_LIMIT_OR_QUOTA', userMessage: 'Has alcanzado el límite de cuota o se requiere pago.', internalDetails: { errorCode } };
+  }
+
+  if (errorCode === 'model_not_found') {
+    return { category: 'MODEL_NOT_FOUND', userMessage: 'El modelo no está disponible, selecciona otro.', internalDetails: { errorCode } };
+  }
+
+  if (['deadline_exceeded', 'cancelled'].includes(errorCode)) {
+    return { category: 'TIMEOUT', userMessage: 'Tiempo de espera agotado o cancelado, intenta de nuevo.', internalDetails: { errorCode } };
   }
 
   // 3. HTTP status code mapping
