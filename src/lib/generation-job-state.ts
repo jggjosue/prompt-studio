@@ -8,6 +8,7 @@ export const GENERATION_JOB_STATES = [
   'finalizing',
   'completed',
   'failed',
+  'dead_letter',
   'cancelled',
 ] as const;
 export type GenerationJobState = typeof GENERATION_JOB_STATES[number];
@@ -21,7 +22,10 @@ export type GenerationJobErrorCategory =
   | 'rate_limit_or_quota'
   | 'timeout'
   | 'provider_error'
+  | 'provider_unavailable'
   | 'storage_error'
+  | 'validation_error'
+  | 'configuration_error'
   | 'cancelled'
   | 'unknown';
 
@@ -53,11 +57,12 @@ export interface CanonicalGenerationJob {
 
 const LEGAL_TRANSITIONS: Readonly<Record<GenerationJobState, readonly GenerationJobState[]>> = {
   queued: ['processing', 'cancelled'],
-  processing: ['queued', 'uploading', 'finalizing', 'failed', 'cancelled'],
-  uploading: ['queued', 'finalizing', 'failed', 'cancelled'],
-  finalizing: ['queued', 'completed', 'failed', 'cancelled'],
+  processing: ['queued', 'uploading', 'finalizing', 'failed', 'dead_letter', 'cancelled'],
+  uploading: ['queued', 'finalizing', 'failed', 'dead_letter', 'cancelled'],
+  finalizing: ['queued', 'completed', 'failed', 'dead_letter', 'cancelled'],
   completed: [],
   failed: [],
+  dead_letter: [],
   cancelled: [],
 };
 
@@ -89,7 +94,7 @@ export function assertGenerationJobTransition(from: GenerationJobState, to: Gene
 }
 
 export function isTerminalGenerationJobState(state: GenerationJobState): boolean {
-  return state === 'completed' || state === 'failed' || state === 'cancelled';
+  return state === 'completed' || state === 'failed' || state === 'dead_letter' || state === 'cancelled';
 }
 
 export function progressForGenerationJobState(state: GenerationJobState): number {
@@ -109,11 +114,15 @@ export function generationJobErrorCategory(input: {
   const message = input.message?.toLowerCase() ?? '';
   if (code.includes('CANCEL') || message.includes('cancel')) return 'cancelled';
   if (code.includes('TIMEOUT') || message.includes('timeout') || message.includes('abort')) return 'timeout';
+  if (input.httpStatus === 408) return 'timeout';
+  if (input.httpStatus === 422 || code.includes('VALIDATION') || code.includes('INVALID_ARGUMENT')) return 'validation_error';
+  if (code.includes('STORAGE') || code.includes('R2')) return 'storage_error';
+  if (code.includes('CONFIG') || code.includes('CREDENTIAL_MISSING')) return 'configuration_error';
   if (input.httpStatus === 400) return 'bad_request';
   if (input.httpStatus === 401 || input.httpStatus === 403 || code.includes('AUTH') || code.includes('PERMISSION')) return 'auth_or_permission';
   if (input.httpStatus === 404 || code.includes('NOT_FOUND')) return 'model_not_found';
   if (input.httpStatus === 429 || code.includes('QUOTA') || code.includes('RESOURCE_EXHAUSTED')) return 'rate_limit_or_quota';
-  if (code.includes('STORAGE') || code.includes('R2')) return 'storage_error';
+  if ((input.httpStatus ?? 0) >= 500 || code.includes('UNAVAILABLE')) return 'provider_unavailable';
   if (input.httpStatus || code.includes('PROVIDER')) return 'provider_error';
   return 'unknown';
 }
