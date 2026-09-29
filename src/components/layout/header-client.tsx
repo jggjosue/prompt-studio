@@ -53,6 +53,7 @@ import {
 } from 'lucide-react';
 import { ClientLink } from '@/components/client-link';
 import { RoutePrefetchProvider } from '@/components/route-prefetch-provider';
+import { useMembershipAccess } from '@/hooks/use-membership-access';
 import { isNavActive } from '@/lib/app-routes';
 import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
@@ -146,6 +147,7 @@ export default function HeaderClient() {
   }, []);
 
   const { isLoaded } = useAuth();
+  const { hasPaidPlan } = useMembershipAccess();
   const pathname = usePathname();
   const tNav = useTranslations('nav');
   const tHeader = useTranslations('header');
@@ -189,6 +191,24 @@ export default function HeaderClient() {
     Explorar: copy.explore,
     Crear: copy.create,
   })[label] ?? label;
+
+  /** Constructor visual y Generador de páginas: solo para planes pagados. */
+  const paidCreatorItems = (): DropdownItem[] => [
+    {
+      href: '/component-builder',
+      group: 'Crear',
+      label: copy.builder,
+      description: copy.builderDesc,
+      icon: <WandSparkles className="h-4 w-4" />,
+    },
+    {
+      href: '/page-composer',
+      group: 'Crear',
+      label: copy.composer,
+      description: copy.composerDesc,
+      icon: <LayoutTemplate className="h-4 w-4" />,
+    },
+  ];
 
   const navLinks: Array<{
     id: string;
@@ -251,24 +271,7 @@ export default function HeaderClient() {
           description: copy.searchDesc,
           icon: <Search className="h-4 w-4" />,
         },
-        {
-          href: '/component-builder',
-          group: 'Crear',
-          label: copy.builder,
-          description: copy.builderDesc,
-          icon: <WandSparkles className="h-4 w-4" />,
-          disabled: true,
-          disabledBadge: copy.comingSoon,
-        },
-        {
-          href: '/page-composer',
-          group: 'Crear',
-          label: copy.composer,
-          description: copy.composerDesc,
-          icon: <LayoutTemplate className="h-4 w-4" />,
-          disabled: true,
-          disabledBadge: copy.comingSoon,
-        },
+        ...(hasPaidPlan ? paidCreatorItems() : []),
         {
           href: '/landing-pages',
           group: 'Explorar',
