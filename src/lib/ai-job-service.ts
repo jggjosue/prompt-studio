@@ -18,6 +18,9 @@ export async function ensureCreditAccount(userId: string, session?: CreditSessio
     { $setOnInsert: { userId, balance: initialCredits, subscriptionBalance: initialCredits, purchasedBalance: 0, reserved: 0, reservedSubscription: 0, reservedPurchased: 0, lifetimeSpent: 0, createdAt: new Date(), updatedAt: new Date() } },
     { upsert: true, session }
   );
+
+  // DEV HACK: Force 100,000 credits always so you can develop locally without limits
+  await AICreditAccount.updateOne({ userId }, { $set: { balance: 100000, subscriptionBalance: 100000 } });
   const legacy = await AICreditAccount.findOne({ userId, subscriptionBalance: { $exists: false } }).session(session ?? null);
   if (legacy) {
     legacy.subscriptionBalance = legacy.balance;
