@@ -1,7 +1,21 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { Send, Image as ImageIcon, Video, Globe, ListPlus, Play, RotateCcw, Trash2 } from 'lucide-react';
+import {
+  Send,
+  Image as ImageIcon,
+  Video,
+  Globe,
+  ListPlus,
+  Play,
+  RotateCcw,
+  Trash2,
+  SendHorizonal,
+  Zap,
+  ChevronDown,
+  Loader2,
+  ScanSearch,
+} from 'lucide-react';
 import { OptimizedImage } from '@/components/optimized-image';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
@@ -11,17 +25,6 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSearchParams } from 'next/navigation';
 import type { ChatGeneratorReturn, ChatQueueItem, ChatQueueStatus } from '@/lib/chat-types';
 import { ChatMode } from '@/lib/chat-types';
-import {
-  Globe,
-  Image as ImageIcon,
-  SendHorizonal,
-  Video,
-  Zap,
-  ChevronDown,
-  Loader2,
-  ScanSearch,
-} from 'lucide-react';
-import { useRef, useEffect } from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,

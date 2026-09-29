@@ -23,7 +23,7 @@ export interface ChatParams {
   videoInterpolation?: boolean; videoStyle?: string; videoAspect?: string;
   webFramework?: string; webTheme?: string; webComponent?: string; webColor?: string;
   webModel?: string; webPages?: number;
-  model?: string; provider?: string; aspectRatio?: string;
+  model?: string; provider?: string; aspectRatio?: string; generationTier?: string;
   thinkingLevel?: string; systemInstruction?: string;
   // Video understanding params
   videoInputMethod?: string; videoProcessingMode?: string;

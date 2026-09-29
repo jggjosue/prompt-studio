@@ -242,13 +242,3 @@ function extractImageUrl(result: unknown): string {
   return '';
 }
 
-function aspectRatioToGoogleValue(ratio: string | undefined): string {
-  switch (ratio) {
-    case '16-9': return '16:9';
-    case '9-16': return '9:16';
-    case '4-3':  return '4:3';
-    case '3-4':  return '3:4';
-    case '1-1':
-    default:     return '1:1';
-  }
-}
