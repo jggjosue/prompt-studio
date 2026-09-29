@@ -11,6 +11,7 @@ import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Tag, Wand2 } from 'lucide-react';
 import Link from 'next/link';
 import { memo } from 'react';
+import { useTranslations } from 'next-intl';
 
 export type PromptCatalogItem = {
   id: string;
@@ -43,6 +44,7 @@ function PromptCatalogCardComponent({
   actionClassName,
 }: PromptCatalogCardProps) {
   const eagerMedia = animationIndex === 0;
+  const t = useTranslations('common');
 
   return (
     <ParallaxReveal reverse={animationIndex % 2 === 1}>
@@ -92,42 +94,14 @@ function PromptCatalogCardComponent({
         </CardContent>
         <CardFooter className="bg-muted/50 p-4 border-t flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-between gap-2">
           <LiquidButton size="sm" className={actionClassName} asChild>
-            <Link
-              href={
-                item.description
-                  ? `${item.type === 'video' ? '/generate' : '/generate'}?prompt=${encodeURIComponent(
-                    JSON.stringify({
-                      type: item.type,
-                      title: item.title,
-                      description: item.description,
-                      imageUrl: item.imageUrl,
-                      tags: item.tags,
-                    })
-                  )}`
-                  : item.type === 'video'
-                    ? '/generate'
-                    : '/generate'
-              }
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <Link href={galleryHref}>
               <Wand2 className="w-4 h-4 mr-2" />
-              Use this prompt
+              {t('useThisPrompt')}
             </Link>
           </LiquidButton>
-          <Button variant="secondary" size="sm" asChild className={actionClassName}>
-            <Link
-              href={`${item.type === 'video' ? '/generate-videos' : '/generate'}?prompt=${encodeURIComponent(JSON.stringify({
-                type: item.type,
-                title: item.title,
-                description: item.description ?? '',
-                imageUrl: item.imageUrl,
-                tags: item.tags,
-              }))}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Personalizar
+          <Button variant="secondary" size="sm" className={actionClassName} asChild>
+            <Link href={`/generate?prompt=${encodeURIComponent(item.description || item.title)}`}>
+              {t('customize')}
             </Link>
           </Button>
 

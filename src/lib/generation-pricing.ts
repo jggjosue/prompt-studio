@@ -19,8 +19,8 @@ export function providerUsage(result: unknown): ProviderUsage {
     return null;
   };
   return {
-    inputTokens: number('input_tokens', 'prompt_tokens', 'promptTokenCount'),
-    outputTokens: number('output_tokens', 'completion_tokens', 'candidatesTokenCount'),
+    inputTokens: number('input_tokens', 'total_input_tokens', 'prompt_tokens', 'promptTokenCount'),
+    outputTokens: number('output_tokens', 'total_output_tokens', 'completion_tokens', 'candidatesTokenCount'),
     costUsd: number('costUsd'),
   };
 }
@@ -30,4 +30,3 @@ export function creditsForActualCost(provider: string, model: string | null | un
   const minimum = model ? getAIModelConfig(provider, model)?.minimumCredits ?? 1 : 1;
   return Math.max(minimum, Math.ceil(actualCostUsd / TARGET_COST_PER_CREDIT_USD));
 }
-

@@ -8,7 +8,7 @@ import AIGenerationJob, { type IAIGenerationJob } from '@/models/AIGenerationJob
 import mongoose from 'mongoose';
 import 'server-only';
 
-const initialCredits = Math.max(0, Number(process.env.AI_INITIAL_CREDITS ?? 12));
+const initialCredits = Math.max(0, Number(process.env.AI_INITIAL_CREDITS ?? 0));
 
 type CreditSession = mongoose.ClientSession;
 
@@ -233,7 +233,7 @@ export async function notifyJobFinished(job: IAIGenerationJob) {
       name: 'job_notification',
       route: 'ai-job-service',
       userId: job.userId,
-      metadata: { operation: 'notify_completion', provider: 'resend', jobId: String(job._id), correlationId: String(job._id), kind: job.kind, attempts: job.attempts },
+      metadata: { operation: 'notify_completion', provider: 'resend', jobId: String(job._id), correlationId: job.correlationId || String(job._id), kind: job.kind, attempts: job.attempts },
     }, error);
   }
 }

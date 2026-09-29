@@ -48,7 +48,7 @@ function mapVideoEntry(video: RawVideoEntry, index: number, locale: Locale | str
     imageUrl: video.imageUrl,
     imageHint,
     type: 'video',
-    tags: video.tags,
+    tags: (video.tags || []).filter((tag): tag is string => typeof tag === 'string' && tag.trim().length > 0),
     membership: video.membership,
   };
 }

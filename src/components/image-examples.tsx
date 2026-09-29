@@ -65,12 +65,12 @@ function ImageExamplesContent() {
               </CardContent>
               <CardFooter className="bg-muted/30 p-4 border-t border-zinc-800/80 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-between gap-2">
                 <LiquidButton size="sm" asChild>
-                  <Link href={`/generate?prompt=${encodeURIComponent(item.description)}`} target="_blank" rel="noopener noreferrer">
-                      <Wand2 className="w-4 h-4 mr-2" />
-                      Use this prompt
+                  <Link href={`/gallery/${item.id}`}>
+                    <Wand2 className="w-4 h-4 mr-2" />
+                    Use this prompt
                   </Link>
                 </LiquidButton>
-                 <Button
+                <Button
                   variant="secondary"
                   size="sm"
                   asChild

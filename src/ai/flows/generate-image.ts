@@ -8,7 +8,8 @@
  */
 
 import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import {GOOGLE_IMAGE_MODEL} from '@/lib/google-image-config';
+import {z} from 'zod';
 
 const GenerateImageInputSchema = z.object({
   prompt: z.string().describe('The text prompt to generate an image from.'),
@@ -41,6 +42,7 @@ const generateImageFlow = ai.defineFlow(
       const {media} = await ai.generate({
         model: resolvedModel,
         prompt: input.prompt,
+        config: {responseModalities: ['TEXT', 'IMAGE']},
       });
       
       const imageUrl = media?.url;
@@ -48,10 +50,11 @@ const generateImageFlow = ai.defineFlow(
           throw new Error('Image generation failed.');
       }
       return { imageUrl };
-    } catch (err: any) {
-      console.warn('Genkit image generation failed. Falling back to mock image.', err.message);
-      // Fallback mock image for testing
-      return { imageUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop' };
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'unknown';
+      const key = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || '';
+      console.warn('Genkit image generation failed.', msg.replace(key, '[KEY_REDACTED]'));
+      throw err;
     }
   }
 );

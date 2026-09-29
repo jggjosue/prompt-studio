@@ -5,7 +5,7 @@
 > update the corresponding route handler.
 
 The system authorizes requests using eight distinct mechanisms. This matrix details
-the exact authorization strategy for all 115 API routes, which previously required
+the exact authorization strategy for all 120 API routes, which previously required
 manual file-by-file inspection.
 
 The test suite `tests/unit/route-access-matrix.test.ts` verifies that no route lacks
@@ -17,14 +17,14 @@ endpoint breaks the build pipeline instead of slipping into production.
 | Mechanism | Routes |
 |---|---|
 | Webhook signature | 2 |
-| Cron or admin secret | 6 |
-| Administrator | 9 |
+| Cron or admin secret | 8 |
+| Administrator | 10 |
 | Subscription plan | 12 |
-| User session | 70 |
+| User session | 73 |
 | AI worker token | 1 |
 | IP rate limit | 38 |
 | Disabled (501) | 2 |
-| **Total Routes** | **115** |
+| **Total Routes** | **120** |
 
 ## Public Routes by Design
 
@@ -69,10 +69,11 @@ None of them expose paid prompt data or private account records.
 | [`/api/ai/chats/[chatId]/messages`](../src/app/api/ai/chats/[chatId]/messages/route.ts) | GET, POST | User session + IP rate limit |
 | [`/api/ai/jobs`](../src/app/api/ai/jobs/route.ts) | POST, GET | Subscription plan + User session + IP rate limit |
 | [`/api/ai/jobs/[id]`](../src/app/api/ai/jobs/[id]/route.ts) | GET | User session |
+| [`/api/ai/jobs/[id]/asset`](../src/app/api/ai/jobs/[id]/asset/route.ts) | GET | User session |
 | [`/api/ai/jobs/[id]/feedback`](../src/app/api/ai/jobs/[id]/feedback/route.ts) | POST, DELETE | User session + IP rate limit |
 | [`/api/ai/jobs/[id]/progress`](../src/app/api/ai/jobs/[id]/progress/route.ts) | PATCH | AI worker token |
 | [`/api/ai/jobs/[id]/retry`](../src/app/api/ai/jobs/[id]/retry/route.ts) | POST | User session |
-| [`/api/ai/jobs/process`](../src/app/api/ai/jobs/process/route.ts) | — | Cron or admin secret |
+| [`/api/ai/jobs/process`](../src/app/api/ai/jobs/process/route.ts) | — | Cron or admin secret + User session |
 | [`/api/ai/providers/recommend`](../src/app/api/ai/providers/recommend/route.ts) | GET | User session |
 | [`/api/assets/provenance`](../src/app/api/assets/provenance/route.ts) | GET, PATCH | User session + IP rate limit |
 | [`/api/batches`](../src/app/api/batches/route.ts) | GET, POST | User session + IP rate limit |
@@ -104,6 +105,7 @@ None of them expose paid prompt data or private account records.
 | [`/api/credits/checkout`](../src/app/api/credits/checkout/route.ts) | POST | User session + IP rate limit |
 | [`/api/credits/estimate`](../src/app/api/credits/estimate/route.ts) | POST | User session |
 | [`/api/csp-report`](../src/app/api/csp-report/route.ts) | POST | IP rate limit |
+| [`/api/debug/gemini-image`](../src/app/api/debug/gemini-image/route.ts) | POST | Cron or admin secret + Administrator |
 | [`/api/demo/reproducible/report`](../src/app/api/demo/reproducible/report/route.ts) | GET | Public — Reproducible demo report for external audit |
 | [`/api/editor/projects`](../src/app/api/editor/projects/route.ts) | GET, PUT, DELETE | Subscription plan + User session + IP rate limit |
 | [`/api/evaluation-suites`](../src/app/api/evaluation-suites/route.ts) | GET, POST | User session + IP rate limit |
@@ -125,6 +127,8 @@ None of them expose paid prompt data or private account records.
 | [`/api/model-regressions`](../src/app/api/model-regressions/route.ts) | GET, POST | User session |
 | [`/api/new-users`](../src/app/api/new-users/route.ts) | POST | IP rate limit |
 | [`/api/new-users/status`](../src/app/api/new-users/status/route.ts) | GET | Public — Boolean free-access status for the email gate; reveals no content or account data |
+| [`/api/newsletter/confirm`](../src/app/api/newsletter/confirm/route.ts) | GET | Public — unjustified |
+| [`/api/newsletter/metrics`](../src/app/api/newsletter/metrics/route.ts) | GET | Cron or admin secret |
 | [`/api/observability/events`](../src/app/api/observability/events/route.ts) | POST | User session |
 | [`/api/output-contracts`](../src/app/api/output-contracts/route.ts) | GET, POST, PATCH | User session + IP rate limit |
 | [`/api/product-reviews`](../src/app/api/product-reviews/route.ts) | GET, POST | User session + IP rate limit |
@@ -133,6 +137,7 @@ None of them expose paid prompt data or private account records.
 | [`/api/project-client/[token]`](../src/app/api/project-client/[token]/route.ts) | GET, POST | IP rate limit |
 | [`/api/projects`](../src/app/api/projects/route.ts) | GET, POST | User session + IP rate limit |
 | [`/api/projects/[id]`](../src/app/api/projects/[id]/route.ts) | GET, PATCH | User session + IP rate limit |
+| [`/api/projects/[id]/associations`](../src/app/api/projects/[id]/associations/route.ts) | GET | User session |
 | [`/api/projects/[id]/collaboration`](../src/app/api/projects/[id]/collaboration/route.ts) | GET, POST | User session + IP rate limit |
 | [`/api/prompt-experiments`](../src/app/api/prompt-experiments/route.ts) | GET, POST | User session + IP rate limit |
 | [`/api/prompt-experiments/[id]`](../src/app/api/prompt-experiments/[id]/route.ts) | GET, PATCH | User session + IP rate limit |

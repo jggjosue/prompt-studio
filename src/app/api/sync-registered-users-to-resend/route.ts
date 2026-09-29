@@ -32,7 +32,10 @@ export async function GET(request: Request) {
     const database = mongoose.connection.useDb(DATABASE_NAME);
     const registeredUsers = (await database
       .collection(COLLECTION_NAME)
-      .find({ email: { $type: 'string', $ne: '' } })
+      .find({
+        email: { $type: 'string', $ne: '' },
+        marketingStatus: 'confirmed',
+      })
       .project({ _id: 0, email: 1 })
       .toArray()) as Array<{ email: string }>;
 

@@ -1,10 +1,9 @@
 
 'use server';
 
-import { generateImage } from '@/ai/flows/generate-image';
-import { generateImageVideoPrompt } from '@/ai/flows/generate-image-video-prompts';
 import { isPremiumJoAdmin } from '@/lib/admin-auth';
-import { isGeminiWebModel } from '@/lib/gemini-web-models';
+import { createGeminiTextInteraction, type GeminiTextInteractionResult } from '@/lib/gemini-interactions';
+import { GEMINI_TEXT_MODEL, isGeminiWebModel } from '@/lib/gemini-web-models';
 import { reportOperationalError } from '@/lib/observability-server';
 import { auth } from '@clerk/nextjs/server';
 import { z } from 'zod';
@@ -35,6 +34,7 @@ export async function handlePromptGeneration(
   }
 
   try {
+    const { generateImageVideoPrompt } = await import('@/ai/flows/generate-image-video-prompts');
     const result = await generateImageVideoPrompt({
       keywords: validatedFields.data.keywords,
     });
@@ -75,6 +75,7 @@ export async function handleImageGeneration(
   }
 
   try {
+    const { generateImage } = await import('@/ai/flows/generate-image');
     const result = await generateImage({
       prompt: validatedFields.data.prompt,
     });
@@ -442,37 +443,52 @@ export async function proxyVeoVideo(apiKey: string, prompt: string, durationSeco
   }
 }
 
-export async function proxyGemini(apiKey: string, prompt: string, model: string = 'gemini-2.5-flash') {
+type GeminiProxyError = { error: string; statusCode?: number; candidates?: never; output_text?: never };
+
+export async function proxyGemini(apiKey: string, prompt: string, _model: string = GEMINI_TEXT_MODEL): Promise<GeminiTextInteractionResult | GeminiProxyError> {
   apiKey = configuredKey(apiKey, 'GEMINI_API_KEY');
   try {
     const key = apiKey || process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || '';
     if (!key) {
-      return { error: 'No Gemini API Key configured on platform or provided.' };
+      return { error: 'No se ha configurado la API Key de Gemini en la plataforma o no fue provista.' };
     }
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        contents: [{
-          parts: [{ text: prompt }]
-        }]
-      })
-    });
 
-    if (!response.ok) {
-      const errData = await response.json().catch(() => ({}));
-      return { error: errData.error?.message || `HTTP ${response.status}` };
+    const maxRetries = 3;
+    let delay = 1000;
+
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        return await createGeminiTextInteraction(prompt, key);
+      } catch (error) {
+        const apiError = error as { message?: string; status?: number; code?: number };
+        const status = apiError.status ?? apiError.code ?? 500;
+        const apiMessage = apiError.message;
+
+        if ((status === 429 || status === 503) && attempt < maxRetries) {
+          await new Promise((res) => setTimeout(res, delay));
+          delay *= 2;
+          continue;
+        }
+
+        let customError = apiMessage || `Error de servidor HTTP ${status}`;
+        if (status === 400) customError = apiMessage || 'Solicitud incorrecta (400): verifica el prompt enviado a Gemini.';
+        else if (status === 401 || status === 403) customError = 'La API Key de Gemini no es válida o no tiene permisos.';
+        else if (status === 404) customError = `El modelo '${GEMINI_TEXT_MODEL}' no está disponible para esta clave o región.`;
+        else if (status === 429) customError = 'Límite de cuota de Gemini excedido. Espera un momento e intenta nuevamente.';
+        else if (status === 503) customError = 'Gemini no está disponible temporalmente. Intenta de nuevo más tarde.';
+
+        return { error: customError, statusCode: status };
+      }
     }
-    return await response.json();
+
+    return { error: 'Se excedió el número máximo de reintentos con la API de Gemini.' };
   } catch (err: any) {
-    return { error: err.message || 'Network error contacting Gemini API' };
+    return { error: err.message || 'Error de red al conectar con la API de Gemini.' };
   }
 }
 
 /** Gemini administrado por Prompt Studio para el generador web Premium. */
-export async function proxyPremiumGeminiWeb(prompt: string, model: string = 'gemini-2.5-flash') {
+export async function proxyPremiumGeminiWeb(prompt: string, model: string = GEMINI_TEXT_MODEL) {
   const { userId } = await auth();
   if (!userId) return { error: 'Inicia sesión para generar páginas web.' };
   if (!(await isPremiumJoAdmin())) {

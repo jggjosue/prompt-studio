@@ -19,7 +19,7 @@ import { join } from 'node:path';
 const OUT = join('docs', 'historial', 'datos');
 const SEP = '\x1f'; // separador de campo (unit separator)
 
-const EMAIL_REDACTED = 'user@example.com';
+const EMAIL_REDACTED = 'help@prompstudio.com';
 const redactarCorreo = (correo) =>
   /@/.test(correo) ? EMAIL_REDACTED : correo;
 const REC = '\x1e'; // separador de registro (record separator)
@@ -167,6 +167,6 @@ writeFileSync(join(OUT, 'metricas.json'), JSON.stringify(metricas, null, 2) + '\
 
 console.log(
   `commits.csv: ${commits.length} filas\n` +
-    `metricas.json: ${Object.keys(metricas.por_mes).length} meses, ` +
-    `${metricas.churn_top_50.length} ficheros en el ranking de churn`,
+  `metricas.json: ${Object.keys(metricas.por_mes).length} meses, ` +
+  `${metricas.churn_top_50.length} ficheros en el ranking de churn`,
 );

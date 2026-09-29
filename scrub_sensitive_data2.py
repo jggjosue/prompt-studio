@@ -15,7 +15,7 @@ def scrub_file(path):
         return False
         
     original = content
-    content = email_regex.sub('user@example.com', content)
+    content = email_regex.sub('help@prompstudio.com', content)
     
     if content != original:
         with open(path, 'w', encoding='utf-8') as f:

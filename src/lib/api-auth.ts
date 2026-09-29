@@ -23,13 +23,26 @@ function safeEqual(a: string, b: string): boolean {
   return diff === 0;
 }
 
+/**
+ * `true` si la petición trae el `CRON_SECRET` correcto en Authorization.
+ *
+ * Usar esta variante en diagnósticos que puedan ejecutarse en producción: un
+ * secreto en la query puede terminar en logs, historial o herramientas APM.
+ */
+export function hasValidCronSecretHeader(request: Request): boolean {
+  const expected = process.env.CRON_SECRET?.trim();
+  if (!expected) return false;
+
+  const authorization = request.headers.get('authorization');
+  return Boolean(authorization && safeEqual(authorization, `Bearer ${expected}`));
+}
+
 /** `true` si la petición trae el `CRON_SECRET` correcto. */
 export function hasValidCronSecret(request: Request): boolean {
   const expected = process.env.CRON_SECRET?.trim();
   if (!expected) return false;
 
-  const authorization = request.headers.get('authorization');
-  if (authorization && safeEqual(authorization, `Bearer ${expected}`)) return true;
+  if (hasValidCronSecretHeader(request)) return true;
 
   const secretParam = new URL(request.url).searchParams.get('secret');
   return Boolean(secretParam && safeEqual(secretParam, expected));

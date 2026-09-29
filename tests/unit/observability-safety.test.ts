@@ -20,7 +20,7 @@ test('la observabilidad elimina prompts, credenciales y datos personales', () =>
     prompt: 'retrato privado',
     apiKey: 'sk-secret',
     authorization: 'Bearer secret',
-    email: 'user@example.com',
+    email: 'help@prompstudio.com',
     responseBody: { private: true },
     arbitraryPayload: 'not allowlisted',
   });
@@ -39,4 +39,18 @@ test('el código de error conserva clasificación sin guardar el mensaje', () =>
   const error = Object.assign(new Error('prompt and credential must stay private'), { code: 'RATE_LIMITED' });
   assert.equal(safeErrorCode(error), 'RATE_LIMITED');
   assert.equal(safeErrorCode(new Error('private payload')), 'Error');
+});
+
+test('la lista segura conserva diagnóstico del proveedor sin aceptar payloads', () => {
+  const safe = sanitizeObservabilityMetadata({
+    service: 'google-gemini', host: 'generativelanguage.googleapis.com', endpointLabel: 'v1beta/models/:generateContent',
+    modelId: 'gemini-2.0-flash', httpStatus: 400, retryable: false,
+    providerErrorCode: 'INVALID_ARGUMENT', providerErrorMessage: 'Unsupported generation config',
+    requestBody: 'private', responseBody: 'private', authorization: 'Bearer private',
+  });
+  assert.deepEqual(safe, {
+    service: 'google-gemini', host: 'generativelanguage.googleapis.com', endpointLabel: 'v1beta/models/:generateContent',
+    modelId: 'gemini-2.0-flash', httpStatus: 400, retryable: false,
+    providerErrorCode: 'INVALID_ARGUMENT', providerErrorMessage: 'Unsupported generation config',
+  });
 });

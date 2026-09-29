@@ -114,7 +114,12 @@ Two checks before deploying:
 ```bash
 npm run verify:env-example   # el ejemplo cubre lo que el código lee
 npm run verify:clerk:prod    # claves, URLs y dominio de Clerk
+npm run verify:gemini:prod   # credencial Google + modelo de imagen vigente
 ```
+
+La comprobación completa de alcance y revisión desplegada debe ejecutarse con
+las variables de **Vercel Production**. Consulta
+[`operaciones/verificacion-gemini-produccion.md`](operaciones/verificacion-gemini-produccion.md).
 
 `verify:clerk:prod` exists because deploying with `pk_test_` keys to production
 is a silent failure: the application starts up and authenticates against the wrong

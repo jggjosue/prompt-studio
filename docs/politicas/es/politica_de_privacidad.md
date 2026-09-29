@@ -130,7 +130,7 @@ Las solicitudes relacionadas con:
 •	Seguridad.
 •	Incidentes relacionados con privacidad.
 deberán enviarse a:
-user@example.com
+help@prompstudio.com
 Sección 3. Ámbito de Aplicación
 La presente Política de Privacidad regula el tratamiento de los datos personales realizado por Prompt Studio en relación con todos los servicios ofrecidos a través del sitio web:
 https://www.prompstudio.com
@@ -888,7 +888,7 @@ Clerk implementa mecanismos avanzados destinados a proteger las cuentas, incluye
  
 10.7 Eliminación de la cuenta
 El usuario podrá eliminar su cuenta en cualquier momento utilizando las herramientas disponibles en Clerk o solicitándolo mediante:
-user@example.com
+help@prompstudio.com
 Una vez eliminada la cuenta:
 •	Se cancelará el acceso.
 •	Se iniciará el proceso de eliminación o anonimización de los datos almacenados en Prompt Studio.
@@ -1030,7 +1030,7 @@ El usuario podrá cancelar su suscripción en cualquier momento mediante:
 •	El Portal del Cliente de Stripe.
 •	La configuración de su cuenta.
 •	Contactando con:
-user@example.com
+help@prompstudio.com
 La cancelación impedirá futuras renovaciones, pero no afectará el acceso al período previamente pagado, salvo que la legislación aplicable disponga otra cosa.
  
 12.5 Cambios de plan
@@ -1492,7 +1492,7 @@ El usuario podrá cancelar la recepción de comunicaciones promocionales en cual
 •	El enlace “Cancelar suscripción” incluido en cada correo.
 •	Las preferencias de la cuenta, cuando estén disponibles.
 •	Una solicitud enviada a:
-user@example.com
+help@prompstudio.com
 La cancelación será procesada dentro de un plazo razonable.
  
 18.4 Comunicaciones obligatorias
@@ -2043,7 +2043,7 @@ Los afiliados conservan los mismos derechos de privacidad reconocidos a cualquie
 •	Oposición.
 •	Revocación del consentimiento.
 Las solicitudes podrán enviarse a:
-user@example.com
+help@prompstudio.com
  
 24.8 Finalización de la participación
 Cuando un afiliado deje de participar en el programa:
@@ -2269,7 +2269,7 @@ La información será eliminada cuando las copias correspondientes sean reemplaz
 27.8 Solicitudes de eliminación
 Las solicitudes relacionadas con la eliminación de la cuenta podrán enviarse a:
 Correo electrónico:
-user@example.com
+help@prompstudio.com
 Prompt Studio responderá dentro de un plazo razonable y, cuando resulte aplicable, dentro de los plazos establecidos por la legislación vigente.
  
 Sección 28. Derechos conforme al Reglamento General de Protección de Datos (RGPD/GDPR)
@@ -2321,7 +2321,7 @@ La retirada del consentimiento no afectará la licitud del tratamiento realizado
 28.8 Derecho a presentar una reclamación
 Si el usuario considera que Prompt Studio ha tratado sus datos personales de manera contraria al RGPD, podrá presentar una reclamación ante la autoridad de control competente de su país de residencia o del lugar donde se haya producido la presunta infracción.
 Asimismo, podrá contactar previamente con Prompt Studio a través de:
-user@example.com
+help@prompstudio.com
 con el fin de intentar resolver la situación de forma amistosa.
 Sección 29. Derechos conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (México)
 Cuando el tratamiento de datos personales esté sujeto a la legislación mexicana, los usuarios podrán ejercer los derechos reconocidos por la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP) y demás disposiciones aplicables.
@@ -2371,7 +2371,7 @@ La revocación no tendrá efectos retroactivos sobre los tratamientos realizados
 29.7 Procedimiento para ejercer los derechos
 Las solicitudes relacionadas con derechos ARCO deberán enviarse a:
 Correo electrónico:
-user@example.com
+help@prompstudio.com
 La solicitud deberá incluir, cuando sea posible:
 •	Nombre del titular.
 •	Correo electrónico asociado a la cuenta.
@@ -2434,7 +2434,7 @@ Asimismo, Prompt Studio no comparte información personal con fines de publicida
 30.8 Ejercicio de derechos
 Los usuarios podrán ejercer sus derechos enviando una solicitud a:
 Correo electrónico:
-user@example.com
+help@prompstudio.com
 Prompt Studio podrá solicitar información razonable para verificar la identidad del solicitante antes de atender la solicitud.
 Sección 31. Transferencias Internacionales de Datos
 Prompt Studio opera como una plataforma digital accesible desde distintos países y utiliza proveedores tecnológicos ubicados en diversas jurisdicciones para prestar sus servicios.
@@ -2531,7 +2531,7 @@ Prompt Studio recomienda que los menores utilicen la Plataforma únicamente bajo
 32.4 Solicitudes de eliminación
 Si un padre, madre o tutor considera que un menor ha proporcionado información personal sin la autorización correspondiente, podrá solicitar la eliminación de dicha información escribiendo a:
 Correo electrónico:
-user@example.com
+help@prompstudio.com
 Prompt Studio adoptará las medidas razonables para verificar la solicitud y atenderla conforme a la legislación aplicable.
  
 32.5 Contenido generado mediante IA
@@ -2746,7 +2746,7 @@ El usuario deberá respetar las limitaciones de uso, reproducción, redistribuci
 35.6 Infracción de derechos
 Prompt Studio respeta los derechos de propiedad intelectual de terceros.
 Si una persona considera que algún contenido disponible en la Plataforma infringe sus derechos, podrá comunicarse con:
-user@example.com
+help@prompstudio.com
 La solicitud deberá incluir información suficiente que permita identificar el contenido y acreditar la titularidad de los derechos invocados.
 Prompt Studio evaluará la solicitud y, cuando corresponda, adoptará las medidas razonables previstas por la legislación aplicable.
  
@@ -2829,7 +2829,7 @@ En caso de conflicto respecto al tratamiento de datos personales, prevalecerá e
 36.8 Contacto para consultas
 Si el usuario tiene preguntas sobre las modificaciones de esta Política o sobre el tratamiento de sus datos personales, podrá comunicarse con:
 Correo electrónico:
-user@example.com
+help@prompstudio.com
 Prompt Studio procurará responder las consultas dentro de un plazo razonable y conforme a la legislación aplicable.
 Sección 37. Contacto y Ejercicio de Derechos
 Prompt Studio pone a disposición de los usuarios canales de comunicación para atender consultas relacionadas con la privacidad, el tratamiento de datos personales y el ejercicio de los derechos reconocidos por la legislación aplicable.
@@ -2844,7 +2844,7 @@ United States
 Sitio web
 https://www.prompstudio.com
 Correo electrónico de soporte
-user@example.com
+help@prompstudio.com
  
 37.2 Solicitudes relacionadas con privacidad
 Los usuarios podrán ponerse en contacto con Prompt Studio para solicitar información relacionada con:
@@ -2862,7 +2862,7 @@ Los usuarios podrán ponerse en contacto con Prompt Studio para solicitar inform
 37.3 Forma de presentar una solicitud
 Las solicitudes deberán enviarse a:
 Correo electrónico
-user@example.com
+help@prompstudio.com
 Para proteger la información personal de nuestros usuarios, Prompt Studio podrá solicitar información adicional que permita verificar razonablemente la identidad del solicitante antes de atender la petición.
  
 37.4 Información recomendada
@@ -2933,7 +2933,7 @@ Toda cooperación se realizará respetando los principios de legalidad, necesida
  
 38.6 Resolución amistosa
 Antes de acudir a una autoridad competente, invitamos al usuario a comunicarse con Prompt Studio mediante:
-user@example.com
+help@prompstudio.com
 Nuestro objetivo será resolver cualquier duda, reclamación o incidencia relacionada con la privacidad de manera rápida, transparente y de buena fe.
  
 38.7 Conservación de evidencia

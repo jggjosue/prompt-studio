@@ -1,4 +1,5 @@
 import type { AIJobKind } from '@/models/AIGenerationJob';
+import { GOOGLE_IMAGE_MODEL } from '@/lib/google-image-config';
 
 export type AIModelCategory = 'text' | 'project' | 'image' | 'video' | 'vision';
 

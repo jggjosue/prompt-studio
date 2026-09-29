@@ -1115,7 +1115,7 @@ function ComponentBuilderContent({
         </div>
       </main>
       <Footer />
-      <style jsx global>{`
+      <style>{`
         .motion-enabled .builder-control {
           transition:
             transform 0.25s,

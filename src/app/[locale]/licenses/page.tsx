@@ -31,7 +31,7 @@ export default function LicensesPolicyPage() {
             <p>New York, NY 10022</p>
             <p>United States</p>
             <p>Correo electrónico oficial:</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <p>La presente Política de Licencias regula el uso autorizado de todos los recursos digitales comercializados por Prompt Studio.</p>
             <p>Esta Política forma parte integrante de:</p>
             <ul className="list-disc pl-6 space-y-2">
@@ -132,7 +132,7 @@ export default function LicensesPolicyPage() {
             <p>Para cualquier consulta relacionada con licencias:</p>
             <p>Prompt Studio</p>
             <p>https://www.prompstudio.com</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <p>Operado por:</p>
             <p>Magzin LLC</p>
             <p>800 Third Avenue Associates</p>
@@ -1718,7 +1718,7 @@ export default function LicensesPolicyPage() {
             <p>Si una persona considera que un recurso disponible en Prompt Studio infringe sus derechos de autor u otros derechos de propiedad intelectual, podrá presentar una notificación conforme al procedimiento descrito en esta sección.</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">24.1 Presentación de una reclamación</h3>
             <p>Las reclamaciones deberán enviarse al siguiente correo electrónico:</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <p>La comunicación deberá incluir información suficiente para permitir la identificación del contenido reclamado.</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">24.2 Información requerida</h3>
             <p>Cuando sea posible, la notificación deberá contener:</p>
@@ -1839,7 +1839,7 @@ export default function LicensesPolicyPage() {
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">26.1 Contacto previo</h3>
             <p>Toda consulta relacionada con licencias deberá dirigirse inicialmente a:</p>
             <p>Correo electrónico oficial:</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <p>Prompt Studio analizará la situación y responderá dentro de un plazo razonable.</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">26.2 Resolución amistosa</h3>
             <p>Las partes procurarán resolver cualquier desacuerdo mediante:</p>
@@ -2070,7 +2070,7 @@ export default function LicensesPolicyPage() {
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">30.3 Sitio web oficial</h3>
             <p>https://www.promptstudio.com</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">30.4 Correo electrónico oficial</h3>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">30.5 Consultas sobre licencias</h3>
             <p>Las consultas relacionadas con:</p>
             <ul className="list-disc pl-6 space-y-2">
@@ -2096,7 +2096,7 @@ export default function LicensesPolicyPage() {
             <p>podrán contactar con Prompt Studio para solicitar una propuesta personalizada.</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">30.7 Derechos de terceros</h3>
             <p>Si un tercero considera que algún contenido publicado en Prompt Studio infringe sus derechos de propiedad intelectual, podrá contactar mediante:</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <p>Prompt Studio analizará la reclamación conforme al procedimiento previsto en la Política DMCA y Copyright.</p>
             <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">30.8 Declaración de cierre</h3>
             <p>Al adquirir, descargar o utilizar cualquier recurso digital disponible en Prompt Studio, el usuario declara que:</p>
@@ -2117,7 +2117,7 @@ export default function LicensesPolicyPage() {
             <p>Sitio web oficial:</p>
             <p>https://www.promptstudio.com</p>
             <p>Correo electrónico oficial:</p>
-            <p>user@example.com</p>
+            <p>help@prompstudio.com</p>
             <p>Fecha de entrada en vigor:</p>
             <p>1 de enero de 2026 (o la fecha que determine Prompt Studio).</p>
             <p>Última actualización:</p>

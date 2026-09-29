@@ -18,6 +18,8 @@ leyeron de la fuente en el momento de escribir, no se estimaron.
 | Documento | Qué cubre |
 |---|---|
 | [sop-generacion-ia.md](sop-generacion-ia.md) | Ciclo de vida de un trabajo de generación con IA: cola, créditos, reintentos, fallos |
+| [runbook-incidentes-proveedores-ia.md](runbook-incidentes-proveedores-ia.md) | Respuesta, contención, recuperación y postmortem ante fallos de proveedores de IA |
+| [verificacion-gemini-produccion.md](verificacion-gemini-produccion.md) | Verificación segura de credencial, alcance Vercel, API y modelo de imagen de Google |
 | [sop-comercial.md](sop-comercial.md) | Venta, cobro, reembolso, y el programa de afiliados de punta a punta |
 | [sop-catalogo.md](sop-catalogo.md) | Cómo se publica contenido nuevo y cómo se regenera el catálogo |
 | [sop-despliegue-y-qa.md](sop-despliegue-y-qa.md) | Puertas de calidad, CI, proceso de release y qué hacer si falla |
@@ -27,6 +29,7 @@ leyeron de la fuente en el momento de escribir, no se estimaron.
 | [../historial/](../historial/README.md) | Historial ampliado: cronología por fases, trazas de decisión, métricas, registro de fallos, inventario de derechos y dataset |
 | [base-de-conocimiento.md](base-de-conocimiento.md) | Trampas conocidas, decisiones tomadas y su porqué |
 | [feedback-ia.md](feedback-ia.md) | Qué se registra hoy de las generaciones y qué falta |
+| [vercel-static-media.md](vercel-static-media.md) | Inventario y migración de videos de demos desde Vercel hacia Cloudflare R2 |
 
 También en `docs/`, generados antes: [ai-generation-queue.md](../ai-generation-queue.md),
 [observability.md](../observability.md), [testing.md](../testing.md).

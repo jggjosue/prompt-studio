@@ -2,6 +2,17 @@ export type ChatMode = 'image' | 'video' | 'project' | 'vision' | 'text' | 'vide
 export type MessageRole = 'user' | 'assistant' | 'system';
 export type MessageStatus = 'pending' | 'completed' | 'failed';
 
+export type GenerationStatus = 'queued' | 'generating' | 'uploading' | 'completed' | 'failed';
+export interface GenerationEntry {
+  jobId: string;
+  status: GenerationStatus;
+  imageUrl?: string;
+  error?: string;
+  progressMessage?: string;
+  creditsUsed?: number;
+  provider: string;
+}
+
 export interface ChatParams {
   imageStyle?: string; imageRatio?: string; imageRes?: string; imageFormat?: string;
   imageLighting?: string; imageCamera?: string; imageCFG?: number; imageSteps?: number;
@@ -43,6 +54,14 @@ export interface ChatSession {
   createdAt?: Date; updatedAt?: Date;
 }
 
+export type ChatQueueStatus = 'queued' | 'processing' | 'completed' | 'failed';
+
+export interface ChatQueueItem {
+  id: string; prompt: string; mode: ChatMode; status: ChatQueueStatus; progress: number;
+  params: ChatParams;
+  result?: ChatMessageResult; error?: string;
+}
+
 export interface ChatGeneratorReturn {
   messages: ChatGeneratorMessage[];
   params: ChatParams;
@@ -67,10 +86,18 @@ export interface ChatGeneratorReturn {
   copiedCode: boolean;
   generate: (prompt: string, params: ChatParams, mode: ChatMode) => Promise<string>;
   reset: () => void;
+  queue: ChatQueueItem[];
+  queueRunning: boolean;
+  enqueue: (prompt: string) => boolean;
+  startQueue: () => void;
+  removeQueueItem: (id: string) => void;
+  retryQueueItem: (id: string) => void;
+  clearQueue: () => void;
   imageGen: {
     imageProvider: 'openai' | 'fal' | 'google'; setImageProvider: (p: 'openai' | 'fal' | 'google') => void;
     openAIKey: string; setOpenAIKey: (k: string) => void; replicateKey: string; setReplicateKey: (k: string) => void;
     vertexKey: string; setVertexKey: (k: string) => void; credits: number; setCredits: (c: number) => void;
+    generations: Map<string, GenerationEntry>; updateGeneration: (jobId: string, patch: Partial<GenerationEntry>) => void;
   };
   videoGen: any;
   webGen: any;

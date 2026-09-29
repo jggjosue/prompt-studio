@@ -63,7 +63,15 @@ export async function generateMetadata(
 export default async function GalleryVideoDetailPage({ params }: Props) {
   const { id } = await params;
   const locale = await getLocale();
-  const item = getVideoById(id, locale);
+  const imageItem = (await import('@/lib/placeholder-images')).getImageById(id, locale);
+  const videoItem = getVideoById(id, locale);
+
+  if (!videoItem && imageItem) {
+    const { redirect } = await import('next/navigation');
+    redirect(`/gallery/${id}`);
+  }
+
+  const item = videoItem;
 
   if (!item) {
     notFound();
@@ -147,7 +155,7 @@ export default async function GalleryVideoDetailPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
       />
-      <GalleryVideoDetailClient item={item} validation={validateCatalogPrompt(item)} />
+      <GalleryVideoDetailClient item={item} validation={validateCatalogPrompt(item)} poster={thumbnailUrl} />
     </>
   );
 }

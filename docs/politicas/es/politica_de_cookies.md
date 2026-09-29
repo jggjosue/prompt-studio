@@ -997,7 +997,7 @@ Cuando el tratamiento se base en el consentimiento o en la ejecución de un cont
 15.8 Ejercicio de derechos
 Para ejercer cualquiera de los derechos anteriores, el usuario podrá contactar con Prompt Studio mediante:
 Correo electrónico:
-user@example.com
+help@prompstudio.com
 Prompt Studio responderá dentro de los plazos previstos por la legislación aplicable.
  
 Sección 16. Conservación de la Información Obtenida mediante Cookies
@@ -1114,7 +1114,7 @@ United States
 18.2 Contacto
 Para cualquier consulta relacionada con esta Política de Cookies, el usuario podrá comunicarse con:
 Correo electrónico oficial:
-user@example.com
+help@prompstudio.com
 Prompt Studio procurará responder las consultas dentro de un plazo razonable y conforme a la legislación aplicable.
  
 18.3 Ejercicio de derechos

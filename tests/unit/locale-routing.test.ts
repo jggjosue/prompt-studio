@@ -22,28 +22,16 @@ test('la cookie de idioma manda sobre cualquier otra señal', () => {
   );
 });
 
-test('sin cookie, decide el idioma del navegador', () => {
-  assert.equal(detectLocale(headers({ 'accept-language': 'es-MX,es;q=0.9' })), 'es');
-  assert.equal(detectLocale(headers({ 'accept-language': 'en-GB,en;q=0.9' })), 'en');
-});
-
-test('sin cookie ni idioma reconocible, decide el país del edge', () => {
-  for (const country of ['MX', 'AR', 'ES', 'CO']) {
-    assert.equal(
-      detectLocale(headers({ 'accept-language': 'fr-FR', 'x-vercel-ip-country': country })),
-      'es',
-      `${country} debería resolver a español`
-    );
+test('sin cookie siempre inicia en inglés, sin importar navegador o país', () => {
+  const scenarios: Array<Record<string, string>> = [
+    { 'accept-language': 'es-MX,es;q=0.9' },
+    { 'accept-language': 'es-ES', 'x-vercel-ip-country': 'ES' },
+    { 'accept-language': 'fr-FR', 'x-edge-country': 'PE' },
+    { 'accept-language': 'en-GB,en;q=0.9', 'x-vercel-ip-country': 'US' },
+  ];
+  for (const input of scenarios) {
+    assert.equal(detectLocale(headers(input)), 'en');
   }
-  assert.equal(
-    detectLocale(headers({ 'accept-language': 'fr-FR', 'x-vercel-ip-country': 'FR' })),
-    'en'
-  );
-  // Respaldo cuando el edge de Vercel no expone el país.
-  assert.equal(
-    detectLocale(headers({ 'accept-language': 'fr-FR', 'x-edge-country': 'PE' })),
-    'es'
-  );
 });
 
 test('sin ninguna señal cae al idioma por defecto', () => {
@@ -55,10 +43,10 @@ test('una cookie con valor inválido se ignora en vez de romper', () => {
   assert.equal(localeFromCookieHeader('locale=%E0%A4%A'), null, 'un escape inválido no debe tumbar el middleware');
   assert.equal(localeFromCookieHeader(null), null);
   assert.equal(localeFromCookieHeader('otra=cosa; locale=es; mas=1'), 'es');
-  // Un idioma inexistente no debe colarse: se sigue detectando por lo demás.
+  // Un idioma inexistente no debe colarse: vuelve al inglés predeterminado.
   assert.equal(
     detectLocale(headers({ cookie: 'locale=xx', 'accept-language': 'es' })),
-    'es'
+    'en'
   );
 });
 

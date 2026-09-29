@@ -113,7 +113,7 @@ const clerkRequestHandler = async (auth: any, req: NextRequest) => {
     return withEdgeHeaders(permanentRedirect(req, '/prices'), req);
   }
 
-  const legacyNumericGallery = pathname.match(/^\/gallery\/(\d+)\/?$/);
+  const legacyNumericGallery = canonicalPath.match(/^\/gallery\/(\d+)\/?$/);
   if (legacyNumericGallery) {
     return withEdgeHeaders(
       permanentRedirect(req, `/gallery/img-${legacyNumericGallery[1]}`),
@@ -122,8 +122,8 @@ const clerkRequestHandler = async (auth: any, req: NextRequest) => {
   }
 
   if (
-    pathname.startsWith('/gallery/') &&
-    !/^\/gallery\/img-\d+$/.test(pathname)
+    canonicalPath.startsWith('/gallery/') &&
+    !/^\/gallery\/img-\d+\/?$/.test(canonicalPath)
   ) {
     return withEdgeHeaders(
       permanentRedirect(req, '/image-prompts'),
@@ -132,8 +132,8 @@ const clerkRequestHandler = async (auth: any, req: NextRequest) => {
   }
 
   if (
-    pathname.startsWith('/gallery-videos/') &&
-    !/^\/gallery-videos\/v-\d+$/.test(pathname)
+    canonicalPath.startsWith('/gallery-videos/') &&
+    !/^\/gallery-videos\/v-\d+\/?$/.test(canonicalPath)
   ) {
     return withEdgeHeaders(
       permanentRedirect(req, '/video-prompts'),

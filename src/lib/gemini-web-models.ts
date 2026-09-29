@@ -1,9 +1,9 @@
 import type { AIJobKind } from '@/models/AIGenerationJob';
 
+export const GEMINI_TEXT_MODEL = 'gemini-3.1-flash-lite' as const;
+
 export const GEMINI_WEB_MODELS = {
-  'gemini-2.5-flash': { credits: 2, estimatedUsd: 0.08, label: 'Gemini 2.5 Flash' },
-  'gemini-2.5-pro': { credits: 5, estimatedUsd: 0.25, label: 'Gemini 2.5 Pro' },
-  'gemini-2.0-flash': { credits: 2, estimatedUsd: 0.06, label: 'Gemini 2.0 Flash' },
+  [GEMINI_TEXT_MODEL]: { credits: 2, estimatedUsd: 0.01, label: 'Gemini 3.1 Flash-Lite' },
 } as const;
 
 export type GeminiWebModel = keyof typeof GEMINI_WEB_MODELS;

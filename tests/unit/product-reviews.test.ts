@@ -27,7 +27,7 @@ test('una crítica dura también se publica', () => {
 test('el spam con enlaces y contacto se retiene, no se borra', () => {
   for (const text of [
     'Muy bueno, visita https://mi-tienda-barata.example para más plantillas',
-    'Escríbeme a user@example.com y te paso plantillas gratis',
+    'Escríbeme a help@prompstudio.com y te paso plantillas gratis',
     'Contacto por WhatsApp +34 600 123 456 para plantillas',
     'Buenísimo, entra en plantillas-gratis.top y descarga',
   ]) {
