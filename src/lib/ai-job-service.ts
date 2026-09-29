@@ -2,6 +2,7 @@ import { creditsForActualCost } from '@/lib/generation-pricing';
 import { generationSubmissionKey } from '@/lib/generation-idempotency';
 import connectToDatabase from '@/lib/mongoose';
 import { reportOperationalError } from '@/lib/observability-server';
+import { recordCreditReconciliationFailure, type CreditReconciliationOperation } from '@/lib/generation-telemetry';
 import { getSiteUrl } from '@/lib/site-url';
 import AICreditAccount from '@/models/AICreditAccount';
 import AICreditLedger from '@/models/AICreditLedger';
@@ -12,6 +13,29 @@ import 'server-only';
 const initialCredits = Math.max(0, Number(process.env.AI_INITIAL_CREDITS ?? 0));
 
 type CreditSession = mongoose.ClientSession;
+
+/**
+ * La reconciliación que falla es la peor pérdida de datos que no se ve: el
+ * cobro no casa, el trabajo se pierde y el usuario ni entra ni sale del saldo.
+ * Se registra de forma best-effort justo antes de relanzar el error original.
+ */
+function reportCreditReconciliationFailure(
+  job: IAIGenerationJob,
+  operation: CreditReconciliationOperation,
+  errorCode: string,
+) {
+  void recordCreditReconciliationFailure({
+    operation,
+    jobId: String(job._id),
+    correlationId: job.correlationId ?? null,
+    provider: job.provider,
+    modelId: job.modelId ?? null,
+    userId: job.userId,
+    credits: job.creditCost,
+    errorCode,
+    category: 'credit_reconciliation',
+  }).catch(() => undefined);
+}
 
 export async function ensureCreditAccount(userId: string, session?: CreditSession) {
   await AICreditAccount.updateOne(
@@ -130,7 +154,10 @@ export async function reconcileCredits(job: IAIGenerationJob, actualCostUsd: num
         { $set: { creditsState: 'captured', creditsCharged: chargedCredits, updatedAt: new Date() } },
         { session },
       );
-      if (claimed.modifiedCount !== 1) throw new Error('CREDIT_CAPTURE_CONFLICT');
+      if (claimed.modifiedCount !== 1) {
+        reportCreditReconciliationFailure(job, 'capture', 'CREDIT_CAPTURE_CONFLICT');
+        throw new Error('CREDIT_CAPTURE_CONFLICT');
+      }
       await AICreditLedger.create([{
         userId: job.userId, jobId: job._id, operation: 'capture', type: 'AI_USAGE', amount: chargedCredits,
         balanceImpact: 0, source: job.reservedPurchasedCredits ? (job.reservedSubscriptionCredits ? 'mixed' : 'purchased') : 'subscription',
@@ -167,7 +194,10 @@ export async function refundCredits(job: IAIGenerationJob) {
         { $set: { creditsState: 'refunded', updatedAt: new Date() } },
         { session },
       );
-      if (claimed.modifiedCount !== 1) throw new Error('CREDIT_REFUND_CONFLICT');
+      if (claimed.modifiedCount !== 1) {
+        reportCreditReconciliationFailure(job, 'refund', 'CREDIT_REFUND_CONFLICT');
+        throw new Error('CREDIT_REFUND_CONFLICT');
+      }
       await AICreditLedger.create([{
         userId: job.userId, jobId: job._id, operation: 'refund', type: 'REFUND', amount: job.creditCost,
         balanceImpact: job.creditCost, source: 'system', provider: job.provider, modelId: job.modelId ?? null,

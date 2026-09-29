@@ -5,13 +5,12 @@ import { generateText } from '@/ai/flows/generate-text';
 import { generateVideoUnderstanding } from '@/ai/flows/generate-video-understanding';
 import type { IAIGenerationJob } from '@/models/AIGenerationJob';
 import { stripReferenceMedia } from '@/lib/reference-media-strip';
-import { parseGeneratedImageSource } from '@/lib/generated-image-source';
-import { observedGenerationFetch, recordGenerationRequest, type GenerationRequestContext } from '@/lib/generation-request-observability';
-import { providerHttpStatus, safeProviderHost } from '@/lib/provider-error-safety';
-import { GOOGLE_IMAGE_API_VERSION, GOOGLE_IMAGE_ENDPOINT_LABEL, googleImageModelFor } from '@/lib/google-image-config';
+import { observedGenerationFetch, type GenerationRequestContext } from '@/lib/generation-request-observability';
+import { isRetryableProviderStatus, providerHttpStatus, safeProviderHost } from '@/lib/provider-error-safety';
 import { createGeminiTextInteraction } from '@/lib/gemini-interactions';
 import { getAIModelConfig } from '@/lib/ai-credit-config';
 import { generationSubmissionKey } from '@/lib/generation-idempotency';
+import { recordGenerationFailed, recordGenerationStarted, recordImageGenerationCompleted } from '@/lib/generation-telemetry';
 
 export type ErrorCategory =
   | 'BAD_REQUEST'
@@ -172,6 +171,45 @@ async function runExternalWorker(job: IAIGenerationJob) {
   return result;
 }
 
+async function runObservedImageGeneration(job: IAIGenerationJob, run: () => Promise<{ imageUrl: string }>) {
+  const context = requestContext(job, {
+    service: 'google-gemini',
+    host: 'generativelanguage.googleapis.com',
+    endpointLabel: 'v1-generateContent',
+    method: 'POST',
+  });
+  const startedAt = performance.now();
+  await recordGenerationStarted(context, {
+    kind: 'image',
+    attempts: job.attempts,
+    credits: { estimated: job.creditCost, state: job.creditsState },
+  });
+  try {
+    const result = await run();
+    await recordImageGenerationCompleted(context, {
+      kind: 'image',
+      durationMs: Math.round(performance.now() - startedAt),
+      attempts: job.attempts,
+      credits: { estimated: job.creditCost, state: job.creditsState },
+      imageUrl: result.imageUrl,
+    });
+    return result;
+  } catch (error) {
+    const httpStatus = providerHttpStatus(error);
+    const category = mapGeminiError(error, httpStatus ?? undefined).category;
+    await recordGenerationFailed(context, {
+      kind: 'image',
+      durationMs: Math.round(performance.now() - startedAt),
+      errorCategory: category,
+      httpStatus,
+      retryable: isRetryableProviderStatus(httpStatus),
+      attempts: job.attempts,
+      credits: { estimated: job.creditCost, state: job.creditsState },
+    });
+    throw error;
+  }
+}
+
 export async function runAIJob(job: IAIGenerationJob): Promise<Record<string, unknown>> {
   const basePrompt = typeof job.input.prompt === 'string' ? job.input.prompt.trim() : '';
   const instructions = typeof job.input.outputContractInstructions === 'string' ? job.input.outputContractInstructions.trim() : '';
@@ -181,7 +219,7 @@ export async function runAIJob(job: IAIGenerationJob): Promise<Record<string, un
     return createGeminiTextInteraction(prompt);
   }
   if (job.kind === 'image' && job.provider === 'google' && !process.env.AI_GENERATION_WORKER_URL) {
-    return generateImage({ prompt, model: job.modelId ?? undefined });
+    return runObservedImageGeneration(job, () => generateImage({ prompt, model: job.modelId ?? undefined }));
   }
 
   if (job.kind === 'vision' && job.provider === 'google' && !process.env.AI_GENERATION_WORKER_URL) {

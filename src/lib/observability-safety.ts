@@ -7,7 +7,8 @@ const SAFE_METADATA_KEYS = new Set([
   'routeType', 'cached', 'host', 'productKind', 'stripeSessionId',
   'service', 'endpointLabel', 'modelId', 'retryable', 'providerErrorCode',
   'providerErrorMessage', 'requestId', 'finishReason', 'hasText', 'hasInlineData',
-  'mimeType', 'base64Length', 'errorCategory',
+  'mimeType', 'base64Length', 'byteLength', 'storageKind', 'storageOutcome',
+  'creditsEstimated', 'creditsState', 'creditOperation', 'errorCategory',
 ]);
 
 const cleanText = (value: unknown, max: number) => typeof value === 'string' ? value.trim().slice(0, max) : '';

@@ -2,6 +2,24 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { anonymizeObservabilityUser, safeErrorCode, sanitizeObservabilityMetadata } from '../../src/lib/observability-safety.ts';
 
+test('la telemetría de generación conserva forma y tamaño sin el contenido', () => {
+  const safe = sanitizeObservabilityMetadata({
+    operation: 'image_generation', kind: 'image', provider: 'google', modelId: 'imagen-3.0',
+    jobId: 'job_123', correlationId: 'job_123', attempts: 3,
+    creditsEstimated: 4, creditsState: 'reserved', creditOperation: 'capture',
+    mimeType: 'image/png', byteLength: 12_345, base64Length: 16_472, storageKind: 'inline', storageOutcome: 'returned_inline',
+    imageData: 'iVBORw0KGgo=', imageUrl: 'data:image/png;base64,iVBORw0KGgo=',
+  });
+
+  assert.deepEqual(safe, {
+    operation: 'image_generation', kind: 'image', provider: 'google', modelId: 'imagen-3.0',
+    jobId: 'job_123', correlationId: 'job_123', attempts: 3,
+    creditsEstimated: 4, creditsState: 'reserved', creditOperation: 'capture',
+    mimeType: 'image/png', byteLength: 12_345, base64Length: 16_472, storageKind: 'inline', storageOutcome: 'returned_inline',
+  });
+  assert.ok(!JSON.stringify(safe).includes('iVBORw0KGgo'));
+});
+
 test('el usuario se anonimiza de forma estable y no reversible en el evento', () => {
   const first = anonymizeObservabilityUser('user_private_123');
   assert.equal(first, anonymizeObservabilityUser('user_private_123'));
