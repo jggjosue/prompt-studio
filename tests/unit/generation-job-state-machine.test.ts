@@ -94,3 +94,20 @@ test('processor uses the transition service instead of direct status assignments
   assert.ok(runner.includes('ownershipToken: job.lockToken'));
   assert.ok(progressRoute.includes('lockToken: ownershipToken'));
 });
+
+test('provider submission and credit reconciliation are generation-idempotent', async () => {
+  const model = await source('src/models/AIGenerationJob.ts');
+  const runner = await source('src/lib/ai-job-runner.ts');
+  const credits = await source('src/lib/ai-job-service.ts');
+  const ledger = await source('src/models/AICreditLedger.ts');
+  assert.ok(model.includes('generationIdempotencyKey'));
+  assert.ok(model.includes("enum: ['pending', 'reserved', 'captured', 'refunded'], default: 'pending'"));
+  assert.ok(model.includes("{ generationIdempotencyKey: 1 }"));
+  assert.ok(runner.includes("'Idempotency-Key': generationIdempotencyKey"));
+  assert.ok(runner.includes('generationIdempotencyKey, ownershipToken'));
+  assert.ok(credits.includes("{ _id: job._id, creditsState: 'reserved' }"));
+  assert.ok(credits.includes("creditsState: 'reserved', reservedSubscriptionCredits"));
+  assert.ok(credits.includes('CREDIT_CAPTURE_CONFLICT'));
+  assert.ok(credits.includes('CREDIT_REFUND_CONFLICT'));
+  assert.ok(ledger.includes("{ jobId: 1, operation: 1 }, { unique: true }"));
+});
