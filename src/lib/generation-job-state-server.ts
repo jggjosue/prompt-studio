@@ -85,6 +85,10 @@ export async function transitionGenerationJob(input: {
   if (input.to === 'uploading') set.uploadingAt = now;
   if (input.to === 'finalizing') set.finalizingAt = now;
   if (input.to === 'completed' || input.to === 'failed') set.completedAt = now;
+  if (input.to === 'dead_letter') {
+    set.deadLetterAt = now;
+    set.completedAt = now;
+  }
   if (input.to === 'cancelled') set.cancelledAt = now;
 
   const releaseOwnership = input.to === 'queued' || isTerminalGenerationJobState(input.to);

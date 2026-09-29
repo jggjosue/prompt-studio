@@ -42,6 +42,8 @@ export function serializeAIJob(job: IAIGenerationJob) {
     assetRef,
     outputRef,
     errorCategory: job.errorCategory ?? null,
+    retryable: job.retryable ?? null,
+    failureMetadata: job.failureMetadata ?? null,
     creditCost: job.creditCost,
     estimatedCostUsd: job.estimatedCostUsd,
     actualCostUsd: job.actualCostUsd ?? null,
@@ -52,7 +54,7 @@ export function serializeAIJob(job: IAIGenerationJob) {
     attempt: job.attempts,
     attempts: job.attempts,
     maxAttempts: job.maxAttempts,
-    lastError: job.status === 'failed' ? job.lastError ?? null : null,
+    lastError: job.status === 'failed' || job.status === 'dead_letter' ? job.lastError ?? null : null,
     /** Solo tiene sentido valorar un trabajo terminado. */
     feedbackUseful: job.feedbackUseful ?? null,
     createdAt: job.createdAt,
@@ -61,6 +63,9 @@ export function serializeAIJob(job: IAIGenerationJob) {
     uploadingAt: job.uploadingAt ?? null,
     finalizingAt: job.finalizingAt ?? null,
     completedAt: job.completedAt ?? null,
+    deadLetterAt: job.deadLetterAt ?? null,
+    reprocessedAt: job.reprocessedAt ?? null,
+    reprocessedJobId: job.reprocessedJobId ?? null,
     cancelledAt: job.cancelledAt ?? null,
     timestamps: {
       createdAt: job.createdAt,
@@ -69,6 +74,7 @@ export function serializeAIJob(job: IAIGenerationJob) {
       uploadingAt: job.uploadingAt ?? null,
       finalizingAt: job.finalizingAt ?? null,
       completedAt: job.completedAt ?? null,
+      deadLetterAt: job.deadLetterAt ?? null,
       cancelledAt: job.cancelledAt ?? null,
     },
   };
