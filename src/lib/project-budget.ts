@@ -24,7 +24,7 @@ export function projectBudgetSnapshot(budget: ProjectBudget, jobs: BudgetJob[]) 
   const active = jobs.filter(job => job.creditsState !== 'refunded');
   const consumed = active.filter(job => job.creditsState === 'captured');
   const consumedCredits = consumed.reduce((sum, job) => sum + job.creditCost, 0);
-  const reservedCredits = active.filter(job => job.creditsState === 'reserved').reduce((sum, job) => sum + job.creditCost, 0);
+  const reservedCredits = active.filter(job => job.creditsState === 'pending' || job.creditsState === 'reserved').reduce((sum, job) => sum + job.creditCost, 0);
   const actualUsd = money(consumed.reduce((sum, job) => sum + (job.actualCostUsd ?? 0), 0));
   const projectedUsd = money(active.reduce((sum, job) => sum + (job.actualCostUsd ?? job.estimatedCostUsd), 0));
   const projectedCredits = consumedCredits + reservedCredits;

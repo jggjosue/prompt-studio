@@ -32,6 +32,7 @@ export interface IAIGenerationJob extends Document {
   progress: number;
   progressMessage: string;
   idempotencyKey: string;
+  generationIdempotencyKey: string;
   creditCost: number;
   creditsCharged?: number | null;
   reservedSubscriptionCredits?: number;
@@ -45,7 +46,7 @@ export interface IAIGenerationJob extends Document {
   actualDurationMs?: number | null;
   outputResolution?: string | null;
   outputQuality?: string | null;
-  creditsState: 'reserved' | 'captured' | 'refunded';
+  creditsState: 'pending' | 'reserved' | 'captured' | 'refunded';
   attempts: number;
   maxAttempts: number;
   nextAttemptAt: Date;
@@ -89,6 +90,7 @@ const AIGenerationJobSchema = new Schema<IAIGenerationJob>({
   progress: { type: Number, default: 0, min: 0, max: 100 },
   progressMessage: { type: String, default: 'Esperando procesamiento' },
   idempotencyKey: { type: String, required: true },
+  generationIdempotencyKey: { type: String, required: true, default: () => randomUUID(), maxlength: 120 },
   creditCost: { type: Number, required: true, min: 0 },
   creditsCharged: { type: Number, default: null, min: 0 },
   reservedSubscriptionCredits: { type: Number, default: 0, min: 0 },
@@ -102,7 +104,7 @@ const AIGenerationJobSchema = new Schema<IAIGenerationJob>({
   actualDurationMs: { type: Number, default: null, min: 0 },
   outputResolution: { type: String, default: null, maxlength: 80 },
   outputQuality: { type: String, default: null, maxlength: 80 },
-  creditsState: { type: String, enum: ['reserved', 'captured', 'refunded'], default: 'reserved' },
+  creditsState: { type: String, enum: ['pending', 'reserved', 'captured', 'refunded'], default: 'pending' },
   attempts: { type: Number, default: 0 },
   maxAttempts: { type: Number, default: 3, min: 1, max: 5 },
   nextAttemptAt: { type: Date, default: Date.now, index: true },
@@ -128,6 +130,10 @@ const AIGenerationJobSchema = new Schema<IAIGenerationJob>({
 }, { versionKey: false, suppressReservedKeysWarning: true });
 
 AIGenerationJobSchema.index({ userId: 1, idempotencyKey: 1 }, { unique: true });
+AIGenerationJobSchema.index(
+  { generationIdempotencyKey: 1 },
+  { unique: true, partialFilterExpression: { generationIdempotencyKey: { $type: 'string' } } },
+);
 AIGenerationJobSchema.index({ status: 1, nextAttemptAt: 1, leaseExpiresAt: 1 });
 
 export default mongoose.models.AIGenerationJob || mongoose.model<IAIGenerationJob>('AIGenerationJob', AIGenerationJobSchema, 'ai_generation_jobs');
