@@ -14,7 +14,7 @@ export function useWebGeneration() {
   const [webTheme, setWebTheme] = useState('glassmorphism');
   const [webComponent, setWebComponent] = useState('hero');
   const [webColor, setWebColor] = useState('blue');
-  const [webModel, setWebModel] = useState('gemini-2.5-flash');
+  const [webModel, setWebModel] = useState('gemini-3.1-flash-lite');
   const [outputWebHTML, setOutputWebHTML] = useState('');
 
   const generate = useCallback(async (prompt: string, params: ChatParams): Promise<{ result?: ChatMessageResult; error?: string }> => {
@@ -96,7 +96,7 @@ function resolveDefaultWebModel(provider: string): string {
   switch (provider) {
     case 'openai':    return 'gpt-4o';
     case 'anthropic': return 'claude-3-5-sonnet-20240620';
-    case 'google':    return 'gemini-2.5-flash';
+    case 'google':    return 'gemini-3.1-flash-lite';
     default:          return 'gpt-4o';
   }
 }
@@ -140,8 +140,7 @@ function buildWebInput(
         temperature: 0.7,
       };
 
-    // ── Google Gemini generateContent ───────────────────────────────────
-    // POST /v1beta/models/{model}:generateContent
+    // ── Google Gemini Interactions API ──────────────────────────────────
     case 'google':
       return {
         ...base,
@@ -196,6 +195,7 @@ function extractWebOutput(result: unknown): string {
   // Direct text/html/output fields (set by worker)
   if (typeof r.output === 'string') return r.output;
   if (typeof r.text === 'string') return r.text;
+  if (typeof r.output_text === 'string') return r.output_text;
   if (typeof r.html === 'string') return r.html;
 
   // OpenAI Chat Completions: { choices: [{ message: { content } }] }
@@ -213,7 +213,7 @@ function extractWebOutput(result: unknown): string {
     }
   }
 
-  // Gemini generateContent: { candidates: [{ content: { parts: [{ text }] } }] }
+  // Compatibility shape returned alongside Interactions API `output_text`.
   const candidates = r.candidates as Array<Record<string, unknown>> | undefined;
   if (Array.isArray(candidates) && candidates[0]) {
     const c = candidates[0].content as Record<string, unknown> | undefined;

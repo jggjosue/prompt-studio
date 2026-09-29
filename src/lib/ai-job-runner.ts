@@ -10,8 +10,8 @@ import { stripReferenceMedia } from '@/lib/reference-media-strip';
 import { parseGeneratedImageSource } from '@/lib/generated-image-source';
 import { observedGenerationFetch, recordGenerationRequest, type GenerationRequestContext } from '@/lib/generation-request-observability';
 import { providerHttpStatus, safeProviderHost } from '@/lib/provider-error-safety';
-import { GOOGLE_IMAGE_ENDPOINT_LABEL, googleImageModelFor } from '@/lib/google-image-config';
-import { googleImageApiKey, requestGoogleImage } from '@/lib/google-image-provider';
+import { GOOGLE_IMAGE_API_VERSION, GOOGLE_IMAGE_ENDPOINT_LABEL, googleImageModelFor } from '@/lib/google-image-config';
+import { createGeminiTextInteraction } from '@/lib/gemini-interactions';
 
 export type ErrorCategory =
   | 'BAD_REQUEST'
@@ -199,6 +199,9 @@ export async function runAIJob(job: IAIGenerationJob): Promise<Record<string, un
   const instructions = typeof job.input.outputContractInstructions === 'string' ? job.input.outputContractInstructions.trim() : '';
   const prompt = instructions ? `${basePrompt}\n\n${instructions}` : basePrompt;
   if (!prompt) throw new Error(mapGeminiError(new Error('El trabajo no contiene un prompt válido')).userMessage);
+  if (job.kind === 'project' && job.provider === 'google') {
+    return createGeminiTextInteraction(prompt);
+  }
   if (job.kind === 'image' && job.provider === 'google' && !process.env.AI_GENERATION_WORKER_URL) {
     const configuredModel = getAIModelConfig(job.provider, job.modelId ?? '')?.modelId ?? job.modelId;
     if (configuredModel?.startsWith('gemini-')) {

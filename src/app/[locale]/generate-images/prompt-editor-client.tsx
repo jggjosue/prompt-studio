@@ -113,7 +113,7 @@ export default function PromptEditorClient({ canGenerate }: { canGenerate: boole
   const [openAIChatModel, setOpenAIChatModel] = useState('gpt-4o');
   const [openAIImageModel, setOpenAIImageModel] = useState('gpt-image-1-mini');
   const [anthropicModel, setAnthropicModel] = useState('claude-3-5-sonnet-20240620');
-  const [googleWebModel, setGoogleWebModel] = useState('gemini-1.5-flash');
+  const [googleWebModel, setGoogleWebModel] = useState('gemini-3.1-flash-lite');
   const [googleVeoModel, setGoogleVeoModel] = useState('veo-2.0-generate-001');
   const [falModel, setFalModel] = useState('fal-ai/flux/schnell');
 
