@@ -125,7 +125,7 @@ const AIGenerationJobSchema = new Schema<IAIGenerationJob>({
   completedAt: { type: Date, default: null },
   cancelledAt: { type: Date, default: null },
   updatedAt: { type: Date, default: Date.now },
-}, { versionKey: false });
+}, { versionKey: false, suppressReservedKeysWarning: true });
 
 AIGenerationJobSchema.index({ userId: 1, idempotencyKey: 1 }, { unique: true });
 AIGenerationJobSchema.index({ status: 1, nextAttemptAt: 1, leaseExpiresAt: 1 });
