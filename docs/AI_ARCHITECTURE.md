@@ -97,11 +97,44 @@ read as canonical `queued`; new retries are persisted as `queued`. See the
 The endpoint processes between 1 and 5 jobs per invocation (`limit`, bounded on the
 server) and is protected by `hasValidCronSecret`, not by session.
 
-> **No scheduler calls it today.** `vercel.json` declares no cron job: the
-> per-minute expression this queue needs is not allowed on Vercel's Hobby plan.
-> The endpoint works, but somebody has to call it — see
-> [DEPLOYMENT.md](DEPLOYMENT.md) §2. Until then a job stays `queued` with its
-> credits `reserved`.
+> **Vercel Cron calls it every minute** (`vercel.json`), so this endpoint is
+> also the safety net: if QStash is unavailable or `AI_QUEUE_KILL_SWITCH` is on,
+> the queue drains on the next minute instead of stalling.
+
+### Stuck-job recovery sweeper
+
+`GET|POST /api/ai/jobs/sweep` runs every 5 minutes, separate from the generation
+queue on purpose: recovery is scheduled work, not part of a normal execution.
+
+A job is *stuck* when it is in `processing`, `uploading` or `finalizing`, its
+lease has expired, and it has shown no sign of life (`updatedAt`) for longer than
+the threshold for its kind — 10 min for `text` up to 45 min for `video`, all of
+them comfortably above the 5-minute processor lease. The oldest job is claimed
+first, with the same compare-and-swap and lease machinery the queue uses, so two
+concurrent sweeps cannot both take the same job.
+
+The decision is delegated to the ordinary retry policy with category `timeout`,
+so there is only one rule to keep consistent:
+
+| Situation | Action | Credits |
+| --- | --- | --- |
+| Attempts remain | Requeued to `queued` with its generation idempotency key untouched | Untouched — the same reservation is what the next execution will capture |
+| Attempts exhausted | `dead_letter` | Reserved credits refunded |
+| Attempts exhausted with a `providerRequestId` | `dead_letter`, and the reason records that a provider request existed | Reserved credits refunded |
+
+Requeueing never touches the balance: refunding there would be a double charge
+from the user's point of view. Refunds stay idempotent through the
+`creditsState` guard and the unique `(jobId, operation)` ledger index.
+
+The transition starts from the state the job is *actually* in, not always from
+`processing`. That matters for `finalizing`: a stuck job there has usually
+already captured, and closing it through a `processing → failed` filter does not
+match, which would leave the reservation stranded.
+
+Every action records `recovery` on the job (reason, timestamp, owner, the
+`lastSweepId` that touched it, and any `providerRequestId` worth following up)
+and emits an `ai_generation` event, so a recovered job is distinguishable from a
+clean one and an operator can trace it to the sweep that closed it.
 
 ### Retries
 

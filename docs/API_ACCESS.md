@@ -5,7 +5,7 @@
 > update the corresponding route handler.
 
 The system authorizes requests using eight distinct mechanisms. This matrix details
-the exact authorization strategy for all 122 API routes, which previously required
+the exact authorization strategy for all 123 API routes, which previously required
 manual file-by-file inspection.
 
 The test suite `tests/unit/route-access-matrix.test.ts` verifies that no route lacks
@@ -17,14 +17,14 @@ endpoint breaks the build pipeline instead of slipping into production.
 | Mechanism | Routes |
 |---|---|
 | Webhook signature | 2 |
-| Cron or admin secret | 8 |
+| Cron or admin secret | 9 |
 | Administrator | 11 |
 | Subscription plan | 12 |
 | User session | 75 |
 | AI worker token | 1 |
 | IP rate limit | 39 |
 | Disabled (501) | 2 |
-| **Total Routes** | **122** |
+| **Total Routes** | **123** |
 
 ## Public Routes by Design
 
@@ -76,6 +76,7 @@ None of them expose paid prompt data or private account records.
 | [`/api/ai/jobs/[id]/progress`](../src/app/api/ai/jobs/[id]/progress/route.ts) | PATCH | AI worker token |
 | [`/api/ai/jobs/[id]/retry`](../src/app/api/ai/jobs/[id]/retry/route.ts) | POST | User session |
 | [`/api/ai/jobs/process`](../src/app/api/ai/jobs/process/route.ts) | — | Cron or admin secret + User session |
+| [`/api/ai/jobs/sweep`](../src/app/api/ai/jobs/sweep/route.ts) | — | Cron or admin secret |
 | [`/api/ai/providers/recommend`](../src/app/api/ai/providers/recommend/route.ts) | GET | User session |
 | [`/api/assets/provenance`](../src/app/api/assets/provenance/route.ts) | GET, PATCH | User session + IP rate limit |
 | [`/api/batches`](../src/app/api/batches/route.ts) | GET, POST | User session + IP rate limit |

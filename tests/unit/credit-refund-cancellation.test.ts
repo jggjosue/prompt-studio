@@ -101,14 +101,27 @@ test('no se cancela ni se reembolsa una generación en vuelo', async () => {
 });
 
 test('el cliente no agota el tiempo de espera ante cancelaciones o dead letters', async () => {
+  // El bucle ya no tiene una forma fija que recortar: lo que se protege es que
+  // un trabajo detenido se resuelva en vez de agotar la ventana de espera.
   const hook = await source('src/hooks/use-image-generation.ts');
-  const poll = hook.split('for (let attempts = 0')[1] ?? '';
   assert.ok(
-    poll.includes("status === 'cancelled'"),
-    'el sondeo debe resolver el estado cancelado'
+    hook.includes('isTerminalGenerationStatus(status)'),
+    'el sondeo debe resolver el estado terminal en cuanto aparece'
   );
   assert.ok(
-    poll.includes("status === 'dead_letter'"),
-    'el sondeo debe resolver el estado dead_letter, que también es terminal'
+    hook.includes('terminalGenerationMessage(job, status)'),
+    'el sondeo debe explicar el motivo en vez de terminar con un tiempo de espera'
+  );
+
+  // La lista de terminales es compartida, así que ahora cubre a los seis
+  // generadores y no solo al de imágenes.
+  const polling = await source('src/lib/generation-polling.ts');
+  assert.ok(
+    polling.includes("'cancelled'"),
+    'cancelled debe ser terminal para todos los generadores'
+  );
+  assert.ok(
+    polling.includes("'dead_letter'"),
+    'dead_letter debe ser terminal para todos los generadores'
   );
 });

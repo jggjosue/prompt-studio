@@ -102,14 +102,15 @@ stateDiagram-v2
     processing --> queued: retryable provider failure
     uploading --> queued: retryable storage failure
     finalizing --> queued: retryable finalization failure
-    processing --> failed: attempts exhausted · credits refunded
+    processing --> dead_letter: attempts exhausted · credits refunded
     processing --> cancelled: cancellation accepted · credits refunded
     completed --> [*]
     failed --> [*]
+    dead_letter --> [*]
     cancelled --> [*]
 ```
 
-Canonical states of `AIGenerationJob`: `queued`, `processing`, `uploading`, `finalizing`, `completed`, `failed`, `cancelled`. Existing `retrying` records remain readable and are exposed as canonical `queued`; no destructive migration is required. States of the associated credit: `reserved`, `captured`, `refunded`.
+Canonical states of `AIGenerationJob`: `queued`, `processing`, `uploading`, `finalizing`, `completed`, `failed`, `dead_letter`, `cancelled`. Existing `retrying` records remain readable and are exposed as canonical `queued`; no destructive migration is required. States of the associated credit: `reserved`, `captured`, `refunded`.
 
 Claims and transitions are atomic MongoDB updates guarded by the expected state
 and a per-attempt `lockToken`. The complete field and transition contract is in

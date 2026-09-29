@@ -1,6 +1,13 @@
 'use client';
 
 import type { ChatMessageResult, ChatParams } from '@/lib/chat-types';
+import {
+  LONG_GENERATION_POLL_SCHEDULE,
+  isTerminalGenerationStatus,
+  nextGenerationPollDelayMs,
+  terminalGenerationMessage,
+  waitForGenerationPollWindow,
+} from '@/lib/generation-polling';
 import { safeJson, extractErrorMessage } from '@/lib/safe-json';
 import { useCallback, useState } from 'react';
 
@@ -80,12 +87,15 @@ export function useVideoUnderstanding() {
       if (!jobId) return { error: 'El servidor no devolvió un identificador de trabajo.' };
 
       let completed = false;
-      let attempts = 0;
+      let attempt = 0;
+      let elapsedMs = 0;
       let textOutput = '';
 
-      while (!completed && attempts < 40) {
-        attempts++;
-        await new Promise(resolve => setTimeout(resolve, 3000));
+      while (!completed && elapsedMs < LONG_GENERATION_POLL_SCHEDULE.maxElapsedMs) {
+        const waitMs = nextGenerationPollDelayMs(attempt, LONG_GENERATION_POLL_SCHEDULE);
+        if (!(await waitForGenerationPollWindow(waitMs))) break;
+        elapsedMs += waitMs;
+        attempt += 1;
         try {
           const pollRes = await fetch(`/api/ai/jobs/${jobId}`);
           const pollData = await safeJson(pollRes);
@@ -101,8 +111,8 @@ export function useVideoUnderstanding() {
             else if (result?.output) textOutput = result.output as string;
             else textOutput = JSON.stringify(result);
             completed = true;
-          } else if (status === 'failed') {
-            return { error: (job?.lastError as string | undefined) || 'El trabajo falló en el servidor.' };
+          } else if (isTerminalGenerationStatus(status)) {
+            return { error: terminalGenerationMessage(job, status) };
           }
         } catch (pollErr: unknown) {
           console.warn('Poll error:', pollErr);

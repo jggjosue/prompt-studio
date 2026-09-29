@@ -35,23 +35,30 @@ stateDiagram-v2
     processing --> finalizing: output has no upload phase
     processing --> queued: retry with backoff
     processing --> failed
+    processing --> dead_letter: attempts exhausted · credits refunded
     processing --> cancelled
     uploading --> finalizing
     uploading --> queued: retry with backoff
     uploading --> failed
+    uploading --> dead_letter: attempts exhausted · credits refunded
     uploading --> cancelled
     finalizing --> completed
     finalizing --> queued: retry with backoff
     finalizing --> failed
+    finalizing --> dead_letter: attempts exhausted · credits refunded
     finalizing --> cancelled
     completed --> [*]
     failed --> [*]
+    dead_letter --> [*]
     cancelled --> [*]
 ```
 
-`completed`, `failed` and `cancelled` are terminal. A manual retry therefore
-creates a new job with `input.retryOfJobId`; it does not reopen the old job or
-reuse its credit-ledger/provider idempotency identity.
+`completed`, `failed`, `dead_letter` and `cancelled` are terminal. A manual retry
+therefore creates a new job with `input.retryOfJobId`; it does not reopen the old
+job or reuse its credit-ledger/provider idempotency identity. `dead_letter` differs
+from `failed` in that it waits for an operator: only
+`POST /api/admin/ai/jobs/[id]/reprocess` reopens one, and it does so at most once
+per job.
 
 ## Atomic ownership
 
