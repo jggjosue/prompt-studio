@@ -2,7 +2,7 @@ import 'server-only';
 import { generateImage } from '@/ai/flows/generate-image';
 import { getAIModelConfig } from '@/lib/ai-credit-config';
 import { recordObservabilityEvent } from '@/lib/observability-server';
-import { GeminiImageSuccess, parseGeminiImageResponse, GeminiImageResult } from '@/lib/gemini-image-parser';
+import { GeminiImageSuccess } from '@/lib/gemini-image-parser';
 import { generatedImageKey, putR2Object } from '@/lib/r2-storage';
 import { captureCredits } from '@/lib/ai-job-service';
 import type { IAIGenerationJob } from '@/models/AIGenerationJob';
@@ -10,7 +10,8 @@ import { stripReferenceMedia } from '@/lib/reference-media-strip';
 import { parseGeneratedImageSource } from '@/lib/generated-image-source';
 import { observedGenerationFetch, recordGenerationRequest, type GenerationRequestContext } from '@/lib/generation-request-observability';
 import { providerHttpStatus, safeProviderHost } from '@/lib/provider-error-safety';
-import { GOOGLE_IMAGE_API_VERSION, GOOGLE_IMAGE_ENDPOINT_LABEL, googleImageModelFor } from '@/lib/google-image-config';
+import { GOOGLE_IMAGE_ENDPOINT_LABEL, googleImageModelFor } from '@/lib/google-image-config';
+import { googleImageApiKey, requestGoogleImage } from '@/lib/google-image-provider';
 
 export type ErrorCategory =
   | 'BAD_REQUEST'
@@ -33,6 +34,13 @@ export function mapGeminiError(
   finishReason?: string | null
 ): { category: ErrorCategory; userMessage: string; internalDetails?: unknown } {
   const message = err instanceof Error ? err.message : String(err);
+  const resolvedHttpStatus = httpStatus ?? providerHttpStatus(err) ?? undefined;
+  const errorCode = err && typeof err === 'object' && 'code' in err ? String(err.code) : '';
+  const resolvedFinishReason = finishReason ?? (
+    err && typeof err === 'object' && 'finishReason' in err && typeof err.finishReason === 'string'
+      ? err.finishReason
+      : null
+  );
 
   // 1. Timeout (AbortSignal)
   if (message.includes('timeout') || message.toLowerCase().includes('abort')) {
@@ -40,49 +48,53 @@ export function mapGeminiError(
   }
 
   // 2. From parseGeminiImageResponse NO_IMAGE
-  if (finishReason && /NO_IMAGE|no image/i.test(message)) {
+  if (errorCode === 'NO_IMAGE' || (resolvedFinishReason && /NO_IMAGE|no image/i.test(message))) {
     return { category: 'NO_IMAGE', userMessage: 'No se generó ninguna imagen.' };
   }
 
+  if (errorCode === 'CREDENTIAL_MISSING') {
+    return { category: 'AUTH_OR_PERMISSION', userMessage: 'No tienes permisos o la API key es inválida.' };
+  }
+
   // 3. HTTP status code mapping
-  if (httpStatus) {
+  if (resolvedHttpStatus) {
     switch (true) {
-      case httpStatus >= 500:
+      case resolvedHttpStatus >= 500:
         return {
           category: 'PROVIDER_ERROR',
           userMessage: 'Error del proveedor, vuelve a intentarlo.',
-          internalDetails: { httpStatus, finishReason },
+          internalDetails: { httpStatus: resolvedHttpStatus, finishReason: resolvedFinishReason },
         };
-      case httpStatus === 429:
+      case resolvedHttpStatus === 429:
         return {
           category: 'RATE_LIMIT_OR_QUOTA',
           userMessage: 'Has alcanzado el límite de generaciones o créditos.',
-          internalDetails: { httpStatus, finishReason },
+          internalDetails: { httpStatus: resolvedHttpStatus, finishReason: resolvedFinishReason },
         };
-      case httpStatus === 404:
+      case resolvedHttpStatus === 404:
         return {
           category: 'MODEL_NOT_FOUND',
           userMessage: 'El modelo no está disponible, selecciona otro.',
-          internalDetails: { httpStatus, finishReason },
+          internalDetails: { httpStatus: resolvedHttpStatus, finishReason: resolvedFinishReason },
         };
-      case httpStatus === 403:
-      case httpStatus === 401:
+      case resolvedHttpStatus === 403:
+      case resolvedHttpStatus === 401:
         return {
           category: 'AUTH_OR_PERMISSION',
           userMessage: 'No tienes permisos o la API key es inválida.',
-          internalDetails: { httpStatus, finishReason },
+          internalDetails: { httpStatus: resolvedHttpStatus, finishReason: resolvedFinishReason },
         };
-      case httpStatus === 400:
+      case resolvedHttpStatus === 400:
         return {
           category: 'BAD_REQUEST',
           userMessage: 'Solicitud inválida, inténtalo de nuevo.',
-          internalDetails: { httpStatus, finishReason },
+          internalDetails: { httpStatus: resolvedHttpStatus, finishReason: resolvedFinishReason },
         };
       default:
         return {
           category: 'PROVIDER_ERROR',
           userMessage: 'Error del proveedor, vuelve a intentarlo.',
-          internalDetails: { httpStatus, finishReason },
+          internalDetails: { httpStatus: resolvedHttpStatus, finishReason: resolvedFinishReason },
         };
     }
   }
@@ -139,37 +151,17 @@ async function saveGeneratedImageToR2(imageUrl: string, job: IAIGenerationJob): 
 }
 
 async function generateGeminiImage(prompt: string, model: string, job: IAIGenerationJob): Promise<{ imageUrl: string; result: GeminiImageSuccess }> {
-  const key = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || '';
-  if (!key) throw new Error(mapGeminiError(new Error('No se ha configurado la API Key de Gemini')).userMessage);
+  const key = googleImageApiKey();
   const selectedModel = googleImageModelFor(model);
-  const endpoint = `https://generativelanguage.googleapis.com/${GOOGLE_IMAGE_API_VERSION}/models/${selectedModel}:generateContent`;
-  const body = JSON.stringify({
-    contents: [{ parts: [{ text: prompt }] }],
-    generationConfig: { responseModalities: ['TEXT', 'IMAGE'] },
-  });
-  try {
-    const res = await observedGenerationFetch(requestContext(job, {
+  const { result } = await requestGoogleImage({
+    prompt,
+    requestedModel: selectedModel,
+    apiKey: key,
+    fetchImpl: (input, init) => observedGenerationFetch(requestContext(job, {
       service: 'google-gemini', host: 'generativelanguage.googleapis.com', endpointLabel: GOOGLE_IMAGE_ENDPOINT_LABEL, method: 'POST',
-    }, selectedModel), () => fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key }, body, signal: AbortSignal.timeout(270_000) }));
-    const mapped = mapGeminiError(
-      new Error(`Gemini generación de imagen falló: ${res.status}.`),
-      res.status
-    );
-    if (!res.ok) throw new Error(mapped.userMessage);
-    const data = await res.json() as Record<string, unknown>;
-    const result = parseGeminiImageResponse(data) as GeminiImageResult;
-    if (result.kind === 'NO_IMAGE') {
-      const mapped = mapGeminiError(new Error(''), undefined, result.finishReason);
-      throw new Error(mapped.userMessage);
-    }
-    const success = result as GeminiImageSuccess;
-    const imageUrl = success.imageUrl;
-    if (!imageUrl) throw new Error(mapGeminiError(new Error(''), undefined, undefined).userMessage);
-    return { imageUrl, result: success };
-  } catch (err: unknown) {
-    const mapped = mapGeminiError(err);
-    throw new Error(mapped.userMessage);
-  }
+    }, selectedModel), () => fetch(input, init)),
+  });
+  return { imageUrl: result.imageUrl, result };
 }
 
 function asResult(value: unknown): Record<string, unknown> {
