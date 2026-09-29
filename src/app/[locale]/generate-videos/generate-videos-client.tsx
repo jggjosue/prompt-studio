@@ -108,7 +108,7 @@ export default function GenerateVideosClient({ canGenerate }: { canGenerate: boo
   const [openAIChatModel, setOpenAIChatModel] = useState('gpt-4o');
   const [openAIImageModel, setOpenAIImageModel] = useState('dall-e-3');
   const [anthropicModel, setAnthropicModel] = useState('claude-3-5-sonnet-20240620');
-  const [googleWebModel, setGoogleWebModel] = useState('gemini-1.5-flash');
+  const [googleWebModel, setGoogleWebModel] = useState('gemini-3.1-flash-lite');
   const [googleVeoModel, setGoogleVeoModel] = useState('veo-2.0-generate-001');
   const [falModel, setFalModel] = useState('fal-ai/flux/schnell');
   const [openAIVideoModel, setOpenAIVideoModel] = useState('sora-2');
@@ -978,7 +978,7 @@ Requirements:
       }
     } else if (imageProvider === 'google' && vertexKey) {
       // Use Gemini text model to generate a detailed image description
-      const geminiModel = googleWebModel || 'gemini-1.5-flash';
+      const geminiModel = googleWebModel || 'gemini-3.1-flash-lite';
       apiUsed = `Google Gemini (${geminiModel})`;
       try {
         setGenStatus(`Calling ${geminiModel}...`);

@@ -8,10 +8,12 @@
  */
 
 import {ai} from '@/ai/genkit';
+import {GOOGLE_IMAGE_MODEL} from '@/lib/google-image-config';
 import {z} from 'zod';
 
 const GenerateImageInputSchema = z.object({
   prompt: z.string().describe('The text prompt to generate an image from.'),
+  model: z.string().optional().describe('The model ID to use for generation.'),
 });
 export type GenerateImageInput = z.infer<typeof GenerateImageInputSchema>;
 
@@ -34,16 +36,36 @@ const generateImageFlow = ai.defineFlow(
   },
   async input => {
     try {
-      const {media} = await ai.generate({
-        model: 'googleai/imagen-4.0-fast-generate-001',
-        prompt: input.prompt,
-      });
+      const modelName = input.model || 'gemini-3.1-flash-image';
+      const resolvedModel = modelName.includes('/') ? modelName : `googleai/${modelName}`;
       
-      const imageUrl = media?.url;
-      if (!imageUrl) {
-          throw new Error('Image generation failed.');
+      let lastErr: unknown;
+      for (let attempt = 1; attempt <= 3; attempt++) {
+        try {
+          const {media} = await ai.generate({
+            model: resolvedModel,
+            prompt: input.prompt,
+            config: {responseModalities: ['TEXT', 'IMAGE']},
+          });
+          
+          const imageUrl = media?.url;
+          if (!imageUrl) {
+              throw new Error('Image generation failed.');
+          }
+          return { imageUrl };
+        } catch (err: any) {
+          lastErr = err;
+          const msg = err instanceof Error ? err.message : String(err);
+          if (attempt < 3 && (msg.includes('429') || msg.includes('RESOURCE_EXHAUSTED'))) {
+            const delayMs = attempt * 4000;
+            console.warn(`[Genkit Retry] Attempt ${attempt} failed with 429. Retrying in ${delayMs}ms...`);
+            await new Promise(r => setTimeout(r, delayMs));
+            continue;
+          }
+          throw err;
+        }
       }
-      return { imageUrl };
+      throw lastErr;
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'unknown';
       const key = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || '';

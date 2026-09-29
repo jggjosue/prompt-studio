@@ -52,23 +52,30 @@ job. This difference is what allows determining if the rate is poorly calibrated
 ```mermaid
 stateDiagram-v2
     [*] --> queued: POST /api/ai/jobs · reserveCredits()
-    queued --> processing: findOneAndUpdate claims and takes lease (5 min)
-    processing --> completed: valid output · captureCredits()
-    processing --> retrying: failure · attempts < maxAttempts
-    retrying --> processing: nextAttemptAt expired
-    processing --> failed: attempts == maxAttempts · refundCredits()
+    queued --> processing: atomic claim + ownership lease
+    processing --> uploading: provider uploads an artifact
+    processing --> finalizing: inline/provider output received
+    uploading --> finalizing: artifact reference persisted
+    finalizing --> completed: validate output · captureCredits()
+    processing --> queued: retryable failure + backoff
+    uploading --> queued: retryable failure + backoff
+    finalizing --> queued: retryable failure + backoff
+    processing --> failed: attempts exhausted · refundCredits()
+    processing --> cancelled: cancellation accepted · refundCredits()
     completed --> [*]
     failed --> [*]
+    cancelled --> [*]
 ```
 
 ### How a job is claimed
 
 [`/api/ai/jobs/process`](../src/app/api/ai/jobs/process/route.ts) does not do "read and then write". It uses an atomic
 `findOneAndUpdate` that in the same operation filters, marks as `processing`,
-increments `attempts`, and sets a **5-minute lease**:
+increments `attempts`, and sets a **5-minute ownership lease** with a unique
+`lockToken`:
 
 ```ts
-{ status: { $in: ['queued','retrying','processing'] },
+{ status: { $in: ['queued','retrying','processing','uploading','finalizing'] },
   nextAttemptAt: { $lte: now },
   $or: [{ leaseExpiresAt: null }, { leaseExpiresAt: { $lte: now } }] }
 ```
@@ -78,9 +85,14 @@ Two deliberate consequences:
 1. **Two concurrent crons cannot take the same job.** The filter and write are a
    single MongoDB operation.
 2. **A worker that dies does not block the job forever.** That is why
-   `processing` appears in the `$in`: after 5 minutes the lease expires and
+   active states appear in the `$in`: after 5 minutes the lease expires and
    another attempt picks it up. Without this, a crashed process would leave
    credits reserved indefinitely.
+
+Every state change also filters by the expected state and `lockToken`, so an
+expired worker cannot overwrite a newer attempt. Legacy `retrying` records are
+read as canonical `queued`; new retries are persisted as `queued`. See the
+[canonical state-machine contract](architecture/generation-job-state-machine.md).
 
 The endpoint processes between 1 and 5 jobs per invocation (`limit`, bounded on the
 server) and is protected by `hasValidCronSecret`, not by session.

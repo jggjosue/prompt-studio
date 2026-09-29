@@ -60,7 +60,7 @@ function ModelTiersSelect({
   return (
     <div className="space-y-1.5">
       <label className="block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Modelo</label>
-      <div className="grid grid-cols-3 gap-1">
+      <div className={cn('grid gap-1', tiers.length === 1 ? 'grid-cols-1' : 'grid-cols-3')}>
         {tiers.map(tier => {
           const active = value === tier.modelId;
           return (
@@ -132,20 +132,24 @@ export function SettingsSidebar({ chat, mobileOpen, onMobileClose }: {
   const creditsDisplay = Number.isInteger(credits) ? credits.toString() : credits.toFixed(1);
 
   // Estimate credit cost from current model config
-  const CREDIT_ESTIMATES_RAW: Record<string, number> = {
-    'dall-e-3': 10, 'gpt-image-1-mini': 15, 'fal-ai/flux/schnell': 10,
-    'veo-2.0-generate-001': 20, 'gen-3': 20,
-    'gpt-4o': 4, 'claude-3-5-sonnet-20240620': 8,
-  };
-  const getEstimatedCredits = (modelId: string) => {
-    for (const group of Object.values(MODEL_TIERS)) {
-      const tier = group.tiers.find(t => t.modelId === modelId);
-      if (tier) return tier.credits;
-    }
-    return CREDIT_ESTIMATES_RAW[modelId] ?? (selectedMode === 'image' ? 10 : selectedMode === 'video' ? 20 : 2);
+  const CREDIT_ESTIMATES: Record<string, number> = {
+    'imagen-4.0-fast-generate-001': 10,
+    'gemini-3.1-flash-image': 10,
+    'gemini-3.1-flash-lite-image': 5,
+    'dall-e-3': 10,
+    'gpt-image-1-mini': 15,
+    'fal-ai/flux/schnell': 10,
+    'veo-2.0-generate-001': 20,
+    'gen-3': 20,
+    'gemini-2.5-flash': 1,
+    'gemini-2.5-pro': 3,
+    'gemini-2.0-flash': 1,
+    'gpt-4o': 4,
+    'claude-3-5-sonnet-20240620': 8,
+    'gemini-3.8-flash': 1,
   };
   const currentModel = params.model ?? '';
-  const estimatedCredits = getEstimatedCredits(currentModel);
+  const estimatedCredits = CREDIT_ESTIMATES[currentModel] ?? 10;
   const balanceAfter = Math.max(0, credits - estimatedCredits);
   const insufficient = credits < estimatedCredits;
 
@@ -154,7 +158,17 @@ export function SettingsSidebar({ chat, mobileOpen, onMobileClose }: {
       <div className="space-y-4 p-3">
         {/* Mode label */}
         <p className="text-[10px] font-black uppercase tracking-[0.18em] text-blue-500">
-          {selectedMode === 'image' ? '✦ Imagen' : selectedMode === 'video' ? '▶ Video' : '◈ Web'}
+          {selectedMode === 'image'
+            ? '✦ Imagen'
+            : selectedMode === 'video'
+            ? '▶ Video'
+            : selectedMode === 'project'
+            ? '◈ Web'
+            : selectedMode === 'vision'
+            ? '◉ Visión'
+            : selectedMode === 'text'
+            ? '✎ Texto'
+            : '🔍 Video IA'}
         </p>
 
         {/* ── IMAGE settings ── */}
@@ -220,14 +234,26 @@ export function SettingsSidebar({ chat, mobileOpen, onMobileClose }: {
                 </ParamSelect>
 
                 <ParamSelect
-                  label="Cámara / Plano"
-                  value={params.imageCamera ?? 'eye-level'}
-                  onChange={v => updateParam(setParams, 'imageCamera', v)}
+                  label="Modelo"
+                  value={params.model ?? (params.provider === 'openai' ? 'dall-e-3' : params.provider === 'fal' ? 'fal-ai/flux/schnell' : 'gemini-3.1-flash-image')}
+                  onChange={v => updateParam(setParams, 'model', v)}
                 >
-                  <option value="eye-level">A nivel de ojos</option>
-                  <option value="close-up">Primer plano</option>
-                  <option value="wide">Plano general</option>
-                  <option value="aerial">Vista aérea</option>
+                  {params.provider === 'openai' && (
+                    <>
+                      <option value="dall-e-3">DALL-E 3</option>
+                      <option value="gpt-image-1-mini">GPT Image 1 Mini</option>
+                    </>
+                  )}
+                  {params.provider === 'fal' && (
+                    <option value="fal-ai/flux/schnell">Flux Schnell</option>
+                  )}
+                  {(!params.provider || params.provider === 'google') && (
+                    <>
+                      <option value="gemini-3.1-flash-image">Nano Banana 2 (Flash)</option>
+                      <option value="gemini-3.1-flash-lite-image">Nano Banana 2 Lite</option>
+                      <option value="imagen-4.0-fast-generate-001">Imagen 4.0 Fast</option>
+                    </>
+                  )}
                 </ParamSelect>
 
                 <div className="space-y-1.5">
@@ -271,24 +297,6 @@ export function SettingsSidebar({ chat, mobileOpen, onMobileClose }: {
                 <option value="gen-3">Gen-3 Alpha</option>
               </ParamSelect>
             )}
-
-            <Divider />
-
-            <div className="space-y-1.5">
-              <label className="block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                Aspecto
-              </label>
-              <AspectControl
-                value={params.videoAspect ?? '16-9'}
-                options={[
-                  { value: '16-9', label: '16:9' },
-                  { value: '9-16', label: '9:16' },
-                  { value: '1-1', label: '1:1' },
-                  { value: '21-9', label: '21:9' },
-                ]}
-                onChange={v => updateParam(setParams, 'videoAspect', v)}
-              />
-            </div>
 
             <ParamSelect
               label="Estilo"
@@ -356,6 +364,88 @@ export function SettingsSidebar({ chat, mobileOpen, onMobileClose }: {
           </div>
         )}
 
+        {/* ── VIDEO UNDERSTANDING settings ── */}
+        {selectedMode === 'videoUnderstanding' && (
+          <div className="space-y-3">
+            <ParamSelect
+              label="Modelo"
+              value={params.model ?? 'gemini-3.8-flash'}
+              onChange={v => updateParam(setParams, 'model', v)}
+            >
+              <option value="gemini-3.8-flash">Gemini 3.8 Flash</option>
+            </ParamSelect>
+
+            <Divider />
+
+            <ParamSelect
+              label="Fuente de video"
+              value={params.videoInputMethod ?? 'url'}
+              onChange={v => updateParam(setParams, 'videoInputMethod', v)}
+            >
+              <option value="url">URL pública / File API</option>
+              <option value="youtube">YouTube URL</option>
+              <option value="inline">Subir archivo (base64)</option>
+            </ParamSelect>
+
+            <ParamSelect
+              label="Modo de procesamiento"
+              value={params.videoProcessingMode ?? 'agentic'}
+              onChange={v => updateParam(setParams, 'videoProcessingMode', v)}
+            >
+              <option value="agentic">Agéntico (eficiente, largo)</option>
+              <option value="static">Estático (1 FPS, clips cortos)</option>
+            </ParamSelect>
+
+            <button
+              type="button"
+              onClick={() => setShowAdvanced(v => !v)}
+              className="flex w-full items-center justify-between text-[11px] text-muted-foreground hover:text-foreground focus-visible:outline-none"
+              aria-expanded={showAdvanced}
+            >
+              <span>Recorte / FPS personalizado</span>
+              <ChevronRight className={cn('h-3 w-3 transition-transform', showAdvanced && 'rotate-90')} />
+            </button>
+
+            {showAdvanced && (
+              <div className="space-y-3">
+                <Divider />
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="space-y-1">
+                    <label className="block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Inicio (s)</label>
+                    <input
+                      type="number" min={0}
+                      className="w-full rounded-lg border border-border/50 bg-muted/30 px-2.5 py-1.5 text-xs focus:border-teal-500/60 focus:outline-none focus:ring-1 focus:ring-teal-500/30"
+                      placeholder="0"
+                      onChange={e => updateParam(setParams, 'startOffset', Number(e.target.value))}
+                      aria-label="Offset de inicio en segundos"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Fin (s)</label>
+                    <input
+                      type="number" min={0}
+                      className="w-full rounded-lg border border-border/50 bg-muted/30 px-2.5 py-1.5 text-xs focus:border-teal-500/60 focus:outline-none focus:ring-1 focus:ring-teal-500/30"
+                      placeholder="fin"
+                      onChange={e => updateParam(setParams, 'endOffset', Number(e.target.value))}
+                      aria-label="Offset de fin en segundos"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-1">
+                  <label className="block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">FPS de muestreo</label>
+                  <input
+                    type="number" min={0.1} max={60} step={0.1}
+                    className="w-full rounded-lg border border-border/50 bg-muted/30 px-2.5 py-1.5 text-xs focus:border-teal-500/60 focus:outline-none focus:ring-1 focus:ring-teal-500/30"
+                    placeholder="1 (default)"
+                    onChange={e => updateParam(setParams, 'fps', Number(e.target.value))}
+                    aria-label="Tasa de muestreo de frames por segundo"
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
         {/* ── WEB settings ── */}
         {selectedMode === 'project' && (
           <div className="space-y-3">
@@ -370,7 +460,7 @@ export function SettingsSidebar({ chat, mobileOpen, onMobileClose }: {
             </ParamSelect>
 
             {params.provider === 'google' ? (
-              <ModelTiersSelect group="project" value={params.model ?? 'gemini-2.5-flash'} onChange={v => updateParam(setParams, 'model', v)} />
+              <ModelTiersSelect group="project" value={params.model ?? 'gemini-3.1-flash-lite'} onChange={v => updateParam(setParams, 'model', v)} />
             ) : (
               <ParamSelect
                 label="Modelo"
@@ -441,6 +531,107 @@ export function SettingsSidebar({ chat, mobileOpen, onMobileClose }: {
                 </ParamSelect>
               </div>
             )}
+          </div>
+        )}
+
+        {/* ── VISION settings ── */}
+        {selectedMode === 'vision' && (
+          <div className="space-y-3">
+            <ParamSelect
+              label="Proveedor"
+              value={params.provider ?? 'google'}
+              onChange={v => updateParam(setParams, 'provider', v)}
+            >
+              <option value="google">Google</option>
+            </ParamSelect>
+
+            <ParamSelect
+              label="Modelo"
+              value={params.model ?? 'gemini-3.8-flash'}
+              onChange={v => updateParam(setParams, 'model', v)}
+            >
+              {(!params.provider || params.provider === 'google') && (
+                <option value="gemini-3.8-flash">Gemini 3.8 Flash</option>
+              )}
+            </ParamSelect>
+
+            <Divider />
+
+            <div className="space-y-1.5">
+              <label className="block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                URL de la Imagen
+              </label>
+              <input
+                type="url"
+                className="w-full rounded-lg border border-border/50 bg-muted/30 px-2.5 py-1.5 text-xs transition-colors hover:border-border focus:border-blue-500/60 focus:outline-none focus:ring-1 focus:ring-blue-500/30"
+                value={params.referenceImage ?? ''}
+                onChange={e => updateParam(setParams, 'referenceImage', e.target.value)}
+                placeholder="https://ejemplo.com/imagen.jpg"
+                aria-label="URL de la Imagen para analizar"
+              />
+              <p className="text-[10px] text-muted-foreground">Pega la URL de una imagen pública para analizar o procesar con el modelo de visión.</p>
+            </div>
+          </div>
+        )}
+
+        {/* ── TEXT settings ── */}
+        {selectedMode === 'text' && (
+          <div className="space-y-3">
+            <ParamSelect
+              label="Proveedor"
+              value={params.provider ?? 'google'}
+              onChange={v => updateParam(setParams, 'provider', v)}
+            >
+              <option value="google">Google</option>
+              <option value="openai">OpenAI</option>
+              <option value="anthropic">Anthropic</option>
+              <option value="deepseek">DeepSeek</option>
+            </ParamSelect>
+
+            <ParamSelect
+              label="Modelo"
+              value={params.model ?? 'gemini-3.8-flash'}
+              onChange={v => updateParam(setParams, 'model', v)}
+            >
+              {(!params.provider || params.provider === 'google') && (
+                <option value="gemini-3.8-flash">Gemini 3.8 Flash</option>
+              )}
+              {params.provider === 'openai' && (
+                <option value="gpt-4o">GPT-4o</option>
+              )}
+              {params.provider === 'anthropic' && (
+                <option value="claude-3-5-sonnet-20240620">Claude 3.5 Sonnet</option>
+              )}
+              {params.provider === 'deepseek' && (
+                <option value="deepseek-chat">DeepSeek Chat</option>
+              )}
+            </ParamSelect>
+
+            <Divider />
+
+            <ParamSelect
+              label="Nivel de Pensamiento"
+              value={params.thinkingLevel ?? 'low'}
+              onChange={v => updateParam(setParams, 'thinkingLevel', v)}
+            >
+              <option value="minimal">Minimal</option>
+              <option value="low">Bajo</option>
+              <option value="high">Alto</option>
+            </ParamSelect>
+
+            <div className="space-y-1.5">
+              <label className="block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                Instrucción del Sistema
+              </label>
+              <input
+                type="text"
+                className="w-full rounded-lg border border-border/50 bg-muted/30 px-2.5 py-1.5 text-xs transition-colors hover:border-border focus:border-blue-500/60 focus:outline-none focus:ring-1 focus:ring-blue-500/30"
+                value={params.systemInstruction ?? ''}
+                onChange={e => updateParam(setParams, 'systemInstruction', e.target.value)}
+                placeholder="Ej. Eres un experto en IA..."
+                aria-label="Instrucción del sistema"
+              />
+            </div>
           </div>
         )}
       </div>

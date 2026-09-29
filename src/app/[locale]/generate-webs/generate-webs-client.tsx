@@ -8,7 +8,6 @@ import { GenerationCostDisclosure } from '@/components/generation/generation-cos
 import { GenerationErrorNotice, GenerationProgress } from '@/components/generation/generation-feedback';
 import { useGenerationEditor } from '@/hooks/use-generation-editor';
 import { useMembershipAccess } from '@/hooks/use-membership-access';
-import { generationProviders } from '@/lib/generation/provider-adapters';
 
 import { OptimizedImage } from '@/components/optimized-image';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -113,7 +112,7 @@ export default function GenerateWebsClient({ canGenerateWebs }: { canGenerateWeb
   const [openAIChatModel, setOpenAIChatModel] = useState('gpt-4o');
   const [openAIImageModel, setOpenAIImageModel] = useState('dall-e-3');
   const [anthropicModel, setAnthropicModel] = useState('claude-3-5-sonnet-20240620');
-  const [googleWebModel, setGoogleWebModel] = useState('gemini-2.5-flash');
+  const [googleWebModel, setGoogleWebModel] = useState('gemini-3.1-flash-lite');
   const [deepSeekModel, setDeepSeekModel] = useState('deepseek-coder');
   const [googleVeoModel, setGoogleVeoModel] = useState('veo-2.0-generate-001');
   const [falModel, setFalModel] = useState('fal-ai/flux/schnell');
@@ -555,7 +554,7 @@ export default function GenerateWebsClient({ canGenerateWebs }: { canGenerateWeb
   };
 
   // Submit Generation
-  const handleGenerationSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const _handleGenerationSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setGenerationError(null);
 
@@ -670,7 +669,7 @@ export default function GenerateWebsClient({ canGenerateWebs }: { canGenerateWeb
       if (videoCamera) finalPrompt += `, camera motion: ${videoCamera}`;
       if (videoStyle) finalPrompt += `, style: ${videoStyle}`;
 
-      let apiUsed = `${videoProvider} ${currentModel}`;
+      const apiUsed = `${videoProvider} ${currentModel}`;
       let videoOutputUrl = '';
       let apiError = '';
 
@@ -777,7 +776,7 @@ Requirements:
 - Accent palette: ${webColor}
 - Prompt: ${editingText}`;
 
-      let apiUsed = `${webProvider} ${currentModel}`;
+      const apiUsed = `${webProvider} ${currentModel}`;
       let generatedHTML = '';
       let apiError = '';
 
@@ -884,7 +883,7 @@ Requirements:
       return;
     }
 
-    let apiUsed = `${imageProvider} ${currentModel}`;
+    const apiUsed = `${imageProvider} ${currentModel}`;
     let imageOutputUrl = '';
     let apiError = '';
 
@@ -1585,18 +1584,14 @@ Requirements:
                                             <SelectValue />
                                           </SelectTrigger>
                                           <SelectContent>
-                                            <SelectItem value="gemini-2.5-flash" className="text-xs">🔵 Gemini 2.5 Flash</SelectItem>
-                                            <SelectItem value="gemini-2.5-pro" className="text-xs">🔵 Gemini 2.5 Pro</SelectItem>
-                                            <SelectItem value="gemini-2.0-flash" className="text-xs">🔵 Gemini 2.0 Flash</SelectItem>
+                                            <SelectItem value="gemini-3.1-flash-lite" className="text-xs">🔵 Gemini 3.1 Flash-Lite</SelectItem>
                                           </SelectContent>
                                         </Select>
 
                                         {/* ── Gemini Premium Model Picker ── only visible when google is selected */}
                                         {webProvider === 'google' && (() => {
                                           const GEMINI_MODELS = [
-                                            { id: 'gemini-2.5-pro', label: 'Gemini 2.5 Pro', badge: 'Más potente', cost: 3, description: 'Máxima calidad y razonamiento. Ideal para proyectos complejos.' },
-                                            { id: 'gemini-2.5-flash', label: 'Gemini 2.5 Flash', badge: 'Recomendado', cost: 1, description: 'Balance perfecto entre velocidad y calidad.' },
-                                            { id: 'gemini-2.0-flash', label: 'Gemini 2.0 Flash', badge: 'Rápido', cost: 1, description: 'Generación ultrarrápida con buena calidad.' },
+                                            { id: 'gemini-3.1-flash-lite', label: 'Gemini 3.1 Flash-Lite', badge: 'Recomendado', cost: 2, description: 'Baja latencia y costo eficiente para generación de páginas.' },
                                           ] as const;
                                           const selectedModelConfig = GEMINI_MODELS.find(m => m.id === googleWebModel);
                                           const selectedCost = selectedModelConfig ? selectedModelConfig.cost : 2;
@@ -1640,10 +1635,7 @@ Requirements:
                                                             <span className={`text-[11px] font-bold ${isSelected ? 'text-blue-400' : 'text-foreground'}`}>
                                                               {model.label}
                                                             </span>
-                                                            <span className={`rounded-full px-1.5 py-px text-[8px] font-black uppercase tracking-wide ${model.badge === 'Más potente' ? 'bg-violet-500/20 text-violet-400' :
-                                                              model.badge === 'Recomendado' ? 'bg-blue-500/20 text-blue-400' :
-                                                                'bg-emerald-500/20 text-emerald-400'
-                                                              }`}>
+                                                            <span className="rounded-full bg-blue-500/20 px-1.5 py-px text-[8px] font-black uppercase tracking-wide text-blue-400">
                                                               {model.badge}
                                                             </span>
                                                           </div>

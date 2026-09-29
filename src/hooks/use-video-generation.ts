@@ -97,7 +97,7 @@ function resolveDefaultVideoModel(provider: string): string {
   switch (provider) {
     case 'runway': return 'gen-3';
     case 'google':
-    case 'veo':    return 'veo-2.0-generate-001';
+    case 'veo':    return 'gemini-omni-flash';
     default:       return 'gen-3';
   }
 }
@@ -149,16 +149,27 @@ function buildVideoInput(
         // Optional: watermark, seed
       };
 
-    // ── Google Veo 2 (Vertex AI) ────────────────────────────────────────
-    // API: Vertex AI predictLongRunning
+    // ── Google Gemini Omni Flash ─────────────────────────────────────────
+    // Multimodal, conversational video generation & editing via Interactions API
     case 'google':
     case 'veo':
+      if (model === 'gemini-omni-flash') {
+        return {
+          ...base,
+          videoDurationSeconds: durationSeconds,
+          aspectRatio: videoAspectToGoogle(params.videoAspect),
+          // Omni Flash supports multi-turn editing with reference media
+          ...(params.referenceImage ? { referenceImage: params.referenceImage } : {}),
+        };
+      }
+      // ── Google Veo 3.1 / Veo 2.0 (Vertex AI) ──────────────────────────
       return {
         ...base,
         videoDurationSeconds: durationSeconds,
         aspectRatio: videoAspectToGoogle(params.videoAspect),
-        // Veo 2 supports sampleCount (1-4)
         sampleCount: 1,
+        // Veo 3.1 supports native audio generation
+        ...(model === 'veo-3.1-generate-001' ? { generateAudio: true } : {}),
       };
 
     default:

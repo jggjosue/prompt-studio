@@ -1,30 +1,64 @@
 # AI Generation Queue
 
-The queue uses MongoDB as durable storage. The browser creates a job and polls its status; a protected call to `/api/ai/jobs/process` claims jobs via a lease, so a user request does not remain open.
+MongoDB is the durable source of truth for generation jobs. Upstash QStash is
+the immediate delivery layer: after the API persists a job and reserves its
+credits, it publishes that job ID to the processor. The browser receives `202`
+and polls the durable job state; generation does not depend on a cron sweep.
 
-> There is no scheduler behind that endpoint: `vercel.json` declares no cron job, because the per-minute cadence this queue needs is not available on Vercel's Hobby plan. Jobs stay `queued` until something calls it. See [DEPLOYMENT.md](DEPLOYMENT.md) §2.
-
-## Create a Job
-
-`POST /api/ai/jobs` requires a session and the `Idempotency-Key` header (minimum 8 characters).
-
-```json
-{
-  "kind": "image",
-  "provider": "google",
-  "input": { "prompt": "Editorial product photography…" },
-  "notifyOnComplete": true
-}
+```text
+POST /api/ai/jobs
+  -> validate and price
+  -> persist queued job in MongoDB
+  -> reserve credits
+  -> publish job ID to QStash
+  -> signed POST /api/ai/jobs/process with the job ID
+  -> atomic lease claim
+  -> provider -> finalize -> capture credits
 ```
 
-Current types and costs: `image` (1 credit), `video` (3), and `project` (2). The server defines the cost; the client cannot modify it.
+## Delivery guarantees
 
-## Processing
+- QStash delivery is at least once. The processor is safe under duplicate
+  delivery because `claimGenerationJob` atomically moves only one eligible job
+  into `processing` and assigns a lock token.
+- The message contains only the MongoDB job ID. Prompts, provider credentials,
+  and generated assets remain in their existing stores.
+- The destination verifies `Upstash-Signature` and also requires the signed
+  body job ID to equal the query-string job ID.
+- `vercel.json` keeps the protected per-minute cron as a recovery path for
+  publish failures, expired leases, delayed application retries, and jobs that
+  predate the migration. It is no longer the primary trigger.
 
-- Vercel invokes `GET /api/ai/jobs/process?limit=3` every minute using `CRON_SECRET`.
-- Google Image can run locally. Video, projects, and other providers are delegated to `AI_GENERATION_WORKER_URL`.
-- The worker receives `jobId`, `kind`, `provider`, and `input`, along with `Idempotency-Key` and a bearer token.
-- It can report progress (10–95) with `PATCH /api/ai/jobs/:id/progress` using `AI_GENERATION_WORKER_TOKEN`.
-- It must save large artifacts in private storage and return URLs; the JSON response is limited to 2 MB.
+Failures inside a job retain the existing three-attempt application policy and
+credit rules: credits are reserved on creation, captured on completion, and
+refunded after final failure.
 
-Failures are retried three times with backoff. Credits are reserved upon creation, captured upon completion, and refunded after final failure. Every transaction is recorded in `ai_credit_ledger`.
+## Configuration and rollback
+
+Set the following server-only variables in Vercel Preview first, then
+Production:
+
+```dotenv
+AI_QUEUE_DISPATCH_ENABLED=true
+AI_QUEUE_KILL_SWITCH=false
+QSTASH_TOKEN=...
+QSTASH_CURRENT_SIGNING_KEY=...
+QSTASH_NEXT_SIGNING_KEY=...
+AI_QUEUE_PARALLELISM=3
+AI_QUEUE_RATE_PER_MINUTE=30
+```
+
+`AI_QUEUE_PROCESS_URL` is optional and overrides the public processor URL.
+Leave it empty to derive the URL from `DOMAIN`.
+
+Rollback is immediate and does not require a deployment: set
+`AI_QUEUE_KILL_SWITCH=true`. Newly persisted jobs remain queued and the existing
+cron recovers them. Do not remove the cron until migration telemetry shows both
+dispatch and recovery behavior are healthy.
+
+The creation response includes `dispatch.mode`, `dispatch.dispatched`, and an
+optional reason. The application also records `generation_queue_fallback` when
+it must rely on recovery.
+
+See [ADR 004](architecture/adr-004-immediate-generation-dispatch.md) for the
+provider evaluation, costs, limits, and rollout plan.

@@ -25,8 +25,8 @@ export const MODEL_TIERS: Record<'image' | 'video' | 'project', ModelTierGroup> 
   image: {
     label: 'Image Model',
     tiers: [
-      { key: 'fast', icon: '⚡', label: 'Fast', credits: 5, modelId: 'gemini-2.0-flash' },
-      { key: 'quality', icon: '✨', label: 'Quality', credits: 10, modelId: 'gemini-2.5-flash' },
+      { key: 'fast', icon: '⚡', label: 'Fast', credits: 5, modelId: 'nano-banana-2-lite' },
+      { key: 'quality', icon: '✨', label: 'Quality', credits: 10, modelId: 'nano-banana-2' },
       { key: 'pro', icon: '💎', label: 'Pro', credits: 25, modelId: 'nano-banana-pro' },
     ],
   },
@@ -41,9 +41,7 @@ export const MODEL_TIERS: Record<'image' | 'video' | 'project', ModelTierGroup> 
   project: {
     label: 'Website Model',
     tiers: [
-      { key: 'fast', icon: '⚡', label: 'Fast', credits: 10, modelId: 'gemini-2.0-flash' },
-      { key: 'advanced', icon: '✨', label: 'Advanced', credits: 20, modelId: 'gemini-2.5-flash' },
-      { key: 'pro', icon: '💎', label: 'Pro', credits: 50, modelId: 'gemini-2.5-pro' },
+      { key: 'flash-lite', icon: '⚡', label: 'Flash-Lite', credits: 2, modelId: 'gemini-3.1-flash-lite' },
     ],
   },
 };

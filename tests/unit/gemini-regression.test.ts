@@ -58,13 +58,18 @@ test('consumo correcto de créditos en generación exitosa', async () => {
 });
 
 test('generación fallada es observable por correlation ID', async () => {
-  const runner = await source('src/lib/ai-job-runner.ts');
+  const route = await source('src/app/api/ai/jobs/process/route.ts');
   assert.ok(
-    runner.includes('errorCategory'),
-    'debe incluir errorCategory en metadata de observabilidad'
+    route.includes('errorCategory'),
+    'la categoría de error se categoriza y registra en processOne'
   );
   assert.ok(
-    runner.includes('correlationId'),
-    'debe incluir correlationId en metadata de observabilidad'
+    route.includes('correlationId'),
+    'processOne registra observabilidad con correlationId'
+  );
+  const runner = await source('src/lib/ai-job-runner.ts');
+  assert.ok(
+    runner.includes('recordGenerationRequest'),
+    'runAIJob registra cada request y su error vía recordGenerationRequest'
   );
 });

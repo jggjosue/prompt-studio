@@ -2,7 +2,8 @@
 'use server';
 
 import { isPremiumJoAdmin } from '@/lib/admin-auth';
-import { isGeminiWebModel } from '@/lib/gemini-web-models';
+import { createGeminiTextInteraction, type GeminiTextInteractionResult } from '@/lib/gemini-interactions';
+import { GEMINI_TEXT_MODEL, isGeminiWebModel } from '@/lib/gemini-web-models';
 import { reportOperationalError } from '@/lib/observability-server';
 import { auth } from '@clerk/nextjs/server';
 import { z } from 'zod';
@@ -442,7 +443,9 @@ export async function proxyVeoVideo(apiKey: string, prompt: string, durationSeco
   }
 }
 
-export async function proxyGemini(apiKey: string, prompt: string, model: string = 'gemini-2.5-flash') {
+type GeminiProxyError = { error: string; statusCode?: number; candidates?: never; output_text?: never };
+
+export async function proxyGemini(apiKey: string, prompt: string, _model: string = GEMINI_TEXT_MODEL): Promise<GeminiTextInteractionResult | GeminiProxyError> {
   apiKey = configuredKey(apiKey, 'GEMINI_API_KEY');
   try {
     const key = apiKey || process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || '';
@@ -450,55 +453,32 @@ export async function proxyGemini(apiKey: string, prompt: string, model: string 
       return { error: 'No se ha configurado la API Key de Gemini en la plataforma o no fue provista.' };
     }
 
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
-    const payload = JSON.stringify({
-      contents: [{
-        parts: [{ text: prompt }]
-      }]
-    });
-
     const maxRetries = 3;
     let delay = 1000;
 
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: payload
-      });
+      try {
+        return await createGeminiTextInteraction(prompt, key);
+      } catch (error) {
+        const apiError = error as { message?: string; status?: number; code?: number };
+        const status = apiError.status ?? apiError.code ?? 500;
+        const apiMessage = apiError.message;
 
-      if (response.ok) {
-        return await response.json();
+        if ((status === 429 || status === 503) && attempt < maxRetries) {
+          await new Promise((res) => setTimeout(res, delay));
+          delay *= 2;
+          continue;
+        }
+
+        let customError = apiMessage || `Error de servidor HTTP ${status}`;
+        if (status === 400) customError = apiMessage || 'Solicitud incorrecta (400): verifica el prompt enviado a Gemini.';
+        else if (status === 401 || status === 403) customError = 'La API Key de Gemini no es válida o no tiene permisos.';
+        else if (status === 404) customError = `El modelo '${GEMINI_TEXT_MODEL}' no está disponible para esta clave o región.`;
+        else if (status === 429) customError = 'Límite de cuota de Gemini excedido. Espera un momento e intenta nuevamente.';
+        else if (status === 503) customError = 'Gemini no está disponible temporalmente. Intenta de nuevo más tarde.';
+
+        return { error: customError, statusCode: status };
       }
-
-      const errData = await response.json().catch(() => ({}));
-      const apiMessage = errData.error?.message;
-      const status = response.status;
-
-      // Si es un error temporal de Rate Limit (429) o Servicio No Disponible (503), intentamos un reintento con backoff exponencial.
-      if ((status === 429 || status === 503) && attempt < maxRetries) {
-        await new Promise((res) => setTimeout(res, delay));
-        delay *= 2;
-        continue;
-      }
-
-      // Mapeo detallado y amigable de códigos de error de Gemini API
-      let customError = apiMessage || `Error de servidor HTTP ${status}`;
-      if (status === 400) {
-        customError = apiMessage || 'Solicitud incorrecta (400 Bad Request): verifica la estructura o parámetros enviados a la API de Gemini.';
-      } else if (status === 403) {
-        customError = 'Acceso denegado (403 Forbidden): La API Key no es válida o no tiene permisos habilitados para esta API de Gemini.';
-      } else if (status === 404) {
-        customError = `Modelo no encontrado (404 Not Found): El modelo '${model}' no existe o no está disponible en tu región/proyecto.`;
-      } else if (status === 429) {
-        customError = 'Límite de cuota o solicitudes excedido (429 Too Many Requests): Has superado el límite de llamadas a la API de Gemini. Por favor espera un momento e intenta nuevamente.';
-      } else if (status === 503) {
-        customError = 'Servicio de Gemini no disponible temporalmente (503 Service Unavailable). Por favor intenta de nuevo más tarde.';
-      }
-
-      return { error: customError, statusCode: status };
     }
 
     return { error: 'Se excedió el número máximo de reintentos con la API de Gemini.' };
@@ -508,7 +488,7 @@ export async function proxyGemini(apiKey: string, prompt: string, model: string 
 }
 
 /** Gemini administrado por Prompt Studio para el generador web Premium. */
-export async function proxyPremiumGeminiWeb(prompt: string, model: string = 'gemini-2.5-flash') {
+export async function proxyPremiumGeminiWeb(prompt: string, model: string = GEMINI_TEXT_MODEL) {
   const { userId } = await auth();
   if (!userId) return { error: 'Inicia sesión para generar páginas web.' };
   if (!(await isPremiumJoAdmin())) {
