@@ -14,6 +14,11 @@ export interface ChatParams {
   webModel?: string; webPages?: number;
   model?: string; provider?: string; aspectRatio?: string;
   thinkingLevel?: string; systemInstruction?: string;
+  // Video understanding params
+  videoInputMethod?: string; videoProcessingMode?: string;
+  youtubeUrl?: string; videoUrl?: string;
+  videoBase64?: string; videoMimeType?: string;
+  startOffset?: number; endOffset?: number; fps?: number;
 }
 
 export interface ChatMessageResult {
