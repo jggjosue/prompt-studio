@@ -24,7 +24,7 @@ export type ErrorCategory =
 
 function requestContext(job: IAIGenerationJob, input: Pick<GenerationRequestContext, 'service' | 'host' | 'endpointLabel' | 'method'>, modelId = job.modelId): GenerationRequestContext {
   const jobId = String(job._id);
-  return { ...input, provider: job.provider, jobId, correlationId: jobId, modelId, userId: job.userId };
+  return { ...input, provider: job.provider, jobId, correlationId: job.correlationId || jobId, modelId, userId: job.userId };
 }
 
 export function mapGeminiError(
@@ -191,7 +191,7 @@ async function runExternalWorker(job: IAIGenerationJob) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}`, 'Idempotency-Key': job.idempotencyKey },
     body: JSON.stringify({
-      jobId: String(job._id), kind: job.kind, provider: job.provider, input,
+      jobId: String(job._id), ownershipToken: job.lockToken, kind: job.kind, provider: job.provider, input,
       ...((job.input.experiment === true || job.input.evaluationSuite === true) ? { evaluationRequested: { scale: 100, dimensions: Array.isArray(job.input.evaluationRubric) ? job.input.evaluationRubric.slice(0, 6) : ['fidelity', 'quality'], expected: typeof job.input.expected === 'string' ? job.input.expected : '', seed: typeof job.input.seed === 'number' ? job.input.seed : undefined, temperature: typeof job.input.temperature === 'number' ? job.input.temperature : undefined } } : {}),
     }),
     signal: AbortSignal.timeout(270_000),
@@ -268,7 +268,7 @@ export async function runAIJob(job: IAIGenerationJob): Promise<Record<string, un
             provider: job.provider,
             modelId: job.modelId,
             requestId: job.idempotencyKey?.slice(0, 64) ?? null,
-            correlationId: String(job._id),
+            correlationId: job.correlationId || String(job._id),
             finishReason,
             hasText,
             hasInlineData,
@@ -297,7 +297,7 @@ export async function runAIJob(job: IAIGenerationJob): Promise<Record<string, un
             provider: job.provider,
             modelId: job.modelId,
             requestId: job.idempotencyKey?.slice(0, 64) ?? null,
-            correlationId: String(job._id),
+            correlationId: job.correlationId || String(job._id),
             finishReason,
             hasText,
             hasInlineData,
