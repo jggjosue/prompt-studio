@@ -5,7 +5,7 @@
 > update the corresponding route handler.
 
 The system authorizes requests using eight distinct mechanisms. This matrix details
-the exact authorization strategy for all 123 API routes, which previously required
+the exact authorization strategy for all 124 API routes, which previously required
 manual file-by-file inspection.
 
 The test suite `tests/unit/route-access-matrix.test.ts` verifies that no route lacks
@@ -19,12 +19,12 @@ endpoint breaks the build pipeline instead of slipping into production.
 | Webhook signature | 2 |
 | Cron or admin secret | 9 |
 | Administrator | 11 |
-| Subscription plan | 12 |
-| User session | 75 |
+| Subscription plan | 13 |
+| User session | 76 |
 | AI worker token | 1 |
-| IP rate limit | 39 |
+| IP rate limit | 40 |
 | Disabled (501) | 2 |
-| **Total Routes** | **123** |
+| **Total Routes** | **124** |
 
 ## Public Routes by Design
 
@@ -134,6 +134,7 @@ None of them expose paid prompt data or private account records.
 | [`/api/newsletter/metrics`](../src/app/api/newsletter/metrics/route.ts) | GET | Cron or admin secret |
 | [`/api/observability/events`](../src/app/api/observability/events/route.ts) | POST | User session |
 | [`/api/output-contracts`](../src/app/api/output-contracts/route.ts) | GET, POST, PATCH | User session + IP rate limit |
+| [`/api/page-composer/projects`](../src/app/api/page-composer/projects/route.ts) | GET, PUT, DELETE | Subscription plan + User session + IP rate limit |
 | [`/api/product-reviews`](../src/app/api/product-reviews/route.ts) | GET, POST | User session + IP rate limit |
 | [`/api/product-reviews/me`](../src/app/api/product-reviews/me/route.ts) | GET | User session |
 | [`/api/profile/paypal`](../src/app/api/profile/paypal/route.ts) | POST | User session |
