@@ -217,8 +217,8 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
         <Tabs value={selectedMode} onValueChange={(v) => setSelectedMode(v as ChatMode)} className="w-fit">
           <TabsList>
             <TabsTrigger value="image"><ImageIcon className="h-3 w-3 mr-1" />Imagen</TabsTrigger>
-            <TabsTrigger value="video"><Video className="h-3 w-3 mr-1" />Video</TabsTrigger>
-            <TabsTrigger value="project"><Globe className="h-3 w-3 mr-1" />Web</TabsTrigger>
+            <TabsTrigger value="video" disabled><Video className="h-3 w-3 mr-1" />Video</TabsTrigger>
+            <TabsTrigger value="project" disabled><Globe className="h-3 w-3 mr-1" />Web</TabsTrigger>
           </TabsList>
         </Tabs>
         <Textarea
