@@ -22,7 +22,6 @@ const display = (value: string | number | undefined, fallback: string | number) 
 export function selectedChatConfiguration(mode: ChatMode, params: ChatParams): ChatConfigurationItem[] {
   if (mode === 'image') {
     return [
-      { label: 'Modelo', value: display(params.model, 'nano-banana-2') },
       { label: 'Aspecto', value: display(params.imageRatio, '1-1') },
       { label: 'Estilo', value: display(params.imageStyle, 'cinematic') },
       { label: 'Iluminación', value: display(params.imageLighting, 'volumetric') },
@@ -34,7 +33,6 @@ export function selectedChatConfiguration(mode: ChatMode, params: ChatParams): C
   }
   if (mode === 'video') {
     return [
-      { label: 'Modelo', value: display(params.model, 'veo-fast') },
       { label: 'Aspecto', value: display(params.videoAspect, '16-9') },
       { label: 'Estilo', value: display(params.videoStyle, 'photorealistic') },
       { label: 'Duración', value: `${params.videoDuration ?? 8} s` },
@@ -43,7 +41,6 @@ export function selectedChatConfiguration(mode: ChatMode, params: ChatParams): C
     ];
   }
   return [
-    { label: 'Modelo', value: display(params.model ?? params.webModel, 'gemini-3.1-flash-lite') },
     { label: 'Sección', value: display(params.webComponent, 'hero') },
     { label: 'Framework', value: display(params.webFramework, 'nextjs') },
     { label: 'Tema', value: display(params.webTheme, 'glassmorphism') },
