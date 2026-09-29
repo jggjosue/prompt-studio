@@ -77,7 +77,7 @@ const AIGenerationJobSchema = new Schema<IAIGenerationJob>({
   promptVersionNumber: { type: Number, default: null, min: 1 },
   projectId: { type: String, default: null, index: true },
   outputContractId: { type: String, default: null, index: true },
-  outputValidation: { type: new Schema({ status:{type:String,enum:['valid','repaired','invalid'],required:true},errors:{type:[String],default:[]},repaired:{type:Boolean,default:false} },{_id:false}), default:null },
+  outputValidation: { type: new Schema({ status:{type:String,enum:['valid','repaired','invalid'],required:true},errors:{type:[String],default:[]},repaired:{type:Boolean,default:false} },{_id:false, suppressReservedKeysWarning: true}), default:null },
   input: { type: Schema.Types.Mixed, required: true },
   result: { type: Schema.Types.Mixed, default: null },
   status: { type: String, required: true, enum: [...GENERATION_JOB_STATES, 'retrying'], default: 'queued', index: true },
@@ -125,7 +125,7 @@ const AIGenerationJobSchema = new Schema<IAIGenerationJob>({
   completedAt: { type: Date, default: null },
   cancelledAt: { type: Date, default: null },
   updatedAt: { type: Date, default: Date.now },
-}, { versionKey: false });
+}, { versionKey: false, suppressReservedKeysWarning: true });
 
 AIGenerationJobSchema.index({ userId: 1, idempotencyKey: 1 }, { unique: true });
 AIGenerationJobSchema.index({ status: 1, nextAttemptAt: 1, leaseExpiresAt: 1 });
