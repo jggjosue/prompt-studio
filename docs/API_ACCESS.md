@@ -5,7 +5,7 @@
 > update the corresponding route handler.
 
 The system authorizes requests using eight distinct mechanisms. This matrix details
-the exact authorization strategy for all 120 API routes, which previously required
+the exact authorization strategy for all 122 API routes, which previously required
 manual file-by-file inspection.
 
 The test suite `tests/unit/route-access-matrix.test.ts` verifies that no route lacks
@@ -18,13 +18,13 @@ endpoint breaks the build pipeline instead of slipping into production.
 |---|---|
 | Webhook signature | 2 |
 | Cron or admin secret | 8 |
-| Administrator | 10 |
+| Administrator | 11 |
 | Subscription plan | 12 |
-| User session | 73 |
+| User session | 75 |
 | AI worker token | 1 |
-| IP rate limit | 38 |
+| IP rate limit | 39 |
 | Disabled (501) | 2 |
-| **Total Routes** | **120** |
+| **Total Routes** | **122** |
 
 ## Public Routes by Design
 
@@ -56,6 +56,7 @@ None of them expose paid prompt data or private account records.
 | [`/api/activity/ping`](../src/app/api/activity/ping/route.ts) | POST | User session |
 | [`/api/admin/affiliate-applications/[applicationId]`](../src/app/api/admin/affiliate-applications/[applicationId]/route.ts) | PATCH | Administrator |
 | [`/api/admin/affiliate-sales`](../src/app/api/admin/affiliate-sales/route.ts) | GET | Administrator |
+| [`/api/admin/ai/jobs/[id]/reprocess`](../src/app/api/admin/ai/jobs/[id]/reprocess/route.ts) | POST | Administrator + User session + IP rate limit |
 | [`/api/admin/feature-experiments`](../src/app/api/admin/feature-experiments/route.ts) | GET, POST, PATCH | Cron or admin secret |
 | [`/api/admin/main-funnel`](../src/app/api/admin/main-funnel/route.ts) | GET | Cron or admin secret |
 | [`/api/admin/marketplace`](../src/app/api/admin/marketplace/route.ts) | GET | Administrator |
@@ -70,6 +71,7 @@ None of them expose paid prompt data or private account records.
 | [`/api/ai/jobs`](../src/app/api/ai/jobs/route.ts) | POST, GET | Subscription plan + User session + IP rate limit |
 | [`/api/ai/jobs/[id]`](../src/app/api/ai/jobs/[id]/route.ts) | GET | User session |
 | [`/api/ai/jobs/[id]/asset`](../src/app/api/ai/jobs/[id]/asset/route.ts) | GET | User session |
+| [`/api/ai/jobs/[id]/cancel`](../src/app/api/ai/jobs/[id]/cancel/route.ts) | POST | User session |
 | [`/api/ai/jobs/[id]/feedback`](../src/app/api/ai/jobs/[id]/feedback/route.ts) | POST, DELETE | User session + IP rate limit |
 | [`/api/ai/jobs/[id]/progress`](../src/app/api/ai/jobs/[id]/progress/route.ts) | PATCH | AI worker token |
 | [`/api/ai/jobs/[id]/retry`](../src/app/api/ai/jobs/[id]/retry/route.ts) | POST | User session |
