@@ -39,17 +39,33 @@ const generateImageFlow = ai.defineFlow(
       const modelName = input.model || 'gemini-3.1-flash-image';
       const resolvedModel = modelName.includes('/') ? modelName : `googleai/${modelName}`;
       
-      const {media} = await ai.generate({
-        model: resolvedModel,
-        prompt: input.prompt,
-        config: {responseModalities: ['TEXT', 'IMAGE']},
-      });
-      
-      const imageUrl = media?.url;
-      if (!imageUrl) {
-          throw new Error('Image generation failed.');
+      let lastErr: unknown;
+      for (let attempt = 1; attempt <= 3; attempt++) {
+        try {
+          const {media} = await ai.generate({
+            model: resolvedModel,
+            prompt: input.prompt,
+            config: {responseModalities: ['TEXT', 'IMAGE']},
+          });
+          
+          const imageUrl = media?.url;
+          if (!imageUrl) {
+              throw new Error('Image generation failed.');
+          }
+          return { imageUrl };
+        } catch (err: any) {
+          lastErr = err;
+          const msg = err instanceof Error ? err.message : String(err);
+          if (attempt < 3 && (msg.includes('429') || msg.includes('RESOURCE_EXHAUSTED'))) {
+            const delayMs = attempt * 4000;
+            console.warn(`[Genkit Retry] Attempt ${attempt} failed with 429. Retrying in ${delayMs}ms...`);
+            await new Promise(r => setTimeout(r, delayMs));
+            continue;
+          }
+          throw err;
+        }
       }
-      return { imageUrl };
+      throw lastErr;
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'unknown';
       const key = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || '';
