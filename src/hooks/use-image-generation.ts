@@ -2,6 +2,13 @@
 
 import type { ChatMessageResult, ChatParams } from '@/lib/chat-types';
 import { buildConfiguredImagePrompt } from '@/lib/chat-configuration';
+import {
+  DEFAULT_GENERATION_POLL_SCHEDULE,
+  isTerminalGenerationStatus,
+  nextGenerationPollDelayMs,
+  terminalGenerationMessage,
+  waitForGenerationPollWindow,
+} from '@/lib/generation-polling';
 import { safeJson, extractErrorMessage } from '@/lib/safe-json';
 import { useCallback, useState } from 'react';
 
@@ -64,8 +71,13 @@ export async function runGeneration(
     updateGeneration(jobId, { status: 'generating', progressMessage: 'Generando…' });
     let imageOutputUrl = '';
     let lastProgress = '';
-    for (let attempts = 0; attempts < 90; attempts++) {
-      await new Promise(resolve => setTimeout(resolve, 2000));
+    let attempt = 0;
+    let elapsedMs = 0;
+    while (elapsedMs < DEFAULT_GENERATION_POLL_SCHEDULE.maxElapsedMs) {
+      const waitMs = nextGenerationPollDelayMs(attempt);
+      if (!(await waitForGenerationPollWindow(waitMs))) break;
+      elapsedMs += waitMs;
+      attempt += 1;
       try {
         const pollRes = await fetch(`/api/ai/jobs/${jobIdFromRes}`);
         const pollData = await safeJson(pollRes);
@@ -74,14 +86,10 @@ export async function runGeneration(
         const job = pollData.job as Record<string, unknown> | undefined;
         const status = job?.status as string | undefined;
         if (status === 'completed') { imageOutputUrl = extractImageUrl(job?.result); updateGeneration(jobId, { status: 'uploading' }); break; }
-        if (status === 'failed') { const msg = (job?.lastError as string | undefined) || 'El trabajo falló en el servidor.'; updateGeneration(jobId, { status: 'failed', error: msg }); return { error: msg }; }
-        // `cancelled` y `dead_letter` también son terminales: sin este caso el
-        // bucle agotaba los 90 intentos y solo mostraba un tiempo de espera.
-        if (status === 'cancelled' || status === 'dead_letter') {
-          const fallback = status === 'cancelled'
-            ? 'Generación cancelada; los créditos fueron devueltos.'
-            : 'La generación se detuvo y los créditos fueron devueltos.';
-          const msg = (job?.progressMessage as string | undefined) || fallback;
+        // `failed`, `cancelled` y `dead_letter` son terminales: sin este caso el
+        // bucle agotaba la ventana entera y solo mostraba un tiempo de espera.
+        if (isTerminalGenerationStatus(status)) {
+          const msg = terminalGenerationMessage(job, status);
           updateGeneration(jobId, { status: 'failed', error: msg });
           return { error: msg };
         }
