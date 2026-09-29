@@ -8,6 +8,9 @@ const SAFE_METADATA_KEYS = new Set([
   'service', 'endpointLabel', 'modelId', 'retryable', 'providerErrorCode',
   'providerErrorMessage', 'requestId', 'finishReason', 'hasText', 'hasInlineData',
   'mimeType', 'base64Length', 'errorCategory',
+  // Barrido de recuperación (#788): `sweepId` correlaciona un trabajo con la
+  // pasada que lo recuperó, y `recoveryReason` es un enum cerrado de la política.
+  'sweepId', 'recoveryReason',
 ]);
 
 const cleanText = (value: unknown, max: number) => typeof value === 'string' ? value.trim().slice(0, max) : '';
