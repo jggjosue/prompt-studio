@@ -1,5 +1,8 @@
 import 'server-only';
 import { generateImage } from '@/ai/flows/generate-image';
+import { generateVision } from '@/ai/flows/generate-vision';
+import { generateText } from '@/ai/flows/generate-text';
+import { generateVideoUnderstanding } from '@/ai/flows/generate-video-understanding';
 import type { IAIGenerationJob } from '@/models/AIGenerationJob';
 
 function asResult(value: unknown): Record<string, unknown> {
@@ -32,7 +35,33 @@ export async function runAIJob(job: IAIGenerationJob): Promise<Record<string, un
   const prompt = instructions ? `${basePrompt}\n\n${instructions}` : basePrompt;
   if (!prompt) throw new Error('El trabajo no contiene un prompt válido.');
   if (job.kind === 'image' && job.provider === 'google' && !process.env.AI_GENERATION_WORKER_URL) {
-    return generateImage({ prompt });
+    return generateImage({ prompt, model: job.modelId });
+  }
+
+  if (job.kind === 'vision' && job.provider === 'google' && !process.env.AI_GENERATION_WORKER_URL) {
+    const referenceImage = (job.input as Record<string, unknown>).referenceImage as string | undefined;
+    return generateVision({ prompt, model: job.modelId, referenceImage });
+  }
+
+  if (job.kind === 'text' && job.provider === 'google' && !process.env.AI_GENERATION_WORKER_URL) {
+    const thinkingLevel = (job.input as Record<string, unknown>).thinkingLevel as string | undefined;
+    const systemInstruction = (job.input as Record<string, unknown>).systemInstruction as string | undefined;
+    return generateText({ prompt, model: job.modelId, thinkingLevel, systemInstruction });
+  }
+
+  if (job.kind === 'videoUnderstanding' && job.provider === 'google' && !process.env.AI_GENERATION_WORKER_URL) {
+    const inp = job.input as Record<string, unknown>;
+    return generateVideoUnderstanding({
+      prompt,
+      model: job.modelId ?? undefined,
+      videoUrl: inp.videoUrl as string | undefined,
+      videoBase64: inp.videoBase64 as string | undefined,
+      videoMimeType: inp.videoMimeType as string | undefined,
+      processingMode: (inp.processingMode as 'agentic' | 'static' | undefined) ?? 'agentic',
+      startOffset: inp.startOffset as number | undefined,
+      endOffset: inp.endOffset as number | undefined,
+      fps: inp.fps as number | undefined,
+    });
   }
   return runExternalWorker(job);
 }

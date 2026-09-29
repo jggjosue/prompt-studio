@@ -1,4 +1,4 @@
-export type ChatMode = 'image' | 'video' | 'project';
+export type ChatMode = 'image' | 'video' | 'project' | 'vision' | 'text' | 'videoUnderstanding';
 export type MessageRole = 'user' | 'assistant' | 'system';
 export type MessageStatus = 'pending' | 'completed' | 'failed';
 
@@ -13,12 +13,14 @@ export interface ChatParams {
   webFramework?: string; webTheme?: string; webComponent?: string; webColor?: string;
   webModel?: string; webPages?: number;
   model?: string; provider?: string; aspectRatio?: string;
+  thinkingLevel?: string; systemInstruction?: string;
 }
 
 export interface ChatMessageResult {
   imageUrl?: string; imageUrls?: string[];
   videoUrl?: string;
   html?: string;
+  text?: string;
   error?: string;
   creditsUsed?: number;
   costUsd?: number;
@@ -67,6 +69,9 @@ export interface ChatGeneratorReturn {
   };
   videoGen: any;
   webGen: any;
+  visionGen: any;
+  textGen: any;
+  videoUnderstandingGen: any;
   setOutputImageUrl: (url: string) => void;
   setOutputImageVariations: (v: Array<{ label: string; url: string }>) => void;
   setOutputVideoUrl: (url: string) => void;

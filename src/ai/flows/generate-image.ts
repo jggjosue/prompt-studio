@@ -12,6 +12,7 @@ import {z} from 'genkit';
 
 const GenerateImageInputSchema = z.object({
   prompt: z.string().describe('The text prompt to generate an image from.'),
+  model: z.string().optional().describe('The model ID to use for generation.'),
 });
 export type GenerateImageInput = z.infer<typeof GenerateImageInputSchema>;
 
@@ -34,8 +35,11 @@ const generateImageFlow = ai.defineFlow(
   },
   async input => {
     try {
+      const modelName = input.model || 'gemini-3.1-flash-image';
+      const resolvedModel = modelName.includes('/') ? modelName : `googleai/${modelName}`;
+      
       const {media} = await ai.generate({
-        model: 'googleai/imagen-4.0-fast-generate-001',
+        model: resolvedModel,
         prompt: input.prompt,
       });
       

@@ -128,7 +128,7 @@ function resolveDefaultImageModel(provider: string): string {
   switch (provider) {
     case 'openai': return 'dall-e-3';
     case 'fal':    return 'fal-ai/flux/schnell';
-    case 'google': return 'imagen-4.0-fast-generate-001';
+    case 'google': return 'gemini-3.1-flash-image';
     default:       return 'dall-e-3';
   }
 }

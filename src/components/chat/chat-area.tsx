@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useEffect } from 'react';
-import { AlertCircle, Image as ImageIcon, Sparkles, Video, Globe, Wand2, Camera, Film, Layout, Shuffle } from 'lucide-react';
+import { AlertCircle, Image as ImageIcon, Sparkles, Video, Globe, Wand2, Camera, Film, Layout, Shuffle, MessageSquare, ScanSearch } from 'lucide-react';
 import { ChatMessageItem } from './chat-message-item';
 import { GenerationProgress } from '@/components/generation/generation-feedback';
 import type { ChatGeneratorReturn } from '@/lib/chat-types';
@@ -38,11 +38,25 @@ const QUICK_STARTS: QuickStart[] = [
     mode: 'project',
   },
   {
+    label: 'Generar texto',
+    description: 'Ensayos, traducciones, ideas',
+    icon: <MessageSquare className="h-5 w-5 text-orange-400" />,
+    prompt: 'Explica cómo funciona la inteligencia artificial de manera sencilla para un público general',
+    mode: 'text' as ChatMode,
+  },
+  {
     label: 'Sorpréndeme',
     description: 'Idea creativa aleatoria',
     icon: <Shuffle className="h-5 w-5 text-amber-400" />,
     prompt: 'Arte conceptual surrealista con colores vibrantes y composición única',
     mode: 'image',
+  },
+  {
+    label: 'Analizar video',
+    description: 'Resumir o responder preguntas',
+    icon: <ScanSearch className="h-5 w-5 text-teal-400" />,
+    prompt: 'Resume este video e identifica los momentos más importantes con timestamps.',
+    mode: 'videoUnderstanding' as ChatMode,
   },
 ];
 
@@ -50,12 +64,18 @@ const MODE_ICONS: Record<string, React.ReactNode> = {
   image: <ImageIcon className="h-5 w-5" />,
   video: <Video className="h-5 w-5" />,
   project: <Globe className="h-5 w-5" />,
+  vision: <ImageIcon className="h-5 w-5" />,
+  text: <Globe className="h-5 w-5" />,
+  videoUnderstanding: <ScanSearch className="h-5 w-5" />,
 };
 
 const GEN_STATUS_MESSAGES: Record<string, string> = {
   image: 'Creando tu imagen...',
   video: 'Preparando tu video...',
   project: 'Construyendo tu página...',
+  vision: 'Analizando imagen...',
+  text: 'Generando texto...',
+  videoUnderstanding: 'Analizando video...',
 };
 
 interface ChatAreaProps {

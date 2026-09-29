@@ -9,6 +9,9 @@ const MODE_LABELS: Record<string, string> = {
   image: 'Imagen',
   video: 'Video',
   project: 'Web',
+  vision: 'Visión',
+  text: 'Texto',
+  videoUnderstanding: 'Video IA',
 };
 
 export function ChatMessageItem({ message }: { message: ChatGeneratorMessage }) {
@@ -61,6 +64,11 @@ export function ChatMessageItem({ message }: { message: ChatGeneratorMessage }) 
             ) : null}
             {message.result.html ? (
               <WebResult result={message.result} />
+            ) : null}
+            {message.result.text ? (
+              <div className="mt-3 overflow-x-auto whitespace-pre-wrap rounded-md bg-muted/30 p-3 text-sm text-foreground">
+                {message.result.text}
+              </div>
             ) : null}
             {message.result.error && (
               <p className="text-xs text-destructive mt-1">{message.result.error}</p>

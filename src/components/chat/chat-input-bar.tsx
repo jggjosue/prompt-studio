@@ -14,6 +14,7 @@ import {
   Zap,
   ChevronDown,
   Loader2,
+  ScanSearch,
 } from 'lucide-react';
 import { useRef, useEffect } from 'react';
 import {
@@ -36,6 +37,8 @@ const MODEL_OPTIONS = {
     { provider: 'fal', model: 'fal-ai/flux/schnell', label: 'Flux Schnell', credits: 10, description: 'Rápido · Fal.ai' },
   ],
   video: [
+    { provider: 'google', model: 'gemini-omni-flash', label: 'Gemini Omni Flash', credits: 15, description: 'Edición conversacional · Google' },
+    { provider: 'google', model: 'veo-3.1-generate-001', label: 'Veo 3.1', credits: 25, description: 'Audio nativo · Google' },
     { provider: 'google', model: 'veo-2.0-generate-001', label: 'Veo 2.0', credits: 20, description: 'Calidad · Google' },
     { provider: 'runway', model: 'gen-3', label: 'Gen-3 Alpha', credits: 20, description: 'Cinemático · Runway' },
   ],
@@ -45,6 +48,15 @@ const MODEL_OPTIONS = {
     { provider: 'google', model: 'gemini-2.0-flash', label: 'Gemini 2.0 Flash', credits: 1, description: 'Rápido · Google' },
     { provider: 'openai', model: 'gpt-4o', label: 'GPT-4o', credits: 4, description: 'Avanzado · OpenAI' },
     { provider: 'anthropic', model: 'claude-3-5-sonnet-20240620', label: 'Claude 3.5 Sonnet', credits: 8, description: 'Premium · Anthropic' },
+  ],
+  vision: [
+    { provider: 'google', model: 'gemini-3.8-flash', label: 'Gemini 3.8 Flash (Vision)', credits: 1, description: 'Visión rápida · Google' },
+  ],
+  text: [
+    { provider: 'google', model: 'gemini-3.8-flash', label: 'Gemini 3.8 Flash', credits: 1, description: 'Generación rápida de texto · Google' },
+  ],
+  videoUnderstanding: [
+    { provider: 'google', model: 'gemini-3.8-flash', label: 'Gemini 3.8 Flash', credits: 2, description: 'Análisis de video · Google' },
   ],
 } as const satisfies Record<ChatMode, Array<{ provider: string; model: string; label: string; credits: number; description: string }>>;
 
@@ -66,6 +78,24 @@ const MODE_CONFIG: Record<ChatMode, { label: string; icon: React.ReactNode; colo
     icon: <Globe className="h-3.5 w-3.5" />,
     color: 'text-cyan-400 border-cyan-500/40 bg-cyan-500/10 hover:bg-cyan-500/20',
     placeholder: 'Describe la página o componente web que quieres crear...',
+  },
+  vision: {
+    label: 'Visión',
+    icon: <ImageIcon className="h-3.5 w-3.5" />,
+    color: 'text-green-400 border-green-500/40 bg-green-500/10 hover:bg-green-500/20',
+    placeholder: 'Analiza una imagen o detecta objetos...',
+  },
+  text: {
+    label: 'Texto',
+    icon: <Globe className="h-3.5 w-3.5" />,
+    color: 'text-orange-400 border-orange-500/40 bg-orange-500/10 hover:bg-orange-500/20',
+    placeholder: 'Redacta un ensayo, traduce texto o explora ideas...',
+  },
+  videoUnderstanding: {
+    label: 'Video IA',
+    icon: <ScanSearch className="h-3.5 w-3.5" />,
+    color: 'text-teal-400 border-teal-500/40 bg-teal-500/10 hover:bg-teal-500/20',
+    placeholder: 'Pregunta sobre el video, resume, extrae momentos clave...',
   },
 };
 

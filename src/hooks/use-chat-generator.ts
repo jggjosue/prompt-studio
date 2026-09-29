@@ -6,6 +6,9 @@ import type { ChatGeneratorMessage, ChatGeneratorReturn, ChatMessageResult, Chat
 import { useCallback, useEffect, useState } from 'react';
 import { useImageGeneration } from './use-image-generation';
 import { useVideoGeneration } from './use-video-generation';
+import { useVisionGeneration } from './use-vision-generation';
+import { useTextGeneration } from './use-text-generation';
+import { useVideoUnderstanding } from './use-video-understanding';
 import { useWebGeneration } from './use-web-generation';
 
 const defaultParams: ChatParams = {
@@ -34,6 +37,9 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
   const imageGen = useImageGeneration();
   const videoGen = useVideoGeneration();
   const webGen = useWebGeneration();
+  const visionGen = useVisionGeneration();
+  const textGen = useTextGeneration();
+  const videoUnderstandingGen = useVideoUnderstanding();
 
   useEffect(() => {
     fetch('/api/ai/chats')
@@ -137,6 +143,18 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
         result = res.result;
         error = res.error;
         if (result?.html) setOutputWebHTML(result.html);
+      } else if (mode === 'vision') {
+        const res = await visionGen.generate(prompt, params);
+        result = res.result;
+        error = res.error;
+      } else if (mode === 'text') {
+        const res = await textGen.generate(prompt, params);
+        result = res.result;
+        error = res.error;
+      } else if (mode === 'videoUnderstanding') {
+        const res = await videoUnderstandingGen.generate(prompt, params);
+        result = res.result;
+        error = res.error;
       }
 
       if (error) {
@@ -167,7 +185,7 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
 
     setLocalGenerating(false);
     return entry.id;
-  }, [activeSessionId, addMessage, beginGeneration, finishGeneration, failGeneration, updateMessage, imageGen, videoGen, webGen]);
+  }, [activeSessionId, addMessage, beginGeneration, finishGeneration, failGeneration, updateMessage, imageGen, videoGen, webGen, visionGen, textGen, videoUnderstandingGen]);
 
   const reset = useCallback(() => {
     setMessages([]);
@@ -185,7 +203,7 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
     createSession, loadSession, deleteSession, selectedMode, setSelectedMode,
     localGenerating, genProgress, genStatus, generationError,
     outputImageUrl, outputImageVariations, outputVideoUrl, outputWebHTML, copiedCode,
-    generate, reset, imageGen, videoGen, webGen,
+    generate, reset, imageGen, videoGen, webGen, visionGen, textGen, videoUnderstandingGen,
     setOutputImageUrl, setOutputImageVariations, setOutputVideoUrl, setOutputWebHTML, setCopiedCode,
     setCredits: imageGen.setCredits,
   };
