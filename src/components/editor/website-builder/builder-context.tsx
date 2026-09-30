@@ -39,6 +39,8 @@ import { EditorHistory, makeCommand, type EditorCommand } from '@/lib/editor/edi
 import {
   SaveManager,
   StaleSaveError,
+  bindUnloadSave,
+  canUseKeepalive,
   type SaveFailure,
   type SaveStatus,
 } from '@/lib/editor/save-manager';
@@ -184,10 +186,16 @@ export function BuilderProvider({
       debounceMs: AUTOSAVE_DEBOUNCE_MS,
       save: async ({ schema: payload, version }) => {
         const id = projectIdRef.current;
+        const body = JSON.stringify({ schema: payload, version, name: payload.site.name });
         const response = await fetch(`/api/page-composer/projects/${id ?? 'new'}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ schema: payload, version, name: payload.site.name }),
+          body,
+          // `keepalive` deja la petición viva al cerrar la pestaña, que es el
+          // caso real de pérdida de trabajo. El navegador rechaza los cuerpos
+          // que superan ~64 KiB —también en uso normal—, así que solo se activa
+          // si el schema cabe; si no, se guarda sin él.
+          keepalive: canUseKeepalive(body),
         });
         if (response.status === 409) throw new StaleSaveError();
         if (!response.ok) throw new Error(`Guardado falló (${response.status}).`);
@@ -284,14 +292,14 @@ export function BuilderProvider({
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [undo, redo]);
 
-  // Al cerrar la pestaña, guardar lo pendiente (best effort).
+  // Al salir de la página: guardar lo pendiente y avisar si queda algo sin guardar.
   useEffect(() => {
-    const onBeforeUnload = () => {
-      saveManagerRef.current?.flush();
-    };
-    window.addEventListener('beforeunload', onBeforeUnload);
+    const unbind = bindUnloadSave(window, {
+      flush: () => saveManagerRef.current?.flush(),
+      isDirty: () => saveManagerRef.current?.isDirty ?? false,
+    });
     return () => {
-      window.removeEventListener('beforeunload', onBeforeUnload);
+      unbind();
       saveManagerRef.current?.dispose();
     };
   }, []);
