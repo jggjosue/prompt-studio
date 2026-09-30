@@ -18,6 +18,7 @@ import {
   PAGE_CHILDREN,
   PAGE_PROP_FIELDS,
   countNodes,
+  isPageComponentType,
   safeUrl,
   styleValueToCss,
   type Breakpoint,
@@ -648,5 +649,48 @@ export function resetNodeStyles(schema: SiteSchema, slug: string | undefined, no
   const node = locateNode(pageOf(draft, slug) as SitePage, nodeId)?.node;
   if (!node) return error('unknown-node', `No existe el nodo ${nodeId}.`);
   node.styles = {};
+  return { ok: true, schema: draft };
+}
+
+const SLUG_PATTERN = /^\/(?!\/)[A-Za-z0-9/_-]*$/;
+
+/** Actualiza el SEO de una página (sobrescribe solo los campos presentes). */
+export function setPageSeo(
+  schema: SiteSchema,
+  slug: string | undefined,
+  patch: Record<string, unknown>
+): MutateResult {
+  const page = pageOf(schema, slug);
+  if (!page) return error('unknown-page', `No existe la página ${slug ?? '(primera)'}.`);
+
+  const allowed = ['title', 'description', 'canonical', 'ogTitle', 'ogDescription', 'ogImage', 'noIndex', 'structuredData'];
+  const cleaned: Record<string, unknown> = {};
+  for (const key of allowed) {
+    if (patch[key] !== undefined) cleaned[key] = patch[key];
+  }
+  if (!Object.keys(cleaned).length) return error('invalid-prop', 'No hay campos SEO válidos.');
+
+  const draft = structuredClone(schema);
+  const draftPage = pageOf(draft, slug) as SitePage;
+  draftPage.seo = { ...draftPage.seo, ...cleaned };
+  return { ok: true, schema: draft };
+}
+
+/** Cambia el slug de una página validando el patrón y los duplicados. */
+export function setPageSlug(schema: SiteSchema, currentSlug: string | undefined, nextSlug: string): MutateResult {
+  const page = pageOf(schema, currentSlug);
+  if (!page) return error('unknown-page', `No existe la página ${currentSlug ?? '(primera)'}.`);
+
+  const normalized = nextSlug.trim();
+  if (!SLUG_PATTERN.test(normalized)) {
+    return error('invalid-prop', `Ruta inválida: "${normalized}". Empieza por "/" y sin espacios ni query.`);
+  }
+  if (schema.pages.some(other => other.slug === normalized && other.id !== page.id)) {
+    return error('invalid-prop', `Ya existe una página con la ruta "${normalized}".`);
+  }
+
+  const draft = structuredClone(schema);
+  const draftPage = pageOf(draft, currentSlug) as SitePage;
+  draftPage.slug = normalized;
   return { ok: true, schema: draft };
 }
