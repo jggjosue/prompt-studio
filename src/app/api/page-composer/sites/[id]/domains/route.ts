@@ -13,8 +13,13 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
   if (!userId) return NextResponse.json({ error: 'Inicia sesión.' }, { status: 401, headers: headers() });
 
   const { id } = await params;
-  const domains = await listDomains(id);
-  return NextResponse.json({ domains }, { headers: headers() });
+  try {
+    const domains = await listDomains(id, userId);
+    return NextResponse.json({ domains }, { headers: headers() });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'No se pudieron cargar los dominios.';
+    return NextResponse.json({ error: message }, { status: message === 'SITE_NOT_FOUND' ? 404 : 422, headers: headers() });
+  }
 }
 
 /**

@@ -29,6 +29,7 @@ type Domain = {
   verificationStatus: string;
   error: string | null;
   dns: { host: string; recordType: string; target: string } | null;
+  isCanonical?: boolean;
 };
 type ErrorResponse = { error?: string };
 
@@ -145,7 +146,7 @@ export function BuilderDomains({ onClose }: { onClose: () => void }) {
     }
   };
 
-  const act = async (host: string, action: 'verify' | 'activate' | 'disable') => {
+  const act = async (host: string, action: 'verify' | 'activate' | 'disable' | 'canonical') => {
     setBusy(true);
     setError(null);
     try {
@@ -316,6 +317,16 @@ export function BuilderDomains({ onClose }: { onClose: () => void }) {
                         Activar
                       </button>
                     ) : null}
+                    {domain.status === 'active' && !domain.isCanonical ? (
+                      <button
+                        type="button"
+                        onClick={() => act(domain.hostname, 'canonical')}
+                        disabled={busy}
+                        className="rounded-md border border-violet-500/40 px-2 py-1 text-[11px] text-violet-600 hover:bg-violet-500/10 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none disabled:opacity-50"
+                      >
+                        Usar como principal
+                      </button>
+                    ) : null}
                     {domain.status !== 'disabled' ? (
                       <button
                         type="button"
@@ -327,6 +338,7 @@ export function BuilderDomains({ onClose }: { onClose: () => void }) {
                       </button>
                     ) : null}
                   </div>
+                  {domain.isCanonical ? <p className="mt-1 text-[11px] font-medium text-violet-600">Dominio principal</p> : null}
                 </li>
               ))}
             </ul>

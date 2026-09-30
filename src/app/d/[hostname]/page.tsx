@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { PageRenderer } from '@/components/editor/page-renderer';
 import { resolveCustomDomain } from '@/lib/custom-domains';
 import { defaultStructuredData, resolvePageSeo } from '@/lib/editor/page-seo';
@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: CustomDomainProps): Promise<M
   const rootPage = resolution.schema.pages.find(page => page.slug === '/') ?? resolution.schema.pages[0];
   if (!rootPage) return { robots: { index: false, follow: false } };
 
-  const seo = resolvePageSeo(resolution.schema, rootPage, hostname);
+  const seo = resolvePageSeo(resolution.schema, rootPage, resolution.canonicalHostname);
   return {
     title: seo.title,
     description: seo.description,
@@ -43,6 +43,7 @@ export default async function CustomDomainSitePage({ params }: CustomDomainProps
   const { hostname } = await params;
   const resolution = await resolveCustomDomain(hostname);
   if (!resolution) notFound();
+  if (resolution.canonicalHostname !== hostname) redirect(`https://${resolution.canonicalHostname}`);
 
   const rootPage = resolution.schema.pages.find(page => page.slug === '/') ?? resolution.schema.pages[0];
 
