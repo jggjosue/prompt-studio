@@ -5,6 +5,7 @@ import { ensureCreditAccount } from '@/lib/ai-job-service';
 import { callPlannerModel } from '@/lib/ai-site-plan';
 import { planAIEdit, type AIEditPlanOutput } from '@/lib/editor/ai-edit-planner';
 import { AIPlanError } from '@/lib/editor/ai-site-planner';
+import { planSeo, type SeoPlanOutput } from '@/lib/editor/seo-planner';
 import { recordObservabilityEvent } from '@/lib/observability-server';
 import connectToDatabase from '@/lib/mongoose';
 import AICreditAccount from '@/models/AICreditAccount';
@@ -114,6 +115,66 @@ export async function generateAIEdit(input: GenerateAIEditInput): Promise<Genera
       category: 'ai_generation',
       name: 'page_composer_ai_edit',
       route: '/api/page-composer/ai/edit',
+      userId: input.userId,
+      status: 'error',
+      durationMs: Date.now() - startedAt,
+      metadata: { provider, model, code: error instanceof AIPlanError ? error.code : 'unknown' },
+    });
+    throw error;
+  }
+}
+
+export type GenerateSeoInput = {
+  userId: string;
+  instruction: string;
+  pageContext: unknown;
+  hostname: string;
+  provider?: string;
+  requestedModel?: string;
+};
+
+export type GenerateSeoOutput = SeoPlanOutput & { credits: number; provider: string };
+
+/** Genera un patch de SEO (editable antes de guardar), con créditos y observabilidad. */
+export async function generateSeo(input: GenerateSeoInput): Promise<GenerateSeoOutput> {
+  const provider = input.provider ?? DEFAULT_PROVIDER;
+  const estimate = estimateAIEdit(input.instruction, provider, input.requestedModel);
+  const model = resolveEditModel(provider, input.requestedModel);
+  const startedAt = Date.now();
+
+  await connectToDatabase();
+  await ensureCreditAccount(input.userId);
+  const account = await AICreditAccount.findOne({ userId: input.userId }).lean();
+  const balance = (account?.subscriptionBalance ?? account?.balance ?? 0) + (account?.purchasedBalance ?? 0);
+  if (balance < estimate.credits) {
+    throw new AIPlanError('INSUFFICIENT_CREDITS', `Necesitas ${estimate.credits} créditos y tienes ${balance}.`);
+  }
+
+  try {
+    const callModel = (system: string, user: string, activeModel: string) =>
+      callPlannerModel(provider, activeModel, system, user);
+    const { seo, model: activeModel } = await planSeo(input.instruction, input.pageContext, input.hostname, { callModel, model });
+
+    await spendCredits(input.userId, estimate.credits, provider, activeModel);
+    await recordObservabilityEvent({
+      category: 'ai_generation',
+      name: 'page_composer_ai_seo',
+      route: '/api/page-composer/ai/seo',
+      userId: input.userId,
+      status: 'success',
+      durationMs: Date.now() - startedAt,
+      value: estimate.credits,
+      unit: 'credits',
+      costUsd: estimate.estimatedApiCostUsd,
+      metadata: { provider, model: activeModel },
+    });
+
+    return { seo, model: activeModel, credits: estimate.credits, provider };
+  } catch (error) {
+    await recordObservabilityEvent({
+      category: 'ai_generation',
+      name: 'page_composer_ai_seo',
+      route: '/api/page-composer/ai/seo',
       userId: input.userId,
       status: 'error',
       durationMs: Date.now() - startedAt,

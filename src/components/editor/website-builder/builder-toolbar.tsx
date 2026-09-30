@@ -9,11 +9,12 @@
  */
 
 import { usePathname } from 'next/navigation';
-import { Eye, Monitor, Redo2, Smartphone, Sparkles, Tablet, Undo2 } from 'lucide-react';
+import { Eye, Monitor, Redo2, Search, Smartphone, Sparkles, Tablet, Undo2 } from 'lucide-react';
 import { useState } from 'react';
 import { DEVICE_ORDER, useBuilder } from './builder-context';
 import { BuilderAI } from './builder-ai';
 import { BuilderPublish } from './builder-publish';
+import { BuilderSeo } from './builder-seo';
 
 const DEVICE_META = {
   desktop: { label: 'Escritorio', Icon: Monitor },
@@ -26,6 +27,7 @@ export function BuilderToolbar() {
   const pathname = usePathname();
   const previewHref = pathname.replace(/\/editor$/, '');
   const [showAI, setShowAI] = useState(false);
+  const [showSeo, setShowSeo] = useState(false);
 
   const save = {
     clean: { label: 'Guardado', className: 'text-muted-foreground' },
@@ -111,6 +113,16 @@ export function BuilderToolbar() {
 
       <button
         type="button"
+        onClick={() => setShowSeo(true)}
+        className="flex items-center gap-1 rounded-md border border-border px-2.5 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+        title="SEO de la página"
+      >
+        <Search className="h-3.5 w-3.5" aria-hidden />
+        SEO
+      </button>
+
+      <button
+        type="button"
         onClick={() => setShowAI(true)}
         className="ml-auto flex items-center gap-1.5 rounded-md bg-violet-600 px-2.5 py-1.5 text-xs font-medium text-white transition-colors hover:bg-violet-700 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
       >
@@ -129,6 +141,7 @@ export function BuilderToolbar() {
       </a>
 
       {showAI ? <BuilderAI onClose={() => setShowAI(false)} /> : null}
+      {showSeo ? <BuilderSeo onClose={() => setShowSeo(false)} /> : null}
     </header>
   );
 }

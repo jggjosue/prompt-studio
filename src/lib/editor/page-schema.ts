@@ -389,9 +389,15 @@ export type PageSection = PageNode;
 export type PageSeo = {
   title: string;
   description: string;
+  /** URL canónica; si falta se deriva del hostname + slug al publicar. */
   canonical?: string;
+  ogTitle?: string;
+  ogDescription?: string;
   ogImage?: string;
+  /** `true` = no indexar la página. */
   noIndex?: boolean;
+  /** Datos estructurados (JSON-LD) embebidos en la página publicada. */
+  structuredData?: Record<string, unknown>;
 };
 
 export type PageTheme = {
@@ -736,6 +742,12 @@ function validateSeo(ctx: Ctx, value: unknown, path: string): void {
   if (!checkKeys(ctx, value, path)) return;
   readString(ctx, value.title, `${path}.title`, 'invalid-seo');
   readString(ctx, value.description, `${path}.description`, 'invalid-seo');
+  if (value.ogTitle !== undefined && typeof value.ogTitle !== 'string') {
+    fail(ctx, 'invalid-seo', `${path}.ogTitle`, 'ogTitle debe ser texto.');
+  }
+  if (value.ogDescription !== undefined && typeof value.ogDescription !== 'string') {
+    fail(ctx, 'invalid-seo', `${path}.ogDescription`, 'ogDescription debe ser texto.');
+  }
   if (value.canonical !== undefined && safeUrl(value.canonical) === undefined) {
     fail(ctx, 'invalid-url', `${path}.canonical`, 'canonical debe ser una ruta interna o una URL http(s).');
   }
@@ -744,6 +756,9 @@ function validateSeo(ctx: Ctx, value: unknown, path: string): void {
   }
   if (value.noIndex !== undefined && typeof value.noIndex !== 'boolean') {
     fail(ctx, 'invalid-seo', `${path}.noIndex`, 'noIndex debe ser verdadero o falso.');
+  }
+  if (value.structuredData !== undefined && !isPlainObject(value.structuredData)) {
+    fail(ctx, 'invalid-seo', `${path}.structuredData`, 'structuredData debe ser un objeto JSON-LD.');
   }
 }
 

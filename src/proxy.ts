@@ -26,8 +26,12 @@ const TENANT_SECURITY_HEADERS = {
  */
 function tenantSiteResponse(req: NextRequest, subdomain: string): NextResponse {
   const url = req.nextUrl.clone();
-  url.pathname = `/p/${subdomain}`;
   url.search = '';
+  const pathname = req.nextUrl.pathname;
+  // Preservar sitemap.xml y robots.txt del sitio publicado.
+  if (pathname === '/sitemap.xml') url.pathname = `/p/${subdomain}/sitemap.xml`;
+  else if (pathname === '/robots.txt') url.pathname = `/p/${subdomain}/robots.txt`;
+  else url.pathname = `/p/${subdomain}`;
   const response = NextResponse.rewrite(url);
   for (const [name, value] of Object.entries(TENANT_SECURITY_HEADERS)) {
     response.headers.set(name, value);
@@ -40,8 +44,11 @@ function tenantSiteResponse(req: NextRequest, subdomain: string): NextResponse {
 /** Un dominio personalizado (example.com) se reescribe a su ruta pública. */
 function customDomainResponse(req: NextRequest, hostname: string): NextResponse {
   const url = req.nextUrl.clone();
-  url.pathname = `/d/${hostname}`;
   url.search = '';
+  const pathname = req.nextUrl.pathname;
+  if (pathname === '/sitemap.xml') url.pathname = `/d/${hostname}/sitemap.xml`;
+  else if (pathname === '/robots.txt') url.pathname = `/d/${hostname}/robots.txt`;
+  else url.pathname = `/d/${hostname}`;
   const response = NextResponse.rewrite(url);
   for (const [name, value] of Object.entries(TENANT_SECURITY_HEADERS)) {
     response.headers.set(name, value);
