@@ -70,6 +70,18 @@ test('reorder: las secciones y los hermanos cambian de posición de forma determ
   assert.deepEqual(moved.schema.sections[sectionId].componentIds, [text.componentId, second.componentId]);
 });
 
+test('add: puede insertar una sección entre dos secciones existentes', () => {
+  const initial = emptySchema();
+  const pageId = initial.site.defaultPageId;
+  const first = success(insertComponent(initial, 'navbar', { kind: 'new-section', pageId, index: 0 }));
+  const last = success(insertComponent(first.schema, 'footer', { kind: 'new-section', pageId, index: 1 }));
+  const middle = success(insertComponent(last.schema, 'hero', { kind: 'new-section', pageId, index: 1 }));
+
+  assert.deepEqual(middle.schema.pages[pageId].sectionIds, [first.sectionId, middle.sectionId, last.sectionId]);
+  assert.equal(middle.schema.components[middle.componentId!].type, 'hero');
+  assert.equal(validatePageSchema(middle.schema).success, true);
+});
+
 test('duplicate: copia el subárbol con ids únicos y sin compartir datos mutables', () => {
   const initial = emptySchema();
   const pageId = initial.site.defaultPageId;
@@ -133,6 +145,21 @@ test('el canvas usa dnd-kit, sensor de teclado y solo confirma cambios al termin
   assert.doesNotMatch(source, /fetch\(|Mongo|mongoose/);
 });
 
+test('el editor expone biblioteca, toolbar, canvas, inspector y estados visuales de drag', async () => {
+  const workspace = await readFile(new URL('../../src/components/page-builder/editor/page-builder-workspace.tsx', import.meta.url), 'utf8');
+  const inspector = await readFile(new URL('../../src/components/page-builder/editor/properties-inspector.tsx', import.meta.url), 'utf8');
+
+  assert.match(workspace, /function BuilderToolbar/);
+  assert.match(workspace, /aria-label="Biblioteca de componentes"/);
+  assert.match(workspace, /aria-label="Canvas del sitio"/);
+  assert.match(workspace, /<PropertiesInspector/);
+  assert.match(workspace, /<DragOverlay/);
+  assert.match(workspace, /Destino no permitido/);
+  assert.match(workspace, /data-empty-canvas/);
+  assert.match(workspace, /outline-violet-500/);
+  assert.match(inspector, /Propiedades/);
+});
+
 test('el inspector actualiza props válidas, rechaza URLs inseguras y restaura defaults', () => {
   const initial = emptySchema();
   const pageId = initial.site.defaultPageId;
@@ -143,6 +170,21 @@ test('el inspector actualiza props válidas, rechaza URLs inseguras y restaura d
   assert.deepEqual(updateComponentProperty(updated.schema, button.componentId!, 'unknown', 'x'), { error: 'property-missing' });
   const reset = success(resetComponentProperty(updated.schema, button.componentId!, 'label'));
   assert.equal((reset.schema.components[button.componentId!].props as { label: string }).label, getPageComponentDefinition('button').defaultProps.label);
+});
+
+test('el inspector rechaza URLs inseguras dentro de imágenes, galerías y objetos estructurados', () => {
+  const initial = emptySchema();
+  const pageId = initial.site.defaultPageId;
+  const gallery = success(insertComponent(initial, 'gallery', { kind: 'new-section', pageId, index: 0 }));
+  const invalidGallery = updateComponentProperty(gallery.schema, gallery.componentId!, 'images', [{ src: 'javascript:alert(1)', alt: 'No segura' }]);
+  assert.deepEqual(invalidGallery, { error: 'props-invalid' });
+
+  const cta = success(insertComponent(gallery.schema, 'cta', { kind: 'new-section', pageId, index: 1 }));
+  const invalidAction = updateComponentProperty(cta.schema, cta.componentId!, 'primaryAction', { label: 'Abrir', href: 'javascript:alert(1)' });
+  assert.deepEqual(invalidAction, { error: 'props-invalid' });
+
+  const safeAction = success(updateComponentProperty(cta.schema, cta.componentId!, 'primaryAction', { label: 'Abrir', href: '/contacto' }));
+  assert.equal((safeAction.schema.components[cta.componentId!].props as { primaryAction: { href: string } }).primaryAction.href, '/contacto');
 });
 
 test('los estilos base y responsive se validan, aplican y pueden restablecerse', () => {
@@ -198,12 +240,13 @@ test('el inspector se genera desde ComponentRegistry sin switches por tipo', asy
   }
 });
 
-test('/page-composer monta el Visual Builder por defecto y conserva semillas heredadas', async () => {
+test('/page-composer monta el Visual Builder como implementación única', async () => {
   const source = await readFile(new URL('../../src/app/[locale]/page-composer/page.tsx', import.meta.url), 'utf8');
   assert.match(source, /VisualPageComposerClient/);
   assert.match(source, /loadSourcePageTemplates\(\)/);
-  assert.match(source, /if \(hasLegacySeed\) return <PageComposerClient/);
-  assert.match(source, /return <VisualPageComposerClient canEdit=\{canEdit\}/);
+  assert.match(source, /PageComposerPremiumGate/);
+  assert.match(source, /return <VisualPageComposerClient canEdit templates=/);
+  assert.doesNotMatch(source, /page-composer-client|hasLegacySeed|PageComposerSeed/);
 });
 
 test('Editar abre la página estática seleccionada y el canvas aplica sus viewports', async () => {

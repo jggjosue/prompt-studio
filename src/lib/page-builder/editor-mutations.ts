@@ -120,14 +120,38 @@ function finalize(schema: PageSchema, extra: Omit<Extract<EditorMutationResult, 
   return validation.success ? { schema, ...extra } : { error: 'schema-invalid' };
 }
 
+function structuredUrlsAreSafe(value: unknown): boolean {
+  if (Array.isArray(value)) return value.every(structuredUrlsAreSafe);
+  if (!value || typeof value !== 'object') return true;
+  return Object.entries(value as Record<string, unknown>).every(([key, entry]) => {
+    if ((key === 'href' || key === 'action') && typeof entry === 'string') {
+      return !entry || safeHref(entry, '') === entry;
+    }
+    if ((key === 'src' || key === 'avatar') && typeof entry === 'string') {
+      return !entry || safeImageSrc(entry) === entry;
+    }
+    return structuredUrlsAreSafe(entry);
+  });
+}
+
 function editablePropertyValueIsSafe(control: string, value: unknown): boolean {
   if (value === undefined) return true;
   if (control === 'url') return typeof value === 'string' && (!value || safeHref(value, '') === value);
-  if (control !== 'image') return true;
-  if (typeof value === 'string') return !value || safeImageSrc(value) === value;
-  if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
-  const src = (value as { src?: unknown }).src;
-  return typeof src === 'string' && (!src || safeImageSrc(src) === src);
+  if (control === 'image') {
+    if (typeof value === 'string') return !value || safeImageSrc(value) === value;
+    if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
+    const src = (value as { src?: unknown }).src;
+    return typeof src === 'string' && (!src || safeImageSrc(src) === src);
+  }
+  if (control === 'images') {
+    return Array.isArray(value) && value.every(image => {
+      if (!image || typeof image !== 'object' || Array.isArray(image)) return false;
+      const src = (image as { src?: unknown }).src;
+      return typeof src === 'string' && (!src || safeImageSrc(src) === src);
+    });
+  }
+  if (control === 'list' || control === 'object') return structuredUrlsAreSafe(value);
+  return true;
 }
 
 export function updateComponentProperty(
