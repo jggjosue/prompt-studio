@@ -122,6 +122,12 @@ export async function verifyDomain(siteId: string, userId: string, hostname: str
   });
   await PageComposerDomain.updateOne({ _id: document._id }, { $set: fromRecord(record) });
 
+  // Si el dominio asociado a una orden de compra se activa, la orden pasa a active.
+  if (record.status === 'active') {
+    const { activateOrderForDomain } = await import('@/lib/domain-order');
+    await activateOrderForDomain(siteId, hostname).catch(() => undefined);
+  }
+
   await recordObservabilityEvent({
     category: 'commerce',
     name: 'page_composer_domain_verify',

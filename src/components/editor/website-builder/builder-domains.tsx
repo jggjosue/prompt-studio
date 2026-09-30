@@ -115,17 +115,29 @@ export function BuilderDomains({ onClose }: { onClose: () => void }) {
     setRegistering(host);
     setError(null);
     try {
-      const response = await fetch('/api/page-composer/domains/register', {
+      // Flujo seguro de compra: cotiza (disponibilidad + precio frescos) y abre
+      // el checkout de Stripe. El webhook registra el dominio y lo asocia.
+      const quote = await fetch('/api/page-composer/domains/order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ hostname: host }),
+        body: JSON.stringify({ hostname: host, siteId }),
       });
-      const data = (await response.json()) as { error?: string; code?: string; orderId?: string } ;
-      if (!response.ok) {
-        setError(data.error ?? 'No se pudo registrar el dominio.');
+      const quoteData = (await quote.json()) as { order?: { id: string; quote: { registration: number; currency: string } } } | ErrorResponse;
+      if (!quote.ok || !('order' in quoteData) || !quoteData.order) {
+        setError((quoteData as ErrorResponse).error ?? 'No se pudo cotizar el dominio.');
         return;
       }
-      setError(`Solicitud de registro enviada (${data.orderId ?? 'pendiente'}). Conéctalo a tu sitio cuando esté activo.`);
+      const checkout = await fetch(`/api/page-composer/domains/order/${quoteData.order.id}/checkout`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ siteId }),
+      });
+      const checkoutData = (await checkout.json()) as { checkoutUrl?: string } | ErrorResponse;
+      if (!checkout.ok || !('checkoutUrl' in checkoutData) || !checkoutData.checkoutUrl) {
+        setError((checkoutData as ErrorResponse).error ?? 'No se pudo iniciar el pago.');
+        return;
+      }
+      window.location.href = checkoutData.checkoutUrl;
     } catch {
       setError('No se pudo conectar con el servidor.');
     } finally {
