@@ -124,6 +124,8 @@ export type BuilderContextValue = {
   resetComponent: (nodeId: string) => void;
   undo: () => void;
   redo: () => void;
+  /** Carga un documento nuevo (p. ej. generado por IA) y reinicia el historial. */
+  loadSchema: (schema: SiteSchema) => void;
 };
 
 const BuilderContext = createContext<BuilderContextValue | null>(null);
@@ -202,6 +204,12 @@ export function BuilderProvider({
     if (!command) return;
     setSchema(() => command.after);
     saveManagerRef.current?.markDirty(command.after);
+  }, []);
+
+  const loadSchema = useCallback((next: SiteSchema) => {
+    historyRef.current.clear();
+    setSchema(() => next);
+    saveManagerRef.current?.markDirty(next);
   }, []);
 
   // Atajos de teclado: Cmd/Ctrl+Z deshace, Cmd/Ctrl+Shift+Z rehace.
@@ -415,6 +423,7 @@ export function BuilderProvider({
       resetComponent,
       undo,
       redo,
+      loadSchema,
     }),
     [
       schema,
@@ -443,6 +452,7 @@ export function BuilderProvider({
       resetComponent,
       undo,
       redo,
+      loadSchema,
     ]
   );
 

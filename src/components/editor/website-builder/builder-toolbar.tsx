@@ -9,8 +9,10 @@
  */
 
 import { usePathname } from 'next/navigation';
-import { Eye, Monitor, Redo2, Smartphone, Tablet, Undo2 } from 'lucide-react';
+import { Eye, Monitor, Redo2, Smartphone, Sparkles, Tablet, Undo2 } from 'lucide-react';
+import { useState } from 'react';
 import { DEVICE_ORDER, useBuilder } from './builder-context';
+import { BuilderAI } from './builder-ai';
 
 const DEVICE_META = {
   desktop: { label: 'Escritorio', Icon: Monitor },
@@ -22,6 +24,7 @@ export function BuilderToolbar() {
   const builder = useBuilder();
   const pathname = usePathname();
   const previewHref = pathname.replace(/\/editor$/, '');
+  const [showAI, setShowAI] = useState(false);
 
   const save = {
     clean: { label: 'Guardado', className: 'text-muted-foreground' },
@@ -103,15 +106,26 @@ export function BuilderToolbar() {
         {save.label}
       </span>
 
+      <button
+        type="button"
+        onClick={() => setShowAI(true)}
+        className="ml-auto flex items-center gap-1.5 rounded-md bg-violet-600 px-2.5 py-1.5 text-xs font-medium text-white transition-colors hover:bg-violet-700 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+      >
+        <Sparkles className="h-3.5 w-3.5" aria-hidden />
+        Generar con IA
+      </button>
+
       <a
         href={previewHref}
         target="_blank"
         rel="noopener noreferrer"
-        className="ml-auto flex items-center gap-1.5 rounded-md border border-border px-2.5 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+        className="flex items-center gap-1.5 rounded-md border border-border px-2.5 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
       >
         <Eye className="h-3.5 w-3.5" aria-hidden />
         Vista previa
       </a>
+
+      {showAI ? <BuilderAI onClose={() => setShowAI(false)} /> : null}
     </header>
   );
 }
