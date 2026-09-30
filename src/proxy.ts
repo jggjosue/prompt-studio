@@ -3,11 +3,60 @@ import {
   PROMPT_EDIT_ENABLED,
   PROMPT_EDIT_PATH,
 } from '@/lib/prompt-edit';
+import { isAppOwnHost, normalizeHostname, tenantSubdomain } from '@/lib/tenant-sites';
 import { NextResponse, type NextRequest } from 'next/server';
 import { detectLocale } from '@/i18n/detect-locale';
 import { locales } from '@/i18n/config';
 
 const isProtectedRoute = createRouteMatcher(['/dashboard(.*)']);
+
+/** Cabeceras de seguridad para los sitios publicados de tenants. */
+const TENANT_SECURITY_HEADERS = {
+  'X-Content-Type-Options': 'nosniff',
+  'Referrer-Policy': 'strict-origin-when-cross-origin',
+  'X-Frame-Options': 'DENY',
+  'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
+} as const;
+
+/**
+ * Un host de tenant (`customer.prompstudio.com`) se reescribe siempre a su ruta
+ * pública `/p/<subdominio>`, que sirve SOLO la versión publicada inmutable.
+ * El rewrite ocurre antes de Clerk y de la locale: los sitios publicados son
+ * públicos y ningún tenant puede alcanzar rutas del editor/borrador.
+ */
+function tenantSiteResponse(req: NextRequest, subdomain: string): NextResponse {
+  const url = req.nextUrl.clone();
+  url.search = '';
+  const pathname = req.nextUrl.pathname;
+  // Preservar sitemap.xml y robots.txt del sitio publicado.
+  if (pathname === '/sitemap.xml') url.pathname = `/p/${subdomain}/sitemap.xml`;
+  else if (pathname === '/robots.txt') url.pathname = `/p/${subdomain}/robots.txt`;
+  else url.pathname = `/p/${subdomain}`;
+  const response = NextResponse.rewrite(url);
+  for (const [name, value] of Object.entries(TENANT_SECURITY_HEADERS)) {
+    response.headers.set(name, value);
+  }
+  response.headers.set('x-tenant-subdomain', subdomain);
+  response.headers.set('Vercel-CDN-Cache-Control', 'public, max-age=60, stale-while-revalidate=600');
+  return response;
+}
+
+/** Un dominio personalizado (example.com) se reescribe a su ruta pública. */
+function customDomainResponse(req: NextRequest, hostname: string): NextResponse {
+  const url = req.nextUrl.clone();
+  url.search = '';
+  const pathname = req.nextUrl.pathname;
+  if (pathname === '/sitemap.xml') url.pathname = `/d/${hostname}/sitemap.xml`;
+  else if (pathname === '/robots.txt') url.pathname = `/d/${hostname}/robots.txt`;
+  else url.pathname = `/d/${hostname}`;
+  const response = NextResponse.rewrite(url);
+  for (const [name, value] of Object.entries(TENANT_SECURITY_HEADERS)) {
+    response.headers.set(name, value);
+  }
+  response.headers.set('x-custom-domain', hostname);
+  response.headers.set('Vercel-CDN-Cache-Control', 'public, max-age=60, stale-while-revalidate=600');
+  return response;
+}
 
 const LEGACY_LANDING_PAGE_REDIRECTS: Record<string, string> = {
   'samsung-clone': '/landing-pages',
@@ -221,6 +270,18 @@ const clerkMiddlewareWrapped = clerkMiddleware(clerkRequestHandler) as NextMiddl
 // Si no hay CLERK_SECRET_KEY, saltar Clerk completamente.
 // Si lo hay, usar Clerk con fallback seguro.
 export default async function middleware(req: NextRequest) {
+  // Multi-tenant: los sitios publicados se resuelven por hostname antes de
+  // cualquier otra lógica (Clerk, locale, rutas del editor).
+  const hostname = normalizeHostname(req.headers.get('host') ?? '');
+  const tenant = tenantSubdomain(hostname);
+  if (tenant) {
+    return tenantSiteResponse(req, tenant);
+  }
+  // Dominios personalizados: cualquier host que no sea de la propia app se
+  // resuelve como dominio conectado (si no existe/está inactivo → 404).
+  if (!isAppOwnHost(hostname)) {
+    return customDomainResponse(req, hostname);
+  }
   if (!process.env.CLERK_SECRET_KEY) {
     return fallbackHandler(req);
   }

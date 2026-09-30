@@ -33,36 +33,75 @@ test('el constructor valida sesión y pago Premium en el servidor', async () => 
   assert.match(page, /return <ComponentBuilderClient\s*\/>/);
 });
 
-test('el generador de páginas abre la composición para visitantes', async () => {
+test('el generador de páginas muestra la puerta a quien no tiene plan', async () => {
   const page = await source('src/app/[locale]/page-composer/page.tsx');
-  assert.match(page, /return <PageComposerClient canEdit=/);
-  assert.doesNotMatch(page, /PageComposerAccess/);
+  assert.match(page, /await auth\(\)/);
+  assert.match(page, /getServerSubscriptionStatus\(\)/);
+  assert.match(page, /hasComponentBuilderPlan\(status\)/);
+  assert.match(page, /PageComposerPremiumGate/);
 });
 
-test('el menú solo ofrece Constructor visual y Generador de páginas a planes pagados', async () => {
+test('el generador de páginas lleva al Website Builder, no al compositor antiguo', async () => {
+  const page = await source('src/app/[locale]/page-composer/page.tsx');
+  // La puerta Premium se aplica antes de redirigir: el editor vive en una
+  // subruta y este es el único punto que la protege.
+  const gate = page.indexOf('PageComposerPremiumGate');
+  const redirect = page.indexOf('redirect(');
+  assert.ok(gate !== -1 && redirect !== -1, 'debe validar el plan y redirigir');
+  assert.ok(gate < redirect, 'la puerta va antes de la redirección');
+  assert.match(page, /redirect\(`\/\$\{locale\}\/page-composer\/website\/editor`\)/);
+
+  // El compositor de bloques ya no existe: el generador es el Website Builder.
+  assert.doesNotMatch(page, /PageComposerClient/);
+});
+
+test('el menú ofrece Constructor visual y Generador de páginas a todos, pero solo los habilita al super administrador', async () => {
   const header = await source('src/components/layout/header-client.tsx');
 
-  // El gate de plan vive en el cliente, con el estado de suscripción compartido.
-  assert.match(header, /useMembershipAccess/, 'el menú debe consultar el plan del usuario');
-  assert.match(header, /const \{ hasPaidPlan \} = useMembershipAccess\(\)/);
-
-  // Ambas herramientas salen de la misma lista, solo si hay plan pagado.
+  // Se anuncian siempre (el menú no debe cambiar de forma al entrar), pero el
+  // clic queda reservado al super admin (PROMPT_STUDIO_PREMIUM_JO); el resto las
+  // ve con el badge «Próximamente».
+  assert.match(header, /useSuperAdmin\(\)/, 'el menú consulta si el usuario es super admin');
   assert.match(
     header,
-    /\.\.\.\(hasPaidPlan \? paidCreatorItems\(\) : \[\]\)/,
-    'las herramientas de creación se insertan solo para planes pagados'
+    /\.\.\.paidCreatorItems\(\),/,
+    'las herramientas de creación se insertan siempre, no solo para el super admin'
   );
 
-  const items = header.match(/const paidCreatorItems = \(\): DropdownItem\[\] => \[[\s\S]*?\];/);
+  const items = header.match(/const paidCreatorItems = \(\): DropdownItem\[\] => \{[\s\S]*?\n  \};/);
   assert.ok(items, 'debe existir la lista de herramientas de creación');
   assert.match(items[0], /href: '\/component-builder'/, 'Constructor visual');
   assert.match(items[0], /href: '\/page-composer'/, 'Generador de páginas');
 
-  // Y ya no se sirven como «Próximamente».
-  assert.doesNotMatch(
+  // Ambas entradas comparten el mismo candado, que depende de `isSuperAdmin`.
+  assert.match(
     items[0],
-    /disabled|disabledBadge/,
-    'habilitadas: nada de badge de «Próximamente»'
+    /const locked = isSuperAdmin \? \{\} : \{ disabled: true, disabledBadge: copy\.comingSoon \};/,
+    'sin super admin, las herramientas salen deshabilitadas con «Próximamente»'
+  );
+  assert.equal(items[0].match(/\.\.\.locked,/g)?.length, 2, 'las dos herramientas quedan bajo el mismo candado');
+});
+
+test('el hook del super admin reconoce los mismos alias que el servidor', async () => {
+  const hook = await source('src/hooks/use-super-admin.ts');
+
+  // `isPromptStudioAdminEmail` acepta cuatro variables de servidor; el cliente
+  // necesita los cuatro gemelos NEXT_PUBLIC_*. Con solo uno, el menú se le
+  // deshabilita al admin en cuanto se migre el email a otro alias.
+  for (const name of [
+    'NEXT_PUBLIC_PROMPT_STUDIO_PREMIUM_JO',
+    'NEXT_PUBLIC_PROMPT_STUDIO_CREATOR_JO',
+    'NEXT_PUBLIC_PROMPT_STUDIO_PRO_JO',
+    'NEXT_PUBLIC_PROMPT_STUDIO_STUDIO_JO',
+  ]) {
+    assert.match(hook, new RegExp(`process\\.env\\.${name}`), `el cliente debe leer ${name}`);
+  }
+
+  // Sin ninguna variable pública, nadie es admin: es el default seguro.
+  assert.match(
+    hook,
+    /ADMIN_EMAILS\.length === 0\) return false/,
+    'sin variables públicas el hook no debe dar acceso'
   );
 });
 
@@ -80,10 +119,13 @@ test('el constructor sigue fuera del índice editorial', async () => {
   assert.match(page, /robots:\s*\{\s*index:\s*false/, 'no debe indexarse una versión por plan');
 });
 
-test('la exportación de páginas mantiene la puerta de pago en la acción', async () => {
-  const client = await source('src/app/[locale]/page-composer/page-composer-editor-client.tsx');
-  assert.match(client, /disabled=\{!canEdit\}/, 'la acción Premium debe quedar bloqueada sin plan');
-  assert.match(client, /Actualizar a Premium/, 'el editor debe explicar cómo desbloquear la acción');
+test('la API del builder no se fía de la página y exige plan Premium', async () => {
+  // La puerta vive en la página, pero la API repite el control: el editor es
+  // una ruta aparte y no puede heredarse de la redirección.
+  const route = await source('src/app/api/page-composer/projects/[id]/route.ts');
+  assert.match(route, /await auth\(\)/);
+  assert.match(route, /getServerSubscriptionStatus\(\)/);
+  assert.match(route, /hasComponentBuilderPlan\(status\)/);
 });
 
 /* --------------------------------------------------------------- bloques --- */
