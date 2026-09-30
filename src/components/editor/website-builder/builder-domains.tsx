@@ -8,9 +8,19 @@
  * errores de SSL/DNS del proveedor.
  */
 
-import { Globe, X } from 'lucide-react';
+import { Globe, Search, X } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { useBuilder } from './builder-context';
+
+type DomainSearchResult = {
+  hostname: string;
+  tld: string;
+  available: 'available' | 'registered' | 'unavailable' | 'unknown';
+  price?: { registration: number; renewal?: number; currency: string };
+  provider: string;
+  checkedAt: string;
+  error?: string;
+};
 
 type Domain = {
   hostname: string;
@@ -37,6 +47,10 @@ export function BuilderDomains({ onClose }: { onClose: () => void }) {
   const [hostname, setHostname] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [term, setTerm] = useState('');
+  const [results, setResults] = useState<DomainSearchResult[]>([]);
+  const [searchBusy, setSearchBusy] = useState(false);
+  const [registering, setRegistering] = useState<string | null>(null);
 
   const refresh = useCallback(async () => {
     if (!siteId) return;
@@ -73,6 +87,49 @@ export function BuilderDomains({ onClose }: { onClose: () => void }) {
       setError('No se pudo conectar con el servidor.');
     } finally {
       setBusy(false);
+    }
+  };
+
+  const search = async () => {
+    if (!term.trim() || searchBusy) return;
+    setSearchBusy(true);
+    setError(null);
+    try {
+      const response = await fetch(`/api/page-composer/domains/search?term=${encodeURIComponent(term.trim())}`);
+      const data = (await response.json()) as { results?: DomainSearchResult[] } | ErrorResponse;
+      if (!response.ok || !('results' in data)) {
+        setError((data as ErrorResponse).error ?? 'No se pudo buscar el dominio.');
+        setResults([]);
+        return;
+      }
+      setResults(data.results ?? []);
+    } catch {
+      setError('No se pudo conectar con el servidor.');
+    } finally {
+      setSearchBusy(false);
+    }
+  };
+
+  const register = async (host: string) => {
+    if (registering) return;
+    setRegistering(host);
+    setError(null);
+    try {
+      const response = await fetch('/api/page-composer/domains/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ hostname: host }),
+      });
+      const data = (await response.json()) as { error?: string; code?: string; orderId?: string } ;
+      if (!response.ok) {
+        setError(data.error ?? 'No se pudo registrar el dominio.');
+        return;
+      }
+      setError(`Solicitud de registro enviada (${data.orderId ?? 'pendiente'}). Conéctalo a tu sitio cuando esté activo.`);
+    } catch {
+      setError('No se pudo conectar con el servidor.');
+    } finally {
+      setRegistering(null);
     }
   };
 
@@ -125,6 +182,57 @@ export function BuilderDomains({ onClose }: { onClose: () => void }) {
               {error}
             </p>
           ) : null}
+
+          <div className="rounded-lg border border-border bg-muted/30 p-3">
+            <p className="text-[11px] font-bold text-muted-foreground">Buscar tu dominio</p>
+            <div className="mt-2 flex items-center gap-2">
+              <input
+                value={term}
+                onChange={event => setTerm(event.target.value)}
+                placeholder="companyname"
+                className="h-9 flex-1 rounded-md border border-border bg-background px-3 text-sm focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+                aria-label="Nombre a buscar"
+              />
+              <button
+                type="button"
+                onClick={search}
+                disabled={searchBusy || !term.trim()}
+                className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-md bg-violet-600 px-3 text-xs font-semibold text-white hover:bg-violet-700 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none disabled:opacity-50"
+              >
+                <Search className="size-3.5" />
+                {searchBusy ? 'Buscando…' : 'Buscar'}
+              </button>
+            </div>
+            {results.length ? (
+              <ul className="mt-2 flex flex-col gap-1.5">
+                {results.map(result => (
+                  <li key={result.hostname} className="flex items-center justify-between gap-2 rounded-md border border-border bg-background px-2.5 py-1.5 text-xs">
+                    <div className="min-w-0">
+                      <p className="truncate font-semibold">{result.hostname}</p>
+                      <p className="text-[10px] text-muted-foreground">
+                        {result.available === 'available'
+                          ? `Disponible · $${result.price?.registration ?? '?'}/año${result.price?.renewal ? ` (renovación $${result.price.renewal})` : ''}`
+                          : result.available === 'registered'
+                            ? 'Registrado'
+                            : 'No disponible'}
+                        {result.error ? ` · ${result.error}` : ''}
+                      </p>
+                    </div>
+                    {result.available === 'available' ? (
+                      <button
+                        type="button"
+                        onClick={() => register(result.hostname)}
+                        disabled={registering !== null}
+                        className="shrink-0 rounded-md border border-emerald-500/40 px-2 py-1 text-[11px] text-emerald-600 hover:bg-emerald-500/10 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none disabled:opacity-50"
+                      >
+                        {registering === result.hostname ? 'Registrando…' : 'Registrar'}
+                      </button>
+                    ) : null}
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </div>
 
           <div className="flex items-center gap-2">
             <input
