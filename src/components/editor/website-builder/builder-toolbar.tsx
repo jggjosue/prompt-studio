@@ -22,9 +22,16 @@ export function BuilderToolbar() {
   const builder = useBuilder();
   const pathname = usePathname();
   const previewHref = pathname.replace(/\/editor$/, '');
-  const savedLabel = builder.savedAt
-    ? `Guardado ${new Date(builder.savedAt).toLocaleTimeString()}`
-    : 'Sin cambios';
+
+  const save = {
+    clean: { label: 'Guardado', className: 'text-muted-foreground' },
+    dirty: { label: 'Sin guardar', className: 'text-amber-600' },
+    saving: { label: 'Guardando…', className: 'text-primary' },
+    error: {
+      label: builder.saveFailure === 'stale' ? 'Guardado obsoleto' : 'Error al guardar',
+      className: 'text-destructive',
+    },
+  }[builder.saveStatus];
 
   return (
     <header className="flex h-12 shrink-0 items-center gap-3 border-b border-border bg-background px-3">
@@ -92,8 +99,8 @@ export function BuilderToolbar() {
         </button>
       </div>
 
-      <span className="hidden text-[11px] text-muted-foreground lg:inline" aria-live="polite">
-        {savedLabel}
+      <span className={`hidden text-[11px] lg:inline ${save.className}`} aria-live="polite">
+        {save.label}
       </span>
 
       <a

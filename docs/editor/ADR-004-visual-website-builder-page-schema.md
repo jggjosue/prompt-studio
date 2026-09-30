@@ -54,9 +54,17 @@ Se introduce **PageSchema v1**, un documento JSON tipado y serializable, como ú
 - **Indicadores:** el inspector marca cada control como `Local` o heredado (con el breakpoint origen) y dibuja un punto por breakpoint con override local; pulsar un punto salta a ese breakpoint.
 - **Compatibilidad:** los documentos sin overrides resuelven igual en los tres breakpoints; `laptop` sigue en el schema y en el renderer publicado para no romper nada.
 
+### Fase 5: gestión profesional del estado de edición
+
+- **Comandos:** cada cambio es un `EditorCommand` (`ADD_COMPONENT`, `REMOVE_COMPONENT`, `MOVE_COMPONENT`, `UPDATE_PROPS`, `UPDATE_STYLES`, `DUPLICATE_COMPONENT`, `UPDATE_PAGE_SETTINGS`) con las instantáneas antes/después. El historial (`EditorHistory`) deshace y rehace comandos.
+- **Undo/Redo** con `Cmd/Ctrl+Z` y `Cmd/Ctrl+Shift+Z` (ignorados dentro de inputs).
+- **Autoguardado** (`SaveManager`): debounced (1200 ms), nunca por movimiento de ratón; estados `clean / dirty / saving / error`; serializado — un solo guardado en vuelo y la ráfaga más reciente gana.
+- **Protección:** concurrencia optimista por `version` (el backend responde 409 si otra pestaña guardó antes, y el gestor marca `stale` sin reintentar en bucle); los fallos transitorios reintentan con espera; el borrador pendiente nunca se pierde; `beforeunload` fuerza un guardado best-effort.
+- **Persistencia en MongoDB:** modelo `PageComposerProject` y API `PUT/GET /api/page-composer/projects/[id]` (auth + plan + límite de peticiones + validación del schema); `/page-composer/website/editor?project=<id>` carga un borrador existente.
+
 ## Consecuencias
 
 - Publicar, persistir y editar el sitio son extensiones de `EditorProject` (slug, status, `PageSchema`), no un segundo motor: el renderizador no cambia.
-- `tests/unit/page-schema.test.ts` cubre contrato, validación, seguridad y el render real (`renderToStaticMarkup`): 20/20. `tests/unit/page-schema-ops.test.ts` cubre add, move, reorder, duplicate, delete, anidación inválida, ciclos y límites: 14/14. `tests/unit/property-controls.test.ts` cubre metadatos de controles y las mutaciones del inspector: 12/12. `tests/unit/responsive.test.ts` cubre la herencia base → tablet → mobile, orígenes de override y conversión a CSS: 12/12.
+- `tests/unit/page-schema.test.ts` cubre contrato, validación, seguridad y el render real (`renderToStaticMarkup`): 20/20. `tests/unit/page-schema-ops.test.ts` cubre add, move, reorder, duplicate, delete, anidación inválida, ciclos y límites: 14/14. `tests/unit/property-controls.test.ts` cubre metadatos de controles y las mutaciones del inspector: 12/12. `tests/unit/responsive.test.ts` cubre la herencia base → tablet → mobile, orígenes de override y conversión a CSS: 12/12. `tests/unit/editor-commands.test.ts` cubre la taxonomía y el historial: 4/4. `tests/unit/save-manager.test.ts` cubre debounce, carreras, reintentos y `stale`: 6/6.
 - Pendiente fuera de alcance: edición de listas (props `list`) en el inspector, prompt de IA que emita el documento, página pública con SEO y la migración de `web-page-generator-prompt.ts` a este contrato.
 - Deuda registrada: dos warnings `@next/next/no-img-element` en el registro, coherentes con el resto del proyecto; se resolverán al migrar a `next/image`.

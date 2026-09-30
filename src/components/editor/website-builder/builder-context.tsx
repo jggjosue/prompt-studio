@@ -3,11 +3,11 @@
 /**
  * Estado del Visual Website Builder.
  *
- * El documento vive aquí y solo cambia a través de las mutaciones puras de
- * `page-schema-ops`: cada gesto del usuario es una transición completa, nunca un
- * parcheo del árbol. El historial se guarda por instantáneas del schema, sin
- * persistir nada durante el arrastre: el autoguardado escribe una sola vez,
- * con retardo, cuando el documento ya está asentado.
+ * El documento solo cambia a través de mutaciones puras, y cada cambio se
+ * registra como un **comando** (`ADD_COMPONENT`, `UPDATE_STYLES`, …) con las
+ * instantáneas antes/después. El historial deshace y rehace comandos; el
+ * `SaveManager` convierte la corriente de cambios en guardados debounced y
+ * serializados hacia el backend (MongoDB), sin guardar en cada movimiento.
  */
 
 import { getPageComponent } from '@/components/editor/page-components';
@@ -32,6 +32,13 @@ import {
   type OpsDeps,
   type OpsError,
 } from '@/lib/editor/page-schema-ops';
+import { EditorHistory, makeCommand, type EditorCommand } from '@/lib/editor/editor-commands';
+import {
+  SaveManager,
+  StaleSaveError,
+  type SaveFailure,
+  type SaveStatus,
+} from '@/lib/editor/save-manager';
 import { EDITOR_BREAKPOINTS, type EditorBreakpoint } from '@/lib/editor/responsive';
 import {
   createContext,
@@ -53,8 +60,7 @@ export const DEVICE_WIDTH: Record<EditorBreakpoint, number> = {
 
 export const DEVICE_ORDER: readonly EditorBreakpoint[] = EDITOR_BREAKPOINTS;
 
-const HISTORY_LIMIT = 50;
-const AUTOSAVE_DELAY = 900;
+const AUTOSAVE_DEBOUNCE_MS = 1200;
 
 /** Lo que se está arrastrando en este momento. */
 export type DragState =
@@ -89,7 +95,9 @@ export type BuilderContextValue = {
   selected: NodeLocation | null;
   canUndo: boolean;
   canRedo: boolean;
-  savedAt: number | null;
+  saveStatus: SaveStatus;
+  saveFailure: SaveFailure | null;
+  isDirty: boolean;
   setDevice: (device: EditorBreakpoint) => void;
   setDrag: (drag: DragState | null) => void;
   select: (nodeId: string | null) => void;
@@ -123,75 +131,101 @@ export function BuilderProvider({
   children,
   initialSchema,
   initialSlug,
-  persistKey,
+  projectId,
+  initialVersion,
 }: {
   children: ReactNode;
   initialSchema?: SiteSchema;
   initialSlug?: string;
-  persistKey?: string;
+  /** Id del borrador persistido; `undefined` crea uno nuevo al primer guardado. */
+  projectId?: string;
+  /** Versión del borrador cargado, para concurrencia optimista. */
+  initialVersion?: number | null;
 }) {
   const [schema, setSchema] = useState<SiteSchema>(() => initialSchema ?? createLandingSchema());
   const [slug, setSlug] = useState<string | undefined>(initialSlug);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [device, setDevice] = useState<EditorBreakpoint>('desktop');
   const [drag, setDrag] = useState<DragState | null>(null);
-  const [savedAt, setSavedAt] = useState<number | null>(null);
-  const [history, setHistory] = useState({ canUndo: false, canRedo: false });
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>('clean');
+  const [saveFailure, setSaveFailure] = useState<SaveFailure | null>(null);
 
-  const past = useRef<SiteSchema[]>([]);
-  const future = useRef<SiteSchema[]>([]);
+  const historyRef = useRef(new EditorHistory());
+  const projectIdRef = useRef<string | undefined>(projectId);
+  const saveManagerRef = useRef<SaveManager | null>(null);
 
-  const syncHistory = useCallback(() => {
-    setHistory({ canUndo: past.current.length > 0, canRedo: future.current.length > 0 });
+  if (saveManagerRef.current === null) {
+    saveManagerRef.current = new SaveManager({
+      debounceMs: AUTOSAVE_DEBOUNCE_MS,
+      save: async ({ schema: payload, version }) => {
+        const id = projectIdRef.current;
+        const response = await fetch(`/api/page-composer/projects/${id ?? 'new'}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ schema: payload, version }),
+        });
+        if (response.status === 409) throw new StaleSaveError();
+        if (!response.ok) throw new Error(`Guardado falló (${response.status}).`);
+        const data = (await response.json()) as { id?: string; version: number };
+        if (typeof data.id === 'string') projectIdRef.current = data.id;
+        return { version: data.version, id: data.id };
+      },
+      onStatus: setSaveStatus,
+      onFailure: setSaveFailure,
+    });
+    saveManagerRef.current.setVersion(initialVersion ?? null);
+  }
+
+  /** Registra un comando aplicado y agenda el guardado del nuevo documento. */
+  const commit = useCallback((command: EditorCommand) => {
+    historyRef.current.push(command);
+    setSchema(() => command.after);
+    saveManagerRef.current?.markDirty(command.after);
   }, []);
 
-  const commit = useCallback(
-    (next: SiteSchema) => {
-      setSchema(previous => {
-        past.current.push(previous);
-        if (past.current.length > HISTORY_LIMIT) past.current.shift();
-        future.current = [];
-        return next;
-      });
-      syncHistory();
-    },
-    [syncHistory]
-  );
-
   const undo = useCallback(() => {
-    setSchema(previous => {
-      const restored = past.current.pop();
-      if (!restored) return previous;
-      future.current.push(previous);
-      return restored;
-    });
-    syncHistory();
-  }, [syncHistory]);
+    const command = historyRef.current.undo();
+    if (!command) return;
+    setSchema(() => command.before);
+    saveManagerRef.current?.markDirty(command.before);
+  }, []);
 
   const redo = useCallback(() => {
-    setSchema(previous => {
-      const restored = future.current.pop();
-      if (!restored) return previous;
-      past.current.push(previous);
-      return restored;
-    });
-    syncHistory();
-  }, [syncHistory]);
+    const command = historyRef.current.redo();
+    if (!command) return;
+    setSchema(() => command.after);
+    saveManagerRef.current?.markDirty(command.after);
+  }, []);
 
-  // Autoguardado con retardo: no se escribe en cada movimiento del puntero, solo
-  // cuando el documento lleva un momento quieto.
+  // Atajos de teclado: Cmd/Ctrl+Z deshace, Cmd/Ctrl+Shift+Z rehace.
   useEffect(() => {
-    if (!persistKey) return;
-    const timer = setTimeout(() => {
-      try {
-        window.localStorage.setItem(persistKey, JSON.stringify(schema));
-        setSavedAt(Date.now());
-      } catch {
-        setSavedAt(null);
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (!(event.metaKey || event.ctrlKey)) return;
+      const target = event.target as HTMLElement | null;
+      if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT' || target.isContentEditable)) {
+        return;
       }
-    }, AUTOSAVE_DELAY);
-    return () => clearTimeout(timer);
-  }, [schema, persistKey]);
+      const key = event.key.toLowerCase();
+      if (key !== 'z') return;
+      event.preventDefault();
+      if (event.shiftKey) redo();
+      else undo();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [undo, redo]);
+
+  // Al cerrar la pestaña, guardar lo pendiente (best effort).
+  useEffect(() => {
+    const onBeforeUnload = () => {
+      saveManagerRef.current?.flush();
+    };
+    window.addEventListener('beforeunload', onBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', onBeforeUnload);
+      saveManagerRef.current?.dispose();
+    };
+  }, []);
 
   const page = useMemo(() => findPage(schema, slug), [schema, slug]);
   const selected = useMemo(
@@ -203,7 +237,7 @@ export function BuilderProvider({
     (type: PageComponentType, target: DropTarget): OpsError | null => {
       const result = addNode(schema, slug, target, type, deps);
       if (!result.ok) return result;
-      commit(result.schema);
+      commit(makeCommand('ADD_COMPONENT', `Añadir ${getPageComponent(type)?.label ?? type}`, schema, result.schema));
       setSelectedId(result.id);
       return null;
     },
@@ -214,7 +248,7 @@ export function BuilderProvider({
     (nodeId: string, target: DropTarget): OpsError | null => {
       const result = moveNode(schema, slug, nodeId, target);
       if (!result.ok) return result;
-      commit(result.schema);
+      commit(makeCommand('MOVE_COMPONENT', `Mover ${nodeId}`, schema, result.schema));
       setSelectedId(nodeId);
       return null;
     },
@@ -225,7 +259,7 @@ export function BuilderProvider({
     (nodeId: string): OpsError | null => {
       const result = duplicateNode(schema, slug, nodeId, deps);
       if (!result.ok) return result;
-      commit(result.schema);
+      commit(makeCommand('DUPLICATE_COMPONENT', `Duplicar ${nodeId}`, schema, result.schema));
       setSelectedId(result.id);
       return null;
     },
@@ -236,7 +270,7 @@ export function BuilderProvider({
     (nodeId: string) => {
       const result = removeNode(schema, slug, nodeId);
       if (!result.ok) return;
-      commit(result.schema);
+      commit(makeCommand('REMOVE_COMPONENT', `Eliminar ${nodeId}`, schema, result.schema));
       setSelectedId(current => (current === nodeId ? null : current));
     },
     [schema, slug, commit]
@@ -246,7 +280,7 @@ export function BuilderProvider({
     (nodeId: string, delta: number) => {
       const result = moveWithinParent(schema, slug, nodeId, delta);
       if (!result.ok) return;
-      commit(result.schema);
+      commit(makeCommand('MOVE_COMPONENT', `Reordenar ${nodeId}`, schema, result.schema));
     },
     [schema, slug, commit]
   );
@@ -255,7 +289,7 @@ export function BuilderProvider({
     (nodeId: string, key: string, value: unknown): OpsError | null => {
       const result = setNodeProp(schema, slug, nodeId, key, value);
       if (!result.ok) return result;
-      commit(result.schema);
+      commit(makeCommand('UPDATE_PROPS', `Editar ${nodeId}.${key}`, schema, result.schema));
       return null;
     },
     [schema, slug, commit]
@@ -265,7 +299,7 @@ export function BuilderProvider({
     (nodeId: string, property: string, value: string | number, breakpoint: EditorBreakpoint): OpsError | null => {
       const result = setNodeStyle(schema, slug, nodeId, property, value, breakpoint);
       if (!result.ok) return result;
-      commit(result.schema);
+      commit(makeCommand('UPDATE_STYLES', `Estilo ${nodeId}.${property}`, schema, result.schema));
       return null;
     },
     [schema, slug, commit]
@@ -275,7 +309,7 @@ export function BuilderProvider({
     (nodeId: string, property: string, breakpoint: EditorBreakpoint): OpsError | null => {
       const result = clearNodeStyle(schema, slug, nodeId, property, breakpoint);
       if (!result.ok) return result;
-      commit(result.schema);
+      commit(makeCommand('UPDATE_STYLES', `Heredar ${nodeId}.${property}`, schema, result.schema));
       return null;
     },
     [schema, slug, commit]
@@ -287,7 +321,7 @@ export function BuilderProvider({
       if (!location) return;
       const defaults = getPageComponent(location.node.type)?.defaultProps ?? {};
       const result = resetNodeProp(schema, slug, nodeId, key, defaults);
-      if (result.ok) commit(result.schema);
+      if (result.ok) commit(makeCommand('UPDATE_PROPS', `Restablecer ${nodeId}.${key}`, schema, result.schema));
     },
     [schema, slug, commit, page]
   );
@@ -295,7 +329,7 @@ export function BuilderProvider({
   const resetStyles = useCallback(
     (nodeId: string) => {
       const result = resetNodeStyles(schema, slug, nodeId);
-      if (result.ok) commit(result.schema);
+      if (result.ok) commit(makeCommand('UPDATE_STYLES', `Restablecer estilos de ${nodeId}`, schema, result.schema));
     },
     [schema, slug, commit]
   );
@@ -306,10 +340,13 @@ export function BuilderProvider({
       if (!location) return;
       const defaults = getPageComponent(location.node.type)?.defaultProps ?? {};
       const result = resetNode(schema, slug, nodeId, defaults);
-      if (result.ok) commit(result.schema);
+      if (result.ok) commit(makeCommand('UPDATE_PROPS', `Restablecer ${nodeId}`, schema, result.schema));
     },
     [schema, slug, commit, page]
   );
+
+  const canUndo = historyRef.current.canUndo;
+  const canRedo = historyRef.current.canRedo;
 
   const value: BuilderContextValue = useMemo(
     () => ({
@@ -320,9 +357,11 @@ export function BuilderProvider({
       drag,
       selectedId,
       selected,
-      canUndo: history.canUndo,
-      canRedo: history.canRedo,
-      savedAt,
+      canUndo,
+      canRedo,
+      saveStatus,
+      saveFailure,
+      isDirty: saveStatus === 'dirty' || saveStatus === 'error',
       setSlug,
       setDevice,
       setDrag,
@@ -351,8 +390,10 @@ export function BuilderProvider({
       drag,
       selectedId,
       selected,
-      savedAt,
-      history,
+      saveStatus,
+      saveFailure,
+      canUndo,
+      canRedo,
       addComponent,
       moveExisting,
       duplicate,
