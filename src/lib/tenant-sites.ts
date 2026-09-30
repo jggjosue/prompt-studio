@@ -79,6 +79,18 @@ export function isTenantHost(host: string, rootDomain = ROOT_DOMAIN): boolean {
   return tenantSubdomain(host, rootDomain) !== null;
 }
 
+/**
+ * `true` si el host pertenece a la propia app (dev, preview de Vercel o el
+ * dominio raíz), y por tanto NO debe tratarse como un dominio personalizado.
+ */
+export function isAppOwnHost(host: string): boolean {
+  const hostname = normalizeHostname(host);
+  if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '[::1]') return true;
+  if (hostname === ROOT_DOMAIN || hostname === `www.${ROOT_DOMAIN}`) return true;
+  if (hostname.endsWith('.vercel.app') || hostname.endsWith('.now.sh')) return true;
+  return false;
+}
+
 export type TenantLookup = {
   findSite: (subdomain: string) => Promise<{ siteId: string; publishedVersionId: string | null } | null>;
   loadPublished: (versionId: string) => Promise<{ schema: unknown; version: number } | null>;
