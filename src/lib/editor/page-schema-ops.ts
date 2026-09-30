@@ -18,6 +18,7 @@ import {
   PAGE_CHILDREN,
   PAGE_PROP_FIELDS,
   countNodes,
+  isPageComponentType,
   safeUrl,
   styleValueToCss,
   type Breakpoint,
@@ -328,6 +329,34 @@ export function insertSection(
   deps: OpsDeps
 ): AddResult {
   return addNode(schema, slug, { parentId: null, index }, type, deps);
+}
+
+/**
+ * Inserta una sección ya construida (por ejemplo desde la biblioteca de
+ * secciones) en el primer nivel de la página, clonándola para no compartir
+ * ids con el original.
+ */
+export function insertSectionNode(
+  schema: SiteSchema,
+  slug: string | undefined,
+  index: number,
+  node: PageNode
+): AddResult {
+  const page = pageOf(schema, slug);
+  if (!page) return error('unknown-page', `No existe la página ${slug ?? '(primera)'}.`);
+  if (!isPageComponentType(node.type)) {
+    return error('unknown-component', `El catálogo no conoce el tipo ${node.type}.`);
+  }
+  if (countNodes(page.sections) + countNodes(node.children) + 1 > MAX_NODES) {
+    return error('node-limit', `La página alcanzó el máximo de ${MAX_NODES} nodos.`);
+  }
+
+  const draft = structuredClone(schema);
+  const draftPage = pageOf(draft, slug) as SitePage;
+  const cloned = structuredClone(node);
+  const failure = placeNode(cloned, draftPage, { parentId: null, index });
+  if (failure) return failure;
+  return { ok: true, schema: draft, id: cloned.id };
 }
 
 /** Mueve un nodo (y su subárbol) a otro destino. */

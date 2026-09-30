@@ -10,6 +10,7 @@
  */
 
 import type { PageComponentType, SiteSchema } from '@/lib/editor/page-schema';
+import { isSectionId } from '@/lib/editor/page-sections';
 import {
   DndContext,
   DragOverlay,
@@ -31,6 +32,7 @@ type DragData = {
   source?: string;
   type?: PageComponentType;
   nodeId?: string;
+  sectionId?: string;
   label?: string;
 };
 
@@ -48,6 +50,8 @@ function EditorShell() {
     if (!data) return;
     if (data.source === 'library' && data.type) {
       builder.setDrag({ source: 'library', type: data.type, label: data.label ?? data.type });
+    } else if (data.source === 'section' && isSectionId(data.sectionId)) {
+      builder.setDrag({ source: 'section', sectionId: data.sectionId, label: data.label ?? data.sectionId });
     } else if (data.source === 'node' && data.nodeId) {
       builder.setDrag({
         source: 'node',
@@ -70,7 +74,9 @@ function EditorShell() {
     if (!data) return;
 
     const destination = { parentId: target.parentId ?? null, index: target.index ?? 0 };
-    if (data.source === 'library' && data.type) {
+    if (data.source === 'section' && isSectionId(data.sectionId)) {
+      builder.insertSection(data.sectionId, destination);
+    } else if (data.source === 'library' && data.type) {
       builder.addComponent(data.type, destination);
     } else if (data.source === 'node' && data.nodeId) {
       builder.moveExisting(data.nodeId, destination);

@@ -36,6 +36,7 @@ export function DropSlot({ parentId, index, empty = false }: { parentId: string 
   const drag = builder.drag;
   let error: OpsError | null = null;
   if (drag?.source === 'library') error = builder.previewInsert(drag.type, { parentId, index });
+  else if (drag?.source === 'section') error = builder.previewSectionInsert(drag.sectionId, { parentId, index });
   else if (drag?.source === 'node') error = builder.previewMove(drag.nodeId, { parentId, index });
 
   const valid = error === null;
