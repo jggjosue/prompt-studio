@@ -1,8 +1,20 @@
 import { getAIModelConfig, TARGET_COST_PER_CREDIT_USD } from '@/lib/ai-credit-config';
 import { AI_JOB_COSTS } from '@/lib/ai-job-config';
 import type { AIJobKind } from '@/models/AIGenerationJob';
-const expectations:Record<AIJobKind,{seconds:[number,number];resolution:string;quality:string}>={image:{seconds:[8,45],resolution:'1024 × 1024 px',quality:'Estándar'},video:{seconds:[35,300],resolution:'1280 × 720 px',quality:'Estándar'},project:{seconds:[10,90],resolution:'Responsive',quality:'Código de producción'}};
-export function generationQuote(kind:AIJobKind,provider:string){const cost=AI_JOB_COSTS[kind],expected=expectations[kind];return{kind,provider,credits:cost.credits,estimatedCostUsd:cost.estimatedUsd,estimatedSeconds:{min:expected.seconds[0],max:expected.seconds[1]},resolution:expected.resolution,quality:expected.quality,refundPolicy:'Si el proveedor falla después de todos los reintentos, la reserva se devuelve automáticamente. Los trabajos completados consumen los créditos indicados.'}}
+/**
+ * Expectativas de duración y salida por kind.
+ *
+ * Solo declaran fila los kinds que ya tienen métricas medidas. Para `text`,
+ * `vision` y `videoUnderstanding` todavía no hay duración real observada, así
+ * que la casilla queda vacía a propósito: publicar un rango inventado sería
+ * mostrar al usuario un número falso con apariencia de dato. Cuando haya
+ * telemetría, se rellena aquí y la cotización lo empieza a usar sola.
+ *
+ * `credits` y `estimatedCostUsd` no vienen de aquí: esos sí son datos del
+ * servidor, en `AI_JOB_COSTS`.
+ */
+const expectations:Partial<Record<AIJobKind,{seconds:[number,number];resolution:string;quality:string}>>={image:{seconds:[8,45],resolution:'1024 × 1024 px',quality:'Estándar'},video:{seconds:[35,300],resolution:'1280 × 720 px',quality:'Estándar'},project:{seconds:[10,90],resolution:'Responsive',quality:'Código de producción'}};
+export function generationQuote(kind:AIJobKind,provider:string){const cost=AI_JOB_COSTS[kind],expected=expectations[kind];return{kind,provider,credits:cost.credits,estimatedCostUsd:cost.estimatedUsd,estimatedSeconds:expected?{min:expected.seconds[0],max:expected.seconds[1]}:null,resolution:expected?.resolution??null,quality:expected?.quality??null,refundPolicy:'Si el proveedor falla después de todos los reintentos, la reserva se devuelve automáticamente. Los trabajos completados consumen los créditos indicados.'}}
 export function actualProviderCost(result:unknown){if(!result||typeof result!=='object')return null;const value=result as Record<string,unknown>,usage=value.usage;if(usage&&typeof usage==='object'){const cost=(usage as Record<string,unknown>).costUsd;if(typeof cost==='number'&&Number.isFinite(cost)&&cost>=0)return cost}return null}
 
 export type ProviderUsage = { inputTokens: number | null; outputTokens: number | null; costUsd: number | null };

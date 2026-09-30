@@ -49,11 +49,13 @@ export function GenerationCostDisclosure({
         ) : null}
         <span className="flex items-center gap-1">
           <Clock3 className="size-3" />
-          {quote.estimatedSeconds.min}–{quote.estimatedSeconds.max}s
+          {quote.estimatedSeconds
+            ? `${quote.estimatedSeconds.min}–${quote.estimatedSeconds.max}s`
+            : 'Duración según el proveedor'}
         </span>
         <span className="flex items-center gap-1">
           <Gauge className="size-3" />
-          {quote.resolution} · {quote.quality}
+          {quote.resolution && quote.quality ? `${quote.resolution} · ${quote.quality}` : 'Salida en texto'}
         </span>
       </div>
       {showCosts ? (
