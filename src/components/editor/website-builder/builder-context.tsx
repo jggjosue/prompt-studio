@@ -28,6 +28,8 @@ import {
   resetNodeStyles,
   setNodeProp,
   setNodeStyle,
+  setPageSeo,
+  setPageSlug,
   type DropTarget,
   type NodeLocation,
   type OpsDeps,
@@ -134,6 +136,10 @@ export type BuilderContextValue = {
   openAIEdit: (nodeId: string | null) => void;
   /** Aplica operaciones de IA validadas contra el documento (deshacible). */
   applyAIEdit: (ops: AIEditOp[]) => OpsError | null;
+  /** Actualiza el SEO de la página actual (deshacible). */
+  applyPageSeo: (patch: Record<string, unknown>) => OpsError | null;
+  /** Cambia el slug de la página validando duplicados (deshacible). */
+  changePageSlug: (nextSlug: string) => OpsError | null;
 };
 
 const BuilderContext = createContext<BuilderContextValue | null>(null);
@@ -237,6 +243,27 @@ export function BuilderProvider({
       return null;
     },
     [schema, slug, commit]
+  );
+
+  const applyPageSeo = useCallback(
+    (patch: Record<string, unknown>): OpsError | null => {
+      const result = setPageSeo(schema, slug, patch);
+      if (!result.ok) return result;
+      commit(makeCommand('UPDATE_PAGE_SETTINGS', 'Actualizar SEO de la página', schema, result.schema));
+      return null;
+    },
+    [schema, slug, commit]
+  );
+
+  const changePageSlug = useCallback(
+    (nextSlug: string): OpsError | null => {
+      const result = setPageSlug(schema, slug, nextSlug);
+      if (!result.ok) return result;
+      commit(makeCommand('UPDATE_PAGE_SETTINGS', `Cambiar ruta a ${nextSlug}`, schema, result.schema));
+      setSlug(nextSlug);
+      return null;
+    },
+    [schema, slug, commit, setSlug]
   );
 
   // Atajos de teclado: Cmd/Ctrl+Z deshace, Cmd/Ctrl+Shift+Z rehace.
@@ -455,6 +482,8 @@ export function BuilderProvider({
       aiEditTarget,
       openAIEdit: setAIEditTarget,
       applyAIEdit,
+      applyPageSeo,
+      changePageSlug,
     }),
     [
       schema,
@@ -487,6 +516,8 @@ export function BuilderProvider({
       loadSchema,
       aiEditTarget,
       applyAIEdit,
+      applyPageSeo,
+      changePageSlug,
     ]
   );
 
