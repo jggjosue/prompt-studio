@@ -1120,7 +1120,7 @@ Requirements:
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
             >
-              <form onSubmit={handleGenerationSubmit}>
+              <form onSubmit={_handleGenerationSubmit}>
                 <div className={`relative grid lg:grid-cols-12 gap-8 transition-all duration-300 ${isPreviewCollapsed || isEditorCollapsed ? 'lg:gap-0' : ''}`}>
 
                   {/* Left Side: Options Column */}

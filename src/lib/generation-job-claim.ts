@@ -25,7 +25,7 @@ export async function claimGenerationJobAtomically<T>(
   store: AtomicGenerationJobStore<T>,
   input: GenerationJobClaimInput,
   now = new Date(),
-  lockToken = randomUUID(),
+  lockToken: string = randomUUID(),
 ): Promise<{ job: T; lockToken: string } | null> {
   const job = await store.findOneAndUpdate(
     {
@@ -63,7 +63,7 @@ export async function claimExhaustedGenerationJobAtomically<T>(
   store: AtomicGenerationJobStore<T>,
   input: GenerationJobClaimInput,
   now = new Date(),
-  lockToken = randomUUID(),
+  lockToken: string = randomUUID(),
 ): Promise<{ job: T; lockToken: string } | null> {
   const job = await store.findOneAndUpdate(
     {
