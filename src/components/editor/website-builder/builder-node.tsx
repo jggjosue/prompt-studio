@@ -12,6 +12,7 @@
 import { componentTokens, getPageComponent, withDefaultProps } from '@/components/editor/page-components';
 import type { PageComponentType, PageNode } from '@/lib/editor/page-schema';
 import type { OpsError } from '@/lib/editor/page-schema-ops';
+import { resolveNodeStyles, styleMapToCssProperties } from '@/lib/editor/responsive';
 import { useDraggable, useDroppable } from '@dnd-kit/core';
 import { ArrowDown, ArrowUp, Copy, GripVertical, Trash2 } from 'lucide-react';
 import { createElement, Fragment, type KeyboardEvent, type MouseEvent, type ReactNode } from 'react';
@@ -147,6 +148,7 @@ export function BuilderNode({ node }: { node: PageNode }) {
   if (!definition) return null;
 
   const tokens = componentTokens(builder.page?.theme ?? builder.schema.site.theme);
+  const resolvedStyles = styleMapToCssProperties(resolveNodeStyles(node, builder.device));
   const childContent: ReactNode = definition.allowedChildren.length
     ? createElement(
         Fragment,
@@ -185,6 +187,7 @@ export function BuilderNode({ node }: { node: PageNode }) {
     <div
       data-ps-id={node.id}
       data-ps-type={node.type}
+      style={resolvedStyles}
       role="group"
       tabIndex={0}
       aria-label={`${nodeLabel(node)} (${node.type})`}

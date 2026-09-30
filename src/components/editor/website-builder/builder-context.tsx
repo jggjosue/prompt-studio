@@ -11,16 +11,7 @@
  */
 
 import { getPageComponent } from '@/components/editor/page-components';
-import {
-  PAGE_BREAKPOINT_WIDTHS,
-  createLandingSchema,
-  findPage,
-  type Breakpoint,
-  type PageComponentType,
-  type PageNode,
-  type SitePage,
-  type SiteSchema,
-} from '@/lib/editor/page-schema';
+import { createLandingSchema, findPage, type PageComponentType, type PageNode, type SitePage, type SiteSchema } from '@/lib/editor/page-schema';
 import {
   addNode,
   canInsert,
@@ -41,6 +32,7 @@ import {
   type OpsDeps,
   type OpsError,
 } from '@/lib/editor/page-schema-ops';
+import { EDITOR_BREAKPOINTS, type EditorBreakpoint } from '@/lib/editor/responsive';
 import {
   createContext,
   useCallback,
@@ -53,14 +45,13 @@ import {
 } from 'react';
 
 /** Ancho del lienzo por dispositivo, en píxeles. */
-export const DEVICE_WIDTH: Record<Breakpoint, number> = {
+export const DEVICE_WIDTH: Record<EditorBreakpoint, number> = {
   desktop: 1440,
-  laptop: PAGE_BREAKPOINT_WIDTHS.laptop,
-  tablet: PAGE_BREAKPOINT_WIDTHS.tablet,
+  tablet: 768,
   mobile: 390,
 };
 
-export const DEVICE_ORDER: readonly Breakpoint[] = ['desktop', 'laptop', 'tablet', 'mobile'];
+export const DEVICE_ORDER: readonly EditorBreakpoint[] = EDITOR_BREAKPOINTS;
 
 const HISTORY_LIMIT = 50;
 const AUTOSAVE_DELAY = 900;
@@ -92,14 +83,14 @@ export type BuilderContextValue = {
   page: SitePage | undefined;
   slug: string | undefined;
   setSlug: (slug: string) => void;
-  device: Breakpoint;
+  device: EditorBreakpoint;
   drag: DragState | null;
   selectedId: string | null;
   selected: NodeLocation | null;
   canUndo: boolean;
   canRedo: boolean;
   savedAt: number | null;
-  setDevice: (device: Breakpoint) => void;
+  setDevice: (device: EditorBreakpoint) => void;
   setDrag: (drag: DragState | null) => void;
   select: (nodeId: string | null) => void;
   /** Vista previa del rechazo para un tipo de la biblioteca, sin aplicarlo. */
@@ -111,8 +102,8 @@ export type BuilderContextValue = {
   remove: (nodeId: string) => void;
   move: (nodeId: string, delta: number) => void;
   setProp: (nodeId: string, key: string, value: unknown) => OpsError | null;
-  setStyle: (nodeId: string, property: string, value: string | number, breakpoint: Breakpoint) => OpsError | null;
-  clearStyle: (nodeId: string, property: string, breakpoint: Breakpoint) => OpsError | null;
+  setStyle: (nodeId: string, property: string, value: string | number, breakpoint: EditorBreakpoint) => OpsError | null;
+  clearStyle: (nodeId: string, property: string, breakpoint: EditorBreakpoint) => OpsError | null;
   resetProp: (nodeId: string, key: string) => void;
   resetStyles: (nodeId: string) => void;
   resetComponent: (nodeId: string) => void;
@@ -142,7 +133,7 @@ export function BuilderProvider({
   const [schema, setSchema] = useState<SiteSchema>(() => initialSchema ?? createLandingSchema());
   const [slug, setSlug] = useState<string | undefined>(initialSlug);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [device, setDevice] = useState<Breakpoint>('desktop');
+  const [device, setDevice] = useState<EditorBreakpoint>('desktop');
   const [drag, setDrag] = useState<DragState | null>(null);
   const [savedAt, setSavedAt] = useState<number | null>(null);
   const [history, setHistory] = useState({ canUndo: false, canRedo: false });
@@ -271,7 +262,7 @@ export function BuilderProvider({
   );
 
   const setStyle = useCallback(
-    (nodeId: string, property: string, value: string | number, breakpoint: Breakpoint): OpsError | null => {
+    (nodeId: string, property: string, value: string | number, breakpoint: EditorBreakpoint): OpsError | null => {
       const result = setNodeStyle(schema, slug, nodeId, property, value, breakpoint);
       if (!result.ok) return result;
       commit(result.schema);
@@ -281,7 +272,7 @@ export function BuilderProvider({
   );
 
   const clearStyle = useCallback(
-    (nodeId: string, property: string, breakpoint: Breakpoint): OpsError | null => {
+    (nodeId: string, property: string, breakpoint: EditorBreakpoint): OpsError | null => {
       const result = clearNodeStyle(schema, slug, nodeId, property, breakpoint);
       if (!result.ok) return result;
       commit(result.schema);
