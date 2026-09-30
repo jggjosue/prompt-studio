@@ -192,23 +192,33 @@ export default function HeaderClient() {
     Crear: copy.create,
   })[label] ?? label;
 
-  /** Constructor visual y Generador de páginas: solo para planes pagados. */
-  const paidCreatorItems = (): DropdownItem[] => [
-    {
-      href: '/component-builder',
-      group: 'Crear',
-      label: copy.builder,
-      description: copy.builderDesc,
-      icon: <WandSparkles className="h-4 w-4" />,
-    },
-    {
-      href: '/page-composer',
-      group: 'Crear',
-      label: copy.composer,
-      description: copy.composerDesc,
-      icon: <LayoutTemplate className="h-4 w-4" />,
-    },
-  ];
+  /**
+   * Constructor visual y Generador de páginas. Se anuncian siempre para que el
+   * menú no cambie de forma al entrar, pero solo el super administrador
+   * (`PROMPT_STUDIO_PREMIUM_JO`) puede abrirlos: el resto las ve marcadas como
+   * «Próximamente» y sin enlace navegable.
+   */
+  const paidCreatorItems = (): DropdownItem[] => {
+    const locked = isSuperAdmin ? {} : { disabled: true, disabledBadge: copy.comingSoon };
+    return [
+      {
+        href: '/component-builder',
+        group: 'Crear',
+        label: copy.builder,
+        description: copy.builderDesc,
+        icon: <WandSparkles className="h-4 w-4" />,
+        ...locked,
+      },
+      {
+        href: '/page-composer',
+        group: 'Crear',
+        label: copy.composer,
+        description: copy.composerDesc,
+        icon: <LayoutTemplate className="h-4 w-4" />,
+        ...locked,
+      },
+    ];
+  };
 
   const navLinks: Array<{
     id: string;
@@ -271,7 +281,7 @@ export default function HeaderClient() {
           description: copy.searchDesc,
           icon: <Search className="h-4 w-4" />,
         },
-        ...(isSuperAdmin ? paidCreatorItems() : []),
+        ...paidCreatorItems(),
         {
           href: '/landing-pages',
           group: 'Explorar',
