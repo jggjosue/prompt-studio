@@ -3,6 +3,7 @@ import test from 'node:test';
 import {
   SECTION_DEFINITIONS,
   createSection,
+  createSectionPreviewSchema,
   isSectionId,
   listPageSections,
   sectionIdFactory,
@@ -57,6 +58,17 @@ test('una sección insertada dentro de una plantilla sigue siendo válida', () =
   const schema = createTemplateSchema('saas');
   const result = validatePageSchema(schema);
   assert.equal(result.ok, true);
+});
+
+test('cada preview de sección es un PageSchema válido y editable', () => {
+  for (const definition of listPageSections()) {
+    const schema = createSectionPreviewSchema(definition.id);
+    const result = validatePageSchema(schema);
+    assert.equal(result.ok, true, `${definition.id}: preview inválido`);
+    assert.equal(schema.pages[0].sections[0].type, definition.type);
+    schema.pages[0].sections[0].props.previewEdited = true;
+    assert.equal(schema.pages[0].sections[0].props.previewEdited, true);
+  }
 });
 
 test('isSectionId distingue ids conocidos', () => {

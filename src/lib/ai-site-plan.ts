@@ -1,7 +1,9 @@
 import 'server-only';
 
 import { proxyAnthropicChat, proxyGemini, proxyOpenAIChat } from '@/app/actions';
-import { estimateAICredits, resolveAIModelId, type CreditEstimate } from '@/lib/ai-credit-config';
+import { estimateAICredits, type CreditEstimate } from '@/lib/ai-credit-config';
+import { resolvePlannerModel } from '@/lib/ai-site-plan-config';
+export { resolvePlannerModel } from '@/lib/ai-site-plan-config';
 import { ensureCreditAccount } from '@/lib/ai-job-service';
 import { AIPlanError, planSite, type SitePlanResult } from '@/lib/editor/ai-site-planner';
 import connectToDatabase from '@/lib/mongoose';
@@ -11,12 +13,6 @@ import AICreditLedger from '@/models/AICreditLedger';
 import mongoose from 'mongoose';
 
 const DEFAULT_PROVIDER = 'google';
-
-/** Modelo por defecto por proveedor; respeta el catálogo server-owned. */
-export function resolvePlannerModel(provider: string, requestedModel?: string): string {
-  const resolved = resolveAIModelId('project', provider, requestedModel);
-  return resolved ?? resolveAIModelId('project', provider) ?? 'gemini-2.5-flash';
-}
 
 function textFromGemini(result: unknown): string | null {
   const parts = (result as { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> })?.candidates?.[0]?.content?.parts;

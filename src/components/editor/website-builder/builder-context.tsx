@@ -37,6 +37,7 @@ import {
 } from '@/lib/editor/page-schema-ops';
 import { EditorHistory, makeCommand, type EditorCommand } from '@/lib/editor/editor-commands';
 import {
+  PermanentSaveError,
   SaveManager,
   StaleSaveError,
   bindUnloadSave,
@@ -180,13 +181,19 @@ export function BuilderProvider({
   const historyRef = useRef(new EditorHistory());
   const projectIdRef = useRef<string | undefined>(projectId);
   const saveManagerRef = useRef<SaveManager | null>(null);
+  const saveRequestIdsRef = useRef(new WeakMap<SiteSchema, string>());
 
   if (saveManagerRef.current === null) {
     saveManagerRef.current = new SaveManager({
       debounceMs: AUTOSAVE_DEBOUNCE_MS,
       save: async ({ schema: payload, version }) => {
         const id = projectIdRef.current;
-        const body = JSON.stringify({ schema: payload, version, name: payload.site.name });
+        let requestId = saveRequestIdsRef.current.get(payload);
+        if (!requestId) {
+          requestId = crypto.randomUUID();
+          saveRequestIdsRef.current.set(payload, requestId);
+        }
+        const body = JSON.stringify({ schema: payload, version, name: payload.site.name, requestId });
         const response = await fetch(`/api/page-composer/projects/${id ?? 'new'}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
@@ -198,6 +205,9 @@ export function BuilderProvider({
           keepalive: canUseKeepalive(body),
         });
         if (response.status === 409) throw new StaleSaveError();
+        if (response.status >= 400 && response.status < 500 && response.status !== 408 && response.status !== 429) {
+          throw new PermanentSaveError(`Guardado rechazado (${response.status}).`);
+        }
         if (!response.ok) throw new Error(`Guardado falló (${response.status}).`);
         const data = (await response.json()) as { id?: string; version: number };
         if (typeof data.id === 'string') {

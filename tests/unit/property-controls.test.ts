@@ -41,6 +41,17 @@ test('buildControls: cada tipo tiene controles de contenido, layout y borde', ()
   }
 });
 
+test('buildControls: no duplica una propiedad entre metadata específica y controles compartidos', () => {
+  const controls = buildControls('hero');
+  const keys = controls.map(control => control.target.type === 'prop'
+    ? `prop:${control.target.key}`
+    : `style:${control.target.property}`);
+
+  assert.equal(new Set(keys).size, keys.length);
+  assert.equal(keys.filter(key => key === 'style:paddingBlock').length, 1);
+  assert.equal(keys.filter(key => key === 'style:textAlign').length, 1);
+});
+
 test('buildControls: los controles de prop coinciden con el contrato', () => {
   for (const type of PAGE_COMPONENT_TYPES) {
     const fields = PAGE_PROP_FIELDS[type];

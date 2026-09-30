@@ -45,6 +45,14 @@ export class StaleSaveError extends Error {
   }
 }
 
+/** Error que no mejorará reintentando (auth, validación o permisos). */
+export class PermanentSaveError extends Error {
+  constructor(message = 'El guardado fue rechazado permanentemente.') {
+    super(message);
+    this.name = 'PermanentSaveError';
+  }
+}
+
 const tick = () => new Promise<void>(resolve => setTimeout(resolve, 0));
 
 export class SaveManager {
@@ -152,6 +160,7 @@ export class SaveManager {
     this.pending = null;
     this.inFlight = true;
     this.setStatus('saving');
+    let permanentFailure = false;
 
     try {
       const result = await this.save({ schema: payload, version: this.version });
@@ -162,13 +171,14 @@ export class SaveManager {
       if (changedDuringSave) this.setStatus('dirty');
       else this.setStatus('clean');
     } catch (error) {
+      permanentFailure = error instanceof PermanentSaveError;
       const failure = error instanceof StaleSaveError ? 'stale' : 'failed';
       // El documento sigue sin guardar; no se pierde.
       this.pending = payload;
       this.failure = failure;
       this.onFailure?.(failure);
       this.setStatus('error');
-      if (failure === 'failed') {
+      if (failure === 'failed' && !permanentFailure) {
         // Error transitorio: reintentar con espera. Un `stale` no se reintenta.
         this.scheduleRetry();
       }
@@ -176,7 +186,12 @@ export class SaveManager {
       this.inFlight = false;
       // Si hubo cambios durante el guardado y nadie agendó un reintento, se
       // guarda lo más reciente. El `stale` se deja quieto hasta re-sincronizar.
-      if (this.pending !== null && this.failure !== 'stale' && this.timer === null) {
+      if (
+        this.pending !== null &&
+        this.failure !== 'stale' &&
+        !permanentFailure &&
+        this.timer === null
+      ) {
         this.schedule(0);
       }
     }

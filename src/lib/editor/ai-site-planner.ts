@@ -108,8 +108,29 @@ function cleanPropValue(field: PropField, value: unknown): unknown {
     case 'boolean':
       return typeof value === 'boolean' ? value : undefined;
     case 'list':
-      return Array.isArray(value) ? value : undefined;
+      return Array.isArray(value) ? sanitizeStructuredList(value, field.itemFields ?? []) : undefined;
   }
+}
+
+/**
+ * Las listas de props contienen objetos tipados (links, imágenes, planes…). El
+ * schema valida que sean arrays, pero las URLs internas también deben pasar por
+ * la misma allow-list que una prop URL de primer nivel.
+ */
+function sanitizeStructuredList(value: unknown[], fields: readonly PropField[]): unknown[] {
+  return value.flatMap(item => {
+    if (!item || typeof item !== 'object' || Array.isArray(item)) return [];
+    const clean: Record<string, unknown> = {};
+    const source = item as Record<string, unknown>;
+    for (const field of fields) {
+      const nested = source[field.key];
+      if (nested === undefined) continue;
+      const cleaned = cleanPropValue(field, nested);
+      if (cleaned !== undefined) clean[field.key] = cleaned;
+    }
+    if (fields.some(field => field.required && clean[field.key] === undefined)) return [];
+    return [clean];
+  });
 }
 
 function repairStyles(raw: unknown, warnings: string[]): NodeStyles {
@@ -195,6 +216,19 @@ export function repairSiteSchema(raw: unknown): SitePlanResult | null {
   const siteSeo = (site.seo ?? {}) as Record<string, unknown>;
 
   const pages: SitePage[] = [];
+  const ids = new Set<string>();
+  const slugs = new Set<string>();
+  const uniqueId = (candidate: unknown, prefix: string) => {
+    const base = typeof candidate === 'string' && /^[A-Za-z][A-Za-z0-9_-]{1,63}$/.test(candidate)
+      ? candidate
+      : `${prefix}-${ids.size + 1}`;
+    let id = base;
+    let suffix = 2;
+    while (ids.has(id)) id = `${base}-${suffix++}`;
+    if (id !== candidate) warnings.push(`Id reparado: ${String(candidate ?? '?')} → ${id}`);
+    ids.add(id);
+    return id;
+  };
   for (const rawPage of candidate.pages as unknown[]) {
     if (!rawPage || typeof rawPage !== 'object' || Array.isArray(rawPage)) continue;
     const page = rawPage as Record<string, unknown>;
@@ -205,17 +239,39 @@ export function repairSiteSchema(raw: unknown): SitePlanResult | null {
         if (repaired) sections.push(repaired);
       }
     }
-    const slug = typeof page.slug === 'string' && /^\/(?!\/)[A-Za-z0-9/_-]*$/.test(page.slug) ? page.slug : `/${pages.length}`;
+    const navbar = sections.find(section => section.type === 'navbar');
+    const footer = sections.find(section => section.type === 'footer');
+    const orderedSections = [
+      ...(navbar ? [navbar] : []),
+      ...sections.filter(section => section.type !== 'navbar' && section.type !== 'footer'),
+      ...(footer ? [footer] : []),
+    ];
+    const requestedSlug = typeof page.slug === 'string' && /^\/(?!\/)[A-Za-z0-9/_-]*$/.test(page.slug)
+      ? page.slug
+      : pages.length === 0 ? '/' : `/page-${pages.length + 1}`;
+    let slug = requestedSlug;
+    let slugSuffix = 2;
+    while (slugs.has(slug)) {
+      slug = requestedSlug === '/' ? `/page-${pages.length + 1}` : `${requestedSlug.replace(/\/$/, '')}-${slugSuffix++}`;
+    }
+    slugs.add(slug);
     const pageSeo = (page.seo ?? {}) as Record<string, unknown>;
     pages.push({
-      id: typeof page.id === 'string' ? page.id : `page-${pages.length + 1}`,
+      id: uniqueId(page.id, 'page'),
       name: typeof page.name === 'string' ? page.name : `Página ${pages.length + 1}`,
       slug,
       seo: {
         title: typeof pageSeo.title === 'string' ? pageSeo.title : '',
         description: typeof pageSeo.description === 'string' ? pageSeo.description : '',
       },
-      sections,
+      sections: orderedSections.map(section => {
+        const visit = (node: PageNode): PageNode => ({
+          ...node,
+          id: uniqueId(node.id, node.type),
+          children: node.children.map(visit),
+        });
+        return visit(section);
+      }),
     });
   }
   if (!pages.length) return null;

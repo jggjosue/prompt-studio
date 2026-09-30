@@ -41,6 +41,8 @@ export type TemplateDefinition = {
   label: string;
   description: string;
   imageUrl: string;
+  /** Slug del proyecto existente del que se reutiliza la identidad visual. */
+  sourceSlug: string;
   access: 'free' | 'premium';
 };
 
@@ -50,6 +52,7 @@ export type TemplateConfig = {
   label: string;
   description: string;
   imageUrl: string;
+  sourceSlug: string;
   access: 'free' | 'premium';
   siteName: string;
   /** Token de acento del tema. */
@@ -66,6 +69,7 @@ export const TEMPLATE_CONFIGS: Record<TemplateId, TemplateConfig> = {
     label: 'SaaS Launch',
     description: 'Landing de conversión para un producto de software, con precios y prueba social.',
     imageUrl: '/images/webpages/loopline-devtool.webp',
+    sourceSlug: 'loopline-devtool',
     access: 'free',
     siteName: 'Nimbus SaaS',
     primary: '#7c3aed',
@@ -78,6 +82,7 @@ export const TEMPLATE_CONFIGS: Record<TemplateId, TemplateConfig> = {
     label: 'Creative Agency',
     description: 'Portafolio editorial para agencias y estudios creativos.',
     imageUrl: '/images/webpages/earthy-brutalist.webp',
+    sourceSlug: 'earthy-brutalist',
     access: 'free',
     siteName: 'Estudio Aurelia',
     primary: '#f04c23',
@@ -90,6 +95,7 @@ export const TEMPLATE_CONFIGS: Record<TemplateId, TemplateConfig> = {
     label: 'Restaurante',
     description: 'Carta, ambiente y reservas para restaurantes y cafeterías.',
     imageUrl: '/images/webpages/pizzaalta-neapolitan.webp',
+    sourceSlug: 'pizzaalta-neapolitan',
     access: 'premium',
     siteName: 'La Brasa',
     primary: '#d97706',
@@ -102,6 +108,7 @@ export const TEMPLATE_CONFIGS: Record<TemplateId, TemplateConfig> = {
     label: 'Portfolio',
     description: 'Muestra tu trabajo con una galería editorial y testimonios.',
     imageUrl: '/images/webpages/3d-photography-portfolio-video-projections.webp',
+    sourceSlug: '3d-photography-portfolio-video-projections',
     access: 'free',
     siteName: 'Portafolio de Lucía',
     primary: '#0ea5e9',
@@ -110,10 +117,11 @@ export const TEMPLATE_CONFIGS: Record<TemplateId, TemplateConfig> = {
   },
   ecommerce: {
     id: 'ecommerce',
-    category: 'E-commerce',
+    category: 'E-commerce landing page',
     label: 'E-commerce',
     description: 'Landing de producto enfocada en una conversión rápida.',
     imageUrl: '/images/webpages/luxethread-fashion-store.webp',
+    sourceSlug: 'luxethread-fashion-store',
     access: 'premium',
     siteName: 'Nube Store',
     primary: '#db2777',
@@ -126,6 +134,7 @@ export const TEMPLATE_CONFIGS: Record<TemplateId, TemplateConfig> = {
     label: 'Inmobiliaria',
     description: 'Propiedades destacadas con galería y contacto directo.',
     imageUrl: '/images/webpages/airbnb-clone.webp',
+    sourceSlug: 'airbnb-clone',
     access: 'premium',
     siteName: 'Horizonte Inmobiliaria',
     primary: '#059669',
@@ -138,6 +147,7 @@ export const TEMPLATE_CONFIGS: Record<TemplateId, TemplateConfig> = {
     label: 'Educación',
     description: 'Curso o academia: beneficios, precios y preguntas frecuentes.',
     imageUrl: '/images/webpages/3d-educational-library-search.webp',
+    sourceSlug: '3d-educational-library-search',
     access: 'free',
     siteName: 'Academia Vértice',
     primary: '#2563eb',
@@ -150,6 +160,7 @@ export const TEMPLATE_CONFIGS: Record<TemplateId, TemplateConfig> = {
     label: 'Personal',
     description: 'Página personal o de marca con contacto directo.',
     imageUrl: '/images/webpages/3d-personal-brand-cube.webp',
+    sourceSlug: '3d-personal-brand-cube',
     access: 'free',
     siteName: 'Hola, soy Martín',
     primary: '#9333ea',
@@ -162,6 +173,7 @@ export const TEMPLATE_CONFIGS: Record<TemplateId, TemplateConfig> = {
     label: 'Evento',
     description: 'Evento o conferencia: agenda, precios y registro.',
     imageUrl: '/images/webpages/amplive-concert-tickets.webp',
+    sourceSlug: 'amplive-concert-tickets',
     access: 'premium',
     siteName: 'Summit 2026',
     primary: '#e11d48',
@@ -179,6 +191,7 @@ export function listPageTemplates(): TemplateDefinition[] {
       label: config.label,
       description: config.description,
       imageUrl: config.imageUrl,
+      sourceSlug: config.sourceSlug,
       access: config.access,
     };
   });

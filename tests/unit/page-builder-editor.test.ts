@@ -206,6 +206,30 @@ test('los estilos base y responsive se validan, aplican y pueden restablecerse',
   assert.deepEqual(resetAll.schema.components[hero.componentId!].responsive, {});
 });
 
+test('el inspector responsive comparte el breakpoint activo con el canvas y muestra valores heredados', async () => {
+  const source = await readFile(
+    new URL('../../src/components/editor/website-builder/builder-properties.tsx', import.meta.url),
+    'utf8'
+  );
+
+  assert.match(source, /const breakpoint = builder\.device/);
+  assert.match(source, /onClick=\{\(\) => builder\.setDevice\(option\)\}/);
+  assert.match(source, /resolveNodeStyles\(node, breakpoint\)\[control\.target\.property\]/);
+  assert.doesNotMatch(source, /useState<EditorBreakpoint>/);
+});
+
+test('el Website Builder conserva el ancho exacto del dispositivo dentro del canvas desplazable', async () => {
+  const source = await readFile(
+    new URL('../../src/components/editor/website-builder/builder-canvas.tsx', import.meta.url),
+    'utf8'
+  );
+
+  assert.match(source, /width: DEVICE_WIDTH\[builder\.device\]/);
+  assert.match(source, /minWidth: DEVICE_WIDTH\[builder\.device\]/);
+  assert.match(source, /overflow-auto/);
+  assert.doesNotMatch(source, /<iframe/);
+});
+
 test('restaurar componente conserva children y recupera props y estilos del registro', () => {
   const initial = emptySchema();
   const pageId = initial.site.defaultPageId;
@@ -275,4 +299,8 @@ test('el Website Builder permite salir, muestra proyectos guardados y protege pl
   assert.match(gallery, /Requiere Premium/);
   assert.match(route, /definition\?\.access === 'premium' && !canUsePremium/);
   assert.match(saveRoute, /const isNew = id === 'new'/);
+  assert.match(saveRoute, /lastSaveRequestId: requestId/);
+  assert.match(saveRoute, /findOneAndUpdate\(/);
+  assert.match(saveRoute, /version: sentVersion/);
+  assert.match(saveRoute, /\$inc: \{ version: 1 \}/);
 });

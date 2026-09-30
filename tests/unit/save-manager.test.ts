@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
+  PermanentSaveError,
   SaveManager,
   StaleSaveError,
   type SavePayload,
@@ -139,6 +140,26 @@ test('un 409 (stale) marca error y no reintenta en bucle ni pierde el borrador',
   assert.equal(manager.getFailure(), 'stale');
   assert.equal(calls.length, 1, 'no se reintenta solo un guardado obsoleto');
   assert.equal(manager.isDirty, true, 'el borrador sigue pendiente, no se pierde');
+});
+
+test('un fallo permanente marca error sin generar solicitudes duplicadas', async () => {
+  let attempts = 0;
+  const manager = new SaveManager({
+    debounceMs: 10,
+    retryMs: 10,
+    save: async () => {
+      attempts += 1;
+      throw new PermanentSaveError('401');
+    },
+  });
+
+  manager.markDirty(schema('requiere-login'));
+  await wait(60);
+
+  assert.equal(manager.getStatus(), 'error');
+  assert.equal(manager.getFailure(), 'failed');
+  assert.equal(manager.isDirty, true, 'el borrador permanece protegido en memoria');
+  assert.equal(attempts, 1, 'un rechazo permanente no se reintenta en bucle');
 });
 
 test('el estado refleja saving, dirty y clean a lo largo del ciclo', async () => {

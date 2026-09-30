@@ -10,7 +10,15 @@
  * la misma sección dos veces produce dos subárboles independientes.
  */
 
-import type { PageComponentType, PageNode, StyleMap } from './page-schema';
+import {
+  PAGE_SCHEMA_VERSION,
+  validatePageSchema,
+  type PageComponentType,
+  type PageNode,
+  type SiteSchema,
+  type StyleMap,
+} from './page-schema';
+import { DEFAULT_TOKENS } from './tokens';
 
 export const SECTION_IDS = [
   'hero',
@@ -255,4 +263,34 @@ export function sectionIdFactory(prefix = 'sec'): (type: PageComponentType) => s
   const seed = Math.random().toString(36).slice(2, 7);
   let counter = 0;
   return type => `${prefix}-${type}-${seed}-${(counter += 1)}`;
+}
+
+/**
+ * Envuelve una sección en un PageSchema real para que su preview use exactamente
+ * el mismo renderer, tema y validación que el lienzo editable.
+ */
+export function createSectionPreviewSchema(id: SectionId): SiteSchema {
+  const definition = getSectionDefinition(id);
+  const section = createSection(id, sectionIdFactory('preview'));
+  const schema: SiteSchema = {
+    schemaVersion: PAGE_SCHEMA_VERSION,
+    site: {
+      name: `Preview: ${definition.label}`,
+      defaultLocale: 'es',
+      seo: { title: definition.label, description: definition.description },
+      theme: { tokens: { ...DEFAULT_TOKENS }, fontFamily: 'Inter, system-ui, sans-serif' },
+    },
+    pages: [{
+      id: 'preview-page',
+      name: definition.label,
+      slug: '/',
+      seo: { title: definition.label, description: definition.description, canonical: '/' },
+      sections: [section],
+    }],
+  };
+  const result = validatePageSchema(schema);
+  if (!result.ok) {
+    throw new Error(`Sección ${id} inválida: ${result.issues[0]?.message ?? 'error desconocido'}`);
+  }
+  return result.schema;
 }

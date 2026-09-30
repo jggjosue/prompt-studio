@@ -1,4 +1,5 @@
 import { auth } from '@clerk/nextjs/server';
+import mongoose from 'mongoose';
 import { NextResponse } from 'next/server';
 import { cacheHeaders } from '@/lib/cache-policy';
 import connectToDatabase from '@/lib/mongoose';
@@ -84,6 +85,9 @@ export async function PUT(
   }
 
   const sentVersion = typeof body.version === 'number' && Number.isFinite(body.version) ? body.version : null;
+  const requestId = typeof body.requestId === 'string' && /^[a-zA-Z0-9_-]{1,100}$/.test(body.requestId)
+    ? body.requestId
+    : null;
   const name = typeof body.name === 'string' && body.name.trim()
     ? body.name.trim().slice(0, PAGE_COMPOSER_PROJECT_LIMITS.nameLength)
     : 'Sitio sin título';
@@ -92,9 +96,27 @@ export async function PUT(
   await connectToDatabase();
 
   const isNew = id === 'new';
-  const stored = isNew ? null : await PageComposerProject.findOne({ _id: id, userId: gate.userId });
+  if (!isNew && !mongoose.isValidObjectId(id)) {
+    return NextResponse.json({ error: 'Borrador inválido.' }, { status: 400, headers: headers() });
+  }
 
-  if (!stored) {
+  // Repetir una petición cuya respuesta se perdió devuelve el mismo resultado:
+  // no crea otro borrador ni incrementa la versión por segunda vez.
+  if (requestId) {
+    const replay = await PageComposerProject.findOne({
+      userId: gate.userId,
+      lastSaveRequestId: requestId,
+      ...(isNew ? {} : { _id: id }),
+    }).lean();
+    if (replay) {
+      return NextResponse.json(
+        { id: String(replay._id), version: replay.version, savedAt: replay.updatedAt.toISOString() },
+        { headers: headers() }
+      );
+    }
+  }
+
+  if (isNew) {
     if (sentVersion !== 0 && sentVersion !== null) {
       return NextResponse.json(
         { error: 'Versión obsoleta.', version: null },
@@ -106,11 +128,39 @@ export async function PUT(
       name,
       document: sanitized.schema,
       version: 1,
+      ...(requestId ? { lastSaveRequestId: requestId } : {}),
     });
     return NextResponse.json(
       { id: String(created._id), version: created.version, savedAt: new Date().toISOString() },
       { headers: headers() }
     );
+  }
+
+  const savedAt = new Date();
+  const updated = await PageComposerProject.findOneAndUpdate(
+    { _id: id, userId: gate.userId, version: sentVersion },
+    {
+      $set: {
+        document: sanitized.schema,
+        name,
+        updatedAt: savedAt,
+        ...(requestId ? { lastSaveRequestId: requestId } : {}),
+      },
+      $inc: { version: 1 },
+    },
+    { returnDocument: 'after' }
+  ).lean();
+
+  if (updated) {
+    return NextResponse.json(
+      { id: String(updated._id), version: updated.version, savedAt: savedAt.toISOString() },
+      { headers: headers() }
+    );
+  }
+
+  const stored = await PageComposerProject.findOne({ _id: id, userId: gate.userId }).select('version').lean();
+  if (!stored) {
+    return NextResponse.json({ error: 'No existe el borrador.' }, { status: 404, headers: headers() });
   }
 
   if (sentVersion !== stored.version) {
@@ -120,14 +170,5 @@ export async function PUT(
     );
   }
 
-  stored.document = sanitized.schema;
-  stored.name = name;
-  stored.version = stored.version + 1;
-  stored.updatedAt = new Date();
-  await stored.save();
-
-  return NextResponse.json(
-    { id: String(stored._id), version: stored.version, savedAt: new Date().toISOString() },
-    { headers: headers() }
-  );
+  return NextResponse.json({ error: 'No se pudo guardar.' }, { status: 409, headers: headers() });
 }

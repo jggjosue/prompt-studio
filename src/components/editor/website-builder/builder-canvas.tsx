@@ -26,8 +26,12 @@ export function BuilderCanvas() {
     <main className="flex flex-1 flex-col overflow-hidden bg-muted/40" onClick={() => builder.select(null)}>
       <div className="flex-1 overflow-auto p-6">
         <div
-          className="mx-auto min-h-[70vh] rounded-xl border border-border bg-background shadow-sm transition-[max-width] duration-200"
-          style={{ maxWidth: DEVICE_WIDTH[builder.device] }}
+          className="mx-auto min-h-[70vh] shrink-0 rounded-xl border border-border bg-background shadow-sm transition-[width] duration-200"
+          style={{
+            width: DEVICE_WIDTH[builder.device],
+            minWidth: DEVICE_WIDTH[builder.device],
+            maxWidth: DEVICE_WIDTH[builder.device],
+          }}
         >
           <div data-ps-scope={SCOPE} style={variables}>
             {sections.length === 0 ? (
