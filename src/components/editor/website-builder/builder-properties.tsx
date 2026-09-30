@@ -23,11 +23,12 @@ import {
   EDITOR_BREAKPOINTS,
   findStyleSource,
   overrideBreakpoints,
+  resolveNodeStyles,
   type EditorBreakpoint,
 } from '@/lib/editor/responsive';
 import { DEFAULT_TOKENS } from '@/lib/editor/tokens';
 import { RotateCcw } from 'lucide-react';
-import { useState, type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { useBuilder } from './builder-context';
 
 const COLOR_TOKENS = tokenOptions(DEFAULT_TOKENS, 'color');
@@ -213,7 +214,7 @@ function ControlField({
   const value =
     control.target.type === 'prop'
       ? node.props[control.target.key]
-      : node.styles[breakpoint]?.[control.target.property];
+      : resolveNodeStyles(node, breakpoint)[control.target.property];
 
   const setProp = (next: unknown) => {
     if (control.target.type === 'prop') builder.setProp(id, control.target.key, next);
@@ -379,7 +380,7 @@ function ControlField({
 export function BuilderProperties() {
   const builder = useBuilder();
   const selected = builder.selected;
-  const [breakpoint, setBreakpoint] = useState<EditorBreakpoint>('desktop');
+  const breakpoint = builder.device;
 
   if (!selected) {
     return (
@@ -420,7 +421,7 @@ export function BuilderProperties() {
             <button
               key={option}
               type="button"
-              onClick={() => setBreakpoint(option)}
+              onClick={() => builder.setDevice(option)}
               aria-pressed={breakpoint === option}
               className={`rounded px-2 py-1 text-[11px] capitalize transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none ${
                 breakpoint === option ? 'bg-background text-primary shadow-sm' : 'text-muted-foreground hover:text-foreground'
@@ -452,13 +453,13 @@ export function BuilderProperties() {
         {propControls.length ? (
           <section className="flex flex-col gap-3">
             <h3 className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Contenido</h3>
-            {propControls.map(control => (
+            {propControls.map((control, index) => (
               <ControlField
-                key={`prop-${control.target.type === 'prop' ? control.target.key : ''}`}
+                key={`prop-${control.target.type === 'prop' ? control.target.key : ''}-${control.label}-${index}`}
                 control={control}
                 node={selected.node}
                 breakpoint={breakpoint}
-                onJumpBreakpoint={setBreakpoint}
+                onJumpBreakpoint={builder.setDevice}
               />
             ))}
           </section>
@@ -473,13 +474,13 @@ export function BuilderProperties() {
               <span className="rounded bg-primary/10 px-1 py-px font-semibold text-primary">Local</span> lo edita
               aquí · los valores sin punto se heredan del breakpoint superior.
             </p>
-            {styleControls.map(control => (
+            {styleControls.map((control, index) => (
               <ControlField
-                key={`style-${control.target.type === 'style' ? control.target.property : ''}`}
+                key={`style-${control.target.type === 'style' ? control.target.property : ''}-${control.label}-${index}`}
                 control={control}
                 node={selected.node}
                 breakpoint={breakpoint}
-                onJumpBreakpoint={setBreakpoint}
+                onJumpBreakpoint={builder.setDevice}
               />
             ))}
           </section>

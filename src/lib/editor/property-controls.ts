@@ -196,13 +196,25 @@ export function buildControls(
   fields: readonly PropField[] = PAGE_PROP_FIELDS[type],
   styleControls: readonly StyleControlLike[] = []
 ): readonly ControlDescriptor[] {
-  return [
+  const controls: ControlDescriptor[] = [
     ...fields.map(propControl),
     ...styleControls.map(styleControl),
     ...LAYOUT_CONTROLS,
     ...BORDER_CONTROLS,
     ...(TEXTUAL_TYPES.has(type) ? TYPOGRAPHY_CONTROLS : []),
   ];
+
+  // El registro específico gana sobre los controles genéricos. Además de evitar
+  // campos repetidos en el inspector, garantiza una sola mutación por propiedad.
+  const seen = new Set<string>();
+  return controls.filter(control => {
+    const key = control.target.type === 'prop'
+      ? `prop:${control.target.key}`
+      : `style:${control.target.property}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }
 
 /* ------------------------------------------------------------------ tokens --- */

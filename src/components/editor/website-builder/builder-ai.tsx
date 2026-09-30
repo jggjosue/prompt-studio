@@ -11,7 +11,7 @@
 
 import { Sparkles, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import type { SiteSchema } from '@/lib/editor/page-schema';
+import { migratePageSchema, type SiteSchema } from '@/lib/editor/page-schema';
 import { useBuilder } from './builder-context';
 
 type PlanResponse = { schema: SiteSchema; warnings?: string[]; credits: number };
@@ -79,7 +79,12 @@ export function BuilderAI({ onClose }: { onClose: () => void }) {
         return;
       }
       if ('schema' in data && data.schema) {
-        builder.loadSchema(data.schema);
+        const validated = migratePageSchema(data.schema);
+        if (!validated) {
+          setError({ message: 'La IA devolvió un diseño que no es seguro cargar.', code: 'INVALID_SCHEMA' });
+          return;
+        }
+        builder.loadSchema(validated);
         onClose();
       }
     } catch {

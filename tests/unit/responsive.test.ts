@@ -143,6 +143,15 @@ test('findStyleSource: distingue override local de herencia', () => {
   assert.equal(findStyleSource(subject, 'paddingBlock', 'mobile'), null);
 });
 
+test('resolver y origen permiten mostrar un valor heredado sin crear un override local', () => {
+  const subject = node({ desktop: { fontSize: 64 }, tablet: { fontSize: 48 } });
+
+  assert.equal(resolveNodeStyles(subject, 'mobile').fontSize, 48);
+  assert.equal(findStyleSource(subject, 'fontSize', 'mobile'), 'tablet');
+  assert.equal(subject.styles.mobile, undefined, 'leer el valor efectivo no muta el schema');
+  assert.deepEqual(overrideBreakpoints(subject, 'fontSize'), ['desktop', 'tablet']);
+});
+
 /* ------------------------------------------------------------- overrides --- */
 
 test('overrideBreakpoints: lista dónde vive un override local', () => {

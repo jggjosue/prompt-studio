@@ -2,8 +2,8 @@
 
 import { useDraggable } from '@dnd-kit/core';
 import { listPageComponents, type PageComponentDefinition } from '@/components/editor/page-components';
-import { PageNodeRenderer } from '@/components/editor/page-renderer';
-import { createSection, listPageSections, sectionIdFactory, type SectionDefinition, type SectionId } from '@/lib/editor/page-sections';
+import { PageRenderer } from '@/components/editor/page-renderer';
+import { createSectionPreviewSchema, listPageSections, type SectionDefinition, type SectionId } from '@/lib/editor/page-sections';
 import { Eye, GripVertical, Plus } from 'lucide-react';
 import { useState } from 'react';
 import { useBuilder } from './builder-context';
@@ -136,7 +136,7 @@ export function BuilderLibrary() {
     items: definitions.filter(definition => definition.category === category),
   })).filter(group => group.items.length > 0);
 
-  const previewNode = previewId ? createSection(previewId, sectionIdFactory('prev')) : null;
+  const previewSchema = previewId ? createSectionPreviewSchema(previewId) : null;
 
   return (
     <aside className="flex w-64 shrink-0 flex-col overflow-y-auto border-r border-border bg-muted/30">
@@ -168,7 +168,7 @@ export function BuilderLibrary() {
         ))}
       </div>
 
-      {previewNode ? (
+      {previewSchema ? (
         <div
           className="fixed inset-0 z-50 grid place-items-center bg-black/70 p-4"
           onClick={() => setPreviewId(null)}
@@ -189,8 +189,8 @@ export function BuilderLibrary() {
                 Cerrar
               </button>
             </div>
-            <div className="bg-muted/40 p-4">
-              <PageNodeRenderer node={previewNode} />
+            <div className="bg-muted/40">
+              <PageRenderer schema={previewSchema} />
             </div>
           </div>
         </div>
