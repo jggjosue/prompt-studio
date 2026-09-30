@@ -15,7 +15,7 @@
  * documento que llega de una IA no requiere cargar ni ejecutar la interfaz.
  */
 
-import { memo, type JSX, type ReactNode } from 'react';
+import { memo, useState, type FormEvent, type JSX, type ReactNode } from 'react';
 import {
   PAGE_CHILDREN,
   PAGE_PROP_FIELDS,
@@ -27,6 +27,7 @@ import {
 } from '@/lib/editor/page-schema';
 import type { DesignTokens } from '@/lib/editor/tokens';
 import { buildControls, type ControlDescriptor } from '@/lib/editor/property-controls';
+import { defaultFormFields, parseFormFields } from '@/lib/form-fields';
 
 /* ------------------------------------------------------------------ tipos --- */
 
@@ -530,8 +531,40 @@ const Faq: ComponentRenderer = ({ node }) => {
 
 const ContactForm: ComponentRenderer = ({ node }) => {
   const props = node.props;
-  const requested = items<{ name: string }>(props, 'fields', ['name']).map(field => field.name);
-  const onlyEmail = requested.length === 1 && requested[0]?.toLowerCase() === 'email';
+  const variant = (props.variant === 'newsletter' || props.variant === 'lead' || props.variant === 'waitlist' || props.variant === 'custom') ? props.variant : 'contact';
+  const consentRequired = props.consentRequired === true;
+  const configured = parseFormFields(props.fields);
+  const fields = configured.length ? configured : defaultFormFields(variant);
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [error, setError] = useState<string | null>(null);
+  const inputClass =
+    'rounded-[var(--ps-radius-sm,6px)] border border-[var(--ps-color-border,rgba(15,23,42,.12))] bg-[var(--ps-color-background,#f8fafc)] px-3 py-2 text-[var(--ps-color-ink,#0f172a)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ps-color-primary,#8b5cf6)]';
+
+  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (status === 'sending') return;
+    setStatus('sending');
+    setError(null);
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    data.set('formId', node.id);
+    void fetch('/api/page-composer/forms/submit', { method: 'POST', body: data })
+      .then(async response => {
+        const body = (await response.json().catch(() => null)) as { ok?: boolean; error?: string } | null;
+        if (response.ok && body?.ok) {
+          setStatus('success');
+          form.reset();
+        } else {
+          setStatus('error');
+          setError(body?.error ?? 'No se pudo enviar el formulario.');
+        }
+      })
+      .catch(() => {
+        setStatus('error');
+        setError('No se pudo conectar con el servidor.');
+      });
+  };
+
   return (
     <section className="w-full" id="contacto">
       <Shell width="narrow">
@@ -541,47 +574,40 @@ const ContactForm: ComponentRenderer = ({ node }) => {
         ) : null}
         <form
           className="flex flex-col gap-4 rounded-[var(--ps-radius-lg,20px)] border border-[var(--ps-color-border,rgba(15,23,42,.12))] bg-[var(--ps-color-surface,#fff)] p-6"
-          method="post"
-          action={text(props, 'emailTo') ? `/api/lead?emailTo=${encodeURIComponent(text(props, 'emailTo'))}` : '/api/lead'}
+          onSubmit={onSubmit}
+          noValidate
         >
-          {onlyEmail ? null : (
-            <label className="flex flex-col gap-1 text-sm font-medium text-[var(--ps-color-ink,#0f172a)]">
-              Nombre
-              <input
-                name="name"
-                type="text"
-                required
-                className="rounded-[var(--ps-radius-sm,6px)] border border-[var(--ps-color-border,rgba(15,23,42,.12))] bg-[var(--ps-color-background,#f8fafc)] px-3 py-2"
-              />
+          <input type="hidden" name="formId" value={node.id} />
+          <input type="text" name="_hp" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
+          {fields.map(field => (
+            <label key={field.name} className="flex flex-col gap-1 text-sm font-medium text-[var(--ps-color-ink,#0f172a)]">
+              {field.label}
+              {field.type === 'textarea' ? (
+                <textarea name={field.name} rows={4} className={inputClass} />
+              ) : (
+                <input name={field.name} type={field.type} required={field.required} className={inputClass} />
+              )}
             </label>
-          )}
-          <label className="flex flex-col gap-1 text-sm font-medium text-[var(--ps-color-ink,#0f172a)]">
-            Email
-            <input
-              name="email"
-              type="email"
-              required
-              className="rounded-[var(--ps-radius-sm,6px)] border border-[var(--ps-color-border,rgba(15,23,42,.12))] bg-[var(--ps-color-background,#f8fafc)] px-3 py-2"
-            />
-          </label>
-          {requested.includes('message') ? (
-            <label className="flex flex-col gap-1 text-sm font-medium text-[var(--ps-color-ink,#0f172a)]">
-              Mensaje
-              <textarea
-                name="message"
-                rows={4}
-                className="rounded-[var(--ps-radius-sm,6px)] border border-[var(--ps-color-border,rgba(15,23,42,.12))] bg-[var(--ps-color-background,#f8fafc)] px-3 py-2"
-              />
+          ))}
+          {consentRequired ? (
+            <label className="flex items-start gap-2 text-xs text-[var(--ps-color-muted,#64748b)]">
+              <input name="consent" type="checkbox" value="true" required className="mt-0.5 accent-[var(--ps-color-primary,#8b5cf6)]" />
+              Acepto la política de privacidad y el tratamiento de mis datos.
             </label>
           ) : null}
-          <button type="submit" className={btn('primary', 'md')}>
-            {text(props, 'submitLabel', 'Enviar')}
-          </button>
-          {text(props, 'successMessage') ? (
-            <p className="text-center text-xs text-[var(--ps-color-muted,#64748b)]" role="status">
-              {text(props, 'successMessage')}
+          {status === 'success' ? (
+            <p className="rounded-md border border-emerald-500/40 bg-emerald-500/10 px-3 py-2 text-center text-xs text-emerald-600" role="status">
+              {text(props, 'successMessage', '¡Gracias! Recibimos tu mensaje.')}
             </p>
           ) : null}
+          {status === 'error' ? (
+            <p className="rounded-md border border-red-500/40 bg-red-500/10 px-3 py-2 text-center text-xs text-red-600" role="alert">
+              {error ?? 'No se pudo enviar el formulario.'}
+            </p>
+          ) : null}
+          <button type="submit" disabled={status === 'sending'} className={btn('primary', 'md')}>
+            {status === 'sending' ? 'Enviando…' : text(props, 'submitLabel', 'Enviar')}
+          </button>
         </form>
       </Shell>
     </section>

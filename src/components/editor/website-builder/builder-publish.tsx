@@ -9,7 +9,8 @@
  * publicar/republish y despublicar.
  */
 
-import { Eye, Globe, Rocket } from 'lucide-react';
+import { Eye, Globe, Inbox, Rocket } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { useBuilder } from './builder-context';
 import { BuilderDomains } from './builder-domains';
@@ -19,7 +20,9 @@ type ErrorResponse = { error?: string };
 
 export function BuilderPublish() {
   const builder = useBuilder();
+  const pathname = usePathname();
   const siteId = builder.siteId;
+  const submissionsHref = `${pathname.replace(/\/page-composer\/website.*$/, '/page-composer/website/submissions')}?project=${siteId}`;
   const [publication, setPublication] = useState<Publication | null>(null);
   const [subdomain, setSubdomain] = useState('');
   const [busy, setBusy] = useState(false);
@@ -142,6 +145,14 @@ export function BuilderPublish() {
         <Globe className="size-3.5" />
         Dominios
       </button>
+      <a
+        href={submissionsHref}
+        className="flex items-center gap-1 rounded-md border border-border px-2 py-1.5 text-[11px] font-medium text-muted-foreground hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+        title="Envíos de formularios"
+      >
+        <Inbox className="size-3.5" />
+        Envíos
+      </a>
       <button
         type="button"
         onClick={publish}
