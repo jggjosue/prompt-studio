@@ -42,28 +42,53 @@ test('el generador de páginas muestra la puerta a quien no tiene plan', async (
   assert.match(page, /return <PageComposerClient \/>/);
 });
 
-test('el menú ofrece Constructor visual y Generador de páginas solo al super administrador', async () => {
+test('el menú ofrece Constructor visual y Generador de páginas a todos, pero solo los habilita al super administrador', async () => {
   const header = await source('src/components/layout/header-client.tsx');
 
-  // Las herramientas de creación solo las ve el super admin (PROMPT_STUDIO_PREMIUM_JO);
-  // el resto de usuarios no las ve en el menú.
+  // Se anuncian siempre (el menú no debe cambiar de forma al entrar), pero el
+  // clic queda reservado al super admin (PROMPT_STUDIO_PREMIUM_JO); el resto las
+  // ve con el badge «Próximamente».
   assert.match(header, /useSuperAdmin\(\)/, 'el menú consulta si el usuario es super admin');
   assert.match(
     header,
-    /\.\.\.\(isSuperAdmin \? paidCreatorItems\(\) : \[\]\)/,
-    'las herramientas de creación solo se insertan para el super admin'
+    /\.\.\.paidCreatorItems\(\),/,
+    'las herramientas de creación se insertan siempre, no solo para el super admin'
   );
 
-  const items = header.match(/const paidCreatorItems = \(\): DropdownItem\[\] => \[[\s\S]*?\];/);
+  const items = header.match(/const paidCreatorItems = \(\): DropdownItem\[\] => \{[\s\S]*?\n  \};/);
   assert.ok(items, 'debe existir la lista de herramientas de creación');
   assert.match(items[0], /href: '\/component-builder'/, 'Constructor visual');
   assert.match(items[0], /href: '\/page-composer'/, 'Generador de páginas');
 
-  // Y no se sirven como «Próximamente».
-  assert.doesNotMatch(
+  // Ambas entradas comparten el mismo candado, que depende de `isSuperAdmin`.
+  assert.match(
     items[0],
-    /disabled|disabledBadge/,
-    'habilitadas: nada de badge de «Próximamente»'
+    /const locked = isSuperAdmin \? \{\} : \{ disabled: true, disabledBadge: copy\.comingSoon \};/,
+    'sin super admin, las herramientas salen deshabilitadas con «Próximamente»'
+  );
+  assert.equal(items[0].match(/\.\.\.locked,/g)?.length, 2, 'las dos herramientas quedan bajo el mismo candado');
+});
+
+test('el hook del super admin reconoce los mismos alias que el servidor', async () => {
+  const hook = await source('src/hooks/use-super-admin.ts');
+
+  // `isPromptStudioAdminEmail` acepta cuatro variables de servidor; el cliente
+  // necesita los cuatro gemelos NEXT_PUBLIC_*. Con solo uno, el menú se le
+  // deshabilita al admin en cuanto se migre el email a otro alias.
+  for (const name of [
+    'NEXT_PUBLIC_PROMPT_STUDIO_PREMIUM_JO',
+    'NEXT_PUBLIC_PROMPT_STUDIO_CREATOR_JO',
+    'NEXT_PUBLIC_PROMPT_STUDIO_PRO_JO',
+    'NEXT_PUBLIC_PROMPT_STUDIO_STUDIO_JO',
+  ]) {
+    assert.match(hook, new RegExp(`process\\.env\\.${name}`), `el cliente debe leer ${name}`);
+  }
+
+  // Sin ninguna variable pública, nadie es admin: es el default seguro.
+  assert.match(
+    hook,
+    /ADMIN_EMAILS\.length === 0\) return false/,
+    'sin variables públicas el hook no debe dar acceso'
   );
 });
 
