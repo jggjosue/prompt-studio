@@ -13,11 +13,7 @@
  */
 
 import { getPageComponent } from '@/components/editor/page-components';
-import {
-  SHADOW_OPTIONS,
-  tokenOptions,
-  type ControlDescriptor,
-} from '@/lib/editor/property-controls';
+import { SHADOW_OPTIONS, type ControlDescriptor } from '@/lib/editor/property-controls';
 import type { PageNode } from '@/lib/editor/page-schema';
 import {
   EDITOR_BREAKPOINTS,
@@ -31,7 +27,78 @@ import { RotateCcw } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { useBuilder } from './builder-context';
 
-const COLOR_TOKENS = tokenOptions(DEFAULT_TOKENS, 'color');
+const COLOR_TOKENS = orderedTokens(DEFAULT_TOKENS, [
+  'color.primary',
+  'color.secondary',
+  'color.ink',
+  'color.muted',
+  'color.surface',
+  'color.background',
+  'color.border',
+]);
+const SPACING_TOKENS = orderedTokens(DEFAULT_TOKENS, [
+  'spacing.xs',
+  'spacing.sm',
+  'spacing.md',
+  'spacing.lg',
+  'spacing.xl',
+]);
+const RADIUS_TOKENS = orderedTokens(DEFAULT_TOKENS, ['radius.sm', 'radius.md', 'radius.lg', 'radius.full']);
+
+/**
+ * El orden lo fija la escala, no el alfabeto. `tokenOptions` ordena por clave y
+ * dejaría las fichas como Grande, Medio, Poco, Muy grande, Muy poco: al revés
+ * de lo que espera el ojo, y justo el detalle que hace que un control se lea
+ * como técnico.
+ */
+function orderedTokens(tokens: Record<string, string>, order: readonly string[]): TokenOption[] {
+  return order.filter(key => key in tokens).map(key => ({ value: `token:${key}`, label: key }));
+}
+
+/**
+ * El usuario no sabe qué es un token ni cuántos píxeles son 24. Se le enseña la
+ * intención ("Medio") y el token va por debajo. Los valores en claro son la
+ * grandeur real, solo para que la etiqueta no parezca inventada.
+ */
+const SPACING_LABELS: Record<string, string> = {
+  'spacing.xs': 'Muy poco',
+  'spacing.sm': 'Poco',
+  'spacing.md': 'Medio',
+  'spacing.lg': 'Grande',
+  'spacing.xl': 'Muy grande',
+};
+
+const RADIUS_LABELS: Record<string, string> = {
+  'radius.sm': 'Recto',
+  'radius.md': 'Redondo',
+  'radius.lg': 'Muy redondo',
+  'radius.full': 'Píldora',
+};
+
+const SHADOW_LABELS: Record<string, string> = {
+  none: 'Sin sombra',
+  'token:shadow.sm': 'Sombra suave',
+  'token:shadow.md': 'Sombra media',
+  'token:shadow.lg': 'Sombra marcada',
+};
+
+/** Texto corto que acompaña al deslizador: el número solo no significa nada. */
+const FONT_SIZE_STEPS: ReadonlyArray<{ value: number; label: string }> = [
+  { value: 12, label: 'Diminuto' },
+  { value: 14, label: 'Pequeño' },
+  { value: 16, label: 'Normal' },
+  { value: 20, label: 'Grande' },
+  { value: 28, label: 'Título' },
+  { value: 40, label: 'Gigante' },
+];
+
+function nearestFontSizeLabel(size: number): string {
+  return (
+    FONT_SIZE_STEPS.reduce((best, step) =>
+      Math.abs(step.value - size) < Math.abs(best.value - size) ? step : best
+    ).label
+  );
+}
 
 function FieldShell({
   label,
@@ -130,41 +197,141 @@ function ResponsiveDots({
 const inputClass =
   'h-8 w-full rounded-md border border-border bg-background px-2 text-xs text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none';
 
+type TokenOption = { value: string; label: string };
+
+const chipClass =
+  'rounded-md border px-2 py-1 text-[11px] transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none';
+
+/**
+ * Fichas de token: en vez de un número, el usuario elige una intención. Al
+ * pulsar la ficha ya activa se quita el override y vuelve al valor por defecto
+ * del catálogo, que es lo que espera alguien que solo quiere deshacerlo.
+ */
+function TokenChips({
+  value,
+  onChange,
+  onClear,
+  options,
+  labels,
+}: {
+  value: string;
+  onChange: (value: string) => void;
+  onClear: () => void;
+  options: readonly TokenOption[];
+  labels: Record<string, string>;
+}) {
+  const known = options.some(option => option.value === value);
+
+  return (
+    <div className="flex flex-wrap gap-1">
+      {options.map(option => {
+        const active = value === option.value;
+        return (
+          <button
+            key={option.value}
+            type="button"
+            aria-pressed={active}
+            title={option.label}
+            // Pulsar la ficha ya activa la quita, en vez de escribir un
+            // string vacío: `setStyle('')` dejaría la propiedad presente y
+            // vacía, que no es lo mismo que haberla borrado.
+            onClick={() => (active ? onClear() : onChange(option.value))}
+            className={`${chipClass} ${
+              active
+                ? 'border-primary/60 bg-primary/15 text-primary'
+                : 'border-border bg-muted/30 text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            {labels[option.label] ?? option.label}
+          </button>
+        );
+      })}
+      {/* Valor a medida: se muestra, pero no se puede interpretar como ficha. */}
+      {!known && value ? (
+        <span className={`${chipClass} cursor-default border-dashed border-border bg-transparent text-muted-foreground`}>
+          A medida
+        </span>
+      ) : null}
+    </div>
+  );
+}
+
+/** Deslizador con etiqueta legible: arrastrar sin saber qué número es. */
+function SliderField({
+  value,
+  min,
+  max,
+  step,
+  onChange,
+  caption,
+}: {
+  value: number;
+  min: number;
+  max: number;
+  step: number;
+  onChange: (value: number) => void;
+  caption: string;
+}) {
+  return (
+    <div className="flex items-center gap-2">
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={Number.isFinite(value) ? value : min}
+        onChange={event => onChange(event.target.valueAsNumber)}
+        aria-label={caption}
+        className="h-1.5 min-w-0 flex-1 cursor-pointer accent-primary"
+      />
+      <span className="w-20 shrink-0 truncate text-right text-[11px] text-muted-foreground" title={caption}>
+        {caption}
+      </span>
+    </div>
+  );
+}
+
 function ColorField({ value, onChange }: { value: string; onChange: (value: string) => void }) {
   const isToken = value.startsWith('token:');
   const hex = !isToken && /^#[0-9a-fA-F]{3,8}$/.test(value) ? value : '#000000';
 
   return (
-    <div className="flex items-center gap-1.5">
-      <input
-        type="color"
-        value={hex}
-        disabled={isToken}
-        onChange={event => onChange(event.target.value)}
-        className="h-8 w-9 shrink-0 cursor-pointer rounded border border-border bg-background p-0.5 disabled:opacity-40"
-        aria-label="Color personalizado"
-      />
-      <input
-        type="text"
-        value={value}
-        onChange={event => onChange(event.target.value)}
-        className={inputClass}
-        placeholder="token:color.primary"
-        aria-label="Valor de color"
-      />
-      <select
-        value={isToken ? value : ''}
-        onChange={event => onChange(event.target.value)}
-        className="h-8 shrink-0 rounded-md border border-border bg-background px-1 text-[11px] text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
-        aria-label="Token de color"
-      >
-        <option value="">Token…</option>
+    <div className="flex flex-col gap-1.5">
+      <div className="flex items-center gap-1.5">
+        <input
+          type="color"
+          value={hex}
+          disabled={isToken}
+          onChange={event => onChange(event.target.value)}
+          className="h-8 w-9 shrink-0 cursor-pointer rounded border border-border bg-background p-0.5 disabled:opacity-40"
+          aria-label="Color personalizado"
+        />
+        <input
+          type="text"
+          value={value}
+          onChange={event => onChange(event.target.value)}
+          className={inputClass}
+          placeholder="token:color.primary"
+          aria-label="Valor de color"
+        />
+      </div>
+      {/* Muestras del tema: un clic y el color es coherente con el resto del sitio. */}
+      <div className="flex flex-wrap gap-1">
         {COLOR_TOKENS.map(token => (
-          <option key={token.value} value={token.value}>
-            {token.label}
-          </option>
+          <button
+            key={token.value}
+            type="button"
+            aria-pressed={value === token.value}
+            title={token.label}
+            aria-label={token.label}
+            onClick={() => onChange(value === token.value ? '' : token.value)}
+            style={{ backgroundColor: DEFAULT_TOKENS[token.label] }}
+            className={`size-5 rounded-full border transition-transform focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none ${
+              value === token.value ? 'border-primary ring-1 ring-primary' : 'border-border hover:scale-110'
+            }`}
+          />
         ))}
-      </select>
+      </div>
     </div>
   );
 }
@@ -286,15 +453,57 @@ function ControlField({
         </select>
       );
       break;
-    case 'number':
-    case 'opacity':
-    case 'fontSize':
-    case 'lineHeight':
     case 'padding':
     case 'margin':
     case 'gap':
-    case 'borderWidth':
+      input = (
+        <TokenChips
+          value={text}
+          onChange={next => (control.target.type === 'prop' ? setProp(next) : setStyle(next))}
+          onClear={reset}
+          options={SPACING_TOKENS}
+          labels={SPACING_LABELS}
+        />
+      );
+      break;
     case 'borderRadius':
+      input = (
+        <TokenChips
+          value={text}
+          onChange={next => (control.target.type === 'prop' ? setProp(next) : setStyle(next))}
+          onClear={reset}
+          options={RADIUS_TOKENS}
+          labels={RADIUS_LABELS}
+        />
+      );
+      break;
+    case 'opacity':
+      input = (
+        <SliderField
+          value={numeric === '' ? 100 : numeric}
+          min={0}
+          max={100}
+          step={1}
+          onChange={next => (control.target.type === 'prop' ? setProp(next) : setStyle(next))}
+          caption={`${numeric === '' ? 100 : Math.round(numeric)} %`}
+        />
+      );
+      break;
+    case 'fontSize':
+      input = (
+        <SliderField
+          value={numeric === '' ? 16 : numeric}
+          min={10}
+          max={72}
+          step={1}
+          onChange={next => (control.target.type === 'prop' ? setProp(next) : setStyle(next))}
+          caption={numeric === '' ? 'Normal' : `${nearestFontSizeLabel(numeric)} ${Math.round(numeric)}`}
+        />
+      );
+      break;
+    case 'number':
+    case 'lineHeight':
+    case 'borderWidth':
       input = (
         <input
           type="number"
@@ -350,13 +559,13 @@ function ControlField({
       break;
     case 'shadow':
       input = (
-        <select value={text} onChange={event => setStyle(event.target.value)} className={inputClass}>
-          {SHADOW_OPTIONS.map(option => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
+        <TokenChips
+          value={text}
+          onChange={next => setStyle(next)}
+          onClear={reset}
+          options={SHADOW_OPTIONS.map(option => ({ value: option, label: option }))}
+          labels={SHADOW_LABELS}
+        />
       );
       break;
     default:
