@@ -197,3 +197,10 @@ test('el inspector se genera desde ComponentRegistry sin switches por tipo', asy
     assert.ok(getPageComponentDefinition('hero').styleControls.includes(property as StyleProperty), `falta el control ${property}`);
   }
 });
+
+test('/page-composer monta el Visual Builder por defecto y conserva semillas heredadas', async () => {
+  const source = await readFile(new URL('../../src/app/[locale]/page-composer/page.tsx', import.meta.url), 'utf8');
+  assert.match(source, /VisualPageComposerClient/);
+  assert.match(source, /if \(hasLegacySeed\) return <PageComposerClient/);
+  assert.match(source, /return <VisualPageComposerClient canEdit=\{canEdit\}/);
+});
