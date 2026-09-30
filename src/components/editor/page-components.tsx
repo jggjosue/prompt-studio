@@ -27,7 +27,6 @@ import {
 } from '@/lib/editor/page-schema';
 import type { DesignTokens } from '@/lib/editor/tokens';
 import { buildControls, type ControlDescriptor } from '@/lib/editor/property-controls';
-import { defaultFormFields, parseFormFields } from '@/lib/form-fields';
 
 /* ------------------------------------------------------------------ tipos --- */
 

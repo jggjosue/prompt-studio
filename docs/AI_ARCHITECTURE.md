@@ -52,23 +52,30 @@ job. This difference is what allows determining if the rate is poorly calibrated
 ```mermaid
 stateDiagram-v2
     [*] --> queued: POST /api/ai/jobs · reserveCredits()
-    queued --> processing: findOneAndUpdate claims and takes lease (5 min)
-    processing --> completed: valid output · captureCredits()
-    processing --> retrying: failure · attempts < maxAttempts
-    retrying --> processing: nextAttemptAt expired
-    processing --> failed: attempts == maxAttempts · refundCredits()
+    queued --> processing: atomic claim + ownership lease
+    processing --> uploading: provider uploads an artifact
+    processing --> finalizing: inline/provider output received
+    uploading --> finalizing: artifact reference persisted
+    finalizing --> completed: validate output · captureCredits()
+    processing --> queued: retryable failure + backoff
+    uploading --> queued: retryable failure + backoff
+    finalizing --> queued: retryable failure + backoff
+    processing --> failed: attempts exhausted · refundCredits()
+    processing --> cancelled: cancellation accepted · refundCredits()
     completed --> [*]
     failed --> [*]
+    cancelled --> [*]
 ```
 
 ### How a job is claimed
 
 [`/api/ai/jobs/process`](../src/app/api/ai/jobs/process/route.ts) does not do "read and then write". It uses an atomic
 `findOneAndUpdate` that in the same operation filters, marks as `processing`,
-increments `attempts`, and sets a **5-minute lease**:
+increments `attempts`, and sets a **5-minute ownership lease** with a unique
+`lockToken`:
 
 ```ts
-{ status: { $in: ['queued','retrying','processing'] },
+{ status: { $in: ['queued','retrying','processing','uploading','finalizing'] },
   nextAttemptAt: { $lte: now },
   $or: [{ leaseExpiresAt: null }, { leaseExpiresAt: { $lte: now } }] }
 ```
@@ -78,18 +85,56 @@ Two deliberate consequences:
 1. **Two concurrent crons cannot take the same job.** The filter and write are a
    single MongoDB operation.
 2. **A worker that dies does not block the job forever.** That is why
-   `processing` appears in the `$in`: after 5 minutes the lease expires and
+   active states appear in the `$in`: after 5 minutes the lease expires and
    another attempt picks it up. Without this, a crashed process would leave
    credits reserved indefinitely.
+
+Every state change also filters by the expected state and `lockToken`, so an
+expired worker cannot overwrite a newer attempt. Legacy `retrying` records are
+read as canonical `queued`; new retries are persisted as `queued`. See the
+[canonical state-machine contract](architecture/generation-job-state-machine.md).
 
 The endpoint processes between 1 and 5 jobs per invocation (`limit`, bounded on the
 server) and is protected by `hasValidCronSecret`, not by session.
 
-> **No scheduler calls it today.** `vercel.json` declares no cron job: the
-> per-minute expression this queue needs is not allowed on Vercel's Hobby plan.
-> The endpoint works, but somebody has to call it — see
-> [DEPLOYMENT.md](DEPLOYMENT.md) §2. Until then a job stays `queued` with its
-> credits `reserved`.
+> **Vercel Cron calls it every minute** (`vercel.json`), so this endpoint is
+> also the safety net: if QStash is unavailable or `AI_QUEUE_KILL_SWITCH` is on,
+> the queue drains on the next minute instead of stalling.
+
+### Stuck-job recovery sweeper
+
+`GET|POST /api/ai/jobs/sweep` runs every 5 minutes, separate from the generation
+queue on purpose: recovery is scheduled work, not part of a normal execution.
+
+A job is *stuck* when it is in `processing`, `uploading` or `finalizing`, its
+lease has expired, and it has shown no sign of life (`updatedAt`) for longer than
+the threshold for its kind — 10 min for `text` up to 45 min for `video`, all of
+them comfortably above the 5-minute processor lease. The oldest job is claimed
+first, with the same compare-and-swap and lease machinery the queue uses, so two
+concurrent sweeps cannot both take the same job.
+
+The decision is delegated to the ordinary retry policy with category `timeout`,
+so there is only one rule to keep consistent:
+
+| Situation | Action | Credits |
+| --- | --- | --- |
+| Attempts remain | Requeued to `queued` with its generation idempotency key untouched | Untouched — the same reservation is what the next execution will capture |
+| Attempts exhausted | `dead_letter` | Reserved credits refunded |
+| Attempts exhausted with a `providerRequestId` | `dead_letter`, and the reason records that a provider request existed | Reserved credits refunded |
+
+Requeueing never touches the balance: refunding there would be a double charge
+from the user's point of view. Refunds stay idempotent through the
+`creditsState` guard and the unique `(jobId, operation)` ledger index.
+
+The transition starts from the state the job is *actually* in, not always from
+`processing`. That matters for `finalizing`: a stuck job there has usually
+already captured, and closing it through a `processing → failed` filter does not
+match, which would leave the reservation stranded.
+
+Every action records `recovery` on the job (reason, timestamp, owner, the
+`lastSweepId` that touched it, and any `providerRequestId` worth following up)
+and emits an `ai_generation` event, so a recovered job is distinguishable from a
+clean one and an operator can trace it to the sweep that closed it.
 
 ### Retries
 

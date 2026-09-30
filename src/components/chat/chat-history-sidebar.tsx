@@ -4,8 +4,6 @@ import { cn } from '@/lib/utils';
 import type { ChatGeneratorReturn } from '@/lib/chat-types';
 import type { ChatMode } from '@/lib/chat-types';
 import {
-  ChevronLeft,
-  ChevronRight,
   Image as ImageIcon,
   Loader2,
   PanelLeftClose,
@@ -18,7 +16,6 @@ import {
   MessageSquarePlus,
 } from 'lucide-react';
 import { useState, useMemo } from 'react';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
 interface Session {
@@ -67,7 +64,7 @@ export function ChatHistorySidebar({ chat }: { chat: ChatGeneratorReturn }) {
   return (
     <aside
       className={cn(
-        'hidden flex-col border-r border-border/60 bg-background/50 backdrop-blur-sm transition-all duration-300 overflow-hidden shrink-0 lg:flex',
+        'hidden min-h-0 flex-col border-r border-border/60 bg-background/50 backdrop-blur-sm transition-all duration-300 overflow-hidden shrink-0 lg:flex',
         collapsed ? 'w-12' : 'w-60'
       )}
       aria-label="Historial de creaciones"
@@ -128,7 +125,7 @@ export function ChatHistorySidebar({ chat }: { chat: ChatGeneratorReturn }) {
           </div>
 
           {/* Session list */}
-          <div className="flex-1 overflow-y-auto px-1 pb-2 space-y-3">
+          <div className="min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain px-1 pb-2 pr-1.5 [scrollbar-gutter:stable]">
             {groups.length === 0 && (
               <div className="flex flex-col items-center justify-center py-8 text-center">
                 <MessageSquarePlus className="h-6 w-6 text-muted-foreground/40 mb-2" aria-hidden="true" />

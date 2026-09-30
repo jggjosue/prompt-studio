@@ -17,14 +17,12 @@ export function EditorWorkspace({
   initialDocument,
   sourcePageId,
   showCanvasCoordinates = false,
-  previewUrl,
   onSave,
 }: {
   name?: string;
   initialDocument?: EditorDocument | null;
   sourcePageId?: string | null;
   showCanvasCoordinates?: boolean;
-  previewUrl?: string | null;
   onSave?: () => void;
 }) {
   const store = useMemo(() => createEditorStore(incrementalIds()), []);
@@ -114,7 +112,7 @@ export function EditorWorkspace({
     }
   };
 
-  return <EditorShell store={store} name={name} showCanvasCoordinates={showCanvasCoordinates} previewUrl={previewUrl} onSave={handleSave} />;
+  return <EditorShell store={store} name={name} showCanvasCoordinates={showCanvasCoordinates} onSave={handleSave} />;
 }
 
 export default EditorWorkspace;

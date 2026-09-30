@@ -19,11 +19,10 @@ export async function POST(request: Request) {
   if (input.prompt.length < 10 || goals.length === 0) return NextResponse.json({ error: 'Incluye un prompt y al menos un objetivo.' }, { status: 400, headers: headers() });
   try {
     const user = await (await clerkClient()).users.getUser(userId);
-    const metered = await runMeteredInlineAI({ userId, userEmail: user.primaryEmailAddress?.emailAddress ?? '', kind: 'project', provider: 'google', modelId: 'gemini-2.5-flash', operation: 'prompt_optimization', requestId: request.headers.get('Idempotency-Key') || crypto.randomUUID(), payload: input, execute: () => optimizePrompt(input) });
+    const metered = await runMeteredInlineAI({ userId, userEmail: user.primaryEmailAddress?.emailAddress ?? '', kind: 'project', provider: 'google', modelId: 'gemini-3.1-flash-lite', operation: 'prompt_optimization', requestId: request.headers.get('Idempotency-Key') || crypto.randomUUID(), payload: input, execute: () => optimizePrompt(input) });
     return NextResponse.json({ result: metered.result, creditsCharged: metered.creditsCharged, duplicate: metered.duplicate }, { headers: headers() });
   } catch (error) {
     if (error instanceof AICreditError) return NextResponse.json({ error: { code: error.code, message: `Necesitas ${error.required} créditos y tienes ${error.available}.` }, required: error.required, available: error.available }, { status: 402, headers: headers() });
     return NextResponse.json({ error: 'El proveedor no pudo completar la optimización estructurada. Inténtalo de nuevo.' }, { status: 502, headers: headers() });
   }
 }
-

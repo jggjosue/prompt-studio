@@ -102,6 +102,7 @@ test('el guard compara el secreto en tiempo constante', async () => {
   assert.ok(value.includes('safeEqual'));
   assert.ok(value.includes('diff |='), 'la comparación debe ser sin cortocircuito');
   assert.ok(!/authorization === `Bearer/.test(value), 'no debe quedar comparación directa con ===');
+  assert.ok(value.includes('hasValidCronSecretHeader'), 'debe ofrecer autenticación sin secretos en query');
 });
 
 test('las rutas públicas de escritura aplican rate limiting', async () => {

@@ -31,6 +31,7 @@ type MediaItem = {
   tags?: string[];
   demoUrl?: string;
   price?: string;
+  fullPrompt?: Localized;
   /** Id con el que el detalle encuentra el elemento; lo calcula la pagina. */
   detailId?: string;
 };
@@ -364,11 +365,11 @@ export default function DiscoverClient({
       // feed solo sirve de respaldo: aqui el orden ya esta filtrado y mezclado.
       images.map((item, index) => {
         const contentId = stableCatalogId(item.detailId, `img-${index + 1}`);
-        return { ...item, key: `image-${contentId}`, contentKey: `image:${contentId}`, contentId, editorialIndex: index, kind: 'image' as const, detailId: item.detailId ?? `img-${index + 1}`, titleText: text(item.title, locale), prompt: typeof item.description === 'object' ? text(item.description as LocalizedField, locale) : '' };
+        return { ...item, key: `image-${contentId}`, contentKey: `image:${contentId}`, contentId, editorialIndex: index, kind: 'image' as const, detailId: item.detailId ?? `img-${index + 1}`, titleText: text(item.title, locale), prompt: text(item.fullPrompt, locale) || text(item.description as LocalizedField, locale) };
       });
     const videoItems: FeedItem[] = videos.map((item, index) => {
       const contentId = stableCatalogId(item.detailId, `v-${index + 1}`);
-      return { ...item, key: `video-${contentId}`, contentKey: `video:${contentId}`, contentId, editorialIndex: index, kind: 'video', detailId: item.detailId ?? `v-${index + 1}`, titleText: text(item.title, locale), prompt: text(item.description as LocalizedField, locale) };
+      return { ...item, key: `video-${contentId}`, contentKey: `video:${contentId}`, contentId, editorialIndex: index, kind: 'video', detailId: item.detailId ?? `v-${index + 1}`, titleText: text(item.title, locale), prompt: text(item.fullPrompt, locale) || text(item.description as LocalizedField, locale) };
     });
     const webReviewIdCounts = new Map<string, number>();
     for (const page of webPages) {

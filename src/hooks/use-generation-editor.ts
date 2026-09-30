@@ -2,40 +2,87 @@
 
 import { useCallback, useState } from 'react';
 
+export type GenerationStatus = 'queued' | 'generating' | 'uploading' | 'completed' | 'failed';
+
+export interface GenerationEntry {
+  jobId: string;
+  status: GenerationStatus;
+  imageUrl?: string;
+  error?: string;
+  progressMessage?: string;
+  creditsUsed?: number;
+  provider: string;
+}
+
 export type GenerationError = {
   title: string;
   message: string;
 } | null;
 
 export function useGenerationEditor() {
-  const [localGenerating, setLocalGenerating] = useState(false);
+  const [activeGenerations, setActiveGenerations] = useState(0);
   const [genProgress, setGenProgress] = useState(0);
   const [genStatus, setGenStatus] = useState('');
   const [generationError, setGenerationError] = useState<GenerationError>(null);
-
-  const [outputImageUrl, setOutputImageUrl] = useState('');
+  const [generations, setGenerations] = useState<Map<string, GenerationEntry>>(new Map());
   const [outputImageVariations, setOutputImageVariations] = useState<Array<{ label: string; url: string }>>([]);
   const [outputVideoUrl, setOutputVideoUrl] = useState('');
   const [outputWebHTML, setOutputWebHTML] = useState('');
   const [outputWebTab, setOutputWebTab] = useState<'preview' | 'code'>('preview');
   const [copiedCode, setCopiedCode] = useState(false);
 
+  const localGenerating = activeGenerations > 0;
+  const setLocalGenerating = useCallback((value: boolean) => {
+    setActiveGenerations(prev => value ? prev + 1 : Math.max(0, prev - 1));
+  }, []);
+
+  const updateGeneration = useCallback((jobId: string, patch: Partial<GenerationEntry>) => {
+    setGenerations(prev => {
+      const next = new Map(prev);
+      const entry = next.get(jobId);
+      if (!entry) return next;
+      next.set(jobId, { ...entry, ...patch });
+      return next;
+    });
+  }, []);
+
+  const removeGeneration = useCallback((jobId: string) => {
+    setGenerations(prev => {
+      const next = new Map(prev);
+      next.delete(jobId);
+      return next;
+    });
+  }, []);
+
   const beginGeneration = useCallback((status = '') => {
     setGenerationError(null);
     setGenStatus(status);
     setGenProgress(10);
     setLocalGenerating(true);
-  }, []);
+  }, [setLocalGenerating]);
 
   const finishGeneration = useCallback(() => {
     setGenProgress(100);
     setLocalGenerating(false);
-  }, []);
+  }, [setLocalGenerating]);
 
   const failGeneration = useCallback((title: string, message: string) => {
     setGenerationError({ title, message });
     setLocalGenerating(false);
+  }, [setLocalGenerating]);
+
+  const outputImageUrl = Array.from(generations.values()).reverse().find(g => g.imageUrl)?.imageUrl ?? '';
+  const setOutputImageUrl = useCallback((url: string) => {
+    const jobId = 'current';
+    setGenerations(prev => {
+      const next = new Map(prev);
+      next.set(jobId, { jobId, status: url ? 'completed' : 'failed', imageUrl: url, provider: 'google' });
+      return next;
+    });
   }, []);
+  const retryGeneration = useCallback((jobId: string) => {
+    updateGeneration(jobId, { status: 'queued', error: undefined, imageUrl: undefined });
+  }, [updateGeneration]);
 
   return {
     localGenerating, setLocalGenerating,
@@ -48,6 +95,9 @@ export function useGenerationEditor() {
     outputWebHTML, setOutputWebHTML,
     outputWebTab, setOutputWebTab,
     copiedCode, setCopiedCode,
+    generations,
+    retryGeneration,
+    removeGeneration,
     beginGeneration,
     finishGeneration,
     failGeneration,

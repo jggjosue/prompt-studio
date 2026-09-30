@@ -10,6 +10,7 @@ import { SITE_URL } from '@/lib/site-url';
 import { HOME_FEED_LIMITS } from '@/lib/progressive-feed';
 import { getTranslations } from 'next-intl/server';
 import { isLocale, defaultLocale } from '@/i18n/config';
+import { serializeCatalogPrompt } from '@/lib/catalog-prompt';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const requestedLocale = (await params).locale;
@@ -68,6 +69,10 @@ export default function HomePage() {
       imageUrl: image.imageUrl,
       detailId: imageDetailIds.get(image),
       tags: image.tags.filter((tag): tag is string => typeof tag === 'string'),
+      fullPrompt: {
+        en: serializeCatalogPrompt(image, 'en'),
+        es: serializeCatalogPrompt(image, 'es'),
+      },
     }));
   const productReels = videosData.placeholderVideos.filter(video =>
     video.tags.includes('Product Reel')
@@ -82,6 +87,10 @@ export default function HomePage() {
     imageUrl: video.imageUrl,
     tags: video.tags.filter((tag): tag is string => typeof tag === 'string'),
     detailId: videoDetailIds.get(video),
+    fullPrompt: {
+      en: serializeCatalogPrompt(video, 'en', 'video'),
+      es: serializeCatalogPrompt(video, 'es', 'video'),
+    },
   }));
 
   // El filtro «Animaciones» del feed existía sin datos que mostrar.
