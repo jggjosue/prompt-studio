@@ -14,7 +14,7 @@
 
 import { getPageComponent } from '@/components/editor/page-components';
 import { SHADOW_OPTIONS, type ControlDescriptor } from '@/lib/editor/property-controls';
-import type { PageNode } from '@/lib/editor/page-schema';
+import type { PageNode, PropField } from '@/lib/editor/page-schema';
 import {
   EDITOR_BREAKPOINTS,
   findStyleSource,
@@ -23,7 +23,10 @@ import {
   type EditorBreakpoint,
 } from '@/lib/editor/responsive';
 import { DEFAULT_TOKENS } from '@/lib/editor/tokens';
-import { RotateCcw } from 'lucide-react';
+import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { arrayMove, SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { GripVertical, Plus, RotateCcw, Trash2 } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { useBuilder } from './builder-context';
 
@@ -137,6 +140,13 @@ function FieldShell({
 }
 
 /** Indicador de local/heredado para un control de estilo. */
+const DEVICE_LABEL: Record<string, string> = {
+  desktop: 'computadora',
+  tablet: 'tableta',
+  mobile: 'teléfono',
+  laptop: 'computadora portátil',
+};
+
 function StyleStatus({ node, control, breakpoint }: { node: PageNode; control: ControlDescriptor; breakpoint: EditorBreakpoint }) {
   if (control.target.type !== 'style') return null;
   const property = control.target.property;
@@ -146,11 +156,11 @@ function StyleStatus({ node, control, breakpoint }: { node: PageNode; control: C
     return <span className="text-[10px] text-muted-foreground">—</span>;
   }
   if (source === breakpoint) {
-    return <span className="rounded bg-primary/10 px-1 py-px text-[10px] font-semibold text-primary">Local</span>;
+    return <span className="rounded bg-primary/10 px-1 py-px text-[10px] font-semibold text-primary">Este dispositivo</span>;
   }
   return (
-    <span className="rounded border border-dashed border-border px-1 py-px text-[10px] text-muted-foreground" title={`Heredado de ${source}`}>
-      {source}
+    <span className="rounded border border-dashed border-border px-1 py-px text-[10px] text-muted-foreground" title={`Usa el ajuste de ${DEVICE_LABEL[source]}`}>
+      De {DEVICE_LABEL[source]}
     </span>
   );
 }
@@ -172,7 +182,7 @@ function ResponsiveDots({
   const overrides = overrideBreakpoints(node, property);
 
   return (
-    <div className="flex items-center gap-1" role="group" aria-label="Overrides por breakpoint">
+    <div className="flex items-center gap-1" role="group" aria-label="Cambios por dispositivo">
       {EDITOR_BREAKPOINTS.map(bp => {
         const hasOverride = overrides.includes(bp);
         const active = bp === breakpoint;
@@ -181,9 +191,9 @@ function ResponsiveDots({
             key={bp}
             type="button"
             onClick={() => onJump(bp)}
-            aria-label={`${bp}${hasOverride ? ' con override' : ''}`}
+            aria-label={`${DEVICE_LABEL[bp]}${hasOverride ? ' con cambio propio' : ''}`}
             aria-pressed={active}
-            title={`${bp}${hasOverride ? ' · override local' : ''}`}
+            title={`${DEVICE_LABEL[bp]}${hasOverride ? ' · cambio propio' : ''}`}
             className={`h-2 w-2 rounded-full transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none ${
               hasOverride ? 'bg-primary' : 'bg-border'
             } ${active ? 'ring-2 ring-primary/40' : ''}`}
@@ -306,14 +316,9 @@ function ColorField({ value, onChange }: { value: string; onChange: (value: stri
           className="h-8 w-9 shrink-0 cursor-pointer rounded border border-border bg-background p-0.5 disabled:opacity-40"
           aria-label="Color personalizado"
         />
-        <input
-          type="text"
-          value={value}
-          onChange={event => onChange(event.target.value)}
-          className={inputClass}
-          placeholder="token:color.primary"
-          aria-label="Valor de color"
-        />
+        <span className="text-[11px] text-muted-foreground">
+          {isToken ? 'Color del tema' : 'Color personalizado'}
+        </span>
       </div>
       {/* Muestras del tema: un clic y el color es coherente con el resto del sitio. */}
       <div className="flex flex-wrap gap-1">
@@ -332,6 +337,135 @@ function ColorField({ value, onChange }: { value: string; onChange: (value: stri
           />
         ))}
       </div>
+    </div>
+  );
+}
+
+const FRIENDLY_OPTION: Record<string, string> = {
+  block: 'Normal', flex: 'En fila', grid: 'Cuadrícula',
+  left: 'Izquierda', center: 'Centro', right: 'Derecha', start: 'Arriba', stretch: 'Estirar',
+  solid: 'Línea continua', dashed: 'Línea discontinua', dotted: 'Punteado',
+  none: 'Sin borde', '300': 'Ligero', '400': 'Normal', '500': 'Medio', '600': 'Seminegrita', '700': 'Negrita', '800': 'Muy negrita',
+};
+
+function friendlyOption(option: string, controlKind?: ControlDescriptor['kind']) {
+  if (option === 'none' && controlKind === 'display') return 'Ocultar';
+  return FRIENDLY_OPTION[option] ?? option.replaceAll('-', ' ');
+}
+
+function VisualListItem({
+  id,
+  entry,
+  index,
+  fields,
+  onUpdate,
+  onRemove,
+}: {
+  id: string;
+  entry: Record<string, unknown>;
+  index: number;
+  fields: readonly PropField[];
+  onUpdate: (key: string, value: unknown) => void;
+  onRemove: () => void;
+}) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id });
+  const style = { transform: CSS.Transform.toString(transform), transition };
+
+  return (
+    <div ref={setNodeRef} style={style} className={`rounded-lg border border-border bg-background p-2 ${isDragging ? 'opacity-50 shadow-lg' : ''}`}>
+      <div className="mb-2 flex items-center justify-between">
+        <button
+          type="button"
+          {...attributes}
+          {...listeners}
+          className="flex cursor-grab touch-none items-center gap-1 rounded text-[10px] font-semibold text-muted-foreground hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none active:cursor-grabbing"
+          aria-label={`Mover elemento ${index + 1}`}
+          title="Arrastra para cambiar el orden"
+        >
+          <GripVertical className="size-3" aria-hidden />Elemento {index + 1}
+        </button>
+        <button type="button" onClick={onRemove} className="rounded p-1 text-muted-foreground hover:bg-destructive/10 hover:text-destructive" aria-label={`Eliminar elemento ${index + 1}`}><Trash2 className="size-3" /></button>
+      </div>
+      <div className="flex flex-col gap-2">
+        {fields.filter(field => field.kind !== 'list').map(field => {
+          const itemValue = entry[field.key];
+          return (
+            <label key={field.key} className="flex flex-col gap-1 text-[10px] text-muted-foreground">
+              {field.label}
+              {field.kind === 'select' ? (
+                <select value={typeof itemValue === 'string' ? itemValue : ''} onChange={event => onUpdate(field.key, event.target.value)} className={inputClass}>
+                  {(field.options ?? []).map(option => <option key={option} value={option}>{friendlyOption(option)}</option>)}
+                </select>
+              ) : field.kind === 'boolean' ? (
+                <input type="checkbox" checked={itemValue === true} onChange={event => onUpdate(field.key, event.target.checked)} className="size-4 accent-primary" />
+              ) : field.kind === 'textarea' ? (
+                <textarea value={typeof itemValue === 'string' ? itemValue : ''} onChange={event => onUpdate(field.key, event.target.value)} rows={2} className={`${inputClass} h-auto py-1.5`} />
+              ) : (
+                <input type={field.kind === 'url' || field.kind === 'image' ? 'url' : 'text'} value={typeof itemValue === 'string' ? itemValue : ''} onChange={event => onUpdate(field.key, event.target.value)} className={inputClass} />
+              )}
+            </label>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/** Lista en tarjetas: sustituye el JSON por edición directa y acciones claras. */
+function VisualListField({
+  value,
+  fields = [],
+  onChange,
+}: {
+  value: unknown;
+  fields?: readonly PropField[];
+  onChange: (next: Array<Record<string, unknown>>) => void;
+}) {
+  const entries = Array.isArray(value) ? value.filter(item => item && typeof item === 'object' && !Array.isArray(item)) as Array<Record<string, unknown>> : [];
+  const itemIds = entries.map((_, index) => `list-item-${index}`);
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  );
+  const update = (index: number, key: string, next: unknown) => onChange(entries.map((entry, position) => position === index ? { ...entry, [key]: next } : entry));
+  const remove = (index: number) => onChange(entries.filter((_, position) => position !== index));
+  const add = () => {
+    const next: Record<string, unknown> = {};
+    for (const field of fields) {
+      if (field.kind === 'boolean') next[field.key] = false;
+      else if (field.kind === 'select') next[field.key] = field.options?.[0] ?? '';
+      else if (field.kind !== 'list') next[field.key] = '';
+    }
+    onChange([...entries, next]);
+  };
+
+  return (
+    <div className="flex flex-col gap-2">
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={({ active, over }) => {
+          if (!over || active.id === over.id) return;
+          const from = itemIds.indexOf(String(active.id));
+          const to = itemIds.indexOf(String(over.id));
+          if (from >= 0 && to >= 0) onChange(arrayMove(entries, from, to));
+        }}
+      >
+        <SortableContext items={itemIds} strategy={verticalListSortingStrategy}>
+          {entries.map((entry, index) => (
+            <VisualListItem
+              key={itemIds[index]}
+              id={itemIds[index]}
+              entry={entry}
+              index={index}
+              fields={fields}
+              onUpdate={(key, next) => update(index, key, next)}
+              onRemove={() => remove(index)}
+            />
+          ))}
+        </SortableContext>
+      </DndContext>
+      <button type="button" onClick={add} className="inline-flex items-center justify-center gap-1 rounded-md border border-dashed border-border px-2 py-1.5 text-[11px] font-medium text-muted-foreground hover:bg-accent hover:text-foreground"><Plus className="size-3" />Añadir elemento</button>
     </div>
   );
 }
@@ -447,7 +581,7 @@ function ControlField({
         >
           {(control.options ?? []).map(option => (
             <option key={option} value={option}>
-              {option}
+              {friendlyOption(option, control.kind)}
             </option>
           ))}
         </select>
@@ -480,14 +614,20 @@ function ControlField({
     case 'opacity':
       input = (
         <SliderField
-          value={numeric === '' ? 100 : numeric}
+          value={numeric === '' ? 1 : numeric}
           min={0}
-          max={100}
-          step={1}
+          max={1}
+          step={0.05}
           onChange={next => (control.target.type === 'prop' ? setProp(next) : setStyle(next))}
-          caption={`${numeric === '' ? 100 : Math.round(numeric)} %`}
+          caption={`${Math.round((numeric === '' ? 1 : numeric) * 100)} % visible`}
         />
       );
+      break;
+    case 'width':
+      input = <SliderField value={Number.parseFloat(text) || 100} min={20} max={100} step={5} onChange={next => setStyle(`${next}%`)} caption={`${Number.parseFloat(text) || 100}% de ancho`} />;
+      break;
+    case 'height':
+      input = <SliderField value={numeric === '' ? 0 : numeric} min={0} max={800} step={8} onChange={next => setStyle(next)} caption={numeric === '' || numeric === 0 ? 'Automático' : `${Math.round(numeric)} alto`} />;
       break;
     case 'fontSize':
       input = (
@@ -505,19 +645,13 @@ function ControlField({
     case 'lineHeight':
     case 'borderWidth':
       input = (
-        <input
-          type="number"
-          value={numeric}
-          min={control.min}
-          max={control.max}
-          step={control.step ?? 1}
-          onChange={event => {
-            const parsed = event.target.valueAsNumber;
-            if (Number.isNaN(parsed)) return;
-            if (control.target.type === 'prop') setProp(parsed);
-            else setStyle(parsed);
-          }}
-          className={inputClass}
+        <SliderField
+          value={numeric === '' ? (control.kind === 'lineHeight' ? 1.5 : 0) : numeric}
+          min={control.min ?? 0}
+          max={control.max ?? (control.kind === 'lineHeight' ? 2 : 20)}
+          step={control.step ?? (control.kind === 'lineHeight' ? 0.05 : 1)}
+          onChange={next => (control.target.type === 'prop' ? setProp(next) : setStyle(next))}
+          caption={control.kind === 'lineHeight' ? `${(numeric === '' ? 1.5 : numeric).toFixed(2)} de aire` : `${Math.round(numeric === '' ? 0 : numeric)} de grosor`}
         />
       );
       break;
@@ -532,15 +666,7 @@ function ControlField({
       );
       break;
     case 'list':
-      input = (
-        <textarea
-          value={text}
-          onChange={event => setProp(event.target.value)}
-          rows={3}
-          className={`${inputClass} h-auto resize-y py-1.5 font-mono`}
-          placeholder='[{"label":"…","href":"…"}]'
-        />
-      );
+      input = <VisualListField value={value} fields={control.itemFields} onChange={setProp} />;
       break;
     case 'color':
     case 'background':
@@ -595,7 +721,7 @@ export function BuilderProperties() {
     return (
       <aside className="flex w-72 shrink-0 flex-col border-l border-border bg-muted/30">
         <div className="border-b border-border px-3 py-2">
-          <h2 className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Propiedades</h2>
+          <h2 className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Editar sección</h2>
         </div>
         <div className="flex flex-1 flex-col items-center justify-center gap-2 p-6 text-center">
           <p className="text-sm font-medium text-foreground">Nada seleccionado</p>
@@ -615,13 +741,11 @@ export function BuilderProperties() {
   return (
     <aside className="flex w-80 shrink-0 flex-col overflow-y-auto border-l border-border bg-muted/30">
       <div className="border-b border-border px-3 py-2">
-        <h2 className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Propiedades</h2>
+          <h2 className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Editar sección</h2>
         <p className="mt-1 truncate text-xs font-semibold text-foreground">
           {definition?.label ?? selected.node.type}
         </p>
-        <p className="truncate font-mono text-[10px] text-muted-foreground" title={selected.node.id}>
-          {selected.node.id}
-        </p>
+        <p className="text-[10px] text-muted-foreground">Cambia el contenido y el aspecto con controles visuales.</p>
       </div>
 
       <div className="flex items-center justify-between gap-2 border-b border-border px-3 py-2">
@@ -636,7 +760,7 @@ export function BuilderProperties() {
                 breakpoint === option ? 'bg-background text-primary shadow-sm' : 'text-muted-foreground hover:text-foreground'
               }`}
             >
-              {option}
+              {{ desktop: 'Computadora', tablet: 'Tableta', mobile: 'Teléfono' }[option]}
             </button>
           ))}
         </div>
@@ -677,11 +801,10 @@ export function BuilderProperties() {
         {styleControls.length ? (
           <section className="flex flex-col gap-3">
             <h3 className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
-              Diseño · {breakpoint}
+              Aspecto en {{ desktop: 'computadora', tablet: 'tableta', mobile: 'teléfono' }[breakpoint]}
             </h3>
             <p className="text-[10px] text-muted-foreground">
-              <span className="rounded bg-primary/10 px-1 py-px font-semibold text-primary">Local</span> lo edita
-              aquí · los valores sin punto se heredan del breakpoint superior.
+              Ajusta solo este dispositivo si lo necesitas. Los demás conservan el estilo elegido para pantallas grandes.
             </p>
             {styleControls.map((control, index) => (
               <ControlField

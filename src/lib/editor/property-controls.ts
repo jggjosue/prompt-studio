@@ -67,6 +67,8 @@ export type ControlDescriptor = {
   /** Acepta referencias a tokens (`token:color.primary`). */
   acceptsTokens?: boolean;
   unit?: 'px' | 'rem' | '%';
+  /** Campos que componen cada tarjeta de una lista visual. */
+  itemFields?: readonly PropField[];
 };
 
 /** Forma estructural de `StyleControl` del registro, sin acoplar la lib a React. */
@@ -123,7 +125,7 @@ export function propControl(field: PropField): ControlDescriptor {
     case 'boolean':
       return { kind: 'boolean', label: field.label, target };
     case 'list':
-      return { kind: 'list', label: field.label, target };
+      return { kind: 'list', label: field.label, target, itemFields: field.itemFields };
   }
 }
 
