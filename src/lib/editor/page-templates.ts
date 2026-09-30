@@ -40,6 +40,8 @@ export type TemplateDefinition = {
   category: string;
   label: string;
   description: string;
+  imageUrl: string;
+  access: 'free' | 'premium';
 };
 
 export type TemplateConfig = {
@@ -47,6 +49,8 @@ export type TemplateConfig = {
   category: string;
   label: string;
   description: string;
+  imageUrl: string;
+  access: 'free' | 'premium';
   siteName: string;
   /** Token de acento del tema. */
   primary: string;
@@ -61,6 +65,8 @@ export const TEMPLATE_CONFIGS: Record<TemplateId, TemplateConfig> = {
     category: 'SaaS',
     label: 'SaaS Launch',
     description: 'Landing de conversión para un producto de software, con precios y prueba social.',
+    imageUrl: '/images/webpages/loopline-devtool.webp',
+    access: 'free',
     siteName: 'Nimbus SaaS',
     primary: '#7c3aed',
     copy: { eyebrow: 'Producto SaaS', title: 'Tu producto, listo para escalar', subtitle: 'La plataforma que tu equipo necesita para lanzar más rápido y medir mejor.' },
@@ -71,6 +77,8 @@ export const TEMPLATE_CONFIGS: Record<TemplateId, TemplateConfig> = {
     category: 'Agency',
     label: 'Creative Agency',
     description: 'Portafolio editorial para agencias y estudios creativos.',
+    imageUrl: '/images/webpages/earthy-brutalist.webp',
+    access: 'free',
     siteName: 'Estudio Aurelia',
     primary: '#f04c23',
     copy: { eyebrow: 'Agencia creativa', title: 'Ideas que se convierten en marcas', subtitle: 'Estrategia, diseño y desarrollo en un solo equipo.' },
@@ -81,6 +89,8 @@ export const TEMPLATE_CONFIGS: Record<TemplateId, TemplateConfig> = {
     category: 'Restaurant',
     label: 'Restaurante',
     description: 'Carta, ambiente y reservas para restaurantes y cafeterías.',
+    imageUrl: '/images/webpages/pizzaalta-neapolitan.webp',
+    access: 'premium',
     siteName: 'La Brasa',
     primary: '#d97706',
     copy: { eyebrow: 'Restaurante', title: 'Cocina que se recuerda', subtitle: 'Ingredientes frescos, recetas de temporada y un espacio pensado para compartir.' },
@@ -91,6 +101,8 @@ export const TEMPLATE_CONFIGS: Record<TemplateId, TemplateConfig> = {
     category: 'Portfolio',
     label: 'Portfolio',
     description: 'Muestra tu trabajo con una galería editorial y testimonios.',
+    imageUrl: '/images/webpages/3d-photography-portfolio-video-projections.webp',
+    access: 'free',
     siteName: 'Portafolio de Lucía',
     primary: '#0ea5e9',
     copy: { eyebrow: 'Portafolio', title: 'Trabajos que hablan por sí solos', subtitle: 'Una selección de proyectos recientes, de la idea al resultado final.' },
@@ -101,6 +113,8 @@ export const TEMPLATE_CONFIGS: Record<TemplateId, TemplateConfig> = {
     category: 'E-commerce',
     label: 'E-commerce',
     description: 'Landing de producto enfocada en una conversión rápida.',
+    imageUrl: '/images/webpages/luxethread-fashion-store.webp',
+    access: 'premium',
     siteName: 'Nube Store',
     primary: '#db2777',
     copy: { eyebrow: 'Tienda online', title: 'Compra fácil, entrega rápido', subtitle: 'Productos curados y envíos que no se hacen esperar.' },
@@ -111,6 +125,8 @@ export const TEMPLATE_CONFIGS: Record<TemplateId, TemplateConfig> = {
     category: 'Real Estate',
     label: 'Inmobiliaria',
     description: 'Propiedades destacadas con galería y contacto directo.',
+    imageUrl: '/images/webpages/airbnb-clone.webp',
+    access: 'premium',
     siteName: 'Horizonte Inmobiliaria',
     primary: '#059669',
     copy: { eyebrow: 'Inmobiliaria', title: 'El hogar que buscabas', subtitle: 'Propiedades seleccionadas y acompañamiento en cada paso.' },
@@ -121,6 +137,8 @@ export const TEMPLATE_CONFIGS: Record<TemplateId, TemplateConfig> = {
     category: 'Education',
     label: 'Educación',
     description: 'Curso o academia: beneficios, precios y preguntas frecuentes.',
+    imageUrl: '/images/webpages/3d-educational-library-search.webp',
+    access: 'free',
     siteName: 'Academia Vértice',
     primary: '#2563eb',
     copy: { eyebrow: 'Educación', title: 'Aprende con un método que funciona', subtitle: 'Clases prácticas, mentores y una comunidad que impulsa.' },
@@ -131,6 +149,8 @@ export const TEMPLATE_CONFIGS: Record<TemplateId, TemplateConfig> = {
     category: 'Personal',
     label: 'Personal',
     description: 'Página personal o de marca con contacto directo.',
+    imageUrl: '/images/webpages/3d-personal-brand-cube.webp',
+    access: 'free',
     siteName: 'Hola, soy Martín',
     primary: '#9333ea',
     copy: { eyebrow: 'Personal', title: 'Hola, soy Martín', subtitle: 'Ayudo a equipos a lanzar productos digitales que importan.' },
@@ -141,6 +161,8 @@ export const TEMPLATE_CONFIGS: Record<TemplateId, TemplateConfig> = {
     category: 'Event',
     label: 'Evento',
     description: 'Evento o conferencia: agenda, precios y registro.',
+    imageUrl: '/images/webpages/amplive-concert-tickets.webp',
+    access: 'premium',
     siteName: 'Summit 2026',
     primary: '#e11d48',
     copy: { eyebrow: 'Evento', title: 'Un día que no querrás perderte', subtitle: 'Charlas, talleres y networking con los mejores del sector.' },
@@ -151,7 +173,14 @@ export const TEMPLATE_CONFIGS: Record<TemplateId, TemplateConfig> = {
 export function listPageTemplates(): TemplateDefinition[] {
   return TEMPLATE_IDS.map(id => {
     const config = TEMPLATE_CONFIGS[id];
-    return { id, category: config.category, label: config.label, description: config.description };
+    return {
+      id,
+      category: config.category,
+      label: config.label,
+      description: config.description,
+      imageUrl: config.imageUrl,
+      access: config.access,
+    };
   });
 }
 

@@ -6,9 +6,11 @@ import { BuilderTemplates } from '@/components/editor/website-builder/builder-te
 import {
   createBlankSchema,
   createTemplateSchema,
+  getPageTemplate,
   isTemplateId,
 } from '@/lib/editor/page-templates';
-import { getPageComposerDraft } from '@/lib/page-composer-project';
+import { getPageComposerDraft, listPageComposerDrafts } from '@/lib/page-composer-project';
+import { getServerSubscriptionStatus, hasComponentBuilderPlan } from '@/lib/server-subscription-status';
 
 export const metadata: Metadata = {
   title: 'Editor visual | Prompt Studio',
@@ -39,10 +41,14 @@ export default async function WebsiteBuilderEditorPage({
   setRequestLocale(locale);
 
   const { slug, project, template } = await searchParams;
+  const { userId } = await auth();
+  const status = userId ? await getServerSubscriptionStatus() : null;
+  const canUsePremium = status ? hasComponentBuilderPlan(status) : false;
+  const projects = userId ? await listPageComposerDrafts(userId) : [];
 
   // Galería de plantillas: no hay borrador ni plantilla elegida todavía.
   if (!project && !template) {
-    return <BuilderTemplates locale={locale} />;
+    return <BuilderTemplates locale={locale} canUsePremium={canUsePremium} projects={projects} />;
   }
 
   let initialSchema = createBlankSchema();
@@ -50,17 +56,21 @@ export default async function WebsiteBuilderEditorPage({
   let initialVersion: number | null = null;
 
   if (project && typeof project === 'string' && project.trim()) {
-    const { userId } = await auth();
-    if (userId) {
-      const draft = await getPageComposerDraft(userId, project.trim());
-      if (draft) {
-        initialSchema = draft.schema;
-        initialVersion = draft.version;
-        projectId = draft.id;
-      }
+    if (!userId) {
+      return <BuilderTemplates locale={locale} canUsePremium={false} projects={[]} notice="Inicia sesión para continuar editando tus proyectos guardados." />;
+    }
+    const draft = await getPageComposerDraft(userId, project.trim());
+    if (draft) {
+      initialSchema = draft.schema;
+      initialVersion = draft.version;
+      projectId = draft.id;
     }
   } else if (template && typeof template === 'string') {
-    initialSchema = template === 'blank' ? createBlankSchema() : isTemplateId(template) ? createTemplateSchema(template) : createBlankSchema();
+    const definition = isTemplateId(template) ? getPageTemplate(template) : undefined;
+    if (definition?.access === 'premium' && !canUsePremium) {
+      return <BuilderTemplates locale={locale} canUsePremium={false} projects={projects} notice="Esta plantilla está incluida para usuarios Creator y Premium." />;
+    }
+    initialSchema = template === 'blank' ? createBlankSchema() : definition ? createTemplateSchema(definition.id) : createBlankSchema();
   }
 
   return (
