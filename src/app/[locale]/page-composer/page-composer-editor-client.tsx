@@ -1,12 +1,13 @@
 'use client';
 
-import EditorWorkspace from '@/components/editor/editor-workspace';
+import PageBuilderWorkspace from '@/components/page-builder/editor/page-builder-workspace';
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { createDocument, createNode, incrementalIds, insertNode, type EditorDocument } from '@/lib/editor/document';
+import { createTemplatePageSchema } from '@/lib/page-builder/templates';
 import { ArrowLeft, Crown, Eye, Monitor, PencilLine, Search, Sparkles, Tablet, Smartphone } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 
@@ -43,69 +44,11 @@ function templateGeneratorHref(template: Template): string {
   return `/generate?${params.toString()}`;
 }
 
-function templateDocument(template: Template): EditorDocument {
-  const ids = incrementalIds();
-  let document = createDocument(ids);
-  if (template.blank) return document;
-  const palette: Record<string, { accent: string; surface: string }> = {
-    'saas-launch': { accent: '#635bff', surface: '#15132b' },
-    'ai-product': { accent: '#22c55e', surface: '#081d16' },
-    'creative-agency': { accent: '#f04c23', surface: '#24130d' },
-    ecommerce: { accent: '#db2777', surface: '#260d1b' },
-    course: { accent: '#f59e0b', surface: '#2a1a06' },
-    'lead-gen': { accent: '#0ea5e9', surface: '#082033' },
-  };
-  const theme = palette[template.id] ?? palette['saas-launch'];
-  const add = (type: string, parentId: string) => {
-    const node = createNode(type, ids);
-    const result = insertNode(document, node, parentId, document.nodes[parentId].children.length);
-    if ('document' in result) document = result.document;
-    return node.id;
-  };
-  const patch = (id: string, props: Record<string, unknown> = {}, styles: Record<string, string | number> = {}) => {
-    const node = document.nodes[id];
-    document = { ...document, nodes: { ...document.nodes, [id]: { ...node, props: { ...node.props, ...props }, styles: { ...node.styles, desktop: { ...(node.styles.desktop ?? {}), ...styles } } } } };
-  };
-  const section = (background?: string) => {
-    const id = add('section', document.rootId);
-    patch(id, {}, { paddingBlock: '88px', background: background ?? 'transparent' });
-    return id;
-  };
-  const hero = section(`linear-gradient(135deg, ${theme.surface}, #09090b)`);
-  const heroContent = add('container', hero);
-  patch(heroContent, {}, { maxWidth: '980px', textAlign: 'center', paddingInline: '32px' });
-  const eyebrow = add('badge', heroContent); patch(eyebrow, { text: template.category }, { background: theme.accent, marginBottom: '20px' });
-  const heading = add('heading', heroContent); patch(heading, { text: template.name }, { fontSize: '56px', color: '#ffffff', marginBottom: '18px' });
-  const text = add('text', heroContent); patch(text, { text: template.description }, { fontSize: '19px', color: '#c4c4ce', marginBottom: '30px' });
-  const button = add('button', heroContent); patch(button, { label: 'Comenzar ahora' }, { background: theme.accent, color: '#ffffff' });
-
-  const features = section('#0d0d12');
-  const featuresContent = add('container', features);
-  const featuresTitle = add('heading', featuresContent); patch(featuresTitle, { text: 'Todo lo que necesitas para avanzar' }, { color: '#ffffff', fontSize: '36px', marginBottom: '32px' });
-  const grid = add('grid', featuresContent); patch(grid, {}, { gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '20px' });
-  ['Diseño que convierte', 'Flujo sin fricción', 'Listo para crecer'].forEach((title, index) => { const card = add('card', grid); patch(card, {}, { background: index === 1 ? theme.surface : '#17171f', padding: '28px' }); const cardTitle = add('heading', card); patch(cardTitle, { text: title, level: 3 }, { fontSize: '21px', color: '#ffffff' }); const cardText = add('text', card); patch(cardText, { text: 'Una experiencia clara, rápida y pensada para tus clientes.' }, { color: '#b4b4c0' }); });
-
-  const proof = section(theme.surface);
-  const proofContent = add('container', proof); patch(proofContent, {}, { textAlign: 'center', maxWidth: '820px' });
-  const quote = add('heading', proofContent); patch(quote, { text: '“La nueva experiencia hizo que nuestro mensaje se entendiera desde el primer segundo.”', level: 2 }, { fontSize: '32px', color: '#ffffff', marginBottom: '16px' });
-  const author = add('text', proofContent); patch(author, { text: '— Equipo de clientes' }, { color: theme.accent });
-
-  const finalCta = section('#0d0d12');
-  const finalContent = add('container', finalCta); patch(finalContent, {}, { textAlign: 'center' });
-  const finalHeading = add('heading', finalContent); patch(finalHeading, { text: '¿Listo para empezar?' }, { color: '#ffffff', fontSize: '40px', marginBottom: '20px' });
-  const finalButton = add('button', finalContent); patch(finalButton, { label: 'Crear mi proyecto' }, { background: theme.accent, color: '#ffffff' });
-
-  const footer = section('#070708');
-  const footerContent = add('container', footer); patch(footerContent, {}, { textAlign: 'center', paddingBlock: '32px' });
-  const footerText = add('text', footerContent); patch(footerText, { text: `${template.name} · Todos los derechos reservados.` }, { color: '#777784', fontSize: '13px' });
-  return document;
-}
-
 function TemplateThumbnail({ template }: { template: Template }) {
   const [failed, setFailed] = useState(false);
   if (template.blank) return <div className="grid h-40 place-items-center bg-[linear-gradient(45deg,#18181b_25%,transparent_25%),linear-gradient(-45deg,#18181b_25%,transparent_25%),linear-gradient(45deg,transparent_75%,#18181b_75%),linear-gradient(-45deg,transparent_75%,#18181b_75%)] bg-[length:24px_24px] bg-[position:0_0,0_12px,12px_-12px,-12px_0px]"><span className="rounded-full border border-dashed bg-background/80 px-3 py-1 text-xs font-bold">Lienzo vacío</span></div>;
   if (failed) return <div className="grid h-40 place-items-center bg-gradient-to-br from-violet-500/40 via-fuchsia-500/20 to-cyan-400/20 p-6 text-center"><span className="text-sm font-black text-white">{template.name}</span></div>;
-  return <img src={template.image} alt={`Vista previa de ${template.name}`} onError={() => setFailed(true)} className="h-40 w-full object-cover" />;
+  return <div className="relative h-40 w-full"><Image src={template.image} alt={`Vista previa de ${template.name}`} fill sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" onError={() => setFailed(true)} className="object-cover" /></div>;
 }
 
 export default function PageComposerEditorClient({ canEdit }: { canEdit: boolean }) {
@@ -115,7 +58,7 @@ export default function PageComposerEditorClient({ canEdit }: { canEdit: boolean
   const [editing, setEditing] = useState<Template | null>(null);
   // El árbol de la plantilla se crea una vez por selección. Sin esta memoria,
   // cualquier re-render de la galería podía reemplazar el borrador en curso.
-  const editableDocument = useMemo(() => (editing ? templateDocument(editing) : null), [editing]);
+  const editableSchema = useMemo(() => (editing ? createTemplatePageSchema(editing) : null), [editing]);
   const templates = useMemo(() => TEMPLATES.filter(template =>
     (category === 'Todas' || template.category === category) &&
     `${template.name} ${template.category} ${template.tags.join(' ')}`.toLowerCase().includes(query.toLowerCase())
@@ -130,9 +73,9 @@ export default function PageComposerEditorClient({ canEdit }: { canEdit: boolean
           <div className="mx-auto max-w-[1800px]">
             <div className="mb-3 flex items-center justify-between gap-3 px-1 text-white">
               <div className="flex items-center gap-3"><Button variant="ghost" size="icon" onClick={() => setEditing(null)} aria-label="Volver a plantillas"><ArrowLeft className="size-4" /></Button><div><p className="text-[10px] font-black uppercase tracking-[.2em] text-violet-300">Borrador desde plantilla</p><h1 className="text-sm font-bold">{editing.name}</h1></div></div>
-              <span className="text-xs text-zinc-400">Copia editable · Guardado automático</span>
+              <span className="text-xs text-zinc-400">PageSchema editable · Cambios locales</span>
             </div>
-            <EditorWorkspace key={editing.id} name={`${editing.name} · Mi página`} initialDocument={editableDocument} previewUrl={editing.preview ? `/webpages/${encodeURIComponent(editing.preview)}/index.html` : null} />
+            {editableSchema ? <PageBuilderWorkspace key={editing.id} name={`${editing.name} · Mi página`} initialSchema={editableSchema} /> : null}
           </div>
         </main>
         <Footer />

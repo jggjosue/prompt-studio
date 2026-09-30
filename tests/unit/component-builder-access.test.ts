@@ -39,6 +39,42 @@ test('el generador de páginas abre la composición para visitantes', async () =
   assert.doesNotMatch(page, /PageComposerAccess/);
 });
 
+test('el menú solo ofrece Constructor visual y Generador de páginas a planes pagados', async () => {
+  const header = await source('src/components/layout/header-client.tsx');
+
+  // El gate de plan vive en el cliente, con el estado de suscripción compartido.
+  assert.match(header, /useMembershipAccess/, 'el menú debe consultar el plan del usuario');
+  assert.match(header, /const \{ hasPaidPlan \} = useMembershipAccess\(\)/);
+
+  // Ambas herramientas salen de la misma lista, solo si hay plan pagado.
+  assert.match(
+    header,
+    /\.\.\.\(hasPaidPlan \? paidCreatorItems\(\) : \[\]\)/,
+    'las herramientas de creación se insertan solo para planes pagados'
+  );
+
+  const items = header.match(/const paidCreatorItems = \(\): DropdownItem\[\] => \[[\s\S]*?\];/);
+  assert.ok(items, 'debe existir la lista de herramientas de creación');
+  assert.match(items[0], /href: '\/component-builder'/, 'Constructor visual');
+  assert.match(items[0], /href: '\/page-composer'/, 'Generador de páginas');
+
+  // Y ya no se sirven como «Próximamente».
+  assert.doesNotMatch(
+    items[0],
+    /disabled|disabledBadge/,
+    'habilitadas: nada de badge de «Próximamente»'
+  );
+});
+
+test('el gate del menú cubre los planes creator, pro y studio', async () => {
+  const hook = await source('src/hooks/use-membership-access.ts');
+  assert.match(
+    hook,
+    /const hasPaidPlan = plan === 'creator' \|\| plan === 'pro' \|\| plan === 'studio'/,
+    'premium/Creator y superiores deben ver el menú'
+  );
+});
+
 test('el constructor sigue fuera del índice editorial', async () => {
   const page = await source('src/app/[locale]/component-builder/page.tsx');
   assert.match(page, /robots:\s*\{\s*index:\s*false/, 'no debe indexarse una versión por plan');
