@@ -110,14 +110,21 @@ function EditorShell() {
 export function WebsiteBuilder({
   initialSchema,
   initialSlug,
-  persistKey,
+  projectId,
+  initialVersion,
 }: {
   initialSchema?: SiteSchema;
   initialSlug?: string;
-  persistKey?: string;
+  projectId?: string;
+  initialVersion?: number | null;
 }) {
   return (
-    <BuilderProvider initialSchema={initialSchema} initialSlug={initialSlug} persistKey={persistKey}>
+    <BuilderProvider
+      initialSchema={initialSchema}
+      initialSlug={initialSlug}
+      projectId={projectId}
+      initialVersion={initialVersion}
+    >
       <EditorShell />
     </BuilderProvider>
   );

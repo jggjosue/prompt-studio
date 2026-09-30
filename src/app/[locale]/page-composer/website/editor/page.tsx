@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
+import { auth } from '@clerk/nextjs/server';
 import { setRequestLocale } from 'next-intl/server';
 import { WebsiteBuilder } from '@/components/editor/website-builder/website-builder';
 import { createLandingSchema } from '@/lib/editor/page-schema';
+import { getPageComposerDraft } from '@/lib/page-composer-project';
 
 export const metadata: Metadata = {
   title: 'Editor visual | Prompt Studio',
@@ -15,21 +17,44 @@ export const dynamic = 'force-dynamic';
 /**
  * Editor visual del Website Builder.
  *
- * Carga la semilla de `PageSchema` y la pasa al editor de cliente. `?slug=` abre
- * una página concreta del sitio. El autoguardado escribe en `localStorage`, nunca
- * en cada movimiento del puntero.
+ * Carga un borrador persistido (`?project=<id>`) si existe y pertenece al
+ * usuario; si no, arranca de la semilla. El autoguardado escribe en el backend
+ * (MongoDB) con debounce, nunca en cada movimiento del puntero.
  */
 export default async function WebsiteBuilderEditorPage({
   params,
   searchParams,
 }: {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ slug?: string }>;
+  searchParams: Promise<{ slug?: string; project?: string }>;
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
 
-  const { slug } = await searchParams;
+  const { slug, project } = await searchParams;
 
-  return <WebsiteBuilder initialSchema={createLandingSchema()} initialSlug={slug} persistKey="ps:website-builder" />;
+  let initialSchema = createLandingSchema();
+  let projectId: string | undefined;
+  let initialVersion: number | null = null;
+
+  if (typeof project === 'string' && project.trim()) {
+    const { userId } = await auth();
+    if (userId) {
+      const draft = await getPageComposerDraft(userId, project.trim());
+      if (draft) {
+        initialSchema = draft.schema;
+        initialVersion = draft.version;
+        projectId = draft.id;
+      }
+    }
+  }
+
+  return (
+    <WebsiteBuilder
+      initialSchema={initialSchema}
+      initialSlug={slug}
+      projectId={projectId}
+      initialVersion={initialVersion}
+    />
+  );
 }
