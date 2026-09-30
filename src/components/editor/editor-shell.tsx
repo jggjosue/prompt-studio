@@ -2,6 +2,7 @@
 
 import { ComponentsPanel } from '@/components/editor/components-panel';
 import { EditorCanvas, VIEWPORT_WIDTH, nudge } from '@/components/editor/editor-canvas';
+import { EditorPagePreview } from '@/components/editor/editor-page-preview';
 import { EditorStoreProvider, useEditor, useEditorStore } from '@/components/editor/editor-store-context';
 import { InspectorPanel } from '@/components/editor/inspector-panel';
 import { LayersPanel } from '@/components/editor/layers-panel';
@@ -45,15 +46,15 @@ const BREAKPOINT_META: Record<Breakpoint, { icon: React.ReactNode; label: string
  * izquierda, lienzo en medio, propiedades a la derecha, estado abajo— y los
  * paneles se colapsan porque en un portátil de 13" el lienzo se queda sin sitio.
  */
-export function EditorShell({ store, name = 'Proyecto sin título', showCanvasCoordinates = false, previewUrl, onSave }: { store?: EditorStore; name?: string; showCanvasCoordinates?: boolean; previewUrl?: string | null; onSave?: () => void }) {
+export function EditorShell({ store, name = 'Proyecto sin título', showCanvasCoordinates = false, onSave }: { store?: EditorStore; name?: string; showCanvasCoordinates?: boolean; onSave?: () => void }) {
   return (
     <EditorStoreProvider store={store}>
-      <EditorWorkspace name={name} showCanvasCoordinates={showCanvasCoordinates} previewUrl={previewUrl} onSave={onSave} />
+      <EditorWorkspace name={name} showCanvasCoordinates={showCanvasCoordinates} onSave={onSave} />
     </EditorStoreProvider>
   );
 }
 
-function EditorWorkspace({ name, showCanvasCoordinates, previewUrl, onSave }: { name: string; showCanvasCoordinates: boolean; previewUrl?: string | null; onSave?: () => void }) {
+function EditorWorkspace({ name, showCanvasCoordinates, onSave }: { name: string; showCanvasCoordinates: boolean; onSave?: () => void }) {
   const store = useEditorStore();
   const ui = useEditor(state => state.ui);
   const preview = useEditor(state => state.editor.preview);
@@ -210,15 +211,7 @@ function EditorWorkspace({ name, showCanvasCoordinates, previewUrl, onSave }: { 
         ) : null}
 
         <main className="min-w-0 flex-1">
-          {preview && previewUrl ? (
-            <iframe
-              title="Vista previa HTML de la plantilla"
-              src={previewUrl}
-              className="h-full w-full border-0 bg-white"
-            />
-          ) : (
-            <EditorCanvas showCoordinates={showCanvasCoordinates} />
-          )}
+          {preview ? <EditorPagePreview name={name} /> : <EditorCanvas showCoordinates={showCanvasCoordinates} />}
         </main>
 
         {ui.rightPanel && !preview ? (
