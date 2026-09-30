@@ -5,7 +5,6 @@ import connectToDatabase from '@/lib/mongoose';
 import RegisteredUser from '@/models/RegisteredUser';
 import UserProfile from '@/models/UserProfile';
 import NewUser from '@/models/NewUser';
-import { upsertResendContact } from '@/lib/resend';
 
 export async function GET(request: Request) {
   const denied = await requireCronOrAdmin(request);
@@ -95,15 +94,10 @@ export async function GET(request: Request) {
         { upsert: true }
       );
       
-      // Sincronizar en Resend
-      await upsertResendContact({
-        email,
-        firstName: user.firstName ?? undefined,
-        lastName: user.lastName ?? undefined,
-      }).catch(() => {
-        console.error('Failed to sync Clerk user to Resend');
-      });
-      
+      // El consentimiento de marketing se confirma por separado. Este sync
+      // administrativo solo replica identidades y nunca suscribe un correo a
+      // Resend por el simple hecho de haber creado una cuenta.
+
       usersAdded++;
     }
     
