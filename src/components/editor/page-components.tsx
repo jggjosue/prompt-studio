@@ -26,6 +26,7 @@ import {
   type PropField,
 } from '@/lib/editor/page-schema';
 import type { DesignTokens } from '@/lib/editor/tokens';
+import { buildControls, type ControlDescriptor } from '@/lib/editor/property-controls';
 
 /* ------------------------------------------------------------------ tipos --- */
 
@@ -65,6 +66,8 @@ export type PageComponentDefinition = {
   defaultStyles: Record<string, string | number>;
   /** Propiedades editables, derivadas del contrato de `page-schema.ts`. */
   editableProps: readonly PropField[];
+  /** Controles que el inspector pinta para este tipo. */
+  controls: readonly ControlDescriptor[];
   /** Tipos de hijo admitidos; `[]` = hoja. */
   allowedChildren: readonly PageComponentType[];
   styleControls: readonly StyleControl[];
@@ -898,6 +901,7 @@ export const PAGE_COMPONENT_REGISTRY: Record<PageComponentType, PageComponentDef
       defaultProps: seed.defaultProps,
       defaultStyles: seed.defaultStyles ?? {},
       editableProps: PAGE_PROP_FIELDS[type as PageComponentType],
+      controls: buildControls(type as PageComponentType, PAGE_PROP_FIELDS[type as PageComponentType], seed.styleControls),
       allowedChildren: PAGE_CHILDREN[type as PageComponentType] ?? [],
       styleControls: seed.styleControls,
       responsive: seed.responsive,
