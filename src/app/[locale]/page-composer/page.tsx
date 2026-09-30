@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import { auth } from '@clerk/nextjs/server';
 import { setRequestLocale } from 'next-intl/server';
-import { getServerSubscriptionStatus, hasDownloadPlan } from '@/lib/server-subscription-status';
+import { getServerSubscriptionStatus, hasComponentBuilderPlan } from '@/lib/server-subscription-status';
 import PageComposerClient from './page-composer-client';
+import PageComposerPremiumGate from './page-composer-premium-gate';
 
 export const metadata: Metadata = {
   title: 'Generador de Páginas por Componentes | Prompt Studio',
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: true },
 };
 
-/** El editor y la exportación requieren comprobar el plan desde el servidor. */
+/** El generador requiere el plan Creator o superiores, comprobado en servidor. */
 export const dynamic = 'force-dynamic';
 
 export default async function PageComposerPage({ params }: { params: Promise<{ locale: string }> }) {
@@ -19,6 +20,12 @@ export default async function PageComposerPage({ params }: { params: Promise<{ l
   setRequestLocale(locale);
 
   const { userId } = await auth();
-  const subscription = userId ? await getServerSubscriptionStatus() : null;
+  if (!userId) return <PageComposerPremiumGate reason="anonymous" locale={locale} />;
+
+  const status = await getServerSubscriptionStatus();
+  if (!hasComponentBuilderPlan(status)) {
+    return <PageComposerPremiumGate reason="unpaid" locale={locale} />;
+  }
+
   return <PageComposerClient />;
 }

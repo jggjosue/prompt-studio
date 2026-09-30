@@ -33,24 +33,24 @@ test('el constructor valida sesión y pago Premium en el servidor', async () => 
   assert.match(page, /return <ComponentBuilderClient\s*\/>/);
 });
 
-test('el generador de páginas abre la composición para visitantes', async () => {
+test('el generador de páginas muestra la puerta a quien no tiene plan', async () => {
   const page = await source('src/app/[locale]/page-composer/page.tsx');
-  assert.match(page, /return <PageComposerClient canEdit=/);
-  assert.doesNotMatch(page, /PageComposerAccess/);
+  assert.match(page, /await auth\(\)/);
+  assert.match(page, /getServerSubscriptionStatus\(\)/);
+  assert.match(page, /hasComponentBuilderPlan\(status\)/);
+  assert.match(page, /PageComposerPremiumGate/);
+  assert.match(page, /return <PageComposerClient \/>/);
 });
 
-test('el menú solo ofrece Constructor visual y Generador de páginas a planes pagados', async () => {
+test('el menú ofrece Constructor visual y Generador de páginas a todos los usuarios', async () => {
   const header = await source('src/components/layout/header-client.tsx');
 
-  // El gate de plan vive en el cliente, con el estado de suscripción compartido.
-  assert.match(header, /useMembershipAccess/, 'el menú debe consultar el plan del usuario');
-  assert.match(header, /const \{ hasPaidPlan \} = useMembershipAccess\(\)/);
-
-  // Ambas herramientas salen de la misma lista, solo si hay plan pagado.
+  // Las herramientas de creación se insertan siempre, sin gate de plan en el menú:
+  // quien no tenga el plan lo ve al hacer clic, en la página de la herramienta.
   assert.match(
     header,
-    /\.\.\.\(hasPaidPlan \? paidCreatorItems\(\) : \[\]\)/,
-    'las herramientas de creación se insertan solo para planes pagados'
+    /\.\.\.paidCreatorItems\(\)/,
+    'las herramientas de creación siempre están en el menú'
   );
 
   const items = header.match(/const paidCreatorItems = \(\): DropdownItem\[\] => \[[\s\S]*?\];/);
@@ -58,7 +58,7 @@ test('el menú solo ofrece Constructor visual y Generador de páginas a planes p
   assert.match(items[0], /href: '\/component-builder'/, 'Constructor visual');
   assert.match(items[0], /href: '\/page-composer'/, 'Generador de páginas');
 
-  // Y ya no se sirven como «Próximamente».
+  // Y no se sirven como «Próximamente».
   assert.doesNotMatch(
     items[0],
     /disabled|disabledBadge/,
