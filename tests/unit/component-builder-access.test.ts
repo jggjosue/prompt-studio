@@ -42,15 +42,16 @@ test('el generador de páginas muestra la puerta a quien no tiene plan', async (
   assert.match(page, /return <PageComposerClient \/>/);
 });
 
-test('el menú ofrece Constructor visual y Generador de páginas a todos los usuarios', async () => {
+test('el menú ofrece Constructor visual y Generador de páginas solo al super administrador', async () => {
   const header = await source('src/components/layout/header-client.tsx');
 
-  // Las herramientas de creación se insertan siempre, sin gate de plan en el menú:
-  // quien no tenga el plan lo ve al hacer clic, en la página de la herramienta.
+  // Las herramientas de creación solo las ve el super admin (PROMPT_STUDIO_PREMIUM_JO);
+  // el resto de usuarios no las ve en el menú.
+  assert.match(header, /useSuperAdmin\(\)/, 'el menú consulta si el usuario es super admin');
   assert.match(
     header,
-    /\.\.\.paidCreatorItems\(\)/,
-    'las herramientas de creación siempre están en el menú'
+    /\.\.\.\(isSuperAdmin \? paidCreatorItems\(\) : \[\]\)/,
+    'las herramientas de creación solo se insertan para el super admin'
   );
 
   const items = header.match(/const paidCreatorItems = \(\): DropdownItem\[\] => \[[\s\S]*?\];/);
