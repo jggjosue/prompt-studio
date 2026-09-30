@@ -22,6 +22,17 @@ const GenerateImageOutputSchema = z.object({
 });
 export type GenerateImageOutput = z.infer<typeof GenerateImageOutputSchema>;
 
+/**
+ * Tope del data URI en línea. El valor acaba dentro de `AIGenerationJob.result`,
+ * que Mongo guarda como documento, y el límite duro de BSON son 16 MB. Sin acotar
+ * aquí, una imagen grande revienta la escritura mucho después —con créditos ya
+ * gastados— y además infla cada lectura del job.
+ *
+ * Es el mismo techo que `callWorker` aplica al resultado del worker externo
+ * (`ai-job-runner.ts`), para que los dos caminos tengan el mismo límite.
+ */
+const MAX_INLINE_IMAGE_CHARS = 2_000_000;
+
 export async function generateImage(
   input: GenerateImageInput
 ): Promise<GenerateImageOutput> {
@@ -36,7 +47,9 @@ const generateImageFlow = ai.defineFlow(
   },
   async input => {
     try {
-      const modelName = input.model || 'gemini-3.1-flash-image';
+      // Usa la constante canónica, no el literal: ese archivo existe justo para
+      // que el runner, este fallback y el verificador de producción no divergan.
+      const modelName = input.model || GOOGLE_IMAGE_MODEL;
       const resolvedModel = modelName.includes('/') ? modelName : `googleai/${modelName}`;
       
       let lastErr: unknown;
@@ -51,6 +64,11 @@ const generateImageFlow = ai.defineFlow(
           const imageUrl = media?.url;
           if (!imageUrl) {
               throw new Error('Image generation failed.');
+          }
+          if (imageUrl.length > MAX_INLINE_IMAGE_CHARS) {
+              throw new Error(
+                  `La imagen generada excede el límite en línea de 2 MB (${imageUrl.length} caracteres).`
+              );
           }
           return { imageUrl };
         } catch (err: any) {
