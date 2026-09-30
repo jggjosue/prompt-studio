@@ -39,7 +39,20 @@ test('el generador de páginas muestra la puerta a quien no tiene plan', async (
   assert.match(page, /getServerSubscriptionStatus\(\)/);
   assert.match(page, /hasComponentBuilderPlan\(status\)/);
   assert.match(page, /PageComposerPremiumGate/);
-  assert.match(page, /return <PageComposerClient \/>/);
+});
+
+test('el generador de páginas lleva al Website Builder, no al compositor antiguo', async () => {
+  const page = await source('src/app/[locale]/page-composer/page.tsx');
+  // La puerta Premium se aplica antes de redirigir: el editor vive en una
+  // subruta y este es el único punto que la protege.
+  const gate = page.indexOf('PageComposerPremiumGate');
+  const redirect = page.indexOf('redirect(');
+  assert.ok(gate !== -1 && redirect !== -1, 'debe validar el plan y redirigir');
+  assert.ok(gate < redirect, 'la puerta va antes de la redirección');
+  assert.match(page, /redirect\(`\/\$\{locale\}\/page-composer\/website\/editor`\)/);
+
+  // El compositor de bloques ya no existe: el generador es el Website Builder.
+  assert.doesNotMatch(page, /PageComposerClient/);
 });
 
 test('el menú ofrece Constructor visual y Generador de páginas solo al super administrador', async () => {
@@ -81,10 +94,13 @@ test('el constructor sigue fuera del índice editorial', async () => {
   assert.match(page, /robots:\s*\{\s*index:\s*false/, 'no debe indexarse una versión por plan');
 });
 
-test('la exportación de páginas mantiene la puerta de pago en la acción', async () => {
-  const client = await source('src/app/[locale]/page-composer/page-composer-editor-client.tsx');
-  assert.match(client, /disabled=\{!canEdit\}/, 'la acción Premium debe quedar bloqueada sin plan');
-  assert.match(client, /Actualizar a Premium/, 'el editor debe explicar cómo desbloquear la acción');
+test('la API del builder no se fía de la página y exige plan Premium', async () => {
+  // La puerta vive en la página, pero la API repite el control: el editor es
+  // una ruta aparte y no puede heredarse de la redirección.
+  const route = await source('src/app/api/page-composer/projects/[id]/route.ts');
+  assert.match(route, /await auth\(\)/);
+  assert.match(route, /getServerSubscriptionStatus\(\)/);
+  assert.match(route, /hasComponentBuilderPlan\(status\)/);
 });
 
 /* --------------------------------------------------------------- bloques --- */
