@@ -64,3 +64,23 @@ test('las fichas de /gallery ocultan las estimaciones de tiempo y costo', () => 
   );
   assert.match(source, /PromptValidationCard[^>]+showEstimates=\{false\}/);
 });
+
+test('la ruta de imagen no redirige por metadata type heredada', () => {
+  const source = readFileSync(
+    new URL('../../src/app/[locale]/gallery/[id]/page.tsx', import.meta.url),
+    'utf8'
+  );
+
+  assert.match(source, /if \(!imageItem && videoItem\)/);
+  assert.doesNotMatch(source, /if \(item\.type === ['"]video['"]\)/);
+  assert.match(source, /\{ \.\.\.imageItem, type: ['"]image['"] \}/);
+});
+
+test('la limpieza del service worker no fuerza una segunda carga', () => {
+  const source = readFileSync(
+    new URL('../../src/components/service-worker-register.tsx', import.meta.url),
+    'utf8'
+  );
+
+  assert.doesNotMatch(source, /window\.location\.reload\(\)/);
+});

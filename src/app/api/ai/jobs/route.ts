@@ -6,6 +6,7 @@ import { cacheHeaders } from '@/lib/cache-policy';
 import connectToDatabase from '@/lib/mongoose';
 import { contractInstructions } from '@/lib/output-contract';
 import { humanVerificationDecision } from '@/lib/human-verification';
+import { dispatchGenerationJob } from '@/lib/generation-queue-dispatch';
 import { recordObservabilityEvent } from '@/lib/observability-server';
 import { evaluateBudgetOperation } from '@/lib/project-budget';
 import { isProviderObjective } from '@/lib/provider-quality';
@@ -125,7 +126,19 @@ export async function POST(request: Request) {
     const credits = await getCreditBalance(userId);
     return NextResponse.json({ error: { code: 'INSUFFICIENT_CREDITS', message: `Necesitas ${cost.credits} créditos para esta generación y tienes ${credits.balance}.` }, required: cost.credits, credits }, { status: 402, headers: headers() });
   }
-  return NextResponse.json({ job: serializeAIJob(job), credits: { balance }, duplicate: false }, { status: 202, headers: headers() });
+  const dispatch = await dispatchGenerationJob(String(job._id));
+  if (!dispatch.dispatched) {
+    void recordObservabilityEvent({
+      category: 'ai_generation',
+      name: 'generation_queue_fallback',
+      route: '/api/ai/jobs',
+      userId,
+      productId: String(job._id),
+      status: dispatch.reason,
+      metadata: { jobId: String(job._id), mode: dispatch.mode, reason: dispatch.reason },
+    });
+  }
+  return NextResponse.json({ job: serializeAIJob(job), credits: { balance }, duplicate: false, dispatch }, { status: 202, headers: headers() });
 }
 
 export async function GET() {

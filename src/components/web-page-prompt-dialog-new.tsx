@@ -13,17 +13,15 @@ import { useDailyCopyLimit } from '@/hooks/use-daily-copy-limit';
 import { useToast } from '@/hooks/use-toast';
 import { copyToClipboard } from '@/lib/copy-to-clipboard';
 import { trackAnalyticsEvent } from '@/lib/analytics';
+import { buildWebPageGeneratorPrompt } from '@/lib/web-page-generator-prompt';
 
 import type { WebPageEntry } from '@/lib/web-pages';
-import { Check, Copy, FileText, Loader2, Wand2 } from 'lucide-react';
+import { Check, Copy, FileText, Wand2 } from 'lucide-react';
 import * as React from 'react';
 import { normalizeMembership } from '@/lib/membership-access';
 import { pickLocalized, type LocalizedField } from '@/lib/localized-string';
-import Link from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
-import { useUser } from '@clerk/nextjs';
-
-const EMAIL_SAVED_KEY = 'prompt_studio_free_email_saved';
+import { useRouter } from 'next/navigation';
 
 export function WebPagePromptDialog({
   page,
@@ -33,12 +31,11 @@ export function WebPagePromptDialog({
   hasPurchased?: boolean;
 }) {
   const t = useTranslations('landingPages');
-  const tCommon = useTranslations('common');
   const locale = useLocale();
+  const router = useRouter();
   const { toast } = useToast();
   const { runWithAccess, isSignedIn, hasPaidPlan } = useMembershipAccess();
   const { copyWithDailyLimit } = useDailyCopyLimit();
-  const { user } = useUser();
 
   const [copied, setCopied] = React.useState(false);
   // 'closed' | 'email-gate' | 'prompt'
@@ -95,9 +92,21 @@ export function WebPagePromptDialog({
     window.setTimeout(() => setCopied(false), 2000);
   };
 
+  const handleUsePrompt = () => {
+    const generatorPrompt = buildWebPageGeneratorPrompt({
+      title: pageTitle,
+      description: pageDescription,
+      imageHint: page.imageHint,
+      stack: page.stack,
+      tags: page.tags,
+    });
+    const params = new URLSearchParams({ mode: 'project', prompt: generatorPrompt });
+    router.push(`/generate?${params.toString()}`);
+  };
+
   const isFree = normalizeMembership(page.membership) === 'free';
   // Paid plan users skip the email gate (they're already tracked)
-  const needsEmailGate = isFree && !hasPaidPlan;
+  const needsEmailGate = isFree && !isSignedIn && !hasPaidPlan;
 
   const handleViewPromptClick = (e: React.MouseEvent) => {
     let accessGranted = false;
@@ -193,7 +202,8 @@ export function WebPagePromptDialog({
                 <Button
                   size="sm"
                   className="!bg-blue-600 !text-white hover:!bg-blue-700"
-                  disabled
+                  disabled={loadingPrompt || !pageDescription.trim()}
+                  onClick={handleUsePrompt}
                 >
                     <Wand2 className="h-3.5 w-3.5 mr-1.5" />
                     {t('usePrompt')}

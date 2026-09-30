@@ -28,6 +28,7 @@ import {
   MousePointer2,
   Plus,
   Redo2,
+  Save,
   Settings,
   Smartphone,
   Sparkles,
@@ -36,26 +37,21 @@ import {
   Undo2,
 } from 'lucide-react';
 import { useLocale } from 'next-intl';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import {
+  composeBlocksFromSeed,
+  type PageComposerBlock as Block,
+  type PageComposerChoice as Choice,
+  type PageComposerKey as Key,
+  type PageComposerSeed,
+} from '@/lib/page-composer';
 import buttonCatalog from '../../../../public/catalog/components/web-button-components.json';
 import cardCatalog from '../../../../public/catalog/components/web-card-components.json';
 import formCatalog from '../../../../public/catalog/components/web-form-components.json';
 import headerCatalog from '../../../../public/catalog/components/web-header-components.json';
 import sidebarCatalog from '../../../../public/catalog/components/web-sidebar-components.json';
 
-// --- Types ---
-type Choice = { id: string; title: string; prompt: string };
-type Key = 'header' | 'sidebar' | 'hero' | 'card' | 'form' | 'button' | 'footer' | 'logoCloud' | 'stats' | 'features' | 'testimonial' | 'pricing' | 'faq' | 'newsletter';
 type Device = 'desktop' | 'tablet' | 'mobile';
-
-type Block = {
-  instanceId: string; // Unique ID for the instance in the canvas
-  key: Key;
-  choiceId: string;
-  title: string;
-  prompt: string;
-  content?: Record<string, string>;
-};
 
 const BLOCK_FIELDS: Record<Key, { id: string; label: string; default: string }[]> = {
   header: [{ id: 'cta', label: 'Botón CTA', default: 'Comenzar' }],
@@ -87,8 +83,6 @@ const BLOCK_FIELDS: Record<Key, { id: string; label: string; default: string }[]
 };
 
 // --- Catalogs & Static Data ---
-const DEFAULT_ORDER: Key[] = ['header', 'hero', 'logoCloud', 'features', 'card', 'stats', 'testimonial', 'pricing', 'form', 'faq', 'newsletter', 'footer'];
-
 const LABELS: Record<Key, [string, string, string]> = {
   header: ['Navegación', 'Navigation', 'Base'], sidebar: ['Barra lateral', 'Sidebar', 'Base'], hero: ['Hero', 'Hero', 'Impacto'],
   logoCloud: ['Logos de confianza', 'Trust logos', 'Confianza'], stats: ['Métricas', 'Metrics', 'Confianza'], features: ['Beneficios', 'Features', 'Contenido'],
@@ -443,10 +437,16 @@ function RenderBlock({
 }
 
 // --- Main Page Composer Component ---
-export default function PageComposerClient() {
+export default function PageComposerClient({
+  canEdit = false,
+  seed,
+}: {
+  canEdit?: boolean;
+  seed?: PageComposerSeed | null;
+}) {
   const es = useLocale().toLowerCase().startsWith('es');
   const { copyWithDailyLimit } = useDailyCopyLimit();
-  const { hasPaidPlan } = useMembershipAccess();
+  const { hasPaidPlan, runWithAccess } = useMembershipAccess();
   const router = useRouter();
 
   // Load catalogs
@@ -469,25 +469,88 @@ export default function PageComposerClient() {
 
   // Editor State
   const [blocks, setBlocks] = useState<Block[]>(() => {
-    return DEFAULT_ORDER.map(key => ({
-      instanceId: generateInstanceId(),
-      key,
-      choiceId: options[key][0].id,
-      title: options[key][0].title,
-      prompt: options[key][0].prompt,
-    }));
+    return composeBlocksFromSeed(seed ?? {}, options, generateInstanceId);
   });
 
   const [history, setHistory] = useState<{ past: Block[][], future: Block[][] }>({ past: [], future: [] });
   const [selectedBlockId, setSelectedBlockId] = useState<string | null>(null);
 
-  // Global Settings
-  const [projectName, setProjectName] = useState('Nova Digital Experience');
-  const [brand, setBrand] = useState('Nova Studio');
-  const [description, setDescription] = useState('Una experiencia digital coherente, rápida y preparada para convertir.');
-  const [primary, setPrimary] = useState('#7c3aed');
-  const [secondary, setSecondary] = useState('#06b6d4');
-  const [background, setBackground] = useState('#07090e'); // Deep dark
+  // Global Settings (los del kit seleccionado si llegamos desde otra ruta)
+  const [projectName, setProjectName] = useState(seed?.projectName || 'Nova Digital Experience');
+  const [brand, setBrand] = useState(seed?.brand || 'Nova Studio');
+  const [description, setDescription] = useState(seed?.description || 'Una experiencia digital coherente, rápida y preparada para convertir.');
+  const [primary, setPrimary] = useState(seed?.primary || '#7c3aed');
+  const [secondary, setSecondary] = useState(seed?.secondary || '#06b6d4');
+  const [background, setBackground] = useState(seed?.background || '#07090e'); // Deep dark
+
+  // Persistence State
+  const [savedProjectId, setSavedProjectId] = useState<string | null>(null);
+  const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+  const loadedSavedRef = useRef<string | null>(null);
+
+  // Load the user's saved design for this kit once, so they can keep editing.
+  useEffect(() => {
+    const kitId = seed?.kit || null;
+    if (!canEdit || !kitId) return;
+    if (loadedSavedRef.current === kitId) return;
+    loadedSavedRef.current = kitId;
+
+    const controller = new AbortController();
+    fetch(`/api/page-composer/projects?sourceKitId=${encodeURIComponent(kitId)}`, {
+      signal: controller.signal,
+    })
+      .then(res => res.ok ? res.json() : null)
+      .then(data => {
+        const project = data?.projects?.[0];
+        if (!project) return;
+        setSavedProjectId(project.id);
+        setBrand(project.brand || brand);
+        setDescription(project.description || description);
+        setPrimary(project.primary || primary);
+        setSecondary(project.secondary || secondary);
+        setBackground(project.background || background);
+        if (Array.isArray(project.blocks) && project.blocks.length > 0) {
+          setBlocks(project.blocks);
+        }
+        setSaveState('saved');
+      })
+      .catch(() => { /* sin conexión: se queda con la semilla */ });
+    return () => controller.abort();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [canEdit, seed?.kit]);
+
+  const saveDesign = () => {
+    runWithAccess('Premium', async () => {
+      if (!canEdit) {
+        router.push('/prices');
+        return;
+      }
+      setSaveState('saving');
+      try {
+        const res = await fetch('/api/page-composer/projects', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            id: savedProjectId ?? undefined,
+            sourceKitId: seed?.kit ?? null,
+            name: projectName,
+            brand,
+            description,
+            primary,
+            secondary,
+            background,
+            blocks,
+          }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'guardado fallido');
+        setSavedProjectId(data.id);
+        setSaveState('saved');
+      } catch {
+        setSaveState('error');
+      }
+    });
+  };
 
   // UI State
   const [device, setDevice] = useState<Device>('desktop');
@@ -696,13 +759,24 @@ export default function PageComposerClient() {
               </button>
             </div>
             <div className="h-4 w-px bg-white/10" />
-            <span className="flex items-center gap-2 text-xs font-medium text-zinc-400">
-              <Check className="size-3 text-emerald-500" /> Guardado
+            <span className={`flex items-center gap-2 text-xs font-medium ${saveState === 'error' ? 'text-rose-400' : saveState === 'saving' ? 'text-zinc-300' : 'text-zinc-400'}`}>
+              {saveState === 'saving' ? <Redo2 className="size-3 animate-spin" /> : saveState === 'error' ? <span className="size-2 rounded-full bg-rose-500" /> : <Check className="size-3 text-emerald-500" />}
+              {saveState === 'saving' ? 'Guardando…' : saveState === 'error' ? 'Error al guardar' : savedProjectId ? 'Diseño guardado' : seed?.kit ? 'Kit cargado' : 'Guardado'}
             </span>
           </div>
 
           {/* Right: Actions */}
           <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={saveDesign}
+              className="h-8 text-xs font-semibold text-violet-300 hover:bg-violet-500/10 hover:text-violet-200"
+              disabled={saveState === 'saving'}
+            >
+              <Save className="mr-2 size-3.5" />
+              Guardar diseño
+            </Button>
             <Button variant="ghost" size="sm" onClick={copy} className="h-8 text-xs font-semibold text-zinc-300 hover:bg-white/5 hover:text-white">
               {copied ? <Check className="mr-2 size-3 text-emerald-400" /> : <Copy className="mr-2 size-3" />}
               Prompt

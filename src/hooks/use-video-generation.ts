@@ -1,6 +1,13 @@
 'use client';
 
 import type { ChatMessageResult, ChatParams } from '@/lib/chat-types';
+import {
+  LONG_GENERATION_POLL_SCHEDULE,
+  isTerminalGenerationStatus,
+  nextGenerationPollDelayMs,
+  terminalGenerationMessage,
+  waitForGenerationPollWindow,
+} from '@/lib/generation-polling';
 import { safeJson, extractErrorMessage } from '@/lib/safe-json';
 import { useCallback, useState } from 'react';
 
@@ -45,12 +52,15 @@ export function useVideoGeneration() {
       if (!jobId) return { error: 'El servidor no devolvió un identificador de trabajo.' };
 
       let completed = false;
-      let attempts = 0;
+      let attempt = 0;
+      let elapsedMs = 0;
       let videoOutputUrl = '';
 
-      while (!completed && attempts < 40) {
-        attempts++;
-        await new Promise(resolve => setTimeout(resolve, 3000));
+      while (!completed && elapsedMs < LONG_GENERATION_POLL_SCHEDULE.maxElapsedMs) {
+        const waitMs = nextGenerationPollDelayMs(attempt, LONG_GENERATION_POLL_SCHEDULE);
+        if (!(await waitForGenerationPollWindow(waitMs))) break;
+        elapsedMs += waitMs;
+        attempt += 1;
         try {
           const pollRes = await fetch(`/api/ai/jobs/${jobId}`);
           const pollData = await safeJson(pollRes);
@@ -63,8 +73,10 @@ export function useVideoGeneration() {
           if (status === 'completed') {
             videoOutputUrl = extractVideoUrl(job?.result);
             completed = true;
-          } else if (status === 'failed') {
-            return { error: (job?.lastError as string | undefined) || 'El trabajo falló en el servidor.' };
+          } else if (isTerminalGenerationStatus(status)) {
+            // `cancelled` y `dead_letter` también cortan el sondeo: sin esto un
+            // trabajo detenido agotaba la ventana entera antes de avisar.
+            return { error: terminalGenerationMessage(job, status) };
           }
         } catch (pollErr: unknown) {
           console.warn('Poll error:', pollErr);
@@ -97,7 +109,7 @@ function resolveDefaultVideoModel(provider: string): string {
   switch (provider) {
     case 'runway': return 'gen-3';
     case 'google':
-    case 'veo':    return 'veo-2.0-generate-001';
+    case 'veo':    return 'gemini-omni-flash';
     default:       return 'gen-3';
   }
 }
@@ -149,16 +161,27 @@ function buildVideoInput(
         // Optional: watermark, seed
       };
 
-    // ── Google Veo 2 (Vertex AI) ────────────────────────────────────────
-    // API: Vertex AI predictLongRunning
+    // ── Google Gemini Omni Flash ─────────────────────────────────────────
+    // Multimodal, conversational video generation & editing via Interactions API
     case 'google':
     case 'veo':
+      if (model === 'gemini-omni-flash') {
+        return {
+          ...base,
+          videoDurationSeconds: durationSeconds,
+          aspectRatio: videoAspectToGoogle(params.videoAspect),
+          // Omni Flash supports multi-turn editing with reference media
+          ...(params.referenceImage ? { referenceImage: params.referenceImage } : {}),
+        };
+      }
+      // ── Google Veo 3.1 / Veo 2.0 (Vertex AI) ──────────────────────────
       return {
         ...base,
         videoDurationSeconds: durationSeconds,
         aspectRatio: videoAspectToGoogle(params.videoAspect),
-        // Veo 2 supports sampleCount (1-4)
         sampleCount: 1,
+        // Veo 3.1 supports native audio generation
+        ...(model === 'veo-3.1-generate-001' ? { generateAudio: true } : {}),
       };
 
     default:

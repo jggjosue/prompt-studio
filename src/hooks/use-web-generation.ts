@@ -1,6 +1,13 @@
 'use client';
 
 import type { ChatMessageResult, ChatParams } from '@/lib/chat-types';
+import {
+  LONG_GENERATION_POLL_SCHEDULE,
+  isTerminalGenerationStatus,
+  nextGenerationPollDelayMs,
+  terminalGenerationMessage,
+  waitForGenerationPollWindow,
+} from '@/lib/generation-polling';
 import { safeJson, extractErrorMessage } from '@/lib/safe-json';
 import { useCallback, useState } from 'react';
 
@@ -14,7 +21,7 @@ export function useWebGeneration() {
   const [webTheme, setWebTheme] = useState('glassmorphism');
   const [webComponent, setWebComponent] = useState('hero');
   const [webColor, setWebColor] = useState('blue');
-  const [webModel, setWebModel] = useState('gemini-2.5-flash');
+  const [webModel, setWebModel] = useState('gemini-3.1-flash-lite');
   const [outputWebHTML, setOutputWebHTML] = useState('');
 
   const generate = useCallback(async (prompt: string, params: ChatParams): Promise<{ result?: ChatMessageResult; error?: string }> => {
@@ -43,12 +50,15 @@ export function useWebGeneration() {
       if (!jobId) return { error: 'El servidor no devolvió un identificador de trabajo.' };
 
       let completed = false;
-      let attempts = 0;
+      let attempt = 0;
+      let elapsedMs = 0;
       let generatedHTML = '';
 
-      while (!completed && attempts < 40) {
-        attempts++;
-        await new Promise(resolve => setTimeout(resolve, 3000));
+      while (!completed && elapsedMs < LONG_GENERATION_POLL_SCHEDULE.maxElapsedMs) {
+        const waitMs = nextGenerationPollDelayMs(attempt, LONG_GENERATION_POLL_SCHEDULE);
+        if (!(await waitForGenerationPollWindow(waitMs))) break;
+        elapsedMs += waitMs;
+        attempt += 1;
         try {
           const pollRes = await fetch(`/api/ai/jobs/${jobId}`);
           const pollData = await safeJson(pollRes);
@@ -61,8 +71,8 @@ export function useWebGeneration() {
           if (status === 'completed') {
             generatedHTML = extractWebOutput(job?.result);
             completed = true;
-          } else if (status === 'failed') {
-            return { error: (job?.lastError as string | undefined) || 'El trabajo falló en el servidor.' };
+          } else if (isTerminalGenerationStatus(status)) {
+            return { error: terminalGenerationMessage(job, status) };
           }
         } catch (pollErr: unknown) {
           console.warn('Poll error:', pollErr);
@@ -96,7 +106,7 @@ function resolveDefaultWebModel(provider: string): string {
   switch (provider) {
     case 'openai':    return 'gpt-4o';
     case 'anthropic': return 'claude-3-5-sonnet-20240620';
-    case 'google':    return 'gemini-2.5-flash';
+    case 'google':    return 'gemini-3.1-flash-lite';
     default:          return 'gpt-4o';
   }
 }
@@ -140,8 +150,7 @@ function buildWebInput(
         temperature: 0.7,
       };
 
-    // ── Google Gemini generateContent ───────────────────────────────────
-    // POST /v1beta/models/{model}:generateContent
+    // ── Google Gemini Interactions API ──────────────────────────────────
     case 'google':
       return {
         ...base,
@@ -196,6 +205,7 @@ function extractWebOutput(result: unknown): string {
   // Direct text/html/output fields (set by worker)
   if (typeof r.output === 'string') return r.output;
   if (typeof r.text === 'string') return r.text;
+  if (typeof r.output_text === 'string') return r.output_text;
   if (typeof r.html === 'string') return r.html;
 
   // OpenAI Chat Completions: { choices: [{ message: { content } }] }
@@ -213,7 +223,7 @@ function extractWebOutput(result: unknown): string {
     }
   }
 
-  // Gemini generateContent: { candidates: [{ content: { parts: [{ text }] } }] }
+  // Compatibility shape returned alongside Interactions API `output_text`.
   const candidates = r.candidates as Array<Record<string, unknown>> | undefined;
   if (Array.isArray(candidates) && candidates[0]) {
     const c = candidates[0].content as Record<string, unknown> | undefined;

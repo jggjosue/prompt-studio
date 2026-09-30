@@ -23,7 +23,6 @@ export function parseGenerateQuery(value: string | null | undefined): GenerateQu
     const params = source.params && typeof source.params === 'object' && !Array.isArray(source.params)
       ? source.params as ChatParams
       : {};
-    const referenceImage = typeof source.imageUrl === 'string' ? { referenceImage: source.imageUrl } : {};
     return {
       prompt: typeof source.description === 'string'
         ? source.description
@@ -31,7 +30,7 @@ export function parseGenerateQuery(value: string | null | undefined): GenerateQu
           ? source.prompt
           : typeof source.title === 'string' ? source.title : '',
       mode: type,
-      params: { ...params, ...referenceImage },
+      params,
     };
   } catch {
     return { prompt: decoded, mode: 'image', params: {} };

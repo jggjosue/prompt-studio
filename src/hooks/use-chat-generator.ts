@@ -6,6 +6,9 @@ import type { ChatGeneratorMessage, ChatGeneratorReturn, ChatMessageResult, Chat
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useImageGeneration } from './use-image-generation';
 import { useVideoGeneration } from './use-video-generation';
+import { useVisionGeneration } from './use-vision-generation';
+import { useTextGeneration } from './use-text-generation';
+import { useVideoUnderstanding } from './use-video-understanding';
 import { useWebGeneration } from './use-web-generation';
 
 const defaultParams: ChatParams = {
@@ -13,6 +16,12 @@ const defaultParams: ChatParams = {
   videoDuration: 8, videoStyle: 'photorealistic', videoAspect: '16-9',
   webFramework: 'nextjs', webTheme: 'glassmorphism', webComponent: 'hero', webColor: 'blue',
 };
+
+const generationFailureTitle = (mode: ChatMode) => mode === 'image'
+  ? 'No pudimos generar la imagen'
+  : mode === 'video'
+    ? 'No pudimos generar el video'
+    : 'No pudimos generar la página';
 
 export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
   const initial = parseGenerateQuery(initialQuery);
@@ -30,7 +39,8 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
     localGenerating, setLocalGenerating, genProgress, setGenProgress,
     genStatus, setGenStatus, generationError, setGenerationError,
     failGeneration, beginGeneration, finishGeneration,
-    outputImageUrl, setOutputImageUrl, outputImageVariations, setOutputImageVariations,
+    outputImageUrl, setOutputImageUrl,
+    outputImageVariations, setOutputImageVariations,
     outputVideoUrl, setOutputVideoUrl, outputWebHTML, setOutputWebHTML,
     copiedCode, setCopiedCode,
   } = useGenerationEditor();
@@ -38,6 +48,13 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
   const imageGen = useImageGeneration();
   const videoGen = useVideoGeneration();
   const webGen = useWebGeneration();
+  const visionGen = useVisionGeneration();
+  const textGen = useTextGeneration();
+  const videoUnderstandingGen = useVideoUnderstanding();
+
+  const imageGenerate = imageGen.generate;
+  const videoGenerate = videoGen.generate;
+  const webGenerate = webGen.generate;
 
   useEffect(() => {
     fetch('/api/ai/chats')
@@ -99,10 +116,10 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
     if (!trimmed) return false;
     setQueue(prev => {
       if (prev.length >= 50 || prev.some(item => item.status === 'queued' && item.prompt === trimmed)) return prev;
-      return [...prev, { id: `q-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, prompt: trimmed, mode: selectedMode, status: 'queued', progress: 0 }];
+      return [...prev, { id: `q-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, prompt: trimmed, mode: selectedMode, params: { ...params }, status: 'queued', progress: 0 }];
     });
     return true;
-  }, [selectedMode]);
+  }, [params, selectedMode]);
 
   const startQueue = useCallback(() => setQueueActive(true), []);
 
@@ -134,12 +151,16 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
     setQueue(prev => prev.map(item => item.id === next.id ? { ...item, status: 'processing', progress: 5 } : item));
     void (async () => {
       let res: { result?: ChatMessageResult; error?: string } | undefined;
-      if (next.mode === 'image') {
-        res = await imageGen.generate(next.prompt, params);
-      } else if (next.mode === 'video') {
-        res = await videoGen.generate(next.prompt, params);
-      } else {
-        res = await webGen.generate(next.prompt, params);
+      try {
+        if (next.mode === 'image') {
+          res = await imageGenerate(next.prompt, next.params);
+        } else if (next.mode === 'video') {
+          res = await videoGenerate(next.prompt, next.params);
+        } else {
+          res = await webGenerate(next.prompt, next.params);
+        }
+      } catch (err: unknown) {
+        res = { error: err instanceof Error ? err.message : 'Error inesperado al generar.' };
       }
 
       setQueue(prev => prev.map(item => item.id === next.id ? {
@@ -150,17 +171,22 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
         progress: res?.error ? 0 : 100,
       } : item));
 
-      const entry = addMessage({ role: 'user', mode: next.mode, prompt: next.prompt, params, status: 'pending', progress: 0 });
-      updateMessage(entry.id, res?.error
+      addMessage({ role: 'user', mode: next.mode, prompt: next.prompt, params: next.params, status: 'completed', progress: 100 });
+      const responseEntry = addMessage({ role: 'assistant', mode: next.mode, prompt: next.prompt, params: next.params, status: 'pending', progress: 10 });
+      updateMessage(responseEntry.id, res?.error
         ? { status: 'failed', progress: 0, result: { error: res.error } }
         : { status: 'completed', progress: 100, result: res?.result });
     })().finally(() => {
       queueWorkerRef.current = false;
       setQueueRunning(false);
     });
-  }, [queue, queueActive, params, imageGen, videoGen, webGen, addMessage, updateMessage]);
+  }, [queue, queueActive, imageGenerate, videoGenerate, webGenerate, addMessage, updateMessage]);
 
   const generate = useCallback(async (prompt: string, params: ChatParams, mode: ChatMode) => {
+    const entry = addMessage({ role: 'user', mode, prompt, params, status: 'completed', progress: 100 });
+    const responseEntry = addMessage({ role: 'assistant', mode, prompt, params, status: 'pending', progress: 10 });
+    beginGeneration(`Generating ${mode}...`);
+
     let sessionId = activeSessionId;
     if (!sessionId) {
       try {
@@ -178,14 +204,12 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
         }
       } catch {}
     }
-    const entry = addMessage({ role: 'user', mode, prompt, params, status: 'pending', progress: 0 });
     if (sessionId) {
       void fetch(`/api/ai/chats/${sessionId}/messages`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ role: 'user', mode, prompt, params }),
       }).catch(() => {});
     }
-    beginGeneration(`Generating ${mode}...`);
     setGenProgress(10);
     let result: ChatMessageResult | undefined;
     let error: string | undefined;
@@ -195,7 +219,7 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
         const res = await imageGen.generate(prompt, params);
         result = res.result;
         error = res.error;
-        if (result?.imageUrl) setOutputImageUrl(result.imageUrl);
+        if (result?.imageUrl) { /* generation entry already updated by imageGen */ }
         if (result?.imageUrls) setOutputImageVariations(result.imageUrls.map((url, i) => ({ label: `Variation ${i + 1}`, url })));
       } else if (mode === 'video') {
         const res = await videoGen.generate(prompt, params);
@@ -207,20 +231,36 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
         result = res.result;
         error = res.error;
         if (result?.html) setOutputWebHTML(result.html);
+      } else if (mode === 'vision') {
+        const res = await visionGen.generate(prompt, params);
+        result = res.result;
+        error = res.error;
+      } else if (mode === 'text') {
+        const res = await textGen.generate(prompt, params);
+        result = res.result;
+        error = res.error;
+      } else if (mode === 'videoUnderstanding') {
+        const res = await videoUnderstandingGen.generate(prompt, params);
+        result = res.result;
+        error = res.error;
       }
 
       if (error) {
-        failGeneration(`${mode} generation failed`, error);
-        updateMessage(entry.id!, { status: 'failed', progress: 0, result: { error } });
+        failGeneration(generationFailureTitle(mode), error);
+        updateMessage(responseEntry.id, { status: 'failed', progress: 0, result: { error } });
       } else if (result) {
         finishGeneration();
         setGenProgress(100);
-        updateMessage(entry.id!, { status: 'completed', progress: 100, result });
+        updateMessage(responseEntry.id, { status: 'completed', progress: 100, result });
+      } else {
+        error = 'No se recibió un resultado del proveedor.';
+        failGeneration(generationFailureTitle(mode), error);
+        updateMessage(responseEntry.id, { status: 'failed', progress: 0, result: { error } });
       }
-    } catch (err: any) {
-      error = err.message || 'Unknown error';
-      failGeneration(`${mode} generation failed`, err.message || 'Unknown error');
-      updateMessage(entry.id!, { status: 'failed', progress: 0, result: { error } });
+    } catch (err: unknown) {
+      error = err instanceof Error ? err.message : 'Unknown error';
+      failGeneration(generationFailureTitle(mode), error);
+      updateMessage(responseEntry.id, { status: 'failed', progress: 0, result: { error } });
     }
 
     if (sessionId) {
@@ -235,28 +275,29 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
       }).catch(() => {});
     }
 
-    setLocalGenerating(false);
     return entry.id;
-  }, [activeSessionId, addMessage, beginGeneration, finishGeneration, failGeneration, updateMessage, imageGen, videoGen, webGen]);
+  }, [activeSessionId, addMessage, beginGeneration, finishGeneration, failGeneration, updateMessage, imageGen, videoGen, webGen, visionGen, textGen, videoUnderstandingGen]);
 
   const reset = useCallback(() => {
     setMessages([]);
     setLocalGenerating(false);
     setGenerationError(null);
-    setOutputImageUrl('');
     setOutputVideoUrl('');
     setOutputWebHTML('');
     setGenProgress(0);
     setGenStatus('');
-  }, [setLocalGenerating, setGenerationError, setOutputImageUrl, setOutputVideoUrl, setOutputWebHTML, setGenProgress, setGenStatus]);
+    imageGen.generations.clear();
+  }, [imageGen.generations, setLocalGenerating, setGenerationError, setOutputVideoUrl, setOutputWebHTML, setGenProgress, setGenStatus]);
+
+  const latestImage = Array.from(imageGen.generations.values()).reverse().find(g => g.imageUrl)?.imageUrl ?? '';
 
   return {
     messages, params, setParams, draftPrompt, setDraftPrompt, sessions, activeSessionId,
     createSession, loadSession, deleteSession, selectedMode, setSelectedMode,
     localGenerating, genProgress, genStatus, generationError,
     outputImageUrl, outputImageVariations, outputVideoUrl, outputWebHTML, copiedCode,
-    generate, reset, imageGen, videoGen, webGen,
-    queue, queueRunning, enqueue, startQueue, removeQueueItem, retryQueueItem, clearQueue,
+    generate, reset, queue, queueRunning, enqueue, startQueue, removeQueueItem, retryQueueItem, clearQueue,
+    imageGen, videoGen, webGen, visionGen, textGen, videoUnderstandingGen,
     setOutputImageUrl, setOutputImageVariations, setOutputVideoUrl, setOutputWebHTML, setCopiedCode,
     setCredits: imageGen.setCredits,
   };

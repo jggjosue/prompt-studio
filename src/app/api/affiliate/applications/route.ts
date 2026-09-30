@@ -40,26 +40,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Introduce un correo electrónico válido.' }, { status: 400 });
   }
 
-  if (!profile) {
-    return NextResponse.json({ error: 'Agrega un sitio web o perfil social.' }, { status: 400 });
-  }
-
-  if (!audience) {
-    return NextResponse.json({ error: 'Indica el tamaño de tu audiencia.' }, { status: 400 });
-  }
-
-  if (!channel) {
-    return NextResponse.json({ error: 'Elige tu canal principal de promoción.' }, { status: 400 });
-  }
-
-  if (!experience) {
-    return NextResponse.json({ error: 'Describe tu experiencia con marketing de afiliados.' }, { status: 400 });
-  }
-
-  if (!plan) {
-    return NextResponse.json({ error: 'Cuéntanos cómo promocionarás el producto.' }, { status: 400 });
-  }
-
   if (!message) {
     return NextResponse.json({ error: 'Escribe un mensaje para completar la solicitud.' }, { status: 400 });
   }
