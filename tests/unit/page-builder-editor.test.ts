@@ -201,6 +201,20 @@ test('el inspector se genera desde ComponentRegistry sin switches por tipo', asy
 test('/page-composer monta el Visual Builder por defecto y conserva semillas heredadas', async () => {
   const source = await readFile(new URL('../../src/app/[locale]/page-composer/page.tsx', import.meta.url), 'utf8');
   assert.match(source, /VisualPageComposerClient/);
+  assert.match(source, /loadSourcePageTemplates\(\)/);
   assert.match(source, /if \(hasLegacySeed\) return <PageComposerClient/);
   assert.match(source, /return <VisualPageComposerClient canEdit=\{canEdit\}/);
+});
+
+test('Editar abre la página estática seleccionada y el canvas aplica sus viewports', async () => {
+  const client = await readFile(new URL('../../src/app/[locale]/page-composer/page-composer-editor-client.tsx', import.meta.url), 'utf8');
+  const workspace = await readFile(new URL('../../src/components/page-builder/editor/page-builder-workspace.tsx', import.meta.url), 'utf8');
+  const catalog = await readFile(new URL('../../src/lib/page-builder/source-template-catalog.ts', import.meta.url), 'utf8');
+  assert.match(client, /setEditing\(\{ template, showOriginal: !template\.blank \}\)/);
+  assert.match(client, /\/webpages\/\$\{encodeURIComponent\(editing\.template\.preview\)\}\/index\.html/);
+  assert.match(workspace, /Página original:/);
+  assert.match(workspace, /width: VIEWPORTS\[breakpoint\]/);
+  assert.match(workspace, /Editar por bloques/);
+  assert.match(catalog, /project\.json/);
+  assert.match(catalog, /mediaAssets/);
 });

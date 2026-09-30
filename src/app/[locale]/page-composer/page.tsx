@@ -6,6 +6,7 @@ import {
   hasComponentBuilderPlan,
 } from '@/lib/server-subscription-status';
 import type { PageComposerSeed } from '@/lib/page-composer';
+import { loadSourcePageTemplates } from '@/lib/page-builder/source-template-catalog';
 import PageComposerClient from './page-composer-client';
 import VisualPageComposerClient from './page-composer-editor-client';
 
@@ -61,5 +62,6 @@ export default async function PageComposerPage({
   // PageSchema; el merge con main había vuelto a montar v1 para todo el mundo.
   const hasLegacySeed = Object.values(seed).some(Boolean);
   if (hasLegacySeed) return <PageComposerClient canEdit={canEdit} seed={seed} />;
-  return <VisualPageComposerClient canEdit={canEdit} />;
+  const templates = await loadSourcePageTemplates();
+  return <VisualPageComposerClient canEdit={canEdit} templates={templates} />;
 }
