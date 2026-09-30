@@ -12,6 +12,7 @@
 import { Eye, Globe, Rocket } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { useBuilder } from './builder-context';
+import { BuilderDomains } from './builder-domains';
 
 type Publication = { subdomain: string | null; publishedVersion: number | null; publishedAt: string | null; unpublishedAt: string | null };
 type ErrorResponse = { error?: string };
@@ -23,6 +24,7 @@ export function BuilderPublish() {
   const [subdomain, setSubdomain] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showDomains, setShowDomains] = useState(false);
 
   const refresh = useCallback(async () => {
     if (!siteId) return;
@@ -133,6 +135,15 @@ export function BuilderPublish() {
       </label>
       <button
         type="button"
+        onClick={() => setShowDomains(true)}
+        className="flex items-center gap-1 rounded-md border border-border px-2 py-1.5 text-[11px] font-medium text-muted-foreground hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+        title="Dominios personalizados"
+      >
+        <Globe className="size-3.5" />
+        Dominios
+      </button>
+      <button
+        type="button"
         onClick={publish}
         disabled={busy || builder.isDirty === false}
         className="flex items-center gap-1 rounded-md bg-emerald-600 px-2.5 py-1.5 text-[11px] font-semibold text-white transition-colors hover:bg-emerald-700 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none disabled:opacity-50"
@@ -141,6 +152,7 @@ export function BuilderPublish() {
         <Rocket className="size-3.5" />
         {busy ? 'Publicando…' : published ? 'Republish' : 'Publicar'}
       </button>
+      {showDomains ? <BuilderDomains onClose={() => setShowDomains(false)} /> : null}
     </div>
   );
 }

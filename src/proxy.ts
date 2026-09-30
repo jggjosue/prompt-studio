@@ -3,7 +3,7 @@ import {
   PROMPT_EDIT_ENABLED,
   PROMPT_EDIT_PATH,
 } from '@/lib/prompt-edit';
-import { tenantSubdomain } from '@/lib/tenant-sites';
+import { isAppOwnHost, normalizeHostname, tenantSubdomain } from '@/lib/tenant-sites';
 import { NextResponse, type NextRequest } from 'next/server';
 import { detectLocale } from '@/i18n/detect-locale';
 import { locales } from '@/i18n/config';
@@ -33,6 +33,20 @@ function tenantSiteResponse(req: NextRequest, subdomain: string): NextResponse {
     response.headers.set(name, value);
   }
   response.headers.set('x-tenant-subdomain', subdomain);
+  response.headers.set('Vercel-CDN-Cache-Control', 'public, max-age=60, stale-while-revalidate=600');
+  return response;
+}
+
+/** Un dominio personalizado (example.com) se reescribe a su ruta pública. */
+function customDomainResponse(req: NextRequest, hostname: string): NextResponse {
+  const url = req.nextUrl.clone();
+  url.pathname = `/d/${hostname}`;
+  url.search = '';
+  const response = NextResponse.rewrite(url);
+  for (const [name, value] of Object.entries(TENANT_SECURITY_HEADERS)) {
+    response.headers.set(name, value);
+  }
+  response.headers.set('x-custom-domain', hostname);
   response.headers.set('Vercel-CDN-Cache-Control', 'public, max-age=60, stale-while-revalidate=600');
   return response;
 }
@@ -251,10 +265,15 @@ const clerkMiddlewareWrapped = clerkMiddleware(clerkRequestHandler) as NextMiddl
 export default async function middleware(req: NextRequest) {
   // Multi-tenant: los sitios publicados se resuelven por hostname antes de
   // cualquier otra lógica (Clerk, locale, rutas del editor).
-  const host = req.headers.get('host') ?? '';
-  const tenant = tenantSubdomain(host);
+  const hostname = normalizeHostname(req.headers.get('host') ?? '');
+  const tenant = tenantSubdomain(hostname);
   if (tenant) {
     return tenantSiteResponse(req, tenant);
+  }
+  // Dominios personalizados: cualquier host que no sea de la propia app se
+  // resuelve como dominio conectado (si no existe/está inactivo → 404).
+  if (!isAppOwnHost(hostname)) {
+    return customDomainResponse(req, hostname);
   }
   if (!process.env.CLERK_SECRET_KEY) {
     return fallbackHandler(req);
