@@ -342,6 +342,20 @@ export function insertSectionNode(
   index: number,
   node: PageNode
 ): AddResult {
+  return insertProvidedNode(schema, slug, { parentId: null, index }, node);
+}
+
+/**
+ * Inserta un nodo ya construido en cualquier destino (primer nivel o contenedor),
+ * clonándolo para no compartir ids con el original. Reutilizado por la
+ * biblioteca de secciones y por la edición por IA.
+ */
+export function insertProvidedNode(
+  schema: SiteSchema,
+  slug: string | undefined,
+  target: DropTarget,
+  node: PageNode
+): AddResult {
   const page = pageOf(schema, slug);
   if (!page) return error('unknown-page', `No existe la página ${slug ?? '(primera)'}.`);
   if (!isPageComponentType(node.type)) {
@@ -354,7 +368,7 @@ export function insertSectionNode(
   const draft = structuredClone(schema);
   const draftPage = pageOf(draft, slug) as SitePage;
   const cloned = structuredClone(node);
-  const failure = placeNode(cloned, draftPage, { parentId: null, index });
+  const failure = placeNode(cloned, draftPage, target);
   if (failure) return failure;
   return { ok: true, schema: draft, id: cloned.id };
 }

@@ -23,6 +23,7 @@ import {
   type DragStartEvent,
 } from '@dnd-kit/core';
 import { BuilderProvider, useBuilder } from './builder-context';
+import { BuilderAIEdit } from './builder-ai-edit';
 import { BuilderCanvas } from './builder-canvas';
 import { BuilderLibrary } from './builder-library';
 import { BuilderProperties } from './builder-properties';
@@ -109,6 +110,8 @@ function EditorShell() {
           </div>
         ) : null}
       </DragOverlay>
+
+      {builder.aiEditTarget ? <BuilderAIEdit /> : null}
     </DndContext>
   );
 }
