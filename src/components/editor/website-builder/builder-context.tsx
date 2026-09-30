@@ -25,11 +25,17 @@ import {
   addNode,
   canInsert,
   canMove,
+  clearNodeStyle,
   duplicateNode,
   locateNode,
   moveNode,
   moveWithinParent,
   removeNode,
+  resetNode,
+  resetNodeProp,
+  resetNodeStyles,
+  setNodeProp,
+  setNodeStyle,
   type DropTarget,
   type NodeLocation,
   type OpsDeps,
@@ -104,6 +110,12 @@ export type BuilderContextValue = {
   duplicate: (nodeId: string) => OpsError | null;
   remove: (nodeId: string) => void;
   move: (nodeId: string, delta: number) => void;
+  setProp: (nodeId: string, key: string, value: unknown) => OpsError | null;
+  setStyle: (nodeId: string, property: string, value: string | number, breakpoint: Breakpoint) => OpsError | null;
+  clearStyle: (nodeId: string, property: string, breakpoint: Breakpoint) => OpsError | null;
+  resetProp: (nodeId: string, key: string) => void;
+  resetStyles: (nodeId: string) => void;
+  resetComponent: (nodeId: string) => void;
   undo: () => void;
   redo: () => void;
 };
@@ -248,6 +260,66 @@ export function BuilderProvider({
     [schema, slug, commit]
   );
 
+  const setProp = useCallback(
+    (nodeId: string, key: string, value: unknown): OpsError | null => {
+      const result = setNodeProp(schema, slug, nodeId, key, value);
+      if (!result.ok) return result;
+      commit(result.schema);
+      return null;
+    },
+    [schema, slug, commit]
+  );
+
+  const setStyle = useCallback(
+    (nodeId: string, property: string, value: string | number, breakpoint: Breakpoint): OpsError | null => {
+      const result = setNodeStyle(schema, slug, nodeId, property, value, breakpoint);
+      if (!result.ok) return result;
+      commit(result.schema);
+      return null;
+    },
+    [schema, slug, commit]
+  );
+
+  const clearStyle = useCallback(
+    (nodeId: string, property: string, breakpoint: Breakpoint): OpsError | null => {
+      const result = clearNodeStyle(schema, slug, nodeId, property, breakpoint);
+      if (!result.ok) return result;
+      commit(result.schema);
+      return null;
+    },
+    [schema, slug, commit]
+  );
+
+  const resetProp = useCallback(
+    (nodeId: string, key: string) => {
+      const location = page ? locateNode(page, nodeId) : undefined;
+      if (!location) return;
+      const defaults = getPageComponent(location.node.type)?.defaultProps ?? {};
+      const result = resetNodeProp(schema, slug, nodeId, key, defaults);
+      if (result.ok) commit(result.schema);
+    },
+    [schema, slug, commit, page]
+  );
+
+  const resetStyles = useCallback(
+    (nodeId: string) => {
+      const result = resetNodeStyles(schema, slug, nodeId);
+      if (result.ok) commit(result.schema);
+    },
+    [schema, slug, commit]
+  );
+
+  const resetComponent = useCallback(
+    (nodeId: string) => {
+      const location = page ? locateNode(page, nodeId) : undefined;
+      if (!location) return;
+      const defaults = getPageComponent(location.node.type)?.defaultProps ?? {};
+      const result = resetNode(schema, slug, nodeId, defaults);
+      if (result.ok) commit(result.schema);
+    },
+    [schema, slug, commit, page]
+  );
+
   const value: BuilderContextValue = useMemo(
     () => ({
       schema,
@@ -271,6 +343,12 @@ export function BuilderProvider({
       duplicate,
       remove,
       move,
+      setProp,
+      setStyle,
+      clearStyle,
+      resetProp,
+      resetStyles,
+      resetComponent,
       undo,
       redo,
     }),
@@ -289,6 +367,12 @@ export function BuilderProvider({
       duplicate,
       remove,
       move,
+      setProp,
+      setStyle,
+      clearStyle,
+      resetProp,
+      resetStyles,
+      resetComponent,
       undo,
       redo,
     ]
