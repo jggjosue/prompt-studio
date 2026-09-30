@@ -82,6 +82,7 @@ export async function publishSite(siteId: string, userId: string): Promise<Publi
         },
         invalidate: async () => {
           revalidatePath(`/page-composer/website/published/${String(project._id)}`);
+          if (project.subdomain) revalidatePath(`/p/${project.subdomain}`);
         },
       });
     });
@@ -115,22 +116,25 @@ export async function publishSite(siteId: string, userId: string): Promise<Publi
 /** Deja de servir la versión publicada; la inmutable queda como histórico. */
 export async function unpublishSite(siteId: string, userId: string): Promise<void> {
   await connectToDatabase();
+  const project = await PageComposerProject.findOne({ _id: siteId, userId }).select('subdomain').lean();
   await PageComposerProject.updateOne(
     { _id: siteId, userId },
     { $set: { publishedVersionId: null, publishedVersion: null, publishedAt: null, unpublishedAt: new Date() } }
   );
   revalidatePath(`/page-composer/website/published/${siteId}`);
+  if (project?.subdomain) revalidatePath(`/p/${project.subdomain}`);
 }
 
 /** Estado de publicación de un sitio para la barra del editor. */
 export async function getSitePublication(siteId: string, userId: string) {
   await connectToDatabase();
   const project = await PageComposerProject.findOne({ _id: siteId, userId })
-    .select('publishedVersion publishedVersionId publishedAt unpublishedAt')
+    .select('publishedVersion publishedVersionId publishedAt unpublishedAt subdomain')
     .lean();
   if (!project) return null;
   return {
     siteId: String(project._id),
+    subdomain: project.subdomain ?? null,
     publishedVersion: project.publishedVersion ?? null,
     publishedAt: project.publishedAt ?? null,
     unpublishedAt: project.unpublishedAt ?? null,

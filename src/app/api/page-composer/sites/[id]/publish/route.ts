@@ -2,6 +2,7 @@ import { auth } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 import { cacheHeaders } from '@/lib/cache-policy';
 import { publishSite, PublishError } from '@/lib/publish-site';
+import { reserveSubdomain } from '@/lib/tenant-site-resolver';
 
 export const runtime = 'nodejs';
 
@@ -12,12 +13,21 @@ const headers = () => cacheHeaders('private-no-store');
  *
  * Publica el borrador: valida schema y assets, crea una versión inmutable y
  * apunta el sitio de forma atómica. Un fallo deja la versión anterior online.
+ * `body.subdomain` (opcional) reserva el subdominio público antes de publicar.
  */
-export async function POST(_request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: 'Inicia sesión.' }, { status: 401, headers: headers() });
 
   const { id } = await params;
+  const body = (await request.json().catch(() => null)) as { subdomain?: string } | null;
+  const subdomain = typeof body?.subdomain === 'string' && body.subdomain.trim() ? body.subdomain.trim() : undefined;
+
+  if (subdomain) {
+    const error = await reserveSubdomain(id, userId, subdomain);
+    if (error) return NextResponse.json({ error, code: 'INVALID_SUBDOMAIN' }, { status: 422, headers: headers() });
+  }
+
   try {
     const result = await publishSite(id, userId);
     return NextResponse.json({ publishedVersion: result.publishedVersion }, { headers: headers() });
