@@ -9,12 +9,11 @@
  */
 
 import { usePathname } from 'next/navigation';
-import { Eye, Laptop, Monitor, Redo2, Smartphone, Tablet, Undo2 } from 'lucide-react';
+import { Eye, Monitor, Redo2, Smartphone, Tablet, Undo2 } from 'lucide-react';
 import { DEVICE_ORDER, useBuilder } from './builder-context';
 
 const DEVICE_META = {
   desktop: { label: 'Escritorio', Icon: Monitor },
-  laptop: { label: 'Portátil', Icon: Laptop },
   tablet: { label: 'Tableta', Icon: Tablet },
   mobile: { label: 'Móvil', Icon: Smartphone },
 } as const;

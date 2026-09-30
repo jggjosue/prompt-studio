@@ -45,9 +45,18 @@ Se introduce **PageSchema v1**, un documento JSON tipado y serializable, como ú
 - **Validación:** las props se validan contra el contrato (tipo, opciones, `safeUrl`); los estilos contra `styleValueToCss` (rechaza `;{}<>`) y un patrón de propiedad. Los rechazos son `invalid-prop` / `invalid-style`.
 - **Tokens y restablecer:** los colores aceptan `token:*`; cada control tiene restablecer individual, además de "Restablecer estilos" y "Restablecer todo" (valores por defecto del catálogo).
 
+### Fase 4: edición responsive
+
+- **Tres breakpoints de editor:** Escritorio, Tableta y Móvil (`src/lib/editor/responsive.ts`, `EDITOR_BREAKPOINTS`). La barra superior cambia el ancho del lienzo (1440/768/390) y el inspector edita los estilos del breakpoint activo.
+- **PageSchema ya guarda overrides:** `styles` es `Partial<Record<Breakpoint, StyleMap>>` con `desktop` como base; `tablet`/`mobile` solo declaran lo que sobrescriben. Un solo documento, no tres páginas.
+- **Herencia:** `resolveNodeStyles` aplica base → tablet → mobile; `findStyleSource` dice si un valor es local o de qué breakpoint se hereda; `overrideBreakpoints` lista dónde vive cada override. La página publicada resuelve igual por cascada de media queries.
+- **Lienzo sin iframes:** cada nodo aplica inline sus estilos **resueltos** para el dispositivo activo (`styleMapToCssProperties`), en lugar de depender de media queries del viewport que no responderían al ancho del lienzo.
+- **Indicadores:** el inspector marca cada control como `Local` o heredado (con el breakpoint origen) y dibuja un punto por breakpoint con override local; pulsar un punto salta a ese breakpoint.
+- **Compatibilidad:** los documentos sin overrides resuelven igual en los tres breakpoints; `laptop` sigue en el schema y en el renderer publicado para no romper nada.
+
 ## Consecuencias
 
 - Publicar, persistir y editar el sitio son extensiones de `EditorProject` (slug, status, `PageSchema`), no un segundo motor: el renderizador no cambia.
-- `tests/unit/page-schema.test.ts` cubre contrato, validación, seguridad y el render real (`renderToStaticMarkup`): 20/20. `tests/unit/page-schema-ops.test.ts` cubre add, move, reorder, duplicate, delete, anidación inválida, ciclos y límites: 14/14. `tests/unit/property-controls.test.ts` cubre metadatos de controles y las mutaciones del inspector: 12/12.
+- `tests/unit/page-schema.test.ts` cubre contrato, validación, seguridad y el render real (`renderToStaticMarkup`): 20/20. `tests/unit/page-schema-ops.test.ts` cubre add, move, reorder, duplicate, delete, anidación inválida, ciclos y límites: 14/14. `tests/unit/property-controls.test.ts` cubre metadatos de controles y las mutaciones del inspector: 12/12. `tests/unit/responsive.test.ts` cubre la herencia base → tablet → mobile, orígenes de override y conversión a CSS: 12/12.
 - Pendiente fuera de alcance: edición de listas (props `list`) en el inspector, prompt de IA que emita el documento, página pública con SEO y la migración de `web-page-generator-prompt.ts` a este contrato.
 - Deuda registrada: dos warnings `@next/next/no-img-element` en el registro, coherentes con el resto del proyecto; se resolverán al migrar a `next/image`.
