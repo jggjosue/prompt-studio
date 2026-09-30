@@ -1,12 +1,14 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
+  EDITOR_BREAKPOINTS,
   findStyleSource,
   overrideBreakpoints,
   overriddenProperties,
   resolveNodeStyles,
   styleMapToCssProperties,
 } from '../../src/lib/editor/responsive.ts';
+import { resolveStyles, type EditorNode } from '../../src/lib/editor/document.ts';
 import { createLandingSchema, type PageNode, type SiteSchema } from '../../src/lib/editor/page-schema.ts';
 
 /** Nodo con estilos base y overrides por breakpoint. */
@@ -50,6 +52,84 @@ test('resolución: las propiedades no sobrescritas se mezclan con las heredadas'
 
 test('resolución: un nodo sin estilos no inventa valores', () => {
   assert.deepEqual(resolveNodeStyles(node({}), 'mobile'), {});
+});
+
+/* -------------------------------------------------------- nivel laptop --- */
+
+test('laptop: tablet hereda de laptop cuando no tiene override propio', () => {
+  const subject = node({ desktop: { fontSize: 64 }, laptop: { fontSize: 56 } });
+
+  assert.deepEqual(resolveNodeStyles(subject, 'desktop'), { fontSize: 64 });
+  // Sin este nivel en la cadena, el editor mostraría 64 y se publicaría 56.
+  assert.deepEqual(resolveNodeStyles(subject, 'tablet'), { fontSize: 56 });
+  assert.deepEqual(resolveNodeStyles(subject, 'mobile'), { fontSize: 56 });
+});
+
+test('laptop: mobile recorre mobile → tablet → laptop → desktop en orden', () => {
+  const subject = node({
+    desktop: { fontSize: 64, color: 'black', padding: 8 },
+    laptop: { fontSize: 56, color: 'gray' },
+    tablet: { fontSize: 48, color: 'dimgray' },
+  });
+
+  // Cada breakpoint gana donde declara; el resto cae al siguiente nivel.
+  assert.deepEqual(resolveNodeStyles(subject, 'mobile'), { fontSize: 48, color: 'dimgray', padding: 8 });
+  assert.deepEqual(resolveNodeStyles(subject, 'tablet'), { fontSize: 48, color: 'dimgray', padding: 8 });
+});
+
+test('laptop: un override local de tablet gana a laptop', () => {
+  const subject = node({ desktop: { fontSize: 64 }, laptop: { fontSize: 56 }, tablet: { fontSize: 48 } });
+
+  assert.deepEqual(resolveNodeStyles(subject, 'tablet'), { fontSize: 48 });
+  // Mobile cae a tablet antes que a laptop.
+  assert.deepEqual(resolveNodeStyles(subject, 'mobile'), { fontSize: 48 });
+});
+
+test('laptop: no es un breakpoint editable', () => {
+  // El editor ofrece tres dispositivos; `laptop` solo se hereda.
+  assert.deepEqual([...EDITOR_BREAKPOINTS], ['desktop', 'tablet', 'mobile']);
+
+  const subject = node({ desktop: { fontSize: 64 }, laptop: { fontSize: 56 } });
+  // `laptop` tiene override local pero no se reporta: no se puede editar ahí.
+  assert.deepEqual(overrideBreakpoints(subject, 'fontSize'), ['desktop']);
+});
+
+test('laptop: findStyleSource lo señala como origen heredado', () => {
+  const subject = node({ desktop: { fontSize: 64 }, laptop: { fontSize: 56 }, tablet: { color: 'red' } });
+
+  assert.equal(findStyleSource(subject, 'fontSize', 'tablet'), 'laptop');
+  assert.equal(findStyleSource(subject, 'fontSize', 'mobile'), 'laptop');
+  assert.equal(findStyleSource(subject, 'color', 'tablet'), 'tablet');
+});
+
+test('paridad: el editor resuelve exactamente lo que se publica', () => {
+  // Regresión de la divergencia laptop: la cascada del editor y la del renderer
+  // publicado deben coincidir en los tres breakpoints editables, para cualquier
+  // combinación de overrides.
+  const combos: PageNode['styles'][] = [
+    { desktop: { fontSize: 64 } },
+    { desktop: { fontSize: 64 }, laptop: { fontSize: 56 } },
+    { desktop: { fontSize: 64 }, laptop: { fontSize: 56 }, tablet: { fontSize: 48 } },
+    { desktop: { fontSize: 64 }, laptop: { fontSize: 56 }, tablet: { fontSize: 48 }, mobile: { fontSize: 36 } },
+    { laptop: { fontSize: 56 } },
+    { mobile: { fontSize: 36 } },
+    { tablet: { color: 'red' }, laptop: { color: 'blue' }, desktop: { color: 'black' } },
+    {},
+  ];
+
+  for (const styles of combos) {
+    const subject = node(styles);
+    // `resolveStyles` es la cascada que aplica la página publicada; solo usa
+    // `styles`, así que el cast no pierde relevancia para esta aserción.
+    const published = subject.styles as unknown as EditorNode['styles'];
+    for (const bp of EDITOR_BREAKPOINTS) {
+      assert.deepEqual(
+        resolveNodeStyles(subject, bp),
+        resolveStyles({ styles: published } as unknown as EditorNode, bp),
+        `divergen en ${bp} con ${JSON.stringify(styles)}`
+      );
+    }
+  }
 });
 
 /* ---------------------------------------------------------- fuentes/origen --- */
