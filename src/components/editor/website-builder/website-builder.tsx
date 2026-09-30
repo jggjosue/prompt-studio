@@ -10,6 +10,7 @@
  */
 
 import type { PageComponentType, SiteSchema } from '@/lib/editor/page-schema';
+import { isSectionId } from '@/lib/editor/page-sections';
 import {
   DndContext,
   DragOverlay,
@@ -22,6 +23,7 @@ import {
   type DragStartEvent,
 } from '@dnd-kit/core';
 import { BuilderProvider, useBuilder } from './builder-context';
+import { BuilderAIEdit } from './builder-ai-edit';
 import { BuilderCanvas } from './builder-canvas';
 import { BuilderLibrary } from './builder-library';
 import { BuilderProperties } from './builder-properties';
@@ -31,6 +33,7 @@ type DragData = {
   source?: string;
   type?: PageComponentType;
   nodeId?: string;
+  sectionId?: string;
   label?: string;
 };
 
@@ -48,6 +51,8 @@ function EditorShell() {
     if (!data) return;
     if (data.source === 'library' && data.type) {
       builder.setDrag({ source: 'library', type: data.type, label: data.label ?? data.type });
+    } else if (data.source === 'section' && isSectionId(data.sectionId)) {
+      builder.setDrag({ source: 'section', sectionId: data.sectionId, label: data.label ?? data.sectionId });
     } else if (data.source === 'node' && data.nodeId) {
       builder.setDrag({
         source: 'node',
@@ -70,7 +75,9 @@ function EditorShell() {
     if (!data) return;
 
     const destination = { parentId: target.parentId ?? null, index: target.index ?? 0 };
-    if (data.source === 'library' && data.type) {
+    if (data.source === 'section' && isSectionId(data.sectionId)) {
+      builder.insertSection(data.sectionId, destination);
+    } else if (data.source === 'library' && data.type) {
       builder.addComponent(data.type, destination);
     } else if (data.source === 'node' && data.nodeId) {
       builder.moveExisting(data.nodeId, destination);
@@ -103,6 +110,8 @@ function EditorShell() {
           </div>
         ) : null}
       </DragOverlay>
+
+      {builder.aiEditTarget ? <BuilderAIEdit /> : null}
     </DndContext>
   );
 }
@@ -110,14 +119,21 @@ function EditorShell() {
 export function WebsiteBuilder({
   initialSchema,
   initialSlug,
-  persistKey,
+  projectId,
+  initialVersion,
 }: {
   initialSchema?: SiteSchema;
   initialSlug?: string;
-  persistKey?: string;
+  projectId?: string;
+  initialVersion?: number | null;
 }) {
   return (
-    <BuilderProvider initialSchema={initialSchema} initialSlug={initialSlug} persistKey={persistKey}>
+    <BuilderProvider
+      initialSchema={initialSchema}
+      initialSlug={initialSlug}
+      projectId={projectId}
+      initialVersion={initialVersion}
+    >
       <EditorShell />
     </BuilderProvider>
   );

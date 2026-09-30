@@ -3,30 +3,22 @@
 /**
  * Estado del Visual Website Builder.
  *
- * El documento vive aquí y solo cambia a través de las mutaciones puras de
- * `page-schema-ops`: cada gesto del usuario es una transición completa, nunca un
- * parcheo del árbol. El historial se guarda por instantáneas del schema, sin
- * persistir nada durante el arrastre: el autoguardado escribe una sola vez,
- * con retardo, cuando el documento ya está asentado.
+ * El documento solo cambia a través de mutaciones puras, y cada cambio se
+ * registra como un **comando** (`ADD_COMPONENT`, `UPDATE_STYLES`, …) con las
+ * instantáneas antes/después. El historial deshace y rehace comandos; el
+ * `SaveManager` convierte la corriente de cambios en guardados debounced y
+ * serializados hacia el backend (MongoDB), sin guardar en cada movimiento.
  */
 
 import { getPageComponent } from '@/components/editor/page-components';
-import {
-  PAGE_BREAKPOINT_WIDTHS,
-  createLandingSchema,
-  findPage,
-  type Breakpoint,
-  type PageComponentType,
-  type PageNode,
-  type SitePage,
-  type SiteSchema,
-} from '@/lib/editor/page-schema';
+import { createLandingSchema, findPage, type PageComponentType, type PageNode, type SitePage, type SiteSchema } from '@/lib/editor/page-schema';
 import {
   addNode,
   canInsert,
   canMove,
   clearNodeStyle,
   duplicateNode,
+  insertSectionNode,
   locateNode,
   moveNode,
   moveWithinParent,
@@ -41,6 +33,16 @@ import {
   type OpsDeps,
   type OpsError,
 } from '@/lib/editor/page-schema-ops';
+import { EditorHistory, makeCommand, type EditorCommand } from '@/lib/editor/editor-commands';
+import {
+  SaveManager,
+  StaleSaveError,
+  type SaveFailure,
+  type SaveStatus,
+} from '@/lib/editor/save-manager';
+import { EDITOR_BREAKPOINTS, type EditorBreakpoint } from '@/lib/editor/responsive';
+import { createSection, getSectionDefinition, type SectionId } from '@/lib/editor/page-sections';
+import { applyAIEditOps, type AIEditOp } from '@/lib/editor/ai-edit-ops';
 import {
   createContext,
   useCallback,
@@ -53,21 +55,20 @@ import {
 } from 'react';
 
 /** Ancho del lienzo por dispositivo, en píxeles. */
-export const DEVICE_WIDTH: Record<Breakpoint, number> = {
+export const DEVICE_WIDTH: Record<EditorBreakpoint, number> = {
   desktop: 1440,
-  laptop: PAGE_BREAKPOINT_WIDTHS.laptop,
-  tablet: PAGE_BREAKPOINT_WIDTHS.tablet,
+  tablet: 768,
   mobile: 390,
 };
 
-export const DEVICE_ORDER: readonly Breakpoint[] = ['desktop', 'laptop', 'tablet', 'mobile'];
+export const DEVICE_ORDER: readonly EditorBreakpoint[] = EDITOR_BREAKPOINTS;
 
-const HISTORY_LIMIT = 50;
-const AUTOSAVE_DELAY = 900;
+const AUTOSAVE_DEBOUNCE_MS = 1200;
 
 /** Lo que se está arrastrando en este momento. */
 export type DragState =
   | { source: 'library'; type: PageComponentType; label: string }
+  | { source: 'section'; sectionId: SectionId; label: string }
   | { source: 'node'; nodeId: string; type: PageComponentType; label: string };
 
 /** Identificador de un nodo nuevo: empieza por letra y solo usa [a-z0-9-]. */
@@ -92,20 +93,28 @@ export type BuilderContextValue = {
   page: SitePage | undefined;
   slug: string | undefined;
   setSlug: (slug: string) => void;
-  device: Breakpoint;
+  /** Id del sitio (borrador persistido), para publicación. */
+  siteId: string | undefined;
+  device: EditorBreakpoint;
   drag: DragState | null;
   selectedId: string | null;
   selected: NodeLocation | null;
   canUndo: boolean;
   canRedo: boolean;
-  savedAt: number | null;
-  setDevice: (device: Breakpoint) => void;
+  saveStatus: SaveStatus;
+  saveFailure: SaveFailure | null;
+  isDirty: boolean;
+  setDevice: (device: EditorBreakpoint) => void;
   setDrag: (drag: DragState | null) => void;
   select: (nodeId: string | null) => void;
   /** Vista previa del rechazo para un tipo de la biblioteca, sin aplicarlo. */
   previewInsert: (type: PageComponentType, target: DropTarget) => OpsError | null;
   previewMove: (nodeId: string, target: DropTarget) => OpsError | null;
   addComponent: (type: PageComponentType, target: DropTarget) => OpsError | null;
+  /** Vista previa del rechazo al insertar una sección de la biblioteca. */
+  previewSectionInsert: (sectionId: SectionId, target: DropTarget) => OpsError | null;
+  /** Inserta una sección preconstruida en el primer nivel. */
+  insertSection: (sectionId: SectionId, target: DropTarget) => OpsError | null;
   moveExisting: (nodeId: string, target: DropTarget) => OpsError | null;
   duplicate: (nodeId: string) => OpsError | null;
   remove: (nodeId: string) => void;
@@ -118,6 +127,17 @@ export type BuilderContextValue = {
   resetComponent: (nodeId: string) => void;
   undo: () => void;
   redo: () => void;
+  /** Carga un documento nuevo (p. ej. generado por IA) y reinicia el historial. */
+  loadSchema: (schema: SiteSchema) => void;
+  /** Nodo sobre el que está abierta la edición por IA, o null. */
+  aiEditTarget: string | null;
+  openAIEdit: (nodeId: string | null) => void;
+  /** Aplica operaciones de IA validadas contra el documento (deshacible). */
+  applyAIEdit: (ops: AIEditOp[]) => OpsError | null;
+  /** Actualiza el SEO de la página actual (deshacible). */
+  applyPageSeo: (patch: Record<string, unknown>) => OpsError | null;
+  /** Cambia el slug de la página validando duplicados (deshacible). */
+  changePageSlug: (nextSlug: string) => OpsError | null;
 };
 
 const BuilderContext = createContext<BuilderContextValue | null>(null);
@@ -132,75 +152,147 @@ export function BuilderProvider({
   children,
   initialSchema,
   initialSlug,
-  persistKey,
+  projectId,
+  initialVersion,
 }: {
   children: ReactNode;
   initialSchema?: SiteSchema;
   initialSlug?: string;
-  persistKey?: string;
+  /** Id del borrador persistido; `undefined` crea uno nuevo al primer guardado. */
+  projectId?: string;
+  /** Versión del borrador cargado, para concurrencia optimista. */
+  initialVersion?: number | null;
 }) {
   const [schema, setSchema] = useState<SiteSchema>(() => initialSchema ?? createLandingSchema());
   const [slug, setSlug] = useState<string | undefined>(initialSlug);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [device, setDevice] = useState<Breakpoint>('desktop');
+  const [device, setDevice] = useState<EditorBreakpoint>('desktop');
   const [drag, setDrag] = useState<DragState | null>(null);
-  const [savedAt, setSavedAt] = useState<number | null>(null);
-  const [history, setHistory] = useState({ canUndo: false, canRedo: false });
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>('clean');
+  const [saveFailure, setSaveFailure] = useState<SaveFailure | null>(null);
+  const [aiEditTarget, setAIEditTarget] = useState<string | null>(null);
+  const [siteId, setSiteId] = useState<string | undefined>(projectId);
 
-  const past = useRef<SiteSchema[]>([]);
-  const future = useRef<SiteSchema[]>([]);
+  const historyRef = useRef(new EditorHistory());
+  const projectIdRef = useRef<string | undefined>(projectId);
+  const saveManagerRef = useRef<SaveManager | null>(null);
 
-  const syncHistory = useCallback(() => {
-    setHistory({ canUndo: past.current.length > 0, canRedo: future.current.length > 0 });
+  if (saveManagerRef.current === null) {
+    saveManagerRef.current = new SaveManager({
+      debounceMs: AUTOSAVE_DEBOUNCE_MS,
+      save: async ({ schema: payload, version }) => {
+        const id = projectIdRef.current;
+        const response = await fetch(`/api/page-composer/projects/${id ?? 'new'}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ schema: payload, version }),
+        });
+        if (response.status === 409) throw new StaleSaveError();
+        if (!response.ok) throw new Error(`Guardado falló (${response.status}).`);
+        const data = (await response.json()) as { id?: string; version: number };
+        if (typeof data.id === 'string') {
+          projectIdRef.current = data.id;
+          setSiteId(data.id);
+        }
+        return { version: data.version, id: data.id };
+      },
+      onStatus: setSaveStatus,
+      onFailure: setSaveFailure,
+    });
+    saveManagerRef.current.setVersion(initialVersion ?? null);
+  }
+
+  /** Registra un comando aplicado y agenda el guardado del nuevo documento. */
+  const commit = useCallback((command: EditorCommand) => {
+    historyRef.current.push(command);
+    setSchema(() => command.after);
+    saveManagerRef.current?.markDirty(command.after);
   }, []);
 
-  const commit = useCallback(
-    (next: SiteSchema) => {
-      setSchema(previous => {
-        past.current.push(previous);
-        if (past.current.length > HISTORY_LIMIT) past.current.shift();
-        future.current = [];
-        return next;
-      });
-      syncHistory();
-    },
-    [syncHistory]
-  );
-
   const undo = useCallback(() => {
-    setSchema(previous => {
-      const restored = past.current.pop();
-      if (!restored) return previous;
-      future.current.push(previous);
-      return restored;
-    });
-    syncHistory();
-  }, [syncHistory]);
+    const command = historyRef.current.undo();
+    if (!command) return;
+    setSchema(() => command.before);
+    saveManagerRef.current?.markDirty(command.before);
+  }, []);
 
   const redo = useCallback(() => {
-    setSchema(previous => {
-      const restored = future.current.pop();
-      if (!restored) return previous;
-      past.current.push(previous);
-      return restored;
-    });
-    syncHistory();
-  }, [syncHistory]);
+    const command = historyRef.current.redo();
+    if (!command) return;
+    setSchema(() => command.after);
+    saveManagerRef.current?.markDirty(command.after);
+  }, []);
 
-  // Autoguardado con retardo: no se escribe en cada movimiento del puntero, solo
-  // cuando el documento lleva un momento quieto.
-  useEffect(() => {
-    if (!persistKey) return;
-    const timer = setTimeout(() => {
-      try {
-        window.localStorage.setItem(persistKey, JSON.stringify(schema));
-        setSavedAt(Date.now());
-      } catch {
-        setSavedAt(null);
+  const loadSchema = useCallback((next: SiteSchema) => {
+    historyRef.current.clear();
+    setSchema(() => next);
+    saveManagerRef.current?.markDirty(next);
+  }, []);
+
+  const applyAIEdit = useCallback(
+    (ops: AIEditOp[]): OpsError | null => {
+      const outcome = applyAIEditOps(schema, slug, ops, deps);
+      if (!outcome.ok) {
+        return { ok: false, reason: 'invalid-prop', message: outcome.error };
       }
-    }, AUTOSAVE_DELAY);
-    return () => clearTimeout(timer);
-  }, [schema, persistKey]);
+      commit(
+        makeCommand('UPDATE_PROPS', `Editar con IA (${outcome.applied.length} operaciones)`, schema, outcome.schema)
+      );
+      return null;
+    },
+    [schema, slug, commit]
+  );
+
+  const applyPageSeo = useCallback(
+    (patch: Record<string, unknown>): OpsError | null => {
+      const result = setPageSeo(schema, slug, patch);
+      if (!result.ok) return result;
+      commit(makeCommand('UPDATE_PAGE_SETTINGS', 'Actualizar SEO de la página', schema, result.schema));
+      return null;
+    },
+    [schema, slug, commit]
+  );
+
+  const changePageSlug = useCallback(
+    (nextSlug: string): OpsError | null => {
+      const result = setPageSlug(schema, slug, nextSlug);
+      if (!result.ok) return result;
+      commit(makeCommand('UPDATE_PAGE_SETTINGS', `Cambiar ruta a ${nextSlug}`, schema, result.schema));
+      setSlug(nextSlug);
+      return null;
+    },
+    [schema, slug, commit, setSlug]
+  );
+
+  // Atajos de teclado: Cmd/Ctrl+Z deshace, Cmd/Ctrl+Shift+Z rehace.
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (!(event.metaKey || event.ctrlKey)) return;
+      const target = event.target as HTMLElement | null;
+      if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT' || target.isContentEditable)) {
+        return;
+      }
+      const key = event.key.toLowerCase();
+      if (key !== 'z') return;
+      event.preventDefault();
+      if (event.shiftKey) redo();
+      else undo();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [undo, redo]);
+
+  // Al cerrar la pestaña, guardar lo pendiente (best effort).
+  useEffect(() => {
+    const onBeforeUnload = () => {
+      saveManagerRef.current?.flush();
+    };
+    window.addEventListener('beforeunload', onBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', onBeforeUnload);
+      saveManagerRef.current?.dispose();
+    };
+  }, []);
 
   const page = useMemo(() => findPage(schema, slug), [schema, slug]);
   const selected = useMemo(
@@ -212,7 +304,32 @@ export function BuilderProvider({
     (type: PageComponentType, target: DropTarget): OpsError | null => {
       const result = addNode(schema, slug, target, type, deps);
       if (!result.ok) return result;
-      commit(result.schema);
+      commit(makeCommand('ADD_COMPONENT', `Añadir ${getPageComponent(type)?.label ?? type}`, schema, result.schema));
+      setSelectedId(result.id);
+      return null;
+    },
+    [schema, slug, commit]
+  );
+
+  const previewSectionInsert = useCallback(
+    (sectionId: SectionId, target: DropTarget): OpsError | null => {
+      const rootType = getSectionDefinition(sectionId).type;
+      return canInsert(schema, slug, target, rootType);
+    },
+    [schema, slug]
+  );
+
+  const insertSection = useCallback(
+    (sectionId: SectionId, target: DropTarget): OpsError | null => {
+      if (target.parentId !== null) {
+        return { ok: false, reason: 'invalid-nesting', message: 'Las secciones solo pueden vivir en el primer nivel.' };
+      }
+      const node = createSection(sectionId, deps.makeId);
+      const result = insertSectionNode(schema, slug, target.index, node);
+      if (!result.ok) return result;
+      commit(
+        makeCommand('ADD_COMPONENT', `Insertar sección ${getSectionDefinition(sectionId).label}`, schema, result.schema)
+      );
       setSelectedId(result.id);
       return null;
     },
@@ -223,7 +340,7 @@ export function BuilderProvider({
     (nodeId: string, target: DropTarget): OpsError | null => {
       const result = moveNode(schema, slug, nodeId, target);
       if (!result.ok) return result;
-      commit(result.schema);
+      commit(makeCommand('MOVE_COMPONENT', `Mover ${nodeId}`, schema, result.schema));
       setSelectedId(nodeId);
       return null;
     },
@@ -234,7 +351,7 @@ export function BuilderProvider({
     (nodeId: string): OpsError | null => {
       const result = duplicateNode(schema, slug, nodeId, deps);
       if (!result.ok) return result;
-      commit(result.schema);
+      commit(makeCommand('DUPLICATE_COMPONENT', `Duplicar ${nodeId}`, schema, result.schema));
       setSelectedId(result.id);
       return null;
     },
@@ -245,7 +362,7 @@ export function BuilderProvider({
     (nodeId: string) => {
       const result = removeNode(schema, slug, nodeId);
       if (!result.ok) return;
-      commit(result.schema);
+      commit(makeCommand('REMOVE_COMPONENT', `Eliminar ${nodeId}`, schema, result.schema));
       setSelectedId(current => (current === nodeId ? null : current));
     },
     [schema, slug, commit]
@@ -255,7 +372,7 @@ export function BuilderProvider({
     (nodeId: string, delta: number) => {
       const result = moveWithinParent(schema, slug, nodeId, delta);
       if (!result.ok) return;
-      commit(result.schema);
+      commit(makeCommand('MOVE_COMPONENT', `Reordenar ${nodeId}`, schema, result.schema));
     },
     [schema, slug, commit]
   );
@@ -325,13 +442,16 @@ export function BuilderProvider({
       schema,
       page,
       slug,
+      siteId,
       device,
       drag,
       selectedId,
       selected,
-      canUndo: history.canUndo,
-      canRedo: history.canRedo,
-      savedAt,
+      canUndo,
+      canRedo,
+      saveStatus,
+      saveFailure,
+      isDirty: saveStatus === 'dirty' || saveStatus === 'error',
       setSlug,
       setDevice,
       setDrag,
@@ -339,6 +459,8 @@ export function BuilderProvider({
       previewInsert: (type, target) => canInsert(schema, slug, target, type),
       previewMove: (nodeId, target) => canMove(schema, slug, nodeId, target),
       addComponent,
+      previewSectionInsert,
+      insertSection,
       moveExisting,
       duplicate,
       remove,
@@ -351,18 +473,29 @@ export function BuilderProvider({
       resetComponent,
       undo,
       redo,
+      loadSchema,
+      aiEditTarget,
+      openAIEdit: setAIEditTarget,
+      applyAIEdit,
+      applyPageSeo,
+      changePageSlug,
     }),
     [
       schema,
       page,
       slug,
+      siteId,
       device,
       drag,
       selectedId,
       selected,
-      savedAt,
-      history,
+      saveStatus,
+      saveFailure,
+      canUndo,
+      canRedo,
       addComponent,
+      previewSectionInsert,
+      insertSection,
       moveExisting,
       duplicate,
       remove,
@@ -375,6 +508,11 @@ export function BuilderProvider({
       resetComponent,
       undo,
       redo,
+      loadSchema,
+      aiEditTarget,
+      applyAIEdit,
+      applyPageSeo,
+      changePageSlug,
     ]
   );
 

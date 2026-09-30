@@ -12,8 +12,9 @@
 import { componentTokens, getPageComponent, withDefaultProps } from '@/components/editor/page-components';
 import type { PageComponentType, PageNode } from '@/lib/editor/page-schema';
 import type { OpsError } from '@/lib/editor/page-schema-ops';
+import { resolveNodeStyles, styleMapToCssProperties } from '@/lib/editor/responsive';
 import { useDraggable, useDroppable } from '@dnd-kit/core';
-import { ArrowDown, ArrowUp, Copy, GripVertical, Trash2 } from 'lucide-react';
+import { ArrowDown, ArrowUp, Copy, GripVertical, Sparkles, Trash2 } from 'lucide-react';
 import { createElement, Fragment, type KeyboardEvent, type MouseEvent, type ReactNode } from 'react';
 import { nodeLabel, useBuilder } from './builder-context';
 
@@ -35,6 +36,7 @@ export function DropSlot({ parentId, index, empty = false }: { parentId: string 
   const drag = builder.drag;
   let error: OpsError | null = null;
   if (drag?.source === 'library') error = builder.previewInsert(drag.type, { parentId, index });
+  else if (drag?.source === 'section') error = builder.previewSectionInsert(drag.sectionId, { parentId, index });
   else if (drag?.source === 'node') error = builder.previewMove(drag.nodeId, { parentId, index });
 
   const valid = error === null;
@@ -104,6 +106,15 @@ function NodeChrome({ node }: { node: PageNode }) {
       <span className="px-1.5 text-[10px] font-bold uppercase tracking-wide text-primary">{label}</span>
       <button
         type="button"
+        onClick={() => builder.openAIEdit(node.id)}
+        className="rounded p-1 text-violet-500 hover:bg-violet-500/10 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+        aria-label={`Editar ${label} con IA`}
+        title="Editar con IA"
+      >
+        <Sparkles className="h-3.5 w-3.5" aria-hidden />
+      </button>
+      <button
+        type="button"
         onClick={() => builder.move(node.id, -1)}
         className="rounded p-1 text-muted-foreground hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
         aria-label={`Subir ${label}`}
@@ -147,6 +158,7 @@ export function BuilderNode({ node }: { node: PageNode }) {
   if (!definition) return null;
 
   const tokens = componentTokens(builder.page?.theme ?? builder.schema.site.theme);
+  const resolvedStyles = styleMapToCssProperties(resolveNodeStyles(node, builder.device));
   const childContent: ReactNode = definition.allowedChildren.length
     ? createElement(
         Fragment,
@@ -185,6 +197,7 @@ export function BuilderNode({ node }: { node: PageNode }) {
     <div
       data-ps-id={node.id}
       data-ps-type={node.type}
+      style={resolvedStyles}
       role="group"
       tabIndex={0}
       aria-label={`${nodeLabel(node)} (${node.type})`}

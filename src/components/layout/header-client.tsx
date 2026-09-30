@@ -53,7 +53,6 @@ import {
 } from 'lucide-react';
 import { ClientLink } from '@/components/client-link';
 import { RoutePrefetchProvider } from '@/components/route-prefetch-provider';
-import { useMembershipAccess } from '@/hooks/use-membership-access';
 import { isNavActive } from '@/lib/app-routes';
 import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
@@ -147,7 +146,6 @@ export default function HeaderClient() {
   }, []);
 
   const { isLoaded } = useAuth();
-  const { hasPaidPlan } = useMembershipAccess();
   const pathname = usePathname();
   const tNav = useTranslations('nav');
   const tHeader = useTranslations('header');
@@ -271,7 +269,7 @@ export default function HeaderClient() {
           description: copy.searchDesc,
           icon: <Search className="h-4 w-4" />,
         },
-        ...(hasPaidPlan ? paidCreatorItems() : []),
+        ...paidCreatorItems(),
         {
           href: '/landing-pages',
           group: 'Explorar',

@@ -7,6 +7,7 @@ import {
 } from '@/lib/server-subscription-status';
 import type { PageComposerSeed } from '@/lib/page-composer';
 import PageComposerClient from './page-composer-client';
+import PageComposerPremiumGate from './page-composer-premium-gate';
 
 export const metadata: Metadata = {
   title: 'Generador de Páginas por Componentes | Prompt Studio',
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: true },
 };
 
-/** El editor y la exportación requieren comprobar el plan desde el servidor. */
+/** El generador requiere el plan Creator o superiores, comprobado en servidor. */
 export const dynamic = 'force-dynamic';
 
 type PageSearchParams = Record<string, string | string[] | undefined>;

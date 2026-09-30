@@ -205,8 +205,9 @@ export default function PricesClient() {
   }, [isLoaded, isSignedIn, searchParams, refreshSubscription]);
 
   const isCreatorAvailable = isPlanAvailable('creator');
-  const isProAvailable = isPlanAvailable('pro');
-  const isStudioAvailable = isPlanAvailable('studio');
+  // Pro y Studio quedan deshabilitados: se venden solo Free y Creator.
+  const isProAvailable = false;
+  const isStudioAvailable = false;
 
   // Build localized plan objects from metadata + translation keys
   const PLANS: PaidPlan[] = PLAN_METADATA.map((meta) => ({

@@ -183,7 +183,15 @@ export const PAGE_PROP_FIELDS: Record<PageComponentType, readonly PropField[]> =
   'contact-form': [
     f('heading', 'Título', 'text'),
     f('intro', 'Introducción', 'textarea'),
-    list('fields', 'Campos', [f('name', 'Campo', 'text', { required: true })]),
+    select('variant', 'Tipo', ['contact', 'newsletter', 'lead', 'waitlist', 'custom']),
+    list('fields', 'Campos', [
+      f('name', 'Nombre del campo', 'text', { required: true }),
+      f('label', 'Etiqueta', 'text'),
+      select('type', 'Tipo de campo', ['text', 'email', 'textarea', 'tel']),
+      f('required', 'Obligatorio', 'boolean'),
+      f('consent', 'Consentimiento', 'boolean'),
+    ]),
+    f('consentRequired', 'Requerir consentimiento', 'boolean'),
     f('submitLabel', 'Texto del botón', 'text'),
     f('successMessage', 'Mensaje de éxito', 'text'),
     f('emailTo', 'Destino de las submissions', 'text'),
@@ -381,9 +389,15 @@ export type PageSection = PageNode;
 export type PageSeo = {
   title: string;
   description: string;
+  /** URL canónica; si falta se deriva del hostname + slug al publicar. */
   canonical?: string;
+  ogTitle?: string;
+  ogDescription?: string;
   ogImage?: string;
+  /** `true` = no indexar la página. */
   noIndex?: boolean;
+  /** Datos estructurados (JSON-LD) embebidos en la página publicada. */
+  structuredData?: Record<string, unknown>;
 };
 
 export type PageTheme = {
@@ -728,6 +742,12 @@ function validateSeo(ctx: Ctx, value: unknown, path: string): void {
   if (!checkKeys(ctx, value, path)) return;
   readString(ctx, value.title, `${path}.title`, 'invalid-seo');
   readString(ctx, value.description, `${path}.description`, 'invalid-seo');
+  if (value.ogTitle !== undefined && typeof value.ogTitle !== 'string') {
+    fail(ctx, 'invalid-seo', `${path}.ogTitle`, 'ogTitle debe ser texto.');
+  }
+  if (value.ogDescription !== undefined && typeof value.ogDescription !== 'string') {
+    fail(ctx, 'invalid-seo', `${path}.ogDescription`, 'ogDescription debe ser texto.');
+  }
   if (value.canonical !== undefined && safeUrl(value.canonical) === undefined) {
     fail(ctx, 'invalid-url', `${path}.canonical`, 'canonical debe ser una ruta interna o una URL http(s).');
   }
@@ -736,6 +756,9 @@ function validateSeo(ctx: Ctx, value: unknown, path: string): void {
   }
   if (value.noIndex !== undefined && typeof value.noIndex !== 'boolean') {
     fail(ctx, 'invalid-seo', `${path}.noIndex`, 'noIndex debe ser verdadero o falso.');
+  }
+  if (value.structuredData !== undefined && !isPlainObject(value.structuredData)) {
+    fail(ctx, 'invalid-seo', `${path}.structuredData`, 'structuredData debe ser un objeto JSON-LD.');
   }
 }
 
@@ -802,7 +825,7 @@ function validatePage(ctx: Ctx, value: unknown, path: string, index: number, see
     return;
   }
   if (sections.length === 0) {
-    fail(ctx, 'invalid-structure', `${path}.sections`, 'Una página necesita al menos una sección.');
+    warn(ctx, 'invalid-structure', `${path}.sections`, 'Una página sin secciones se muestra vacía.');
   }
   const counter = { count: 0 };
   sections.forEach((section, sectionIndex) => {
@@ -908,6 +931,25 @@ export function validatePageSchema(value: unknown): ValidationResult {
 /** `true` si el documento supera la validación. Azúcar sobre `validatePageSchema`. */
 export function isValidPageSchema(value: unknown): value is SiteSchema {
   return validatePageSchema(value).ok;
+}
+
+/**
+ * Compatibilidad de versiones: acepta un `PageSchema` v1 (o sin versión) y lo
+ * devuelve validado y normalizado. Las versiones futuras (v2+) se rechazan con
+ * `null` en lugar de abrir el documento a medias: migrar hacia delante requiere
+ * un paso explícito, no adivinar la forma.
+ */
+export function migratePageSchema(raw: unknown): SiteSchema | null {
+  const candidate = raw as Record<string, unknown> | null;
+  if (!candidate || typeof candidate !== 'object' || Array.isArray(candidate)) return null;
+  const version = typeof candidate.schemaVersion === 'number' ? candidate.schemaVersion : 1;
+  if (version > PAGE_SCHEMA_VERSION) return null;
+  const normalized =
+    version === 1 && typeof candidate.schemaVersion !== 'number'
+      ? { ...candidate, schemaVersion: 1 }
+      : candidate;
+  const result = validatePageSchema(normalized);
+  return result.ok ? result.schema : null;
 }
 
 /* -------------------------------------------------------------- utilidades --- */
