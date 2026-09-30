@@ -171,6 +171,13 @@ export async function POST(req: Request) {
         if (session.mode === 'payment' && session.payment_status !== 'paid') {
           break;
         }
+        // Compra de dominio: la orden tiene su propio state machine idempotente.
+        const domainSession = session as Stripe.Checkout.Session & { metadata?: Record<string, string> };
+        if (domainSession.metadata?.type === 'domain_order') {
+          const { handleCheckoutCompleted } = await import('@/lib/domain-order');
+          await handleCheckoutCompleted(session.id);
+          break;
+        }
         const customerId = session.customer as string;
         const sessionAny = session as Stripe.Checkout.Session & { metadata?: Record<string, string>; payment_intent_data?: { metadata?: Record<string, string> } };
         const affiliateRef =
