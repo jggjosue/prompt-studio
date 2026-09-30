@@ -93,6 +93,8 @@ export type BuilderContextValue = {
   page: SitePage | undefined;
   slug: string | undefined;
   setSlug: (slug: string) => void;
+  /** Id del sitio (borrador persistido), para publicación. */
+  siteId: string | undefined;
   device: EditorBreakpoint;
   drag: DragState | null;
   selectedId: string | null;
@@ -165,6 +167,7 @@ export function BuilderProvider({
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('clean');
   const [saveFailure, setSaveFailure] = useState<SaveFailure | null>(null);
   const [aiEditTarget, setAIEditTarget] = useState<string | null>(null);
+  const [siteId, setSiteId] = useState<string | undefined>(projectId);
 
   const historyRef = useRef(new EditorHistory());
   const projectIdRef = useRef<string | undefined>(projectId);
@@ -183,7 +186,10 @@ export function BuilderProvider({
         if (response.status === 409) throw new StaleSaveError();
         if (!response.ok) throw new Error(`Guardado falló (${response.status}).`);
         const data = (await response.json()) as { id?: string; version: number };
-        if (typeof data.id === 'string') projectIdRef.current = data.id;
+        if (typeof data.id === 'string') {
+          projectIdRef.current = data.id;
+          setSiteId(data.id);
+        }
         return { version: data.version, id: data.id };
       },
       onStatus: setSaveStatus,
@@ -414,6 +420,7 @@ export function BuilderProvider({
       schema,
       page,
       slug,
+      siteId,
       device,
       drag,
       selectedId,
@@ -453,6 +460,7 @@ export function BuilderProvider({
       schema,
       page,
       slug,
+      siteId,
       device,
       drag,
       selectedId,

@@ -13,6 +13,7 @@ import { Eye, Monitor, Redo2, Smartphone, Sparkles, Tablet, Undo2 } from 'lucide
 import { useState } from 'react';
 import { DEVICE_ORDER, useBuilder } from './builder-context';
 import { BuilderAI } from './builder-ai';
+import { BuilderPublish } from './builder-publish';
 
 const DEVICE_META = {
   desktop: { label: 'Escritorio', Icon: Monitor },
@@ -105,6 +106,8 @@ export function BuilderToolbar() {
       <span className={`hidden text-[11px] lg:inline ${save.className}`} aria-live="polite">
         {save.label}
       </span>
+
+      <BuilderPublish />
 
       <button
         type="button"
