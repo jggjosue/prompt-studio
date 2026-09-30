@@ -7,6 +7,7 @@ import {
 } from '@/lib/server-subscription-status';
 import type { PageComposerSeed } from '@/lib/page-composer';
 import PageComposerClient from './page-composer-client';
+import VisualPageComposerClient from './page-composer-editor-client';
 
 export const metadata: Metadata = {
   title: 'Generador de Páginas por Componentes | Prompt Studio',
@@ -55,5 +56,10 @@ export default async function PageComposerPage({
     button: first(sp.button),
   };
 
-  return <PageComposerClient canEdit={canEdit} seed={seed} />;
+  // Los kits publicados todavía enlazan al compositor v1 con una receta en
+  // query params. Sin esa semilla, /page-composer debe abrir el nuevo editor
+  // PageSchema; el merge con main había vuelto a montar v1 para todo el mundo.
+  const hasLegacySeed = Object.values(seed).some(Boolean);
+  if (hasLegacySeed) return <PageComposerClient canEdit={canEdit} seed={seed} />;
+  return <VisualPageComposerClient canEdit={canEdit} />;
 }
