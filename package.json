@@ -10,8 +10,9 @@
     "node": ">=22.11.0"
   },
   "scripts": {
-    "test": "npm run test:unit && npm run test:data",
+    "test": "npm run test:unit && npm run test:integration && npm run test:data",
     "test:unit": "node --import tsx --test tests/unit/*.test.ts",
+    "test:integration": "node --import tsx --test tests/integration/*.test.ts",
     "test:data": "node --test tests/data/*.test.mjs",
     "test:coverage": "node scripts/mjs/build-coverage-report.mjs",
     "test:e2e": "playwright test",
