@@ -55,6 +55,7 @@ import { ClientLink } from '@/components/client-link';
 import { RoutePrefetchProvider } from '@/components/route-prefetch-provider';
 import { isNavActive } from '@/lib/app-routes';
 import { cn } from '@/lib/utils';
+import { useSuperAdmin } from '@/hooks/use-super-admin';
 import { usePathname } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 // import { ThemeToggle } from '../theme-toggle';
@@ -146,6 +147,7 @@ export default function HeaderClient() {
   }, []);
 
   const { isLoaded } = useAuth();
+  const isSuperAdmin = useSuperAdmin();
   const pathname = usePathname();
   const tNav = useTranslations('nav');
   const tHeader = useTranslations('header');
@@ -269,7 +271,7 @@ export default function HeaderClient() {
           description: copy.searchDesc,
           icon: <Search className="h-4 w-4" />,
         },
-        ...paidCreatorItems(),
+        ...(isSuperAdmin ? paidCreatorItems() : []),
         {
           href: '/landing-pages',
           group: 'Explorar',
