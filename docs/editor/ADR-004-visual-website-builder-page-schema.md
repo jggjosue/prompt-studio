@@ -37,9 +37,17 @@ Se introduce **PageSchema v1**, un documento JSON tipado y serializable, como ú
 - **Sin persistencia por puntero:** el autoguardado escribe en `localStorage` con retardo (900 ms) cuando el documento cambia, nunca durante el arrastre.
 - **Rutas:** `/page-composer/website/editor` (editor) y `/page-composer/website` (vista previa, con enlace al editor). No toca ninguna ruta existente.
 
+### Fase 3: inspector de propiedades dinámico
+
+- **Metadatos, no inspectores por componente:** `src/lib/editor/property-controls.ts` define `ControlDescriptor` y `buildControls`, que derivan los controles de cada tipo a partir de `PAGE_PROP_FIELDS`, los `styleControls` del registro y conjuntos compartidos de layout, borde y tipografía. El inspector (`builder-properties.tsx`) es un único componente genérico: pinta un campo por control y no conoce ningún componente.
+- **Cobertura:** texto, URL, imágenes, fondo, ancho/alto, relleno, margen, separación, alineación, display, tipografía (tamaño, peso, interlineado, alineación de texto), colores, borde (grosor, estilo, color), radio, sombra y opacidad.
+- **Mutaciones puras:** `setNodeProp`, `setNodeStyle`, `clearNodeStyle`, `resetNodeProp`, `resetNodeStyles` y `resetNode` en `page-schema-ops.ts`. Cada cambio actualiza `PageSchema` y el lienzo al instante, sin recargar.
+- **Validación:** las props se validan contra el contrato (tipo, opciones, `safeUrl`); los estilos contra `styleValueToCss` (rechaza `;{}<>`) y un patrón de propiedad. Los rechazos son `invalid-prop` / `invalid-style`.
+- **Tokens y restablecer:** los colores aceptan `token:*`; cada control tiene restablecer individual, además de "Restablecer estilos" y "Restablecer todo" (valores por defecto del catálogo).
+
 ## Consecuencias
 
 - Publicar, persistir y editar el sitio son extensiones de `EditorProject` (slug, status, `PageSchema`), no un segundo motor: el renderizador no cambia.
-- `tests/unit/page-schema.test.ts` cubre contrato, validación, seguridad y el render real (`renderToStaticMarkup`): 20/20. `tests/unit/page-schema-ops.test.ts` cubre add, move, reorder, duplicate, delete, anidación inválida, ciclos y límites: 14/14.
-- Pendiente fuera de alcance: edición de props en el inspector, prompt de IA que emita el documento, página pública con SEO y la migración de `web-page-generator-prompt.ts` a este contrato.
+- `tests/unit/page-schema.test.ts` cubre contrato, validación, seguridad y el render real (`renderToStaticMarkup`): 20/20. `tests/unit/page-schema-ops.test.ts` cubre add, move, reorder, duplicate, delete, anidación inválida, ciclos y límites: 14/14. `tests/unit/property-controls.test.ts` cubre metadatos de controles y las mutaciones del inspector: 12/12.
+- Pendiente fuera de alcance: edición de listas (props `list`) en el inspector, prompt de IA que emita el documento, página pública con SEO y la migración de `web-page-generator-prompt.ts` a este contrato.
 - Deuda registrada: dos warnings `@next/next/no-img-element` en el registro, coherentes con el resto del proyecto; se resolverán al migrar a `next/image`.

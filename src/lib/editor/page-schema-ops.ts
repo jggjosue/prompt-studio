@@ -12,10 +12,15 @@
  */
 
 import {
+  BREAKPOINTS,
   MAX_DEPTH,
   MAX_NODES,
   PAGE_CHILDREN,
+  PAGE_PROP_FIELDS,
   countNodes,
+  safeUrl,
+  styleValueToCss,
+  type Breakpoint,
   type PageComponentType,
   type PageNode,
   type SitePage,
@@ -57,7 +62,9 @@ export type OpsReason =
   | 'cycle'
   | 'single-instance'
   | 'duplicate-id'
-  | 'invalid-target';
+  | 'invalid-target'
+  | 'invalid-prop'
+  | 'invalid-style';
 
 export type OpsError = { ok: false; reason: OpsReason; message: string };
 
@@ -450,4 +457,154 @@ export function restoreNode(
   const failure = placeNode(removed.node, draftPage, { parentId: removed.parentId, index: removed.index });
   if (failure) return failure;
   return { ok: true, schema: draft, id: removed.node.id };
+}
+
+/* ------------------------------------------------------------- inspector --- */
+
+const STYLE_PROPERTY = /^[a-zA-Z][a-zA-Z0-9]*$/;
+
+/** Valor de una prop según su contrato: tipo, opciones y URLs seguras. */
+function validateProp(type: PageComponentType, key: string, value: unknown): string | null {
+  const field = PAGE_PROP_FIELDS[type].find(item => item.key === key);
+  if (!field) return `Propiedad desconocida: ${key}.`;
+  switch (field.kind) {
+    case 'text':
+    case 'textarea':
+      return typeof value === 'string' ? null : 'Debe ser texto.';
+    case 'url':
+    case 'image':
+      return safeUrl(value) ? null : 'URL no válida.';
+    case 'select':
+      return (field.options ?? []).includes(value as string) ? null : 'Valor no permitido.';
+    case 'number':
+      return typeof value === 'number' && Number.isFinite(value) ? null : 'Debe ser un número.';
+    case 'boolean':
+      return typeof value === 'boolean' ? null : 'Debe ser booleano.';
+    case 'list':
+      return Array.isArray(value) ? null : 'Debe ser una lista.';
+  }
+}
+
+type Found = { page: SitePage; location: NodeLocation };
+
+function requireNode(schema: SiteSchema, slug: string | undefined, nodeId: string): Found | OpsError {
+  const page = pageOf(schema, slug);
+  if (!page) return error('unknown-page', `No existe la página ${slug ?? '(primera)'}.`);
+  const location = locateNode(page, nodeId);
+  if (!location) return error('unknown-node', `No existe el nodo ${nodeId}.`);
+  return { page, location };
+}
+
+/** Cambia una prop del nodo, validada contra el contrato. */
+export function setNodeProp(
+  schema: SiteSchema,
+  slug: string | undefined,
+  nodeId: string,
+  key: string,
+  value: unknown
+): MutateResult {
+  const found = requireNode(schema, slug, nodeId);
+  if ('ok' in found) return found;
+  const problem = validateProp(found.location.node.type, key, value);
+  if (problem) return error('invalid-prop', problem);
+
+  const draft = structuredClone(schema);
+  const node = locateNode(pageOf(draft, slug) as SitePage, nodeId)?.node;
+  if (!node) return error('unknown-node', `No existe el nodo ${nodeId}.`);
+  node.props[key] = value;
+  return { ok: true, schema: draft };
+}
+
+/** Cambia una propiedad de estilo en un breakpoint, validada. */
+export function setNodeStyle(
+  schema: SiteSchema,
+  slug: string | undefined,
+  nodeId: string,
+  property: string,
+  value: string | number,
+  breakpoint: Breakpoint = 'desktop'
+): MutateResult {
+  const found = requireNode(schema, slug, nodeId);
+  if ('ok' in found) return found;
+  if (!STYLE_PROPERTY.test(property)) return error('invalid-style', `Propiedad desconocida: ${property}.`);
+  if (!(BREAKPOINTS as readonly string[]).includes(breakpoint)) {
+    return error('invalid-style', `Breakpoint desconocido: ${breakpoint}.`);
+  }
+  if (styleValueToCss(property, value) === null) return error('invalid-style', 'Valor de estilo no válido.');
+
+  const draft = structuredClone(schema);
+  const node = locateNode(pageOf(draft, slug) as SitePage, nodeId)?.node;
+  if (!node) return error('unknown-node', `No existe el nodo ${nodeId}.`);
+  node.styles[breakpoint] = { ...(node.styles[breakpoint] ?? {}), [property]: value };
+  return { ok: true, schema: draft };
+}
+
+/** Quita una propiedad de estilo de un breakpoint (restablecer un control). */
+export function clearNodeStyle(
+  schema: SiteSchema,
+  slug: string | undefined,
+  nodeId: string,
+  property: string,
+  breakpoint: Breakpoint = 'desktop'
+): MutateResult {
+  const found = requireNode(schema, slug, nodeId);
+  if ('ok' in found) return found;
+
+  const draft = structuredClone(schema);
+  const node = locateNode(pageOf(draft, slug) as SitePage, nodeId)?.node;
+  if (!node) return error('unknown-node', `No existe el nodo ${nodeId}.`);
+  const map = { ...(node.styles[breakpoint] ?? {}) };
+  delete map[property];
+  node.styles[breakpoint] = map;
+  return { ok: true, schema: draft };
+}
+
+/** Restablece una prop a su valor por defecto del catálogo. */
+export function resetNodeProp(
+  schema: SiteSchema,
+  slug: string | undefined,
+  nodeId: string,
+  key: string,
+  defaultProps: Record<string, unknown>
+): MutateResult {
+  const found = requireNode(schema, slug, nodeId);
+  if ('ok' in found) return found;
+
+  const draft = structuredClone(schema);
+  const node = locateNode(pageOf(draft, slug) as SitePage, nodeId)?.node;
+  if (!node) return error('unknown-node', `No existe el nodo ${nodeId}.`);
+  if (key in defaultProps) node.props[key] = defaultProps[key];
+  else delete node.props[key];
+  return { ok: true, schema: draft };
+}
+
+/** Restablece todas las props y estilos a los valores por defecto del catálogo. */
+export function resetNode(
+  schema: SiteSchema,
+  slug: string | undefined,
+  nodeId: string,
+  defaultProps: Record<string, unknown>
+): MutateResult {
+  const found = requireNode(schema, slug, nodeId);
+  if ('ok' in found) return found;
+
+  const draft = structuredClone(schema);
+  const node = locateNode(pageOf(draft, slug) as SitePage, nodeId)?.node;
+  if (!node) return error('unknown-node', `No existe el nodo ${nodeId}.`);
+  const known = PAGE_PROP_FIELDS[found.location.node.type].map(field => field.key);
+  node.props = Object.fromEntries(Object.entries(defaultProps).filter(([key]) => known.includes(key)));
+  node.styles = {};
+  return { ok: true, schema: draft };
+}
+
+/** Quita todos los estilos del nodo, volviendo a los del catálogo. */
+export function resetNodeStyles(schema: SiteSchema, slug: string | undefined, nodeId: string): MutateResult {
+  const found = requireNode(schema, slug, nodeId);
+  if ('ok' in found) return found;
+
+  const draft = structuredClone(schema);
+  const node = locateNode(pageOf(draft, slug) as SitePage, nodeId)?.node;
+  if (!node) return error('unknown-node', `No existe el nodo ${nodeId}.`);
+  node.styles = {};
+  return { ok: true, schema: draft };
 }
