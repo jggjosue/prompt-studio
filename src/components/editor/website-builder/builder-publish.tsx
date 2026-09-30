@@ -13,13 +13,14 @@ import { Eye, Globe, Rocket } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { useBuilder } from './builder-context';
 
-type Publication = { publishedVersion: number | null; publishedAt: string | null; unpublishedAt: string | null };
+type Publication = { subdomain: string | null; publishedVersion: number | null; publishedAt: string | null; unpublishedAt: string | null };
 type ErrorResponse = { error?: string };
 
 export function BuilderPublish() {
   const builder = useBuilder();
   const siteId = builder.siteId;
   const [publication, setPublication] = useState<Publication | null>(null);
+  const [subdomain, setSubdomain] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -27,7 +28,11 @@ export function BuilderPublish() {
     if (!siteId) return;
     try {
       const response = await fetch(`/api/page-composer/sites/${siteId}/publication`);
-      if (response.ok) setPublication((await response.json()) as Publication);
+      if (response.ok) {
+        const data = (await response.json()) as Publication;
+        setPublication(data);
+        setSubdomain(current => (data.subdomain ? current || data.subdomain : current));
+      }
     } catch {
       // silencioso: la barra muestra "sin guardar" si no hay sitio todavía.
     }
@@ -43,7 +48,11 @@ export function BuilderPublish() {
     setBusy(true);
     setError(null);
     try {
-      const response = await fetch(`/api/page-composer/sites/${siteId}/publish`, { method: 'POST' });
+      const response = await fetch(`/api/page-composer/sites/${siteId}/publish`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ subdomain: subdomain.trim() || undefined }),
+      });
       const data = (await response.json()) as { publishedVersion?: number } | ErrorResponse;
       if (!response.ok) {
         setError((data as ErrorResponse).error ?? 'No se pudo publicar.');
@@ -111,6 +120,17 @@ export function BuilderPublish() {
           </button>
         </>
       ) : null}
+      <label className="hidden items-center gap-1 rounded-md border border-border px-2 py-1 text-[11px] text-muted-foreground md:flex">
+        <span className="shrink-0">Subdominio</span>
+        <input
+          value={subdomain}
+          onChange={event => setSubdomain(event.target.value)}
+          placeholder="tu-sitio"
+          className="w-24 bg-transparent text-foreground focus-visible:outline-none"
+          aria-label="Subdominio público"
+        />
+        <span className="shrink-0 font-mono text-[10px]">.prompstudio.com</span>
+      </label>
       <button
         type="button"
         onClick={publish}

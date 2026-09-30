@@ -24,6 +24,8 @@ export interface IPageComposerProject extends Document {
   document: Record<string, unknown>;
   /** Contador de guardado del borrador; da concurrencia optimista. */
   version: number;
+  /** Subdominio público (customer.prompstudio.com); único y normalizado. */
+  subdomain?: string | null;
   /** Versión publicada actualmente, o null si el sitio no está publicado. */
   publishedVersionId?: Types.ObjectId | null;
   /** Número de la última versión publicada (contador). */
@@ -58,6 +60,7 @@ const PageComposerProjectSchema = new Schema<IPageComposerProject>(
     name: { type: String, required: true, maxlength: PAGE_COMPOSER_PROJECT_LIMITS.nameLength },
     document: { type: Schema.Types.Mixed, required: true },
     version: { type: Number, required: true, default: 1 },
+    subdomain: { type: String, default: null, maxlength: 63 },
     publishedVersionId: { type: Schema.Types.ObjectId, default: null, index: true },
     publishedVersion: { type: Number, default: null },
     publishedAt: { type: Date, default: null },
@@ -70,6 +73,7 @@ const PageComposerProjectSchema = new Schema<IPageComposerProject>(
 );
 
 PageComposerProjectSchema.index({ userId: 1, updatedAt: -1 });
+PageComposerProjectSchema.index({ subdomain: 1 }, { unique: true, sparse: true });
 
 export default mongoose.models.PageComposerProject ||
   mongoose.model<IPageComposerProject>('PageComposerProject', PageComposerProjectSchema, 'page_composer_projects');
