@@ -18,6 +18,7 @@ import {
   canMove,
   clearNodeStyle,
   duplicateNode,
+  insertSectionNode,
   locateNode,
   moveNode,
   moveWithinParent,
@@ -40,6 +41,7 @@ import {
   type SaveStatus,
 } from '@/lib/editor/save-manager';
 import { EDITOR_BREAKPOINTS, type EditorBreakpoint } from '@/lib/editor/responsive';
+import { createSection, getSectionDefinition, type SectionId } from '@/lib/editor/page-sections';
 import {
   createContext,
   useCallback,
@@ -65,6 +67,7 @@ const AUTOSAVE_DEBOUNCE_MS = 1200;
 /** Lo que se está arrastrando en este momento. */
 export type DragState =
   | { source: 'library'; type: PageComponentType; label: string }
+  | { source: 'section'; sectionId: SectionId; label: string }
   | { source: 'node'; nodeId: string; type: PageComponentType; label: string };
 
 /** Identificador de un nodo nuevo: empieza por letra y solo usa [a-z0-9-]. */
@@ -105,6 +108,10 @@ export type BuilderContextValue = {
   previewInsert: (type: PageComponentType, target: DropTarget) => OpsError | null;
   previewMove: (nodeId: string, target: DropTarget) => OpsError | null;
   addComponent: (type: PageComponentType, target: DropTarget) => OpsError | null;
+  /** Vista previa del rechazo al insertar una sección de la biblioteca. */
+  previewSectionInsert: (sectionId: SectionId, target: DropTarget) => OpsError | null;
+  /** Inserta una sección preconstruida en el primer nivel. */
+  insertSection: (sectionId: SectionId, target: DropTarget) => OpsError | null;
   moveExisting: (nodeId: string, target: DropTarget) => OpsError | null;
   duplicate: (nodeId: string) => OpsError | null;
   remove: (nodeId: string) => void;
@@ -244,6 +251,31 @@ export function BuilderProvider({
     [schema, slug, commit]
   );
 
+  const previewSectionInsert = useCallback(
+    (sectionId: SectionId, target: DropTarget): OpsError | null => {
+      const rootType = getSectionDefinition(sectionId).type;
+      return canInsert(schema, slug, target, rootType);
+    },
+    [schema, slug]
+  );
+
+  const insertSection = useCallback(
+    (sectionId: SectionId, target: DropTarget): OpsError | null => {
+      if (target.parentId !== null) {
+        return { ok: false, reason: 'invalid-nesting', message: 'Las secciones solo pueden vivir en el primer nivel.' };
+      }
+      const node = createSection(sectionId, deps.makeId);
+      const result = insertSectionNode(schema, slug, target.index, node);
+      if (!result.ok) return result;
+      commit(
+        makeCommand('ADD_COMPONENT', `Insertar sección ${getSectionDefinition(sectionId).label}`, schema, result.schema)
+      );
+      setSelectedId(result.id);
+      return null;
+    },
+    [schema, slug, commit]
+  );
+
   const moveExisting = useCallback(
     (nodeId: string, target: DropTarget): OpsError | null => {
       const result = moveNode(schema, slug, nodeId, target);
@@ -369,6 +401,8 @@ export function BuilderProvider({
       previewInsert: (type, target) => canInsert(schema, slug, target, type),
       previewMove: (nodeId, target) => canMove(schema, slug, nodeId, target),
       addComponent,
+      previewSectionInsert,
+      insertSection,
       moveExisting,
       duplicate,
       remove,
@@ -395,6 +429,8 @@ export function BuilderProvider({
       canUndo,
       canRedo,
       addComponent,
+      previewSectionInsert,
+      insertSection,
       moveExisting,
       duplicate,
       remove,

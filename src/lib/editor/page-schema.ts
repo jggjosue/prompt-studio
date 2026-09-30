@@ -802,7 +802,7 @@ function validatePage(ctx: Ctx, value: unknown, path: string, index: number, see
     return;
   }
   if (sections.length === 0) {
-    fail(ctx, 'invalid-structure', `${path}.sections`, 'Una página necesita al menos una sección.');
+    warn(ctx, 'invalid-structure', `${path}.sections`, 'Una página sin secciones se muestra vacía.');
   }
   const counter = { count: 0 };
   sections.forEach((section, sectionIndex) => {
@@ -908,6 +908,25 @@ export function validatePageSchema(value: unknown): ValidationResult {
 /** `true` si el documento supera la validación. Azúcar sobre `validatePageSchema`. */
 export function isValidPageSchema(value: unknown): value is SiteSchema {
   return validatePageSchema(value).ok;
+}
+
+/**
+ * Compatibilidad de versiones: acepta un `PageSchema` v1 (o sin versión) y lo
+ * devuelve validado y normalizado. Las versiones futuras (v2+) se rechazan con
+ * `null` en lugar de abrir el documento a medias: migrar hacia delante requiere
+ * un paso explícito, no adivinar la forma.
+ */
+export function migratePageSchema(raw: unknown): SiteSchema | null {
+  const candidate = raw as Record<string, unknown> | null;
+  if (!candidate || typeof candidate !== 'object' || Array.isArray(candidate)) return null;
+  const version = typeof candidate.schemaVersion === 'number' ? candidate.schemaVersion : 1;
+  if (version > PAGE_SCHEMA_VERSION) return null;
+  const normalized =
+    version === 1 && typeof candidate.schemaVersion !== 'number'
+      ? { ...candidate, schemaVersion: 1 }
+      : candidate;
+  const result = validatePageSchema(normalized);
+  return result.ok ? result.schema : null;
 }
 
 /* -------------------------------------------------------------- utilidades --- */
