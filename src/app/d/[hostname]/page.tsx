@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import Header from '@/components/layout/header';
-import Footer from '@/components/layout/footer';
 import { PageRenderer } from '@/components/editor/page-renderer';
 import { resolveCustomDomain } from '@/lib/custom-domains';
 
@@ -37,15 +35,11 @@ export default async function CustomDomainSitePage({ params }: CustomDomainProps
   if (!resolution) notFound();
 
   return (
-    <div className="flex min-h-screen flex-col bg-background">
-      <Header />
-      <main className="flex-1">
-        <div className="border-b bg-muted/40 px-4 py-2 text-center text-xs text-muted-foreground">
-          {resolution.schema.site.name} · {hostname} · versión publicada v{resolution.version}
-        </div>
-        <PageRenderer schema={resolution.schema} />
-      </main>
-      <Footer />
+    <div className="min-h-screen bg-background">
+      <div className="border-b bg-muted/40 px-4 py-2 text-center text-xs text-muted-foreground">
+        {resolution.schema.site.name} · {hostname} · versión publicada v{resolution.version}
+      </div>
+      <PageRenderer schema={resolution.schema} />
     </div>
   );
 }
