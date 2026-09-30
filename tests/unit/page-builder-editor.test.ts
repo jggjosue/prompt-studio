@@ -261,3 +261,18 @@ test('Editar abre la página estática seleccionada y el canvas aplica sus viewp
   assert.match(catalog, /project\.json/);
   assert.match(catalog, /mediaAssets/);
 });
+
+test('el Website Builder permite salir, muestra proyectos guardados y protege plantillas Premium', async () => {
+  const toolbar = await readFile(new URL('../../src/components/editor/website-builder/builder-toolbar.tsx', import.meta.url), 'utf8');
+  const gallery = await readFile(new URL('../../src/components/editor/website-builder/builder-templates.tsx', import.meta.url), 'utf8');
+  const route = await readFile(new URL('../../src/app/[locale]/page-composer/website/editor/page.tsx', import.meta.url), 'utf8');
+  const saveRoute = await readFile(new URL('../../src/app/api/page-composer/projects/[id]/route.ts', import.meta.url), 'utf8');
+
+  assert.match(toolbar, /Salir del editor y volver a mis proyectos/);
+  assert.match(gallery, /Mis proyectos/);
+  assert.match(gallery, /Continuar editando/);
+  assert.match(gallery, /template\.imageUrl/);
+  assert.match(gallery, /Requiere Premium/);
+  assert.match(route, /definition\?\.access === 'premium' && !canUsePremium/);
+  assert.match(saveRoute, /const isNew = id === 'new'/);
+});

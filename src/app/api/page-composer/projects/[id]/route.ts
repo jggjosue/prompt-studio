@@ -3,7 +3,6 @@ import { NextResponse } from 'next/server';
 import { cacheHeaders } from '@/lib/cache-policy';
 import connectToDatabase from '@/lib/mongoose';
 import { rateLimit, tooManyRequests } from '@/lib/rate-limit';
-import { getServerSubscriptionStatus, hasComponentBuilderPlan } from '@/lib/server-subscription-status';
 import { validatePageSchema, type SiteSchema } from '@/lib/editor/page-schema';
 import PageComposerProject, { PAGE_COMPOSER_PROJECT_LIMITS } from '@/models/PageComposerProject';
 
@@ -14,15 +13,11 @@ const headers = () => cacheHeaders('private-no-store');
 /** El autoguardado escribe con debounce; el límite acota una ráfaga anómala. */
 const SAVE_LIMIT = { limit: 120, windowMs: 60_000 };
 
-/** La página ya comprueba la cuenta y el plan; la API no puede fiarse de eso. */
+/** Los borradores Free y Premium requieren una cuenta y siempre pertenecen a su autor. */
 async function guard() {
   const { userId } = await auth();
   if (!userId) {
     return { error: NextResponse.json({ error: 'Inicia sesión.' }, { status: 401, headers: headers() }) };
-  }
-  const status = await getServerSubscriptionStatus();
-  if (!hasComponentBuilderPlan(status)) {
-    return { error: NextResponse.json({ error: 'El builder requiere Premium.' }, { status: 403, headers: headers() }) };
   }
   return { userId };
 }
@@ -96,7 +91,8 @@ export async function PUT(
 
   await connectToDatabase();
 
-  const stored = await PageComposerProject.findOne({ _id: id, userId: gate.userId });
+  const isNew = id === 'new';
+  const stored = isNew ? null : await PageComposerProject.findOne({ _id: id, userId: gate.userId });
 
   if (!stored) {
     if (sentVersion !== 0 && sentVersion !== null) {

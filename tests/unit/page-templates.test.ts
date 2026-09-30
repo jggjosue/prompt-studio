@@ -61,9 +61,16 @@ test('cada plantilla declara su categoría y tema de acento', () => {
   for (const template of listPageTemplates()) {
     const config = TEMPLATE_CONFIGS[template.id];
     assert.ok(config.primary, `${template.id}: color de acento`);
+    assert.match(template.imageUrl, /^\/images\/webpages\/.+\.webp$/, `${template.id}: miniatura real`);
+    assert.ok(template.access === 'free' || template.access === 'premium', `${template.id}: acceso declarado`);
     const schema = createTemplateSchema(template.id);
     assert.equal(schema.site.theme.tokens['color.primary'], config.primary);
   }
+});
+
+test('el catálogo ofrece plantillas Free y Premium', () => {
+  const access = new Set(listPageTemplates().map(template => template.access));
+  assert.deepEqual(access, new Set(['free', 'premium']));
 });
 
 test('las plantillas son copias editables: dos usos no comparten ids', () => {

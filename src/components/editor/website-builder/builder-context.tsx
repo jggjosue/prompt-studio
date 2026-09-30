@@ -187,7 +187,7 @@ export function BuilderProvider({
         const response = await fetch(`/api/page-composer/projects/${id ?? 'new'}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ schema: payload, version }),
+          body: JSON.stringify({ schema: payload, version, name: payload.site.name }),
         });
         if (response.status === 409) throw new StaleSaveError();
         if (!response.ok) throw new Error(`Guardado falló (${response.status}).`);

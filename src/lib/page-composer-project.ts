@@ -10,6 +10,10 @@ export type PageComposerDraft = {
   updatedAt: Date;
 };
 
+export type PageComposerDraftSummary = Omit<PageComposerDraft, 'updatedAt'> & {
+  updatedAtIso: string;
+};
+
 /**
  * Carga un borrador del usuario, validándolo antes de exponerlo.
  *
@@ -31,4 +35,31 @@ export async function getPageComposerDraft(userId: string, id: string): Promise<
     version: project.version,
     updatedAt: project.updatedAt,
   };
+}
+
+/** Borradores recientes que se pueden reabrir desde la galería del builder. */
+export async function listPageComposerDrafts(userId: string, limit = 24): Promise<PageComposerDraftSummary[]> {
+  try {
+    await connectToDatabase();
+    const projects = await PageComposerProject.find({ userId })
+      .sort({ updatedAt: -1 })
+      .limit(Math.max(1, Math.min(limit, 50)))
+      .lean();
+
+    return projects.flatMap(project => {
+      const result = validatePageSchema(project.document);
+      if (!result.ok) return [];
+      const updatedAt = project.updatedAt instanceof Date ? project.updatedAt : new Date(project.updatedAt);
+      return [{
+        id: String(project._id),
+        name: project.name,
+        schema: result.schema,
+        version: project.version,
+        updatedAtIso: updatedAt.toISOString(),
+      }];
+    });
+  } catch {
+    // La galería sigue disponible aunque MongoDB esté temporalmente caído.
+    return [];
+  }
 }
