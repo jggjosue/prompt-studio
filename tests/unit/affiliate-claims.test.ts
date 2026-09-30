@@ -47,6 +47,28 @@ test('la comisión mostrada sale del código que la paga', async () => {
   assert.ok(AFFILIATE_COMMISSION_PERCENT > 0 && AFFILIATE_COMMISSION_PERCENT <= 100);
 });
 
+test('la comisión se presenta como un solo plan común', async () => {
+  const page = await source(PAGE);
+  assert.ok(page.includes('const commissionPlan = {'));
+  assert.ok(!page.includes('const tiersData = ['), 'no deben renderizarse tiers duplicados');
+  assert.ok(page.includes('rate: `${AFFILIATE_COMMISSION_PERCENT}%`'));
+});
+
+test('los datos complementarios de la solicitud son opcionales de extremo a extremo', async () => {
+  const page = await source(PAGE);
+  const route = await source('src/app/api/affiliate/applications/route.ts');
+  const model = await source('src/models/AffiliateApplication.ts');
+
+  assert.match(page, /const requiredFields:[\s\S]*?'name',[\s\S]*?'email',[\s\S]*?'message',[\s\S]*?\];/);
+  for (const field of ['profile', 'audience', 'channel', 'experience', 'plan']) {
+    assert.ok(
+      !route.includes(`if (!${field})`),
+      `${field} no debe rechazarse en la API cuando está vacío`
+    );
+    assert.match(model, new RegExp(`${field}: \\{ type: String, default: ''`));
+  }
+});
+
 test('el flujo del programa está completo antes de reclutar a nadie', async () => {
   // Meter afiliados en un programa incompleto quema la relación una sola vez.
   for (const route of [

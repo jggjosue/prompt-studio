@@ -9,11 +9,19 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { OptimizedImage } from '@/components/optimized-image';
+import { FreeEmailGate } from '@/components/free-email-gate';
 import { trackAnalyticsEvent } from '@/lib/analytics';
 import { PENDING_CHECKOUT_KEY } from '@/hooks/use-recently-viewed-landings';
+import { useMembershipAccess } from '@/hooks/use-membership-access';
+import { useStripeSubscription } from '@/hooks/use-stripe-subscription';
+import { useToast } from '@/hooks/use-toast';
+import { copyToClipboard } from '@/lib/copy-to-clipboard';
+import { canCopyLandingPrompt, needsLandingPromptEmailGate } from '@/lib/landing-preview-access';
+import { useState } from 'react';
 import {
   ArrowRight,
   CheckCircle2,
+  Copy,
   CreditCard,
   Crown,
   Download,
@@ -26,8 +34,11 @@ type PreviewPurchaseProps = {
   checkoutUrl: string;
   imageUrl?: string;
   locale: string;
+  membership: string;
+  pageId: string;
   price: string;
   previewUrl: string;
+  prompt: string;
   productName: string;
   slug: string;
 };
@@ -36,12 +47,78 @@ export function PreviewPurchase({
   checkoutUrl,
   imageUrl,
   locale,
+  membership,
+  pageId,
   price,
   previewUrl,
+  prompt,
   productName,
   slug,
 }: PreviewPurchaseProps) {
   const english = locale === 'en';
+  const { ready, isSignedIn, hasPaidPlan } = useMembershipAccess();
+  const { purchasedPages } = useStripeSubscription();
+  const { toast } = useToast();
+  const [copied, setCopied] = useState(false);
+  const hasPurchased = purchasedPages.includes(pageId) || purchasedPages.includes(slug);
+  const canCopyPrompt = canCopyLandingPrompt({ membership, hasPaidPlan, hasPurchased });
+  const needsEmailGate = needsLandingPromptEmailGate({ membership, isSignedIn });
+
+  const copyPrompt = async () => {
+    const succeeded = await copyToClipboard(prompt);
+    if (!succeeded) {
+      toast({
+        title: english ? 'Could not copy prompt' : 'No se pudo copiar el prompt',
+        description: english ? 'Please try again.' : 'Inténtalo de nuevo.',
+        variant: 'destructive',
+      });
+      return;
+    }
+    setCopied(true);
+    trackAnalyticsEvent('component_prompt_copy', {
+      page_id: pageId,
+      page_title: productName,
+      item_id: pageId,
+      item_name: productName,
+      item_category: 'landing-page-prompt',
+      membership,
+      action_source: 'preview-sticky-cta',
+    });
+    window.setTimeout(() => setCopied(false), 1800);
+  };
+
+  if (!ready) {
+    return <div className="h-11 w-full min-w-44 animate-pulse rounded-xl bg-white/10 sm:w-64" />;
+  }
+
+  if (canCopyPrompt) {
+    const copyButton = (
+      <button
+        type="button"
+        onClick={needsEmailGate ? undefined : () => void copyPrompt()}
+        className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#0057ff] px-5 text-sm font-bold text-white shadow-lg shadow-blue-950/40 transition hover:-translate-y-0.5 hover:bg-[#1467ff] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 sm:min-w-64"
+      >
+        {copied ? <CheckCircle2 className="size-4" aria-hidden="true" /> : <Copy className="size-4" aria-hidden="true" />}
+        {copied ? (english ? 'Copied' : 'Copiado') : (english ? 'Copy prompt' : 'Copiar prompt')}
+      </button>
+    );
+
+    if (needsEmailGate) {
+      return (
+        <FreeEmailGate
+          title={english ? 'Copy this prompt' : 'Copia este prompt'}
+          description={english ? 'Enter your email to copy the complete prompt.' : 'Ingresa tu correo para copiar el prompt completo.'}
+          submitText={english ? 'Copy prompt' : 'Copiar prompt'}
+          onSuccess={() => void copyPrompt()}
+        >
+          {copyButton}
+        </FreeEmailGate>
+      );
+    }
+
+    return copyButton;
+  }
+
   const copy = english
     ? {
         trigger: `Buy${price ? ` for ${price}` : ''}`,

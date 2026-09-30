@@ -93,17 +93,28 @@ This is the system flow with the most states and requires the most care, as it h
 ```mermaid
 stateDiagram-v2
     [*] --> queued: POST /api/ai/jobs · credits reserved
-    queued --> processing: worker picks it up
+    queued --> processing: atomic claim + ownership lease
     processing --> processing: PATCH /progress (worker token)
-    processing --> retrying: provider failure
-    retrying --> processing: retry attempt
-    processing --> completed: valid output · credits captured
-    retrying --> failed: attempts exhausted · credits refunded
+    processing --> uploading: remote artifact upload
+    processing --> finalizing: inline/provider output received
+    uploading --> finalizing: artifact reference persisted
+    finalizing --> completed: valid output · credits captured
+    processing --> queued: retryable provider failure
+    uploading --> queued: retryable storage failure
+    finalizing --> queued: retryable finalization failure
+    processing --> dead_letter: attempts exhausted · credits refunded
+    processing --> cancelled: cancellation accepted · credits refunded
     completed --> [*]
     failed --> [*]
+    dead_letter --> [*]
+    cancelled --> [*]
 ```
 
-States of `AIGenerationJob`: `queued`, `processing`, `retrying`, `completed`, `failed`. States of the associated credit: `reserved`, `captured`, `refunded`.
+Canonical states of `AIGenerationJob`: `queued`, `processing`, `uploading`, `finalizing`, `completed`, `failed`, `dead_letter`, `cancelled`. Existing `retrying` records remain readable and are exposed as canonical `queued`; no destructive migration is required. States of the associated credit: `reserved`, `captured`, `refunded`.
+
+Claims and transitions are atomic MongoDB updates guarded by the expected state
+and a per-attempt `lockToken`. The complete field and transition contract is in
+[`generation-job-state-machine.md`](architecture/generation-job-state-machine.md).
 
 **The invariant holding the system together**: no job finishes without its credit transitioning from `reserved` to `captured` or `refunded`. A failed job refunds the reserved credits, and the user receives an email indicating this along with the number of attempts.
 

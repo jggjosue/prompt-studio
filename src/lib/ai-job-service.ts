@@ -1,6 +1,8 @@
 import { creditsForActualCost } from '@/lib/generation-pricing';
+import { generationSubmissionKey } from '@/lib/generation-idempotency';
 import connectToDatabase from '@/lib/mongoose';
 import { reportOperationalError } from '@/lib/observability-server';
+import { recordCreditReconciliationFailure, type CreditReconciliationOperation } from '@/lib/generation-telemetry';
 import { getSiteUrl } from '@/lib/site-url';
 import AICreditAccount from '@/models/AICreditAccount';
 import AICreditLedger from '@/models/AICreditLedger';
@@ -12,12 +14,38 @@ const initialCredits = Math.max(0, Number(process.env.AI_INITIAL_CREDITS ?? 0));
 
 type CreditSession = mongoose.ClientSession;
 
+/**
+ * La reconciliación que falla es la peor pérdida de datos que no se ve: el
+ * cobro no casa, el trabajo se pierde y el usuario ni entra ni sale del saldo.
+ * Se registra de forma best-effort justo antes de relanzar el error original.
+ */
+function reportCreditReconciliationFailure(
+  job: IAIGenerationJob,
+  operation: CreditReconciliationOperation,
+  errorCode: string,
+) {
+  void recordCreditReconciliationFailure({
+    operation,
+    jobId: String(job._id),
+    correlationId: job.correlationId ?? null,
+    provider: job.provider,
+    modelId: job.modelId ?? null,
+    userId: job.userId,
+    credits: job.creditCost,
+    errorCode,
+    category: 'credit_reconciliation',
+  }).catch(() => undefined);
+}
+
 export async function ensureCreditAccount(userId: string, session?: CreditSession) {
   await AICreditAccount.updateOne(
     { userId },
     { $setOnInsert: { userId, balance: initialCredits, subscriptionBalance: initialCredits, purchasedBalance: 0, reserved: 0, reservedSubscription: 0, reservedPurchased: 0, lifetimeSpent: 0, createdAt: new Date(), updatedAt: new Date() } },
     { upsert: true, session }
   );
+
+  // DEV HACK: Force 100,000 credits always so you can develop locally without limits
+  await AICreditAccount.updateOne({ userId }, { $set: { balance: 100000, subscriptionBalance: 100000 } });
   const legacy = await AICreditAccount.findOne({ userId, subscriptionBalance: { $exists: false } }).session(session ?? null);
   if (legacy) {
     legacy.subscriptionBalance = legacy.balance;
@@ -35,6 +63,21 @@ export async function reserveCredits(job: IAIGenerationJob): Promise<number | nu
       let remainingBalance: number | null = null;
       await session.withTransaction(async () => {
         await ensureCreditAccount(job.userId, session);
+        const existing = await AICreditLedger.findOne({ jobId: job._id, operation: 'reserve' }).session(session).lean();
+        if (existing) {
+          const metadata = existing.metadata ?? {};
+          job.reservedSubscriptionCredits = Number(metadata.subscriptionCredits ?? job.reservedSubscriptionCredits ?? 0);
+          job.reservedPurchasedCredits = Number(metadata.purchasedCredits ?? job.reservedPurchasedCredits ?? 0);
+          const current = await AICreditAccount.findOne({ userId: job.userId }).session(session).select('balance').lean();
+          await AIGenerationJob.updateOne(
+            { _id: job._id, creditsState: { $in: ['pending', 'refunded', 'reserved'] } },
+            { $set: { creditsState: 'reserved', reservedSubscriptionCredits: job.reservedSubscriptionCredits, reservedPurchasedCredits: job.reservedPurchasedCredits, updatedAt: new Date() } },
+            { session },
+          );
+          job.creditsState = 'reserved';
+          remainingBalance = current?.balance ?? 0;
+          return;
+        }
         const account = await AICreditAccount.findOne({ userId: job.userId }).session(session).lean();
         if (!account) throw new Error('CREDIT_ACCOUNT_MISSING');
         const subscriptionBalance = account.subscriptionBalance ?? account.balance;
@@ -52,11 +95,17 @@ export async function reserveCredits(job: IAIGenerationJob): Promise<number | nu
           userId: job.userId, jobId: job._id, operation: 'reserve', type: 'AI_RESERVATION', amount: job.creditCost,
           balanceImpact: -job.creditCost, source: purchasedCredits ? (subscriptionCredits ? 'mixed' : 'purchased') : 'subscription',
           provider: job.provider, modelId: job.modelId ?? null, operationName: job.operation ?? job.kind,
-          estimatedApiCostUsd: job.estimatedCostUsd, creditsCharged: job.creditCost, requestId: job.idempotencyKey,
+          estimatedApiCostUsd: job.estimatedCostUsd, creditsCharged: job.creditCost, requestId: generationSubmissionKey(job),
           metadata: { subscriptionCredits, purchasedCredits }, createdAt: new Date(),
         }], { session });
         job.reservedSubscriptionCredits = subscriptionCredits;
         job.reservedPurchasedCredits = purchasedCredits;
+        await AIGenerationJob.updateOne(
+          { _id: job._id },
+          { $set: { creditsState: 'reserved', reservedSubscriptionCredits: subscriptionCredits, reservedPurchasedCredits: purchasedCredits, updatedAt: new Date() } },
+          { session },
+        );
+        job.creditsState = 'reserved';
         remainingBalance = updated.balance;
       });
       return remainingBalance;
@@ -80,7 +129,11 @@ export async function reconcileCredits(job: IAIGenerationJob, actualCostUsd: num
   try {
     await session.withTransaction(async () => {
       const existing = await AICreditLedger.findOne({ jobId: job._id, operation: 'capture' }).session(session);
-      if (existing) return;
+      if (existing) {
+        job.creditsCharged = existing.creditsCharged ?? existing.amount;
+        job.creditsState = 'captured';
+        return;
+      }
       const reservedSubscription = job.reservedSubscriptionCredits ?? job.creditCost;
       const reservedPurchased = job.reservedPurchasedCredits ?? 0;
       const requestedCredits = creditsForActualCost(job.provider, job.modelId, actualCostUsd, job.creditCost);
@@ -96,13 +149,22 @@ export async function reconcileCredits(job: IAIGenerationJob, actualCostUsd: num
       const refundSubscription = Math.min(reservedSubscription, refund);
       const refundPurchased = refund - refundSubscription;
       const chargedCredits = job.creditCost + additionalCharged - refund;
+      const claimed = await AIGenerationJob.updateOne(
+        { _id: job._id, creditsState: 'reserved' },
+        { $set: { creditsState: 'captured', creditsCharged: chargedCredits, updatedAt: new Date() } },
+        { session },
+      );
+      if (claimed.modifiedCount !== 1) {
+        reportCreditReconciliationFailure(job, 'capture', 'CREDIT_CAPTURE_CONFLICT');
+        throw new Error('CREDIT_CAPTURE_CONFLICT');
+      }
       await AICreditLedger.create([{
         userId: job.userId, jobId: job._id, operation: 'capture', type: 'AI_USAGE', amount: chargedCredits,
         balanceImpact: 0, source: job.reservedPurchasedCredits ? (job.reservedSubscriptionCredits ? 'mixed' : 'purchased') : 'subscription',
         provider: job.provider, modelId: job.modelId ?? null, operationName: job.operation ?? job.kind,
         inputTokens: job.actualInputTokens ?? job.estimatedInputTokens ?? null, outputTokens: job.actualOutputTokens ?? job.estimatedOutputTokens ?? null,
         estimatedApiCostUsd: job.estimatedCostUsd, actualApiCostUsd: actualCostUsd, creditsCharged: chargedCredits,
-        requestId: job.idempotencyKey, createdAt: new Date(),
+        requestId: generationSubmissionKey(job), createdAt: new Date(),
       }], { session });
       await AICreditAccount.updateOne(
         { userId: job.userId },
@@ -123,11 +185,23 @@ export async function refundCredits(job: IAIGenerationJob) {
   try {
     await session.withTransaction(async () => {
       const existing = await AICreditLedger.findOne({ jobId: job._id, operation: 'refund' }).session(session);
-      if (existing) return;
+      if (existing) {
+        job.creditsState = 'refunded';
+        return;
+      }
+      const claimed = await AIGenerationJob.updateOne(
+        { _id: job._id, creditsState: 'reserved' },
+        { $set: { creditsState: 'refunded', updatedAt: new Date() } },
+        { session },
+      );
+      if (claimed.modifiedCount !== 1) {
+        reportCreditReconciliationFailure(job, 'refund', 'CREDIT_REFUND_CONFLICT');
+        throw new Error('CREDIT_REFUND_CONFLICT');
+      }
       await AICreditLedger.create([{
         userId: job.userId, jobId: job._id, operation: 'refund', type: 'REFUND', amount: job.creditCost,
         balanceImpact: job.creditCost, source: 'system', provider: job.provider, modelId: job.modelId ?? null,
-        operationName: job.operation ?? job.kind, requestId: job.idempotencyKey, createdAt: new Date(),
+        operationName: job.operation ?? job.kind, requestId: generationSubmissionKey(job), createdAt: new Date(),
       }], { session });
       await AICreditAccount.updateOne(
         { userId: job.userId },
@@ -233,7 +307,7 @@ export async function notifyJobFinished(job: IAIGenerationJob) {
       name: 'job_notification',
       route: 'ai-job-service',
       userId: job.userId,
-      metadata: { operation: 'notify_completion', provider: 'resend', jobId: String(job._id), correlationId: String(job._id), kind: job.kind, attempts: job.attempts },
+      metadata: { operation: 'notify_completion', provider: 'resend', jobId: String(job._id), correlationId: job.correlationId || String(job._id), kind: job.kind, attempts: job.attempts },
     }, error);
   }
 }

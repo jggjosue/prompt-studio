@@ -1,8 +1,8 @@
 import { getImageById, getPlaceholderImages, type ImagePlaceholder } from '@/lib/placeholder-images';
-import { getPlaceholderVideos, getVideoById, type VideoProp } from '@/lib/placeholder-videos';
+import { getPlaceholderVideos, getVideoById } from '@/lib/placeholder-videos';
 import { getLocale } from 'next-intl/server';
 import { resolveRenderableMediaUrl } from '@/lib/media-resolver';
-import { buildImageObjectSchema, buildVideoObjectSchema, safeJsonLd, schemaDescription } from '@/lib/json-ld';
+import { buildImageObjectSchema, safeJsonLd, schemaDescription } from '@/lib/json-ld';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import GalleryDetailClient from './gallery-detail-client';
@@ -86,31 +86,32 @@ export default async function GalleryDetailPage({ params }: Props) {
   const locale = await getLocale();
   const imageItem = getImageById(id, locale);
   const videoItem = getVideoById(id, locale);
-  const item: ImagePlaceholder | VideoProp | undefined = imageItem || videoItem;
+
+  // IDs img-* always belong to the image catalog, even when legacy source
+  // metadata incorrectly says type="video" while pointing to a JPEG/PNG.
+  // Redirecting those entries created /gallery <-> /gallery-videos loops.
+  if (!imageItem && videoItem) {
+    const { redirect } = await import('next/navigation');
+    redirect(`/gallery-videos/${videoItem.id}`);
+  }
+
+  const item: ImagePlaceholder | undefined = imageItem
+    ? { ...imageItem, type: 'image' }
+    : undefined;
 
   if (!item) {
     notFound();
-  }
-
-  if (item.type === 'video') {
-    // If an item in placeholderImages is actually a video or has a video ID format like v-*, redirect to gallery-videos
-    const { redirect } = await import('next/navigation');
-    const targetId = item.id.startsWith('v-') ? item.id : id;
-    redirect(`/gallery-videos/${targetId}`);
   }
 
   const canonicalPath = `/gallery/${id}`;
   const canonical = `${SITE_URL}${canonicalPath}`;
   const description = promptDescription(item.description, item.title);
   const image = absoluteUrl(resolveRenderableMediaUrl(item, locale) || item.imageUrl);
-  const category = item.type === 'video' ? 'Video Prompt' : 'Image Prompt';
+  const category = 'Image Prompt';
   const imageItems = getPlaceholderImages(locale).filter(candidate => candidate.imageUrl);
   const videoItems = getPlaceholderVideos(locale).filter(candidate => candidate.imageUrl);
   const allItems = [...imageItems, ...videoItems];
-  const relatedItems = selectRelatedGalleryItems(
-    item,
-    item.type === 'video' ? videoItems : imageItems
-  );
+  const relatedItems = selectRelatedGalleryItems(item, imageItems);
   const manualActionRisk = assessManualActionRisk(item, allItems);
 
   // For thumbnails, we use the image preview from the resolver, or a fallback.
@@ -138,26 +139,13 @@ export default async function GalleryDetailPage({ params }: Props) {
     },
   };
 
-  const imageSchema = item.type !== 'video'
-    ? buildImageObjectSchema({
+  const imageSchema = buildImageObjectSchema({
         id: `${canonical}#image`,
         url: canonical,
         contentUrl: image,
         name: item.title,
         description,
-      })
-    : null;
-  const videoSchema = item.type === 'video'
-    ? buildVideoObjectSchema({
-        id: `${canonical}#video`,
-        name: item.title,
-        description,
-        thumbnailUrl,
-        uploadDate: (item as VideoProp & { uploadDate?: string }).uploadDate,
-        contentUrl: absoluteUrl(item.imageUrl),
-        embedUrl: canonical,
-      })
-    : null;
+      });
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
@@ -168,7 +156,7 @@ export default async function GalleryDetailPage({ params }: Props) {
         '@type': 'ListItem',
         position: 2,
         name: category,
-        item: `${SITE_URL}/category/${item.type === 'video' ? 'video-prompts' : 'image-prompts'}`,
+        item: `${SITE_URL}/category/image-prompts`,
       },
       { '@type': 'ListItem', position: 3, name: item.title, item: canonical },
     ],
@@ -180,12 +168,6 @@ export default async function GalleryDetailPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: safeJsonLd(productSchema) }}
       />
-      {videoSchema && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: safeJsonLd(videoSchema) }}
-        />
-      )}
       {imageSchema && (
         <script
           type="application/ld+json"

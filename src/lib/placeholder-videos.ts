@@ -1,6 +1,7 @@
 import data from '../data/prompts/placeholder-videos.json';
 import type { Locale } from '@/i18n/config';
 import { pickLocalized, type LocalizedField } from '@/lib/localized-string';
+import { serializeCatalogPrompt } from '@/lib/catalog-prompt';
 
 export type VideoProp = {
   id: string;
@@ -28,23 +29,12 @@ type RawVideoEntry = {
 function mapVideoEntry(video: RawVideoEntry, index: number, locale: Locale | string): VideoProp {
   const generatedId = `v-${index + 1}`;
   const title = pickLocalized(video.title, locale);
-  const descriptionText = pickLocalized(video.description, locale);
   const imageHint = pickLocalized(video.imageHint, locale);
-
-  const { id: _sourceId, randomId: _randomId, imageUrl, membership: _membership, ...rest } = video;
-  const cleanMetadata = {
-    ...rest,
-    title,
-    description: descriptionText,
-    imageHint,
-    type: 'video' as const,
-  };
-  delete (cleanMetadata as { randomId?: string }).randomId;
 
   return {
     id: generatedId,
     title,
-    description: JSON.stringify(cleanMetadata, null, 2),
+    description: serializeCatalogPrompt(video, locale, 'video'),
     imageUrl: video.imageUrl,
     imageHint,
     type: 'video',

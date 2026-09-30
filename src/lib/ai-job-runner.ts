@@ -1,7 +1,141 @@
 import 'server-only';
 import { generateImage } from '@/ai/flows/generate-image';
-import { getAIModelConfig } from '@/lib/ai-credit-config';
+import { generateVision } from '@/ai/flows/generate-vision';
+import { generateText } from '@/ai/flows/generate-text';
+import { generateVideoUnderstanding } from '@/ai/flows/generate-video-understanding';
 import type { IAIGenerationJob } from '@/models/AIGenerationJob';
+import { stripReferenceMedia } from '@/lib/reference-media-strip';
+import { observedGenerationFetch, type GenerationRequestContext } from '@/lib/generation-request-observability';
+import { isRetryableProviderStatus, providerHttpStatus, safeProviderHost } from '@/lib/provider-error-safety';
+import { createGeminiTextInteraction } from '@/lib/gemini-interactions';
+import { getAIModelConfig } from '@/lib/ai-credit-config';
+import { generationSubmissionKey } from '@/lib/generation-idempotency';
+import { recordGenerationFailed, recordGenerationStarted, recordImageGenerationCompleted } from '@/lib/generation-telemetry';
+
+export type ErrorCategory =
+  | 'BAD_REQUEST'
+  | 'AUTH_OR_PERMISSION'
+  | 'MODEL_NOT_FOUND'
+  | 'RATE_LIMIT_OR_QUOTA'
+  | 'PROVIDER_ERROR'
+  | 'TIMEOUT'
+  | 'NO_IMAGE'
+  | 'STORAGE_ERROR'
+  | 'CONTENT_BLOCKED';
+
+function requestContext(job: IAIGenerationJob, input: Pick<GenerationRequestContext, 'service' | 'host' | 'endpointLabel' | 'method'>, modelId = job.modelId): GenerationRequestContext {
+  const jobId = String(job._id);
+  return { ...input, provider: job.provider, jobId, correlationId: job.correlationId || jobId, modelId, userId: job.userId };
+}
+
+export function mapGeminiError(
+  err: unknown,
+  httpStatus?: number,
+  finishReason?: string | null
+): { category: ErrorCategory; userMessage: string; internalDetails?: unknown } {
+  const message = err instanceof Error ? err.message : String(err);
+  const resolvedHttpStatus = httpStatus ?? providerHttpStatus(err) ?? undefined;
+  const errorCode = err && typeof err === 'object' && 'code' in err ? String(err.code) : '';
+  const resolvedFinishReason = finishReason ?? (
+    err && typeof err === 'object' && 'finishReason' in err && typeof err.finishReason === 'string'
+      ? err.finishReason
+      : null
+  );
+
+  // 1. Timeout (AbortSignal)
+  if (message.includes('timeout') || message.toLowerCase().includes('abort')) {
+    return { category: 'TIMEOUT', userMessage: 'Tiempo de espera agotado, intenta de nuevo.' };
+  }
+
+  // 2. From parseGeminiImageResponse NO_IMAGE
+  if (errorCode === 'NO_IMAGE' || (resolvedFinishReason && /NO_IMAGE|no image/i.test(message))) {
+    return { category: 'NO_IMAGE', userMessage: 'No se generó ninguna imagen.' };
+  }
+
+  // 2.5 API error codes based on Gemini documentation
+  const blockedCodes = ['safety', 'recitation', 'language', 'prohibited_content', 'spii', 'blocklist', 'image_safety', 'image_prohibited_content', 'image_recitation', 'image_other', 'content_blocked'];
+  if (blockedCodes.includes(errorCode) || (resolvedFinishReason && blockedCodes.includes(resolvedFinishReason.toLowerCase()))) {
+    return { category: 'CONTENT_BLOCKED', userMessage: 'La generación fue bloqueada por políticas de seguridad o contenido. Por favor, modifica tu prompt.', internalDetails: { errorCode, finishReason: resolvedFinishReason } };
+  }
+
+  if (['invalid_request', 'failed_precondition', 'out_of_range', 'parameter_unknown'].includes(errorCode)) {
+    return { category: 'BAD_REQUEST', userMessage: 'Solicitud inválida o parámetros incorrectos.', internalDetails: { errorCode } };
+  }
+
+  if (['authentication', 'permission_denied', 'CREDENTIAL_MISSING'].includes(errorCode)) {
+    return { category: 'AUTH_OR_PERMISSION', userMessage: 'No tienes permisos o la API key es inválida.', internalDetails: { errorCode } };
+  }
+
+  if (errorCode === 'payment_required' || ['rate_limit_exceeded', 'quota_exceeded', 'too_many_requests'].includes(errorCode)) {
+    return { category: 'RATE_LIMIT_OR_QUOTA', userMessage: 'Has alcanzado el límite de cuota o se requiere pago.', internalDetails: { errorCode } };
+  }
+
+  if (errorCode === 'model_not_found') {
+    return { category: 'MODEL_NOT_FOUND', userMessage: 'El modelo no está disponible, selecciona otro.', internalDetails: { errorCode } };
+  }
+
+  if (['deadline_exceeded', 'cancelled'].includes(errorCode)) {
+    return { category: 'TIMEOUT', userMessage: 'Tiempo de espera agotado o cancelado, intenta de nuevo.', internalDetails: { errorCode } };
+  }
+
+  // 3. HTTP status code mapping
+  if (resolvedHttpStatus) {
+    switch (true) {
+      case resolvedHttpStatus >= 500:
+        return {
+          category: 'PROVIDER_ERROR',
+          userMessage: 'Error del proveedor, vuelve a intentarlo.',
+          internalDetails: { httpStatus: resolvedHttpStatus, finishReason: resolvedFinishReason },
+        };
+      case resolvedHttpStatus === 429:
+        return {
+          category: 'RATE_LIMIT_OR_QUOTA',
+          userMessage: 'Has alcanzado el límite de generaciones o créditos.',
+          internalDetails: { httpStatus: resolvedHttpStatus, finishReason: resolvedFinishReason },
+        };
+      case resolvedHttpStatus === 404:
+        return {
+          category: 'MODEL_NOT_FOUND',
+          userMessage: 'El modelo no está disponible, selecciona otro.',
+          internalDetails: { httpStatus: resolvedHttpStatus, finishReason: resolvedFinishReason },
+        };
+      case resolvedHttpStatus === 403:
+      case resolvedHttpStatus === 401:
+        return {
+          category: 'AUTH_OR_PERMISSION',
+          userMessage: 'No tienes permisos o la API key es inválida.',
+          internalDetails: { httpStatus: resolvedHttpStatus, finishReason: resolvedFinishReason },
+        };
+      case resolvedHttpStatus === 400:
+        return {
+          category: 'BAD_REQUEST',
+          userMessage: 'Solicitud inválida, inténtalo de nuevo.',
+          internalDetails: { httpStatus: resolvedHttpStatus, finishReason: resolvedFinishReason },
+        };
+      default:
+        return {
+          category: 'PROVIDER_ERROR',
+          userMessage: 'Error del proveedor, vuelve a intentarlo.',
+          internalDetails: { httpStatus: resolvedHttpStatus, finishReason: resolvedFinishReason },
+        };
+    }
+  }
+
+  // 4. Generic provider error (contains 'Gemini' or generic error)
+  if (/Gemini|proveedor|api/i.test(message)) {
+    return {
+      category: 'PROVIDER_ERROR',
+      userMessage: 'Error del proveedor, vuelve a intentarlo.',
+      internalDetails: { message, finishReason },
+    };
+  }
+
+  // 5. Fallback
+  return {
+    category: 'PROVIDER_ERROR',
+    userMessage: 'Error inesperado, vuelve a intentarlo.',
+  };
+}
 
 function asResult(value: unknown): Record<string, unknown> {
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('El proveedor devolvió un resultado inválido.');
@@ -14,29 +148,104 @@ async function runExternalWorker(job: IAIGenerationJob) {
   if (!url || !token) throw new Error(`No hay un worker configurado para ${job.kind}/${job.provider}.`);
   const config = getAIModelConfig(job.provider, job.modelId ?? '');
   const apiModelId = (config?.modelId && config.modelId !== job.modelId) ? config.modelId : job.modelId;
-  const input = { ...job.input, model: apiModelId };
-  const response = await fetch(url, {
+  const safeInput = job.kind === 'image' || job.kind === 'video' ? stripReferenceMedia(job.input) : job.input;
+  const input = { ...safeInput, model: apiModelId };
+  // Stable for the lifetime of this generation. A lease recovery gets a new
+  // ownership token but must reuse this key so the worker/provider can replay
+  // the original result instead of starting and charging another generation.
+  const generationIdempotencyKey = generationSubmissionKey(job);
+  const response = await observedGenerationFetch(requestContext(job, {
+    service: 'ai-generation-worker', host: safeProviderHost(url), endpointLabel: 'configured-generation-worker', method: 'POST',
+  }, apiModelId), () => fetch(url, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}`, 'Idempotency-Key': job.idempotencyKey },
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}`, 'Idempotency-Key': generationIdempotencyKey },
     body: JSON.stringify({
-      jobId: String(job._id), kind: job.kind, provider: job.provider, input,
+      jobId: String(job._id), generationIdempotencyKey, ownershipToken: job.lockToken, kind: job.kind, provider: job.provider, input,
       ...((job.input.experiment === true || job.input.evaluationSuite === true) ? { evaluationRequested: { scale: 100, dimensions: Array.isArray(job.input.evaluationRubric) ? job.input.evaluationRubric.slice(0, 6) : ['fidelity', 'quality'], expected: typeof job.input.expected === 'string' ? job.input.expected : '', seed: typeof job.input.seed === 'number' ? job.input.seed : undefined, temperature: typeof job.input.temperature === 'number' ? job.input.temperature : undefined } } : {}),
     }),
     signal: AbortSignal.timeout(270_000),
-  });
+  }));
   if (!response.ok) throw new Error(`Worker externo respondió ${response.status}.`);
   const result = asResult(await response.json());
   if (JSON.stringify(result).length > 2_000_000) throw new Error('El resultado excede el límite de 2 MB; guárdalo en R2 y devuelve una URL.');
   return result;
 }
 
+async function runObservedImageGeneration(job: IAIGenerationJob, run: () => Promise<{ imageUrl: string }>) {
+  const context = requestContext(job, {
+    service: 'google-gemini',
+    host: 'generativelanguage.googleapis.com',
+    endpointLabel: 'v1-generateContent',
+    method: 'POST',
+  });
+  const startedAt = performance.now();
+  await recordGenerationStarted(context, {
+    kind: 'image',
+    attempts: job.attempts,
+    credits: { estimated: job.creditCost, state: job.creditsState },
+  });
+  try {
+    const result = await run();
+    await recordImageGenerationCompleted(context, {
+      kind: 'image',
+      durationMs: Math.round(performance.now() - startedAt),
+      attempts: job.attempts,
+      credits: { estimated: job.creditCost, state: job.creditsState },
+      imageUrl: result.imageUrl,
+    });
+    return result;
+  } catch (error) {
+    const httpStatus = providerHttpStatus(error);
+    const category = mapGeminiError(error, httpStatus ?? undefined).category;
+    await recordGenerationFailed(context, {
+      kind: 'image',
+      durationMs: Math.round(performance.now() - startedAt),
+      errorCategory: category,
+      httpStatus,
+      retryable: isRetryableProviderStatus(httpStatus),
+      attempts: job.attempts,
+      credits: { estimated: job.creditCost, state: job.creditsState },
+    });
+    throw error;
+  }
+}
+
 export async function runAIJob(job: IAIGenerationJob): Promise<Record<string, unknown>> {
   const basePrompt = typeof job.input.prompt === 'string' ? job.input.prompt.trim() : '';
   const instructions = typeof job.input.outputContractInstructions === 'string' ? job.input.outputContractInstructions.trim() : '';
   const prompt = instructions ? `${basePrompt}\n\n${instructions}` : basePrompt;
-  if (!prompt) throw new Error('El trabajo no contiene un prompt válido.');
+  if (!prompt) throw new Error(mapGeminiError(new Error('El trabajo no contiene un prompt válido')).userMessage);
+  if (job.kind === 'project' && job.provider === 'google') {
+    return createGeminiTextInteraction(prompt);
+  }
   if (job.kind === 'image' && job.provider === 'google' && !process.env.AI_GENERATION_WORKER_URL) {
-    return generateImage({ prompt });
+    return runObservedImageGeneration(job, () => generateImage({ prompt, model: job.modelId ?? undefined }));
+  }
+
+  if (job.kind === 'vision' && job.provider === 'google' && !process.env.AI_GENERATION_WORKER_URL) {
+    const referenceImage = (job.input as Record<string, unknown>).referenceImage as string | undefined;
+    return generateVision({ prompt, model: job.modelId ?? undefined, referenceImage });
+  }
+
+  if (job.kind === 'text' && job.provider === 'google' && !process.env.AI_GENERATION_WORKER_URL) {
+    const thinkingLevel = (job.input as Record<string, unknown>).thinkingLevel as string | undefined;
+    const systemInstruction = (job.input as Record<string, unknown>).systemInstruction as string | undefined;
+    return generateText({ prompt, model: job.modelId ?? undefined, thinkingLevel, systemInstruction });
+  }
+
+  if (job.kind === 'videoUnderstanding' && job.provider === 'google' && !process.env.AI_GENERATION_WORKER_URL) {
+    const inp = job.input as Record<string, unknown>;
+    return generateVideoUnderstanding({
+      prompt,
+      model: job.modelId ?? undefined,
+      videoUrl: inp.videoUrl as string | undefined,
+      videoBase64: inp.videoBase64 as string | undefined,
+      videoMimeType: inp.videoMimeType as string | undefined,
+      processingMode: (inp.processingMode as 'agentic' | 'static' | undefined) ?? 'agentic',
+      startOffset: inp.startOffset as number | undefined,
+      endOffset: inp.endOffset as number | undefined,
+      fps: inp.fps as number | undefined,
+    });
   }
   return runExternalWorker(job);
 }

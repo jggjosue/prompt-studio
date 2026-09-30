@@ -8,7 +8,6 @@ import { GenerationCostDisclosure } from '@/components/generation/generation-cos
 import { GenerationErrorNotice, GenerationProgress } from '@/components/generation/generation-feedback';
 import { useGenerationEditor } from '@/hooks/use-generation-editor';
 import { useMembershipAccess } from '@/hooks/use-membership-access';
-import { generationProviders } from '@/lib/generation/provider-adapters';
 
 import { OptimizedImage } from '@/components/optimized-image';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -31,6 +30,13 @@ import { Textarea } from '@/components/ui/textarea';
 import { useBrandKitContext } from '@/hooks/use-brand-kit-context';
 import { useToast } from '@/hooks/use-toast';
 import { CREDIT_PACKS, formatCreditPackPrice } from '@/lib/credit-packs';
+import {
+  LONG_GENERATION_POLL_SCHEDULE,
+  isTerminalGenerationStatus,
+  nextGenerationPollDelayMs,
+  terminalGenerationMessage,
+  waitForGenerationPollWindow,
+} from '@/lib/generation-polling';
 import {
   AlertCircle,
   Check,
@@ -69,6 +75,14 @@ const WebCodeAuditor = dynamic(() => import('@/components/web-code-auditor').the
 
 
 // Sample video placeholders to simulate dynamic generation
+
+/**
+ * Presupuestos de espera de este flujo. Mantienen el tiempo total que el usuario
+ * ya esperaba antes (40 × 5 s y 20 × 2 s); el backoff adaptativo solo cambia
+ * cuántas peticiones se hacen dentro de esa misma ventana.
+ */
+const VIDEO_WEB_POLL_BUDGET_MS = 200_000;
+const IMAGE_WEB_POLL_BUDGET_MS = 40_000;
 
 // Helper to generate custom landing page HTML templates for Web previews
 
@@ -113,7 +127,7 @@ export default function GenerateWebsClient({ canGenerateWebs }: { canGenerateWeb
   const [openAIChatModel, setOpenAIChatModel] = useState('gpt-4o');
   const [openAIImageModel, setOpenAIImageModel] = useState('dall-e-3');
   const [anthropicModel, setAnthropicModel] = useState('claude-3-5-sonnet-20240620');
-  const [googleWebModel, setGoogleWebModel] = useState('gemini-2.5-flash');
+  const [googleWebModel, setGoogleWebModel] = useState('gemini-3.1-flash-lite');
   const [deepSeekModel, setDeepSeekModel] = useState('deepseek-coder');
   const [googleVeoModel, setGoogleVeoModel] = useState('veo-2.0-generate-001');
   const [falModel, setFalModel] = useState('fal-ai/flux/schnell');
@@ -555,7 +569,7 @@ export default function GenerateWebsClient({ canGenerateWebs }: { canGenerateWeb
   };
 
   // Submit Generation
-  const handleGenerationSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const _handleGenerationSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setGenerationError(null);
 
@@ -670,7 +684,7 @@ export default function GenerateWebsClient({ canGenerateWebs }: { canGenerateWeb
       if (videoCamera) finalPrompt += `, camera motion: ${videoCamera}`;
       if (videoStyle) finalPrompt += `, style: ${videoStyle}`;
 
-      let apiUsed = `${videoProvider} ${currentModel}`;
+      const apiUsed = `${videoProvider} ${currentModel}`;
       let videoOutputUrl = '';
       let apiError = '';
 
@@ -700,13 +714,16 @@ export default function GenerateWebsClient({ canGenerateWebs }: { canGenerateWeb
 
         const jobId = jobData.job.id;
         let completed = false;
-        let attempts = 0;
+        let attempt = 0;
+        let elapsedMs = 0;
         setGenStatus('Trabajo en cola. Esperando generación de video...');
 
-        while (!completed && attempts < 40) {
-          attempts++;
-          setGenProgress(Math.min(90, 10 + attempts * 5));
-          await new Promise(resolve => setTimeout(resolve, 5000));
+        while (!completed && elapsedMs < VIDEO_WEB_POLL_BUDGET_MS) {
+          const waitMs = nextGenerationPollDelayMs(attempt);
+          if (!(await waitForGenerationPollWindow(waitMs))) break;
+          elapsedMs += waitMs;
+          attempt += 1;
+          setGenProgress(Math.min(90, 10 + Math.round((elapsedMs / VIDEO_WEB_POLL_BUDGET_MS) * 80)));
 
           try {
             const pollRes = await fetch(`/api/ai/jobs/${jobId}`);
@@ -721,8 +738,10 @@ export default function GenerateWebsClient({ canGenerateWebs }: { canGenerateWeb
                 videoOutputUrl = `data:video/mp4;base64,${videoOutputUrl}`;
               }
               completed = true;
-            } else if (status === 'failed') {
-              throw new Error(pollData.job.lastError || 'El trabajo falló en el servidor.');
+            } else if (isTerminalGenerationStatus(status)) {
+              // `cancelled` y `dead_letter` también cortan el sondeo; si no, el
+              // bucle sigue preguntando hasta agotar el presupuesto.
+              throw new Error(terminalGenerationMessage(pollData.job, status));
             }
           } catch (pollErr: any) {
             console.warn('Poll error:', pollErr);
@@ -777,7 +796,7 @@ Requirements:
 - Accent palette: ${webColor}
 - Prompt: ${editingText}`;
 
-      let apiUsed = `${webProvider} ${currentModel}`;
+      const apiUsed = `${webProvider} ${currentModel}`;
       let generatedHTML = '';
       let apiError = '';
 
@@ -806,13 +825,16 @@ Requirements:
 
         const jobId = jobData.job.id;
         let completed = false;
-        let attempts = 0;
+        let attempt = 0;
+        let elapsedMs = 0;
         setGenStatus('Trabajo en cola. Esperando generación web...');
 
-        while (!completed && attempts < 40) {
-          attempts++;
-          setGenProgress(Math.min(90, 10 + attempts * 5));
-          await new Promise(resolve => setTimeout(resolve, 3000));
+        while (!completed && elapsedMs < LONG_GENERATION_POLL_SCHEDULE.maxElapsedMs) {
+          const waitMs = nextGenerationPollDelayMs(attempt);
+          if (!(await waitForGenerationPollWindow(waitMs))) break;
+          elapsedMs += waitMs;
+          attempt += 1;
+          setGenProgress(Math.min(90, 10 + Math.round((elapsedMs / LONG_GENERATION_POLL_SCHEDULE.maxElapsedMs) * 80)));
 
           try {
             const pollRes = await fetch(`/api/ai/jobs/${jobId}`);
@@ -827,8 +849,10 @@ Requirements:
                 generatedHTML = result.candidates[0].content.parts[0].text;
               }
               completed = true;
-            } else if (status === 'failed') {
-              throw new Error(pollData.job.lastError || 'El trabajo falló en el servidor.');
+            } else if (isTerminalGenerationStatus(status)) {
+              // `cancelled` y `dead_letter` también cortan el sondeo; si no, el
+              // bucle sigue preguntando hasta agotar el presupuesto.
+              throw new Error(terminalGenerationMessage(pollData.job, status));
             }
           } catch (pollErr: any) {
             console.warn('Poll error:', pollErr);
@@ -884,7 +908,7 @@ Requirements:
       return;
     }
 
-    let apiUsed = `${imageProvider} ${currentModel}`;
+    const apiUsed = `${imageProvider} ${currentModel}`;
     let imageOutputUrl = '';
     let apiError = '';
 
@@ -921,13 +945,16 @@ Requirements:
 
       const jobId = jobData.job.id;
       let completed = false;
-      let attempts = 0;
+      let attempt = 0;
+      let elapsedMs = 0;
       setGenStatus('Trabajo en cola. Esperando generación de imagen...');
 
-      while (!completed && attempts < 20) {
-        attempts++;
-        setGenProgress(Math.min(90, 10 + attempts * 4));
-        await new Promise(resolve => setTimeout(resolve, 2000));
+      while (!completed && elapsedMs < IMAGE_WEB_POLL_BUDGET_MS) {
+        const waitMs = nextGenerationPollDelayMs(attempt);
+        if (!(await waitForGenerationPollWindow(waitMs))) break;
+        elapsedMs += waitMs;
+        attempt += 1;
+        setGenProgress(Math.min(90, 10 + Math.round((elapsedMs / IMAGE_WEB_POLL_BUDGET_MS) * 80)));
 
         try {
           const pollRes = await fetch(`/api/ai/jobs/${jobId}`);
@@ -945,8 +972,10 @@ Requirements:
               imageOutputUrl = result.images[0].url;
             }
             completed = true;
-          } else if (status === 'failed') {
-            throw new Error(pollData.job.lastError || 'El trabajo falló en el servidor.');
+          } else if (isTerminalGenerationStatus(status)) {
+            // `cancelled` y `dead_letter` también cortan el sondeo; si no, el
+            // bucle sigue preguntando hasta agotar el presupuesto.
+            throw new Error(terminalGenerationMessage(pollData.job, status));
           }
         } catch (pollErr: any) {
           console.warn('Poll error:', pollErr);
@@ -1585,18 +1614,14 @@ Requirements:
                                             <SelectValue />
                                           </SelectTrigger>
                                           <SelectContent>
-                                            <SelectItem value="gemini-2.5-flash" className="text-xs">🔵 Gemini 2.5 Flash</SelectItem>
-                                            <SelectItem value="gemini-2.5-pro" className="text-xs">🔵 Gemini 2.5 Pro</SelectItem>
-                                            <SelectItem value="gemini-2.0-flash" className="text-xs">🔵 Gemini 2.0 Flash</SelectItem>
+                                            <SelectItem value="gemini-3.1-flash-lite" className="text-xs">🔵 Gemini 3.1 Flash-Lite</SelectItem>
                                           </SelectContent>
                                         </Select>
 
                                         {/* ── Gemini Premium Model Picker ── only visible when google is selected */}
                                         {webProvider === 'google' && (() => {
                                           const GEMINI_MODELS = [
-                                            { id: 'gemini-2.5-pro', label: 'Gemini 2.5 Pro', badge: 'Más potente', cost: 3, description: 'Máxima calidad y razonamiento. Ideal para proyectos complejos.' },
-                                            { id: 'gemini-2.5-flash', label: 'Gemini 2.5 Flash', badge: 'Recomendado', cost: 1, description: 'Balance perfecto entre velocidad y calidad.' },
-                                            { id: 'gemini-2.0-flash', label: 'Gemini 2.0 Flash', badge: 'Rápido', cost: 1, description: 'Generación ultrarrápida con buena calidad.' },
+                                            { id: 'gemini-3.1-flash-lite', label: 'Gemini 3.1 Flash-Lite', badge: 'Recomendado', cost: 2, description: 'Baja latencia y costo eficiente para generación de páginas.' },
                                           ] as const;
                                           const selectedModelConfig = GEMINI_MODELS.find(m => m.id === googleWebModel);
                                           const selectedCost = selectedModelConfig ? selectedModelConfig.cost : 2;
@@ -1640,10 +1665,7 @@ Requirements:
                                                             <span className={`text-[11px] font-bold ${isSelected ? 'text-blue-400' : 'text-foreground'}`}>
                                                               {model.label}
                                                             </span>
-                                                            <span className={`rounded-full px-1.5 py-px text-[8px] font-black uppercase tracking-wide ${model.badge === 'Más potente' ? 'bg-violet-500/20 text-violet-400' :
-                                                              model.badge === 'Recomendado' ? 'bg-blue-500/20 text-blue-400' :
-                                                                'bg-emerald-500/20 text-emerald-400'
-                                                              }`}>
+                                                            <span className="rounded-full bg-blue-500/20 px-1.5 py-px text-[8px] font-black uppercase tracking-wide text-blue-400">
                                                               {model.badge}
                                                             </span>
                                                           </div>

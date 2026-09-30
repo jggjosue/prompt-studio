@@ -1,6 +1,17 @@
-export type ChatMode = 'image' | 'video' | 'project';
+export type ChatMode = 'image' | 'video' | 'project' | 'vision' | 'text' | 'videoUnderstanding';
 export type MessageRole = 'user' | 'assistant' | 'system';
 export type MessageStatus = 'pending' | 'completed' | 'failed';
+
+export type GenerationStatus = 'queued' | 'generating' | 'uploading' | 'completed' | 'failed';
+export interface GenerationEntry {
+  jobId: string;
+  status: GenerationStatus;
+  imageUrl?: string;
+  error?: string;
+  progressMessage?: string;
+  creditsUsed?: number;
+  provider: string;
+}
 
 export interface ChatParams {
   imageStyle?: string; imageRatio?: string; imageRes?: string; imageFormat?: string;
@@ -12,14 +23,20 @@ export interface ChatParams {
   videoInterpolation?: boolean; videoStyle?: string; videoAspect?: string;
   webFramework?: string; webTheme?: string; webComponent?: string; webColor?: string;
   webModel?: string; webPages?: number;
-  model?: string; provider?: string; aspectRatio?: string;
-  generationTier?: string;
+  model?: string; provider?: string; aspectRatio?: string; generationTier?: string;
+  thinkingLevel?: string; systemInstruction?: string;
+  // Video understanding params
+  videoInputMethod?: string; videoProcessingMode?: string;
+  youtubeUrl?: string; videoUrl?: string;
+  videoBase64?: string; videoMimeType?: string;
+  startOffset?: number; endOffset?: number; fps?: number;
 }
 
 export interface ChatMessageResult {
   imageUrl?: string; imageUrls?: string[];
   videoUrl?: string;
   html?: string;
+  text?: string;
   error?: string;
   creditsUsed?: number;
   costUsd?: number;
@@ -41,6 +58,7 @@ export type ChatQueueStatus = 'queued' | 'processing' | 'completed' | 'failed';
 
 export interface ChatQueueItem {
   id: string; prompt: string; mode: ChatMode; status: ChatQueueStatus; progress: number;
+  params: ChatParams;
   result?: ChatMessageResult; error?: string;
 }
 
@@ -79,9 +97,13 @@ export interface ChatGeneratorReturn {
     imageProvider: 'openai' | 'fal' | 'google'; setImageProvider: (p: 'openai' | 'fal' | 'google') => void;
     openAIKey: string; setOpenAIKey: (k: string) => void; replicateKey: string; setReplicateKey: (k: string) => void;
     vertexKey: string; setVertexKey: (k: string) => void; credits: number; setCredits: (c: number) => void;
+    generations: Map<string, GenerationEntry>; updateGeneration: (jobId: string, patch: Partial<GenerationEntry>) => void;
   };
   videoGen: any;
   webGen: any;
+  visionGen: any;
+  textGen: any;
+  videoUnderstandingGen: any;
   setOutputImageUrl: (url: string) => void;
   setOutputImageVariations: (v: Array<{ label: string; url: string }>) => void;
   setOutputVideoUrl: (url: string) => void;

@@ -504,6 +504,7 @@ export default function AffiliateClient() {
     successMsg: string;
     errorRequired: string;
     errorEmail: string;
+    optionalLabel: string;
   };
 
   // Build modal content from translations
@@ -529,9 +530,6 @@ export default function AffiliateClient() {
       items: (t.raw('modal.guidelinesItems') as string[]),
     },
   }), [t]);
-
-  const tier2Name = t('commissions.tier2Name');
-  const tier3Name = t('commissions.tier3Name');
 
   // Beneficios y recursos se mantienen traducidos para que el contenido comercial sea consistente en toda la página.
   const benefits = useMemo(() => [
@@ -621,12 +619,11 @@ export default function AffiliateClient() {
     { num: '04', title: t('steps.s4Title'), text: t('steps.s4Desc') },
   ];
 
-  // Cada tarjeta de tier usa el mismo esquema: nombre, porcentaje y descripción de negocio.
-  const tiersData = [
-    { name: t('commissions.tier1Name'), rate: t('commissions.tier1Rate'), desc: t('commissions.tier1Desc') },
-    { name: tier2Name, rate: t('commissions.tier2Rate'), desc: t('commissions.tier2Desc') },
-    { name: tier3Name, rate: t('commissions.tier3Rate'), desc: t('commissions.tier3Desc') },
-  ];
+  const commissionPlan = {
+    name: t('commissions.tier1Name'),
+    rate: `${AFFILIATE_COMMISSION_PERCENT}%`,
+    desc: t('commissions.tier1Desc'),
+  };
 
   /**
    * Vista de EJEMPLO del panel, no resultados del programa.
@@ -667,11 +664,6 @@ export default function AffiliateClient() {
     const requiredFields: (keyof FormState)[] = [
       'name',
       'email',
-      'profile',
-      'audience',
-      'channel',
-      'experience',
-      'plan',
       'message',
     ];
     const errors: FormErrors = {};
@@ -993,17 +985,12 @@ export default function AffiliateClient() {
             title={t('commissions.title')}
             subtitle={t('commissions.subtitle')}
           />
-          <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-3">
-            {tiersData.map(({ name, rate, desc }, index) => (
-              <ParallaxFloat key={name} distance={20 + index * 15} className="h-full">
+          <div className="mx-auto max-w-2xl">
+              <ParallaxFloat distance={25} className="h-full">
                 <GlowCard className="p-8 h-full">
-                  {/* Nombre del plan de afiliado, por ejemplo Startup, para que el usuario identifique el tier al instante. */}
-                  <p className="text-sm font-medium uppercase tracking-[0.2em] text-cyan-200">{name}</p>
-                  {/* Porcentaje principal de comisión que destaca visualmente dentro de la tarjeta. */}
-                  <p className="mt-8 text-6xl font-semibold text-blue-400">{rate}</p>
-                  {/* Descripción corta del perfil ideal para este nivel de afiliado. */}
-                  <p className="mt-5 min-h-16 leading-7 text-slate-300">{desc}</p>
-                  {/* Lista de beneficios comunes para mantener el mensaje comercial consistente entre tiers. */}
+                  <p className="text-sm font-medium uppercase tracking-[0.2em] text-cyan-200">{commissionPlan.name}</p>
+                  <p className="mt-8 text-6xl font-semibold text-blue-400">{commissionPlan.rate}</p>
+                  <p className="mt-5 leading-7 text-slate-300">{commissionPlan.desc}</p>
                   <ul className="mt-8 space-y-3 text-sm text-slate-300">
                     {[
                       t('commissions.featureQualified'),
@@ -1019,7 +1006,6 @@ export default function AffiliateClient() {
                   </ul>
                 </GlowCard>
               </ParallaxFloat>
-            ))}
           </div>
           <EarningsSimulator />
         </ParallaxSection>
@@ -1226,12 +1212,11 @@ export default function AffiliateClient() {
                   {fieldError('email')}
                 </label>
                 <label className="grid gap-2">
-                  <span className="text-sm font-medium text-slate-200">{apply.fieldProfile}</span>
+                  <span className="text-sm font-medium text-slate-200">{apply.fieldProfile} <span className="text-slate-400">({apply.optionalLabel})</span></span>
                   <input
                     id="affiliate-profile"
                     value={formState.profile}
                     onChange={handleApplyChange('profile')}
-                    required
                     aria-invalid={Boolean(formErrors.profile)}
                     aria-describedby={formErrors.profile ? 'affiliate-profile-error' : undefined}
                     className={applyFieldClass('profile')}
@@ -1240,12 +1225,11 @@ export default function AffiliateClient() {
                   {fieldError('profile')}
                 </label>
                 <label className="grid gap-2">
-                  <span className="text-sm font-medium text-slate-200">{apply.fieldAudience}</span>
+                  <span className="text-sm font-medium text-slate-200">{apply.fieldAudience} <span className="text-slate-400">({apply.optionalLabel})</span></span>
                   <input
                     id="affiliate-audience"
                     value={formState.audience}
                     onChange={handleApplyChange('audience')}
-                    required
                     aria-invalid={Boolean(formErrors.audience)}
                     aria-describedby={formErrors.audience ? 'affiliate-audience-error' : undefined}
                     className={applyFieldClass('audience')}
@@ -1254,12 +1238,11 @@ export default function AffiliateClient() {
                   {fieldError('audience')}
                 </label>
                 <label className="grid gap-2 md:col-span-2">
-                  <span className="text-sm font-medium text-slate-200">{apply.fieldChannel}</span>
+                  <span className="text-sm font-medium text-slate-200">{apply.fieldChannel} <span className="text-slate-400">({apply.optionalLabel})</span></span>
                   <input
                     id="affiliate-channel"
                     value={formState.channel}
                     onChange={handleApplyChange('channel')}
-                    required
                     aria-invalid={Boolean(formErrors.channel)}
                     aria-describedby={formErrors.channel ? 'affiliate-channel-error' : undefined}
                     className={applyFieldClass('channel')}
@@ -1268,13 +1251,12 @@ export default function AffiliateClient() {
                   {fieldError('channel')}
                 </label>
                 <label className="grid gap-2 md:col-span-2">
-                  <span className="text-sm font-medium text-slate-200">{apply.fieldExperience}</span>
+                  <span className="text-sm font-medium text-slate-200">{apply.fieldExperience} <span className="text-slate-400">({apply.optionalLabel})</span></span>
                   <textarea
                     id="affiliate-experience"
                     value={formState.experience}
                     onChange={handleApplyChange('experience')}
                     rows={4}
-                    required
                     aria-invalid={Boolean(formErrors.experience)}
                     aria-describedby={formErrors.experience ? 'affiliate-experience-error' : undefined}
                     className={applyFieldClass('experience', true)}
@@ -1283,13 +1265,12 @@ export default function AffiliateClient() {
                   {fieldError('experience')}
                 </label>
                 <label className="grid gap-2 md:col-span-2">
-                  <span className="text-sm font-medium text-slate-200">{apply.fieldPlan}</span>
+                  <span className="text-sm font-medium text-slate-200">{apply.fieldPlan} <span className="text-slate-400">({apply.optionalLabel})</span></span>
                   <textarea
                     id="affiliate-plan"
                     value={formState.plan}
                     onChange={handleApplyChange('plan')}
                     rows={4}
-                    required
                     aria-invalid={Boolean(formErrors.plan)}
                     aria-describedby={formErrors.plan ? 'affiliate-plan-error' : undefined}
                     className={applyFieldClass('plan', true)}

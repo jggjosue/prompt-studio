@@ -13,24 +13,51 @@ export async function POST(_: Request, context: { params: Promise<{ id: string }
   const { id } = await context.params;
   if (!/^[a-f0-9]{24}$/i.test(id)) return NextResponse.json({ error: 'Trabajo no encontrado.' }, { status: 404, headers });
   await connectToDatabase();
-  const job = await AIGenerationJob.findOne({ _id: id, userId, status: 'failed' });
-  if (!job) return NextResponse.json({ error: 'Solo puedes reintentar trabajos fallidos.' }, { status: 409, headers });
-  if (job.creditsState === 'refunded') {
-    job.creditsState = 'reserved';
-    const balance = await reserveCredits(job);
-    if (balance === null) {
-      job.creditsState = 'refunded';
-      return NextResponse.json({ error: 'Créditos insuficientes.', credits: await getCreditBalance(userId) }, { status: 402, headers });
-    }
+  const original = await AIGenerationJob.findOne({ _id: id, userId, status: 'failed' });
+  if (!original) return NextResponse.json({ error: 'Solo puedes reintentar trabajos fallidos.' }, { status: 409, headers });
+
+  // `failed` is terminal. A manual retry creates a new durable job so credit
+  // ledger entries and provider idempotency keys cannot collide with the old run.
+  const idempotencyKey = `retry:${id}`;
+  const duplicate = await AIGenerationJob.findOne({ userId, idempotencyKey });
+  if (duplicate) {
+    return NextResponse.json({ job: serializeAIJob(duplicate), credits: await getCreditBalance(userId), duplicate: true }, { status: 200, headers });
   }
-  job.status = 'queued';
-  job.progress = 0;
-  job.progressMessage = 'Reintento en cola';
-  job.attempts = 0;
-  job.lastError = null;
-  job.nextAttemptAt = new Date();
-  job.completedAt = null;
-  job.updatedAt = new Date();
-  await job.save();
+
+  let job;
+  try {
+    job = await AIGenerationJob.create({
+      userId: original.userId,
+      userEmail: original.userEmail,
+      kind: original.kind,
+      provider: original.provider,
+      modelId: original.modelId ?? null,
+      operation: original.operation ?? null,
+      promptVersionId: original.promptVersionId ?? null,
+      promptVersionNumber: original.promptVersionNumber ?? null,
+      projectId: original.projectId ?? null,
+      outputContractId: original.outputContractId ?? null,
+      input: { ...original.input, retryOfJobId: id },
+      idempotencyKey,
+      creditCost: original.creditCost,
+      estimatedCostUsd: original.estimatedCostUsd,
+      estimatedInputTokens: original.estimatedInputTokens ?? null,
+      estimatedOutputTokens: original.estimatedOutputTokens ?? null,
+      maxAttempts: original.maxAttempts,
+      notifyOnComplete: original.notifyOnComplete,
+      progressMessage: 'Reintento en cola',
+    });
+  } catch (error) {
+    if ((error as { code?: number })?.code !== 11000) throw error;
+    job = await AIGenerationJob.findOne({ userId, idempotencyKey });
+    if (!job) throw error;
+    return NextResponse.json({ job: serializeAIJob(job), credits: await getCreditBalance(userId), duplicate: true }, { status: 200, headers });
+  }
+
+  const balance = await reserveCredits(job);
+  if (balance === null) {
+    await AIGenerationJob.deleteOne({ _id: job._id, status: 'queued' });
+    return NextResponse.json({ error: 'Créditos insuficientes.', credits: await getCreditBalance(userId) }, { status: 402, headers });
+  }
   return NextResponse.json({ job: serializeAIJob(job), credits: await getCreditBalance(userId) }, { status: 202, headers });
 }

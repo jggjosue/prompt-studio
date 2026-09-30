@@ -12,7 +12,6 @@ export function ServiceWorkerRegister() {
     const removeLegacyWorkers = async () => {
       try {
         const registrations = await navigator.serviceWorker.getRegistrations();
-        const hadRegistrations = registrations.length > 0;
         await Promise.all(
           registrations.map(registration => registration.unregister())
         );
@@ -26,11 +25,9 @@ export function ServiceWorkerRegister() {
           );
         }
 
-        const reloadKey = 'ps-sw-cleanup-reloaded';
-        if (hadRegistrations && !window.sessionStorage.getItem(reloadKey)) {
-          window.sessionStorage.setItem(reloadKey, '1');
-          window.location.reload();
-        }
+        // Do not force a reload here. The worker is detached for subsequent
+        // navigations, while reloading during a client transition duplicates
+        // page loads and can leave lazy media blank when history is restored.
       } catch (err) {
         console.warn('[SW] Cleanup failed:', err);
       }

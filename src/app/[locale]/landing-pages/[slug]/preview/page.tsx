@@ -1,9 +1,9 @@
-import { getRawWebPageByDemoSlug } from '@/lib/web-pages';
+import { getCatalogIdByDemoSlug, getRawWebPageByDemoSlug } from '@/lib/web-pages';
 import { getRefactoryLoaderUrl } from '@/lib/refactory-online';
 import { SITE_URL } from '@/lib/site-url';
 import { pickLocalized } from '@/lib/localized-string';
 import { resolveWebPageImageUrl } from '@/lib/web-page-media';
-import { ArrowLeft, Check, LockKeyhole } from 'lucide-react';
+import { ArrowLeft, Check } from 'lucide-react';
 import type { Metadata } from 'next';
 import { getLocale } from 'next-intl/server';
 import Link from 'next/link';
@@ -65,6 +65,8 @@ export default async function LandingPreviewPage({
   const price = formatPrice(query.price || page.price);
   const checkoutUrl = safeCheckoutUrl(query.checkout);
   const productName = pickLocalized(page.title, locale) || slug.replace(/-/g, ' ');
+  const prompt = pickLocalized(page.description, locale);
+  const pageId = getCatalogIdByDemoSlug(slug) ?? query.pageId ?? slug;
   const imageUrl = resolveWebPageImageUrl(page.imageUrl);
 
   return (
@@ -79,7 +81,7 @@ export default async function LandingPreviewPage({
       </div>
 
       <aside
-        aria-label="Comprar esta landing page"
+        aria-label="Acciones de esta landing page"
         className="shrink-0 border-t border-white/10 bg-zinc-950/95 px-4 py-3 shadow-[0_-16px_40px_rgba(0,0,0,0.35)] backdrop-blur-xl md:px-6"
       >
         <div className="mx-auto flex max-w-7xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -106,15 +108,15 @@ export default async function LandingPreviewPage({
           </div>
 
           <div className="flex items-center gap-3 sm:shrink-0">
-            <span className="hidden items-center gap-1.5 text-xs text-zinc-400 md:inline-flex">
-              <LockKeyhole className="size-3.5" /> Pago seguro
-            </span>
             <PreviewPurchase
               checkoutUrl={checkoutUrl}
               imageUrl={imageUrl}
               locale={locale}
+              membership={page.membership}
+              pageId={pageId}
               price={price}
               previewUrl={demoSrc}
+              prompt={prompt}
               productName={productName}
               slug={slug}
             />

@@ -12,10 +12,15 @@ Use this playbook when adding a provider, changing job states, credit charging, 
 stateDiagram-v2
     [*] --> queued: validate + reserve credits
     queued --> processing: atomic claim + lease
-    processing --> completed: validate output + capture
-    processing --> retrying: transient failure
-    retrying --> processing: backoff elapsed
+    processing --> uploading: remote artifact upload
+    processing --> finalizing: inline/provider output received
+    uploading --> finalizing: asset reference saved
+    finalizing --> completed: validate output + capture
+    processing --> queued: transient failure + backoff
+    uploading --> queued: transient failure + backoff
+    finalizing --> queued: transient failure + backoff
     processing --> failed: attempts exhausted + refund
+    processing --> cancelled: cancellation + refund
 ```
 
 ## Sources of truth
@@ -24,6 +29,8 @@ stateDiagram-v2
 - Reserve, capture, refund, and notification: [`ai-job-service.ts`](../../src/lib/ai-job-service.ts)
 - Worker request, timeout, and response size: [`ai-job-runner.ts`](../../src/lib/ai-job-runner.ts)
 - Job state and unique idempotency key: [`AIGenerationJob.ts`](../../src/models/AIGenerationJob.ts)
+- Canonical states, transitions, and compatibility mapping: [`generation-job-state.ts`](../../src/lib/generation-job-state.ts)
+- Atomic claim, ownership, and transitions: [`generation-job-state-server.ts`](../../src/lib/generation-job-state-server.ts)
 - Output rules and repair: [`output-contract.ts`](../../src/lib/output-contract.ts)
 - Full design rationale: [`AI_ARCHITECTURE.md`](../AI_ARCHITECTURE.md)
 
@@ -41,7 +48,7 @@ stateDiagram-v2
 2. Update the adapter/runner without bypassing the credit lifecycle.
 3. Keep worker calls idempotent across retries.
 4. Add a deterministic test case; do not require a paid provider in CI.
-5. Check observability events for completed, retrying, and failed paths.
+5. Check observability events for completed, requeued, failed, and cancelled paths.
 
 ## Verification
 
@@ -50,4 +57,3 @@ node --import tsx --test tests/unit/output-contract.test.ts
 node --import tsx --test tests/unit/credit-topup.test.ts
 npm run typecheck
 ```
-

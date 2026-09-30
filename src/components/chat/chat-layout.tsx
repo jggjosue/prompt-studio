@@ -1,44 +1,71 @@
 'use client';
 
 import Header from '@/components/layout/header';
-import Footer from '@/components/layout/footer';
 import { ChatArea } from './chat-area';
 import { ChatInputBar } from './chat-input-bar';
 import { ChatHistorySidebar } from './chat-history-sidebar';
 import { SettingsSidebar } from './settings-sidebar';
 import { useChatGenerator } from '@/hooks/use-chat-generator';
 import { useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { Settings2 } from 'lucide-react';
 import type { ChatMode } from '@/lib/chat-types';
 
 export function ChatLayout() {
   const chat = useChatGenerator();
+  const { setSelectedMode, setDraftPrompt } = chat;
   const searchParams = useSearchParams();
+  const [mobileSettingsOpen, setMobileSettingsOpen] = useState(false);
 
-  // Leer parámetros de URL: ?prompt=hello&mode=video
+  // Analiza la URL (?mode=image|video|project&prompt=...) para cambiar la
+  // pestaña (imagen/video/web) y sus atributos según el origen del visitante:
+  // menú "Media", catálogos de prompts, etc.
+  const modeParam = searchParams.get('mode');
+  const promptParam = searchParams.get('prompt');
+
   useEffect(() => {
-    const prompt = searchParams.get('prompt');
-    const mode = searchParams.get('mode');
-    if (prompt) {
-      // El prompt se establecerá en el input bar
+    if (modeParam && ['image', 'video', 'project'].includes(modeParam)) {
+      setSelectedMode(modeParam as ChatMode);
     }
-    if (mode && ['image', 'video', 'project'].includes(mode)) {
-      chat.setSelectedMode(mode as ChatMode);
+  }, [modeParam, setSelectedMode]);
+
+  useEffect(() => {
+    if (promptParam) {
+      setDraftPrompt(promptParam);
     }
-  }, [searchParams]);
+  }, [promptParam, setDraftPrompt]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-background">
+    <div className="flex h-dvh flex-col overflow-hidden bg-background">
       <Header />
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 overflow-hidden min-h-0">
         <ChatHistorySidebar chat={chat} />
-        <div className="flex flex-1 flex-col overflow-hidden">
+        <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
+          {/* Toolbar móvil: acceso a configuración */}
+          <div className="flex items-center justify-between border-b border-border/60 px-3 py-2 md:hidden">
+            <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-blue-500">
+              {chat.selectedMode === 'image' ? '✦ Imagen' : chat.selectedMode === 'video' ? '▶ Video' : '◈ Web'}
+            </span>
+            <button
+              type="button"
+              onClick={() => setMobileSettingsOpen(v => !v)}
+              className="inline-flex items-center gap-1.5 rounded-lg border border-border/60 px-2.5 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              aria-expanded={mobileSettingsOpen}
+              aria-label="Abrir configuración"
+            >
+              <Settings2 className="h-3.5 w-3.5" />
+              Configuración
+            </button>
+          </div>
           <ChatArea chat={chat} />
           <ChatInputBar chat={chat} />
         </div>
-        <SettingsSidebar chat={chat} />
+        <SettingsSidebar
+          chat={chat}
+          mobileOpen={mobileSettingsOpen}
+          onMobileClose={() => setMobileSettingsOpen(false)}
+        />
       </div>
-      <Footer />
     </div>
   );
 }
