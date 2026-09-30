@@ -42,6 +42,16 @@ async function send(params: { to: string; subject: string; text: string; context
   }
 }
 
+/** Envío genérico best-effort, para notificaciones del editor y formularios. */
+export async function sendTransactionalEmail(params: {
+  to: string;
+  subject: string;
+  text: string;
+  context?: Record<string, unknown>;
+}): Promise<boolean> {
+  return send({ ...params, context: params.context ?? {} });
+}
+
 export async function sendPurchaseReceipt(params: {
   to: string;
   userId: string;

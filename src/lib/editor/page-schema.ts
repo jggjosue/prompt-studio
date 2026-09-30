@@ -183,7 +183,15 @@ export const PAGE_PROP_FIELDS: Record<PageComponentType, readonly PropField[]> =
   'contact-form': [
     f('heading', 'Título', 'text'),
     f('intro', 'Introducción', 'textarea'),
-    list('fields', 'Campos', [f('name', 'Campo', 'text', { required: true })]),
+    select('variant', 'Tipo', ['contact', 'newsletter', 'lead', 'waitlist', 'custom']),
+    list('fields', 'Campos', [
+      f('name', 'Nombre del campo', 'text', { required: true }),
+      f('label', 'Etiqueta', 'text'),
+      select('type', 'Tipo de campo', ['text', 'email', 'textarea', 'tel']),
+      f('required', 'Obligatorio', 'boolean'),
+      f('consent', 'Consentimiento', 'boolean'),
+    ]),
+    f('consentRequired', 'Requerir consentimiento', 'boolean'),
     f('submitLabel', 'Texto del botón', 'text'),
     f('successMessage', 'Mensaje de éxito', 'text'),
     f('emailTo', 'Destino de las submissions', 'text'),
