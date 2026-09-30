@@ -28,6 +28,8 @@ import {
   resetNodeStyles,
   setNodeProp,
   setNodeStyle,
+  setPageSeo,
+  setPageSlug,
   type DropTarget,
   type NodeLocation,
   type OpsDeps,
@@ -120,8 +122,8 @@ export type BuilderContextValue = {
   remove: (nodeId: string) => void;
   move: (nodeId: string, delta: number) => void;
   setProp: (nodeId: string, key: string, value: unknown) => OpsError | null;
-  setStyle: (nodeId: string, property: string, value: string | number, breakpoint: Breakpoint) => OpsError | null;
-  clearStyle: (nodeId: string, property: string, breakpoint: Breakpoint) => OpsError | null;
+  setStyle: (nodeId: string, property: string, value: string | number, breakpoint: EditorBreakpoint) => OpsError | null;
+  clearStyle: (nodeId: string, property: string, breakpoint: EditorBreakpoint) => OpsError | null;
   resetProp: (nodeId: string, key: string) => void;
   resetStyles: (nodeId: string) => void;
   resetComponent: (nodeId: string) => void;
@@ -381,27 +383,27 @@ export function BuilderProvider({
     (nodeId: string, key: string, value: unknown): OpsError | null => {
       const result = setNodeProp(schema, slug, nodeId, key, value);
       if (!result.ok) return result;
-      commit(result.schema);
+      commit(makeCommand('UPDATE_PROPS', `Editar ${nodeId}.${key}`, schema, result.schema));
       return null;
     },
     [schema, slug, commit]
   );
 
   const setStyle = useCallback(
-    (nodeId: string, property: string, value: string | number, breakpoint: Breakpoint): OpsError | null => {
+    (nodeId: string, property: string, value: string | number, breakpoint: EditorBreakpoint): OpsError | null => {
       const result = setNodeStyle(schema, slug, nodeId, property, value, breakpoint);
       if (!result.ok) return result;
-      commit(result.schema);
+      commit(makeCommand('UPDATE_STYLES', `Estilo ${nodeId}.${property}`, schema, result.schema));
       return null;
     },
     [schema, slug, commit]
   );
 
   const clearStyle = useCallback(
-    (nodeId: string, property: string, breakpoint: Breakpoint): OpsError | null => {
+    (nodeId: string, property: string, breakpoint: EditorBreakpoint): OpsError | null => {
       const result = clearNodeStyle(schema, slug, nodeId, property, breakpoint);
       if (!result.ok) return result;
-      commit(result.schema);
+      commit(makeCommand('UPDATE_STYLES', `Heredar ${nodeId}.${property}`, schema, result.schema));
       return null;
     },
     [schema, slug, commit]
@@ -413,7 +415,7 @@ export function BuilderProvider({
       if (!location) return;
       const defaults = getPageComponent(location.node.type)?.defaultProps ?? {};
       const result = resetNodeProp(schema, slug, nodeId, key, defaults);
-      if (result.ok) commit(result.schema);
+      if (result.ok) commit(makeCommand('UPDATE_PROPS', `Restablecer ${nodeId}.${key}`, schema, result.schema));
     },
     [schema, slug, commit, page]
   );
@@ -421,7 +423,7 @@ export function BuilderProvider({
   const resetStyles = useCallback(
     (nodeId: string) => {
       const result = resetNodeStyles(schema, slug, nodeId);
-      if (result.ok) commit(result.schema);
+      if (result.ok) commit(makeCommand('UPDATE_STYLES', `Restablecer estilos de ${nodeId}`, schema, result.schema));
     },
     [schema, slug, commit]
   );
@@ -432,10 +434,13 @@ export function BuilderProvider({
       if (!location) return;
       const defaults = getPageComponent(location.node.type)?.defaultProps ?? {};
       const result = resetNode(schema, slug, nodeId, defaults);
-      if (result.ok) commit(result.schema);
+      if (result.ok) commit(makeCommand('UPDATE_PROPS', `Restablecer ${nodeId}`, schema, result.schema));
     },
     [schema, slug, commit, page]
   );
+
+  const canUndo = historyRef.current.canUndo;
+  const canRedo = historyRef.current.canRedo;
 
   const value: BuilderContextValue = useMemo(
     () => ({

@@ -1,38 +1,55 @@
-import mongoose, { Document, Schema } from 'mongoose';
-import {
-  PAGE_COMPOSER_LIMITS,
-  type PageComposerBlock,
-} from '@/lib/page-composer';
+import mongoose, { Document, Schema, Types } from 'mongoose';
 
 /**
- * Diseño guardado del generador de páginas por componentes.
+ * Borrador + puntero de publicación del Visual Website Builder.
  *
- * Guarda la «receta» del compositor (bloques + ajustes globales), no el HTML:
- * el HTML se regenera al abrir el editor y al exportar. `sourceKitId` permite
- * recuperar el diseño que nació de un kit concreto («editar mi versión del kit»).
+ * El borrador (document) es la única parte editable. La versión publicada es
+ * **inmutable** y vive en `PageComposerPublishedVersion`; aquí solo se guarda el
+ * puntero (`publishedVersionId`) que se actualiza de forma atómica al publicar.
+ * Editar nunca toca la versión publicada: el borrador y lo publicado son objetos
+ * separados.
  */
+
+export type PageComposerDeployment = {
+  version: number;
+  publishedAt: Date;
+  publishedBy: string;
+  sourceDraftVersion: number;
+};
+
 export interface IPageComposerProject extends Document {
   userId: string;
-  sourceKitId?: string | null;
   name: string;
-  brand: string;
-  description: string;
-  primary: string;
-  secondary: string;
-  background: string;
-  blocks: PageComposerBlock[];
+  /** El `PageSchema` completo del borrador. */
+  document: Record<string, unknown>;
+  /** Contador de guardado del borrador; da concurrencia optimista. */
+  version: number;
+  /** Subdominio público (customer.prompstudio.com); único y normalizado. */
+  subdomain?: string | null;
+  /** Versión publicada actualmente, o null si el sitio no está publicado. */
+  publishedVersionId?: Types.ObjectId | null;
+  /** Número de la última versión publicada (contador). */
+  publishedVersion?: number | null;
+  publishedAt?: Date | null;
+  unpublishedAt?: Date | null;
+  /** Historial de despliegues (metadata de publicación). */
+  deployments?: PageComposerDeployment[];
   createdAt: Date;
   updatedAt: Date;
 }
 
-const BlockSchema = new Schema(
+export const PAGE_COMPOSER_PROJECT_LIMITS = {
+  nameLength: 120,
+  /** Despliegues conservados; los más antiguos se descartan. */
+  maxDeployments: 50,
+} as const;
+
+const DeploymentSchema = new Schema<PageComposerDeployment>(
   {
-    instanceId: { type: String, required: true, maxlength: PAGE_COMPOSER_LIMITS.choiceIdLength },
-    key: { type: String, required: true },
-    choiceId: { type: String, required: true, maxlength: PAGE_COMPOSER_LIMITS.choiceIdLength },
-    title: { type: String, required: true, maxlength: PAGE_COMPOSER_LIMITS.titleLength },
-    prompt: { type: String, required: true, maxlength: PAGE_COMPOSER_LIMITS.promptLength },
-    content: { type: Schema.Types.Mixed, default: undefined },
+    version: { type: Number, required: true },
+    publishedAt: { type: Date, required: true },
+    publishedBy: { type: String, required: true },
+    sourceDraftVersion: { type: Number, required: true },
   },
   { _id: false, versionKey: false }
 );
@@ -40,14 +57,15 @@ const BlockSchema = new Schema(
 const PageComposerProjectSchema = new Schema<IPageComposerProject>(
   {
     userId: { type: String, required: true, index: true },
-    sourceKitId: { type: String, default: null, maxlength: 120, index: true },
-    name: { type: String, required: true, maxlength: PAGE_COMPOSER_LIMITS.nameLength },
-    brand: { type: String, default: '', maxlength: PAGE_COMPOSER_LIMITS.brandLength },
-    description: { type: String, default: '', maxlength: PAGE_COMPOSER_LIMITS.descriptionLength },
-    primary: { type: String, default: '#7c3aed', maxlength: PAGE_COMPOSER_LIMITS.colorLength },
-    secondary: { type: String, default: '#06b6d4', maxlength: PAGE_COMPOSER_LIMITS.colorLength },
-    background: { type: String, default: '#07090e', maxlength: PAGE_COMPOSER_LIMITS.colorLength },
-    blocks: { type: [BlockSchema], required: true },
+    name: { type: String, required: true, maxlength: PAGE_COMPOSER_PROJECT_LIMITS.nameLength },
+    document: { type: Schema.Types.Mixed, required: true },
+    version: { type: Number, required: true, default: 1 },
+    subdomain: { type: String, default: null, maxlength: 63 },
+    publishedVersionId: { type: Schema.Types.ObjectId, default: null, index: true },
+    publishedVersion: { type: Number, default: null },
+    publishedAt: { type: Date, default: null },
+    unpublishedAt: { type: Date, default: null },
+    deployments: { type: [DeploymentSchema], default: [] },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now, index: true },
   },
@@ -55,7 +73,7 @@ const PageComposerProjectSchema = new Schema<IPageComposerProject>(
 );
 
 PageComposerProjectSchema.index({ userId: 1, updatedAt: -1 });
-PageComposerProjectSchema.index({ userId: 1, sourceKitId: 1, updatedAt: -1 });
+PageComposerProjectSchema.index({ subdomain: 1 }, { unique: true, sparse: true });
 
 export default mongoose.models.PageComposerProject ||
   mongoose.model<IPageComposerProject>('PageComposerProject', PageComposerProjectSchema, 'page_composer_projects');
