@@ -42,6 +42,7 @@ import {
 } from '@/lib/editor/save-manager';
 import { EDITOR_BREAKPOINTS, type EditorBreakpoint } from '@/lib/editor/responsive';
 import { createSection, getSectionDefinition, type SectionId } from '@/lib/editor/page-sections';
+import { applyAIEditOps, type AIEditOp } from '@/lib/editor/ai-edit-ops';
 import {
   createContext,
   useCallback,
@@ -126,6 +127,11 @@ export type BuilderContextValue = {
   redo: () => void;
   /** Carga un documento nuevo (p. ej. generado por IA) y reinicia el historial. */
   loadSchema: (schema: SiteSchema) => void;
+  /** Nodo sobre el que está abierta la edición por IA, o null. */
+  aiEditTarget: string | null;
+  openAIEdit: (nodeId: string | null) => void;
+  /** Aplica operaciones de IA validadas contra el documento (deshacible). */
+  applyAIEdit: (ops: AIEditOp[]) => OpsError | null;
 };
 
 const BuilderContext = createContext<BuilderContextValue | null>(null);
@@ -158,6 +164,7 @@ export function BuilderProvider({
   const [drag, setDrag] = useState<DragState | null>(null);
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('clean');
   const [saveFailure, setSaveFailure] = useState<SaveFailure | null>(null);
+  const [aiEditTarget, setAIEditTarget] = useState<string | null>(null);
 
   const historyRef = useRef(new EditorHistory());
   const projectIdRef = useRef<string | undefined>(projectId);
@@ -211,6 +218,20 @@ export function BuilderProvider({
     setSchema(() => next);
     saveManagerRef.current?.markDirty(next);
   }, []);
+
+  const applyAIEdit = useCallback(
+    (ops: AIEditOp[]): OpsError | null => {
+      const outcome = applyAIEditOps(schema, slug, ops, deps);
+      if (!outcome.ok) {
+        return { ok: false, reason: 'invalid-prop', message: outcome.error };
+      }
+      commit(
+        makeCommand('UPDATE_PROPS', `Editar con IA (${outcome.applied.length} operaciones)`, schema, outcome.schema)
+      );
+      return null;
+    },
+    [schema, slug, commit]
+  );
 
   // Atajos de teclado: Cmd/Ctrl+Z deshace, Cmd/Ctrl+Shift+Z rehace.
   useEffect(() => {
@@ -424,6 +445,9 @@ export function BuilderProvider({
       undo,
       redo,
       loadSchema,
+      aiEditTarget,
+      openAIEdit: setAIEditTarget,
+      applyAIEdit,
     }),
     [
       schema,
@@ -453,6 +477,8 @@ export function BuilderProvider({
       undo,
       redo,
       loadSchema,
+      aiEditTarget,
+      applyAIEdit,
     ]
   );
 
