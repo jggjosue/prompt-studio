@@ -78,32 +78,68 @@ test('server idempotency is scoped per user', async () => {
 
 test('user-triggered processing stays alive and targets the requested job', async () => {
   const route = await source('src/app/api/ai/jobs/process/route.ts');
+  const claim = await source('src/lib/generation-job-claim.ts');
   const imageHook = await source('src/hooks/use-image-generation.ts');
 
   assert.doesNotMatch(route, /void \(async \(\) =>/);
   assert.match(route, /await processOne\(userId \|\| undefined, 5, jobId\)/);
-  assert.match(route, /\.\.\.\(jobId \? \{ _id: jobId \} : \{\}\)/);
+  // El filtrado por jobId se mudó al claim atómico cuando la cola pasó aleases:
+  // la ruta ya no hace `findOne`, delega en `claimGenerationJob({ …, jobId })`.
+  // Lo que importa es que el filtro siga existiendo en algún lado.
+  assert.match(route, /claimGenerationJob\(/, 'la ruta delega el claim en la capa atómica');
+  assert.match(
+    claim,
+    /\.\.\.\(input\.jobId \? \{ _id: input\.jobId \} : \{\}\)/,
+    'el claim atómico debe filtrar por el jobId solicitado'
+  );
   assert.match(imageHook, /process\?jobId=\$\{encodeURIComponent\(jobIdFromRes\)\}&limit=1/);
 });
 
-test('Gemini failures are returned before attempting an empty R2 upload', async () => {
-  const runner = await source('src/lib/ai-job-runner.ts');
-  const failureGuard = runner.indexOf("if (status === 'failed' || !imageUrl)");
-  const upload = runner.indexOf('saveGeneratedImageToR2(imageUrl, job)', failureGuard);
+test('Gemini image failures surface before a result is accepted', async () => {
+  // La imagen de Gemini vive ya en `generate-image.ts`: ya no hay subida a R2,
+  // así que la invariante es que un resultado vacío no se acepta como éxito.
+  const flow = await source('src/ai/flows/generate-image.ts');
 
-  assert.ok(failureGuard >= 0, 'debe detenerse cuando Gemini no devuelve imagen');
-  assert.ok(upload > failureGuard, 'debe validar el resultado antes de subirlo a R2');
-  assert.match(runner.slice(failureGuard, upload), /throw new Error\(_userMessage\)/);
+  const guard = flow.indexOf('if (!imageUrl)');
+  assert.ok(guard >= 0, 'debe detenerse cuando Gemini no devuelve imagen');
+  assert.ok(
+    flow.indexOf('throw new Error(\'Image generation failed.\')', guard) > guard,
+    'debe fallar antes de devolver el resultado'
+  );
+  assert.ok(
+    flow.indexOf('return { imageUrl }', guard) > guard,
+    'solo devuelve después de validar'
+  );
 });
 
-test('stored images use the authenticated job asset instead of an invented public R2 URL', async () => {
+test('inline Gemini images stay bounded and never become a public URL', async () => {
+  const flow = await source('src/ai/flows/generate-image.ts');
   const runner = await source('src/lib/ai-job-runner.ts');
-  const renderer = await source('src/components/chat/message-renderers.tsx');
   const assetRoute = await source('src/app/api/ai/jobs/[id]/asset/route.ts');
 
-  assert.match(runner, /imageUrl: `\/api\/ai\/jobs\/\$\{String\(job\._id\)\}\/asset`/);
-  assert.match(runner, /imageKey: key/);
+  // El data URI viaja dentro del documento del job, cuyo tope duro de BSON son
+  // 16 MB. Sin acotar, una imagen grande revienta la escritura tras gastar
+  // créditos. Mismo techo que el worker externo.
+  assert.match(flow, /MAX_INLINE_IMAGE_CHARS = 2_000_000/, 'el data URI debe tener un tope');
+  const bound = flow.indexOf('imageUrl.length > MAX_INLINE_IMAGE_CHARS');
+  assert.ok(bound >= 0, 'debe comprobar el tamaño del data URI');
+  assert.ok(
+    bound < flow.indexOf('return { imageUrl }'),
+    'el tope se comprueba antes de aceptar el resultado'
+  );
+  assert.match(runner, /JSON\.stringify\(result\)\.length > 2_000_000/, 'el worker mantiene su propio tope');
+
+  // La garantía original sigue en pie por construcción: lo que sale de Gemini
+  // es un data URI en línea, no una URL pública inventada.
+  assert.match(flow, /media\?\.url/, 'la imagen viene del media del modelo');
+  assert.doesNotMatch(
+    flow,
+    /saveGeneratedImageToR2|https?:\/\/[^\s'"]*\.(?:png|jpe?g|webp)/i,
+    'el flujo de Gemini no fabrica ni sube una URL pública'
+  );
+
+  // Y la ruta autenticada sigue sirviendo el resto de proveedores con control
+  // de propietario y de estado.
   assert.match(assetRoute, /findOne\(\{ _id: id, userId, status: 'completed' \}\)/);
   assert.match(assetRoute, /getR2ObjectBytes\(imageKey\)/);
-  assert.match(renderer, /forceUnoptimized/);
 });
