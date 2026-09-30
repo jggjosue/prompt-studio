@@ -6,6 +6,7 @@ import { cacheHeaders } from '@/lib/cache-policy';
 import { actualProviderCost, generationQuote, providerUsage } from '@/lib/generation-pricing';
 import { generationJobErrorCategory, type GenerationJobState } from '@/lib/generation-job-state';
 import { verifyGenerationQueueRequest } from '@/lib/generation-queue-dispatch';
+import { generationRetryDecision } from '@/lib/generation-retry-policy';
 import {
   claimGenerationJob,
   claimExhaustedGenerationJob,

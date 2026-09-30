@@ -1,4 +1,4 @@
-export const GENERATION_JOB_TYPES = ['image', 'video', 'web'] as const;
+export const GENERATION_JOB_TYPES = ['image', 'video', 'web', 'text', 'vision', 'videoUnderstanding'] as const;
 export type GenerationJobType = typeof GENERATION_JOB_TYPES[number];
 
 export const GENERATION_JOB_STATES = [
@@ -14,6 +14,12 @@ export const GENERATION_JOB_STATES = [
 export type GenerationJobState = typeof GENERATION_JOB_STATES[number];
 export type PersistedGenerationJobState = GenerationJobState | 'retrying';
 export type LegacyGenerationJobKind = 'image' | 'video' | 'project';
+/**
+ * The six job kinds the queue can actually run. Declared here instead of
+ * importing `AIJobKind` because the model already imports this module; the two
+ * unions are kept structurally identical on purpose.
+ */
+export type GenerationJobKind = LegacyGenerationJobKind | 'vision' | 'text' | 'videoUnderstanding';
 
 export type GenerationJobErrorCategory =
   | 'bad_request'
@@ -73,7 +79,8 @@ export class IllegalGenerationJobTransitionError extends Error {
   }
 }
 
-export function canonicalGenerationType(kind: LegacyGenerationJobKind | GenerationJobType): GenerationJobType {
+/** `project` ships as `web` for clients written before the rename. */
+export function canonicalGenerationType(kind: GenerationJobKind): GenerationJobType {
   return kind === 'project' ? 'web' : kind;
 }
 
