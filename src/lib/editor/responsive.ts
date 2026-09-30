@@ -5,28 +5,40 @@
  * base. Los demás breakpoints solo sobrescriben lo que declaran; lo que no
  * declaran se hereda del más cercano hacia la base:
  *
- *   mobile  → tablet → desktop (base)
- *   tablet  → desktop (base)
+ *   mobile  → tablet → laptop → desktop (base)
+ *   tablet  → laptop → desktop (base)
  *   desktop → sí mismo (base)
+ *
+ * La UI solo ofrece `desktop`, `tablet` y `mobile`, pero la cascada completa es
+ * de cuatro niveles para coincidir con las media queries de la página
+ * publicada. `laptop` se hereda, no se edita.
  *
  * Estas funciones son las que usa el editor para pintar el lienzo del
  * dispositivo activo y para marcar en el inspector qué valor es local y cuál
  * heredado. La página publicada resuelve igual por cascada de media queries.
  */
 
-import type { StyleMap } from './document';
+import type { Breakpoint, StyleMap } from './document';
 import type { PageNode } from './page-schema';
 import { styleValueToCss } from './page-schema';
 
-/** Breakpoints que ofrece el editor. `laptop` sigue existiendo en el schema. */
+/** Breakpoints que ofrece el editor. `laptop` no se edita, pero se hereda. */
 export const EDITOR_BREAKPOINTS = ['desktop', 'tablet', 'mobile'] as const;
 export type EditorBreakpoint = (typeof EDITOR_BREAKPOINTS)[number];
 
-/** Cadena de herencia: el primero que define un valor gana. */
-export const RESPONSIVE_INHERITANCE: Record<EditorBreakpoint, readonly EditorBreakpoint[]> = {
+/**
+ * Cadena de herencia: el primero que define un valor gana.
+ *
+ * `laptop` no es un breakpoint editable, pero sí un nivel de la cascada. El
+ * schema tiene cuatro bandas y la página publicada las recorre todas, así que
+ * omitirlo aquí haría que el lienzo del editor resolviera distinto de lo que se
+ * publica: una página con override de `laptop` se vería en el editor con el
+ * valor de `desktop` y en producción con el de `laptop`.
+ */
+export const RESPONSIVE_INHERITANCE: Record<EditorBreakpoint, readonly Breakpoint[]> = {
   desktop: ['desktop'],
-  tablet: ['tablet', 'desktop'],
-  mobile: ['mobile', 'tablet', 'desktop'],
+  tablet: ['tablet', 'laptop', 'desktop'],
+  mobile: ['mobile', 'tablet', 'laptop', 'desktop'],
 };
 
 export function isEditorBreakpoint(value: unknown): value is EditorBreakpoint {
@@ -53,7 +65,7 @@ export function findStyleSource(
   node: PageNode,
   property: string,
   breakpoint: EditorBreakpoint
-): EditorBreakpoint | null {
+): Breakpoint | null {
   for (const source of RESPONSIVE_INHERITANCE[breakpoint]) {
     const map = node.styles[source];
     if (map && property in map) return source;
