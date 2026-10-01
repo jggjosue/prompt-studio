@@ -43,3 +43,23 @@ not continue to the next batch until the evidence has been reviewed. The
 experiment is complete only after 100 individually qualified, human-reviewed
 prospects have actually been contacted and their outcomes recorded; adding this
 infrastructure alone does not satisfy that execution requirement.
+
+
+## First-100 operations API
+
+The protected `/api/admin/founder-outreach` endpoint is the operational write
+surface for the first cohort. Creating an attempt requires an already-qualified
+CRM prospect, a valid target segment, human reviewer identity, sender identity,
+and prospect-specific personalization that passes the existing send gate.
+
+The service assigns ordinals 1–100 and **blocks prospect 26, 51, 76 and any
+subsequent cohort block until the previous 25-prospect review exists**. This
+turns the review cadence into an enforceable decision gate rather than a note.
+
+After manual outreach, use the same protected endpoint to record funnel stages
+and the prospect's objection, requested outcome and learning notes. The endpoint
+does not send cold outreach automatically; contact remains founder-led and
+individually reviewed.
+
+Issue #656 remains open until 100 real qualified prospects have actually been
+contacted and the four checkpoint reviews have been recorded.
