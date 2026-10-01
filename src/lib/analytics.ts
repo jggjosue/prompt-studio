@@ -10,6 +10,7 @@ import {
   PROHIBITED_ANALYTICS_PROPERTIES,
 } from '@/lib/analytics-taxonomy';
 import { trackObservabilityEvent } from '@/lib/observability-client';
+import { getOrCreateAnonymousAnalyticsId } from '@/lib/analytics-identity';
 
 export type AnalyticsEventParams = FirebaseAnalyticsParams & {
   page_id?: string;
@@ -87,6 +88,7 @@ export function trackAnalyticsEvent(
           // Do not send the full URL: query strings may contain user-entered or sensitive values.
           page_location: `${window.location.origin}${window.location.pathname}`,
           auth_state: params.auth_state ?? 'unknown',
+          ...(params.auth_state === 'anonymous' ? { anonymous_id: getOrCreateAnonymousAnalyticsId() ?? undefined } : {}),
           ...readAttribution(),
         };
   const eventParams = sanitizeAnalyticsParams({
