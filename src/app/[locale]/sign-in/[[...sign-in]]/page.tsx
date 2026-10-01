@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { SignIn } from '@clerk/nextjs';
+import { ClerkAuthAnalytics } from '@/components/clerk-auth-analytics';
 
 /**
  * Contenido por usuario: nunca debe prerenderizarse ni cachearse en el edge.
@@ -15,6 +16,7 @@ export const metadata: Metadata = {
 export default function SignInPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-muted/40 p-4">
+      <ClerkAuthAnalytics surface="sign_in" />
       <SignIn
         routing="path"
         path="/sign-in"

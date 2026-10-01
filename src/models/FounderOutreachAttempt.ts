@@ -17,6 +17,9 @@ const FounderOutreachAttemptSchema = new Schema({
   activatedAt: { type: Date, default: null },
   checkoutAt: { type: Date, default: null },
   paidAt: { type: Date, default: null },
+  objection: { type: String, default: null, trim: true },
+  requestedOutcome: { type: String, default: null, trim: true },
+  learningNotes: { type: String, default: null, trim: true },
 }, { timestamps: true, versionKey: false });
 
 FounderOutreachAttemptSchema.index({ prospectId: 1, cohort: 1 }, { unique: true });

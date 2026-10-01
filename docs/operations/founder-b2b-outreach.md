@@ -28,3 +28,18 @@ automatically increasing volume.
 
 The outreach attempt stores reviewer, review timestamp, personalization, sender
 identity and stage timestamps so the first-100 experiment remains auditable.
+
+
+## Evidence to record
+
+For every prospect, record objections, the outcome they actually want, and any
+learning note alongside the existing funnel timestamps. At checkpoints 25, 50,
+75 and 100, persist one cohort review with the funnel totals, recurring
+objections/requested outcomes, the segment decision, the message change (or an
+explicit decision to keep it), and the next hypothesis.
+
+A checkpoint review is a human decision gate, not an automatic volume ramp. Do
+not continue to the next batch until the evidence has been reviewed. The
+experiment is complete only after 100 individually qualified, human-reviewed
+prospects have actually been contacted and their outcomes recorded; adding this
+infrastructure alone does not satisfy that execution requirement.
