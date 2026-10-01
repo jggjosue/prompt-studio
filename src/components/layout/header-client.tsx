@@ -35,6 +35,8 @@ import {
   ChevronDown,
   ChevronRight,
   FolderHeart,
+  Flame,
+  GalleryHorizontalEnd,
   Globe,
   HandHeart,
   Megaphone,
@@ -51,6 +53,8 @@ import {
   Sparkles,
   UserPlus,
   Video,
+  ScanSearch,
+  Wand2,
   WandSparkles,
 } from 'lucide-react';
 import { ClientLink } from '@/components/client-link';
@@ -164,10 +168,10 @@ export default function HeaderClient() {
     compare: 'Comparar componentes', compareDesc: 'Compara hasta tres diseños lado a lado',
     kits: 'Kits completos', kitsDesc: 'Colecciones coherentes listas para productos',
     search: 'Buscador inteligente', searchDesc: 'Busca por tipo, industria, color y función',
-    builder: 'Constructor visual', builderDesc: 'Personaliza componentes y genera el prompt',
-    composer: 'Generador de páginas', composerDesc: 'Combina componentes y descarga Next.js',
+    builder: 'Constructor visual', builderDesc: 'Personaliza componentes y estilos visualmente',
+    composer: 'Generador de páginas', composerDesc: 'Combina componentes para construir una página',
     components: 'Componentes UI', pieces: 'piezas con prompts', webGenerator: 'Generador Web',
-    webGeneratorDesc: 'Genera nuevas páginas web con IA', imageGenerator: 'Generar Imagen',
+    webGeneratorDesc: 'Crea una web completa desde un prompt', imageGenerator: 'Generar Imagen',
     imageGeneratorDesc: 'Crea imágenes hiperrealistas con IA', videoGenerator: 'Generar Video',
     videoGeneratorDesc: 'Crea videos cinematográficos con IA', comingSoon: 'Próximamente',
     back: 'Volver', viewAll: 'Ver todos los kits', crowdfunding: 'Founder Program',
@@ -181,10 +185,10 @@ export default function HeaderClient() {
     compare: 'Compare components', compareDesc: 'Compare up to three designs side by side',
     kits: 'Complete kits', kitsDesc: 'Consistent collections ready for products',
     search: 'Smart search', searchDesc: 'Search by type, industry, color, and function',
-    builder: 'Visual builder', builderDesc: 'Customize components and generate the prompt',
-    composer: 'Page generator', composerDesc: 'Combine components and download Next.js',
+    builder: 'Visual builder', builderDesc: 'Customize components and styles visually',
+    composer: 'Page generator', composerDesc: 'Combine components to build a page',
     components: 'UI Components', pieces: 'prompt-ready pieces', webGenerator: 'Web Generator',
-    webGeneratorDesc: 'Generate new web pages with AI', imageGenerator: 'Generate Image',
+    webGeneratorDesc: 'Create a complete website from a prompt', imageGenerator: 'Generate Image',
     imageGeneratorDesc: 'Create hyperrealistic images with AI', videoGenerator: 'Generate Video',
     videoGeneratorDesc: 'Create cinematic videos with AI', comingSoon: 'Coming soon',
     back: 'Back', viewAll: 'View all kits', crowdfunding: 'Founder Program',
@@ -242,6 +246,20 @@ export default function HeaderClient() {
       activePrefixes: ['/landing-pages', '/web-animations', '/login-components', '/header-components', '/text-components', '/form-components', '/button-components', '/card-components', '/navigation-components', '/sidebar-components', '/component-builder', '/page-composer', '/smart-search', '/prompt-optimizer', '/component-kits', '/component-compare', '/my-components', '/code-auditor', '/web-tags', '/generate'],
       dropdown: [
         {
+          href: '/my-components',
+          group: 'Mi biblioteca',
+          label: copy.favorites,
+          description: copy.favoritesDesc,
+          icon: <FolderHeart className="h-4 w-4" />,
+        },
+        {
+          href: '/component-compare',
+          group: 'Herramientas',
+          label: copy.compare,
+          description: copy.compareDesc,
+          icon: <Scale className="h-4 w-4" />,
+        },
+        {
           href: '/prompt-optimizer',
           group: 'Herramientas',
           label: copy.optimize,
@@ -260,20 +278,6 @@ export default function HeaderClient() {
           disabledBadge: copy.comingSoon,
         },
         {
-          href: '/my-components',
-          group: 'Mi biblioteca',
-          label: copy.favorites,
-          description: copy.favoritesDesc,
-          icon: <FolderHeart className="h-4 w-4" />,
-        },
-        {
-          href: '/component-compare',
-          group: 'Herramientas',
-          label: copy.compare,
-          description: copy.compareDesc,
-          icon: <Scale className="h-4 w-4" />,
-        },
-        {
           href: '/component-kits',
           group: 'Explorar',
           label: copy.kits,
@@ -286,6 +290,15 @@ export default function HeaderClient() {
           label: copy.search,
           description: copy.searchDesc,
           icon: <Search className="h-4 w-4" />,
+        },
+        {
+          href: '/generate',
+          target: '_blank',
+          rel: 'noopener noreferrer',
+          group: 'Crear',
+          label: copy.webGenerator,
+          description: copy.webGeneratorDesc,
+          icon: <Globe className="h-4 w-4" />,
         },
         ...paidCreatorItems(),
         {
@@ -302,15 +315,6 @@ export default function HeaderClient() {
           description: `${uiKits.length} kits · ${UI_KITS_TOTAL} ${copy.pieces}`,
           icon: <Layers3 className="h-4 w-4" />,
           kits: uiKits,
-        },
-        {
-          href: '/generate',
-          target: '_blank',
-          rel: 'noopener noreferrer',
-          group: 'Crear',
-          label: copy.webGenerator,
-          description: copy.webGeneratorDesc,
-          icon: <Globe className="h-4 w-4" />,
         },
       ],
     },
@@ -342,6 +346,20 @@ export default function HeaderClient() {
           icon: <Video className="h-4 w-4" />,
         },
         {
+          href: '/gallery',
+          group: 'Explorar',
+          label: copy.gallery,
+          description: copy.galleryDesc,
+          icon: <GalleryHorizontalEnd className="h-4 w-4" />,
+        },
+        {
+          href: '/image-tags',
+          group: 'Explorar',
+          label: copy.trends,
+          description: copy.trendsDesc,
+          icon: <Flame className="h-4 w-4" />,
+        },
+        {
           href: '/generate?mode=image',
           target: '_blank',
           rel: 'noopener noreferrer',
@@ -358,6 +376,33 @@ export default function HeaderClient() {
           label: copy.videoGenerator,
           description: copy.videoGeneratorDesc,
           icon: <Video className="h-4 w-4" />,
+        },
+        {
+          href: '/generate?mode=image',
+          group: 'Crear',
+          label: copy.imageEditor,
+          description: copy.imageEditorDesc,
+          icon: <Wand2 className="h-4 w-4" />,
+          disabled: true,
+          disabledBadge: copy.comingSoon,
+        },
+        {
+          href: '/generate?mode=video',
+          group: 'Crear',
+          label: copy.imageToVideo,
+          description: copy.imageToVideoDesc,
+          icon: <Video className="h-4 w-4" />,
+          disabled: true,
+          disabledBadge: copy.comingSoon,
+        },
+        {
+          href: '/generate?mode=vision',
+          group: 'Crear',
+          label: copy.analyzeImage,
+          description: copy.analyzeImageDesc,
+          icon: <ScanSearch className="h-4 w-4" />,
+          disabled: true,
+          disabledBadge: copy.comingSoon,
         },
       ],
     },
@@ -516,14 +561,14 @@ export default function HeaderClient() {
                                     <div
                                       key={item.label}
                                       aria-disabled="true"
-                                      className="flex w-full cursor-not-allowed items-start gap-3 rounded-lg p-3 text-left opacity-50 select-none"
+                                      className="flex w-full cursor-not-allowed items-start gap-3 rounded-lg p-3 text-left opacity-65 select-none"
                                     >
                                       <span className="rounded-md bg-muted p-2 text-muted-foreground">{item.icon}</span>
                                       <span className="min-w-0 flex-1">
                                         <div className="flex items-center gap-1.5">
-                                          <span className="block font-semibold text-muted-foreground">{item.label}</span>
+                                          <span className="block font-semibold text-foreground/70">{item.label}</span>
                                           {item.disabledBadge && (
-                                            <span className="rounded-full bg-muted px-1.5 py-0.2 text-[9px] font-medium text-muted-foreground border border-border/50">
+                                            <span className="rounded-full border border-amber-500/20 bg-amber-500/10 px-1.5 py-0.5 text-[9px] font-semibold text-amber-500/80">
                                               {item.disabledBadge}
                                             </span>
                                           )}

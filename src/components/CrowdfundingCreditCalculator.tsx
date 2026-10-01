@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useLocale } from 'next-intl';
+import { trackInterest } from '@/lib/interest-analytics';
 
 type Estimate = {
   pledgeAmountCents: number;
@@ -42,7 +43,7 @@ export function CrowdfundingCreditCalculator() {
 
       <div className="flex flex-wrap gap-2">
         {TIERS.map((tier) => (
-          <button key={tier} type="button" onClick={() => setAmount(tier)} aria-pressed={amount === tier} className="rounded-lg border px-3 py-2">
+          <button key={tier} type="button" onClick={() => { trackInterest('crowdfunding_calculator_click', { amount_usd: tier }); setAmount(tier); }} aria-pressed={amount === tier} className="rounded-lg border px-3 py-2">
             ${tier}
           </button>
         ))}
