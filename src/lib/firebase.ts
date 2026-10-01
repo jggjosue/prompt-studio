@@ -38,7 +38,9 @@ export type FirebaseAnalyticsEvent =
   | 'custom_domain_connected'
   | 'domain_search'
   | 'domain_checkout_started'
-  | 'domain_purchased';
+  | 'domain_purchased'
+  | 'newsletter_signup'
+  | 'marketing_consent_updated';
 
 export type FirebaseAnalyticsParams = Record<string, string | number | boolean | null | undefined>;
 
