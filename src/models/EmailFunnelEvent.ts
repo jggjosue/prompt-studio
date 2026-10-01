@@ -9,9 +9,11 @@ export interface IEmailFunnelEvent extends Document {
   occurredAt: Date;
   valueCents?: number | null;
   currency?: string | null;
+  eventKey: string;
 }
 
 const EmailFunnelEventSchema = new Schema<IEmailFunnelEvent>({
+  eventKey: { type: String, required: true, unique: true, index: true },
   eventType: { type: String, enum: ['email_activation', 'email_checkout', 'email_purchase'], required: true, index: true },
   campaignId: { type: String, required: true, index: true },
   sequenceId: { type: String, default: null, index: true },
