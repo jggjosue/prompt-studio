@@ -24,6 +24,7 @@ import { NextResponse } from 'next/server';
 import { isPromptStudioAdminEmail } from '@/lib/prompt-studio-admin';
 import { resolveTextGenerationOperation } from '@/lib/text-generation-operation';
 import { resolvePromptOptimizerOperation } from '@/lib/prompt-optimizer-operation';
+import { resolveImageGenerationOperation } from '@/lib/image-generation-operation';
 
 const headers = () => cacheHeaders('private-no-store');
 const clean = (value: unknown, max: number) => typeof value === 'string' ? value.trim().slice(0, max) : '';
@@ -105,6 +106,21 @@ export async function POST(request: Request) {
           message: optimizing
             ? 'Selecciona el nivel del optimizador: basic, advanced o complex.'
             : 'Selecciona el nivel de generación de texto: short, long o complex.',
+        },
+      }, { status: 400, headers: headers() });
+    }
+  }
+  if (raw.kind === 'image') {
+    try {
+      const operation = resolveImageGenerationOperation(input);
+      operationCode = operation.code;
+      cost = { ...cost, credits: operation.creditCost };
+    } catch (error) {
+      const code = error instanceof Error ? error.message : 'IMAGE_TIER_REQUIRED';
+      return NextResponse.json({
+        error: {
+          code,
+          message: 'Selecciona el nivel de imagen: lite-1k, quality-1k, quality-2k o quality-4k.',
         },
       }, { status: 400, headers: headers() });
     }
