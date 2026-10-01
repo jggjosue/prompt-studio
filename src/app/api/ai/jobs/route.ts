@@ -28,6 +28,7 @@ import { resolveImageGenerationOperation } from '@/lib/image-generation-operatio
 import { resolveVideoGenerationOperation } from '@/lib/video-generation-operation';
 import { resolveWebsiteGenerationOperation } from '@/lib/website-generation-operation';
 import { resolveWebsiteAIEditOperation } from '@/lib/website-ai-edit-operation';
+import { resolveCodeAuditOperation } from '@/lib/code-audit-operation';
 
 const headers = () => cacheHeaders('private-no-store');
 const clean = (value: unknown, max: number) => typeof value === 'string' ? value.trim().slice(0, max) : '';
@@ -160,6 +161,21 @@ export async function POST(request: Request) {
           message: editing
             ? 'Selecciona el nivel de edición AI: small, section, complex o redesign.'
             : 'Selecciona el nivel del sitio web: simple, advanced o complex.',
+        },
+      }, { status: 400, headers: headers() });
+    }
+  }
+  if (raw.kind === 'project' && input.codeAuditTier !== undefined) {
+    try {
+      const resolved = resolveCodeAuditOperation(input);
+      operationCode = resolved.operation.code;
+      cost = { ...cost, credits: resolved.creditCost };
+    } catch (error) {
+      const code = error instanceof Error ? error.message : 'CODE_AUDIT_TIER_REQUIRED';
+      return NextResponse.json({
+        error: {
+          code,
+          message: 'Selecciona el nivel de auditoría: small, standard, advanced o project.',
         },
       }, { status: 400, headers: headers() });
     }
