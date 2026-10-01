@@ -1,4 +1,4 @@
-import { createRequire } from 'node:module';
+import { SQSClient } from '@aws-sdk/client-sqs';
 import connectToDatabase from '@/lib/mongoose';
 import { processGenerationJob } from '@/lib/generation-worker-runtime';
 
@@ -16,20 +16,6 @@ type SqsMessage = {
   Attributes?: Record<string, string>;
 };
 
-type SqsClientLike = {
-  receiveMessage(input: Record<string, unknown>): { promise(): Promise<{ Messages?: SqsMessage[] }> };
-  deleteMessage(input: Record<string, unknown>): { promise(): Promise<unknown> };
-  changeMessageVisibility(input: Record<string, unknown>): { promise(): Promise<unknown> };
-};
-
-const require = createRequire(import.meta.url);
-// The monorepo already ships AWS SDK v2 transitively. Keeping the worker on that
-// SDK avoids a lockfile-only dependency change; #832 may move this to v3 when
-// the image worker/provider package is introduced.
-const AWS = require('aws-sdk') as {
-  SQS: new (input: { region: string }) => SqsClientLike;
-};
-
 const region = process.env.AWS_REGION?.trim() || 'us-east-2';
 const queueUrl = process.env.AWS_SQS_IMAGE_QUEUE_URL?.trim();
 const workerId = process.env.AWS_ECS_WORKER_ID?.trim()
@@ -43,7 +29,7 @@ const heartbeatSeconds = Math.max(15, Math.min(
 
 if (!queueUrl) throw new Error('AWS_SQS_IMAGE_QUEUE_URL is required');
 
-const sqs = new AWS.SQS({ region });
+const sqs = new SQSClient({ region });
 let stopping = false;
 let inFlight = 0;
 
@@ -78,7 +64,7 @@ function heartbeat(receiptHandle: string) {
       QueueUrl: queueUrl,
       ReceiptHandle: receiptHandle,
       VisibilityTimeout: visibilitySeconds,
-    }).promise().then(() => log('visibility_extended'))
+    }).then(() => log('visibility_extended'))
       .catch((error: unknown) => log('visibility_extension_failed', {
         error: error instanceof Error ? error.name : 'unknown',
       }));
@@ -113,7 +99,7 @@ async function processMessage(message: SqsMessage) {
       await sqs.deleteMessage({
         QueueUrl: queueUrl,
         ReceiptHandle: message.ReceiptHandle,
-      }).promise();
+      });
       log('message_deleted', {
         correlationId,
         generationId: body.generationId,
@@ -145,7 +131,7 @@ async function poll() {
         WaitTimeSeconds: 20,
         VisibilityTimeout: visibilitySeconds,
         AttributeNames: ['ApproximateReceiveCount'],
-      }).promise();
+      });
       for (const message of response.Messages ?? []) {
         await processMessage(message);
       }
