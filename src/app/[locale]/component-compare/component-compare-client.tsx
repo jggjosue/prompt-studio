@@ -742,6 +742,7 @@ export default function ComponentCompareClient() {
                     </div>
                   </div>
                 ) : (
+                  <>
                   <div className="lg:hidden">
                     <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto p-3 pb-4 scrollbar-thin">
                       {selected.map(item => {
@@ -1085,6 +1086,7 @@ export default function ComponentCompareClient() {
                       </tbody>
                     </table>
                   </div>
+                  </>
                 )}
               </div>
 
