@@ -27,6 +27,7 @@ import { resolvePromptOptimizerOperation } from '@/lib/prompt-optimizer-operatio
 import { resolveImageGenerationOperation } from '@/lib/image-generation-operation';
 import { resolveVideoGenerationOperation } from '@/lib/video-generation-operation';
 import { resolveWebsiteGenerationOperation } from '@/lib/website-generation-operation';
+import { resolveWebsiteAIEditOperation } from '@/lib/website-ai-edit-operation';
 
 const headers = () => cacheHeaders('private-no-store');
 const clean = (value: unknown, max: number) => typeof value === 'string' ? value.trim().slice(0, max) : '';
@@ -144,15 +145,21 @@ export async function POST(request: Request) {
   }
   if (raw.kind === 'web') {
     try {
-      const operation = resolveWebsiteGenerationOperation(input);
+      const editing = input.websiteEditTier !== undefined;
+      const operation = editing
+        ? resolveWebsiteAIEditOperation(input)
+        : resolveWebsiteGenerationOperation(input);
       operationCode = operation.code;
       cost = { ...cost, credits: operation.creditCost };
     } catch (error) {
-      const code = error instanceof Error ? error.message : 'WEBSITE_TIER_REQUIRED';
+      const code = error instanceof Error ? error.message : 'WEBSITE_OPERATION_TIER_REQUIRED';
+      const editing = input.websiteEditTier !== undefined;
       return NextResponse.json({
         error: {
           code,
-          message: 'Selecciona el nivel del sitio web: simple, advanced o complex.',
+          message: editing
+            ? 'Selecciona el nivel de edición AI: small, section, complex o redesign.'
+            : 'Selecciona el nivel del sitio web: simple, advanced o complex.',
         },
       }, { status: 400, headers: headers() });
     }
