@@ -25,6 +25,7 @@ import { isPromptStudioAdminEmail } from '@/lib/prompt-studio-admin';
 import { resolveTextGenerationOperation } from '@/lib/text-generation-operation';
 import { resolvePromptOptimizerOperation } from '@/lib/prompt-optimizer-operation';
 import { resolveImageGenerationOperation } from '@/lib/image-generation-operation';
+import { resolveVideoGenerationOperation } from '@/lib/video-generation-operation';
 
 const headers = () => cacheHeaders('private-no-store');
 const clean = (value: unknown, max: number) => typeof value === 'string' ? value.trim().slice(0, max) : '';
@@ -121,6 +122,21 @@ export async function POST(request: Request) {
         error: {
           code,
           message: 'Selecciona el nivel de imagen: lite-1k, quality-1k, quality-2k o quality-4k.',
+        },
+      }, { status: 400, headers: headers() });
+    }
+  }
+  if (raw.kind === 'video') {
+    try {
+      const operation = resolveVideoGenerationOperation(input);
+      operationCode = operation.code;
+      cost = { ...cost, credits: operation.creditCost };
+    } catch (error) {
+      const code = error instanceof Error ? error.message : 'VIDEO_TIER_REQUIRED';
+      return NextResponse.json({
+        error: {
+          code,
+          message: 'Selecciona un preset de video válido de 8 segundos.',
         },
       }, { status: 400, headers: headers() });
     }
