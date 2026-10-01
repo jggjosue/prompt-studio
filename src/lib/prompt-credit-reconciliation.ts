@@ -4,23 +4,31 @@ import connectToDatabase from '@/lib/mongoose';
 import AICreditAccount from '@/models/AICreditAccount';
 import AICreditLedger from '@/models/AICreditLedger';
 import CreditPurchase from '@/models/CreditPurchase';
+import AnalyticsEventReceipt from '@/models/AnalyticsEventReceipt';
 
 export async function reconcilePromptCreditFinances() {
   await connectToDatabase();
-  const [purchases, accounts, purchasedGrants] = await Promise.all([
+  const [purchases, accounts, purchasedGrants, purchaseAnalytics] = await Promise.all([
     CreditPurchase.find({}).lean<Array<Record<string, any>>>(),
     AICreditAccount.find({}).lean<Array<Record<string, any>>>(),
     AICreditLedger.find({ type: 'TOPUP_PURCHASE', operation: 'grant' }).lean<Array<Record<string, any>>>(),
+    AnalyticsEventReceipt.find({ eventName: 'purchase', source: 'stripe' }).lean<Array<Record<string, any>>>(),
   ]);
 
   const accountByUser = new Map(accounts.map((row) => [String(row.userId), row]));
   const grantByRequest = new Map(purchasedGrants.map((row) => [String(row.requestId), row]));
+  const analyticsBySession = new Map(purchaseAnalytics.map((row) => [String(row.key).replace(/^stripe:purchase:/, ''), row]));
   const issues: Array<Record<string, unknown>> = [];
 
   for (const purchase of purchases) {
     const requestId = `topup:${purchase.stripeCheckoutSessionId}`;
     const grant = grantByRequest.get(requestId);
     const expectedCredits = Number(purchase.credits ?? 0);
+    const analyticsReceipt = analyticsBySession.get(String(purchase.stripeCheckoutSessionId));
+
+    if (!analyticsReceipt) {
+      issues.push({ severity: 'warning', code: 'STRIPE_PURCHASE_MISSING_ANALYTICS', purchaseId: String(purchase._id), userId: purchase.userId, stripeCheckoutSessionId: purchase.stripeCheckoutSessionId, amountPaidCents: purchase.amountPaidCents });
+    }
 
     if (purchase.status === 'pending') {
       issues.push({ severity: 'critical', code: 'PAID_NOT_CREDITED', purchaseId: String(purchase._id), userId: purchase.userId, amountPaidCents: purchase.amountPaidCents, expectedCredits });
@@ -58,6 +66,7 @@ export async function reconcilePromptCreditFinances() {
     generatedAt: new Date(),
     counts: {
       purchases: purchases.length,
+      purchaseAnalytics: purchaseAnalytics.length,
       accounts: accounts.length,
       issues: issues.length,
       critical: issues.filter((issue) => issue.severity === 'critical').length,
