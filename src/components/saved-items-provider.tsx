@@ -12,6 +12,7 @@ import {
 } from 'react';
 import type { SavedItemKind } from '@/models/SavedItem';
 import { trackAnalyticsEvent } from '@/lib/analytics';
+import { recordFirstActivation } from '@/lib/activation-analytics';
 
 export type SavedItemInput = {
   itemKind: SavedItemKind;
@@ -105,6 +106,7 @@ export function SavedItemsProvider({ children }: { children: ReactNode }) {
             action_source: 'saved_items',
             auth_state: 'authenticated',
           });
+          void recordFirstActivation('save_prompt');
         }
       } catch {
         setSavedKeys(previous => {
