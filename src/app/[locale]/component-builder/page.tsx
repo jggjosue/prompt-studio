@@ -25,10 +25,17 @@ export default async function ComponentBuilderPage({ params }: { params: Promise
   const { userId } = await auth();
   if (!userId) return <ComponentBuilderPremiumGate reason="anonymous" locale={locale} />;
 
-  const status = await getServerSubscriptionStatus();
-  if (!hasComponentBuilderPlan(status)) {
+  // Subscription lookup can depend on Clerk + Stripe. A provider/configuration
+  // failure must never turn this product route into a Next.js server exception.
+  // Fail closed: only confirmed Premium access reaches the builder.
+  try {
+    const status = await getServerSubscriptionStatus();
+    if (!hasComponentBuilderPlan(status)) {
+      return <ComponentBuilderPremiumGate reason="unpaid" locale={locale} />;
+    }
+    return <ComponentBuilderClient />;
+  } catch (error) {
+    console.error('[component-builder] subscription lookup failed', error);
     return <ComponentBuilderPremiumGate reason="unpaid" locale={locale} />;
   }
-
-  return <ComponentBuilderClient />;
 }
