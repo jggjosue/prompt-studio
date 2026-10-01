@@ -26,6 +26,7 @@ export type AnalyticsEventParams = FirebaseAnalyticsParams & {
 };
 
 const SESSION_EVENT_PREFIX = 'promptstudio:analytics:event:';
+const IDEMPOTENT_EVENT_PREFIX = 'promptstudio:analytics:idempotency:';
 const ATTRIBUTION_STORAGE_KEY = 'promptstudio:analytics:attribution:v1';
 const KEY_CONVERSIONS = new Set<FirebaseAnalyticsEvent>(KEY_CONVERSION_EVENTS);
 const PROHIBITED_KEYS = new Set<string>(PROHIBITED_ANALYTICS_PROPERTIES);
@@ -71,8 +72,14 @@ function readAttribution(): Attribution {
 export function trackAnalyticsEvent(
   eventName: FirebaseAnalyticsEvent,
   params: AnalyticsEventParams = {},
-  options: { oncePerSessionKey?: string } = {}
+  options: { oncePerSessionKey?: string; idempotencyKey?: string } = {}
 ) {
+  if (typeof window !== 'undefined' && options.idempotencyKey) {
+    const key = `${IDEMPOTENT_EVENT_PREFIX}${eventName}:${options.idempotencyKey}`;
+    if (window.localStorage.getItem(key)) return;
+    window.localStorage.setItem(key, '1');
+  }
+
   if (typeof window !== 'undefined' && options.oncePerSessionKey) {
     const key = `${SESSION_EVENT_PREFIX}${eventName}:${options.oncePerSessionKey}`;
     if (window.sessionStorage.getItem(key)) return;
