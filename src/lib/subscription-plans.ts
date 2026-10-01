@@ -3,7 +3,7 @@
  *
  * Precios (créditos mensuales incluidos):
  * - Free: $0 / 1 crédito inicial
- * - Creator: $9/mes · 250 créditos
+ * - Creator: $9/mes · 1,000 Prompt Credits
  * - Pro: $19/mes · 1,000 créditos (Más Popular)
  * - Studio: $39/mes · 3,000 créditos
  *
@@ -22,7 +22,7 @@ export const PLAN_PRICES = {
 } as const;
 
 export const PLAN_CREDITS = {
-  creator: 250,
+  creator: 1000,
   pro: 1000,
   studio: 3000,
 } as const;
