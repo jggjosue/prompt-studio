@@ -18,3 +18,17 @@ Provider event storage may retain the minimal recipient value required for
 operational suppression. That operational record is server-side and is not a
 GA4 payload. Product attribution records store campaign/sequence/trigger,
 timestamps and optional purchase value/currency, not recipient PII.
+
+
+## Downstream persistence
+
+Product handlers can call `recordEmailFunnelEvent` for activation, checkout and
+purchase when they have the landing/current URL that carried the email
+attribution tokens. The recorder accepts only valid email attribution generated
+from `email_campaign` + `utm_campaign`, stores no recipient identifier, and
+uses a SHA-256 event key derived from event type + source event ID + campaign to
+make webhook/retry processing idempotent.
+
+Purchase attribution may additionally persist value/currency. Callers should
+use the provider/product event ID as `sourceEventId`; never use an email
+address, name or other PII as that ID.
