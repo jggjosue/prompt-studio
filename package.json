@@ -7,7 +7,7 @@
     "url": "https://github.com/jggjosue/prompt-studio.git"
   },
   "engines": {
-    "node": ">=22.11.0"
+    "node": ">=22.13.0"
   },
   "scripts": {
     "test": "npm run test:unit && npm run test:integration && npm run test:data",
