@@ -430,22 +430,6 @@ export default function HeaderClient() {
           description: copy.affiliateDesc,
           icon: <HandHeart className="h-4 w-4" />,
         },
-        {
-          href: '/creator-program',
-          label: copy.creator,
-          description: copy.creatorDesc,
-          icon: <Sparkles className="h-4 w-4" />,
-          disabled: true,
-          disabledBadge: copy.comingSoon,
-        },
-        {
-          href: '/ambassador-program',
-          label: copy.ambassador,
-          description: copy.ambassadorDesc,
-          icon: <UserPlus className="h-4 w-4" />,
-          disabled: true,
-          disabledBadge: copy.comingSoon,
-        },
       ],
     },
     {
