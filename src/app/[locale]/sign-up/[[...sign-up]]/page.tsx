@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { SignUp } from '@clerk/nextjs';
+import { ClerkAuthAnalytics } from '@/components/clerk-auth-analytics';
 
 /**
  * Contenido por usuario: nunca debe prerenderizarse ni cachearse en el edge.
@@ -22,6 +23,7 @@ export default async function SignUpPage({ searchParams }: Props) {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-muted/40 p-4">
+      <ClerkAuthAnalytics surface="sign_up" />
       <SignUp
         routing="path"
         path="/sign-up"
