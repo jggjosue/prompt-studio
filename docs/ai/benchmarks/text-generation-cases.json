@@ -1,0 +1,74 @@
+[
+  {
+    "id": "short-product-prompt-es",
+    "category": "short",
+    "prompt": "Crea un prompt profesional para generar una foto publicitaria de una botella de perfume premium sobre mármol negro, iluminación cinematográfica y fondo oscuro. Devuelve únicamente el prompt final.",
+    "maxOutputTokens": 180,
+    "criteria": {
+      "minWords": 35,
+      "maxWords": 120,
+      "requiredAny": ["perfume", "botella", "mármol"],
+      "forbidden": ["como ia", "no puedo"]
+    }
+  },
+  {
+    "id": "short-social-copy-en",
+    "category": "short",
+    "prompt": "Create a reusable AI prompt that asks a model to write three high-converting Instagram captions for a sustainable sneaker launch. Return only the reusable prompt.",
+    "maxOutputTokens": 220,
+    "criteria": {
+      "minWords": 45,
+      "maxWords": 150,
+      "requiredAny": ["instagram", "caption", "sneaker"],
+      "forbidden": ["as an ai", "i cannot"]
+    }
+  },
+  {
+    "id": "medium-landing-page-es",
+    "category": "medium",
+    "prompt": "Diseña un prompt reutilizable para pedir a una IA que escriba una landing page para un SaaS de facturación dirigido a freelancers. Debe incluir propuesta de valor, hero, beneficios, prueba social, FAQ y CTA. Devuelve solo el prompt.",
+    "maxOutputTokens": 500,
+    "criteria": {
+      "minWords": 110,
+      "maxWords": 380,
+      "requiredAny": ["freelancer", "facturación", "saas"],
+      "requiredHeadings": ["hero", "faq", "cta"]
+    }
+  },
+  {
+    "id": "medium-code-review-en",
+    "category": "medium",
+    "prompt": "Write a reusable system prompt for an AI code reviewer focused on TypeScript/Next.js. It must check correctness, security, performance, accessibility, and tests, and return prioritized findings with file/line references when available.",
+    "maxOutputTokens": 650,
+    "criteria": {
+      "minWords": 130,
+      "maxWords": 450,
+      "requiredAny": ["typescript", "next.js", "security"],
+      "requiredHeadings": ["security", "performance", "tests"]
+    }
+  },
+  {
+    "id": "long-marketing-strategy-es",
+    "category": "long",
+    "prompt": "Crea un prompt maestro para que una IA produzca una estrategia de marketing de 90 días para una startup B2B SaaS. Debe solicitar ICP, posicionamiento, canales, calendario semanal, presupuesto, métricas, experimentos, riesgos y criterios de decisión. El prompt debe ser reutilizable y estructurado.",
+    "maxOutputTokens": 1100,
+    "criteria": {
+      "minWords": 260,
+      "maxWords": 800,
+      "requiredAny": ["90 días", "b2b", "saas"],
+      "requiredHeadings": ["métricas", "riesgos", "presupuesto"]
+    }
+  },
+  {
+    "id": "long-agent-spec-en",
+    "category": "long",
+    "prompt": "Create a detailed reusable prompt for an AI agent that researches a software market and produces an evidence-based competitive analysis. Require sources, assumptions, comparison dimensions, uncertainty, risks, and a final decision framework. Avoid inventing evidence.",
+    "maxOutputTokens": 1200,
+    "criteria": {
+      "minWords": 280,
+      "maxWords": 850,
+      "requiredAny": ["sources", "evidence", "uncertainty"],
+      "requiredHeadings": ["assumptions", "risks", "sources"]
+    }
+  }
+]

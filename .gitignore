@@ -80,3 +80,6 @@ dist/
 
 # Local AI/development transcript history; keep durable project docs under docs/.
 /.specstory/
+
+# Local AI benchmark artifacts
+/.benchmark/
