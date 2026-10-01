@@ -15,6 +15,7 @@ import {
   ChevronDown,
   Loader2,
   ScanSearch,
+  Wand2,
 } from 'lucide-react';
 import { OptimizedImage } from '@/components/optimized-image';
 import { Textarea } from '@/components/ui/textarea';
@@ -114,6 +115,20 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
   const searchParams = useSearchParams();
   const { selectedMode, setSelectedMode, params, generate, localGenerating, messages, queue, queueRunning, enqueue, startQueue, removeQueueItem, retryQueueItem, clearQueue } = chat;
   const activeResponses = messages.filter(message => message.role === 'assistant' && message.status === 'pending').length;
+
+  const slashQuery = prompt.startsWith('/') ? prompt.slice(1).trim().toLowerCase() : null;
+  const slashCommands = [
+    { id: 'edit-image', label: 'Editar imagen', description: 'Edita y transforma una imagen con IA', icon: <Wand2 className="h-4 w-4" />, mode: 'vision' as ChatMode, prompt: 'Edita esta imagen: ' },
+    { id: 'image-to-video', label: 'Imagen a video', description: 'Convierte una imagen en video con IA', icon: <Video className="h-4 w-4" />, mode: 'video' as ChatMode, prompt: 'Convierte esta imagen en video: ' },
+    { id: 'analyze-image', label: 'Analizar imagen', description: 'Describe y extrae información de una imagen', icon: <ScanSearch className="h-4 w-4" />, mode: 'vision' as ChatMode, prompt: 'Analiza esta imagen: ' },
+  ].filter(command => !slashQuery || command.label.toLowerCase().includes(slashQuery) || command.id.includes(slashQuery));
+  const slashOpen = slashQuery !== null && slashCommands.length > 0;
+
+  const selectSlashCommand = (command: (typeof slashCommands)[number]) => {
+    setSelectedMode(command.mode);
+    setPrompt(command.prompt);
+    requestAnimationFrame(() => textareaRef.current?.focus());
+  };
 
   // Pre-fill from URL params
   useEffect(() => {
@@ -226,14 +241,34 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
             <TabsTrigger value="project" disabled><Globe className="h-3 w-3 mr-1" />Web</TabsTrigger>
           </TabsList>
         </Tabs>
-        <Textarea
+        <div className="relative">
+          {slashOpen && (
+            <div className="absolute bottom-full left-0 z-50 mb-2 w-full max-w-md overflow-hidden rounded-xl border border-border/70 bg-popover p-1.5 shadow-2xl">
+              <p className="px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-muted-foreground">Herramientas multimedia</p>
+              {slashCommands.map(command => (
+                <button key={command.id} type="button" onMouseDown={event => event.preventDefault()} onClick={() => selectSlashCommand(command)} className="flex w-full items-start gap-3 rounded-lg px-2.5 py-2.5 text-left transition-colors hover:bg-accent focus-visible:bg-accent focus-visible:outline-none">
+                  <span className="mt-0.5 rounded-md bg-blue-500/10 p-1.5 text-blue-500">{command.icon}</span>
+                  <span className="min-w-0"><span className="block text-sm font-semibold">{command.label}</span><span className="block text-xs text-muted-foreground">{command.description}</span></span>
+                </button>
+              ))}
+            </div>
+          )}
+          <Textarea
           ref={textareaRef}
           value={prompt}
           onChange={e => setPrompt(e.target.value)}
           placeholder={localGenerating ? 'Pide otra creación mientras terminamos…' : 'Escribe tu prompt...'}
           className="w-full min-h-[110px] resize-none text-sm leading-relaxed sm:min-h-[120px] max-h-72"
-          onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
+          onKeyDown={e => {
+            if (e.key === 'Escape' && slashOpen) { e.preventDefault(); setPrompt(''); return; }
+            if (e.key === 'Enter' && !e.shiftKey) {
+              e.preventDefault();
+              if (slashOpen && slashCommands.length === 1) { selectSlashCommand(slashCommands[0]); return; }
+              handleSend();
+            }
+          }}
         />
+        </div>
         <div className="flex flex-wrap items-center gap-2">
           {activeResponses > 0 && (
             <span className="mr-auto inline-flex items-center gap-2 text-[11px] text-muted-foreground" role="status">
