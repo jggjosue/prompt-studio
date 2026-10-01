@@ -66,6 +66,14 @@ export default function GalleryVideoDetailClient({
       <Header />
       <main className="flex-1 py-8 md:py-12">
         <div className="container min-w-0">
+          <div className="mb-5 md:mb-7">
+            <Button variant="ghost" asChild size="sm" className="-ml-2 h-9 gap-1.5 rounded-lg px-2.5 text-muted-foreground hover:text-foreground">
+              <Link href="/video-prompts">
+                <ArrowLeft className="h-4 w-4" />
+                Back to Video Gallery
+              </Link>
+            </Button>
+          </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
             <div className="space-y-6">
               <div>
@@ -209,14 +217,6 @@ export default function GalleryVideoDetailClient({
                 ))}
               </div>
             </aside>
-          </div>
-          <div className="mt-12 flex justify-center">
-            <Button variant="ghost" asChild size="sm">
-              <Link href="/video-prompts">
-                <ArrowLeft className="mr-2" />
-                Back to Video Gallery
-              </Link>
-            </Button>
           </div>
         </div>
       </main>
