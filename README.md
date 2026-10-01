@@ -213,6 +213,9 @@ More cases, with their cause and resolution, in
 | [docs/TESTING.md](docs/TESTING.md) | Testing architecture, coverage, and what is covered |
 | [docs/DATABASE.md](docs/DATABASE.md) | Models, collections, indexes, and the `user_profiles` incident |
 | [docs/AI_ARCHITECTURE.md](docs/AI_ARCHITECTURE.md) | Lifecycle of the AI job, credits, and output contracts |
+| [docs/ai/SELF_HOSTED_TEXT_DEPLOYMENT.md](docs/ai/SELF_HOSTED_TEXT_DEPLOYMENT.md) | Reproducible Modal/vLLM deployment for the pinned Qwen3-8B text model |
+| [docs/ai/SELF_HOSTED_TEXT_HOSTING.md](docs/ai/SELF_HOSTED_TEXT_HOSTING.md) | Modal-first hosting decision, RunPod comparison, budget policy, and serverless/dedicated migration thresholds |
+| [docs/ai/TEXT_MODEL_BENCHMARK.md](docs/ai/TEXT_MODEL_BENCHMARK.md) | Reproducible text-model benchmark, cost comparison, quality rubric, and production GO/NO-GO gate |
 | [docs/ai/SELF_HOSTED_TEXT_MODEL.md](docs/ai/SELF_HOSTED_TEXT_MODEL.md) | Approved self-hosted text model, immutable revision pin, license obligations, and upgrade review process |
 | [docs/audits/DOCUMENTATION_TO_CODE_MAP.md](docs/audits/DOCUMENTATION_TO_CODE_MAP.md) | Navigable map from documented subsystems to their implementation entry points |
 | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Build, why the AI queue has no scheduler, headers, and variables that break production |
