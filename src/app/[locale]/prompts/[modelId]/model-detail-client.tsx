@@ -20,6 +20,7 @@ import { ArrowLeft, Sparkles, Wand2, Box, Copy, Bot, CheckCircle2, BookOpen, Lig
 import { LazyVideo } from '@/components/lazy-video';
 import { OptimizedImage } from '@/components/optimized-image';
 import { PromptEditButton } from '@/components/prompt-edit-button';
+import { ContextualPremiumUpsell } from '@/components/contextual-premium-upsell';
 import Link from 'next/link';
 import { useMemo } from 'react';
 import { useToast } from '@/hooks/use-toast';
@@ -278,6 +279,8 @@ export default function ModelDetailClient({
                 </div>
               )}
             </section>
+
+            <ContextualPremiumUpsell context={modelName} />
 
             <section className="bg-primary/5 p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-primary/10 relative overflow-hidden">
               <div className="absolute top-0 right-0 p-4 sm:p-8 opacity-5 sm:opacity-10 pointer-events-none">
