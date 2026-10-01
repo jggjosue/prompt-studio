@@ -26,7 +26,7 @@ import {
   Users,
   X,
 } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { type ChangeEvent, type FormEvent, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 
 import {
@@ -169,6 +169,8 @@ function ParallaxFloat({
 }
 
 function EarningsSimulator() {
+  const es = useLocale().startsWith('es');
+  const tr = (en: string, spanish: string) => es ? spanish : en;
   const plans = [
     { id: 'creator', name: 'Creator', monthly: 9, annual: 90, accent: 'text-cyan-300' },
     { id: 'premium', name: 'Premium', monthly: 15, annual: 150, accent: 'text-emerald-300' },
@@ -192,23 +194,23 @@ function EarningsSimulator() {
           <div className="mb-6 flex items-center gap-3">
             <div className="rounded-2xl bg-cyan-400/10 p-3 text-cyan-300"><TrendingUp className="h-6 w-6" /></div>
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-cyan-200">Calculadora interactiva</p>
-              <h3 className="mt-1 text-2xl font-bold text-white sm:text-3xl">Descubre tu potencial</h3>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-cyan-200">{tr('Interactive calculator', 'Calculadora interactiva')}</p>
+              <h3 className="mt-1 text-2xl font-bold text-white sm:text-3xl">{tr('Discover your potential', 'Descubre tu potencial')}</h3>
             </div>
           </div>
-          <p className="mb-7 max-w-xl leading-7 text-slate-300">Simula cuánto podrías ganar según el número de usuarios que refieras y el programa que elijan.</p>
+          <p className="mb-7 max-w-xl leading-7 text-slate-300">{tr('Estimate how much you could earn based on the number of users you refer and the plan they choose.', 'Simula cuánto podrías ganar según el número de usuarios que refieras y el programa que elijan.')}</p>
 
-          <label className="block text-sm font-semibold text-white" htmlFor="affiliate-users">Usuarios referidos</label>
+          <label className="block text-sm font-semibold text-white" htmlFor="affiliate-users">{tr('Referred users', 'Usuarios referidos')}</label>
           <div className="mt-3 flex items-center gap-4">
             <input id="affiliate-users" type="range" min="1" max="500" step="1" value={users} onChange={event => setUsers(Number(event.target.value))} className="h-2 w-full accent-cyan-300" />
-            <input aria-label="Número de usuarios referidos" type="number" min="1" max="500" value={users} onChange={event => setUsers(Math.max(1, Math.min(500, Number(event.target.value) || 1)))} className="w-24 rounded-xl border border-white/15 bg-white/10 px-3 py-2 text-center font-bold text-white outline-none focus:border-cyan-300" />
+            <input aria-label={tr('Number of referred users', 'Número de usuarios referidos')} type="number" min="1" max="500" value={users} onChange={event => setUsers(Math.max(1, Math.min(500, Number(event.target.value) || 1)))} className="w-24 rounded-xl border border-white/15 bg-white/10 px-3 py-2 text-center font-bold text-white outline-none focus:border-cyan-300" />
           </div>
 
           <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {plans.map(item => (
               <button key={item.id} type="button" onClick={() => setPlanId(item.id)} className={`rounded-2xl border p-4 text-left transition ${planId === item.id ? 'border-cyan-300 bg-cyan-300/10 shadow-[0_0_24px_rgba(103,232,249,0.12)]' : 'border-white/10 bg-white/[0.03] hover:border-white/25'}`}>
                 <span className={`block text-sm font-bold ${item.accent}`}>{item.name}</span>
-                <span className="mt-1 block text-xs text-slate-400">${item.monthly}/mes · ${item.annual}/año</span>
+                <span className="mt-1 block text-xs text-slate-400">${item.monthly}/{tr('month', 'mes')} · ${item.annual}/{tr('year', 'año')}</span>
               </button>
             ))}
           </div>
@@ -216,21 +218,21 @@ function EarningsSimulator() {
           <div className="mt-5 flex w-full max-w-sm rounded-full border border-white/15 bg-white/[0.04] p-1">
             {([false, true] as const).map(value => (
               <button key={String(value)} type="button" onClick={() => setAnnual(value)} className={`flex-1 rounded-full px-3 py-2 text-sm font-semibold transition ${annual === value ? 'bg-cyan-300 text-slate-950' : 'text-slate-300 hover:text-white'}`}>
-                {value ? 'Plan anual' : 'Plan mensual'}
+                {value ? tr('Annual plan', 'Plan anual') : tr('Monthly plan', 'Plan mensual')}
               </button>
             ))}
           </div>
         </div>
 
         <motion.div key={`${planId}-${annual}-${users}`} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="rounded-3xl border border-cyan-300/20 bg-gradient-to-br from-cyan-300/10 via-blue-500/10 to-violet-500/10 p-6 sm:p-8">
-          <p className="text-sm text-slate-300">Con {users} {users === 1 ? 'usuario referido' : 'usuarios referidos'} en {plan.name}</p>
+          <p className="text-sm text-slate-300">{tr('With', 'Con')} {users} {users === 1 ? tr('referred user', 'usuario referido') : tr('referred users', 'usuarios referidos')} {tr('on', 'en')} {plan.name}</p>
           <p className="mt-3 text-5xl font-black tracking-tight text-white sm:text-6xl">{formatter.format(monthlyTotal)}</p>
-          <p className="mt-2 text-sm text-cyan-200">{annual ? 'por año' : 'por mes'} en comisiones estimadas</p>
+          <p className="mt-2 text-sm text-cyan-200">{annual ? tr('per year', 'por año') : tr('per month', 'por mes')} {tr('in estimated commissions', 'en comisiones estimadas')}</p>
           <div className="mt-8 grid grid-cols-2 gap-3">
-            <div className="rounded-2xl border border-white/10 bg-slate-950/35 p-4"><p className="text-xs text-slate-400">Por usuario</p><p className="mt-1 text-xl font-bold text-white">{formatter.format(commission)}</p></div>
-            <div className="rounded-2xl border border-white/10 bg-slate-950/35 p-4"><p className="text-xs text-slate-400">Proyección anual</p><p className="mt-1 text-xl font-bold text-white">{formatter.format(annualTotal)}</p></div>
+            <div className="rounded-2xl border border-white/10 bg-slate-950/35 p-4"><p className="text-xs text-slate-400">{tr('Per user', 'Por usuario')}</p><p className="mt-1 text-xl font-bold text-white">{formatter.format(commission)}</p></div>
+            <div className="rounded-2xl border border-white/10 bg-slate-950/35 p-4"><p className="text-xs text-slate-400">{tr('Annual projection', 'Proyección anual')}</p><p className="mt-1 text-xl font-bold text-white">{formatter.format(annualTotal)}</p></div>
           </div>
-          <p className="mt-6 text-xs leading-5 text-slate-400">Estimación basada en una comisión del {AFFILIATE_COMMISSION_PERCENT}%. Las comisiones reales dependen de ventas calificadas, pagos completados y posibles reembolsos.</p>
+          <p className="mt-6 text-xs leading-5 text-slate-400">{tr('Estimate based on a commission of', 'Estimación basada en una comisión del')} {AFFILIATE_COMMISSION_PERCENT}%. {tr('Actual commissions depend on qualified sales, completed payments, and possible refunds.', 'Las comisiones reales dependen de ventas calificadas, pagos completados y posibles reembolsos.')}</p>
         </motion.div>
       </div>
     </GlowCard>
@@ -487,6 +489,8 @@ function Modal({
 
 export default function AffiliateClient() {
   const t = useTranslations('affiliate');
+  const es = useLocale().startsWith('es');
+  const tr = (en: string, spanish: string) => es ? spanish : en;
   const [, setAffiliateRef] = useState<string | null>(null);
   const apply = t.raw('apply') as {
     title: string;
@@ -1310,28 +1314,28 @@ export default function AffiliateClient() {
               </form>
             </GlowCard>
             <GlowCard className="p-8 md:p-10">
-              <p className="text-sm font-semibold uppercase tracking-[0.22em] text-cyan-200">Resumen del partner</p>
+              <p className="text-sm font-semibold uppercase tracking-[0.22em] text-cyan-200">{tr('Partner summary', 'Resumen del partner')}</p>
               <div className="mt-8 space-y-5 text-sm text-slate-300">
                 <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                  <span>Tasa de comisión</span>
+                  <span>{tr('Commission rate', 'Tasa de comisión')}</span>
                   {/* Del código que paga la comisión: la promesa no puede desviarse. */}
                   <span className="font-semibold text-white">{AFFILIATE_COMMISSION_PERCENT}%</span>
                 </div>
                 <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                  <span>Duración de cookie</span>
-                  <span className="font-semibold text-white">60 días</span>
+                  <span>{tr('Cookie duration', 'Duración de cookie')}</span>
+                  <span className="font-semibold text-white">{tr('60 days', '60 días')}</span>
                 </div>
                 <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                  <span>Pagos</span>
-                  <span className="font-semibold text-white">Mensual</span>
+                  <span>{tr('Payouts', 'Pagos')}</span>
+                  <span className="font-semibold text-white">{tr('Monthly', 'Mensual')}</span>
                 </div>
                 <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                  <span>Soporte para partner</span>
-                  <span className="font-semibold text-white">Incluido</span>
+                  <span>{tr('Partner support', 'Soporte para partner')}</span>
+                  <span className="font-semibold text-white">{tr('Included', 'Incluido')}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span>Recursos promocionales</span>
-                  <span className="font-semibold text-white">Incluido</span>
+                  <span>{tr('Promotional resources', 'Recursos promocionales')}</span>
+                  <span className="font-semibold text-white">{tr('Included', 'Incluido')}</span>
                 </div>
               </div>
             </GlowCard>
