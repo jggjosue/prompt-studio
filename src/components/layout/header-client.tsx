@@ -239,7 +239,7 @@ export default function HeaderClient() {
     target?: string;
     rel?: string;
   }> = [
-    { id: 'home', href: '/', label: tNav('discover') },
+    { id: 'home', href: '/', label: isSpanish ? 'Explorar' : 'Explore' },
     {
       id: 'webs',
       label: tNav('webs'),
@@ -444,7 +444,7 @@ export default function HeaderClient() {
     {
       id: 'ask',
       href: '/ask',
-      label: tNav('questions'),
+      label: isSpanish ? 'Comunidad' : 'Community',
       activePrefixes: ['/ask'],
     },
     {
