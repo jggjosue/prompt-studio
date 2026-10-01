@@ -2,7 +2,7 @@
 
 import { LazyVideo } from '@/components/lazy-video';
 import Footer from '@/components/layout/footer';
-import Header from '@/components/layout/header';
+import HeaderClient from '@/components/layout/header-client';
 import {
   Accordion,
   AccordionContent,
@@ -17,7 +17,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useDailyCopyLimit } from '@/hooks/use-daily-copy-limit';
 import { copyToClipboard } from '@/lib/copy-to-clipboard';
 import type { VideoProp } from '@/lib/placeholder-videos';
-import { usePagedPlaceholderVideos } from '@/hooks/use-paged-catalog';
+import { getPlaceholderVideos } from '@/lib/placeholder-videos';
 import { ArrowLeft, Copy, Wand2 } from 'lucide-react';
 import Link from 'next/link';
 import { useMemo } from 'react';
@@ -37,7 +37,7 @@ export default function GalleryVideoDetailClient({
   poster?: string;
 }) {
   const locale = useLocale();
-  const placeholderVideos = usePagedPlaceholderVideos();
+  const placeholderVideos = useMemo(() => getPlaceholderVideos(locale), [locale]);
   const otherItems = useMemo(() => {
     const itemTags = new Set((item.tags || []).filter((tag): tag is string => typeof tag === 'string'));
     return placeholderVideos
@@ -63,7 +63,7 @@ export default function GalleryVideoDetailClient({
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
-      <Header />
+      <HeaderClient />
       <main className="flex-1 py-8 md:py-12">
         <div className="container min-w-0">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">

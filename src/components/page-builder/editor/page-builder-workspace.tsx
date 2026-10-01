@@ -31,6 +31,7 @@ import {
   Smartphone,
   Tablet,
   Trash2,
+  X,
 } from 'lucide-react';
 import type { BuilderComponentProps } from '@/components/page-builder/components';
 import { PropertiesInspector } from '@/components/page-builder/editor/properties-inspector';
@@ -141,6 +142,7 @@ export function PageBuilderWorkspace({ initialSchema, name, sourcePreview }: { i
   const [overId, setOverId] = useState<string | null>(null);
   const [invalidOverId, setInvalidOverId] = useState<string | null>(null);
   const [announcement, setAnnouncement] = useState('Editor listo.');
+  const [mobileInspectorOpen, setMobileInspectorOpen] = useState(false);
   const pageId = schema.site.defaultPageId;
   const page = schema.pages[pageId];
   const sensors = useSensors(
@@ -274,7 +276,7 @@ export function PageBuilderWorkspace({ initialSchema, name, sourcePreview }: { i
                           sectionId={sectionId}
                           breakpoint={breakpoint}
                           selectedId={selectedId}
-                          onSelect={setSelectedId}
+                          onSelect={id => { setSelectedId(id); if (id) setMobileInspectorOpen(true); }}
                           overId={overId}
                           invalidOverId={invalidOverId}
                           active={Boolean(active)}
@@ -293,8 +295,9 @@ export function PageBuilderWorkspace({ initialSchema, name, sourcePreview }: { i
               </div>
             )}
           </main>
-          {!preview ? <PropertiesInspector schema={schema} selectedId={selectedId} breakpoint={breakpoint} onSchemaChange={setSchema} onAnnounce={setAnnouncement} /> : null}
+          {!preview ? <div className="hidden lg:block"><PropertiesInspector schema={schema} selectedId={selectedId} breakpoint={breakpoint} onSchemaChange={setSchema} onAnnounce={setAnnouncement} /></div> : null}
         </div>
+        {!preview && selectedId && mobileInspectorOpen ? <div className="fixed inset-0 z-[70] flex items-end bg-black/60 lg:hidden" role="dialog" aria-modal="true" aria-label="Editar propiedades del componente" onClick={() => setMobileInspectorOpen(false)}><div className="max-h-[78dvh] w-full overflow-hidden rounded-t-2xl border-t border-white/15 bg-[#0d0e13] shadow-2xl" onClick={event => event.stopPropagation()}><div className="flex items-center justify-between border-b border-white/10 px-4 py-3"><div><p className="text-[10px] font-black uppercase tracking-[.16em] text-violet-300">Editar componente</p><p className="text-xs text-zinc-400">Contenido, colores, espaciado y estilos</p></div><button type="button" onClick={() => setMobileInspectorOpen(false)} className="rounded-lg p-2 text-zinc-300 hover:bg-white/10" aria-label="Cerrar propiedades"><X className="size-5" /></button></div><div className="max-h-[calc(78dvh-58px)] overflow-y-auto overscroll-contain pb-[max(1rem,env(safe-area-inset-bottom))] [-webkit-overflow-scrolling:touch]"><PropertiesInspector schema={schema} selectedId={selectedId} breakpoint={breakpoint} onSchemaChange={setSchema} onAnnounce={setAnnouncement} /></div></div></div> : null}
         <div className="flex items-center gap-3 border-t border-white/10 px-3 py-1.5 text-[11px] text-zinc-400">
           <span>{page.sectionIds.length} secciones</span><span>{componentCount} componentes</span><span className="ml-auto" aria-live="polite">{announcement}</span>
         </div>

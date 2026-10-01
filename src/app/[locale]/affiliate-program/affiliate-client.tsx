@@ -1,5 +1,7 @@
 'use client';
 
+import { trackInterest } from '@/lib/interest-analytics';
+
 import { Button } from '@/components/ui/button';
 import { motion, useInView, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import {
@@ -208,7 +210,7 @@ function EarningsSimulator() {
 
           <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {plans.map(item => (
-              <button key={item.id} type="button" onClick={() => setPlanId(item.id)} className={`rounded-2xl border p-4 text-left transition ${planId === item.id ? 'border-cyan-300 bg-cyan-300/10 shadow-[0_0_24px_rgba(103,232,249,0.12)]' : 'border-white/10 bg-white/[0.03] hover:border-white/25'}`}>
+              <button key={item.id} type="button" onClick={() => { trackAffiliateInterest(`calculator-plan-${item.id}`); setPlanId(item.id); }} className={`rounded-2xl border p-4 text-left transition ${planId === item.id ? 'border-cyan-300 bg-cyan-300/10 shadow-[0_0_24px_rgba(103,232,249,0.12)]' : 'border-white/10 bg-white/[0.03] hover:border-white/25'}`}>
                 <span className={`block text-sm font-bold ${item.accent}`}>{item.name}</span>
                 <span className="mt-1 block text-xs text-slate-400">${item.monthly}/{tr('month', 'mes')} · ${item.annual}/{tr('year', 'año')}</span>
               </button>
@@ -217,7 +219,7 @@ function EarningsSimulator() {
 
           <div className="mt-5 flex w-full max-w-sm rounded-full border border-white/15 bg-white/[0.04] p-1">
             {([false, true] as const).map(value => (
-              <button key={String(value)} type="button" onClick={() => setAnnual(value)} className={`flex-1 rounded-full px-3 py-2 text-sm font-semibold transition ${annual === value ? 'bg-cyan-300 text-slate-950' : 'text-slate-300 hover:text-white'}`}>
+              <button key={String(value)} type="button" onClick={() => { trackAffiliateInterest(value ? 'calculator-annual' : 'calculator-monthly'); setAnnual(value); }} className={`flex-1 rounded-full px-3 py-2 text-sm font-semibold transition ${annual === value ? 'bg-cyan-300 text-slate-950' : 'text-slate-300 hover:text-white'}`}>
                 {value ? tr('Annual plan', 'Plan anual') : tr('Monthly plan', 'Plan mensual')}
               </button>
             ))}
@@ -605,8 +607,8 @@ export default function AffiliateClient() {
     }
   }, []);
 
-  const trackAffiliateInterest = (_source: string) => {
-    // Removed Loops event
+  const trackAffiliateInterest = (source: string) => {
+    trackInterest('affiliate_interest_click', { source });
   };
 
   const metricsData = [
@@ -665,6 +667,7 @@ export default function AffiliateClient() {
 
   const submitAffiliateApplication = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    trackAffiliateInterest('application-submit');
     const requiredFields: (keyof FormState)[] = [
       'name',
       'email',
@@ -1111,7 +1114,7 @@ export default function AffiliateClient() {
             subtitle={t('promotion.subtitle')}
           />
           <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {promotionItems.map(item => (
+            {promotionItems.map((item, index) => (
               <GlowCard key={item.title} className="p-6">
                 <h3 className="text-lg font-semibold text-white">{item.title}</h3>
                 <div className="mt-5 flex gap-3 text-xs">
@@ -1121,7 +1124,7 @@ export default function AffiliateClient() {
                 <p className="mt-5 min-h-20 text-sm leading-6 text-slate-300">{item.example}</p>
                 <Button
                   size="sm"
-                  onClick={() => setModal({ title: item.title, body: item.example })}
+                  onClick={() => { trackAffiliateInterest(`promotion-${index}`); setModal({ title: item.title, body: item.example }); }}
                   className="mt-6 rounded-full bg-white/10 text-white hover:bg-white/15"
                 >
                   {t('promotion.viewExample')}

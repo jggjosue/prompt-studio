@@ -1,7 +1,7 @@
 'use client';
 
 import Footer from '@/components/layout/footer';
-import Header from '@/components/layout/header';
+import HeaderClient from '@/components/layout/header-client';
 import {
   Accordion,
   AccordionContent,
@@ -84,7 +84,7 @@ export default function GalleryDetailClient({ item, validation, relatedItems, ma
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-      <Header />
+      <HeaderClient />
       <main className="flex-1 py-8 md:py-12">
         <div className="container min-w-0">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
