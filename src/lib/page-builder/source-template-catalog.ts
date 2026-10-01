@@ -2,6 +2,7 @@ import 'server-only';
 
 import { access, readFile, readdir } from 'node:fs/promises';
 import path from 'node:path';
+import { getRawWebPageByDemoSlug, getCatalogIdByDemoSlug } from '@/lib/web-pages';
 
 export type SourceTemplateAsset = {
   path: string;
@@ -17,6 +18,8 @@ export type SourcePageTemplate = {
   preview: string;
   tags: string[];
   assets: SourceTemplateAsset[];
+  membership: string;
+  catalogId: string | null;
 };
 
 type ProjectMetadata = {
@@ -94,6 +97,7 @@ export async function loadSourcePageTemplates(): Promise<SourcePageTemplate[]> {
         humanizeSlug(entry.name),
       );
       const description = firstText(metadata.description?.es?.prompt, metadata.description?.en?.prompt, metadata.description?.es?.estilo);
+      const catalogPage = getRawWebPageByDemoSlug(entry.name);
       return {
         id: entry.name,
         name,
@@ -103,6 +107,8 @@ export async function loadSourcePageTemplates(): Promise<SourcePageTemplate[]> {
         preview: entry.name,
         tags,
         assets: await mediaAssets(folder, entry.name),
+        membership: catalogPage?.membership?.trim() || 'Premium',
+        catalogId: getCatalogIdByDemoSlug(entry.name),
       } satisfies SourcePageTemplate;
     } catch {
       return null;

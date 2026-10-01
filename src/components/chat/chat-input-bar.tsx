@@ -10,11 +10,17 @@ import {
   Play,
   RotateCcw,
   Trash2,
-  SendHorizonal,
   Zap,
-  ChevronDown,
-  Loader2,
   ScanSearch,
+  Wand2,
+  MessageSquareText,
+  Sparkles,
+  Search,
+  FileText,
+  Code2,
+  LayoutTemplate,
+  Clapperboard,
+  Settings2,
 } from 'lucide-react';
 import { OptimizedImage } from '@/components/optimized-image';
 import { Textarea } from '@/components/ui/textarea';
@@ -25,48 +31,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSearchParams } from 'next/navigation';
 import type { ChatGeneratorReturn, ChatQueueItem, ChatQueueStatus } from '@/lib/chat-types';
 import { ChatMode } from '@/lib/chat-types';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { useAuth, useClerk } from '@clerk/nextjs';
-
-// ── Actual models from ai-credit-config (no invented IDs) ──
-const MODEL_OPTIONS = {
-  image: [
-    { provider: 'google', model: 'imagen-4.0-fast-generate-001', label: 'Imagen 4.0 Fast', credits: 10, description: 'Rápido · Google' },
-    { provider: 'openai', model: 'dall-e-3', label: 'DALL-E 3', credits: 10, description: 'Calidad alta · OpenAI' },
-    { provider: 'openai', model: 'gpt-image-1-mini', label: 'GPT Image Mini', credits: 15, description: 'Avanzado · OpenAI' },
-    { provider: 'fal', model: 'fal-ai/flux/schnell', label: 'Flux Schnell', credits: 10, description: 'Rápido · Fal.ai' },
-  ],
-  video: [
-    { provider: 'google', model: 'gemini-omni-flash', label: 'Gemini Omni Flash', credits: 15, description: 'Edición conversacional · Google' },
-    { provider: 'google', model: 'veo-3.1-generate-001', label: 'Veo 3.1', credits: 25, description: 'Audio nativo · Google' },
-    { provider: 'google', model: 'veo-2.0-generate-001', label: 'Veo 2.0', credits: 20, description: 'Calidad · Google' },
-    { provider: 'runway', model: 'gen-3', label: 'Gen-3 Alpha', credits: 20, description: 'Cinemático · Runway' },
-  ],
-  project: [
-    { provider: 'google', model: 'gemini-2.5-flash', label: 'Gemini 2.5 Flash', credits: 1, description: 'Rápido · Google' },
-    { provider: 'google', model: 'gemini-2.5-pro', label: 'Gemini 2.5 Pro', credits: 3, description: 'Avanzado · Google' },
-    { provider: 'google', model: 'gemini-2.0-flash', label: 'Gemini 2.0 Flash', credits: 1, description: 'Rápido · Google' },
-    { provider: 'openai', model: 'gpt-4o', label: 'GPT-4o', credits: 4, description: 'Avanzado · OpenAI' },
-    { provider: 'anthropic', model: 'claude-3-5-sonnet-20240620', label: 'Claude 3.5 Sonnet', credits: 8, description: 'Premium · Anthropic' },
-  ],
-  vision: [
-    { provider: 'google', model: 'gemini-3.8-flash', label: 'Gemini 3.8 Flash (Vision)', credits: 1, description: 'Visión rápida · Google' },
-  ],
-  text: [
-    { provider: 'google', model: 'gemini-3.8-flash', label: 'Gemini 3.8 Flash', credits: 1, description: 'Generación rápida de texto · Google' },
-  ],
-  videoUnderstanding: [
-    { provider: 'google', model: 'gemini-3.8-flash', label: 'Gemini 3.8 Flash', credits: 2, description: 'Análisis de video · Google' },
-  ],
-} as const satisfies Record<ChatMode, Array<{ provider: string; model: string; label: string; credits: number; description: string }>>;
+import { trackInterest } from '@/lib/interest-analytics';
 
 const MODE_CONFIG: Record<ChatMode, { label: string; icon: React.ReactNode; color: string; placeholder: string }> = {
   image: {
@@ -107,12 +72,63 @@ const MODE_CONFIG: Record<ChatMode, { label: string; icon: React.ReactNode; colo
   },
 };
 
-export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
+export function ChatInputBar({
+  chat,
+  variant = 'docked',
+  onOpenSettings,
+}: {
+  chat: ChatGeneratorReturn;
+  variant?: 'hero' | 'docked';
+  onOpenSettings: () => void;
+}) {
   const [prompt, setPrompt] = useState('');
+  const [selectedSlashCommand, setSelectedSlashCommand] = useState<{ id: string; label: string; description: string } | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const searchParams = useSearchParams();
-  const { selectedMode, setSelectedMode, params, generate, localGenerating, messages, queue, queueRunning, enqueue, startQueue, removeQueueItem, retryQueueItem, clearQueue } = chat;
+  const { selectedMode, setSelectedMode, params, generate, localGenerating, messages, queue, queueRunning, enqueue, startQueue, removeQueueItem, retryQueueItem, clearQueue, draftPrompt, setDraftPrompt } = chat;
   const activeResponses = messages.filter(message => message.role === 'assistant' && message.status === 'pending').length;
+
+  const slashQuery = prompt.startsWith('/') ? prompt.slice(1).trim().toLowerCase() : null;
+  const commandMode = selectedMode === 'vision' ? 'image' : selectedMode === 'videoUnderstanding' ? 'video' : selectedMode;
+  const commandCatalog: Partial<Record<ChatMode, Array<{ id: string; label: string; description: string; icon: React.ReactNode; mode: ChatMode; instruction: string }>>> = {
+    text: [
+      { id: 'write', label: 'Redactar', description: 'Escribe o mejora cualquier texto', icon: <MessageSquareText className="h-4 w-4" />, mode: 'text', instruction: 'Redacta con claridad y buena estructura: ' },
+      { id: 'summarize', label: 'Resumir', description: 'Resume el contenido conservando lo esencial', icon: <FileText className="h-4 w-4" />, mode: 'text', instruction: 'Resume de forma clara y concisa: ' },
+      { id: 'research', label: 'Investigar', description: 'Desarrolla una investigación estructurada', icon: <Search className="h-4 w-4" />, mode: 'text', instruction: 'Investiga y explica con estructura, contexto y conclusiones: ' },
+      { id: 'improve', label: 'Mejorar texto', description: 'Corrige estilo, claridad y redacción', icon: <Sparkles className="h-4 w-4" />, mode: 'text', instruction: 'Mejora la redacción, claridad y estilo del siguiente texto: ' },
+      { id: 'optimize-prompt', label: 'Optimizar prompt', description: 'Mejora objetivos, contexto, restricciones y formato', icon: <Wand2 className="h-4 w-4" />, mode: 'text', instruction: 'Optimiza el siguiente prompt. Conserva la intención y mejora objetivo, contexto, restricciones, criterios de calidad y formato de salida: ' },
+      { id: 'audit-code', label: 'Auditar código', description: 'Detecta errores, riesgos y oportunidades de mejora', icon: <Code2 className="h-4 w-4" />, mode: 'text', instruction: 'Audita el siguiente código. Identifica errores, riesgos de seguridad, problemas de rendimiento y mantenibilidad, y propón correcciones concretas: ' },
+    ],
+    image: [
+      { id: 'create-image', label: 'Crear imagen', description: 'Genera una imagen desde tu descripción', icon: <ImageIcon className="h-4 w-4" />, mode: 'image', instruction: 'Crea una imagen: ' },
+      { id: 'edit-image', label: 'Editar imagen', description: 'Transforma una imagen siguiendo instrucciones', icon: <Wand2 className="h-4 w-4" />, mode: 'vision', instruction: 'Edita esta imagen siguiendo estas instrucciones: ' },
+      { id: 'analyze-image', label: 'Analizar imagen', description: 'Describe y extrae información visual', icon: <ScanSearch className="h-4 w-4" />, mode: 'vision', instruction: 'Analiza esta imagen y responde a esta petición: ' },
+      { id: 'image-to-video', label: 'Imagen a video', description: 'Prepara una imagen para convertirla en video', icon: <Video className="h-4 w-4" />, mode: 'video', instruction: 'Convierte esta imagen en video con estas instrucciones: ' },
+    ],
+    video: [
+      { id: 'create-video', label: 'Crear video', description: 'Genera un video desde tu descripción', icon: <Clapperboard className="h-4 w-4" />, mode: 'video', instruction: 'Crea un video: ' },
+      { id: 'image-to-video', label: 'Imagen a video', description: 'Anima una imagen siguiendo tu idea', icon: <ImageIcon className="h-4 w-4" />, mode: 'video', instruction: 'Convierte esta imagen en video: ' },
+      { id: 'analyze-video', label: 'Analizar video', description: 'Resume o extrae información de un video', icon: <ScanSearch className="h-4 w-4" />, mode: 'videoUnderstanding', instruction: 'Analiza este video y responde a esta petición: ' },
+      { id: 'video-prompt', label: 'Mejorar prompt de video', description: 'Optimiza escena, cámara, movimiento y estilo', icon: <Sparkles className="h-4 w-4" />, mode: 'video', instruction: 'Optimiza este prompt de video incluyendo escena, cámara, movimiento, iluminación y estilo: ' },
+    ],
+    project: [
+      { id: 'create-web', label: 'Crear página web', description: 'Genera una página desde una descripción', icon: <Globe className="h-4 w-4" />, mode: 'project', instruction: 'Crea una página web: ' },
+      { id: 'landing', label: 'Landing page', description: 'Crea una landing enfocada en conversión', icon: <LayoutTemplate className="h-4 w-4" />, mode: 'project', instruction: 'Crea una landing page moderna y responsive para: ' },
+      { id: 'component', label: 'Componente UI', description: 'Genera un componente reutilizable', icon: <Code2 className="h-4 w-4" />, mode: 'project', instruction: 'Crea un componente UI accesible y responsive: ' },
+      { id: 'improve-web', label: 'Mejorar interfaz', description: 'Mejora UX, accesibilidad y diseño', icon: <Wand2 className="h-4 w-4" />, mode: 'project', instruction: 'Mejora esta interfaz en UX, accesibilidad, responsive y diseño visual: ' },
+    ],
+  };
+  const modeCommands = commandCatalog[commandMode] ?? commandCatalog.text ?? [];
+  const slashCommands = modeCommands.filter(command => !slashQuery || command.label.toLowerCase().includes(slashQuery) || command.id.includes(slashQuery) || command.description.toLowerCase().includes(slashQuery));
+  const slashOpen = slashQuery !== null;
+
+  const selectSlashCommand = (command: (typeof modeCommands)[number]) => {
+    setSelectedMode(command.mode);
+    setPrompt(command.instruction);
+    setSelectedSlashCommand({ id: command.id, label: command.label, description: command.description });
+    trackInterest('generate_option_click', { option: 'slash_command', value: command.id, mode: command.mode });
+    requestAnimationFrame(() => textareaRef.current?.focus());
+  };
 
   // Pre-fill from URL params
   useEffect(() => {
@@ -121,8 +137,16 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
       // URLSearchParams already decodes the value. Decoding it again corrupts
       // valid prompt content containing percent signs or encoded-looking text.
       setPrompt(promptParam);
+      setSelectedSlashCommand(null);
     }
   }, [searchParams, messages.length]);
+
+  useEffect(() => {
+    if (!draftPrompt) return;
+    setPrompt(draftPrompt);
+    setDraftPrompt('');
+    requestAnimationFrame(() => textareaRef.current?.focus());
+  }, [draftPrompt, setDraftPrompt]);
 
   // Auto-grow del textarea hasta max-h
   useEffect(() => {
@@ -135,15 +159,19 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
   const handleSend = () => {
     if (!prompt.trim()) return;
     const trimmed = prompt.trim();
+    trackInterest('generate_action', { action: 'send_prompt', mode: selectedMode, model: params.model });
     setPrompt('');
+    setSelectedSlashCommand(null);
     void generate(trimmed, params, selectedMode);
     requestAnimationFrame(() => textareaRef.current?.focus());
   };
 
   const handleAddToQueue = () => {
     if (!prompt.trim()) return;
+    trackInterest('generate_action', { action: 'add_to_queue', mode: selectedMode });
     enqueue(prompt);
     setPrompt('');
+    setSelectedSlashCommand(null);
   };
 
   const handleStartQueue = () => {
@@ -152,6 +180,7 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
     if (prompt.trim()) {
       enqueue(prompt);
       setPrompt('');
+      setSelectedSlashCommand(null);
     }
   };
 
@@ -214,24 +243,77 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
   };
 
   return (
-    <div className="border-t border-border bg-background p-3 sm:p-4">
-      <div className="mx-auto flex w-full max-w-3xl flex-col gap-2">
-        <Tabs value={selectedMode} onValueChange={(v) => setSelectedMode(v as ChatMode)} className="w-fit">
+    <div className={variant === 'hero' ? 'bg-transparent' : 'border-t border-border/60 bg-background/95 p-3 backdrop-blur-xl sm:p-4'}>
+      <div className={variant === 'hero'
+        ? 'mx-auto flex w-full max-w-3xl flex-col gap-2 rounded-3xl border border-border/70 bg-card/80 p-2.5 shadow-[0_18px_55px_rgba(0,0,0,0.18)]'
+        : 'mx-auto flex w-full max-w-3xl flex-col gap-2 rounded-2xl border border-border/60 bg-card/60 p-2.5 shadow-lg'}>
+        <div className="flex items-center justify-between gap-2">
+        <Tabs value={selectedMode} onValueChange={(v) => { trackInterest('generate_option_click', { option: 'mode', value: v }); setSelectedSlashCommand(null); setSelectedMode(v as ChatMode); }} className="w-fit">
           <TabsList>
+            <TabsTrigger value="text"><MessageSquareText className="h-3 w-3 mr-1" />Chat</TabsTrigger>
             <TabsTrigger value="image"><ImageIcon className="h-3 w-3 mr-1" />Imagen</TabsTrigger>
-            <TabsTrigger value="video" disabled><Video className="h-3 w-3 mr-1" />Video</TabsTrigger>
-            <TabsTrigger value="project" disabled><Globe className="h-3 w-3 mr-1" />Web</TabsTrigger>
+            <TabsTrigger value="video"><Video className="h-3 w-3 mr-1" />Video</TabsTrigger>
+            <TabsTrigger value="project"><Globe className="h-3 w-3 mr-1" />Web</TabsTrigger>
           </TabsList>
         </Tabs>
-        <Textarea
+          <button
+            type="button"
+            onClick={onOpenSettings}
+            className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-xl border border-border/60 px-2.5 text-xs font-semibold text-muted-foreground transition-colors hover:border-blue-500/40 hover:bg-blue-500/10 hover:text-blue-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            aria-label="Abrir configuración de creación"
+          >
+            <Settings2 className="h-3.5 w-3.5" />
+            <span className="hidden sm:inline">Configurar</span>
+          </button>
+        </div>
+        {selectedSlashCommand && !slashOpen && (
+          <div className="flex min-h-6 items-center gap-1.5 px-1 text-xs text-muted-foreground" role="status" aria-label={`Capacidad del chat seleccionada: ${selectedSlashCommand.label}`}>
+            <Zap className="h-3.5 w-3.5 text-blue-500" />
+            <span>Capacidad del chat:</span>
+            <span className="font-semibold text-blue-500 underline decoration-blue-500/50 underline-offset-4" title={selectedSlashCommand.description}>
+              /{selectedSlashCommand.label}
+            </span>
+          </div>
+        )}
+        <div className="relative">
+          {slashOpen && (
+            <div className="absolute bottom-full left-0 z-50 mb-2 w-full max-w-md overflow-hidden rounded-xl border border-border/70 bg-popover p-1.5 shadow-2xl">
+              <div className="flex items-center justify-between px-2.5 py-2">
+                <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-muted-foreground">Acciones · {MODE_CONFIG[commandMode].label}</p>
+                <span className="text-[10px] text-muted-foreground">Esc para cerrar</span>
+              </div>
+              {slashCommands.length === 0 ? (
+                <p className="px-3 py-4 text-sm text-muted-foreground">No hay acciones que coincidan con “{slashQuery}”.</p>
+              ) : slashCommands.map(command => (
+                <button key={command.id} type="button" onMouseDown={event => event.preventDefault()} onClick={() => selectSlashCommand(command)} className="flex w-full items-start gap-3 rounded-lg px-2.5 py-2.5 text-left transition-colors hover:bg-accent focus-visible:bg-accent focus-visible:outline-none">
+                  <span className="mt-0.5 rounded-md bg-blue-500/10 p-1.5 text-blue-500">{command.icon}</span>
+                  <span className="min-w-0"><span className="block text-sm font-semibold">{command.label}</span><span className="block text-xs text-muted-foreground">{command.description}</span></span>
+                </button>
+              ))}
+            </div>
+          )}
+          <Textarea
           ref={textareaRef}
           value={prompt}
-          onChange={e => setPrompt(e.target.value)}
-          placeholder={localGenerating ? 'Pide otra creación mientras terminamos…' : 'Escribe tu prompt...'}
-          className="w-full min-h-[110px] resize-none text-sm leading-relaxed sm:min-h-[120px] max-h-72"
-          onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
+          onChange={e => { setPrompt(e.target.value); if (!e.target.value) setSelectedSlashCommand(null); }}
+          placeholder={localGenerating ? 'Pide otra creación mientras terminamos…' : `${MODE_CONFIG[selectedMode].placeholder}  ·  Escribe / para acciones`}
+          className={variant === 'hero'
+            ? 'min-h-[72px] max-h-72 w-full resize-none border-0 bg-transparent px-2 py-3 text-sm leading-relaxed shadow-none focus-visible:ring-0 sm:min-h-[82px]'
+            : 'min-h-[64px] max-h-72 w-full resize-none border-0 bg-transparent px-2 py-2 text-sm leading-relaxed shadow-none focus-visible:ring-0 sm:min-h-[72px]'}
+          onKeyDown={e => {
+            if (e.key === 'Escape' && slashOpen) { e.preventDefault(); setPrompt(''); setSelectedSlashCommand(null); return; }
+            if (e.key === 'Enter' && !e.shiftKey) {
+              e.preventDefault();
+              if (slashOpen) {
+                if (slashCommands.length === 1) selectSlashCommand(slashCommands[0]);
+                return;
+              }
+              handleSend();
+            }
+          }}
         />
-        <div className="flex flex-wrap items-center gap-2">
+        </div>
+        <div className="flex flex-wrap items-center gap-2 px-1 pb-0.5">
           {activeResponses > 0 && (
             <span className="mr-auto inline-flex items-center gap-2 text-[11px] text-muted-foreground" role="status">
               <span className="relative flex h-2 w-2">

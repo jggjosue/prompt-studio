@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
-import { auth } from '@clerk/nextjs/server';
+import { auth, currentUser } from '@clerk/nextjs/server';
 import { setRequestLocale } from 'next-intl/server';
 import {
   getServerSubscriptionStatus,
   hasComponentBuilderPlan,
 } from '@/lib/server-subscription-status';
 import { loadSourcePageTemplates } from '@/lib/page-builder/source-template-catalog';
+import { isPromptStudioAdminEmail } from '@/lib/prompt-studio-admin';
 import VisualPageComposerClient from './page-composer-editor-client';
 import PageComposerPremiumGate from './page-composer-premium-gate';
 
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: true },
 };
 
-/** El generador requiere el plan Creator o superiores, comprobado en servidor. */
+/** El generador permanece en acceso anticipado exclusivo para el super administrador. */
 export const dynamic = 'force-dynamic';
 
 /**
@@ -25,18 +26,22 @@ export const dynamic = 'force-dynamic';
  * implementación. Se conserva la puerta aquí porque el editor vive en una
  * subruta y este es el único punto que la aplica.
  */
-export default async function PageComposerPage({ params }: { params: Promise<{ locale: string }> }) {
+export default async function PageComposerPage({ params, searchParams }: { params: Promise<{ locale: string }>; searchParams: Promise<{ template?: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale);
 
   const { userId } = await auth();
   if (!userId) return <PageComposerPremiumGate reason="anonymous" locale={locale} />;
 
-  const status = await getServerSubscriptionStatus();
-  if (!hasComponentBuilderPlan(status)) {
-    return <PageComposerPremiumGate reason="unpaid" locale={locale} />;
+  const user = await currentUser();
+  const email = user?.primaryEmailAddress?.emailAddress;
+  if (!isPromptStudioAdminEmail(email)) {
+    return <PageComposerPremiumGate reason="restricted" locale={locale} />;
   }
 
+  const status = await getServerSubscriptionStatus();
+  const canUsePremiumTemplates = hasComponentBuilderPlan(status) || isPromptStudioAdminEmail(email);
   const templates = await loadSourcePageTemplates();
-  return <VisualPageComposerClient canEdit templates={templates} />;
+  const { template } = await searchParams;
+  return <VisualPageComposerClient canEdit templates={templates} initialTemplateId={template ?? null} purchasedPages={status.purchasedPages} canUsePremiumTemplates={canUsePremiumTemplates} />;
 }

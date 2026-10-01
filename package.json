@@ -72,7 +72,8 @@
     "test:refactory-runtime": "node --import tsx --test tests/unit/refactory-bundle-contract.test.ts tests/integration/refactory-runtime.test.ts",
     "verify:resend-deliverability": "node scripts/mjs/audit-resend-deliverability.mjs",
     "precompress:static": "node scripts/mjs/precompress-static.mjs",
-    "audit:optimization-artifacts": "node scripts/mjs/audit-optimization-artifacts.mjs"
+    "audit:optimization-artifacts": "node scripts/mjs/audit-optimization-artifacts.mjs",
+    "worker:aws": "tsx workers/aws-generation-worker.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1049.0",

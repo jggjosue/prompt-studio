@@ -35,6 +35,7 @@ import {
   ChevronDown,
   ChevronRight,
   FolderHeart,
+  Flame,
   Globe,
   HandHeart,
   Megaphone,
@@ -47,8 +48,6 @@ import {
   PackageCheck,
   Search,
   Scale,
-  ShieldCheck,
-  Sparkles,
   UserPlus,
   Video,
   WandSparkles,
@@ -57,7 +56,6 @@ import { ClientLink } from '@/components/client-link';
 import { RoutePrefetchProvider } from '@/components/route-prefetch-provider';
 import { isNavActive } from '@/lib/app-routes';
 import { cn } from '@/lib/utils';
-import { useSuperAdmin } from '@/hooks/use-super-admin';
 import { usePathname } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 // import { ThemeToggle } from '../theme-toggle';
@@ -149,7 +147,6 @@ export default function HeaderClient() {
   }, []);
 
   const { isLoaded } = useAuth();
-  const isSuperAdmin = useSuperAdmin();
   const pathname = usePathname();
   const tNav = useTranslations('nav');
   const tHeader = useTranslations('header');
@@ -158,36 +155,38 @@ export default function HeaderClient() {
   const uiKits = isSpanish ? UI_KITS : EN_UI_KITS;
   const copy = isSpanish ? {
     tools: 'Herramientas', library: 'Mi biblioteca', explore: 'Explorar', create: 'Crear',
-    optimize: 'Optimizar prompts', optimizeDesc: 'Mejora con objetivos y compara los cambios',
-    auditor: 'Auditor de código', auditorDesc: 'Detecta errores y genera un prompt de corrección',
     favorites: 'Favoritos y proyectos', favoritesDesc: 'Organiza componentes y descarga tus kits',
     compare: 'Comparar componentes', compareDesc: 'Compara hasta tres diseños lado a lado',
     kits: 'Kits completos', kitsDesc: 'Colecciones coherentes listas para productos',
     search: 'Buscador inteligente', searchDesc: 'Busca por tipo, industria, color y función',
-    builder: 'Constructor visual', builderDesc: 'Personaliza componentes y genera el prompt',
-    composer: 'Generador de páginas', composerDesc: 'Combina componentes y descarga Next.js',
+    builder: 'Constructor visual', builderDesc: 'Personaliza componentes y estilos visualmente',
+    composer: 'Generador de páginas', composerDesc: 'Combina componentes para construir una página',
     components: 'Componentes UI', pieces: 'piezas con prompts', webGenerator: 'Generador Web',
-    webGeneratorDesc: 'Genera nuevas páginas web con IA', imageGenerator: 'Generar Imagen',
-    imageGeneratorDesc: 'Crea imágenes hiperrealistas con IA', videoGenerator: 'Generar Video',
-    videoGeneratorDesc: 'Crea videos cinematográficos con IA', comingSoon: 'Próximamente',
-    back: 'Volver', viewAll: 'Ver todos los kits', crowdfunding: 'Crowdfunding',
-    crowdfundingDesc: 'Apoya Prompt Studio y calcula tus Founder Credits', affiliate: 'Afíliate', affiliateDesc: 'Recomienda Prompt Studio y participa en el programa de afiliados',
+    webGeneratorDesc: 'Crea una web completa desde un prompt', imageGenerator: 'Generador de imágenes',
+    imageGeneratorDesc: 'Crea imágenes con IA desde un prompt', videoGenerator: 'Generador de videos',
+    videoGeneratorDesc: 'Crea videos con IA desde un prompt',
+    back: 'Volver', viewAll: 'Ver todos los kits', crowdfunding: 'Founder Program',
+    crowdfundingDesc: 'Apoya Prompt Studio y recibe Founder Credits', affiliate: 'Affiliate Program', affiliateDesc: 'Recomienda Prompt Studio y gana comisiones',
+    creator: 'Programa de Creadores', creatorDesc: 'Crea, publica y monetiza contenido en Prompt Studio', ambassador: 'Programa de Embajadores', ambassadorDesc: 'Representa a Prompt Studio y ayuda a crecer la comunidad',
+    gallery: 'Galería', galleryDesc: 'Creaciones de la comunidad', trends: 'Tendencias', trendsDesc: 'Prompts y estilos populares',
+    programs: 'Programas', media: 'Multimedia',
   } : {
     tools: 'Tools', library: 'My library', explore: 'Explore', create: 'Create',
-    optimize: 'Optimize prompts', optimizeDesc: 'Improve prompts with goals and compare changes',
-    auditor: 'Code auditor', auditorDesc: 'Detect errors and generate a correction prompt',
     favorites: 'Favorites and projects', favoritesDesc: 'Organize components and download your kits',
     compare: 'Compare components', compareDesc: 'Compare up to three designs side by side',
     kits: 'Complete kits', kitsDesc: 'Consistent collections ready for products',
     search: 'Smart search', searchDesc: 'Search by type, industry, color, and function',
-    builder: 'Visual builder', builderDesc: 'Customize components and generate the prompt',
-    composer: 'Page generator', composerDesc: 'Combine components and download Next.js',
+    builder: 'Visual builder', builderDesc: 'Customize components and styles visually',
+    composer: 'Page generator', composerDesc: 'Combine components to build a page',
     components: 'UI Components', pieces: 'prompt-ready pieces', webGenerator: 'Web Generator',
-    webGeneratorDesc: 'Generate new web pages with AI', imageGenerator: 'Generate Image',
-    imageGeneratorDesc: 'Create hyperrealistic images with AI', videoGenerator: 'Generate Video',
-    videoGeneratorDesc: 'Create cinematic videos with AI', comingSoon: 'Coming soon',
-    back: 'Back', viewAll: 'View all kits', crowdfunding: 'Crowdfunding',
-    crowdfundingDesc: 'Support Prompt Studio and calculate your Founder Credits', affiliate: 'Affiliate', affiliateDesc: 'Recommend Prompt Studio and join the affiliate program',
+    webGeneratorDesc: 'Create a complete website from a prompt', imageGenerator: 'Image Generator',
+    imageGeneratorDesc: 'Create AI images from a prompt', videoGenerator: 'Video Generator',
+    videoGeneratorDesc: 'Create AI videos from a prompt',
+    back: 'Back', viewAll: 'View all kits', crowdfunding: 'Founder Program',
+    crowdfundingDesc: 'Support Prompt Studio and receive Founder Credits', affiliate: 'Affiliate Program', affiliateDesc: 'Recommend Prompt Studio and earn commissions',
+    creator: 'Creator Program', creatorDesc: 'Create, publish, and monetize content on Prompt Studio', ambassador: 'Ambassador Program', ambassadorDesc: 'Represent Prompt Studio and help grow the community',
+    gallery: 'Gallery', galleryDesc: 'Community creations', trends: 'Trending', trendsDesc: 'Popular prompts and styles',
+    programs: 'Programs', media: 'Media Studio',
   };
   const groupLabel = (label: string) => ({
     Herramientas: copy.tools,
@@ -196,14 +195,8 @@ export default function HeaderClient() {
     Crear: copy.create,
   })[label] ?? label;
 
-  /**
-   * Constructor visual y Generador de páginas. Se anuncian siempre para que el
-   * menú no cambie de forma al entrar, pero solo el super administrador
-   * (`PROMPT_STUDIO_PREMIUM_JO`) puede abrirlos: el resto las ve marcadas como
-   * «Próximamente» y sin enlace navegable.
-   */
+  /** Herramientas de creación. Cada ruta aplica su autorización en servidor. */
   const paidCreatorItems = (): DropdownItem[] => {
-    const locked = isSuperAdmin ? {} : { disabled: true, disabledBadge: copy.comingSoon };
     return [
       {
         href: '/component-builder',
@@ -211,7 +204,6 @@ export default function HeaderClient() {
         label: copy.builder,
         description: copy.builderDesc,
         icon: <WandSparkles className="h-4 w-4" />,
-        ...locked,
       },
       {
         href: '/page-composer',
@@ -219,7 +211,6 @@ export default function HeaderClient() {
         label: copy.composer,
         description: copy.composerDesc,
         icon: <LayoutTemplate className="h-4 w-4" />,
-        ...locked,
       },
     ];
   };
@@ -233,30 +224,12 @@ export default function HeaderClient() {
     target?: string;
     rel?: string;
   }> = [
-    { id: 'home', href: '/', label: tNav('discover') },
+    { id: 'home', href: '/', label: isSpanish ? 'Explorar' : 'Explore' },
     {
       id: 'webs',
       label: tNav('webs'),
       activePrefixes: ['/landing-pages', '/web-animations', '/login-components', '/header-components', '/text-components', '/form-components', '/button-components', '/card-components', '/navigation-components', '/sidebar-components', '/component-builder', '/page-composer', '/smart-search', '/prompt-optimizer', '/component-kits', '/component-compare', '/my-components', '/code-auditor', '/web-tags', '/generate'],
       dropdown: [
-        {
-          href: '/prompt-optimizer',
-          group: 'Herramientas',
-          label: copy.optimize,
-          description: copy.optimizeDesc,
-          icon: <Sparkles className="h-4 w-4" />,
-          disabled: true,
-          disabledBadge: copy.comingSoon,
-        },
-        {
-          href: '/code-auditor',
-          group: 'Herramientas',
-          label: copy.auditor,
-          description: copy.auditorDesc,
-          icon: <ShieldCheck className="h-4 w-4" />,
-          disabled: true,
-          disabledBadge: copy.comingSoon,
-        },
         {
           href: '/my-components',
           group: 'Mi biblioteca',
@@ -285,6 +258,15 @@ export default function HeaderClient() {
           description: copy.searchDesc,
           icon: <Search className="h-4 w-4" />,
         },
+        {
+          href: '/generate',
+          target: '_blank',
+          rel: 'noopener noreferrer',
+          group: 'Crear',
+          label: copy.webGenerator,
+          description: copy.webGeneratorDesc,
+          icon: <Globe className="h-4 w-4" />,
+        },
         ...paidCreatorItems(),
         {
           href: '/landing-pages',
@@ -301,23 +283,14 @@ export default function HeaderClient() {
           icon: <Layers3 className="h-4 w-4" />,
           kits: uiKits,
         },
-        {
-          href: '/generate',
-          target: '_blank',
-          rel: 'noopener noreferrer',
-          group: 'Crear',
-          label: copy.webGenerator,
-          description: copy.webGeneratorDesc,
-          icon: <Globe className="h-4 w-4" />,
-        },
       ],
     },
     {
+      // Media hub: Explore discovery + Create AI workflows.
       id: 'media',
-      label: 'Media',
+      label: copy.media,
       activePrefixes: [
         '/image-prompts',
-        '/gallery',
         '/image-tags',
         '/video-prompts',
         '/gallery-videos',
@@ -338,6 +311,13 @@ export default function HeaderClient() {
           label: tNav('videos'),
           description: tNav('videosDesc'),
           icon: <Video className="h-4 w-4" />,
+        },
+        {
+          href: '/image-tags',
+          group: 'Explorar',
+          label: copy.trends,
+          description: copy.trendsDesc,
+          icon: <Flame className="h-4 w-4" />,
         },
         {
           href: '/generate?mode=image',
@@ -361,11 +341,11 @@ export default function HeaderClient() {
     },
     {
       id: 'community',
-      label: 'Crowdfunding',
-      activePrefixes: ['/founder', '/affiliate-program', '/affiliate-program-terms'],
+      label: copy.programs,
+      activePrefixes: ['/crowdfunding', '/affiliate-program', '/affiliate-program-terms'],
       dropdown: [
         {
-          href: '/founder',
+          href: '/crowdfunding',
           label: copy.crowdfunding,
           description: copy.crowdfundingDesc,
           icon: <Megaphone className="h-4 w-4" />,
@@ -381,7 +361,7 @@ export default function HeaderClient() {
     {
       id: 'ask',
       href: '/ask',
-      label: tNav('questions'),
+      label: isSpanish ? 'Comunidad' : 'Community',
       activePrefixes: ['/ask'],
     },
     {
@@ -410,13 +390,14 @@ export default function HeaderClient() {
               <span className="sr-only">{tCommon('toggleMenu')}</span>
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="w-full max-w-sm p-6">
-            <ClientLink href="/" className="mr-6 flex items-center gap-2 mb-8">
+          <SheetContent side="left" className="flex h-[100dvh] w-full max-w-sm flex-col overflow-hidden p-0">
+            <div className="shrink-0 px-6 pt-6"><ClientLink href="/" className="mr-6 flex items-center gap-2 mb-8">
               <Logo />
               <span className="font-bold sm:inline-block font-headline">
                 {tHeader('brand')}
               </span>
-            </ClientLink>
+            </ClientLink></div>
+            <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] [-webkit-overflow-scrolling:touch]">
             <SheetClose asChild>
               <ClientLink
                 href="/generate"
@@ -497,14 +478,14 @@ export default function HeaderClient() {
                                     <div
                                       key={item.label}
                                       aria-disabled="true"
-                                      className="flex w-full cursor-not-allowed items-start gap-3 rounded-lg p-3 text-left opacity-50 select-none"
+                                      className="flex w-full cursor-not-allowed items-start gap-3 rounded-lg p-3 text-left opacity-65 select-none"
                                     >
                                       <span className="rounded-md bg-muted p-2 text-muted-foreground">{item.icon}</span>
                                       <span className="min-w-0 flex-1">
                                         <div className="flex items-center gap-1.5">
-                                          <span className="block font-semibold text-muted-foreground">{item.label}</span>
+                                          <span className="block font-semibold text-foreground/70">{item.label}</span>
                                           {item.disabledBadge && (
-                                            <span className="rounded-full bg-muted px-1.5 py-0.2 text-[9px] font-medium text-muted-foreground border border-border/50">
+                                            <span className="rounded-full border border-amber-500/20 bg-amber-500/10 px-1.5 py-0.5 text-[9px] font-semibold text-amber-500/80">
                                               {item.disabledBadge}
                                             </span>
                                           )}
@@ -578,6 +559,7 @@ export default function HeaderClient() {
                   </Show>
                 </>
               )}
+            </div>
             </div>
           </SheetContent>
         </Sheet>
