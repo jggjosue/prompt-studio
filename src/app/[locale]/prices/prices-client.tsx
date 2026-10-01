@@ -17,7 +17,7 @@ import {
 } from '@/lib/stripe-checkout';
 import { type PlanId } from '@/lib/subscription-plans';
 import { useAuth } from '@clerk/nextjs';
-import { Check, Crown, Gem, Sparkles, Zap, UserRound, Eye, Workflow } from 'lucide-react';
+import { Check, Crown, Gem, Sparkles, Zap } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -120,18 +120,6 @@ function CreatorCoupon({ planId, isAnnual }: { planId: PlanId | 'premium'; isAnn
   );
 }
 
-
-const ACCESS_OUTCOMES = [
-  { title: 'Anonymous Free', icon: Eye, items: ['Explore public prompt examples', 'See how workflows are structured', 'Try discovery before creating an account'] },
-  { title: 'Registered Free', icon: UserRound, items: ['Save favorites to your library', 'Keep recent creation history', 'Return to free tools across sessions'] },
-  { title: 'Creator Premium', icon: Crown, items: ['Unlock premium collections and templates', 'Use advanced reusable workflows', 'Get the full creator experience for $9/month'] },
-] as const;
-
-const PREMIUM_EXAMPLES = [
-  { title: 'Campaign workflow', description: 'Go from brief to reusable prompt sequence instead of starting from scratch.' },
-  { title: 'Premium prompt packs', description: 'Use curated multi-step systems for recurring creative and business tasks.' },
-  { title: 'Advanced templates', description: 'Start from proven structures, customize them, and keep the result in your library.' },
-] as const;
 
 const PLAN_METADATA: PlanMetadata[] = [
   {
@@ -329,15 +317,6 @@ export default function PricesClient() {
             </p>
           </div>
 
-          <section className="mb-12 space-y-6" aria-labelledby="access-comparison">
-            <div className="text-center"><h2 id="access-comparison" className="text-2xl font-bold sm:text-3xl">What changes when you upgrade?</h2><p className="mt-2 text-sm text-muted-foreground">Start with real free value, create an account when you want continuity, and upgrade when you need complete workflows.</p></div>
-            <div className="grid gap-4 md:grid-cols-3">{ACCESS_OUTCOMES.map(({ title, icon: Icon, items }) => <Card key={title}><CardHeader><CardTitle className="flex items-center gap-2 text-lg"><Icon className="size-5 text-blue-500"/>{title}</CardTitle></CardHeader><CardContent><ul className="space-y-2">{items.map(item => <li key={item} className="flex gap-2 text-sm"><Check className="mt-0.5 size-4 shrink-0 text-emerald-500"/><span>{item}</span></li>)}</ul></CardContent></Card>)}</div>
-          </section>
-
-          <section className="mb-12 rounded-3xl border bg-muted/20 p-5 sm:p-8" aria-labelledby="premium-examples">
-            <div className="mb-6 max-w-2xl"><Badge variant="secondary" className="mb-3">$9/month Creator</Badge><h2 id="premium-examples" className="text-2xl font-bold sm:text-3xl">Premium is about finished workflows, not a longer feature list.</h2><p className="mt-2 text-sm text-muted-foreground">Examples of the outcomes Creator is designed to unlock.</p></div>
-            <div className="grid gap-4 md:grid-cols-3">{PREMIUM_EXAMPLES.map(example => <Card key={example.title} className="bg-background"><CardHeader><Workflow className="mb-2 size-6 text-blue-500"/><CardTitle className="text-base">{example.title}</CardTitle></CardHeader><CardContent><p className="text-sm text-muted-foreground">{example.description}</p></CardContent></Card>)}</div>
-          </section>
 
           {/* Billing toggle */}
           <div
