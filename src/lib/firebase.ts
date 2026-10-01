@@ -2,60 +2,9 @@
 
 import { getAnalytics, isSupported, logEvent, type Analytics } from 'firebase/analytics';
 import { getApp, getApps, initializeApp, type FirebaseApp } from 'firebase/app';
+import type { AnalyticsEvent } from '@/lib/analytics-taxonomy';
 
-export type FirebaseAnalyticsEvent =
-  | 'web_open_demo_URL'
-  | 'web_buy_button_premium'
-  | 'web_view_prompt'
-  | 'web_download_free'
-  | 'web_download_premium'
-  | 'web_demo_view'
-  | 'web_checkout_start'
-  | 'web_return_to_product'
-  | 'web_preview_customize'
-  | 'component_preview_view'
-  | 'component_prompt_copy'
-  | 'component_purchase_click'
-  | 'credit_topup_click'
-  | 'smart_search_no_results'
-  | 'component_category_view'
-  | 'component_favorite_add'
-  | 'component_project_add'
-  | 'free_to_premium_conversion'
-  | 'next_project_download'
-  | 'view_home'
-  | 'search'
-  | 'view_prompt'
-  | 'copy_prompt'
-  | 'use_prompt'
-  | 'generate_image'
-  | 'generate_video'
-  | 'generate_web'
-  | 'signup_started'
-  | 'sign_up'
-  | 'login'
-  | 'save_prompt'
-  | 'view_premium'
-  | 'view_pricing'
-  | 'select_plan'
-  | 'begin_checkout'
-  | 'purchase'
-  | 'site_created'
-  | 'template_selected'
-  | 'component_added'
-  | 'ai_site_generated'
-  | 'ai_component_edited'
-  | 'preview_opened'
-  | 'site_published'
-  | 'custom_domain_started'
-  | 'custom_domain_connected'
-  | 'domain_search'
-  | 'domain_checkout_started'
-  | 'domain_purchased'
-  | 'newsletter_signup'
-  | 'marketing_consent_updated'
-  | 'user_library_return';
-
+export type FirebaseAnalyticsEvent = AnalyticsEvent;
 export type FirebaseAnalyticsParams = Record<string, string | number | boolean | null | undefined>;
 
 const firebaseConfig = {
