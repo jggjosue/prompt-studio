@@ -223,7 +223,6 @@ export default function HeaderClient() {
         label: copy.builder,
         description: copy.builderDesc,
         icon: <WandSparkles className="h-4 w-4" />,
-        ...locked,
       },
       {
         href: '/page-composer',
