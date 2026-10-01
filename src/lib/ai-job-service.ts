@@ -105,7 +105,7 @@ export async function reserveCredits(job: IAIGenerationJob): Promise<number | nu
           userId: job.userId, jobId: job._id, operation: 'reserve', type: 'AI_RESERVATION', amount: job.creditCost,
           balanceImpact: -job.creditCost, source: reservationSource(allocation),
           provider: job.provider, modelId: job.modelId ?? null, operationName: job.operation ?? job.kind,
-          estimatedApiCostUsd: job.estimatedCostUsd, creditsCharged: job.creditCost, requestId: generationSubmissionKey(job),
+          estimatedApiCostUsd: job.estimatedCostUsd, creditsCharged: job.creditCost, requestId: `reserve:${generationSubmissionKey(job)}`,
           metadata: { subscriptionCredits, purchasedCredits, founderCredits, promotionalCredits }, createdAt: new Date(),
         }], { session });
         job.reservedSubscriptionCredits = subscriptionCredits;
