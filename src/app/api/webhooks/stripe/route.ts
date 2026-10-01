@@ -22,6 +22,7 @@ import { applyCreditTopUp, markCreditPurchaseRefunded } from '@/lib/credit-topup
 import connectToDatabase from '@/lib/mongoose';
 import { errorFingerprint, recordObservabilityEvent, reportOperationalError } from '@/lib/observability-server';
 import { getPlanCredits, normalizeExistingPlan, type PlanId } from '@/lib/subscription-plans';
+import { recordConfirmedPurchase } from '@/lib/payment-analytics';
 import AffiliateApplication from '@/models/AffiliateApplication';
 import ComponentPurchase from '@/models/ComponentPurchase';
 import MarketplaceListing from '@/models/MarketplaceListing';
@@ -199,6 +200,15 @@ export async function POST(req: Request) {
           sessionAny.metadata?.productId ||
           null;
         const buyerKey = clientRef.buyerKey || 'guest';
+
+        await recordConfirmedPurchase({
+          transactionId: session.id,
+          productId: inferredProductId ?? sessionAny.metadata?.packId ?? sessionAny.metadata?.plan ?? null,
+          productCategory: sessionAny.metadata?.purchaseType ?? session.mode ?? 'checkout',
+          amountCents: session.amount_total,
+          currency: session.currency,
+          userId: sessionAny.metadata?.purchaserUserId ?? clientRef.buyerKey ?? null,
+        });
 
         // Recarga de créditos: se resuelve aquí y se sale del case, porque no
         // es la compra de una página y no debe entrar en la lógica de

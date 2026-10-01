@@ -37,7 +37,7 @@ export function ComponentCheckoutDialog({ id, endpoint = '/api/component-checkou
     setCheckout(null); setError('');
     void fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ productId: id }), signal: controller.signal })
       .then(async response => { const payload = await response.json() as CheckoutResponse & { error?: string }; if (!response.ok) throw new Error(payload.error ?? 'No se pudo iniciar el checkout.'); return payload; })
-      .then(payload => { if (active) { setCheckout(payload); trackAnalyticsEvent('component_purchase_click', { item_id: payload.product.id, item_name: payload.product.name, item_category: payload.product.kind, value: Number(payload.product.price.replace(/[^\d.]/g, '')) || undefined, currency: payload.product.currency.toUpperCase(), action_source: 'embedded-checkout-open' }); } })
+      .then(payload => { if (active) { setCheckout(payload); trackAnalyticsEvent('begin_checkout', { item_id: payload.product.id, item_name: payload.product.name, item_category: payload.product.kind, value: Number(payload.product.price.replace(/[^\d.]/g, '')) || undefined, currency: payload.product.currency.toUpperCase(), action_source: 'stripe_embedded_checkout_created' }); } })
       .catch(reason => { if (active && (reason as Error).name !== 'AbortError') setError((reason as Error).message); });
     return () => { active = false; controller.abort(); embeddedRef.current?.destroy(); embeddedRef.current = null; };
   }, [endpoint, id, open]);
