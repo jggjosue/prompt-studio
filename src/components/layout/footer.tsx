@@ -91,6 +91,7 @@ export default function Footer() {
     { href: '/licenses', label: t('licensePolicy') },
     { href: '/refunds', label: t('refundPolicy') },
     { href: '/affiliate-program-terms', label: t('affiliateTerms') },
+    { href: '/crowdfunding-terms', label: locale === 'es' ? 'Términos de Crowdfunding' : 'Crowdfunding Terms' },
   ];
 
   return (
