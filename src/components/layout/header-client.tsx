@@ -177,7 +177,6 @@ export default function HeaderClient() {
     back: 'Volver', viewAll: 'Ver todos los kits', crowdfunding: 'Founder Program',
     crowdfundingDesc: 'Apoya Prompt Studio y recibe Founder Credits', affiliate: 'Affiliate Program', affiliateDesc: 'Recomienda Prompt Studio y gana comisiones',
     creator: 'Creator Program', creatorDesc: 'Crea, publica y monetiza contenido en Prompt Studio', ambassador: 'Ambassador Program', ambassadorDesc: 'Representa a Prompt Studio y ayuda a crecer la comunidad',
-    gallery: 'Galería', galleryDesc: 'Creaciones de la comunidad', trends: 'Tendencias', trendsDesc: 'Prompts y estilos populares', imageEditor: 'Editar Imagen', imageEditorDesc: 'Edita y transforma con IA', imageToVideo: 'Imagen → Video', imageToVideoDesc: 'Anima una imagen con IA', analyzeImage: 'Analizar Imagen', analyzeImageDesc: 'Describe y extrae información',
   } : {
     tools: 'Tools', library: 'My library', explore: 'Explore', create: 'Create',
     optimize: 'Optimize prompts', optimizeDesc: 'Improve prompts with goals and compare changes',
@@ -195,7 +194,6 @@ export default function HeaderClient() {
     back: 'Back', viewAll: 'View all kits', crowdfunding: 'Founder Program',
     crowdfundingDesc: 'Support Prompt Studio and receive Founder Credits', affiliate: 'Affiliate Program', affiliateDesc: 'Recommend Prompt Studio and earn commissions',
     creator: 'Creator Program', creatorDesc: 'Create, publish, and monetize content on Prompt Studio', ambassador: 'Ambassador Program', ambassadorDesc: 'Represent Prompt Studio and help grow the community',
-    gallery: 'Gallery', galleryDesc: 'Community creations', trends: 'Trending', trendsDesc: 'Popular prompts and styles', imageEditor: 'Edit Image', imageEditorDesc: 'Edit and transform with AI', imageToVideo: 'Image → Video', imageToVideoDesc: 'Animate an image with AI', analyzeImage: 'Analyze Image', analyzeImageDesc: 'Describe and extract information',
   };
   const groupLabel = (label: string) => ({
     Herramientas: copy.tools,
