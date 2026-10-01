@@ -31,6 +31,7 @@ export function LazyVideo({
   const [isReady, setIsReady] = useState(false);
   const [hasError, setHasError] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const previewSeekApplied = useRef(false);
   const { ref, isNearView } = useIntersectionInView({
     disabled: !src,
     kind: 'video',
@@ -40,6 +41,7 @@ export function LazyVideo({
   const shouldLoad = eager || isNearView;
 
   useEffect(() => {
+    previewSeekApplied.current = false;
     setIsReady(false);
     setHasError(false);
     if (videoRef.current && videoRef.current.readyState >= 1) {
@@ -78,6 +80,16 @@ export function LazyVideo({
               className
             )}
             onLoadedMetadata={event => {
+              const video = event.currentTarget;
+              if (!previewSeekApplied.current && Number.isFinite(video.duration) && video.duration > 0) {
+                previewSeekApplied.current = true;
+                const previewSecond = Math.min(2, Math.max(0.1, video.duration * 0.12));
+                try {
+                  video.currentTime = previewSecond;
+                } catch {
+                  // Some browsers may reject seeking until more media data is available.
+                }
+              }
               setIsReady(true);
               onLoadedMetadata?.(event);
             }}
