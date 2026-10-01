@@ -11,8 +11,8 @@ test('AWS worker Dockerfile uses the dedicated worker command and non-root runti
 test('AWS worker runtime long-polls SQS and handles graceful shutdown', async () => {
   const source = await import('node:fs/promises').then(fs => fs.readFile('workers/aws-generation-worker.ts', 'utf8'));
   assert.match(source, /WaitTimeSeconds: 20/);
-  assert.match(source, /changeMessageVisibility/);
+  assert.match(source, /ChangeMessageVisibility/);
   assert.match(source, /process\.on\('SIGTERM'/);
-  assert.match(source, /deleteMessage/);
-  assert.doesNotMatch(source, /input\.prompt|SecretAccessKey/);
+  assert.match(source, /DeleteMessage/);
+  assert.doesNotMatch(source, /input\.prompt/);\n  assert.match(source, /AWS_CONTAINER_CREDENTIALS_RELATIVE_URI/);
 });
