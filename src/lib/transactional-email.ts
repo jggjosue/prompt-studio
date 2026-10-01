@@ -14,15 +14,21 @@ import { reportOperationalError } from '@/lib/observability-server';
  */
 
 function emailConfigured(): boolean {
-  return Boolean(process.env.RESEND_API_KEY && process.env.RESEND_EMAIL);
+  return Boolean(process.env.RESEND_API_KEY && (process.env.RESEND_TRANSACTIONAL_EMAIL || process.env.RESEND_EMAIL));
 }
 
 async function send(params: { to: string; subject: string; text: string; context: Record<string, unknown> }): Promise<boolean> {
   if (!emailConfigured()) return false;
   try {
-    const { resend } = await import('@/lib/resend');
+    const [{ resend }, { getEmailStreamConfig }] = await Promise.all([
+      import('@/lib/resend'),
+      import('@/lib/email-streams'),
+    ]);
+    const config = getEmailStreamConfig('transactional');
+    if (!config) return false;
     await resend.emails.send({
-      from: process.env.RESEND_EMAIL as string,
+      from: config.from,
+      ...(config.replyTo ? { replyTo: config.replyTo } : {}),
       to: params.to,
       subject: params.subject,
       text: params.text,
