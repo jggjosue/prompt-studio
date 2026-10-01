@@ -3,6 +3,7 @@
 import { useAuth } from '@clerk/nextjs';
 import { useEffect, useRef } from 'react';
 import { trackAnalyticsEvent } from '@/lib/analytics';
+import { linkAnonymousJourneyAfterSignup } from '@/lib/analytics-identity';
 
 type AuthSurface = 'sign_in' | 'sign_up';
 
@@ -39,6 +40,7 @@ export function ClerkAuthAnalytics({ surface }: { surface: AuthSurface }) {
       auth_surface: surface,
       auth_state: 'authenticated',
     });
+    if (surface === 'sign_up') linkAnonymousJourneyAfterSignup();
   }, [isLoaded, isSignedIn, surface]);
 
   return null;
