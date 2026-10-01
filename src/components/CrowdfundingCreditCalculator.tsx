@@ -43,7 +43,7 @@ export function CrowdfundingCreditCalculator() {
 
       <div className="flex flex-wrap gap-2">
         {TIERS.map((tier) => (
-          <button key={tier} type="button" onClick={() => { trackInterest('crowdfunding_calculator_click', { amount_usd: tier }); setAmount(tier); }} aria-pressed={amount === tier} className="rounded-lg border px-3 py-2">
+          <button key={tier} type="button" onClick={() => { trackInterest('crowdfunding_calculator_click', { amount_usd: tier }); setAmount(tier); }} aria-pressed={amount === tier} className={`rounded-lg border px-3 py-2 transition ${amount === tier ? 'border-blue-400 bg-blue-500/15 text-blue-200' : 'border-white/10 hover:border-blue-400/50 hover:bg-blue-500/10'}`}>
             ${tier}
           </button>
         ))}
@@ -80,5 +80,5 @@ export function CrowdfundingCreditCalculator() {
 }
 
 function Metric({ label, value }: { label: string; value: number | string }) {
-  return <div className="rounded-lg border p-3"><div className="text-xs opacity-70">{label}</div><strong className="tabular-nums">{typeof value === 'number' ? value.toLocaleString() : value}</strong></div>;
+  return <div className="rounded-lg border border-blue-500/15 bg-blue-500/[.04] p-3"><div className="text-xs text-blue-200/70">{label}</div><strong className="tabular-nums">{typeof value === 'number' ? value.toLocaleString() : value}</strong></div>;
 }

@@ -14,6 +14,7 @@ export interface GenerationEntry {
 }
 
 export interface ChatParams {
+  textGoal?: string; imageGoal?: string; videoGoal?: string; webGoal?: string;
   imageStyle?: string; imageRatio?: string; imageRes?: string; imageFormat?: string;
   imageLighting?: string; imageCamera?: string; imageCFG?: number; imageSteps?: number;
   imageNegative?: string; imageLens?: string; imageComposition?: string; imageRealism?: number;

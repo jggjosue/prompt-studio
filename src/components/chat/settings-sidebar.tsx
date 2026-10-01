@@ -3,6 +3,7 @@
 import { cn } from '@/lib/utils';
 import { MODEL_TIERS } from '@/lib/models-data';
 import type { ChatGeneratorReturn } from '@/lib/chat-types';
+import { GUIDED_PRESETS, applyGuidedPreset, type GuidedMode } from '@/lib/chat-guided-presets';
 import { ChevronRight, Zap, Settings2, ExternalLink } from 'lucide-react';
 import { useState } from 'react';
 import Link from 'next/link';
@@ -120,14 +121,77 @@ function Divider() {
   return <hr className="border-border/40" />;
 }
 
-export function SettingsSidebar({ chat, mobileOpen, onMobileClose }: {
+function GuidedPresetSelector({
+  mode,
+  value,
+  onSelect,
+}: {
+  mode: GuidedMode;
+  value?: string;
+  onSelect: (preset: (typeof GUIDED_PRESETS)[GuidedMode][number]) => void;
+}) {
+  return (
+    <div className="space-y-2">
+      <div>
+        <p className="text-[11px] font-semibold uppercase tracking-wider text-foreground">¿Qué quieres crear?</p>
+        <p className="mt-0.5 text-[10px] leading-4 text-muted-foreground">
+          Elige una opción y ajustaremos los detalles por ti.
+        </p>
+      </div>
+      <div className="grid grid-cols-2 gap-2" role="radiogroup" aria-label="Objetivo de creación">
+        {GUIDED_PRESETS[mode].map(preset => {
+          const active = value === preset.id;
+          return (
+            <button
+              key={preset.id}
+              type="button"
+              onClick={() => onSelect(preset)}
+              className={cn(
+                'min-h-20 rounded-xl border p-2.5 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50',
+                active
+                  ? 'border-blue-500/70 bg-blue-500/15 shadow-[0_0_18px_rgba(37,99,235,0.12)]'
+                  : 'border-border/50 bg-muted/20 hover:border-blue-500/40 hover:bg-blue-500/5'
+              )}
+              role="radio"
+              aria-checked={active}
+            >
+              <span className={cn('block text-[11px] font-semibold leading-4', active ? 'text-blue-300' : 'text-foreground')}>
+                {preset.label}
+              </span>
+              <span className="mt-1 block text-[10px] leading-3.5 text-muted-foreground">{preset.description}</span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function AdvancedToggle({ open, onClick }: { open: boolean; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="flex w-full items-center justify-between rounded-lg py-1 text-[11px] text-muted-foreground hover:text-foreground focus-visible:outline-none"
+      aria-expanded={open}
+    >
+      <span>Configuración avanzada</span>
+      <ChevronRight className={cn('h-3 w-3 transition-transform', open && 'rotate-90')} />
+    </button>
+  );
+}
+
+export function SettingsSidebar({ chat, desktopOpen, onDesktopOpenChange, mobileOpen, onMobileClose }: {
   chat: ChatGeneratorReturn;
+  desktopOpen: boolean;
+  onDesktopOpenChange: (open: boolean) => void;
   mobileOpen: boolean;
   onMobileClose: () => void;
 }) {
-  const [open, setOpen] = useState(true);
-  const [showAdvanced, setShowAdvanced] = useState(false);
   const { imageGen, selectedMode, params, setParams } = chat;
+  const [advancedMode, setAdvancedMode] = useState<typeof selectedMode | null>(null);
+  const showAdvanced = advancedMode === selectedMode;
+  const toggleAdvanced = () => setAdvancedMode(current => current === selectedMode ? null : selectedMode);
   const isSuperAdmin = useSuperAdmin();
 
   // Credit balances/costs are private to the super administrator. All other
@@ -156,6 +220,9 @@ export function SettingsSidebar({ chat, mobileOpen, onMobileClose }: {
   const estimatedCredits = isSuperAdmin ? (CREDIT_ESTIMATES[currentModel] ?? 10) : 0;
   const balanceAfter = isSuperAdmin ? Math.max(0, credits - estimatedCredits) : 0;
   const insufficient = isSuperAdmin && credits < estimatedCredits;
+  const selectGuidedPreset = (preset: (typeof GUIDED_PRESETS)[GuidedMode][number]) => {
+    setParams(previous => applyGuidedPreset(previous, preset));
+  };
 
   const settingsMarkup = (
     <div className="flex flex-1 flex-col overflow-y-auto">
@@ -178,7 +245,7 @@ export function SettingsSidebar({ chat, mobileOpen, onMobileClose }: {
         {/* ── IMAGE settings ── */}
         {selectedMode === 'image' && (
           <div className="space-y-3">
-            <ModelTiersSelect group="image" value={params.model ?? 'nano-banana-2'} onChange={v => updateParam(setParams, 'model', v)} />
+            <GuidedPresetSelector mode="image" value={params.imageGoal} onSelect={selectGuidedPreset} />
 
             <Divider />
 
@@ -212,19 +279,12 @@ export function SettingsSidebar({ chat, mobileOpen, onMobileClose }: {
             </ParamSelect>
 
             {/* Advanced (collapsed by default) */}
-            <button
-              type="button"
-              onClick={() => setShowAdvanced(v => !v)}
-              className="flex w-full items-center justify-between text-[11px] text-muted-foreground hover:text-foreground focus-visible:outline-none"
-              aria-expanded={showAdvanced}
-            >
-              <span>Configuración avanzada</span>
-              <ChevronRight className={cn('h-3 w-3 transition-transform', showAdvanced && 'rotate-90')} />
-            </button>
+            <AdvancedToggle open={showAdvanced} onClick={toggleAdvanced} />
 
             {showAdvanced && (
               <div className="space-y-3">
                 <Divider />
+                <ModelTiersSelect group="image" value={params.model ?? 'nano-banana-2'} onChange={v => updateParam(setParams, 'model', v)} />
                 <ParamSelect
                   label="Iluminación"
                   value={params.imageLighting ?? 'volumetric'}
@@ -281,26 +341,9 @@ export function SettingsSidebar({ chat, mobileOpen, onMobileClose }: {
         {/* ── VIDEO settings ── */}
         {selectedMode === 'video' && (
           <div className="space-y-3">
-            <ParamSelect
-              label="Proveedor"
-              value={params.provider ?? 'google'}
-              onChange={v => updateParam(setParams, 'provider', v)}
-            >
-              <option value="google">Google (Veo)</option>
-              <option value="runway">Runway</option>
-            </ParamSelect>
+            <GuidedPresetSelector mode="video" value={params.videoGoal} onSelect={selectGuidedPreset} />
 
-            {params.provider === 'google' ? (
-              <ModelTiersSelect group="video" value={params.model ?? 'veo-fast'} onChange={v => updateParam(setParams, 'model', v)} />
-            ) : (
-              <ParamSelect
-                label="Modelo"
-                value={params.model ?? 'gen-3'}
-                onChange={v => updateParam(setParams, 'model', v)}
-              >
-                <option value="gen-3">Gen-3 Alpha</option>
-              </ParamSelect>
-            )}
+            <Divider />
 
             <ParamSelect
               label="Estilo"
@@ -313,19 +356,27 @@ export function SettingsSidebar({ chat, mobileOpen, onMobileClose }: {
               <option value="anime">Anime Movie</option>
             </ParamSelect>
 
-            <button
-              type="button"
-              onClick={() => setShowAdvanced(v => !v)}
-              className="flex w-full items-center justify-between text-[11px] text-muted-foreground hover:text-foreground focus-visible:outline-none"
-              aria-expanded={showAdvanced}
-            >
-              <span>Configuración avanzada</span>
-              <ChevronRight className={cn('h-3 w-3 transition-transform', showAdvanced && 'rotate-90')} />
-            </button>
+            <AdvancedToggle open={showAdvanced} onClick={toggleAdvanced} />
 
             {showAdvanced && (
               <div className="space-y-3">
                 <Divider />
+                <ParamSelect
+                  label="Proveedor"
+                  value={params.provider ?? 'google'}
+                  onChange={v => updateParam(setParams, 'provider', v)}
+                >
+                  <option value="google">Google (Veo)</option>
+                  <option value="runway">Runway</option>
+                </ParamSelect>
+
+                {params.provider === 'google' ? (
+                  <ModelTiersSelect group="video" value={params.model ?? 'veo-fast'} onChange={v => updateParam(setParams, 'model', v)} />
+                ) : (
+                  <ParamSelect label="Modelo" value={params.model ?? 'gen-3'} onChange={v => updateParam(setParams, 'model', v)}>
+                    <option value="gen-3">Gen-3 Alpha</option>
+                  </ParamSelect>
+                )}
                 <div className="space-y-1.5">
                   <label className="block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                     Duración (segundos)
@@ -402,7 +453,7 @@ export function SettingsSidebar({ chat, mobileOpen, onMobileClose }: {
 
             <button
               type="button"
-              onClick={() => setShowAdvanced(v => !v)}
+              onClick={toggleAdvanced}
               className="flex w-full items-center justify-between text-[11px] text-muted-foreground hover:text-foreground focus-visible:outline-none"
               aria-expanded={showAdvanced}
             >
@@ -453,28 +504,7 @@ export function SettingsSidebar({ chat, mobileOpen, onMobileClose }: {
         {/* ── WEB settings ── */}
         {selectedMode === 'project' && (
           <div className="space-y-3">
-            <ParamSelect
-              label="Proveedor"
-              value={params.provider ?? 'google'}
-              onChange={v => updateParam(setParams, 'provider', v)}
-            >
-              <option value="google">Google Gemini</option>
-              <option value="openai">OpenAI</option>
-              <option value="anthropic">Anthropic</option>
-            </ParamSelect>
-
-            {params.provider === 'google' ? (
-              <ModelTiersSelect group="project" value={params.model ?? 'gemini-3.1-flash-lite'} onChange={v => updateParam(setParams, 'model', v)} />
-            ) : (
-              <ParamSelect
-                label="Modelo"
-                value={params.model ?? (params.provider === 'openai' ? 'gpt-4o' : 'claude-3-5-sonnet-20240620')}
-                onChange={v => updateParam(setParams, 'model', v)}
-              >
-                {params.provider === 'openai' && (<option value="gpt-4o">GPT-4o</option>)}
-                {params.provider === 'anthropic' && (<option value="claude-3-5-sonnet-20240620">Claude 3.5 Sonnet</option>)}
-              </ParamSelect>
-            )}
+            <GuidedPresetSelector mode="project" value={params.webGoal} onSelect={selectGuidedPreset} />
 
             <Divider />
 
@@ -489,29 +519,31 @@ export function SettingsSidebar({ chat, mobileOpen, onMobileClose }: {
               <option value="full-page">Landing Page Completa</option>
             </ParamSelect>
 
-            <ParamSelect
-              label="Framework"
-              value={params.webFramework ?? 'nextjs'}
-              onChange={v => updateParam(setParams, 'webFramework', v)}
-            >
-              <option value="nextjs">Next.js</option>
-              <option value="react">React Component</option>
-              <option value="html">HTML5 Bundle</option>
-            </ParamSelect>
-
-            <button
-              type="button"
-              onClick={() => setShowAdvanced(v => !v)}
-              className="flex w-full items-center justify-between text-[11px] text-muted-foreground hover:text-foreground focus-visible:outline-none"
-              aria-expanded={showAdvanced}
-            >
-              <span>Configuración avanzada</span>
-              <ChevronRight className={cn('h-3 w-3 transition-transform', showAdvanced && 'rotate-90')} />
-            </button>
+            <AdvancedToggle open={showAdvanced} onClick={toggleAdvanced} />
 
             {showAdvanced && (
               <div className="space-y-3">
                 <Divider />
+                <ParamSelect label="Proveedor" value={params.provider ?? 'google'} onChange={v => updateParam(setParams, 'provider', v)}>
+                  <option value="google">Google Gemini</option>
+                  <option value="openai">OpenAI</option>
+                  <option value="anthropic">Anthropic</option>
+                </ParamSelect>
+
+                {params.provider === 'google' ? (
+                  <ModelTiersSelect group="project" value={params.model ?? 'gemini-3.1-flash-lite'} onChange={v => updateParam(setParams, 'model', v)} />
+                ) : (
+                  <ParamSelect label="Modelo" value={params.model ?? (params.provider === 'openai' ? 'gpt-4o' : 'claude-3-5-sonnet-20240620')} onChange={v => updateParam(setParams, 'model', v)}>
+                    {params.provider === 'openai' && (<option value="gpt-4o">GPT-4o</option>)}
+                    {params.provider === 'anthropic' && (<option value="claude-3-5-sonnet-20240620">Claude 3.5 Sonnet</option>)}
+                  </ParamSelect>
+                )}
+
+                <ParamSelect label="Framework" value={params.webFramework ?? 'nextjs'} onChange={v => updateParam(setParams, 'webFramework', v)}>
+                  <option value="nextjs">Next.js</option>
+                  <option value="react">React Component</option>
+                  <option value="html">HTML5 Bundle</option>
+                </ParamSelect>
                 <ParamSelect
                   label="Tema Visual"
                   value={params.webTheme ?? 'glassmorphism'}
@@ -581,61 +613,46 @@ export function SettingsSidebar({ chat, mobileOpen, onMobileClose }: {
         {/* ── TEXT settings ── */}
         {selectedMode === 'text' && (
           <div className="space-y-3">
-            <ParamSelect
-              label="Proveedor"
-              value={params.provider ?? 'google'}
-              onChange={v => updateParam(setParams, 'provider', v)}
-            >
-              <option value="google">Google</option>
-              <option value="openai">OpenAI</option>
-              <option value="anthropic">Anthropic</option>
-              <option value="deepseek">DeepSeek</option>
-            </ParamSelect>
-
-            <ParamSelect
-              label="Modelo"
-              value={params.model ?? 'gemini-3.8-flash'}
-              onChange={v => updateParam(setParams, 'model', v)}
-            >
-              {(!params.provider || params.provider === 'google') && (
-                <option value="gemini-3.8-flash">Gemini 3.8 Flash</option>
-              )}
-              {params.provider === 'openai' && (
-                <option value="gpt-4o">GPT-4o</option>
-              )}
-              {params.provider === 'anthropic' && (
-                <option value="claude-3-5-sonnet-20240620">Claude 3.5 Sonnet</option>
-              )}
-              {params.provider === 'deepseek' && (
-                <option value="deepseek-chat">DeepSeek Chat</option>
-              )}
-            </ParamSelect>
+            <GuidedPresetSelector mode="text" value={params.textGoal} onSelect={selectGuidedPreset} />
 
             <Divider />
 
-            <ParamSelect
-              label="Nivel de Pensamiento"
-              value={params.thinkingLevel ?? 'low'}
-              onChange={v => updateParam(setParams, 'thinkingLevel', v)}
-            >
-              <option value="minimal">Minimal</option>
-              <option value="low">Bajo</option>
-              <option value="high">Alto</option>
-            </ParamSelect>
+            <AdvancedToggle open={showAdvanced} onClick={toggleAdvanced} />
 
-            <div className="space-y-1.5">
-              <label className="block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                Instrucción del Sistema
-              </label>
-              <input
-                type="text"
-                className="w-full rounded-lg border border-border/50 bg-muted/30 px-2.5 py-1.5 text-xs transition-colors hover:border-border focus:border-blue-500/60 focus:outline-none focus:ring-1 focus:ring-blue-500/30"
-                value={params.systemInstruction ?? ''}
-                onChange={e => updateParam(setParams, 'systemInstruction', e.target.value)}
-                placeholder="Ej. Eres un experto en IA..."
-                aria-label="Instrucción del sistema"
-              />
-            </div>
+            {showAdvanced && (
+              <div className="space-y-3">
+                <ParamSelect label="Proveedor" value={params.provider ?? 'google'} onChange={v => updateParam(setParams, 'provider', v)}>
+                  <option value="google">Google</option>
+                  <option value="openai">OpenAI</option>
+                  <option value="anthropic">Anthropic</option>
+                  <option value="deepseek">DeepSeek</option>
+                </ParamSelect>
+
+                <ParamSelect label="Modelo" value={params.model ?? 'gemini-3.8-flash'} onChange={v => updateParam(setParams, 'model', v)}>
+                  {(!params.provider || params.provider === 'google') && (<option value="gemini-3.8-flash">Gemini 3.8 Flash</option>)}
+                  {params.provider === 'openai' && (<option value="gpt-4o">GPT-4o</option>)}
+                  {params.provider === 'anthropic' && (<option value="claude-3-5-sonnet-20240620">Claude 3.5 Sonnet</option>)}
+                  {params.provider === 'deepseek' && (<option value="deepseek-chat">DeepSeek Chat</option>)}
+                </ParamSelect>
+
+                <ParamSelect label="Nivel de razonamiento" value={params.thinkingLevel ?? 'low'} onChange={v => updateParam(setParams, 'thinkingLevel', v)}>
+                  <option value="minimal">Rápido</option>
+                  <option value="low">Equilibrado</option>
+                  <option value="high">Profundo</option>
+                </ParamSelect>
+
+                <div className="space-y-1.5">
+                  <label className="block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Instrucción personalizada</label>
+                  <textarea
+                    className="min-h-20 w-full resize-y rounded-lg border border-border/50 bg-muted/30 px-2.5 py-1.5 text-xs transition-colors hover:border-border focus:border-blue-500/60 focus:outline-none focus:ring-1 focus:ring-blue-500/30"
+                    value={params.systemInstruction ?? ''}
+                    onChange={e => updateParam(setParams, 'systemInstruction', e.target.value)}
+                    placeholder="Ej. Responde como un asesor de marketing..."
+                    aria-label="Instrucción personalizada"
+                  />
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -687,19 +704,19 @@ export function SettingsSidebar({ chat, mobileOpen, onMobileClose }: {
       <aside
         className={cn(
           'hidden flex-col border-l border-border/60 bg-background/50 backdrop-blur-sm transition-all duration-300 overflow-hidden shrink-0 md:flex',
-          open ? 'w-72' : 'w-10'
+          desktopOpen ? 'w-72' : 'w-10'
         )}
         aria-label="Configuración de creación"
       >
         {/* Header */}
         <button
           type="button"
-          onClick={() => setOpen(v => !v)}
+          onClick={() => onDesktopOpenChange(!desktopOpen)}
           className="flex h-12 w-full items-center justify-between border-b border-border/60 px-3 text-xs font-semibold text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-          aria-expanded={open}
-          aria-label={open ? 'Colapsar configuración' : 'Expandir configuración'}
+          aria-expanded={desktopOpen}
+          aria-label={desktopOpen ? 'Colapsar configuración' : 'Expandir configuración'}
         >
-          {open ? (
+          {desktopOpen ? (
             <>
               <div className="flex items-center gap-2">
                 <Settings2 className="h-3.5 w-3.5" aria-hidden="true" />
@@ -712,7 +729,7 @@ export function SettingsSidebar({ chat, mobileOpen, onMobileClose }: {
           )}
         </button>
 
-        {open && settingsMarkup}
+        {desktopOpen && settingsMarkup}
       </aside>
 
       {/* Hoja inferior de configuración (solo móvil) */}

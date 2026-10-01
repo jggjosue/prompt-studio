@@ -92,6 +92,8 @@ export default function GalleryVideoDetailClient({
                 <LazyVideo
                   src={item.imageUrl}
                   poster={poster}
+                  eager
+                  previewSeek={false}
                   preload="metadata"
                   controls
                   playsInline
@@ -197,7 +199,7 @@ export default function GalleryVideoDetailClient({
                              src={other.imageUrl}
                              muted
                              playsInline
-                             preload="metadata"
+                             preload="none"
                              className="object-cover transition-transform group-hover:scale-105 w-full h-full"
                            />
                         </div>

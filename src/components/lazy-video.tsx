@@ -11,6 +11,8 @@ type LazyVideoProps = ComponentProps<'video'> & {
   /** Carga inmediata (p. ej. hero principal). */
   eager?: boolean;
   poster?: string;
+  /** Salta a un fotograma representativo en previews sin reproducción. */
+  previewSeek?: boolean;
 };
 
 /**
@@ -20,6 +22,7 @@ export function LazyVideo({
   src,
   eager = false,
   poster,
+  previewSeek = true,
   className,
   preload = 'metadata',
   onCanPlay,
@@ -35,7 +38,9 @@ export function LazyVideo({
   const { ref, isNearView } = useIntersectionInView({
     disabled: !src,
     kind: 'video',
-    once: false,
+    // Once a media element has loaded, keep it mounted. Recreating the video
+    // on every viewport transition restarts metadata/range requests.
+    once: true,
   });
 
   const shouldLoad = eager || isNearView;
@@ -81,7 +86,7 @@ export function LazyVideo({
             )}
             onLoadedMetadata={event => {
               const video = event.currentTarget;
-              if (!previewSeekApplied.current && Number.isFinite(video.duration) && video.duration > 0) {
+              if (previewSeek && !previewSeekApplied.current && Number.isFinite(video.duration) && video.duration > 0) {
                 previewSeekApplied.current = true;
                 const previewSecond = Math.min(2, Math.max(0.1, video.duration * 0.12));
                 try {

@@ -10,10 +10,7 @@ import {
   Play,
   RotateCcw,
   Trash2,
-  SendHorizonal,
   Zap,
-  ChevronDown,
-  Loader2,
   ScanSearch,
   Wand2,
   MessageSquareText,
@@ -22,8 +19,8 @@ import {
   FileText,
   Code2,
   LayoutTemplate,
-  Captions,
   Clapperboard,
+  Settings2,
 } from 'lucide-react';
 import { OptimizedImage } from '@/components/optimized-image';
 import { Textarea } from '@/components/ui/textarea';
@@ -34,49 +31,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSearchParams } from 'next/navigation';
 import type { ChatGeneratorReturn, ChatQueueItem, ChatQueueStatus } from '@/lib/chat-types';
 import { ChatMode } from '@/lib/chat-types';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { useAuth, useClerk } from '@clerk/nextjs';
 import { trackInterest } from '@/lib/interest-analytics';
-
-// ── Actual models from ai-credit-config (no invented IDs) ──
-const MODEL_OPTIONS = {
-  image: [
-    { provider: 'google', model: 'imagen-4.0-fast-generate-001', label: 'Imagen 4.0 Fast', credits: 10, description: 'Rápido · Google' },
-    { provider: 'openai', model: 'dall-e-3', label: 'DALL-E 3', credits: 10, description: 'Calidad alta · OpenAI' },
-    { provider: 'openai', model: 'gpt-image-1-mini', label: 'GPT Image Mini', credits: 15, description: 'Avanzado · OpenAI' },
-    { provider: 'fal', model: 'fal-ai/flux/schnell', label: 'Flux Schnell', credits: 10, description: 'Rápido · Fal.ai' },
-  ],
-  video: [
-    { provider: 'google', model: 'gemini-omni-flash', label: 'Gemini Omni Flash', credits: 15, description: 'Edición conversacional · Google' },
-    { provider: 'google', model: 'veo-3.1-generate-001', label: 'Veo 3.1', credits: 25, description: 'Audio nativo · Google' },
-    { provider: 'google', model: 'veo-2.0-generate-001', label: 'Veo 2.0', credits: 20, description: 'Calidad · Google' },
-    { provider: 'runway', model: 'gen-3', label: 'Gen-3 Alpha', credits: 20, description: 'Cinemático · Runway' },
-  ],
-  project: [
-    { provider: 'google', model: 'gemini-2.5-flash', label: 'Gemini 2.5 Flash', credits: 1, description: 'Rápido · Google' },
-    { provider: 'google', model: 'gemini-2.5-pro', label: 'Gemini 2.5 Pro', credits: 3, description: 'Avanzado · Google' },
-    { provider: 'google', model: 'gemini-2.0-flash', label: 'Gemini 2.0 Flash', credits: 1, description: 'Rápido · Google' },
-    { provider: 'openai', model: 'gpt-4o', label: 'GPT-4o', credits: 4, description: 'Avanzado · OpenAI' },
-    { provider: 'anthropic', model: 'claude-3-5-sonnet-20240620', label: 'Claude 3.5 Sonnet', credits: 8, description: 'Premium · Anthropic' },
-  ],
-  vision: [
-    { provider: 'google', model: 'gemini-3.8-flash', label: 'Gemini 3.8 Flash (Vision)', credits: 1, description: 'Visión rápida · Google' },
-  ],
-  text: [
-    { provider: 'google', model: 'gemini-3.8-flash', label: 'Gemini 3.8 Flash', credits: 1, description: 'Generación rápida de texto · Google' },
-  ],
-  videoUnderstanding: [
-    { provider: 'google', model: 'gemini-3.8-flash', label: 'Gemini 3.8 Flash', credits: 2, description: 'Análisis de video · Google' },
-  ],
-} as const satisfies Record<ChatMode, Array<{ provider: string; model: string; label: string; credits: number; description: string }>>;
 
 const MODE_CONFIG: Record<ChatMode, { label: string; icon: React.ReactNode; color: string; placeholder: string }> = {
   image: {
@@ -117,12 +72,20 @@ const MODE_CONFIG: Record<ChatMode, { label: string; icon: React.ReactNode; colo
   },
 };
 
-export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
+export function ChatInputBar({
+  chat,
+  variant = 'docked',
+  onOpenSettings,
+}: {
+  chat: ChatGeneratorReturn;
+  variant?: 'hero' | 'docked';
+  onOpenSettings: () => void;
+}) {
   const [prompt, setPrompt] = useState('');
   const [selectedSlashCommand, setSelectedSlashCommand] = useState<{ id: string; label: string; description: string } | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const searchParams = useSearchParams();
-  const { selectedMode, setSelectedMode, params, generate, localGenerating, messages, queue, queueRunning, enqueue, startQueue, removeQueueItem, retryQueueItem, clearQueue } = chat;
+  const { selectedMode, setSelectedMode, params, generate, localGenerating, messages, queue, queueRunning, enqueue, startQueue, removeQueueItem, retryQueueItem, clearQueue, draftPrompt, setDraftPrompt } = chat;
   const activeResponses = messages.filter(message => message.role === 'assistant' && message.status === 'pending').length;
 
   const slashQuery = prompt.startsWith('/') ? prompt.slice(1).trim().toLowerCase() : null;
@@ -177,6 +140,13 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
       setSelectedSlashCommand(null);
     }
   }, [searchParams, messages.length]);
+
+  useEffect(() => {
+    if (!draftPrompt) return;
+    setPrompt(draftPrompt);
+    setDraftPrompt('');
+    requestAnimationFrame(() => textareaRef.current?.focus());
+  }, [draftPrompt, setDraftPrompt]);
 
   // Auto-grow del textarea hasta max-h
   useEffect(() => {
@@ -273,8 +243,11 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
   };
 
   return (
-    <div className="border-t border-border bg-background p-3 sm:p-4">
-      <div className="mx-auto flex w-full max-w-3xl flex-col gap-2">
+    <div className={variant === 'hero' ? 'bg-transparent' : 'border-t border-border/60 bg-background/95 p-3 backdrop-blur-xl sm:p-4'}>
+      <div className={variant === 'hero'
+        ? 'mx-auto flex w-full max-w-3xl flex-col gap-2 rounded-3xl border border-border/70 bg-card/80 p-2.5 shadow-[0_18px_55px_rgba(0,0,0,0.18)]'
+        : 'mx-auto flex w-full max-w-3xl flex-col gap-2 rounded-2xl border border-border/60 bg-card/60 p-2.5 shadow-lg'}>
+        <div className="flex items-center justify-between gap-2">
         <Tabs value={selectedMode} onValueChange={(v) => { trackInterest('generate_option_click', { option: 'mode', value: v }); setSelectedSlashCommand(null); setSelectedMode(v as ChatMode); }} className="w-fit">
           <TabsList>
             <TabsTrigger value="text"><MessageSquareText className="h-3 w-3 mr-1" />Chat</TabsTrigger>
@@ -283,6 +256,16 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
             <TabsTrigger value="project"><Globe className="h-3 w-3 mr-1" />Web</TabsTrigger>
           </TabsList>
         </Tabs>
+          <button
+            type="button"
+            onClick={onOpenSettings}
+            className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-xl border border-border/60 px-2.5 text-xs font-semibold text-muted-foreground transition-colors hover:border-blue-500/40 hover:bg-blue-500/10 hover:text-blue-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            aria-label="Abrir configuración de creación"
+          >
+            <Settings2 className="h-3.5 w-3.5" />
+            <span className="hidden sm:inline">Configurar</span>
+          </button>
+        </div>
         {selectedSlashCommand && !slashOpen && (
           <div className="flex min-h-6 items-center gap-1.5 px-1 text-xs text-muted-foreground" role="status" aria-label={`Capacidad del chat seleccionada: ${selectedSlashCommand.label}`}>
             <Zap className="h-3.5 w-3.5 text-blue-500" />
@@ -314,7 +297,9 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
           value={prompt}
           onChange={e => { setPrompt(e.target.value); if (!e.target.value) setSelectedSlashCommand(null); }}
           placeholder={localGenerating ? 'Pide otra creación mientras terminamos…' : `${MODE_CONFIG[selectedMode].placeholder}  ·  Escribe / para acciones`}
-          className="w-full min-h-[110px] resize-none text-sm leading-relaxed sm:min-h-[120px] max-h-72"
+          className={variant === 'hero'
+            ? 'min-h-[72px] max-h-72 w-full resize-none border-0 bg-transparent px-2 py-3 text-sm leading-relaxed shadow-none focus-visible:ring-0 sm:min-h-[82px]'
+            : 'min-h-[64px] max-h-72 w-full resize-none border-0 bg-transparent px-2 py-2 text-sm leading-relaxed shadow-none focus-visible:ring-0 sm:min-h-[72px]'}
           onKeyDown={e => {
             if (e.key === 'Escape' && slashOpen) { e.preventDefault(); setPrompt(''); setSelectedSlashCommand(null); return; }
             if (e.key === 'Enter' && !e.shiftKey) {
@@ -328,7 +313,7 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
           }}
         />
         </div>
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2 px-1 pb-0.5">
           {activeResponses > 0 && (
             <span className="mr-auto inline-flex items-center gap-2 text-[11px] text-muted-foreground" role="status">
               <span className="relative flex h-2 w-2">

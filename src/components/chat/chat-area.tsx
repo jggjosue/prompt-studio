@@ -1,7 +1,7 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
-import { AlertCircle, Image as ImageIcon, Sparkles, Video, Globe, Wand2, Camera, Film, Layout, Shuffle, MessageSquare, ScanSearch } from 'lucide-react';
+import { useRef, useEffect, type ReactNode } from 'react';
+import { Wand2, Camera, Film, Layout, Shuffle, MessageSquare, ScanSearch } from 'lucide-react';
 import { ChatMessageItem } from './chat-message-item';
 import type { ChatGeneratorReturn } from '@/lib/chat-types';
 import type { ChatMode } from '@/lib/chat-types';
@@ -59,29 +59,12 @@ const QUICK_STARTS: QuickStart[] = [
   },
 ];
 
-const MODE_ICONS: Record<string, React.ReactNode> = {
-  image: <ImageIcon className="h-5 w-5" />,
-  video: <Video className="h-5 w-5" />,
-  project: <Globe className="h-5 w-5" />,
-  vision: <ImageIcon className="h-5 w-5" />,
-  text: <Globe className="h-5 w-5" />,
-  videoUnderstanding: <ScanSearch className="h-5 w-5" />,
-};
-
-const GEN_STATUS_MESSAGES: Record<string, string> = {
-  image: 'Creando tu imagen...',
-  video: 'Preparando tu video...',
-  project: 'Construyendo tu página...',
-  vision: 'Analizando imagen...',
-  text: 'Generando texto...',
-  videoUnderstanding: 'Analizando video...',
-};
-
 interface ChatAreaProps {
   chat: ChatGeneratorReturn;
+  emptyComposer: ReactNode;
 }
 
-export function ChatArea({ chat }: ChatAreaProps) {
+export function ChatArea({ chat, emptyComposer }: ChatAreaProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const { messages } = chat;
 
@@ -95,33 +78,37 @@ export function ChatArea({ chat }: ChatAreaProps) {
   }, [messages.length]);
 
   const handleQuickStart = (qs: QuickStart) => {
-    chat.setDraftPrompt(qs.prompt);
     chat.setSelectedMode(qs.mode);
+    void chat.generate(qs.prompt, chat.params, qs.mode);
   };
 
   return (
     <div ref={scrollRef} className="flex-1 overflow-y-auto" role="log" aria-label="Conversación de creación" aria-live="polite">
       {messages.length === 0 ? (
         /* ── Empty state ── */
-        <div className="flex h-full flex-col items-center justify-center px-4 py-12 text-center">
-          <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-500/10 text-blue-400">
-            <Wand2 className="h-8 w-8" aria-hidden="true" />
+        <div className="flex min-h-full flex-col items-center justify-center px-4 py-8 text-center sm:py-12">
+          <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-500/10 text-blue-400 sm:h-14 sm:w-14">
+            <Wand2 className="h-7 w-7" aria-hidden="true" />
           </div>
-          <h2 className="mb-2 text-2xl font-bold tracking-tight">
+          <h1 className="mb-2 text-2xl font-bold tracking-tight sm:text-3xl">
             ¿Qué quieres crear?
-          </h2>
-          <p className="mb-10 max-w-sm text-sm text-muted-foreground">
+          </h1>
+          <p className="mb-6 max-w-md text-sm leading-6 text-muted-foreground">
             Describe una idea y Prompt Studio te ayudará a convertirla en una imagen, video o experiencia web.
           </p>
 
+          <div className="w-full max-w-3xl text-left">
+            {emptyComposer}
+          </div>
+
           {/* Quick-start cards */}
-          <div className="grid w-full max-w-xl grid-cols-2 gap-3 sm:grid-cols-4">
+          <div className="mt-5 grid w-full max-w-3xl grid-cols-2 gap-2.5 sm:grid-cols-3">
             {QUICK_STARTS.map(qs => (
               <button
                 key={qs.label}
                 type="button"
                 onClick={() => handleQuickStart(qs)}
-                className="group flex flex-col items-start gap-2 rounded-xl border border-border/60 bg-card/50 p-3 text-left transition-all duration-200 hover:border-blue-500/40 hover:bg-blue-500/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="group flex min-h-24 flex-col items-start gap-2 rounded-2xl border border-border/60 bg-card/40 p-3.5 text-left transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-500/50 hover:bg-blue-500/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 aria-label={`Empezar con: ${qs.label}`}
               >
                 <span className="transition-transform duration-200 group-hover:scale-110">{qs.icon}</span>
@@ -134,7 +121,7 @@ export function ChatArea({ chat }: ChatAreaProps) {
           </div>
         </div>
       ) : (
-        <div className="space-y-6 p-4 pb-2">
+        <div className="mx-auto w-full max-w-4xl space-y-7 px-4 py-8 sm:px-6">
           {messages.map(msg => (
             <ChatMessageItem
               key={msg.id}
