@@ -16,6 +16,14 @@ import {
   Loader2,
   ScanSearch,
   Wand2,
+  MessageSquareText,
+  Sparkles,
+  Search,
+  FileText,
+  Code2,
+  LayoutTemplate,
+  Captions,
+  Clapperboard,
 } from 'lucide-react';
 import { OptimizedImage } from '@/components/optimized-image';
 import { Textarea } from '@/components/ui/textarea';
@@ -117,16 +125,41 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
   const activeResponses = messages.filter(message => message.role === 'assistant' && message.status === 'pending').length;
 
   const slashQuery = prompt.startsWith('/') ? prompt.slice(1).trim().toLowerCase() : null;
-  const slashCommands = [
-    { id: 'edit-image', label: 'Editar imagen', description: 'Edita y transforma una imagen con IA', icon: <Wand2 className="h-4 w-4" />, mode: 'vision' as ChatMode, prompt: 'Edita esta imagen: ' },
-    { id: 'image-to-video', label: 'Imagen a video', description: 'Convierte una imagen en video con IA', icon: <Video className="h-4 w-4" />, mode: 'video' as ChatMode, prompt: 'Convierte esta imagen en video: ' },
-    { id: 'analyze-image', label: 'Analizar imagen', description: 'Describe y extrae información de una imagen', icon: <ScanSearch className="h-4 w-4" />, mode: 'vision' as ChatMode, prompt: 'Analiza esta imagen: ' },
-  ].filter(command => !slashQuery || command.label.toLowerCase().includes(slashQuery) || command.id.includes(slashQuery));
-  const slashOpen = slashQuery !== null && slashCommands.length > 0;
+  const commandMode = selectedMode === 'vision' ? 'image' : selectedMode === 'videoUnderstanding' ? 'video' : selectedMode;
+  const commandCatalog: Partial<Record<ChatMode, Array<{ id: string; label: string; description: string; icon: React.ReactNode; mode: ChatMode; instruction: string }>>> = {
+    text: [
+      { id: 'write', label: 'Redactar', description: 'Escribe o mejora cualquier texto', icon: <MessageSquareText className="h-4 w-4" />, mode: 'text', instruction: 'Redacta con claridad y buena estructura: ' },
+      { id: 'summarize', label: 'Resumir', description: 'Resume el contenido conservando lo esencial', icon: <FileText className="h-4 w-4" />, mode: 'text', instruction: 'Resume de forma clara y concisa: ' },
+      { id: 'research', label: 'Investigar', description: 'Desarrolla una investigación estructurada', icon: <Search className="h-4 w-4" />, mode: 'text', instruction: 'Investiga y explica con estructura, contexto y conclusiones: ' },
+      { id: 'improve', label: 'Mejorar texto', description: 'Corrige estilo, claridad y redacción', icon: <Sparkles className="h-4 w-4" />, mode: 'text', instruction: 'Mejora la redacción, claridad y estilo del siguiente texto: ' },
+    ],
+    image: [
+      { id: 'create-image', label: 'Crear imagen', description: 'Genera una imagen desde tu descripción', icon: <ImageIcon className="h-4 w-4" />, mode: 'image', instruction: 'Crea una imagen: ' },
+      { id: 'edit-image', label: 'Editar imagen', description: 'Transforma una imagen siguiendo instrucciones', icon: <Wand2 className="h-4 w-4" />, mode: 'vision', instruction: 'Edita esta imagen siguiendo estas instrucciones: ' },
+      { id: 'analyze-image', label: 'Analizar imagen', description: 'Describe y extrae información visual', icon: <ScanSearch className="h-4 w-4" />, mode: 'vision', instruction: 'Analiza esta imagen y responde a esta petición: ' },
+      { id: 'image-to-video', label: 'Imagen a video', description: 'Prepara una imagen para convertirla en video', icon: <Video className="h-4 w-4" />, mode: 'video', instruction: 'Convierte esta imagen en video con estas instrucciones: ' },
+    ],
+    video: [
+      { id: 'create-video', label: 'Crear video', description: 'Genera un video desde tu descripción', icon: <Clapperboard className="h-4 w-4" />, mode: 'video', instruction: 'Crea un video: ' },
+      { id: 'image-to-video', label: 'Imagen a video', description: 'Anima una imagen siguiendo tu idea', icon: <ImageIcon className="h-4 w-4" />, mode: 'video', instruction: 'Convierte esta imagen en video: ' },
+      { id: 'analyze-video', label: 'Analizar video', description: 'Resume o extrae información de un video', icon: <ScanSearch className="h-4 w-4" />, mode: 'videoUnderstanding', instruction: 'Analiza este video y responde a esta petición: ' },
+      { id: 'video-prompt', label: 'Mejorar prompt de video', description: 'Optimiza escena, cámara, movimiento y estilo', icon: <Sparkles className="h-4 w-4" />, mode: 'video', instruction: 'Optimiza este prompt de video incluyendo escena, cámara, movimiento, iluminación y estilo: ' },
+    ],
+    project: [
+      { id: 'create-web', label: 'Crear página web', description: 'Genera una página desde una descripción', icon: <Globe className="h-4 w-4" />, mode: 'project', instruction: 'Crea una página web: ' },
+      { id: 'landing', label: 'Landing page', description: 'Crea una landing enfocada en conversión', icon: <LayoutTemplate className="h-4 w-4" />, mode: 'project', instruction: 'Crea una landing page moderna y responsive para: ' },
+      { id: 'component', label: 'Componente UI', description: 'Genera un componente reutilizable', icon: <Code2 className="h-4 w-4" />, mode: 'project', instruction: 'Crea un componente UI accesible y responsive: ' },
+      { id: 'improve-web', label: 'Mejorar interfaz', description: 'Mejora UX, accesibilidad y diseño', icon: <Wand2 className="h-4 w-4" />, mode: 'project', instruction: 'Mejora esta interfaz en UX, accesibilidad, responsive y diseño visual: ' },
+    ],
+  };
+  const modeCommands = commandCatalog[commandMode] ?? commandCatalog.text ?? [];
+  const slashCommands = modeCommands.filter(command => !slashQuery || command.label.toLowerCase().includes(slashQuery) || command.id.includes(slashQuery) || command.description.toLowerCase().includes(slashQuery));
+  const slashOpen = slashQuery !== null;
 
-  const selectSlashCommand = (command: (typeof slashCommands)[number]) => {
+  const selectSlashCommand = (command: (typeof modeCommands)[number]) => {
     setSelectedMode(command.mode);
-    setPrompt(command.prompt);
+    setPrompt(command.instruction);
+    trackInterest('generate_option_click', { option: 'slash_command', value: command.id, mode: command.mode });
     requestAnimationFrame(() => textareaRef.current?.focus());
   };
 
@@ -236,16 +269,22 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
       <div className="mx-auto flex w-full max-w-3xl flex-col gap-2">
         <Tabs value={selectedMode} onValueChange={(v) => { trackInterest('generate_option_click', { option: 'mode', value: v }); setSelectedMode(v as ChatMode); }} className="w-fit">
           <TabsList>
+            <TabsTrigger value="text"><MessageSquareText className="h-3 w-3 mr-1" />Chat</TabsTrigger>
             <TabsTrigger value="image"><ImageIcon className="h-3 w-3 mr-1" />Imagen</TabsTrigger>
-            <TabsTrigger value="video" disabled><Video className="h-3 w-3 mr-1" />Video</TabsTrigger>
-            <TabsTrigger value="project" disabled><Globe className="h-3 w-3 mr-1" />Web</TabsTrigger>
+            <TabsTrigger value="video"><Video className="h-3 w-3 mr-1" />Video</TabsTrigger>
+            <TabsTrigger value="project"><Globe className="h-3 w-3 mr-1" />Web</TabsTrigger>
           </TabsList>
         </Tabs>
         <div className="relative">
           {slashOpen && (
             <div className="absolute bottom-full left-0 z-50 mb-2 w-full max-w-md overflow-hidden rounded-xl border border-border/70 bg-popover p-1.5 shadow-2xl">
-              <p className="px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-muted-foreground">Herramientas multimedia</p>
-              {slashCommands.map(command => (
+              <div className="flex items-center justify-between px-2.5 py-2">
+                <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-muted-foreground">Acciones · {MODE_CONFIG[commandMode].label}</p>
+                <span className="text-[10px] text-muted-foreground">Esc para cerrar</span>
+              </div>
+              {slashCommands.length === 0 ? (
+                <p className="px-3 py-4 text-sm text-muted-foreground">No hay acciones que coincidan con “{slashQuery}”.</p>
+              ) : slashCommands.map(command => (
                 <button key={command.id} type="button" onMouseDown={event => event.preventDefault()} onClick={() => selectSlashCommand(command)} className="flex w-full items-start gap-3 rounded-lg px-2.5 py-2.5 text-left transition-colors hover:bg-accent focus-visible:bg-accent focus-visible:outline-none">
                   <span className="mt-0.5 rounded-md bg-blue-500/10 p-1.5 text-blue-500">{command.icon}</span>
                   <span className="min-w-0"><span className="block text-sm font-semibold">{command.label}</span><span className="block text-xs text-muted-foreground">{command.description}</span></span>
@@ -257,13 +296,16 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
           ref={textareaRef}
           value={prompt}
           onChange={e => setPrompt(e.target.value)}
-          placeholder={localGenerating ? 'Pide otra creación mientras terminamos…' : 'Escribe tu prompt...'}
+          placeholder={localGenerating ? 'Pide otra creación mientras terminamos…' : `${MODE_CONFIG[selectedMode].placeholder}  ·  Escribe / para acciones`}
           className="w-full min-h-[110px] resize-none text-sm leading-relaxed sm:min-h-[120px] max-h-72"
           onKeyDown={e => {
             if (e.key === 'Escape' && slashOpen) { e.preventDefault(); setPrompt(''); return; }
             if (e.key === 'Enter' && !e.shiftKey) {
               e.preventDefault();
-              if (slashOpen && slashCommands.length === 1) { selectSlashCommand(slashCommands[0]); return; }
+              if (slashOpen) {
+                if (slashCommands.length === 1) selectSlashCommand(slashCommands[0]);
+                return;
+              }
               handleSend();
             }
           }}
