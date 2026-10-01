@@ -40,7 +40,8 @@ export type FirebaseAnalyticsEvent =
   | 'domain_checkout_started'
   | 'domain_purchased'
   | 'newsletter_signup'
-  | 'marketing_consent_updated';
+  | 'marketing_consent_updated'
+  | 'user_library_return';
 
 export type FirebaseAnalyticsParams = Record<string, string | number | boolean | null | undefined>;
 
