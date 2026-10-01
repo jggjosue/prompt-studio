@@ -1,7 +1,8 @@
 import { estimateAICredits, resolveAIModelId } from '@/lib/ai-credit-config';
 import { isAIJobKind, isProviderForKind } from '@/lib/ai-job-config';
 import { serializeAIJob } from '@/lib/ai-job-serializer';
-import { AIGenerationJob, getCreditBalance, reserveCredits } from '@/lib/ai-job-service';
+import { AIGenerationJob, getCreditBalance } from '@/lib/ai-job-service';
+import { reserveGenerationCredits } from '@/lib/generation-credit-boundary';
 import { cacheHeaders } from '@/lib/cache-policy';
 import connectToDatabase from '@/lib/mongoose';
 import { contractInstructions } from '@/lib/output-contract';
@@ -120,8 +121,8 @@ export async function POST(request: Request) {
     }
     throw error;
   }
-  const balance = await reserveCredits(job);
-  if (balance === null) {
+  const creditGuard = await reserveGenerationCredits(job);
+  if (!creditGuard.allowed) {
     await AIGenerationJob.deleteOne({ _id: job._id });
     const credits = await getCreditBalance(userId);
     return NextResponse.json({ error: { code: 'INSUFFICIENT_CREDITS', message: `Necesitas ${cost.credits} créditos para esta generación y tienes ${credits.balance}.` }, required: cost.credits, credits }, { status: 402, headers: headers() });
@@ -138,7 +139,7 @@ export async function POST(request: Request) {
       metadata: { jobId: String(job._id), mode: dispatch.mode, reason: dispatch.reason },
     });
   }
-  return NextResponse.json({ job: serializeAIJob(job), credits: { balance }, duplicate: false, dispatch }, { status: 202, headers: headers() });
+  return NextResponse.json({ job: serializeAIJob(job), credits: { balance: creditGuard.remainingBalance }, duplicate: false, dispatch }, { status: 202, headers: headers() });
 }
 
 export async function GET() {
