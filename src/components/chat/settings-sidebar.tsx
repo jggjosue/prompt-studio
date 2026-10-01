@@ -6,6 +6,7 @@ import type { ChatGeneratorReturn } from '@/lib/chat-types';
 import { ChevronRight, Zap, Settings2, ExternalLink } from 'lucide-react';
 import { useState } from 'react';
 import Link from 'next/link';
+import { useSuperAdmin } from '@/hooks/use-super-admin';
 
 type Params = ChatGeneratorReturn['params'];
 type SetParams = ChatGeneratorReturn['setParams'];
@@ -127,8 +128,11 @@ export function SettingsSidebar({ chat, mobileOpen, onMobileClose }: {
   const [open, setOpen] = useState(true);
   const [showAdvanced, setShowAdvanced] = useState(false);
   const { imageGen, selectedMode, params, setParams } = chat;
+  const isSuperAdmin = useSuperAdmin();
 
-  const credits = imageGen.credits;
+  // Credit balances/costs are private to the super administrator. All other
+  // users see a neutral zero state regardless of plan or backend balance.
+  const credits = isSuperAdmin ? imageGen.credits : 0;
   const creditsDisplay = Number.isInteger(credits) ? credits.toString() : credits.toFixed(1);
 
   // Estimate credit cost from current model config
@@ -149,9 +153,9 @@ export function SettingsSidebar({ chat, mobileOpen, onMobileClose }: {
     'gemini-3.8-flash': 1,
   };
   const currentModel = params.model ?? '';
-  const estimatedCredits = CREDIT_ESTIMATES[currentModel] ?? 10;
-  const balanceAfter = Math.max(0, credits - estimatedCredits);
-  const insufficient = credits < estimatedCredits;
+  const estimatedCredits = isSuperAdmin ? (CREDIT_ESTIMATES[currentModel] ?? 10) : 0;
+  const balanceAfter = isSuperAdmin ? Math.max(0, credits - estimatedCredits) : 0;
+  const insufficient = isSuperAdmin && credits < estimatedCredits;
 
   const settingsMarkup = (
     <div className="flex flex-1 flex-col overflow-y-auto">
