@@ -23,6 +23,6 @@ unsubscribe links. HTML/mobile templates, when added in Resend, must preserve
 the same copy hierarchy, links and attribution; preview at narrow mobile width
 before publishing. Opens are not the primary KPI.
 
-This module defines sequence policy/content and deterministic gating. Delivery
-or scheduling infrastructure should call these helpers rather than duplicating
-consent or purchase-stop logic.
+`enrollOnboardingLifecycle` persists lifecycle enrollment independently from manual sends. `processDueOnboardingEnrollment` derives the due step from persisted enrollment time, re-checks current consent/suppression/topic state at send time, and advances the sequence idempotently per user. A scheduler/worker can call this processor for due users without duplicating campaign policy.
+
+The enrollment record never represents permanent permission: withdrawing consent makes subsequent steps ineligible. Purchase state is supplied from the product source of truth so paid conversion steps are suppressed after purchase.
