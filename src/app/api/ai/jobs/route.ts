@@ -23,6 +23,7 @@ import mongoose from 'mongoose';
 import { NextResponse } from 'next/server';
 import { isPromptStudioAdminEmail } from '@/lib/prompt-studio-admin';
 import { resolveTextGenerationOperation } from '@/lib/text-generation-operation';
+import { resolvePromptOptimizerOperation } from '@/lib/prompt-optimizer-operation';
 
 const headers = () => cacheHeaders('private-no-store');
 const clean = (value: unknown, max: number) => typeof value === 'string' ? value.trim().slice(0, max) : '';
@@ -90,12 +91,22 @@ export async function POST(request: Request) {
   let operationCode: string | null = null;
   if (raw.kind === 'text') {
     try {
-      const operation = resolveTextGenerationOperation(input);
+      const operation = input.optimizerTier !== undefined
+        ? resolvePromptOptimizerOperation(input)
+        : resolveTextGenerationOperation(input);
       operationCode = operation.code;
       cost = { ...cost, credits: operation.creditCost };
     } catch (error) {
-      const code = error instanceof Error ? error.message : 'TEXT_TIER_REQUIRED';
-      return NextResponse.json({ error: { code, message: 'Selecciona el nivel de generación de texto: short, long o complex.' } }, { status: 400, headers: headers() });
+      const code = error instanceof Error ? error.message : 'AI_OPERATION_TIER_REQUIRED';
+      const optimizing = input.optimizerTier !== undefined;
+      return NextResponse.json({
+        error: {
+          code,
+          message: optimizing
+            ? 'Selecciona el nivel del optimizador: basic, advanced o complex.'
+            : 'Selecciona el nivel de generación de texto: short, long o complex.',
+        },
+      }, { status: 400, headers: headers() });
     }
   }
   // El superadministrador puede probar el flujo en desarrollo sin saldo.
