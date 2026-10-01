@@ -362,10 +362,10 @@ export default function HeaderClient() {
     {
       id: 'community',
       label: 'Crowdfunding',
-      activePrefixes: ['/founder', '/affiliate-program', '/affiliate-program-terms'],
+      activePrefixes: ['/crowdfunding', '/affiliate-program', '/affiliate-program-terms'],
       dropdown: [
         {
-          href: '/founder',
+          href: '/crowdfunding',
           label: copy.crowdfunding,
           description: copy.crowdfundingDesc,
           icon: <Megaphone className="h-4 w-4" />,
@@ -410,13 +410,14 @@ export default function HeaderClient() {
               <span className="sr-only">{tCommon('toggleMenu')}</span>
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="w-full max-w-sm p-6">
-            <ClientLink href="/" className="mr-6 flex items-center gap-2 mb-8">
+          <SheetContent side="left" className="flex h-[100dvh] w-full max-w-sm flex-col overflow-hidden p-0">
+            <div className="shrink-0 px-6 pt-6"><ClientLink href="/" className="mr-6 flex items-center gap-2 mb-8">
               <Logo />
               <span className="font-bold sm:inline-block font-headline">
                 {tHeader('brand')}
               </span>
-            </ClientLink>
+            </ClientLink></div>
+            <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] [-webkit-overflow-scrolling:touch]">
             <SheetClose asChild>
               <ClientLink
                 href="/generate"
@@ -578,6 +579,7 @@ export default function HeaderClient() {
                   </Show>
                 </>
               )}
+            </div>
             </div>
           </SheetContent>
         </Sheet>
