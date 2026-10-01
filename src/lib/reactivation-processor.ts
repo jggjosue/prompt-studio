@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { connectToDatabase } from '@/lib/mongodb';
+import connectToDatabase from '@/lib/mongoose';
 import { reactivationWindow, type PriorCategory } from '@/lib/reactivation-campaign';
 import { sendReactivationEmail } from '@/lib/reactivation-sender';
 import ReactivationAttempt from '@/models/ReactivationAttempt';
