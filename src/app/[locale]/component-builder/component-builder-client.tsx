@@ -246,7 +246,7 @@ function Canvas({
         background,
         color: ink,
         fontFamily: fonts[font],
-        padding: spacing,
+        padding: `clamp(14px, 4vw, ${spacing}px)`,
       }}
     >
       <div
@@ -423,7 +423,7 @@ export default function ComponentBuilderClient() {
   const { sources, loading, error } = useComponentCatalogData();
   if (loading || error) {
     return (
-      <div className="flex min-h-screen flex-col bg-background">
+      <div className="flex min-h-screen min-w-0 flex-col overflow-x-hidden bg-background">
         <Header />
         <main className="grid flex-1 place-items-center px-4">
           <div className="text-center">
@@ -643,25 +643,25 @@ function ComponentBuilderContent({
     <div className="flex min-h-screen flex-col bg-background">
       <Header />
       <main className="flex-1">
-        <section className="border-b bg-gradient-to-b from-violet-500/10 to-transparent px-4 py-10">
+        <section className="border-b bg-gradient-to-b from-violet-500/10 to-transparent px-4 py-7 sm:py-10">
           <div className="mx-auto max-w-7xl">
             <Badge className="mb-4 bg-violet-600">
               <WandSparkles className="mr-1 size-3.5" />
               {items.length} componentes conectados
             </Badge>
-            <h1 className="max-w-4xl font-headline text-4xl font-black tracking-tight md:text-6xl">
+            <h1 className="max-w-4xl break-words font-headline text-3xl font-black leading-[1.05] tracking-tight sm:text-4xl md:text-6xl">
               Constructor visual de componentes
             </h1>
-            <p className="mt-4 max-w-3xl text-lg text-muted-foreground">
+            <p className="mt-4 max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg">
               Encuentra un componente, personaliza su diseño sin editar código y
               copia un prompt listo para construirlo.
             </p>
           </div>
         </section>
-        <div className="mx-auto grid max-w-[1600px] gap-0 border-x border-border/40 xl:grid-cols-[320px_minmax(0,1fr)_350px]">
+        <div className="mx-auto grid min-w-0 max-w-[1600px] grid-cols-1 gap-0 border-border/40 sm:border-x xl:grid-cols-[320px_minmax(0,1fr)_350px]">
           <aside className="border-b p-4 md:p-5 xl:border-b-0 xl:border-r xl:sticky xl:top-0 xl:h-screen xl:overflow-y-auto">
             <h2 className="font-bold">1. Elige un componente</h2>
-            <div className="mt-4 grid grid-cols-2 gap-2">
+            <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-2">
               {Object.entries(labels).map(([id, label]) => (
                 <button
                   key={id}
@@ -701,17 +701,17 @@ function ComponentBuilderContent({
               ))}
             </div>
           </aside>
-          <section className="min-w-0 bg-muted/30 p-4 md:p-7">
-            <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <section className="min-w-0 overflow-hidden bg-muted/30 p-3 sm:p-4 md:p-7">
+            <div className="mb-4 flex min-w-0 flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
               <div>
                 <p className="text-xs font-bold text-violet-600">
                   2. Vista previa en tiempo real
                 </p>
                 <h2 className="text-xl font-black">{selected.title}</h2>
               </div>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex min-w-0 flex-wrap gap-2">
                 <div
-                  className="inline-flex rounded-full border bg-background p-0.5"
+                  className="flex w-full max-w-full overflow-x-auto rounded-xl border bg-background p-0.5 sm:w-auto sm:rounded-full"
                   role="tablist"
                   aria-label={spanish ? "Modo del lienzo" : "Canvas mode"}
                 >
@@ -720,7 +720,7 @@ function ComponentBuilderContent({
                     role="tab"
                     aria-selected={mode === "template"}
                     onClick={() => setMode("template")}
-                    className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold transition ${mode === "template" ? "bg-violet-600 text-white" : "text-muted-foreground hover:text-foreground"}`}
+                    className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold transition ${mode === "template" ? "bg-violet-600 text-white" : "text-muted-foreground hover:text-foreground"}`}
                   >
                     <LayoutTemplate className="size-3.5" />
                     {spanish ? "Plantilla" : "Template"}
@@ -730,7 +730,7 @@ function ComponentBuilderContent({
                     role="tab"
                     aria-selected={mode === "compose"}
                     onClick={() => setMode("compose")}
-                    className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold transition ${mode === "compose" ? "bg-violet-600 text-white" : "text-muted-foreground hover:text-foreground"}`}
+                    className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold transition ${mode === "compose" ? "bg-violet-600 text-white" : "text-muted-foreground hover:text-foreground"}`}
                   >
                     <Layers className="size-3.5" />
                     {spanish ? "Composición" : "Compose"}
@@ -740,7 +740,7 @@ function ComponentBuilderContent({
                     role="tab"
                     aria-selected={mode === "editor"}
                     onClick={() => setMode("editor")}
-                    className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold transition ${mode === "editor" ? "bg-violet-600 text-white" : "text-muted-foreground hover:text-foreground"}`}
+                    className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold transition ${mode === "editor" ? "bg-violet-600 text-white" : "text-muted-foreground hover:text-foreground"}`}
                   >
                     <MousePointerClick className="size-3.5" />
                     {spanish ? "Editor" : "Editor"}
@@ -767,7 +767,7 @@ function ComponentBuilderContent({
                 </Button>
               </div>
             </div>
-            <div className="overflow-hidden rounded-2xl border bg-background shadow-xl">
+            <div className="min-w-0 overflow-hidden rounded-2xl border bg-background shadow-xl">
               {mode === "editor" ? (
               <EditorWorkspace name={selected.title} />
             ) : mode === "compose" ? (

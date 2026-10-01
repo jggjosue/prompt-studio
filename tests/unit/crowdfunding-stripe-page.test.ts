@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
 test('crowdfunding public page uses official chrome and Stripe CTA', () => {
- const page=fs.readFileSync('src/app/[locale]/founder/page.tsx','utf8');
+ const page=fs.readFileSync('src/app/[locale]/crowdfunding/page.tsx','utf8');
  assert.match(page,/Header/); assert.match(page,/Footer/); assert.match(page,/CrowdfundingCheckout/);
  assert.match(page,/from-white via-cyan-100 to-violet-200/);
 });

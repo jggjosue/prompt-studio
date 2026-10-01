@@ -407,7 +407,7 @@ export default function ComponentCompareClient() {
   }, [selected, onlyDifferences, spanish]);
 
   return (
-    <div className="flex min-h-screen flex-col bg-background selection:bg-violet-500/20">
+    <div className="flex min-h-screen min-w-0 flex-col overflow-x-hidden bg-background selection:bg-violet-500/20">
       <Header />
 
       <main className="flex-1 pb-20">
@@ -499,8 +499,8 @@ export default function ComponentCompareClient() {
         </section>
 
         {/* MAIN COMPARISON WORKSPACE */}
-        <section className="mx-auto max-w-7xl px-4 pt-8 sm:px-6">
-          <div className="grid gap-6 lg:grid-cols-[330px_1fr]">
+        <section className="mx-auto w-full max-w-7xl px-3 pt-5 sm:px-6 sm:pt-8">
+          <div className="grid min-w-0 gap-4 sm:gap-6 lg:grid-cols-[330px_minmax(0,1fr)]">
             {/* SIDEBAR: CATALOG SELECTOR */}
             <aside className="space-y-4">
               {/* CURRENT SELECTION CARD */}
@@ -684,10 +684,10 @@ export default function ComponentCompareClient() {
             </aside>
 
             {/* MAIN COMPARISON TABLE CONTAINER */}
-            <div className="min-w-0 space-y-4">
+            <div className="min-w-0 max-w-full space-y-4">
               {/* TABLE TOP CONTROLS */}
-              <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border/60 bg-card/60 px-4 py-3 shadow-sm backdrop-blur-md">
-                <div className="flex items-center gap-3">
+              <div className="flex min-w-0 flex-col items-stretch gap-3 rounded-2xl border border-border/60 bg-card/60 px-3 py-3 shadow-sm backdrop-blur-md sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:px-4">
+                <div className="flex min-w-0 items-center gap-3">
                   <label className="flex cursor-pointer items-center gap-2 text-xs font-medium text-foreground select-none">
                     <input
                       type="checkbox"
@@ -712,7 +712,7 @@ export default function ComponentCompareClient() {
               </div>
 
               {/* TABLE CANVAS */}
-              <div className="relative overflow-hidden rounded-2xl border border-border/60 bg-card/70 shadow-lg backdrop-blur-md">
+              <div className="relative min-w-0 max-w-full overflow-hidden rounded-2xl border border-border/60 bg-card/70 shadow-lg backdrop-blur-md">
                 {selected.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-24 text-center px-4">
                     <div className="grid size-16 place-items-center rounded-2xl bg-violet-500/10 border border-violet-500/20 text-violet-500">
@@ -742,7 +742,20 @@ export default function ComponentCompareClient() {
                     </div>
                   </div>
                 ) : (
-                  <div className="overflow-x-auto scrollbar-thin">
+                  <>
+                  <div className="lg:hidden">
+                    <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto p-3 pb-4 scrollbar-thin">
+                      {selected.map(item => {
+                        const metrics = analyze(item);
+                        const kindMeta = KIND_META[item.kind];
+                        return <article key={`mobile-${item.id}`} className="w-[86vw] max-w-[360px] shrink-0 snap-center overflow-hidden rounded-2xl border border-border/60 bg-background/80 shadow-sm">
+                          <div className="border-b border-border/50 p-4"><div className="flex items-start justify-between gap-3"><div className="min-w-0"><Badge variant="outline" className={`${kindMeta.bg} ${kindMeta.color}`}>{spanish ? kindMeta.labelEs : kindMeta.labelEn}</Badge><h3 className="mt-2 text-base font-black leading-tight">{spanish ? item.name.es : item.name.en}</h3><p className="mt-1 font-mono text-[10px] text-muted-foreground">{item.id}</p></div><button type="button" onClick={() => remove(item.id)} className="rounded-full border p-1.5 text-muted-foreground" aria-label={spanish ? "Quitar" : "Remove"}><X className="size-3.5" /></button></div><div className="mt-3 grid grid-cols-2 gap-2"><Button asChild size="sm" className="h-8 rounded-lg bg-violet-600 text-xs text-white"><Link href={`/component-builder?component=${item.id}`}><Wand2 className="mr-1 size-3.5" />{spanish ? "Personalizar" : "Customize"}</Link></Button><Button size="sm" variant="outline" className="h-8 rounded-lg text-xs" onClick={() => setPreviewModalItem(item)}><Eye className="mr-1 size-3.5" />{spanish ? "Detalles" : "Details"}</Button></div></div>
+                          <div className="divide-y divide-border/50">{comparisonRows.map(row => { const Icon = row.icon; let value: ReactNode = null; if(row.id==="category") value=<><Badge variant="outline" className={`${kindMeta.bg} ${kindMeta.color}`}>{spanish ? kindMeta.labelEs : kindMeta.labelEn}</Badge><p className="mt-1 text-[11px] text-muted-foreground">Layout: <strong>{item.preview.layout || "standard"}</strong></p></>; else if(row.id==="readiness") value=<MetricScoreMeter value={metrics.overall} spanish={spanish}/>; else if(row.id==="responsive") value=<MetricScoreMeter value={metrics.responsive} spanish={spanish}/>; else if(row.id==="accessibility") value=<MetricScoreMeter value={metrics.accessibility} spanish={spanish}/>; else if(row.id==="complexity") value=<MetricScoreMeter value={metrics.complexity} spanish={spanish}/>; else if(row.id==="customization") value=<MetricScoreMeter value={metrics.customization} spanish={spanish}/>; else if(row.id==="dependencies") value=<div className="flex flex-wrap gap-1">{item.stack.map(dep=><Badge key={dep} variant="outline" className="text-[10px]">{dep}</Badge>)}</div>; else if(row.id==="states") value=metrics.states.length?<div className="flex flex-wrap gap-1">{metrics.states.map(state=><span key={state} className="rounded-md bg-emerald-500/10 px-2 py-1 text-[10px] text-emerald-500">{state}</span>)}</div>:<span className="text-xs text-muted-foreground">{spanish?"Estados básicos estándar":"Basic standard states"}</span>; else if(row.id==="membership") value=<Badge variant="outline"><Sparkles className="mr-1 size-3"/>{item.membership || "Free"}</Badge>; return <section key={`${item.id}-${row.id}`} className="p-4"><div className="mb-3 flex items-start gap-2"><span className="grid size-7 shrink-0 place-items-center rounded-lg bg-violet-500/10 text-violet-500"><Icon className="size-3.5"/></span><div><h4 className="text-xs font-black">{row.label}</h4><p className="mt-0.5 text-[10px] leading-4 text-muted-foreground">{row.description}</p></div></div>{value}</section>; })}</div>
+                        </article>;
+                      })}
+                    </div><p className="px-4 pb-3 text-center text-[10px] text-muted-foreground">{selected.length > 1 ? (spanish ? "Desliza horizontalmente para comparar componentes →" : "Swipe horizontally to compare components →") : ""}</p>
+                  </div>
+                  <div className="hidden overflow-x-auto scrollbar-thin lg:block">
                     <table className="w-full border-collapse text-left">
                       <thead>
                         <tr className="border-b border-border/60 bg-muted/40">
@@ -1073,11 +1086,12 @@ export default function ComponentCompareClient() {
                       </tbody>
                     </table>
                   </div>
+                  </>
                 )}
               </div>
 
               {/* FOOTER INFO CARD */}
-              <div className="rounded-2xl border border-border/60 bg-muted/30 p-5 shadow-sm">
+              <div className="rounded-2xl border border-border/60 bg-muted/30 p-4 shadow-sm sm:p-5">
                 <div className="flex items-start gap-3">
                   <div className="grid size-8 shrink-0 place-items-center rounded-xl bg-violet-500/10 text-violet-600 dark:text-violet-400">
                     <Info className="size-4" />
@@ -1102,7 +1116,7 @@ export default function ComponentCompareClient() {
       {/* QUICK PREVIEW & DETAILS MODAL */}
       <Dialog open={!!previewModalItem} onOpenChange={open => !open && setPreviewModalItem(null)}>
         {previewModalItem && (
-          <DialogContent className="max-w-2xl rounded-2xl p-6 sm:p-8">
+          <DialogContent className="max-h-[92dvh] w-[calc(100vw-1rem)] max-w-2xl overflow-y-auto rounded-2xl p-4 sm:p-8">
             <DialogHeader>
               <div className="flex items-center gap-2">
                 <Badge variant="outline" className="capitalize text-violet-500">
@@ -1122,7 +1136,7 @@ export default function ComponentCompareClient() {
 
             <div className="space-y-4 pt-4">
               {/* PALETTE & STACK */}
-              <div className="grid grid-cols-2 gap-4 rounded-xl border border-border/60 bg-muted/30 p-4">
+              <div className="grid grid-cols-1 gap-4 rounded-xl border border-border/60 bg-muted/30 p-3 sm:grid-cols-2 sm:p-4">
                 <div>
                   <span className="text-xs font-semibold text-muted-foreground">
                     {spanish ? 'Paleta de Color' : 'Color Palette'}
