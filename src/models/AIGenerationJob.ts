@@ -43,6 +43,8 @@ export interface IAIGenerationJob extends Document {
   creditsCharged?: number | null;
   reservedSubscriptionCredits?: number;
   reservedPurchasedCredits?: number;
+  reservedFounderCredits?: number;
+  reservedPromotionalCredits?: number;
   estimatedCostUsd: number;
   estimatedInputTokens?: number | null;
   estimatedOutputTokens?: number | null;
@@ -116,6 +118,8 @@ const AIGenerationJobSchema = new Schema<IAIGenerationJob>({
   creditsCharged: { type: Number, default: null, min: 0 },
   reservedSubscriptionCredits: { type: Number, default: 0, min: 0 },
   reservedPurchasedCredits: { type: Number, default: 0, min: 0 },
+  reservedFounderCredits: { type: Number, default: 0, min: 0 },
+  reservedPromotionalCredits: { type: Number, default: 0, min: 0 },
   estimatedCostUsd: { type: Number, required: true, min: 0 },
   estimatedInputTokens: { type: Number, default: null, min: 0 },
   estimatedOutputTokens: { type: Number, default: null, min: 0 },
