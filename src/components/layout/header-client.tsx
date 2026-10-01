@@ -329,7 +329,6 @@ export default function HeaderClient() {
       label: 'Media',
       activePrefixes: [
         '/image-prompts',
-        '/gallery',
         '/image-tags',
         '/video-prompts',
         '/gallery-videos',
@@ -350,13 +349,6 @@ export default function HeaderClient() {
           label: tNav('videos'),
           description: tNav('videosDesc'),
           icon: <Video className="h-4 w-4" />,
-        },
-        {
-          href: '/gallery',
-          group: 'Explorar',
-          label: copy.gallery,
-          description: copy.galleryDesc,
-          icon: <GalleryHorizontalEnd className="h-4 w-4" />,
         },
         {
           href: '/image-tags',
