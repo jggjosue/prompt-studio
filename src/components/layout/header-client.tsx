@@ -36,6 +36,8 @@ import {
   ChevronRight,
   FolderHeart,
   Globe,
+  HandHeart,
+  Megaphone,
   ImageIcon,
   LayoutTemplate,
   Layers3,
@@ -168,7 +170,8 @@ export default function HeaderClient() {
     webGeneratorDesc: 'Genera nuevas páginas web con IA', imageGenerator: 'Generar Imagen',
     imageGeneratorDesc: 'Crea imágenes hiperrealistas con IA', videoGenerator: 'Generar Video',
     videoGeneratorDesc: 'Crea videos cinematográficos con IA', comingSoon: 'Próximamente',
-    back: 'Volver', viewAll: 'Ver todos los kits',
+    back: 'Volver', viewAll: 'Ver todos los kits', crowdfunding: 'Crowdfunding',
+    crowdfundingDesc: 'Apoya Prompt Studio y calcula tus Founder Credits', affiliate: 'Afíliate', affiliateDesc: 'Recomienda Prompt Studio y participa en el programa de afiliados',
   } : {
     tools: 'Tools', library: 'My library', explore: 'Explore', create: 'Create',
     optimize: 'Optimize prompts', optimizeDesc: 'Improve prompts with goals and compare changes',
@@ -183,7 +186,8 @@ export default function HeaderClient() {
     webGeneratorDesc: 'Generate new web pages with AI', imageGenerator: 'Generate Image',
     imageGeneratorDesc: 'Create hyperrealistic images with AI', videoGenerator: 'Generate Video',
     videoGeneratorDesc: 'Create cinematic videos with AI', comingSoon: 'Coming soon',
-    back: 'Back', viewAll: 'View all kits',
+    back: 'Back', viewAll: 'View all kits', crowdfunding: 'Crowdfunding',
+    crowdfundingDesc: 'Support Prompt Studio and calculate your Founder Credits', affiliate: 'Affiliate', affiliateDesc: 'Recommend Prompt Studio and join the affiliate program',
   };
   const groupLabel = (label: string) => ({
     Herramientas: copy.tools,
@@ -356,10 +360,23 @@ export default function HeaderClient() {
       ],
     },
     {
-      id: 'affiliate',
-      href: '/affiliate-program',
-      label: tNav('affiliateProgram'),
-      activePrefixes: ['/affiliate-program', '/affiliate-program-terms'],
+      id: 'community',
+      label: 'Crowdfunding',
+      activePrefixes: ['/founder', '/affiliate-program', '/affiliate-program-terms'],
+      dropdown: [
+        {
+          href: '/founder',
+          label: copy.crowdfunding,
+          description: copy.crowdfundingDesc,
+          icon: <Megaphone className="h-4 w-4" />,
+        },
+        {
+          href: '/affiliate-program',
+          label: copy.affiliate,
+          description: copy.affiliateDesc,
+          icon: <HandHeart className="h-4 w-4" />,
+        },
+      ],
     },
     {
       id: 'ask',
