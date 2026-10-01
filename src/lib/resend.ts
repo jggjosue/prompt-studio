@@ -38,6 +38,7 @@ export type ResendContactSyncInput = {
   emailDoNotContact?: boolean;
   locale?: string | null;
   topics?: string[];
+  segments?: string[];
 };
 
 export function resendContactState(input: ResendContactSyncInput) {
@@ -61,6 +62,10 @@ export async function upsertResendContact(input: ResendContactSyncInput) {
     ...state,
     ...(audienceId ? { audienceId } : {}),
   };
+
+  // Segments/topics are intentionally not inferred here. Provider membership
+  // is reconciled by the dedicated #674 rebuild workflow from source facts and
+  // explicit preferences; contact creation itself never grants consent.
 
   const created = await resend.contacts.create(contact);
   if (!created.error) return created;
