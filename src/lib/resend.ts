@@ -38,7 +38,6 @@ export type ResendContactSyncInput = {
   emailDoNotContact?: boolean;
   locale?: string | null;
   topics?: string[];
-  segments?: string[];
 };
 
 export function resendContactState(input: ResendContactSyncInput) {
