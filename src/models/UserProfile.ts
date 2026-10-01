@@ -10,9 +10,6 @@ export interface IUserProfile extends Document {
   consentSource?: string | null;
   consentVersion?: string | null;
   unsubscribeTimestamp?: Date | null;
-  emailSuppressedAt?: Date | null;
-  emailSuppressionReason?: 'unsubscribe' | 'hard_bounce' | 'complaint' | 'manual' | null;
-  emailDoNotContact: boolean;
   emailPreferenceTopics: string[];
   emailLocale?: string | null;
   emailPreferencesUpdatedAt?: Date | null;
@@ -55,9 +52,6 @@ const UserProfileSchema: Schema = new Schema({
   consentSource: { type: String, default: null },
   consentVersion: { type: String, default: null },
   unsubscribeTimestamp: { type: Date, default: null },
-  emailSuppressedAt: { type: Date, default: null, index: true },
-  emailSuppressionReason: { type: String, enum: ['unsubscribe', 'hard_bounce', 'complaint', 'manual', null], default: null },
-  emailDoNotContact: { type: Boolean, default: false, index: true },
   emailPreferenceTopics: { type: [String], default: [] },
   emailLocale: { type: String, default: null },
   emailPreferencesUpdatedAt: { type: Date, default: null },
