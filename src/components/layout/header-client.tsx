@@ -36,7 +36,6 @@ import {
   ChevronRight,
   FolderHeart,
   Flame,
-  GalleryHorizontalEnd,
   Globe,
   HandHeart,
   Megaphone,
@@ -49,19 +48,14 @@ import {
   PackageCheck,
   Search,
   Scale,
-  ShieldCheck,
-  Sparkles,
   UserPlus,
   Video,
-  ScanSearch,
-  Wand2,
   WandSparkles,
 } from 'lucide-react';
 import { ClientLink } from '@/components/client-link';
 import { RoutePrefetchProvider } from '@/components/route-prefetch-provider';
 import { isNavActive } from '@/lib/app-routes';
 import { cn } from '@/lib/utils';
-import { useSuperAdmin } from '@/hooks/use-super-admin';
 import { usePathname } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 // import { ThemeToggle } from '../theme-toggle';
@@ -153,7 +147,6 @@ export default function HeaderClient() {
   }, []);
 
   const { isLoaded } = useAuth();
-  const isSuperAdmin = useSuperAdmin();
   const pathname = usePathname();
   const tNav = useTranslations('nav');
   const tHeader = useTranslations('header');
@@ -162,8 +155,6 @@ export default function HeaderClient() {
   const uiKits = isSpanish ? UI_KITS : EN_UI_KITS;
   const copy = isSpanish ? {
     tools: 'Herramientas', library: 'Mi biblioteca', explore: 'Explorar', create: 'Crear',
-    optimize: 'Optimizar prompts', optimizeDesc: 'Mejora con objetivos y compara los cambios',
-    auditor: 'Auditor de código', auditorDesc: 'Detecta errores y genera un prompt de corrección',
     favorites: 'Favoritos y proyectos', favoritesDesc: 'Organiza componentes y descarga tus kits',
     compare: 'Comparar componentes', compareDesc: 'Compara hasta tres diseños lado a lado',
     kits: 'Kits completos', kitsDesc: 'Colecciones coherentes listas para productos',
@@ -173,17 +164,14 @@ export default function HeaderClient() {
     components: 'Componentes UI', pieces: 'piezas con prompts', webGenerator: 'Generador Web',
     webGeneratorDesc: 'Crea una web completa desde un prompt', imageGenerator: 'Generador de imágenes',
     imageGeneratorDesc: 'Crea imágenes con IA desde un prompt', videoGenerator: 'Generador de videos',
-    videoGeneratorDesc: 'Crea videos con IA desde un prompt', comingSoon: 'Próximamente',
+    videoGeneratorDesc: 'Crea videos con IA desde un prompt',
     back: 'Volver', viewAll: 'Ver todos los kits', crowdfunding: 'Founder Program',
     crowdfundingDesc: 'Apoya Prompt Studio y recibe Founder Credits', affiliate: 'Affiliate Program', affiliateDesc: 'Recomienda Prompt Studio y gana comisiones',
     creator: 'Programa de Creadores', creatorDesc: 'Crea, publica y monetiza contenido en Prompt Studio', ambassador: 'Programa de Embajadores', ambassadorDesc: 'Representa a Prompt Studio y ayuda a crecer la comunidad',
     gallery: 'Galería', galleryDesc: 'Creaciones de la comunidad', trends: 'Tendencias', trendsDesc: 'Prompts y estilos populares',
-    imageEditor: 'Editor de imágenes', imageEditorDesc: 'Edita y transforma imágenes con IA', imageToVideo: 'Imagen a video', imageToVideoDesc: 'Convierte una imagen en video con IA', analyzeImage: 'Analizador de imágenes', analyzeImageDesc: 'Analiza y extrae información con IA',
     programs: 'Programas', media: 'Multimedia',
   } : {
     tools: 'Tools', library: 'My library', explore: 'Explore', create: 'Create',
-    optimize: 'Optimize prompts', optimizeDesc: 'Improve prompts with goals and compare changes',
-    auditor: 'Code auditor', auditorDesc: 'Detect errors and generate a correction prompt',
     favorites: 'Favorites and projects', favoritesDesc: 'Organize components and download your kits',
     compare: 'Compare components', compareDesc: 'Compare up to three designs side by side',
     kits: 'Complete kits', kitsDesc: 'Consistent collections ready for products',
@@ -193,12 +181,11 @@ export default function HeaderClient() {
     components: 'UI Components', pieces: 'prompt-ready pieces', webGenerator: 'Web Generator',
     webGeneratorDesc: 'Create a complete website from a prompt', imageGenerator: 'Image Generator',
     imageGeneratorDesc: 'Create AI images from a prompt', videoGenerator: 'Video Generator',
-    videoGeneratorDesc: 'Create AI videos from a prompt', comingSoon: 'Coming soon',
+    videoGeneratorDesc: 'Create AI videos from a prompt',
     back: 'Back', viewAll: 'View all kits', crowdfunding: 'Founder Program',
     crowdfundingDesc: 'Support Prompt Studio and receive Founder Credits', affiliate: 'Affiliate Program', affiliateDesc: 'Recommend Prompt Studio and earn commissions',
     creator: 'Creator Program', creatorDesc: 'Create, publish, and monetize content on Prompt Studio', ambassador: 'Ambassador Program', ambassadorDesc: 'Represent Prompt Studio and help grow the community',
     gallery: 'Gallery', galleryDesc: 'Community creations', trends: 'Trending', trendsDesc: 'Popular prompts and styles',
-    imageEditor: 'Image Editor', imageEditorDesc: 'Edit and transform images with AI', imageToVideo: 'Image to Video', imageToVideoDesc: 'Turn an image into an AI video', analyzeImage: 'Image Analyzer', analyzeImageDesc: 'Analyze and extract information with AI',
     programs: 'Programs', media: 'Media Studio',
   };
   const groupLabel = (label: string) => ({
@@ -208,14 +195,8 @@ export default function HeaderClient() {
     Crear: copy.create,
   })[label] ?? label;
 
-  /**
-   * Constructor visual y Generador de páginas. Se anuncian siempre para que el
-   * menú no cambie de forma al entrar, pero solo el super administrador
-   * (`PROMPT_STUDIO_PREMIUM_JO`) puede abrirlos: el resto las ve marcadas como
-   * «Próximamente» y sin enlace navegable.
-   */
+  /** Herramientas de creación. Cada ruta aplica su autorización en servidor. */
   const paidCreatorItems = (): DropdownItem[] => {
-    const locked = isSuperAdmin ? {} : { disabled: true, disabledBadge: copy.comingSoon };
     return [
       {
         href: '/component-builder',
@@ -230,7 +211,6 @@ export default function HeaderClient() {
         label: copy.composer,
         description: copy.composerDesc,
         icon: <LayoutTemplate className="h-4 w-4" />,
-        ...locked,
       },
     ];
   };
@@ -263,24 +243,6 @@ export default function HeaderClient() {
           label: copy.compare,
           description: copy.compareDesc,
           icon: <Scale className="h-4 w-4" />,
-        },
-        {
-          href: '/prompt-optimizer',
-          group: 'Herramientas',
-          label: copy.optimize,
-          description: copy.optimizeDesc,
-          icon: <Sparkles className="h-4 w-4" />,
-          disabled: true,
-          disabledBadge: copy.comingSoon,
-        },
-        {
-          href: '/code-auditor',
-          group: 'Herramientas',
-          label: copy.auditor,
-          description: copy.auditorDesc,
-          icon: <ShieldCheck className="h-4 w-4" />,
-          disabled: true,
-          disabledBadge: copy.comingSoon,
         },
         {
           href: '/component-kits',
@@ -374,33 +336,6 @@ export default function HeaderClient() {
           label: copy.videoGenerator,
           description: copy.videoGeneratorDesc,
           icon: <Video className="h-4 w-4" />,
-        },
-        {
-          href: '/generate?mode=image',
-          group: 'Crear',
-          label: copy.imageEditor,
-          description: copy.imageEditorDesc,
-          icon: <Wand2 className="h-4 w-4" />,
-          disabled: true,
-          disabledBadge: copy.comingSoon,
-        },
-        {
-          href: '/generate?mode=video',
-          group: 'Crear',
-          label: copy.imageToVideo,
-          description: copy.imageToVideoDesc,
-          icon: <Video className="h-4 w-4" />,
-          disabled: true,
-          disabledBadge: copy.comingSoon,
-        },
-        {
-          href: '/generate?mode=vision',
-          group: 'Crear',
-          label: copy.analyzeImage,
-          description: copy.analyzeImageDesc,
-          icon: <ScanSearch className="h-4 w-4" />,
-          disabled: true,
-          disabledBadge: copy.comingSoon,
         },
       ],
     },

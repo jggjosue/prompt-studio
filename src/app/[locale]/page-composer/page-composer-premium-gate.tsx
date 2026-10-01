@@ -9,7 +9,7 @@ export default function PageComposerPremiumGate({
   reason,
   locale,
 }: {
-  reason: 'anonymous' | 'unpaid';
+  reason: 'anonymous' | 'unpaid' | 'restricted';
   locale?: string;
 }) {
   const es = (locale ?? 'es').startsWith('es');
@@ -36,8 +36,10 @@ export default function PageComposerPremiumGate({
             </h1>
             <p className="mx-auto mt-4 max-w-2xl text-lg leading-8 text-muted-foreground">
               {reason === 'anonymous'
-                ? es ? 'Crea una cuenta y activa Premium para usar el Composer.' : 'Create an account and activate Premium to use the Composer.'
-                : es ? 'Tu cuenta está activa, pero este generador requiere un plan Premium.' : 'Your account is active, but this generator requires a Premium plan.'}
+                ? es ? 'Inicia sesión para comprobar el acceso anticipado al Generador de páginas.' : 'Sign in to check early access to the Page generator.'
+                : reason === 'restricted'
+                  ? es ? 'Esta herramienta todavía está en desarrollo y, por el momento, solo está disponible para el superadministrador.' : 'This tool is still in development and is currently available only to the super administrator.'
+                  : es ? 'Tu cuenta está activa, pero este generador requiere un plan Premium.' : 'Your account is active, but this generator requires a Premium plan.'}
             </p>
             <ul className="mx-auto mt-8 grid max-w-xl gap-3 text-left">
               {benefits.map(benefit => <li key={benefit} className="flex items-start gap-3 rounded-2xl border border-border/60 bg-card/60 px-4 py-3 text-sm"><Check className="mt-0.5 size-4 shrink-0 text-emerald-400" />{benefit}</li>)}
@@ -46,6 +48,9 @@ export default function PageComposerPremiumGate({
               {reason === 'anonymous' ? <>
                 <Button asChild size="lg" className="h-12 rounded-full px-6"><Link href={signUpUrl}><Sparkles className="mr-2 size-4" />{es ? 'Crear cuenta' : 'Create account'}</Link></Button>
                 <Button asChild size="lg" variant="outline" className="h-12 rounded-full px-6"><Link href={signInUrl}><LogIn className="mr-2 size-4" />{es ? 'Ya tengo cuenta' : 'I already have an account'}</Link></Button>
+              </> : reason === 'restricted' ? <>
+                <Button asChild size="lg" className="h-12 rounded-full px-6"><Link href="/generate"><Sparkles className="mr-2 size-4" />{es ? 'Crear con el chat' : 'Create with chat'}</Link></Button>
+                <Button asChild size="lg" variant="outline" className="h-12 rounded-full px-6"><Link href="/">{es ? 'Volver a explorar' : 'Back to explore'}</Link></Button>
               </> : <>
                 <Button asChild size="lg" className="h-12 rounded-full px-6"><Link href="/prices?plan=creator"><Crown className="mr-2 size-4" />{es ? `Activar Creator · $${PLAN_PRICES.creator.monthly}/mes` : `Get Creator · $${PLAN_PRICES.creator.monthly}/mo`}<ArrowRight className="ml-2 size-4" /></Link></Button>
                 <Button asChild size="lg" variant="outline" className="h-12 rounded-full px-6"><Link href="/dashboard/billing">{es ? 'Ver mi facturación' : 'View billing'}</Link></Button>

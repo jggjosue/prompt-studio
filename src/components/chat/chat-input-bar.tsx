@@ -119,6 +119,7 @@ const MODE_CONFIG: Record<ChatMode, { label: string; icon: React.ReactNode; colo
 
 export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
   const [prompt, setPrompt] = useState('');
+  const [selectedSlashCommand, setSelectedSlashCommand] = useState<{ id: string; label: string; description: string } | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const searchParams = useSearchParams();
   const { selectedMode, setSelectedMode, params, generate, localGenerating, messages, queue, queueRunning, enqueue, startQueue, removeQueueItem, retryQueueItem, clearQueue } = chat;
@@ -132,6 +133,8 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
       { id: 'summarize', label: 'Resumir', description: 'Resume el contenido conservando lo esencial', icon: <FileText className="h-4 w-4" />, mode: 'text', instruction: 'Resume de forma clara y concisa: ' },
       { id: 'research', label: 'Investigar', description: 'Desarrolla una investigación estructurada', icon: <Search className="h-4 w-4" />, mode: 'text', instruction: 'Investiga y explica con estructura, contexto y conclusiones: ' },
       { id: 'improve', label: 'Mejorar texto', description: 'Corrige estilo, claridad y redacción', icon: <Sparkles className="h-4 w-4" />, mode: 'text', instruction: 'Mejora la redacción, claridad y estilo del siguiente texto: ' },
+      { id: 'optimize-prompt', label: 'Optimizar prompt', description: 'Mejora objetivos, contexto, restricciones y formato', icon: <Wand2 className="h-4 w-4" />, mode: 'text', instruction: 'Optimiza el siguiente prompt. Conserva la intención y mejora objetivo, contexto, restricciones, criterios de calidad y formato de salida: ' },
+      { id: 'audit-code', label: 'Auditar código', description: 'Detecta errores, riesgos y oportunidades de mejora', icon: <Code2 className="h-4 w-4" />, mode: 'text', instruction: 'Audita el siguiente código. Identifica errores, riesgos de seguridad, problemas de rendimiento y mantenibilidad, y propón correcciones concretas: ' },
     ],
     image: [
       { id: 'create-image', label: 'Crear imagen', description: 'Genera una imagen desde tu descripción', icon: <ImageIcon className="h-4 w-4" />, mode: 'image', instruction: 'Crea una imagen: ' },
@@ -159,6 +162,7 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
   const selectSlashCommand = (command: (typeof modeCommands)[number]) => {
     setSelectedMode(command.mode);
     setPrompt(command.instruction);
+    setSelectedSlashCommand({ id: command.id, label: command.label, description: command.description });
     trackInterest('generate_option_click', { option: 'slash_command', value: command.id, mode: command.mode });
     requestAnimationFrame(() => textareaRef.current?.focus());
   };
@@ -170,6 +174,7 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
       // URLSearchParams already decodes the value. Decoding it again corrupts
       // valid prompt content containing percent signs or encoded-looking text.
       setPrompt(promptParam);
+      setSelectedSlashCommand(null);
     }
   }, [searchParams, messages.length]);
 
@@ -186,6 +191,7 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
     const trimmed = prompt.trim();
     trackInterest('generate_action', { action: 'send_prompt', mode: selectedMode, model: params.model });
     setPrompt('');
+    setSelectedSlashCommand(null);
     void generate(trimmed, params, selectedMode);
     requestAnimationFrame(() => textareaRef.current?.focus());
   };
@@ -195,6 +201,7 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
     trackInterest('generate_action', { action: 'add_to_queue', mode: selectedMode });
     enqueue(prompt);
     setPrompt('');
+    setSelectedSlashCommand(null);
   };
 
   const handleStartQueue = () => {
@@ -203,6 +210,7 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
     if (prompt.trim()) {
       enqueue(prompt);
       setPrompt('');
+      setSelectedSlashCommand(null);
     }
   };
 
@@ -267,7 +275,7 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
   return (
     <div className="border-t border-border bg-background p-3 sm:p-4">
       <div className="mx-auto flex w-full max-w-3xl flex-col gap-2">
-        <Tabs value={selectedMode} onValueChange={(v) => { trackInterest('generate_option_click', { option: 'mode', value: v }); setSelectedMode(v as ChatMode); }} className="w-fit">
+        <Tabs value={selectedMode} onValueChange={(v) => { trackInterest('generate_option_click', { option: 'mode', value: v }); setSelectedSlashCommand(null); setSelectedMode(v as ChatMode); }} className="w-fit">
           <TabsList>
             <TabsTrigger value="text"><MessageSquareText className="h-3 w-3 mr-1" />Chat</TabsTrigger>
             <TabsTrigger value="image"><ImageIcon className="h-3 w-3 mr-1" />Imagen</TabsTrigger>
@@ -275,6 +283,15 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
             <TabsTrigger value="project"><Globe className="h-3 w-3 mr-1" />Web</TabsTrigger>
           </TabsList>
         </Tabs>
+        {selectedSlashCommand && !slashOpen && (
+          <div className="flex min-h-6 items-center gap-1.5 px-1 text-xs text-muted-foreground" role="status" aria-label={`Capacidad del chat seleccionada: ${selectedSlashCommand.label}`}>
+            <Zap className="h-3.5 w-3.5 text-blue-500" />
+            <span>Capacidad del chat:</span>
+            <span className="font-semibold text-blue-500 underline decoration-blue-500/50 underline-offset-4" title={selectedSlashCommand.description}>
+              /{selectedSlashCommand.label}
+            </span>
+          </div>
+        )}
         <div className="relative">
           {slashOpen && (
             <div className="absolute bottom-full left-0 z-50 mb-2 w-full max-w-md overflow-hidden rounded-xl border border-border/70 bg-popover p-1.5 shadow-2xl">
@@ -295,11 +312,11 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
           <Textarea
           ref={textareaRef}
           value={prompt}
-          onChange={e => setPrompt(e.target.value)}
+          onChange={e => { setPrompt(e.target.value); if (!e.target.value) setSelectedSlashCommand(null); }}
           placeholder={localGenerating ? 'Pide otra creación mientras terminamos…' : `${MODE_CONFIG[selectedMode].placeholder}  ·  Escribe / para acciones`}
           className="w-full min-h-[110px] resize-none text-sm leading-relaxed sm:min-h-[120px] max-h-72"
           onKeyDown={e => {
-            if (e.key === 'Escape' && slashOpen) { e.preventDefault(); setPrompt(''); return; }
+            if (e.key === 'Escape' && slashOpen) { e.preventDefault(); setPrompt(''); setSelectedSlashCommand(null); return; }
             if (e.key === 'Enter' && !e.shiftKey) {
               e.preventDefault();
               if (slashOpen) {
