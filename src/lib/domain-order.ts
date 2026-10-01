@@ -4,6 +4,7 @@ import { randomUUID } from 'node:crypto';
 import connectToDatabase from '@/lib/mongoose';
 import DomainOrder, { type IDomainOrder } from '@/models/DomainOrder';
 import PageComposerDomain from '@/models/PageComposerDomain';
+import PageComposerProject from '@/models/PageComposerProject';
 import { resolveDomainProvider } from '@/lib/registrars';
 import { authoritativeCheck, freshPrice } from '@/lib/domain-search';
 import { stripe } from '@/lib/stripe';
@@ -12,12 +13,10 @@ import { recordObservabilityEvent } from '@/lib/observability-server';
 import { tldOf, type DomainProvider } from '@/lib/domain-provider';
 import {
   appendAudit,
-  beginRegistration,
   canTransition,
   isQuoteFresh,
   markActive,
   markConfigurationPending,
-  markPaid,
   markRegistered,
   quoteChanged,
   requireRefund,
@@ -76,14 +75,18 @@ async function save(record: DomainOrderRecord): Promise<IDomainOrder> {
   return document;
 }
 
-export type QuoteDomainInput = { userId: string; hostname: string; provider?: DomainProvider };
+export type QuoteDomainInput = { userId: string; hostname: string; siteId?: string; provider?: DomainProvider };
 
 /**
  * 1) Cotiza un dominio: comprobación fresca de disponibilidad + precio fresco.
  * Crea la orden en `quoted` con su `idempotencyKey` (única).
  */
-export async function quoteDomain({ userId, hostname, provider = resolveDomainProvider() }: QuoteDomainInput): Promise<DomainOrderRecord> {
+export async function quoteDomain({ userId, hostname, siteId, provider = resolveDomainProvider() }: QuoteDomainInput): Promise<DomainOrderRecord> {
   await connectToDatabase();
+
+  if (siteId && !(await PageComposerProject.exists({ _id: siteId, userId }))) {
+    throw new Error('SITE_NOT_FOUND');
+  }
 
   const check = await authoritativeCheck(hostname, provider);
   if (check.available !== 'available') {
@@ -103,6 +106,7 @@ export async function quoteDomain({ userId, hostname, provider = resolveDomainPr
     state: 'quoted',
     quote: { ...quote, quotedAt: new Date() },
     idempotencyKey,
+    siteId: siteId ?? null,
     refundEligible: false,
     audit: [{ at: new Date(), event: 'quoted', detail: `Disponible · $${price.registration}/año` }],
   });
@@ -126,6 +130,14 @@ export async function requestCheckout({ userId, orderId, siteId }: RequestChecko
 
   const record = toRecord(document);
   if (record.state !== 'quoted') throw new Error(`La orden está en estado ${record.state}; no se puede iniciar el pago.`);
+
+  if (siteId && record.siteId && siteId !== record.siteId) {
+    throw new Error('SITE_MISMATCH');
+  }
+  const targetSiteId = record.siteId ?? siteId ?? null;
+  if (targetSiteId && !(await PageComposerProject.exists({ _id: targetSiteId, userId }))) {
+    throw new Error('SITE_NOT_FOUND');
+  }
 
   const provider = resolveDomainProvider();
 
@@ -175,7 +187,7 @@ export async function requestCheckout({ userId, orderId, siteId }: RequestChecko
       ...record,
       state: 'payment_pending',
       stripeCheckoutSessionId: session.id,
-      siteId: siteId ?? record.siteId ?? null,
+        siteId: targetSiteId,
     },
     new Date().toISOString(),
     'payment_started',
@@ -196,20 +208,29 @@ export async function handleCheckoutCompleted(sessionId: string): Promise<{ appl
 
   let record = toRecord(document);
   const at = new Date().toISOString();
-  const paid = markPaid(record, sessionId, at);
-  if (!paid.applied) {
-    // Webhook duplicado o sesión ajena.
-    return { applied: false, reason: paid.reason, orderId: record.id };
-  }
-  record = paid.order;
-  await save(record);
+  // Compare-and-set: dos webhooks concurrentes no pueden cobrar/procesar la
+  // misma orden. Solo uno reclama payment_pending → paid.
+  const paidDocument = await DomainOrder.findOneAndUpdate(
+    { _id: record.id, state: 'payment_pending', stripeCheckoutSessionId: sessionId },
+    { $set: { state: 'paid', updatedAt: new Date(at) }, $push: { audit: { at: new Date(at), event: 'payment_confirmed', detail: sessionId } } },
+    { new: true }
+  );
+  if (!paidDocument) return { applied: false, reason: 'La orden ya no está pendiente de pago.', orderId: record.id };
+  record = toRecord(paidDocument);
 
   // Registrar el dominio (idempotente: solo si no hay registrarOrderId).
   const provider = resolveDomainProvider();
-  const registering = beginRegistration(record, at);
-  if (!registering.applied) return { applied: false, reason: registering.reason, orderId: record.id };
-  record = registering.order;
-  await save(record);
+  const registeringDocument = await DomainOrder.findOneAndUpdate(
+    { _id: record.id, state: 'paid', registrarOrderId: null },
+    {
+      $set: { state: 'registering', updatedAt: new Date(at) },
+      $inc: { registrationAttempts: 1 },
+      $push: { audit: { at: new Date(at), event: 'registration_started' } },
+    },
+    { new: true }
+  );
+  if (!registeringDocument) return { applied: false, reason: 'El registro ya fue iniciado.', orderId: record.id };
+  record = toRecord(registeringDocument);
 
   try {
     const result = await provider.register(record.hostname);
