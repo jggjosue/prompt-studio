@@ -170,8 +170,9 @@ export default function HeaderClient() {
     webGeneratorDesc: 'Genera nuevas páginas web con IA', imageGenerator: 'Generar Imagen',
     imageGeneratorDesc: 'Crea imágenes hiperrealistas con IA', videoGenerator: 'Generar Video',
     videoGeneratorDesc: 'Crea videos cinematográficos con IA', comingSoon: 'Próximamente',
-    back: 'Volver', viewAll: 'Ver todos los kits', crowdfunding: 'Crowdfunding',
-    crowdfundingDesc: 'Apoya Prompt Studio y calcula tus Founder Credits', affiliate: 'Afíliate', affiliateDesc: 'Recomienda Prompt Studio y participa en el programa de afiliados',
+    back: 'Volver', viewAll: 'Ver todos los kits', crowdfunding: 'Founder Program',
+    crowdfundingDesc: 'Apoya Prompt Studio y recibe Founder Credits', affiliate: 'Affiliate Program', affiliateDesc: 'Recomienda Prompt Studio y gana comisiones',
+    creator: 'Creator Program', creatorDesc: 'Crea, publica y monetiza contenido en Prompt Studio', ambassador: 'Ambassador Program', ambassadorDesc: 'Representa a Prompt Studio y ayuda a crecer la comunidad',
   } : {
     tools: 'Tools', library: 'My library', explore: 'Explore', create: 'Create',
     optimize: 'Optimize prompts', optimizeDesc: 'Improve prompts with goals and compare changes',
@@ -186,8 +187,9 @@ export default function HeaderClient() {
     webGeneratorDesc: 'Generate new web pages with AI', imageGenerator: 'Generate Image',
     imageGeneratorDesc: 'Create hyperrealistic images with AI', videoGenerator: 'Generate Video',
     videoGeneratorDesc: 'Create cinematic videos with AI', comingSoon: 'Coming soon',
-    back: 'Back', viewAll: 'View all kits', crowdfunding: 'Crowdfunding',
-    crowdfundingDesc: 'Support Prompt Studio and calculate your Founder Credits', affiliate: 'Affiliate', affiliateDesc: 'Recommend Prompt Studio and join the affiliate program',
+    back: 'Back', viewAll: 'View all kits', crowdfunding: 'Founder Program',
+    crowdfundingDesc: 'Support Prompt Studio and receive Founder Credits', affiliate: 'Affiliate Program', affiliateDesc: 'Recommend Prompt Studio and earn commissions',
+    creator: 'Creator Program', creatorDesc: 'Create, publish, and monetize content on Prompt Studio', ambassador: 'Ambassador Program', ambassadorDesc: 'Represent Prompt Studio and help grow the community',
   };
   const groupLabel = (label: string) => ({
     Herramientas: copy.tools,
@@ -361,7 +363,7 @@ export default function HeaderClient() {
     },
     {
       id: 'community',
-      label: 'Crowdfunding',
+      label: 'Programs',
       activePrefixes: ['/crowdfunding', '/affiliate-program', '/affiliate-program-terms'],
       dropdown: [
         {
@@ -375,6 +377,22 @@ export default function HeaderClient() {
           label: copy.affiliate,
           description: copy.affiliateDesc,
           icon: <HandHeart className="h-4 w-4" />,
+        },
+        {
+          href: '/creator-program',
+          label: copy.creator,
+          description: copy.creatorDesc,
+          icon: <Sparkles className="h-4 w-4" />,
+          disabled: true,
+          disabledBadge: copy.comingSoon,
+        },
+        {
+          href: '/ambassador-program',
+          label: copy.ambassador,
+          description: copy.ambassadorDesc,
+          icon: <UserPlus className="h-4 w-4" />,
+          disabled: true,
+          disabledBadge: copy.comingSoon,
         },
       ],
     },
