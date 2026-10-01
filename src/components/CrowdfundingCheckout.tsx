@@ -34,9 +34,12 @@ export function CrowdfundingCheckout() {
        window.location.assign(`/${es ? 'es' : 'en'}/sign-in?redirect_url=${encodeURIComponent(returnPath)}`);
        return;
      }
-     const data = await response.json();
-     if (!response.ok || !data.url) throw new Error(data.error || (es ? 'No se pudo abrir Stripe. Inténtalo de nuevo.' : 'Could not open Stripe. Please try again.'));
-     window.location.assign(data.url);
+     const data: unknown = await response.json().catch(() => null);
+     const result = data && typeof data === 'object' ? data as { url?: unknown; error?: unknown } : null;
+     if (!response.ok || typeof result?.url !== 'string' || !result.url) {
+       throw new Error(typeof result?.error === 'string' ? result.error : (es ? 'No se pudo abrir Stripe. Inténtalo de nuevo en unos momentos.' : 'Could not open Stripe. Please try again shortly.'));
+     }
+     window.location.assign(result.url);
    } catch (err) {
      setError(err instanceof DOMException && err.name === 'TimeoutError'
        ? (es ? 'La conexión tardó demasiado. Inténtalo de nuevo.' : 'The connection timed out. Please try again.')

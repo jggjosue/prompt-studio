@@ -10,6 +10,7 @@ const TIERS = [
 ] as const;
 
 export async function POST(request: Request) {
+  try {
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: 'Sign in to continue.' }, { status: 401 });
   const body = await request.json().catch(() => null) as { amountCents?: unknown; locale?: unknown } | null;
@@ -35,5 +36,13 @@ export async function POST(request: Request) {
     success_url: `${siteUrl}/${locale}/founder?support=success`,
     cancel_url: `${siteUrl}/${locale}/founder?support=cancelled`,
   });
+  if (!session.url) return NextResponse.json({ error: 'Stripe checkout is temporarily unavailable. Please try again.' }, { status: 502 });
   return NextResponse.json({ url: session.url });
+  } catch (error) {
+    // Keep provider details and credentials out of the public response.
+    console.error('[crowdfunding/checkout] Checkout creation failed', {
+      type: error instanceof Error ? error.name : 'UnknownError',
+    });
+    return NextResponse.json({ error: 'Checkout is temporarily unavailable. Please try again.' }, { status: 503 });
+  }
 }
