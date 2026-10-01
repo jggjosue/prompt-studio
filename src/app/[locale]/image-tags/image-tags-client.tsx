@@ -1,8 +1,7 @@
 'use client';
 
-import { SidebarLayout } from '@/components/layout/sidebar-layout';
-
-
+import Header from '@/components/layout/header';
+import Footer from '@/components/layout/footer';
 
 import { PromptCatalogCard } from '@/components/prompt-catalog-card';
 import { SearchInput } from '@/components/search-input';
@@ -334,7 +333,8 @@ function ImageTagsContent() {
 
 export default function ImageTagsClient() {
   return (
-    <SidebarLayout>
+    <div className="flex min-h-screen w-full flex-col bg-background">
+      <Header />
       <main className="flex-1 py-12 md:py-16">
         <div className="container max-w-7xl">
           <Suspense
@@ -353,6 +353,7 @@ export default function ImageTagsClient() {
           </Suspense>
         </div>
       </main>
-      </SidebarLayout>
+      <Footer />
+    </div>
   );
 }
