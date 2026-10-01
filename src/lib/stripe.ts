@@ -6,6 +6,11 @@ function instancia(): Stripe {
   if (cliente) return cliente;
   const apiKey = process.env.STRIPE_SECRET_KEY?.trim();
   if (!apiKey) throw new Error('Falta STRIPE_SECRET_KEY: no se puede operar con Stripe.');
+  if (!apiKey.startsWith('sk_') && !apiKey.startsWith('rk_')) {
+    throw new Error(
+      'STRIPE_SECRET_KEY debe ser una clave secreta de Stripe (sk_* o rk_*), no una clave publicable (pk_*).'
+    );
+  }
   cliente = new Stripe(apiKey, { apiVersion: '2026-04-22.dahlia' });
   return cliente;
 }
