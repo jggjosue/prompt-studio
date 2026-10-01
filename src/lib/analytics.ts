@@ -6,6 +6,7 @@ import {
   type FirebaseAnalyticsParams,
 } from '@/lib/firebase';
 import { trackObservabilityEvent } from '@/lib/observability-client';
+import { KEY_CONVERSION_EVENTS } from '@/lib/analytics-taxonomy';
 
 type AnalyticsEventParams = FirebaseAnalyticsParams & {
   page_id?: string;
@@ -20,7 +21,7 @@ type AnalyticsEventParams = FirebaseAnalyticsParams & {
 };
 
 const SESSION_EVENT_PREFIX = 'promptstudio:analytics:event:';
-const KEY_CONVERSIONS = new Set<FirebaseAnalyticsEvent>(['sign_up', 'save_prompt', 'begin_checkout', 'purchase']);
+const KEY_CONVERSIONS = new Set<FirebaseAnalyticsEvent>(KEY_CONVERSION_EVENTS);
 
 type GoogleAnalyticsWindow = Window & {
   gtag?: (command: 'event', eventName: string, params: AnalyticsEventParams) => void;
