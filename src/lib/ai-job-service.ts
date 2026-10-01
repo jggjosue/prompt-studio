@@ -146,21 +146,33 @@ export async function reconcileCredits(job: IAIGenerationJob, actualCostUsd: num
         job.creditsState = 'captured';
         return;
       }
-      const reservedSubscription = job.reservedSubscriptionCredits ?? job.creditCost;
-      const reservedPurchased = job.reservedPurchasedCredits ?? 0;
+
+      const reservation: CreditBucketReservation = {
+        promotional: job.reservedPromotionalCredits ?? 0,
+        subscription: job.reservedSubscriptionCredits ?? job.creditCost,
+        purchased: job.reservedPurchasedCredits ?? 0,
+        founder: job.reservedFounderCredits ?? 0,
+        total: job.creditCost,
+      };
       const requestedCredits = creditsForActualCost(job.provider, job.modelId, actualCostUsd, job.creditCost);
       const account = await AICreditAccount.findOne({ userId: job.userId }).session(session);
       if (!account) throw new Error('CREDIT_ACCOUNT_MISSING');
+
       const additionalRequested = Math.max(0, requestedCredits - job.creditCost);
-      const additionalSubscription = Math.min(account.subscriptionBalance, additionalRequested);
-      const additionalAvailable = account.balance;
-      const additionalCharged = Math.min(additionalRequested, additionalAvailable);
-      const additionalSubCharged = Math.min(additionalSubscription, additionalCharged);
-      const additionalPurchasedCharged = additionalCharged - additionalSubCharged;
+      const additionalAllocation = allocateCreditReservation({
+        promotional: account.promotionalBalance,
+        subscription: account.subscriptionBalance,
+        purchased: account.purchasedBalance,
+        founder: account.founderBalance,
+      }, Math.min(additionalRequested, account.balance)) ?? {
+        promotional: 0, subscription: 0, purchased: 0, founder: 0, total: 0,
+      };
+      const additionalCharged = additionalAllocation.total;
+
       const refund = Math.max(0, job.creditCost - requestedCredits);
-      const refundSubscription = Math.min(reservedSubscription, refund);
-      const refundPurchased = refund - refundSubscription;
+      const refundAllocation = refundCreditReservation(reservation, refund);
       const chargedCredits = job.creditCost + additionalCharged - refund;
+
       const claimed = await AIGenerationJob.updateOne(
         { _id: job._id, creditsState: 'reserved' },
         { $set: { creditsState: 'captured', creditsCharged: chargedCredits, updatedAt: new Date() } },
@@ -170,18 +182,33 @@ export async function reconcileCredits(job: IAIGenerationJob, actualCostUsd: num
         reportCreditReconciliationFailure(job, 'capture', 'CREDIT_CAPTURE_CONFLICT');
         throw new Error('CREDIT_CAPTURE_CONFLICT');
       }
+
       await AICreditLedger.create([{
         userId: job.userId, jobId: job._id, operation: 'capture', type: 'AI_USAGE', amount: chargedCredits,
-        balanceImpact: 0, source: job.reservedPurchasedCredits ? (job.reservedSubscriptionCredits ? 'mixed' : 'purchased') : 'subscription',
+        balanceImpact: -additionalCharged + refund, source: reservationSource(reservation),
         provider: job.provider, modelId: job.modelId ?? null, operationName: job.operation ?? job.kind,
         inputTokens: job.actualInputTokens ?? job.estimatedInputTokens ?? null, outputTokens: job.actualOutputTokens ?? job.estimatedOutputTokens ?? null,
         estimatedApiCostUsd: job.estimatedCostUsd, actualApiCostUsd: actualCostUsd, creditsCharged: chargedCredits,
-        requestId: generationSubmissionKey(job), createdAt: new Date(),
+        requestId: `capture:${generationSubmissionKey(job)}`,
+        metadata: { reservation, additionalAllocation, refundAllocation }, createdAt: new Date(),
       }], { session });
+
       await AICreditAccount.updateOne(
         { userId: job.userId },
-        { $inc: { balance: -additionalCharged + refund, reserved: -job.creditCost, subscriptionBalance: -additionalSubCharged + refundSubscription, purchasedBalance: -additionalPurchasedCharged + refundPurchased, reservedSubscription: -reservedSubscription, reservedPurchased: -reservedPurchased, lifetimeSpent: chargedCredits }, $set: { updatedAt: new Date() } },
-        { session }
+        { $inc: {
+          balance: -additionalCharged + refund,
+          reserved: -job.creditCost,
+          promotionalBalance: -additionalAllocation.promotional + refundAllocation.promotional,
+          subscriptionBalance: -additionalAllocation.subscription + refundAllocation.subscription,
+          purchasedBalance: -additionalAllocation.purchased + refundAllocation.purchased,
+          founderBalance: -additionalAllocation.founder + refundAllocation.founder,
+          reservedPromotional: -reservation.promotional,
+          reservedSubscription: -reservation.subscription,
+          reservedPurchased: -reservation.purchased,
+          reservedFounder: -reservation.founder,
+          lifetimeSpent: chargedCredits,
+        }, $set: { updatedAt: new Date() } },
+        { session },
       );
       job.creditsCharged = chargedCredits;
       job.creditsState = 'captured';
@@ -201,6 +228,13 @@ export async function refundCredits(job: IAIGenerationJob) {
         job.creditsState = 'refunded';
         return;
       }
+      const reservation: CreditBucketReservation = {
+        promotional: job.reservedPromotionalCredits ?? 0,
+        subscription: job.reservedSubscriptionCredits ?? job.creditCost,
+        purchased: job.reservedPurchasedCredits ?? 0,
+        founder: job.reservedFounderCredits ?? 0,
+        total: job.creditCost,
+      };
       const claimed = await AIGenerationJob.updateOne(
         { _id: job._id, creditsState: 'reserved' },
         { $set: { creditsState: 'refunded', updatedAt: new Date() } },
@@ -212,13 +246,25 @@ export async function refundCredits(job: IAIGenerationJob) {
       }
       await AICreditLedger.create([{
         userId: job.userId, jobId: job._id, operation: 'refund', type: 'REFUND', amount: job.creditCost,
-        balanceImpact: job.creditCost, source: 'system', provider: job.provider, modelId: job.modelId ?? null,
-        operationName: job.operation ?? job.kind, requestId: generationSubmissionKey(job), createdAt: new Date(),
+        balanceImpact: job.creditCost, source: reservationSource(reservation), provider: job.provider, modelId: job.modelId ?? null,
+        operationName: job.operation ?? job.kind, requestId: `refund:${generationSubmissionKey(job)}`,
+        metadata: { reservation }, createdAt: new Date(),
       }], { session });
       await AICreditAccount.updateOne(
         { userId: job.userId },
-        { $inc: { balance: job.creditCost, reserved: -job.creditCost, subscriptionBalance: job.reservedSubscriptionCredits ?? job.creditCost, purchasedBalance: job.reservedPurchasedCredits ?? 0, reservedSubscription: -(job.reservedSubscriptionCredits ?? job.creditCost), reservedPurchased: -(job.reservedPurchasedCredits ?? 0) }, $set: { updatedAt: new Date() } },
-        { session }
+        { $inc: {
+          balance: job.creditCost,
+          reserved: -job.creditCost,
+          promotionalBalance: reservation.promotional,
+          subscriptionBalance: reservation.subscription,
+          purchasedBalance: reservation.purchased,
+          founderBalance: reservation.founder,
+          reservedPromotional: -reservation.promotional,
+          reservedSubscription: -reservation.subscription,
+          reservedPurchased: -reservation.purchased,
+          reservedFounder: -reservation.founder,
+        }, $set: { updatedAt: new Date() } },
+        { session },
       );
       job.creditsState = 'refunded';
     });
@@ -233,24 +279,46 @@ export async function getCreditBalance(userId: string) {
   const account = await AICreditAccount.findOne({ userId }).lean();
   return {
     balance: account?.balance ?? 0,
+    promotionalCredits: account?.promotionalBalance ?? 0,
     subscriptionCredits: account?.subscriptionBalance ?? account?.balance ?? 0,
     purchasedCredits: account?.purchasedBalance ?? 0,
+    founderCredits: account?.founderBalance ?? 0,
     reserved: account?.reserved ?? 0,
     lifetimeSpent: account?.lifetimeSpent ?? 0,
   };
 }
 
-export async function grantSubscriptionCredits(userId: string, credits: number, periodKey: string, metadata: Record<string, unknown> = {}) {
-  if (!Number.isFinite(credits) || credits <= 0 || !periodKey) throw new Error('INVALID_CREDIT_GRANT');
+async function grantCredits(input: {
+  userId: string;
+  credits: number;
+  requestId: string;
+  source: 'subscription' | 'purchased' | 'founder' | 'promotional';
+  type: 'SUBSCRIPTION_GRANT' | 'TOPUP_PURCHASE' | 'FOUNDER_GRANT' | 'PROMOTIONAL_GRANT';
+  metadata?: Record<string, unknown>;
+}) {
+  if (!Number.isFinite(input.credits) || input.credits <= 0 || !input.requestId) throw new Error('INVALID_CREDIT_GRANT');
+  const balanceField = {
+    subscription: 'subscriptionBalance',
+    purchased: 'purchasedBalance',
+    founder: 'founderBalance',
+    promotional: 'promotionalBalance',
+  }[input.source];
   const session = await mongoose.startSession();
   try {
     let granted = false;
     await session.withTransaction(async () => {
-      await ensureCreditAccount(userId, session);
-      const requestId = `subscription:${userId}:${periodKey}`;
-      if (await AICreditLedger.exists({ requestId }).session(session)) return;
-      await AICreditAccount.updateOne({ userId }, { $inc: { balance: credits, subscriptionBalance: credits }, $set: { updatedAt: new Date() } }, { session });
-      await AICreditLedger.create([{ userId, operation: 'grant', type: 'SUBSCRIPTION_GRANT', amount: credits, balanceImpact: credits, source: 'subscription', requestId, metadata, createdAt: new Date() }], { session });
+      await ensureCreditAccount(input.userId, session);
+      if (await AICreditLedger.exists({ requestId: input.requestId }).session(session)) return;
+      await AICreditAccount.updateOne(
+        { userId: input.userId },
+        { $inc: { balance: input.credits, [balanceField]: input.credits }, $set: { updatedAt: new Date() } },
+        { session },
+      );
+      await AICreditLedger.create([{
+        userId: input.userId, operation: 'grant', type: input.type, amount: input.credits,
+        balanceImpact: input.credits, source: input.source, requestId: input.requestId,
+        metadata: input.metadata ?? {}, createdAt: new Date(),
+      }], { session });
       granted = true;
     });
     return granted;
@@ -259,22 +327,21 @@ export async function grantSubscriptionCredits(userId: string, credits: number, 
   }
 }
 
-export async function grantPurchasedCredits(userId: string, credits: number, requestId: string, metadata: Record<string, unknown> = {}) {
-  if (!Number.isFinite(credits) || credits <= 0 || !requestId) throw new Error('INVALID_CREDIT_GRANT');
-  const session = await mongoose.startSession();
-  try {
-    let granted = false;
-    await session.withTransaction(async () => {
-      await ensureCreditAccount(userId, session);
-      if (await AICreditLedger.exists({ requestId }).session(session)) return;
-      await AICreditAccount.updateOne({ userId }, { $inc: { balance: credits, purchasedBalance: credits }, $set: { updatedAt: new Date() } }, { session });
-      await AICreditLedger.create([{ userId, operation: 'grant', type: 'TOPUP_PURCHASE', amount: credits, balanceImpact: credits, source: 'purchased', requestId, metadata, createdAt: new Date() }], { session });
-      granted = true;
-    });
-    return granted;
-  } finally {
-    await session.endSession();
-  }
+export function grantSubscriptionCredits(userId: string, credits: number, periodKey: string, metadata: Record<string, unknown> = {}) {
+  if (!periodKey) throw new Error('INVALID_CREDIT_GRANT');
+  return grantCredits({ userId, credits, requestId: `subscription:${userId}:${periodKey}`, source: 'subscription', type: 'SUBSCRIPTION_GRANT', metadata });
+}
+
+export function grantPurchasedCredits(userId: string, credits: number, requestId: string, metadata: Record<string, unknown> = {}) {
+  return grantCredits({ userId, credits, requestId, source: 'purchased', type: 'TOPUP_PURCHASE', metadata });
+}
+
+export function grantFounderCredits(userId: string, credits: number, requestId: string, metadata: Record<string, unknown> = {}) {
+  return grantCredits({ userId, credits, requestId, source: 'founder', type: 'FOUNDER_GRANT', metadata });
+}
+
+export function grantPromotionalCredits(userId: string, credits: number, requestId: string, metadata: Record<string, unknown> = {}) {
+  return grantCredits({ userId, credits, requestId, source: 'promotional', type: 'PROMOTIONAL_GRANT', metadata });
 }
 
 export async function expireSubscriptionCredits(userId: string, periodKey: string) {
