@@ -1,4 +1,4 @@
-import { SQSClient } from '@aws-sdk/client-sqs';
+import { createHash, createHmac } from 'node:crypto';
 import connectToDatabase from '@/lib/mongoose';
 import { processGenerationJob } from '@/lib/generation-worker-runtime';
 
@@ -16,6 +16,12 @@ type SqsMessage = {
   Attributes?: Record<string, string>;
 };
 
+type AwsCredentials = {
+  AccessKeyId: string;
+  SecretAccessKey: string;
+  Token?: string;
+};
+
 const region = process.env.AWS_REGION?.trim() || 'us-east-2';
 const queueUrl = process.env.AWS_SQS_IMAGE_QUEUE_URL?.trim();
 const workerId = process.env.AWS_ECS_WORKER_ID?.trim()
@@ -29,7 +35,6 @@ const heartbeatSeconds = Math.max(15, Math.min(
 
 if (!queueUrl) throw new Error('AWS_SQS_IMAGE_QUEUE_URL is required');
 
-const sqs = new SQSClient({ region });
 let stopping = false;
 let inFlight = 0;
 
@@ -41,6 +46,98 @@ function log(event: string, fields: Record<string, unknown> = {}) {
     event,
     ...fields,
   }) + '\n');
+}
+
+function sha256(value: string) {
+  return createHash('sha256').update(value).digest('hex');
+}
+
+function hmac(key: Buffer | string, value: string) {
+  return createHmac('sha256', key).update(value).digest();
+}
+
+async function getAwsCredentials(): Promise<AwsCredentials> {
+  if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY) {
+    return {
+      AccessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      SecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      Token: process.env.AWS_SESSION_TOKEN,
+    };
+  }
+
+  const relative = process.env.AWS_CONTAINER_CREDENTIALS_RELATIVE_URI;
+  const full = process.env.AWS_CONTAINER_CREDENTIALS_FULL_URI;
+  const credentialUrl = full || (relative ? `http://169.254.170.2${relative}` : '');
+
+  if (!credentialUrl) {
+    throw new Error('ECS task credentials are unavailable');
+  }
+
+  const response = await fetch(credentialUrl);
+  if (!response.ok) throw new Error(`Unable to obtain ECS task credentials: ${response.status}`);
+  return response.json() as Promise<AwsCredentials>;
+}
+
+async function sqsRequest<T>(action: string, input: Record<string, unknown>): Promise<T> {
+  const credentials = await getAwsCredentials();
+  const endpoint = new URL(queueUrl);
+  const host = endpoint.host;
+  const now = new Date();
+  const amzDate = now.toISOString().replace(/[:-]|\.\d{3}/g, '');
+  const dateStamp = amzDate.slice(0, 8);
+  const body = JSON.stringify(input);
+  const target = `AmazonSQS.${action}`;
+  const contentType = 'application/x-amz-json-1.0';
+
+  const headers: Record<string, string> = {
+    'content-type': contentType,
+    host,
+    'x-amz-date': amzDate,
+    'x-amz-target': target,
+  };
+  if (credentials.Token) headers['x-amz-security-token'] = credentials.Token;
+
+  const signedHeaderNames = Object.keys(headers).sort();
+  const canonicalHeaders = signedHeaderNames.map(name => `${name}:${headers[name].trim()}\n`).join('');
+  const signedHeaders = signedHeaderNames.join(';');
+  const canonicalRequest = [
+    'POST',
+    endpoint.pathname,
+    '',
+    canonicalHeaders,
+    signedHeaders,
+    sha256(body),
+  ].join('\n');
+
+  const scope = `${dateStamp}/${region}/sqs/aws4_request`;
+  const stringToSign = [
+    'AWS4-HMAC-SHA256',
+    amzDate,
+    scope,
+    sha256(canonicalRequest),
+  ].join('\n');
+
+  const dateKey = hmac(`AWS4${credentials.SecretAccessKey}`, dateStamp);
+  const regionKey = hmac(dateKey, region);
+  const serviceKey = hmac(regionKey, 'sqs');
+  const signingKey = hmac(serviceKey, 'aws4_request');
+  const signature = createHmac('sha256', signingKey).update(stringToSign).digest('hex');
+
+  headers.authorization =
+    `AWS4-HMAC-SHA256 Credential=${credentials.AccessKeyId}/${scope}, SignedHeaders=${signedHeaders}, Signature=${signature}`;
+
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    headers,
+    body,
+  });
+
+  if (!response.ok) {
+    const errorBody = (await response.text()).slice(0, 500);
+    throw new Error(`SQS ${action} failed (${response.status}): ${errorBody}`);
+  }
+
+  return response.json() as Promise<T>;
 }
 
 function parseMessage(message: SqsMessage): QueueMessage {
@@ -60,7 +157,7 @@ function parseMessage(message: SqsMessage): QueueMessage {
 
 function heartbeat(receiptHandle: string) {
   return setInterval(() => {
-    void sqs.changeMessageVisibility({
+    void sqsRequest('ChangeMessageVisibility', {
       QueueUrl: queueUrl,
       ReceiptHandle: receiptHandle,
       VisibilityTimeout: visibilitySeconds,
@@ -96,7 +193,7 @@ async function processMessage(message: SqsMessage) {
     }
 
     if (result.status === 'completed' || result.status === 'dead_letter' || result.status === 'failed') {
-      await sqs.deleteMessage({
+      await sqsRequest('DeleteMessage', {
         QueueUrl: queueUrl,
         ReceiptHandle: message.ReceiptHandle,
       });
@@ -125,7 +222,7 @@ async function poll() {
 
   while (!stopping) {
     try {
-      const response = await sqs.receiveMessage({
+      const response = await sqsRequest<{ Messages?: SqsMessage[] }>('ReceiveMessage', {
         QueueUrl: queueUrl,
         MaxNumberOfMessages: 1,
         WaitTimeSeconds: 20,
