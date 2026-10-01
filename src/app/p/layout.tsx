@@ -1,6 +1,4 @@
 import type { Metadata } from 'next';
-import '@/app/globals.css';
-import { firaSans, firaCode } from '@/app/fonts';
 
 export const metadata: Metadata = {
   title: 'Sitio publicado | Prompt Studio',
@@ -15,11 +13,5 @@ export const metadata: Metadata = {
  * pinta el sitio publicado (que trae su propio navbar/footer en el PageSchema).
  */
 export default function TenantSiteLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="es" className={`${firaSans.variable} ${firaCode.variable} dark`} suppressHydrationWarning>
-      <body className={`${firaSans.className} min-h-screen bg-background font-body antialiased`} suppressHydrationWarning>
-        {children}
-      </body>
-    </html>
-  );
+  return <div className="min-h-screen bg-background">{children}</div>;
 }
