@@ -186,7 +186,7 @@ export function evaluateOperationMargin(input: {
     };
   }
 
-  if (!estimate.costKnown) {
+  if (!estimate.costKnown || estimate.pricingStatus !== 'verified') {
     return {
       ...base,
       ...estimate,
