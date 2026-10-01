@@ -10,6 +10,7 @@ import {
   useStripeSubscription,
 } from '@/hooks/use-stripe-subscription';
 import { trackAnalyticsEvent } from '@/lib/analytics';
+import { FunnelPageAnalytics } from '@/components/funnel-page-analytics';
 import {
   getPlanCheckoutUrl,
   isPlanAvailable,
@@ -316,6 +317,7 @@ export default function PricesClient() {
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
       <Header />
+      <FunnelPageAnalytics eventName="view_pricing" />
       <main className="flex-1 py-12 md:py-20">
         <div className="container max-w-7xl min-w-0 px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
