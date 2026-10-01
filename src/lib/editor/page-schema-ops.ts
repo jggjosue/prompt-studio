@@ -28,6 +28,7 @@ import {
   type SiteSchema,
   type StyleMap,
 } from './page-schema';
+import { validateSeoPatch } from './page-seo';
 
 /* ------------------------------------------------------------------ tipos --- */
 
@@ -669,10 +670,28 @@ export function setPageSeo(
     if (patch[key] !== undefined) cleaned[key] = patch[key];
   }
   if (!Object.keys(cleaned).length) return error('invalid-prop', 'No hay campos SEO válidos.');
+  const seoErrors = validateSeoPatch(cleaned);
+  if (seoErrors.length) return error('invalid-prop', seoErrors[0]);
 
   const draft = structuredClone(schema);
   const draftPage = pageOf(draft, slug) as SitePage;
   draftPage.seo = { ...draftPage.seo, ...cleaned };
+  return { ok: true, schema: draft };
+}
+
+/** Actualiza los defaults SEO que heredan las páginas sin override. */
+export function setSiteSeo(schema: SiteSchema, patch: Record<string, unknown>): MutateResult {
+  const allowed = ['title', 'description', 'canonical', 'ogTitle', 'ogDescription', 'ogImage', 'noIndex', 'structuredData'];
+  const cleaned: Record<string, unknown> = {};
+  for (const key of allowed) {
+    if (patch[key] !== undefined) cleaned[key] = patch[key];
+  }
+  if (!Object.keys(cleaned).length) return error('invalid-prop', 'No hay campos SEO válidos.');
+  const seoErrors = validateSeoPatch(cleaned);
+  if (seoErrors.length) return error('invalid-prop', seoErrors[0]);
+
+  const draft = structuredClone(schema);
+  draft.site.seo = { ...draft.site.seo, ...cleaned };
   return { ok: true, schema: draft };
 }
 

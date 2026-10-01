@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { PageRenderer } from '@/components/editor/page-renderer';
 import { resolveTenantSite } from '@/lib/tenant-site-resolver';
-import { defaultStructuredData, resolvePageSeo } from '@/lib/editor/page-seo';
+import { defaultStructuredData, resolvePageSeo, serializeStructuredData } from '@/lib/editor/page-seo';
 
 /**
  * Ruta pública de un sitio de tenant (customer.prompstudio.com).
@@ -59,7 +59,7 @@ export default async function TenantSitePage({ params }: TenantSiteProps) {
       {rootPage ? (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(defaultStructuredData(resolution.schema, rootPage, hostname)) }}
+          dangerouslySetInnerHTML={{ __html: serializeStructuredData(defaultStructuredData(resolution.schema, rootPage, hostname)) }}
         />
       ) : null}
       <PageRenderer schema={resolution.schema} />
