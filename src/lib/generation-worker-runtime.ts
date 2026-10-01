@@ -33,7 +33,9 @@ function defaultWorkerOwner() {
   return 'prompt-studio-local';
 }
 
-export async function processGenerationJob(userId?: string, leaseMinutes = 5, jobId?: string, context: GenerationWorkerContext = {}) {\n  const routeName = context.routeName || '/api/ai/jobs/process';\n  const workerOwner = () => context.owner || defaultWorkerOwner();
+export async function processGenerationJob(userId?: string, leaseMinutes = 5, jobId?: string, context: GenerationWorkerContext = {}) {
+  const routeName = context.routeName || '/api/ai/jobs/process';
+  const workerOwner = () => context.owner || defaultWorkerOwner();
   const leaseMs = leaseMinutes * 60_000;
   const claimInput = {
     owner: workerOwner(),

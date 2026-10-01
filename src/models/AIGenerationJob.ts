@@ -34,6 +34,7 @@ export interface IAIGenerationJob extends Document {
   retryable?: boolean | null;
   /** Rastro del barrido de recuperación (#788). */
   recovery?: { attempts?: number | null; lastReason?: string | null; lastAt?: Date | null; lastBy?: string | null; lastSweepId?: string | null; lastFromStatus?: string | null; lastCreditsState?: string | null; lastProviderRequestId?: string | null } | null;
+  dispatch?: { backend?: 'qstash' | 'gcp-cloud-tasks' | 'cron-recovery' | null; queue?: string | null; messageId?: string | null; dispatchedAt?: Date | null } | null;
   failureMetadata?: { category: GenerationJobErrorCategory; code?: string | null; httpStatus?: number | null; retryable: boolean; attempt: number; occurredAt: Date } | null;
   progress: number;
   progressMessage: string;
@@ -102,6 +103,7 @@ const AIGenerationJobSchema = new Schema<IAIGenerationJob>({
   outputRef: { type: String, default: null, maxlength: 500 },
   errorCategory: { type: String, default: null, enum: ['bad_request', 'auth_or_permission', 'model_not_found', 'rate_limit_or_quota', 'timeout', 'provider_error', 'provider_unavailable', 'storage_error', 'validation_error', 'configuration_error', 'cancelled', 'unknown'] },
   retryable: { type: Boolean, default: null },
+  dispatch: { type: new Schema({ backend: { type: String, enum: ['qstash', 'gcp-cloud-tasks', 'cron-recovery'], default: null }, queue: { type: String, default: null, maxlength: 120 }, messageId: { type: String, default: null, maxlength: 500 }, dispatchedAt: { type: Date, default: null } }, { _id: false }), default: null },
   failureMetadata: { type: new Schema({ category: { type: String, required: true }, code: { type: String, default: null, maxlength: 100 }, httpStatus: { type: Number, default: null }, retryable: { type: Boolean, required: true }, attempt: { type: Number, required: true, min: 0 }, occurredAt: { type: Date, required: true } }, { _id: false }), default: null },
   /**
    * Rastro del barrido de recuperación (#788). Sin esto, un trabajo recuperado es
