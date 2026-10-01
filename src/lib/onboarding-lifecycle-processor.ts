@@ -57,3 +57,31 @@ export async function processDueOnboardingEnrollment(params: {
 
   return { processed: true as const, step: step.step, send: result };
 }
+
+
+export async function processDueOnboardingBatch(params: {
+  origin: string;
+  now?: Date;
+  limit?: number;
+}) {
+  const now = params.now ?? new Date();
+  const enrollments = await OnboardingLifecycleEnrollment.find({
+    completedAt: null,
+    nextStep: { $gte: 1, $lte: ONBOARDING_SEQUENCE.length },
+  }).sort({ enrolledAt: 1 }).limit(params.limit ?? 100).lean();
+
+  const results = [];
+  for (const enrollment of enrollments) {
+    const step = ONBOARDING_SEQUENCE.find(item => item.step === enrollment.nextStep);
+    if (!step) continue;
+    const dueAt = new Date(enrollment.enrolledAt.getTime() + step.delayHours * HOUR);
+    if (dueAt > now) continue;
+
+    results.push(await processDueOnboardingEnrollment({
+      userId: enrollment.userId,
+      origin: params.origin,
+      now,
+    }));
+  }
+  return results;
+}
