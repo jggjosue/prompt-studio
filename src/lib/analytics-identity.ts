@@ -32,7 +32,7 @@ export function linkAnonymousJourneyAfterSignup(): void {
     anonymous_id: anonymousId,
     action_source: 'clerk_sign_up',
     auth_state: 'authenticated',
-  });
+  }, { idempotencyKey: anonymousId });
 
   window.sessionStorage.setItem(IDENTITY_LINK_KEY, '1');
   window.localStorage.removeItem(ANONYMOUS_ID_KEY);
