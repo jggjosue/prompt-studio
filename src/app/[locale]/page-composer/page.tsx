@@ -25,7 +25,7 @@ export const dynamic = 'force-dynamic';
  * implementación. Se conserva la puerta aquí porque el editor vive en una
  * subruta y este es el único punto que la aplica.
  */
-export default async function PageComposerPage({ params }: { params: Promise<{ locale: string }> }) {
+export default async function PageComposerPage({ params, searchParams }: { params: Promise<{ locale: string }>; searchParams: Promise<{ template?: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale);
 
@@ -33,10 +33,8 @@ export default async function PageComposerPage({ params }: { params: Promise<{ l
   if (!userId) return <PageComposerPremiumGate reason="anonymous" locale={locale} />;
 
   const status = await getServerSubscriptionStatus();
-  if (!hasComponentBuilderPlan(status)) {
-    return <PageComposerPremiumGate reason="unpaid" locale={locale} />;
-  }
-
+  const canUsePremiumTemplates = hasComponentBuilderPlan(status);
   const templates = await loadSourcePageTemplates();
-  return <VisualPageComposerClient canEdit templates={templates} />;
+  const { template } = await searchParams;
+  return <VisualPageComposerClient canEdit templates={templates} initialTemplateId={template ?? null} purchasedPages={status.purchasedPages} canUsePremiumTemplates={canUsePremiumTemplates} />;
 }
