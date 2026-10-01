@@ -11,6 +11,7 @@ import { HOME_FEED_LIMITS } from '@/lib/progressive-feed';
 import { getTranslations } from 'next-intl/server';
 import { isLocale, defaultLocale } from '@/i18n/config';
 import { serializeCatalogPrompt } from '@/lib/catalog-prompt';
+import { FunnelPageAnalytics } from '@/components/funnel-page-analytics';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const requestedLocale = (await params).locale;
@@ -111,6 +112,7 @@ export default function HomePage() {
 
   return (
     <>
+      <FunnelPageAnalytics eventName="view_home" />
       <JsonLd data={organizationSchema} />
       <JsonLd data={webSiteSchema} />
       <DiscoverClient
