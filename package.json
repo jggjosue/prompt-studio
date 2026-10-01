@@ -66,6 +66,7 @@
     "audit:vercel-functions": "node scripts/mjs/audit-server-dependencies.mjs",
     "architecture:check": "node --import tsx scripts/ts/check-domain-architecture.ts",
     "benchmark:catalog-index": "node --import tsx scripts/ts/benchmark-catalog-index.ts",
+    "analyze:text-model-hosting": "node --import tsx scripts/ts/analyze-text-model-hosting.ts",
     "test:refactory-runtime": "node --import tsx --test tests/unit/refactory-bundle-contract.test.ts tests/integration/refactory-runtime.test.ts",
     "verify:resend-deliverability": "node scripts/mjs/audit-resend-deliverability.mjs",
     "precompress:static": "node scripts/mjs/precompress-static.mjs",
