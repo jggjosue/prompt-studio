@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocale } from 'next-intl';
 import { Loader2, LockKeyhole } from 'lucide-react';
+import { trackAnalyticsEvent } from '@/lib/analytics';
 const PRESETS = [50, 100, 500, 1000] as const;
 export function CrowdfundingCheckout() {
  const locale=useLocale(); const es=locale.startsWith('es'); const [amount,setAmount]=useState(50); const [custom,setCustom]=useState(''); const [loading,setLoading]=useState(false); const [error,setError]=useState('');
@@ -39,6 +40,7 @@ export function CrowdfundingCheckout() {
      if (!response.ok || typeof result?.url !== 'string' || !result.url) {
        throw new Error(typeof result?.error === 'string' ? result.error : (es ? 'No se pudo abrir Stripe. Inténtalo de nuevo en unos momentos.' : 'Could not open Stripe. Please try again shortly.'));
      }
+     trackAnalyticsEvent('begin_checkout', { value: selected, currency: 'USD', item_category: 'crowdfunding', action_source: 'stripe_checkout_created' });
      window.location.assign(result.url);
    } catch (err) {
      setError(err instanceof DOMException && err.name === 'TimeoutError'
