@@ -33,9 +33,12 @@ test('el constructor valida sesión y pago Premium en el servidor', async () => 
   assert.match(page, /return <ComponentBuilderClient\s*\/>/);
 });
 
-test('el generador de páginas muestra la puerta a quien no tiene plan', async () => {
+test('el generador de páginas queda restringido al super administrador en el servidor', async () => {
   const page = await source('src/app/[locale]/page-composer/page.tsx');
   assert.match(page, /await auth\(\)/);
+  assert.match(page, /await currentUser\(\)/);
+  assert.match(page, /isPromptStudioAdminEmail\(email\)/);
+  assert.match(page, /reason="restricted"/);
   assert.match(page, /getServerSubscriptionStatus\(\)/);
   assert.match(page, /hasComponentBuilderPlan\(status\)/);
   assert.match(page, /PageComposerPremiumGate/);
@@ -53,13 +56,9 @@ test('el generador de páginas monta el Visual Builder, no el compositor antiguo
   assert.doesNotMatch(page, /import PageComposerClient\b/);
 });
 
-test('el menú ofrece Constructor visual y Generador de páginas a todos, pero solo los habilita al super administrador', async () => {
+test('el menú activa Constructor visual y Generador de páginas; cada ruta autoriza en servidor', async () => {
   const header = await source('src/components/layout/header-client.tsx');
 
-  // Se anuncian siempre (el menú no debe cambiar de forma al entrar), pero el
-  // clic queda reservado al super admin (PROMPT_STUDIO_PREMIUM_JO); el resto las
-  // ve con el badge «Próximamente».
-  assert.match(header, /useSuperAdmin\(\)/, 'el menú consulta si el usuario es super admin');
   assert.match(
     header,
     /\.\.\.paidCreatorItems\(\),/,
@@ -71,13 +70,8 @@ test('el menú ofrece Constructor visual y Generador de páginas a todos, pero s
   assert.match(items[0], /href: '\/component-builder'/, 'Constructor visual');
   assert.match(items[0], /href: '\/page-composer'/, 'Generador de páginas');
 
-  // Ambas entradas comparten el mismo candado, que depende de `isSuperAdmin`.
-  assert.match(
-    items[0],
-    /const locked = isSuperAdmin \? \{\} : \{ disabled: true, disabledBadge: copy\.comingSoon \};/,
-    'sin super admin, las herramientas salen deshabilitadas con «Próximamente»'
-  );
-  assert.equal(items[0].match(/\.\.\.locked,/g)?.length, 2, 'las dos herramientas quedan bajo el mismo candado');
+  assert.doesNotMatch(items[0], /disabled: true/, 'las dos entradas deben ser clicables');
+  assert.doesNotMatch(items[0], /disabledBadge/, 'no deben mostrar «Próximamente» en el menú');
 });
 
 test('el hook del super admin reconoce los mismos alias que el servidor', async () => {

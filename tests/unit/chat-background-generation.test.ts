@@ -21,6 +21,24 @@ test('/generate keeps the composer available while another response is pending',
   assert.match(input, /creaciones en segundo plano/);
 });
 
+test('/generate identifies the selected slash command as a chat capability', async () => {
+  const input = await source('src/components/chat/chat-input-bar.tsx');
+
+  assert.match(input, /Capacidad del chat:/);
+  assert.match(input, /Capacidad del chat seleccionada:/);
+  assert.match(input, /text-blue-500 underline/);
+  assert.match(input, /\/{selectedSlashCommand\.label}/);
+});
+
+test('/generate offers prompt optimization and code auditing as slash commands', async () => {
+  const input = await source('src/components/chat/chat-input-bar.tsx');
+
+  assert.match(input, /id: 'optimize-prompt', label: 'Optimizar prompt'/);
+  assert.match(input, /id: 'audit-code', label: 'Auditar código'/);
+  assert.match(input, /mejora objetivo, contexto, restricciones/);
+  assert.match(input, /riesgos de seguridad, problemas de rendimiento/);
+});
+
 test('/generate separates the user prompt from the assistant result', async () => {
   const generator = await source('src/hooks/use-chat-generator.ts');
 
