@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { ClientLink } from '@/components/client-link';
 import { PromptEditLink } from '@/components/prompt-edit-link';
 import { getFooterLinkGroups } from '@/lib/internal-link-graph';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { LanguageToggle } from '@/components/language-toggle';
 import { Facebook, Instagram } from 'lucide-react';
 import type { CSSProperties } from 'react';
@@ -18,6 +18,7 @@ export default function Footer() {
     setMounted(true);
   }, []);
 
+  const locale = useLocale();
   const t = useTranslations('footer');
   const tRoot = useTranslations();
   const tLinks = useTranslations('internalLinks');
