@@ -26,6 +26,7 @@ import { resolveTextGenerationOperation } from '@/lib/text-generation-operation'
 import { resolvePromptOptimizerOperation } from '@/lib/prompt-optimizer-operation';
 import { resolveImageGenerationOperation } from '@/lib/image-generation-operation';
 import { resolveVideoGenerationOperation } from '@/lib/video-generation-operation';
+import { resolveWebsiteGenerationOperation } from '@/lib/website-generation-operation';
 
 const headers = () => cacheHeaders('private-no-store');
 const clean = (value: unknown, max: number) => typeof value === 'string' ? value.trim().slice(0, max) : '';
@@ -137,6 +138,21 @@ export async function POST(request: Request) {
         error: {
           code,
           message: 'Selecciona un preset de video válido de 8 segundos.',
+        },
+      }, { status: 400, headers: headers() });
+    }
+  }
+  if (raw.kind === 'web') {
+    try {
+      const operation = resolveWebsiteGenerationOperation(input);
+      operationCode = operation.code;
+      cost = { ...cost, credits: operation.creditCost };
+    } catch (error) {
+      const code = error instanceof Error ? error.message : 'WEBSITE_TIER_REQUIRED';
+      return NextResponse.json({
+        error: {
+          code,
+          message: 'Selecciona el nivel del sitio web: simple, advanced o complex.',
         },
       }, { status: 400, headers: headers() });
     }
