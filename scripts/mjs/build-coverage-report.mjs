@@ -4,10 +4,10 @@
  *
  * Por qué hace falta un script y no basta el flag:
  *
- * 1. Las pruebas corren en **dos procesos** (unitarias con el cargador `tsx`,
- *    datos sin él). Cada uno escribe su propio lcov y el segundo pisaría al
- *    primero, así que se concatenan —el formato lo permite: son registros
- *    independientes separados por `end_of_record`—.
+ * 1. Las pruebas corren en **tres procesos** (unitarias y de integración con el
+ *    cargador `tsx`, datos sin él). Cada uno escribe su propio lcov y el segundo
+ *    pisaría al primero, así que se concatenan —el formato lo permite: son
+ *    registros independientes separados por `end_of_record`—.
  * 2. `--experimental-test-coverage` solo contabiliza los ficheros que los tests
  *    **cargan**. Los que nadie importa no aparecen, y eso convierte un 93 % en
  *    una cifra engañosa. Aquí se completan con los módulos de `src/` que no se
@@ -35,7 +35,7 @@ if (MAYOR < 22 || (MAYOR === 22 && MENOR < 11)) {
   );
   process.exit(1);
 }
-const PARCIALES = ['unit.info', 'data.info'];
+const PARCIALES = ['unit.info', 'integration.info', 'data.info'];
 
 /** Módulos que no son código de aplicación: no deben diluir el porcentaje. */
 const EXCLUIDOS = [
@@ -97,6 +97,18 @@ const okUnit = ejecutar(
   },
   'unit.info'
 );
+// Antes esto no se ejecutaba en ningún sitio: la carpeta existía con un test
+// dentro y ningún script ni job de CI la recogía, así que sus casos pasaban
+// —o fallaban— sin que nadie se enterara. Sin este pase, mover pruebas de
+// unidad a `tests/integration/` las borraría delcoverage en lugar de
+// reclasificarlas.
+const okIntegracion = ejecutar(
+  {
+    previos: ['--experimental-test-coverage', '--test-coverage-include=src/**', '--import', 'tsx'],
+    ficheros: ['tests/integration/*.test.ts'],
+  },
+  'integration.info'
+);
 const okData = ejecutar(
   {
     previos: ['--experimental-test-coverage', '--test-coverage-include=src/**'],
@@ -147,7 +159,7 @@ console.log(
     `  informe: coverage/lcov.info`
 );
 
-if (!okUnit || !okData) {
+if (!okUnit || !okIntegracion || !okData) {
   console.error('\nHubo pruebas en rojo: el informe se ha escrito igualmente.');
   process.exitCode = 1;
 }

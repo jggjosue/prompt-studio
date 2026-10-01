@@ -130,11 +130,13 @@ function applyResult(
   setAnnouncement(successMessage);
 }
 
-export function PageBuilderWorkspace({ initialSchema, name }: { initialSchema: PageSchema; name: string }) {
+type SourcePreview = { title: string; url: string };
+
+export function PageBuilderWorkspace({ initialSchema, name, sourcePreview }: { initialSchema: PageSchema; name: string; sourcePreview?: SourcePreview }) {
   const [schema, setSchema] = useState(() => structuredClone(initialSchema));
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [breakpoint, setBreakpoint] = useState<Breakpoint>('desktop');
-  const [preview, setPreview] = useState(false);
+  const [preview, setPreview] = useState(Boolean(sourcePreview));
   const [active, setActive] = useState<DragData | null>(null);
   const [overId, setOverId] = useState<string | null>(null);
   const [invalidOverId, setInvalidOverId] = useState<string | null>(null);
@@ -238,13 +240,19 @@ export function PageBuilderWorkspace({ initialSchema, name }: { initialSchema: P
       onDragCancel={() => { setAnnouncement('Arrastre cancelado.'); resetDrag(); }}
       onDragEnd={handleDragEnd}
     >
-      <div className="flex h-[min(88vh,920px)] min-h-[680px] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0d0e13] text-white" data-page-builder>
-        <BuilderToolbar name={name} breakpoint={breakpoint} onBreakpoint={setBreakpoint} preview={preview} onPreview={() => setPreview(value => !value)} sectionCount={page.sectionIds.length} componentCount={componentCount} />
-        <div className="flex min-h-0 flex-1">
+      <div className="flex min-h-[760px] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0d0e13] text-white lg:h-[min(88vh,920px)] lg:min-h-[680px]" data-page-builder>
+        <BuilderToolbar name={name} breakpoint={breakpoint} onBreakpoint={setBreakpoint} preview={preview} sourcePreview={Boolean(sourcePreview)} onPreview={() => setPreview(value => !value)} sectionCount={page.sectionIds.length} componentCount={componentCount} />
+        <div className="flex min-h-0 flex-1 flex-col lg:flex-row">
           {!preview ? <ComponentLibrary onAdd={addAtEnd} /> : null}
-          <main className="min-w-0 flex-1" aria-label="Canvas del sitio">
+          <main className="min-h-[560px] min-w-0 flex-1" aria-label="Canvas del sitio">
             {preview ? (
-              <div className="h-full overflow-auto bg-white"><PageRenderer schema={schema} /></div>
+              <div className="h-full overflow-auto bg-[#08090d] p-2 sm:p-4">
+                <div className="mx-auto h-full min-h-[540px] overflow-hidden rounded-xl bg-white shadow-2xl transition-[width] duration-200" style={{ width: VIEWPORTS[breakpoint], maxWidth: '100%' }}>
+                  {sourcePreview
+                    ? <iframe title={`Página original: ${sourcePreview.title}`} src={sourcePreview.url} className="size-full border-0 bg-white" />
+                    : <PageRenderer schema={schema} />}
+                </div>
+              </div>
             ) : (
               <div className="h-full overflow-auto bg-[#08090d] p-4 sm:p-7" onClick={() => setSelectedId(null)}>
                 <div className="mx-auto transition-[width] duration-200" style={{ width: VIEWPORTS[breakpoint], maxWidth: '100%' }}>
@@ -298,18 +306,19 @@ export function PageBuilderWorkspace({ initialSchema, name }: { initialSchema: P
   );
 }
 
-function BuilderToolbar({ name, breakpoint, onBreakpoint, preview, onPreview, sectionCount, componentCount }: { name: string; breakpoint: Breakpoint; onBreakpoint: (value: Breakpoint) => void; preview: boolean; onPreview: () => void; sectionCount: number; componentCount: number }) {
+function BuilderToolbar({ name, breakpoint, onBreakpoint, preview, sourcePreview, onPreview, sectionCount, componentCount }: { name: string; breakpoint: Breakpoint; onBreakpoint: (value: Breakpoint) => void; preview: boolean; sourcePreview: boolean; onPreview: () => void; sectionCount: number; componentCount: number }) {
   const options: Array<{ value: Breakpoint; label: string; icon: ReactNode }> = [
     { value: 'desktop', label: 'Desktop', icon: <Monitor className="size-3.5" /> },
     { value: 'laptop', label: 'Laptop', icon: <Monitor className="size-3.5" /> },
     { value: 'tablet', label: 'Tablet', icon: <Tablet className="size-3.5" /> },
     { value: 'mobile', label: 'Mobile', icon: <Smartphone className="size-3.5" /> },
   ];
-  return <header className="flex flex-wrap items-center gap-3 border-b border-white/10 px-3 py-2"><div className="min-w-0"><p className="truncate text-xs font-black">{name}</p><p className="text-[10px] text-zinc-500">PageSchema · {sectionCount} secciones · {componentCount} componentes</p></div><div className="ml-auto flex items-center gap-1 rounded-full border border-white/10 p-0.5" role="tablist" aria-label="Viewport">{options.map(option => <button key={option.value} type="button" role="tab" aria-selected={breakpoint === option.value} onClick={() => onBreakpoint(option.value)} className={`flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-bold ${breakpoint === option.value ? 'bg-violet-600' : 'text-zinc-400 hover:bg-white/10'}`}>{option.icon}<span className="hidden lg:inline">{option.label}</span></button>)}</div><button type="button" onClick={onPreview} className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-bold ${preview ? 'bg-emerald-600' : 'bg-violet-600'}`}><Eye className="size-3.5" />{preview ? 'Volver al editor' : 'Vista previa'}</button></header>;
+  const previewLabel = sourcePreview ? preview ? 'Editar por bloques' : 'Ver página original' : preview ? 'Volver al editor' : 'Vista previa';
+  return <header className="flex flex-wrap items-center gap-2 border-b border-white/10 px-3 py-2 sm:gap-3"><div className="min-w-0 flex-1 sm:flex-none"><p className="truncate text-xs font-black">{name}</p><p className="text-[10px] text-zinc-500">{sourcePreview && preview ? 'Original aislado · responsive' : `PageSchema · ${sectionCount} secciones · ${componentCount} componentes`}</p></div><div className="order-3 flex w-full items-center justify-center gap-1 rounded-full border border-white/10 p-0.5 sm:order-none sm:ml-auto sm:w-auto" role="tablist" aria-label="Viewport">{options.map(option => <button key={option.value} type="button" role="tab" aria-label={option.label} aria-selected={breakpoint === option.value} onClick={() => onBreakpoint(option.value)} className={`flex items-center gap-1 rounded-full px-3 py-1 text-[11px] font-bold ${breakpoint === option.value ? 'bg-violet-600' : 'text-zinc-400 hover:bg-white/10'}`}>{option.icon}<span className="hidden md:inline">{option.label}</span></button>)}</div><button type="button" onClick={onPreview} className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-bold ${preview ? 'bg-emerald-600' : 'bg-violet-600'}`}><Eye className="size-3.5" />{previewLabel}</button></header>;
 }
 
 function ComponentLibrary({ onAdd }: { onAdd: (type: PageComponentType) => void }) {
-  return <aside className="w-[250px] shrink-0 overflow-y-auto border-r border-white/10 p-3" aria-label="Biblioteca de componentes"><div className="mb-3 flex items-center gap-2"><Layers3 className="size-4 text-violet-300" /><div><h2 className="text-xs font-black">Componentes</h2><p className="text-[10px] text-zinc-500">Arrastra o pulsa + para añadir</p></div></div><div className="grid gap-2">{allPageComponentDefinitions().map(definition => <PaletteItem key={definition.type} type={definition.type} label={definition.label} onAdd={() => onAdd(definition.type)} />)}</div></aside>;
+  return <aside className="max-h-56 w-full shrink-0 overflow-y-auto border-b border-white/10 p-3 lg:max-h-none lg:w-[250px] lg:border-b-0 lg:border-r" aria-label="Biblioteca de componentes"><div className="mb-3 flex items-center gap-2"><Layers3 className="size-4 text-violet-300" /><div><h2 className="text-xs font-black">Componentes</h2><p className="text-[10px] text-zinc-500">Arrastra o pulsa + para añadir</p></div></div><div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-1">{allPageComponentDefinitions().map(definition => <PaletteItem key={definition.type} type={definition.type} label={definition.label} onAdd={() => onAdd(definition.type)} />)}</div></aside>;
 }
 
 function PaletteItem({ type, label, onAdd }: { type: PageComponentType; label: string; onAdd: () => void }) {

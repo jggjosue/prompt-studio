@@ -5,11 +5,12 @@ import {
   pageSitemapEntries,
   resolvePageSeo,
   robotsTxt,
+  serializeStructuredData,
   sitemapXml,
   validateSeoPatch,
 } from '../../src/lib/editor/page-seo.ts';
 import { createTemplateSchema } from '../../src/lib/editor/page-templates.ts';
-import { setPageSeo, setPageSlug } from '../../src/lib/editor/page-schema-ops.ts';
+import { setPageSeo, setPageSlug, setSiteSeo } from '../../src/lib/editor/page-schema-ops.ts';
 import { createLandingSchema, type SiteSchema } from '../../src/lib/editor/page-schema.ts';
 
 test('buildCanonical: dominio personalizado genera la URL correcta', () => {
@@ -72,6 +73,23 @@ test('setPageSeo: actualiza el SEO de la página', () => {
   assert.equal(page?.seo.noIndex, true);
 });
 
+test('setSiteSeo: define defaults que las páginas pueden heredar', () => {
+  const schema = createTemplateSchema('restaurant');
+  const result = setSiteSeo(schema, { title: 'Restaurante en México', description: 'Cocina local.' });
+  assert.equal(result.ok, true);
+  if (!result.ok) return;
+  assert.equal(result.schema.site.seo.title, 'Restaurante en México');
+  assert.equal(result.schema.site.seo.description, 'Cocina local.');
+});
+
+test('setPageSeo y setSiteSeo: rechazan URLs SEO inseguras', () => {
+  const schema = createTemplateSchema('restaurant');
+  const pageResult = setPageSeo(schema, '/', { canonical: 'javascript:alert(1)' });
+  assert.equal(pageResult.ok, false);
+  const siteResult = setSiteSeo(schema, { ogImage: 'javascript:alert(1)' });
+  assert.equal(siteResult.ok, false);
+});
+
 test('setPageSlug: valida duplicados y patrón', () => {
   const schema = createLandingSchema();
   // Intentar usar un slug existente falla.
@@ -108,4 +126,10 @@ test('robotsTxt: permite y apunta al sitemap', () => {
   const robots = robotsTxt('ejemplo.com');
   assert.match(robots, /Allow: \//);
   assert.match(robots, /Sitemap: https:\/\/ejemplo\.com\/sitemap\.xml/);
+});
+
+test('serializeStructuredData: no permite cerrar el script JSON-LD', () => {
+  const serialized = serializeStructuredData({ name: '</script><img src=x onerror=alert(1)>' });
+  assert.ok(!serialized.includes('</script>'));
+  assert.match(serialized, /\\u003c\/script\\u003e/);
 });

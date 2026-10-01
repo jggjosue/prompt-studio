@@ -45,6 +45,14 @@ export class StaleSaveError extends Error {
   }
 }
 
+/** Error que no mejorará reintentando (auth, validación o permisos). */
+export class PermanentSaveError extends Error {
+  constructor(message = 'El guardado fue rechazado permanentemente.') {
+    super(message);
+    this.name = 'PermanentSaveError';
+  }
+}
+
 const tick = () => new Promise<void>(resolve => setTimeout(resolve, 0));
 
 export class SaveManager {
@@ -152,6 +160,7 @@ export class SaveManager {
     this.pending = null;
     this.inFlight = true;
     this.setStatus('saving');
+    let permanentFailure = false;
 
     try {
       const result = await this.save({ schema: payload, version: this.version });
@@ -162,13 +171,14 @@ export class SaveManager {
       if (changedDuringSave) this.setStatus('dirty');
       else this.setStatus('clean');
     } catch (error) {
+      permanentFailure = error instanceof PermanentSaveError;
       const failure = error instanceof StaleSaveError ? 'stale' : 'failed';
       // El documento sigue sin guardar; no se pierde.
       this.pending = payload;
       this.failure = failure;
       this.onFailure?.(failure);
       this.setStatus('error');
-      if (failure === 'failed') {
+      if (failure === 'failed' && !permanentFailure) {
         // Error transitorio: reintentar con espera. Un `stale` no se reintenta.
         this.scheduleRetry();
       }
@@ -176,9 +186,86 @@ export class SaveManager {
       this.inFlight = false;
       // Si hubo cambios durante el guardado y nadie agendó un reintento, se
       // guarda lo más reciente. El `stale` se deja quieto hasta re-sincronizar.
-      if (this.pending !== null && this.failure !== 'stale' && this.timer === null) {
+      if (
+        this.pending !== null &&
+        this.failure !== 'stale' &&
+        !permanentFailure &&
+        this.timer === null
+      ) {
         this.schedule(0);
       }
     }
   }
+}
+
+/* ------------------------------------------------- persistencia al salir --- */
+
+/**
+ * Tope que aceptan los navegadores en una petición con `keepalive`.
+ *
+ * Por encima de este tamaño el navegador rechaza la petición entera, también en
+ * el uso normal: no es solo un límite de la descarga. Por eso `keepalive` se
+ * decide por tamaño y no se activa de forma incondicional.
+ */
+export const KEEPALIVE_MAX_BYTES = 64 * 1024;
+
+const encoder = new TextEncoder();
+
+/** Tamaño real en bytes: los acentos y los emoji ocupan más de un carácter. */
+export function payloadBytes(body: string): number {
+  return encoder.encode(body).length;
+}
+
+/** `true` si el cuerpo cabe en una petición `keepalive`. */
+export function canUseKeepalive(body: string): boolean {
+  return payloadBytes(body) <= KEEPALIVE_MAX_BYTES;
+}
+
+/** Superficie mínima del DOM que necesita el ciclo de salida, para poder testearlo. */
+export type UnloadHost = {
+  addEventListener(type: string, listener: (event: { preventDefault?: () => void }) => void): void;
+  removeEventListener(type: string, listener: (event: { preventDefault?: () => void }) => void): void;
+};
+
+export type UnloadTarget = UnloadHost & {
+  visibilityState?: string;
+  /** `pagehide` no se dispara en todos los cierres; la visibilidad sí al cambiar de pestaña. */
+  document?: UnloadHost & { visibilityState: string };
+};
+
+/**
+ * Conecta el gestor a la salida de la página.
+ *
+ * - `pagehide` e `visibilitychange` fuerzan el guardado pendiente: son los
+ *   eventos que llegan tanto al cerrar como al cambiar de pestaña o enviar la
+ *   app a segundo plano en móvil. `beforeunload` no sirve para esto porque el
+ *   navegador aborta la petición al descargar y bloquea el bfcache.
+ * - `beforeunload` solo avisa: si quedan cambios sin guardar se cancela el
+ *   cierre para que el navegador pregunte, en vez de perder el trabajo en
+ *   silencio.
+ *
+ * Devuelve la función de limpieza.
+ */
+export function bindUnloadSave(
+  target: UnloadTarget,
+  actions: { flush: () => void; isDirty: () => boolean }
+): () => void {
+  const onPageHide = () => actions.flush();
+  const onVisibility = () => {
+    if (target.document?.visibilityState === 'hidden') actions.flush();
+  };
+  const onBeforeUnload = (event: { preventDefault?: () => void }) => {
+    if (!actions.isDirty()) return;
+    event.preventDefault?.();
+  };
+
+  target.addEventListener('pagehide', onPageHide);
+  target.addEventListener('beforeunload', onBeforeUnload);
+  target.document?.addEventListener('visibilitychange', onVisibility);
+
+  return () => {
+    target.removeEventListener('pagehide', onPageHide);
+    target.removeEventListener('beforeunload', onBeforeUnload);
+    target.document?.removeEventListener('visibilitychange', onVisibility);
+  };
 }

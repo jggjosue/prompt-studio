@@ -26,7 +26,19 @@ export type FirebaseAnalyticsEvent =
   | 'view_pricing'
   | 'select_plan'
   | 'begin_checkout'
-  | 'purchase';
+  | 'purchase'
+  | 'site_created'
+  | 'template_selected'
+  | 'component_added'
+  | 'ai_site_generated'
+  | 'ai_component_edited'
+  | 'preview_opened'
+  | 'site_published'
+  | 'custom_domain_started'
+  | 'custom_domain_connected'
+  | 'domain_search'
+  | 'domain_checkout_started'
+  | 'domain_purchased';
 
 export type FirebaseAnalyticsParams = Record<string, string | number | boolean | null | undefined>;
 

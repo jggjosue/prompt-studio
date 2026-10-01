@@ -108,7 +108,7 @@ export function PropertiesInspector({ schema, selectedId, breakpoint, onSchemaCh
   }, [breakpoint, definition]);
 
   if (!node || !definition || !properties) {
-    return <aside className="w-[320px] shrink-0 border-l border-white/10 p-4" aria-label="Panel de propiedades"><div className="grid h-full place-items-center text-center text-xs text-zinc-500"><div><MousePointer2 className="mx-auto mb-3 size-5" />Selecciona un componente para ver sus propiedades.</div></div></aside>;
+    return <aside className="max-h-72 w-full shrink-0 border-t border-white/10 p-4 lg:max-h-none lg:w-[320px] lg:border-l lg:border-t-0" aria-label="Panel de propiedades"><div className="grid h-full place-items-center text-center text-xs text-zinc-500"><div><MousePointer2 className="mx-auto mb-3 size-5" />Selecciona un componente para ver sus propiedades.</div></div></aside>;
   }
 
   const apply = (result: EditorMutationResult, message: string) => commitResult(result, onSchemaChange, onAnnounce, message);
@@ -119,7 +119,7 @@ export function PropertiesInspector({ schema, selectedId, breakpoint, onSchemaCh
   }, { layout: [], spacing: [], typography: [], appearance: [] });
 
   return (
-    <aside className="w-[320px] shrink-0 overflow-y-auto border-l border-white/10 bg-[#0d0e13] p-4" aria-label="Panel de propiedades" data-properties-inspector>
+    <aside className="max-h-96 w-full shrink-0 overflow-y-auto border-t border-white/10 bg-[#0d0e13] p-4 lg:max-h-none lg:w-[320px] lg:border-l lg:border-t-0" aria-label="Panel de propiedades" data-properties-inspector>
       <div className="flex items-start gap-3">
         <div className="min-w-0 flex-1"><p className="text-[10px] font-black uppercase tracking-[.16em] text-violet-300">Propiedades</p><h2 className="mt-1 text-sm font-black">{definition.label}</h2><p className="mt-1 truncate text-[10px] text-zinc-500">{node.id}</p></div>
         <button type="button" onClick={() => apply(resetComponentToDefaults(schema, node.id), 'Componente restaurado a sus valores predeterminados.')} className="rounded-lg border border-white/10 p-2 text-zinc-400 hover:bg-white/5 hover:text-white" aria-label="Restaurar componente" title="Restaurar componente"><RotateCcw className="size-3.5" /></button>

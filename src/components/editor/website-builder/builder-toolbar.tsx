@@ -9,7 +9,8 @@
  */
 
 import { usePathname } from 'next/navigation';
-import { Eye, Monitor, Redo2, Search, Smartphone, Sparkles, Tablet, Undo2 } from 'lucide-react';
+import Link from 'next/link';
+import { ArrowLeft, Eye, Monitor, Redo2, Search, Smartphone, Sparkles, Tablet, Undo2 } from 'lucide-react';
 import { useState } from 'react';
 import { DEVICE_ORDER, useBuilder } from './builder-context';
 import { BuilderAI } from './builder-ai';
@@ -41,6 +42,14 @@ export function BuilderToolbar() {
 
   return (
     <header className="flex h-12 shrink-0 items-center gap-3 border-b border-border bg-background px-3">
+      <Link
+        href={pathname}
+        className="flex items-center gap-1 rounded-md border border-border px-2 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+        aria-label="Salir del editor y volver a mis proyectos"
+      >
+        <ArrowLeft className="size-3.5" aria-hidden />
+        <span className="hidden sm:inline">Salir</span>
+      </Link>
       <div className="flex items-center gap-2">
         <span className="text-sm font-bold text-foreground">Visual Website Builder</span>
         <span className="hidden text-xs text-muted-foreground sm:inline">{builder.schema.site.name}</span>

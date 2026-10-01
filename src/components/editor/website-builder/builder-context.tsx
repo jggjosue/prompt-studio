@@ -30,6 +30,7 @@ import {
   setNodeStyle,
   setPageSeo,
   setPageSlug,
+  setSiteSeo,
   type DropTarget,
   type NodeLocation,
   type OpsDeps,
@@ -37,8 +38,11 @@ import {
 } from '@/lib/editor/page-schema-ops';
 import { EditorHistory, makeCommand, type EditorCommand } from '@/lib/editor/editor-commands';
 import {
+  PermanentSaveError,
   SaveManager,
   StaleSaveError,
+  bindUnloadSave,
+  canUseKeepalive,
   type SaveFailure,
   type SaveStatus,
 } from '@/lib/editor/save-manager';
@@ -138,6 +142,8 @@ export type BuilderContextValue = {
   applyAIEdit: (ops: AIEditOp[]) => OpsError | null;
   /** Actualiza el SEO de la página actual (deshacible). */
   applyPageSeo: (patch: Record<string, unknown>) => OpsError | null;
+  /** Actualiza los defaults SEO del sitio (deshacible). */
+  applySiteSeo: (patch: Record<string, unknown>) => OpsError | null;
   /** Cambia el slug de la página validando duplicados (deshacible). */
   changePageSlug: (nextSlug: string) => OpsError | null;
 };
@@ -178,18 +184,33 @@ export function BuilderProvider({
   const historyRef = useRef(new EditorHistory());
   const projectIdRef = useRef<string | undefined>(projectId);
   const saveManagerRef = useRef<SaveManager | null>(null);
+  const saveRequestIdsRef = useRef(new WeakMap<SiteSchema, string>());
 
   if (saveManagerRef.current === null) {
     saveManagerRef.current = new SaveManager({
       debounceMs: AUTOSAVE_DEBOUNCE_MS,
       save: async ({ schema: payload, version }) => {
         const id = projectIdRef.current;
+        let requestId = saveRequestIdsRef.current.get(payload);
+        if (!requestId) {
+          requestId = crypto.randomUUID();
+          saveRequestIdsRef.current.set(payload, requestId);
+        }
+        const body = JSON.stringify({ schema: payload, version, name: payload.site.name, requestId });
         const response = await fetch(`/api/page-composer/projects/${id ?? 'new'}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ schema: payload, version }),
+          body,
+          // `keepalive` deja la petición viva al cerrar la pestaña, que es el
+          // caso real de pérdida de trabajo. El navegador rechaza los cuerpos
+          // que superan ~64 KiB —también en uso normal—, así que solo se activa
+          // si el schema cabe; si no, se guarda sin él.
+          keepalive: canUseKeepalive(body),
         });
         if (response.status === 409) throw new StaleSaveError();
+        if (response.status >= 400 && response.status < 500 && response.status !== 408 && response.status !== 429) {
+          throw new PermanentSaveError(`Guardado rechazado (${response.status}).`);
+        }
         if (!response.ok) throw new Error(`Guardado falló (${response.status}).`);
         const data = (await response.json()) as { id?: string; version: number };
         if (typeof data.id === 'string') {
@@ -255,6 +276,16 @@ export function BuilderProvider({
     [schema, slug, commit]
   );
 
+  const applySiteSeo = useCallback(
+    (patch: Record<string, unknown>): OpsError | null => {
+      const result = setSiteSeo(schema, patch);
+      if (!result.ok) return result;
+      commit(makeCommand('UPDATE_PAGE_SETTINGS', 'Actualizar defaults SEO del sitio', schema, result.schema));
+      return null;
+    },
+    [schema, commit]
+  );
+
   const changePageSlug = useCallback(
     (nextSlug: string): OpsError | null => {
       const result = setPageSlug(schema, slug, nextSlug);
@@ -284,14 +315,14 @@ export function BuilderProvider({
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [undo, redo]);
 
-  // Al cerrar la pestaña, guardar lo pendiente (best effort).
+  // Al salir de la página: guardar lo pendiente y avisar si queda algo sin guardar.
   useEffect(() => {
-    const onBeforeUnload = () => {
-      saveManagerRef.current?.flush();
-    };
-    window.addEventListener('beforeunload', onBeforeUnload);
+    const unbind = bindUnloadSave(window, {
+      flush: () => saveManagerRef.current?.flush(),
+      isDirty: () => saveManagerRef.current?.isDirty ?? false,
+    });
     return () => {
-      window.removeEventListener('beforeunload', onBeforeUnload);
+      unbind();
       saveManagerRef.current?.dispose();
     };
   }, []);
@@ -483,6 +514,7 @@ export function BuilderProvider({
       openAIEdit: setAIEditTarget,
       applyAIEdit,
       applyPageSeo,
+      applySiteSeo,
       changePageSlug,
     }),
     [
@@ -517,6 +549,7 @@ export function BuilderProvider({
       aiEditTarget,
       applyAIEdit,
       applyPageSeo,
+      applySiteSeo,
       changePageSlug,
     ]
   );

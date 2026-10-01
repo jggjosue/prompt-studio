@@ -2,6 +2,7 @@ import { auth } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 import { cacheHeaders } from '@/lib/cache-policy';
 import { estimateSitePlan, resolvePlannerModel } from '@/lib/ai-site-plan';
+import { AIPlanError } from '@/lib/editor/ai-site-planner';
 
 export const runtime = 'nodejs';
 
@@ -36,8 +37,11 @@ export async function POST(request: Request) {
       { headers: headers() }
     );
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Estimación no disponible.';
-    const status = message === 'MODEL_NOT_ALLOWED' ? 400 : message === 'INPUT_TOKEN_LIMIT' ? 413 : 500;
-    return NextResponse.json({ error: message, code: message }, { status, headers: headers() });
+    if (error instanceof AIPlanError) {
+      return NextResponse.json({ error: error.message, code: error.code }, { status: 400, headers: headers() });
+    }
+    const code = error instanceof Error ? error.message : 'ESTIMATE_FAILED';
+    const status = code === 'MODEL_NOT_ALLOWED' ? 400 : code === 'INPUT_TOKEN_LIMIT' || code === 'INPUT_TOO_LARGE' ? 413 : 500;
+    return NextResponse.json({ error: code === 'ESTIMATE_FAILED' ? 'Estimación no disponible.' : code, code }, { status, headers: headers() });
   }
 }

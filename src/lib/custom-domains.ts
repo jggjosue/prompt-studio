@@ -2,6 +2,8 @@ import 'server-only';
 
 import connectToDatabase from '@/lib/mongoose';
 import { recordObservabilityEvent } from '@/lib/observability-server';
+import { revalidatePath } from 'next/cache';
+import mongoose from 'mongoose';
 import PageComposerDomain, { type IPageComposerDomain } from '@/models/PageComposerDomain';
 import PageComposerProject from '@/models/PageComposerProject';
 import { ROOT_DOMAIN } from '@/lib/tenant-sites';
@@ -9,6 +11,7 @@ import { resolveDomainProvider } from '@/lib/custom-domain-provider';
 import {
   activateDomainCore,
   applyProviderStatus,
+  canonicalHostname,
   isDomainHostnameValid,
   normalizeDomainHostname,
   verifyDomainCore,
@@ -175,10 +178,48 @@ export async function disableDomain(siteId: string, userId: string, hostname: st
   return updated;
 }
 
-export async function listDomains(siteId: string): Promise<DomainRecord[]> {
+/** Devuelve dominios solo al propietario del sitio; no filtra por id a ciegas. */
+export async function listDomains(siteId: string, userId: string): Promise<DomainRecord[]> {
   await connectToDatabase();
+  await assertSiteOwner(siteId, userId);
   const documents = await PageComposerDomain.find({ siteId }).sort({ createdAt: -1 }).lean();
   return documents.map(toRecord);
+}
+
+/** Selecciona el dominio canónico para apex/www; debe estar activo y verificado. */
+export async function setCanonicalDomain(siteId: string, userId: string, hostname: string): Promise<DomainRecord> {
+  await connectToDatabase();
+  await assertSiteOwner(siteId, userId);
+  const document = await PageComposerDomain.findOne({ siteId, hostname }).lean();
+  if (!document) throw new Error('DOMAIN_NOT_FOUND');
+  const record = toRecord(document);
+  if (record.status !== 'active' || record.verificationStatus !== 'active' || record.sslStatus !== 'active') {
+    throw new Error('Solo puedes elegir como principal un dominio verificado y con SSL activo.');
+  }
+
+  // Un único canonical por sitio. La deselección y selección comparten una
+  // transacción: una lectura nunca verá dos dominios principales a la vez.
+  const session = await mongoose.startSession();
+  try {
+    await session.withTransaction(async () => {
+      await PageComposerDomain.updateMany({ siteId }, { $set: { isCanonical: false } }, { session });
+      await PageComposerDomain.updateOne({ _id: document._id }, { $set: { isCanonical: true } }, { session });
+    });
+  } finally {
+    await session.endSession();
+  }
+  const updated = { ...record, isCanonical: true };
+  revalidatePath(`/d/${hostname}`);
+
+  await recordObservabilityEvent({
+    category: 'commerce',
+    name: 'page_composer_domain_canonical',
+    route: '/api/page-composer/sites/[id]/domains/[hostname]/canonical',
+    userId,
+    status: 'success',
+    metadata: { siteId, hostname },
+  });
+  return updated;
 }
 
 /**
@@ -199,7 +240,20 @@ export async function resolveCustomDomain(hostname: string) {
   const published = await getSitePublishedVersion(String(project._id));
   if (!published) return null;
 
-  return { siteId: String(project._id), hostname, ...published, canonical: domain.isCanonical };
+  const domains = await PageComposerDomain.find({ siteId: domain.siteId, status: 'active' })
+    .select('hostname status isCanonical')
+    .lean();
+  const canonical = canonicalHostname(
+    domains.map(item => ({ hostname: item.hostname, status: item.status, isCanonical: item.isCanonical ?? false }))
+  );
+
+  return {
+    siteId: String(project._id),
+    hostname,
+    ...published,
+    canonical: domain.isCanonical,
+    canonicalHostname: canonical ?? hostname,
+  };
 }
 
 /** Reutilizado para reintentos transitorios en llamadas del operador. */

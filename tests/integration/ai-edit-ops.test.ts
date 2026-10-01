@@ -174,3 +174,24 @@ test('toda edición aplicada conserva un documento válido', () => {
   if (!outcome.ok) return;
   assert.equal(validatePageSchema(outcome.schema).ok, true);
 });
+
+test('la puerta final descarta un documento compuesto que queda inválido', () => {
+  // `replaceSection` clona el nodo que propone la IA con identificadores nuevos
+  // vía `makeId`. Aquí el id que sale es inválido, así que la operación pasa sus
+  // propias comprobaciones pero deja el documento roto: justo el caso que la
+  // validación por operación no puede ver.
+  const schema = landing();
+  const roto: OpsDeps = { ...deps(), makeId: () => 'id no válido!' };
+  const outcome = applyAIEditOps(schema, HOME, [
+    {
+      op: 'replaceSection',
+      nodeId: 'faq-home',
+      node: { id: 'r', type: 'cta', props: { title: 'CT', buttonLabel: 'Ir', buttonHref: '#', align: 'center' }, styles: {}, children: [] },
+    },
+  ], roto);
+
+  assert.equal(outcome.ok, false, 'un documento compuesto inválido no debe aplicarse');
+  if (outcome.ok) return;
+  assert.match(outcome.error, /inválido/);
+  assert.ok(outcome.rejected.some(motivo => /inválido/.test(motivo)));
+});

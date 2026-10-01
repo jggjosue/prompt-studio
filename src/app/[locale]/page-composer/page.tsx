@@ -1,8 +1,12 @@
 import type { Metadata } from 'next';
 import { auth } from '@clerk/nextjs/server';
-import { redirect } from 'next/navigation';
 import { setRequestLocale } from 'next-intl/server';
-import { getServerSubscriptionStatus, hasComponentBuilderPlan } from '@/lib/server-subscription-status';
+import {
+  getServerSubscriptionStatus,
+  hasComponentBuilderPlan,
+} from '@/lib/server-subscription-status';
+import { loadSourcePageTemplates } from '@/lib/page-builder/source-template-catalog';
+import VisualPageComposerClient from './page-composer-editor-client';
 import PageComposerPremiumGate from './page-composer-premium-gate';
 
 export const metadata: Metadata = {
@@ -33,5 +37,6 @@ export default async function PageComposerPage({ params }: { params: Promise<{ l
     return <PageComposerPremiumGate reason="unpaid" locale={locale} />;
   }
 
-  redirect(`/${locale}/page-composer/website/editor`);
+  const templates = await loadSourcePageTemplates();
+  return <VisualPageComposerClient canEdit templates={templates} />;
 }

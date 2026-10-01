@@ -6,6 +6,10 @@
  * existentes, anidamiento permitido, props según el contrato, estilos seguros y
  * reordenaciones que sean permutaciones de los hijos actuales. Lo que no pasa la
  * validación se rechaza con un mensaje; nunca se aplica a ciegas.
+ *
+ * Además, el documento compuesto se valida una última vez antes de devolverlo:
+ * es lo que entra al lienzo, y una combinación de operaciones individualmente
+ * válidas no garantiza por sí sola que el resultado lo sea.
  */
 
 import {
@@ -14,6 +18,7 @@ import {
   isPageComponentType,
   safeUrl,
   styleValueToCss,
+  validatePageSchema,
   type NodeStyles,
   type PageComponentType,
   type PageNode,
@@ -222,6 +227,21 @@ export function applyAIEditOps(
   if (!applied.length) {
     return { ok: false, error: rejected[0] ?? 'Ninguna operación pudo aplicarse.', rejected };
   }
+
+  // Puerta final. Cada operación se validó por separado, pero lo que entra al
+  // lienzo es el documento compuesto: una combinación de operaciones
+  // individualmente válidas podría aun así dejarlo inválido. Se comprueba con el
+  // mismo validador que usa el resto del editor y, si falla, no se aplica nada
+  // — mejor un «no se pudo aplicar» que un schema roto en el documento.
+  if (!validatePageSchema(current).ok) {
+    rejected.push('La edición dejaba el documento inválido; no se ha aplicado.');
+    return {
+      ok: false,
+      error: 'La edición resultaba en un documento inválido, así que se ha descartado.',
+      rejected,
+    };
+  }
+
   return { ok: true, schema: current, applied, rejected };
 }
 

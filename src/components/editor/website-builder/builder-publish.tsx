@@ -9,11 +9,13 @@
  * publicar/republish y despublicar.
  */
 
-import { Eye, Globe, Inbox, Rocket } from 'lucide-react';
+import { BarChart3, Eye, Globe, Inbox, Rocket } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { useBuilder } from './builder-context';
 import { BuilderDomains } from './builder-domains';
+import { BuilderAnalytics } from './builder-analytics';
+import { trackAnalyticsEvent } from '@/lib/analytics';
 
 type Publication = { subdomain: string | null; publishedVersion: number | null; publishedAt: string | null; unpublishedAt: string | null };
 type ErrorResponse = { error?: string };
@@ -28,6 +30,7 @@ export function BuilderPublish() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showDomains, setShowDomains] = useState(false);
+  const [showAnalytics, setShowAnalytics] = useState(false);
 
   const refresh = useCallback(async () => {
     if (!siteId) return;
@@ -63,6 +66,7 @@ export function BuilderPublish() {
         setError((data as ErrorResponse).error ?? 'No se pudo publicar.');
         return;
       }
+      trackAnalyticsEvent('site_published', { item_id: siteId, item_category: 'page-composer' });
       await refresh();
     } catch {
       setError('No se pudo conectar con el servidor.');
@@ -153,6 +157,7 @@ export function BuilderPublish() {
         <Inbox className="size-3.5" />
         Envíos
       </a>
+      <button type="button" onClick={() => setShowAnalytics(true)} className="flex items-center gap-1 rounded-md border border-border px-2 py-1.5 text-[11px] font-medium text-muted-foreground hover:bg-accent" title="Analítica del sitio"><BarChart3 className="size-3.5"/>Analítica</button>
       <button
         type="button"
         onClick={publish}
@@ -164,6 +169,7 @@ export function BuilderPublish() {
         {busy ? 'Publicando…' : published ? 'Republish' : 'Publicar'}
       </button>
       {showDomains ? <BuilderDomains onClose={() => setShowDomains(false)} /> : null}
+      {showAnalytics ? <BuilderAnalytics siteId={siteId} onClose={() => setShowAnalytics(false)} /> : null}
     </div>
   );
 }

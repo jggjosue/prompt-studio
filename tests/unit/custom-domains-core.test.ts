@@ -3,6 +3,7 @@ import test from 'node:test';
 import {
   activateDomainCore,
   applyProviderStatus,
+  canonicalHostname,
   isDomainHostnameValid,
   isTransient,
   normalizeDomainHostname,
@@ -46,6 +47,15 @@ test('isDomainHostnameValid: solo dominios con forma correcta', () => {
   assert.equal(isDomainHostnameValid('example'), false);
   assert.equal(isDomainHostnameValid('-bad.com'), false);
   assert.equal(isDomainHostnameValid('http://example.com'), false);
+});
+
+test('canonicalHostname: solo un dominio activo puede ser principal', () => {
+  assert.equal(canonicalHostname([
+    baseDomain({ hostname: 'example.com', status: 'active' }),
+    baseDomain({ hostname: 'www.example.com', status: 'active', isCanonical: true }),
+    baseDomain({ hostname: 'old.example.com', status: 'disabled', isCanonical: true }),
+  ]), 'www.example.com');
+  assert.equal(canonicalHostname([baseDomain({ status: 'pending' })]), null);
 });
 
 test('transientError/isTransient: marca solo fallos transitorios', () => {

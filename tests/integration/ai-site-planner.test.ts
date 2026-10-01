@@ -126,6 +126,40 @@ test('repairSiteSchema: descarta URLs inseguras y props inválidas', () => {
   assert.equal(hero.props.align, undefined);
 });
 
+test('repairSiteSchema: sanea URLs inseguras dentro de listas estructuradas', () => {
+  const raw = JSON.parse(VALID_JSON) as Record<string, unknown>;
+  const page = (raw.pages as Record<string, unknown>[])[0];
+  page.sections = [{
+    id: 'nav',
+    type: 'navbar',
+    props: { brand: 'Café', links: [{ label: 'Peligro', href: 'javascript:alert(1)' }, { label: 'Menú', href: '#menu' }] },
+    styles: {},
+    children: [],
+  }];
+  const repaired = repairSiteSchema(raw);
+  assert.ok(repaired);
+  const links = repaired.schema.pages[0].sections[0].props.links as Array<Record<string, unknown>>;
+  assert.equal(links.length, 1);
+  assert.equal(links[0].href, '#menu');
+});
+
+test('repairSiteSchema: repara ids y slugs duplicados y ordena navbar/footer', () => {
+  const raw = JSON.parse(VALID_JSON) as Record<string, unknown>;
+  const first = (raw.pages as Record<string, unknown>[])[0];
+  first.sections = [
+    { id: 'same', type: 'footer', props: { brand: 'Café' }, styles: {}, children: [] },
+    { id: 'same', type: 'hero', props: { title: 'Hola' }, styles: {}, children: [] },
+    { id: 'same', type: 'navbar', props: { brand: 'Café' }, styles: {}, children: [] },
+  ];
+  raw.pages = [first, { ...structuredClone(first), id: first.id, name: 'Otra' }];
+  const repaired = repairSiteSchema(raw);
+  assert.ok(repaired);
+  assert.equal(validatePageSchema(repaired.schema).ok, true);
+  assert.equal(repaired.schema.pages[0].sections[0].type, 'navbar');
+  assert.equal(repaired.schema.pages[0].sections.at(-1)?.type, 'footer');
+  assert.notEqual(repaired.schema.pages[0].slug, repaired.schema.pages[1].slug);
+});
+
 test('repairSiteSchema: descarta estilos peligrosos', () => {
   const raw = JSON.parse(VALID_JSON) as Record<string, unknown>;
   (raw.pages as Record<string, unknown>[])[0] = {

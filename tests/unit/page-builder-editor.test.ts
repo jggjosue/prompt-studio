@@ -70,6 +70,18 @@ test('reorder: las secciones y los hermanos cambian de posición de forma determ
   assert.deepEqual(moved.schema.sections[sectionId].componentIds, [text.componentId, second.componentId]);
 });
 
+test('add: puede insertar una sección entre dos secciones existentes', () => {
+  const initial = emptySchema();
+  const pageId = initial.site.defaultPageId;
+  const first = success(insertComponent(initial, 'navbar', { kind: 'new-section', pageId, index: 0 }));
+  const last = success(insertComponent(first.schema, 'footer', { kind: 'new-section', pageId, index: 1 }));
+  const middle = success(insertComponent(last.schema, 'hero', { kind: 'new-section', pageId, index: 1 }));
+
+  assert.deepEqual(middle.schema.pages[pageId].sectionIds, [first.sectionId, middle.sectionId, last.sectionId]);
+  assert.equal(middle.schema.components[middle.componentId!].type, 'hero');
+  assert.equal(validatePageSchema(middle.schema).success, true);
+});
+
 test('duplicate: copia el subárbol con ids únicos y sin compartir datos mutables', () => {
   const initial = emptySchema();
   const pageId = initial.site.defaultPageId;
@@ -133,6 +145,21 @@ test('el canvas usa dnd-kit, sensor de teclado y solo confirma cambios al termin
   assert.doesNotMatch(source, /fetch\(|Mongo|mongoose/);
 });
 
+test('el editor expone biblioteca, toolbar, canvas, inspector y estados visuales de drag', async () => {
+  const workspace = await readFile(new URL('../../src/components/page-builder/editor/page-builder-workspace.tsx', import.meta.url), 'utf8');
+  const inspector = await readFile(new URL('../../src/components/page-builder/editor/properties-inspector.tsx', import.meta.url), 'utf8');
+
+  assert.match(workspace, /function BuilderToolbar/);
+  assert.match(workspace, /aria-label="Biblioteca de componentes"/);
+  assert.match(workspace, /aria-label="Canvas del sitio"/);
+  assert.match(workspace, /<PropertiesInspector/);
+  assert.match(workspace, /<DragOverlay/);
+  assert.match(workspace, /Destino no permitido/);
+  assert.match(workspace, /data-empty-canvas/);
+  assert.match(workspace, /outline-violet-500/);
+  assert.match(inspector, /Propiedades/);
+});
+
 test('el inspector actualiza props válidas, rechaza URLs inseguras y restaura defaults', () => {
   const initial = emptySchema();
   const pageId = initial.site.defaultPageId;
@@ -143,6 +170,21 @@ test('el inspector actualiza props válidas, rechaza URLs inseguras y restaura d
   assert.deepEqual(updateComponentProperty(updated.schema, button.componentId!, 'unknown', 'x'), { error: 'property-missing' });
   const reset = success(resetComponentProperty(updated.schema, button.componentId!, 'label'));
   assert.equal((reset.schema.components[button.componentId!].props as { label: string }).label, getPageComponentDefinition('button').defaultProps.label);
+});
+
+test('el inspector rechaza URLs inseguras dentro de imágenes, galerías y objetos estructurados', () => {
+  const initial = emptySchema();
+  const pageId = initial.site.defaultPageId;
+  const gallery = success(insertComponent(initial, 'gallery', { kind: 'new-section', pageId, index: 0 }));
+  const invalidGallery = updateComponentProperty(gallery.schema, gallery.componentId!, 'images', [{ src: 'javascript:alert(1)', alt: 'No segura' }]);
+  assert.deepEqual(invalidGallery, { error: 'props-invalid' });
+
+  const cta = success(insertComponent(gallery.schema, 'cta', { kind: 'new-section', pageId, index: 1 }));
+  const invalidAction = updateComponentProperty(cta.schema, cta.componentId!, 'primaryAction', { label: 'Abrir', href: 'javascript:alert(1)' });
+  assert.deepEqual(invalidAction, { error: 'props-invalid' });
+
+  const safeAction = success(updateComponentProperty(cta.schema, cta.componentId!, 'primaryAction', { label: 'Abrir', href: '/contacto' }));
+  assert.equal((safeAction.schema.components[cta.componentId!].props as { primaryAction: { href: string } }).primaryAction.href, '/contacto');
 });
 
 test('los estilos base y responsive se validan, aplican y pueden restablecerse', () => {
@@ -162,6 +204,30 @@ test('los estilos base y responsive se validan, aplican y pueden restablecerse',
   const resetAll = success(resetComponentStyles(resetMobile.schema, hero.componentId!));
   assert.deepEqual(resetAll.schema.components[hero.componentId!].styles, getPageComponentDefinition('hero').defaultStyles);
   assert.deepEqual(resetAll.schema.components[hero.componentId!].responsive, {});
+});
+
+test('el inspector responsive comparte el breakpoint activo con el canvas y muestra valores heredados', async () => {
+  const source = await readFile(
+    new URL('../../src/components/editor/website-builder/builder-properties.tsx', import.meta.url),
+    'utf8'
+  );
+
+  assert.match(source, /const breakpoint = builder\.device/);
+  assert.match(source, /onClick=\{\(\) => builder\.setDevice\(option\)\}/);
+  assert.match(source, /resolveNodeStyles\(node, breakpoint\)\[control\.target\.property\]/);
+  assert.doesNotMatch(source, /useState<EditorBreakpoint>/);
+});
+
+test('el Website Builder conserva el ancho exacto del dispositivo dentro del canvas desplazable', async () => {
+  const source = await readFile(
+    new URL('../../src/components/editor/website-builder/builder-canvas.tsx', import.meta.url),
+    'utf8'
+  );
+
+  assert.match(source, /width: DEVICE_WIDTH\[builder\.device\]/);
+  assert.match(source, /minWidth: DEVICE_WIDTH\[builder\.device\]/);
+  assert.match(source, /overflow-auto/);
+  assert.doesNotMatch(source, /<iframe/);
 });
 
 test('restaurar componente conserva children y recupera props y estilos del registro', () => {
@@ -196,4 +262,45 @@ test('el inspector se genera desde ComponentRegistry sin switches por tipo', asy
   for (const property of ['background', 'width', 'height', 'padding', 'margin', 'gap', 'alignItems', 'display', 'fontFamily', 'fontSize', 'fontWeight', 'lineHeight', 'textAlign', 'color', 'border', 'borderRadius', 'boxShadow', 'opacity']) {
     assert.ok(getPageComponentDefinition('hero').styleControls.includes(property as StyleProperty), `falta el control ${property}`);
   }
+});
+
+test('/page-composer monta el Visual Builder como implementación única', async () => {
+  const source = await readFile(new URL('../../src/app/[locale]/page-composer/page.tsx', import.meta.url), 'utf8');
+  assert.match(source, /VisualPageComposerClient/);
+  assert.match(source, /loadSourcePageTemplates\(\)/);
+  assert.match(source, /PageComposerPremiumGate/);
+  assert.match(source, /return <VisualPageComposerClient canEdit templates=/);
+  assert.doesNotMatch(source, /page-composer-client|hasLegacySeed|PageComposerSeed/);
+});
+
+test('Editar abre la página estática seleccionada y el canvas aplica sus viewports', async () => {
+  const client = await readFile(new URL('../../src/app/[locale]/page-composer/page-composer-editor-client.tsx', import.meta.url), 'utf8');
+  const workspace = await readFile(new URL('../../src/components/page-builder/editor/page-builder-workspace.tsx', import.meta.url), 'utf8');
+  const catalog = await readFile(new URL('../../src/lib/page-builder/source-template-catalog.ts', import.meta.url), 'utf8');
+  assert.match(client, /setEditing\(\{ template, showOriginal: !template\.blank \}\)/);
+  assert.match(client, /\/webpages\/\$\{encodeURIComponent\(editing\.template\.preview\)\}\/index\.html/);
+  assert.match(workspace, /Página original:/);
+  assert.match(workspace, /width: VIEWPORTS\[breakpoint\]/);
+  assert.match(workspace, /Editar por bloques/);
+  assert.match(catalog, /project\.json/);
+  assert.match(catalog, /mediaAssets/);
+});
+
+test('el Website Builder permite salir, muestra proyectos guardados y protege plantillas Premium', async () => {
+  const toolbar = await readFile(new URL('../../src/components/editor/website-builder/builder-toolbar.tsx', import.meta.url), 'utf8');
+  const gallery = await readFile(new URL('../../src/components/editor/website-builder/builder-templates.tsx', import.meta.url), 'utf8');
+  const route = await readFile(new URL('../../src/app/[locale]/page-composer/website/editor/page.tsx', import.meta.url), 'utf8');
+  const saveRoute = await readFile(new URL('../../src/app/api/page-composer/projects/[id]/route.ts', import.meta.url), 'utf8');
+
+  assert.match(toolbar, /Salir del editor y volver a mis proyectos/);
+  assert.match(gallery, /Mis proyectos/);
+  assert.match(gallery, /Continuar editando/);
+  assert.match(gallery, /template\.imageUrl/);
+  assert.match(gallery, /Requiere Premium/);
+  assert.match(route, /definition\?\.access === 'premium' && !canUsePremium/);
+  assert.match(saveRoute, /const isNew = id === 'new'/);
+  assert.match(saveRoute, /lastSaveRequestId: requestId/);
+  assert.match(saveRoute, /findOneAndUpdate\(/);
+  assert.match(saveRoute, /version: sentVersion/);
+  assert.match(saveRoute, /\$inc: \{ version: 1 \}/);
 });
