@@ -11,8 +11,12 @@ import {
   PAGE_COMPONENT_TYPES,
   PAGE_PROP_FIELDS,
   createLandingSchema,
+  resolveThemeTokens,
+  styleValueToCss,
+  validatePageSchema,
   type SiteSchema,
 } from '../../src/lib/editor/page-schema.ts';
+import { DEFAULT_TOKENS } from '../../src/lib/editor/tokens.ts';
 import {
   clearNodeStyle,
   locateNode,
@@ -31,8 +35,7 @@ function landing(): SiteSchema {
 
 /* --------------------------------------------------------------- metadatos --- */
 
-test('buildControls: cada tipo tiene controles de contenido, layout y borde', () => {
-  for (const type of PAGE_COMPONENT_TYPES) {
+test('buildControls: cada tipo tiene controles de contenido, layout y borde', () => {  for (const type of PAGE_COMPONENT_TYPES) {
     const controls = buildControls(type);
     assert.ok(controls.length > 0, `${type} necesita controles`);
     assert.ok(controls.some(control => control.target.type === 'prop'), `${type} necesita props`);
@@ -209,4 +212,76 @@ test('las mutaciones del inspector no alteran el documento de entrada', () => {
   resetNode(schema, HOME, 'hero-home', {});
 
   assert.equal(JSON.stringify(schema), before);
+});
+
+/* --------------------------- controles sin vocabulario técnico --------------- */
+
+test('las fichas de espaciado y radio cubren la escala completa', () => {
+  // El orden importa tanto como el conjunto: por clave, `spacing` saldría
+  // lg, md, sm, xl, xs y las fichas irían de mayor a menor.
+  const ESCALA_ESPACIO = ['spacing.xs', 'spacing.sm', 'spacing.md', 'spacing.lg', 'spacing.xl'];
+  const ESCALA_RADIO = ['radius.sm', 'radius.md', 'radius.lg', 'radius.full'];
+
+  assert.deepEqual(tokenOptions(DEFAULT_TOKENS, 'spacing').map(o => o.label).sort(), [...ESCALA_ESPACIO].sort());
+  assert.deepEqual(tokenOptions(DEFAULT_TOKENS, 'radius').map(o => o.label).sort(), [...ESCALA_RADIO].sort());
+
+  // Los valores crecen de verdad: un deslizador sobre una escala plana miente.
+  const px = ESCALA_ESPACIO.map(k => Number.parseFloat(DEFAULT_TOKENS[k]));
+  assert.deepEqual(px, [...px].sort((a, b) => a - b));
+
+  // El radio llega a 999px: un usuario novato nunca escribiría eso, lo elige.
+  assert.equal(DEFAULT_TOKENS['radius.full'], '999px');
+});
+
+test('elegir una ficha de espacioma escribe un token, no un número', () => {
+  // El panel manda `token:spacing.md`; si el mutador lo rechazara, la ficha
+  // parecería funcionar y el relleno no cambiaría. Este test lo fija.
+  const schema = landing();
+  const result = setNodeStyle(schema, HOME, 'hero-home', 'paddingBlock', 'token:spacing.md');
+  assert.equal(result.ok, true);
+  if (!result.ok) return;
+
+  const node = locateNode(result.schema.pages[0], 'hero-home')?.node;
+  assert.equal(node?.styles.desktop?.paddingBlock, 'token:spacing.md');
+
+  // Y el documento sigue siendo válido: una ficha no puede romper el schema.
+  assert.equal(validatePageSchema(result.schema).ok, true);
+});
+
+test('un token de espacio se convierte en una variable CSS que el tema declara', () => {
+  // El ciclo completo: ficha → token → var(--ps-*) → valor emitido.
+  assert.equal(styleValueToCss('paddingBlock', 'token:spacing.md'), 'var(--ps-spacing-md)');
+  assert.equal(styleValueToCss('borderRadius', 'token:radius.full'), 'var(--ps-radius-full)');
+  assert.equal(styleValueToCss('boxShadow', 'token:shadow.md'), 'var(--ps-shadow-md)');
+
+  // Si el tema no declarara la variable, el CSS sería inválido en silencio.
+  const emitted = resolveThemeTokens({});
+  for (const key of ['spacing.md', 'radius.full', 'shadow.md']) {
+    assert.equal(emitted[key], DEFAULT_TOKENS[key], `el tema debe declarar ${key}`);
+  }
+});
+
+test('quitar una ficha borra el override, no deja la propiedad vacía', () => {
+  const schema = landing();
+  const puesto = setNodeStyle(schema, HOME, 'hero-home', 'borderRadius', 'token:radius.full');
+  assert.equal(puesto.ok, true);
+  if (!puesto.ok) return;
+
+  // Escribir '' dejaría la clave presente y vacía; quitar la propiedad es otra cosa.
+  const comoVacio = setNodeStyle(puesto.schema, HOME, 'hero-home', 'borderRadius', '');
+  assert.equal(comoVacio.ok, true);
+  if (!comoVacio.ok) return;
+  assert.notEqual(
+    locateNode(comoVacio.schema.pages[0], 'hero-home')?.node?.styles.desktop?.borderRadius,
+    undefined,
+    'string vacío no es lo mismo que borrar el override'
+  );
+
+  const limpio = clearNodeStyle(puesto.schema, HOME, 'hero-home', 'borderRadius');
+  assert.equal(limpio.ok, true);
+  if (!limpio.ok) return;
+
+  const node = locateNode(limpio.schema.pages[0], 'hero-home')?.node;
+  assert.equal(node?.styles.desktop?.borderRadius, undefined);
+  assert.equal(validatePageSchema(limpio.schema).ok, true);
 });

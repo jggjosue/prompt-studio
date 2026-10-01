@@ -123,3 +123,17 @@ export function defaultStructuredData(schema: SiteSchema, page: SitePage, hostna
     url: buildCanonical(hostname, page.slug),
   };
 }
+
+/**
+ * JSON-LD seguro para un nodo script. JSON.stringify por sí solo permite que
+ * una cadena de contenido cierre el script (`</script>`); escapamos los
+ * caracteres HTML relevantes antes de pasarlo a dangerouslySetInnerHTML.
+ */
+export function serializeStructuredData(data: Record<string, unknown>): string {
+  return JSON.stringify(data)
+    .replace(/</g, '\\u003c')
+    .replace(/>/g, '\\u003e')
+    .replace(/&/g, '\\u0026')
+    .replace(/\u2028/g, '\\u2028')
+    .replace(/\u2029/g, '\\u2029');
+}

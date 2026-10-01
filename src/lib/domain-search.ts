@@ -36,7 +36,13 @@ export async function searchDomains(
       continue;
     }
     try {
-      const result = await withDomainRetry(() => provider.check(hostname));
+      const checked = await withDomainRetry(() => provider.check(hostname));
+      // La disponibilidad y el precio se muestran juntos en discovery. El
+      // precio puede llegar desde check (p. ej. dominios premium) o desde la
+      // operación específica del registrar; ambos resultados se cachean solo
+      // como sugerencia, nunca como autorización de compra.
+      const price = checked.price ?? (provider.getPrice ? await withDomainRetry(() => provider.getPrice!(hostname)) : null);
+      const result = price ? { ...checked, price } : checked;
       suggestionCache.set(key, { result, at: now });
       results.push(result);
     } catch (error) {

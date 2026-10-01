@@ -1,5 +1,3 @@
-import '@/app/globals.css';
-import { firaCode, firaSans } from '@/app/fonts';
 import { ServiceWorkerRegister } from '@/components/service-worker-register';
 import { SiteAnalytics } from '@/components/site-analytics';
 import { SubscriptionStatusProvider } from '@/components/subscription-status-provider';
@@ -72,17 +70,12 @@ export default async function LocaleLayout({
   const adsEnabled = areAdsEnabled();
 
   return (
-    <html
-      lang={locale}
-      className={`${firaSans.variable} ${firaCode.variable} dark`}
-      suppressHydrationWarning
-    >
+    <div lang={locale}>
       {adsEnabled ? (
         <head>
           <meta name="google-adsense-account" content={ADSENSE_CLIENT_ID} />
         </head>
       ) : null}
-      <body className={`${firaSans.className} font-body antialiased bg-black`} suppressHydrationWarning>
         <ClerkProvider {...clerkProviderProps}>
           <UserSync />
           {adsEnabled ? (
@@ -126,7 +119,6 @@ export default async function LocaleLayout({
             </SubscriptionStatusProvider>
           </NextIntlClientProvider>
         </ClerkProvider>
-      </body>
-    </html>
+    </div>
   );
 }

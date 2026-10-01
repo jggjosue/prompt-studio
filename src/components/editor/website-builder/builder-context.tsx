@@ -30,6 +30,7 @@ import {
   setNodeStyle,
   setPageSeo,
   setPageSlug,
+  setSiteSeo,
   type DropTarget,
   type NodeLocation,
   type OpsDeps,
@@ -141,6 +142,8 @@ export type BuilderContextValue = {
   applyAIEdit: (ops: AIEditOp[]) => OpsError | null;
   /** Actualiza el SEO de la página actual (deshacible). */
   applyPageSeo: (patch: Record<string, unknown>) => OpsError | null;
+  /** Actualiza los defaults SEO del sitio (deshacible). */
+  applySiteSeo: (patch: Record<string, unknown>) => OpsError | null;
   /** Cambia el slug de la página validando duplicados (deshacible). */
   changePageSlug: (nextSlug: string) => OpsError | null;
 };
@@ -271,6 +274,16 @@ export function BuilderProvider({
       return null;
     },
     [schema, slug, commit]
+  );
+
+  const applySiteSeo = useCallback(
+    (patch: Record<string, unknown>): OpsError | null => {
+      const result = setSiteSeo(schema, patch);
+      if (!result.ok) return result;
+      commit(makeCommand('UPDATE_PAGE_SETTINGS', 'Actualizar defaults SEO del sitio', schema, result.schema));
+      return null;
+    },
+    [schema, commit]
   );
 
   const changePageSlug = useCallback(
@@ -501,6 +514,7 @@ export function BuilderProvider({
       openAIEdit: setAIEditTarget,
       applyAIEdit,
       applyPageSeo,
+      applySiteSeo,
       changePageSlug,
     }),
     [
@@ -535,6 +549,7 @@ export function BuilderProvider({
       aiEditTarget,
       applyAIEdit,
       applyPageSeo,
+      applySiteSeo,
       changePageSlug,
     ]
   );

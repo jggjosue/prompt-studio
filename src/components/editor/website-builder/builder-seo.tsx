@@ -43,6 +43,7 @@ export function BuilderSeo({ onClose }: { onClose: () => void }) {
   const [slug, setSlug] = useState(page?.slug ?? '/');
   const [aiPrompt, setAiPrompt] = useState('');
   const [aiBusy, setAiBusy] = useState(false);
+  const [saveAsDefault, setSaveAsDefault] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const estimateTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -66,7 +67,7 @@ export function BuilderSeo({ onClose }: { onClose: () => void }) {
       ogImage: form.ogImage?.trim() || undefined,
       noIndex: form.noIndex,
     };
-    let failure = builder.applyPageSeo(patch);
+    let failure = saveAsDefault ? builder.applySiteSeo(patch) : builder.applyPageSeo(patch);
     if (!failure && slug !== page.slug) failure = builder.changePageSlug(slug.trim());
     if (failure) setError(failure.message);
     else onClose();
@@ -169,6 +170,13 @@ export function BuilderSeo({ onClose }: { onClose: () => void }) {
             <input type="checkbox" checked={form.noIndex === true} onChange={event => set('noIndex', event.target.checked)} className="accent-violet-600" />
             No indexar esta página (noindex)
           </label>
+          <label className="flex items-center gap-2 text-xs text-muted-foreground">
+            <input type="checkbox" checked={saveAsDefault} onChange={event => setSaveAsDefault(event.target.checked)} className="accent-violet-600" />
+            Usar estos valores como predeterminados del sitio
+          </label>
+          <p className="-mt-2 text-[10px] text-muted-foreground">
+            Las páginas sin un valor propio heredarán estos datos. El SEO de esta página mantiene prioridad si ya tiene un override.
+          </p>
 
           <div className="rounded-md border border-violet-500/25 bg-violet-500/5 p-3">
             <p className="text-[11px] font-bold text-violet-500">Generar SEO con IA</p>
@@ -200,7 +208,7 @@ export function BuilderSeo({ onClose }: { onClose: () => void }) {
               onClick={save}
               className="rounded-md bg-violet-600 px-4 py-2 text-xs font-semibold text-white hover:bg-violet-700 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
             >
-              Guardar SEO
+              {saveAsDefault ? 'Guardar predeterminados' : 'Guardar SEO'}
             </button>
           </div>
         </div>

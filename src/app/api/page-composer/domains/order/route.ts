@@ -43,7 +43,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const order = await quoteDomain({ userId, hostname });
+    const order = await quoteDomain({ userId, hostname, siteId: body?.siteId });
     return NextResponse.json({ order: publicOrder(order) }, { headers: headers() });
   } catch (error) {
     return NextResponse.json({ error: error instanceof Error ? error.message : 'No se pudo cotizar el dominio.' }, { status: 422, headers: headers() });

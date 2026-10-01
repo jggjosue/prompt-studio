@@ -62,6 +62,18 @@ export function isDomainHostnameValid(hostname: string): boolean {
   return DOMAIN_HOSTNAME_PATTERN.test(hostname);
 }
 
+/**
+ * El dominio marcado como principal determina los canonical URLs de SEO. Solo
+ * un dominio activo puede serlo; si aún no se eligió uno, el primer dominio
+ * activo es una alternativa segura para no publicar una canonical rota.
+ */
+export function canonicalHostname(
+  domains: readonly Pick<DomainRecord, 'hostname' | 'status' | 'isCanonical'>[]
+): string | null {
+  const active = domains.filter(domain => domain.status === 'active');
+  return active.find(domain => domain.isCanonical)?.hostname ?? active[0]?.hostname ?? null;
+}
+
 /** Marca un error del proveedor como transitorio (429/5xx/red). */
 export function transientError(message: string): Error & { transient: true } {
   const error = new Error(message) as Error & { transient: true };

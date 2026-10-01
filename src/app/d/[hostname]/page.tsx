@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { PageRenderer } from '@/components/editor/page-renderer';
+import { PublishedSiteAnalytics } from '@/components/editor/published-site-analytics';
 import { resolveCustomDomain } from '@/lib/custom-domains';
-import { defaultStructuredData, resolvePageSeo } from '@/lib/editor/page-seo';
+import { defaultStructuredData, resolvePageSeo, serializeStructuredData } from '@/lib/editor/page-seo';
 
 /**
  * Ruta pública de un dominio personalizado conectado (example.com).
@@ -24,7 +25,7 @@ export async function generateMetadata({ params }: CustomDomainProps): Promise<M
   const rootPage = resolution.schema.pages.find(page => page.slug === '/') ?? resolution.schema.pages[0];
   if (!rootPage) return { robots: { index: false, follow: false } };
 
-  const seo = resolvePageSeo(resolution.schema, rootPage, hostname);
+  const seo = resolvePageSeo(resolution.schema, rootPage, resolution.canonicalHostname);
   return {
     title: seo.title,
     description: seo.description,
@@ -43,6 +44,7 @@ export default async function CustomDomainSitePage({ params }: CustomDomainProps
   const { hostname } = await params;
   const resolution = await resolveCustomDomain(hostname);
   if (!resolution) notFound();
+  if (resolution.canonicalHostname !== hostname) redirect(`https://${resolution.canonicalHostname}`);
 
   const rootPage = resolution.schema.pages.find(page => page.slug === '/') ?? resolution.schema.pages[0];
 
@@ -54,9 +56,10 @@ export default async function CustomDomainSitePage({ params }: CustomDomainProps
       {rootPage ? (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(defaultStructuredData(resolution.schema, rootPage, hostname)) }}
+          dangerouslySetInnerHTML={{ __html: serializeStructuredData(defaultStructuredData(resolution.schema, rootPage, hostname)) }}
         />
       ) : null}
+      <PublishedSiteAnalytics />
       <PageRenderer schema={resolution.schema} />
     </div>
   );
