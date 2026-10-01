@@ -19,14 +19,25 @@ type AnalyticsEventParams = FirebaseAnalyticsParams & {
   action_source?: string;
 };
 
+const SESSION_EVENT_PREFIX = 'promptstudio:analytics:event:';
+const KEY_CONVERSIONS = new Set<FirebaseAnalyticsEvent>(['sign_up', 'save_prompt', 'begin_checkout', 'purchase']);
+
 type GoogleAnalyticsWindow = Window & {
   gtag?: (command: 'event', eventName: string, params: AnalyticsEventParams) => void;
 };
 
 export function trackAnalyticsEvent(
   eventName: FirebaseAnalyticsEvent,
-  params: AnalyticsEventParams = {}
+  params: AnalyticsEventParams = {},
+  options: { oncePerSessionKey?: string } = {}
 ) {
+  if (typeof window !== 'undefined' && options.oncePerSessionKey) {
+    const key = `${SESSION_EVENT_PREFIX}${eventName}:${options.oncePerSessionKey}`;
+    if (window.sessionStorage.getItem(key)) return;
+    window.sessionStorage.setItem(key, '1');
+  }
+
+  const search = typeof window === 'undefined' ? null : new URLSearchParams(window.location.search);
   const browserContext =
     typeof window === 'undefined'
       ? {}
@@ -34,6 +45,11 @@ export function trackAnalyticsEvent(
           document_title: document.title,
           page_path: window.location.pathname,
           page_location: window.location.href,
+          auth_state: params.auth_state ?? 'unknown',
+          utm_source: search?.get('utm_source') ?? undefined,
+          utm_medium: search?.get('utm_medium') ?? undefined,
+          utm_campaign: search?.get('utm_campaign') ?? undefined,
+          utm_content: search?.get('utm_content') ?? undefined,
         };
   const eventParams = {
     ...browserContext,
@@ -46,7 +62,7 @@ export function trackAnalyticsEvent(
 
   void logFirebaseEvent(eventName, eventParams);
 
-  if (/purchase|checkout|conversion|download|preview|copy/.test(eventName)) {
+  if (KEY_CONVERSIONS.has(eventName) || /purchase|checkout|conversion|download|preview|copy/.test(eventName)) {
     trackObservabilityEvent({
       category: 'commerce',
       name: eventName,
