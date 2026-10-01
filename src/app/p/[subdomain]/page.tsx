@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { PageRenderer } from '@/components/editor/page-renderer';
+import { PublishedSiteAnalytics } from '@/components/editor/published-site-analytics';
 import { resolveTenantSite } from '@/lib/tenant-site-resolver';
 import { defaultStructuredData, resolvePageSeo, serializeStructuredData } from '@/lib/editor/page-seo';
 
@@ -62,6 +63,7 @@ export default async function TenantSitePage({ params }: TenantSiteProps) {
           dangerouslySetInnerHTML={{ __html: serializeStructuredData(defaultStructuredData(resolution.schema, rootPage, hostname)) }}
         />
       ) : null}
+      <PublishedSiteAnalytics />
       <PageRenderer schema={resolution.schema} />
     </div>
   );

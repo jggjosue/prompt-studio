@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 import { PageRenderer } from '@/components/editor/page-renderer';
+import { PublishedSiteAnalytics } from '@/components/editor/published-site-analytics';
 import { resolveCustomDomain } from '@/lib/custom-domains';
 import { defaultStructuredData, resolvePageSeo, serializeStructuredData } from '@/lib/editor/page-seo';
 
@@ -58,6 +59,7 @@ export default async function CustomDomainSitePage({ params }: CustomDomainProps
           dangerouslySetInnerHTML={{ __html: serializeStructuredData(defaultStructuredData(resolution.schema, rootPage, hostname)) }}
         />
       ) : null}
+      <PublishedSiteAnalytics />
       <PageRenderer schema={resolution.schema} />
     </div>
   );

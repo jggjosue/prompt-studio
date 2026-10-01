@@ -553,6 +553,7 @@ const ContactForm: ComponentRenderer = ({ node }) => {
         const body = (await response.json().catch(() => null)) as { ok?: boolean; error?: string } | null;
         if (response.ok && body?.ok) {
           setStatus('success');
+          window.dispatchEvent(new Event('ps-form-conversion'));
           form.reset();
         } else {
           setStatus('error');

@@ -11,6 +11,7 @@
 import { Globe, Search, X } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { useBuilder } from './builder-context';
+import { trackAnalyticsEvent } from '@/lib/analytics';
 
 type DomainSearchResult = {
   hostname: string;
@@ -104,6 +105,7 @@ export function BuilderDomains({ onClose }: { onClose: () => void }) {
         return;
       }
       setResults(data.results ?? []);
+      trackAnalyticsEvent('domain_search', { item_category: 'page-composer' });
     } catch {
       setError('No se pudo conectar con el servidor.');
     } finally {
@@ -138,6 +140,7 @@ export function BuilderDomains({ onClose }: { onClose: () => void }) {
         setError((checkoutData as ErrorResponse).error ?? 'No se pudo iniciar el pago.');
         return;
       }
+      trackAnalyticsEvent('domain_checkout_started', { item_id: host, item_category: 'page-composer' });
       window.location.href = checkoutData.checkoutUrl;
     } catch {
       setError('No se pudo conectar con el servidor.');

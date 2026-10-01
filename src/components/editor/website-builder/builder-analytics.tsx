@@ -1,0 +1,12 @@
+'use client';
+import { BarChart3, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
+
+type Analytics = { summary: { visitors: number; pageViews: number; formConversions: number; ctaConversions: number }; topPages: Array<{ _id: string; views: number }>; referrers: Array<{ _id: string; visits: number }>; countries: Array<{ _id: string; visits: number }> };
+export function BuilderAnalytics({ siteId, onClose }: { siteId: string; onClose: () => void }) {
+  const [data, setData] = useState<Analytics | null>(null);
+  useEffect(() => { void fetch(`/api/page-composer/sites/${siteId}/analytics`).then(response => response.ok ? response.json() : null).then(setData); }, [siteId]);
+  const metrics = data ? [['Visitantes', data.summary.visitors], ['Vistas', data.summary.pageViews], ['Formularios', data.summary.formConversions], ['CTA', data.summary.ctaConversions]] : [];
+  return <div className="fixed inset-0 z-50 grid place-items-center bg-black/70 p-4" onClick={onClose}><div className="w-full max-w-lg rounded-2xl bg-background p-5 shadow-2xl" onClick={event => event.stopPropagation()} role="dialog" aria-label="Analítica del sitio"><div className="flex items-center justify-between"><strong className="flex items-center gap-2"><BarChart3 className="size-4 text-violet-500"/>Analítica · últimos 30 días</strong><button type="button" onClick={onClose} aria-label="Cerrar"><X className="size-4"/></button></div>{!data?<p className="py-10 text-center text-sm text-muted-foreground">Cargando datos…</p>:<><div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">{metrics.map(([label,value])=><div key={String(label)} className="rounded-lg border p-3"><p className="text-lg font-bold">{value}</p><p className="text-[10px] text-muted-foreground">{label}</p></div>)}</div><div className="mt-4 grid gap-4 sm:grid-cols-2"><List title="Páginas principales" rows={data.topPages.map(row=>[row._id,row.views])}/><List title="Referencias" rows={data.referrers.map(row=>[row._id,row.visits])}/><List title="Países" rows={data.countries.map(row=>[row._id,row.visits])}/></div></>}</div></div>;
+}
+function List({ title, rows }: { title: string; rows: Array<[string, number]> }) { return <section><p className="text-xs font-semibold">{title}</p>{rows.length?<ul className="mt-1 space-y-1">{rows.map(([name,count])=><li key={name} className="flex justify-between text-xs text-muted-foreground"><span className="truncate">{name}</span><span>{count}</span></li>)}</ul>:<p className="mt-1 text-xs text-muted-foreground">Sin datos todavía.</p>}</section>; }
