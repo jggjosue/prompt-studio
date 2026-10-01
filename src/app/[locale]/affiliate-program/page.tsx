@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import { getLocale, getTranslations } from 'next-intl/server';
 import { Suspense } from 'react';
 import AffiliateLoader from './affiliate-loader';
+import { InterestPageView } from '@/components/analytics/interest-page-view';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('affiliate');
@@ -44,6 +45,7 @@ export default async function AffiliateProgramPage() {
       <Suspense fallback={<div className="w-full h-16 border-b" />}>
         <Header />
       </Suspense>
+      <InterestPageView page="/affiliate-program" program="affiliate" />
       <main className="flex-1">
         <AffiliateLoader locale={locale} />
       </main>
