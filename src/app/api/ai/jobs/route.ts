@@ -30,6 +30,7 @@ import { resolveWebsiteGenerationOperation } from '@/lib/website-generation-oper
 import { resolveWebsiteAIEditOperation } from '@/lib/website-ai-edit-operation';
 import { resolveCodeAuditOperation } from '@/lib/code-audit-operation';
 import { resolveComponentOperation } from '@/lib/component-ai-operation';
+import { resolveRuntimeOperationPricing } from '@/lib/runtime-operation-pricing';
 
 const headers = () => cacheHeaders('private-no-store');
 const clean = (value: unknown, max: number) => typeof value === 'string' ? value.trim().slice(0, max) : '';
@@ -196,6 +197,15 @@ export async function POST(request: Request) {
       }, { status: 400, headers: headers() });
     }
   }
+  if (operationCode) {
+    try {
+      const runtimePricing = await resolveRuntimeOperationPricing({ operationCode, provider, modelId, usage: { input, outputTokens: cost.estimatedOutputTokens, imageCount: raw.kind === 'image' ? 1 : 0, videoDurationSeconds: raw.kind === 'video' ? 8 : 0 } });
+      cost = { ...cost, credits: runtimePricing.creditCost };
+    } catch (error) {
+      const code = error instanceof Error ? error.message : 'PRICING_NOT_AVAILABLE';
+      return NextResponse.json({ error: { code, message: 'La operación no puede ejecutarse con el precio/proveedor actual.' } }, { status: 409, headers: headers() });
+    }
+  }
   // El superadministrador puede probar el flujo en desarrollo sin saldo.
   if (isPromptStudioAdminEmail(userEmail)) cost = { ...cost, credits: 0 };
   const requestedContractId = clean(raw.outputContractId, 80) || project?.outputContractId || '';
@@ -221,7 +231,7 @@ export async function POST(request: Request) {
   try {
     job = await AIGenerationJob.create({
       userId, userEmail, kind: raw.kind, provider, modelId, operation: operationCode ?? raw.kind, operationCode, input: { ...input, prompt, brandKitId: brandKitId || null, ...(outputContract ? { outputContractInstructions: contractInstructions(outputContract) } : {}) }, idempotencyKey, promptVersionId: promptVersionId || null, promptVersionNumber, projectId: projectId || null, outputContractId: outputContract ? String(outputContract._id) : null,
-      creditCost: cost.credits, estimatedCostUsd: cost.estimatedApiCostUsd, estimatedInputTokens: cost.estimatedInputTokens, estimatedOutputTokens: cost.estimatedOutputTokens,
+      creditCost: cost.credits, pricingSnapshot: operationCode ? { creditCost: cost.credits, pricedAt: new Date() } : null, estimatedCostUsd: cost.estimatedApiCostUsd, estimatedInputTokens: cost.estimatedInputTokens, estimatedOutputTokens: cost.estimatedOutputTokens,
       notifyOnComplete: raw.notifyOnComplete !== false,
     });
   } catch (error: unknown) {

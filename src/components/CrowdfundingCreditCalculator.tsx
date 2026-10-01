@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useLocale } from 'next-intl';
 
 type Estimate = {
   pledgeAmountCents: number;
@@ -14,6 +15,8 @@ type Estimate = {
 const TIERS = [10, 25, 50, 100, 250, 500, 1000] as const;
 
 export function CrowdfundingCreditCalculator() {
+  const es = useLocale().startsWith('es');
+  const tr = (en: string, spanish: string) => es ? spanish : en;
   const [amount, setAmount] = useState(50);
   const [estimate, setEstimate] = useState<Estimate | null>(null);
 
@@ -33,8 +36,8 @@ export function CrowdfundingCreditCalculator() {
   return (
     <section className="space-y-4 rounded-xl border p-4 sm:p-6">
       <div>
-        <h2 className="text-xl font-semibold">Founder Credits Calculator</h2>
-        <p className="text-sm opacity-70">Elige un aporte para estimar tus Founder Credits y qué podrías crear con ellos.</p>
+        <h2 className="text-xl font-semibold">{tr('Founder Credits Calculator', 'Calculadora de Founder Credits')}</h2>
+        <p className="text-sm opacity-70">{tr('Choose a contribution to estimate your Founder Credits and what you could create with them.', 'Elige un aporte para estimar tus Founder Credits y qué podrías crear con ellos.')}</p>
       </div>
 
       <div className="flex flex-wrap gap-2">
@@ -55,12 +58,12 @@ export function CrowdfundingCreditCalculator() {
           </div>
 
           <div>
-            <h3 className="font-semibold">Qué podrías crear</h3>
+            <h3 className="font-semibold">{tr('What you could create', 'Qué podrías crear')}</h3>
             <div className="mt-2 grid gap-2 sm:grid-cols-2">
               {estimate.examples.map((example) => (
                 <div key={example.operationCode} className="flex justify-between gap-4 rounded-lg border p-3 text-sm">
                   <span>{example.displayName}</span>
-                  <strong className="tabular-nums">hasta {example.maxOperations?.toLocaleString() ?? '—'}</strong>
+                  <strong className="tabular-nums">{tr('up to', 'hasta')} {example.maxOperations?.toLocaleString() ?? '—'}</strong>
                 </div>
               ))}
             </div>
@@ -69,7 +72,7 @@ export function CrowdfundingCreditCalculator() {
       )}
 
       <p className="text-xs opacity-70">
-        Estimación informativa basada en los precios actuales de Prompt Credits. No garantiza un número fijo de generaciones y no acredita créditos. Los Founder Credits se habilitan solo después de una campaña financiada, fondos recibidos y verificación del backer.
+        {tr('Informational estimate based on current Prompt Credit prices. It does not guarantee a fixed number of generations or grant credits. Founder Credits become available only after a successfully funded campaign, funds received, and backer verification.', 'Estimación informativa basada en los precios actuales de Prompt Credits. No garantiza un número fijo de generaciones y no acredita créditos. Los Founder Credits se habilitan solo después de una campaña financiada, fondos recibidos y verificación del backer.')}
       </p>
     </section>
   );
