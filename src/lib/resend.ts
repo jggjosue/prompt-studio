@@ -29,25 +29,45 @@ export const resend = new Proxy({} as Resend, {
   },
 });
 
-export async function upsertResendContact(params: {
+export type ResendContactSyncInput = {
   email: string;
-  firstName?: string;
-  lastName?: string;
-}) {
+  marketingOptIn?: boolean;
+  unsubscribeTimestamp?: Date | null;
+  emailSuppressedAt?: Date | null;
+  emailSuppressionReason?: string | null;
+  emailDoNotContact?: boolean;
+  locale?: string | null;
+  topics?: string[];
+};
+
+export function resendContactState(input: ResendContactSyncInput) {
+  const suppressed = Boolean(
+    input.unsubscribeTimestamp ||
+    input.emailSuppressedAt ||
+    input.emailSuppressionReason ||
+    input.emailDoNotContact
+  );
+  return {
+    email: input.email.trim().toLowerCase(),
+    // Clerk/account presence never grants marketing permission.
+    unsubscribed: suppressed || input.marketingOptIn !== true,
+  };
+}
+
+export async function upsertResendContact(input: ResendContactSyncInput) {
   const audienceId = process.env.RESEND_AUDIENCE_ID?.trim() || undefined;
+  const state = resendContactState(input);
   const contact = {
-    email: params.email,
-    firstName: params.firstName,
-    lastName: params.lastName,
-    unsubscribed: false,
+    ...state,
     ...(audienceId ? { audienceId } : {}),
   };
 
   const created = await resend.contacts.create(contact);
   if (!created.error) return created;
 
-  // Resend returns an error when the email already exists. Updating by email
-  // makes Clerk user.created/user.updated events safely replayable.
+  // Update-by-email makes sync replayable/idempotent. Local suppression and
+  // explicit opt-in are recalculated on every run, so imports cannot revive a
+  // contact that the product considers unsubscribed.
   const updated = await resend.contacts.update(contact);
   return updated.error ? created : updated;
 }
