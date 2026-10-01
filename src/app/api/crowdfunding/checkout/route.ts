@@ -33,8 +33,8 @@ export async function POST(request: Request) {
     line_items: [{ quantity: 1, price_data: { currency: 'usd', unit_amount: amountCents, product_data: { name: 'Prompt Studio Crowdfunding', description: `${totalCredits.toLocaleString()} estimated Founder Credits` } } }],
     metadata: { purchaseType: 'founder_crowdfunding', purchaserUserId: userId, amountCents: String(amountCents), baseCredits: String(baseCredits), bonusPercent: String(tier.bonus), bonusCredits: String(bonusCredits), totalCredits: String(totalCredits), fulfillmentStatus: 'pending_campaign_success' },
     payment_intent_data: { metadata: { purchaseType: 'founder_crowdfunding', purchaserUserId: userId } },
-    success_url: `${siteUrl}/${locale}/founder?support=success`,
-    cancel_url: `${siteUrl}/${locale}/founder?support=cancelled`,
+    success_url: `${siteUrl}/${locale}/crowdfunding?support=success`,
+    cancel_url: `${siteUrl}/${locale}/crowdfunding?support=cancelled`,
   });
   if (!session.url) return NextResponse.json({ error: 'Stripe checkout is temporarily unavailable. Please try again.' }, { status: 502 });
   return NextResponse.json({ url: session.url });

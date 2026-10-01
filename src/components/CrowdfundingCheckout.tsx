@@ -30,7 +30,7 @@ export function CrowdfundingCheckout() {
        signal: AbortSignal.timeout(30_000),
      });
      if (response.status === 401) {
-       const returnPath = `/${es ? 'es' : 'en'}/founder#calculator`;
+       const returnPath = `/${es ? 'es' : 'en'}/crowdfunding#calculator`;
        window.location.assign(`/${es ? 'es' : 'en'}/sign-in?redirect_url=${encodeURIComponent(returnPath)}`);
        return;
      }
@@ -41,9 +41,12 @@ export function CrowdfundingCheckout() {
      }
      window.location.assign(result.url);
    } catch (err) {
-     setError(err instanceof DOMException && err.name === 'TimeoutError'
+     const message = err instanceof DOMException && err.name === 'TimeoutError'
        ? (es ? 'La conexión tardó demasiado. Inténtalo de nuevo.' : 'The connection timed out. Please try again.')
-       : err instanceof Error ? err.message : (es ? 'No se pudo abrir Stripe.' : 'Could not open Stripe.'));
+       : err instanceof Error ? err.message : (es ? 'No se pudo abrir Stripe.' : 'Could not open Stripe.');
+     setError(message === 'Checkout is temporarily unavailable. Please try again.'
+       ? (es ? 'El checkout no está disponible temporalmente. Inténtalo de nuevo.' : message)
+       : message);
    } finally {
      pending.current = false;
      setLoading(false);
