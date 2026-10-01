@@ -334,7 +334,9 @@ function ImageTagsContent() {
 export default function ImageTagsClient() {
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
-      <Header />
+      <div className="image-tags-header">
+        <Header />
+      </div>
       <main className="flex-1 py-12 md:py-16">
         <div className="container max-w-7xl">
           <Suspense
@@ -354,6 +356,15 @@ export default function ImageTagsClient() {
         </div>
       </main>
       <Footer />
+      <style jsx global>{`
+        .image-tags-header header button[aria-label],
+        .image-tags-header header [data-clerk-component] {
+          display: none;
+        }
+        .image-tags-header header svg.text-primary {
+          color: rgb(37 99 235);
+        }
+      `}</style>
     </div>
   );
 }
