@@ -2,6 +2,7 @@ import { auth } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/mongoose';
 import UserActivation from '@/models/UserActivation';
+import { recordReactivationStage, recordUserProductActivity, type ReactivationCategory } from '@/lib/reactivation-funnel';
 
 const TYPES = new Set(['save_prompt', 'use_prompt', 'generate_image', 'generate_video', 'generate_web']);
 
@@ -20,6 +21,16 @@ export async function POST(request: Request) {
     { $setOnInsert: { userId, activatedAt: new Date(), activationType: body.activationType } },
     { upsert: true }
   );
+
+  const categoryByType: Record<string, ReactivationCategory> = {
+    save_prompt: 'prompt', use_prompt: 'prompt', generate_image: 'image',
+    generate_video: 'video', generate_web: 'web',
+  };
+  const now = new Date();
+  await Promise.all([
+    recordUserProductActivity(userId, categoryByType[body.activationType], now),
+    recordReactivationStage(userId, 'activation', now),
+  ]);
 
   return NextResponse.json({ firstActivation: result.upsertedCount > 0 });
 }

@@ -2,6 +2,7 @@ import { auth, clerkClient } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/mongoose';
 import UserActivity from '@/models/UserActivity';
+import { recordReactivationStage } from '@/lib/reactivation-funnel';
 
 export async function POST() {
   const { userId } = await auth();
@@ -33,6 +34,8 @@ export async function POST() {
     },
     { upsert: true, returnDocument: 'after' }
   );
+
+  await recordReactivationStage(userId, 'return', now);
 
   return NextResponse.json({ received: true });
 }
