@@ -11,6 +11,7 @@ import {
 } from '@/lib/generation-polling';
 import { safeJson, extractErrorMessage } from '@/lib/safe-json';
 import { useCallback, useState } from 'react';
+import { trackAnalyticsEvent } from '@/lib/analytics';
 
 export type GenerationStatus = 'queued' | 'generating' | 'uploading' | 'completed' | 'failed';
 
@@ -102,6 +103,7 @@ export async function runGeneration(
     await processingRequest;
     if (!imageOutputUrl) { const msg = processingError || (lastProgress ? `Generación en curso: ${lastProgress}. Inténtalo de nuevo en un momento.` : 'Tiempo de espera agotado al generar la imagen. Vuelve a intentarlo.'); updateGeneration(jobId, { status: 'failed', error: msg }); return { error: msg }; }
     updateGeneration(jobId, { status: 'completed', imageUrl: imageOutputUrl });
+    trackAnalyticsEvent('generate_image', { item_category: 'image', action_source: 'generation_completed' });
     const creditCost = (jobData.job as Record<string, unknown> | undefined)?.creditCost;
     return { result: { imageUrl: imageOutputUrl, creditsUsed: typeof creditCost === 'number' ? creditCost : 10, provider } };
   } catch (err: unknown) {
