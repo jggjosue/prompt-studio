@@ -29,6 +29,7 @@ import { resolveVideoGenerationOperation } from '@/lib/video-generation-operatio
 import { resolveWebsiteGenerationOperation } from '@/lib/website-generation-operation';
 import { resolveWebsiteAIEditOperation } from '@/lib/website-ai-edit-operation';
 import { resolveCodeAuditOperation } from '@/lib/code-audit-operation';
+import { resolveComponentOperation } from '@/lib/component-ai-operation';
 
 const headers = () => cacheHeaders('private-no-store');
 const clean = (value: unknown, max: number) => typeof value === 'string' ? value.trim().slice(0, max) : '';
@@ -176,6 +177,21 @@ export async function POST(request: Request) {
         error: {
           code,
           message: 'Selecciona el nivel de auditoría: small, standard, advanced o project.',
+        },
+      }, { status: 400, headers: headers() });
+    }
+  }
+  if (input.componentOperation !== undefined) {
+    try {
+      const operation = resolveComponentOperation(input);
+      operationCode = operation.code;
+      cost = { ...cost, credits: operation.creditCost };
+    } catch (error) {
+      const code = error instanceof Error ? error.message : 'COMPONENT_OPERATION_REQUIRED';
+      return NextResponse.json({
+        error: {
+          code,
+          message: 'Selecciona la operación del componente: preview, analysis, modification o generation.',
         },
       }, { status: 400, headers: headers() });
     }
