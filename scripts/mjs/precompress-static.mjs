@@ -3,7 +3,7 @@
  * Útil para hosting propio; en Vercel la red también comprime al vuelo.
  */
 import { brotliCompressSync, constants, gzipSync } from 'zlib';
-import { readdir, readFile, stat, writeFile } from 'fs/promises';
+import { readdir, readFile, rm, stat, writeFile } from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -71,6 +71,13 @@ async function compressFile(filePath) {
   };
 }
 
+async function cleanGeneratedCompression() {
+  const all = await walk(PUBLIC_DIR);
+  const generated = all.filter(file => file.endsWith('.br') || file.endsWith('.gz'));
+  await Promise.all(generated.map(file => rm(file, { force: true })));
+  return generated.length;
+}
+
 async function main() {
   try {
     await stat(PUBLIC_DIR);
@@ -78,6 +85,9 @@ async function main() {
     console.warn('[precompress] public/ no encontrado, omitiendo.');
     return;
   }
+
+  const removed = await cleanGeneratedCompression();
+  if (removed > 0) console.log(`[precompress] ${removed} derivado(s) obsoleto(s) eliminado(s).`);
 
   const all = await walk(PUBLIC_DIR);
   const targets = all.filter(shouldCompress);
