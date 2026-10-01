@@ -18,12 +18,14 @@ export async function GET(request: Request) {
   const since = new Date(Date.now() - days * 86_400_000);
   await connectToDatabase();
   const match = { createdAt: { $gte: since } };
-  const [summary, routes, failures, aiCosts, modelHealth] = await Promise.all([
+  const [summary, routes, failures, aiCosts, modelHealth, product, revenue] = await Promise.all([
     ObservabilityEvent.aggregate([{ $match: match }, { $group: { _id: { category: '$category', name: '$name' }, count: { $sum: 1 }, avgValue: { $avg: '$value' }, avgDurationMs: { $avg: '$durationMs' }, totalCostUsd: { $sum: { $ifNull: ['$costUsd', 0] } } } }, { $sort: { count: -1 } }]),
     ObservabilityEvent.aggregate([{ $match: match }, { $group: { _id: { route: '$route', productId: '$productId' }, samples: { $sum: 1 }, lcpMs: { $avg: { $cond: [{ $eq: ['$name', 'LCP'] }, '$value', null] } }, previewMs: { $avg: { $cond: [{ $eq: ['$name', 'preview_load'] }, '$durationMs', null] } }, checkoutStarts: { $sum: { $cond: [{ $regexMatch: { input: '$name', regex: 'checkout|purchase_click' } }, 1, 0] } }, conversions: { $sum: { $cond: [{ $regexMatch: { input: '$name', regex: 'conversion|purchase_complete|download' } }, 1, 0] } }, browserErrors: { $sum: { $cond: [{ $eq: ['$category', 'browser_error'] }, 1, 0] } } } }, { $sort: { samples: -1 } }, { $limit: 50 }]),
     ObservabilityEvent.aggregate([{ $match: { ...match, status: { $in: ['error', 'failed'] } } }, { $group: { _id: { category: '$category', name: '$name', fingerprint: '$fingerprint' }, count: { $sum: 1 }, lastSeen: { $max: '$createdAt' }, route: { $last: '$route' } } }, { $sort: { count: -1 } }, { $limit: 30 }]),
     ObservabilityEvent.aggregate([{ $match: { ...match, category: 'ai_generation' } }, { $group: { _id: { userId: '$userId', productId: '$productId' }, jobs: { $sum: 1 }, failed: { $sum: { $cond: [{ $eq: ['$status', 'failed'] }, 1, 0] } }, costUsd: { $sum: { $ifNull: ['$costUsd', 0] } }, credits: { $sum: { $ifNull: ['$value', 0] } } } }, { $sort: { costUsd: -1 } }, { $limit: 50 }]),
     ObservabilityEvent.aggregate([{ $match: { ...match, category: 'ai_generation' } }, { $group: { _id: { provider: { $ifNull: ['$metadata.provider', 'unknown'] }, modelId: { $ifNull: ['$metadata.modelId', 'unknown'] } }, jobs: { $sum: 1 }, failed: { $sum: { $cond: [{ $in: ['$status', ['failed', 'error']] }, 1, 0] } }, avgDurationMs: { $avg: '$durationMs' }, credits: { $sum: { $ifNull: ['$value', 0] } }, costUsd: { $sum: { $ifNull: ['$costUsd', 0] } } } }, { $sort: { jobs: -1 } }, { $limit: 50 }]),
+    ObservabilityEvent.aggregate([{ $match: { ...match, category: 'analytics' } }, { $group: { _id: '$name', count: { $sum: 1 } } }, { $sort: { count: -1 } }]),
+    ObservabilityEvent.aggregate([{ $match: { ...match, category: 'analytics', name: 'purchase', status: 'completed' } }, { $group: { _id: { currency: { $ifNull: ['$unit', 'unknown'] }, productCategory: { $ifNull: ['$metadata.productCategory', 'unknown'] } }, purchases: { $sum: 1 }, amountMinor: { $sum: { $ifNull: ['$value', 0] } } } }, { $sort: { amountMinor: -1 } }]),
   ]);
-  return NextResponse.json({ days, generatedAt: new Date(), summary, routes, failures, aiCosts, modelHealth }, { headers });
+  return NextResponse.json({ days, generatedAt: new Date(), summary, routes, failures, aiCosts, modelHealth, product, revenue }, { headers });
 }
