@@ -23,6 +23,7 @@ export type FirebaseAnalyticsEvent =
   | 'component_project_add'
   | 'free_to_premium_conversion'
   | 'next_project_download'
+  | 'view_premium'
   | 'view_pricing'
   | 'select_plan'
   | 'begin_checkout'
