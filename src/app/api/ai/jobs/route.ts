@@ -22,6 +22,7 @@ import { auth, clerkClient } from '@clerk/nextjs/server';
 import mongoose from 'mongoose';
 import { NextResponse } from 'next/server';
 import { isPromptStudioAdminEmail } from '@/lib/prompt-studio-admin';
+import { resolveTextGenerationOperation } from '@/lib/text-generation-operation';
 
 const headers = () => cacheHeaders('private-no-store');
 const clean = (value: unknown, max: number) => typeof value === 'string' ? value.trim().slice(0, max) : '';
@@ -86,6 +87,17 @@ export async function POST(request: Request) {
     const code = error instanceof Error ? error.message : 'MODEL_NOT_ALLOWED';
     return NextResponse.json({ error: { code, message: 'La configuración de generación no está disponible.' } }, { status: 400, headers: headers() });
   }
+  let operationCode: string | null = null;
+  if (raw.kind === 'text') {
+    try {
+      const operation = resolveTextGenerationOperation(input);
+      operationCode = operation.code;
+      cost = { ...cost, credits: operation.creditCost };
+    } catch (error) {
+      const code = error instanceof Error ? error.message : 'TEXT_TIER_REQUIRED';
+      return NextResponse.json({ error: { code, message: 'Selecciona el nivel de generación de texto: short, long o complex.' } }, { status: 400, headers: headers() });
+    }
+  }
   // El superadministrador puede probar el flujo en desarrollo sin saldo.
   if (isPromptStudioAdminEmail(userEmail)) cost = { ...cost, credits: 0 };
   const requestedContractId = clean(raw.outputContractId, 80) || project?.outputContractId || '';
@@ -110,7 +122,7 @@ export async function POST(request: Request) {
   let job;
   try {
     job = await AIGenerationJob.create({
-      userId, userEmail, kind: raw.kind, provider, modelId, operation: raw.kind, input: { ...input, prompt, brandKitId: brandKitId || null, ...(outputContract ? { outputContractInstructions: contractInstructions(outputContract) } : {}) }, idempotencyKey, promptVersionId: promptVersionId || null, promptVersionNumber, projectId: projectId || null, outputContractId: outputContract ? String(outputContract._id) : null,
+      userId, userEmail, kind: raw.kind, provider, modelId, operation: operationCode ?? raw.kind, operationCode, input: { ...input, prompt, brandKitId: brandKitId || null, ...(outputContract ? { outputContractInstructions: contractInstructions(outputContract) } : {}) }, idempotencyKey, promptVersionId: promptVersionId || null, promptVersionNumber, projectId: projectId || null, outputContractId: outputContract ? String(outputContract._id) : null,
       creditCost: cost.credits, estimatedCostUsd: cost.estimatedApiCostUsd, estimatedInputTokens: cost.estimatedInputTokens, estimatedOutputTokens: cost.estimatedOutputTokens,
       notifyOnComplete: raw.notifyOnComplete !== false,
     });
