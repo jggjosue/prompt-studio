@@ -18,10 +18,15 @@ export async function POST(request: Request) {
 
   let creditCost = operation.creditCost;
   if (operation.code === 'CODE_AUDIT_PROJECT') {
+    const fileCount = Number(body?.fileCount);
+    const lineCount = Number(body?.lineCount);
+    if (!Number.isInteger(fileCount) || fileCount < 1 || fileCount > 100000 || !Number.isInteger(lineCount) || lineCount < 0 || lineCount > 100000000) {
+      return NextResponse.json({ error: { code: 'WORKLOAD_INVALID' } }, { status: 400, headers: headers() });
+    }
     creditCost = resolveCodeAuditOperation({
       codeAuditTier: 'project',
-      fileCount: body?.fileCount,
-      lineCount: body?.lineCount,
+      fileCount,
+      lineCount,
     }).creditCost;
   }
 
