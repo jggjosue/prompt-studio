@@ -11,6 +11,7 @@ const TOPICS = [
   ['offers', 'Offers and promotions'],
 ] as const;
 
+// Kept as a colocated client component so Next resolves it in the same route segment.
 export default function EmailPreferencesForm({ initialOptIn, initialTopics }: { initialOptIn: boolean; initialTopics: string[] }) {
   const [marketingOptIn, setMarketingOptIn] = useState(initialOptIn);
   const [topics, setTopics] = useState<string[]>(initialTopics);
