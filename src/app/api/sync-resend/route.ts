@@ -3,6 +3,7 @@ import { requireCronOrAdmin } from '@/lib/api-auth';
 import { Resend } from 'resend';
 import connectToDatabase from '@/lib/mongoose';
 import NewUser from '@/models/NewUser';
+import { resendUnsubscribedState } from '@/lib/email-suppression';
 
 export async function GET(request: Request) {
   const denied = await requireCronOrAdmin(request);
@@ -17,7 +18,9 @@ export async function GET(request: Request) {
   
   try {
     await connectToDatabase();
-    const users = await NewUser.find({ marketingStatus: 'confirmed' });
+    // Include suppressed/unsubscribed records so provider state is reconciled;
+    // re-import must never turn them back into subscribed contacts.
+    const users = await NewUser.find({ email: { $exists: true, $ne: '' } });
     
     let successCount = 0;
     let errorCount = 0;
@@ -27,7 +30,7 @@ export async function GET(request: Request) {
       
       const { error } = await resend.contacts.create({
         email: user.email,
-        unsubscribed: false,
+        unsubscribed: user.marketingStatus !== 'confirmed' || resendUnsubscribedState(user),
       });
 
       if (error) {

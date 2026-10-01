@@ -7,7 +7,7 @@
     "url": "https://github.com/jggjosue/prompt-studio.git"
   },
   "engines": {
-    "node": ">=22.13.0"
+    "node": ">=22.11.0"
   },
   "scripts": {
     "test": "npm run test:unit && npm run test:integration && npm run test:data",
@@ -66,7 +66,8 @@
     "audit:vercel-functions": "node scripts/mjs/audit-server-dependencies.mjs",
     "architecture:check": "node --import tsx scripts/ts/check-domain-architecture.ts",
     "benchmark:catalog-index": "node --import tsx scripts/ts/benchmark-catalog-index.ts",
-    "test:refactory-runtime": "node --import tsx --test tests/unit/refactory-bundle-contract.test.ts tests/integration/refactory-runtime.test.ts"
+    "test:refactory-runtime": "node --import tsx --test tests/unit/refactory-bundle-contract.test.ts tests/integration/refactory-runtime.test.ts",
+    "verify:resend-deliverability": "node scripts/mjs/audit-resend-deliverability.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1049.0",

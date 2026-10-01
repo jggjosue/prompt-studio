@@ -5,6 +5,25 @@ export interface IUserProfile extends Document {
   email: string;
   birthDate?: string | null;
   paypalEmail?: string | null;
+  marketingOptIn: boolean;
+  consentTimestamp?: Date | null;
+  consentSource?: string | null;
+  consentVersion?: string | null;
+  unsubscribeTimestamp?: Date | null;
+  emailSuppressedAt?: Date | null;
+  emailSuppressionReason?: 'unsubscribe' | 'hard_bounce' | 'complaint' | 'manual' | null;
+  emailDoNotContact: boolean;
+  emailPreferenceTopics: string[];
+  emailLocale?: string | null;
+  emailPreferencesUpdatedAt?: Date | null;
+  emailPreferenceAudit: Array<{
+    changedAt: Date;
+    source: string;
+    marketingOptIn: boolean;
+    topics: string[];
+    locale?: string | null;
+    consentVersion?: string | null;
+  }>;
   lastUpdatedAt: Date;
 }
 
@@ -30,6 +49,30 @@ const UserProfileSchema: Schema = new Schema({
   email: { type: String, required: true, index: true },
   birthDate: { type: String, default: null },
   paypalEmail: { type: String, default: null },
+  // Promotional consent is explicit: creating an account never opts a user in.
+  marketingOptIn: { type: Boolean, default: false, index: true },
+  consentTimestamp: { type: Date, default: null },
+  consentSource: { type: String, default: null },
+  consentVersion: { type: String, default: null },
+  unsubscribeTimestamp: { type: Date, default: null },
+  emailSuppressedAt: { type: Date, default: null, index: true },
+  emailSuppressionReason: { type: String, enum: ['unsubscribe', 'hard_bounce', 'complaint', 'manual', null], default: null },
+  emailDoNotContact: { type: Boolean, default: false, index: true },
+  emailPreferenceTopics: { type: [String], default: [] },
+  emailLocale: { type: String, default: null },
+  emailPreferencesUpdatedAt: { type: Date, default: null },
+  emailPreferenceAudit: {
+    type: [{
+      _id: false,
+      changedAt: { type: Date, required: true },
+      source: { type: String, required: true },
+      marketingOptIn: { type: Boolean, required: true },
+      topics: { type: [String], default: [] },
+      locale: { type: String, default: null },
+      consentVersion: { type: String, default: null },
+    }],
+    default: [],
+  },
   lastUpdatedAt: { type: Date, default: Date.now },
 });
 

@@ -2,59 +2,62 @@ import 'dotenv/config';
 import mongoose from 'mongoose';
 import { Resend } from 'resend';
 
-// Define NewUser schema manually to avoid Next.js module resolution issues
-const NewUserSchema = new mongoose.Schema({
+const UserProfileSchema = new mongoose.Schema({
+  userId: String,
   email: String,
-  createdAt: Date,
-});
-const NewUser = mongoose.models.NewUser || mongoose.model('NewUser', NewUserSchema, 'user_profiles');
+  marketingOptIn: Boolean,
+  unsubscribeTimestamp: Date,
+  emailSuppressedAt: Date,
+  emailSuppressionReason: String,
+  emailDoNotContact: Boolean,
+}, { strict: false });
+const UserProfile = mongoose.models.UserProfile || mongoose.model('UserProfile', UserProfileSchema, 'user_profiles');
+
+function unsubscribed(user: {
+  marketingOptIn?: boolean;
+  unsubscribeTimestamp?: Date | null;
+  emailSuppressedAt?: Date | null;
+  emailSuppressionReason?: string | null;
+  emailDoNotContact?: boolean;
+}) {
+  return Boolean(
+    user.marketingOptIn !== true ||
+    user.unsubscribeTimestamp ||
+    user.emailSuppressedAt ||
+    user.emailSuppressionReason ||
+    user.emailDoNotContact
+  );
+}
 
 async function main() {
-  if (!process.env.MONGODB_URI) {
-    console.error('Missing MONGODB_URI');
-    process.exit(1);
-  }
-
-  if (!process.env.RESEND_API_KEY) {
-    console.error('Missing RESEND_API_KEY');
+  if (!process.env.MONGODB_URI || !process.env.RESEND_API_KEY) {
+    console.error('Missing MONGODB_URI or RESEND_API_KEY');
     process.exit(1);
   }
 
   const resend = new Resend(process.env.RESEND_API_KEY);
-
-  console.log('Connecting to MongoDB...');
   await mongoose.connect(process.env.MONGODB_URI);
-  console.log('Connected to MongoDB.');
-
-  const users = await NewUser.find({});
-  console.log(`Found ${users.length} users in 'user_profiles' collection.`);
+  const users = await UserProfile.find({ userId: { $type: 'string' }, email: { $type: 'string', $ne: '' } });
 
   let successCount = 0;
   let errorCount = 0;
-
   for (const user of users) {
-    if (!user.email) continue;
-
+    const contact = {
+      email: user.email.trim().toLowerCase(),
+      unsubscribed: unsubscribed(user),
+      ...(process.env.RESEND_AUDIENCE_ID?.trim() ? { audienceId: process.env.RESEND_AUDIENCE_ID.trim() } : {}),
+    };
     try {
-      const response = await resend.contacts.create({
-        email: user.email,
-        unsubscribed: false,
-      });
-
-      if (response.error) {
-        console.error('Error adding Resend contact');
-        errorCount++;
-      } else {
-        console.log('Successfully added Resend contact');
-        successCount++;
-      }
+      const created = await resend.contacts.create(contact);
+      const result = created.error ? await resend.contacts.update(contact) : created;
+      if (result.error) errorCount++;
+      else successCount++;
     } catch {
-      console.error('Exception adding Resend contact');
       errorCount++;
     }
   }
 
-  console.log(`\nSync complete. Added: ${successCount}, Errors: ${errorCount}`);
+  console.log(`Sync complete. Reconciled: ${successCount}, Errors: ${errorCount}`);
   await mongoose.disconnect();
 }
 
