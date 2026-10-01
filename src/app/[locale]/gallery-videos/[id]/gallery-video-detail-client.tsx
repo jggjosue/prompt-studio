@@ -2,7 +2,7 @@
 
 import { LazyVideo } from '@/components/lazy-video';
 import Footer from '@/components/layout/footer';
-import HeaderClient from '@/components/layout/header-client';
+import Header from '@/components/layout/header';
 import {
   Accordion,
   AccordionContent,
@@ -63,7 +63,7 @@ export default function GalleryVideoDetailClient({
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
-      <HeaderClient />
+      <Header />
       <main className="flex-1 py-8 md:py-12">
         <div className="container min-w-0">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
@@ -84,8 +84,7 @@ export default function GalleryVideoDetailClient({
                 <LazyVideo
                   src={item.imageUrl}
                   poster={poster}
-                  eager
-                  preload="auto"
+                  preload="metadata"
                   controls
                   playsInline
                   className="w-full h-full object-cover"
