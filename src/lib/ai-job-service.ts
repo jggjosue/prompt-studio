@@ -4,6 +4,7 @@ import connectToDatabase from '@/lib/mongoose';
 import { reportOperationalError } from '@/lib/observability-server';
 import { recordCreditReconciliationFailure, type CreditReconciliationOperation } from '@/lib/generation-telemetry';
 import { getSiteUrl } from '@/lib/site-url';
+import { allocateCreditReservation, refundCreditReservation, reservationSource, type CreditBucketReservation } from '@/lib/credit-wallet';
 import AICreditAccount from '@/models/AICreditAccount';
 import AICreditLedger from '@/models/AICreditLedger';
 import AIGenerationJob, { type IAIGenerationJob } from '@/models/AIGenerationJob';
@@ -70,10 +71,12 @@ export async function reserveCredits(job: IAIGenerationJob): Promise<number | nu
           const metadata = existing.metadata ?? {};
           job.reservedSubscriptionCredits = Number(metadata.subscriptionCredits ?? job.reservedSubscriptionCredits ?? 0);
           job.reservedPurchasedCredits = Number(metadata.purchasedCredits ?? job.reservedPurchasedCredits ?? 0);
+          job.reservedFounderCredits = Number(metadata.founderCredits ?? job.reservedFounderCredits ?? 0);
+          job.reservedPromotionalCredits = Number(metadata.promotionalCredits ?? job.reservedPromotionalCredits ?? 0);
           const current = await AICreditAccount.findOne({ userId: job.userId }).session(session).select('balance').lean();
           await AIGenerationJob.updateOne(
             { _id: job._id, creditsState: { $in: ['pending', 'refunded', 'reserved'] } },
-            { $set: { creditsState: 'reserved', reservedSubscriptionCredits: job.reservedSubscriptionCredits, reservedPurchasedCredits: job.reservedPurchasedCredits, updatedAt: new Date() } },
+            { $set: { creditsState: 'reserved', reservedSubscriptionCredits: job.reservedSubscriptionCredits, reservedPurchasedCredits: job.reservedPurchasedCredits, reservedFounderCredits: job.reservedFounderCredits, reservedPromotionalCredits: job.reservedPromotionalCredits, updatedAt: new Date() } },
             { session },
           );
           job.creditsState = 'reserved';
@@ -84,27 +87,34 @@ export async function reserveCredits(job: IAIGenerationJob): Promise<number | nu
         if (!account) throw new Error('CREDIT_ACCOUNT_MISSING');
         const subscriptionBalance = account.subscriptionBalance ?? account.balance;
         const purchasedBalance = account.purchasedBalance ?? 0;
-        if (subscriptionBalance + purchasedBalance < job.creditCost) throw new Error('INSUFFICIENT_CREDITS');
-        const subscriptionCredits = Math.min(subscriptionBalance, job.creditCost);
-        const purchasedCredits = job.creditCost - subscriptionCredits;
+        const founderBalance = account.founderBalance ?? 0;
+        const promotionalBalance = account.promotionalBalance ?? 0;
+        const allocation = allocateCreditReservation({ promotional: promotionalBalance, subscription: subscriptionBalance, purchased: purchasedBalance, founder: founderBalance }, job.creditCost);
+        if (!allocation) throw new Error('INSUFFICIENT_CREDITS');
+        const subscriptionCredits = allocation.subscription;
+        const purchasedCredits = allocation.purchased;
+        const founderCredits = allocation.founder;
+        const promotionalCredits = allocation.promotional;
         const updated = await AICreditAccount.findOneAndUpdate(
-          { _id: account._id, balance: account.balance, subscriptionBalance, purchasedBalance },
-          { $inc: { balance: -job.creditCost, reserved: job.creditCost, subscriptionBalance: -subscriptionCredits, purchasedBalance: -purchasedCredits, reservedSubscription: subscriptionCredits, reservedPurchased: purchasedCredits }, $set: { updatedAt: new Date() } },
+          { _id: account._id, balance: account.balance, subscriptionBalance, purchasedBalance, founderBalance, promotionalBalance },
+          { $inc: { balance: -job.creditCost, reserved: job.creditCost, subscriptionBalance: -subscriptionCredits, purchasedBalance: -purchasedCredits, founderBalance: -founderCredits, promotionalBalance: -promotionalCredits, reservedSubscription: subscriptionCredits, reservedPurchased: purchasedCredits, reservedFounder: founderCredits, reservedPromotional: promotionalCredits }, $set: { updatedAt: new Date() } },
           { returnDocument: 'after', session }
         );
         if (!updated) throw new Error('CREDIT_RESERVATION_CONFLICT');
         await AICreditLedger.create([{
           userId: job.userId, jobId: job._id, operation: 'reserve', type: 'AI_RESERVATION', amount: job.creditCost,
-          balanceImpact: -job.creditCost, source: purchasedCredits ? (subscriptionCredits ? 'mixed' : 'purchased') : 'subscription',
+          balanceImpact: -job.creditCost, source: reservationSource(allocation),
           provider: job.provider, modelId: job.modelId ?? null, operationName: job.operation ?? job.kind,
           estimatedApiCostUsd: job.estimatedCostUsd, creditsCharged: job.creditCost, requestId: generationSubmissionKey(job),
-          metadata: { subscriptionCredits, purchasedCredits }, createdAt: new Date(),
+          metadata: { subscriptionCredits, purchasedCredits, founderCredits, promotionalCredits }, createdAt: new Date(),
         }], { session });
         job.reservedSubscriptionCredits = subscriptionCredits;
         job.reservedPurchasedCredits = purchasedCredits;
+        job.reservedFounderCredits = founderCredits;
+        job.reservedPromotionalCredits = promotionalCredits;
         await AIGenerationJob.updateOne(
           { _id: job._id },
-          { $set: { creditsState: 'reserved', reservedSubscriptionCredits: subscriptionCredits, reservedPurchasedCredits: purchasedCredits, updatedAt: new Date() } },
+          { $set: { creditsState: 'reserved', reservedSubscriptionCredits: subscriptionCredits, reservedPurchasedCredits: purchasedCredits, reservedFounderCredits: founderCredits, reservedPromotionalCredits: promotionalCredits, updatedAt: new Date() } },
           { session },
         );
         job.creditsState = 'reserved';
