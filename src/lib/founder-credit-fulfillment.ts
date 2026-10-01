@@ -15,6 +15,9 @@ export async function registerEligibleFounderBacker(input: {
   backerVerified: boolean;
   metadata?: Record<string, unknown>;
 }) {
+  if (!input.campaignId.trim() || input.campaignId.length > 120) throw new Error('FOUNDER_CAMPAIGN_INVALID');
+  const email = input.backerEmail.trim().toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 320) throw new Error('FOUNDER_EMAIL_INVALID');
   if (!input.campaignFunded || !input.fundsReceived || !input.backerVerified) throw new Error('FOUNDER_NOT_ELIGIBLE');
   if (input.currency.toUpperCase() !== 'USD') throw new Error('FOUNDER_CURRENCY_UNSUPPORTED');
   const tier = getFounderRewardTier(input.pledgeAmountCents);
@@ -22,7 +25,7 @@ export async function registerEligibleFounderBacker(input: {
 
   await connectToDatabase();
   return FounderCreditClaim.findOneAndUpdate(
-    { campaignId: input.campaignId, backerEmail: input.backerEmail.trim().toLowerCase() },
+    { campaignId: input.campaignId.trim(), backerEmail: email },
     { $setOnInsert: {
       pledgeAmountCents: input.pledgeAmountCents,
       currency: 'USD',
@@ -38,6 +41,7 @@ export async function registerEligibleFounderBacker(input: {
 }
 
 export async function claimFounderCredits(input: { campaignId: string; backerEmail: string; userId: string }) {
+  if (!input.userId || !input.campaignId.trim()) throw new Error('FOUNDER_CLAIM_INVALID');
   await connectToDatabase();
   const email = input.backerEmail.trim().toLowerCase();
   const claim = await FounderCreditClaim.findOne({ campaignId: input.campaignId, backerEmail: email });

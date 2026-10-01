@@ -41,6 +41,10 @@ export async function applyCreditTopUp(params: {
   receiptUrl?: string | null;
 }): Promise<TopUpResult> {
   const { userId, userEmail, pack, stripeCheckoutSessionId } = params;
+  if (!userId || !userEmail || !stripeCheckoutSessionId) throw new Error('INVALID_TOPUP_IDENTITY');
+  if (!Number.isInteger(params.amountPaidCents) || params.amountPaidCents !== pack.priceCents) throw new Error('TOPUP_AMOUNT_MISMATCH');
+  if (params.currency.trim().toLowerCase() !== pack.currency.toLowerCase()) throw new Error('TOPUP_CURRENCY_MISMATCH');
+  if (!Number.isInteger(pack.credits) || pack.credits <= 0 || pack.bonusCredits !== 0) throw new Error('TOPUP_PACK_INVALID');
   await connectToDatabase();
   await ensureCreditAccount(userId);
 
@@ -76,6 +80,10 @@ export async function applyCreditTopUp(params: {
   );
 
   if (!claim.modifiedCount) {
+    const existing = await CreditPurchase.findOne({ stripeCheckoutSessionId }).lean<Record<string, unknown> | null>();
+    if (!existing || existing.userId !== userId || existing.packId !== pack.id || Number(existing.amountPaidCents) !== params.amountPaidCents || String(existing.currency).toLowerCase() !== params.currency.toLowerCase()) {
+      throw new Error('TOPUP_REPLAY_MISMATCH');
+    }
     const balance = await readBalance(userId);
     return { credited: false, duplicate: true, balance };
   }
