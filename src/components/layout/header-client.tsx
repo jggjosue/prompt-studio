@@ -319,6 +319,7 @@ export default function HeaderClient() {
       ],
     },
     {
+      // Media hub: Explore discovery + Create AI workflows.
       id: 'media',
       label: 'Media',
       activePrefixes: [
