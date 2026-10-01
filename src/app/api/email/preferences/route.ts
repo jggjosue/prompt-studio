@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/mongoose';
 import UserProfile from '@/models/UserProfile';
 import { EMAIL_PREFERENCE_TOPICS, updateEmailPreferences } from '@/lib/email-preferences';
+import { enrollOnboardingLifecycle } from '@/lib/onboarding-lifecycle-processor';
 
 const CONSENT_VERSION = 'marketing-v1';
 
@@ -44,6 +45,10 @@ export async function POST(request: Request) {
     consentVersion: CONSENT_VERSION,
   });
   if (!profile) return NextResponse.json({ error: 'Profile not found' }, { status: 404 });
+
+  // Explicit marketing consent is the lifecycle enrollment trigger. The
+  // enrollment is idempotent, so preference updates cannot duplicate it.
+  if (profile.marketingOptIn) await enrollOnboardingLifecycle(userId);
 
   return NextResponse.json({ marketingOptIn: profile.marketingOptIn, topics: profile.emailPreferenceTopics });
 }
