@@ -123,6 +123,7 @@ export default function GalleryDetailClient({ item, validation, relatedItems, ma
                       src={resolveRenderableMediaUrl(item, locale)}
                       alt={item.title}
                       fill
+                      lazyAdaptive={false}
                       sizes="(max-width: 1023px) 100vw, 50vw"
                       className="object-cover"
                       data-ai-hint={item.imageHint}

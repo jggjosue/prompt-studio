@@ -8,7 +8,6 @@ import { SettingsSidebar } from './settings-sidebar';
 import { useChatGenerator } from '@/hooks/use-chat-generator';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Settings2 } from 'lucide-react';
 import type { ChatMode } from '@/lib/chat-types';
 
 export function ChatLayout() {
@@ -16,6 +15,7 @@ export function ChatLayout() {
   const { setSelectedMode, setDraftPrompt } = chat;
   const searchParams = useSearchParams();
   const [mobileSettingsOpen, setMobileSettingsOpen] = useState(false);
+  const [desktopSettingsOpen, setDesktopSettingsOpen] = useState(false);
 
   // Analiza la URL (?mode=image|video|project&prompt=...) para cambiar la
   // pestaña (imagen/video/web) y sus atributos según el origen del visitante:
@@ -35,33 +35,34 @@ export function ChatLayout() {
     }
   }, [promptParam, setDraftPrompt]);
 
+  const openSettings = () => {
+    if (window.matchMedia('(min-width: 768px)').matches) {
+      setDesktopSettingsOpen(true);
+      return;
+    }
+    setMobileSettingsOpen(true);
+  };
+
+  const conversationStarted = chat.messages.length > 0;
+
   return (
     <div className="flex h-dvh flex-col overflow-hidden bg-background">
       <Header />
       <div className="flex flex-1 overflow-hidden min-h-0">
         <ChatHistorySidebar chat={chat} />
         <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
-          {/* Toolbar móvil: acceso a configuración */}
-          <div className="flex items-center justify-between border-b border-border/60 px-3 py-2 md:hidden">
-            <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-blue-500">
-              {chat.selectedMode === 'image' ? '✦ Imagen' : chat.selectedMode === 'video' ? '▶ Video' : '◈ Web'}
-            </span>
-            <button
-              type="button"
-              onClick={() => setMobileSettingsOpen(v => !v)}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-border/60 px-2.5 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              aria-expanded={mobileSettingsOpen}
-              aria-label="Abrir configuración"
-            >
-              <Settings2 className="h-3.5 w-3.5" />
-              Configuración
-            </button>
-          </div>
-          <ChatArea chat={chat} />
-          <ChatInputBar chat={chat} />
+          <ChatArea
+            chat={chat}
+            emptyComposer={<ChatInputBar chat={chat} variant="hero" onOpenSettings={openSettings} />}
+          />
+          {conversationStarted && (
+            <ChatInputBar chat={chat} variant="docked" onOpenSettings={openSettings} />
+          )}
         </div>
         <SettingsSidebar
           chat={chat}
+          desktopOpen={desktopSettingsOpen}
+          onDesktopOpenChange={setDesktopSettingsOpen}
           mobileOpen={mobileSettingsOpen}
           onMobileClose={() => setMobileSettingsOpen(false)}
         />

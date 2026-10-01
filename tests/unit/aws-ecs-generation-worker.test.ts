@@ -14,5 +14,6 @@ test('AWS worker runtime long-polls SQS and handles graceful shutdown', async ()
   assert.match(source, /ChangeMessageVisibility/);
   assert.match(source, /process\.on\('SIGTERM'/);
   assert.match(source, /DeleteMessage/);
-  assert.doesNotMatch(source, /input\.prompt/);\n  assert.match(source, /AWS_CONTAINER_CREDENTIALS_RELATIVE_URI/);
+  assert.doesNotMatch(source, /input\.prompt/);
+  assert.match(source, /AWS_CONTAINER_CREDENTIALS_RELATIVE_URI/);
 });

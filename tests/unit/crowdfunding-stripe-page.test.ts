@@ -5,7 +5,17 @@ import fs from 'node:fs';
 test('crowdfunding public page uses official chrome and Stripe CTA', () => {
  const page=fs.readFileSync('src/app/[locale]/crowdfunding/page.tsx','utf8');
  assert.match(page,/Header/); assert.match(page,/Footer/); assert.match(page,/CrowdfundingCheckout/);
- assert.match(page,/from-foreground via-violet-500 to-cyan-500/);
+ assert.match(page,/from-white via-blue-400 to-cyan-300/);
+});
+test('crowdfunding uses the blue brand palette without pink or violet decoration',()=>{
+ const sources=[
+  fs.readFileSync('src/app/[locale]/crowdfunding/page.tsx','utf8'),
+  fs.readFileSync('src/components/CrowdfundingCheckout.tsx','utf8'),
+  fs.readFileSync('src/components/CrowdfundingCreditCalculator.tsx','utf8'),
+ ].join('\n');
+ assert.match(sources,/bg-blue-600/);
+ assert.match(sources,/text-blue-400/);
+ assert.doesNotMatch(sources,/(?:violet|pink|fuchsia|purple|rose)-/);
 });
 test('crowdfunding checkout is server-authoritative and bounded',()=>{
  const route=fs.readFileSync('src/app/api/crowdfunding/checkout/route.ts','utf8');
