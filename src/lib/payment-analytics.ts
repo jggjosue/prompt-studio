@@ -1,6 +1,8 @@
 import 'server-only';
 
 import { recordObservabilityEvent } from '@/lib/observability-server';
+import connectToDatabase from '@/lib/mongoose';
+import AnalyticsEventReceipt from '@/models/AnalyticsEventReceipt';
 
 type PurchaseAnalyticsInput = {
   transactionId: string;
@@ -18,6 +20,14 @@ type PurchaseAnalyticsInput = {
  * browser "success" query parameters, which can be replayed or forged.
  */
 export async function recordConfirmedPurchase(input: PurchaseAnalyticsInput): Promise<void> {
+  await connectToDatabase();
+  const receipt = await AnalyticsEventReceipt.updateOne(
+    { key: `stripe:purchase:${input.transactionId}` },
+    { $setOnInsert: { key: `stripe:purchase:${input.transactionId}`, eventName: 'purchase', source: 'stripe' } },
+    { upsert: true }
+  );
+  if (receipt.upsertedCount === 0) return;
+
   await recordObservabilityEvent({
     category: 'analytics',
     name: 'purchase',
