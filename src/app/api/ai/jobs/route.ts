@@ -1,7 +1,8 @@
 import { estimateAICredits, resolveAIModelId } from '@/lib/ai-credit-config';
 import { isAIJobKind, isProviderForKind } from '@/lib/ai-job-config';
 import { serializeAIJob } from '@/lib/ai-job-serializer';
-import { AIGenerationJob, getCreditBalance, reserveCredits } from '@/lib/ai-job-service';
+import { AIGenerationJob, getCreditBalance } from '@/lib/ai-job-service';
+import { reserveGenerationCredits } from '@/lib/generation-credit-boundary';
 import { cacheHeaders } from '@/lib/cache-policy';
 import connectToDatabase from '@/lib/mongoose';
 import { contractInstructions } from '@/lib/output-contract';
@@ -21,6 +22,14 @@ import { auth, clerkClient } from '@clerk/nextjs/server';
 import mongoose from 'mongoose';
 import { NextResponse } from 'next/server';
 import { isPromptStudioAdminEmail } from '@/lib/prompt-studio-admin';
+import { resolveTextGenerationOperation } from '@/lib/text-generation-operation';
+import { resolvePromptOptimizerOperation } from '@/lib/prompt-optimizer-operation';
+import { resolveImageGenerationOperation } from '@/lib/image-generation-operation';
+import { resolveVideoGenerationOperation } from '@/lib/video-generation-operation';
+import { resolveWebsiteGenerationOperation } from '@/lib/website-generation-operation';
+import { resolveWebsiteAIEditOperation } from '@/lib/website-ai-edit-operation';
+import { resolveCodeAuditOperation } from '@/lib/code-audit-operation';
+import { resolveComponentOperation } from '@/lib/component-ai-operation';
 
 const headers = () => cacheHeaders('private-no-store');
 const clean = (value: unknown, max: number) => typeof value === 'string' ? value.trim().slice(0, max) : '';
@@ -85,6 +94,108 @@ export async function POST(request: Request) {
     const code = error instanceof Error ? error.message : 'MODEL_NOT_ALLOWED';
     return NextResponse.json({ error: { code, message: 'La configuración de generación no está disponible.' } }, { status: 400, headers: headers() });
   }
+  let operationCode: string | null = null;
+  if (raw.kind === 'text') {
+    try {
+      const operation = input.optimizerTier !== undefined
+        ? resolvePromptOptimizerOperation(input)
+        : resolveTextGenerationOperation(input);
+      operationCode = operation.code;
+      cost = { ...cost, credits: operation.creditCost };
+    } catch (error) {
+      const code = error instanceof Error ? error.message : 'AI_OPERATION_TIER_REQUIRED';
+      const optimizing = input.optimizerTier !== undefined;
+      return NextResponse.json({
+        error: {
+          code,
+          message: optimizing
+            ? 'Selecciona el nivel del optimizador: basic, advanced o complex.'
+            : 'Selecciona el nivel de generación de texto: short, long o complex.',
+        },
+      }, { status: 400, headers: headers() });
+    }
+  }
+  if (raw.kind === 'image') {
+    try {
+      const operation = resolveImageGenerationOperation(input);
+      operationCode = operation.code;
+      cost = { ...cost, credits: operation.creditCost };
+    } catch (error) {
+      const code = error instanceof Error ? error.message : 'IMAGE_TIER_REQUIRED';
+      return NextResponse.json({
+        error: {
+          code,
+          message: 'Selecciona el nivel de imagen: lite-1k, quality-1k, quality-2k o quality-4k.',
+        },
+      }, { status: 400, headers: headers() });
+    }
+  }
+  if (raw.kind === 'video') {
+    try {
+      const operation = resolveVideoGenerationOperation(input);
+      operationCode = operation.code;
+      cost = { ...cost, credits: operation.creditCost };
+    } catch (error) {
+      const code = error instanceof Error ? error.message : 'VIDEO_TIER_REQUIRED';
+      return NextResponse.json({
+        error: {
+          code,
+          message: 'Selecciona un preset de video válido de 8 segundos.',
+        },
+      }, { status: 400, headers: headers() });
+    }
+  }
+  if (raw.kind === 'web') {
+    try {
+      const editing = input.websiteEditTier !== undefined;
+      const operation = editing
+        ? resolveWebsiteAIEditOperation(input)
+        : resolveWebsiteGenerationOperation(input);
+      operationCode = operation.code;
+      cost = { ...cost, credits: operation.creditCost };
+    } catch (error) {
+      const code = error instanceof Error ? error.message : 'WEBSITE_OPERATION_TIER_REQUIRED';
+      const editing = input.websiteEditTier !== undefined;
+      return NextResponse.json({
+        error: {
+          code,
+          message: editing
+            ? 'Selecciona el nivel de edición AI: small, section, complex o redesign.'
+            : 'Selecciona el nivel del sitio web: simple, advanced o complex.',
+        },
+      }, { status: 400, headers: headers() });
+    }
+  }
+  if (raw.kind === 'project' && input.codeAuditTier !== undefined) {
+    try {
+      const resolved = resolveCodeAuditOperation(input);
+      operationCode = resolved.operation.code;
+      cost = { ...cost, credits: resolved.creditCost };
+    } catch (error) {
+      const code = error instanceof Error ? error.message : 'CODE_AUDIT_TIER_REQUIRED';
+      return NextResponse.json({
+        error: {
+          code,
+          message: 'Selecciona el nivel de auditoría: small, standard, advanced o project.',
+        },
+      }, { status: 400, headers: headers() });
+    }
+  }
+  if (input.componentOperation !== undefined) {
+    try {
+      const operation = resolveComponentOperation(input);
+      operationCode = operation.code;
+      cost = { ...cost, credits: operation.creditCost };
+    } catch (error) {
+      const code = error instanceof Error ? error.message : 'COMPONENT_OPERATION_REQUIRED';
+      return NextResponse.json({
+        error: {
+          code,
+          message: 'Selecciona la operación del componente: preview, analysis, modification o generation.',
+        },
+      }, { status: 400, headers: headers() });
+    }
+  }
   // El superadministrador puede probar el flujo en desarrollo sin saldo.
   if (isPromptStudioAdminEmail(userEmail)) cost = { ...cost, credits: 0 };
   const requestedContractId = clean(raw.outputContractId, 80) || project?.outputContractId || '';
@@ -109,7 +220,7 @@ export async function POST(request: Request) {
   let job;
   try {
     job = await AIGenerationJob.create({
-      userId, userEmail, kind: raw.kind, provider, modelId, operation: raw.kind, input: { ...input, prompt, brandKitId: brandKitId || null, ...(outputContract ? { outputContractInstructions: contractInstructions(outputContract) } : {}) }, idempotencyKey, promptVersionId: promptVersionId || null, promptVersionNumber, projectId: projectId || null, outputContractId: outputContract ? String(outputContract._id) : null,
+      userId, userEmail, kind: raw.kind, provider, modelId, operation: operationCode ?? raw.kind, operationCode, input: { ...input, prompt, brandKitId: brandKitId || null, ...(outputContract ? { outputContractInstructions: contractInstructions(outputContract) } : {}) }, idempotencyKey, promptVersionId: promptVersionId || null, promptVersionNumber, projectId: projectId || null, outputContractId: outputContract ? String(outputContract._id) : null,
       creditCost: cost.credits, estimatedCostUsd: cost.estimatedApiCostUsd, estimatedInputTokens: cost.estimatedInputTokens, estimatedOutputTokens: cost.estimatedOutputTokens,
       notifyOnComplete: raw.notifyOnComplete !== false,
     });
@@ -120,8 +231,8 @@ export async function POST(request: Request) {
     }
     throw error;
   }
-  const balance = await reserveCredits(job);
-  if (balance === null) {
+  const creditGuard = await reserveGenerationCredits(job);
+  if (!creditGuard.allowed) {
     await AIGenerationJob.deleteOne({ _id: job._id });
     const credits = await getCreditBalance(userId);
     return NextResponse.json({ error: { code: 'INSUFFICIENT_CREDITS', message: `Necesitas ${cost.credits} créditos para esta generación y tienes ${credits.balance}.` }, required: cost.credits, credits }, { status: 402, headers: headers() });
@@ -138,7 +249,7 @@ export async function POST(request: Request) {
       metadata: { jobId: String(job._id), mode: dispatch.mode, reason: dispatch.reason },
     });
   }
-  return NextResponse.json({ job: serializeAIJob(job), credits: { balance }, duplicate: false, dispatch }, { status: 202, headers: headers() });
+  return NextResponse.json({ job: serializeAIJob(job), credits: { balance: creditGuard.remainingBalance }, duplicate: false, dispatch }, { status: 202, headers: headers() });
 }
 
 export async function GET() {

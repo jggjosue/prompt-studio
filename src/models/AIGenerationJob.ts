@@ -16,6 +16,8 @@ export interface IAIGenerationJob extends Document {
   provider: string;
   modelId?: string | null;
   operation?: string | null;
+  operationCode?: string | null;
+  pricingSnapshot?: { creditCost: number; operationPricingId?: string | null; providerPricingId?: string | null; pricedAt: Date } | null;
   promptVersionId?: string | null;
   promptVersionNumber?: number | null;
   projectId?: string | null;
@@ -41,6 +43,8 @@ export interface IAIGenerationJob extends Document {
   creditsCharged?: number | null;
   reservedSubscriptionCredits?: number;
   reservedPurchasedCredits?: number;
+  reservedFounderCredits?: number;
+  reservedPromotionalCredits?: number;
   estimatedCostUsd: number;
   estimatedInputTokens?: number | null;
   estimatedOutputTokens?: number | null;
@@ -82,6 +86,8 @@ const AIGenerationJobSchema = new Schema<IAIGenerationJob>({
   provider: { type: String, required: true },
   modelId: { type: String, default: null, maxlength: 120, index: true },
   operation: { type: String, default: null, maxlength: 80 },
+  operationCode: { type: String, default: null, maxlength: 100, index: true },
+  pricingSnapshot: { type: new Schema({ creditCost: { type: Number, required: true, min: 0 }, operationPricingId: { type: String, default: null, maxlength: 120 }, providerPricingId: { type: String, default: null, maxlength: 120 }, pricedAt: { type: Date, required: true } }, { _id: false }), default: null },
   promptVersionId: { type: String, default: null, index: true },
   promptVersionNumber: { type: Number, default: null, min: 1 },
   projectId: { type: String, default: null, index: true },
@@ -112,6 +118,8 @@ const AIGenerationJobSchema = new Schema<IAIGenerationJob>({
   creditsCharged: { type: Number, default: null, min: 0 },
   reservedSubscriptionCredits: { type: Number, default: 0, min: 0 },
   reservedPurchasedCredits: { type: Number, default: 0, min: 0 },
+  reservedFounderCredits: { type: Number, default: 0, min: 0 },
+  reservedPromotionalCredits: { type: Number, default: 0, min: 0 },
   estimatedCostUsd: { type: Number, required: true, min: 0 },
   estimatedInputTokens: { type: Number, default: null, min: 0 },
   estimatedOutputTokens: { type: Number, default: null, min: 0 },

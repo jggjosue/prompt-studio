@@ -3,7 +3,8 @@ import { NextResponse } from 'next/server';
 import { cacheHeaders } from '@/lib/cache-policy';
 import connectToDatabase from '@/lib/mongoose';
 import { serializeAIJob } from '@/lib/ai-job-serializer';
-import { getCreditBalance, reserveCredits } from '@/lib/ai-job-service';
+import { getCreditBalance } from '@/lib/ai-job-service';
+import { reserveGenerationCredits } from '@/lib/generation-credit-boundary';
 import AIGenerationJob from '@/models/AIGenerationJob';
 
 export async function POST(_: Request, context: { params: Promise<{ id: string }> }) {
@@ -54,8 +55,8 @@ export async function POST(_: Request, context: { params: Promise<{ id: string }
     return NextResponse.json({ job: serializeAIJob(job), credits: await getCreditBalance(userId), duplicate: true }, { status: 200, headers });
   }
 
-  const balance = await reserveCredits(job);
-  if (balance === null) {
+  const creditGuard = await reserveGenerationCredits(job);
+  if (!creditGuard.allowed) {
     await AIGenerationJob.deleteOne({ _id: job._id, status: 'queued' });
     return NextResponse.json({ error: 'Créditos insuficientes.', credits: await getCreditBalance(userId) }, { status: 402, headers });
   }

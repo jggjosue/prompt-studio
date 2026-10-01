@@ -6,8 +6,12 @@ export interface IAICreditAccount extends Document {
   reserved: number;
   subscriptionBalance: number;
   purchasedBalance: number;
+  founderBalance: number;
+  promotionalBalance: number;
   reservedSubscription: number;
   reservedPurchased: number;
+  reservedFounder: number;
+  reservedPromotional: number;
   lifetimeSpent: number;
   createdAt: Date;
   updatedAt: Date;
@@ -19,8 +23,12 @@ const AICreditAccountSchema = new Schema<IAICreditAccount>({
   reserved: { type: Number, default: 0, min: 0 },
   subscriptionBalance: { type: Number, default: 0, min: 0 },
   purchasedBalance: { type: Number, default: 0, min: 0 },
+  founderBalance: { type: Number, default: 0, min: 0 },
+  promotionalBalance: { type: Number, default: 0, min: 0 },
   reservedSubscription: { type: Number, default: 0, min: 0 },
   reservedPurchased: { type: Number, default: 0, min: 0 },
+  reservedFounder: { type: Number, default: 0, min: 0 },
+  reservedPromotional: { type: Number, default: 0, min: 0 },
   lifetimeSpent: { type: Number, default: 0, min: 0 },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },

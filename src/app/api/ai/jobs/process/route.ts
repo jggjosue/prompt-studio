@@ -1,5 +1,6 @@
 import { runAIJob } from '@/lib/ai-job-runner';
-import { captureCredits, notifyJobFinished, refundCredits } from '@/lib/ai-job-service';
+import { notifyJobFinished } from '@/lib/ai-job-service';
+import { captureGenerationCredits, releaseGenerationCredits } from '@/lib/generation-credit-boundary';
 import { hasValidCronSecret } from '@/lib/api-auth';
 import { recordAssetProvenance } from '@/lib/asset-provenance-server';
 import { cacheHeaders } from '@/lib/cache-policy';
@@ -44,7 +45,7 @@ async function processOne(userId?: string, leaseMinutes = 5, jobId?: string) {
     claimed = await claimExhaustedGenerationJob(claimInput);
     if (!claimed) return null;
     const exhausted = claimed.job;
-    await refundCredits(exhausted);
+    await releaseGenerationCredits(exhausted);
     const failed = await transitionGenerationJob({
       jobId: String(exhausted._id),
       from: 'processing',
@@ -120,7 +121,7 @@ async function processOne(userId?: string, leaseMinutes = 5, jobId?: string) {
       },
     });
     currentState = 'finalizing';
-    await captureCredits(job);
+    await captureGenerationCredits(job);
     job = await transitionGenerationJob({
       jobId: String(job._id),
       from: currentState,
@@ -186,7 +187,7 @@ async function processOne(userId?: string, leaseMinutes = 5, jobId?: string) {
       currentState = 'queued';
       reportOperationalError({ category: 'ai_generation', name: 'generation_retry_scheduled', route: '/api/ai/jobs/process', userId: job.userId, productId: observedProductId, durationMs, costUsd: job.estimatedCostUsd, value: job.creditCost, unit: 'credits', metadata: { operation: 'generate', kind: job.kind, provider: job.provider, modelId: job.modelId, attempts: job.attempts, jobId: String(job._id), correlationId: job.correlationId || String(job._id) } }, error);
     } else {
-      await refundCredits(job);
+      await releaseGenerationCredits(job);
       job = await transitionGenerationJob({
         jobId: String(job._id),
         from: currentState,

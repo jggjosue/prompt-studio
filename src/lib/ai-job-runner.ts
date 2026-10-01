@@ -11,6 +11,7 @@ import { createGeminiTextInteraction } from '@/lib/gemini-interactions';
 import { getAIModelConfig } from '@/lib/ai-credit-config';
 import { generationSubmissionKey } from '@/lib/generation-idempotency';
 import { recordGenerationFailed, recordGenerationStarted, recordImageGenerationCompleted } from '@/lib/generation-telemetry';
+import { assertPaidGenerationReserved } from '@/lib/generation-credit-boundary';
 
 export type ErrorCategory =
   | 'BAD_REQUEST'
@@ -211,6 +212,7 @@ async function runObservedImageGeneration(job: IAIGenerationJob, run: () => Prom
 }
 
 export async function runAIJob(job: IAIGenerationJob): Promise<Record<string, unknown>> {
+  assertPaidGenerationReserved(job);
   const basePrompt = typeof job.input.prompt === 'string' ? job.input.prompt.trim() : '';
   const instructions = typeof job.input.outputContractInstructions === 'string' ? job.input.outputContractInstructions.trim() : '';
   const prompt = instructions ? `${basePrompt}\n\n${instructions}` : basePrompt;

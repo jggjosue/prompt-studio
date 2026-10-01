@@ -3,7 +3,8 @@ import { NextResponse } from 'next/server';
 import { cacheHeaders } from '@/lib/cache-policy';
 import connectToDatabase from '@/lib/mongoose';
 import { serializeAIJob } from '@/lib/ai-job-serializer';
-import { getCreditBalance, notifyJobFinished, refundCredits } from '@/lib/ai-job-service';
+import { getCreditBalance, notifyJobFinished } from '@/lib/ai-job-service';
+import { releaseGenerationCredits } from '@/lib/generation-credit-boundary';
 import { canonicalGenerationState, isTerminalGenerationJobState } from '@/lib/generation-job-state';
 import { transitionGenerationJob } from '@/lib/generation-job-state-server';
 import AIGenerationJob from '@/models/AIGenerationJob';
@@ -40,7 +41,7 @@ export async function POST(_: Request, context: { params: Promise<{ id: string }
     return NextResponse.json({ error: 'La generación ya está en curso. Inténtalo de nuevo en unos segundos.' }, { status: 409, headers });
   }
 
-  await refundCredits(job);
+  await releaseGenerationCredits(job);
   const cancelled = await transitionGenerationJob({
     jobId: String(job._id),
     from: state,
