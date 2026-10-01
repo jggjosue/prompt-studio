@@ -11,6 +11,8 @@ import {
   type ReactNode,
 } from 'react';
 import type { SavedItemKind } from '@/models/SavedItem';
+import { trackAnalyticsEvent } from '@/lib/analytics';
+import { recordFirstActivation } from '@/lib/activation-analytics';
 
 export type SavedItemInput = {
   itemKind: SavedItemKind;
@@ -97,6 +99,15 @@ export function SavedItemsProvider({ children }: { children: ReactNode }) {
           body: JSON.stringify(item),
         });
         if (!response.ok) throw new Error(String(response.status));
+        if (!wasSaved) {
+          trackAnalyticsEvent('save_prompt', {
+            item_id: item.itemId,
+            item_category: item.itemKind,
+            action_source: 'saved_items',
+            auth_state: 'authenticated',
+          });
+          void recordFirstActivation('save_prompt');
+        }
       } catch {
         setSavedKeys(previous => {
           const next = new Set(previous ?? []);

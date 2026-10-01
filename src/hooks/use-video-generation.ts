@@ -10,6 +10,7 @@ import {
 } from '@/lib/generation-polling';
 import { safeJson, extractErrorMessage } from '@/lib/safe-json';
 import { useCallback, useState } from 'react';
+import { trackAnalyticsEvent } from '@/lib/analytics';
 
 export function useVideoGeneration() {
   const [videoProvider, setVideoProvider] = useState<'runway' | 'veo' | 'anthropic' | 'fal' | 'google'>('google');
@@ -86,6 +87,7 @@ export function useVideoGeneration() {
       if (!videoOutputUrl) return { error: 'Tiempo de espera agotado al generar el video.' };
 
       setOutputVideoUrl(videoOutputUrl);
+      trackAnalyticsEvent('generate_video', { item_category: 'video', action_source: 'generation_completed' });
       const creditsBalance = (jobData.credits as Record<string, unknown> | undefined)?.balance;
       if (typeof creditsBalance === 'number') setCredits(creditsBalance);
       const creditCost = (jobData.job as Record<string, unknown> | undefined)?.creditCost;

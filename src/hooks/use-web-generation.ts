@@ -10,6 +10,7 @@ import {
 } from '@/lib/generation-polling';
 import { safeJson, extractErrorMessage } from '@/lib/safe-json';
 import { useCallback, useState } from 'react';
+import { trackAnalyticsEvent } from '@/lib/analytics';
 
 export function useWebGeneration() {
   const [webProvider, setWebProvider] = useState<'anthropic' | 'openai' | 'google'>('google');
@@ -83,6 +84,7 @@ export function useWebGeneration() {
 
       const cleanHTML = stripMarkdownFences(generatedHTML);
       setOutputWebHTML(cleanHTML);
+      trackAnalyticsEvent('generate_web', { item_category: 'web', action_source: 'generation_completed' });
       const creditsBalance = (jobData.credits as Record<string, unknown> | undefined)?.balance;
       if (typeof creditsBalance === 'number') setCredits(creditsBalance);
       const creditCost = (jobData.job as Record<string, unknown> | undefined)?.creditCost;
