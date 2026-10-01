@@ -1,10 +1,4 @@
-import {
-  ChangeMessageVisibilityCommand,
-  DeleteMessageCommand,
-  ReceiveMessageCommand,
-  SQSClient,
-  type Message,
-} from '@aws-sdk/client-sqs';
+import { createRequire } from 'node:module';
 import connectToDatabase from '@/lib/mongoose';
 import { processGenerationJob } from '@/lib/generation-worker-runtime';
 
@@ -13,6 +7,27 @@ type QueueMessage = {
   generationId: string;
   workload: 'image' | 'video' | 'web';
   enqueuedAt: string;
+};
+
+type SqsMessage = {
+  MessageId?: string;
+  ReceiptHandle?: string;
+  Body?: string;
+  Attributes?: Record<string, string>;
+};
+
+type SqsClientLike = {
+  receiveMessage(input: Record<string, unknown>): { promise(): Promise<{ Messages?: SqsMessage[] }> };
+  deleteMessage(input: Record<string, unknown>): { promise(): Promise<unknown> };
+  changeMessageVisibility(input: Record<string, unknown>): { promise(): Promise<unknown> };
+};
+
+const require = createRequire(import.meta.url);
+// The monorepo already ships AWS SDK v2 transitively. Keeping the worker on that
+// SDK avoids a lockfile-only dependency change; #832 may move this to v3 when
+// the image worker/provider package is introduced.
+const AWS = require('aws-sdk') as {
+  SQS: new (input: { region: string }) => SqsClientLike;
 };
 
 const region = process.env.AWS_REGION?.trim() || 'us-east-2';
@@ -28,7 +43,7 @@ const heartbeatSeconds = Math.max(15, Math.min(
 
 if (!queueUrl) throw new Error('AWS_SQS_IMAGE_QUEUE_URL is required');
 
-const sqs = new SQSClient({ region });
+const sqs = new AWS.SQS({ region });
 let stopping = false;
 let inFlight = 0;
 
@@ -42,7 +57,7 @@ function log(event: string, fields: Record<string, unknown> = {}) {
   }) + '\n');
 }
 
-function parseMessage(message: Message): QueueMessage {
+function parseMessage(message: SqsMessage): QueueMessage {
   if (!message.Body) throw new Error('SQS message body is empty');
   const value = JSON.parse(message.Body) as Partial<QueueMessage>;
   if (
@@ -59,18 +74,18 @@ function parseMessage(message: Message): QueueMessage {
 
 function heartbeat(receiptHandle: string) {
   return setInterval(() => {
-    void sqs.send(new ChangeMessageVisibilityCommand({
+    void sqs.changeMessageVisibility({
       QueueUrl: queueUrl,
       ReceiptHandle: receiptHandle,
       VisibilityTimeout: visibilitySeconds,
-    })).then(() => log('visibility_extended'))
+    }).promise().then(() => log('visibility_extended'))
       .catch((error: unknown) => log('visibility_extension_failed', {
         error: error instanceof Error ? error.name : 'unknown',
       }));
   }, heartbeatSeconds * 1000);
 }
 
-async function processMessage(message: Message) {
+async function processMessage(message: SqsMessage) {
   if (!message.ReceiptHandle) throw new Error('SQS receipt handle is missing');
   const body = parseMessage(message);
   const correlationId = message.MessageId || body.generationId;
@@ -95,10 +110,10 @@ async function processMessage(message: Message) {
     }
 
     if (result.status === 'completed' || result.status === 'dead_letter' || result.status === 'failed') {
-      await sqs.send(new DeleteMessageCommand({
+      await sqs.deleteMessage({
         QueueUrl: queueUrl,
         ReceiptHandle: message.ReceiptHandle,
-      }));
+      }).promise();
       log('message_deleted', {
         correlationId,
         generationId: body.generationId,
@@ -124,13 +139,13 @@ async function poll() {
 
   while (!stopping) {
     try {
-      const response = await sqs.send(new ReceiveMessageCommand({
+      const response = await sqs.receiveMessage({
         QueueUrl: queueUrl,
         MaxNumberOfMessages: 1,
         WaitTimeSeconds: 20,
         VisibilityTimeout: visibilitySeconds,
         AttributeNames: ['ApproximateReceiveCount'],
-      }));
+      }).promise();
       for (const message of response.Messages ?? []) {
         await processMessage(message);
       }
@@ -144,7 +159,6 @@ async function poll() {
   }
 
   while (inFlight > 0) await new Promise(resolve => setTimeout(resolve, 250));
-  sqs.destroy();
   log('worker_stopped');
 }
 
