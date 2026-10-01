@@ -23,55 +23,11 @@ export type CreditPack = {
 };
 
 export const CREDIT_PACKS: readonly CreditPack[] = [
-  {
-    id: 'topup-500',
-    credits: 500,
-    bonusCredits: 0,
-    priceCents: 600,
-    currency: 'usd',
-    name: { es: 'Recarga 500 créditos', en: '500 credit top-up' },
-    description: {
-      es: 'Para ampliar tu saldo sin cambiar de plan.',
-      en: 'Add balance without changing your plan.',
-    },
-  },
-  {
-    id: 'topup-1500',
-    credits: 1500,
-    bonusCredits: 0,
-    priceCents: 1500,
-    currency: 'usd',
-    name: { es: 'Recarga 1.500 créditos', en: '1,500 credit top-up' },
-    description: {
-      es: 'Saldo para proyectos de mayor volumen.',
-      en: 'Balance for higher-volume projects.',
-    },
-    featured: true,
-  },
-  {
-    id: 'topup-5000',
-    credits: 5000,
-    bonusCredits: 0,
-    priceCents: 4500,
-    currency: 'usd',
-    name: { es: 'Recarga 5.000 créditos', en: '5,000 credit top-up' },
-    description: {
-      es: 'Para flujos de producción continuos.',
-      en: 'For continuous production workflows.',
-    },
-  },
-  {
-    id: 'topup-10000',
-    credits: 10000,
-    bonusCredits: 0,
-    priceCents: 8500,
-    currency: 'usd',
-    name: { es: 'Recarga 10.000 créditos', en: '10,000 credit top-up' },
-    description: {
-      es: 'El mejor precio por crédito para equipos.',
-      en: 'The best per-credit price for teams.',
-    },
-  },
+  { id: 'topup-500', credits: 500, bonusCredits: 0, priceCents: 500, currency: 'usd', name: { es: '500 Prompt Credits', en: '500 Prompt Credits' }, description: { es: 'Recarga puntual de 500 Prompt Credits.', en: 'One-time 500 Prompt Credit top-up.' } },
+  { id: 'topup-1000', credits: 1000, bonusCredits: 0, priceCents: 1000, currency: 'usd', name: { es: '1.000 Prompt Credits', en: '1,000 Prompt Credits' }, description: { es: 'Recarga puntual de 1.000 Prompt Credits.', en: 'One-time 1,000 Prompt Credit top-up.' } },
+  { id: 'topup-2500', credits: 2500, bonusCredits: 0, priceCents: 2500, currency: 'usd', name: { es: '2.500 Prompt Credits', en: '2,500 Prompt Credits' }, description: { es: 'Recarga puntual de 2.500 Prompt Credits.', en: 'One-time 2,500 Prompt Credit top-up.' }, featured: true },
+  { id: 'topup-5000', credits: 5000, bonusCredits: 0, priceCents: 5000, currency: 'usd', name: { es: '5.000 Prompt Credits', en: '5,000 Prompt Credits' }, description: { es: 'Recarga puntual de 5.000 Prompt Credits.', en: 'One-time 5,000 Prompt Credit top-up.' } },
+  { id: 'topup-10000', credits: 10000, bonusCredits: 0, priceCents: 10000, currency: 'usd', name: { es: '10.000 Prompt Credits', en: '10,000 Prompt Credits' }, description: { es: 'Recarga puntual de 10.000 Prompt Credits.', en: 'One-time 10,000 Prompt Credit top-up.' } },
 ] as const;
 
 /** Legacy IDs remain readable so an already-paid Stripe session can settle. */
