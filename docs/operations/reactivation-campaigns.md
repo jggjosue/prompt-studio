@@ -21,3 +21,19 @@ The unique user/window constraint prevents duplicate 7-day or 30-day sends.
 A new meaningful product session should be treated as a new activity baseline;
 the inactivity detector owns that reset and must not infer inactivity solely
 from email engagement.
+
+
+## Runtime processing
+
+`processInactiveReactivationBatch` now discovers users whose activity baseline is
+at least seven days old, resolves the 7d/30d window, segments by the prior
+image/video/web/prompt category when available, and invokes the lifecycle
+sender. Consent, suppression, DNC and the `product_updates` preference are
+rechecked immediately before provider delivery. A `ReactivationAttempt` is
+persisted only after a successful send; the existing unique user/window index
+prevents duplicate campaign sends.
+
+The processor is intentionally a callable worker primitive. Production
+scheduling should invoke it from the deployment's authenticated job/cron
+surface and separately write return-login, activation, checkout and purchase
+timestamps as those product events occur.

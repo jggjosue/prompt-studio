@@ -7,6 +7,7 @@ const UserActivitySchema = new Schema(
     lastActiveAt: { type: Date, index: true, required: true },
     firstSeenAt: { type: Date, required: true },
     inactivityNotifiedAt: { type: Date, default: null },
+    priorCategory: { type: String, enum: ['image', 'video', 'web', 'prompt', 'unknown'], default: 'unknown', index: true },
   },
   {
     timestamps: true,
