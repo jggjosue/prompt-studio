@@ -29,6 +29,7 @@ const SESSION_EVENT_PREFIX = 'promptstudio:analytics:event:';
 const IDEMPOTENT_EVENT_PREFIX = 'promptstudio:analytics:idempotency:';
 const ATTRIBUTION_STORAGE_KEY = 'promptstudio:analytics:attribution:v1';
 const KEY_CONVERSIONS = new Set<FirebaseAnalyticsEvent>(KEY_CONVERSION_EVENTS);
+const inFlightEventKeys = new Set<string>();
 const PROHIBITED_KEYS = new Set<string>(PROHIBITED_ANALYTICS_PROPERTIES);
 
 type GoogleAnalyticsWindow = Window & {
@@ -76,13 +77,17 @@ export function trackAnalyticsEvent(
 ) {
   if (typeof window !== 'undefined' && options.idempotencyKey) {
     const key = `${IDEMPOTENT_EVENT_PREFIX}${eventName}:${options.idempotencyKey}`;
-    if (window.localStorage.getItem(key)) return;
+    if (inFlightEventKeys.has(key) || window.localStorage.getItem(key)) return;
+    // Claim synchronously before any analytics provider runs so React re-entry,
+    // double-clicks and concurrent callbacks cannot emit the same event twice.
+    inFlightEventKeys.add(key);
     window.localStorage.setItem(key, '1');
   }
 
   if (typeof window !== 'undefined' && options.oncePerSessionKey) {
     const key = `${SESSION_EVENT_PREFIX}${eventName}:${options.oncePerSessionKey}`;
-    if (window.sessionStorage.getItem(key)) return;
+    if (inFlightEventKeys.has(key) || window.sessionStorage.getItem(key)) return;
+    inFlightEventKeys.add(key);
     window.sessionStorage.setItem(key, '1');
   }
 
