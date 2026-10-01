@@ -7,11 +7,6 @@ export interface IEmailProviderEvent extends Document {
   emailId?: string | null;
   recipient?: string | null;
   occurredAt: Date;
-  campaignId?: string | null;
-  sequenceId?: string | null;
-  lifecycleTrigger?: string | null;
-  destinationUrl?: string | null;
-  utmCampaign?: string | null;
   receivedAt: Date;
 }
 
@@ -22,11 +17,6 @@ const EmailProviderEventSchema = new Schema<IEmailProviderEvent>({
   emailId: { type: String, default: null, index: true },
   recipient: { type: String, default: null, index: true },
   occurredAt: { type: Date, required: true },
-  campaignId: { type: String, default: null, index: true },
-  sequenceId: { type: String, default: null, index: true },
-  lifecycleTrigger: { type: String, default: null },
-  destinationUrl: { type: String, default: null },
-  utmCampaign: { type: String, default: null, index: true },
   receivedAt: { type: Date, default: Date.now },
 });
 
