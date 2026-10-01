@@ -1114,7 +1114,7 @@ export default function AffiliateClient() {
             subtitle={t('promotion.subtitle')}
           />
           <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {promotionItems.map(item => (
+            {promotionItems.map((item, index) => (
               <GlowCard key={item.title} className="p-6">
                 <h3 className="text-lg font-semibold text-white">{item.title}</h3>
                 <div className="mt-5 flex gap-3 text-xs">
