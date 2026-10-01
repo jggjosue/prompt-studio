@@ -39,3 +39,13 @@ precise location, inferred income, or other sensitive inferred attributes.
 Behavior labels are based only on first-party product actions and explicit
 billing/entitlement state. Provider synchronization should send only the
 minimal derived labels needed for the campaign.
+
+## Provider provisioning
+
+`ensureResendSegments()` and `ensureResendTopics()` are idempotent provisioning
+helpers: they list existing provider resources and create only missing names.
+All three marketing topics use Resend `opt_out` defaults. Contact creation remains
+separate from segment/topic reconciliation so importing an account cannot imply
+consent. Provider membership should be replaced from `desiredResendSegmentation`
+when the source-of-truth fact collectors are wired to the relevant product and
+billing events.
