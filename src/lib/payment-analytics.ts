@@ -23,24 +23,37 @@ export async function recordConfirmedPurchase(input: PurchaseAnalyticsInput): Pr
   await connectToDatabase();
   const receipt = await AnalyticsEventReceipt.updateOne(
     { key: `stripe:purchase:${input.transactionId}` },
-    { $setOnInsert: { key: `stripe:purchase:${input.transactionId}`, eventName: 'purchase', source: 'stripe' } },
+    { $setOnInsert: { key: `stripe:purchase:${input.transactionId}`, eventName: 'purchase', source: 'stripe', status: 'processing' } },
     { upsert: true }
   );
   if (receipt.upsertedCount === 0) return;
 
-  await recordObservabilityEvent({
-    category: 'analytics',
-    name: 'purchase',
-    route: '/api/webhooks/stripe',
-    status: 'completed',
-    userId: input.userId ?? undefined,
-    productId: input.productId ?? undefined,
-    value: input.amountCents ?? undefined,
-    unit: input.currency ?? undefined,
-    metadata: {
-      transactionId: input.transactionId,
-      productCategory: input.productCategory,
-      source: 'stripe_signed_webhook',
-    },
-  });
+  try {
+    await recordObservabilityEvent({
+      category: 'analytics',
+      name: 'purchase',
+      route: '/api/webhooks/stripe',
+      status: 'completed',
+      userId: input.userId ?? undefined,
+      productId: input.productId ?? undefined,
+      value: input.amountCents ?? undefined,
+      unit: input.currency ?? undefined,
+      metadata: {
+        transactionId: input.transactionId,
+        productCategory: input.productCategory,
+        source: 'stripe_signed_webhook',
+      },
+    });
+    await AnalyticsEventReceipt.updateOne(
+      { key: `stripe:purchase:${input.transactionId}` },
+      { $set: { status: 'completed', completedAt: new Date(), failedAt: null } }
+    );
+  } catch (error) {
+    // Release a failed claim so a Stripe retry can safely attempt delivery again.
+    await AnalyticsEventReceipt.deleteOne({
+      key: `stripe:purchase:${input.transactionId}`,
+      status: 'processing',
+    });
+    throw error;
+  }
 }
