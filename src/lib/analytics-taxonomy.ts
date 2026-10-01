@@ -25,6 +25,7 @@ export const CANONICAL_ANALYTICS_EVENTS = [
   'sign_up',
   'login',
   'save_prompt',
+  'first_activation',
   'view_premium',
   'view_pricing',
   'select_plan',
