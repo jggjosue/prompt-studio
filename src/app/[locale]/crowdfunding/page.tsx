@@ -7,6 +7,7 @@ import type { ReactNode } from 'react';
 import { ArrowRight, Bot, CheckCircle2, Code2, Coins, Globe2, ImageIcon, Rocket, ShieldCheck, Sparkles, Target, Video, WandSparkles, Zap } from 'lucide-react';
 import { CrowdfundingCreditCalculator } from '@/components/CrowdfundingCreditCalculator';
 import { FOUNDER_REWARD_TIERS, getFounderRewardTier } from '@/lib/founder-credit-tiers';
+import { InterestPageView } from '@/components/analytics/interest-page-view';
 
 export const metadata: Metadata = {
   title: 'Founder Credits | Prompt Studio',
@@ -36,7 +37,7 @@ export default async function FounderCreditsPage({ params }: { params: Promise<{
   const es = locale === 'es';
   const tr = (en: string, spanish: string) => es ? spanish : en;
   return (
-    <div className="min-h-screen overflow-hidden bg-background text-foreground"><Header /><main className="relative mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12 lg:py-20"><div className="pointer-events-none absolute inset-x-0 top-0 -z-0 h-[34rem] bg-[radial-gradient(circle_at_20%_20%,rgba(34,211,238,.16),transparent_32%),radial-gradient(circle_at_80%_10%,rgba(124,58,237,.18),transparent_35%),radial-gradient(circle_at_50%_40%,rgba(37,99,235,.12),transparent_42%)]" />
+    <div className="min-h-screen overflow-hidden bg-slate-950 text-slate-100"><Header /><InterestPageView page="/crowdfunding" program="founder_credits" /><main className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:py-20"><div className="pointer-events-none absolute inset-x-0 top-0 -z-0 h-[34rem] bg-[radial-gradient(circle_at_20%_20%,rgba(34,211,238,.16),transparent_32%),radial-gradient(circle_at_80%_10%,rgba(124,58,237,.18),transparent_35%),radial-gradient(circle_at_50%_40%,rgba(37,99,235,.12),transparent_42%)]" />
       <section className="relative z-10 grid items-center gap-10 lg:grid-cols-[1.15fr_.85fr]">
         <div>
           <span className="inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-3 py-1.5 text-xs font-bold text-violet-600 dark:text-violet-300"><Rocket className="size-3.5" /> Prompt Studio · Founder Credits</span>

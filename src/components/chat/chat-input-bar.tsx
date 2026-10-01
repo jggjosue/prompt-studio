@@ -35,6 +35,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useAuth, useClerk } from '@clerk/nextjs';
+import { trackInterest } from '@/lib/interest-analytics';
 
 // ── Actual models from ai-credit-config (no invented IDs) ──
 const MODEL_OPTIONS = {
@@ -135,6 +136,7 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
   const handleSend = () => {
     if (!prompt.trim()) return;
     const trimmed = prompt.trim();
+    trackInterest('generate_action', { action: 'send_prompt', mode: selectedMode, model: params.model });
     setPrompt('');
     void generate(trimmed, params, selectedMode);
     requestAnimationFrame(() => textareaRef.current?.focus());
@@ -142,6 +144,7 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
 
   const handleAddToQueue = () => {
     if (!prompt.trim()) return;
+    trackInterest('generate_action', { action: 'add_to_queue', mode: selectedMode });
     enqueue(prompt);
     setPrompt('');
   };
@@ -216,7 +219,7 @@ export function ChatInputBar({ chat }: { chat: ChatGeneratorReturn }) {
   return (
     <div className="border-t border-border bg-background p-3 sm:p-4">
       <div className="mx-auto flex w-full max-w-3xl flex-col gap-2">
-        <Tabs value={selectedMode} onValueChange={(v) => setSelectedMode(v as ChatMode)} className="w-fit">
+        <Tabs value={selectedMode} onValueChange={(v) => { trackInterest('generate_option_click', { option: 'mode', value: v }); setSelectedMode(v as ChatMode); }} className="w-fit">
           <TabsList>
             <TabsTrigger value="image"><ImageIcon className="h-3 w-3 mr-1" />Imagen</TabsTrigger>
             <TabsTrigger value="video" disabled><Video className="h-3 w-3 mr-1" />Video</TabsTrigger>
