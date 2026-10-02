@@ -52,5 +52,5 @@ export async function verifyTrainingR2Access() {
     await client.send(new ListObjectsV2Command({ Bucket: config.bucket, Prefix: prefix, MaxKeys: 1 }));
     prefixes[prefix] = true;
   }
-  return { bucket: config.bucket, privateAccessVerified: true, prefixes };
+  return { bucket: config.bucket, authenticatedAccessVerified: true, prefixes };
 }
