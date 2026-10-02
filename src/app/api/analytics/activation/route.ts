@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/mongoose';
 import UserActivation from '@/models/UserActivation';
 import { recordReactivationStage, recordUserProductActivity, type ReactivationCategory } from '@/lib/reactivation-funnel';
+import { recordRetentionActivity } from '@/lib/retention-analytics';
 
 const TYPES = new Set(['save_prompt', 'use_prompt', 'generate_image', 'generate_video', 'generate_web']);
 
@@ -30,6 +31,7 @@ export async function POST(request: Request) {
   await Promise.all([
     recordUserProductActivity(userId, categoryByType[body.activationType], now),
     recordReactivationStage(userId, 'activation', now),
+    recordRetentionActivity(userId, now),
   ]);
 
   return NextResponse.json({ firstActivation: result.upsertedCount > 0 });
