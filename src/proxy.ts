@@ -290,14 +290,7 @@ export default async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    '/__clerk(.*)',
-    '/pricing(.*)',
-    '/landing-pages/:path*',
-    '/gallery/:path*',
-    '/gallery-videos/:path*',
-    '/webpages/:path*',
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-    '/(api|trpc)(.*)',
-  ],
+  // Keep matcher syntax path-to-regexp compatible for vinext. Static assets and
+  // framework internals are filtered by skipsLocale() inside the proxy.
+  matcher: ['/:path*'],
 };
