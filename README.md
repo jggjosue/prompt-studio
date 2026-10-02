@@ -213,6 +213,7 @@ More cases, with their cause and resolution, in
 | [docs/TESTING.md](docs/TESTING.md) | Testing architecture, coverage, and what is covered |
 | [docs/DATABASE.md](docs/DATABASE.md) | Models, collections, indexes, and the `user_profiles` incident |
 | [docs/AI_ARCHITECTURE.md](docs/AI_ARCHITECTURE.md) | Lifecycle of the AI job, credits, and output contracts |
+| [docs/ai/GENERATE_STREAMING_UX.md](docs/ai/GENERATE_STREAMING_UX.md) | `/generate` PromptStudio AI streaming UX, cancellation, errors, and rollback flag |
 | [docs/ai/SELF_HOSTED_TEXT_DEPLOYMENT.md](docs/ai/SELF_HOSTED_TEXT_DEPLOYMENT.md) | Reproducible Modal/vLLM deployment for the pinned Qwen3-8B text model |
 | [docs/ai/SELF_HOSTED_TEXT_HOSTING.md](docs/ai/SELF_HOSTED_TEXT_HOSTING.md) | Modal-first hosting decision, RunPod comparison, budget policy, and serverless/dedicated migration thresholds |
 | [docs/ai/TEXT_MODEL_BENCHMARK.md](docs/ai/TEXT_MODEL_BENCHMARK.md) | Reproducible text-model benchmark, cost comparison, quality rubric, and production GO/NO-GO gate |
