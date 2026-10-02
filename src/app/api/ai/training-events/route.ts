@@ -7,6 +7,7 @@ import {
 } from '@/lib/generation-training-events';
 import { auth } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
+import { resolveAuthoritativeTrainingConsent } from '@/lib/training-consent';
 
 const MAX_PAYLOAD_BYTES = 12_000;
 const clean = (value: unknown, max: number) =>
@@ -42,6 +43,7 @@ export async function POST(request: Request) {
     : {};
 
   await connectToDatabase();
+  const consent = await resolveAuthoritativeTrainingConsent(userId);
   await recordGenerationTrainingEvent({
     eventName: raw.eventName,
     userId,
@@ -58,9 +60,7 @@ export async function POST(request: Request) {
       ? raw.parameters as Record<string, unknown>
       : {},
     payload,
-    // #1075 will resolve the authoritative consent snapshot server-side.
-    // Until then client telemetry is intentionally never training-eligible.
-    consent: null,
+    consent,
   });
 
   return NextResponse.json({ accepted: true }, { status: 202 });
