@@ -15,10 +15,9 @@ type Estimate = {
 
 const TIERS = [10, 25, 50, 100, 250, 500, 1000] as const;
 
-export function CrowdfundingCreditCalculator() {
+export function CrowdfundingCreditCalculator({ amount, onAmountChange }: { amount: number; onAmountChange: (amount: number) => void }) {
   const es = useLocale().startsWith('es');
   const tr = (en: string, spanish: string) => es ? spanish : en;
-  const [amount, setAmount] = useState(50);
   const [estimate, setEstimate] = useState<Estimate | null>(null);
 
   useEffect(() => {
@@ -43,7 +42,7 @@ export function CrowdfundingCreditCalculator() {
 
       <div className="flex flex-wrap gap-2">
         {TIERS.map((tier) => (
-          <button key={tier} type="button" onClick={() => { trackInterest('crowdfunding_calculator_click', { amount_usd: tier }); setAmount(tier); }} aria-pressed={amount === tier} className={`rounded-lg border px-3 py-2 transition ${amount === tier ? 'border-blue-400 bg-blue-500/15 text-blue-200' : 'border-white/10 hover:border-blue-400/50 hover:bg-blue-500/10'}`}>
+          <button key={tier} type="button" onClick={() => { trackInterest('crowdfunding_calculator_click', { amount_usd: tier }); onAmountChange(tier); }} aria-pressed={amount === tier} className={`rounded-lg border px-3 py-2 transition ${amount === tier ? 'border-blue-400 bg-blue-500/15 text-blue-200' : 'border-white/10 hover:border-blue-400/50 hover:bg-blue-500/10'}`}>
             ${tier}
           </button>
         ))}
