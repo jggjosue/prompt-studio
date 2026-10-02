@@ -6,7 +6,7 @@
  * this shim at runtime. The Node/Next build continues to use the real `sharp`
  * dependency because this alias exists only in vite.config.ts.
  */
-export default function unsupportedSharpInWorker(): never {
+export default function unsupportedSharpInWorker() {
   throw new Error(
     'sharp is not available in the Cloudflare Workers runtime; use Cloudflare Images for runtime transforms.'
   );
