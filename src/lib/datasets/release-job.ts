@@ -9,6 +9,7 @@ import { buildManifestFromSplits } from '@/lib/datasets/build-manifest';
 import { publishImmutableDatasetRelease } from '@/lib/datasets/publish-release';
 import { createTrainingR2Client, getTrainingR2Config } from '@/lib/training-r2';
 import { qualityThreshold } from '@/lib/training-quality';
+import { assertValidDatasetRelease } from '@/lib/dataset-validation';
 
 const SCHEMA_VERSIONS: Record<DatasetName, number> = {
   'prompt-enhancement': 1, preference: 1, 'image-generation': 1, 'video-generation': 1, 'web-generation': 1,
@@ -37,11 +38,13 @@ export async function runDatasetRelease(input: { dataset: DatasetName; version: 
     lineage: { parentVersions: [], sourcePrefixes: [prefix] },
     files,
   });
+  const releaseFiles = { ...files, 'manifest.json': built['manifest.json'], 'checksums.json': built['checksums.json'] };
+  assertValidDatasetRelease({ files: releaseFiles });
   return publishImmutableDatasetRelease({
     client,
     bucket: config.bucket,
     dataset: input.dataset,
     version: input.version,
-    files: { ...files, 'manifest.json': built['manifest.json'], 'checksums.json': built['checksums.json'] },
+    files: releaseFiles,
   });
 }
