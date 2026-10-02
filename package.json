@@ -80,7 +80,10 @@
     "dataset:rebuild-revoked": "node --import tsx scripts/ts/rebuild-revoked-dataset.ts",
     "dev:vinext": "vite dev --port 3001",
     "build:vinext": "vite build",
-    "start:vinext": "vinext start"
+    "start:vinext": "vinext start",
+    "dev:cloudflare": "vite dev --port 3001",
+    "preview:cloudflare": "vite preview",
+    "deploy:cloudflare": "vinext-cloudflare deploy --preview"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1049.0",
@@ -145,7 +148,8 @@
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.24.2",
     "vinext": "1.0.0-beta.10",
-    "react-server-dom-webpack": "^19.2.6"
+    "react-server-dom-webpack": "^19.2.6",
+    "@vinext/cloudflare": "^1.0.0-beta.10"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.7",
@@ -168,7 +172,8 @@
     "typescript": "6.0.3",
     "vite": "8.3.0",
     "@vitejs/plugin-react": "6.1.1",
-    "@vitejs/plugin-rsc": "0.5.35"
+    "@vitejs/plugin-rsc": "0.5.35",
+    "@cloudflare/vite-plugin": "^2.0.0-beta.5"
   },
   "overrides": {
     "handlebars": "^4.7.9",
