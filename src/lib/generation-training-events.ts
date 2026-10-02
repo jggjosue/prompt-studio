@@ -1,6 +1,7 @@
 import 'server-only';
 import { randomUUID } from 'node:crypto';
 import TrainingDataRecord from '@/models/TrainingDataRecord';
+import { trainingEligibilityFromConsent } from '@/lib/training-consent';
 
 export const GENERATION_TRAINING_EVENTS = [
   'prompt_submitted',
@@ -69,12 +70,7 @@ export async function recordGenerationTrainingEvent(input: {
           : null,
         parameters: input.parameters ?? {},
         consent,
-        eligibility: {
-          status: consent.training ? 'pending' : 'ineligible',
-          reasonCodes: consent.training ? [] : ['training_consent_not_captured'],
-          evaluatedAt: consent.training ? null : occurredAt,
-          evaluatorVersion: 'event-capture-v1',
-        },
+        eligibility: trainingEligibilityFromConsent(consent, occurredAt),
         provenance: {
           source: 'generate',
           sourceId: input.jobId ?? null,
