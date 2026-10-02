@@ -77,7 +77,10 @@
     "verify:r2:training": "node --import tsx scripts/ts/verify-training-r2.ts",
     "worker:training": "tsx workers/aws-training-data-worker.ts",
     "dataset:release": "node --import tsx scripts/ts/release-training-dataset.ts",
-    "dataset:rebuild-revoked": "node --import tsx scripts/ts/rebuild-revoked-dataset.ts"
+    "dataset:rebuild-revoked": "node --import tsx scripts/ts/rebuild-revoked-dataset.ts",
+    "dev:vinext": "vite dev --port 3001",
+    "build:vinext": "vite build",
+    "start:vinext": "vinext start"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1049.0",
@@ -140,7 +143,9 @@
     "svix": "^1.96.1",
     "tailwind-merge": "^3.0.1",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.24.2"
+    "zod": "^3.24.2",
+    "vinext": "1.0.0-beta.10",
+    "react-server-dom-webpack": "19.2.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.7",
@@ -160,7 +165,10 @@
     "postcss": "^8.5.28",
     "tailwindcss": "^3.4.1",
     "tsx": "^4.20.6",
-    "typescript": "6.0.3"
+    "typescript": "6.0.3",
+    "vite": "8.3.0",
+    "@vitejs/plugin-react": "6.1.1",
+    "@vitejs/plugin-rsc": "0.5.35"
   },
   "overrides": {
     "handlebars": "^4.7.9",
@@ -178,5 +186,6 @@
     "@grpc/grpc-js": "^1.14.4",
     "postcss": "^8.5.28",
     "protobufjs": "^7.6.6"
-  }
+  },
+  "type": "module"
 }
