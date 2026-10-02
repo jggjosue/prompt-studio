@@ -8,8 +8,8 @@ import { firaCode, firaSans } from '@/app/fonts';
  */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className={`${firaSans.variable} ${firaCode.variable} dark`} suppressHydrationWarning>
-      <body className={`${firaSans.className} min-h-screen bg-black font-body antialiased`} suppressHydrationWarning>
+    <html lang="es" className={`${firaSans.className} dark`} suppressHydrationWarning>
+      <body className="min-h-screen bg-black antialiased" suppressHydrationWarning>
         {children}
       </body>
     </html>
