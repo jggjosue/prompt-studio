@@ -45,3 +45,9 @@ Do not close #1076 from an authenticated S3 check alone. Record only non-secret 
 - [ ] A credential-rotation owner/process exists and the old token is revoked after successful rotation.
 
 The verifier intentionally reports `publicAccessVerified: false`. Public-access configuration must be checked through Cloudflare account configuration or a future management API integration; it is not inferred from successful authenticated S3 calls.
+
+## Deployment status
+
+Production deployment configuration is expected to provide the four training R2 variables through Vercel server-only environment variables. Repository files intentionally contain no credential values. The operator has confirmed the variables are configured in the Prompt Studio Vercel project; this statement records configuration intent only and does not expose or independently attest secret values.
+
+Before any training release, run `npm run verify:r2:training` in the production runtime. Public-access controls (`r2.dev` and custom domains) remain Cloudflare account controls and must not be inferred from Vercel environment-variable presence or authenticated S3 access.
