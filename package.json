@@ -80,12 +80,12 @@
     "dataset:rebuild-revoked": "node --import tsx scripts/ts/rebuild-revoked-dataset.ts",
     "dev:vinext": "vite dev --port 3001",
     "build:vinext": "vite build",
-    "start:vinext": "vinext start",
+    "start:vinext": "vite preview",
     "dev:cloudflare": "vite dev --port 3001",
     "preview:cloudflare": "vite preview",
     "deploy:cloudflare": "vinext-cloudflare deploy --preview",
-    "deploy:vinext": "vinext-cloudflare deploy --config dist/server/wrangler.json --experimental-warm-cdn-cache",
-    "deploy:response-store": "wrangler deploy --config wrangler.response-store.jsonc"
+    "deploy:vinext": "vinext-cloudflare deploy",
+    "deploy:response-store": "cf deploy --prebuilt --mode production --worker nextn-response-store"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1049.0",
