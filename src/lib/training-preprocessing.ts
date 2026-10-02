@@ -4,6 +4,7 @@ import type { ITrainingDataRecord } from '@/models/TrainingDataRecord';
 import { processedKey, type DatasetName } from '@/lib/dataset-object-contract';
 import { sanitizeTrainingValue, TRAINING_SANITIZER_VERSION } from '@/lib/training-sanitizer';
 import { writeTrainingRejection } from '@/lib/training-rejections';
+import { claimTrainingFingerprint } from '@/lib/training-dedupe-service';
 
 export const TRAINING_PIPELINE_VERSION = 'pipeline-v1';
 
@@ -76,6 +77,22 @@ export async function writeProcessedTrainingRecord(input: {
     return { rejected: true as const, reasonCodes: sanitized.reasonCodes, key: rejection.key, bytes: rejection.bytes };
   }
   const dataset = targetDatasetForRecord(input.record);
+  const fingerprint = await claimTrainingFingerprint({
+    dataset,
+    recordId: input.record.recordId,
+    value: sanitized.value,
+  });
+  if (fingerprint.duplicate) {
+    return {
+      rejected: true as const,
+      duplicate: true as const,
+      reasonCodes: ['duplicate_content'] as const,
+      duplicateOf: fingerprint.canonicalRecordId,
+      contentHash: fingerprint.contentHash,
+      key: null,
+      bytes: 0,
+    };
+  }
   const key = processedKey({ dataset, pipelineVersion: TRAINING_PIPELINE_VERSION, recordId: input.record.recordId });
   const body = JSON.stringify(sanitized.value);
   await input.client.send(new PutObjectCommand({
@@ -88,7 +105,8 @@ export async function writeProcessedTrainingRecord(input: {
       pipelineVersion: TRAINING_PIPELINE_VERSION,
       sourceRecordId: input.record.recordId,
       sanitizerVersion: TRAINING_SANITIZER_VERSION,
+      contentHash: fingerprint.contentHash,
     },
   }));
-  return { rejected: false as const, dataset, key, bytes: Buffer.byteLength(body, 'utf8'), findings: sanitized.findings.length };
+  return { rejected: false as const, duplicate: false as const, dataset, key, contentHash: fingerprint.contentHash, bytes: Buffer.byteLength(body, 'utf8'), findings: sanitized.findings.length };
 }
