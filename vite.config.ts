@@ -1,9 +1,11 @@
 import { cloudflare } from '@cloudflare/vite-plugin';
 import { imagesOptimizer } from '@vinext/cloudflare/images/images-optimizer';
+import { responseStoreAdapter } from '@vinext/cloudflare/cache/response-store-adapter';
 import vinext from 'vinext';
 import { defineConfig } from 'vite';
-import { responseStoreAdapter } from "@vinext/cloudflare/cache/response-store-adapter";
-import path from "node:path";
+import path from 'node:path';
+
+import { responseStoreServiceBinding } from './cloudflare.config';
 
 /**
  * Cloudflare Workers target for the vinext migration.
@@ -15,10 +17,10 @@ export default defineConfig({
   plugins: [
     vinext({
       images: { optimizer: imagesOptimizer() },
-    
-    cache: responseStoreAdapter(),
-}),
+      cache: responseStoreAdapter(),
+    }),
     cloudflare({
+      auxiliaryWorkers: [{ config: responseStoreServiceBinding }],
       viteEnvironment: {
         name: 'rsc',
         childEnvironments: ['ssr'],
@@ -28,7 +30,7 @@ export default defineConfig({
 
   resolve: {
     alias: {
-      "sharp": path.resolve(__dirname, "empty-stub.js"),
+      sharp: path.resolve(import.meta.dirname, 'empty-stub.js'),
     },
   },
 });
