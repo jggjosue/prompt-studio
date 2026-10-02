@@ -5,6 +5,7 @@ import { processedKey, type DatasetName } from '@/lib/dataset-object-contract';
 import { sanitizeTrainingValue, TRAINING_SANITIZER_VERSION } from '@/lib/training-sanitizer';
 import { writeTrainingRejection } from '@/lib/training-rejections';
 import { claimTrainingFingerprint } from '@/lib/training-dedupe-service';
+import { deriveTrainingQuality } from '@/lib/training-quality-service';
 
 export const TRAINING_PIPELINE_VERSION = 'pipeline-v1';
 
@@ -77,6 +78,13 @@ export async function writeProcessedTrainingRecord(input: {
     return { rejected: true as const, reasonCodes: sanitized.reasonCodes, key: rejection.key, bytes: rejection.bytes };
   }
   const dataset = targetDatasetForRecord(input.record);
+  const quality = await deriveTrainingQuality({
+    dataset,
+    userId: input.record.userId,
+    requestId: input.record.requestId,
+    outputId: input.record.outputId,
+    recordId: input.record.recordId,
+  });
   const fingerprint = await claimTrainingFingerprint({
     dataset,
     recordId: input.record.recordId,
@@ -94,7 +102,7 @@ export async function writeProcessedTrainingRecord(input: {
     };
   }
   const key = processedKey({ dataset, pipelineVersion: TRAINING_PIPELINE_VERSION, recordId: input.record.recordId });
-  const body = JSON.stringify(sanitized.value);
+  const body = JSON.stringify({ ...(sanitized.value as Record<string, unknown>), quality });
   await input.client.send(new PutObjectCommand({
     Bucket: input.bucket,
     Key: key,
@@ -106,7 +114,9 @@ export async function writeProcessedTrainingRecord(input: {
       sourceRecordId: input.record.recordId,
       sanitizerVersion: TRAINING_SANITIZER_VERSION,
       contentHash: fingerprint.contentHash,
+      qualityVersion: quality.version,
+      qualityScore: String(quality.score),
     },
   }));
-  return { rejected: false as const, duplicate: false as const, dataset, key, contentHash: fingerprint.contentHash, bytes: Buffer.byteLength(body, 'utf8'), findings: sanitized.findings.length };
+  return { rejected: false as const, duplicate: false as const, dataset, key, contentHash: fingerprint.contentHash, quality, bytes: Buffer.byteLength(body, 'utf8'), findings: sanitized.findings.length };
 }
