@@ -1,5 +1,5 @@
 import '@/app/globals.css';
-import { firaCode, firaSans } from '@/app/fonts';
+import { firaSans } from '@/app/fonts';
 
 /**
  * Raíz única del App Router. Las ramas `[locale]`, `p` y `d` añaden sus
