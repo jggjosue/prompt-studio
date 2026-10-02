@@ -87,3 +87,4 @@ dist/
 # vinext generated output
 /.vinext/
 .wrangler/
+.cloudflare/
