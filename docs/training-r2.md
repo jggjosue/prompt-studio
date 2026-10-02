@@ -29,3 +29,19 @@ Do not set automatic expiration on `datasets/` or `manifests/`: released dataset
 ## Credential rotation
 
 Create a second bucket-scoped credential, deploy it, verify access, then revoke the old credential. Never commit credentials to Git.
+
+## Production close checklist (#1076)
+
+Do not close #1076 from an authenticated S3 check alone. Record only non-secret evidence for each item:
+
+- [ ] Dedicated training bucket exists in the intended production Cloudflare account.
+- [ ] R2.dev public development URL is disabled for the training bucket.
+- [ ] No public custom domain exposes the training bucket.
+- [ ] Runtime credential is Object Read & Write and scoped only to the training bucket.
+- [ ] Production runtime contains the four server-only training R2 variables; none use NEXT_PUBLIC_.
+- [ ] `npm run verify:r2:training` succeeds in the production runtime and reports `authenticatedAccessVerified: true` for all six prefixes.
+- [ ] CORS is absent unless an explicitly reviewed browser-to-R2 feature requires it.
+- [ ] Released `datasets/` and `manifests/` have no automatic expiration; raw/temporary retention follows an approved policy.
+- [ ] A credential-rotation owner/process exists and the old token is revoked after successful rotation.
+
+The verifier intentionally reports `publicAccessVerified: false`. Public-access configuration must be checked through Cloudflare account configuration or a future management API integration; it is not inferred from successful authenticated S3 calls.
