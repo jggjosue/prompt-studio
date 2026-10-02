@@ -214,6 +214,11 @@ More cases, with their cause and resolution, in
 | [docs/DATABASE.md](docs/DATABASE.md) | Models, collections, indexes, and the `user_profiles` incident |
 | [docs/AI_ARCHITECTURE.md](docs/AI_ARCHITECTURE.md) | Lifecycle of the AI job, credits, and output contracts |
 | [docs/ai/TEXT_UNIT_ECONOMICS.md](docs/ai/TEXT_UNIT_ECONOMICS.md) | PromptStudio AI latency, reliability, spend metrics, tracing, and alert thresholds |
+| [docs/ai/TEXT_USAGE_ACCOUNTING.md](docs/ai/TEXT_USAGE_ACCOUNTING.md) | Self-hosted text monthly quotas, credit reconciliation, usage records, and cost telemetry |
+| [docs/ai/GENERATE_STREAMING_UX.md](docs/ai/GENERATE_STREAMING_UX.md) | `/generate` PromptStudio AI streaming UX, cancellation, errors, and rollback flag |
+| [docs/ai/GENERATE_TEXT_API.md](docs/ai/GENERATE_TEXT_API.md) | Authenticated streaming `/api/ai/generate-text` contract, validation, cancellation, rate limiting, and public errors |
+| [docs/ai/TEXT_MODEL_ROUTER.md](docs/ai/TEXT_MODEL_ROUTER.md) | Server-side logical text-model routing, feature flags, normalized errors, and fallback behavior |
+| [docs/ai/TEXT_INFERENCE_SECURITY.md](docs/ai/TEXT_INFERENCE_SECURITY.md) | Security boundary, request limits, timeouts, rate/concurrency protection, safe logging, and key rotation for self-hosted text inference |
 | [docs/ai/SELF_HOSTED_TEXT_DEPLOYMENT.md](docs/ai/SELF_HOSTED_TEXT_DEPLOYMENT.md) | Reproducible Modal/vLLM deployment for the pinned Qwen3-8B text model |
 | [docs/ai/SELF_HOSTED_TEXT_HOSTING.md](docs/ai/SELF_HOSTED_TEXT_HOSTING.md) | Modal-first hosting decision, RunPod comparison, budget policy, and serverless/dedicated migration thresholds |
 | [docs/ai/TEXT_MODEL_BENCHMARK.md](docs/ai/TEXT_MODEL_BENCHMARK.md) | Reproducible text-model benchmark, cost comparison, quality rubric, and production GO/NO-GO gate |

@@ -9,14 +9,43 @@ import {
   waitForGenerationPollWindow,
 } from '@/lib/generation-polling';
 import { safeJson, extractErrorMessage } from '@/lib/safe-json';
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
+import { generatePromptStudioTextStream, isPromptStudioTextStreamingEnabled } from '@/lib/generation/promptstudio-text-stream';
 
 export function useTextGeneration() {
   const [provider, setProvider] = useState<'google' | 'openai' | 'anthropic'>('google');
   const [credits, setCredits] = useState(12.0);
   const [outputText, setOutputText] = useState('');
+  const [streaming, setStreaming] = useState(false);
+  const [generationId, setGenerationId] = useState<string | null>(null);
+  const abortRef = useRef<AbortController | null>(null);
 
-  const generate = useCallback(async (prompt: string, params: ChatParams): Promise<{ result?: ChatMessageResult; error?: string }> => {
+  const cancel = useCallback(() => {
+    abortRef.current?.abort();
+  }, []);
+
+  const generate = useCallback(async (prompt: string, params: ChatParams, onText?: (text: string) => void): Promise<{ result?: ChatMessageResult; error?: string }> => {
+    if (isPromptStudioTextStreamingEnabled()) {
+      if (abortRef.current) return { error: 'Ya hay una generación de texto activa.' };
+      const controller = new AbortController();
+      abortRef.current = controller;
+      setStreaming(true);
+      setOutputText('');
+      setGenerationId(null);
+      try {
+        const streamed = await generatePromptStudioTextStream(prompt, params, {
+          onText: text => {
+            setOutputText(text);
+            onText?.(text);
+          },
+          onGenerationId: setGenerationId,
+        }, controller.signal);
+        return streamed;
+      } finally {
+        abortRef.current = null;
+        setStreaming(false);
+      }
+    }
     const currentProvider = (params.provider || provider) as string;
     const model = params.model || 'gemini-3.8-flash';
 
@@ -94,12 +123,13 @@ export function useTextGeneration() {
     } catch (err: unknown) {
       return { error: err instanceof Error ? err.message : 'Error al conectar con el servidor.' };
     }
-  }, [provider, credits]);
+  }, [provider]);
 
   return {
     provider, setProvider,
     credits, setCredits,
     outputText, setOutputText,
+    streaming, generationId, cancel,
     generate,
   };
 }

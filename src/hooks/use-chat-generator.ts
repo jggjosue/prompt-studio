@@ -236,7 +236,15 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
         result = res.result;
         error = res.error;
       } else if (mode === 'text') {
-        const res = await textGen.generate(prompt, params);
+        const res = await textGen.generate(prompt, params, streamedText => {
+          setGenStatus('PromptStudio AI está escribiendo...');
+          setGenProgress(previous => Math.min(90, Math.max(15, previous + 2)));
+          updateMessage(responseEntry.id, {
+            status: 'pending',
+            progress: 50,
+            result: { text: streamedText, provider: 'PromptStudio AI' },
+          });
+        });
         result = res.result;
         error = res.error;
       } else if (mode === 'videoUnderstanding') {
