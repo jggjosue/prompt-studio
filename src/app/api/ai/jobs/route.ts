@@ -31,6 +31,8 @@ import { resolveWebsiteAIEditOperation } from '@/lib/website-ai-edit-operation';
 import { resolveCodeAuditOperation } from '@/lib/code-audit-operation';
 import { resolveComponentOperation } from '@/lib/component-ai-operation';
 import { resolveRuntimeOperationPricing } from '@/lib/runtime-operation-pricing';
+import { recordGenerationTrainingEventBestEffort } from '@/lib/generation-training-events';
+import { resolveAuthoritativeTrainingConsent } from '@/lib/training-consent';
 
 const headers = () => cacheHeaders('private-no-store');
 const clean = (value: unknown, max: number) => typeof value === 'string' ? value.trim().slice(0, max) : '';
@@ -247,6 +249,30 @@ export async function POST(request: Request) {
     const credits = await getCreditBalance(userId);
     return NextResponse.json({ error: { code: 'INSUFFICIENT_CREDITS', message: `Necesitas ${cost.credits} créditos para esta generación y tienes ${credits.balance}.` }, required: cost.credits, credits }, { status: 402, headers: headers() });
   }
+  const trainingConsent = await resolveAuthoritativeTrainingConsent(userId);
+  recordGenerationTrainingEventBestEffort({
+    eventName: 'prompt_submitted',
+    userId,
+    jobId: String(job._id),
+    requestId: String(job._id),
+    modality: raw.kind,
+    provider,
+    modelId,
+    correlationId: job.correlationId,
+    parameters: {
+      operationCode,
+      promptVersionNumber,
+      projectId: projectId || null,
+      hasBrandKit: Boolean(brandKitId),
+      hasOutputContract: Boolean(outputContract),
+    },
+    payload: {
+      promptLength: prompt.length,
+      source: '/api/ai/jobs',
+    },
+    consent: trainingConsent,
+  });
+
   const dispatch = await dispatchGenerationJob(String(job._id));
   if (!dispatch.dispatched) {
     void recordObservabilityEvent({
