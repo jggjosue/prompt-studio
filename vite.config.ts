@@ -1,11 +1,24 @@
+import { cloudflare } from '@cloudflare/vite-plugin';
+import { imagesOptimizer } from '@vinext/cloudflare/images/images-optimizer';
 import vinext from 'vinext';
 import { defineConfig } from 'vite';
 
 /**
- * vinext runs alongside the existing Next.js commands during migration.
- * Cloudflare-specific Vite/platform configuration is added in #1130 after
- * local vinext compatibility is validated.
+ * Cloudflare Workers target for the vinext migration.
+ *
+ * App Router RSC executes in workerd; SSR is a child environment. Keep the
+ * existing Next/Vercel scripts available until production cutover.
  */
 export default defineConfig({
-  plugins: [vinext()],
+  plugins: [
+    vinext({
+      images: { optimizer: imagesOptimizer() },
+    }),
+    cloudflare({
+      viteEnvironment: {
+        name: 'rsc',
+        childEnvironments: ['ssr'],
+      },
+    }),
+  ],
 });
