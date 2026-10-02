@@ -2,6 +2,8 @@ import 'server-only';
 import { GetObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import type { ITrainingDataRecord } from '@/models/TrainingDataRecord';
 import { processedKey, type DatasetName } from '@/lib/dataset-object-contract';
+import { sanitizeTrainingValue, TRAINING_SANITIZER_VERSION } from '@/lib/training-sanitizer';
+import { writeTrainingRejection } from '@/lib/training-rejections';
 
 export const TRAINING_PIPELINE_VERSION = 'pipeline-v1';
 
@@ -60,9 +62,22 @@ export async function writeProcessedTrainingRecord(input: {
   record: ITrainingDataRecord;
 }) {
   const normalized = normalizeTrainingRecord(input.record);
+  const sanitized = sanitizeTrainingValue(normalized);
+  if (!sanitized.accepted) {
+    const rejection = await writeTrainingRejection({
+      client: input.client,
+      bucket: input.bucket,
+      recordId: input.record.recordId,
+      entityType: input.record.entityType,
+      reasonCodes: sanitized.reasonCodes,
+      sanitizerVersion: sanitized.version,
+      occurredAt: input.record.occurredAt,
+    });
+    return { rejected: true as const, reasonCodes: sanitized.reasonCodes, key: rejection.key, bytes: rejection.bytes };
+  }
   const dataset = targetDatasetForRecord(input.record);
   const key = processedKey({ dataset, pipelineVersion: TRAINING_PIPELINE_VERSION, recordId: input.record.recordId });
-  const body = JSON.stringify(normalized);
+  const body = JSON.stringify(sanitized.value);
   await input.client.send(new PutObjectCommand({
     Bucket: input.bucket,
     Key: key,
@@ -72,7 +87,8 @@ export async function writeProcessedTrainingRecord(input: {
       schemaVersion: '1',
       pipelineVersion: TRAINING_PIPELINE_VERSION,
       sourceRecordId: input.record.recordId,
+      sanitizerVersion: TRAINING_SANITIZER_VERSION,
     },
   }));
-  return { dataset, key, bytes: Buffer.byteLength(body, 'utf8') };
+  return { rejected: false as const, dataset, key, bytes: Buffer.byteLength(body, 'utf8'), findings: sanitized.findings.length };
 }
