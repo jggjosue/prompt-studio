@@ -8,16 +8,6 @@ import { NextResponse, type NextRequest } from 'next/server';
 import { detectLocale } from '@/i18n/detect-locale';
 import { locales } from '@/i18n/config';
 
-/**
- * Keep protected-route matching local instead of relying on Clerk's
- * createRouteMatcher, which pulls in Next.js' private path-to-regexp build.
- * /dashboard and every nested dashboard route remain protected.
- */
-function isProtectedRoute(req: NextRequest): boolean {
-  const pathname = req.nextUrl.pathname;
-  return pathname === '/dashboard' || pathname.startsWith('/dashboard/');
-}
-
 /** Cabeceras de seguridad para los sitios publicados de tenants. */
 const TENANT_SECURITY_HEADERS = {
   'X-Content-Type-Options': 'nosniff',
@@ -144,7 +134,7 @@ function withoutLocalePrefix(pathname: string): string {
   return pathname.slice(prefix.length + 1) || '/';
 }
 
-const clerkRequestHandler = async (auth: any, req: NextRequest) => {
+const clerkRequestHandler = async (_auth: unknown, req: NextRequest) => {
   const pathname = req.nextUrl.pathname;
 
   if (isProtectedCatalogSource(pathname)) {
@@ -254,9 +244,6 @@ const clerkRequestHandler = async (auth: any, req: NextRequest) => {
     );
   }
 
-  if (isProtectedRoute(req)) {
-    await auth.protect();
-  }
 
   return withEdgeHeaders(withLocaleRewrite(req), req);
 };
