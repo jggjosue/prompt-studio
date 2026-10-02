@@ -149,7 +149,7 @@
     "zod": "^3.24.2",
     "vinext": "1.0.0-beta.10",
     "react-server-dom-webpack": "^19.2.6",
-    "@vinext/cloudflare": "^1.0.0-beta.10"
+    "@vinext/cloudflare": "1.0.0-beta.8"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.7",
@@ -173,7 +173,8 @@
     "vite": "8.3.0",
     "@vitejs/plugin-react": "6.1.1",
     "@vitejs/plugin-rsc": "0.5.35",
-    "@cloudflare/vite-plugin": "^2.0.0-beta.5"
+    "@cloudflare/vite-plugin": "beta",
+    "cf": "latest"
   },
   "overrides": {
     "handlebars": "^4.7.9",
