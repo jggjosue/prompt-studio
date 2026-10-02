@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useLocale } from 'next-intl';
 import { Loader2, LockKeyhole } from 'lucide-react';
 import { trackAnalyticsEvent } from '@/lib/analytics';
+import { trackInterest } from '@/lib/interest-analytics';
 const PRESETS = [50, 100, 500, 1000] as const;
 export function CrowdfundingCheckout() {
  const locale=useLocale(); const es=locale.startsWith('es'); const [amount,setAmount]=useState(50); const [custom,setCustom]=useState(''); const [loading,setLoading]=useState(false); const [error,setError]=useState('');
