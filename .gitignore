@@ -83,3 +83,6 @@ dist/
 
 # Local AI benchmark artifacts
 /.benchmark/
+
+# vinext generated output
+/.vinext/
