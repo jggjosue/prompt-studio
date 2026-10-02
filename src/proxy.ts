@@ -1,4 +1,4 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
+import { clerkMiddleware } from '@clerk/nextjs/server';
 import {
   PROMPT_EDIT_ENABLED,
   PROMPT_EDIT_PATH,
@@ -8,7 +8,15 @@ import { NextResponse, type NextRequest } from 'next/server';
 import { detectLocale } from '@/i18n/detect-locale';
 import { locales } from '@/i18n/config';
 
-const isProtectedRoute = createRouteMatcher(['/dashboard(.*)']);
+/**
+ * Keep protected-route matching local instead of relying on Clerk's
+ * createRouteMatcher, which pulls in Next.js' private path-to-regexp build.
+ * /dashboard and every nested dashboard route remain protected.
+ */
+function isProtectedRoute(req: NextRequest): boolean {
+  const pathname = req.nextUrl.pathname;
+  return pathname === '/dashboard' || pathname.startsWith('/dashboard/');
+}
 
 /** Cabeceras de seguridad para los sitios publicados de tenants. */
 const TENANT_SECURITY_HEADERS = {
