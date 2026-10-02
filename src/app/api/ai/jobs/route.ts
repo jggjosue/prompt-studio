@@ -32,6 +32,7 @@ import { resolveCodeAuditOperation } from '@/lib/code-audit-operation';
 import { resolveComponentOperation } from '@/lib/component-ai-operation';
 import { resolveRuntimeOperationPricing } from '@/lib/runtime-operation-pricing';
 import { recordGenerationTrainingEventBestEffort } from '@/lib/generation-training-events';
+import { resolveAuthoritativeTrainingConsent } from '@/lib/training-consent';
 
 const headers = () => cacheHeaders('private-no-store');
 const clean = (value: unknown, max: number) => typeof value === 'string' ? value.trim().slice(0, max) : '';
@@ -248,6 +249,7 @@ export async function POST(request: Request) {
     const credits = await getCreditBalance(userId);
     return NextResponse.json({ error: { code: 'INSUFFICIENT_CREDITS', message: `Necesitas ${cost.credits} créditos para esta generación y tienes ${credits.balance}.` }, required: cost.credits, credits }, { status: 402, headers: headers() });
   }
+  const trainingConsent = await resolveAuthoritativeTrainingConsent(userId);
   recordGenerationTrainingEventBestEffort({
     eventName: 'prompt_submitted',
     userId,
@@ -268,9 +270,7 @@ export async function POST(request: Request) {
       promptLength: prompt.length,
       source: '/api/ai/jobs',
     },
-    // #1075 supplies the authoritative consent snapshot. Until then this
-    // server event remains ineligible for training by default.
-    consent: null,
+    consent: trainingConsent,
   });
 
   const dispatch = await dispatchGenerationJob(String(job._id));
