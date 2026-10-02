@@ -73,7 +73,8 @@
     "verify:resend-deliverability": "node scripts/mjs/audit-resend-deliverability.mjs",
     "precompress:static": "node scripts/mjs/precompress-static.mjs",
     "audit:optimization-artifacts": "node scripts/mjs/audit-optimization-artifacts.mjs",
-    "worker:aws": "tsx workers/aws-generation-worker.ts"
+    "worker:aws": "tsx workers/aws-generation-worker.ts",
+    "verify:r2:training": "node --import tsx scripts/ts/verify-training-r2.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1049.0",
