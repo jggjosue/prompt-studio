@@ -157,7 +157,7 @@ export async function recordCrowdfundingContribution(input: RecordContributionIn
               backerNumber: backer.backerNumber,
               pledgeAmountCents: backer.totalContributedCents,
               currency: 'USD',
-              rewardTier: input.rewardTier,
+              rewardTier: `founder-backer-${backer.backerNumber}`,
               baseCredits: backer.totalBaseCredits,
               bonusCredits: backer.totalBonusCredits,
               totalCredits: backer.totalCredits,
@@ -165,6 +165,7 @@ export async function recordCrowdfundingContribution(input: RecordContributionIn
               metadata: {
                 source: 'stripe_crowdfunding',
                 latestContributionId: String(contribution._id),
+                latestRewardTier: input.rewardTier,
                 contributionCount: backer.contributionCount,
               },
               updatedAt: new Date(),
