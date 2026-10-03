@@ -242,8 +242,6 @@ export default function PromptEditorClient({ canGenerate }: { canGenerate: boole
   const [imageStyle, setImageStyle] = useState('cinematic');
   const [imageRatio, setImageRatio] = useState('1-1');
   const [imageRes, setImageRes] = useState('1k');
-  // Image quality tier: lite-1k | quality-1k | quality-2k | quality-4k
-  const [imageQualityTier, setImageQualityTier] = useState<'lite-1k' | 'quality-1k' | 'quality-2k' | 'quality-4k'>('quality-1k');
   const [imageFormat, setImageFormat] = useState('png');
   const [imageLighting, setImageLighting] = useState('volumetric');
   const [imageCamera, setImageCamera] = useState('eye-level');
@@ -659,12 +657,11 @@ export default function PromptEditorClient({ canGenerate }: { canGenerate: boole
     }
 
     // Credit cost table:
-    //   Image: lite-1k=7, quality-1k=10, quality-2k=18, quality-4k=28 (x8 if variation pack)
+    //   Image: 10 credits (x8 if variation pack)
     //   Video: per-second cost × duration (4s=12, 8s=20, 12s=30, 16s=40)
     //   Web: 15 credits
-    const imageTierCost: Record<string, number> = { 'lite-1k': 7, 'quality-1k': 10, 'quality-2k': 18, 'quality-4k': 28 };
     const videoDurationCost: Record<string, number> = { '4': 12, '8': 20, '12': 30, '16': 40 };
-    const baseImageCost = imageTierCost[imageQualityTier] ?? 10;
+    const baseImageCost = 10;
     const creditCost = activeTab === 'ai-video'
       ? (videoDurationCost[videoDuration] ?? 20)
       : activeTab === 'ai-web'
@@ -1428,8 +1425,6 @@ Requirements:
                                             </SelectTrigger>
                                             <SelectContent>
                                               
-                                              <SelectItem value="google:imagen-4.0-fast-generate-001" className="text-xs">🔵 Google Imagen 4 Fast</SelectItem>
-                                              <SelectItem value="google:gemini-2.0-flash-preview-image-generation" className="text-xs">🍌 Gemini Flash Image / Nano Banana</SelectItem>
                                               <SelectItem value="openai:gpt-image-1-mini" className="text-xs">🟢 OpenAI gpt-image-1-mini</SelectItem>
                                               <SelectItem value="openai:gpt-image-1" className="text-xs">🟢 OpenAI gpt-image-1</SelectItem>
                                               <SelectItem value="fal:fal-ai/flux-pro" className="text-xs">🔥 fal.ai Flux</SelectItem>
@@ -1994,9 +1989,6 @@ Requirements:
                                               <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                              
-                                              <SelectItem value="google:imagen-4.0-fast-generate-001" className="text-xs">🔵 Google Imagen 4 Fast</SelectItem>
-                                              <SelectItem value="google:gemini-2.0-flash-preview-image-generation" className="text-xs">🍌 Gemini Flash Image / Nano Banana</SelectItem>
                                               <SelectItem value="openai:gpt-image-1-mini" className="text-xs">🟢 OpenAI gpt-image-1-mini</SelectItem>
                                               <SelectItem value="openai:gpt-image-1" className="text-xs">🟢 OpenAI gpt-image-1</SelectItem>
                                               <SelectItem value="fal:fal-ai/flux-pro" className="text-xs">🔥 fal.ai Flux</SelectItem>
@@ -2504,9 +2496,8 @@ Requirements:
 
                               {/* ── Credit Quote Panel ── */}
                               {(() => {
-                                const imageTierCostQ: Record<string, number> = { 'lite-1k': 7, 'quality-1k': 10, 'quality-2k': 18, 'quality-4k': 28 };
                                 const videoDurationCostQ: Record<string, number> = { '4': 12, '8': 20, '12': 30, '16': 40 };
-                                const baseImgCost = imageTierCostQ[imageQualityTier] ?? 10;
+                                const baseImgCost = 10;
                                 const estimatedCost = activeTab === 'ai-video'
                                   ? (videoDurationCostQ[videoDuration] ?? 20)
                                   : activeTab === 'ai-web'
