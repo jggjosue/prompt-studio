@@ -15,7 +15,7 @@ import {
   getPlanCheckoutUrl,
   isPlanAvailable,
 } from '@/lib/stripe-checkout';
-import { type PlanId } from '@/lib/subscription-plans';
+import { getPlanCredits, getPlanPrice as getConfiguredPlanPrice, type PlanId } from '@/lib/subscription-plans';
 import { useAuth } from '@clerk/nextjs';
 import { Check, Crown, Sparkles, Zap } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -24,29 +24,21 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 type PlanMetadata = {
-  id: PlanId | 'premium';
+  id: PlanId;
   nameKey: string;
   descKey: string;
   ctaKey: string;
   featuresKey: string;
-  monthly: number;
-  annual: number;
-  credits: number;
   isMostPopular: boolean;
-  comingSoon?: boolean;
 };
 
 type PaidPlan = {
-  id: PlanId | 'premium';
+  id: PlanId;
   name: string;
   desc: string;
   cta: string;
   features: string[];
-  monthly: number;
-  annual: number;
-  credits: number;
   isMostPopular: boolean;
-  comingSoon?: boolean;
 };
 
 function formatMonthlyEquivalent(yearly: number) {
@@ -122,50 +114,11 @@ function CreatorCoupon({ planId, isAnnual }: { planId: PlanId | 'premium'; isAnn
 
 
 const PLAN_METADATA: PlanMetadata[] = [
-  {
-    id: 'free',
-    nameKey: 'freeName',
-    descKey: 'freeDesc',
-    ctaKey: 'freeSubscribe',
-    featuresKey: 'freeFeatures',
-    monthly: 0,
-    annual: 0,
-    credits: 1,
-    isMostPopular: false,
-  },
-  {
-    id: 'creator',
-    nameKey: 'creatorName',
-    descKey: 'creatorDesc',
-    ctaKey: 'creatorSubscribe',
-    featuresKey: 'creatorFeatures',
-    monthly: 9,
-    annual: 90,
-    credits: 1000,
-    isMostPopular: false,
-  },
-  {
-    id: 'pro',
-    nameKey: 'proName',
-    descKey: 'proDesc',
-    ctaKey: 'proSubscribe',
-    featuresKey: 'proFeatures',
-    monthly: 25,
-    annual: 250,
-    credits: 1000,
-    isMostPopular: true,
-  },
-  {
-    id: 'studio',
-    nameKey: 'studioName',
-    descKey: 'studioDesc',
-    ctaKey: 'studioSubscribe',
-    featuresKey: 'studioFeatures',
-    monthly: 39,
-    annual: 390,
-    credits: 3000,
-    isMostPopular: false,
-  },
+  { id: 'free', nameKey: 'freeName', descKey: 'freeDesc', ctaKey: 'freeSubscribe', featuresKey: 'freeFeatures', isMostPopular: false },
+  { id: 'premium', nameKey: 'premiumName', descKey: 'premiumDesc', ctaKey: 'premiumSubscribe', featuresKey: 'premiumFeatures', isMostPopular: false },
+  { id: 'creator', nameKey: 'creatorName', descKey: 'creatorDesc', ctaKey: 'creatorSubscribe', featuresKey: 'creatorFeatures', isMostPopular: false },
+  { id: 'pro', nameKey: 'proName', descKey: 'proDesc', ctaKey: 'proSubscribe', featuresKey: 'proFeatures', isMostPopular: true },
+  { id: 'studio', nameKey: 'studioName', descKey: 'studioDesc', ctaKey: 'studioSubscribe', featuresKey: 'studioFeatures', isMostPopular: false },
 ]
 
 export default function PricesClient() {
@@ -190,10 +143,6 @@ export default function PricesClient() {
     refreshSubscription();
   }, [isLoaded, isSignedIn, searchParams, refreshSubscription]);
 
-  const isCreatorAvailable = isPlanAvailable('creator');
-  const isProAvailable = isPlanAvailable('pro');
-  const isStudioAvailable = isPlanAvailable('studio');
-
   // Build localized plan objects from metadata + translation keys
   const PLANS: PaidPlan[] = PLAN_METADATA.map((meta) => ({
     id: meta.id,
@@ -201,24 +150,16 @@ export default function PricesClient() {
     desc: t(meta.descKey as Parameters<typeof t>[0]),
     cta: t(meta.ctaKey as Parameters<typeof t>[0]),
     features: t.raw(meta.featuresKey as Parameters<typeof t>[0]) as string[],
-    monthly: meta.monthly,
-    annual: meta.annual,
-    credits: meta.credits,
+    monthly: getConfiguredPlanPrice(meta.id, 'monthly'),
+    annual: getConfiguredPlanPrice(meta.id, 'annual'),
+    credits: getPlanCredits(meta.id, 'monthly'),
     isMostPopular: meta.isMostPopular,
-    comingSoon: meta.comingSoon,
   }));
 
-  const getPlanPrice = (planId: PlanId | 'premium', annual: boolean): number => {
-    if (planId === 'free' || planId === 'premium') return 0;
-    const prices: Record<'creator' | 'pro' | 'studio', { monthly: number; annual: number }> = {
-      creator: { monthly: 9, annual: 90 },
-      pro: { monthly: 25, annual: 250 },
-      studio: { monthly: 39, annual: 390 },
-    };
-    return prices[planId as keyof typeof prices]?.[annual ? 'annual' : 'monthly'] ?? 0;
-  };
+  const getPlanPrice = (planId: PlanId, annual: boolean): number =>
+    getConfiguredPlanPrice(planId, annual ? 'annual' : 'monthly');
 
-  const handleSelectPlan = (planId: PlanId | 'premium') => {
+  const handleSelectPlan = (planId: PlanId) => {
     trackAnalyticsEvent('select_plan', {
       plan: planId,
       billing_period: isAnnual ? 'yearly' : 'monthly',
@@ -227,8 +168,8 @@ export default function PricesClient() {
     });
   };
 
-  const getCheckoutUrl = (planId: PlanId | 'premium') => {
-    if (planId === 'free' || planId === 'premium') return '/prompts';
+  const getCheckoutUrl = (planId: PlanId) => {
+    if (planId === 'free') return '/prompts';
     return getPlanCheckoutUrl(planId, isAnnual, userId);
   };
 
@@ -248,11 +189,7 @@ export default function PricesClient() {
       return <div className="h-10 w-full animate-pulse rounded-md bg-muted" />;
     }
 
-    const isActive = ready && (
-      (paidPlan.id === 'creator' && plan === 'creator') ||
-      (paidPlan.id === 'pro' && plan === 'pro') ||
-      (paidPlan.id === 'studio' && plan === 'studio')
-    );
+    const isActive = ready && paidPlan.id === plan;
 
     if (isSignedIn && isActive) {
       return (
@@ -336,13 +273,9 @@ export default function PricesClient() {
             </button>
           </div>
 
-          <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4 xl:gap-6">
+          <div className="mx-auto grid max-w-[90rem] grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 xl:gap-6">
             {PLANS.map((plan) => {
-              const available = plan.id === 'free' ||
-                plan.id === 'premium' ||
-                (plan.id === 'creator' && isCreatorAvailable) ||
-                (plan.id === 'pro' && isProAvailable) ||
-                (plan.id === 'studio' && isStudioAvailable);
+              const available = plan.id === 'free' || isPlanAvailable(plan.id, isAnnual);
 
               return (
                 <Card
@@ -353,10 +286,7 @@ export default function PricesClient() {
                       : 'border-muted-foreground/20 shadow-sm'
                   } ${!available ? 'border-dashed' : ''}`}
                 >
-                  {plan.comingSoon && (
-                    <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-slate-500 via-slate-400 to-slate-500" />
-                  )}
-                  {plan.isMostPopular && !plan.comingSoon && (
+                                    {plan.isMostPopular && (
                     <>
                       <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-violet-500 via-fuchsia-400 to-violet-500" />
                       <Badge className="absolute top-4 right-4 bg-violet-500 text-white hover:bg-violet-600">
@@ -364,7 +294,7 @@ export default function PricesClient() {
                       </Badge>
                     </>
                   )}
-                  {(plan.comingSoon || !available) && (
+                  {!available && (
                     <Badge className="absolute top-4 right-4 bg-slate-600 text-white hover:bg-slate-600 border-0">
                       {t('comingSoon')}
                     </Badge>
@@ -372,7 +302,7 @@ export default function PricesClient() {
                   <CardHeader className="pb-4 pt-8">
                     <div className="flex items-center justify-between gap-2">
                       <CardTitle className="font-headline text-2xl">
-                        {plan.id === 'creator' && <Crown className="w-6 h-6 text-blue-500 mr-2 inline" />}
+                        {plan.id === 'premium' && <Crown className="w-6 h-6 text-blue-500 mr-2 inline" />}
                         {plan.id === 'pro' && <Sparkles className="w-6 h-6 text-violet-500 mr-2 inline" />}
                         {plan.id === 'studio' && <Zap className="w-6 h-6 text-amber-500 mr-2 inline" />}
                         {plan.name}
@@ -393,7 +323,7 @@ export default function PricesClient() {
                         <div className="mt-4 rounded-xl border border-amber-500/30 bg-amber-500/10 p-3">
                           <div className="flex items-center justify-between gap-3">
                             <span className="text-sm font-bold text-amber-700 dark:text-amber-300">
-                              {plan.credits.toLocaleString()} {t('pendingCreditsLabel')}
+                              {getPlanCredits(plan.id, isAnnual ? 'annual' : 'monthly').toLocaleString()} {t('pendingCreditsLabel')}
                             </span>
                             <Badge variant="outline" className="border-amber-500/40 text-amber-700 dark:text-amber-300">
                               {t('pendingStatus')}
@@ -405,7 +335,7 @@ export default function PricesClient() {
                         </div>
                       )}
                     </div>
-                    {plan.id === 'creator' && <CreatorCoupon planId={plan.id} isAnnual={isAnnual} />}
+                    {plan.id === 'premium' && <CreatorCoupon planId={plan.id} isAnnual={isAnnual} />}
                     <ul className="space-y-3 mb-8 flex-grow">
                       {plan.features.map((feature) => (
                         <li key={feature} className="flex items-start gap-3 text-sm">
@@ -415,7 +345,7 @@ export default function PricesClient() {
                       ))}
                     </ul>
                     <div className="mt-auto">
-                      {plan.comingSoon || !available ? (
+                      {!available ? (
                         <Button
                           className="w-full bg-slate-700 hover:bg-slate-700 text-slate-300 cursor-not-allowed"
                           disabled
@@ -431,6 +361,29 @@ export default function PricesClient() {
               );
             })}
           </div>
+
+          <section className="mt-14 rounded-3xl border bg-card p-6 sm:p-8">
+            <div className="max-w-3xl">
+              <h2 className="text-2xl font-bold">{t('creditUseTitle')}</h2>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">{t('creditUseSubtitle')}</p>
+            </div>
+            <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+              {[
+                { title: t('creditTextTitle'), lines: [t('creditTextShort'), t('creditTextLong'), t('creditTextComplex')] },
+                { title: t('creditImageTitle'), lines: [t('creditImageLite'), t('creditImage1K'), t('creditImage2K'), t('creditImage4K')] },
+                { title: t('creditVideoTitle'), lines: [t('creditVideoLite720'), t('creditVideoLite1080'), t('creditVideoFast720'), t('creditVideoFast1080'), t('creditVideoPremium')] },
+                { title: t('creditWebsiteTitle'), lines: [t('creditWebsiteSimple'), t('creditWebsiteAdvanced'), t('creditWebsiteComplex')] },
+              ].map(group => (
+                <div key={group.title} className="rounded-2xl border bg-muted/20 p-4">
+                  <h3 className="font-semibold">{group.title}</h3>
+                  <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
+                    {group.lines.map(line => <li key={line}>{line}</li>)}
+                  </ul>
+                </div>
+              ))}
+            </div>
+            <p className="mt-5 text-xs leading-5 text-muted-foreground">{t('creditMarginNote')}</p>
+          </section>
 
           <p className="text-center text-sm text-muted-foreground mt-12 max-w-2xl mx-auto">
             {t('footerNote')}
