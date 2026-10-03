@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default function SignInPage() {
-  const afterSignIn = process.env.NEXT_PUBLIC_CLERK_USER_PROFILE?.trim() || '/dashboard/profile';
+  const afterSignIn = process.env.NEXT_PUBLIC_CLERK_USER_PROFILE?.trim() || undefined;
   return (
     <div className="flex min-h-screen items-center justify-center bg-muted/40 p-4">
       <ClerkAuthAnalytics surface="sign_in" />
