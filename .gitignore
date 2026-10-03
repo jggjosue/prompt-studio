@@ -83,3 +83,6 @@ dist/
 
 # Local AI benchmark artifacts
 /.benchmark/
+
+# Cloudflare local state
+.cloudflare/
