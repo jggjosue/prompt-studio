@@ -7,8 +7,8 @@ function withClientReference(base: string, userId?: string | null): string {
 
 export function getPremiumStripeCheckoutUrl(isAnnual: boolean, userId?: string | null): string {
   const base = isAnnual
-    ? process.env.NEXT_PUBLIC_STRIPE_PREMIUM_ANNUAL || process.env.NEXT_PUBLIC_STRIPE_CREATOR_ANNUAL || process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_ANNUAL
-    : process.env.NEXT_PUBLIC_STRIPE_PREMIUM_MONTHLY || process.env.NEXT_PUBLIC_STRIPE_CREATOR_MONTHLY || process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_MONTHLY;
+    ? process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_ANNUAL || process.env.NEXT_PUBLIC_STRIPE_PREMIUM_ANNUAL || process.env.NEXT_PUBLIC_STRIPE_CREATOR_ANNUAL
+    : process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_MONTHLY || process.env.NEXT_PUBLIC_STRIPE_PREMIUM_MONTHLY || process.env.NEXT_PUBLIC_STRIPE_CREATOR_MONTHLY;
   return withClientReference(base ?? '', userId);
 }
 

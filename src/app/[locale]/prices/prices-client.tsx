@@ -250,7 +250,7 @@ export default function PricesClient() {
 
           <div className="mx-auto grid max-w-[90rem] grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 xl:gap-6">
             {PLANS.map((plan) => {
-              const available = plan.id === 'free' || isPlanAvailable(plan.id, isAnnual);
+              const available = plan.id === 'free' || plan.id === 'premium' || isPlanAvailable(plan.id, isAnnual);
 
               return (
                 <Card
