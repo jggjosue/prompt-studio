@@ -17,7 +17,7 @@ import {
 } from '@/lib/stripe-checkout';
 import { type PlanId } from '@/lib/subscription-plans';
 import { useAuth } from '@clerk/nextjs';
-import { Check, Crown, Gem, Sparkles, Zap } from 'lucide-react';
+import { Check, Crown, Sparkles, Zap } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -372,7 +372,6 @@ export default function PricesClient() {
                   <CardHeader className="pb-4 pt-8">
                     <div className="flex items-center justify-between gap-2">
                       <CardTitle className="font-headline text-2xl">
-                        {plan.id === 'premium' && <Gem className="w-6 h-6 text-emerald-500 mr-2 inline" />}
                         {plan.id === 'creator' && <Crown className="w-6 h-6 text-blue-500 mr-2 inline" />}
                         {plan.id === 'pro' && <Sparkles className="w-6 h-6 text-violet-500 mr-2 inline" />}
                         {plan.id === 'studio' && <Zap className="w-6 h-6 text-amber-500 mr-2 inline" />}
