@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import { buildCrowdfundingCheckoutUrl } from '../../src/lib/crowdfunding-checkout';
 
 test('crowdfunding public page uses official chrome and Stripe CTA', () => {
  const page=fs.readFileSync('src/app/[locale]/crowdfunding/page.tsx','utf8');
@@ -37,9 +38,16 @@ test('Stripe server client rejects publishable keys used as secrets',()=>{
 test('crowdfunding checkout UI supports presets and custom amount',()=>{
  const ui=fs.readFileSync('src/components/CrowdfundingCheckout.tsx','utf8');
  for(const amount of ['50','100','500','1000']) assert.match(ui,new RegExp(amount));
- assert.match(ui,/Other amount/); assert.match(ui,/Continue with Stripe/);
- assert.match(ui,/window\.open\('about:blank', '_blank'\)/);
- assert.match(ui,/stripeTab\.location\.replace\(result\.url\)/);
+assert.match(ui,/Other amount/); assert.match(ui,/Continue with Stripe/);
+  assert.match(ui,/NEXT_PUBLIC_STRIPE_CHECKOUT_CROWFUNDING/);
+  assert.match(ui,/buildCrowdfundingCheckoutUrl\(paymentLink, selected\)/);
+  assert.match(ui,/window\.open\(/);
+});
+test('payment link uses the selected amount as prefilled_amount',()=>{
+  const url=buildCrowdfundingCheckoutUrl('https://buy.stripe.com/7sY3cu89G54C4EcgJn9MY0w?prefilled_amount=5000',100);
+  assert.equal(url,'https://buy.stripe.com/7sY3cu89G54C4EcgJn9MY0w?prefilled_amount=10000');
+  assert.equal(buildCrowdfundingCheckoutUrl('https://buy.stripe.com/7sY3cu89G54C4EcgJn9MY0w?prefilled_amount=5000',10),'https://buy.stripe.com/7sY3cu89G54C4EcgJn9MY0w?prefilled_amount=1000');
+  assert.equal(buildCrowdfundingCheckoutUrl('https://buy.stripe.com/7sY3cu89G54C4EcgJn9MY0w?prefilled_amount=5000',1000),'https://buy.stripe.com/7sY3cu89G54C4EcgJn9MY0w?prefilled_amount=100000');
 });
 test('calculator and checkout share one selected amount',()=>{
  const wrapper=fs.readFileSync('src/components/CrowdfundingCalculatorCheckout.tsx','utf8');
