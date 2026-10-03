@@ -4,7 +4,6 @@ import { useLocale } from 'next-intl';
 import { LockKeyhole } from 'lucide-react';
 import { trackAnalyticsEvent } from '@/lib/analytics';
 import { trackInterest } from '@/lib/interest-analytics';
-import { buildCrowdfundingCheckoutUrl } from '@/lib/crowdfunding-checkout';
 
 const PRESETS = [50, 100, 500, 1000] as const;
 
@@ -20,21 +19,29 @@ export function CrowdfundingCheckout({ amount, customAmount, onAmountChange, onC
   const es = locale.startsWith('es');
   const [error, setError] = useState('');
 
-  const checkout = () => {
+  const checkout = async () => {
     const selected = customAmount ? Number(customAmount) : amount;
     if (!Number.isFinite(selected) || selected < 10 || selected > 10000) {
       setError(es ? 'El aporte debe estar entre $10 y $10,000 USD.' : 'Contribution must be between $10 and $10,000 USD.');
       return;
     }
-    const paymentLink = process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_CROWFUNDING;
-    if (!paymentLink) {
-      setError(es ? 'El checkout no está disponible temporalmente. Inténtalo de nuevo.' : 'Checkout is temporarily unavailable. Please try again.');
-      return;
-    }
     trackInterest('crowdfunding_checkout_click', { amount_usd: selected, amount_type: customAmount ? 'custom' : 'preset' });
-    const url = buildCrowdfundingCheckoutUrl(paymentLink, selected);
-    trackAnalyticsEvent('begin_checkout', { value: selected, currency: 'USD', item_category: 'crowdfunding', action_source: 'stripe_payment_link' });
-    window.open(url, '_blank', 'noopener,noreferrer');
+    trackAnalyticsEvent('begin_checkout', { value: selected, currency: 'USD', item_category: 'crowdfunding', action_source: 'stripe_checkout_session' });
+    try {
+      const response = await fetch('/api/crowdfunding/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amountCents: Math.round(selected * 100), locale: es ? 'es' : 'en' }),
+      });
+      const data = await response.json() as { url?: string; error?: string };
+      if (!response.ok || !data.url) {
+        setError(data.error || (es ? 'El checkout no está disponible temporalmente. Inténtalo de nuevo.' : 'Checkout is temporarily unavailable. Please try again.'));
+        return;
+      }
+      window.location.assign(data.url);
+    } catch {
+      setError(es ? 'El checkout no está disponible temporalmente. Inténtalo de nuevo.' : 'Checkout is temporarily unavailable. Please try again.');
+    }
   };
 
   return (
