@@ -92,6 +92,18 @@ Official sources:
 
 ChatGPT plan prices are competitive/product context only. They are **not OpenAI API unit costs** and must never feed `estimateProviderCost()` or Prompt Credit margin calculations.
 
+### Single source of truth implemented
+
+The audit is now applied to runtime code through `src/lib/commercial-pricing.ts`.
+
+- `SUBSCRIPTION_CATALOG` owns paid plan prices and included monthly credits.
+- `FOUNDER_BASE_CREDITS_PER_USD` and `FOUNDER_REWARD_CATALOG` own crowdfunding conversion and tier bonuses.
+- `ACTIVE_CREDIT_PACK_CATALOG` owns dashboard/top-up price and credit quantities.
+- `subscription-plans.ts`, `founder-credit-tiers.ts`, `credit-packs.ts`, `stripe-checkout.ts`, the crowdfunding calculator, `/prices`, `/crowdfunding`, and the dashboard credits API now consume that chain instead of maintaining independent commercial numeric tables.
+- `tests/unit/commercial-pricing-catalog.test.ts` protects the catalog and integration boundaries from future drift.
+
+Provider/API unit costs remain intentionally outside this commercial catalog because they are operational costs, not customer-facing Prompt Credit SKUs.
+
 ### Main-branch correction status
 
 Corrected in this re-audit:
