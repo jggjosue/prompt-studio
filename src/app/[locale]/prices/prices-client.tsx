@@ -38,6 +38,9 @@ type PaidPlan = {
   desc: string;
   cta: string;
   features: string[];
+  monthly: number;
+  annual: number;
+  credits: number;
   isMostPopular: boolean;
 };
 
