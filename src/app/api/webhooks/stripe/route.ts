@@ -23,6 +23,7 @@ import connectToDatabase from '@/lib/mongoose';
 import { errorFingerprint, recordObservabilityEvent, reportOperationalError } from '@/lib/observability-server';
 import { getPlanCredits, normalizeExistingPlan, type PlanId } from '@/lib/subscription-plans';
 import { getFounderRewardTier } from '@/lib/founder-credit-tiers';
+import { validateCreditSaleEconomics } from '@/lib/credit-economics';
 import { recordConfirmedPurchase } from '@/lib/payment-analytics';
 import { areCrowdfundingCreditsActive, recordPendingSubscriptionCredits } from '@/lib/pending-subscription-credits';
 import AffiliateApplication from '@/models/AffiliateApplication';
@@ -595,6 +596,29 @@ export async function POST(req: Request) {
           if (plan !== 'free') {
             const billingCycle = subscription.items.data[0]?.price?.recurring?.interval === 'year' ? 'annual' : 'monthly';
             const credits = getPlanCredits(plan, billingCycle);
+            const economics = validateCreditSaleEconomics({
+              priceCents: invoice.amount_paid ?? 0,
+              credits,
+            });
+
+            if (!economics.eligible) {
+              await recordPendingSubscriptionCredits({
+                userId: clerkUserId,
+                plan,
+                credits,
+                stripeInvoiceId: invoice.id,
+                stripeSubscriptionId: subscriptionId,
+                metadata: {
+                  billingReason: invoice.billing_reason,
+                  billingCycle,
+                  campaignStatus: 'economics_blocked',
+                  amountPaidCents: invoice.amount_paid ?? 0,
+                  grossPerCreditUsd: economics.grossPerCreditUsd,
+                },
+              });
+              break;
+            }
+
             if (areCrowdfundingCreditsActive()) {
               await expireSubscriptionCredits(clerkUserId, invoice.id);
               await grantSubscriptionCredits(clerkUserId, credits, invoice.id, {
