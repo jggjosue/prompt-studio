@@ -4,7 +4,7 @@ import { isPremiumJoAdmin } from '@/lib/admin-auth';
 import connectToDatabase from '@/lib/mongoose';
 import CrowdfundingBacker from '@/models/CrowdfundingBacker';
 import CrowdfundingContribution from '@/models/CrowdfundingContribution';
-import { FOUNDER_CROWDFUNDING_CAMPAIGN_ID } from '@/lib/crowdfunding-backer-ledger';
+import { FOUNDER_CROWDFUNDING_CAMPAIGN_ID } from '@/lib/crowdfunding-campaign-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -34,7 +34,7 @@ export async function GET(request: Request) {
     .sort({ backerNumber: 1, paidAt: 1 })
     .lean();
 
-  const contributionsByBacker = new Map<string, typeof contributions>();
+  const contributionsByBacker = new Map<string, Array<(typeof contributions)[number]>>();
   for (const contribution of contributions) {
     const key = String(contribution.backerId);
     const rows = contributionsByBacker.get(key) ?? [];
