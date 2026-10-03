@@ -4,34 +4,13 @@ import { FOUNDER_BASE_CREDITS_PER_USD, FOUNDER_REWARD_CATALOG } from '@/lib/comm
 export { FOUNDER_BASE_CREDITS_PER_USD };
 
 /**
- * Regla de economía del Crowdfunding de Prompt Studio.
+ * Crowdfunding follows the same nominal Prompt Credit price as the rest of the
+ * platform: $1 = 100 base credits. Founder value is expressed only as an
+ * explicit tier bonus (5%-20%), so there is no hidden alternate conversion.
  *
- * Founder usa una conversión promocional separada: 80 créditos base por USD aportado.
- * El bonus por tier se aplica después sobre esos créditos base.
- *
- * Se valida el margen sólo sobre los créditos BASE para que los bonus
- * (incentivos de volumen) puedan exceder el piso sin bloquear la operación.
- * Los bonus se financian con el margen de ganancia disponible (~50%).
- *
- * ┌──────────────┬───────────┬───────┬──────────────────┐
- * │ Aportación   │ Base cr   │ Bonus │ Total Founder cr  │
- * ├──────────────┼───────────┼───────┼──────────────────┤
- * │ $10          │   800     │  5%   │   840            │
- * │ $25          │ 2.000     │  7%   │ 2.140            │
- * │ $50          │ 4.000     │ 10%   │ 4.400            │
- * │ $100         │ 8.000     │ 12%   │ 8.960            │
- * │ $250         │20.000     │ 15%   │23.000            │
- * │ $500         │40.000     │ 17%   │46.800            │
- * │ $1.000       │80.000     │ 20%   │96.000            │
- * └──────────────┴───────────┴───────┴──────────────────┘
- *
- * Peor caso de ganancia (aportación $1.000, bonus 20%):
- *   Ingreso:             $1.000
- *   Total cr entregados: 96.000
- *   Costo IA máx (25%):  $240
- *   Plataforma (15%):    $150  (approx)
- *   Stripe/riesgo (10%): $100
- *   Ganancia neta mín:   ~$450 (~45%)
+ * The 20% tier is the commercial floor: $1,000 => 100,000 base + 20,000 bonus
+ * = 120,000 credits, or $0.008333 effective per credit. This is the same floor
+ * as paying 10 months for 12 months of credits on an annual subscription.
  */
 export const FOUNDER_REWARD_TIERS = FOUNDER_REWARD_CATALOG;
 
@@ -52,9 +31,15 @@ export function getFounderRewardTier(pledgeAmountCents: number) {
   const baseCredits = Math.floor((pledgeAmountCents / 100) * FOUNDER_BASE_CREDITS_PER_USD);
   const bonusCredits = Math.floor(baseCredits * matched.bonusPercent / 100);
   const totalCredits = baseCredits + bonusCredits;
-  if (!validateCreditSaleEconomics({ priceCents: pledgeAmountCents, credits: baseCredits }).eligible) {
+
+  if (!validateCreditSaleEconomics({
+    priceCents: pledgeAmountCents,
+    credits: totalCredits,
+    allowPromotionalDiscount: true,
+  }).eligible) {
     return null;
   }
+
   return {
     pledgeAmountCents,
     baseCredits,
