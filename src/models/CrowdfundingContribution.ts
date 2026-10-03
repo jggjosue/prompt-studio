@@ -1,6 +1,9 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
 export interface ICrowdfundingContribution extends Document {
+  campaignId: string;
+  backerId: mongoose.Types.ObjectId;
+  backerNumber: number;
   stripeCheckoutSessionId: string;
   stripePaymentIntentId?: string | null;
   purchaserUserId?: string | null;
@@ -19,6 +22,9 @@ export interface ICrowdfundingContribution extends Document {
 }
 
 const CrowdfundingContributionSchema = new Schema<ICrowdfundingContribution>({
+  campaignId: { type: String, required: true, index: true, maxlength: 120 },
+  backerId: { type: Schema.Types.ObjectId, ref: 'CrowdfundingBacker', required: true, index: true },
+  backerNumber: { type: Number, required: true, min: 1, index: true },
   stripeCheckoutSessionId: { type: String, required: true, unique: true, index: true },
   stripePaymentIntentId: { type: String, default: null, index: true },
   purchaserUserId: { type: String, default: null, index: true },
@@ -35,6 +41,9 @@ const CrowdfundingContributionSchema = new Schema<ICrowdfundingContribution>({
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 }, { versionKey: false });
+
+CrowdfundingContributionSchema.index({ campaignId: 1, backerNumber: 1, paidAt: 1 });
+CrowdfundingContributionSchema.index({ campaignId: 1, backerId: 1, paidAt: 1 });
 
 export default mongoose.models.CrowdfundingContribution ||
   mongoose.model<ICrowdfundingContribution>('CrowdfundingContribution', CrowdfundingContributionSchema, 'crowdfunding_contributions');
