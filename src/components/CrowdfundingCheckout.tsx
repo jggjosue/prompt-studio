@@ -89,8 +89,8 @@ export function CrowdfundingCheckout({ amount, customAmount, onAmountChange, onC
       {error && <p className="mt-3 text-sm text-red-400">{error}</p>}
       <p className="mt-4 text-xs leading-5 text-slate-400">
         {es
-          ? 'Los Founder Credits no se acreditan al pagar. Permanecen pendientes hasta que la campaña sea financiada con éxito, Magzin reciba los fondos y el backer sea verificado.'
-          : 'Founder Credits are not granted at payment. They remain pending until the campaign is successfully funded, Magzin receives the funds, and the backer is verified.'}
+          ? 'Los Founder Credits no se acreditan inmediatamente al pagar. Se habilitan después de que termine la campaña, Magzin LLC haya recibido el pago y el backer sea verificado. No es necesario alcanzar el 100% de la meta.'
+          : 'Founder Credits are not granted immediately at payment. They become available after the campaign ends, Magzin LLC has received the payment, and the backer is verified. Reaching 100% of the funding goal is not required.'}
       </p>
     </div>
   );

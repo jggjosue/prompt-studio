@@ -10,7 +10,7 @@ export async function registerEligibleFounderBacker(input: {
   backerEmail: string;
   pledgeAmountCents: number;
   currency: string;
-  campaignFunded: boolean;
+  campaignEnded: boolean;
   fundsReceived: boolean;
   backerVerified: boolean;
   metadata?: Record<string, unknown>;
@@ -18,7 +18,7 @@ export async function registerEligibleFounderBacker(input: {
   if (!input.campaignId.trim() || input.campaignId.length > 120) throw new Error('FOUNDER_CAMPAIGN_INVALID');
   const email = input.backerEmail.trim().toLowerCase();
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 320) throw new Error('FOUNDER_EMAIL_INVALID');
-  if (!input.campaignFunded || !input.fundsReceived || !input.backerVerified) throw new Error('FOUNDER_NOT_ELIGIBLE');
+  if (!input.campaignEnded || !input.fundsReceived || !input.backerVerified) throw new Error('FOUNDER_NOT_ELIGIBLE');
   if (input.currency.toUpperCase() !== 'USD') throw new Error('FOUNDER_CURRENCY_UNSUPPORTED');
   const tier = getFounderRewardTier(input.pledgeAmountCents);
   if (!tier) throw new Error('FOUNDER_TIER_INVALID');
@@ -33,7 +33,7 @@ export async function registerEligibleFounderBacker(input: {
       baseCredits: tier.baseCredits,
       bonusCredits: tier.bonusCredits,
       status: 'eligible',
-      metadata: { ...input.metadata, campaignFunded: true, fundsReceived: true, backerVerified: true },
+      metadata: { ...input.metadata, campaignEnded: true, fundsReceived: true, backerVerified: true },
       createdAt: new Date(),
     }, $set: { updatedAt: new Date() } },
     { upsert: true, returnDocument: 'after' },
