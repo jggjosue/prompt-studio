@@ -333,7 +333,10 @@ export default function PricesClient() {
                             </Badge>
                           </div>
                           <p className="mt-1 text-xs leading-5 text-muted-foreground">
-                            {t('pendingCreditsNote')}
+                            {t('pendingCreditsNote')}{' '}
+                            <Link href="/crowdfunding" className="font-semibold text-blue-600 underline underline-offset-2 hover:text-blue-500 dark:text-blue-400">
+                              {t('pendingCreditsLink')}
+                            </Link>
                           </p>
                         </div>
                       )}
