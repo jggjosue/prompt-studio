@@ -397,7 +397,7 @@
   },
   "prices": {
     "title": "Elige cómo creas con IA",
-    "subtitle": "Comienza gratis o elige Creator para descargar catálogos y crear páginas.",
+    "subtitle": "Elige Premium, Pro o Studio. Los créditos incluidos se registran ahora como pendientes y se activarán después de la campaña.",
     "annualBilling": "Facturación anual",
     "annualBillingHint": "Premium: ${premiumYear}/año (ahorra ${premiumSave}).",
     "billingCycle": "Ciclo de facturación",
@@ -412,7 +412,7 @@
     "browseFree": "Explorar prompts gratis",
     "browseWebProjects": "Explorar proyectos web",
     "bestForBuilders": "Ideal para creadores",
-    "footerNote": "Free no requiere tarjeta. Creator añade descargas de catálogo y Page Composer.",
+    "footerNote": "Los beneficios del plan se aplican según disponibilidad. Durante la campaña, los créditos de IA incluidos permanecen pendientes y no forman parte del saldo utilizable.",
     "clerkBillingTitle": "Suscríbete con Clerk",
     "clerkBillingSubtitle": "Pagos seguros con Stripe. Tras suscribirte, el contenido premium se desbloquea al instante.",
     "planActive": "Plan activo",
@@ -504,7 +504,10 @@
     "studioCTA": "Empezar Studio",
     "freeCTA": "Empezar gratis",
     "chooseHowYouCreate": "Elige cómo creas con IA",
-    "checkout": "Suscribirse"
+    "checkout": "Suscribirse",
+    "pendingCreditsLabel": "créditos pendientes",
+    "pendingStatus": "Pendientes",
+    "pendingCreditsNote": "Estos créditos quedan registrados con tu compra, pero no se pueden utilizar hasta que termine la campaña y se active el saldo de IA."
   },
   "dashboard": {
     "dashboard": "Panel",
