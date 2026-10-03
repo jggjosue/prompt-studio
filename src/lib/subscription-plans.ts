@@ -1,3 +1,5 @@
+import { SUBSCRIPTION_CATALOG } from '@/lib/commercial-pricing';
+
 /**
  * Catálogo canónico de planes de Prompt Studio.
  *
@@ -17,17 +19,17 @@ export type PlanId = 'free' | 'premium' | 'creator' | 'pro' | 'studio';
 export type BillingCycle = 'monthly' | 'annual';
 
 export const PLAN_PRICES = {
-  premium: { monthly: 9, annual: 90 },
-  creator: { monthly: 19, annual: 190 },
-  pro: { monthly: 29, annual: 290 },
-  studio: { monthly: 39, annual: 390 },
+  premium: { monthly: SUBSCRIPTION_CATALOG.premium.monthlyPriceUsd, annual: SUBSCRIPTION_CATALOG.premium.annualPriceUsd },
+  creator: { monthly: SUBSCRIPTION_CATALOG.creator.monthlyPriceUsd, annual: SUBSCRIPTION_CATALOG.creator.annualPriceUsd },
+  pro: { monthly: SUBSCRIPTION_CATALOG.pro.monthlyPriceUsd, annual: SUBSCRIPTION_CATALOG.pro.annualPriceUsd },
+  studio: { monthly: SUBSCRIPTION_CATALOG.studio.monthlyPriceUsd, annual: SUBSCRIPTION_CATALOG.studio.annualPriceUsd },
 } as const;
 
 export const PLAN_MONTHLY_CREDITS = {
-  premium: 500,
-  creator: 1000,
-  pro: 1500,
-  studio: 3000,
+  premium: SUBSCRIPTION_CATALOG.premium.monthlyCredits,
+  creator: SUBSCRIPTION_CATALOG.creator.monthlyCredits,
+  pro: SUBSCRIPTION_CATALOG.pro.monthlyCredits,
+  studio: SUBSCRIPTION_CATALOG.studio.monthlyCredits,
 } as const;
 
 /**
