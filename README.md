@@ -213,6 +213,8 @@ More cases, with their cause and resolution, in
 | [docs/TESTING.md](docs/TESTING.md) | Testing architecture, coverage, and what is covered |
 | [docs/DATABASE.md](docs/DATABASE.md) | Models, collections, indexes, and the `user_profiles` incident |
 | [docs/AI_ARCHITECTURE.md](docs/AI_ARCHITECTURE.md) | Lifecycle of the AI job, credits, and output contracts |
+| [docs/AI_UNIT_ECONOMICS_AND_CREDITS.md](docs/AI_UNIT_ECONOMICS_AND_CREDITS.md) | Canonical Prompt Credit economics, plan allocations, operation pricing, margin guard, crowdfunding/top-up consistency, and change-control rules |
+| [docs/CROWDFUNDING_AND_COMPETITIVE_CREDITS.md](docs/CROWDFUNDING_AND_COMPETITIVE_CREDITS.md) | Founder Credit schedule, campaign activation rules, competitor benchmark methodology, and Prompt Studio positioning |
 | [docs/ai/TEXT_MODEL_ROLLOUT.md](docs/ai/TEXT_MODEL_ROLLOUT.md) | PromptStudio AI load testing, canary gates, comparison, and rollback procedure |
 | [docs/ai/TEXT_UNIT_ECONOMICS.md](docs/ai/TEXT_UNIT_ECONOMICS.md) | PromptStudio AI latency, reliability, spend metrics, tracing, and alert thresholds |
 | [docs/ai/TEXT_USAGE_ACCOUNTING.md](docs/ai/TEXT_USAGE_ACCOUNTING.md) | Self-hosted text monthly quotas, credit reconciliation, usage records, and cost telemetry |
