@@ -40,14 +40,13 @@ export type CreditPack = {
  * │ 10.000 cr  │$100.00   │10.000 cr   │ +500 cr  │10.500 cr     │
  * └────────────┴──────────┴────────────┴──────────┴──────────────┘
  *
- * Referencia de planes de suscripción (mensual):
- *   Premium $9/mes  → 500 cr/mes   = $0.018/cr
- *   Creator $19/mes → 1.000 cr/mes = $0.019/cr
- *   Pro     $29/mes → 1.500 cr/mes = $0.019/cr
- *   Studio  $39/mes → 3.000 cr/mes = $0.013/cr
+ * Referencia de planes de suscripción (mensual, regla 1 cr = $0.01):
+ *   Premium $9/mes  →   900 cr/mes  ($9  × 100)
+ *   Creator $19/mes → 1.900 cr/mes  ($19 × 100)
+ *   Pro     $29/mes → 2.900 cr/mes  ($29 × 100)
+ *   Studio  $39/mes → 3.900 cr/mes  ($39 × 100)
  *
- * Los packs de recarga son top-ups puntuales sin beneficios adicionales del plan,
- * por eso el precio base es exactamente $0.01/cr (el piso del sistema).
+ * Los packs de recarga respetan exactamente el mismo piso ($0.01/cr base).
  * Los bonus créditos de los packs grandes compensan la falta de beneficios
  * recurrentes y premian a quienes compran mayor volumen.
  */

@@ -29,10 +29,10 @@ The runtime margin guard must fail closed when provider pricing is unknown or wh
 | Plan | Monthly price | Monthly Prompt Credits | Annual price | Annual Prompt Credits |
 | --- | ---: | ---: | ---: | ---: |
 | Free | $0 | 0 during crowdfunding | $0 | 0 |
-| Premium | $9 | 500 | $90 | 6,000 |
-| Creator | $19 | 1,000 | $190 | 12,000 |
-| Pro | $29 | 1,500 | $290 | 18,000 |
-| Studio | $39 | 3,000 | $390 | 36,000 |
+| Premium | $9 | 900 | $90 | 10,800 |
+| Creator | $19 | 1,900 | $190 | 22,800 |
+| Pro | $29 | 2,900 | $290 | 34,800 |
+| Studio | $39 | 3,900 | $390 | 46,800 |
 
 Source: `src/lib/subscription-plans.ts`.
 
@@ -122,17 +122,17 @@ Relevant files:
 
 Founder Credits use the **same Prompt Credit economy** as plans and top-ups. They are not a separate token.
 
-The campaign currently uses a base of **80 credits per $1 contributed** plus a tier bonus that remains inside the commercial economics guard.
+The campaign currently uses a base of **100 credits per $1 contributed** plus a tier bonus that remains inside the commercial economics guard.
 
 | Contribution | Founder Credits |
 | ---: | ---: |
-| $10 | 840 |
-| $25 | 2,140 |
-| $50 | 4,400 |
-| $100 | 8,960 |
-| $250 | 23,000 |
-| $500 | 46,800 |
-| $1,000 | 96,000 |
+| $10 | 1,050 |
+| $25 | 2,675 |
+| $50 | 5,500 |
+| $100 | 11,200 |
+| $250 | 28,750 |
+| $500 | 58,500 |
+| $1,000 | 120,000 |
 
 Custom contribution amounts use the same formula and the bonus percentage of the highest tier reached.
 

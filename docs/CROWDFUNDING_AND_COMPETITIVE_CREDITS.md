@@ -37,17 +37,17 @@ Public page:
 
 | Contribution | Base | Bonus | Total Founder Credits |
 | ---: | ---: | ---: | ---: |
-| $10 | 800 | 5% | 840 |
-| $25 | 2,000 | 7% | 2,140 |
-| $50 | 4,000 | 10% | 4,400 |
-| $100 | 8,000 | 12% | 8,960 |
-| $250 | 20,000 | 15% | 23,000 |
-| $500 | 40,000 | 17% | 46,800 |
-| $1,000 | 80,000 | 20% | 96,000 |
+| $10 | 1,000 | 5% | 1,050 |
+| $25 | 2,500 | 7% | 2,675 |
+| $50 | 5,000 | 10% | 5,500 |
+| $100 | 10,000 | 12% | 11,200 |
+| $250 | 25,000 | 15% | 28,750 |
+| $500 | 50,000 | 17% | 58,500 |
+| $1,000 | 100,000 | 20% | 120,000 |
 
 Custom amounts use the same formula:
 
-- 80 base Prompt Credits per $1,
+- 100 base Prompt Credits per $1,
 - apply the bonus percentage of the highest tier reached,
 - reject allocations that fail the shared credit-economics validator.
 
@@ -59,19 +59,19 @@ Current monthly plans:
 
 | Plan | Monthly price | Prompt Credits |
 | --- | ---: | ---: |
-| Premium | $9 | 500 |
-| Creator | $19 | 1,000 |
-| Pro | $29 | 1,500 |
-| Studio | $39 | 3,000 |
+| Premium | $9 | 900 |
+| Creator | $19 | 1,900 |
+| Pro | $29 | 2,900 |
+| Studio | $39 | 3,900 |
 
 Using the current operation catalog, this approximately gives:
 
 | Plan | Quality 1K images | Lite 720p / 8s videos | Advanced websites |
 | --- | ---: | ---: | ---: |
-| Premium | 16 | 2 | 10 |
-| Creator | 32 | 5 | 20 |
-| Pro | 48 | 8 | 30 |
-| Studio | 96 | 16 | 60 |
+| Premium | 29 | 5 | 18 |
+| Creator | 61 | 10 | 38 |
+| Pro | 93 | 16 | 58 |
+| Studio | 125 | 21 | 78 |
 
 These are category maximums, not bundled promises. A user can spend the same balance across categories.
 

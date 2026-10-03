@@ -2,6 +2,36 @@ import { validateCreditSaleEconomics } from '@/lib/credit-economics';
 
 export const FOUNDER_BASE_CREDITS_PER_USD = 100;
 
+/**
+ * Regla de economía del Crowdfunding de Prompt Studio.
+ *
+ * 1 Prompt Credit = $0.01 USD (piso comercial del sistema).
+ * Por lo tanto: FOUNDER_BASE_CREDITS_PER_USD = 100 (precio × 100 = créditos base).
+ *
+ * Se valida el margen sólo sobre los créditos BASE para que los bonus
+ * (incentivos de volumen) puedan exceder el piso sin bloquear la operación.
+ * Los bonus se financian con el margen de ganancia disponible (~50%).
+ *
+ * ┌──────────────┬───────────┬───────┬──────────────────┐
+ * │ Aportación   │ Base cr   │ Bonus │ Total Founder cr  │
+ * ├──────────────┼───────────┼───────┼──────────────────┤
+ * │ $10          │ 1.000     │  5%   │ 1.050            │
+ * │ $25          │ 2.500     │  7%   │ 2.675            │
+ * │ $50          │ 5.000     │ 10%   │ 5.500            │
+ * │ $100         │ 10.000    │ 12%   │ 11.200           │
+ * │ $250         │ 25.000    │ 15%   │ 28.750           │
+ * │ $500         │ 50.000    │ 17%   │ 58.500           │
+ * │ $1.000       │ 100.000   │ 20%   │ 120.000          │
+ * └──────────────┴───────────┴───────┴──────────────────┘
+ *
+ * Peor caso de ganancia (aportación $1.000, bonus 20%):
+ *   Ingreso:             $1.000
+ *   Total cr entregados: 120.000
+ *   Costo IA máx (25%):  $300
+ *   Plataforma (15%):    $150  (approx)
+ *   Stripe/riesgo (10%): $100
+ *   Ganancia neta mín:   ~$450 (~45%)
+ */
 export const FOUNDER_REWARD_TIERS = [
   { pledgeAmountCents: 1000, bonusPercent: 5 },
   { pledgeAmountCents: 2500, bonusPercent: 7 },
