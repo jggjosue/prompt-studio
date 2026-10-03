@@ -69,3 +69,16 @@ test('translations include all five plan names in both languages', async () => {
     }
   }
 });
+
+test('pending plan credits explain crowdfunding lock and link to the campaign', async () => {
+  const prices = await source('src/app/[locale]/prices/prices-client.tsx');
+  const wallet = await source('src/app/[locale]/dashboard/credits/credits-client.tsx');
+  const es = JSON.parse(await source('messages/es.json')) as { prices?: Record<string, string> };
+  const en = JSON.parse(await source('messages/en.json')) as { prices?: Record<string, string> };
+
+  assert.ok(prices.includes('href="/crowdfunding"'));
+  assert.ok(prices.includes("pendingCreditsLink"));
+  assert.ok(wallet.includes('href="/crowdfunding"'));
+  assert.match(es.prices?.pendingCreditsNote ?? '', /no se pueden gastar hasta que termine la campaña de crowdfunding/);
+  assert.match(en.prices?.pendingCreditsNote ?? '', /cannot be spent until the crowdfunding campaign ends/);
+});
