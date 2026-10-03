@@ -22,6 +22,7 @@ import { applyCreditTopUp, markCreditPurchaseRefunded } from '@/lib/credit-topup
 import connectToDatabase from '@/lib/mongoose';
 import { errorFingerprint, recordObservabilityEvent, reportOperationalError } from '@/lib/observability-server';
 import { getPlanCredits, normalizeExistingPlan, type PlanId } from '@/lib/subscription-plans';
+import { getFounderRewardTier } from '@/lib/founder-credit-tiers';
 import { recordConfirmedPurchase } from '@/lib/payment-analytics';
 import { areCrowdfundingCreditsActive, recordPendingSubscriptionCredits } from '@/lib/pending-subscription-credits';
 import AffiliateApplication from '@/models/AffiliateApplication';
@@ -243,7 +244,8 @@ export async function POST(req: Request) {
         if (founderCrowdfundingPayment) {
           const amountPaidCents = session.amount_total ?? 0;
           const currency = (session.currency ?? '').toUpperCase();
-          if (amountPaidCents <= 0 || currency !== 'USD') {
+          const founderReward = getFounderRewardTier(amountPaidCents);
+          if (amountPaidCents <= 0 || currency !== 'USD' || !founderReward) {
             throw new Error(`Invalid crowdfunding payment for ${session.id}`);
           }
           const paymentIntentId =
@@ -263,6 +265,10 @@ export async function POST(req: Request) {
                 amountPaidCents,
                 currency: 'USD',
                 status: 'paid',
+                baseCredits: founderReward.baseCredits,
+                bonusCredits: founderReward.bonusCredits,
+                totalCredits: founderReward.totalCredits,
+                creditStatus: 'pending',
                 paidAt: new Date(),
                 refundedAt: null,
                 updatedAt: new Date(),
@@ -651,7 +657,7 @@ export async function POST(req: Request) {
           await markCreditPurchaseRefunded(paymentIntentId);
           await CrowdfundingContribution.updateMany(
             { stripePaymentIntentId: paymentIntentId, status: 'paid' },
-            { $set: { status: 'refunded', refundedAt: new Date(), updatedAt: new Date() } },
+            { $set: { status: 'refunded', creditStatus: 'cancelled', refundedAt: new Date(), updatedAt: new Date() } },
           );
         }
         break;
