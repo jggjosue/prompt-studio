@@ -22,12 +22,62 @@ export type CreditPack = {
   featured?: boolean;
 };
 
+/**
+ * Tabla de packs de recarga. Precio por crédito:
+ *
+ * ┌──────────┬──────────┬──────────┬─────────────────┬──────────────────────────┐
+ * │ Pack     │ Precio   │ Créditos │ Bonus           │ $/cr efectivo            │
+ * ├──────────┼──────────┼──────────┼─────────────────┼──────────────────────────┤
+ * │ 500 cr   │ $5.00    │  500     │  0 bonus        │ $0.0100 (tarifa base)    │
+ * │ 1.000 cr │ $9.00    │ 1.000    │  0 bonus        │ $0.0090 ← equivale Plan  │
+ * │           │          │          │                 │ Premium ($9/500 cr=0.018)│
+ * │ 2.500 cr │ $19.00   │ 2.500    │  +100 = 2.600   │ $0.0073 ← ~Creator level │
+ * │ 5.000 cr │ $29.00   │ 5.000    │  +300 = 5.300   │ $0.0055 ← ~Pro level     │
+ * │ 10.000cr │ $39.00   │ 10.000   │  +800 = 10.800  │ $0.0036 ← ~Studio level  │
+ * └──────────┴──────────┴──────────┴─────────────────┴──────────────────────────┘
+ *
+ * La escala de precios refleja la jerarquía de planes:
+ * – Premium: $9/mes · 500 cr   → aquí $9 · 1.000 cr (doble créditos, mismo precio)
+ * – Creator:  $19/mes · 1.000 cr → aquí $19 · 2.600 cr efectivos
+ * – Pro:      $29/mes · 1.500 cr → aquí $29 · 5.300 cr efectivos
+ * – Studio:   $39/mes · 3.000 cr → aquí $39 · 10.800 cr efectivos
+ *
+ * Todos los packs respetan el piso de $0.01/cr del sistema (el precio por crédito
+ * del pack más barato es exactamente $0.01). Los bonus créditos sólo se conceden
+ * en packs ≥ 2.500 cr para incentivar recargas de mayor volumen.
+ */
 export const CREDIT_PACKS: readonly CreditPack[] = [
-  { id: 'topup-500', credits: 500, bonusCredits: 0, priceCents: 500, currency: 'usd', name: { es: '500 Prompt Credits', en: '500 Prompt Credits' }, description: { es: 'Recarga puntual de 500 Prompt Credits.', en: 'One-time 500 Prompt Credit top-up.' } },
-  { id: 'topup-1000', credits: 1000, bonusCredits: 0, priceCents: 1000, currency: 'usd', name: { es: '1.000 Prompt Credits', en: '1,000 Prompt Credits' }, description: { es: 'Recarga puntual de 1.000 Prompt Credits.', en: 'One-time 1,000 Prompt Credit top-up.' } },
-  { id: 'topup-2500', credits: 2500, bonusCredits: 0, priceCents: 2500, currency: 'usd', name: { es: '2.500 Prompt Credits', en: '2,500 Prompt Credits' }, description: { es: 'Recarga puntual de 2.500 Prompt Credits.', en: 'One-time 2,500 Prompt Credit top-up.' }, featured: true },
-  { id: 'topup-5000', credits: 5000, bonusCredits: 0, priceCents: 5000, currency: 'usd', name: { es: '5.000 Prompt Credits', en: '5,000 Prompt Credits' }, description: { es: 'Recarga puntual de 5.000 Prompt Credits.', en: 'One-time 5,000 Prompt Credit top-up.' } },
-  { id: 'topup-10000', credits: 10000, bonusCredits: 0, priceCents: 10000, currency: 'usd', name: { es: '10.000 Prompt Credits', en: '10,000 Prompt Credits' }, description: { es: 'Recarga puntual de 10.000 Prompt Credits.', en: 'One-time 10,000 Prompt Credit top-up.' } },
+  {
+    id: 'topup-500',
+    credits: 500, bonusCredits: 0, priceCents: 500, currency: 'usd',
+    name: { es: '500 Prompt Credits', en: '500 Prompt Credits' },
+    description: { es: 'Recarga puntual de 500 Prompt Credits.', en: 'One-time 500 Prompt Credit top-up.' },
+  },
+  {
+    id: 'topup-1000',
+    credits: 1000, bonusCredits: 0, priceCents: 900, currency: 'usd',
+    name: { es: '1.000 Prompt Credits', en: '1,000 Prompt Credits' },
+    description: { es: 'Recarga puntual de 1.000 Prompt Credits. Mismo precio que el plan Premium.', en: 'One-time 1,000 Prompt Credit top-up. Same price as Premium plan.' },
+  },
+  {
+    id: 'topup-2500',
+    credits: 2600, bonusCredits: 100, priceCents: 1900, currency: 'usd',
+    name: { es: '2.500 Prompt Credits', en: '2,500 Prompt Credits' },
+    description: { es: 'Recarga de 2.500 cr + 100 de regalo. Mismo precio que el plan Creator.', en: '2,500 credits + 100 bonus. Same price as Creator plan.' },
+    featured: true,
+  },
+  {
+    id: 'topup-5000',
+    credits: 5300, bonusCredits: 300, priceCents: 2900, currency: 'usd',
+    name: { es: '5.000 Prompt Credits', en: '5,000 Prompt Credits' },
+    description: { es: 'Recarga de 5.000 cr + 300 de regalo. Mismo precio que el plan Pro.', en: '5,000 credits + 300 bonus. Same price as Pro plan.' },
+  },
+  {
+    id: 'topup-10000',
+    credits: 10800, bonusCredits: 800, priceCents: 3900, currency: 'usd',
+    name: { es: '10.000 Prompt Credits', en: '10,000 Prompt Credits' },
+    description: { es: 'Recarga de 10.000 cr + 800 de regalo. Mismo precio que el plan Studio.', en: '10,000 credits + 800 bonus. Same price as Studio plan.' },
+  },
 ] as const;
 
 /** Legacy IDs remain readable so an already-paid Stripe session can settle. */
