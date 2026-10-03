@@ -15,7 +15,7 @@ import {
   getPlanCheckoutUrl,
   isPlanAvailable,
 } from '@/lib/stripe-checkout';
-import { getPlanCredits, getPlanPrice as getConfiguredPlanPrice, type PlanId } from '@/lib/subscription-plans';
+import { getPlanCredits, getPlanBaseCredits, getPlanBonusCredits, getPlanBonusPercent, getPlanPrice as getConfiguredPlanPrice, type PlanId } from '@/lib/subscription-plans';
 import { CREDIT_PACKS, formatCreditPackPrice, centsPerCredit } from '@/lib/credit-packs';
 import { useAuth } from '@clerk/nextjs';
 import { Check, Crown, Sparkles, Zap } from 'lucide-react';
@@ -294,24 +294,43 @@ export default function PricesClient() {
                         monthly={plan.monthly}
                         yearly={plan.annual}
                       />
-                      {plan.id !== 'free' && (
-                        <div className="mt-4 rounded-xl border border-amber-500/30 bg-amber-500/10 p-3">
-                          <div className="flex items-center justify-between gap-3">
-                            <span className="text-sm font-bold text-amber-700 dark:text-amber-300">
-                              {getPlanCredits(plan.id, isAnnual ? 'annual' : 'monthly').toLocaleString()} {t('pendingCreditsLabel')}
-                            </span>
-                            <Badge variant="outline" className="border-amber-500/40 text-amber-700 dark:text-amber-300">
-                              {t('pendingStatus')}
-                            </Badge>
+                      {plan.id !== 'free' && (() => {
+                        const cycle = isAnnual ? 'annual' : 'monthly';
+                        const base = getPlanBaseCredits(plan.id, cycle);
+                        const bonus = getPlanBonusCredits(plan.id, cycle);
+                        const bonusPct = getPlanBonusPercent(plan.id, cycle);
+                        const total = getPlanCredits(plan.id, cycle);
+                        return (
+                          <div className="mt-4 space-y-2">
+                            {/* Total credits with bonus badge */}
+                            <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-3">
+                              <div className="flex items-center justify-between gap-3">
+                                <span className="text-sm font-bold text-amber-700 dark:text-amber-300">
+                                  {total.toLocaleString()} {t('pendingCreditsLabel')}
+                                </span>
+                                <Badge variant="outline" className="border-amber-500/40 text-amber-700 dark:text-amber-300">
+                                  {t('pendingStatus')}
+                                </Badge>
+                              </div>
+                              {/* Bonus breakdown */}
+                              <div className="mt-2 flex items-center gap-1.5 text-xs">
+                                <span className="text-muted-foreground tabular-nums">{base.toLocaleString()} base</span>
+                                <span className="text-muted-foreground">+</span>
+                                <span className="flex items-center gap-0.5 font-semibold text-emerald-600 dark:text-emerald-400">
+                                  <Sparkles className="h-3 w-3" />
+                                  {bonus.toLocaleString()} bonus ({bonusPct}%)
+                                </span>
+                              </div>
+                              <p className="mt-2 text-xs leading-5 text-muted-foreground">
+                                {t('pendingCreditsNote')}{' '}
+                                <Link href="/crowdfunding" className="font-semibold text-blue-600 underline underline-offset-2 hover:text-blue-500 dark:text-blue-400">
+                                  {t('pendingCreditsLink')}
+                                </Link>
+                              </p>
+                            </div>
                           </div>
-                          <p className="mt-1 text-xs leading-5 text-muted-foreground">
-                            {t('pendingCreditsNote')}{' '}
-                            <Link href="/crowdfunding" className="font-semibold text-blue-600 underline underline-offset-2 hover:text-blue-500 dark:text-blue-400">
-                              {t('pendingCreditsLink')}
-                            </Link>
-                          </p>
-                        </div>
-                      )}
+                        );
+                      })()}
                     </div>
                     <ul className="space-y-3 mb-8 flex-grow">
                       {plan.features.map((feature) => (
