@@ -59,7 +59,8 @@ export async function runGeneration(
     // La petición permanece abierta mientras el servidor genera la imagen. No la esperamos aquí
     // para poder consultar y pintar el progreso dentro del mensaje del asistente.
     let processingError = '';
-    const processingRequest = fetch(`/api/ai/jobs/process?jobId=${encodeURIComponent(jobIdFromRes)}&limit=1`, {
+    const processUrl = process.env.NEXT_PUBLIC_AI_QUEUE_PROCESS_URL || '/api/ai/jobs/process';
+    const processingRequest = fetch(`${processUrl}?jobId=${encodeURIComponent(jobIdFromRes)}&limit=1`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
     }).then(async response => {
