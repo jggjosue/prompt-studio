@@ -6,7 +6,7 @@
  * - Free: 0 créditos de IA durante la campaña
  * - Premium: $9/mes · 500 Prompt Credits
  * - Creator: $19/mes · 1,000 Prompt Credits
- * - Pro: $25/mes · 1,500 Prompt Credits
+ * - Pro: $29/mes · 1,500 Prompt Credits
  * - Studio: $39/mes · 3,000 Prompt Credits
  *
  * En facturación anual se conceden 12× los créditos mensuales en el ciclo anual.
@@ -18,7 +18,7 @@ export type BillingCycle = 'monthly' | 'annual';
 export const PLAN_PRICES = {
   premium: { monthly: 9, annual: 90 },
   creator: { monthly: 19, annual: 190 },
-  pro: { monthly: 25, annual: 250 },
+  pro: { monthly: 29, annual: 290 },
   studio: { monthly: 39, annual: 390 },
 } as const;
 
