@@ -397,7 +397,7 @@
   },
   "prices": {
     "title": "Choose how you create with AI",
-    "subtitle": "Start free or choose Creator for downloads and page-building tools.",
+    "subtitle": "Choose Premium, Pro, or Studio. Included credits are recorded as pending now and will be activated after the campaign.",
     "annualBilling": "Annual billing",
     "annualBillingHint": "Premium: ${premiumYear}/year (save ${premiumSave}).",
     "billingCycle": "Billing cycle",
@@ -412,7 +412,7 @@
     "browseFree": "Browse free prompts",
     "browseWebProjects": "Browse web projects",
     "bestForBuilders": "Best for creators",
-    "footerNote": "Free requires no credit card. Creator adds catalog downloads and Page Composer.",
+    "footerNote": "Plan benefits apply according to availability. During the campaign, included AI credits remain pending and are not part of the usable balance.",
     "clerkBillingTitle": "Subscribe with Clerk",
     "clerkBillingSubtitle": "Secure payments via Stripe. After subscribing, premium content unlocks instantly.",
     "planActive": "Active plan",
@@ -504,7 +504,10 @@
     "studioCTA": "Start Studio",
     "freeCTA": "Get started free",
     "chooseHowYouCreate": "Choose how you create with AI",
-    "checkout": "Subscribe"
+    "checkout": "Subscribe",
+    "pendingCreditsLabel": "pending credits",
+    "pendingStatus": "Pending",
+    "pendingCreditsNote": "These credits are recorded with your purchase, but cannot be used until the campaign ends and the AI credit balance is activated."
   },
   "dashboard": {
     "dashboard": "Dashboard",
