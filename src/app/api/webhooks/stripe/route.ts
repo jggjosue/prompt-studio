@@ -10,7 +10,7 @@ import {
     upsertAffiliateSaleFromCommission,
 } from '@/lib/affiliate-mongo';
 import { registerAffiliateConversion } from '@/lib/affiliate-referral';
-import { extractSubscriptionMeta, stripe, type StripeUserMetadata } from '@/lib/stripe';
+import { extractSubscriptionMeta, resolveSubscriptionPlan, stripe, type StripeUserMetadata } from '@/lib/stripe';
 
 import { expireSubscriptionCredits, grantSubscriptionCredits } from '@/lib/ai-job-service';
 import { getComponentProductContent } from '@/lib/component-content-store';
@@ -42,7 +42,7 @@ async function updateUserSubscription(
   stripeCustomerId: string
 ) {
   const client = await clerkClient();
-  const plan = (subscription.metadata?.plan as 'creator' | 'pro' | 'studio') ?? 'creator';
+  const plan = resolveSubscriptionPlan(subscription);
   const user = await client.users.getUser(clerkUserId);
   const meta = user.privateMetadata as AffiliatePrivateMetadata;
   await client.users.updateUserMetadata(clerkUserId, {
@@ -585,10 +585,10 @@ export async function POST(req: Request) {
         const subscriptionId = typeof invoiceAny.subscription === 'string' ? invoiceAny.subscription : null;
         if (subscriptionId) {
           const subscription = await stripe.subscriptions.retrieve(subscriptionId);
-          const rawPlan = subscription.metadata?.plan;
-          const plan = normalizeExistingPlan(rawPlan || 'free') as PlanId;
+          const plan = normalizeExistingPlan(resolveSubscriptionPlan(subscription)) as PlanId;
           if (plan !== 'free') {
-            const credits = getPlanCredits(plan);
+            const billingCycle = subscription.items.data[0]?.price?.recurring?.interval === 'year' ? 'annual' : 'monthly';
+            const credits = getPlanCredits(plan, billingCycle);
             if (areCrowdfundingCreditsActive()) {
               await expireSubscriptionCredits(clerkUserId, invoice.id);
               await grantSubscriptionCredits(clerkUserId, credits, invoice.id, {
@@ -596,6 +596,7 @@ export async function POST(req: Request) {
                 stripeSubscriptionId: subscriptionId,
                 plan,
                 billingReason: invoice.billing_reason,
+                billingCycle,
               });
             } else {
               await recordPendingSubscriptionCredits({
@@ -606,6 +607,7 @@ export async function POST(req: Request) {
                 stripeSubscriptionId: subscriptionId,
                 metadata: {
                   billingReason: invoice.billing_reason,
+                  billingCycle,
                   campaignStatus: 'pending_activation',
                 },
               });
