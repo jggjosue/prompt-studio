@@ -145,6 +145,31 @@ function parseClientReference(value: string | null | undefined): { buyerKey: str
   };
 }
 
+
+function normalizePaymentLinkUrl(value: string): string {
+  try {
+    const url = new URL(value);
+    return `${url.origin}${url.pathname}`.replace(/\/$/, '');
+  } catch {
+    return value.split('?')[0]?.replace(/\/$/, '') ?? value;
+  }
+}
+
+async function isCrowdfundingPaymentLink(session: Stripe.Checkout.Session): Promise<boolean> {
+  if (session.metadata?.purchaseType === 'founder_crowdfunding') return true;
+
+  const configuredUrl = process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_CROWFUNDING?.trim();
+  if (!configuredUrl || !session.payment_link) return false;
+
+  const paymentLinkId =
+    typeof session.payment_link === 'string'
+      ? session.payment_link
+      : session.payment_link.id;
+
+  const paymentLink = await stripe.paymentLinks.retrieve(paymentLinkId);
+  return normalizePaymentLinkUrl(paymentLink.url) === normalizePaymentLinkUrl(configuredUrl);
+}
+
 export async function POST(req: Request) {
   const body = await req.text();
   const sig = (await headers()).get('stripe-signature');
@@ -211,7 +236,10 @@ export async function POST(req: Request) {
           userId: sessionAny.metadata?.purchaserUserId ?? clientRef.buyerKey ?? null,
         });
 
-        if (session.mode === 'payment' && sessionAny.metadata?.purchaseType === 'founder_crowdfunding') {
+        const founderCrowdfundingPayment =
+          session.mode === 'payment' && await isCrowdfundingPaymentLink(session);
+
+        if (founderCrowdfundingPayment) {
           const amountPaidCents = session.amount_total ?? 0;
           const currency = (session.currency ?? '').toUpperCase();
           if (amountPaidCents <= 0 || currency !== 'USD') {
