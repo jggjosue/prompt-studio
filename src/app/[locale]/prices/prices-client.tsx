@@ -17,7 +17,7 @@ import {
 } from '@/lib/stripe-checkout';
 import { type PlanId } from '@/lib/subscription-plans';
 import { useAuth } from '@clerk/nextjs';
-import { Check, Crown, Gem, Sparkles, Zap } from 'lucide-react';
+import { Check, Crown, Sparkles, Zap } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -130,7 +130,7 @@ const PLAN_METADATA: PlanMetadata[] = [
     featuresKey: 'freeFeatures',
     monthly: 0,
     annual: 0,
-    credits: 0,
+    credits: 1,
     isMostPopular: false,
   },
   {
@@ -141,21 +141,8 @@ const PLAN_METADATA: PlanMetadata[] = [
     featuresKey: 'creatorFeatures',
     monthly: 9,
     annual: 90,
-    credits: 0,
+    credits: 1000,
     isMostPopular: false,
-  },
-  /* Future plans: keep these definitions ready, but do not show them on /prices yet.
-  {
-    id: 'premium',
-    nameKey: 'premiumName',
-    descKey: 'premiumDesc',
-    ctaKey: 'premiumSubscribe',
-    featuresKey: 'premiumFeatures',
-    monthly: 19,
-    annual: 190,
-    credits: 0,
-    isMostPopular: false,
-    comingSoon: true,
   },
   {
     id: 'pro',
@@ -165,9 +152,8 @@ const PLAN_METADATA: PlanMetadata[] = [
     featuresKey: 'proFeatures',
     monthly: 25,
     annual: 250,
-    credits: 0,
+    credits: 1000,
     isMostPopular: true,
-    comingSoon: true,
   },
   {
     id: 'studio',
@@ -177,12 +163,10 @@ const PLAN_METADATA: PlanMetadata[] = [
     featuresKey: 'studioFeatures',
     monthly: 39,
     annual: 390,
-    credits: 0,
+    credits: 3000,
     isMostPopular: false,
-    comingSoon: true,
   },
-  */
-];
+]
 
 export default function PricesClient() {
   const t = useTranslations('prices');
@@ -207,9 +191,8 @@ export default function PricesClient() {
   }, [isLoaded, isSignedIn, searchParams, refreshSubscription]);
 
   const isCreatorAvailable = isPlanAvailable('creator');
-  // Pro y Studio quedan deshabilitados: se venden solo Free y Creator.
-  const isProAvailable = false;
-  const isStudioAvailable = false;
+  const isProAvailable = isPlanAvailable('pro');
+  const isStudioAvailable = isPlanAvailable('studio');
 
   // Build localized plan objects from metadata + translation keys
   const PLANS: PaidPlan[] = PLAN_METADATA.map((meta) => ({
@@ -353,7 +336,7 @@ export default function PricesClient() {
             </button>
           </div>
 
-          <div className="mx-auto grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-2 xl:gap-8">
+          <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4 xl:gap-6">
             {PLANS.map((plan) => {
               const available = plan.id === 'free' ||
                 plan.id === 'premium' ||
@@ -368,7 +351,7 @@ export default function PricesClient() {
                     plan.isMostPopular
                       ? 'border-violet-500 shadow-lg shadow-violet-500/10 lg:scale-[1.02]'
                       : 'border-muted-foreground/20 shadow-sm'
-                  } ${!available ? 'opacity-50 pointer-events-none' : ''}`}
+                  } ${!available ? 'border-dashed' : ''}`}
                 >
                   {plan.comingSoon && (
                     <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-slate-500 via-slate-400 to-slate-500" />
@@ -381,7 +364,7 @@ export default function PricesClient() {
                       </Badge>
                     </>
                   )}
-                  {plan.comingSoon && (
+                  {(plan.comingSoon || !available) && (
                     <Badge className="absolute top-4 right-4 bg-slate-600 text-white hover:bg-slate-600 border-0">
                       {t('comingSoon')}
                     </Badge>
@@ -389,7 +372,6 @@ export default function PricesClient() {
                   <CardHeader className="pb-4 pt-8">
                     <div className="flex items-center justify-between gap-2">
                       <CardTitle className="font-headline text-2xl">
-                        {plan.id === 'premium' && <Gem className="w-6 h-6 text-emerald-500 mr-2 inline" />}
                         {plan.id === 'creator' && <Crown className="w-6 h-6 text-blue-500 mr-2 inline" />}
                         {plan.id === 'pro' && <Sparkles className="w-6 h-6 text-violet-500 mr-2 inline" />}
                         {plan.id === 'studio' && <Zap className="w-6 h-6 text-amber-500 mr-2 inline" />}
@@ -407,8 +389,23 @@ export default function PricesClient() {
                         monthly={plan.monthly}
                         yearly={plan.annual}
                       />
+                      {plan.id !== 'free' && (
+                        <div className="mt-4 rounded-xl border border-amber-500/30 bg-amber-500/10 p-3">
+                          <div className="flex items-center justify-between gap-3">
+                            <span className="text-sm font-bold text-amber-700 dark:text-amber-300">
+                              {plan.credits.toLocaleString()} {t('pendingCreditsLabel')}
+                            </span>
+                            <Badge variant="outline" className="border-amber-500/40 text-amber-700 dark:text-amber-300">
+                              {t('pendingStatus')}
+                            </Badge>
+                          </div>
+                          <p className="mt-1 text-xs leading-5 text-muted-foreground">
+                            {t('pendingCreditsNote')}
+                          </p>
+                        </div>
+                      )}
                     </div>
-                    {plan.id !== 'free' && <CreatorCoupon planId={plan.id} isAnnual={isAnnual} />}
+                    {plan.id === 'creator' && <CreatorCoupon planId={plan.id} isAnnual={isAnnual} />}
                     <ul className="space-y-3 mb-8 flex-grow">
                       {plan.features.map((feature) => (
                         <li key={feature} className="flex items-start gap-3 text-sm">
@@ -418,7 +415,7 @@ export default function PricesClient() {
                       ))}
                     </ul>
                     <div className="mt-auto">
-                      {plan.comingSoon ? (
+                      {plan.comingSoon || !available ? (
                         <Button
                           className="w-full bg-slate-700 hover:bg-slate-700 text-slate-300 cursor-not-allowed"
                           disabled

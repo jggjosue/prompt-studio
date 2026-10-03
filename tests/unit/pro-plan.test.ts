@@ -28,8 +28,8 @@ test('un plan superior cubre lo que exige uno inferior', () => {
 test('los precios de los planes son correctos', () => {
   assert.equal(getPlanPrice('creator', 'monthly'), 9);
   assert.equal(getPlanPrice('creator', 'annual'), 90);
-  assert.equal(getPlanPrice('pro', 'monthly'), 19);
-  assert.equal(getPlanPrice('pro', 'annual'), 190);
+  assert.equal(getPlanPrice('pro', 'monthly'), 25);
+  assert.equal(getPlanPrice('pro', 'annual'), 250);
   assert.equal(getPlanPrice('studio', 'monthly'), 39);
   assert.equal(getPlanPrice('studio', 'annual'), 390);
   assert.equal(getPlanPrice('free', 'annual'), 0);
@@ -37,7 +37,7 @@ test('los precios de los planes son correctos', () => {
 
 test('los créditos de los planes son correctos', () => {
   assert.equal(getPlanCredits('free'), 1);
-  assert.equal(getPlanCredits('creator'), 250);
+  assert.equal(getPlanCredits('creator'), 1000);
   assert.equal(getPlanCredits('pro'), 1000);
   assert.equal(getPlanCredits('studio'), 3000);
 });
@@ -76,7 +76,8 @@ test('el tramo no se ofrece si no hay precio en Stripe', async () => {
   assert.ok(checkout.includes('export function isStudioPlanAvailable('), 'hace falta saber si el tramo studio es comprable');
   assert.ok(checkout.includes("if (!base) return '';"), 'sin enlace no se puede devolver una URL rota');
   const prices = await source('src/app/[locale]/prices/prices-client.tsx');
-  assert.ok(prices.includes('isProAvailable') || prices.includes('isCreatorAvailable') || prices.includes('isStudioAvailable'), 'las tarjetas deben verificar disponibilidad');
+  assert.ok(prices.includes('isProAvailable') && prices.includes('isCreatorAvailable') && prices.includes('isStudioAvailable'), 'las tarjetas deben verificar disponibilidad');
+  assert.ok(prices.includes("pendingCreditsLabel"), 'los planes deben mostrar créditos pendientes');
 });
 
 test('las puertas de publicación y brand kits están puestas', async () => {

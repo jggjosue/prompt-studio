@@ -4,6 +4,7 @@ import { cacheHeaders } from '@/lib/cache-policy';
 import { getCreditBalance } from '@/lib/ai-job-service';
 import { centsPerCredit, CREDIT_PACKS, formatCreditPackPrice } from '@/lib/credit-packs';
 import { listCreditPurchases } from '@/lib/credit-topup';
+import { getPendingSubscriptionCredits } from '@/lib/pending-subscription-credits';
 
 /** Saldo, packs disponibles e historial de recargas del usuario. */
 export async function GET() {
@@ -11,9 +12,10 @@ export async function GET() {
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: 'No autorizado.' }, { status: 401, headers });
 
-  const [credits, purchases] = await Promise.all([
+  const [credits, purchases, pendingSubscriptionCredits] = await Promise.all([
     getCreditBalance(userId),
     listCreditPurchases(userId),
+    getPendingSubscriptionCredits(userId),
   ]);
 
   const baseRate = centsPerCredit(CREDIT_PACKS[0]);
@@ -30,5 +32,5 @@ export async function GET() {
     savingsPercent: Math.round((1 - centsPerCredit(pack) / baseRate) * 100),
   }));
 
-  return NextResponse.json({ credits, packs, purchases }, { headers });
+  return NextResponse.json({ credits: { ...credits, pendingSubscriptionCredits }, packs, purchases }, { headers });
 }
