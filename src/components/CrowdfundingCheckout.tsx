@@ -6,7 +6,7 @@ import { trackAnalyticsEvent } from '@/lib/analytics';
 import { trackInterest } from '@/lib/interest-analytics';
 import { buildCrowdfundingCheckoutUrl } from '@/lib/crowdfunding-checkout';
 
-const PRESETS = [50, 100, 500, 1000] as const;
+const PRESETS = [10, 25, 50, 100, 250, 500, 1000] as const;
 
 type CrowdfundingCheckoutProps = {
   amount: number;
@@ -45,7 +45,7 @@ export function CrowdfundingCheckout({ amount, customAmount, onAmountChange, onC
       </div>
       <h2 className="mt-3 text-3xl font-black text-white">{es ? 'Apoya el crowdfunding' : 'Support the crowdfunding'}</h2>
       <p className="mt-3 text-slate-300">{es ? 'Elige un monto o escribe otro. Stripe procesa el pago de forma segura.' : 'Choose an amount or enter another one. Stripe securely processes the payment.'}</p>
-      <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+      <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7">
         {PRESETS.map(value => (
           <button
             key={value}
