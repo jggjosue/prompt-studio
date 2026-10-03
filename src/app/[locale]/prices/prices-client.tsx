@@ -19,7 +19,7 @@ import { getPlanCredits, getPlanPrice as getConfiguredPlanPrice, type PlanId } f
 import { CREDIT_PACKS, formatCreditPackPrice, centsPerCredit } from '@/lib/credit-packs';
 import { useAuth } from '@clerk/nextjs';
 import { Check, Crown, Sparkles, Zap } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
@@ -97,6 +97,7 @@ const PLAN_METADATA: PlanMetadata[] = [
 
 export default function PricesClient() {
   const t = useTranslations('prices');
+  const locale = useLocale() as 'en' | 'es';
   const [isAnnual, setIsAnnual] = useState(false);
   const searchParams = useSearchParams();
   const refreshSubscription = useRefreshSubscriptionStatus();
@@ -375,14 +376,14 @@ export default function PricesClient() {
                 
                 return (
                   <article key={pack.id} className={`relative flex flex-col rounded-2xl border bg-card p-5 shadow-sm ${pack.featured ? 'border-primary ring-1 ring-primary/30' : ''}`}>
-                    {pack.featured && <span className="absolute -top-2.5 left-5 rounded-full bg-primary px-2.5 py-0.5 text-xs font-semibold text-primary-foreground">Más elegido</span>}
-                    <p className="text-2xl font-bold">{pack.credits} <span className="text-base font-medium text-muted-foreground">créditos</span></p>
-                    {pack.bonusCredits > 0 && <p className="mt-1 flex items-center gap-1 text-sm font-medium text-emerald-600 dark:text-emerald-400"><Sparkles className="size-3.5" /> {pack.bonusCredits} de regalo</p>}
-                    <p className="mt-3 text-sm text-muted-foreground">{pack.description.es}</p>
-                    <p className="mt-4 text-xl font-semibold">{formatCreditPackPrice(pack, 'es')}</p>
-                    {savingsPercent > 0 && <p className="text-xs text-muted-foreground">Ahorras un {savingsPercent}% por crédito</p>}
-                    <Button className="mt-5 w-full" asChild>
-                       <Link href={`/dashboard/credits?packId=${pack.id}`}>Comprar créditos</Link>
+                    {pack.featured && <span className="absolute -top-2.5 left-5 rounded-full bg-primary px-2.5 py-0.5 text-xs font-semibold text-primary-foreground">{t('mostChosen')}</span>}
+                    <p className="text-2xl font-bold">{pack.credits} <span className="text-base font-medium text-muted-foreground">{t('creditsLabel')}</span></p>
+                    {pack.bonusCredits > 0 && <p className="mt-1 flex items-center gap-1 text-sm font-medium text-emerald-600 dark:text-emerald-400"><Sparkles className="size-3.5" /> {t('bonusIncluded', { bonus: pack.bonusCredits })}</p>}
+                    <p className="mt-3 text-sm text-muted-foreground">{pack.description[locale]}</p>
+                    <p className="mt-4 text-xl font-semibold">{formatCreditPackPrice(pack, locale)}</p>
+                    {savingsPercent > 0 && <p className="text-xs text-muted-foreground">{t('savePerCredit', { percent: savingsPercent })}</p>}
+                    <Button className="mt-5 w-full bg-slate-700 hover:bg-slate-700 text-slate-300 cursor-not-allowed" disabled>
+                       {t('buyCredits')}
                     </Button>
                   </article>
                 );

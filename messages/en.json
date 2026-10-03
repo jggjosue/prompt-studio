@@ -525,7 +525,15 @@
     "creditWebsiteAdvanced": "Advanced website · 50 credits",
     "creditWebsiteComplex": "Complex website · 100 credits",
     "creditMarginNote": "Credit prices may be adjusted if real provider costs change. Models without verified pricing are blocked for safety until their cost is validated.",
-    "pendingCreditsLink": "View the crowdfunding program"
+    "pendingCreditsLink": "View the crowdfunding program",
+    "buyMoreCreditsTitle": "Buy more credits",
+    "buyMoreCreditsDescription": "When your available credits run out, you can buy a top-up without changing your plan. Top-ups will be enabled after the crowdfunding campaign ends and AI balance is activated.",
+    "buyMoreCreditsCta": "Buy credits",
+    "mostChosen": "Most popular",
+    "creditsLabel": "credits",
+    "bonusIncluded": "{bonus} bonus included",
+    "savePerCredit": "Save {percent}% per credit",
+    "buyCredits": "Buy credits"
   },
   "dashboard": {
     "dashboard": "Dashboard",
