@@ -66,8 +66,21 @@ export async function recordCrowdfundingContribution(input: RecordContributionIn
       }
 
       if (!backer) {
+        const sequenceId = `${FOUNDER_CROWDFUNDING_CAMPAIGN_ID}:backers`;
+        const existingSequence = await CrowdfundingSequence.findById(sequenceId).session(mongoSession);
+        if (!existingSequence) {
+          const legacyContribution = await CrowdfundingContribution.exists({
+            $or: [
+              { campaignId: { $exists: false } },
+              { backerNumber: { $exists: false } },
+              { backerId: { $exists: false } },
+            ],
+          }).session(mongoSession);
+          if (legacyContribution) throw new Error('CROWDFUNDING_BACKER_BACKFILL_REQUIRED');
+        }
+
         const sequence = await CrowdfundingSequence.findOneAndUpdate(
-          { _id: `${FOUNDER_CROWDFUNDING_CAMPAIGN_ID}:backers` },
+          { _id: sequenceId },
           { $inc: { value: 1 }, $set: { updatedAt: new Date() } },
           { upsert: true, returnDocument: 'after', session: mongoSession },
         );
