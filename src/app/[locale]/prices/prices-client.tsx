@@ -130,7 +130,7 @@ const PLAN_METADATA: PlanMetadata[] = [
     featuresKey: 'freeFeatures',
     monthly: 0,
     annual: 0,
-    credits: 0,
+    credits: 1,
     isMostPopular: false,
   },
   {
@@ -141,21 +141,8 @@ const PLAN_METADATA: PlanMetadata[] = [
     featuresKey: 'creatorFeatures',
     monthly: 9,
     annual: 90,
-    credits: 0,
+    credits: 1000,
     isMostPopular: false,
-  },
-  /* Future plans: keep these definitions ready, but do not show them on /prices yet.
-  {
-    id: 'premium',
-    nameKey: 'premiumName',
-    descKey: 'premiumDesc',
-    ctaKey: 'premiumSubscribe',
-    featuresKey: 'premiumFeatures',
-    monthly: 19,
-    annual: 190,
-    credits: 0,
-    isMostPopular: false,
-    comingSoon: true,
   },
   {
     id: 'pro',
@@ -165,9 +152,8 @@ const PLAN_METADATA: PlanMetadata[] = [
     featuresKey: 'proFeatures',
     monthly: 25,
     annual: 250,
-    credits: 0,
+    credits: 1000,
     isMostPopular: true,
-    comingSoon: true,
   },
   {
     id: 'studio',
@@ -177,12 +163,10 @@ const PLAN_METADATA: PlanMetadata[] = [
     featuresKey: 'studioFeatures',
     monthly: 39,
     annual: 390,
-    credits: 0,
+    credits: 3000,
     isMostPopular: false,
-    comingSoon: true,
   },
-  */
-];
+]
 
 export default function PricesClient() {
   const t = useTranslations('prices');
@@ -207,9 +191,8 @@ export default function PricesClient() {
   }, [isLoaded, isSignedIn, searchParams, refreshSubscription]);
 
   const isCreatorAvailable = isPlanAvailable('creator');
-  // Pro y Studio quedan deshabilitados: se venden solo Free y Creator.
-  const isProAvailable = false;
-  const isStudioAvailable = false;
+  const isProAvailable = isPlanAvailable('pro');
+  const isStudioAvailable = isPlanAvailable('studio');
 
   // Build localized plan objects from metadata + translation keys
   const PLANS: PaidPlan[] = PLAN_METADATA.map((meta) => ({
@@ -407,6 +390,21 @@ export default function PricesClient() {
                         monthly={plan.monthly}
                         yearly={plan.annual}
                       />
+                      {plan.id !== 'free' && (
+                        <div className="mt-4 rounded-xl border border-amber-500/30 bg-amber-500/10 p-3">
+                          <div className="flex items-center justify-between gap-3">
+                            <span className="text-sm font-bold text-amber-700 dark:text-amber-300">
+                              {plan.credits.toLocaleString()} {t('pendingCreditsLabel')}
+                            </span>
+                            <Badge variant="outline" className="border-amber-500/40 text-amber-700 dark:text-amber-300">
+                              {t('pendingStatus')}
+                            </Badge>
+                          </div>
+                          <p className="mt-1 text-xs leading-5 text-muted-foreground">
+                            {t('pendingCreditsNote')}
+                          </p>
+                        </div>
+                      )}
                     </div>
                     {plan.id !== 'free' && <CreatorCoupon planId={plan.id} isAnnual={isAnnual} />}
                     <ul className="space-y-3 mb-8 flex-grow">
