@@ -35,21 +35,12 @@ export type CreditPack = {
  * ├────────────┼──────────┼────────────┼──────────┼──────────────┤
  * │ 500 cr     │  $5.00   │   500 cr   │    0     │   500 cr     │
  * │ 1.000 cr   │ $10.00   │ 1.000 cr   │    0     │ 1.000 cr     │
- * │ 2.500 cr ★ │ $25.00   │ 2.500 cr   │  +50 cr  │ 2.550 cr     │
- * │ 5.000 cr   │ $50.00   │ 5.000 cr   │ +150 cr  │ 5.150 cr     │
- * │ 10.000 cr  │$100.00   │10.000 cr   │ +500 cr  │10.500 cr     │
+ * │ 2.500 cr ★ │ $25.00   │ 2.500 cr   │    0     │ 2.500 cr     │
+ * │ 5.000 cr   │ $50.00   │ 5.000 cr   │    0     │ 5.000 cr     │
+ * │ 10.000 cr  │$100.00   │10.000 cr   │    0     │10.000 cr     │
  * └────────────┴──────────┴────────────┴──────────┴──────────────┘
  *
- * Referencia de planes de suscripción (mensual, regla 1 cr = $0.01):
- *   Premium $9/mes  →   900 cr/mes  ($9  × 100)
- *   Creator $19/mes → 1.900 cr/mes  ($19 × 100)
- *   Pro     $29/mes → 2.900 cr/mes  ($29 × 100)
- *   Studio  $39/mes → 3.900 cr/mes  ($39 × 100)
- *
- * Los packs de recarga respetan exactamente el mismo piso ($0.01/cr base).
- * Los bonus créditos de los packs grandes compensan la falta de beneficios
- * recurrentes y premian a quienes compran mayor volumen.
- */
+ * Las recargas activas no añaden bonus: precio y cantidad se validan en servidor y webhook.\n */
 export const CREDIT_PACKS: readonly CreditPack[] = [
   {
     id: 'topup-500',
@@ -65,22 +56,22 @@ export const CREDIT_PACKS: readonly CreditPack[] = [
   },
   {
     id: 'topup-2500',
-    credits: 2550, bonusCredits: 50, priceCents: 2500, currency: 'usd',
+    credits: 2500, bonusCredits: 0, priceCents: 2500, currency: 'usd',
     name: { es: '2.500 Prompt Credits', en: '2,500 Prompt Credits' },
-    description: { es: 'Recarga de 2.500 cr + 50 de regalo.', en: '2,500 credits + 50 bonus.' },
+    description: { es: 'Recarga puntual de 2.500 Prompt Credits.', en: 'One-time 2,500 Prompt Credit top-up.' },
     featured: true,
   },
   {
     id: 'topup-5000',
-    credits: 5150, bonusCredits: 150, priceCents: 5000, currency: 'usd',
+    credits: 5000, bonusCredits: 0, priceCents: 5000, currency: 'usd',
     name: { es: '5.000 Prompt Credits', en: '5,000 Prompt Credits' },
-    description: { es: 'Recarga de 5.000 cr + 150 de regalo.', en: '5,000 credits + 150 bonus.' },
+    description: { es: 'Recarga puntual de 5.000 Prompt Credits.', en: 'One-time 5,000 Prompt Credit top-up.' },
   },
   {
     id: 'topup-10000',
-    credits: 10500, bonusCredits: 500, priceCents: 10000, currency: 'usd',
+    credits: 10000, bonusCredits: 0, priceCents: 10000, currency: 'usd',
     name: { es: '10.000 Prompt Credits', en: '10,000 Prompt Credits' },
-    description: { es: 'Recarga de 10.000 cr + 500 de regalo.', en: '10,000 credits + 500 bonus.' },
+    description: { es: 'Recarga puntual de 10.000 Prompt Credits.', en: 'One-time 10,000 Prompt Credit top-up.' },
   },
 ] as const;
 
