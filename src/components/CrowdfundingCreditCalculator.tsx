@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useLocale } from 'next-intl';
 import { Sparkles } from 'lucide-react';
 import { trackInterest } from '@/lib/interest-analytics';
-import { FOUNDER_REWARD_CATALOG } from '@/lib/commercial-pricing';
+import { FOUNDER_BASE_CREDITS_PER_USD, FOUNDER_REWARD_CATALOG } from '@/lib/commercial-pricing';
 
 type Estimate = {
   pledgeAmountCents: number;
@@ -59,7 +59,7 @@ export function CrowdfundingCreditCalculator({ amount, onAmountChange }: { amoun
       <div>
         <h2 className="text-xl font-semibold">{tr('Founder Credits Calculator', 'Calculadora de Founder Credits')}</h2>
         <p className="text-sm opacity-70">{tr('Choose a contribution or enter a custom amount to see your Founder Credits.', 'Elige un aporte o escribe un monto personalizado para ver tus Founder Credits.')}</p>
-        <p className="mt-1 text-xs text-blue-400/80">{tr('80 base Founder Credits per $1 · bonus increases with contribution size', '80 Founder Credits base por $1 · el bonus aumenta con el monto aportado')}</p>
+        <p className="mt-1 text-xs text-blue-400/80">{tr(`${FOUNDER_BASE_CREDITS_PER_USD} base Prompt Credits per $1 · Founder bonus increases with contribution size`, `${FOUNDER_BASE_CREDITS_PER_USD} Prompt Credits base por $1 · el bonus Founder aumenta con el monto aportado`)}</p>
       </div>
 
       <div className="flex flex-wrap gap-2">
