@@ -11,7 +11,7 @@ import {
   PROMPT_CREDIT_FLOOR_VALUE_USD,
   PROVIDER_COST_RESERVE_PERCENT,
 } from '@/lib/credit-economics';
-import { quoteVideoProviderCost, type VideoResolution } from '@/lib/provider-pricing-registry';
+import { quoteImageProviderCost, quoteVideoProviderCost, type ImageResolution, type VideoResolution } from '@/lib/provider-pricing-registry';
 
 export const PROMPT_CREDIT_COMMERCIAL_VALUE_USD = PROMPT_CREDIT_FLOOR_VALUE_USD;
 export const DEFAULT_PROVIDER_COST_SHARE = PROVIDER_COST_RESERVE_PERCENT / 100;
@@ -21,6 +21,7 @@ export type ProviderUsageEstimate = {
   input?: unknown;
   outputTokens?: number;
   imageCount?: number;
+  imageResolution?: ImageResolution;
   videoDurationSeconds?: number;
   videoResolution?: VideoResolution;
   videoAudio?: boolean;
@@ -90,6 +91,29 @@ export function estimateProviderCost(
     usage.outputTokens ?? config.defaultOutputTokens,
     config.maxOutputTokens,
   );
+
+  if ((usage.imageCount ?? 0) > 0 && usage.imageResolution) {
+    const imageQuote = quoteImageProviderCost({
+      provider,
+      modelId,
+      resolution: usage.imageResolution,
+      imageCount: usage.imageCount,
+      safetyBufferPercent,
+    });
+    if (imageQuote) {
+      return {
+        provider: config.provider,
+        modelId: config.modelId,
+        rawProviderCostUsd: imageQuote.rawProviderCostUsd,
+        safetyCostUsd: imageQuote.safetyCostUsd,
+        safetyBufferPercent: Math.max(0, safetyBufferPercent),
+        estimatedInputTokens,
+        estimatedOutputTokens: 0,
+        pricingStatus: 'verified',
+        costKnown: true,
+      };
+    }
+  }
 
   if (usage.videoDurationSeconds && usage.videoResolution) {
     const videoQuote = quoteVideoProviderCost({
