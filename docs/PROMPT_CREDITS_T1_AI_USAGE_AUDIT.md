@@ -1,180 +1,119 @@
 # Prompt Credits v1 — T1 AI usage audit
 
 Parent: #871  
-Base branch: `develop`  
+Base branch: `main`  
 Scope: inventory/documentation only. No runtime credit or generation behavior is changed by T1.
 
-## 2026-10-03 re-audit — commercial surfaces and provider pricing
+## 2026-10-03 re-audit — main branch commercial surfaces and provider pricing
 
-This re-audit closes gaps left by the original T1 inventory. It explicitly validates the public `/prices` surface, Founder Credits/crowdfunding, dashboard top-ups, subscription credit allowances, and current provider pricing references.
+This re-audit uses **`main` as the sole repository source of truth**. It validates the public pricing page, subscription catalog, Founder/crowdfunding calculator, dashboard top-ups, tests, and provider-cost registry.
 
 ### Canonical Prompt Studio commercial pricing
 
-For planning and documentation, use the current commercial model below as the canonical target until the runtime/catalog migration is completed:
+| Plan | Monthly price | Monthly Prompt Credits | Annual price | Annual Prompt Credits |
+|---|---:|---:|---:|---:|
+| Free | $0 | 0 | $0 | 0 |
+| Premium | $9 | 500 | $90 | 6,000 |
+| Creator | $19 | 1,000 | $190 | 12,000 |
+| Pro | $29 | 1,500 | $290 | 18,000 |
+| Studio | $39 | 3,000 | $390 | 36,000 |
 
-| Plan | Price / month | Prompt Credits / month | Effective credits per $1 |
+These values are enforced by `tests/unit/pro-plan.test.ts` and `tests/unit/premium-monthly-credits.test.ts`. The implementation in `src/lib/subscription-plans.ts` was corrected on `main` to match that contract. `/prices` already reads prices and credits from that shared module instead of maintaining an independent price table.
+
+### Founder Program / crowdfunding
+
+Founder Credits use a campaign-specific conversion of **80 base credits per $1**, followed by the tier bonus:
+
+| Contribution | Base | Bonus | Total Founder Credits |
 |---|---:|---:|---:|
-| Free | $0 | 1 initial | n/a |
-| Premium | $9 | 500 | 55.56 |
-| Creator | $19 | 1,000 | 52.63 |
-| Pro | $29 | 1,500 | 51.72 |
-| Studio | $39 | 3,000 | 76.92 |
+| $10 | 800 | 5% / 40 | 840 |
+| $25 | 2,000 | 7% / 140 | 2,140 |
+| $50 | 4,000 | 10% / 400 | 4,400 |
+| $100 | 8,000 | 12% / 960 | 8,960 |
+| $250 | 20,000 | 15% / 3,000 | 23,000 |
+| $500 | 40,000 | 17% / 6,800 | 46,800 |
+| $1,000 | 80,000 | 20% / 16,000 | 96,000 |
 
-Important: the current repository does **not** yet implement this table consistently. `/prices` currently exposes Free + Creator and hard-codes Creator at $9/month with `credits: 0`; `src/lib/subscription-plans.ts` currently defines Creator $9 / 1,000 credits, Pro $25 / 1,000, Studio $39 / 3,000. Those values are stale relative to the current commercial model and must not be copied into new UI or billing logic.
+This contract is visible on `/crowdfunding` and enforced by `tests/unit/crowdfunding-credit-calculator.test.ts`. `src/lib/founder-credit-tiers.ts` was corrected on `main` from the divergent 100 credits/$1 implementation back to 80 credits/$1.
 
-### Founder Program / crowdfunding canonical credits
+### Dashboard / one-time top-ups
 
-Founder Credits use a separate campaign conversion from normal $0.01 top-ups:
+The active top-up catalog is:
 
-- base conversion: **80 Founder Credits per $1 contributed**
-- tier bonus: **5% to 20%**, depending on contribution tier
-- Founder Credits are internal, non-equity credits
-- Founder Credits must remain distinguishable from monthly subscription and purchased/top-up credits in the ledger
-
-Canonical examples:
-
-| Contribution | Base Founder Credits | Bonus | Total Founder Credits |
-|---|---:|---:|---:|
-| $10 | 800 | 5% = 40 | 840 |
-| $25 | 2,000 | 7% = 140 | 2,140 |
-| $50 | 4,000 | 10% = 400 | 4,400 |
-| $100 | 8,000 | 12% = 960 | 8,960 |
-| $250 | 20,000 | 15% = 3,000 | 23,000 |
-| $500 | 40,000 | 17% = 6,800 | 46,800 |
-| $1,000 | 80,000 | 20% = 16,000 | 96,000 |
-
-**Repository mismatch:** `src/lib/founder-credit-tiers.ts` currently uses 100 base credits per $1 (for example $10 -> 1,000 base + 5%). `CrowdfundingCreditCalculator` consumes those values, so the public crowdfunding calculator is currently inconsistent with the updated Founder Program economics.
-
-### Dashboard / top-up pricing
-
-`src/lib/credit-packs.ts` and `/dashboard/credits` currently expose standard one-time top-ups at **100 Prompt Credits per $1**:
-
-| Top-up | Credits |
-|---|---:|
+| Price | Credits |
+|---:|---:|
 | $5 | 500 |
 | $10 | 1,000 |
 | $25 | 2,500 |
 | $50 | 5,000 |
 | $100 | 10,000 |
 
-This is internally consistent with `PROMPT_CREDIT_COMMERCIAL_VALUE_USD = $0.01` in `ai-provider-pricing-engine.ts`. The dashboard should source pack price/credit values from `credit-packs.ts` only; do not duplicate them in UI constants.
+There is **no active bonus** on these five top-ups. `tests/unit/prompt-credit-packages-v1.test.ts` requires those exact price/credit pairs and `tests/unit/credit-topup.test.ts` requires every pack to remain at or above the $0.01/credit floor. `src/lib/credit-packs.ts` was corrected on `main` to match the tested contract. The dashboard obtains its list from `/api/credits`, which obtains it from `CREDIT_PACKS`, so it does not need a second hard-coded table.
 
-Founder Credits are intentionally more conservative at the base level (80/$1) and then receive campaign bonuses. Do not silently reuse normal top-up conversion for crowdfunding.
+### Provider pricing audit
 
-### /prices audit
+Provider cost remains separate from the commercial Prompt Credit catalog. It is an internal routing/margin input.
 
-Files verified:
-- `src/app/[locale]/prices/prices-client.tsx`
-- `src/lib/subscription-plans.ts`
-- Stripe checkout helpers consumed by the page
+#### Google Gemini Developer API
 
-Findings:
-1. `PLAN_METADATA` duplicates prices instead of importing the authoritative subscription catalog.
-2. All visible plan metadata currently sets `credits: 0`, so the pricing page does not communicate the actual included monthly credit allowance.
-3. `getPlanPrice()` duplicates another price table in the client.
-4. Creator is currently $9 in the page, while the updated commercial target is Premium $9/500 and Creator $19/1,000.
-5. Pro is currently staged at $25/1,000 in code; target is $29/1,500.
-6. Studio $39/3,000 already matches the target monthly price and credits.
-7. The page should consume one shared server/product catalog for price, annual price, monthly credits, availability and Stripe price IDs.
+Official source: https://ai.google.dev/gemini-api/docs/pricing
 
-### Provider pricing refresh
+Verified current examples:
+- Gemini 2.5 Flash standard: $0.30 / 1M text-image-video input tokens and $2.50 / 1M output tokens.
+- Gemini 2.5 Flash-Lite standard: $0.10 / 1M text-image-video input tokens and $0.40 / 1M output tokens.
+- Gemini 3.x pricing includes processing tiers and, for some models, rates that change on 2027-01-01.
 
-Provider cost is **not** the user-facing Prompt Credit price. Provider pricing is an internal routing/margin input and must carry provider, model, processing tier, effective date and verification status.
+The current `gemini-2.5-flash` registry entry matches the official standard token price. Model IDs and image/video prices still require model-specific verification before being marked verified.
 
-#### Google Gemini Developer API / Google AI
+#### Google Cloud / Vertex AI
 
-Official pricing source: https://ai.google.dev/gemini-api/docs/pricing
+Google Cloud/Vertex must be represented separately from the Gemini Developer API because processing location/tier and product surface can change the billable rate.
 
-Current 2026 pricing is model/tier dependent and includes promotional rates that change on **2027-01-01**. The provider registry must therefore store effective dates instead of treating one permanent number as truth. Current official examples include Gemini 3.x paid-tier pricing with separate input, output, cache and grounding charges.
+Official source: https://cloud.google.com/vertex-ai/generative-ai/pricing
 
-The existing registry entries for `gemini-2.5-flash`, `gemini-2.5-pro` and the hard-coded `gemini-3.8-flash` $0.30/$2.50 pair must be re-verified before production routing.
-
-#### Google Cloud / Vertex AI / Gemini Enterprise Agent Platform
-
-Official pricing source: https://cloud.google.com/gemini-enterprise-agent-platform/generative-ai/pricing
-
-Verified current examples (USD per 1M tokens, global standard where applicable):
-- Gemini 3.1 Pro Preview: input $2.00 up to 200K context / $4.00 above 200K; output $12.00 / $18.00.
-- Gemini 3.8 Flash through 2026-12-31: input $0.75; cached input $0.075; output $3.75.
-- Gemini 3.8 Flash starting 2027-01-01: input $1.50; cached input $0.15; output $7.50.
-- Non-global processing carries a higher price than global processing.
-
-Cloud/Vertex pricing must be modeled separately from Gemini Developer API pricing even when the model family name is similar.
+Do not copy a Gemini Developer API rate into a Vertex/Cloud provider record solely because the model family has the same name. Store provider surface, processing tier/region, effective date and source URL with each verified price.
 
 #### OpenAI API
 
-Official pricing source: https://developers.openai.com/api/docs/pricing
+Official source: https://developers.openai.com/api/docs/pricing
 
-Current flagship API examples (USD per 1M tokens; processing/context tier matters):
-- GPT-6 Astra: short-context input $10.00, cached input $1.00, cache writes $12.50, output $50.00 in the surfaced flagship pricing table.
-- GPT-6.1 Sol: short-context input $2.00, cached input $0.10, cache writes $2.50, output $10.00.
-- GPT-6 Luna: short-context input $0.10, cached input $0.01, cache writes $0.125, output $0.50.
+Current official examples include:
+- GPT-5.4: $2.50 / 1M input, $0.25 cached input, $15.00 / 1M output.
+- GPT-5.4 Mini: $0.75 / 1M input, $0.075 cached input, $4.50 / 1M output.
+- GPT-5.4 Nano: $0.20 / 1M input, $0.02 cached input, $1.25 / 1M output.
 
-The current repository still contains `openai:gpt-4o` and `openai:dall-e-3` legacy estimates. They must not be used for current margin guarantees without a fresh verified price record.
+The repository's `openai:gpt-4o` entry remains explicitly `legacy-estimate`. It must not be promoted to `verified` or used for a margin guarantee without re-verifying that exact model and processing tier.
 
 #### ChatGPT subscriptions
 
-ChatGPT subscription pricing is useful for competitive/business context but **must not** be used as an API cost input. API usage is billed separately.
-
 Official sources:
 - https://chatgpt.com/pricing
-- https://help.openai.com/en/articles/6950777-what-is-chatgpt-plus
 - https://openai.com/business/pricing/
 
-Current public reference points include:
-- ChatGPT Go: $8/month in the US (localized in some markets)
-- ChatGPT Plus: $20/month
-- ChatGPT Pro: multiple current tiers exist; verify the live pricing page before competitive publication
-- ChatGPT Business: standard seat $25/month monthly or $20/month billed annually; premium seat $125/month monthly or $100/month billed annually
-- Enterprise: custom pricing
+ChatGPT plan prices are competitive/product context only. They are **not OpenAI API unit costs** and must never feed `estimateProviderCost()` or Prompt Credit margin calculations.
 
-### Required single-source-of-truth correction
+### Main-branch correction status
 
-The next implementation pass should make these catalogs authoritative:
+Corrected in this re-audit:
+1. `subscription-plans.ts`: restored tested monthly/annual Prompt Credit allowances.
+2. `founder-credit-tiers.ts`: restored 80 base Founder Credits per $1.
+3. `credit-packs.ts`: restored exact active top-up amounts with no bonus.
+4. `PROMPT_CREDITS_T1_AI_USAGE_AUDIT.md`: changed audit base to `main` and reconciled commercial/provider pricing.
 
-```text
-Prompt Studio subscription catalog
-  -> /prices
-  -> Stripe subscription checkout
-  -> dashboard plan/credit display
-  -> monthly credit grants
+Still intentionally separated:
+- commercial Prompt Credit prices,
+- Founder campaign rewards,
+- provider/API cost,
+- ChatGPT subscription pricing.
 
-Prompt Studio top-up catalog
-  -> dashboard credit packs
-  -> checkout
-  -> webhook validation
-
-Founder reward catalog
-  -> /crowdfunding
-  -> calculator
-  -> Stripe crowdfunding metadata
-  -> founder claim fulfillment
-
-Provider pricing catalog (versioned/effective-dated)
-  -> margin guard
-  -> routing eligibility
-  -> cost telemetry
-  -> admin pricing UI
-```
-
-No public page should own an independent hard-coded copy of prices or credit quantities.
-
-### Re-audit release blockers
-
-1. **Critical:** `/prices` commercial values are stale/duplicated and credits are shown internally as zero.
-2. **Critical:** Founder calculator currently uses 100 base credits/$1 instead of the updated 80/$1 campaign base.
-3. **High:** `subscription-plans.ts` is stale versus the current Premium/Creator/Pro/Studio commercial model.
-4. **High:** provider pricing contains legacy/unverified values and lacks sufficient effective-date/tier detail for 2026 -> 2027 price changes.
-5. **High:** Gemini Developer API and Google Cloud/Vertex pricing must be separate provider-price records.
-6. **High:** ChatGPT subscription pricing must remain competitive context only; never substitute it for OpenAI API pricing.
-7. **Medium:** dashboard top-ups are internally consistent at $0.01/credit, but the distinction from Founder conversion must be explicit in UI/documentation.
+No provider price should be treated as permanent: verified provider records should carry an effective date/source and be revalidated when providers change pricing.
 
 
 ## Executive summary
 
 Prompt Studio already has a substantial credit and generation foundation. T2–T6 should **extend and normalize the existing system**, not create a parallel wallet, ledger, job system, provider catalog, or billing database.
 
-Verified foundations on `develop`:
+Verified foundations on `main`:
 
 - Next.js 15 / React 19 application with server routes under `src/app/api`.
 - MongoDB via Mongoose.
