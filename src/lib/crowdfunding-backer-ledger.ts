@@ -1,12 +1,11 @@
 import 'server-only';
 
 import connectToDatabase from '@/lib/mongoose';
+import { FOUNDER_CROWDFUNDING_CAMPAIGN_ID } from '@/lib/crowdfunding-campaign-config';
 import CrowdfundingBacker from '@/models/CrowdfundingBacker';
 import CrowdfundingContribution from '@/models/CrowdfundingContribution';
 import CrowdfundingSequence from '@/models/CrowdfundingSequence';
 import FounderCreditClaim from '@/models/FounderCreditClaim';
-
-export const FOUNDER_CROWDFUNDING_CAMPAIGN_ID = 'prompt-studio-founder-2026';
 
 type RecordContributionInput = {
   stripeCheckoutSessionId: string;
