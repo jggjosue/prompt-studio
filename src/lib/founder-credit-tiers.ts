@@ -1,7 +1,7 @@
 import { validateCreditSaleEconomics } from '@/lib/credit-economics';
 import { FOUNDER_BASE_CREDITS_PER_USD, FOUNDER_REWARD_CATALOG } from '@/lib/commercial-pricing';
 
-export { FOUNDER_BASE_CREDITS_PER_USD } from '@/lib/commercial-pricing';
+export { FOUNDER_BASE_CREDITS_PER_USD };
 
 /**
  * Regla de economía del Crowdfunding de Prompt Studio.
