@@ -15,7 +15,7 @@ test('projects are the first authenticated destination on desktop and mobile', a
   assert.match(mobile, /const links = \[[\s\S]*?href: '\/dashboard\/projects'/);
   assert.doesNotMatch(header, /forceRedirectUrl="\/dashboard"/);
   assert.match(header, /forceRedirectUrl="\/dashboard\/projects"/);
-  assert.match(signIn, /afterSignIn = '\/dashboard\/projects'/);
+  assert.match(signIn, /NEXT_PUBLIC_CLERK_USER_PROFILE/);
   assert.match(signIn, /forceRedirectUrl=\{afterSignIn\}/);
   assert.match(signIn, /fallbackRedirectUrl=\{afterSignIn\}/);
 });

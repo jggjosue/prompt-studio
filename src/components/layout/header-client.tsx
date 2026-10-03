@@ -752,7 +752,7 @@ export default function HeaderClient() {
               <Show when="signed-in">
                 <div className="flex items-center gap-3">
                   <ClientLink
-                    href="/dashboard/projects"
+                    href="/dashboard/profile"
                     className="hidden rounded-full border border-cyan-200/25 px-5 py-2.5 text-sm font-semibold text-slate-100 transition hover:border-cyan-200/60 sm:block"
                   >
                     Dashboard
