@@ -21,7 +21,7 @@ test('crowdfunding uses the blue brand palette without pink or violet decoration
 test('crowdfunding checkout is server-authoritative and bounded',()=>{
  const route=fs.readFileSync('src/app/api/crowdfunding/checkout/route.ts','utf8');
  assert.match(route,/stripe\.checkout\.sessions\.create/);
- assert.match(route,/amountCents < 1000/); assert.match(route,/amountCents > 100000/);
+ assert.match(route,/amountCents < 1000/); assert.match(route,/amountCents > 1000000/);
  assert.match(route,/unit_amount: amountCents/);
  assert.match(route,/purchaseType: 'founder_crowdfunding'/);
  assert.match(route,/fulfillmentStatus: 'pending_campaign_success'/);

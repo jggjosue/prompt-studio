@@ -17,7 +17,7 @@ export async function POST(request: Request) {
   if (!userId) return NextResponse.json({ error: 'Sign in to continue.' }, { status: 401 });
   const body = await request.json().catch(() => null) as { amountCents?: unknown; locale?: unknown } | null;
   const amountCents = Number(body?.amountCents);
-  if (!Number.isInteger(amountCents) || amountCents < 1000 || amountCents > 100000) return NextResponse.json({ error: 'Amount must be between $10 and $1,000 USD.' }, { status: 400 });
+  if (!Number.isInteger(amountCents) || amountCents < 1000 || amountCents > 1000000) return NextResponse.json({ error: 'Amount must be between $10 and $10,000 USD.' }, { status: 400 });
   const tier = [...TIERS].reverse().find(item => amountCents >= item.cents) ?? TIERS[0];
   const baseCredits = amountCents;
   const bonusCredits = Math.floor(baseCredits * tier.bonus / 100);

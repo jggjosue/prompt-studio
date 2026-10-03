@@ -22,8 +22,8 @@ export function CrowdfundingCheckout({ amount, customAmount, onAmountChange, onC
 
   const checkout = () => {
     const selected = customAmount ? Number(customAmount) : amount;
-    if (!Number.isFinite(selected) || selected < 10 || selected > 1000) {
-      setError(es ? 'El aporte debe estar entre $10 y $1,000 USD.' : 'Contribution must be between $10 and $1,000 USD.');
+    if (!Number.isFinite(selected) || selected < 10 || selected > 10000) {
+      setError(es ? 'El aporte debe estar entre $10 y $10,000 USD.' : 'Contribution must be between $10 and $10,000 USD.');
       return;
     }
     const paymentLink = process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_CROWFUNDING;
@@ -73,7 +73,7 @@ export function CrowdfundingCheckout({ amount, customAmount, onAmountChange, onC
           onChange={e => onCustomAmountChange(e.target.value)}
           type="number"
           min="10"
-          max="1000"
+          max="10000"
           step="1"
           placeholder="250"
           className="mt-2 h-12 w-full rounded-xl border border-white/15 bg-white/[.06] px-4 text-white outline-none focus:border-cyan-300"
