@@ -1,5 +1,6 @@
 import type { AIJobKind } from '@/models/AIGenerationJob';
 import { GOOGLE_IMAGE_MODEL } from '@/lib/google-image-config';
+import { MAX_PROVIDER_COST_PER_CREDIT_USD } from '@/lib/credit-economics';
 
 export type AIModelCategory = 'text' | 'project' | 'image' | 'video' | 'vision';
 
@@ -22,7 +23,7 @@ export type AIModelConfig = {
 
 // A Prompt Credit has a $0.01 commercial value and provider spend is capped
 // at 25% of that value to preserve the 75% minimum gross margin target.
-export const TARGET_COST_PER_CREDIT_USD = 0.0025;
+export const TARGET_COST_PER_CREDIT_USD = MAX_PROVIDER_COST_PER_CREDIT_USD;
 export const DEFAULT_MAX_INPUT_CHARS = 1_000_000;
 export const DEFAULT_MAX_CREDITS_PER_GENERATION = 100;
 
