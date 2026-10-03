@@ -23,28 +23,33 @@ export type CreditPack = {
 };
 
 /**
- * Tabla de packs de recarga. Precio por crédito:
+ * Tabla de packs de recarga.
  *
- * ┌──────────┬──────────┬──────────┬─────────────────┬──────────────────────────┐
- * │ Pack     │ Precio   │ Créditos │ Bonus           │ $/cr efectivo            │
- * ├──────────┼──────────┼──────────┼─────────────────┼──────────────────────────┤
- * │ 500 cr   │ $5.00    │  500     │  0 bonus        │ $0.0100 (tarifa base)    │
- * │ 1.000 cr │ $9.00    │ 1.000    │  0 bonus        │ $0.0090 ← equivale Plan  │
- * │           │          │          │                 │ Premium ($9/500 cr=0.018)│
- * │ 2.500 cr │ $19.00   │ 2.500    │  +100 = 2.600   │ $0.0073 ← ~Creator level │
- * │ 5.000 cr │ $29.00   │ 5.000    │  +300 = 5.300   │ $0.0055 ← ~Pro level     │
- * │ 10.000cr │ $39.00   │ 10.000   │  +800 = 10.800  │ $0.0036 ← ~Studio level  │
- * └──────────┴──────────┴──────────┴─────────────────┴──────────────────────────┘
+ * Regla del sistema: 1 Prompt Credit = $0.01 USD (piso comercial).
+ * El precio en centavos dividido entre 100 da los créditos base exactos.
+ * Los créditos bonus son un incentivo adicional para packs de mayor volumen;
+ * se suman al saldo pero NO cambian el precio pagado.
  *
- * La escala de precios refleja la jerarquía de planes:
- * – Premium: $9/mes · 500 cr   → aquí $9 · 1.000 cr (doble créditos, mismo precio)
- * – Creator:  $19/mes · 1.000 cr → aquí $19 · 2.600 cr efectivos
- * – Pro:      $29/mes · 1.500 cr → aquí $29 · 5.300 cr efectivos
- * – Studio:   $39/mes · 3.000 cr → aquí $39 · 10.800 cr efectivos
+ * ┌────────────┬──────────┬────────────┬──────────┬──────────────┐
+ * │ Pack       │ Precio   │ Cr. base   │ Bonus    │ Total cr.    │
+ * ├────────────┼──────────┼────────────┼──────────┼──────────────┤
+ * │ 500 cr     │  $5.00   │   500 cr   │    0     │   500 cr     │
+ * │ 1.000 cr   │ $10.00   │ 1.000 cr   │    0     │ 1.000 cr     │
+ * │ 2.500 cr ★ │ $25.00   │ 2.500 cr   │  +50 cr  │ 2.550 cr     │
+ * │ 5.000 cr   │ $50.00   │ 5.000 cr   │ +150 cr  │ 5.150 cr     │
+ * │ 10.000 cr  │$100.00   │10.000 cr   │ +500 cr  │10.500 cr     │
+ * └────────────┴──────────┴────────────┴──────────┴──────────────┘
  *
- * Todos los packs respetan el piso de $0.01/cr del sistema (el precio por crédito
- * del pack más barato es exactamente $0.01). Los bonus créditos sólo se conceden
- * en packs ≥ 2.500 cr para incentivar recargas de mayor volumen.
+ * Referencia de planes de suscripción (mensual):
+ *   Premium $9/mes  → 500 cr/mes   = $0.018/cr
+ *   Creator $19/mes → 1.000 cr/mes = $0.019/cr
+ *   Pro     $29/mes → 1.500 cr/mes = $0.019/cr
+ *   Studio  $39/mes → 3.000 cr/mes = $0.013/cr
+ *
+ * Los packs de recarga son top-ups puntuales sin beneficios adicionales del plan,
+ * por eso el precio base es exactamente $0.01/cr (el piso del sistema).
+ * Los bonus créditos de los packs grandes compensan la falta de beneficios
+ * recurrentes y premian a quienes compran mayor volumen.
  */
 export const CREDIT_PACKS: readonly CreditPack[] = [
   {
@@ -55,28 +60,28 @@ export const CREDIT_PACKS: readonly CreditPack[] = [
   },
   {
     id: 'topup-1000',
-    credits: 1000, bonusCredits: 0, priceCents: 900, currency: 'usd',
+    credits: 1000, bonusCredits: 0, priceCents: 1000, currency: 'usd',
     name: { es: '1.000 Prompt Credits', en: '1,000 Prompt Credits' },
-    description: { es: 'Recarga puntual de 1.000 Prompt Credits. Mismo precio que el plan Premium.', en: 'One-time 1,000 Prompt Credit top-up. Same price as Premium plan.' },
+    description: { es: 'Recarga puntual de 1.000 Prompt Credits.', en: 'One-time 1,000 Prompt Credit top-up.' },
   },
   {
     id: 'topup-2500',
-    credits: 2600, bonusCredits: 100, priceCents: 1900, currency: 'usd',
+    credits: 2550, bonusCredits: 50, priceCents: 2500, currency: 'usd',
     name: { es: '2.500 Prompt Credits', en: '2,500 Prompt Credits' },
-    description: { es: 'Recarga de 2.500 cr + 100 de regalo. Mismo precio que el plan Creator.', en: '2,500 credits + 100 bonus. Same price as Creator plan.' },
+    description: { es: 'Recarga de 2.500 cr + 50 de regalo.', en: '2,500 credits + 50 bonus.' },
     featured: true,
   },
   {
     id: 'topup-5000',
-    credits: 5300, bonusCredits: 300, priceCents: 2900, currency: 'usd',
+    credits: 5150, bonusCredits: 150, priceCents: 5000, currency: 'usd',
     name: { es: '5.000 Prompt Credits', en: '5,000 Prompt Credits' },
-    description: { es: 'Recarga de 5.000 cr + 300 de regalo. Mismo precio que el plan Pro.', en: '5,000 credits + 300 bonus. Same price as Pro plan.' },
+    description: { es: 'Recarga de 5.000 cr + 150 de regalo.', en: '5,000 credits + 150 bonus.' },
   },
   {
     id: 'topup-10000',
-    credits: 10800, bonusCredits: 800, priceCents: 3900, currency: 'usd',
+    credits: 10500, bonusCredits: 500, priceCents: 10000, currency: 'usd',
     name: { es: '10.000 Prompt Credits', en: '10,000 Prompt Credits' },
-    description: { es: 'Recarga de 10.000 cr + 800 de regalo. Mismo precio que el plan Studio.', en: '10,000 credits + 800 bonus. Same price as Studio plan.' },
+    description: { es: 'Recarga de 10.000 cr + 500 de regalo.', en: '10,000 credits + 500 bonus.' },
   },
 ] as const;
 
