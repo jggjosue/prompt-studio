@@ -86,7 +86,7 @@ export const AI_OPERATION_CATALOG: Readonly<Record<AIOperationCode, AIOperationD
   VIDEO_FAST_1080_8S: operation({ code: 'VIDEO_FAST_1080_8S', displayName: 'Fast video 1080p / 8s', category: 'video', creditCost: 432, quality: 'fast', resolution: '1080p', durationSeconds: 8 }),
   VIDEO_PREMIUM_8S: operation({ code: 'VIDEO_PREMIUM_8S', displayName: 'Premium video / 8s', category: 'video', creditCost: 1440, quality: 'premium', durationSeconds: 8 }),
 
-  WEBSITE_SIMPLE: operation({ code: 'WEBSITE_SIMPLE', displayName: 'Simple website', category: 'website', creditCost: 20 }),
+  WEBSITE_SIMPLE: operation({ code: 'WEBSITE_SIMPLE', displayName: 'Simple website', category: 'website', creditCost: 36 }),
   WEBSITE_ADVANCED: operation({ code: 'WEBSITE_ADVANCED', displayName: 'Advanced website', category: 'website', creditCost: 50 }),
   WEBSITE_COMPLEX: operation({ code: 'WEBSITE_COMPLEX', displayName: 'Complex website', category: 'website', creditCost: 100 }),
 
