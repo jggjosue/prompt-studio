@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import type React from 'react';
 import { auth, clerkClient } from '@clerk/nextjs/server';
 import { SidebarNavLink } from '@/components/dashboard/sidebar-nav-link';
-import { Activity, BarChart3, Braces, Clock3, Coins, Fingerprint, Flag, FlaskConical, FolderKanban, Gauge, Layers3, Library, Megaphone, Palette, Rocket, ShoppingCart, Store, UserCircle, UsersRound } from 'lucide-react';
+import { Activity, BarChart3, Braces, Clock3, Coins, Fingerprint, Flag, FlaskConical, FolderKanban, Gauge, Layers3, Library, MailCheck, Megaphone, Palette, Rocket, ShoppingCart, Store, UserCircle, UsersRound } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import Header from '@/components/layout/header';
 import { DashboardMobileNav } from '@/components/dashboard/dashboard-mobile-nav';
@@ -27,6 +27,7 @@ export default async function DashboardLayout({
   const { userId } = await auth();
   let isAffiliate = false;
   let isPremiumJoAdmin = false;
+  let isSuperAdmin = false;
   let pendingAffiliateApplications = 0;
 
   if (userId) {
@@ -36,6 +37,7 @@ export default async function DashboardLayout({
       const meta = (user.privateMetadata ?? {}) as { affiliateReferralCode?: string };
       isAffiliate = Boolean(meta.affiliateReferralCode);
       const userEmail = user.primaryEmailAddress?.emailAddress?.trim().toLowerCase();
+      const superAdminEmail = process.env.PROMPT_STUDIO_PREMIUM_JO?.trim().toLowerCase();
       const adminEmails = [
         process.env.PROMPT_STUDIO_CREATOR_JO,
         process.env.PROMPT_STUDIO_PRO_JO,
@@ -45,6 +47,7 @@ export default async function DashboardLayout({
         .map(email => email?.trim().toLowerCase())
         .filter((email): email is string => Boolean(email));
       isPremiumJoAdmin = Boolean(userEmail && adminEmails.includes(userEmail));
+      isSuperAdmin = Boolean(userEmail && superAdminEmail && userEmail === superAdminEmail);
 
       if (userEmail) {
         await connectToDatabase();
@@ -218,6 +221,14 @@ export default async function DashboardLayout({
           badge: pendingAffiliateApplications > 0 ? String(pendingAffiliateApplications) : undefined,
         }]
       : []),
+    ...(isSuperAdmin
+      ? [{
+          href: '/dashboard/email-sync',
+          icon: <MailCheck className="h-4 w-4" />,
+          label: 'Sincronización de email',
+          description: 'MongoDB → Resend',
+        }]
+      : []),
     ...(isAffiliate
       ? [{
           href: '/dashboard/campaigns',
@@ -324,6 +335,7 @@ export default async function DashboardLayout({
         <DashboardMobileNav
           isAffiliate={isAffiliate}
           isPremiumJoAdmin={isPremiumJoAdmin}
+          isSuperAdmin={isSuperAdmin}
           pendingAffiliateApplications={pendingAffiliateApplications}
         />
         <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 bg-muted/20 min-w-0">

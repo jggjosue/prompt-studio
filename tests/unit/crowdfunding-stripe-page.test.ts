@@ -24,7 +24,7 @@ test('crowdfunding checkout is server-authoritative and bounded',()=>{
  assert.match(route,/amountCents < 1000/); assert.match(route,/amountCents > 1000000/);
  assert.match(route,/unit_amount: amountCents/);
  assert.match(route,/purchaseType: 'founder_crowdfunding'/);
- assert.match(route,/fulfillmentStatus: 'pending_campaign_success'/);
+ assert.match(route,/fulfillmentStatus: 'pending_campaign_end'/);
  assert.match(route,/customer_creation: 'always'/);
  assert.match(route,/export const runtime = 'nodejs'/);
  assert.doesNotMatch(route,/clerkClient/);
@@ -35,13 +35,14 @@ test('Stripe server client rejects publishable keys used as secrets',()=>{
  assert.match(stripe,/!apiKey\.startsWith\('rk_'\)/);
  assert.match(stripe,/no una clave publicable \(pk_\*\)/);
 });
-test('crowdfunding checkout UI supports presets and custom amount',()=>{
+test('crowdfunding checkout UI supports presets and uses the direct Stripe Payment Link',()=>{
  const ui=fs.readFileSync('src/components/CrowdfundingCheckout.tsx','utf8');
  for(const amount of ['50','100','500','1000']) assert.match(ui,new RegExp(amount));
-assert.match(ui,/Other amount/); assert.match(ui,/Continue with Stripe/);
-  assert.match(ui,/NEXT_PUBLIC_STRIPE_CHECKOUT_CROWFUNDING/);
-  assert.match(ui,/buildCrowdfundingCheckoutUrl\(paymentLink, selected\)/);
-  assert.match(ui,/window\.open\(/);
+ assert.match(ui,/Other amount/); assert.match(ui,/Continue with Stripe/);
+ assert.match(ui,/NEXT_PUBLIC_STRIPE_CHECKOUT_CROWFUNDING/);
+ assert.match(ui,/buildCrowdfundingCheckoutUrl\(paymentLink, selected\)/);
+ assert.match(ui,/window\.open\(/);
+ assert.doesNotMatch(ui,/\/api\/crowdfunding\/checkout/);
 });
 test('payment link uses the selected amount as prefilled_amount',()=>{
   const url=buildCrowdfundingCheckoutUrl('https://buy.stripe.com/7sY3cu89G54C4EcgJn9MY0w?prefilled_amount=5000',100);
@@ -55,4 +56,25 @@ test('calculator and checkout share one selected amount',()=>{
  assert.match(wrapper,/CrowdfundingCheckout/);
  assert.match(wrapper,/amount=\{amount\}/);
  assert.match(wrapper,/onAmountChange=\{selectAmount\}/);
+});
+
+test('crowdfunding progress is sourced from paid Stripe webhook records',()=>{
+ const webhook=fs.readFileSync('src/app/api/webhooks/stripe/route.ts','utf8');
+ const progress=fs.readFileSync('src/app/api/crowdfunding/progress/route.ts','utf8');
+ const model=fs.readFileSync('src/models/CrowdfundingContribution.ts','utf8');
+ const page=fs.readFileSync('src/app/[locale]/crowdfunding/page.tsx','utf8');
+ assert.match(webhook,/isCrowdfundingPaymentLink/);
+ assert.match(webhook,/stripe\.paymentLinks\.retrieve/);
+ assert.match(webhook,/NEXT_PUBLIC_STRIPE_CHECKOUT_CROWFUNDING/);
+ assert.match(webhook,/CrowdfundingContribution\.findOneAndUpdate/);
+ assert.match(webhook,/getFounderRewardTier\(amountPaidCents\)/);
+ assert.match(webhook,/creditStatus: 'pending'/);
+ assert.match(webhook,/totalCredits: founderReward\.totalCredits/);
+ assert.match(webhook,/status: 'refunded'/);
+ assert.match(webhook,/creditStatus: 'cancelled'/);
+ assert.match(progress,/status: 'paid'/);
+ assert.match(progress,/GOAL_CENTS = 2_500_000/);
+ assert.match(progress,/Cache-Control': 'no-store/);
+ assert.match(model,/stripeCheckoutSessionId/);
+ assert.match(page,/CrowdfundingProgress/);
 });

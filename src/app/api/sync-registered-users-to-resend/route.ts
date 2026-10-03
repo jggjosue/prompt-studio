@@ -4,7 +4,7 @@ import { upsertResendContact } from '@/lib/resend';
 import UserProfile from '@/models/UserProfile';
 import { NextResponse } from 'next/server';
 
-export async function GET(request: Request) {
+async function syncRegisteredUsersToResend(request: Request) {
   const denied = await requireCronOrAdmin(request);
   if (denied) return denied;
 
@@ -55,3 +55,9 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'RESEND_SYNC_FAILED' }, { status: 500 });
   }
 }
+
+// GET remains available for an authenticated cron/admin invocation. The
+// dashboard uses POST so a state-changing reconciliation is never triggered by
+// link previews, crawlers or browser prefetching.
+export const GET = syncRegisteredUsersToResend;
+export const POST = syncRegisteredUsersToResend;

@@ -1,12 +1,14 @@
 import type { ContentMembership } from '@/lib/membership-access';
 
 export const CLERK_USER_PLANS = {
+  premium: 'premium',
   creator: 'creator',
   pro: 'pro',
   studio: 'studio',
 } as const;
 
 export const CLERK_FEATURES = {
+  premiumAccess: 'premium_access',
   creatorAccess: 'creator_access',
   proAccess: 'pro_access',
   studioAccess: 'studio_access',
@@ -27,6 +29,10 @@ export function clerkGrantsMembership(
   if (required === 'free') return true;
   if (!isSignedIn || !has) return false;
 
+  const hasPremium =
+    has({ plan: CLERK_USER_PLANS.premium }) ||
+    has({ feature: CLERK_FEATURES.premiumAccess });
+
   const hasCreator =
     has({ plan: CLERK_USER_PLANS.creator }) ||
     has({ feature: CLERK_FEATURES.creatorAccess });
@@ -38,6 +44,10 @@ export function clerkGrantsMembership(
   const hasStudio =
     has({ plan: CLERK_USER_PLANS.studio }) ||
     has({ feature: CLERK_FEATURES.studioAccess });
+
+  if (required === 'premium') {
+    return hasPremium || hasCreator || hasPro || hasStudio;
+  }
 
   if (required === 'creator') {
     return hasCreator || hasPro || hasStudio;
@@ -53,7 +63,7 @@ export function clerkGrantsMembership(
 export function activeClerkPlanLabel(
   has: ClerkHasFn | undefined,
   isSignedIn: boolean
-): 'free' | 'creator' | 'pro' | 'studio' {
+): 'free' | 'premium' | 'creator' | 'pro' | 'studio' {
   if (!isSignedIn || !has) return 'free';
   if (
     has({ plan: CLERK_USER_PLANS.studio }) ||
@@ -72,6 +82,12 @@ export function activeClerkPlanLabel(
     has({ feature: CLERK_FEATURES.creatorAccess })
   ) {
     return 'creator';
+  }
+  if (
+    has({ plan: CLERK_USER_PLANS.premium }) ||
+    has({ feature: CLERK_FEATURES.premiumAccess })
+  ) {
+    return 'premium';
   }
   return 'free';
 }

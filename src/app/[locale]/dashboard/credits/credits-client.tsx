@@ -8,7 +8,7 @@ import { trackAnalyticsEvent } from '@/lib/analytics';
 
 type Pack = { id: string; name: string; description: string; credits: number; bonusCredits: number; price: string; currency: string; featured: boolean; savingsPercent: number };
 type Purchase = { id: string; packId: string; credits: number; amountPaidCents: number; currency: string; status: string; receiptUrl: string | null; purchasedAt: string | null };
-type Payload = { credits: { balance: number; reserved: number; lifetimeSpent: number }; packs: Pack[]; purchases: Purchase[] };
+type Payload = { credits: { balance: number; reserved: number; lifetimeSpent: number; pendingSubscriptionCredits: number }; packs: Pack[]; purchases: Purchase[] };
 type CheckoutResponse = { clientSecret: string; publishableKey: string; sessionId: string; pack: { id: string; name: string; credits: number; price: string; currency: string } };
 type EmbeddedCheckout = { mount: (target: string | HTMLElement) => void; destroy: () => void };
 type StripeBrowser = { initEmbeddedCheckout: (options: { clientSecret: string }) => Promise<EmbeddedCheckout> };
@@ -109,11 +109,19 @@ export function CreditsClient() {
       {justPaid && <p role="status" className="flex items-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-3 text-sm text-emerald-700 dark:text-emerald-400"><Check className="size-4" /> Pago recibido. Tu saldo se actualiza en unos segundos.</p>}
       {error && <p role="alert" className="rounded-xl border border-destructive/30 bg-destructive/10 p-3 text-sm text-destructive">{error}</p>}
 
-      {data && <div className="grid gap-3 sm:grid-cols-3">
-        <Metric label="Disponibles" value={`${data.credits.balance.toFixed(1)} créditos`} />
-        <Metric label="Reservados" value={`${data.credits.reserved.toFixed(1)} créditos`} />
-        <Metric label="Consumidos" value={`${data.credits.lifetimeSpent.toFixed(1)} créditos`} />
-      </div>}
+      {data && <>
+        <div className="grid gap-3 sm:grid-cols-4">
+          <Metric label="Disponibles" value={`${data.credits.balance.toFixed(1)} créditos`} />
+          <Metric label="Pendientes" value={`${data.credits.pendingSubscriptionCredits.toFixed(0)} créditos`} />
+          <Metric label="Reservados" value={`${data.credits.reserved.toFixed(1)} créditos`} />
+          <Metric label="Consumidos" value={`${data.credits.lifetimeSpent.toFixed(1)} créditos`} />
+        </div>
+        {data.credits.pendingSubscriptionCredits > 0 && (
+          <p className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-3 text-sm text-amber-800 dark:text-amber-300">
+            Tus créditos pendientes ya están registrados, pero no se pueden utilizar hasta que termine la campaña y se active el saldo de IA.
+          </p>
+        )}
+      </>}
 
       <section>
         <h2 className="mb-4 text-lg font-bold">Recargar</h2>
