@@ -6,7 +6,7 @@ import CrowdfundingBacker, { type ICrowdfundingBacker } from '../../src/models/C
 import CrowdfundingContribution from '../../src/models/CrowdfundingContribution';
 import CrowdfundingSequence from '../../src/models/CrowdfundingSequence';
 import FounderCreditClaim from '../../src/models/FounderCreditClaim';
-import { FOUNDER_CROWDFUNDING_CAMPAIGN_ID } from '../../src/lib/crowdfunding-backer-ledger';
+import { FOUNDER_CROWDFUNDING_CAMPAIGN_ID } from '../../src/lib/crowdfunding-campaign-config';
 
 function identityKey(row: { purchaserUserId?: string | null; purchaserEmail?: string | null; stripeCheckoutSessionId: string }) {
   const userId = row.purchaserUserId?.trim();
