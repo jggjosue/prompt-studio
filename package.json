@@ -78,7 +78,8 @@
     "verify:r2:training": "node --import tsx scripts/ts/verify-training-r2.ts",
     "worker:training": "tsx workers/aws-training-data-worker.ts",
     "dataset:release": "node --import tsx scripts/ts/release-training-dataset.ts",
-    "dataset:rebuild-revoked": "node --import tsx scripts/ts/rebuild-revoked-dataset.ts"
+    "dataset:rebuild-revoked": "node --import tsx scripts/ts/rebuild-revoked-dataset.ts",
+    "crowdfunding:backfill-backers": "tsx scripts/ts/backfill-crowdfunding-backers.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1049.0",
