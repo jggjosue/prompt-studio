@@ -23,6 +23,7 @@ import connectToDatabase from '@/lib/mongoose';
 import { errorFingerprint, recordObservabilityEvent, reportOperationalError } from '@/lib/observability-server';
 import { getPlanCredits, normalizeExistingPlan, type PlanId } from '@/lib/subscription-plans';
 import { recordConfirmedPurchase } from '@/lib/payment-analytics';
+import { areCrowdfundingCreditsActive, recordPendingSubscriptionCredits } from '@/lib/pending-subscription-credits';
 import AffiliateApplication from '@/models/AffiliateApplication';
 import ComponentPurchase from '@/models/ComponentPurchase';
 import CrowdfundingContribution from '@/models/CrowdfundingContribution';
@@ -587,13 +588,28 @@ export async function POST(req: Request) {
           const rawPlan = subscription.metadata?.plan;
           const plan = normalizeExistingPlan(rawPlan || 'free') as PlanId;
           if (plan !== 'free') {
-            await expireSubscriptionCredits(clerkUserId, invoice.id);
-            await grantSubscriptionCredits(clerkUserId, getPlanCredits(plan), invoice.id, {
-              stripeInvoiceId: invoice.id,
-              stripeSubscriptionId: subscriptionId,
-              plan,
-              billingReason: invoice.billing_reason,
-            });
+            const credits = getPlanCredits(plan);
+            if (areCrowdfundingCreditsActive()) {
+              await expireSubscriptionCredits(clerkUserId, invoice.id);
+              await grantSubscriptionCredits(clerkUserId, credits, invoice.id, {
+                stripeInvoiceId: invoice.id,
+                stripeSubscriptionId: subscriptionId,
+                plan,
+                billingReason: invoice.billing_reason,
+              });
+            } else {
+              await recordPendingSubscriptionCredits({
+                userId: clerkUserId,
+                plan,
+                credits,
+                stripeInvoiceId: invoice.id,
+                stripeSubscriptionId: subscriptionId,
+                metadata: {
+                  billingReason: invoice.billing_reason,
+                  campaignStatus: 'pending_activation',
+                },
+              });
+            }
           }
         }
         const customer = await stripe.customers.retrieve(customerId);
