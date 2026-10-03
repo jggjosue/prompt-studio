@@ -82,3 +82,17 @@ test('pending plan credits explain crowdfunding lock and link to the campaign', 
   assert.match(es.prices?.pendingCreditsNote ?? '', /no se pueden gastar hasta que termine la campaña de crowdfunding/);
   assert.match(en.prices?.pendingCreditsNote ?? '', /cannot be spent until the crowdfunding campaign ends/);
 });
+
+test('pricing removes Creator coupon codes and offers profitable top-ups instead', async () => {
+  const prices = await source('src/app/[locale]/prices/prices-client.tsx');
+  const es = JSON.parse(await source('messages/es.json')) as { prices?: Record<string, unknown> };
+  const en = JSON.parse(await source('messages/en.json')) as { prices?: Record<string, unknown> };
+
+  assert.doesNotMatch(prices, /CreatorCoupon|CREATOR_MONTH|CREATOR_ANNUAL/);
+  assert.ok(prices.includes('buyMoreCreditsTitle'));
+  assert.ok(prices.includes('href="/dashboard/credits"'));
+  for (const messages of [es, en]) {
+    assert.equal('creatorCouponLabel' in (messages.prices ?? {}), false);
+    assert.equal('creatorCouponCodeLabel' in (messages.prices ?? {}), false);
+  }
+});
