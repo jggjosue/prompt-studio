@@ -32,8 +32,10 @@ export interface IUserProfile extends Document {
  *
  * ATENCIÓN: esta colección, `user_profiles`, la comparte con el modelo
  * `NewUser`, que guarda correos de personas que aún no tienen cuenta —los leads
- * de las descargas gratuitas—. Es deliberado: `/api/sync-resend` recorre la
- * colección entera para sincronizar a todo el mundo con Resend.
+ * de las descargas gratuitas—. La ruta canónica
+ * `/api/sync-registered-users-to-resend` selecciona explícitamente los perfiles
+ * registrados y conserva su consentimiento y sus supresiones al reconciliarlos
+ * con Resend.
  *
  * Consecuencia sobre el índice: `userId` **no puede ser único a secas**. Un lead
  * se inserta sin ese campo, MongoDB lo interpreta como `null`, y con un índice
