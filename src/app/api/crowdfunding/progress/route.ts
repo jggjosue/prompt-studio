@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/mongoose';
 import CrowdfundingContribution from '@/models/CrowdfundingContribution';
+import CrowdfundingBacker from '@/models/CrowdfundingBacker';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -15,7 +16,10 @@ export async function GET() {
   ]);
 
   const raisedCents = Number(rows[0]?.raisedCents ?? 0);
-  const backers = Number(rows[0]?.backers ?? 0);
+  const backers = await CrowdfundingBacker.countDocuments({
+    totalContributedCents: { $gt: 0 },
+    creditStatus: { $ne: 'cancelled' },
+  });
   const percent = GOAL_CENTS > 0 ? Math.min(100, Math.max(0, (raisedCents / GOAL_CENTS) * 100)) : 0;
 
   return NextResponse.json(
