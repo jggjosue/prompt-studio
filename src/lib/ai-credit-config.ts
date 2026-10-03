@@ -43,6 +43,8 @@ const model = (config: Omit<AIModelConfig, 'maxCredits' | 'maxInputTokens' | 'ma
 export const AI_MODEL_CONFIG: Record<string, AIModelConfig> = {
   'google:gemini-2.5-flash': model({ provider: 'google', modelId: 'gemini-2.5-flash', category: 'project', minimumCredits: 1, inputTokenPriceUsdPerMillion: 0.30, outputTokenPriceUsdPerMillion: 2.50, defaultOutputTokens: 4_000, pricingStatus: 'verified', enabled: true }),
   'google:gemini-2.5-pro': model({ provider: 'google', modelId: 'gemini-2.5-pro', category: 'project', minimumCredits: 3, inputTokenPriceUsdPerMillion: 1.25, outputTokenPriceUsdPerMillion: 10, defaultOutputTokens: 4_000, pricingStatus: 'verified', enabled: true }),
+  'vertex:gemini-2.5-flash': model({ provider: 'vertex', modelId: 'gemini-2.5-flash', category: 'project', minimumCredits: 1, inputTokenPriceUsdPerMillion: 0.30, outputTokenPriceUsdPerMillion: 2.50, defaultOutputTokens: 4_000, pricingStatus: 'verified', enabled: true }),
+  'vertex:gemini-2.5-pro': model({ provider: 'vertex', modelId: 'gemini-2.5-pro', category: 'project', minimumCredits: 3, inputTokenPriceUsdPerMillion: 1.25, outputTokenPriceUsdPerMillion: 10, defaultOutputTokens: 4_000, pricingStatus: 'verified', enabled: true }),
   'google:gemini-2.0-flash': model({ provider: 'google', modelId: 'gemini-2.0-flash', category: 'project', minimumCredits: 1, inputTokenPriceUsdPerMillion: null, outputTokenPriceUsdPerMillion: null, defaultOutputTokens: 4_000, pricingStatus: 'unverified', enabled: true }),
   'google:gemini-3.8-flash': model({ provider: 'google', modelId: 'gemini-3.8-flash', category: 'text', minimumCredits: 1, inputTokenPriceUsdPerMillion: 0.30, outputTokenPriceUsdPerMillion: 2.50, defaultOutputTokens: 1_000, pricingStatus: 'unverified', enabled: true }),
   'google:imagen-4.0-fast-generate-001': model({ provider: 'google', modelId: 'imagen-4.0-fast-generate-001', category: 'image', minimumCredits: 10, imagePriceUsd: 0.04, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
@@ -111,6 +113,7 @@ export function resolveAIModelId(kind: AIJobKind, provider: string, requestedMod
     'google:image': 'gemini-3.1-flash-image',
     'google:video': 'veo-3.1-fast-generate-preview',
     'vertex:video': 'veo-3.1-fast-generate-001',
+    'vertex:project': 'gemini-2.5-flash',
     'google:project': 'gemini-2.5-flash',
     'google:vision': 'gemini-3.8-flash',
     'google:text': 'gemini-3.8-flash',
