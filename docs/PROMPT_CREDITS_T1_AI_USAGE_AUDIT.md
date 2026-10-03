@@ -4,6 +4,20 @@ Parent: #871
 Base branch: `main`  
 Scope: re-audit plus pricing consistency corrections on `main`; generation execution behavior is otherwise unchanged.
 
+## 2026-10-03 unified Prompt Credit economics
+
+The platform now treats **1 Prompt Credit = $0.01 USD nominal retail value** as a code invariant.
+
+- Monthly subscriptions derive included credits directly from price: Premium 900, Creator 1,900, Pro 2,900, Studio 3,900.
+- Annual subscriptions keep the existing prices ($90/$190/$290/$390) and deliver 12 months of credits, producing the explicit pay-10-get-12 effective floor of $0.008333/credit.
+- Active top-ups remain exactly $0.01/credit.
+- Crowdfunding now uses the same 100 base credits per $1. Founder value exists only as the explicit 5%-20% tier bonus.
+- The maximum Founder bonus (20%) produces the same $0.008333 effective floor as annual subscriptions, preventing a cheaper hidden conversion path.
+- Provider spend remains capped at **$0.0025 per Prompt Credit** (25% of nominal retail). Provider/API pricing remains operational data, separate from customer-facing credit SKUs.
+- Promotional economics are validated against all credits delivered. At the maximum discount, the current reserves still leave approximately 42% contribution before taxes/fixed company costs.
+
+Current provider examples were rechecked against official pricing on 2026-10-03: Gemini 2.5 Flash standard is $0.30/M input and $2.50/M output tokens; GPT-5.4 Mini is $0.75/M input and $4.50/M output. ChatGPT subscription prices are not API costs and must not enter provider-cost calculations.
+
 ## 2026-10-03 re-audit — main branch commercial surfaces and provider pricing
 
 This re-audit uses **`main` as the sole repository source of truth**. It validates the public pricing page, subscription catalog, Founder/crowdfunding calculator, dashboard top-ups, tests, and provider-cost registry.
@@ -13,26 +27,26 @@ This re-audit uses **`main` as the sole repository source of truth**. It validat
 | Plan | Monthly price | Monthly Prompt Credits | Annual price | Annual Prompt Credits |
 |---|---:|---:|---:|---:|
 | Free | $0 | 0 | $0 | 0 |
-| Premium | $9 | 500 | $90 | 6,000 |
-| Creator | $19 | 1,000 | $190 | 12,000 |
-| Pro | $29 | 1,500 | $290 | 18,000 |
-| Studio | $39 | 3,000 | $390 | 36,000 |
+| Premium | $9 | 900 | $90 | 10,800 |
+| Creator | $19 | 1,900 | $190 | 22,800 |
+| Pro | $29 | 2,900 | $290 | 34,800 |
+| Studio | $39 | 3,900 | $390 | 46,800 |
 
 These values are enforced by `tests/unit/pro-plan.test.ts` and `tests/unit/premium-monthly-credits.test.ts`. The implementation in `src/lib/subscription-plans.ts` was corrected on `main` to match that contract. `/prices` already reads prices and credits from that shared module instead of maintaining an independent price table.
 
 ### Founder Program / crowdfunding
 
-Founder Credits use a campaign-specific conversion of **80 base credits per $1**, followed by the tier bonus:
+Founder Credits use the platform conversion of **100 base credits per $1**, followed by the explicit tier bonus:
 
 | Contribution | Base | Bonus | Total Founder Credits |
 |---|---:|---:|---:|
-| $10 | 800 | 5% / 40 | 840 |
-| $25 | 2,000 | 7% / 140 | 2,140 |
-| $50 | 4,000 | 10% / 400 | 4,400 |
-| $100 | 8,000 | 12% / 960 | 8,960 |
-| $250 | 20,000 | 15% / 3,000 | 23,000 |
-| $500 | 40,000 | 17% / 6,800 | 46,800 |
-| $1,000 | 80,000 | 20% / 16,000 | 96,000 |
+| $10 | 1,000 | 5% / 50 | 1,050 |
+| $25 | 2,500 | 7% / 175 | 2,675 |
+| $50 | 5,000 | 10% / 500 | 5,500 |
+| $100 | 10,000 | 12% / 1,200 | 11,200 |
+| $250 | 25,000 | 15% / 3,750 | 28,750 |
+| $500 | 50,000 | 17% / 8,500 | 58,500 |
+| $1,000 | 100,000 | 20% / 20,000 | 120,000 |
 
 This contract is visible on `/crowdfunding` and enforced by `tests/unit/crowdfunding-credit-calculator.test.ts`. `src/lib/founder-credit-tiers.ts` was corrected on `main` from the divergent 100 credits/$1 implementation back to 80 credits/$1.
 
@@ -108,7 +122,7 @@ Provider/API unit costs remain intentionally outside this commercial catalog bec
 
 Corrected in this re-audit:
 1. `subscription-plans.ts`: restored tested monthly/annual Prompt Credit allowances.
-2. `founder-credit-tiers.ts`: restored 80 base Founder Credits per $1.
+2. `founder-credit-tiers.ts`: aligned Founder to 100 base Prompt Credits per $1 plus explicit tier bonus.
 3. `credit-packs.ts`: restored exact active top-up amounts with no bonus.
 4. `PROMPT_CREDITS_T1_AI_USAGE_AUDIT.md`: changed audit base to `main` and reconciled commercial/provider pricing.
 
