@@ -5,6 +5,7 @@ import { Check, Loader2, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { trackAnalyticsEvent } from '@/lib/analytics';
+import Link from 'next/link';
 
 type Pack = { id: string; name: string; description: string; credits: number; bonusCredits: number; price: string; currency: string; featured: boolean; savingsPercent: number };
 type Purchase = { id: string; packId: string; credits: number; amountPaidCents: number; currency: string; status: string; receiptUrl: string | null; purchasedAt: string | null };
@@ -118,7 +119,10 @@ export function CreditsClient() {
         </div>
         {data.credits.pendingSubscriptionCredits > 0 && (
           <p className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-3 text-sm text-amber-800 dark:text-amber-300">
-            Tus créditos pendientes ya están registrados, pero no se pueden utilizar hasta que termine la campaña y se active el saldo de IA.
+            Tus créditos pendientes ya están registrados, pero no se pueden gastar hasta que termine la campaña de crowdfunding y se active el saldo de IA.{' '}
+            <Link href="/crowdfunding" className="font-semibold underline underline-offset-2 hover:text-amber-700 dark:hover:text-amber-200">
+              Ver programa de crowdfunding
+            </Link>
           </p>
         )}
       </>}
