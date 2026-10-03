@@ -53,17 +53,17 @@ export function getCreatorStripeCheckoutUrlLegacy(isAnnual: boolean, userId?: st
 
 /** `true` si el tramo `creator` se puede comprar. */
 export function isCreatorPlanAvailable(): boolean {
-  return true;
+  return Boolean(process.env.NEXT_PUBLIC_STRIPE_CREATOR_MONTHLY || process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_MONTHLY);
 }
 
 /** `true` si el tramo `pro` se puede comprar. */
 export function isProPlanAvailable(): boolean {
-  return true;
+  return Boolean(process.env.NEXT_PUBLIC_STRIPE_PRO_MONTHLY);
 }
 
 /** `true` si el tramo `studio` se puede comprar. */
 export function isStudioPlanAvailable(): boolean {
-  return true;
+  return Boolean(process.env.NEXT_PUBLIC_STRIPE_STUDIO_MONTHLY);
 }
 
 /**
