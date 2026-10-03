@@ -463,3 +463,87 @@ T1 is complete when this document is merged because it:
 - separates provider/model pricing from future operation-level Prompt Credit pricing.
 
 This re-audit also corrected commercial pricing constants on `main`; provider routing and database schema were not changed.
+
+
+## 2026-10-03 — Unified provider pricing registry for all generation modalities
+
+Prompt Studio keeps Prompt Credits as the user-facing commercial abstraction while provider-native units remain internal. The economic invariant is:
+
+```text
+nominal retail value = $0.01 / Prompt Credit
+maximum provider budget = $0.0025 / Prompt Credit
+default pricing safety buffer = 12.5%
+
+protectedProviderCost = rawProviderCost * 1.125
+requiredCredits = ceil(protectedProviderCost / 0.0025)
+```
+
+The runtime margin engine and the final provider-budget guardrail remain authoritative. A catalog operation may provide a UX tier or fallback price, but it cannot authorize execution when the selected provider/model exceeds the protected provider budget.
+
+### Text generation
+
+Text is priced from provider-native input/output tokens:
+
+```text
+rawProviderCost =
+  inputTokens / 1,000,000 * providerInputPrice
+  + outputTokens / 1,000,000 * providerOutputPrice
+
+requiredCredits = ceil(rawProviderCost * 1.125 / 0.0025)
+```
+
+Primary verified provider entries include Gemini/Google, Vertex/Google Cloud as a separate provider namespace, and OpenAI. Provider/model pricing must never be inferred from ChatGPT subscription prices.
+
+### Website generation
+
+Website generation uses the same token economics as text because the billable provider output is primarily generated text/code. WEBSITE_SIMPLE, WEBSITE_ADVANCED and WEBSITE_COMPLEX remain distinct commercial operations for UX, expected output size, context limits and complexity, but their provider eligibility is evaluated from the actual selected model plus estimated input/output token usage.
+
+```text
+websiteProviderCost =
+  contextTokens * inputTokenPrice
+  + expectedHtmlCssJsTokens * outputTokenPrice
+```
+
+The operation credit price is therefore a commercial ceiling/floor for the workflow, while provider routing must fit inside `credits * $0.0025`.
+
+### Image generation
+
+Images are quoted from provider/model/output-resolution pricing. For Gemini 3.1 Flash Image, the verified standard output prices used on 2026-10-03 are $0.045 (0.5K), $0.067 (1K), $0.101 (2K), and $0.151 (4K). Gemini 3 Pro Image uses $0.134 for 1K/2K and $0.24 for 4K. Gemini 3.1 Flash Lite Image uses $0.0336 for 1K.
+
+Examples after the 12.5% buffer:
+
+| Provider/model | Output | Raw provider cost | Protected Prompt Credits |
+|---|---:|---:|---:|
+| Gemini 3.1 Flash Lite Image | 1K | $0.0336 | 16 |
+| Gemini 3.1 Flash Image | 1K | $0.067 | 31 |
+| Gemini 3.1 Flash Image | 2K | $0.101 | 46 |
+| Gemini 3.1 Flash Image | 4K | $0.151 | 68 |
+| Gemini 3 Pro Image | 1K/2K | $0.134 | 61 |
+| Gemini 3 Pro Image | 4K | $0.24 | 108 |
+
+Image resolution is now part of the runtime provider quote instead of being only a UI label.
+
+### Video generation
+
+Video is quoted by provider/model, duration, resolution and (where the provider differentiates it) audio:
+
+```text
+rawProviderCost = seconds * providerPricePerSecond(model, resolution, audio)
+requiredCredits = ceil(rawProviderCost * 1.125 / 0.0025)
+```
+
+Gemini Developer API and Vertex/Google Cloud are intentionally separate pricing namespaces. Vertex may distinguish video-only from video-with-audio. Duration/resolution compatibility is validated before dispatch. The old generic 100-credit generation ceiling no longer constrains verified video models.
+
+### OpenAI video status
+
+Do not route production video to retired Sora 2 / Videos API entries. As of this audit date, OpenAI documents the Sora 2 / Videos API retirement on 2026-09-24. OpenAI remains a primary provider for currently supported text/project/image capabilities, but video must only be enabled again after a current production video endpoint and pricing are verified.
+
+### Pricing sources and maintenance rule
+
+Provider prices are time-sensitive and must be re-verified before financial changes:
+- Gemini Developer API pricing: https://ai.google.dev/gemini-api/docs/pricing
+- Gemini image model details: https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-image
+- Google Cloud / Vertex generative AI pricing: https://cloud.google.com/vertex-ai/generative-ai/pricing
+- OpenAI API model/pricing documentation: https://developers.openai.com/api/docs/models
+
+The registry's `verifiedAt` date is evidence of the last pricing review, not a promise that a provider has not changed prices since then. Changes to provider prices must update the registry, regression tests and this audit when they alter commercial examples or supported capabilities.

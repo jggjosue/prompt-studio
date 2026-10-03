@@ -99,6 +99,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: { code, message: 'La configuración de generación no está disponible.' } }, { status: 400, headers: headers() });
   }
   let operationCode: string | null = null;
+  let imageResolution: '0.5k' | '1k' | '2k' | '4k' | undefined;
   let videoDurationSeconds: number | undefined;
   let videoResolution: '720p' | '1024p' | '1080p' | '4k' | undefined;
   if (raw.kind === 'text') {
@@ -136,6 +137,14 @@ export async function POST(request: Request) {
       }, { status: 400, headers: headers() });
     }
   }
+  if (raw.kind === 'image') {
+    const requestedImageResolution = String(input.imageResolution ?? input.resolution ?? '1k').toLowerCase();
+    if (!['0.5k', '1k', '2k', '4k'].includes(requestedImageResolution)) {
+      return NextResponse.json({ error: { code: 'IMAGE_RESOLUTION_UNSUPPORTED', message: 'Resolución de imagen no soportada.' } }, { status: 400, headers: headers() });
+    }
+    imageResolution = requestedImageResolution as '0.5k' | '1k' | '2k' | '4k';
+  }
+
   if (raw.kind === 'video') {
     try {
       const operation = resolveVideoGenerationOperation(input);
@@ -210,7 +219,7 @@ export async function POST(request: Request) {
   }
   if (operationCode) {
     try {
-      const runtimePricing = await resolveRuntimeOperationPricing({ operationCode, provider, modelId, usage: { input, outputTokens: cost.estimatedOutputTokens, imageCount: raw.kind === 'image' ? 1 : 0, videoDurationSeconds: raw.kind === 'video' ? videoDurationSeconds : 0, videoResolution: raw.kind === 'video' ? videoResolution : undefined, videoAudio: raw.kind === 'video' ? input.videoAudio !== false : undefined } });
+      const runtimePricing = await resolveRuntimeOperationPricing({ operationCode, provider, modelId, usage: { input, outputTokens: cost.estimatedOutputTokens, imageCount: raw.kind === 'image' ? 1 : 0, imageResolution: raw.kind === 'image' ? imageResolution : undefined, videoDurationSeconds: raw.kind === 'video' ? videoDurationSeconds : 0, videoResolution: raw.kind === 'video' ? videoResolution : undefined, videoAudio: raw.kind === 'video' ? input.videoAudio !== false : undefined } });
       cost = { ...cost, credits: runtimePricing.creditCost };
     } catch (error) {
       const code = error instanceof Error ? error.message : 'PRICING_NOT_AVAILABLE';

@@ -38,3 +38,38 @@ export function quoteVideoProviderCost(input: {
     verifiedAt: '2026-10-03',
   };
 }
+
+
+export type ImageResolution = '0.5k' | '1k' | '2k' | '4k';
+
+const IMAGE_USD_PER_OUTPUT: Record<string, Partial<Record<ImageResolution, number>>> = {
+  'google:gemini-3.1-flash-lite-image': { '1k': 0.0336 },
+  'google:gemini-3.1-flash-image': { '0.5k': 0.045, '1k': 0.067, '2k': 0.101, '4k': 0.151 },
+  'google:gemini-3-pro-image': { '1k': 0.134, '2k': 0.134, '4k': 0.24 },
+};
+
+export function quoteImageProviderCost(input: {
+  provider: string; modelId: string; resolution: ImageResolution;
+  imageCount?: number; safetyBufferPercent?: number;
+}) {
+  const prices = IMAGE_USD_PER_OUTPUT[`${input.provider}:${input.modelId}`];
+  if (!prices) return null;
+  const pricePerImageUsd = prices[input.resolution];
+  if (pricePerImageUsd == null) throw new Error('IMAGE_RESOLUTION_UNSUPPORTED');
+  const imageCount = Math.max(1, Math.floor(input.imageCount ?? 1));
+  const rawProviderCostUsd = pricePerImageUsd * imageCount;
+  const safetyBufferPercent = input.safetyBufferPercent ?? PROVIDER_PRICING_SAFETY_BUFFER_PERCENT;
+  const safetyCostUsd = rawProviderCostUsd * (1 + Math.max(0, safetyBufferPercent) / 100);
+  return {
+    pricePerImageUsd, imageCount,
+    rawProviderCostUsd: Number(rawProviderCostUsd.toFixed(6)),
+    safetyCostUsd: Number(safetyCostUsd.toFixed(6)),
+    requiredCredits: Math.ceil(safetyCostUsd / MAX_PROVIDER_COST_PER_CREDIT_USD),
+    verifiedAt: '2026-10-03',
+  };
+}
+
+export function creditsForProtectedProviderCost(providerCostUsd: number, safetyBufferPercent = PROVIDER_PRICING_SAFETY_BUFFER_PERCENT) {
+  const safeCost = Math.max(0, providerCostUsd) * (1 + Math.max(0, safetyBufferPercent) / 100);
+  return Math.ceil(safeCost / MAX_PROVIDER_COST_PER_CREDIT_USD);
+}

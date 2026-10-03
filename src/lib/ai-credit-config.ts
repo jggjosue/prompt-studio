@@ -48,8 +48,8 @@ export const AI_MODEL_CONFIG: Record<string, AIModelConfig> = {
   'google:gemini-2.0-flash': model({ provider: 'google', modelId: 'gemini-2.0-flash', category: 'project', minimumCredits: 1, inputTokenPriceUsdPerMillion: null, outputTokenPriceUsdPerMillion: null, defaultOutputTokens: 4_000, pricingStatus: 'unverified', enabled: true }),
   'google:gemini-3.8-flash': model({ provider: 'google', modelId: 'gemini-3.8-flash', category: 'text', minimumCredits: 1, inputTokenPriceUsdPerMillion: 0.30, outputTokenPriceUsdPerMillion: 2.50, defaultOutputTokens: 1_000, pricingStatus: 'unverified', enabled: true }),
   'google:imagen-4.0-fast-generate-001': model({ provider: 'google', modelId: 'imagen-4.0-fast-generate-001', category: 'image', minimumCredits: 10, imagePriceUsd: 0.04, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
-  'google:gemini-3.1-flash-image': model({ provider: 'google', modelId: 'gemini-3.1-flash-image', category: 'image', minimumCredits: 31, imagePriceUsd: 0.067, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
-  'google:gemini-3.1-flash-lite-image': model({ provider: 'google', modelId: 'gemini-3.1-flash-lite-image', category: 'image', minimumCredits: 16, imagePriceUsd: 0.0336, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
+  'google:gemini-3.1-flash-image': model({ provider: 'google', modelId: 'gemini-3.1-flash-image', category: 'image', minimumCredits: 31, maxCredits: 500, imagePriceUsd: 0.067, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
+  'google:gemini-3.1-flash-lite-image': model({ provider: 'google', modelId: 'gemini-3.1-flash-lite-image', category: 'image', minimumCredits: 16, maxCredits: 500, imagePriceUsd: 0.0336, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
   // Alias de los tiers de imagen del selector. `googleImageModelFor` ya los
   // resolvía al modelo de producción en runtime, pero no existían aquí, y
   // `estimateAICredits` lanza MODEL_NOT_ALLOWED ante un id ausente: elegir el
@@ -59,7 +59,7 @@ export const AI_MODEL_CONFIG: Record<string, AIModelConfig> = {
   // `MODEL_TIERS`, no cifras nuevas.
   'google:nano-banana-2-lite': model({ provider: 'google', modelId: 'gemini-3.1-flash-lite-image', category: 'image', minimumCredits: 16, imagePriceUsd: 0.0336, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
   'google:nano-banana-2': model({ provider: 'google', modelId: 'gemini-3.1-flash-image', category: 'image', minimumCredits: 31, imagePriceUsd: 0.067, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
-  'google:gemini-3-pro-image': model({ provider: 'google', modelId: 'gemini-3-pro-image', category: 'image', minimumCredits: 61, imagePriceUsd: 0.134, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
+  'google:gemini-3-pro-image': model({ provider: 'google', modelId: 'gemini-3-pro-image', category: 'image', minimumCredits: 61, maxCredits: 500, imagePriceUsd: 0.134, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
   'google:nano-banana-pro': model({ provider: 'google', modelId: 'gemini-3-pro-image', category: 'image', minimumCredits: 61, imagePriceUsd: 0.134, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
   'google:veo-2.0-generate-001': model({ provider: 'google', modelId: 'veo-2.0-generate-001', category: 'video', minimumCredits: 20, videoPriceUsdPerSecond: null, defaultOutputTokens: 0, pricingStatus: 'unverified', enabled: true }),
   'google:veo-3.1-generate-001': model({ provider: 'google', modelId: 'veo-3.1-generate-001', category: 'video', minimumCredits: 1440, maxCredits: 5000, videoPriceUsdPerSecond: 0.40, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
