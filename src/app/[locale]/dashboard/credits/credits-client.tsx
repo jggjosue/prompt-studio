@@ -128,7 +128,10 @@ export function CreditsClient() {
       </>}
 
       <section>
-        <h2 className="mb-4 text-lg font-bold">Recargar</h2>
+        <h2 className="mb-2 text-lg font-bold">Comprar más créditos</h2>
+        <p className="mb-4 text-sm text-muted-foreground">
+          Cuando tus créditos disponibles se terminen, puedes comprar una recarga sin cambiar de plan. Las recargas se habilitan después de que termine la campaña de crowdfunding y se active el saldo de IA.
+        </p>
         <div className="grid gap-4 md:grid-cols-3">
           {data?.packs.map(pack => (
             <article key={pack.id} className={`relative flex flex-col rounded-2xl border bg-card p-5 shadow-sm ${pack.featured ? 'border-primary ring-1 ring-primary/30' : ''}`}>
@@ -139,7 +142,7 @@ export function CreditsClient() {
               <p className="mt-4 text-xl font-semibold">{pack.price}</p>
               {pack.savingsPercent > 0 && <p className="text-xs text-muted-foreground">Ahorras un {pack.savingsPercent}% por crédito</p>}
               <Button className="mt-5 w-full" onClick={() => void openCheckout(pack)} disabled={activePack === pack.id}>
-                {activePack === pack.id ? <><Loader2 className="mr-2 size-4 animate-spin" /> Abriendo…</> : 'Recargar'}
+                {activePack === pack.id ? <><Loader2 className="mr-2 size-4 animate-spin" /> Abriendo…</> : 'Comprar créditos'}
               </Button>
             </article>
           ))}
