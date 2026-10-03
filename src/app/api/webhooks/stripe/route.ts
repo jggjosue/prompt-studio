@@ -25,6 +25,7 @@ import { getPlanCredits, normalizeExistingPlan, type PlanId } from '@/lib/subscr
 import { recordConfirmedPurchase } from '@/lib/payment-analytics';
 import AffiliateApplication from '@/models/AffiliateApplication';
 import ComponentPurchase from '@/models/ComponentPurchase';
+import CrowdfundingContribution from '@/models/CrowdfundingContribution';
 import MarketplaceListing from '@/models/MarketplaceListing';
 import MarketplaceRelease from '@/models/MarketplaceRelease';
 import MarketplaceAttributionEvent from '@/models/MarketplaceAttributionEvent';
@@ -209,6 +210,40 @@ export async function POST(req: Request) {
           currency: session.currency,
           userId: sessionAny.metadata?.purchaserUserId ?? clientRef.buyerKey ?? null,
         });
+
+        if (session.mode === 'payment' && sessionAny.metadata?.purchaseType === 'founder_crowdfunding') {
+          const amountPaidCents = session.amount_total ?? 0;
+          const currency = (session.currency ?? '').toUpperCase();
+          if (amountPaidCents <= 0 || currency !== 'USD') {
+            throw new Error(`Invalid crowdfunding payment for ${session.id}`);
+          }
+          const paymentIntentId =
+            typeof session.payment_intent === 'string'
+              ? session.payment_intent
+              : session.payment_intent?.id ?? null;
+          const purchaserEmail = sessionAny.customer_details?.email || session.customer_email || null;
+
+          await connectToDatabase();
+          await CrowdfundingContribution.findOneAndUpdate(
+            { stripeCheckoutSessionId: session.id },
+            {
+              $set: {
+                stripePaymentIntentId: paymentIntentId,
+                purchaserUserId: sessionAny.metadata?.purchaserUserId ?? null,
+                purchaserEmail,
+                amountPaidCents,
+                currency: 'USD',
+                status: 'paid',
+                paidAt: new Date(),
+                refundedAt: null,
+                updatedAt: new Date(),
+              },
+              $setOnInsert: { createdAt: new Date() },
+            },
+            { upsert: true, returnDocument: 'after' },
+          );
+          break;
+        }
 
         // Recarga de créditos: se resuelve aquí y se sale del case, porque no
         // es la compra de una página y no debe entrar en la lógica de
@@ -568,6 +603,10 @@ export async function POST(req: Request) {
           // saldo: los créditos pueden estar ya gastados y restarlos dejaría la
           // cuenta en negativo.
           await markCreditPurchaseRefunded(paymentIntentId);
+          await CrowdfundingContribution.updateMany(
+            { stripePaymentIntentId: paymentIntentId, status: 'paid' },
+            { $set: { status: 'refunded', refundedAt: new Date(), updatedAt: new Date() } },
+          );
         }
         break;
       }
