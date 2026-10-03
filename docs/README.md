@@ -175,6 +175,10 @@ Before changing plan pricing, Prompt Credits, crowdfunding rewards, AI operation
 
 These documents are product/engineering context. Runtime pricing and eligibility must continue to come from server-side source-of-truth modules.
 
+## Crowdfunding Backer Ledger
+
+The ordered Founder backer registry, MongoDB collections, backfill procedure, refund behavior, and fulfillment order are documented in [CROWDFUNDING_BACKER_LEDGER.md](CROWDFUNDING_BACKER_LEDGER.md).
+
 ## Technical Capabilities
 
 The documentation for the application —Coding/SWE, applied ML evaluation, Technical PM, Computer Use, MCP, Cybersecurity, enterprise tools, STEM QA, synthetic content, scraping, and Quant Trading— is centralized in [docs/capabilities](capabilities/README.md).
