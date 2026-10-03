@@ -85,3 +85,21 @@ test('crowdfunding page discloses the planned three-month campaign duration',()=
  assert.match(page,/3 meses desde la fecha oficial de lanzamiento/);
  assert.match(page,/Founder Credits remain pending during that period|Founder Credits no se entregan inmediatamente|Founder Credits permanecen pendientes/);
 });
+
+test('crowdfunding page and checkout expose the official Founder Credit schedule',()=>{
+ const page=fs.readFileSync('src/app/[locale]/crowdfunding/page.tsx','utf8');
+ const checkout=fs.readFileSync('src/components/CrowdfundingCheckout.tsx','utf8');
+ const calculator=fs.readFileSync('src/components/CrowdfundingCalculatorCheckout.tsx','utf8');
+ const terms=fs.readFileSync('src/app/[locale]/crowdfunding-terms/page.tsx','utf8');
+
+ for(const amount of ['10','25','50','100','250','500','1000']) {
+   assert.match(checkout,new RegExp('\\b'+amount+'\\b'));
+   assert.match(calculator,new RegExp('\\b'+amount+'\\b'));
+ }
+ for(const credits of ['840','2,140','4,400','8,960','23,000','46,800','96,000']) {
+   assert.match(page,new RegExp(credits.replace(',','[,]')));
+   assert.match(terms,new RegExp(credits.replace(',','[,]')));
+ }
+ assert.match(page,/Official Founder Credit values/);
+ assert.match(page,/Valores oficiales de Founder Credits/);
+});

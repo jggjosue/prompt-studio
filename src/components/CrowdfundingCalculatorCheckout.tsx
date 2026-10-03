@@ -10,7 +10,7 @@ export function CrowdfundingCalculatorCheckout() {
 
   const selectAmount = (value: number) => {
     setAmount(value);
-    setCustomAmount([50, 100, 500, 1000].includes(value) ? '' : String(value));
+    setCustomAmount([10, 25, 50, 100, 250, 500, 1000].includes(value) ? '' : String(value));
   };
 
   const updateCustomAmount = (value: string) => {
