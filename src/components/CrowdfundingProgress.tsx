@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useLocale } from 'next-intl';
+import { CROWDFUNDING_CAMPAIGN } from '@/lib/crowdfunding-campaign';
 
 type ProgressPayload = {
   raisedCents: number;
@@ -80,10 +81,20 @@ export function CrowdfundingProgress() {
           style={{ width: `${width}%` }}
         />
       </div>
+      <div className="mt-4 grid gap-2 rounded-xl border border-cyan-300/15 bg-cyan-300/[.05] p-3 text-sm sm:grid-cols-2">
+        <div>
+          <span className="text-xs font-bold uppercase tracking-wide text-cyan-300">{es ? 'Inicio' : 'Launch'}</span>
+          <p className="mt-1 font-semibold text-white">{es ? '2 de octubre de 2026' : 'October 2, 2026'}</p>
+        </div>
+        <div>
+          <span className="text-xs font-bold uppercase tracking-wide text-cyan-300">{es ? 'Último día para aportar' : 'Last fundraising day'}</span>
+          <p className="mt-1 font-semibold text-white">{es ? '2 de enero de 2027' : 'January 2, 2027'}</p>
+        </div>
+      </div>
       <p className="mt-3 text-xs leading-5 text-slate-400">
         {es
-          ? 'Se actualiza con pagos de crowdfunding confirmados exitosamente por Stripe. Los reembolsos dejan de contar en el total.'
-          : 'Updated from crowdfunding payments successfully confirmed by Stripe. Refunded contributions are removed from the total.'}
+          ? `La campaña dura 3 meses. Los aportes se reciben hasta el ${CROWDFUNDING_CAMPAIGN.lastFundraisingDate === '2027-01-02' ? '2 de enero de 2027' : CROWDFUNDING_CAMPAIGN.lastFundraisingDate}. El progreso se actualiza con pagos confirmados por Stripe y los reembolsos dejan de contar.`
+          : `The campaign runs for 3 months. Contributions are accepted through ${CROWDFUNDING_CAMPAIGN.lastFundraisingDate === '2027-01-02' ? 'January 2, 2027' : CROWDFUNDING_CAMPAIGN.lastFundraisingDate}. Progress is updated from Stripe-confirmed payments and refunded contributions are removed.`}
       </p>
     </section>
   );
