@@ -216,7 +216,10 @@ function aspectRatioToGoogleValue(ratio: string | undefined): string {
 }
 
 function buildImageInput(provider: string, model: string, prompt: string, params: ChatParams): Record<string, unknown> {
-  const base = { prompt, model };
+  const imageTier = params.imageRes === '4k' ? 'quality-4k' :
+                    params.imageRes === '2k' ? 'quality-2k' :
+                    model.includes('lite') ? 'lite-1k' : 'quality-1k';
+  const base = { prompt, model, imageTier };
   const cleanedParams = { ...params };
   for (const key of ['referenceImage', 'reference_image', 'imageBase64', 'base64Image', 'image', 'media', 'attachment']) {
     delete (cleanedParams as Record<string, unknown>)[key];
