@@ -18,6 +18,12 @@ export async function POST(request: Request) {
   const headers = cacheHeaders('private-no-store');
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: 'Inicia sesión para recargar créditos.' }, { status: 401, headers });
+  if (process.env.CROWDFUNDING_CREDITS_ACTIVE !== '1') {
+    return NextResponse.json(
+      { error: 'Las recargas de créditos estarán disponibles cuando termine la campaña de crowdfunding y se active el saldo de IA.' },
+      { status: 409, headers },
+    );
+  }
 
   const quota = await rateLimit({ key: `credit-topup:${userId}`, ...RATE_LIMITS.expensiveAuthed });
   if (!quota.ok) return tooManyRequests(quota);
@@ -65,7 +71,6 @@ export async function POST(request: Request) {
       },
       return_url: `${siteUrl}/dashboard/credits?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
       redirect_on_completion: 'always',
-      allow_promotion_codes: true,
     })
   );
 
