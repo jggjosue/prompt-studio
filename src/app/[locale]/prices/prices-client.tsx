@@ -15,7 +15,7 @@ import {
   getPlanCheckoutUrl,
   isPlanAvailable,
 } from '@/lib/stripe-checkout';
-import { getPlanCredits, getPlanBaseCredits, getPlanBonusCredits, getPlanBonusPercent, getPlanPrice as getConfiguredPlanPrice, type PlanId } from '@/lib/subscription-plans';
+import { getPlanCredits, getPlanPrice as getConfiguredPlanPrice, type PlanId } from '@/lib/subscription-plans';
 import { CREDIT_PACKS, formatCreditPackPrice, centsPerCredit } from '@/lib/credit-packs';
 import { useAuth } from '@clerk/nextjs';
 import { Check, Crown, Sparkles, Zap } from 'lucide-react';
@@ -296,9 +296,6 @@ export default function PricesClient() {
                       />
                       {plan.id !== 'free' && (() => {
                         const cycle = isAnnual ? 'annual' : 'monthly';
-                        const base = getPlanBaseCredits(plan.id, cycle);
-                        const bonus = getPlanBonusCredits(plan.id, cycle);
-                        const bonusPct = getPlanBonusPercent(plan.id, cycle);
                         const total = getPlanCredits(plan.id, cycle);
                         return (
                           <div className="mt-4 space-y-2">
@@ -311,15 +308,6 @@ export default function PricesClient() {
                                 <Badge variant="outline" className="border-amber-500/40 text-amber-700 dark:text-amber-300">
                                   {t('pendingStatus')}
                                 </Badge>
-                              </div>
-                              {/* Bonus breakdown */}
-                              <div className="mt-2 flex items-center gap-1.5 text-xs">
-                                <span className="text-muted-foreground tabular-nums">{base.toLocaleString()} base</span>
-                                <span className="text-muted-foreground">+</span>
-                                <span className="flex items-center gap-0.5 font-semibold text-emerald-600 dark:text-emerald-400">
-                                  <Sparkles className="h-3 w-3" />
-                                  {bonus.toLocaleString()} bonus ({bonusPct}%)
-                                </span>
                               </div>
                               <p className="mt-2 text-xs leading-5 text-muted-foreground">
                                 {t('pendingCreditsNote')}{' '}
