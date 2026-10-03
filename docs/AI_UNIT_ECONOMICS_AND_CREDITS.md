@@ -200,3 +200,158 @@ Before modifying prices or credits:
 9. Update this document if the product rule changed.
 
 Never hard-code a second credit table in UI code when the value can come from the central domain logic.
+
+
+## Full-platform COGS audit — 2026-10-03
+
+Prompt Credits must be evaluated against the full platform cost, not only model/API cost. The repository environment contract identifies these economic domains: AI providers; Vercel; MongoDB Atlas; Cloudflare R2 and Queues; Google Cloud Run and Cloud Tasks; Resend; Upstash Redis/QStash; Clerk; Firebase; Stripe; and optional worker/provider infrastructure.
+
+Secrets and real environment-variable values are never part of this audit. Provider discovery uses variable names, application configuration and dependencies only.
+
+### Two cost layers
+
+1. **Provider COGS**: direct AI cost attributable to a generation (tokens, images, video seconds, provider tools).
+2. **Platform COGS**: hosting, database, storage, queues, email, auth, payment fees, serverless compute and other shared/variable infrastructure.
+
+The commercial price of a Prompt Credit is intentionally not equal to either layer:
+
+```text
+nominal Prompt Credit retail value = $0.0100
+
+true COGS / credit =
+  (AI provider spend
+   + attributable platform usage
+   + amortized shared platform spend
+   + attributable payment fees)
+  / Prompt Credits consumed
+```
+
+Source of truth for planning/list-price platform inputs:
+- `src/lib/platform-cost-registry.ts`
+
+Actual invoices/usage remain authoritative for realized COGS.
+
+### Current infrastructure price references
+
+| Provider/service | Planning input | Cost behavior |
+| --- | ---: | --- |
+| Vercel Pro | $20/month; $20 included usage credit | shared + metered |
+| Vercel function invocation | $0.0000006/invocation | variable |
+| MongoDB Atlas Flex | starts near $8/month, up to $30/month | shared/usage |
+| MongoDB Atlas Dedicated | published starting equivalent ~$56.94/month | shared; configuration-sensitive |
+| Cloudflare R2 Standard storage | $0.015/GB-month | variable |
+| Cloudflare R2 Class A | $4.50/million | variable |
+| Cloudflare R2 Class B | $0.36/million | variable |
+| Cloudflare Queues | first 1M ops/month included on Workers Paid, then $0.40/million | variable |
+| Resend Pro | $20/month, 50k emails | shared |
+| Resend overage | $0.90/1,000 emails | variable |
+| Upstash Redis PAYG | $0.20/100k commands | variable |
+| Upstash QStash | planning rate $1/100k messages | variable |
+| Clerk Pro | $20/month annual-billing equivalent; 50k MRU included | shared + usage |
+| Clerk first MRU overage band | $0.02/retained-user-month above included threshold | usage |
+| Cloud Run CPU | $0.000018/vCPU-second after free allowance | variable |
+| Cloud Run memory | $0.000002/GiB-second after free allowance | variable |
+| Cloud Tasks | first 1M operations free, then $0.40/million | variable |
+| Firestore Standard reads (us-central1 reference) | $0.03/100k reads after applicable free quota | variable |
+| Firestore Standard writes (us-central1 reference) | $0.09/100k writes after applicable free quota | variable |
+| Stripe Mexico domestic cards | 3.6% + MXN 3 per successful transaction | transaction |
+
+Prices are public list-price planning inputs verified on 2026-10-03. Currency, region, negotiated agreements, taxes, product configuration, free tiers and provider changes can alter actual invoices.
+
+### Cost attribution policy
+
+Do **not** charge every service literally to every AI request.
+
+- AI token/image/video cost: attribute directly to the generation.
+- R2 requests/storage: attribute when the generated asset causes the usage; amortize persistent storage over measured consumption when direct attribution is impractical.
+- Queue/Redis/Cloud Tasks/Cloud Run: attribute measured job usage where telemetry exists.
+- Resend: attribute only when a generation/workflow actually sends email; otherwise treat subscription base as shared platform overhead.
+- MongoDB, Vercel and Clerk base plans: amortize monthly actual spend across consumed credits or, preferably, across product revenue plus credits using finance reporting. They are not per-prompt API fees.
+- Stripe: allocate actual payment fees to the credit source/purchase. The fixed MXN fee makes small purchases proportionally more expensive.
+- Firebase: charge only the Firebase services actually used; presence of client configuration does not prove billable Firestore usage.
+
+### Commercial decision: keep $0.01 nominal value
+
+The audit does **not** justify reducing the nominal Prompt Credit price. The current structure remains:
+
+```text
+$0.0100 nominal revenue / credit
+$0.0025 maximum AI-provider reserve / credit
+$0.0015 platform/infrastructure reserve / credit
+~10% payment/refund/risk reserve
+~50% target contribution margin
+```
+
+Many platform operations cost much less than the $0.0015 infrastructure reserve when amortized at meaningful volume. The reserve is intentionally broader than a single request: it must also absorb base subscriptions, database capacity, storage persistence, retries, observability and growth.
+
+Do not increase or decrease `PROMPT_CREDIT_RETAIL_USD` from public list prices alone. Change it only when measured trailing usage shows that realized full-platform economics persist outside the guardrails.
+
+### Price-change triggers
+
+Review commercial pricing monthly once paid credits are active. Use trailing 30-day actual invoices and credit consumption.
+
+- **Healthy:** true COGS <= $0.0040/credit and contribution margin >= 50%: keep $0.01.
+- **Watch:** true COGS > $0.0040/credit or contribution margin < 50%: investigate provider mix, retries, infrastructure and payment mix before changing retail price.
+- **Critical:** true COGS > $0.0050/credit for two consecutive complete billing periods: reprice expensive operations/provider routing first; evaluate retail credit price only after operation-level optimization.
+- **Over-reserved:** true COGS < $0.0025/credit for at least three complete billing periods: do not automatically lower credit retail value. Consider more included credits, promotions, or better plan value while preserving the $0.01 anchor.
+
+These are management guardrails, not accounting standards.
+
+### Monthly true-cost report
+
+Record at minimum:
+
+```text
+period
+credits_consumed
+credit_cash_revenue
+AI_provider_spend
+Vercel_spend
+MongoDB_spend
+Cloudflare_spend
+Google_Cloud_spend
+Resend_spend
+Upstash_spend
+Clerk_spend
+Firebase_spend
+Stripe_fees
+other_platform_spend
+true_cost_per_credit
+contribution_per_credit
+contribution_margin_percent
+```
+
+Calculate:
+
+```text
+platform_spend = sum(non-AI infrastructure)
+total_COGS = AI_provider_spend + platform_spend + attributable_payment_fees
+true_cost_per_credit = total_COGS / credits_consumed
+contribution = credit_cash_revenue - total_COGS
+contribution_margin = contribution / credit_cash_revenue
+```
+
+Track both 100% credit redemption and observed utilization. Unused credits are not guaranteed profit.
+
+### Public pricing sources reviewed
+
+Re-verify before every financial change:
+- Vercel pricing: https://vercel.com/pricing
+- MongoDB Atlas pricing: https://www.mongodb.com/pricing
+- Cloudflare R2: https://developers.cloudflare.com/r2/pricing/
+- Cloudflare Queues: https://developers.cloudflare.com/queues/platform/pricing/
+- Resend: https://resend.com/pricing
+- Upstash: https://upstash.com/pricing
+- Clerk: https://clerk.com/pricing
+- Stripe Mexico: https://stripe.com/mx/pricing
+- Cloud Run: https://cloud.google.com/run/pricing
+- Cloud Tasks: https://cloud.google.com/tasks/pricing
+- Firebase / Firestore: https://firebase.google.com/pricing
+- Gemini Developer API: https://ai.google.dev/gemini-api/docs/pricing
+- OpenAI API models/pricing: https://developers.openai.com/api/docs/models
+
+### Change-control extension
+
+Any future Prompt Credit audit must review **both** provider AI pricing and platform COGS. A model becoming cheaper is not sufficient reason to make credits cheaper if infrastructure/payment costs rise, and a hosting bill increase is not sufficient reason to raise every AI operation if the increase is fixed and well amortized.
+
+When actual billing integrations become available, replace planning assumptions with invoice/usage telemetry while retaining the registry as a documented benchmark and anomaly detector.
