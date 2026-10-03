@@ -67,3 +67,47 @@ export function validateCreditSaleEconomics(input: {
       contributionMarginPercent + 1e-9 >= minimumContributionMarginPercent,
   };
 }
+
+
+export type ProviderBudgetCheck = {
+  credits: number;
+  providerBudgetUsd: number;
+  providerCostUsd: number;
+  remainingBudgetUsd: number;
+  utilizationPercent: number;
+  eligible: boolean;
+};
+
+/**
+ * Hard server-side invariant for paid AI execution.
+ * A provider/model may only execute when its estimated cost fits inside the
+ * provider reserve purchased by the operation's Prompt Credits.
+ */
+export function evaluateProviderBudget(credits: number, providerCostUsd: number): ProviderBudgetCheck {
+  const safeCredits = Number.isFinite(credits) ? Math.max(0, credits) : 0;
+  const safeCost = Number.isFinite(providerCostUsd) ? Math.max(0, providerCostUsd) : Number.POSITIVE_INFINITY;
+  const providerBudgetUsd = safeCredits * MAX_PROVIDER_COST_PER_CREDIT_USD;
+  const remainingBudgetUsd = providerBudgetUsd - safeCost;
+  const utilizationPercent = providerBudgetUsd > 0
+    ? (safeCost / providerBudgetUsd) * 100
+    : safeCost === 0 ? 0 : Number.POSITIVE_INFINITY;
+
+  return {
+    credits: safeCredits,
+    providerBudgetUsd: Number(providerBudgetUsd.toFixed(6)),
+    providerCostUsd: Number.isFinite(safeCost) ? Number(safeCost.toFixed(6)) : safeCost,
+    remainingBudgetUsd: Number.isFinite(remainingBudgetUsd) ? Number(remainingBudgetUsd.toFixed(6)) : remainingBudgetUsd,
+    utilizationPercent: Number.isFinite(utilizationPercent) ? Number(utilizationPercent.toFixed(2)) : utilizationPercent,
+    eligible: safeCredits > 0 && safeCost <= providerBudgetUsd + 1e-9,
+  };
+}
+
+export function assertProviderBudget(credits: number, providerCostUsd: number): ProviderBudgetCheck {
+  const check = evaluateProviderBudget(credits, providerCostUsd);
+  if (!check.eligible) {
+    const error = new Error('PROVIDER_COST_EXCEEDS_CREDIT_BUDGET') as Error & { budget?: ProviderBudgetCheck };
+    error.budget = check;
+    throw error;
+  }
+  return check;
+}
