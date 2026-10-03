@@ -1,101 +1,73 @@
-const FALLBACK_STRIPE_URLS = {
-  creator: {
-    monthly: 'https://buy.stripe.com/creator-monthly',
-    annual: 'https://buy.stripe.com/creator-annual',
-  },
-  pro: {
-    monthly: 'https://buy.stripe.com/pro-monthly',
-    annual: 'https://buy.stripe.com/pro-annual',
-  },
-  studio: {
-    monthly: 'https://buy.stripe.com/studio-monthly',
-    annual: 'https://buy.stripe.com/studio-annual',
-  },
-};
+type PaidPlanId = 'premium' | 'creator' | 'pro' | 'studio';
+
+function withClientReference(base: string, userId?: string | null): string {
+  if (!base || !userId) return base;
+  return `${base}${base.includes('?') ? '&' : '?'}client_reference_id=${encodeURIComponent(userId)}`;
+}
+
+export function getPremiumStripeCheckoutUrl(isAnnual: boolean, userId?: string | null): string {
+  const base = isAnnual
+    ? process.env.NEXT_PUBLIC_STRIPE_PREMIUM_ANNUAL || process.env.NEXT_PUBLIC_STRIPE_CREATOR_ANNUAL || process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_ANNUAL
+    : process.env.NEXT_PUBLIC_STRIPE_PREMIUM_MONTHLY || process.env.NEXT_PUBLIC_STRIPE_CREATOR_MONTHLY || process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_MONTHLY;
+  return withClientReference(base ?? '', userId);
+}
 
 export function getCreatorStripeCheckoutUrl(isAnnual: boolean, userId?: string | null): string {
   const base = isAnnual
-    ? process.env.NEXT_PUBLIC_STRIPE_CREATOR_ANNUAL || process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_ANNUAL
-    : process.env.NEXT_PUBLIC_STRIPE_CREATOR_MONTHLY || process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_MONTHLY;
-  if (!base) return '';
-  if (!userId) return base;
-  return `${base}${base.includes('?') ? '&' : '?'}client_reference_id=${encodeURIComponent(userId)}`;
+    ? process.env.NEXT_PUBLIC_STRIPE_CREATOR_PLUS_ANNUAL
+    : process.env.NEXT_PUBLIC_STRIPE_CREATOR_PLUS_MONTHLY;
+  return withClientReference(base ?? '', userId);
 }
 
 export function getProStripeCheckoutUrl(isAnnual: boolean, userId?: string | null): string {
-  const base =
-    (isAnnual
-      ? process.env.NEXT_PUBLIC_STRIPE_PRO_ANNUAL || process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_ANNUAL
-      : process.env.NEXT_PUBLIC_STRIPE_PRO_MONTHLY || process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_MONTHLY) ||
-    FALLBACK_STRIPE_URLS.pro[isAnnual ? 'annual' : 'monthly'];
-  if (!userId) return base;
-  return `${base}${base.includes('?') ? '&' : '?'}client_reference_id=${encodeURIComponent(userId)}`;
+  const base = isAnnual ? process.env.NEXT_PUBLIC_STRIPE_PRO_ANNUAL : process.env.NEXT_PUBLIC_STRIPE_PRO_MONTHLY;
+  return withClientReference(base ?? '', userId);
 }
 
 export function getStudioStripeCheckoutUrl(isAnnual: boolean, userId?: string | null): string {
-  const base =
-    (isAnnual
-      ? process.env.NEXT_PUBLIC_STRIPE_STUDIO_ANNUAL || process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_ANNUAL
-      : process.env.NEXT_PUBLIC_STRIPE_STUDIO_MONTHLY || process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_MONTHLY) ||
-    FALLBACK_STRIPE_URLS.studio[isAnnual ? 'annual' : 'monthly'];
-  if (!userId) return base;
-  return `${base}${base.includes('?') ? '&' : '?'}client_reference_id=${encodeURIComponent(userId)}`;
+  const base = isAnnual ? process.env.NEXT_PUBLIC_STRIPE_STUDIO_ANNUAL : process.env.NEXT_PUBLIC_STRIPE_STUDIO_MONTHLY;
+  return withClientReference(base ?? '', userId);
 }
 
 export function getCreatorStripeCheckoutUrlLegacy(isAnnual: boolean, userId?: string | null): string {
-  const base = isAnnual
-    ? process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_ANNUAL
-    : process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_MONTHLY;
-  if (!base) return FALLBACK_STRIPE_URLS.creator[isAnnual ? 'annual' : 'monthly'];
-  if (!userId) return base;
-  return `${base}${base.includes('?') ? '&' : '?'}client_reference_id=${encodeURIComponent(userId)}`;
+  return getPremiumStripeCheckoutUrl(isAnnual, userId);
 }
 
-/** `true` si el tramo `creator` se puede comprar. */
-export function isCreatorPlanAvailable(): boolean {
-  return Boolean(process.env.NEXT_PUBLIC_STRIPE_CREATOR_MONTHLY || process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_MONTHLY);
-}
-
-/** `true` si el tramo `pro` se puede comprar. */
-export function isProPlanAvailable(): boolean {
-  return Boolean(process.env.NEXT_PUBLIC_STRIPE_PRO_MONTHLY);
-}
-
-/** `true` si el tramo `studio` se puede comprar. */
-export function isStudioPlanAvailable(): boolean {
-  return Boolean(process.env.NEXT_PUBLIC_STRIPE_STUDIO_MONTHLY);
-}
-
-/**
- * Devuelve la URL de checkout para un plan.
- * Retorna cadena vacía si no está configurado.
- */
-export function getPlanCheckoutUrl(plan: 'creator' | 'pro' | 'studio', isAnnual: boolean, userId?: string | null): string {
+export function getPlanCheckoutUrl(plan: PaidPlanId, isAnnual: boolean, userId?: string | null): string {
   switch (plan) {
+    case 'premium': return getPremiumStripeCheckoutUrl(isAnnual, userId);
     case 'creator': return getCreatorStripeCheckoutUrl(isAnnual, userId);
     case 'pro': return getProStripeCheckoutUrl(isAnnual, userId);
     case 'studio': return getStudioStripeCheckoutUrl(isAnnual, userId);
   }
 }
 
-/**
- * Verifica si un plan está disponible para compra.
- */
-export function isPlanAvailable(plan: 'creator' | 'pro' | 'studio'): boolean {
-  switch (plan) {
-    case 'creator': return isCreatorPlanAvailable();
-    case 'pro': return isProPlanAvailable();
-    case 'studio': return isStudioPlanAvailable();
-  }
+export function isPlanAvailable(plan: PaidPlanId, isAnnual = false): boolean {
+  return Boolean(getPlanCheckoutUrl(plan, isAnnual));
 }
 
-/**
- * Obtiene el precio de un plan desde la configuración centralizada.
- */
-export function getPlanPriceFromConfig(plan: 'creator' | 'pro' | 'studio', isAnnual: boolean): number {
-  switch (plan) {
-    case 'creator': return isAnnual ? 90 : 9;
-    case 'pro': return isAnnual ? 250 : 25;
-    case 'studio': return isAnnual ? 390 : 39;
-  }
+export function isPremiumPlanAvailable(isAnnual = false): boolean {
+  return isPlanAvailable('premium', isAnnual);
+}
+
+export function isCreatorPlanAvailable(isAnnual = false): boolean {
+  return isPlanAvailable('creator', isAnnual);
+}
+
+export function isProPlanAvailable(isAnnual = false): boolean {
+  return isPlanAvailable('pro', isAnnual);
+}
+
+export function isStudioPlanAvailable(isAnnual = false): boolean {
+  return isPlanAvailable('studio', isAnnual);
+}
+
+export function getPlanPriceFromConfig(plan: PaidPlanId, isAnnual: boolean): number {
+  const prices = {
+    premium: { monthly: 9, annual: 90 },
+    creator: { monthly: 19, annual: 190 },
+    pro: { monthly: 29, annual: 290 },
+    studio: { monthly: 39, annual: 390 },
+  } as const;
+  return prices[plan][isAnnual ? 'annual' : 'monthly'];
 }

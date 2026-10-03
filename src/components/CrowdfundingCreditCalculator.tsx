@@ -72,7 +72,7 @@ export function CrowdfundingCreditCalculator({ amount, onAmountChange }: { amoun
       )}
 
       <p className="text-xs opacity-70">
-        {tr('Informational estimate based on current Prompt Credit prices. It does not guarantee a fixed number of generations or grant credits. Founder Credits become available only after a successfully funded campaign, funds received, and backer verification.', 'Estimación informativa basada en los precios actuales de Prompt Credits. No garantiza un número fijo de generaciones y no acredita créditos. Los Founder Credits se habilitan solo después de una campaña financiada, fondos recibidos y verificación del backer.')}
+        {tr('Informational estimate based on current Prompt Credit prices. It does not guarantee a fixed number of generations or grant credits. Founder Credits are recorded as pending after a successful payment and become available only after the campaign ends, funds are received, and the backer is verified. Reaching 100% of the funding goal is not required.', 'Estimación informativa basada en los precios actuales de Prompt Credits. No garantiza un número fijo de generaciones y no acredita créditos. Los Founder Credits se registran como pendientes después de un pago exitoso y se habilitan solo cuando termina la campaña, se reciben los fondos y se verifica al backer. No es necesario alcanzar el 100% de la meta.')}
       </p>
     </section>
   );
