@@ -11,14 +11,12 @@ test('la captación separa acceso gratuito y consentimiento de marketing', async
   assert.ok(route.includes('confirmationRequired'));
 });
 
-test('solo las direcciones confirmadas llegan a sincronizaciones recurrentes', async () => {
-  for (const route of [
-    'src/app/api/sync-resend/route.ts',
-    'src/app/api/sync-registered-users-to-resend/route.ts',
-  ]) {
-    const code = await source(route);
-    assert.ok(code.includes("marketingStatus: 'confirmed'"), route);
-  }
+test('la sincronización recurrente conserva el consentimiento y las supresiones', async () => {
+  const route = await source('src/app/api/sync-registered-users-to-resend/route.ts');
+  assert.ok(route.includes('marketingOptIn'), 'debe propagar el consentimiento explícito');
+  assert.ok(route.includes('unsubscribeTimestamp'), 'debe propagar las bajas');
+  assert.ok(route.includes('emailSuppressedAt'), 'debe propagar las supresiones');
+
   for (const route of [
     'src/app/api/sync-clerk/route.ts',
     'src/app/api/webhooks/clerk/route.ts',

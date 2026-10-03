@@ -40,7 +40,7 @@ Every route touching data calls `connectToDatabase()` before the first query.
 
 ## 3. Three models, one collection: `user_profiles`
 
-[`NewUser`](../src/models/NewUser.ts), [`RegisteredUser`](../src/models/RegisteredUser.ts), and [`UserProfile`](../src/models/UserProfile.ts) write to the **same collection**. It is deliberate, and the reason lies in [`/api/sync-resend`](../src/app/api/sync-resend/route.ts): it iterates through the entire collection to sync with Resend both customers and leads who left their email in a free download without creating an account.
+[`NewUser`](../src/models/NewUser.ts), [`RegisteredUser`](../src/models/RegisteredUser.ts), and [`UserProfile`](../src/models/UserProfile.ts) write to the **same collection**. The canonical MongoDB → Resend reconciliation endpoint is [`/api/sync-registered-users-to-resend`](../src/app/api/sync-registered-users-to-resend/route.ts); it selects registered profiles explicitly and preserves their consent and suppression state.
 
 **The bug this caused, and how it was fixed.** A lead is inserted without `userId`. MongoDB interprets the missing field as `null`, and with a standard unique index **only the first lead gets in**: all subsequent ones fail with `E11000`. It was happening in production, causing `/api/new-users` to return 500 on every email capture.
 
@@ -52,7 +52,7 @@ The fix is a **partial unique index** ([`src/models/UserProfile.ts:46`](../src/m
 
 Uniqueness only applies to documents whose `userId` is a string, i.e., actual profiles; leads without a `userId` are excluded from the index and can be numerous.
 
-> If the collections are ever split in the future, `/api/sync-resend` must be updated at the same time: today it depends on both types coexisting.
+> If the collections are ever split in the future, `/api/sync-registered-users-to-resend` must be reviewed at the same time so its profile query continues targeting the registered-user source of truth.
 
 ---
 

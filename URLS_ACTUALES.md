@@ -56,6 +56,7 @@ Total: **83**
 - https://www.prompstudio.com/dashboard/creations
 - https://www.prompstudio.com/dashboard/creator-marketplace
 - https://www.prompstudio.com/dashboard/credits
+- https://www.prompstudio.com/dashboard/email-sync
 - https://www.prompstudio.com/dashboard/evaluations
 - https://www.prompstudio.com/dashboard/favorites
 - https://www.prompstudio.com/dashboard/feature-experiments
@@ -1859,8 +1860,7 @@ Total: **118** patrones
 - `/api/subscription/portal` — POST — `src/app/api/subscription/portal/route.ts`
 - `/api/subscription/status` — GET — `src/app/api/subscription/status/route.ts`
 - `/api/sync-clerk` — GET — `src/app/api/sync-clerk/route.ts`
-- `/api/sync-registered-users-to-resend` — GET — `src/app/api/sync-registered-users-to-resend/route.ts`
-- `/api/sync-resend` — GET — `src/app/api/sync-resend/route.ts`
+- `/api/sync-registered-users-to-resend` — GET, POST — `src/app/api/sync-registered-users-to-resend/route.ts`
 - `/api/web-page-checkout` — GET — `src/app/api/web-page-checkout/route.ts`
 - `/api/web-pages/validate-demo-url` — GET — `src/app/api/web-pages/validate-demo-url/route.ts`
 - `/api/webhooks/clerk` — POST — `src/app/api/webhooks/clerk/route.ts`
