@@ -19,8 +19,8 @@ test('plan prices match the published five-tier ladder', () => {
   assert.equal(getPlanPrice('premium', 'annual'), 90);
   assert.equal(getPlanPrice('creator', 'monthly'), 19);
   assert.equal(getPlanPrice('creator', 'annual'), 190);
-  assert.equal(getPlanPrice('pro', 'monthly'), 25);
-  assert.equal(getPlanPrice('pro', 'annual'), 250);
+  assert.equal(getPlanPrice('pro', 'monthly'), 29);
+  assert.equal(getPlanPrice('pro', 'annual'), 290);
   assert.equal(getPlanPrice('studio', 'monthly'), 39);
   assert.equal(getPlanPrice('studio', 'annual'), 390);
 });
