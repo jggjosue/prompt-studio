@@ -12,6 +12,7 @@ import mongoose from 'mongoose';
 import 'server-only';
 import { clerkClient } from '@clerk/nextjs/server';
 import { isUnlimitedCreditsAdmin } from '@/lib/prompt-studio-admin';
+import { evaluateProviderBudget } from '@/lib/credit-economics';
 
 const initialCredits = Math.max(0, Number(process.env.AI_INITIAL_CREDITS ?? 0));
 
@@ -192,10 +193,25 @@ export async function reconcileCredits(job: IAIGenerationJob, actualCostUsd: num
       const refund = Math.max(0, job.creditCost - requestedCredits);
       const refundAllocation = refundCreditReservation(reservation, refund);
       const chargedCredits = job.creditCost + additionalCharged - refund;
+      const providerEconomics = actualCostUsd === null || !Number.isFinite(actualCostUsd)
+        ? null
+        : evaluateProviderBudget(Math.max(1, chargedCredits), actualCostUsd);
+      const actualCostPerCreditUsd = providerEconomics && chargedCredits > 0
+        ? actualCostUsd / chargedCredits
+        : null;
 
       const claimed = await AIGenerationJob.updateOne(
         { _id: job._id, creditsState: 'reserved' },
-        { $set: { creditsState: 'captured', creditsCharged: chargedCredits, updatedAt: new Date() } },
+        { $set: {
+          creditsState: 'captured',
+          creditsCharged: chargedCredits,
+          actualCostUsd,
+          providerBudgetUsd: providerEconomics?.providerBudgetUsd ?? null,
+          actualCostPerCreditUsd,
+          providerBudgetUtilizationPercent: providerEconomics?.utilizationPercent ?? null,
+          providerMarginUsd: providerEconomics?.remainingBudgetUsd ?? null,
+          updatedAt: new Date(),
+        } },
         { session },
       );
       if (claimed.modifiedCount !== 1) {
@@ -210,7 +226,7 @@ export async function reconcileCredits(job: IAIGenerationJob, actualCostUsd: num
         inputTokens: job.actualInputTokens ?? job.estimatedInputTokens ?? null, outputTokens: job.actualOutputTokens ?? job.estimatedOutputTokens ?? null,
         estimatedApiCostUsd: job.estimatedCostUsd, actualApiCostUsd: actualCostUsd, creditsCharged: chargedCredits,
         requestId: `capture:${generationSubmissionKey(job)}`,
-        metadata: { reservation, additionalAllocation, refundAllocation }, createdAt: new Date(),
+        metadata: { reservation, additionalAllocation, refundAllocation, providerEconomics, actualCostPerCreditUsd }, createdAt: new Date(),
       }], { session });
 
       await AICreditAccount.updateOne(
