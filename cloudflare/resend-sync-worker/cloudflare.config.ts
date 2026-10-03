@@ -23,6 +23,8 @@ export default defineConfig({
     triggers: [
       // Cloudflare cron schedules use UTC. This runs daily at 08:00 in Mazatlan.
       triggers.scheduled({ schedule: "0 15 * * *" }),
+      // Recover one queued/retryable AI job every five minutes.
+      triggers.scheduled({ schedule: "*/5 * * * *" }),
     ],
   },
 });
