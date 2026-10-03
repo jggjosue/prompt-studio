@@ -355,3 +355,139 @@ Re-verify before every financial change:
 Any future Prompt Credit audit must review **both** provider AI pricing and platform COGS. A model becoming cheaper is not sufficient reason to make credits cheaper if infrastructure/payment costs rise, and a hosting bill increase is not sufficient reason to raise every AI operation if the increase is fixed and well amortized.
 
 When actual billing integrations become available, replace planning assumptions with invoice/usage telemetry while retaining the registry as a documented benchmark and anomaly detector.
+
+
+## Cloudflare training datasets and /generate retrieval economics — 2026-10-03
+
+The environment contract already reserves a dedicated private Cloudflare R2 training bucket (`CLOUDFLARE_R2_TRAINING_BUCKET`) with bucket-scoped server-only credentials. No production dataset consumer was found in `main` during this audit, so this section defines the economic architecture before runtime integration.
+
+### Do not treat every dataset row as model training
+
+For `/generate`, split dataset use into three paths:
+
+1. **R2 corpus/archive** — canonical prompts, answers, preference pairs, generated assets, evaluation data and training shards.
+2. **Retrieval/RAG** — embed approved knowledge/examples, index vectors, retrieve only relevant context for a question, then send that context to the selected text/web/image/video generation model.
+3. **Training/fine-tuning** — periodically export quality-approved examples to Runpod/NVIDIA training jobs. Training cost is amortized across the resulting model's lifetime usage.
+
+This prevents repeatedly retraining a model just to make new information available to `/generate`.
+
+### Cloudflare public planning prices
+
+Verified 2026-10-03:
+
+| Layer | Planning price |
+| --- | ---: |
+| R2 Standard storage | $0.015/GB-month |
+| R2 Class A operations | $4.50/million |
+| R2 Class B operations | $0.36/million |
+| R2 Internet egress | $0 |
+| Vectorize stored vector dimensions | $0.05/100M dimensions/month |
+| Vectorize queried vector dimensions | $0.01/50M queried dimensions |
+| Workers AI | $0.011 per 1,000 neurons; 10,000 neurons/day included on Workers Free/Paid |
+
+Cloudflare documents Vectorize query usage as returned vectors multiplied by vector dimensions. The actual embedding-model cost is separate and must be included when vectors are created/re-created.
+
+Source of truth for planning calculations: `src/lib/cloudflare-dataset-cost-registry.ts`.
+
+### Storage examples
+
+R2 raw storage is inexpensive:
+
+```text
+10 GB  × $0.015 = $0.15/month
+100 GB × $0.015 = $1.50/month
+1 TB   × $0.015 ≈ $15.36/month (1024 GB)
+```
+
+Request operations and embedding/training compute are additional. Therefore dataset size alone is unlikely to justify changing the $0.01 Prompt Credit anchor.
+
+### Vectorize example
+
+For 1,000,000 vectors at 768 dimensions:
+
+```text
+stored dimensions = 768,000,000
+storage = 768M / 100M × $0.05
+        = $0.384/month
+```
+
+For 1,000,000 searches returning top-10 vectors at 768 dimensions:
+
+```text
+queried dimensions = 1,000,000 × 10 × 768
+                   = 7.68B
+query cost = 7.68B / 50M × $0.01
+           = $1.536
+```
+
+This excludes embedding generation and the LLM tokens added by retrieved context. Those two costs are generally more important to Prompt Credit economics than Vectorize itself.
+
+### /generate cost formula
+
+For a retrieval-assisted generation:
+
+```text
+generate_true_COGS =
+  vector_query_cost
+  + amortized_embedding/indexing_cost
+  + retrieved_context_input_token_cost
+  + model_output_cost
+  + attributable R2/request/queue/compute cost
+  + training amortization when using a Prompt Studio-owned model
+```
+
+Do not charge a separate large dataset fee merely because R2/Vectorize was consulted. Add credits only when the retrieved context/model/provider materially increases protected provider cost.
+
+### Dataset lifecycle cost
+
+For training datasets:
+
+```text
+dataset_lifecycle_cost =
+  R2 storage
+  + R2 operations
+  + cleaning/quality-processing compute
+  + embedding/indexing
+  + Vectorize storage/query
+  + export/queue compute
+  + Runpod/NVIDIA training GPU cost
+  + checkpoint/model storage
+
+amortized_dataset_training_cost_per_credit =
+  training-specific lifecycle cost
+  / expected lifetime credits served by trained model
+```
+
+Keep retrieval-only corpus cost separate from model-training investment so the same storage is not counted twice.
+
+### Recommended /generate architecture
+
+```text
+user question
+  -> classify generation intent
+  -> retrieve relevant approved examples/knowledge from Vectorize
+  -> fetch full private records/assets from R2 only when needed
+  -> construct bounded context
+  -> select Gemini/OpenAI/Vertex/PromptStudio-owned model
+  -> provider + platform cost estimate
+  -> Prompt Credit margin guard
+  -> generation
+  -> quality/feedback telemetry
+  -> only quality-approved examples enter future training datasets
+```
+
+Do not insert raw user prompts/responses into a training corpus without the platform's applicable consent/privacy/data-governance policy. Economic eligibility does not replace data-rights review.
+
+### Prompt Credit conclusion
+
+Cloudflare dataset infrastructure does not currently justify raising the universal $0.01 Prompt Credit value. R2 and Vectorize list-price costs are small relative to the existing $0.0015 infrastructure reserve per credit at meaningful usage volumes. The larger economic effects are embedding generation, additional retrieved-context tokens and GPU training.
+
+Keep the $0.01 nominal anchor. Measure retrieval COGS per `/generate` request and increase a specific operation's credit requirement only when its combined AI + retrieval + infrastructure cost would violate the existing margin/provider-budget guardrails.
+
+### Sources
+
+Re-verify before financial changes:
+- Cloudflare R2 pricing: https://developers.cloudflare.com/r2/pricing/
+- Cloudflare Vectorize pricing: https://developers.cloudflare.com/vectorize/platform/pricing/
+- Cloudflare Workers AI pricing: https://developers.cloudflare.com/workers-ai/platform/pricing/
+- Cloudflare AI Search pricing: https://developers.cloudflare.com/ai-search/pricing/
