@@ -15,7 +15,7 @@ export function getPremiumStripeCheckoutUrl(isAnnual: boolean, userId?: string |
 export function getCreatorStripeCheckoutUrl(isAnnual: boolean, userId?: string | null): string {
   const base = isAnnual
     ? process.env.NEXT_PUBLIC_STRIPE_CREATOR_PLUS_ANNUAL
-    : process.env.NEXT_PUBLIC_STRIPE_CREATOR_PLUS_MONTHLY || process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_PREMIUM_PLAN;
+    : process.env.NEXT_PUBLIC_STRIPE_CREATOR_PLUS_MONTHLY;
   return withClientReference(base ?? '', userId);
 }
 
