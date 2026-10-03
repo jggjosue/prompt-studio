@@ -9,6 +9,7 @@ import {
   // Clapperboard,
   CreditCard,
   FolderKanban,
+  MailCheck,
   // Heart,
   // Image,
   // LayoutGrid,
@@ -22,12 +23,14 @@ import { Badge } from '@/components/ui/badge';
 type DashboardMobileNavProps = {
   isAffiliate: boolean;
   isPremiumJoAdmin: boolean;
+  isSuperAdmin: boolean;
   pendingAffiliateApplications: number;
 };
 
 export function DashboardMobileNav({
   isAffiliate,
   isPremiumJoAdmin,
+  isSuperAdmin,
   pendingAffiliateApplications,
 }: DashboardMobileNavProps) {
   const pathname = usePathname();
@@ -46,6 +49,13 @@ export function DashboardMobileNav({
           label: t('partners'),
           icon: UsersRound,
           badge: pendingAffiliateApplications,
+        }]
+      : []),
+    ...(isSuperAdmin
+      ? [{
+          href: '/dashboard/email-sync',
+          label: 'Sincronizar email',
+          icon: MailCheck,
         }]
       : []),
     // { href: '/dashboard/settings', label: t('settings'), icon: Settings },
