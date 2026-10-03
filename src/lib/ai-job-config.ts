@@ -11,8 +11,8 @@ export const AI_JOB_COSTS: Record<AIJobKind, { credits: number; estimatedUsd: nu
 
 export const AI_JOB_PROVIDERS: Record<AIJobKind, readonly string[]> = {
   image: ['google', 'openai', 'fal', 'replicate'],
-  video: ['runway', 'veo', 'kling', 'luma', 'pika', 'hailuo', 'sora'],
-  project: ['google', 'openai', 'anthropic', 'deepseek'],
+  video: ['google', 'vertex', 'runway', 'veo', 'kling', 'luma', 'pika', 'hailuo', 'sora'],
+  project: ['google', 'vertex', 'openai', 'anthropic', 'deepseek'],
   vision: ['google', 'openai', 'anthropic'],
   text: ['google', 'openai', 'anthropic', 'deepseek'],
   videoUnderstanding: ['google'],

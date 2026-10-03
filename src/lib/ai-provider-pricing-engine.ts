@@ -11,6 +11,7 @@ import {
   PROMPT_CREDIT_FLOOR_VALUE_USD,
   PROVIDER_COST_RESERVE_PERCENT,
 } from '@/lib/credit-economics';
+import { quoteVideoProviderCost, type VideoResolution } from '@/lib/provider-pricing-registry';
 
 export const PROMPT_CREDIT_COMMERCIAL_VALUE_USD = PROMPT_CREDIT_FLOOR_VALUE_USD;
 export const DEFAULT_PROVIDER_COST_SHARE = PROVIDER_COST_RESERVE_PERCENT / 100;
@@ -21,6 +22,8 @@ export type ProviderUsageEstimate = {
   outputTokens?: number;
   imageCount?: number;
   videoDurationSeconds?: number;
+  videoResolution?: VideoResolution;
+  videoAudio?: boolean;
 };
 
 export type ProviderCostEstimate = {
@@ -87,6 +90,30 @@ export function estimateProviderCost(
     usage.outputTokens ?? config.defaultOutputTokens,
     config.maxOutputTokens,
   );
+
+  if (usage.videoDurationSeconds && usage.videoResolution) {
+    const videoQuote = quoteVideoProviderCost({
+      provider,
+      modelId,
+      resolution: usage.videoResolution,
+      durationSeconds: usage.videoDurationSeconds,
+      audio: usage.videoAudio,
+      safetyBufferPercent,
+    });
+    if (videoQuote) {
+      return {
+        provider: config.provider,
+        modelId: config.modelId,
+        rawProviderCostUsd: videoQuote.rawProviderCostUsd,
+        safetyCostUsd: videoQuote.safetyCostUsd,
+        safetyBufferPercent: Math.max(0, safetyBufferPercent),
+        estimatedInputTokens,
+        estimatedOutputTokens: 0,
+        pricingStatus: 'verified',
+        costKnown: true,
+      };
+    }
+  }
 
   const inputCost = (estimatedInputTokens / 1_000_000) * (config.inputTokenPriceUsdPerMillion ?? 0);
   const outputCost = (estimatedOutputTokens / 1_000_000) * (config.outputTokenPriceUsdPerMillion ?? 0);
