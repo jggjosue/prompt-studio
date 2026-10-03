@@ -81,8 +81,8 @@ test('crowdfunding progress is sourced from paid Stripe webhook records',()=>{
 
 test('crowdfunding page discloses the planned three-month campaign duration',()=>{
  const page=fs.readFileSync('src/app/[locale]/crowdfunding/page.tsx','utf8');
- assert.match(page,/3 months from the official launch date/);
- assert.match(page,/3 meses desde la fecha oficial de lanzamiento/);
+ assert.match(page,/October 2, 2026 through January 2, 2027/);
+ assert.match(page,/2 de octubre de 2026 al 2 de enero de 2027/);
  assert.match(page,/Founder Credits remain pending during that period|Founder Credits no se entregan inmediatamente|Founder Credits permanecen pendientes/);
 });
 
@@ -102,4 +102,14 @@ test('crowdfunding page and checkout expose the official Founder Credit schedule
  }
  assert.match(page,/Official Founder Credit values/);
  assert.match(page,/Valores oficiales de Founder Credits/);
+});
+
+test('crowdfunding progress shows the exact last fundraising day',()=>{
+ const progress=fs.readFileSync('src/components/CrowdfundingProgress.tsx','utf8');
+ const campaign=fs.readFileSync('src/lib/crowdfunding-campaign.ts','utf8');
+ assert.match(progress,/Last fundraising day/);
+ assert.match(progress,/Último día para aportar/);
+ assert.match(progress,/January 2, 2027/);
+ assert.match(progress,/2 de enero de 2027/);
+ assert.match(campaign,/CROWDFUNDING_LAST_FUNDRAISING_DATE = '2027-01-02'/);
 });
