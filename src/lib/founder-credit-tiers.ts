@@ -1,12 +1,12 @@
 import { validateCreditSaleEconomics } from '@/lib/credit-economics';
 
-export const FOUNDER_BASE_CREDITS_PER_USD = 100;
+export const FOUNDER_BASE_CREDITS_PER_USD = 80;
 
 /**
  * Regla de economía del Crowdfunding de Prompt Studio.
  *
- * 1 Prompt Credit = $0.01 USD (piso comercial del sistema).
- * Por lo tanto: FOUNDER_BASE_CREDITS_PER_USD = 100 (precio × 100 = créditos base).
+ * Founder usa una conversión promocional separada: 80 créditos base por USD aportado.
+ * El bonus por tier se aplica después sobre esos créditos base.
  *
  * Se valida el margen sólo sobre los créditos BASE para que los bonus
  * (incentivos de volumen) puedan exceder el piso sin bloquear la operación.
@@ -15,19 +15,19 @@ export const FOUNDER_BASE_CREDITS_PER_USD = 100;
  * ┌──────────────┬───────────┬───────┬──────────────────┐
  * │ Aportación   │ Base cr   │ Bonus │ Total Founder cr  │
  * ├──────────────┼───────────┼───────┼──────────────────┤
- * │ $10          │ 1.000     │  5%   │ 1.050            │
- * │ $25          │ 2.500     │  7%   │ 2.675            │
- * │ $50          │ 5.000     │ 10%   │ 5.500            │
- * │ $100         │ 10.000    │ 12%   │ 11.200           │
- * │ $250         │ 25.000    │ 15%   │ 28.750           │
- * │ $500         │ 50.000    │ 17%   │ 58.500           │
- * │ $1.000       │ 100.000   │ 20%   │ 120.000          │
+ * │ $10          │   800     │  5%   │   840            │
+ * │ $25          │ 2.000     │  7%   │ 2.140            │
+ * │ $50          │ 4.000     │ 10%   │ 4.400            │
+ * │ $100         │ 8.000     │ 12%   │ 8.960            │
+ * │ $250         │20.000     │ 15%   │23.000            │
+ * │ $500         │40.000     │ 17%   │46.800            │
+ * │ $1.000       │80.000     │ 20%   │96.000            │
  * └──────────────┴───────────┴───────┴──────────────────┘
  *
  * Peor caso de ganancia (aportación $1.000, bonus 20%):
  *   Ingreso:             $1.000
- *   Total cr entregados: 120.000
- *   Costo IA máx (25%):  $300
+ *   Total cr entregados: 96.000
+ *   Costo IA máx (25%):  $240
  *   Plataforma (15%):    $150  (approx)
  *   Stripe/riesgo (10%): $100
  *   Ganancia neta mín:   ~$450 (~45%)
