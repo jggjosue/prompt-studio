@@ -165,6 +165,16 @@ tests/            Unit, data, and end-to-end tests
 docs/             Specific operational documentation
 ```
 
+## Credit Economics and Crowdfunding
+
+Before changing plan pricing, Prompt Credits, crowdfunding rewards, AI operation costs, top-ups, or provider routing, read:
+
+- [AI_UNIT_ECONOMICS_AND_CREDITS.md](AI_UNIT_ECONOMICS_AND_CREDITS.md) — canonical Prompt Credit economics, plan allocations, operation costs, margin rules, and change-control checklist.
+- [CROWDFUNDING_AND_COMPETITIVE_CREDITS.md](CROWDFUNDING_AND_COMPETITIVE_CREDITS.md) — Founder Credit schedule, three-month campaign context, competitor benchmark methodology, and product-positioning guidance.
+- [INFRASTRUCTURE_COST_AUDIT.md](INFRASTRUCTURE_COST_AUDIT.md) — infrastructure and COGS accounting boundaries.
+
+These documents are product/engineering context. Runtime pricing and eligibility must continue to come from server-side source-of-truth modules.
+
 ## Technical Capabilities
 
 The documentation for the application —Coding/SWE, applied ML evaluation, Technical PM, Computer Use, MCP, Cybersecurity, enterprise tools, STEM QA, synthetic content, scraping, and Quant Trading— is centralized in [docs/capabilities](capabilities/README.md).
