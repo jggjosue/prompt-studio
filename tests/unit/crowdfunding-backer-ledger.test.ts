@@ -55,3 +55,19 @@ test('legacy crowdfunding data has an ordered backfill migration', () => {
   assert.match(script, /CrowdfundingSequence\.findOneAndUpdate/);
   assert.equal(pkg.scripts?.['crowdfunding:backfill-backers'], 'tsx scripts/ts/backfill-crowdfunding-backers.ts');
 });
+
+test('admin ledger endpoint is protected and returns ordered backers with contributions', () => {
+  const route = fs.readFileSync('src/app/api/admin/crowdfunding/backers/route.ts', 'utf8');
+  assert.match(route, /isPremiumJoAdmin/);
+  assert.match(route, /sort\(\{ backerNumber: 1 \}\)/);
+  assert.match(route, /totalContributedCents/);
+  assert.match(route, /totalCredits/);
+  assert.match(route, /stripeCheckoutSessionId/);
+  assert.match(route, /Cache-Control': 'private, no-store/);
+});
+
+test('public crowdfunding progress counts unique backers rather than contribution rows', () => {
+  const route = fs.readFileSync('src/app/api/crowdfunding/progress/route.ts', 'utf8');
+  assert.match(route, /CrowdfundingBacker\.countDocuments/);
+  assert.match(route, /totalContributedCents: \{ \$gt: 0 \}/);
+});
