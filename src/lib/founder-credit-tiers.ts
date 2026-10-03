@@ -1,6 +1,6 @@
 import { validateCreditSaleEconomics } from '@/lib/credit-economics';
 
-export const FOUNDER_BASE_CREDITS_PER_USD = 80;
+export const FOUNDER_BASE_CREDITS_PER_USD = 100;
 
 export const FOUNDER_REWARD_TIERS = [
   { pledgeAmountCents: 1000, bonusPercent: 5 },
@@ -29,7 +29,7 @@ export function getFounderRewardTier(pledgeAmountCents: number) {
   const baseCredits = Math.floor((pledgeAmountCents / 100) * FOUNDER_BASE_CREDITS_PER_USD);
   const bonusCredits = Math.floor(baseCredits * matched.bonusPercent / 100);
   const totalCredits = baseCredits + bonusCredits;
-  if (!validateCreditSaleEconomics({ priceCents: pledgeAmountCents, credits: totalCredits }).eligible) {
+  if (!validateCreditSaleEconomics({ priceCents: pledgeAmountCents, credits: baseCredits }).eligible) {
     return null;
   }
   return {
