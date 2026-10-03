@@ -6,6 +6,7 @@ import { rateLimit, RATE_LIMITS, tooManyRequests } from '@/lib/rate-limit';
 import { getSiteUrl } from '@/lib/site-url';
 import { stripe } from '@/lib/stripe';
 import { observeOperation } from '@/lib/observability-server';
+import { validateCreditSaleEconomics } from '@/lib/credit-economics';
 
 /**
  * Abre un checkout embebido de Stripe para recargar créditos.
@@ -31,6 +32,9 @@ export async function POST(request: Request) {
   const body = await request.json().catch(() => null) as { packId?: unknown } | null;
   const pack = getCreditPack(body?.packId);
   if (!pack) return NextResponse.json({ error: 'Pack de créditos no encontrado.' }, { status: 404, headers });
+  if (!validateCreditSaleEconomics({ priceCents: pack.priceCents, credits: pack.credits }).eligible) {
+    return NextResponse.json({ error: 'Este pack no cumple la economía mínima de Prompt Credits.' }, { status: 409, headers });
+  }
 
   const client = await clerkClient();
   const user = await client.users.getUser(userId);
