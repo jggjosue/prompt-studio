@@ -405,7 +405,7 @@ export default function PricesClient() {
                         </div>
                       )}
                     </div>
-                    {plan.id !== 'free' && <CreatorCoupon planId={plan.id} isAnnual={isAnnual} />}
+                    {plan.id === 'creator' && <CreatorCoupon planId={plan.id} isAnnual={isAnnual} />}
                     <ul className="space-y-3 mb-8 flex-grow">
                       {plan.features.map((feature) => (
                         <li key={feature} className="flex items-start gap-3 text-sm">
