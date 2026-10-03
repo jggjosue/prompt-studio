@@ -14,9 +14,9 @@ test('$50 Founder estimate is 5,500 credits and uses catalog operation prices', 
   const image = estimate.examples.find((entry) => entry.operationCode === 'IMAGE_QUALITY_1K');
   const video = estimate.examples.find((entry) => entry.operationCode === 'VIDEO_FAST_720_8S');
   const website = estimate.examples.find((entry) => entry.operationCode === 'WEBSITE_ADVANCED');
-  assert.equal(image?.maxOperations, 141);
-  assert.equal(video?.maxOperations, 12);
-  assert.equal(website?.maxOperations, 88);
+  assert.equal(image?.maxOperations, 177);
+  assert.equal(video?.maxOperations, 15);
+  assert.equal(website?.maxOperations, 110);
 });
 
 test('calculator is estimate-only and communicates fulfillment conditions', () => {
