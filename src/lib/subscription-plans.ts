@@ -3,8 +3,8 @@ import { SUBSCRIPTION_CATALOG } from '@/lib/commercial-pricing';
 /**
  * Catálogo canónico de planes de Prompt Studio.
  *
- * Los precios y créditos de este archivo son la fuente de verdad para /prices,
- * grants de suscripción y validaciones del producto.
+ * Los precios y créditos proceden de commercial-pricing.ts, la fuente de verdad
+ * para /prices, grants de suscripción y validaciones del producto.
  *
  * - Free:    $0/mes  ·     0 Prompt Credits
  * - Premium: $9/mes  ·   500 Prompt Credits
