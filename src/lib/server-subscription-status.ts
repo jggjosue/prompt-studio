@@ -4,7 +4,7 @@ import type Stripe from 'stripe';
 import { planAtLeast, normalizeExistingPlan } from '@/lib/subscription-plans';
 
 export type ServerSubscriptionStatus = {
-  plan: 'free' | 'creator' | 'pro' | 'studio';
+  plan: 'free' | 'premium' | 'creator' | 'pro' | 'studio';
   status: StripeUserMetadata['stripeStatus'] | null;
   currentPeriodEnd: number | null;
   billingCycle: 'monthly' | 'annual' | null;
@@ -19,8 +19,8 @@ const FREE: ServerSubscriptionStatus = {
   purchasedPages: [],
 };
 
-const DEV_CREATOR: ServerSubscriptionStatus = {
-  plan: 'creator',
+const DEV_PREMIUM: ServerSubscriptionStatus = {
+  plan: 'premium',
   status: 'active',
   currentPeriodEnd: null,
   billingCycle: 'monthly',
@@ -67,7 +67,7 @@ export async function getServerSubscriptionStatus(): Promise<ServerSubscriptionS
   const user = await client.users.getUser(userId);
   const meta = user.privateMetadata as Partial<StripeUserMetadata> & { purchasedPages?: string[] };
   const userEmail = user.emailAddresses[0]?.emailAddress?.trim().toLowerCase();
-  const creatorJoEmail = process.env.PROMPT_STUDIO_PREMIUM_JO
+  const premiumJoEmail = process.env.PROMPT_STUDIO_PREMIUM_JO
     ?.trim()
     .toLowerCase();
   const proJoEmail = process.env.PROMPT_STUDIO_PRO_JO?.trim().toLowerCase();
@@ -76,8 +76,8 @@ export async function getServerSubscriptionStatus(): Promise<ServerSubscriptionS
     .toLowerCase();
   const purchasedPages = Array.isArray(meta.purchasedPages) ? meta.purchasedPages : [];
 
-  if (creatorJoEmail && userEmail === creatorJoEmail) {
-    return { ...DEV_CREATOR, purchasedPages };
+  if (premiumJoEmail && userEmail === premiumJoEmail) {
+    return { ...DEV_PREMIUM, purchasedPages };
   }
 
   if (proJoEmail && userEmail === proJoEmail) {
@@ -90,7 +90,7 @@ export async function getServerSubscriptionStatus(): Promise<ServerSubscriptionS
 
   if (!meta.stripeCustomerId && !userEmail) return { ...FREE, purchasedPages };
 
-  const { stripe, extractSubscriptionMeta } = await import('@/lib/stripe');
+  const { stripe, extractSubscriptionMeta, resolveSubscriptionPlan } = await import('@/lib/stripe');
 
   if (meta.stripeCustomerId) {
     const { data: subscriptions } = await stripe.subscriptions.list({
@@ -101,7 +101,7 @@ export async function getServerSubscriptionStatus(): Promise<ServerSubscriptionS
 
     if (subscriptions.length === 0) return { ...FREE, purchasedPages };
 
-    const rawPlan = meta.stripePlan ?? 'creator';
+    const rawPlan = meta.stripePlan ?? resolveSubscriptionPlan(subscriptions[0]);
     const normalizedPlan = normalizeExistingPlan(rawPlan);
 
     return toStatus(
@@ -133,7 +133,7 @@ export async function getServerSubscriptionStatus(): Promise<ServerSubscriptionS
     const freshMeta = extractSubscriptionMeta(
       subscriptions[0] as Stripe.Subscription,
       customer.id,
-      'creator'
+      resolveSubscriptionPlan(subscriptions[0] as Stripe.Subscription)
     );
 
     await client.users.updateUserMetadata(userId, {
@@ -153,7 +153,7 @@ export async function getServerSubscriptionStatus(): Promise<ServerSubscriptionS
 }
 
 export function hasDownloadPlan(status: ServerSubscriptionStatus): boolean {
-  return planAtLeast(status.plan, 'creator');
+  return planAtLeast(status.plan, 'premium');
 }
 
 export function hasComponentBuilderPlan(status: ServerSubscriptionStatus): boolean {
