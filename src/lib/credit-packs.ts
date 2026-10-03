@@ -29,8 +29,8 @@ export type CreditPack = {
  *
  * Regla del sistema: 1 Prompt Credit = $0.01 USD (piso comercial).
  * El precio en centavos dividido entre 100 da los créditos base exactos.
- * Los créditos bonus son un incentivo adicional para packs de mayor volumen;
- * se suman al saldo pero NO cambian el precio pagado.
+ * Los packs activos no tienen bonus; las cantidades y precios proceden de
+ * commercial-pricing.ts.
  *
  * ┌────────────┬──────────┬────────────┬──────────┬──────────────┐
  * │ Pack       │ Precio   │ Cr. base   │ Bonus    │ Total cr.    │
@@ -42,7 +42,8 @@ export type CreditPack = {
  * │ 10.000 cr  │$100.00   │10.000 cr   │    0     │10.000 cr     │
  * └────────────┴──────────┴────────────┴──────────┴──────────────┘
  *
- * Las recargas activas no añaden bonus: precio y cantidad se validan en servidor y webhook.\n */
+ * Las recargas activas no añaden bonus: precio y cantidad se validan en servidor y webhook.
+ */
 export const CREDIT_PACKS: readonly CreditPack[] = ACTIVE_CREDIT_PACK_CATALOG.map(pack => ({
   ...pack,
   currency: 'usd',
