@@ -26,6 +26,7 @@ test('plan prices match the published five-tier ladder', () => {
 });
 
 test('monthly and annual credits preserve commercial value', () => {
+  assert.equal(getPlanCredits('free', 'monthly'), 0);
   const expected = {
     premium: [500, 6000],
     creator: [1000, 12000],
