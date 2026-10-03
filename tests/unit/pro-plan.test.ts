@@ -28,16 +28,16 @@ test('plan prices match the published five-tier ladder', () => {
 test('monthly and annual credits preserve commercial value', () => {
   assert.equal(getPlanCredits('free', 'monthly'), 0);
   const expected = {
-    premium: [500, 6000],
-    creator: [1000, 12000],
-    pro: [1500, 18000],
-    studio: [3000, 36000],
+    premium: [900, 10800],
+    creator: [1900, 22800],
+    pro: [2900, 34800],
+    studio: [3900, 46800],
   } as const;
   for (const [plan, [monthly, annual]] of Object.entries(expected) as Array<[keyof typeof expected, readonly [number, number]]>) {
     assert.equal(getPlanCredits(plan, 'monthly'), monthly);
     assert.equal(getPlanCredits(plan, 'annual'), annual);
     assert.ok(getPlanPrice(plan, 'monthly') / monthly >= 0.01);
-    assert.ok(getPlanPrice(plan, 'annual') / annual >= 0.01);
+    assert.ok(getPlanPrice(plan, 'annual') / annual >= (1 / 120) - 1e-12);
   }
 });
 

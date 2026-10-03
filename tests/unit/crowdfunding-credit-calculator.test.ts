@@ -4,19 +4,19 @@ import fs from 'node:fs';
 
 const { calculateCrowdfundingCredits } = await import('../../src/lib/crowdfunding-credit-calculator');
 
-test('$50 Founder estimate is 4,400 credits and uses catalog operation prices', () => {
+test('$50 Founder estimate is 5,500 credits and uses catalog operation prices', () => {
   const estimate = calculateCrowdfundingCredits(5000);
-  assert.equal(estimate.baseCredits, 4000);
+  assert.equal(estimate.baseCredits, 5000);
   assert.equal(estimate.bonusPercent, 10);
-  assert.equal(estimate.bonusCredits, 400);
-  assert.equal(estimate.totalCredits, 4400);
+  assert.equal(estimate.bonusCredits, 500);
+  assert.equal(estimate.totalCredits, 5500);
 
   const image = estimate.examples.find((entry) => entry.operationCode === 'IMAGE_QUALITY_1K');
   const video = estimate.examples.find((entry) => entry.operationCode === 'VIDEO_FAST_720_8S');
   const website = estimate.examples.find((entry) => entry.operationCode === 'WEBSITE_ADVANCED');
-  assert.equal(image?.maxOperations, 141);
-  assert.equal(video?.maxOperations, 12);
-  assert.equal(website?.maxOperations, 88);
+  assert.equal(image?.maxOperations, 177);
+  assert.equal(video?.maxOperations, 15);
+  assert.equal(website?.maxOperations, 110);
 });
 
 test('calculator is estimate-only and communicates fulfillment conditions', () => {
@@ -31,8 +31,8 @@ test('calculator is estimate-only and communicates fulfillment conditions', () =
 
 test('custom crowdfunding amounts inherit the highest reached bonus tier', () => {
   const estimate = calculateCrowdfundingCredits(7500);
-  assert.equal(estimate.baseCredits, 6000);
+  assert.equal(estimate.baseCredits, 7500);
   assert.equal(estimate.bonusPercent, 10);
-  assert.equal(estimate.bonusCredits, 600);
-  assert.equal(estimate.totalCredits, 6600);
+  assert.equal(estimate.bonusCredits, 750);
+  assert.equal(estimate.totalCredits, 8250);
 });

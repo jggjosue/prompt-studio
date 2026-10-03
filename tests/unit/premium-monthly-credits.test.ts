@@ -6,10 +6,10 @@ const { getPlanCredits, normalizeExistingPlan } = await import('../../src/lib/su
 
 test('Premium and Creator are distinct tiers with sustainable cycle credits', () => {
   assert.equal(normalizeExistingPlan('premium'), 'premium');
-  assert.equal(getPlanCredits('premium', 'monthly'), 500);
-  assert.equal(getPlanCredits('premium', 'annual'), 6000);
-  assert.equal(getPlanCredits('creator', 'monthly'), 1000);
-  assert.equal(getPlanCredits('creator', 'annual'), 12000);
+  assert.equal(getPlanCredits('premium', 'monthly'), 900);
+  assert.equal(getPlanCredits('premium', 'annual'), 10800);
+  assert.equal(getPlanCredits('creator', 'monthly'), 1900);
+  assert.equal(getPlanCredits('creator', 'annual'), 22800);
 });
 
 test('Stripe invoice.paid keeps plan credits pending until crowdfunding credits are activated', () => {

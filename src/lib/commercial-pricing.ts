@@ -1,18 +1,28 @@
 /**
  * Single commercial catalog for Prompt Studio.
  *
- * Public prices, included credits, Founder reward tiers and active top-ups
- * originate here. UI surfaces and checkout helpers must consume this catalog
- * instead of duplicating numeric price/credit tables.
+ * Invariant: 1 Prompt Credit has a nominal retail value of $0.01 USD.
+ * Monthly subscriptions and active top-ups use that value directly.
+ * Annual subscriptions and Founder rewards may discount the effective price,
+ * but never below the shared 20% maximum commercial incentive.
  */
+export const PROMPT_CREDIT_RETAIL_USD = 0.01;
+export const PROMPT_CREDITS_PER_USD = Math.round(1 / PROMPT_CREDIT_RETAIL_USD);
+export const MAX_COMMERCIAL_BONUS_PERCENT = 20;
+export const MIN_EFFECTIVE_CREDIT_PRICE_USD =
+  PROMPT_CREDIT_RETAIL_USD / (1 + MAX_COMMERCIAL_BONUS_PERCENT / 100);
+
+const monthlyCreditsForPrice = (monthlyPriceUsd: number) =>
+  Math.round(monthlyPriceUsd * PROMPT_CREDITS_PER_USD);
+
 export const SUBSCRIPTION_CATALOG = {
-  premium: { monthlyPriceUsd: 9, annualPriceUsd: 90, monthlyCredits: 500 },
-  creator: { monthlyPriceUsd: 19, annualPriceUsd: 190, monthlyCredits: 1000 },
-  pro: { monthlyPriceUsd: 29, annualPriceUsd: 290, monthlyCredits: 1500 },
-  studio: { monthlyPriceUsd: 39, annualPriceUsd: 390, monthlyCredits: 3000 },
+  premium: { monthlyPriceUsd: 9, annualPriceUsd: 90, monthlyCredits: monthlyCreditsForPrice(9) },
+  creator: { monthlyPriceUsd: 19, annualPriceUsd: 190, monthlyCredits: monthlyCreditsForPrice(19) },
+  pro: { monthlyPriceUsd: 29, annualPriceUsd: 290, monthlyCredits: monthlyCreditsForPrice(29) },
+  studio: { monthlyPriceUsd: 39, annualPriceUsd: 390, monthlyCredits: monthlyCreditsForPrice(39) },
 } as const;
 
-export const FOUNDER_BASE_CREDITS_PER_USD = 80;
+export const FOUNDER_BASE_CREDITS_PER_USD = PROMPT_CREDITS_PER_USD;
 
 export const FOUNDER_REWARD_CATALOG = [
   { pledgeAmountCents: 1000, bonusPercent: 5 },
@@ -24,12 +34,20 @@ export const FOUNDER_REWARD_CATALOG = [
   { pledgeAmountCents: 100000, bonusPercent: 20 },
 ] as const;
 
+const activeTopUp = (priceCents: number, featured = false) => ({
+  id: `topup-${priceCents}`,
+  credits: Math.round((priceCents / 100) * PROMPT_CREDITS_PER_USD),
+  bonusCredits: 0,
+  priceCents,
+  featured,
+});
+
 export const ACTIVE_CREDIT_PACK_CATALOG = [
-  { id: 'topup-500', credits: 500, bonusCredits: 0, priceCents: 500, featured: false },
-  { id: 'topup-1000', credits: 1000, bonusCredits: 0, priceCents: 1000, featured: false },
-  { id: 'topup-2500', credits: 2500, bonusCredits: 0, priceCents: 2500, featured: true },
-  { id: 'topup-5000', credits: 5000, bonusCredits: 0, priceCents: 5000, featured: false },
-  { id: 'topup-10000', credits: 10000, bonusCredits: 0, priceCents: 10000, featured: false },
+  activeTopUp(500),
+  activeTopUp(1000),
+  activeTopUp(2500, true),
+  activeTopUp(5000),
+  activeTopUp(10000),
 ] as const;
 
 export type PaidCommercialPlanId = keyof typeof SUBSCRIPTION_CATALOG;

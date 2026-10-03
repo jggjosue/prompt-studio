@@ -7,13 +7,14 @@ import { SUBSCRIPTION_CATALOG } from '@/lib/commercial-pricing';
  * para /prices, grants de suscripción y validaciones del producto.
  *
  * - Free:    $0/mes  ·     0 Prompt Credits
- * - Premium: $9/mes  ·   500 Prompt Credits
- * - Creator: $19/mes · 1,000 Prompt Credits
- * - Pro:     $29/mes · 1,500 Prompt Credits
- * - Studio:  $39/mes · 3,000 Prompt Credits
+ * - Premium: $9/mes  ·   900 Prompt Credits
+ * - Creator: $19/mes · 1,900 Prompt Credits
+ * - Pro:     $29/mes · 2,900 Prompt Credits
+ * - Studio:  $39/mes · 3,900 Prompt Credits
  *
- * La facturación anual conserva 12 meses de créditos. Los Founder Credits y
- * las recargas son productos distintos y no deben alterar este catálogo.
+ * Todos los créditos mensuales se derivan de $0.01/crédito. La facturación
+ * anual entrega 12 meses de créditos por un precio equivalente a 10 meses,
+ * y Founder aplica bonus explícitos sin crear una segunda tasa de conversión.
  */
 export type PlanId = 'free' | 'premium' | 'creator' | 'pro' | 'studio';
 export type BillingCycle = 'monthly' | 'annual';
