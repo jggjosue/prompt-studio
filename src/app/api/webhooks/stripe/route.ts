@@ -10,7 +10,7 @@ import {
     upsertAffiliateSaleFromCommission,
 } from '@/lib/affiliate-mongo';
 import { registerAffiliateConversion } from '@/lib/affiliate-referral';
-import { extractSubscriptionMeta, stripe, type StripeUserMetadata } from '@/lib/stripe';
+import { extractSubscriptionMeta, resolveSubscriptionPlan, stripe, type StripeUserMetadata } from '@/lib/stripe';
 
 import { expireSubscriptionCredits, grantSubscriptionCredits } from '@/lib/ai-job-service';
 import { getComponentProductContent } from '@/lib/component-content-store';
@@ -22,6 +22,7 @@ import { applyCreditTopUp, markCreditPurchaseRefunded } from '@/lib/credit-topup
 import connectToDatabase from '@/lib/mongoose';
 import { errorFingerprint, recordObservabilityEvent, reportOperationalError } from '@/lib/observability-server';
 import { getPlanCredits, normalizeExistingPlan, type PlanId } from '@/lib/subscription-plans';
+import { getFounderRewardTier } from '@/lib/founder-credit-tiers';
 import { recordConfirmedPurchase } from '@/lib/payment-analytics';
 import { areCrowdfundingCreditsActive, recordPendingSubscriptionCredits } from '@/lib/pending-subscription-credits';
 import AffiliateApplication from '@/models/AffiliateApplication';
@@ -42,7 +43,7 @@ async function updateUserSubscription(
   stripeCustomerId: string
 ) {
   const client = await clerkClient();
-  const plan = (subscription.metadata?.plan as 'creator' | 'pro' | 'studio') ?? 'creator';
+  const plan = resolveSubscriptionPlan(subscription);
   const user = await client.users.getUser(clerkUserId);
   const meta = user.privateMetadata as AffiliatePrivateMetadata;
   await client.users.updateUserMetadata(clerkUserId, {
@@ -243,7 +244,8 @@ export async function POST(req: Request) {
         if (founderCrowdfundingPayment) {
           const amountPaidCents = session.amount_total ?? 0;
           const currency = (session.currency ?? '').toUpperCase();
-          if (amountPaidCents <= 0 || currency !== 'USD') {
+          const founderReward = getFounderRewardTier(amountPaidCents);
+          if (amountPaidCents <= 0 || currency !== 'USD' || !founderReward) {
             throw new Error(`Invalid crowdfunding payment for ${session.id}`);
           }
           const paymentIntentId =
@@ -263,6 +265,10 @@ export async function POST(req: Request) {
                 amountPaidCents,
                 currency: 'USD',
                 status: 'paid',
+                baseCredits: founderReward.baseCredits,
+                bonusCredits: founderReward.bonusCredits,
+                totalCredits: founderReward.totalCredits,
+                creditStatus: 'pending',
                 paidAt: new Date(),
                 refundedAt: null,
                 updatedAt: new Date(),
@@ -585,10 +591,10 @@ export async function POST(req: Request) {
         const subscriptionId = typeof invoiceAny.subscription === 'string' ? invoiceAny.subscription : null;
         if (subscriptionId) {
           const subscription = await stripe.subscriptions.retrieve(subscriptionId);
-          const rawPlan = subscription.metadata?.plan;
-          const plan = normalizeExistingPlan(rawPlan || 'free') as PlanId;
+          const plan = normalizeExistingPlan(resolveSubscriptionPlan(subscription)) as PlanId;
           if (plan !== 'free') {
-            const credits = getPlanCredits(plan);
+            const billingCycle = subscription.items.data[0]?.price?.recurring?.interval === 'year' ? 'annual' : 'monthly';
+            const credits = getPlanCredits(plan, billingCycle);
             if (areCrowdfundingCreditsActive()) {
               await expireSubscriptionCredits(clerkUserId, invoice.id);
               await grantSubscriptionCredits(clerkUserId, credits, invoice.id, {
@@ -596,6 +602,7 @@ export async function POST(req: Request) {
                 stripeSubscriptionId: subscriptionId,
                 plan,
                 billingReason: invoice.billing_reason,
+                billingCycle,
               });
             } else {
               await recordPendingSubscriptionCredits({
@@ -606,6 +613,7 @@ export async function POST(req: Request) {
                 stripeSubscriptionId: subscriptionId,
                 metadata: {
                   billingReason: invoice.billing_reason,
+                  billingCycle,
                   campaignStatus: 'pending_activation',
                 },
               });
@@ -649,7 +657,7 @@ export async function POST(req: Request) {
           await markCreditPurchaseRefunded(paymentIntentId);
           await CrowdfundingContribution.updateMany(
             { stripePaymentIntentId: paymentIntentId, status: 'paid' },
-            { $set: { status: 'refunded', refundedAt: new Date(), updatedAt: new Date() } },
+            { $set: { status: 'refunded', creditStatus: 'cancelled', refundedAt: new Date(), updatedAt: new Date() } },
           );
         }
         break;

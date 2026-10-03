@@ -67,7 +67,11 @@ test('crowdfunding progress is sourced from paid Stripe webhook records',()=>{
  assert.match(webhook,/stripe\.paymentLinks\.retrieve/);
  assert.match(webhook,/NEXT_PUBLIC_STRIPE_CHECKOUT_CROWFUNDING/);
  assert.match(webhook,/CrowdfundingContribution\.findOneAndUpdate/);
+ assert.match(webhook,/getFounderRewardTier\(amountPaidCents\)/);
+ assert.match(webhook,/creditStatus: 'pending'/);
+ assert.match(webhook,/totalCredits: founderReward\.totalCredits/);
  assert.match(webhook,/status: 'refunded'/);
+ assert.match(webhook,/creditStatus: 'cancelled'/);
  assert.match(progress,/status: 'paid'/);
  assert.match(progress,/GOAL_CENTS = 2_500_000/);
  assert.match(progress,/Cache-Control': 'no-store/);

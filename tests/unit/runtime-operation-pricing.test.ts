@@ -19,3 +19,23 @@ test('runtime pricing resolves persisted overrides and blocks unsafe or disabled
   assert.match(source, /if \(!margin\.eligible\)/);
   assert.match(source, /PRICING_MARGIN_BLOCKED/);
 });
+
+test('quality catalog uses margin-safe credit costs', () => {
+  const source = fs.readFileSync('src/lib/ai-operation-catalog.ts', 'utf8');
+  for (const [code, credits] of [
+    ['IMAGE_LITE_1K', 16],
+    ['IMAGE_QUALITY_1K', 31],
+    ['IMAGE_QUALITY_2K', 46],
+    ['IMAGE_QUALITY_4K', 70],
+    ['VIDEO_LITE_720_8S', 180],
+    ['VIDEO_LITE_1080_8S', 288],
+    ['VIDEO_FAST_720_8S', 360],
+    ['VIDEO_FAST_1080_8S', 432],
+    ['VIDEO_PREMIUM_8S', 1440],
+    ['WEBSITE_SIMPLE', 36],
+    ['WEBSITE_ADVANCED', 50],
+    ['WEBSITE_COMPLEX', 100],
+  ] as const) {
+    assert.match(source, new RegExp(`${code}[^\\n]+creditCost: ${credits}`));
+  }
+});

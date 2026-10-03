@@ -10,7 +10,7 @@ export function areCrowdfundingCreditsActive(): boolean {
 
 export async function recordPendingSubscriptionCredits(input: {
   userId: string;
-  plan: 'creator' | 'pro' | 'studio';
+  plan: 'premium' | 'creator' | 'pro' | 'studio';
   credits: number;
   stripeInvoiceId: string;
   stripeSubscriptionId?: string | null;
