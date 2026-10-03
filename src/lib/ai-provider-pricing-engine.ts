@@ -6,9 +6,14 @@ import {
   getAIModelConfig,
   type AIModelConfig,
 } from '@/lib/ai-credit-config';
+import {
+  MAX_PROVIDER_COST_PER_CREDIT_USD,
+  PROMPT_CREDIT_FLOOR_VALUE_USD,
+  PROVIDER_COST_RESERVE_PERCENT,
+} from '@/lib/credit-economics';
 
-export const PROMPT_CREDIT_COMMERCIAL_VALUE_USD = 0.01;
-export const DEFAULT_PROVIDER_COST_SHARE = 0.25;
+export const PROMPT_CREDIT_COMMERCIAL_VALUE_USD = PROMPT_CREDIT_FLOOR_VALUE_USD;
+export const DEFAULT_PROVIDER_COST_SHARE = PROVIDER_COST_RESERVE_PERCENT / 100;
 export const DEFAULT_SAFETY_BUFFER_PERCENT = 12.5;
 
 export type ProviderUsageEstimate = {
@@ -115,7 +120,7 @@ export function evaluateOperationMargin(input: {
   const minimumMarginPercent = input.minimumMarginPercent ?? 75;
   const providerCostShare = Math.max(0, 1 - minimumMarginPercent / 100);
   const commercialValueUsd = input.operationCredits * PROMPT_CREDIT_COMMERCIAL_VALUE_USD;
-  const maximumProviderCostUsd = commercialValueUsd * providerCostShare;
+  const maximumProviderCostUsd = Math.min(commercialValueUsd * providerCostShare, input.operationCredits * MAX_PROVIDER_COST_PER_CREDIT_USD);
 
   const base = {
     operationCredits: input.operationCredits,

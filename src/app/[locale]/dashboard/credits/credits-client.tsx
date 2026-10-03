@@ -5,6 +5,7 @@ import { Check, Loader2, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { trackAnalyticsEvent } from '@/lib/analytics';
+import Link from 'next/link';
 
 type Pack = { id: string; name: string; description: string; credits: number; bonusCredits: number; price: string; currency: string; featured: boolean; savingsPercent: number };
 type Purchase = { id: string; packId: string; credits: number; amountPaidCents: number; currency: string; status: string; receiptUrl: string | null; purchasedAt: string | null };
@@ -118,13 +119,19 @@ export function CreditsClient() {
         </div>
         {data.credits.pendingSubscriptionCredits > 0 && (
           <p className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-3 text-sm text-amber-800 dark:text-amber-300">
-            Tus créditos pendientes ya están registrados, pero no se pueden utilizar hasta que termine la campaña y se active el saldo de IA.
+            Tus créditos pendientes ya están registrados, pero no se pueden gastar hasta que termine la campaña de crowdfunding y se active el saldo de IA.{' '}
+            <Link href="/crowdfunding" className="font-semibold underline underline-offset-2 hover:text-amber-700 dark:hover:text-amber-200">
+              Ver programa de crowdfunding
+            </Link>
           </p>
         )}
       </>}
 
       <section>
-        <h2 className="mb-4 text-lg font-bold">Recargar</h2>
+        <h2 className="mb-2 text-lg font-bold">Comprar más créditos</h2>
+        <p className="mb-4 text-sm text-muted-foreground">
+          Cuando tus créditos disponibles se terminen, puedes comprar una recarga sin cambiar de plan. Las recargas se habilitan después de que termine la campaña de crowdfunding y se active el saldo de IA.
+        </p>
         <div className="grid gap-4 md:grid-cols-3">
           {data?.packs.map(pack => (
             <article key={pack.id} className={`relative flex flex-col rounded-2xl border bg-card p-5 shadow-sm ${pack.featured ? 'border-primary ring-1 ring-primary/30' : ''}`}>
@@ -135,7 +142,7 @@ export function CreditsClient() {
               <p className="mt-4 text-xl font-semibold">{pack.price}</p>
               {pack.savingsPercent > 0 && <p className="text-xs text-muted-foreground">Ahorras un {pack.savingsPercent}% por crédito</p>}
               <Button className="mt-5 w-full" onClick={() => void openCheckout(pack)} disabled={activePack === pack.id}>
-                {activePack === pack.id ? <><Loader2 className="mr-2 size-4 animate-spin" /> Abriendo…</> : 'Recargar'}
+                {activePack === pack.id ? <><Loader2 className="mr-2 size-4 animate-spin" /> Abriendo…</> : 'Comprar créditos'}
               </Button>
             </article>
           ))}
