@@ -32,6 +32,7 @@ import { resolveCodeAuditOperation } from '@/lib/code-audit-operation';
 import { resolveComponentOperation } from '@/lib/component-ai-operation';
 import { resolveRuntimeOperationPricing } from '@/lib/runtime-operation-pricing';
 import { recordGenerationTrainingEventBestEffort } from '@/lib/generation-training-events';
+import { evaluateProviderBudget } from '@/lib/credit-economics';
 import { resolveAuthoritativeTrainingConsent } from '@/lib/training-consent';
 
 const headers = () => cacheHeaders('private-no-store');
@@ -208,6 +209,25 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: { code, message: 'La operación no puede ejecutarse con el precio/proveedor actual.' } }, { status: 409, headers: headers() });
     }
   }
+  const providerBudget = evaluateProviderBudget(cost.credits, cost.estimatedApiCostUsd);
+  if (!providerBudget.eligible) {
+    void recordObservabilityEvent({
+      category: 'ai_generation',
+      name: 'provider_budget_blocked',
+      route: '/api/ai/jobs',
+      userId,
+      status: 'blocked',
+      costUsd: cost.estimatedApiCostUsd,
+      value: cost.credits,
+      unit: 'credits',
+      metadata: { kind: raw.kind, provider, modelId, operationCode, ...providerBudget },
+    });
+    return NextResponse.json({
+      error: { code: 'PROVIDER_COST_EXCEEDS_CREDIT_BUDGET', message: 'La operación no puede ejecutarse con este proveedor/modelo dentro del presupuesto de créditos actual.' },
+      pricing: { credits: cost.credits, estimatedProviderCostUsd: cost.estimatedApiCostUsd, providerBudgetUsd: providerBudget.providerBudgetUsd },
+    }, { status: 409, headers: headers() });
+  }
+
   // El superadministrador puede probar el flujo en desarrollo sin saldo.
   if (isPromptStudioAdminEmail(userEmail)) cost = { ...cost, credits: 0 };
   const requestedContractId = clean(raw.outputContractId, 80) || project?.outputContractId || '';
