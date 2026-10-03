@@ -20,7 +20,7 @@ import { useState } from 'react';
 const PLAN_PRICES = {
   premium: { monthly: 9, annual: 90 },
   creator: { monthly: 19, annual: 190 },
-  pro: { monthly: 25, annual: 250 },
+  pro: { monthly: 29, annual: 290 },
   studio: { monthly: 39, annual: 390 },
 } as const;
 
