@@ -2,7 +2,7 @@
 
 Parent: #871  
 Base branch: `main`  
-Scope: inventory/documentation only. No runtime credit or generation behavior is changed by T1.
+Scope: re-audit plus pricing consistency corrections on `main`; generation execution behavior is otherwise unchanged.
 
 ## 2026-10-03 re-audit — main branch commercial surfaces and provider pricing
 
@@ -127,7 +127,7 @@ Verified foundations on `main`:
 - Existing credit packs/top-up implementation.
 - Existing GCP/queue migration architecture and provider-cost telemetry work.
 
-The highest-risk finding is a development hack in `ensureCreditAccount()` that unconditionally forces an account to 100,000 credits. It must be removed or strictly development-gated before Prompt Credits can be trusted in production.
+The previous forced 100,000-credit development hack is no longer present in `src/lib/ai-job-service.ts` on `main`; the re-audit verified that stale finding should not remain a current release blocker.
 
 ## Current architecture
 
@@ -187,19 +187,9 @@ Observed protections:
 
 This is the primary implementation to extend for T5/T6 and #146/#836.
 
-### Critical finding: forced development balance
+### Resolved historical finding: forced development balance
 
-`ensureCreditAccount()` currently contains:
-
-```ts
-// DEV HACK: Force 100,000 credits always so you can develop locally without limits
-await AICreditAccount.updateOne(
-  { userId },
-  { $set: { balance: 100000, subscriptionBalance: 100000 } }
-);
-```
-
-Because this update is not visibly guarded by `NODE_ENV === 'development'` in the service, T2/T5 must treat this as a release blocker. It can overwrite authoritative balances and invalidates real credit accounting if reachable outside a safe local environment.
+The earlier audit documented an unconditional 100,000-credit development override in `ensureCreditAccount()`. The current `main` version of `src/lib/ai-job-service.ts` no longer contains that override. Keep regression coverage around authoritative balances so a development shortcut cannot re-enter production paths.
 
 ## Existing provider/model pricing layer
 
@@ -424,7 +414,7 @@ Reuse #146/#836 and canonical `AIGenerationJob` idempotency.
 
 ## Risks to address before production Prompt Credits
 
-1. **Critical — forced 100,000-credit update** in `ensureCreditAccount()`.
+1. **Resolved historical risk — forced 100,000-credit update.** Not present in current `main`; retain regression coverage.
 2. **High — model-centric pricing vs operation-centric product pricing.** Current estimator cannot by itself express the agreed Prompt Studio SKU/quality catalog.
 3. **High — unverified/legacy provider prices.** Several configured provider/model prices are explicitly marked `unverified` or `legacy-estimate`; do not use them as financial truth for margin guarantees.
 4. **High — helper AI calls can cause hidden cost.** Site planning, prompt helpers, vision/video understanding and retries need parent-operation attribution so users are not double charged while Magzin still measures cost.
@@ -443,7 +433,7 @@ T1 is complete when this document is merged because it:
 - inventories the verified AI flow/service/API families,
 - maps agreed Prompt Studio features to stable Prompt Credit operation codes,
 - identifies which existing infrastructure T2–T6 must extend,
-- documents the critical forced-balance risk,
+- verifies the historical forced-balance hack is absent from current `main`,
 - separates provider/model pricing from future operation-level Prompt Credit pricing.
 
-No production behavior, pricing, balance, provider routing, or database schema is changed by T1.
+This re-audit also corrected commercial pricing constants on `main`; provider routing and database schema were not changed.
