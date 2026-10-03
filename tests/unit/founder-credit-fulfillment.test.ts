@@ -14,9 +14,10 @@ test('Founder tiers match the crowdfunding reward schedule', () => {
   assert.equal(getFounderRewardTier(1200), null);
 });
 
-test('Founder fulfillment requires all eligibility gates and prevents duplicate grants', () => {
+test('Founder fulfillment waits for campaign end, payment receipt and verification, independent of goal completion', () => {
   const source = fs.readFileSync('src/lib/founder-credit-fulfillment.ts', 'utf8');
-  assert.match(source, /!input\.campaignFunded \|\| !input\.fundsReceived \|\| !input\.backerVerified/);
+  assert.match(source, /!input\.campaignEnded \|\| !input\.fundsReceived \|\| !input\.backerVerified/);
+  assert.doesNotMatch(source, /campaignFunded/);
   assert.match(source, /status: 'eligible'/);
   assert.match(source, /status: 'claimed'/);
   assert.match(source, /userId: null/);
