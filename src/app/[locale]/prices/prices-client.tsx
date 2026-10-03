@@ -336,7 +336,7 @@ export default function PricesClient() {
             </button>
           </div>
 
-          <div className="mx-auto grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-2 xl:gap-8">
+          <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4 xl:gap-6">
             {PLANS.map((plan) => {
               const available = plan.id === 'free' ||
                 plan.id === 'premium' ||
@@ -351,7 +351,7 @@ export default function PricesClient() {
                     plan.isMostPopular
                       ? 'border-violet-500 shadow-lg shadow-violet-500/10 lg:scale-[1.02]'
                       : 'border-muted-foreground/20 shadow-sm'
-                  } ${!available ? 'opacity-50 pointer-events-none' : ''}`}
+                  } ${!available ? 'border-dashed' : ''}`}
                 >
                   {plan.comingSoon && (
                     <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-slate-500 via-slate-400 to-slate-500" />
@@ -364,7 +364,7 @@ export default function PricesClient() {
                       </Badge>
                     </>
                   )}
-                  {plan.comingSoon && (
+                  {(plan.comingSoon || !available) && (
                     <Badge className="absolute top-4 right-4 bg-slate-600 text-white hover:bg-slate-600 border-0">
                       {t('comingSoon')}
                     </Badge>
@@ -416,7 +416,7 @@ export default function PricesClient() {
                       ))}
                     </ul>
                     <div className="mt-auto">
-                      {plan.comingSoon ? (
+                      {plan.comingSoon || !available ? (
                         <Button
                           className="w-full bg-slate-700 hover:bg-slate-700 text-slate-300 cursor-not-allowed"
                           disabled
