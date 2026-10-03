@@ -27,6 +27,14 @@ const DEV_PREMIUM: ServerSubscriptionStatus = {
   purchasedPages: [],
 };
 
+const DEV_CREATOR: ServerSubscriptionStatus = {
+  plan: 'creator',
+  status: 'active',
+  currentPeriodEnd: null,
+  billingCycle: 'monthly',
+  purchasedPages: [],
+};
+
 const DEV_PRO: ServerSubscriptionStatus = {
   plan: 'pro',
   status: 'active',
@@ -70,14 +78,19 @@ export async function getServerSubscriptionStatus(): Promise<ServerSubscriptionS
   const premiumJoEmail = process.env.PROMPT_STUDIO_PREMIUM_JO
     ?.trim()
     .toLowerCase();
+  const creatorJoEmail = process.env.PROMPT_STUDIO_CREATOR_JO?.trim().toLowerCase();
   const proJoEmail = process.env.PROMPT_STUDIO_PRO_JO?.trim().toLowerCase();
-  const studioJoEmail = process.env.PROMPT_STUDIO_STARTUP_JO
+  const studioJoEmail = (process.env.PROMPT_STUDIO_STUDIO_JO || process.env.PROMPT_STUDIO_STARTUP_JO)
     ?.trim()
     .toLowerCase();
   const purchasedPages = Array.isArray(meta.purchasedPages) ? meta.purchasedPages : [];
 
   if (premiumJoEmail && userEmail === premiumJoEmail) {
     return { ...DEV_PREMIUM, purchasedPages };
+  }
+
+  if (creatorJoEmail && userEmail === creatorJoEmail) {
+    return { ...DEV_CREATOR, purchasedPages };
   }
 
   if (proJoEmail && userEmail === proJoEmail) {
