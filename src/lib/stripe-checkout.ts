@@ -66,7 +66,7 @@ export function getPlanPriceFromConfig(plan: PaidPlanId, isAnnual: boolean): num
   const prices = {
     premium: { monthly: 9, annual: 90 },
     creator: { monthly: 19, annual: 190 },
-    pro: { monthly: 25, annual: 250 },
+    pro: { monthly: 29, annual: 290 },
     studio: { monthly: 39, annual: 390 },
   } as const;
   return prices[plan][isAnnual ? 'annual' : 'monthly'];
