@@ -78,3 +78,10 @@ test('crowdfunding progress is sourced from paid Stripe webhook records',()=>{
  assert.match(model,/stripeCheckoutSessionId/);
  assert.match(page,/CrowdfundingProgress/);
 });
+
+test('crowdfunding page discloses the planned three-month campaign duration',()=>{
+ const page=fs.readFileSync('src/app/[locale]/crowdfunding/page.tsx','utf8');
+ assert.match(page,/3 months from the official launch date/);
+ assert.match(page,/3 meses desde la fecha oficial de lanzamiento/);
+ assert.match(page,/Founder Credits remain pending during that period|Founder Credits no se entregan inmediatamente|Founder Credits permanecen pendientes/);
+});
