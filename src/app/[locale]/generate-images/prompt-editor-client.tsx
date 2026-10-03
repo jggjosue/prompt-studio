@@ -242,6 +242,8 @@ export default function PromptEditorClient({ canGenerate }: { canGenerate: boole
   const [imageStyle, setImageStyle] = useState('cinematic');
   const [imageRatio, setImageRatio] = useState('1-1');
   const [imageRes, setImageRes] = useState('1k');
+  // Image quality tier: lite-1k | quality-1k | quality-2k | quality-4k
+  const [imageQualityTier, setImageQualityTier] = useState<'lite-1k' | 'quality-1k' | 'quality-2k' | 'quality-4k'>('quality-1k');
   const [imageFormat, setImageFormat] = useState('png');
   const [imageLighting, setImageLighting] = useState('volumetric');
   const [imageCamera, setImageCamera] = useState('eye-level');
@@ -656,13 +658,23 @@ export default function PromptEditorClient({ canGenerate }: { canGenerate: boole
       }
     }
 
-    // Cost definition: Image = 1.0, Video = 3.0, Web = 2.0 credits
-    const creditCost = activeTab === 'ai-video' ? 3.0 : activeTab === 'ai-web' ? 2.0 : imageVariationPack ? 8.0 : 1.0;
+    // Credit cost table:
+    //   Image: lite-1k=7, quality-1k=10, quality-2k=18, quality-4k=28 (x8 if variation pack)
+    //   Video: per-second cost × duration (4s=12, 8s=20, 12s=30, 16s=40)
+    //   Web: 15 credits
+    const imageTierCost: Record<string, number> = { 'lite-1k': 7, 'quality-1k': 10, 'quality-2k': 18, 'quality-4k': 28 };
+    const videoDurationCost: Record<string, number> = { '4': 12, '8': 20, '12': 30, '16': 40 };
+    const baseImageCost = imageTierCost[imageQualityTier] ?? 10;
+    const creditCost = activeTab === 'ai-video'
+      ? (videoDurationCost[videoDuration] ?? 20)
+      : activeTab === 'ai-web'
+      ? 15
+      : imageVariationPack ? baseImageCost * 8 : baseImageCost;
     if (credits < creditCost) {
       toast({
         variant: 'destructive',
-        title: 'Credits Exhausted',
-        description: `This action requires ${creditCost.toFixed(1)} credits, but you only have ${credits.toFixed(1)}. Please reset your credits or configure custom keys.`,
+        title: 'Créditos insuficientes',
+        description: `Esta acción requiere ${creditCost} créditos, pero solo tienes ${credits.toFixed(0)}. Compra más créditos o elige un tier más bajo.`,
       });
       return;
     }
@@ -1509,16 +1521,17 @@ Requirements:
                                         </div>
 
                                         <div className="space-y-1.5">
-                                          <Label className="text-xs font-semibold">Output Quality</Label>
+                                          <Label className="text-xs font-semibold">Output Quality / Tier</Label>
                                           <div className="flex gap-2">
-                                            <Select value={imageRes} onValueChange={setImageRes}>
+                                            <Select value={imageQualityTier} onValueChange={(v) => setImageQualityTier(v as any)}>
                                               <SelectTrigger className="text-xs h-9 bg-background flex-1">
                                                 <SelectValue />
                                               </SelectTrigger>
                                               <SelectContent>
-                                                <SelectItem value="1k" className="text-xs">1K Resolution</SelectItem>
-                                                <SelectItem value="2k" className="text-xs">2K Ultra HD</SelectItem>
-                                                <SelectItem value="4k" className="text-xs">4K Print Quality</SelectItem>
+                                                <SelectItem value="lite-1k" className="text-xs">⚡ Lite 1K — 7 créditos</SelectItem>
+                                                <SelectItem value="quality-1k" className="text-xs">✨ Quality 1K — 10 créditos</SelectItem>
+                                                <SelectItem value="quality-2k" className="text-xs">🔷 Quality 2K — 18 créditos</SelectItem>
+                                                <SelectItem value="quality-4k" className="text-xs">💎 Quality 4K — 28 créditos</SelectItem>
                                               </SelectContent>
                                             </Select>
                                             <Select value={imageFormat} onValueChange={setImageFormat}>
@@ -2075,16 +2088,17 @@ Requirements:
                                         </div>
 
                                         <div className="space-y-1.5">
-                                          <Label className="text-xs font-semibold">Output Quality</Label>
+                                          <Label className="text-xs font-semibold">Output Quality / Tier</Label>
                                           <div className="flex gap-2">
-                                            <Select value={imageRes} onValueChange={setImageRes}>
+                                            <Select value={imageQualityTier} onValueChange={(v) => setImageQualityTier(v as any)}>
                                               <SelectTrigger className="text-xs h-9 bg-background flex-1">
                                                 <SelectValue />
                                               </SelectTrigger>
                                               <SelectContent>
-                                                <SelectItem value="1k" className="text-xs">1K Resolution</SelectItem>
-                                                <SelectItem value="2k" className="text-xs">2K Ultra HD</SelectItem>
-                                                <SelectItem value="4k" className="text-xs">4K Print Quality</SelectItem>
+                                                <SelectItem value="lite-1k" className="text-xs">⚡ Lite 1K — 7 créditos</SelectItem>
+                                                <SelectItem value="quality-1k" className="text-xs">✨ Quality 1K — 10 créditos</SelectItem>
+                                                <SelectItem value="quality-2k" className="text-xs">🔷 Quality 2K — 18 créditos</SelectItem>
+                                                <SelectItem value="quality-4k" className="text-xs">💎 Quality 4K — 28 créditos</SelectItem>
                                               </SelectContent>
                                             </Select>
                                             <Select value={imageFormat} onValueChange={setImageFormat}>
@@ -2487,6 +2501,54 @@ Requirements:
                               </Accordion>
 
                               <GenerationCostDisclosure kind={activeTab === 'ai-video' ? 'video' : activeTab === 'ai-web' || activeTab === 'pure-text' ? 'project' : 'image'} provider={activeTab === 'ai-video' ? videoProvider : activeTab === 'ai-web' ? webProvider : activeTab === 'pure-text' ? chatProvider : imageProvider} showCosts={false} />
+
+                              {/* ── Credit Quote Panel ── */}
+                              {(() => {
+                                const imageTierCostQ: Record<string, number> = { 'lite-1k': 7, 'quality-1k': 10, 'quality-2k': 18, 'quality-4k': 28 };
+                                const videoDurationCostQ: Record<string, number> = { '4': 12, '8': 20, '12': 30, '16': 40 };
+                                const baseImgCost = imageTierCostQ[imageQualityTier] ?? 10;
+                                const estimatedCost = activeTab === 'ai-video'
+                                  ? (videoDurationCostQ[videoDuration] ?? 20)
+                                  : activeTab === 'ai-web'
+                                  ? 15
+                                  : imageVariationPack ? baseImgCost * 8 : baseImgCost;
+                                const afterBalance = Math.max(0, credits - estimatedCost);
+                                const insufficient = credits < estimatedCost;
+                                return (
+                                  <div className={`rounded-xl border p-3 text-xs space-y-2 ${
+                                    insufficient
+                                      ? 'border-red-500/40 bg-red-500/[.06]'
+                                      : 'border-blue-500/20 bg-blue-500/[.05]'
+                                  }`}>
+                                    <div className="flex items-center justify-between font-semibold text-[11px] uppercase tracking-wider opacity-60">
+                                      <span>Resumen de créditos</span>
+                                      {insufficient && <span className="text-red-400">⚠ Insuficientes</span>}
+                                    </div>
+                                    <div className="grid grid-cols-3 gap-2">
+                                      <div className="flex flex-col items-center rounded-lg border border-white/10 bg-white/[.03] p-2 text-center">
+                                        <span className="opacity-50 text-[10px] mb-0.5">Costo estimado</span>
+                                        <span className="font-black text-base tabular-nums text-blue-400">~{estimatedCost}</span>
+                                        <span className="opacity-40 text-[9px]">créditos</span>
+                                      </div>
+                                      <div className="flex flex-col items-center rounded-lg border border-white/10 bg-white/[.03] p-2 text-center">
+                                        <span className="opacity-50 text-[10px] mb-0.5">Disponibles</span>
+                                        <span className={`font-black text-base tabular-nums ${
+                                          insufficient ? 'text-red-400' : 'text-emerald-400'
+                                        }`}>{credits.toFixed(0)}</span>
+                                        <span className="opacity-40 text-[9px]">créditos</span>
+                                      </div>
+                                      <div className="flex flex-col items-center rounded-lg border border-white/10 bg-white/[.03] p-2 text-center">
+                                        <span className="opacity-50 text-[10px] mb-0.5">Tras generar</span>
+                                        <span className={`font-black text-base tabular-nums ${
+                                          insufficient ? 'text-red-400' : 'text-slate-300'
+                                        }`}>~{afterBalance.toFixed(0)}</span>
+                                        <span className="opacity-40 text-[9px]">créditos</span>
+                                      </div>
+                                    </div>
+                                    <p className="text-[10px] opacity-40 leading-4">Los créditos se descuentan solo cuando la generación es exitosa. No se restan si la API no responde.</p>
+                                  </div>
+                                );
+                              })()}
 
                               {/* Trigger button */}
                               {(() => {
