@@ -40,6 +40,7 @@ export function validateCreditSaleEconomics(input: {
   const providerReserveUsd = MAX_PROVIDER_COST_PER_CREDIT_USD;
   const overheadReserveUsd = PLATFORM_OVERHEAD_RESERVE_PER_CREDIT_USD;
   const contributionUsd = netAfterPaymentReserveUsd - providerReserveUsd - overheadReserveUsd;
+  const contributionMarginPercent = grossPerCreditUsd > 0 ? (contributionUsd / grossPerCreditUsd) * 100 : 0;
 
   return {
     grossPerCreditUsd,
@@ -47,7 +48,7 @@ export function validateCreditSaleEconomics(input: {
     providerReserveUsd,
     overheadReserveUsd,
     contributionUsd,
-    contributionMarginPercent: grossPerCreditUsd > 0 ? (contributionUsd / grossPerCreditUsd) * 100 : 0,
+    contributionMarginPercent,
     minimumContributionMarginPercent: TARGET_CONTRIBUTION_MARGIN_PERCENT,
     eligible:
       grossPerCreditUsd >= PROMPT_CREDIT_FLOOR_VALUE_USD &&
