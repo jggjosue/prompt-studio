@@ -269,7 +269,7 @@ export async function POST(req: Request) {
             bonusCredits: founderReward.bonusCredits,
             totalCredits: founderReward.totalCredits,
             rewardTier: founderReward.rewardTier,
-            paidAt: new Date(),
+            paidAt: new Date(session.created * 1000),
           });
           break;
         }
