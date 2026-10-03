@@ -1,12 +1,35 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocale } from 'next-intl';
-import { LockKeyhole } from 'lucide-react';
+import { LockKeyhole, Sparkles } from 'lucide-react';
 import { trackAnalyticsEvent } from '@/lib/analytics';
 import { trackInterest } from '@/lib/interest-analytics';
 import { buildCrowdfundingCheckoutUrl } from '@/lib/crowdfunding-checkout';
 
 const PRESETS = [10, 25, 50, 100, 250, 500, 1000] as const;
+
+/** 1 Prompt Credit = $0.01 USD — same rule as plans and top-ups. */
+const FOUNDER_BASE_CREDITS_PER_USD = 100;
+
+const BONUS_TIERS = [
+  { pledgeAmountCents: 100000, bonusPercent: 20 },
+  { pledgeAmountCents:  50000, bonusPercent: 17 },
+  { pledgeAmountCents:  25000, bonusPercent: 15 },
+  { pledgeAmountCents:  10000, bonusPercent: 12 },
+  { pledgeAmountCents:   5000, bonusPercent: 10 },
+  { pledgeAmountCents:   2500, bonusPercent:  7 },
+  { pledgeAmountCents:   1000, bonusPercent:  5 },
+] as const;
+
+function calcCredits(amountUsd: number) {
+  if (!Number.isFinite(amountUsd) || amountUsd <= 0) return null;
+  const cents = Math.round(amountUsd * 100);
+  const tier = BONUS_TIERS.find((t) => cents >= t.pledgeAmountCents);
+  const base = Math.floor((cents / 100) * FOUNDER_BASE_CREDITS_PER_USD);
+  const bonusPct = tier?.bonusPercent ?? 0;
+  const bonus = Math.floor(base * bonusPct / 100);
+  return { base, bonusPct, bonus, total: base + bonus };
+}
 
 type CrowdfundingCheckoutProps = {
   amount: number;
@@ -20,8 +43,11 @@ export function CrowdfundingCheckout({ amount, customAmount, onAmountChange, onC
   const es = locale.startsWith('es');
   const [error, setError] = useState('');
 
+  const effectiveAmount = customAmount ? Number(customAmount) : amount;
+  const preview = calcCredits(effectiveAmount);
+
   const checkout = () => {
-    const selected = customAmount ? Number(customAmount) : amount;
+    const selected = effectiveAmount;
     if (!Number.isFinite(selected) || selected < 10 || selected > 10000) {
       setError(es ? 'El aporte debe estar entre $10 y $10,000 USD.' : 'Contribution must be between $10 and $10,000 USD.');
       return;
@@ -45,6 +71,7 @@ export function CrowdfundingCheckout({ amount, customAmount, onAmountChange, onC
       </div>
       <h2 className="mt-3 text-3xl font-black text-white">{es ? 'Apoya el crowdfunding' : 'Support the crowdfunding'}</h2>
       <p className="mt-3 text-slate-300">{es ? 'Elige un monto o escribe otro. Stripe procesa el pago de forma segura.' : 'Choose an amount or enter another one. Stripe securely processes the payment.'}</p>
+
       <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7">
         {PRESETS.map(value => (
           <button
@@ -66,6 +93,7 @@ export function CrowdfundingCheckout({ amount, customAmount, onAmountChange, onC
           </button>
         ))}
       </div>
+
       <label className="mt-5 block text-sm font-semibold text-slate-200">
         {es ? 'Otro monto (USD)' : 'Other amount (USD)'}
         <input
@@ -79,6 +107,30 @@ export function CrowdfundingCheckout({ amount, customAmount, onAmountChange, onC
           className="mt-2 h-12 w-full rounded-xl border border-white/15 bg-white/[.06] px-4 text-white outline-none focus:border-cyan-300"
         />
       </label>
+
+      {/* Credit preview — shown for any valid amount */}
+      {preview && (
+        <div className="mt-5 rounded-2xl border border-cyan-300/20 bg-cyan-500/[.06] px-5 py-4">
+          <p className="text-xs font-semibold uppercase tracking-widest text-cyan-400/70">
+            {es ? 'Recibirás' : "You'll receive"}
+          </p>
+          <p className="mt-1 text-3xl font-black text-white tabular-nums">
+            {preview.total.toLocaleString()}{' '}
+            <span className="text-base font-medium text-slate-300">Founder Credits</span>
+          </p>
+          <div className="mt-2 flex flex-wrap gap-3 text-xs text-slate-400">
+            <span>{preview.base.toLocaleString()} {es ? 'base' : 'base'}</span>
+            {preview.bonusPct > 0 && (
+              <span className="flex items-center gap-1 text-emerald-400">
+                <Sparkles className="h-3 w-3" />
+                +{preview.bonus.toLocaleString()} bonus ({preview.bonusPct}%)
+              </span>
+            )}
+            <span className="text-slate-500">· 1 cr = $0.01 USD</span>
+          </div>
+        </div>
+      )}
+
       <button
         type="button"
         onClick={checkout}
