@@ -9,3 +9,13 @@ export function isPromptStudioAdminEmail(email: string | null | undefined): bool
     process.env.PROMPT_STUDIO_PREMIUM_JO,
   ].some(candidate => candidate?.trim().toLowerCase() === normalized);
 }
+
+export function isUnlimitedCreditsAdmin(email: string | null | undefined): boolean {
+  const normalized = email?.trim().toLowerCase();
+  if (!normalized) return false;
+
+  return [
+    process.env.PROMPT_STUDIO_PREMIUM_JO,
+    process.env.PROMPT_STUDIO_STARTUP_JO,
+  ].some(candidate => !!candidate && candidate.trim().toLowerCase() === normalized);
+}
