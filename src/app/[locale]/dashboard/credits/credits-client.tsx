@@ -88,6 +88,19 @@ export function CreditsClient() {
   }, []);
 
   useEffect(() => {
+    if (!data) return;
+    const params = new URLSearchParams(window.location.search);
+    const packId = params.get('packId');
+    if (packId && !checkout && !activePack) {
+      const pack = data.packs.find(p => p.id === packId);
+      if (pack) {
+        window.history.replaceState({}, '', window.location.pathname);
+        void openCheckout(pack);
+      }
+    }
+  }, [data, openCheckout, checkout, activePack]);
+
+  useEffect(() => {
     if (!checkout || !mountRef.current) return;
     let active = true;
     void loadStripeScript().then(async () => {

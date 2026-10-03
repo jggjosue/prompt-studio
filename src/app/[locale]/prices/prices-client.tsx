@@ -16,6 +16,7 @@ import {
   isPlanAvailable,
 } from '@/lib/stripe-checkout';
 import { getPlanCredits, getPlanPrice as getConfiguredPlanPrice, type PlanId } from '@/lib/subscription-plans';
+import { CREDIT_PACKS, formatCreditPackPrice, centsPerCredit } from '@/lib/credit-packs';
 import { useAuth } from '@clerk/nextjs';
 import { Check, Crown, Sparkles, Zap } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -360,14 +361,33 @@ export default function PricesClient() {
             <p className="mt-5 text-xs leading-5 text-muted-foreground">{t('creditMarginNote')}</p>
           </section>
 
-          <section className="mt-10 rounded-3xl border border-blue-500/20 bg-blue-500/[.04] p-6 text-center sm:p-8">
-            <h2 className="text-xl font-bold">{t('buyMoreCreditsTitle')}</h2>
-            <p className="mx-auto mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
-              {t('buyMoreCreditsDescription')}
-            </p>
-            <Button asChild className="mt-5 bg-blue-600 text-white hover:bg-blue-700">
-              <Link href="/dashboard/credits">{t('buyMoreCreditsCta')}</Link>
-            </Button>
+          <section className="mt-14">
+            <div className="text-center mb-10">
+              <h2 className="text-3xl sm:text-4xl font-bold font-headline mb-4">{t('buyMoreCreditsTitle')}</h2>
+              <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
+                {t('buyMoreCreditsDescription')}
+              </p>
+            </div>
+            <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-5">
+              {CREDIT_PACKS.map(pack => {
+                const baseRate = centsPerCredit(CREDIT_PACKS[0]);
+                const savingsPercent = Math.round((1 - centsPerCredit(pack) / baseRate) * 100);
+                
+                return (
+                  <article key={pack.id} className={`relative flex flex-col rounded-2xl border bg-card p-5 shadow-sm ${pack.featured ? 'border-primary ring-1 ring-primary/30' : ''}`}>
+                    {pack.featured && <span className="absolute -top-2.5 left-5 rounded-full bg-primary px-2.5 py-0.5 text-xs font-semibold text-primary-foreground">Más elegido</span>}
+                    <p className="text-2xl font-bold">{pack.credits} <span className="text-base font-medium text-muted-foreground">créditos</span></p>
+                    {pack.bonusCredits > 0 && <p className="mt-1 flex items-center gap-1 text-sm font-medium text-emerald-600 dark:text-emerald-400"><Sparkles className="size-3.5" /> {pack.bonusCredits} de regalo</p>}
+                    <p className="mt-3 text-sm text-muted-foreground">{pack.description.es}</p>
+                    <p className="mt-4 text-xl font-semibold">{formatCreditPackPrice(pack, 'es')}</p>
+                    {savingsPercent > 0 && <p className="text-xs text-muted-foreground">Ahorras un {savingsPercent}% por crédito</p>}
+                    <Button className="mt-5 w-full" asChild>
+                       <Link href={`/dashboard/credits?packId=${pack.id}`}>Comprar créditos</Link>
+                    </Button>
+                  </article>
+                );
+              })}
+            </div>
           </section>
 
           <p className="text-center text-sm text-muted-foreground mt-12 max-w-2xl mx-auto">
