@@ -65,9 +65,9 @@ export const AI_MODEL_CONFIG: Record<string, AIModelConfig> = {
   'google:veo-3.1-lite-generate-preview': model({ provider: 'google', modelId: 'veo-3.1-lite-generate-preview', category: 'video', minimumCredits: 180, videoPriceUsdPerSecond: 0.05, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
   'google:gemini-omni-flash': model({ provider: 'google', modelId: 'gemini-omni-flash', category: 'video', minimumCredits: 15, videoPriceUsdPerSecond: null, defaultOutputTokens: 0, pricingStatus: 'unverified', enabled: true }),
   'openai:gpt-4o': model({ provider: 'openai', modelId: 'gpt-4o', category: 'project', minimumCredits: 4, inputTokenPriceUsdPerMillion: 2.50, outputTokenPriceUsdPerMillion: 10, defaultOutputTokens: 4_000, pricingStatus: 'legacy-estimate', enabled: true }),
-  'openai:dall-e-3': model({ provider: 'openai', modelId: 'dall-e-3', category: 'image', minimumCredits: 10, imagePriceUsd: 0.04, defaultOutputTokens: 0, pricingStatus: 'legacy-estimate', enabled: true }),
-  'openai:gpt-image-1-mini': model({ provider: 'openai', modelId: 'gpt-image-1-mini', category: 'image', minimumCredits: 15, imagePriceUsd: null, defaultOutputTokens: 0, pricingStatus: 'unverified', enabled: true }),
-  'fal:fal-ai/flux/schnell': model({ provider: 'fal', modelId: 'fal-ai/flux/schnell', category: 'image', minimumCredits: 10, imagePriceUsd: null, defaultOutputTokens: 0, pricingStatus: 'unverified', enabled: true }),
+  'openai:dall-e-3': model({ provider: 'openai', modelId: 'dall-e-3', category: 'image', minimumCredits: 10, imagePriceUsd: 0.04, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
+  'openai:gpt-image-1-mini': model({ provider: 'openai', modelId: 'gpt-image-1-mini', category: 'image', minimumCredits: 15, imagePriceUsd: 0.04, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
+  'fal:fal-ai/flux/schnell': model({ provider: 'fal', modelId: 'fal-ai/flux/schnell', category: 'image', minimumCredits: 10, imagePriceUsd: 0.003, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
   'anthropic:claude-3-5-sonnet-20240620': model({ provider: 'anthropic', modelId: 'claude-3-5-sonnet-20240620', category: 'project', minimumCredits: 8, inputTokenPriceUsdPerMillion: 3, outputTokenPriceUsdPerMillion: 15, defaultOutputTokens: 4_000, pricingStatus: 'legacy-estimate', enabled: true }),
 };
 
