@@ -13,8 +13,6 @@ const VIDEO_USD_PER_SECOND: Record<string, Partial<Record<VideoResolution, numbe
   'vertex:veo-3.1-fast-generate-001:video': { '720p': 0.08, '1080p': 0.10, '4k': 0.25 },
   'vertex:veo-3.1-generate-001:audio': { '720p': 0.40, '1080p': 0.40, '4k': 0.60 },
   'vertex:veo-3.1-generate-001:video': { '720p': 0.20, '1080p': 0.20, '4k': 0.40 },
-  'openai:sora-2': { '720p': 0.10 },
-  'openai:sora-2-pro': { '720p': 0.30, '1024p': 0.50, '1080p': 0.70 },
 };
 
 export function quoteVideoProviderCost(input: {
