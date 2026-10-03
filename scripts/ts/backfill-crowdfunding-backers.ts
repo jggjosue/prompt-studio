@@ -1,7 +1,8 @@
 import 'dotenv/config';
 
+import type { HydratedDocument } from 'mongoose';
 import connectToDatabase from '../../src/lib/mongoose';
-import CrowdfundingBacker from '../../src/models/CrowdfundingBacker';
+import CrowdfundingBacker, { type ICrowdfundingBacker } from '../../src/models/CrowdfundingBacker';
 import CrowdfundingContribution from '../../src/models/CrowdfundingContribution';
 import CrowdfundingSequence from '../../src/models/CrowdfundingSequence';
 import FounderCreditClaim from '../../src/models/FounderCreditClaim';
@@ -25,7 +26,7 @@ async function main() {
         .sort({ paidAt: 1, createdAt: 1, _id: 1 })
         .session(session);
 
-      const backersByIdentity = new Map<string, InstanceType<typeof CrowdfundingBacker>>();
+      const backersByIdentity = new Map<string, HydratedDocument<ICrowdfundingBacker>>();
       let nextNumber = 0;
 
       for (const contribution of contributions) {
