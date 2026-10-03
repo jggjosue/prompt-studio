@@ -41,6 +41,9 @@ export async function recordCrowdfundingContribution(input: RecordContributionIn
         .session(mongoSession);
 
       if (existing) {
+        if (!existing.backerNumber || !existing.backerId || !existing.campaignId) {
+          throw new Error('CROWDFUNDING_BACKER_BACKFILL_REQUIRED');
+        }
         result = {
           backerNumber: existing.backerNumber,
           backerId: String(existing.backerId),
@@ -234,7 +237,14 @@ export async function markCrowdfundingContributionRefunded(input: {
       );
 
       if (!backer) return;
-      const nextStatus = backer.totalCredits > 0 ? 'pending' : 'cancelled';
+      const nextStatus =
+        backer.totalCredits <= 0
+          ? 'cancelled'
+          : backer.creditStatus === 'claimed'
+            ? 'claimed'
+            : backer.creditStatus === 'eligible'
+              ? 'eligible'
+              : 'pending';
       await CrowdfundingBacker.updateOne(
         { _id: backer._id },
         { $set: { creditStatus: nextStatus, updatedAt: new Date() } },
