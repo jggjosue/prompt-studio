@@ -1,4 +1,6 @@
-type PaidPlanId = 'premium' | 'creator' | 'pro' | 'studio';
+import { SUBSCRIPTION_CATALOG, type PaidCommercialPlanId } from '@/lib/commercial-pricing';
+
+type PaidPlanId = PaidCommercialPlanId;
 
 function withClientReference(base: string, userId?: string | null): string {
   if (!base || !userId) return base;
@@ -63,11 +65,6 @@ export function isStudioPlanAvailable(isAnnual = false): boolean {
 }
 
 export function getPlanPriceFromConfig(plan: PaidPlanId, isAnnual: boolean): number {
-  const prices = {
-    premium: { monthly: 9, annual: 90 },
-    creator: { monthly: 19, annual: 190 },
-    pro: { monthly: 29, annual: 290 },
-    studio: { monthly: 39, annual: 390 },
-  } as const;
-  return prices[plan][isAnnual ? 'annual' : 'monthly'];
+  const configured = SUBSCRIPTION_CATALOG[plan];
+  return isAnnual ? configured.annualPriceUsd : configured.monthlyPriceUsd;
 }
