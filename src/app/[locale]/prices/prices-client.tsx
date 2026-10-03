@@ -83,7 +83,7 @@ function PaidPlanPrice({ isAnnual, monthly, yearly }: { isAnnual: boolean; month
   );
 }
 
-function CreatorCoupon({ planId, isAnnual }: { planId: PlanId | 'premium'; isAnnual: boolean }) {
+function CreatorCoupon({ planId, isAnnual }: { planId: PlanId; isAnnual: boolean }) {
   const tPrices = useTranslations('prices');
   const couponCode = isAnnual ? 'CREATOR_ANNUAL' : 'CREATOR_MONTH';
 
@@ -93,7 +93,7 @@ function CreatorCoupon({ planId, isAnnual }: { planId: PlanId | 'premium'; isAnn
         {tPrices('creatorCouponLabel')}
       </p>
       <p className="mt-1 text-sm font-semibold text-foreground">
-        {planId === 'creator'
+        {planId === 'premium'
           ? isAnnual
             ? tPrices('creatorAnnualCouponOffer')
             : tPrices('creatorMonthlyCouponOffer')
