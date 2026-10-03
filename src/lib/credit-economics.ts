@@ -48,8 +48,9 @@ export function validateCreditSaleEconomics(input: {
     overheadReserveUsd,
     contributionUsd,
     contributionMarginPercent: grossPerCreditUsd > 0 ? (contributionUsd / grossPerCreditUsd) * 100 : 0,
+    minimumContributionMarginPercent: TARGET_CONTRIBUTION_MARGIN_PERCENT,
     eligible:
       grossPerCreditUsd >= PROMPT_CREDIT_FLOOR_VALUE_USD &&
-      contributionUsd > 0,
+      contributionMarginPercent + 1e-9 >= TARGET_CONTRIBUTION_MARGIN_PERCENT,
   };
 }
