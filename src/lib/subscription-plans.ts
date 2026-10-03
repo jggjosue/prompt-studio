@@ -3,7 +3,7 @@
  * free < premium < creator < pro < studio.
  *
  * Créditos por ciclo mensual:
- * - Free: 1 crédito inicial
+ * - Free: 0 créditos de IA durante la campaña
  * - Premium: $9/mes · 500 Prompt Credits
  * - Creator: $19/mes · 1,000 Prompt Credits
  * - Pro: $25/mes · 1,500 Prompt Credits
@@ -59,7 +59,7 @@ export function getPlanPrice(plan: PlanId, cycle: BillingCycle): number {
 }
 
 export function getPlanCredits(plan: PlanId, cycle: BillingCycle = 'monthly'): number {
-  if (plan === 'free') return 1;
+  if (plan === 'free') return 0;
   const monthly = PLAN_MONTHLY_CREDITS[plan];
   return cycle === 'annual' ? monthly * 12 : monthly;
 }
