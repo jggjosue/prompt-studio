@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     locale,
     client_reference_id: userId,
     line_items: [{ quantity: 1, price_data: { currency: 'usd', unit_amount: amountCents, product_data: { name: 'Prompt Studio Founder contribution', description: `$${(amountCents / 100).toLocaleString()} contribution · ${totalCredits.toLocaleString()} estimated Founder Credits` } } }],
-    metadata: { purchaseType: 'founder_crowdfunding', purchaserUserId: userId, amountCents: String(amountCents), baseCredits: String(baseCredits), bonusPercent: String(tier.bonus), bonusCredits: String(bonusCredits), totalCredits: String(totalCredits), fulfillmentStatus: 'pending_campaign_success' },
+    metadata: { purchaseType: 'founder_crowdfunding', purchaserUserId: userId, amountCents: String(amountCents), baseCredits: String(baseCredits), bonusPercent: String(tier.bonus), bonusCredits: String(bonusCredits), totalCredits: String(totalCredits), fulfillmentStatus: 'pending_campaign_end' },
     payment_intent_data: { metadata: { purchaseType: 'founder_crowdfunding', purchaserUserId: userId } },
     success_url: `${siteUrl}/${locale}/crowdfunding?support=success`,
     cancel_url: `${siteUrl}/${locale}/crowdfunding?support=cancelled`,
