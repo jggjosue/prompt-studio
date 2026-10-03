@@ -1,6 +1,7 @@
 import { validateCreditSaleEconomics } from '@/lib/credit-economics';
+import { FOUNDER_BASE_CREDITS_PER_USD, FOUNDER_REWARD_CATALOG } from '@/lib/commercial-pricing';
 
-export const FOUNDER_BASE_CREDITS_PER_USD = 80;
+export { FOUNDER_BASE_CREDITS_PER_USD } from '@/lib/commercial-pricing';
 
 /**
  * Regla de economía del Crowdfunding de Prompt Studio.
@@ -32,15 +33,7 @@ export const FOUNDER_BASE_CREDITS_PER_USD = 80;
  *   Stripe/riesgo (10%): $100
  *   Ganancia neta mín:   ~$450 (~45%)
  */
-export const FOUNDER_REWARD_TIERS = [
-  { pledgeAmountCents: 1000, bonusPercent: 5 },
-  { pledgeAmountCents: 2500, bonusPercent: 7 },
-  { pledgeAmountCents: 5000, bonusPercent: 10 },
-  { pledgeAmountCents: 10000, bonusPercent: 12 },
-  { pledgeAmountCents: 25000, bonusPercent: 15 },
-  { pledgeAmountCents: 50000, bonusPercent: 17 },
-  { pledgeAmountCents: 100000, bonusPercent: 20 },
-] as const;
+export const FOUNDER_REWARD_TIERS = FOUNDER_REWARD_CATALOG;
 
 export const MIN_FOUNDER_PLEDGE_CENTS = 1000;
 export const MAX_FOUNDER_PLEDGE_CENTS = 1_000_000;
