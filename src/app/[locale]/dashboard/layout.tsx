@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import type React from 'react';
 import { auth, clerkClient } from '@clerk/nextjs/server';
 import { SidebarNavLink } from '@/components/dashboard/sidebar-nav-link';
-import { Activity, BarChart3, Braces, Clock3, Coins, Fingerprint, Flag, FlaskConical, FolderKanban, Gauge, Layers3, Library, MailCheck, Megaphone, Palette, Rocket, ShoppingCart, Store, UserCircle, UsersRound } from 'lucide-react';
+import { Activity, BarChart3, Braces, Clock3, Coins, Fingerprint, Flag, FlaskConical, FolderKanban, Gauge, Layers3, Library, MailCheck, Megaphone, Palette, Rocket, ShoppingCart, Store, UserCircle, UsersRound, HandCoins } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import Header from '@/components/layout/header';
 import { DashboardMobileNav } from '@/components/dashboard/dashboard-mobile-nav';
@@ -223,6 +223,11 @@ export default async function DashboardLayout({
       : []),
     ...(isSuperAdmin
       ? [{
+          href: '/dashboard/crowdfunding-backers',
+          icon: <HandCoins className="h-4 w-4" />,
+          label: 'Backers crowdfunding',
+          description: 'Orden, aportes y Founder Credits',
+        }, {
           href: '/dashboard/email-sync',
           icon: <MailCheck className="h-4 w-4" />,
           label: 'Sincronización de email',

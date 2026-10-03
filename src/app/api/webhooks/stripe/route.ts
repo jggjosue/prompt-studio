@@ -24,11 +24,14 @@ import { errorFingerprint, recordObservabilityEvent, reportOperationalError } fr
 import { getPlanCredits, normalizeExistingPlan, type PlanId } from '@/lib/subscription-plans';
 import { getFounderRewardTier } from '@/lib/founder-credit-tiers';
 import { validateCreditSaleEconomics } from '@/lib/credit-economics';
+import {
+  markCrowdfundingContributionRefunded,
+  recordCrowdfundingContribution,
+} from '@/lib/crowdfunding-backer-ledger';
 import { recordConfirmedPurchase } from '@/lib/payment-analytics';
 import { areCrowdfundingCreditsActive, recordPendingSubscriptionCredits } from '@/lib/pending-subscription-credits';
 import AffiliateApplication from '@/models/AffiliateApplication';
 import ComponentPurchase from '@/models/ComponentPurchase';
-import CrowdfundingContribution from '@/models/CrowdfundingContribution';
 import MarketplaceListing from '@/models/MarketplaceListing';
 import MarketplaceRelease from '@/models/MarketplaceRelease';
 import MarketplaceAttributionEvent from '@/models/MarketplaceAttributionEvent';
@@ -255,29 +258,19 @@ export async function POST(req: Request) {
               : session.payment_intent?.id ?? null;
           const purchaserEmail = sessionAny.customer_details?.email || session.customer_email || null;
 
-          await connectToDatabase();
-          await CrowdfundingContribution.findOneAndUpdate(
-            { stripeCheckoutSessionId: session.id },
-            {
-              $set: {
-                stripePaymentIntentId: paymentIntentId,
-                purchaserUserId: sessionAny.metadata?.purchaserUserId ?? null,
-                purchaserEmail,
-                amountPaidCents,
-                currency: 'USD',
-                status: 'paid',
-                baseCredits: founderReward.baseCredits,
-                bonusCredits: founderReward.bonusCredits,
-                totalCredits: founderReward.totalCredits,
-                creditStatus: 'pending',
-                paidAt: new Date(),
-                refundedAt: null,
-                updatedAt: new Date(),
-              },
-              $setOnInsert: { createdAt: new Date() },
-            },
-            { upsert: true, returnDocument: 'after' },
-          );
+          await recordCrowdfundingContribution({
+            stripeCheckoutSessionId: session.id,
+            stripePaymentIntentId: paymentIntentId,
+            purchaserUserId: sessionAny.metadata?.purchaserUserId ?? null,
+            purchaserEmail,
+            amountPaidCents,
+            currency: 'USD',
+            baseCredits: founderReward.baseCredits,
+            bonusCredits: founderReward.bonusCredits,
+            totalCredits: founderReward.totalCredits,
+            rewardTier: founderReward.rewardTier,
+            paidAt: new Date(session.created * 1000),
+          });
           break;
         }
 
@@ -679,10 +672,7 @@ export async function POST(req: Request) {
           // saldo: los créditos pueden estar ya gastados y restarlos dejaría la
           // cuenta en negativo.
           await markCreditPurchaseRefunded(paymentIntentId);
-          await CrowdfundingContribution.updateMany(
-            { stripePaymentIntentId: paymentIntentId, status: 'paid' },
-            { $set: { status: 'refunded', creditStatus: 'cancelled', refundedAt: new Date(), updatedAt: new Date() } },
-          );
+          await markCrowdfundingContributionRefunded({ stripePaymentIntentId: paymentIntentId });
         }
         break;
       }

@@ -10,6 +10,7 @@ import {
   CreditCard,
   FolderKanban,
   MailCheck,
+  HandCoins,
   // Heart,
   // Image,
   // LayoutGrid,
@@ -53,6 +54,10 @@ export function DashboardMobileNav({
       : []),
     ...(isSuperAdmin
       ? [{
+          href: '/dashboard/crowdfunding-backers',
+          label: 'Backers crowdfunding',
+          icon: HandCoins,
+        }, {
           href: '/dashboard/email-sync',
           label: 'Sincronizar email',
           icon: MailCheck,
