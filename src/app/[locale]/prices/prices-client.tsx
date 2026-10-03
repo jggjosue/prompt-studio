@@ -86,36 +86,6 @@ function PaidPlanPrice({ isAnnual, monthly, yearly }: { isAnnual: boolean; month
   );
 }
 
-function CreatorCoupon({ planId, isAnnual }: { planId: PlanId; isAnnual: boolean }) {
-  const tPrices = useTranslations('prices');
-  const couponCode = isAnnual ? 'CREATOR_ANNUAL' : 'CREATOR_MONTH';
-
-  return (
-    <div className="mb-6 rounded-2xl border border-blue-500/40 bg-gradient-to-br from-blue-500/15 via-blue-500/5 to-emerald-500/10 p-4 shadow-[0_12px_35px_rgba(37,99,235,0.12)]">
-      <p className="text-xs font-bold uppercase tracking-[0.18em] text-blue-500 dark:text-blue-300">
-        {tPrices('creatorCouponLabel')}
-      </p>
-      <p className="mt-1 text-sm font-semibold text-foreground">
-        {planId === 'premium'
-          ? isAnnual
-            ? tPrices('creatorAnnualCouponOffer')
-            : tPrices('creatorMonthlyCouponOffer')
-          : tPrices('otherPlanCouponOffer')}
-      </p>
-      <p className="mt-3 text-xs text-muted-foreground">
-        {tPrices('creatorCouponCodeLabel')}
-      </p>
-      <code className="mt-1 block break-all font-mono text-sm font-black tracking-wide text-foreground sm:text-base">
-        {couponCode}
-      </code>
-      <p className="mt-2 text-[11px] text-muted-foreground">
-        {tPrices('creatorCouponOneTime')}
-      </p>
-    </div>
-  );
-}
-
-
 const PLAN_METADATA: PlanMetadata[] = [
   { id: 'free', nameKey: 'freeName', descKey: 'freeDesc', ctaKey: 'freeSubscribe', featuresKey: 'freeFeatures', isMostPopular: false },
   { id: 'premium', nameKey: 'premiumName', descKey: 'premiumDesc', ctaKey: 'premiumSubscribe', featuresKey: 'premiumFeatures', isMostPopular: false },
@@ -341,7 +311,6 @@ export default function PricesClient() {
                         </div>
                       )}
                     </div>
-                    {plan.id === 'premium' && <CreatorCoupon planId={plan.id} isAnnual={isAnnual} />}
                     <ul className="space-y-3 mb-8 flex-grow">
                       {plan.features.map((feature) => (
                         <li key={feature} className="flex items-start gap-3 text-sm">
@@ -389,6 +358,16 @@ export default function PricesClient() {
               ))}
             </div>
             <p className="mt-5 text-xs leading-5 text-muted-foreground">{t('creditMarginNote')}</p>
+          </section>
+
+          <section className="mt-10 rounded-3xl border border-blue-500/20 bg-blue-500/[.04] p-6 text-center sm:p-8">
+            <h2 className="text-xl font-bold">{t('buyMoreCreditsTitle')}</h2>
+            <p className="mx-auto mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
+              {t('buyMoreCreditsDescription')}
+            </p>
+            <Button asChild className="mt-5 bg-blue-600 text-white hover:bg-blue-700">
+              <Link href="/dashboard/credits">{t('buyMoreCreditsCta')}</Link>
+            </Button>
           </section>
 
           <p className="text-center text-sm text-muted-foreground mt-12 max-w-2xl mx-auto">
