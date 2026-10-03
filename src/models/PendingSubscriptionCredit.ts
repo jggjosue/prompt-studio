@@ -2,7 +2,7 @@ import mongoose, { Document, Schema } from 'mongoose';
 
 export interface IPendingSubscriptionCredit extends Document {
   userId: string;
-  plan: 'creator' | 'pro' | 'studio';
+  plan: 'premium' | 'creator' | 'pro' | 'studio';
   credits: number;
   requestId: string;
   stripeInvoiceId: string;
@@ -16,7 +16,7 @@ export interface IPendingSubscriptionCredit extends Document {
 
 const PendingSubscriptionCreditSchema = new Schema<IPendingSubscriptionCredit>({
   userId: { type: String, required: true, index: true },
-  plan: { type: String, required: true, enum: ['creator', 'pro', 'studio'], index: true },
+  plan: { type: String, required: true, enum: ['premium', 'creator', 'pro', 'studio'], index: true },
   credits: { type: Number, required: true, min: 1 },
   requestId: { type: String, required: true, unique: true, index: true },
   stripeInvoiceId: { type: String, required: true, index: true },
