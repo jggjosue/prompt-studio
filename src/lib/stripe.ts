@@ -68,7 +68,7 @@ export function resolveSubscriptionPlan(sub: Stripe.Subscription): 'premium' | '
   const amount = interval === 'year' ? unitAmount / 100 : unitAmount / 100;
   if ((interval === 'year' && amount === 90) || (interval !== 'year' && amount === 9)) return 'premium';
   if ((interval === 'year' && amount === 190) || (interval !== 'year' && amount === 19)) return 'creator';
-  if ((interval === 'year' && amount === 250) || (interval !== 'year' && amount === 25)) return 'pro';
+  if ((interval === 'year' && amount === 290) || (interval !== 'year' && amount === 29)) return 'pro';
   if ((interval === 'year' && amount === 390) || (interval !== 'year' && amount === 39)) return 'studio';
   return 'premium';
 }
