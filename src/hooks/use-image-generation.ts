@@ -1,5 +1,6 @@
 'use client';
 
+import { takeGenerationTrainingContext } from '@/lib/training/client-events';
 import type { ChatMessageResult, ChatParams } from '@/lib/chat-types';
 import { buildConfiguredImagePrompt } from '@/lib/chat-configuration';
 import {
@@ -46,7 +47,7 @@ export async function runGeneration(
     const jobRes = await fetch('/api/ai/jobs', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Idempotency-Key': idempotencyKey },
-      body: JSON.stringify({ kind: 'image', provider, model, input }),
+      body: JSON.stringify({ kind: 'image', provider, model, input, trainingContext: takeGenerationTrainingContext() }),
     });
     const jobData = await safeJson(jobRes);
     if (!jobRes.ok || !jobData || jobData.error) {
@@ -106,7 +107,7 @@ export async function runGeneration(
     updateGeneration(jobId, { status: 'completed', imageUrl: imageOutputUrl });
     trackAnalyticsEvent('generate_image', { item_category: 'image', action_source: 'generation_completed' });
     const creditCost = (jobData.job as Record<string, unknown> | undefined)?.creditCost;
-    return { result: { imageUrl: imageOutputUrl, creditsUsed: typeof creditCost === 'number' ? creditCost : 10, provider } };
+    return { result: { generationId: jobIdFromRes, imageUrl: imageOutputUrl, creditsUsed: typeof creditCost === 'number' ? creditCost : 10, provider } };
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : 'Error al conectar con el servidor.';
     updateGeneration(jobId, { status: 'failed', error: msg });

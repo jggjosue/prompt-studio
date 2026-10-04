@@ -32,6 +32,7 @@ import { useSearchParams } from 'next/navigation';
 import type { ChatGeneratorReturn, ChatQueueItem, ChatQueueStatus } from '@/lib/chat-types';
 import { ChatMode } from '@/lib/chat-types';
 import { trackInterest } from '@/lib/interest-analytics';
+import { trackTrainingEvent, trainingModalityForChatMode } from '@/lib/training/client-events';
 import { useSuperAdmin } from '@/hooks/use-super-admin';
 
 const MODE_CONFIG: Record<ChatMode, { label: string; icon: React.ReactNode; color: string; placeholder: string }> = {
@@ -171,7 +172,9 @@ export function ChatInputBar({
   const handleAddToQueue = () => {
     if (!prompt.trim()) return;
     trackInterest('generate_action', { action: 'add_to_queue', mode: selectedMode });
-    enqueue(prompt);
+    if (enqueue(prompt)) {
+      trackTrainingEvent({ eventName: 'added_to_queue', modality: trainingModalityForChatMode(selectedMode), payload: { surface: 'queue', queueLength: Math.min(queue.length + 1, 500) } });
+    }
     setPrompt('');
     setSelectedSlashCommand(null);
   };

@@ -89,7 +89,10 @@ test('occurredAt must be a plausible client clock reading', () => {
   assert.equal(code(() => parseClientTrainingEvent(event({ occurredAt: '2026-09-01T00:00:00Z' }), now)), 'OCCURRED_AT_OUT_OF_RANGE');
 });
 
-test('regenerate and edit events carry the parent generation', () => {
-  const parsed = parseClientTrainingEvent(event({ eventName: 'regenerate_clicked', parentGenerationId: 'parent_1', payload: {} }), now);
-  assert.equal(parsed.parentGenerationId, 'parent_1');
+test('edits carry the parent generation; regenerate refers to the generation being replaced', () => {
+  const edited = parseClientTrainingEvent(event({ eventName: 'prompt_edited', generationId: undefined, parentGenerationId: 'parent_1', payload: {} }), now);
+  assert.equal(edited.parentGenerationId, 'parent_1');
+  const regenerated = parseClientTrainingEvent(event({ eventName: 'regenerate_clicked', payload: {} }), now);
+  assert.equal(regenerated.generationId, '6650c0ffee0000000000aaaa');
+  assert.equal(code(() => parseClientTrainingEvent(event({ eventName: 'regenerate_clicked', generationId: undefined, payload: {} }), now)), 'GENERATION_ID_REQUIRED');
 });

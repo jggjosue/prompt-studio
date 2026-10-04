@@ -91,8 +91,13 @@ const REQUIRES_GENERATION: ReadonlySet<ClientTrainingEventName> = new Set([
   'output_viewed', 'output_saved', 'output_downloaded', 'regenerate_clicked',
   'feedback_positive', 'feedback_negative',
 ]);
-/** Events that describe a new generation derived from a previous one. */
-const REQUIRES_PARENT: ReadonlySet<ClientTrainingEventName> = new Set(['regenerate_clicked', 'prompt_edited']);
+/**
+ * Events that describe a new prompt derived from a previous generation. For
+ * regenerate_clicked the new generation does not exist yet when the user
+ * clicks; its link to the parent is recorded by the server from the job's
+ * trainingContext, so the event only needs the generation being regenerated.
+ */
+const REQUIRES_PARENT: ReadonlySet<ClientTrainingEventName> = new Set(['prompt_edited']);
 
 export type TrainingEventPayload = Record<string, string | number>;
 

@@ -1,5 +1,6 @@
 'use client';
 
+import { takeGenerationTrainingContext } from '@/lib/training/client-events';
 import type { ChatMessageResult, ChatParams } from '@/lib/chat-types';
 import {
   LONG_GENERATION_POLL_SCHEDULE,
@@ -39,7 +40,7 @@ export function useWebGeneration() {
           'Content-Type': 'application/json',
           'Idempotency-Key': crypto.randomUUID(),
         },
-        body: JSON.stringify({ kind: 'project', provider, model, input }),
+        body: JSON.stringify({ kind: 'project', provider, model, input, trainingContext: takeGenerationTrainingContext() }),
       });
 
       const jobData = await safeJson(jobRes);
@@ -88,7 +89,7 @@ export function useWebGeneration() {
       const creditsBalance = (jobData.credits as Record<string, unknown> | undefined)?.balance;
       if (typeof creditsBalance === 'number') setCredits(creditsBalance);
       const creditCost = (jobData.job as Record<string, unknown> | undefined)?.creditCost;
-      return { result: { html: cleanHTML, creditsUsed: typeof creditCost === 'number' ? creditCost : 2, provider } };
+      return { result: { generationId: jobId, html: cleanHTML, creditsUsed: typeof creditCost === 'number' ? creditCost : 2, provider } };
     } catch (err: unknown) {
       return { error: err instanceof Error ? err.message : 'Error al conectar con el servidor.' };
     }
