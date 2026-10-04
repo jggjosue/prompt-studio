@@ -95,6 +95,9 @@ const PLAN_METADATA: PlanMetadata[] = [
   { id: 'studio', nameKey: 'studioName', descKey: 'studioDesc', ctaKey: 'studioSubscribe', featuresKey: 'studioFeatures', isMostPopular: false },
 ]
 
+/** Plans shown but not purchasable yet: dashed card, "Coming Soon" badge and disabled CTA. */
+const COMING_SOON_PLANS = new Set<string>(['pro', 'studio']);
+
 export default function PricesClient() {
   const t = useTranslations('prices');
   const locale = useLocale() as 'en' | 'es';
@@ -250,18 +253,18 @@ export default function PricesClient() {
 
           <div className="mx-auto grid max-w-[90rem] grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 xl:gap-6">
             {PLANS.map((plan) => {
-              const available = plan.id === 'free' || plan.id === 'premium' || isPlanAvailable(plan.id, isAnnual);
+              const available = !COMING_SOON_PLANS.has(plan.id) && (plan.id === 'free' || plan.id === 'premium' || isPlanAvailable(plan.id, isAnnual));
 
               return (
                 <Card
                   key={plan.id}
                   className={`relative flex flex-col overflow-hidden transition-all duration-300 hover:shadow-xl ${
-                    plan.isMostPopular
+                    plan.isMostPopular && available
                       ? 'border-violet-500 shadow-lg shadow-violet-500/10 lg:scale-[1.02]'
                       : 'border-muted-foreground/20 shadow-sm'
                   } ${!available ? 'border-dashed' : ''}`}
                 >
-                                    {plan.isMostPopular && (
+                                    {plan.isMostPopular && available && (
                     <>
                       <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-violet-500 via-fuchsia-400 to-violet-500" />
                       <Badge className="absolute top-4 right-4 bg-violet-500 text-white hover:bg-violet-600">
