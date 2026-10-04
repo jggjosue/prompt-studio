@@ -10,7 +10,7 @@ import {
     upsertAffiliateSaleFromCommission,
 } from '@/lib/affiliate-mongo';
 import { registerAffiliateConversion } from '@/lib/affiliate-referral';
-import { extractSubscriptionMeta, stripe, type StripeUserMetadata } from '@/lib/stripe';
+import { extractSubscriptionMeta, resolveSubscriptionPlan, stripe, type StripeUserMetadata } from '@/lib/stripe';
 
 import { expireSubscriptionCredits, grantSubscriptionCredits } from '@/lib/ai-job-service';
 import { getComponentProductContent } from '@/lib/component-content-store';
@@ -22,7 +22,14 @@ import { applyCreditTopUp, markCreditPurchaseRefunded } from '@/lib/credit-topup
 import connectToDatabase from '@/lib/mongoose';
 import { errorFingerprint, recordObservabilityEvent, reportOperationalError } from '@/lib/observability-server';
 import { getPlanCredits, normalizeExistingPlan, type PlanId } from '@/lib/subscription-plans';
+import { getFounderRewardTier } from '@/lib/founder-credit-tiers';
+import { validateCreditSaleEconomics } from '@/lib/credit-economics';
+import {
+  markCrowdfundingContributionRefunded,
+  recordCrowdfundingContribution,
+} from '@/lib/crowdfunding-backer-ledger';
 import { recordConfirmedPurchase } from '@/lib/payment-analytics';
+import { areCrowdfundingCreditsActive, recordPendingSubscriptionCredits } from '@/lib/pending-subscription-credits';
 import AffiliateApplication from '@/models/AffiliateApplication';
 import ComponentPurchase from '@/models/ComponentPurchase';
 import MarketplaceListing from '@/models/MarketplaceListing';
@@ -40,7 +47,7 @@ async function updateUserSubscription(
   stripeCustomerId: string
 ) {
   const client = await clerkClient();
-  const plan = (subscription.metadata?.plan as 'creator' | 'pro' | 'studio') ?? 'creator';
+  const plan = resolveSubscriptionPlan(subscription);
   const user = await client.users.getUser(clerkUserId);
   const meta = user.privateMetadata as AffiliatePrivateMetadata;
   await client.users.updateUserMetadata(clerkUserId, {
@@ -144,6 +151,31 @@ function parseClientReference(value: string | null | undefined): { buyerKey: str
   };
 }
 
+
+function normalizePaymentLinkUrl(value: string): string {
+  try {
+    const url = new URL(value);
+    return `${url.origin}${url.pathname}`.replace(/\/$/, '');
+  } catch {
+    return value.split('?')[0]?.replace(/\/$/, '') ?? value;
+  }
+}
+
+async function isCrowdfundingPaymentLink(session: Stripe.Checkout.Session): Promise<boolean> {
+  if (session.metadata?.purchaseType === 'founder_crowdfunding') return true;
+
+  const configuredUrl = process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_CROWFUNDING?.trim();
+  if (!configuredUrl || !session.payment_link) return false;
+
+  const paymentLinkId =
+    typeof session.payment_link === 'string'
+      ? session.payment_link
+      : session.payment_link.id;
+
+  const paymentLink = await stripe.paymentLinks.retrieve(paymentLinkId);
+  return normalizePaymentLinkUrl(paymentLink.url) === normalizePaymentLinkUrl(configuredUrl);
+}
+
 export async function POST(req: Request) {
   const body = await req.text();
   const sig = (await headers()).get('stripe-signature');
@@ -209,6 +241,38 @@ export async function POST(req: Request) {
           currency: session.currency,
           userId: sessionAny.metadata?.purchaserUserId ?? clientRef.buyerKey ?? null,
         });
+
+        const founderCrowdfundingPayment =
+          session.mode === 'payment' && await isCrowdfundingPaymentLink(session);
+
+        if (founderCrowdfundingPayment) {
+          const amountPaidCents = session.amount_total ?? 0;
+          const currency = (session.currency ?? '').toUpperCase();
+          const founderReward = getFounderRewardTier(amountPaidCents);
+          if (amountPaidCents <= 0 || currency !== 'USD' || !founderReward) {
+            throw new Error(`Invalid crowdfunding payment for ${session.id}`);
+          }
+          const paymentIntentId =
+            typeof session.payment_intent === 'string'
+              ? session.payment_intent
+              : session.payment_intent?.id ?? null;
+          const purchaserEmail = sessionAny.customer_details?.email || session.customer_email || null;
+
+          await recordCrowdfundingContribution({
+            stripeCheckoutSessionId: session.id,
+            stripePaymentIntentId: paymentIntentId,
+            purchaserUserId: sessionAny.metadata?.purchaserUserId ?? null,
+            purchaserEmail,
+            amountPaidCents,
+            currency: 'USD',
+            baseCredits: founderReward.baseCredits,
+            bonusCredits: founderReward.bonusCredits,
+            totalCredits: founderReward.totalCredits,
+            rewardTier: founderReward.rewardTier,
+            paidAt: new Date(session.created * 1000),
+          });
+          break;
+        }
 
         // Recarga de créditos: se resuelve aquí y se sale del case, porque no
         // es la compra de una página y no debe entrar en la lógica de
@@ -521,16 +585,56 @@ export async function POST(req: Request) {
         const subscriptionId = typeof invoiceAny.subscription === 'string' ? invoiceAny.subscription : null;
         if (subscriptionId) {
           const subscription = await stripe.subscriptions.retrieve(subscriptionId);
-          const rawPlan = subscription.metadata?.plan;
-          const plan = normalizeExistingPlan(rawPlan || 'free') as PlanId;
+          const plan = normalizeExistingPlan(resolveSubscriptionPlan(subscription)) as PlanId;
           if (plan !== 'free') {
-            await expireSubscriptionCredits(clerkUserId, invoice.id);
-            await grantSubscriptionCredits(clerkUserId, getPlanCredits(plan), invoice.id, {
-              stripeInvoiceId: invoice.id,
-              stripeSubscriptionId: subscriptionId,
-              plan,
-              billingReason: invoice.billing_reason,
+            const billingCycle = subscription.items.data[0]?.price?.recurring?.interval === 'year' ? 'annual' : 'monthly';
+            const credits = getPlanCredits(plan, billingCycle);
+            const economics = validateCreditSaleEconomics({
+              priceCents: invoice.amount_paid ?? 0,
+              credits,
             });
+
+            if (!economics.eligible) {
+              await recordPendingSubscriptionCredits({
+                userId: clerkUserId,
+                plan,
+                credits,
+                stripeInvoiceId: invoice.id,
+                stripeSubscriptionId: subscriptionId,
+                metadata: {
+                  billingReason: invoice.billing_reason,
+                  billingCycle,
+                  campaignStatus: 'economics_blocked',
+                  amountPaidCents: invoice.amount_paid ?? 0,
+                  grossPerCreditUsd: economics.grossPerCreditUsd,
+                },
+              });
+              break;
+            }
+
+            if (areCrowdfundingCreditsActive()) {
+              await expireSubscriptionCredits(clerkUserId, invoice.id);
+              await grantSubscriptionCredits(clerkUserId, credits, invoice.id, {
+                stripeInvoiceId: invoice.id,
+                stripeSubscriptionId: subscriptionId,
+                plan,
+                billingReason: invoice.billing_reason,
+                billingCycle,
+              });
+            } else {
+              await recordPendingSubscriptionCredits({
+                userId: clerkUserId,
+                plan,
+                credits,
+                stripeInvoiceId: invoice.id,
+                stripeSubscriptionId: subscriptionId,
+                metadata: {
+                  billingReason: invoice.billing_reason,
+                  billingCycle,
+                  campaignStatus: 'pending_activation',
+                },
+              });
+            }
           }
         }
         const customer = await stripe.customers.retrieve(customerId);
@@ -568,6 +672,7 @@ export async function POST(req: Request) {
           // saldo: los créditos pueden estar ya gastados y restarlos dejaría la
           // cuenta en negativo.
           await markCreditPurchaseRefunded(paymentIntentId);
+          await markCrowdfundingContributionRefunded({ stripePaymentIntentId: paymentIntentId });
         }
         break;
       }

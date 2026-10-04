@@ -11,8 +11,12 @@ export type PreferenceSignalType = (typeof PREFERENCE_SIGNAL_TYPES)[number];
 
 export type PreferenceCandidate = {
   outputId: string;
+  /** R2 key of the output artifact in the training bucket (images, video, web). */
   contentRef: string | null;
   modelId: string | null;
+  /** Sanitized text for text outputs; binaries are always referenced, never inlined. */
+  content?: string | null;
+  contentHash?: string | null;
 };
 
 export type PreferenceExampleV1 = {
@@ -26,7 +30,12 @@ export type PreferenceExampleV1 = {
 };
 
 function validCandidate(candidate: PreferenceCandidate) {
-  return Boolean(candidate.outputId && candidate.outputId.length <= 160 && (!candidate.contentRef || candidate.contentRef.length <= 1024));
+  return Boolean(
+    candidate.outputId && candidate.outputId.length <= 160
+    && (!candidate.contentRef || candidate.contentRef.length <= 1024)
+    && (!candidate.content || candidate.content.length <= 20_000)
+    && (candidate.contentRef || candidate.content),
+  );
 }
 
 export function buildPreferenceExample(input: {

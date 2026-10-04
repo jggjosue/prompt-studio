@@ -1,21 +1,51 @@
-export const FOUNDER_REWARD_TIERS = [
-  { pledgeAmountCents: 1000, baseCredits: 1000, bonusPercent: 5 },
-  { pledgeAmountCents: 2500, baseCredits: 2500, bonusPercent: 7 },
-  { pledgeAmountCents: 5000, baseCredits: 5000, bonusPercent: 10 },
-  { pledgeAmountCents: 10000, baseCredits: 10000, bonusPercent: 12 },
-  { pledgeAmountCents: 25000, baseCredits: 25000, bonusPercent: 15 },
-  { pledgeAmountCents: 50000, baseCredits: 50000, bonusPercent: 17 },
-  { pledgeAmountCents: 100000, baseCredits: 100000, bonusPercent: 20 },
-] as const;
+import { validateCreditSaleEconomics } from '@/lib/credit-economics';
+import { FOUNDER_BASE_CREDITS_PER_USD, FOUNDER_REWARD_CATALOG } from '@/lib/commercial-pricing';
+
+export { FOUNDER_BASE_CREDITS_PER_USD };
+
+/**
+ * Crowdfunding follows the same nominal Prompt Credit price as the rest of the
+ * platform: $1 = 100 base credits. Founder value is expressed only as an
+ * explicit tier bonus (5%-20%), so there is no hidden alternate conversion.
+ *
+ * The 20% tier is the commercial floor: $1,000 => 100,000 base + 20,000 bonus
+ * = 120,000 credits, or $0.008333 effective per credit. This is the same floor
+ * as paying 10 months for 12 months of credits on an annual subscription.
+ */
+export const FOUNDER_REWARD_TIERS = FOUNDER_REWARD_CATALOG;
+
+export const MIN_FOUNDER_PLEDGE_CENTS = 1000;
+export const MAX_FOUNDER_PLEDGE_CENTS = 1_000_000;
 
 export function getFounderRewardTier(pledgeAmountCents: number) {
-  const tier = FOUNDER_REWARD_TIERS.find((candidate) => candidate.pledgeAmountCents === pledgeAmountCents);
-  if (!tier) return null;
-  const bonusCredits = Math.floor(tier.baseCredits * tier.bonusPercent / 100);
+  if (!Number.isInteger(pledgeAmountCents) || pledgeAmountCents < MIN_FOUNDER_PLEDGE_CENTS || pledgeAmountCents > MAX_FOUNDER_PLEDGE_CENTS) {
+    return null;
+  }
+
+  const matched = [...FOUNDER_REWARD_TIERS]
+    .reverse()
+    .find((candidate) => pledgeAmountCents >= candidate.pledgeAmountCents);
+
+  if (!matched) return null;
+
+  const baseCredits = Math.floor((pledgeAmountCents / 100) * FOUNDER_BASE_CREDITS_PER_USD);
+  const bonusCredits = Math.floor(baseCredits * matched.bonusPercent / 100);
+  const totalCredits = baseCredits + bonusCredits;
+
+  if (!validateCreditSaleEconomics({
+    priceCents: pledgeAmountCents,
+    credits: totalCredits,
+    allowPromotionalDiscount: true,
+  }).eligible) {
+    return null;
+  }
+
   return {
-    ...tier,
+    pledgeAmountCents,
+    baseCredits,
+    bonusPercent: matched.bonusPercent,
     bonusCredits,
-    totalCredits: tier.baseCredits + bonusCredits,
-    rewardTier: `founder-${tier.pledgeAmountCents}`,
+    totalCredits,
+    rewardTier: `founder-${matched.pledgeAmountCents}-plus`,
   };
 }

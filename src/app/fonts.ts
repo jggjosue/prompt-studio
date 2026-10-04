@@ -11,12 +11,10 @@ import localFont from 'next/font/local';
 
 export const firaCode = localFont({
   src: '../fonts/geist-mono-latin.woff2',
-  variable: '--font-fira-code',
   display: 'swap',
 });
 
 export const firaSans = localFont({
   src: '../fonts/geist-latin.woff2',
-  variable: '--font-fira-sans',
   display: 'swap',
 });

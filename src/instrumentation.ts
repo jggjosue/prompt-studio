@@ -7,13 +7,6 @@ export async function onRequestError(error: Error & { digest?: string }, request
     console.error('Edge request error', request.path, error);
     return;
   }
-  const { errorFingerprint, recordObservabilityEvent } = await import('@/lib/observability-server');
-  await recordObservabilityEvent({
-    category: 'server_error',
-    name: error.name || 'request_error',
-    route: context.routePath || request.path || 'server',
-    status: 'error',
-    fingerprint: error.digest || errorFingerprint(error, context.routePath || request.path),
-    metadata: { message: error.message, method: request.method, routerKind: context.routerKind ?? null, routeType: context.routeType ?? null },
-  });
+  const { reportNodeRequestError } = await import('@/lib/instrumentation-node');
+  await reportNodeRequestError(error, request, context);
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import { takeGenerationTrainingContext } from '@/lib/training/client-events';
 import type { ChatMessageResult, ChatParams } from '@/lib/chat-types';
 import { buildConfiguredImagePrompt } from '@/lib/chat-configuration';
 import {
@@ -46,7 +47,7 @@ export async function runGeneration(
     const jobRes = await fetch('/api/ai/jobs', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Idempotency-Key': idempotencyKey },
-      body: JSON.stringify({ kind: 'image', provider, model, input }),
+      body: JSON.stringify({ kind: 'image', provider, model, input, trainingContext: takeGenerationTrainingContext() }),
     });
     const jobData = await safeJson(jobRes);
     if (!jobRes.ok || !jobData || jobData.error) {
@@ -59,7 +60,8 @@ export async function runGeneration(
     // La petición permanece abierta mientras el servidor genera la imagen. No la esperamos aquí
     // para poder consultar y pintar el progreso dentro del mensaje del asistente.
     let processingError = '';
-    const processingRequest = fetch(`/api/ai/jobs/process?jobId=${encodeURIComponent(jobIdFromRes)}&limit=1`, {
+    const processUrl = process.env.NEXT_PUBLIC_AI_QUEUE_PROCESS_URL || '/api/ai/jobs/process';
+    const processingRequest = fetch(`${processUrl}?jobId=${encodeURIComponent(jobIdFromRes)}&limit=1`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
     }).then(async response => {
@@ -105,7 +107,7 @@ export async function runGeneration(
     updateGeneration(jobId, { status: 'completed', imageUrl: imageOutputUrl });
     trackAnalyticsEvent('generate_image', { item_category: 'image', action_source: 'generation_completed' });
     const creditCost = (jobData.job as Record<string, unknown> | undefined)?.creditCost;
-    return { result: { imageUrl: imageOutputUrl, creditsUsed: typeof creditCost === 'number' ? creditCost : 10, provider } };
+    return { result: { generationId: jobIdFromRes, imageUrl: imageOutputUrl, creditsUsed: typeof creditCost === 'number' ? creditCost : 10, provider } };
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : 'Error al conectar con el servidor.';
     updateGeneration(jobId, { status: 'failed', error: msg });
@@ -215,7 +217,10 @@ function aspectRatioToGoogleValue(ratio: string | undefined): string {
 }
 
 function buildImageInput(provider: string, model: string, prompt: string, params: ChatParams): Record<string, unknown> {
-  const base = { prompt, model };
+  const imageTier = params.imageRes === '4k' ? 'quality-4k' :
+                    params.imageRes === '2k' ? 'quality-2k' :
+                    model.includes('lite') ? 'lite-1k' : 'quality-1k';
+  const base = { prompt, model, imageTier };
   const cleanedParams = { ...params };
   for (const key of ['referenceImage', 'reference_image', 'imageBase64', 'base64Image', 'image', 'media', 'attachment']) {
     delete (cleanedParams as Record<string, unknown>)[key];

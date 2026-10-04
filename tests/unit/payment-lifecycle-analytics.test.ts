@@ -11,11 +11,11 @@ test('component checkout starts only after the server creates a Stripe session',
   assert.ok(code.indexOf('if (!response.ok)') < code.indexOf("trackAnalyticsEvent('begin_checkout'"));
 });
 
-test('crowdfunding checkout is recorded only after a checkout URL is returned', async () => {
+test('crowdfunding checkout is recorded only after the payment-link URL is built', async () => {
   const code = await source('src/components/CrowdfundingCheckout.tsx');
   assert.ok(code.includes("trackAnalyticsEvent('begin_checkout'"));
-  assert.ok(code.indexOf("typeof result?.url !== 'string'") < code.indexOf("trackAnalyticsEvent('begin_checkout'"));
-  assert.ok(code.indexOf("trackAnalyticsEvent('begin_checkout'") < code.indexOf('window.location.assign(result.url)'));
+  assert.ok(code.indexOf('buildCrowdfundingCheckoutUrl(paymentLink, selected)') < code.indexOf("trackAnalyticsEvent('begin_checkout'"));
+  assert.ok(code.indexOf("trackAnalyticsEvent('begin_checkout'") < code.indexOf('window.open('));
 });
 
 test('purchase signal is sourced from the signed Stripe webhook', async () => {

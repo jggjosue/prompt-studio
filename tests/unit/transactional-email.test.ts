@@ -95,3 +95,44 @@ test('el contenido de los correos no depende de servidor', async () => {
   const sender = await source('src/lib/transactional-email.ts');
   assert.ok(sender.includes("import 'server-only'"), 'el envío sí debe quedar restringido al servidor');
 });
+
+test('el bienvenido de cuenta dice que la cuenta se creó y enlaza al catálogo', async () => {
+  const { buildAccountWelcomeEmail } = await import('../../src/lib/account-welcome-email.ts');
+  const mail = buildAccountWelcomeEmail({ firstName: 'Ana', locale: 'es' });
+  assert.match(mail.subject, /Bienvenido a Prompt Studio/);
+  assert.match(mail.text, /Hola Ana,/);
+  assert.match(mail.text, /se ha creado correctamente/);
+  assert.match(mail.text, /\/landing-pages/, 'debe enlazar al catálogo para empezar');
+});
+
+test('el bienvenido en inglés usa el nombre y saluda correctamente', async () => {
+  const { buildAccountWelcomeEmail } = await import('../../src/lib/account-welcome-email.ts');
+  const withName = buildAccountWelcomeEmail({ firstName: 'John', locale: 'en' });
+  assert.match(withName.subject, /Welcome to Prompt Studio/);
+  assert.match(withName.text, /Hi John,/);
+  assert.match(withName.text, /account has been created/);
+
+  const anonymous = buildAccountWelcomeEmail({ locale: 'en' });
+  assert.ok(!anonymous.text.includes('Hi ,'), 'sin nombre no debe dejar un saludo vacío');
+  assert.match(anonymous.text, /^Hi,/m);
+});
+
+test('el bienvenido no depende de servidor', async () => {
+  const content = await source('src/lib/account-welcome-email.ts');
+  assert.ok(!content.includes("import 'server-only'"), 'el contenido del bienvenido debe ser puro');
+});
+
+test('el webhook de Clerk envía el bienvenido al crear la cuenta sin bloquear el flujo', async () => {
+  const webhook = await source('src/app/api/webhooks/clerk/route.ts');
+  assert.ok(webhook.includes('sendTransactionalEmail('), 'debe enviar el bienvenido por Resend');
+  assert.ok(webhook.includes('buildAccountWelcomeEmail('), 'debe construir el contenido');
+  assert.ok(
+    /if \(evt\.type === 'user\.created'\)/.test(webhook) &&
+      webhook.indexOf('user.created') < webhook.indexOf('sendTransactionalEmail('),
+    'el envío debe ocurrir en user.created'
+  );
+  assert.ok(
+    !webhook.includes('upsertResendContact'),
+    'crear una cuenta no puede suscribir a marketing'
+  );
+});

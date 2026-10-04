@@ -49,16 +49,29 @@ test('blocks a provider when safety cost exceeds the operation margin budget', (
   assert.equal(result.reason, 'PROVIDER_COST_EXCEEDS_MARGIN');
 });
 
-test('fails closed when provider pricing is unknown', () => {
+test('verified Veo 3.1 standard 8s pricing preserves the 75 percent margin floor', () => {
   const result = evaluateOperationMargin({
-    operationCredits: 180,
+    operationCredits: 1440,
     provider: 'google',
     modelId: 'veo-3.1-generate-001',
     usage: { videoDurationSeconds: 8 },
   });
-  assert.equal(result.costKnown, false);
-  assert.equal(result.eligible, false);
-  assert.equal(result.reason, 'PROVIDER_COST_UNKNOWN');
+  assert.equal(result.rawProviderCostUsd, 3.2);
+  assert.equal(result.safetyCostUsd, 3.6);
+  assert.equal(result.maximumProviderCostUsd, 3.6);
+  assert.equal(result.eligible, true);
+  assert.equal(result.reason, 'ELIGIBLE');
+});
+
+test('verified Gemini Flash Image 1K pricing fits the 31-credit quality tier', () => {
+  const result = evaluateOperationMargin({
+    operationCredits: 31,
+    provider: 'google',
+    modelId: 'gemini-3.1-flash-image',
+    usage: { imageCount: 1 },
+  });
+  assert.equal(result.rawProviderCostUsd, 0.067);
+  assert.equal(result.eligible, true);
 });
 
 test('fails closed for a model that is not allowlisted', () => {

@@ -32,8 +32,8 @@ import { resolveWebsiteAIEditOperation } from '@/lib/website-ai-edit-operation';
 import { resolveCodeAuditOperation } from '@/lib/code-audit-operation';
 import { resolveComponentOperation } from '@/lib/component-ai-operation';
 import { resolveRuntimeOperationPricing } from '@/lib/runtime-operation-pricing';
-import { recordGenerationTrainingEventBestEffort } from '@/lib/generation-training-events';
-import { resolveAuthoritativeTrainingConsent } from '@/lib/training-consent';
+import { captureGenerationRequestBestEffort, parseTrainingCaptureContext } from '@/lib/training/capture';
+import { evaluateProviderBudget } from '@/lib/credit-economics';
 
 const headers = () => cacheHeaders('private-no-store');
 const clean = (value: unknown, max: number) => typeof value === 'string' ? value.trim().slice(0, max) : '';
@@ -99,6 +99,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: { code, message: 'La configuración de generación no está disponible.' } }, { status: 400, headers: headers() });
   }
   let operationCode: string | null = null;
+  let imageResolution: '0.5k' | '1k' | '2k' | '4k' | undefined;
+  let videoDurationSeconds: number | undefined;
+  let videoResolution: '720p' | '1024p' | '1080p' | '4k' | undefined;
   if (raw.kind === 'text') {
     try {
       const operation = input.optimizerTier !== undefined
@@ -134,10 +137,24 @@ export async function POST(request: Request) {
       }, { status: 400, headers: headers() });
     }
   }
+  if (raw.kind === 'image') {
+    const requestedImageResolution = String(input.imageResolution ?? input.resolution ?? '1k').toLowerCase();
+    if (!['0.5k', '1k', '2k', '4k'].includes(requestedImageResolution)) {
+      return NextResponse.json({ error: { code: 'IMAGE_RESOLUTION_UNSUPPORTED', message: 'Resolución de imagen no soportada.' } }, { status: 400, headers: headers() });
+    }
+    imageResolution = requestedImageResolution as '0.5k' | '1k' | '2k' | '4k';
+  }
+
   if (raw.kind === 'video') {
     try {
       const operation = resolveVideoGenerationOperation(input);
       operationCode = operation.code;
+      const requestedDuration = Number(input.videoDurationSeconds ?? operation.durationSeconds ?? 8);
+      if (![4, 6, 8].includes(requestedDuration)) throw new Error('VIDEO_DURATION_UNSUPPORTED');
+      videoDurationSeconds = requestedDuration;
+      const requestedResolution = String(input.videoResolution ?? operation.resolution ?? '720p').toLowerCase();
+      if (!['720p', '1024p', '1080p', '4k'].includes(requestedResolution)) throw new Error('VIDEO_RESOLUTION_UNSUPPORTED');
+      videoResolution = requestedResolution as '720p' | '1024p' | '1080p' | '4k';
       cost = { ...cost, credits: operation.creditCost };
     } catch (error) {
       const code = error instanceof Error ? error.message : 'VIDEO_TIER_REQUIRED';
@@ -202,13 +219,32 @@ export async function POST(request: Request) {
   }
   if (operationCode) {
     try {
-      const runtimePricing = await resolveRuntimeOperationPricing({ operationCode, provider, modelId, usage: { input, outputTokens: cost.estimatedOutputTokens, imageCount: raw.kind === 'image' ? 1 : 0, videoDurationSeconds: raw.kind === 'video' ? 8 : 0 } });
+      const runtimePricing = await resolveRuntimeOperationPricing({ operationCode, provider, modelId, usage: { input, outputTokens: cost.estimatedOutputTokens, imageCount: raw.kind === 'image' ? 1 : 0, imageResolution: raw.kind === 'image' ? imageResolution : undefined, videoDurationSeconds: raw.kind === 'video' ? videoDurationSeconds : 0, videoResolution: raw.kind === 'video' ? videoResolution : undefined, videoAudio: raw.kind === 'video' ? input.videoAudio !== false : undefined } });
       cost = { ...cost, credits: runtimePricing.creditCost };
     } catch (error) {
       const code = error instanceof Error ? error.message : 'PRICING_NOT_AVAILABLE';
       return NextResponse.json({ error: { code, message: 'La operación no puede ejecutarse con el precio/proveedor actual.' } }, { status: 409, headers: headers() });
     }
   }
+  const providerBudget = evaluateProviderBudget(cost.credits, cost.estimatedApiCostUsd);
+  if (!providerBudget.eligible) {
+    void recordObservabilityEvent({
+      category: 'ai_generation',
+      name: 'provider_budget_blocked',
+      route: '/api/ai/jobs',
+      userId,
+      status: 'blocked',
+      costUsd: cost.estimatedApiCostUsd,
+      value: cost.credits,
+      unit: 'credits',
+      metadata: { kind: raw.kind, provider, modelId, operationCode, ...providerBudget },
+    });
+    return NextResponse.json({
+      error: { code: 'PROVIDER_COST_EXCEEDS_CREDIT_BUDGET', message: 'La operación no puede ejecutarse con este proveedor/modelo dentro del presupuesto de créditos actual.' },
+      pricing: { credits: cost.credits, estimatedProviderCostUsd: cost.estimatedApiCostUsd, providerBudgetUsd: providerBudget.providerBudgetUsd },
+    }, { status: 409, headers: headers() });
+  }
+
   // El superadministrador puede probar el flujo en desarrollo sin saldo.
   if (isPromptStudioAdminEmail(userEmail)) cost = { ...cost, credits: 0 };
   const requestedContractId = clean(raw.outputContractId, 80) || project?.outputContractId || '';
@@ -255,29 +291,9 @@ export async function POST(request: Request) {
     const credits = await getCreditBalance(userId);
     return NextResponse.json({ error: { code: 'INSUFFICIENT_CREDITS', message: `Necesitas ${cost.credits} créditos para esta generación y tienes ${credits.balance}.` }, required: cost.credits, credits }, { status: 402, headers: headers() });
   }
-  const trainingConsent = await resolveAuthoritativeTrainingConsent(userId);
-  recordGenerationTrainingEventBestEffort({
-    eventName: 'prompt_submitted',
-    userId,
-    jobId: String(job._id),
-    requestId: String(job._id),
-    modality: raw.kind,
-    provider,
-    modelId,
-    correlationId: job.correlationId,
-    parameters: {
-      operationCode,
-      promptVersionNumber,
-      projectId: projectId || null,
-      hasBrandKit: Boolean(brandKitId),
-      hasOutputContract: Boolean(outputContract),
-    },
-    payload: {
-      promptLength: prompt.length,
-      source: '/api/ai/jobs',
-    },
-    consent: trainingConsent,
-  });
+  // Training capture is fire-and-forget: it resolves consent itself and can
+  // never fail, delay or block the generation request (or leave credits reserved).
+  captureGenerationRequestBestEffort(job, parseTrainingCaptureContext(raw.trainingContext));
 
   // Credits are reserved above; only now is the job handed to its single backend.
   const execDispatch = await dispatchGenerationExecution(job, { vercelOidcToken: request.headers.get('x-vercel-oidc-token') });
