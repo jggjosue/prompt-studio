@@ -45,6 +45,27 @@ Retries and recovery reuse the pinned backend. A flag flip mid-flight therefore 
 
 Never: QStash + GCP, GCP + AWS, AWS + Cloudflare, or any other pair for the same job.
 
+## Dispatch flow (implemented in #835 part 2)
+
+```
+validate → price → selectExecutionBackend() → persist AIGenerationJob{executionBackend}
+→ reserve Prompt Credits → dispatchPinnedGenerationJob() → exactly ONE adapter → 202 {job, dispatch}
+```
+
+- The selection is pure config, so it is computed just before the insert and stored atomically with the job.
+  Enqueue still happens strictly after the credit reservation.
+- `legacy` → existing `dispatchGenerationJob` (QStash when `AI_QUEUE_DISPATCH_ENABLED=true`, otherwise processing is triggered by the client hook / recovery).
+- `gcp` → Cloud Tasks (`dispatchGcpGenerationTask`) → private Cloud Run `/tasks/generation` with an OIDC token for `ps-ai-queue-invoker`.
+- A failed cloud enqueue **stays pinned** (`dispatch.state = failed`) and is retried on the same backend with the same deterministic task name. It is never re-routed to QStash, because an enqueue with an unknown outcome could otherwise run twice.
+- `AIGenerationJob.dispatch` persists: backend/transport, queue, task or message id, `dispatchedAt`, `correlationId`, workload, state, reason, attempts.
+- Claims are scoped by `executionBackend`: legacy claimers (process route) only take `legacy`/unset jobs; the Cloud Run worker only `gcp` jobs, and it also checks that the payload workload/correlationId match MongoDB.
+
+Payload (Cloud Tasks body): `{ "version": 1, "jobId", "correlationId", "workload" }` — no prompt, keys, credentials, email, balances or media.
+
+### Enqueue identity (no JSON keys)
+- Vercel: per-request Vercel OIDC token (`x-vercel-oidc-token`) → Google STS (Workload Identity Federation, `GCP_AI_WIF_PROVIDER`) → impersonate `GCP_AI_DISPATCHER_SERVICE_ACCOUNT` (`ps-ai-dispatcher`: `roles/cloudtasks.enqueuer` on the three queues + `roles/iam.serviceAccountUser` on `ps-ai-queue-invoker`).
+- Cloud Run worker (follow-up deliveries: business retry, video poll): metadata-server token of `ps-ai-worker`, same two roles.
+
 ## Current state
 
 All cloud backends are **OFF**. `legacy` is the only active path.
