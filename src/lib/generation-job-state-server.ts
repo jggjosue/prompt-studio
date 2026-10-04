@@ -9,6 +9,12 @@ import {
   progressForGenerationJobState,
 } from '@/lib/generation-job-state';
 import AIGenerationJob, { type IAIGenerationJob } from '@/models/AIGenerationJob';
+import { isValidObjectId } from 'mongoose';
+
+export async function getGenerationJob(jobId: string): Promise<IAIGenerationJob | null> {
+  if (!isValidObjectId(jobId)) return null;
+  return AIGenerationJob.findById(jobId);
+}
 
 export class GenerationJobOwnershipError extends Error {
   constructor() {
