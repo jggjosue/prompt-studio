@@ -17,6 +17,7 @@ import {
   type GenerationWorkerContext,
   type GenerationWorkerDeps,
 } from '@/lib/generation-worker-core';
+import { buildGenerationExecutionRecord, emitGenerationExecutionRecord } from '@/lib/generation-execution-log';
 import { finalizeModelRegressionForJob } from '@/lib/model-regression-server';
 import { observeOperation, recordObservabilityEvent, reportOperationalError } from '@/lib/observability-server';
 import { validateAndRepairOutput } from '@/lib/output-contract';
@@ -92,6 +93,9 @@ const deps: GenerationWorkerDeps = {
     get pollBudgetMs() { return seconds(process.env.AI_VIDEO_POLL_BUDGET_SECONDS, 60, 0, 600); },
     get maxOperationMs() { return seconds(process.env.AI_VIDEO_MAX_OPERATION_SECONDS, 20 * 60, 60, 2 * 60 * 60); },
     sleep: ms => new Promise(resolve => setTimeout(resolve, ms)),
+  },
+  logExecution: input => {
+    try { emitGenerationExecutionRecord(buildGenerationExecutionRecord(input)); } catch { /* never break generation */ }
   },
   observeClaim: (route, run) => observeOperation({ category: 'slow_query', name: 'ai_job_claim', route }, run),
   recordEvent: event => { void recordObservabilityEvent(event); },
