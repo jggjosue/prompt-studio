@@ -7,6 +7,8 @@ import connectToDatabase from '@/lib/mongoose';
 import NewUser from '@/models/NewUser';
 import UserProfile from '@/models/UserProfile';
 import RegisteredUser from '@/models/RegisteredUser';
+import { sendTransactionalEmail } from '@/lib/transactional-email';
+import { buildAccountWelcomeEmail } from '@/lib/account-welcome-email';
 
 type ClerkUserEvent = {
   id: string;
@@ -129,6 +131,20 @@ export async function POST(req: Request) {
         { status: 503 }
       );
     }
+
+    // El correo de bienvenida es best-effort: si falla, no debe reintentar el
+    // webhook (que volvería a sincronizar un usuario ya existente) ni tumbar
+    // la respuesta. El envío es transaccional y no requiere opt-in.
+    const welcome = buildAccountWelcomeEmail({
+      firstName: evt.data.first_name,
+      locale: /\.(es|mx|ar|co|cl|pe)$/i.test(email.split('@')[1] ?? '') ? 'es' : 'en',
+    });
+    await sendTransactionalEmail({
+      to: email,
+      subject: welcome.subject,
+      text: welcome.text,
+      context: { operation: 'account_welcome', userId: evt.data.id, provider: 'clerk' },
+    });
   }
 
   return NextResponse.json({ received: true });

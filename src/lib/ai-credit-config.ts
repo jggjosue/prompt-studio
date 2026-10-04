@@ -1,5 +1,6 @@
 import type { AIJobKind } from '@/models/AIGenerationJob';
 import { GOOGLE_IMAGE_MODEL } from '@/lib/google-image-config';
+import { MAX_PROVIDER_COST_PER_CREDIT_USD } from '@/lib/credit-economics';
 
 export type AIModelCategory = 'text' | 'project' | 'image' | 'video' | 'vision';
 
@@ -20,7 +21,9 @@ export type AIModelConfig = {
   pricingStatus: 'verified' | 'legacy-estimate' | 'unverified';
 };
 
-export const TARGET_COST_PER_CREDIT_USD = 0.005;
+// A Prompt Credit has a $0.01 commercial value and provider spend is capped
+// at 25% of that value to preserve the 75% minimum gross margin target.
+export const TARGET_COST_PER_CREDIT_USD = MAX_PROVIDER_COST_PER_CREDIT_USD;
 export const DEFAULT_MAX_INPUT_CHARS = 1_000_000;
 export const DEFAULT_MAX_CREDITS_PER_GENERATION = 100;
 
@@ -40,11 +43,13 @@ const model = (config: Omit<AIModelConfig, 'maxCredits' | 'maxInputTokens' | 'ma
 export const AI_MODEL_CONFIG: Record<string, AIModelConfig> = {
   'google:gemini-2.5-flash': model({ provider: 'google', modelId: 'gemini-2.5-flash', category: 'project', minimumCredits: 1, inputTokenPriceUsdPerMillion: 0.30, outputTokenPriceUsdPerMillion: 2.50, defaultOutputTokens: 4_000, pricingStatus: 'verified', enabled: true }),
   'google:gemini-2.5-pro': model({ provider: 'google', modelId: 'gemini-2.5-pro', category: 'project', minimumCredits: 3, inputTokenPriceUsdPerMillion: 1.25, outputTokenPriceUsdPerMillion: 10, defaultOutputTokens: 4_000, pricingStatus: 'verified', enabled: true }),
+  'vertex:gemini-2.5-flash': model({ provider: 'vertex', modelId: 'gemini-2.5-flash', category: 'project', minimumCredits: 1, inputTokenPriceUsdPerMillion: 0.30, outputTokenPriceUsdPerMillion: 2.50, defaultOutputTokens: 4_000, pricingStatus: 'verified', enabled: true }),
+  'vertex:gemini-2.5-pro': model({ provider: 'vertex', modelId: 'gemini-2.5-pro', category: 'project', minimumCredits: 3, inputTokenPriceUsdPerMillion: 1.25, outputTokenPriceUsdPerMillion: 10, defaultOutputTokens: 4_000, pricingStatus: 'verified', enabled: true }),
   'google:gemini-2.0-flash': model({ provider: 'google', modelId: 'gemini-2.0-flash', category: 'project', minimumCredits: 1, inputTokenPriceUsdPerMillion: null, outputTokenPriceUsdPerMillion: null, defaultOutputTokens: 4_000, pricingStatus: 'unverified', enabled: true }),
   'google:gemini-3.8-flash': model({ provider: 'google', modelId: 'gemini-3.8-flash', category: 'text', minimumCredits: 1, inputTokenPriceUsdPerMillion: 0.30, outputTokenPriceUsdPerMillion: 2.50, defaultOutputTokens: 1_000, pricingStatus: 'unverified', enabled: true }),
   'google:imagen-4.0-fast-generate-001': model({ provider: 'google', modelId: 'imagen-4.0-fast-generate-001', category: 'image', minimumCredits: 10, imagePriceUsd: 0.04, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
-  'google:gemini-3.1-flash-image': model({ provider: 'google', modelId: 'gemini-3.1-flash-image', category: 'image', minimumCredits: 10, imagePriceUsd: 0.04, defaultOutputTokens: 0, pricingStatus: 'unverified', enabled: true }),
-  'google:gemini-3.1-flash-lite-image': model({ provider: 'google', modelId: 'gemini-3.1-flash-lite-image', category: 'image', minimumCredits: 5, imagePriceUsd: 0.02, defaultOutputTokens: 0, pricingStatus: 'unverified', enabled: true }),
+  'google:gemini-3.1-flash-image': model({ provider: 'google', modelId: 'gemini-3.1-flash-image', category: 'image', minimumCredits: 31, maxCredits: 500, imagePriceUsd: 0.067, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
+  'google:gemini-3.1-flash-lite-image': model({ provider: 'google', modelId: 'gemini-3.1-flash-lite-image', category: 'image', minimumCredits: 16, maxCredits: 500, imagePriceUsd: 0.0336, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
   // Alias de los tiers de imagen del selector. `googleImageModelFor` ya los
   // resolvía al modelo de producción en runtime, pero no existían aquí, y
   // `estimateAICredits` lanza MODEL_NOT_ALLOWED ante un id ausente: elegir el
@@ -52,16 +57,24 @@ export const AI_MODEL_CONFIG: Record<string, AIModelConfig> = {
   // cliente; `modelId` es a dónde acaba yendo de verdad la llamada. El precio
   // unitario y el mínimo de créditos son los que el propio tier ya anuncia en
   // `MODEL_TIERS`, no cifras nuevas.
-  'google:nano-banana-2-lite': model({ provider: 'google', modelId: 'gemini-3.1-flash-image', category: 'image', minimumCredits: 5, imagePriceUsd: 0.04, defaultOutputTokens: 0, pricingStatus: 'unverified', enabled: true }),
-  'google:nano-banana-2': model({ provider: 'google', modelId: 'gemini-3.1-flash-image', category: 'image', minimumCredits: 10, imagePriceUsd: 0.04, defaultOutputTokens: 0, pricingStatus: 'unverified', enabled: true }),
-  'google:nano-banana-pro': model({ provider: 'google', modelId: 'gemini-3.1-flash-image', category: 'image', minimumCredits: 25, imagePriceUsd: 0.04, defaultOutputTokens: 0, pricingStatus: 'unverified', enabled: true }),
+  'google:nano-banana-2-lite': model({ provider: 'google', modelId: 'gemini-3.1-flash-lite-image', category: 'image', minimumCredits: 16, imagePriceUsd: 0.0336, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
+  'google:nano-banana-2': model({ provider: 'google', modelId: 'gemini-3.1-flash-image', category: 'image', minimumCredits: 31, imagePriceUsd: 0.067, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
+  'google:gemini-3-pro-image': model({ provider: 'google', modelId: 'gemini-3-pro-image', category: 'image', minimumCredits: 61, maxCredits: 500, imagePriceUsd: 0.134, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
+  'google:nano-banana-pro': model({ provider: 'google', modelId: 'gemini-3-pro-image', category: 'image', minimumCredits: 61, imagePriceUsd: 0.134, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
   'google:veo-2.0-generate-001': model({ provider: 'google', modelId: 'veo-2.0-generate-001', category: 'video', minimumCredits: 20, videoPriceUsdPerSecond: null, defaultOutputTokens: 0, pricingStatus: 'unverified', enabled: true }),
-  'google:veo-3.1-generate-001': model({ provider: 'google', modelId: 'veo-3.1-generate-001', category: 'video', minimumCredits: 25, videoPriceUsdPerSecond: null, defaultOutputTokens: 0, pricingStatus: 'unverified', enabled: true }),
+  'google:veo-3.1-generate-001': model({ provider: 'google', modelId: 'veo-3.1-generate-001', category: 'video', minimumCredits: 1440, maxCredits: 5000, videoPriceUsdPerSecond: 0.40, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
+  'google:veo-3.1-fast-generate-preview': model({ provider: 'google', modelId: 'veo-3.1-fast-generate-preview', category: 'video', minimumCredits: 180, maxCredits: 5000, videoPriceUsdPerSecond: 0.10, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
+  'google:veo-3.1-lite-generate-preview': model({ provider: 'google', modelId: 'veo-3.1-lite-generate-preview', category: 'video', minimumCredits: 90, maxCredits: 5000, videoPriceUsdPerSecond: 0.05, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
+  'vertex:veo-3.1-lite-generate-001': model({ provider: 'vertex', modelId: 'veo-3.1-lite-generate-001', category: 'video', minimumCredits: 54, maxCredits: 5000, videoPriceUsdPerSecond: 0.03, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
+  'vertex:veo-3.1-fast-generate-001': model({ provider: 'vertex', modelId: 'veo-3.1-fast-generate-001', category: 'video', minimumCredits: 144, maxCredits: 5000, videoPriceUsdPerSecond: 0.08, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
+  'vertex:veo-3.1-generate-001': model({ provider: 'vertex', modelId: 'veo-3.1-generate-001', category: 'video', minimumCredits: 360, maxCredits: 5000, videoPriceUsdPerSecond: 0.20, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
   'google:gemini-omni-flash': model({ provider: 'google', modelId: 'gemini-omni-flash', category: 'video', minimumCredits: 15, videoPriceUsdPerSecond: null, defaultOutputTokens: 0, pricingStatus: 'unverified', enabled: true }),
+  'openai:gpt-5.4-mini': model({ provider: 'openai', modelId: 'gpt-5.4-mini', category: 'project', minimumCredits: 1, inputTokenPriceUsdPerMillion: 0.75, outputTokenPriceUsdPerMillion: 4.50, defaultOutputTokens: 4_000, maxOutputTokens: 128_000, pricingStatus: 'verified', enabled: true }),
+  'openai:gpt-5.4': model({ provider: 'openai', modelId: 'gpt-5.4', category: 'project', minimumCredits: 3, inputTokenPriceUsdPerMillion: 2.50, outputTokenPriceUsdPerMillion: 15, defaultOutputTokens: 4_000, maxInputTokens: 1_050_000, maxOutputTokens: 128_000, pricingStatus: 'verified', enabled: true }),
   'openai:gpt-4o': model({ provider: 'openai', modelId: 'gpt-4o', category: 'project', minimumCredits: 4, inputTokenPriceUsdPerMillion: 2.50, outputTokenPriceUsdPerMillion: 10, defaultOutputTokens: 4_000, pricingStatus: 'legacy-estimate', enabled: true }),
-  'openai:dall-e-3': model({ provider: 'openai', modelId: 'dall-e-3', category: 'image', minimumCredits: 10, imagePriceUsd: 0.04, defaultOutputTokens: 0, pricingStatus: 'legacy-estimate', enabled: true }),
-  'openai:gpt-image-1-mini': model({ provider: 'openai', modelId: 'gpt-image-1-mini', category: 'image', minimumCredits: 15, imagePriceUsd: null, defaultOutputTokens: 0, pricingStatus: 'unverified', enabled: true }),
-  'fal:fal-ai/flux/schnell': model({ provider: 'fal', modelId: 'fal-ai/flux/schnell', category: 'image', minimumCredits: 10, imagePriceUsd: null, defaultOutputTokens: 0, pricingStatus: 'unverified', enabled: true }),
+  'openai:dall-e-3': model({ provider: 'openai', modelId: 'dall-e-3', category: 'image', minimumCredits: 10, imagePriceUsd: 0.04, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
+  'openai:gpt-image-1-mini': model({ provider: 'openai', modelId: 'gpt-image-1-mini', category: 'image', minimumCredits: 15, imagePriceUsd: 0.04, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
+  'fal:fal-ai/flux/schnell': model({ provider: 'fal', modelId: 'fal-ai/flux/schnell', category: 'image', minimumCredits: 10, imagePriceUsd: 0.003, defaultOutputTokens: 0, pricingStatus: 'verified', enabled: true }),
   'anthropic:claude-3-5-sonnet-20240620': model({ provider: 'anthropic', modelId: 'claude-3-5-sonnet-20240620', category: 'project', minimumCredits: 8, inputTokenPriceUsdPerMillion: 3, outputTokenPriceUsdPerMillion: 15, defaultOutputTokens: 4_000, pricingStatus: 'legacy-estimate', enabled: true }),
 };
 
@@ -98,13 +111,15 @@ export function resolveAIModelId(kind: AIJobKind, provider: string, requestedMod
   }
   const defaults: Record<string, string> = {
     'google:image': 'gemini-3.1-flash-image',
-    'google:video': 'gemini-omni-flash',
+    'google:video': 'veo-3.1-fast-generate-preview',
+    'vertex:video': 'veo-3.1-fast-generate-001',
+    'vertex:project': 'gemini-2.5-flash',
     'google:project': 'gemini-2.5-flash',
     'google:vision': 'gemini-3.8-flash',
     'google:text': 'gemini-3.8-flash',
     'google:videoUnderstanding': 'gemini-3.8-flash',
     'openai:image': 'dall-e-3',
-    'openai:project': 'gpt-4o',
+    'openai:project': 'gpt-5.4-mini',
     'anthropic:project': 'claude-3-5-sonnet-20240620',
     'fal:image': 'fal-ai/flux/schnell',
   };

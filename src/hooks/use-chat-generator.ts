@@ -10,6 +10,7 @@ import { useVisionGeneration } from './use-vision-generation';
 import { useTextGeneration } from './use-text-generation';
 import { useVideoUnderstanding } from './use-video-understanding';
 import { useWebGeneration } from './use-web-generation';
+import { setPendingGenerationTrainingContext, trackTrainingEvent, trainingModalityForChatMode } from '@/lib/training/client-events';
 
 const defaultParams: ChatParams = {
   imageRatio: '1-1', imageStyle: 'cinematic', imageRes: '1k', imageFormat: 'png',
@@ -34,6 +35,8 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
   const [queue, setQueue] = useState<ChatQueueItem[]>([]);
   const [queueActive, setQueueActive] = useState(false);
   const [queueRunning, setQueueRunning] = useState(false);
+  /** Set by editPrompt(): the generation whose prompt the user is editing. */
+  const editParentRef = useRef<{ generationId: string; prompt: string } | null>(null);
   const queueWorkerRef = useRef(false);
   const {
     localGenerating, setLocalGenerating, genProgress, setGenProgress,
@@ -210,6 +213,16 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
         body: JSON.stringify({ role: 'user', mode, prompt, params }),
       }).catch(() => {});
     }
+    // Training context for this generation (ids only; consumed by the job request).
+    setPendingGenerationTrainingContext({ sessionId: sessionId || null });
+    const editParent = editParentRef.current;
+    editParentRef.current = null;
+    if (editParent) {
+      setPendingGenerationTrainingContext({ parentGenerationId: editParent.generationId });
+      if (prompt.trim() !== editParent.prompt.trim()) {
+        trackTrainingEvent({ eventName: 'prompt_edited', parentGenerationId: editParent.generationId, modality: trainingModalityForChatMode(mode) });
+      }
+    }
     setGenProgress(10);
     let result: ChatMessageResult | undefined;
     let error: string | undefined;
@@ -286,6 +299,25 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
     return entry.id;
   }, [activeSessionId, addMessage, beginGeneration, finishGeneration, failGeneration, updateMessage, imageGen, videoGen, webGen, visionGen, textGen, videoUnderstandingGen]);
 
+  /** Generates again from the same prompt, linking the new generation to the one replaced. */
+  const regenerate = useCallback((message: ChatGeneratorMessage) => {
+    const generationId = message.result?.generationId;
+    if (generationId) {
+      trackTrainingEvent({ eventName: 'regenerate_clicked', generationId, modality: trainingModalityForChatMode(message.mode) });
+      setPendingGenerationTrainingContext({ parentGenerationId: generationId });
+    }
+    return generate(message.prompt, message.params, message.mode);
+  }, [generate]);
+
+  /** Loads a previous prompt into the composer; the next submission is linked to it. */
+  const editPrompt = useCallback((message: ChatGeneratorMessage) => {
+    const generationId = message.result?.generationId;
+    editParentRef.current = generationId ? { generationId, prompt: message.prompt } : null;
+    setSelectedMode(message.mode);
+    setParams(message.params);
+    setDraftPrompt(message.prompt);
+  }, []);
+
   const reset = useCallback(() => {
     setMessages([]);
     setLocalGenerating(false);
@@ -304,7 +336,7 @@ export function useChatGenerator(initialQuery = ''): ChatGeneratorReturn {
     createSession, loadSession, deleteSession, selectedMode, setSelectedMode,
     localGenerating, genProgress, genStatus, generationError,
     outputImageUrl, outputImageVariations, outputVideoUrl, outputWebHTML, copiedCode,
-    generate, reset, queue, queueRunning, enqueue, startQueue, removeQueueItem, retryQueueItem, clearQueue,
+    generate, regenerate, editPrompt, reset, queue, queueRunning, enqueue, startQueue, removeQueueItem, retryQueueItem, clearQueue,
     imageGen, videoGen, webGen, visionGen, textGen, videoUnderstandingGen,
     setOutputImageUrl, setOutputImageVariations, setOutputVideoUrl, setOutputWebHTML, setCopiedCode,
     setCredits: imageGen.setCredits,

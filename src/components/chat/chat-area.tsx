@@ -3,6 +3,7 @@
 import { useRef, useEffect, type ReactNode } from 'react';
 import { Wand2, Camera, Film, Layout, Shuffle, MessageSquare, ScanSearch } from 'lucide-react';
 import { ChatMessageItem } from './chat-message-item';
+import { TrainingConsentNotice } from './training-consent-notice';
 import type { ChatGeneratorReturn } from '@/lib/chat-types';
 import type { ChatMode } from '@/lib/chat-types';
 
@@ -100,6 +101,9 @@ export function ChatArea({ chat, emptyComposer }: ChatAreaProps) {
           <div className="w-full max-w-3xl text-left">
             {emptyComposer}
           </div>
+          <div className="mt-4 w-full max-w-3xl">
+            <TrainingConsentNotice />
+          </div>
 
           {/* Quick-start cards */}
           <div className="mt-5 grid w-full max-w-3xl grid-cols-2 gap-2.5 sm:grid-cols-3">
@@ -122,6 +126,7 @@ export function ChatArea({ chat, emptyComposer }: ChatAreaProps) {
         </div>
       ) : (
         <div className="mx-auto w-full max-w-4xl space-y-7 px-4 py-8 sm:px-6">
+          <TrainingConsentNotice />
           {messages.map(msg => (
             <ChatMessageItem
               key={msg.id}
@@ -129,6 +134,8 @@ export function ChatArea({ chat, emptyComposer }: ChatAreaProps) {
               onRetry={msg.role === 'assistant' && msg.status === 'failed'
                 ? () => void chat.generate(msg.prompt, msg.params, msg.mode)
                 : undefined}
+              onRegenerate={msg.role === 'assistant' && msg.status === 'completed' ? () => void chat.regenerate(msg) : undefined}
+              onEditPrompt={msg.role === 'assistant' && msg.status === 'completed' ? () => chat.editPrompt(msg) : undefined}
             />
           ))}
         </div>

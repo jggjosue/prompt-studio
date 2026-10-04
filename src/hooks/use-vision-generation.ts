@@ -1,5 +1,6 @@
 'use client';
 
+import { takeGenerationTrainingContext } from '@/lib/training/client-events';
 import type { ChatMessageResult, ChatParams } from '@/lib/chat-types';
 import {
   TEXT_GENERATION_POLL_SCHEDULE,
@@ -40,6 +41,7 @@ export function useVisionGeneration() {
           provider: currentProvider,
           model,
           input,
+          trainingContext: takeGenerationTrainingContext(),
         }),
       });
 
@@ -92,7 +94,7 @@ export function useVisionGeneration() {
       const creditsBalance = (jobData.credits as Record<string, unknown> | undefined)?.balance;
       if (typeof creditsBalance === 'number') setCredits(creditsBalance);
       const creditCost = (jobData.job as Record<string, unknown> | undefined)?.creditCost;
-      return { result: { text: textOutput, creditsUsed: typeof creditCost === 'number' ? creditCost : 1, provider: currentProvider } };
+      return { result: { generationId: jobId, text: textOutput, creditsUsed: typeof creditCost === 'number' ? creditCost : 1, provider: currentProvider } };
     } catch (err: unknown) {
       return { error: err instanceof Error ? err.message : 'Error al conectar con el servidor.' };
     }

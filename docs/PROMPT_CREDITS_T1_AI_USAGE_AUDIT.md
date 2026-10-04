@@ -1,14 +1,145 @@
 # Prompt Credits v1 — T1 AI usage audit
 
 Parent: #871  
-Base branch: `develop`  
-Scope: inventory/documentation only. No runtime credit or generation behavior is changed by T1.
+Base branch: `main`  
+Scope: re-audit plus pricing consistency corrections on `main`; generation execution behavior is otherwise unchanged.
+
+## 2026-10-03 unified Prompt Credit economics
+
+The platform now treats **1 Prompt Credit = $0.01 USD nominal retail value** as a code invariant.
+
+- Monthly subscriptions derive included credits directly from price: Premium 900, Creator 1,900, Pro 2,900, Studio 3,900.
+- Annual subscriptions keep the existing prices ($90/$190/$290/$390) and deliver 12 months of credits, producing the explicit pay-10-get-12 effective floor of $0.008333/credit.
+- Active top-ups remain exactly $0.01/credit.
+- Crowdfunding now uses the same 100 base credits per $1. Founder value exists only as the explicit 5%-20% tier bonus.
+- The maximum Founder bonus (20%) produces the same $0.008333 effective floor as annual subscriptions, preventing a cheaper hidden conversion path.
+- Provider spend remains capped at **$0.0025 per Prompt Credit** (25% of nominal retail). Provider/API pricing remains operational data, separate from customer-facing credit SKUs.
+- Promotional economics are validated against all credits delivered. At the maximum discount, the current reserves still leave approximately 42% contribution before taxes/fixed company costs.
+
+Current provider examples were rechecked against official pricing on 2026-10-03: Gemini 2.5 Flash standard is $0.30/M input and $2.50/M output tokens; GPT-5.4 Mini is $0.75/M input and $4.50/M output. ChatGPT subscription prices are not API costs and must not enter provider-cost calculations.
+
+## 2026-10-03 re-audit — main branch commercial surfaces and provider pricing
+
+This re-audit uses **`main` as the sole repository source of truth**. It validates the public pricing page, subscription catalog, Founder/crowdfunding calculator, dashboard top-ups, tests, and provider-cost registry.
+
+### Canonical Prompt Studio commercial pricing
+
+| Plan | Monthly price | Monthly Prompt Credits | Annual price | Annual Prompt Credits |
+|---|---:|---:|---:|---:|
+| Free | $0 | 0 | $0 | 0 |
+| Premium | $9 | 900 | $90 | 10,800 |
+| Creator | $19 | 1,900 | $190 | 22,800 |
+| Pro | $29 | 2,900 | $290 | 34,800 |
+| Studio | $39 | 3,900 | $390 | 46,800 |
+
+These values are enforced by `tests/unit/pro-plan.test.ts` and `tests/unit/premium-monthly-credits.test.ts`. The implementation in `src/lib/subscription-plans.ts` was corrected on `main` to match that contract. `/prices` already reads prices and credits from that shared module instead of maintaining an independent price table.
+
+### Founder Program / crowdfunding
+
+Founder Credits use the platform conversion of **100 base credits per $1**, followed by the explicit tier bonus:
+
+| Contribution | Base | Bonus | Total Founder Credits |
+|---|---:|---:|---:|
+| $10 | 1,000 | 5% / 50 | 1,050 |
+| $25 | 2,500 | 7% / 175 | 2,675 |
+| $50 | 5,000 | 10% / 500 | 5,500 |
+| $100 | 10,000 | 12% / 1,200 | 11,200 |
+| $250 | 25,000 | 15% / 3,750 | 28,750 |
+| $500 | 50,000 | 17% / 8,500 | 58,500 |
+| $1,000 | 100,000 | 20% / 20,000 | 120,000 |
+
+This contract is visible on `/crowdfunding` and enforced by `tests/unit/crowdfunding-credit-calculator.test.ts`. `src/lib/founder-credit-tiers.ts` was corrected on `main` from the divergent 100 credits/$1 implementation back to 80 credits/$1.
+
+### Dashboard / one-time top-ups
+
+The active top-up catalog is:
+
+| Price | Credits |
+|---:|---:|
+| $5 | 500 |
+| $10 | 1,000 |
+| $25 | 2,500 |
+| $50 | 5,000 |
+| $100 | 10,000 |
+
+There is **no active bonus** on these five top-ups. `tests/unit/prompt-credit-packages-v1.test.ts` requires those exact price/credit pairs and `tests/unit/credit-topup.test.ts` requires every pack to remain at or above the $0.01/credit floor. `src/lib/credit-packs.ts` was corrected on `main` to match the tested contract. The dashboard obtains its list from `/api/credits`, which obtains it from `CREDIT_PACKS`, so it does not need a second hard-coded table.
+
+### Provider pricing audit
+
+Provider cost remains separate from the commercial Prompt Credit catalog. It is an internal routing/margin input.
+
+#### Google Gemini Developer API
+
+Official source: https://ai.google.dev/gemini-api/docs/pricing
+
+Verified current examples:
+- Gemini 2.5 Flash standard: $0.30 / 1M text-image-video input tokens and $2.50 / 1M output tokens.
+- Gemini 2.5 Flash-Lite standard: $0.10 / 1M text-image-video input tokens and $0.40 / 1M output tokens.
+- Gemini 3.x pricing includes processing tiers and, for some models, rates that change on 2027-01-01.
+
+The current `gemini-2.5-flash` registry entry matches the official standard token price. Model IDs and image/video prices still require model-specific verification before being marked verified.
+
+#### Google Cloud / Vertex AI
+
+Google Cloud/Vertex must be represented separately from the Gemini Developer API because processing location/tier and product surface can change the billable rate.
+
+Official source: https://cloud.google.com/vertex-ai/generative-ai/pricing
+
+Do not copy a Gemini Developer API rate into a Vertex/Cloud provider record solely because the model family has the same name. Store provider surface, processing tier/region, effective date and source URL with each verified price.
+
+#### OpenAI API
+
+Official source: https://developers.openai.com/api/docs/pricing
+
+Current official examples include:
+- GPT-5.4: $2.50 / 1M input, $0.25 cached input, $15.00 / 1M output.
+- GPT-5.4 Mini: $0.75 / 1M input, $0.075 cached input, $4.50 / 1M output.
+- GPT-5.4 Nano: $0.20 / 1M input, $0.02 cached input, $1.25 / 1M output.
+
+The repository's `openai:gpt-4o` entry remains explicitly `legacy-estimate`. It must not be promoted to `verified` or used for a margin guarantee without re-verifying that exact model and processing tier.
+
+#### ChatGPT subscriptions
+
+Official sources:
+- https://chatgpt.com/pricing
+- https://openai.com/business/pricing/
+
+ChatGPT plan prices are competitive/product context only. They are **not OpenAI API unit costs** and must never feed `estimateProviderCost()` or Prompt Credit margin calculations.
+
+### Single source of truth implemented
+
+The audit is now applied to runtime code through `src/lib/commercial-pricing.ts`.
+
+- `SUBSCRIPTION_CATALOG` owns paid plan prices and included monthly credits.
+- `FOUNDER_BASE_CREDITS_PER_USD` and `FOUNDER_REWARD_CATALOG` own crowdfunding conversion and tier bonuses.
+- `ACTIVE_CREDIT_PACK_CATALOG` owns dashboard/top-up price and credit quantities.
+- `subscription-plans.ts`, `founder-credit-tiers.ts`, `credit-packs.ts`, `stripe-checkout.ts`, the crowdfunding calculator, `/prices`, `/crowdfunding`, and the dashboard credits API now consume that chain instead of maintaining independent commercial numeric tables.
+- `tests/unit/commercial-pricing-catalog.test.ts` protects the catalog and integration boundaries from future drift.
+
+Provider/API unit costs remain intentionally outside this commercial catalog because they are operational costs, not customer-facing Prompt Credit SKUs.
+
+### Main-branch correction status
+
+Corrected in this re-audit:
+1. `subscription-plans.ts`: restored tested monthly/annual Prompt Credit allowances.
+2. `founder-credit-tiers.ts`: aligned Founder to 100 base Prompt Credits per $1 plus explicit tier bonus.
+3. `credit-packs.ts`: restored exact active top-up amounts with no bonus.
+4. `PROMPT_CREDITS_T1_AI_USAGE_AUDIT.md`: changed audit base to `main` and reconciled commercial/provider pricing.
+
+Still intentionally separated:
+- commercial Prompt Credit prices,
+- Founder campaign rewards,
+- provider/API cost,
+- ChatGPT subscription pricing.
+
+No provider price should be treated as permanent: verified provider records should carry an effective date/source and be revalidated when providers change pricing.
+
 
 ## Executive summary
 
 Prompt Studio already has a substantial credit and generation foundation. T2–T6 should **extend and normalize the existing system**, not create a parallel wallet, ledger, job system, provider catalog, or billing database.
 
-Verified foundations on `develop`:
+Verified foundations on `main`:
 
 - Next.js 15 / React 19 application with server routes under `src/app/api`.
 - MongoDB via Mongoose.
@@ -22,7 +153,7 @@ Verified foundations on `develop`:
 - Existing credit packs/top-up implementation.
 - Existing GCP/queue migration architecture and provider-cost telemetry work.
 
-The highest-risk finding is a development hack in `ensureCreditAccount()` that unconditionally forces an account to 100,000 credits. It must be removed or strictly development-gated before Prompt Credits can be trusted in production.
+The previous forced 100,000-credit development hack is no longer present in `src/lib/ai-job-service.ts` on `main`; the re-audit verified that stale finding should not remain a current release blocker.
 
 ## Current architecture
 
@@ -82,19 +213,9 @@ Observed protections:
 
 This is the primary implementation to extend for T5/T6 and #146/#836.
 
-### Critical finding: forced development balance
+### Resolved historical finding: forced development balance
 
-`ensureCreditAccount()` currently contains:
-
-```ts
-// DEV HACK: Force 100,000 credits always so you can develop locally without limits
-await AICreditAccount.updateOne(
-  { userId },
-  { $set: { balance: 100000, subscriptionBalance: 100000 } }
-);
-```
-
-Because this update is not visibly guarded by `NODE_ENV === 'development'` in the service, T2/T5 must treat this as a release blocker. It can overwrite authoritative balances and invalidates real credit accounting if reachable outside a safe local environment.
+The earlier audit documented an unconditional 100,000-credit development override in `ensureCreditAccount()`. The current `main` version of `src/lib/ai-job-service.ts` no longer contains that override. Keep regression coverage around authoritative balances so a development shortcut cannot re-enter production paths.
 
 ## Existing provider/model pricing layer
 
@@ -319,7 +440,7 @@ Reuse #146/#836 and canonical `AIGenerationJob` idempotency.
 
 ## Risks to address before production Prompt Credits
 
-1. **Critical — forced 100,000-credit update** in `ensureCreditAccount()`.
+1. **Resolved historical risk — forced 100,000-credit update.** Not present in current `main`; retain regression coverage.
 2. **High — model-centric pricing vs operation-centric product pricing.** Current estimator cannot by itself express the agreed Prompt Studio SKU/quality catalog.
 3. **High — unverified/legacy provider prices.** Several configured provider/model prices are explicitly marked `unverified` or `legacy-estimate`; do not use them as financial truth for margin guarantees.
 4. **High — helper AI calls can cause hidden cost.** Site planning, prompt helpers, vision/video understanding and retries need parent-operation attribution so users are not double charged while Magzin still measures cost.
@@ -338,7 +459,91 @@ T1 is complete when this document is merged because it:
 - inventories the verified AI flow/service/API families,
 - maps agreed Prompt Studio features to stable Prompt Credit operation codes,
 - identifies which existing infrastructure T2–T6 must extend,
-- documents the critical forced-balance risk,
+- verifies the historical forced-balance hack is absent from current `main`,
 - separates provider/model pricing from future operation-level Prompt Credit pricing.
 
-No production behavior, pricing, balance, provider routing, or database schema is changed by T1.
+This re-audit also corrected commercial pricing constants on `main`; provider routing and database schema were not changed.
+
+
+## 2026-10-03 — Unified provider pricing registry for all generation modalities
+
+Prompt Studio keeps Prompt Credits as the user-facing commercial abstraction while provider-native units remain internal. The economic invariant is:
+
+```text
+nominal retail value = $0.01 / Prompt Credit
+maximum provider budget = $0.0025 / Prompt Credit
+default pricing safety buffer = 12.5%
+
+protectedProviderCost = rawProviderCost * 1.125
+requiredCredits = ceil(protectedProviderCost / 0.0025)
+```
+
+The runtime margin engine and the final provider-budget guardrail remain authoritative. A catalog operation may provide a UX tier or fallback price, but it cannot authorize execution when the selected provider/model exceeds the protected provider budget.
+
+### Text generation
+
+Text is priced from provider-native input/output tokens:
+
+```text
+rawProviderCost =
+  inputTokens / 1,000,000 * providerInputPrice
+  + outputTokens / 1,000,000 * providerOutputPrice
+
+requiredCredits = ceil(rawProviderCost * 1.125 / 0.0025)
+```
+
+Primary verified provider entries include Gemini/Google, Vertex/Google Cloud as a separate provider namespace, and OpenAI. Provider/model pricing must never be inferred from ChatGPT subscription prices.
+
+### Website generation
+
+Website generation uses the same token economics as text because the billable provider output is primarily generated text/code. WEBSITE_SIMPLE, WEBSITE_ADVANCED and WEBSITE_COMPLEX remain distinct commercial operations for UX, expected output size, context limits and complexity, but their provider eligibility is evaluated from the actual selected model plus estimated input/output token usage.
+
+```text
+websiteProviderCost =
+  contextTokens * inputTokenPrice
+  + expectedHtmlCssJsTokens * outputTokenPrice
+```
+
+The operation credit price is therefore a commercial ceiling/floor for the workflow, while provider routing must fit inside `credits * $0.0025`.
+
+### Image generation
+
+Images are quoted from provider/model/output-resolution pricing. For Gemini 3.1 Flash Image, the verified standard output prices used on 2026-10-03 are $0.045 (0.5K), $0.067 (1K), $0.101 (2K), and $0.151 (4K). Gemini 3 Pro Image uses $0.134 for 1K/2K and $0.24 for 4K. Gemini 3.1 Flash Lite Image uses $0.0336 for 1K.
+
+Examples after the 12.5% buffer:
+
+| Provider/model | Output | Raw provider cost | Protected Prompt Credits |
+|---|---:|---:|---:|
+| Gemini 3.1 Flash Lite Image | 1K | $0.0336 | 16 |
+| Gemini 3.1 Flash Image | 1K | $0.067 | 31 |
+| Gemini 3.1 Flash Image | 2K | $0.101 | 46 |
+| Gemini 3.1 Flash Image | 4K | $0.151 | 68 |
+| Gemini 3 Pro Image | 1K/2K | $0.134 | 61 |
+| Gemini 3 Pro Image | 4K | $0.24 | 108 |
+
+Image resolution is now part of the runtime provider quote instead of being only a UI label.
+
+### Video generation
+
+Video is quoted by provider/model, duration, resolution and (where the provider differentiates it) audio:
+
+```text
+rawProviderCost = seconds * providerPricePerSecond(model, resolution, audio)
+requiredCredits = ceil(rawProviderCost * 1.125 / 0.0025)
+```
+
+Gemini Developer API and Vertex/Google Cloud are intentionally separate pricing namespaces. Vertex may distinguish video-only from video-with-audio. Duration/resolution compatibility is validated before dispatch. The old generic 100-credit generation ceiling no longer constrains verified video models.
+
+### OpenAI video status
+
+Do not route production video to retired Sora 2 / Videos API entries. As of this audit date, OpenAI documents the Sora 2 / Videos API retirement on 2026-09-24. OpenAI remains a primary provider for currently supported text/project/image capabilities, but video must only be enabled again after a current production video endpoint and pricing are verified.
+
+### Pricing sources and maintenance rule
+
+Provider prices are time-sensitive and must be re-verified before financial changes:
+- Gemini Developer API pricing: https://ai.google.dev/gemini-api/docs/pricing
+- Gemini image model details: https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-image
+- Google Cloud / Vertex generative AI pricing: https://cloud.google.com/vertex-ai/generative-ai/pricing
+- OpenAI API model/pricing documentation: https://developers.openai.com/api/docs/models
+
+The registry's `verifiedAt` date is evidence of the last pricing review, not a promise that a provider has not changed prices since then. Changes to provider prices must update the registry, regression tests and this audit when they alter commercial examples or supported capabilities.

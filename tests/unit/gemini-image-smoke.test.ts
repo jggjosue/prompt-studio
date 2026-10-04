@@ -8,6 +8,7 @@ import {
   GoogleImageProviderError,
   requestGoogleImage,
 } from '../../src/lib/google-image-provider';
+import { googleImageModelFor } from '../../src/lib/google-image-config';
 
 function dataUrl(mimeType: string, signature: number[]) {
   const bytes = Buffer.alloc(64);
@@ -80,4 +81,10 @@ test('shared provider preserves safe HTTP and provider codes on failure', async 
       return true;
     },
   );
+});
+
+test('image quality aliases route to distinct Google models', () => {
+  assert.equal(googleImageModelFor('nano-banana-2-lite'), 'gemini-3.1-flash-lite-image');
+  assert.equal(googleImageModelFor('nano-banana-2'), 'gemini-3.1-flash-image');
+  assert.equal(googleImageModelFor('nano-banana-pro'), 'gemini-3-pro-image');
 });

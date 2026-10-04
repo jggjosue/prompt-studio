@@ -4,6 +4,7 @@ import { getAIOperation, isAIOperationCode, type AIOperationCode } from '@/lib/a
 import { evaluateOperationMargin, type ProviderUsageEstimate } from '@/lib/ai-provider-pricing-engine';
 import connectToDatabase from '@/lib/mongoose';
 import AIOperationPricing from '@/models/AIOperationPricing';
+import { quoteImageProviderCost, quoteVideoProviderCost } from '@/lib/provider-pricing-registry';
 
 export async function resolveRuntimeOperationPricing(input: {
   operationCode: string;
@@ -18,7 +19,15 @@ export async function resolveRuntimeOperationPricing(input: {
   const enabled = override?.enabled ?? base.enabled;
   if (!enabled) throw new Error('OPERATION_DISABLED');
 
-  const creditCost = override?.creditCost ?? base.creditCost;
+  let creditCost = override?.creditCost ?? base.creditCost;
+  if (!override && base.category === 'image' && input.usage?.imageResolution) {
+    const quote = quoteImageProviderCost({ provider: input.provider, modelId: input.modelId, resolution: input.usage.imageResolution, imageCount: input.usage.imageCount });
+    if (quote) creditCost = quote.requiredCredits;
+  }
+  if (!override && base.category === 'video' && input.usage?.videoDurationSeconds && input.usage.videoResolution) {
+    const quote = quoteVideoProviderCost({ provider: input.provider, modelId: input.modelId, resolution: input.usage.videoResolution, durationSeconds: input.usage.videoDurationSeconds, audio: input.usage.videoAudio });
+    if (quote) creditCost = quote.requiredCredits;
+  }
   const minimumMarginPercent = override?.minimumMarginPercent ?? base.minimumMarginPercent;
   if (creditCost === 0) {
     return { operation: base, creditCost, minimumMarginPercent, overridden: Boolean(override), margin: null };

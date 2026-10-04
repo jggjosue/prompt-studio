@@ -1,3 +1,5 @@
+import { ACTIVE_CREDIT_PACK_CATALOG } from '@/lib/commercial-pricing';
+
 /**
  * Catálogo de packs de créditos para recarga puntual.
  *
@@ -22,13 +24,38 @@ export type CreditPack = {
   featured?: boolean;
 };
 
-export const CREDIT_PACKS: readonly CreditPack[] = [
-  { id: 'topup-500', credits: 500, bonusCredits: 0, priceCents: 500, currency: 'usd', name: { es: '500 Prompt Credits', en: '500 Prompt Credits' }, description: { es: 'Recarga puntual de 500 Prompt Credits.', en: 'One-time 500 Prompt Credit top-up.' } },
-  { id: 'topup-1000', credits: 1000, bonusCredits: 0, priceCents: 1000, currency: 'usd', name: { es: '1.000 Prompt Credits', en: '1,000 Prompt Credits' }, description: { es: 'Recarga puntual de 1.000 Prompt Credits.', en: 'One-time 1,000 Prompt Credit top-up.' } },
-  { id: 'topup-2500', credits: 2500, bonusCredits: 0, priceCents: 2500, currency: 'usd', name: { es: '2.500 Prompt Credits', en: '2,500 Prompt Credits' }, description: { es: 'Recarga puntual de 2.500 Prompt Credits.', en: 'One-time 2,500 Prompt Credit top-up.' }, featured: true },
-  { id: 'topup-5000', credits: 5000, bonusCredits: 0, priceCents: 5000, currency: 'usd', name: { es: '5.000 Prompt Credits', en: '5,000 Prompt Credits' }, description: { es: 'Recarga puntual de 5.000 Prompt Credits.', en: 'One-time 5,000 Prompt Credit top-up.' } },
-  { id: 'topup-10000', credits: 10000, bonusCredits: 0, priceCents: 10000, currency: 'usd', name: { es: '10.000 Prompt Credits', en: '10,000 Prompt Credits' }, description: { es: 'Recarga puntual de 10.000 Prompt Credits.', en: 'One-time 10,000 Prompt Credit top-up.' } },
-] as const;
+/**
+ * Tabla de packs de recarga.
+ *
+ * Regla del sistema: 1 Prompt Credit = $0.01 USD (piso comercial).
+ * El precio en centavos dividido entre 100 da los créditos base exactos.
+ * Los packs activos no tienen bonus; las cantidades y precios proceden de
+ * commercial-pricing.ts.
+ *
+ * ┌────────────┬──────────┬────────────┬──────────┬──────────────┐
+ * │ Pack       │ Precio   │ Cr. base   │ Bonus    │ Total cr.    │
+ * ├────────────┼──────────┼────────────┼──────────┼──────────────┤
+ * │ 500 cr     │  $5.00   │   500 cr   │    0     │   500 cr     │
+ * │ 1.000 cr   │ $10.00   │ 1.000 cr   │    0     │ 1.000 cr     │
+ * │ 2.500 cr ★ │ $25.00   │ 2.500 cr   │    0     │ 2.500 cr     │
+ * │ 5.000 cr   │ $50.00   │ 5.000 cr   │    0     │ 5.000 cr     │
+ * │ 10.000 cr  │$100.00   │10.000 cr   │    0     │10.000 cr     │
+ * └────────────┴──────────┴────────────┴──────────┴──────────────┘
+ *
+ * Las recargas activas no añaden bonus: precio y cantidad se validan en servidor y webhook.
+ */
+export const CREDIT_PACKS: readonly CreditPack[] = ACTIVE_CREDIT_PACK_CATALOG.map(pack => ({
+  ...pack,
+  currency: 'usd',
+  name: {
+    es: `${pack.credits.toLocaleString('es-ES')} Prompt Credits`,
+    en: `${pack.credits.toLocaleString('en-US')} Prompt Credits`,
+  },
+  description: {
+    es: `Recarga puntual de ${pack.credits.toLocaleString('es-ES')} Prompt Credits.`,
+    en: `One-time ${pack.credits.toLocaleString('en-US')} Prompt Credit top-up.`,
+  },
+}));
 
 /** Legacy IDs remain readable so an already-paid Stripe session can settle. */
 const LEGACY_CREDIT_PACKS: readonly CreditPack[] = [

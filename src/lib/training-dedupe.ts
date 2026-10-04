@@ -1,6 +1,15 @@
 import { createHash } from 'node:crypto';
 
+/**
+ * canonical-v1: JSON with object keys sorted recursively by UTF-16 code unit
+ * (locale independent), undefined members dropped, arrays kept in order and
+ * non-finite numbers rejected. Callers hash only training content: volatile
+ * fields (record ids, timestamps, correlation and provenance ids) must not be
+ * part of the value, see `datasetContentFor*` in training/processing.
+ */
 export const TRAINING_CANONICALIZATION_VERSION = 'canonical-v1';
+
+const byCodeUnit = ([a]: [string, unknown], [b]: [string, unknown]) => (a < b ? -1 : a > b ? 1 : 0);
 
 function canonicalize(value: unknown): unknown {
   if (Array.isArray(value)) return value.map(canonicalize);
@@ -8,7 +17,7 @@ function canonicalize(value: unknown): unknown {
     return Object.fromEntries(
       Object.entries(value as Record<string, unknown>)
         .filter(([, child]) => child !== undefined)
-        .sort(([a], [b]) => a.localeCompare(b))
+        .sort(byCodeUnit)
         .map(([key, child]) => [key, canonicalize(child)]),
     );
   }

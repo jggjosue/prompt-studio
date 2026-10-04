@@ -18,7 +18,10 @@ function downloadAsset(url: string, filename: string) {
   document.body.removeChild(a);
 }
 
-export function ImageResult({ result }: { result: ChatMessageResult }) {
+/** Download format for training telemetry, derived from the file name we offer. */
+export type DownloadHandler = (format: 'png' | 'jpg' | 'webp' | 'mp4' | 'webm' | 'html', index: number) => void;
+
+export function ImageResult({ result, onDownload }: { result: ChatMessageResult; onDownload?: DownloadHandler }) {
   const urls = result.imageUrls ?? (result.imageUrl ? [result.imageUrl] : []);
   if (urls.length === 0) return null;
 
@@ -36,7 +39,7 @@ export function ImageResult({ result }: { result: ChatMessageResult }) {
           <div className="absolute bottom-0 left-0 right-0 flex items-center gap-2 bg-gradient-to-t from-black/70 to-transparent px-3 py-2.5 opacity-0 transition-all duration-200 group-hover:opacity-100 group-focus-within:opacity-100">
             <button
               type="button"
-              onClick={() => downloadAsset(url, `imagen-${i + 1}.png`)}
+              onClick={() => { downloadAsset(url, `imagen-${i + 1}.png`); onDownload?.('png', i); }}
               className="flex items-center gap-1.5 rounded-md bg-white/10 px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
               aria-label="Descargar imagen"
             >
@@ -55,7 +58,7 @@ export function ImageResult({ result }: { result: ChatMessageResult }) {
   );
 }
 
-export function VideoResult({ result }: { result: ChatMessageResult }) {
+export function VideoResult({ result, onDownload }: { result: ChatMessageResult; onDownload?: DownloadHandler }) {
   if (!result.videoUrl) return null;
 
   return (
@@ -71,7 +74,7 @@ export function VideoResult({ result }: { result: ChatMessageResult }) {
       <div className="flex items-center gap-2">
         <button
           type="button"
-          onClick={() => downloadAsset(result.videoUrl!, 'video-generado.mp4')}
+          onClick={() => { downloadAsset(result.videoUrl!, 'video-generado.mp4'); onDownload?.('mp4', 0); }}
           className="flex items-center gap-1.5 rounded-md border border-border/60 px-2.5 py-1 text-[11px] font-semibold transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           aria-label="Descargar video"
         >

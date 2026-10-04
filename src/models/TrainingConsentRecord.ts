@@ -1,8 +1,11 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
 export const TRAINING_CONSENT_POLICY_VERSION = '2026-10-v1';
+/** 1: initial shape. Records written before this field existed are treated as 1. */
+export const TRAINING_CONSENT_RECORD_SCHEMA_VERSION = 1 as const;
 
 export interface ITrainingConsentRecord extends Document {
+  schemaVersion: number;
   userId: string;
   training: boolean;
   policyVersion: string;
@@ -14,6 +17,7 @@ export interface ITrainingConsentRecord extends Document {
 }
 
 const TrainingConsentRecordSchema = new Schema<ITrainingConsentRecord>({
+  schemaVersion: { type: Number, required: true, default: TRAINING_CONSENT_RECORD_SCHEMA_VERSION, min: 1, immutable: true },
   userId: { type: String, required: true, index: true },
   training: { type: Boolean, required: true, default: false },
   policyVersion: { type: String, required: true, maxlength: 80 },
