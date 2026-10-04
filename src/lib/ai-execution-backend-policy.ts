@@ -1,3 +1,5 @@
+import { createHash } from 'node:crypto';
+
 /**
  * Execution-backend selector for heavy AI generation (#835).
  *
@@ -34,6 +36,7 @@ export type ExecutionBackendReason =
   | 'kill_switch'
   | 'dispatch_disabled'
   | 'workload_disabled'
+  | 'rollout_excluded'
   | 'configuration_missing'
   | 'ambiguous_configuration'
   | 'adapter_not_implemented';
@@ -105,6 +108,21 @@ export function cloudBackendWorkloadEnabled(
   return !flags.killSwitch && flags.dispatchEnabled && flags[workload];
 }
 
+/**
+ * Canary share for one workload on one backend, 0-100. Unset/invalid => 0, so
+ * turning the flags on without an explicit percentage sends no traffic.
+ */
+export function cloudBackendRolloutPercent(backend: CloudExecutionBackend, workload: ExecutionWorkload, env: NodeJS.ProcessEnv = process.env): number {
+  const parsed = Number(env[`${PREFIX[backend]}_${workload.toUpperCase()}_ROLLOUT_PERCENT`]?.trim());
+  if (!Number.isFinite(parsed)) return 0;
+  return Math.min(100, Math.max(0, Math.floor(parsed)));
+}
+
+/** Stable 0-99 bucket: the same user stays on the same side of a canary. */
+export function rolloutBucket(routingKey: string): number {
+  return createHash('sha256').update(`prompt-studio-execution-rollout:${routingKey}`).digest().readUInt32BE(0) % 100;
+}
+
 export function missingBackendConfig(backend: CloudExecutionBackend, env: NodeJS.ProcessEnv = process.env): string[] {
   return EXECUTION_BACKEND_REQUIRED_CONFIG[backend].filter(name => !env[name]?.trim());
 }
@@ -132,6 +150,8 @@ const legacy = (
  */
 export function selectExecutionBackend(input: {
   kind: string;
+  /** Stable key for canary bucketing (the user id). Missing => no canary. */
+  routingKey?: string | null;
   env?: NodeJS.ProcessEnv;
 }): ExecutionBackendSelection {
   const env = input.env ?? process.env;
@@ -157,6 +177,8 @@ export function selectExecutionBackend(input: {
   if (!IMPLEMENTED_EXECUTION_BACKENDS.has(requested)) return legacy('adapter_not_implemented', requested, workload);
   const missing = missingBackendConfig(requested, env);
   if (missing.length) return legacy('configuration_missing', requested, workload, missing);
+  const percent = cloudBackendRolloutPercent(requested, workload, env);
+  if (!input.routingKey || rolloutBucket(input.routingKey) >= percent) return legacy('rollout_excluded', requested, workload);
 
   return { backend: requested, requested, workload, reason: 'selected', missing: [] };
 }

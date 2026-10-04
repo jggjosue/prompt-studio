@@ -1,0 +1,7 @@
+# Cloud Build recipe for the private generation worker image (used by scripts/gcp/deploy-ai-worker.sh).
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args: ['build', '-f', 'workers/generation/Dockerfile', '-t', '${_IMAGE}', '.']
+images: ['${_IMAGE}']
+options:
+  logging: CLOUD_LOGGING_ONLY

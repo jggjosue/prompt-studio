@@ -269,7 +269,7 @@ export async function POST(request: Request) {
   // Exactly one execution backend per job (#835). The choice is pure config,
   // computed here so it is pinned atomically with the job document: retries
   // and recovery reuse it and a later flag flip can never move this job.
-  const execution = selectExecutionBackend({ kind: raw.kind });
+  const execution = selectExecutionBackend({ kind: raw.kind, routingKey: userId });
   let job;
   try {
     job = await AIGenerationJob.create({
