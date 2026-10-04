@@ -1,15 +1,16 @@
-import 'server-only';
+import {
+  cloudBackendWorkloadEnabled,
+  missingBackendConfig,
+  type ExecutionWorkload,
+} from '@/lib/ai-execution-backend-policy';
 
-export type GcpGenerationWorkload = 'image' | 'video' | 'web';
+// Pure env policy shared with the multi-backend selector. It reads no secret
+// values, so it intentionally does not import `server-only` (keeps it testable).
 
-const enabled = (value: string | undefined) => value?.trim().toLowerCase() === 'true';
+export type GcpGenerationWorkload = ExecutionWorkload;
 
 export function gcpWorkloadEnabled(workload: GcpGenerationWorkload, env: NodeJS.ProcessEnv = process.env): boolean {
-  if (enabled(env.GCP_AI_KILL_SWITCH)) return false;
-  if (!enabled(env.GCP_AI_DISPATCH_ENABLED)) return false;
-  if (workload === 'image') return enabled(env.GCP_AI_IMAGE_ENABLED);
-  if (workload === 'video') return enabled(env.GCP_AI_VIDEO_ENABLED);
-  return enabled(env.GCP_AI_WEB_ENABLED);
+  return cloudBackendWorkloadEnabled('gcp', workload, env);
 }
 
 export function gcpQueueFor(workload: GcpGenerationWorkload, env: NodeJS.ProcessEnv = process.env): string {
@@ -18,7 +19,6 @@ export function gcpQueueFor(workload: GcpGenerationWorkload, env: NodeJS.Process
 }
 
 export function gcpDispatchReady(workload: GcpGenerationWorkload, env: NodeJS.ProcessEnv = process.env) {
-  const required = ['GCP_AI_PROJECT_ID','GCP_AI_REGION','GCP_AI_WORKER_URL','GCP_AI_QUEUE_INVOKER_SERVICE_ACCOUNT'];
-  const missing = required.filter(name=>!env[name]?.trim());
-  return { enabled: gcpWorkloadEnabled(workload,env), ready: missing.length===0, missing, queue:gcpQueueFor(workload,env) };
+  const missing = missingBackendConfig('gcp', env);
+  return { enabled: gcpWorkloadEnabled(workload, env), ready: missing.length === 0, missing, queue: gcpQueueFor(workload, env) };
 }
