@@ -6,7 +6,21 @@ export type GenerationJobClaimInput = {
   leaseMs: number;
   userId?: string;
   jobId?: string;
+  /**
+   * Execution backend this claimer runs on (#835). Defaults to `legacy`.
+   * A worker only ever claims jobs pinned to its own backend, so a job
+   * dispatched to GCP can never also be executed by the Vercel cron.
+   */
+  executionBackend?: 'legacy' | 'gcp' | 'aws' | 'cloudflare';
 };
+
+/**
+ * Jobs created before the selector existed have no `executionBackend`; they
+ * belong to legacy. `{ $in: [..., null] }` also matches a missing field.
+ */
+export function executionBackendClaimFilter(backend: GenerationJobClaimInput['executionBackend'] = 'legacy') {
+  return backend === 'legacy' ? { $in: ['legacy', null] } : backend;
+}
 
 export type AtomicGenerationJobStore<T> = {
   findOneAndUpdate(
@@ -34,6 +48,7 @@ export async function claimGenerationJobAtomically<T>(
       nextAttemptAt: { $lte: now },
       $expr: { $lt: ['$attempts', '$maxAttempts'] },
       $or: [{ leaseExpiresAt: null }, { leaseExpiresAt: { $lte: now } }],
+      executionBackend: executionBackendClaimFilter(input.executionBackend),
       ...(input.userId ? { userId: input.userId } : {}),
       ...(input.jobId ? { _id: input.jobId } : {}),
     },
@@ -72,6 +87,7 @@ export async function claimExhaustedGenerationJobAtomically<T>(
       nextAttemptAt: { $lte: now },
       $expr: { $gte: ['$attempts', '$maxAttempts'] },
       $or: [{ leaseExpiresAt: null }, { leaseExpiresAt: { $lte: now } }],
+      executionBackend: executionBackendClaimFilter(input.executionBackend),
       ...(input.userId ? { userId: input.userId } : {}),
       ...(input.jobId ? { _id: input.jobId } : {}),
     },

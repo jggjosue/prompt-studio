@@ -60,8 +60,10 @@ test('QStash verification binds signature, exact URL, body hash, and expiration'
 test('creation dispatches only after durable creation and credit reservation', async () => {
   const route = await source('src/app/api/ai/jobs/route.ts');
   const createAt = route.indexOf('AIGenerationJob.create');
-  const reserveAt = route.indexOf('reserveCredits(job)', createAt);
-  const dispatchAt = route.indexOf('dispatchGenerationJob(String(job._id))', reserveAt);
+  const reserveAt = route.indexOf('reserveGenerationCredits(job)', createAt);
+  // #835: the route enqueues through the single-backend dispatcher, which
+  // delegates to dispatchGenerationJob (QStash/cron) only for legacy jobs.
+  const dispatchAt = route.indexOf('dispatchGenerationExecution(job', reserveAt);
   assert.ok(createAt >= 0 && reserveAt > createAt && dispatchAt > reserveAt);
 });
 
