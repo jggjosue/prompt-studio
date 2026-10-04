@@ -8,6 +8,21 @@ export const dynamic = 'force-dynamic';
 const PAGE_SIZE = 24;
 const MAX_PAGE_SIZE = 24;
 
+/**
+ * Catalog pages are static files under public/. Node (Vercel, local) reads them
+ * from disk; Cloudflare Workers has no filesystem, so fall back to the same
+ * file served as a static asset from this origin.
+ */
+async function readCatalogFile(request: NextRequest, kind: string, locale: string, file: string) {
+  try {
+    return await readFile(path.join(process.cwd(), 'public', 'catalog', kind, locale, file), 'utf8');
+  } catch {
+    const response = await fetch(new URL(`/catalog/${kind}/${locale}/${file}`, request.url));
+    if (!response.ok) throw new Error(`Catalog asset ${kind}/${locale}/${file} returned ${response.status}`);
+    return response.text();
+  }
+}
+
 function lightItem<T extends { description: string }>(item: T) {
   return { ...item, description: '' };
 }
@@ -22,8 +37,7 @@ export async function GET(
   const limit = Math.min(MAX_PAGE_SIZE, Math.max(1, Number.parseInt(request.nextUrl.searchParams.get('limit') ?? String(PAGE_SIZE), 10) || PAGE_SIZE));
 
   if (!['images', 'videos', 'web-pages'].includes(kind)) return NextResponse.json({ error: 'Unknown catalog' }, { status: 404 });
-  const directory = path.join(process.cwd(), 'public', 'catalog', kind, locale);
-  const manifest = JSON.parse(await readFile(path.join(directory, 'manifest.json'), 'utf8')) as {
+  const manifest = JSON.parse(await readCatalogFile(request, kind, locale, 'manifest.json')) as {
     version: string;
     total: number;
     pageSize: number;
@@ -37,7 +51,7 @@ export async function GET(
       { headers: cacheHeaders('public-catalog') }
     );
   }
-  const page = JSON.parse(await readFile(path.join(directory, pageFile.file), 'utf8')) as Array<{ description: string }>;
+  const page = JSON.parse(await readCatalogFile(request, kind, locale, pageFile.file)) as Array<{ description: string }>;
   const withinPage = offset % manifest.pageSize;
   const items = page.slice(withinPage, withinPage + limit).map(lightItem);
   const nextOffset = offset + items.length;
