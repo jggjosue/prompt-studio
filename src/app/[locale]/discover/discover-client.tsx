@@ -452,10 +452,18 @@ export default function DiscoverClient({
     if (!baseItems.length) return;
     const controller = new AbortController();
     const keys = baseItems.map(item => item.contentKey).join(',');
-    fetch(`/api/catalog-engagement?${new URLSearchParams({ keys })}`, {
-      credentials: 'same-origin', signal: controller.signal,
-    })
-      .then(response => response.ok ? response.json() : Promise.reject(new Error('metrics unavailable')))
+    // The edge can drop a request (cold start over the CPU limit returns 503),
+    // so retry a few times before leaving the counters at zero.
+    const load = async (attempt = 0): Promise<{ metrics?: CatalogMetrics[] }> => {
+      const response = await fetch(`/api/catalog-engagement?${new URLSearchParams({ keys })}`, {
+        credentials: 'same-origin', signal: controller.signal,
+      });
+      if (response.ok) return response.json();
+      if (attempt >= 3) throw new Error('metrics unavailable');
+      await new Promise(resolve => setTimeout(resolve, 400 * 2 ** attempt));
+      return load(attempt + 1);
+    };
+    load()
       .then((data: { metrics?: CatalogMetrics[] }) => {
         if (Array.isArray(data.metrics)) {
           const map = new Map(data.metrics.map(metric => [metric.contentKey, metric]));
