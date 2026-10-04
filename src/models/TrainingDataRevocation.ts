@@ -1,6 +1,11 @@
 import mongoose, { Schema } from 'mongoose';
 
-export const TRAINING_REVOCATION_SCHEMA_VERSION = 1 as const;
+/**
+ * 1: record-level revocations (sourceRecordIds).
+ * 2: adds optional `userId` for whole-account consent withdrawal, which also
+ *    excludes records captured later by mistake. v1 documents remain valid.
+ */
+export const TRAINING_REVOCATION_SCHEMA_VERSION = 2 as const;
 export const TRAINING_REVOCATION_REASONS = ['consent_revoked', 'user_request', 'license_revoked', 'provenance_invalid', 'policy_exclusion'] as const;
 
 const schema = new Schema({
@@ -8,6 +13,7 @@ const schema = new Schema({
   revocationId: { type: String, required: true, unique: true, immutable: true },
   reason: { type: String, required: true, enum: TRAINING_REVOCATION_REASONS, immutable: true },
   sourceRecordIds: { type: [String], required: true, immutable: true },
+  userId: { type: String, default: null, immutable: true, index: true },
   requestedAt: { type: Date, required: true, immutable: true },
   requestedBy: { type: String, required: true, immutable: true },
   notes: { type: String, default: null, immutable: true },

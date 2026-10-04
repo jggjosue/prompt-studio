@@ -9,6 +9,7 @@ import AIGenerationJob from '@/models/AIGenerationJob';
 import ComponentPurchase from '@/models/ComponentPurchase';
 import { outputUrl } from '@/lib/prompt-experiment';
 import { recordProjectFunnelEvent } from '@/lib/project-funnel-events';
+import { captureGenerationFeedbackBestEffort } from '@/lib/training/capture';
 
 export const runtime = 'nodejs';
 
@@ -106,6 +107,8 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
   job.feedbackUseful = useful;
   job.updatedAt = now;
   await job.save();
+  // Training evidence (only recorded when the user consented at submission).
+  captureGenerationFeedbackBestEffort(job, { useful, reason });
   if (useful && job.projectId) await recordProjectFunnelEvent({ userId, projectId: job.projectId, stage: 'result_approved', occurredAt: now, sourceId: id });
 
   void recordObservabilityEvent({

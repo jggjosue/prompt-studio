@@ -10,6 +10,9 @@ import AICreditLedger from '@/models/AICreditLedger';
 import AIGenerationJob, { type IAIGenerationJob } from '@/models/AIGenerationJob';
 import mongoose from 'mongoose';
 import 'server-only';
+import { clerkClient } from '@clerk/nextjs/server';
+import { isUnlimitedCreditsAdmin } from '@/lib/prompt-studio-admin';
+import { evaluateProviderBudget } from '@/lib/credit-economics';
 
 const initialCredits = Math.max(0, Number(process.env.AI_INITIAL_CREDITS ?? 0));
 
@@ -60,6 +63,15 @@ export async function ensureCreditAccount(userId: string, session?: CreditSessio
 }
 
 export async function reserveCredits(job: IAIGenerationJob): Promise<number | null> {
+  if (isUnlimitedCreditsAdmin(job.userEmail)) {
+    await AIGenerationJob.updateOne(
+      { _id: job._id },
+      { $set: { creditsState: 'reserved', reservedSubscriptionCredits: 0, reservedPurchasedCredits: 0, reservedFounderCredits: 0, reservedPromotionalCredits: 0, updatedAt: new Date() } }
+    );
+    job.creditsState = 'reserved';
+    return 999999;
+  }
+
   for (let attempt = 0; attempt < 3; attempt += 1) {
     const session = await mongoose.startSession();
     try {
@@ -137,6 +149,15 @@ export async function captureCredits(job: IAIGenerationJob) {
 
 export async function reconcileCredits(job: IAIGenerationJob, actualCostUsd: number | null) {
   if (job.creditsState !== 'reserved') return;
+  if (isUnlimitedCreditsAdmin(job.userEmail)) {
+    await AIGenerationJob.updateOne(
+      { _id: job._id },
+      { $set: { creditsState: 'captured', creditsCharged: 0, updatedAt: new Date() } }
+    );
+    job.creditsCharged = 0;
+    job.creditsState = 'captured';
+    return;
+  }
   const session = await mongoose.startSession();
   try {
     await session.withTransaction(async () => {
@@ -172,10 +193,25 @@ export async function reconcileCredits(job: IAIGenerationJob, actualCostUsd: num
       const refund = Math.max(0, job.creditCost - requestedCredits);
       const refundAllocation = refundCreditReservation(reservation, refund);
       const chargedCredits = job.creditCost + additionalCharged - refund;
+      const providerEconomics = actualCostUsd === null || !Number.isFinite(actualCostUsd)
+        ? null
+        : evaluateProviderBudget(Math.max(1, chargedCredits), actualCostUsd);
+      const actualCostPerCreditUsd = providerEconomics && chargedCredits > 0
+        ? actualCostUsd / chargedCredits
+        : null;
 
       const claimed = await AIGenerationJob.updateOne(
         { _id: job._id, creditsState: 'reserved' },
-        { $set: { creditsState: 'captured', creditsCharged: chargedCredits, updatedAt: new Date() } },
+        { $set: {
+          creditsState: 'captured',
+          creditsCharged: chargedCredits,
+          actualCostUsd,
+          providerBudgetUsd: providerEconomics?.providerBudgetUsd ?? null,
+          actualCostPerCreditUsd,
+          providerBudgetUtilizationPercent: providerEconomics?.utilizationPercent ?? null,
+          providerMarginUsd: providerEconomics?.remainingBudgetUsd ?? null,
+          updatedAt: new Date(),
+        } },
         { session },
       );
       if (claimed.modifiedCount !== 1) {
@@ -190,7 +226,7 @@ export async function reconcileCredits(job: IAIGenerationJob, actualCostUsd: num
         inputTokens: job.actualInputTokens ?? job.estimatedInputTokens ?? null, outputTokens: job.actualOutputTokens ?? job.estimatedOutputTokens ?? null,
         estimatedApiCostUsd: job.estimatedCostUsd, actualApiCostUsd: actualCostUsd, creditsCharged: chargedCredits,
         requestId: `capture:${generationSubmissionKey(job)}`,
-        metadata: { reservation, additionalAllocation, refundAllocation }, createdAt: new Date(),
+        metadata: { reservation, additionalAllocation, refundAllocation, providerEconomics, actualCostPerCreditUsd }, createdAt: new Date(),
       }], { session });
 
       await AICreditAccount.updateOne(
@@ -220,6 +256,14 @@ export async function reconcileCredits(job: IAIGenerationJob, actualCostUsd: num
 
 export async function refundCredits(job: IAIGenerationJob) {
   if (job.creditsState !== 'reserved') return;
+  if (isUnlimitedCreditsAdmin(job.userEmail)) {
+    await AIGenerationJob.updateOne(
+      { _id: job._id },
+      { $set: { creditsState: 'refunded', updatedAt: new Date() } }
+    );
+    job.creditsState = 'refunded';
+    return;
+  }
   const session = await mongoose.startSession();
   try {
     await session.withTransaction(async () => {
@@ -277,6 +321,25 @@ export async function getCreditBalance(userId: string) {
   await connectToDatabase();
   await ensureCreditAccount(userId);
   const account = await AICreditAccount.findOne({ userId }).lean();
+
+  try {
+    const client = await clerkClient();
+    const user = await client.users.getUser(userId);
+    if (isUnlimitedCreditsAdmin(user.primaryEmailAddress?.emailAddress)) {
+      return {
+        balance: 999999,
+        promotionalCredits: 999999,
+        subscriptionCredits: 999999,
+        purchasedCredits: 999999,
+        founderCredits: 999999,
+        reserved: account?.reserved ?? 0,
+        lifetimeSpent: account?.lifetimeSpent ?? 0,
+      };
+    }
+  } catch (err) {
+    // Fallback to actual balance if Clerk lookup fails
+  }
+
   return {
     balance: account?.balance ?? 0,
     promotionalCredits: account?.promotionalBalance ?? 0,

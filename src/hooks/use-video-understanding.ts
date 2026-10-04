@@ -1,5 +1,6 @@
 'use client';
 
+import { takeGenerationTrainingContext } from '@/lib/training/client-events';
 import type { ChatMessageResult, ChatParams } from '@/lib/chat-types';
 import {
   LONG_GENERATION_POLL_SCHEDULE,
@@ -75,6 +76,7 @@ export function useVideoUnderstanding() {
           provider: currentProvider,
           model,
           input,
+          trainingContext: takeGenerationTrainingContext(),
         }),
       });
 
@@ -125,7 +127,7 @@ export function useVideoUnderstanding() {
       const creditsBalance = (jobData.credits as Record<string, unknown> | undefined)?.balance;
       if (typeof creditsBalance === 'number') setCredits(creditsBalance);
       const creditCost = (jobData.job as Record<string, unknown> | undefined)?.creditCost;
-      return { result: { text: textOutput, creditsUsed: typeof creditCost === 'number' ? creditCost : 2, provider: currentProvider } };
+      return { result: { generationId: jobId, text: textOutput, creditsUsed: typeof creditCost === 'number' ? creditCost : 2, provider: currentProvider } };
     } catch (err: unknown) {
       return { error: err instanceof Error ? err.message : 'Error al conectar con el servidor.' };
     }

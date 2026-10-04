@@ -29,3 +29,19 @@ test('unknown events do not affect quality', () => {
   const result = calculateTrainingQuality('preference', qualitySignalsFromEventNames(['unknown_event']), {});
   assert.equal(result.score, 0);
 });
+
+test('a successful generation alone never clears any default threshold', () => {
+  for (const dataset of ['prompt-enhancement', 'preference', 'image-generation', 'video-generation', 'web-generation'] as const) {
+    const result = calculateTrainingQuality(dataset, qualitySignalsFromEventNames(['generation_completed']), {});
+    assert.equal(result.score, 0.3);
+    assert.equal(result.passes, false, dataset);
+  }
+});
+
+test('keeping an output after regenerating adds the selected signal', () => {
+  const signals = { ...qualitySignalsFromEventNames(['generation_completed', 'output_downloaded']), selected: true };
+  const result = calculateTrainingQuality('image-generation', signals, {});
+  assert.equal(result.contributions.selected, 0.1);
+  assert.equal(result.score, 0.55);
+  assert.equal(result.passes, true);
+});

@@ -11,8 +11,8 @@
   },
   "scripts": {
     "test": "npm run test:unit && npm run test:integration && npm run test:data",
-    "test:unit": "node --import tsx --test tests/unit/*.test.ts",
-    "test:integration": "node --import tsx --test tests/integration/*.test.ts",
+    "test:unit": "node --import tsx --import ./scripts/node/server-only-shim.mjs --test tests/unit/*.test.ts",
+    "test:integration": "node --import tsx --import ./scripts/node/server-only-shim.mjs --test tests/integration/*.test.ts",
     "test:data": "node --test tests/data/*.test.mjs",
     "test:coverage": "node scripts/mjs/build-coverage-report.mjs",
     "test:e2e": "playwright test",
@@ -74,16 +74,18 @@
     "precompress:static": "node scripts/mjs/precompress-static.mjs",
     "audit:optimization-artifacts": "node scripts/mjs/audit-optimization-artifacts.mjs",
     "worker:aws": "tsx workers/aws-generation-worker.ts",
-    "load-test:text-model": "node --import tsx scripts/ts/load-test-generate-text.ts"
-    "verify:r2:training": "node --import tsx scripts/ts/verify-training-r2.ts",
-    "worker:training": "tsx workers/aws-training-data-worker.ts",
-    "dataset:release": "node --import tsx scripts/ts/release-training-dataset.ts",
-    "dataset:rebuild-revoked": "node --import tsx scripts/ts/rebuild-revoked-dataset.ts"
+    "load-test:text-model": "node --import tsx scripts/ts/load-test-generate-text.ts",
+    "verify:r2:training": "node --import tsx --import ./scripts/node/server-only-shim.mjs scripts/ts/verify-training-r2.ts",
+    "worker:training": "node --import tsx --import ./scripts/node/server-only-shim.mjs workers/aws-training-data-worker.ts",
+    "dataset:release": "node --import tsx --import ./scripts/node/server-only-shim.mjs scripts/ts/release-training-dataset.ts",
+    "dataset:rebuild-revoked": "node --import tsx --import ./scripts/node/server-only-shim.mjs scripts/ts/rebuild-revoked-dataset.ts",
+    "crowdfunding:backfill-backers": "tsx scripts/ts/backfill-crowdfunding-backers.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1049.0",
     "@aws-sdk/s3-request-presigner": "^3.1049.0",
     "@clerk/nextjs": "^7.3.5",
+    "@cloudflare/workers-response-store": "^1.0.1",
     "@dnd-kit/core": "^6.3.1",
     "@dnd-kit/sortable": "^10.0.0",
     "@dnd-kit/utilities": "^3.2.2",
@@ -115,6 +117,7 @@
     "@radix-ui/react-tooltip": "^1.2.10",
     "@vercel/analytics": "^1.6.1",
     "@vercel/speed-insights": "^1.3.1",
+    "@vinext/cloudflare": "^1.0.0-beta.10",
     "class-variance-authority": "^0.7.1",
     "cloudflare": "^6.2.0",
     "clsx": "^2.1.1",
@@ -130,10 +133,11 @@
     "next-intl": "^4.12.0",
     "next-themes": "^0.4.0",
     "patch-package": "^8.0.1",
-    "react": "^19.2.1",
+    "react": "^19.2.6",
     "react-day-picker": "^9.1.3",
-    "react-dom": "^19.2.1",
+    "react-dom": "^19.2.6",
     "react-hook-form": "^7.54.2",
+    "react-server-dom-webpack": "^19.2.6",
     "recharts": "^3.10.1",
     "resend": "^6.16.0",
     "sharp": "^0.35.4",
@@ -141,16 +145,21 @@
     "svix": "^1.96.1",
     "tailwind-merge": "^3.0.1",
     "tailwindcss-animate": "^1.0.7",
+    "vinext": "^1.0.0-beta.12",
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "beta",
     "@eslint/eslintrc": "^3.3.7",
     "@types/caniuse-lite": "^1",
     "@types/node": "^20",
     "@types/react": "^19.2.1",
     "@types/react-dom": "^19.2.1",
+    "@vitejs/plugin-react": "6.1.1",
+    "@vitejs/plugin-rsc": "0.5.35",
     "browserslist": "^4.28.4",
     "caniuse-lite": "^1.0.30001799",
+    "cf": "latest",
     "cssnano": "^8.0.1",
     "esbuild": "^0.28.0",
     "eslint": "^9.39.5",
@@ -161,7 +170,9 @@
     "postcss": "^8.5.28",
     "tailwindcss": "^3.4.1",
     "tsx": "^4.20.6",
-    "typescript": "6.0.3"
+    "typescript": "6.0.3",
+    "vite": "8.3.0",
+    "wrangler": "^4.146.0"
   },
   "overrides": {
     "handlebars": "^4.7.9",
@@ -179,5 +190,6 @@
     "@grpc/grpc-js": "^1.14.4",
     "postcss": "^8.5.28",
     "protobufjs": "^7.6.6"
-  }
+  },
+  "type": "module"
 }

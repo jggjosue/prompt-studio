@@ -32,6 +32,8 @@ import { useSearchParams } from 'next/navigation';
 import type { ChatGeneratorReturn, ChatQueueItem, ChatQueueStatus } from '@/lib/chat-types';
 import { ChatMode } from '@/lib/chat-types';
 import { trackInterest } from '@/lib/interest-analytics';
+import { trackTrainingEvent, trainingModalityForChatMode } from '@/lib/training/client-events';
+import { useSuperAdmin } from '@/hooks/use-super-admin';
 
 const MODE_CONFIG: Record<ChatMode, { label: string; icon: React.ReactNode; color: string; placeholder: string }> = {
   image: {
@@ -87,6 +89,7 @@ export function ChatInputBar({
   const searchParams = useSearchParams();
   const { selectedMode, setSelectedMode, params, generate, localGenerating, messages, queue, queueRunning, enqueue, startQueue, removeQueueItem, retryQueueItem, clearQueue, draftPrompt, setDraftPrompt } = chat;
   const activeResponses = messages.filter(message => message.role === 'assistant' && message.status === 'pending').length;
+  const isSuperAdmin = useSuperAdmin();
 
   const slashQuery = prompt.startsWith('/') ? prompt.slice(1).trim().toLowerCase() : null;
   const commandMode = selectedMode === 'vision' ? 'image' : selectedMode === 'videoUnderstanding' ? 'video' : selectedMode;
@@ -169,7 +172,9 @@ export function ChatInputBar({
   const handleAddToQueue = () => {
     if (!prompt.trim()) return;
     trackInterest('generate_action', { action: 'add_to_queue', mode: selectedMode });
-    enqueue(prompt);
+    if (enqueue(prompt)) {
+      trackTrainingEvent({ eventName: 'added_to_queue', modality: trainingModalityForChatMode(selectedMode), payload: { surface: 'queue', queueLength: Math.min(queue.length + 1, 500) } });
+    }
     setPrompt('');
     setSelectedSlashCommand(null);
   };
@@ -323,11 +328,11 @@ export function ChatInputBar({
               {activeResponses === 1 ? '1 creación en segundo plano' : `${activeResponses} creaciones en segundo plano`}
             </span>
           )}
-          <Button variant="outline" onClick={handleAddToQueue} disabled={!prompt.trim()} className="h-10 px-3 text-xs sm:text-sm" title="Agregar a la cola de generación">
+          <Button variant="outline" onClick={handleAddToQueue} disabled={!prompt.trim() || !isSuperAdmin} className="h-10 px-3 text-xs sm:text-sm" title="Agregar a la cola de generación">
             <ListPlus className="h-4 w-4" />
             <span className="ml-1.5 hidden sm:inline">Agregar a cola</span>
           </Button>
-          <Button onClick={handleSend} disabled={!prompt.trim()} size="icon" className="h-10 w-10">
+          <Button onClick={handleSend} disabled={!prompt.trim() || !isSuperAdmin} size="icon" className="h-10 w-10">
             <Send className="h-4 w-4" />
             <span className="sr-only">Enviar</span>
           </Button>

@@ -25,12 +25,9 @@ test('el catálogo de packs es coherente', () => {
   assert.equal(CREDIT_PACKS.filter(pack => pack.featured).length, 1, 'solo un pack puede ir destacado');
 });
 
-test('los packs grandes salen más baratos por crédito', () => {
-  // Si un pack mayor no mejora el precio unitario, el usuario no tiene motivo
-  // para elegirlo y el escalón sobra.
-  const rates = CREDIT_PACKS.map(centsPerCredit);
-  for (let index = 1; index < rates.length; index += 1) {
-    assert.ok(rates[index] < rates[index - 1], `el pack ${CREDIT_PACKS[index].id} no mejora el precio por crédito`);
+test('todos los packs respetan el piso comercial de un centavo por crédito', () => {
+  for (const pack of CREDIT_PACKS) {
+    assert.ok(centsPerCredit(pack) >= 1, `${pack.id} vende créditos por debajo de $0.01`);
   }
 });
 
@@ -120,6 +117,9 @@ test('la ruta de checkout no confía en el precio del cliente', async () => {
   assert.ok(route.includes('await auth()') && route.includes('status: 401'), 'la ruta exige sesión');
   assert.ok(route.includes('rateLimit('), 'la ruta necesita límite de peticiones');
   assert.ok(route.includes("purchaseType: 'credit_topup'"), 'el webhook distingue la recarga por este metadato');
+  assert.ok(route.includes("CROWDFUNDING_CREDITS_ACTIVE !== '1'"), 'las recargas se bloquean hasta activar el saldo tras crowdfunding');
+  assert.ok(route.includes('validateCreditSaleEconomics'), 'el checkout valida la economía antes de vender el pack');
+  assert.ok(!route.includes('allow_promotion_codes: true'), 'las recargas no aceptan promociones que rompan la economía');
 });
 
 test('el webhook trata la recarga aparte de la compra de páginas', async () => {

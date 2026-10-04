@@ -3,7 +3,7 @@ import test from'node:test';import assert from'node:assert/strict';import{actual
 const MEASURED=['image','video','project']as const;
 const UNMEASURED=['text','vision','videoUnderstanding']as const;
 const ALL_KINDS=[...MEASURED,...UNMEASURED]as const;
-test('quotes use the same server-owned credit prices',()=>{assert.equal(generationQuote('image','openai').credits,1);assert.equal(generationQuote('video','runway').credits,3);assert.equal(generationQuote('project','anthropic').credits,2)});
+test('quotes use the same server-owned credit prices',()=>{assert.equal(generationQuote('image','openai').credits,18);assert.equal(generationQuote('video','runway').credits,180);assert.equal(generationQuote('project','anthropic').credits,36)});
 test('every quote explains cost and automatic refund',()=>{for(const kind of ALL_KINDS){const q=generationQuote(kind,'provider');assert.equal(typeof q.credits,'number',`${kind}: sin créditos`);assert.equal(typeof q.estimatedCostUsd,'number',`${kind}: sin coste`);assert.match(q.refundPolicy,/devuelve automáticamente/)}});
 /** Una expectation ausente soltaba `undefined.seconds` y reventaba antes de reservar créditos. */
 test('quoting never throws for any kind the queue can run',()=>{for(const kind of ALL_KINDS){assert.doesNotThrow(()=>generationQuote(kind,'provider'),kind)}});

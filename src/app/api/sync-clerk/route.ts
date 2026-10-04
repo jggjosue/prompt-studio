@@ -87,7 +87,7 @@ export async function GET(request: Request) {
         { upsert: true }
       );
 
-      // Sincronizar en NewUser (usado por /api/sync-resend)
+      // Mantener el registro compartido de captación sin otorgar consentimiento.
       await NewUser.updateOne(
         { email },
         { $setOnInsert: { email, createdAt: new Date(user.createdAt) } },

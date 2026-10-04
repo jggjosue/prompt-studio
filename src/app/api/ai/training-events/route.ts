@@ -1,67 +1,70 @@
-import { isAIJobKind } from '@/lib/ai-job-config';
-import connectToDatabase from '@/lib/mongoose';
-import {
-  GENERATION_TRAINING_EVENTS,
-  recordGenerationTrainingEvent,
-  type GenerationTrainingEventName,
-} from '@/lib/generation-training-events';
 import { auth } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
-import { resolveAuthoritativeTrainingConsent } from '@/lib/training-consent';
+import { cacheHeaders } from '@/lib/cache-policy';
+import { rateLimit, tooManyRequests } from '@/lib/rate-limit';
+import { TrainingCaptureError, captureClientTrainingEvent } from '@/lib/training/capture';
+import { TrainingEventValidationError, parseClientTrainingEvent } from '@/lib/training/event-contract';
+import { emitTrainingMetric, metricReason } from '@/lib/training/training-metrics';
 
-const MAX_PAYLOAD_BYTES = 12_000;
-const clean = (value: unknown, max: number) =>
-  typeof value === 'string' ? value.trim().slice(0, max) : '';
+export const runtime = 'nodejs';
 
-function isEventName(value: unknown): value is GenerationTrainingEventName {
-  return typeof value === 'string' &&
-    (GENERATION_TRAINING_EVENTS as readonly string[]).includes(value);
-}
+const headers = () => cacheHeaders('private-no-store');
+/** Events are small; anything larger is not an event. */
+const MAX_BODY_BYTES = 16_384;
+const MAX_BATCH = 25;
+const EVENTS_LIMIT = { limit: 120, windowMs: 60_000 };
 
+/**
+ * POST /api/ai/training-events
+ *
+ * Ingests /generate UI events (contract: src/lib/training/event-contract.ts).
+ * Accepts one event or `{ events: [...] }`. Each event is validated against a
+ * strict allowlist: prompt text, keystrokes, user IDs and provider/model values
+ * are rejected. The referenced generation must belong to the caller.
+ *
+ * Responses never echo submitted values; rejected events report a code only.
+ */
 export async function POST(request: Request) {
   const { userId } = await auth();
-  if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers: headers() });
 
-  const raw = await request.json().catch(() => null) as Record<string, unknown> | null;
-  if (!raw || !isEventName(raw.eventName)) {
-    return NextResponse.json({ error: 'Evento inválido.' }, { status: 400 });
+  const quota = await rateLimit({ key: `training-events:${userId}`, ...EVENTS_LIMIT });
+  if (!quota.ok) return tooManyRequests(quota);
+
+  const text = await request.text().catch(() => '');
+  if (new TextEncoder().encode(text).byteLength > MAX_BODY_BYTES) {
+    return NextResponse.json({ error: { code: 'EVENT_TOO_LARGE' } }, { status: 413, headers: headers() });
+  }
+  let body: unknown;
+  try {
+    body = JSON.parse(text);
+  } catch {
+    return NextResponse.json({ error: { code: 'INVALID_JSON' } }, { status: 400, headers: headers() });
+  }
+  const events = body && typeof body === 'object' && !Array.isArray(body) && Array.isArray((body as { events?: unknown }).events)
+    ? (body as { events: unknown[] }).events
+    : [body];
+  if (events.length === 0 || events.length > MAX_BATCH) {
+    return NextResponse.json({ error: { code: 'INVALID_BATCH_SIZE' } }, { status: 400, headers: headers() });
   }
 
-  // This endpoint intentionally rejects prompt content and arbitrary large payloads.
-  // prompt_submitted stores lifecycle metadata only; the canonical prompt is already
-  // persisted with the generation job and will be gated by consent before training.
-  if ('prompt' in raw || 'text' in raw || 'content' in raw) {
-    return NextResponse.json({ error: 'No envíes contenido del prompt a telemetría.' }, { status: 400 });
+  const now = new Date();
+  const results: Array<{ index: number; accepted: boolean; code?: string }> = [];
+  for (const [index, raw] of events.entries()) {
+    try {
+      const event = parseClientTrainingEvent(raw, now);
+      const outcome = await captureClientTrainingEvent(userId, event, now);
+      // Not capturing for a user without training consent is a normal outcome, not an error.
+      results.push({ index, accepted: true, ...(outcome.captured ? {} : { code: outcome.reason }) });
+    } catch (error) {
+      const code = error instanceof TrainingEventValidationError || error instanceof TrainingCaptureError
+        ? error.code
+        : 'CAPTURE_FAILED';
+      emitTrainingMetric('training_events_rejected_total', 1, { source: 'client', reason: metricReason(code) });
+      results.push({ index, accepted: false, code });
+    }
   }
-  if (JSON.stringify(raw).length > MAX_PAYLOAD_BYTES) {
-    return NextResponse.json({ error: 'Evento demasiado grande.' }, { status: 413 });
-  }
-
-  const modality = isAIJobKind(raw.modality) ? raw.modality : null;
-  const payload = raw.payload && typeof raw.payload === 'object' && !Array.isArray(raw.payload)
-    ? raw.payload as Record<string, unknown>
-    : {};
-
-  await connectToDatabase();
-  const consent = await resolveAuthoritativeTrainingConsent(userId);
-  await recordGenerationTrainingEvent({
-    eventName: raw.eventName,
-    userId,
-    jobId: clean(raw.jobId, 160) || null,
-    sessionId: clean(raw.sessionId, 160) || null,
-    requestId: clean(raw.requestId, 160) || null,
-    outputId: clean(raw.outputId, 160) || null,
-    modality,
-    provider: clean(raw.provider, 120) || null,
-    modelId: clean(raw.modelId, 160) || null,
-    correlationId: clean(raw.correlationId, 120) || null,
-    clientEventId: clean(raw.clientEventId, 160) || null,
-    parameters: raw.parameters && typeof raw.parameters === 'object' && !Array.isArray(raw.parameters)
-      ? raw.parameters as Record<string, unknown>
-      : {},
-    payload,
-    consent,
-  });
-
-  return NextResponse.json({ accepted: true }, { status: 202 });
+  const allRejected = results.every((result) => !result.accepted);
+  const status = allRejected ? (results.some((r) => r.code === 'CAPTURE_FAILED') ? 503 : 400) : 202;
+  return NextResponse.json({ results }, { status, headers: headers() });
 }

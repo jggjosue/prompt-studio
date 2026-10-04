@@ -6,6 +6,7 @@ import { rateLimit, RATE_LIMITS, tooManyRequests } from '@/lib/rate-limit';
 import { getSiteUrl } from '@/lib/site-url';
 import { stripe } from '@/lib/stripe';
 import { observeOperation } from '@/lib/observability-server';
+import { validateCreditSaleEconomics } from '@/lib/credit-economics';
 
 /**
  * Abre un checkout embebido de Stripe para recargar créditos.
@@ -18,6 +19,12 @@ export async function POST(request: Request) {
   const headers = cacheHeaders('private-no-store');
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: 'Inicia sesión para recargar créditos.' }, { status: 401, headers });
+  if (process.env.CROWDFUNDING_CREDITS_ACTIVE !== '1') {
+    return NextResponse.json(
+      { error: 'Las recargas de créditos estarán disponibles cuando termine la campaña de crowdfunding y se active el saldo de IA.' },
+      { status: 409, headers },
+    );
+  }
 
   const quota = await rateLimit({ key: `credit-topup:${userId}`, ...RATE_LIMITS.expensiveAuthed });
   if (!quota.ok) return tooManyRequests(quota);
@@ -25,6 +32,9 @@ export async function POST(request: Request) {
   const body = await request.json().catch(() => null) as { packId?: unknown } | null;
   const pack = getCreditPack(body?.packId);
   if (!pack) return NextResponse.json({ error: 'Pack de créditos no encontrado.' }, { status: 404, headers });
+  if (!validateCreditSaleEconomics({ priceCents: pack.priceCents, credits: pack.credits }).eligible) {
+    return NextResponse.json({ error: 'Este pack no cumple la economía mínima de Prompt Credits.' }, { status: 409, headers });
+  }
 
   const client = await clerkClient();
   const user = await client.users.getUser(userId);
@@ -65,7 +75,6 @@ export async function POST(request: Request) {
       },
       return_url: `${siteUrl}/dashboard/credits?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
       redirect_on_completion: 'always',
-      allow_promotion_codes: true,
     })
   );
 

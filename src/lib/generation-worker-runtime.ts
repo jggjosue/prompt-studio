@@ -24,6 +24,8 @@ import { recordProjectFunnelEvent } from '@/lib/project-funnel-events';
 import { videoOperationAdapterFor } from '@/lib/video-operation-adapters';
 import OutputContract from '@/models/OutputContract';
 import type { IAIGenerationJob } from '@/models/AIGenerationJob';
+import { captureGenerationLifecycleBestEffort } from '@/lib/training/capture';
+import { externalizeGenerationAssets } from '@/lib/generation-assets';
 
 export type { GenerationWorkerContext };
 
@@ -43,6 +45,14 @@ async function validateOutput(job: IAIGenerationJob) {
   job.outputValidation = { status: validation.status, errors: validation.errors.slice(0, 20), repaired: validation.repaired };
   if (validation.status === 'invalid') throw new Error(`El resultado incumple el contrato: ${validation.errors.slice(0, 3).join('; ')}`);
   job.result = { ...job.result, output: validation.value };
+}
+
+async function prepareOutput(job: IAIGenerationJob) {
+  await validateOutput(job);
+  // Binaries go to R2; the job keeps references only.
+  const externalized = await externalizeGenerationAssets({ jobId: String(job._id), userId: job.userId, result: job.result });
+  job.result = externalized.result ?? job.result;
+  if (externalized.code) void recordObservabilityEvent({ category: 'ai_generation', name: 'generation_asset_externalize_failed', route: 'generation-worker', userId: job.userId, status: 'degraded', metadata: { kind: job.kind, code: externalized.code, jobId: String(job._id) } });
 }
 
 /** Next delivery for a job pinned to GCP (business retry / video poll). */
@@ -73,13 +83,18 @@ const deps: GenerationWorkerDeps = {
   updateOwned: updateOwnedGenerationJob,
   isOwnershipError: error => error instanceof GenerationJobOwnershipError,
   runProvider: runAIJob,
-  validateOutput,
+  validateOutput: prepareOutput,
   capture: captureGenerationCredits,
   release: releaseGenerationCredits,
-  notifyFinished: notifyJobFinished,
+  notifyFinished: async job => {
+    await notifyJobFinished(job);
+    if (job.status === 'failed' || job.status === 'dead_letter') captureGenerationLifecycleBestEffort(job, 'generation_failed');
+  },
+  onStarted: job => captureGenerationLifecycleBestEffort(job, 'generation_started'),
   persist: async job => { await job.save(); },
   afterCompleted: async job => {
     await recordAssetProvenance(job).catch(() => undefined);
+    captureGenerationLifecycleBestEffort(job, 'generation_completed');
     if (job.projectId) await recordProjectFunnelEvent({ userId: job.userId, projectId: job.projectId, stage: 'first_generation', occurredAt: job.completedAt || new Date(), sourceId: String(job._id) }).catch(() => undefined);
   },
   finalizeRegression: finalizeModelRegressionForJob,

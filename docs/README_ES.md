@@ -111,7 +111,7 @@ La aplicación usa la base de datos **`prompt-studio`** en MongoDB Atlas. Las co
 
 | Área | Endpoints |
 | --- | --- |
-| Sincronización de usuarios | `/api/sync-clerk`, `/api/sync-registered-users-to-resend`, `/api/sync-resend`, `/api/new-users` |
+| Sincronización de usuarios | `/api/sync-clerk`, `/api/sync-registered-users-to-resend`, `/api/new-users` |
 | Webhooks | `/api/webhooks/clerk`, `/api/webhooks/stripe` |
 | Suscripciones y checkout | `/api/subscription/status`, `/api/subscription/invoice`, `/api/subscription/portal`, `/api/web-page-checkout`, `/api/stripe/demo-buy-button` |
 | Landing pages | `/api/landing-pages/catalog`, `/api/landing-pages/[pageId]/content`, `/api/landing-pages/[pageId]/download`, `/api/landing-pages/[pageId]/readability`, `/api/landing-pages/readability-index` |

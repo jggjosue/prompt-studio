@@ -5,7 +5,10 @@ import type { ChatGeneratorMessage } from '@/lib/chat-types';
 import { friendlyError } from '@/lib/chat-error';
 import { selectedChatConfiguration } from '@/lib/chat-configuration';
 import { Bot, Loader2, RotateCcw, Sparkles, User } from 'lucide-react';
-import { ImageResult, VideoResult, WebResult } from './message-renderers';
+import { useRef } from 'react';
+import { trackTrainingEvent, trainingModalityForChatMode } from '@/lib/training/client-events';
+import { ImageResult, VideoResult, WebResult, type DownloadHandler } from './message-renderers';
+import { TrainingResultActions, useOutputViewed } from './training-result-actions';
 
 const MODE_LABELS: Record<string, string> = {
   image: 'Imagen',
@@ -16,7 +19,18 @@ const MODE_LABELS: Record<string, string> = {
   videoUnderstanding: 'Video IA',
 };
 
-export function ChatMessageItem({ message, onRetry }: { message: ChatGeneratorMessage; onRetry?: () => void }) {
+export function ChatMessageItem({ message, onRetry, onRegenerate, onEditPrompt }: {
+  message: ChatGeneratorMessage;
+  onRetry?: () => void;
+  onRegenerate?: () => void;
+  onEditPrompt?: () => void;
+}) {
+  const resultRef = useRef<HTMLDivElement>(null);
+  useOutputViewed(resultRef, message);
+  const handleDownload: DownloadHandler = (format, index) => {
+    if (!message.result?.generationId) return;
+    trackTrainingEvent({ eventName: 'output_downloaded', generationId: message.result.generationId, modality: trainingModalityForChatMode(message.mode), payload: { format, outputIndex: index, surface: 'generate' } });
+  };
   const isUser = message.role === 'user';
   const isPending = !isUser && message.status === 'pending';
   const configuration = selectedChatConfiguration(message.mode, message.params);
@@ -85,12 +99,12 @@ export function ChatMessageItem({ message, onRetry }: { message: ChatGeneratorMe
 
         {/* Result */}
         {message.result && (
-          <div className="mt-3 max-h-80 overflow-y-auto pr-1">
+          <div ref={resultRef} className="mt-3 max-h-80 overflow-y-auto pr-1">
             {(message.result.imageUrl || message.result.imageUrls) ? (
-              <ImageResult result={message.result} />
+              <ImageResult result={message.result} onDownload={handleDownload} />
             ) : null}
             {message.result.videoUrl ? (
-              <VideoResult result={message.result} />
+              <VideoResult result={message.result} onDownload={handleDownload} />
             ) : null}
             {message.result.html ? (
               <WebResult result={message.result} />
@@ -116,6 +130,7 @@ export function ChatMessageItem({ message, onRetry }: { message: ChatGeneratorMe
             )}
           </div>
         )}
+        <TrainingResultActions message={message} onRegenerate={onRegenerate} onEditPrompt={onEditPrompt} />
       </div>
 
       {/* User avatar */}

@@ -72,7 +72,6 @@ deduplicados), `AffiliateSale` (conversiones con comisión congelada),
 Tres rutas, todas exigiendo `CRON_SECRET` o sesión de administrador:
 
 - `/api/sync-clerk` — usuarios de Clerk → Mongo → Resend (hasta 500 por pasada).
-- `/api/sync-resend` — `NewUser` → contactos de Resend.
 - `/api/sync-registered-users-to-resend` — perfiles → audiencia de Resend.
 
 Son manuales o por cron. **No hay sincronización continua**: si se crea un

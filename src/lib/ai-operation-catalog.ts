@@ -75,18 +75,18 @@ export const AI_OPERATION_CATALOG: Readonly<Record<AIOperationCode, AIOperationD
   PROMPT_OPTIMIZER_ADVANCED: operation({ code: 'PROMPT_OPTIMIZER_ADVANCED', displayName: 'Advanced prompt optimization', category: 'prompt_optimizer', creditCost: 5 }),
   PROMPT_OPTIMIZER_COMPLEX: operation({ code: 'PROMPT_OPTIMIZER_COMPLEX', displayName: 'Complete prompt optimization', category: 'prompt_optimizer', creditCost: 8 }),
 
-  IMAGE_LITE_1K: operation({ code: 'IMAGE_LITE_1K', displayName: 'Lite image 1K', category: 'image', creditCost: 15, quality: 'lite', resolution: '1K' }),
-  IMAGE_QUALITY_1K: operation({ code: 'IMAGE_QUALITY_1K', displayName: 'Quality image 1K', category: 'image', creditCost: 30, quality: 'quality', resolution: '1K' }),
-  IMAGE_QUALITY_2K: operation({ code: 'IMAGE_QUALITY_2K', displayName: 'Quality image 2K', category: 'image', creditCost: 45, quality: 'quality', resolution: '2K' }),
+  IMAGE_LITE_1K: operation({ code: 'IMAGE_LITE_1K', displayName: 'Lite image 1K', category: 'image', creditCost: 16, quality: 'lite', resolution: '1K' }),
+  IMAGE_QUALITY_1K: operation({ code: 'IMAGE_QUALITY_1K', displayName: 'Quality image 1K', category: 'image', creditCost: 31, quality: 'quality', resolution: '1K' }),
+  IMAGE_QUALITY_2K: operation({ code: 'IMAGE_QUALITY_2K', displayName: 'Quality image 2K', category: 'image', creditCost: 46, quality: 'quality', resolution: '2K' }),
   IMAGE_QUALITY_4K: operation({ code: 'IMAGE_QUALITY_4K', displayName: 'Quality image 4K', category: 'image', creditCost: 70, quality: 'quality', resolution: '4K' }),
 
   VIDEO_LITE_720_8S: operation({ code: 'VIDEO_LITE_720_8S', displayName: 'Lite video 720p / 8s', category: 'video', creditCost: 180, quality: 'lite', resolution: '720p', durationSeconds: 8 }),
-  VIDEO_LITE_1080_8S: operation({ code: 'VIDEO_LITE_1080_8S', displayName: 'Lite video 1080p / 8s', category: 'video', creditCost: 285, quality: 'lite', resolution: '1080p', durationSeconds: 8 }),
+  VIDEO_LITE_1080_8S: operation({ code: 'VIDEO_LITE_1080_8S', displayName: 'Lite video 1080p / 8s', category: 'video', creditCost: 288, quality: 'lite', resolution: '1080p', durationSeconds: 8 }),
   VIDEO_FAST_720_8S: operation({ code: 'VIDEO_FAST_720_8S', displayName: 'Fast video 720p / 8s', category: 'video', creditCost: 360, quality: 'fast', resolution: '720p', durationSeconds: 8 }),
-  VIDEO_FAST_1080_8S: operation({ code: 'VIDEO_FAST_1080_8S', displayName: 'Fast video 1080p / 8s', category: 'video', creditCost: 430, quality: 'fast', resolution: '1080p', durationSeconds: 8 }),
-  VIDEO_PREMIUM_8S: operation({ code: 'VIDEO_PREMIUM_8S', displayName: 'Premium video / 8s', category: 'video', creditCost: 1425, quality: 'premium', durationSeconds: 8 }),
+  VIDEO_FAST_1080_8S: operation({ code: 'VIDEO_FAST_1080_8S', displayName: 'Fast video 1080p / 8s', category: 'video', creditCost: 432, quality: 'fast', resolution: '1080p', durationSeconds: 8 }),
+  VIDEO_PREMIUM_8S: operation({ code: 'VIDEO_PREMIUM_8S', displayName: 'Premium video / 8s', category: 'video', creditCost: 1440, quality: 'premium', durationSeconds: 8 }),
 
-  WEBSITE_SIMPLE: operation({ code: 'WEBSITE_SIMPLE', displayName: 'Simple website', category: 'website', creditCost: 20 }),
+  WEBSITE_SIMPLE: operation({ code: 'WEBSITE_SIMPLE', displayName: 'Simple website', category: 'website', creditCost: 36 }),
   WEBSITE_ADVANCED: operation({ code: 'WEBSITE_ADVANCED', displayName: 'Advanced website', category: 'website', creditCost: 50 }),
   WEBSITE_COMPLEX: operation({ code: 'WEBSITE_COMPLEX', displayName: 'Complex website', category: 'website', creditCost: 100 }),
 

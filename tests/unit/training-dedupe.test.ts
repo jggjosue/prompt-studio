@@ -22,3 +22,22 @@ test('dedupe key is versioned and dataset-scoped', () => {
 test('non-finite numbers fail closed', () => {
   assert.throws(() => canonicalTrainingJson({ score: Number.NaN }), /NON_FINITE_CANONICAL_NUMBER/);
 });
+
+test('canonical-v1 sorts keys by code unit, independent of locale', async () => {
+  const { canonicalTrainingJson } = await import('../../src/lib/training-dedupe');
+  assert.equal(canonicalTrainingJson({ b: 1, B: 2, a: { z: 1, Z: 2 } }), '{"B":2,"a":{"Z":2,"z":1},"b":1}');
+});
+
+test('example ids hash training content only: volatile ids and timestamps do not change them', async () => {
+  const { buildGenerationDatasetExample } = await import('../../src/lib/datasets/generation');
+  const base = {
+    modality: 'image' as const, payload: { prompt: 'a red bicycle' }, model: { provider: 'google', model: 'm', version: null },
+    parameters: { aspectRatio: '1:1' }, quality: { version: 'q', score: 1, threshold: 0.5, passes: true },
+    assets: [{ provider: 'cloudflare-r2' as const, bucket: 'b', key: 'assets/images/x.png', contentType: 'image/png', contentHash: 'c'.repeat(64), bytes: 1 }],
+  };
+  const a = buildGenerationDatasetExample({ ...base, recordId: 'out:1', requestId: '1', outputId: '1', occurredAt: '2026-10-01T00:00:00.000Z' })!;
+  const b = buildGenerationDatasetExample({ ...base, recordId: 'out:2', requestId: '2', outputId: '2', occurredAt: '2026-10-03T09:30:00.000Z' })!;
+  assert.equal(a.exampleId, b.exampleId);
+  const c = buildGenerationDatasetExample({ ...base, payload: { prompt: 'a blue bicycle' }, recordId: 'out:1', requestId: '1', outputId: '1', occurredAt: '2026-10-01T00:00:00.000Z' })!;
+  assert.notEqual(a.exampleId, c.exampleId);
+});

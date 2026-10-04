@@ -1,6 +1,11 @@
 import type { DatasetName } from '@/lib/dataset-object-contract';
 
-export const TRAINING_QUALITY_VERSION = 'quality-v1';
+/**
+ * quality-v2: adds `selected` (the output the user kept after regenerating) and
+ * takes feedback from the user's latest verdict. A successful generation alone
+ * (0.30) is below every default threshold: success is not evidence of quality.
+ */
+export const TRAINING_QUALITY_VERSION = 'quality-v2';
 
 export type TrainingQualitySignals = {
   generationSucceeded: boolean;
@@ -10,6 +15,7 @@ export type TrainingQualitySignals = {
   negativeFeedback: boolean;
   regenerated: boolean;
   edited: boolean;
+  selected: boolean;
 };
 
 export type TrainingQualityResult = {
@@ -37,6 +43,7 @@ const WEIGHTS: Record<keyof TrainingQualitySignals, number> = {
   negativeFeedback: -0.35,
   regenerated: -0.10,
   edited: 0.05,
+  selected: 0.10,
 };
 
 export function qualityThreshold(dataset: DatasetName, env: NodeJS.ProcessEnv = process.env) {
@@ -68,5 +75,7 @@ export function qualitySignalsFromEventNames(eventNames: Iterable<string>): Trai
     negativeFeedback: events.has('feedback_negative'),
     regenerated: events.has('regenerate_clicked'),
     edited: events.has('prompt_edited'),
+    // Derived from the regenerate family, not from a single event; see training/processing.
+    selected: false,
   };
 }
