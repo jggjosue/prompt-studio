@@ -92,7 +92,7 @@ function contarLineas(ruta) {
 
 const okUnit = ejecutar(
   {
-    previos: ['--experimental-test-coverage', '--test-coverage-include=src/**', '--import', 'tsx'],
+    previos: ['--experimental-test-coverage', '--test-coverage-include=src/**', '--import', 'tsx', '--import', './scripts/node/server-only-shim.mjs'],
     ficheros: ['tests/unit/*.test.ts'],
   },
   'unit.info'
@@ -104,7 +104,7 @@ const okUnit = ejecutar(
 // reclasificarlas.
 const okIntegracion = ejecutar(
   {
-    previos: ['--experimental-test-coverage', '--test-coverage-include=src/**', '--import', 'tsx'],
+    previos: ['--experimental-test-coverage', '--test-coverage-include=src/**', '--import', 'tsx', '--import', './scripts/node/server-only-shim.mjs'],
     ficheros: ['tests/integration/*.test.ts'],
   },
   'integration.info'

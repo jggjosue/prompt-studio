@@ -1,6 +1,6 @@
 import 'server-only';
 import { randomUUID } from 'node:crypto';
-import { TrainingDataRecord } from '@/models/TrainingDataRecord';
+import TrainingDataRecord from '@/models/TrainingDataRecord';
 import { TrainingDataRevocation, TRAINING_REVOCATION_REASONS } from '@/models/TrainingDataRevocation';
 
 export async function revokeTrainingRecords(input: {
@@ -18,7 +18,7 @@ export async function revokeTrainingRecords(input: {
   });
   const result = await TrainingDataRecord.updateMany(
     { recordId: { $in: ids }, 'eligibility.status': { $in: ['pending', 'eligible'] } },
-    { $set: { 'eligibility.status': 'revoked', 'eligibility.reason': `revocation:${revocationId}` } },
+    { $set: { 'eligibility.status': 'revoked', 'eligibility.evaluatedAt': requestedAt }, $addToSet: { 'eligibility.reasonCodes': `revocation:${revocationId}` } },
   );
   return { revocationId, requestedAt: requestedAt.toISOString(), sourceRecordIds: ids, modifiedRecords: result.modifiedCount };
 }
