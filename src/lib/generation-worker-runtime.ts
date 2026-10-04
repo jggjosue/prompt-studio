@@ -19,6 +19,7 @@ import { recordProjectFunnelEvent } from '@/lib/project-funnel-events';
 import { safeErrorCode } from '@/lib/observability-safety';
 import { providerHttpStatus } from '@/lib/provider-error-safety';
 import OutputContract from '@/models/OutputContract';
+import { captureGenerationLifecycleBestEffort } from '@/lib/training/capture';
 
 
 
@@ -78,6 +79,7 @@ export async function processGenerationJob(userId?: string, leaseMinutes = 5, jo
       progress: 35,
       progressMessage: 'Generando contenido',
     });
+    captureGenerationLifecycleBestEffort(job, 'generation_started');
     job.result = await runAIJob(job);
     if (job.outputContractId) {
       const contract = await OutputContract.findOne({ _id: job.outputContractId, userId: job.userId }).lean();
@@ -145,6 +147,7 @@ export async function processGenerationJob(userId?: string, leaseMinutes = 5, jo
     await notifyJobFinished(job);
     await job.save();
     await recordAssetProvenance(job).catch(() => undefined);
+    captureGenerationLifecycleBestEffort(job, 'generation_completed');
     if (job.projectId) await recordProjectFunnelEvent({ userId: job.userId, projectId: job.projectId, stage: 'first_generation', occurredAt: job.completedAt || new Date(), sourceId: String(job._id) }).catch(() => undefined);
     await finalizeModelRegressionForJob(String(job._id)).catch(() => undefined);
       void recordObservabilityEvent({ category: 'ai_generation', name: 'generation_completed', route: routeName, userId: job.userId, productId: observedProductId, status: 'completed', durationMs: Math.round(performance.now() - generationStarted), costUsd: job.estimatedCostUsd, value: job.creditCost, unit: 'credits', metadata: { operation: 'generate', kind: job.kind, provider: job.provider, modelId: job.modelId, attempts: job.attempts, jobId: String(job._id), correlationId: job.correlationId || String(job._id) } });
@@ -215,6 +218,7 @@ export async function processGenerationJob(userId?: string, leaseMinutes = 5, jo
       currentState = 'dead_letter';
       await notifyJobFinished(job);
       await job.save();
+      captureGenerationLifecycleBestEffort(job, 'generation_failed');
       reportOperationalError({ category: 'ai_generation', name: 'generation_dead_lettered', route: routeName, userId: job.userId, productId: observedProductId, durationMs, costUsd: job.estimatedCostUsd, value: job.creditCost, unit: 'credits', metadata: { operation: 'generate', kind: job.kind, provider: job.provider, modelId: job.modelId, attempts: job.attempts, jobId: String(job._id), correlationId: job.correlationId || String(job._id), errorCategory, retryable: retry.retryable } }, error);
     }
     if (currentState === 'dead_letter') await finalizeModelRegressionForJob(String(job._id)).catch(() => undefined);

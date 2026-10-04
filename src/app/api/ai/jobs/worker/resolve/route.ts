@@ -3,6 +3,7 @@ import { transitionGenerationJob, getGenerationJob } from '@/lib/generation-job-
 import { captureGenerationCredits } from '@/lib/generation-credit-boundary';
 import { notifyJobFinished } from '@/lib/ai-job-service';
 import { recordAssetProvenance } from '@/lib/asset-provenance-server';
+import { captureGenerationLifecycleBestEffort } from '@/lib/training/capture';
 import { finalizeModelRegressionForJob } from '@/lib/model-regression-server';
 import { recordProjectFunnelEvent } from '@/lib/project-funnel-events';
 import { generationQuote, actualProviderCost } from '@/lib/generation-pricing';
@@ -111,6 +112,7 @@ export async function POST(request: Request) {
     await notifyJobFinished(job);
     await job.save();
     await recordAssetProvenance(job).catch(() => undefined);
+    captureGenerationLifecycleBestEffort(job, 'generation_completed');
     
     if (job.projectId) {
       await recordProjectFunnelEvent({ 
