@@ -1,5 +1,5 @@
 import 'server-only';
-import { claimExhaustedGenerationJobAtomically, claimGenerationJobAtomically } from '@/lib/generation-job-claim';
+import { claimExhaustedGenerationJobAtomically, claimGenerationJobAtomically, type GenerationJobClaimInput } from '@/lib/generation-job-claim';
 import {
   assertGenerationJobTransition,
   canonicalGenerationState,
@@ -22,6 +22,7 @@ export async function claimGenerationJob(input: {
   leaseMs: number;
   userId?: string;
   jobId?: string;
+  executionBackend?: GenerationJobClaimInput['executionBackend'];
 }): Promise<{ job: IAIGenerationJob; lockToken: string } | null> {
   return claimGenerationJobAtomically<IAIGenerationJob>(AIGenerationJob, input);
 }
@@ -31,6 +32,7 @@ export async function claimExhaustedGenerationJob(input: {
   leaseMs: number;
   userId?: string;
   jobId?: string;
+  executionBackend?: GenerationJobClaimInput['executionBackend'];
 }): Promise<{ job: IAIGenerationJob; lockToken: string } | null> {
   return claimExhaustedGenerationJobAtomically<IAIGenerationJob>(AIGenerationJob, input);
 }

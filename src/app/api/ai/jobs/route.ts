@@ -7,7 +7,8 @@ import { cacheHeaders } from '@/lib/cache-policy';
 import connectToDatabase from '@/lib/mongoose';
 import { contractInstructions } from '@/lib/output-contract';
 import { humanVerificationDecision } from '@/lib/human-verification';
-import { dispatchGenerationJob } from '@/lib/generation-queue-dispatch';
+import { dispatchGenerationExecution } from '@/lib/ai-execution-dispatch-server';
+import { selectExecutionBackend } from '@/lib/ai-execution-backend-policy';
 import { recordObservabilityEvent } from '@/lib/observability-server';
 import { evaluateBudgetOperation } from '@/lib/project-budget';
 import { isProviderObjective } from '@/lib/provider-quality';
@@ -229,9 +230,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: decision.approvalRequired ? 'Esta operación requiere que un propietario o revisor apruebe el proyecto.' : 'La operación excede el presupuesto del proyecto.', approvalRequired: decision.approvalRequired, verification: { required: verification.required, approved: verification.approved, reviewStatus: project.reviewStatus ?? 'draft', hasOpenChanges: project.changeRequests?.some((item: { status: string }) => item.status === 'open') ?? false }, exceedsCredits: decision.exceedsCredits, exceedsUsd: decision.exceedsUsd, projection: { credits: decision.nextCredits, usd: decision.nextUsd }, budget: settings }, { status: 409, headers: headers() });
     }
   }
+  // Exactly one execution backend per job (#835). The choice is pure config,
+  // computed here so it is pinned atomically with the job document: retries
+  // and recovery reuse it and a later flag flip can never move this job.
+  const execution = selectExecutionBackend({ kind: raw.kind });
   let job;
   try {
     job = await AIGenerationJob.create({
+      executionBackend: execution.backend,
       userId, userEmail, kind: raw.kind, provider, modelId, operation: operationCode ?? raw.kind, operationCode, input: { ...input, prompt, brandKitId: brandKitId || null, ...(outputContract ? { outputContractInstructions: contractInstructions(outputContract) } : {}) }, idempotencyKey, promptVersionId: promptVersionId || null, promptVersionNumber, projectId: projectId || null, outputContractId: outputContract ? String(outputContract._id) : null,
       creditCost: cost.credits, pricingSnapshot: operationCode ? { creditCost: cost.credits, pricedAt: new Date() } : null, estimatedCostUsd: cost.estimatedApiCostUsd, estimatedInputTokens: cost.estimatedInputTokens, estimatedOutputTokens: cost.estimatedOutputTokens,
       notifyOnComplete: raw.notifyOnComplete !== false,
@@ -273,18 +279,21 @@ export async function POST(request: Request) {
     consent: trainingConsent,
   });
 
-  const dispatch = await dispatchGenerationJob(String(job._id));
-  if (!dispatch.dispatched) {
+  // Credits are reserved above; only now is the job handed to its single backend.
+  const execDispatch = await dispatchGenerationExecution(job, { vercelOidcToken: request.headers.get('x-vercel-oidc-token') });
+  if (!execDispatch.dispatched) {
     void recordObservabilityEvent({
       category: 'ai_generation',
       name: 'generation_queue_fallback',
       route: '/api/ai/jobs',
       userId,
       productId: String(job._id),
-      status: dispatch.reason,
-      metadata: { jobId: String(job._id), mode: dispatch.mode, reason: dispatch.reason },
+      status: execDispatch.reason ?? undefined,
+      metadata: { jobId: String(job._id), correlationId: job.correlationId, executionBackend: execDispatch.executionBackend, mode: execDispatch.backend, reason: execDispatch.reason, selectionReason: execution.reason },
     });
   }
+  // Response keeps the previous `dispatch` shape for existing clients.
+  const dispatch = { dispatched: execDispatch.dispatched, mode: execDispatch.backend, executionBackend: execDispatch.executionBackend, ...(execDispatch.messageId ? { messageId: execDispatch.messageId } : {}), ...(execDispatch.reason ? { reason: execDispatch.reason } : {}) };
   return NextResponse.json({ job: serializeAIJob(job), credits: { balance: creditGuard.remainingBalance }, duplicate: false, dispatch }, { status: 202, headers: headers() });
 }
 

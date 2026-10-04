@@ -25,6 +25,8 @@ import OutputContract from '@/models/OutputContract';
 export type GenerationWorkerContext = {
   routeName?: string;
   owner?: string;
+  /** Backend this worker runs on; it only claims jobs pinned to it (#835). */
+  executionBackend?: 'legacy' | 'gcp' | 'aws' | 'cloudflare';
 };
 
 function defaultWorkerOwner() {
@@ -42,6 +44,7 @@ export async function processGenerationJob(userId?: string, leaseMinutes = 5, jo
     leaseMs,
     userId,
     jobId,
+    executionBackend: context.executionBackend ?? 'legacy',
   };
   let claimed = await observeOperation(
     { category: 'slow_query', name: 'ai_job_claim', route: routeName },
