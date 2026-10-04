@@ -20,6 +20,7 @@ import { safeErrorCode } from '@/lib/observability-safety';
 import { providerHttpStatus } from '@/lib/provider-error-safety';
 import OutputContract from '@/models/OutputContract';
 import { captureGenerationLifecycleBestEffort } from '@/lib/training/capture';
+import { externalizeGenerationAssets } from '@/lib/generation-assets';
 
 
 
@@ -89,6 +90,10 @@ export async function processGenerationJob(userId?: string, leaseMinutes = 5, jo
       if (validation.status === 'invalid') throw new Error(`El resultado incumple el contrato: ${validation.errors.slice(0, 3).join('; ')}`);
       job.result = { ...job.result, output: validation.value };
     }
+    // Binaries go to R2; the job keeps references only.
+    const externalized = await externalizeGenerationAssets({ jobId: String(job._id), userId: job.userId, result: job.result });
+    job.result = externalized.result ?? job.result;
+    if (externalized.code) void recordObservabilityEvent({ category: 'ai_generation', name: 'generation_asset_externalize_failed', route: routeName, userId: job.userId, productId: observedProductId, status: 'degraded', metadata: { kind: job.kind, code: externalized.code, jobId: String(job._id) } });
     const quote = generationQuote(job.kind, job.provider);
     const resultMeta = job.result as Record<string, unknown>;
     const usage = providerUsage(job.result);

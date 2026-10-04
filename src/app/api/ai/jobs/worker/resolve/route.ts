@@ -4,6 +4,7 @@ import { captureGenerationCredits } from '@/lib/generation-credit-boundary';
 import { notifyJobFinished } from '@/lib/ai-job-service';
 import { recordAssetProvenance } from '@/lib/asset-provenance-server';
 import { captureGenerationLifecycleBestEffort } from '@/lib/training/capture';
+import { externalizeGenerationAssets } from '@/lib/generation-assets';
 import { finalizeModelRegressionForJob } from '@/lib/model-regression-server';
 import { recordProjectFunnelEvent } from '@/lib/project-funnel-events';
 import { generationQuote, actualProviderCost } from '@/lib/generation-pricing';
@@ -23,7 +24,8 @@ export async function POST(request: Request) {
   await connectToDatabase();
 
   const body = await request.json().catch(() => ({}));
-  const { jobId, lockToken, result, error, errorCategory, durationMs, usage } = body;
+  const { jobId, lockToken, error, errorCategory, durationMs, usage } = body;
+  let { result } = body;
 
   if (!jobId || !lockToken) {
     return NextResponse.json({ error: 'Missing jobId or lockToken' }, { status: 400, headers });
@@ -60,6 +62,9 @@ export async function POST(request: Request) {
 
   // Éxito: finalizar y facturar
   try {
+    // Binaries go to R2; the job keeps references only.
+    const externalized = await externalizeGenerationAssets({ jobId: String(job._id), userId: job.userId, result });
+    result = externalized.result ?? result;
     const resultMeta = result as Record<string, unknown>;
     const quote = generationQuote(job.kind, job.provider);
     
