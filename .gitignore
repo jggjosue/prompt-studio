@@ -84,5 +84,8 @@ dist/
 # Local AI benchmark artifacts
 /.benchmark/
 
+# vinext generated output
+/.vinext/
+.wrangler/
 # Cloudflare local state
 .cloudflare/

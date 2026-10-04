@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import type React from 'react';
 import { auth, clerkClient } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
 import { SidebarNavLink } from '@/components/dashboard/sidebar-nav-link';
 import { Activity, BarChart3, Braces, Clock3, Coins, Fingerprint, Flag, FlaskConical, FolderKanban, Gauge, Layers3, Library, MailCheck, Megaphone, Palette, Rocket, ShoppingCart, Store, UserCircle, UsersRound, HandCoins } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
@@ -25,6 +26,14 @@ export default async function DashboardLayout({
 }) {
   const t = await getTranslations('dashboard');
   const { userId } = await auth();
+
+  // Resource-level protection: do not rely on middleware as the security
+  // boundary. This keeps dashboard access protected even when middleware
+  // behavior differs between Next.js and vinext/Cloudflare Workers.
+  if (!userId) {
+    redirect('/sign-in');
+  }
+
   let isAffiliate = false;
   let isPremiumJoAdmin = false;
   let isSuperAdmin = false;
