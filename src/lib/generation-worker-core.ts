@@ -65,6 +65,8 @@ export type GenerationWorkerDeps = {
   isOwnershipError(error: unknown): boolean;
   /** Provider call. Must reuse the job's stable submission key on every attempt. */
   runProvider(job: IAIGenerationJob): Promise<Record<string, unknown>>;
+  /** Best-effort hook when a provider run begins. */
+  onStarted?(job: IAIGenerationJob): void;
   /** Output-contract validation; throws on invalid output, may repair it. */
   validateOutput(job: IAIGenerationJob): Promise<void>;
   capture(job: IAIGenerationJob): Promise<void>;
@@ -142,6 +144,7 @@ export function createGenerationJobProcessor(deps: GenerationWorkerDeps) {
     const meta = () => ({ kind: job.kind, provider: job.provider, modelId: job.modelId, attempts: job.attempts, jobId: String(job._id), correlationId: job.correlationId || String(job._id), executionBackend });
     try {
       job = await deps.updateOwned(String(job._id), lockToken, { progress: 35, progressMessage: 'Generando contenido' });
+      deps.onStarted?.(job);
       job.result = await deps.runProvider(job);
       await deps.validateOutput(job);
       const quote = generationQuote(job.kind, job.provider);
