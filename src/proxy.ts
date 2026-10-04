@@ -1,4 +1,4 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
+import { clerkMiddleware } from '@clerk/nextjs/server';
 import {
   PROMPT_EDIT_ENABLED,
   PROMPT_EDIT_PATH,
@@ -7,8 +7,6 @@ import { isAppOwnHost, normalizeHostname, tenantSubdomain } from '@/lib/tenant-s
 import { NextResponse, type NextRequest } from 'next/server';
 import { detectLocale } from '@/i18n/detect-locale';
 import { locales } from '@/i18n/config';
-
-const isProtectedRoute = createRouteMatcher(['/dashboard(.*)']);
 
 /** Cabeceras de seguridad para los sitios publicados de tenants. */
 const TENANT_SECURITY_HEADERS = {
@@ -136,7 +134,7 @@ function withoutLocalePrefix(pathname: string): string {
   return pathname.slice(prefix.length + 1) || '/';
 }
 
-const clerkRequestHandler = async (auth: any, req: NextRequest) => {
+const clerkRequestHandler = async (_auth: unknown, req: NextRequest) => {
   const pathname = req.nextUrl.pathname;
 
   if (isProtectedCatalogSource(pathname)) {
@@ -246,9 +244,6 @@ const clerkRequestHandler = async (auth: any, req: NextRequest) => {
     );
   }
 
-  if (isProtectedRoute(req)) {
-    await auth.protect();
-  }
 
   return withEdgeHeaders(withLocaleRewrite(req), req);
 };
@@ -295,14 +290,7 @@ export default async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    '/__clerk(.*)',
-    '/pricing(.*)',
-    '/landing-pages/:path*',
-    '/gallery/:path*',
-    '/gallery-videos/:path*',
-    '/webpages/:path*',
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-    '/(api|trpc)(.*)',
-  ],
+  // Keep matcher syntax path-to-regexp compatible for vinext. Static assets and
+  // framework internals are filtered by skipsLocale() inside the proxy.
+  matcher: ['/:path*'],
 };
