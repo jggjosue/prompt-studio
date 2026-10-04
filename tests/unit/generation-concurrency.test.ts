@@ -141,5 +141,7 @@ test('inline Gemini images stay bounded and never become a public URL', async ()
   // Y la ruta autenticada sigue sirviendo el resto de proveedores con control
   // de propietario y de estado.
   assert.match(assetRoute, /findOne\(\{ _id: id, userId, status: 'completed' \}\)/);
-  assert.match(assetRoute, /getR2ObjectBytes\(imageKey\)/);
+  assert.match(assetRoute, /getR2ObjectBytes\(asset\.key\)/);
+  // Solo claves bajo el prefijo del propietario: nunca un objeto ajeno ni público.
+  assert.match(assetRoute, /asset\.key\.startsWith\(`users\/\$\{userId\}\/generations\/`\)/);
 });

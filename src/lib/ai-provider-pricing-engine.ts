@@ -6,16 +6,25 @@ import {
   getAIModelConfig,
   type AIModelConfig,
 } from '@/lib/ai-credit-config';
+import {
+  MAX_PROVIDER_COST_PER_CREDIT_USD,
+  PROMPT_CREDIT_FLOOR_VALUE_USD,
+  PROVIDER_COST_RESERVE_PERCENT,
+} from '@/lib/credit-economics';
+import { quoteImageProviderCost, quoteVideoProviderCost, type ImageResolution, type VideoResolution } from '@/lib/provider-pricing-registry';
 
-export const PROMPT_CREDIT_COMMERCIAL_VALUE_USD = 0.01;
-export const DEFAULT_PROVIDER_COST_SHARE = 0.25;
+export const PROMPT_CREDIT_COMMERCIAL_VALUE_USD = PROMPT_CREDIT_FLOOR_VALUE_USD;
+export const DEFAULT_PROVIDER_COST_SHARE = PROVIDER_COST_RESERVE_PERCENT / 100;
 export const DEFAULT_SAFETY_BUFFER_PERCENT = 12.5;
 
 export type ProviderUsageEstimate = {
   input?: unknown;
   outputTokens?: number;
   imageCount?: number;
+  imageResolution?: ImageResolution;
   videoDurationSeconds?: number;
+  videoResolution?: VideoResolution;
+  videoAudio?: boolean;
 };
 
 export type ProviderCostEstimate = {
@@ -83,6 +92,53 @@ export function estimateProviderCost(
     config.maxOutputTokens,
   );
 
+  if ((usage.imageCount ?? 0) > 0 && usage.imageResolution) {
+    const imageQuote = quoteImageProviderCost({
+      provider,
+      modelId,
+      resolution: usage.imageResolution,
+      imageCount: usage.imageCount,
+      safetyBufferPercent,
+    });
+    if (imageQuote) {
+      return {
+        provider: config.provider,
+        modelId: config.modelId,
+        rawProviderCostUsd: imageQuote.rawProviderCostUsd,
+        safetyCostUsd: imageQuote.safetyCostUsd,
+        safetyBufferPercent: Math.max(0, safetyBufferPercent),
+        estimatedInputTokens,
+        estimatedOutputTokens: 0,
+        pricingStatus: 'verified',
+        costKnown: true,
+      };
+    }
+  }
+
+  if (usage.videoDurationSeconds && usage.videoResolution) {
+    const videoQuote = quoteVideoProviderCost({
+      provider,
+      modelId,
+      resolution: usage.videoResolution,
+      durationSeconds: usage.videoDurationSeconds,
+      audio: usage.videoAudio,
+      safetyBufferPercent,
+    });
+    if (videoQuote) {
+      return {
+        provider: config.provider,
+        modelId: config.modelId,
+        rawProviderCostUsd: videoQuote.rawProviderCostUsd,
+        safetyCostUsd: videoQuote.safetyCostUsd,
+        safetyBufferPercent: Math.max(0, safetyBufferPercent),
+        estimatedInputTokens,
+        estimatedOutputTokens: 0,
+        pricingStatus: 'verified',
+        costKnown: true,
+      };
+    }
+  }
+
   const inputCost = (estimatedInputTokens / 1_000_000) * (config.inputTokenPriceUsdPerMillion ?? 0);
   const outputCost = (estimatedOutputTokens / 1_000_000) * (config.outputTokenPriceUsdPerMillion ?? 0);
   const imageCount = usage.imageCount ?? (config.category === 'image' ? 1 : 0);
@@ -115,7 +171,7 @@ export function evaluateOperationMargin(input: {
   const minimumMarginPercent = input.minimumMarginPercent ?? 75;
   const providerCostShare = Math.max(0, 1 - minimumMarginPercent / 100);
   const commercialValueUsd = input.operationCredits * PROMPT_CREDIT_COMMERCIAL_VALUE_USD;
-  const maximumProviderCostUsd = commercialValueUsd * providerCostShare;
+  const maximumProviderCostUsd = Math.min(commercialValueUsd * providerCostShare, input.operationCredits * MAX_PROVIDER_COST_PER_CREDIT_USD);
 
   const base = {
     operationCredits: input.operationCredits,

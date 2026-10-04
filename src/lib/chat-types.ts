@@ -34,6 +34,8 @@ export interface ChatParams {
 }
 
 export interface ChatMessageResult {
+  /** AIGenerationJob id; links UI events (feedback, download, regenerate) to the generation. */
+  generationId?: string;
   imageUrl?: string; imageUrls?: string[];
   videoUrl?: string;
   html?: string;
@@ -86,6 +88,8 @@ export interface ChatGeneratorReturn {
   outputWebHTML: string;
   copiedCode: boolean;
   generate: (prompt: string, params: ChatParams, mode: ChatMode) => Promise<string>;
+  regenerate: (message: ChatGeneratorMessage) => Promise<string>;
+  editPrompt: (message: ChatGeneratorMessage) => void;
   reset: () => void;
   queue: ChatQueueItem[];
   queueRunning: boolean;

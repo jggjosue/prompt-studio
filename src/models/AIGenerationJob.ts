@@ -88,6 +88,10 @@ export interface IAIGenerationJob extends Document {
   actualInputTokens?: number | null;
   actualOutputTokens?: number | null;
   actualCostUsd?: number | null;
+  providerBudgetUsd?: number | null;
+  actualCostPerCreditUsd?: number | null;
+  providerBudgetUtilizationPercent?: number | null;
+  providerMarginUsd?: number | null;
   actualDurationMs?: number | null;
   outputResolution?: string | null;
   outputQuality?: string | null;
@@ -188,6 +192,10 @@ const AIGenerationJobSchema = new Schema<IAIGenerationJob>({
   actualInputTokens: { type: Number, default: null, min: 0 },
   actualOutputTokens: { type: Number, default: null, min: 0 },
   actualCostUsd: { type: Number, default: null, min: 0 },
+  providerBudgetUsd: { type: Number, default: null, min: 0 },
+  actualCostPerCreditUsd: { type: Number, default: null, min: 0 },
+  providerBudgetUtilizationPercent: { type: Number, default: null, min: 0 },
+  providerMarginUsd: { type: Number, default: null },
   actualDurationMs: { type: Number, default: null, min: 0 },
   outputResolution: { type: String, default: null, maxlength: 80 },
   outputQuality: { type: String, default: null, maxlength: 80 },

@@ -18,7 +18,9 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
 const PLAN_PRICES = {
-  creator: { monthly: 9, annual: 90 },
+  premium: { monthly: 9, annual: 90 },
+  creator: { monthly: 19, annual: 190 },
+  pro: { monthly: 29, annual: 290 },
   studio: { monthly: 39, annual: 390 },
 } as const;
 
@@ -54,7 +56,7 @@ export function ProfileSubscriptionInfo() {
 
   const price = PLAN_PRICES[plan as keyof typeof PLAN_PRICES]?.[billingCycle];
   const cycleLabel = billingCycle === 'annual' ? tCommon('perYear') : tCommon('perMonth');
-  const planLabel = plan === 'creator' ? tCommon('creator') : tCommon('studio');
+  const planLabel = plan === 'premium' ? 'Premium' : plan === 'creator' ? 'Creator' : plan === 'pro' ? 'Pro' : 'Studio';
 
   async function handleDownload() {
     setDownloading(true);

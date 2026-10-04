@@ -1,4 +1,3 @@
-import path from 'node:path';
 import type { NextConfig } from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
 import { assertClerkProductionKeys } from './src/lib/clerk-config';
@@ -147,39 +146,6 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
-  },
-  /**
-   * `instrumentation.ts` se compila para los dos runtimes. Su `onRequestError`
-   * importa `observability-server` → mongoose → drivers opcionales de mongodb →
-   * `agent-base`, que hace `require('http')`: imposible de resolver en edge.
-   *
-   * El guard `NEXT_RUNTIME === 'edge'` no basta porque webpack resuelve los
-   * `import()` al parsear, antes de eliminar código muerto. Aquí se sustituye
-   * el módulo por uno vacío solo en el bundle edge; en ese runtime la función
-   * retorna antes de usarlo, así que no cambia el comportamiento.
-   *
-   * Turbopack (que es lo que usa `next dev`) ya lo resuelve por su cuenta;
-   * esto solo hace falta para `next build`, que sigue usando webpack.
-   */
-  webpack: (config, { nextRuntime }) => {
-    if (nextRuntime === 'edge') {
-      const observabilityServer = path.resolve(
-        process.cwd(),
-        'src/lib/observability-server.ts'
-      );
-      config.resolve.alias = {
-        ...config.resolve.alias,
-        // Por petición (como lo escribe `instrumentation.ts`)...
-        '@/lib/observability-server': false,
-        // ...y por ruta absoluta, que es la clave que webpack acaba comparando
-        // una vez el plugin de paths de TypeScript resuelve el alias `@/`.
-        [observabilityServer]: false,
-        // Red de seguridad: corta la cadena en su raíz por si algún otro
-        // módulo del bundle edge acabara alcanzando mongoose.
-        mongoose: false,
-      };
-    }
-    return config;
   },
   async redirects() {
     return [

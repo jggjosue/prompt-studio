@@ -1,0 +1,16 @@
+{
+  "name": "prompt-studio-ai-worker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "cf build",
+    "deploy": "cf deploy",
+    "typecheck": "cf workers types && tsc"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "beta",
+    "cf": "^1.0.0-beta.11",
+    "typescript": "^5.9.3",
+    "vite": "^8.3.0"
+  }
+}

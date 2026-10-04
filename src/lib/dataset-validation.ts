@@ -1,6 +1,8 @@
 import { artifactChecksum } from '@/lib/dataset-manifest';
+import { stableSplitGroupKey } from '@/lib/dataset-splitting';
 
-export const DATASET_VALIDATION_VERSION = 'validation-v1';
+/** validation-v2: leakage uses the same group priority as the splitter (user pseudonym first). */
+export const DATASET_VALIDATION_VERSION = 'validation-v2';
 export type SplitName = 'train' | 'validation' | 'test';
 
 type Row = Record<string, any>;
@@ -21,18 +23,25 @@ function parseJsonl(name: SplitName, content: string, issues: ValidationIssue[])
   return rows;
 }
 
+/** Same priority as stableSplitGroupKey: user pseudonym > session > request > source > example. */
 function groupKey(row: Row) {
-  return row.provenance?.requestId
-    ? `request:${row.provenance.requestId}`
-    : row.provenance?.sourceRecordId
-      ? `source:${row.provenance.sourceRecordId}`
-      : Array.isArray(row.provenance?.sourceRecordIds) && row.provenance.sourceRecordIds[0]
-        ? `source:${row.provenance.sourceRecordIds[0]}`
-        : row.exampleId ? `example:${row.exampleId}` : null;
+  const sourceGroupId = row.provenance?.sourceRecordId
+    ?? (Array.isArray(row.provenance?.sourceRecordIds) ? row.provenance.sourceRecordIds[0] : null);
+  try {
+    return stableSplitGroupKey({
+      userGroupId: typeof row.splitGroupId === 'string' ? row.splitGroupId : null,
+      sessionId: typeof row.provenance?.sessionId === 'string' ? row.provenance.sessionId : null,
+      requestId: typeof row.provenance?.requestId === 'string' ? row.provenance.requestId : null,
+      sourceGroupId: typeof sourceGroupId === 'string' ? sourceGroupId : null,
+      exampleId: typeof row.exampleId === 'string' ? row.exampleId : '',
+    });
+  } catch {
+    return null;
+  }
 }
 
 export function validateDatasetRelease(input: {
-  files: { 'train.jsonl': string; 'validation.jsonl': string; 'test.jsonl': string; 'manifest.json': string; 'checksums.json': string };
+  files: { 'train.jsonl': string; 'validation.jsonl': string; 'test.jsonl': string; 'manifest.json': string; 'checksums.json': string; 'DATASET_CARD.md'?: string };
   maxDuplicateRate?: number;
 }) {
   const issues: ValidationIssue[] = [];
@@ -77,8 +86,10 @@ export function validateDatasetRelease(input: {
     }
   }
   if (checksums) {
-    for (const file of ['train.jsonl', 'validation.jsonl', 'test.jsonl', 'manifest.json'] as const) {
-      if (checksums[file] !== artifactChecksum(input.files[file])) issues.push({ code: 'CHECKSUM_MISMATCH', detail: file });
+    for (const file of ['train.jsonl', 'validation.jsonl', 'test.jsonl', 'manifest.json', 'DATASET_CARD.md'] as const) {
+      const content = input.files[file];
+      if (content === undefined) continue;
+      if (checksums[file] !== artifactChecksum(content)) issues.push({ code: 'CHECKSUM_MISMATCH', detail: file });
     }
   }
   return { version: DATASET_VALIDATION_VERSION, valid: issues.length === 0, total, duplicateRate, issues };

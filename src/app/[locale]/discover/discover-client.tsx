@@ -14,6 +14,7 @@ import {
   nextFeedItemCount,
 } from '@/lib/progressive-feed';
 import { useIntersectionInView } from '@/hooks/use-intersection-in-view';
+import { normalizeMembership } from '@/lib/membership-access';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Check, Download, Eye, Globe, Heart, Image as ImageIcon, MoveUpRight, Search, Sparkles, Star, Video, Wand2 } from 'lucide-react';
 import Link from 'next/link';
@@ -31,6 +32,7 @@ type MediaItem = {
   tags?: string[];
   demoUrl?: string;
   price?: string;
+  membership?: string;
   fullPrompt?: Localized;
   /** Id con el que el detalle encuentra el elemento; lo calcula la pagina. */
   detailId?: string;
@@ -180,6 +182,7 @@ function VirtualFeedItem({ item, index, metric, onTrack, onToggleLike }: {
   onToggleLike: (item: FeedItem, liked: boolean) => void;
 }) {
   const t = useTranslations('discover');
+  const tCommon = useTranslations('common');
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { margin: "300px 0px" });
   const [height, setHeight] = useState<number | null>(null);
@@ -262,7 +265,18 @@ function VirtualFeedItem({ item, index, metric, onTrack, onToggleLike }: {
             <div className={`relative w-full overflow-hidden ${index % 3 === 0 ? 'aspect-[4/5]' : index % 3 === 1 ? 'aspect-square' : 'aspect-[16/10]'}`}><OptimizedImage src={mediaSrc} alt={item.titleText} fill lazyAdaptive sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" onError={() => { if (mediaSrc !== FALLBACK_IMAGE) setMediaSrc(FALLBACK_IMAGE); }} className="object-cover transition duration-500 group-hover:scale-[1.03]" /></div>
           )}
           <div className="p-4">
-            <div className="mb-2 flex items-center justify-between"><span className="text-[10px] font-black uppercase tracking-[0.18em] text-blue-400">{item.kind}</span><span className="text-[10px] text-zinc-500">{item.tags?.[0]}</span></div>
+            <div className="mb-2 flex items-center justify-between">
+              <span className="text-[10px] font-black uppercase tracking-[0.18em] text-blue-400">{item.kind}</span>
+              {item.kind === 'web' ? (
+                <WebPriceBadge
+                  price={item.price}
+                  membership={item.membership}
+                  freeLabel={tCommon('free')}
+                />
+              ) : (
+                <span className="text-[10px] text-zinc-500">{item.tags?.[0]}</span>
+              )}
+            </div>
             <h3 className="line-clamp-2 font-bold leading-snug">
               <a
                 href={href}
@@ -316,6 +330,42 @@ function VirtualFeedItem({ item, index, metric, onTrack, onToggleLike }: {
       ) : null}
     </div>
   );
+}
+
+function formatCatalogPrice(price: string | undefined): string | null {
+  const normalizedPrice = price?.trim() ?? '';
+  if (!normalizedPrice) return null;
+  const numericPrice = Number(normalizedPrice.replace(/[$,\s]/g, ''));
+  if (!Number.isFinite(numericPrice) || numericPrice <= 0) return null;
+  return `$${numericPrice.toFixed(2)}`;
+}
+
+function WebPriceBadge({
+  price,
+  membership,
+  freeLabel,
+}: {
+  price?: string;
+  membership?: string;
+  freeLabel: string;
+}) {
+  const isFree = normalizeMembership(membership) === 'free';
+  const displayedPrice = formatCatalogPrice(price);
+  if (isFree) {
+    return (
+      <span className="rounded-full border border-emerald-500/40 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-400">
+        {freeLabel}
+      </span>
+    );
+  }
+  if (displayedPrice) {
+    return (
+      <span className="rounded-full border border-blue-500/40 bg-blue-500/10 px-3 py-1 text-xs font-semibold tabular-nums text-blue-400">
+        {displayedPrice}
+      </span>
+    );
+  }
+  return <span className="text-[10px] text-zinc-500">{membership}</span>;
 }
 
 export default function DiscoverClient({

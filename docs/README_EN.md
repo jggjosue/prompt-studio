@@ -111,7 +111,7 @@ The application uses the **`prompt-studio`** database in MongoDB Atlas. The main
 
 | Area | Endpoints |
 | --- | --- |
-| User synchronization | `/api/sync-clerk`, `/api/sync-registered-users-to-resend`, `/api/sync-resend`, `/api/new-users` |
+| User synchronization | `/api/sync-clerk`, `/api/sync-registered-users-to-resend`, `/api/new-users` |
 | Webhooks | `/api/webhooks/clerk`, `/api/webhooks/stripe` |
 | Subscriptions and checkout | `/api/subscription/status`, `/api/subscription/invoice`, `/api/subscription/portal`, `/api/web-page-checkout`, `/api/stripe/demo-buy-button` |
 | Landing pages | `/api/landing-pages/catalog`, `/api/landing-pages/[pageId]/content`, `/api/landing-pages/[pageId]/download`, `/api/landing-pages/[pageId]/readability`, `/api/landing-pages/readability-index` |

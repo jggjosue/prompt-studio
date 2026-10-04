@@ -2,12 +2,15 @@ import mongoose, { Document, Schema } from 'mongoose';
 
 export interface IFounderCreditClaim extends Document {
   campaignId: string;
+  backerId?: mongoose.Types.ObjectId | null;
+  backerNumber?: number | null;
   backerEmail: string;
   pledgeAmountCents: number;
   currency: string;
   rewardTier: string;
   baseCredits: number;
   bonusCredits: number;
+  totalCredits: number;
   status: 'pending' | 'eligible' | 'claimed' | 'cancelled';
   claimTokenHash?: string | null;
   userId?: string | null;
@@ -19,12 +22,15 @@ export interface IFounderCreditClaim extends Document {
 
 const FounderCreditClaimSchema = new Schema<IFounderCreditClaim>({
   campaignId: { type: String, required: true, index: true, maxlength: 120 },
+  backerId: { type: Schema.Types.ObjectId, ref: 'CrowdfundingBacker', default: null, index: true },
+  backerNumber: { type: Number, default: null, min: 1, index: true },
   backerEmail: { type: String, required: true, lowercase: true, trim: true, index: true },
   pledgeAmountCents: { type: Number, required: true, min: 0 },
   currency: { type: String, required: true, default: 'USD', uppercase: true, maxlength: 3 },
   rewardTier: { type: String, required: true, maxlength: 120 },
   baseCredits: { type: Number, required: true, min: 0 },
   bonusCredits: { type: Number, default: 0, min: 0 },
+  totalCredits: { type: Number, required: true, min: 0, default: 0 },
   status: { type: String, required: true, enum: ['pending', 'eligible', 'claimed', 'cancelled'], default: 'pending', index: true },
   claimTokenHash: { type: String, default: null, index: true, select: false },
   userId: { type: String, default: null, index: true },

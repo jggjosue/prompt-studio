@@ -8,6 +8,7 @@ import { ChevronRight, Zap, Settings2, ExternalLink } from 'lucide-react';
 import { useState } from 'react';
 import Link from 'next/link';
 import { useSuperAdmin } from '@/hooks/use-super-admin';
+import { TrainingConsentToggle } from './training-consent-notice';
 
 type Params = ChatGeneratorReturn['params'];
 type SetParams = ChatGeneratorReturn['setParams'];
@@ -695,6 +696,7 @@ export function SettingsSidebar({ chat, desktopOpen, onDesktopOpenChange, mobile
             <ExternalLink className="h-3 w-3" />
           </Link>
         )}
+        <TrainingConsentToggle />
       </div>
     </div>
   );

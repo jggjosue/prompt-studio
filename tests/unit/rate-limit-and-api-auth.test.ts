@@ -85,7 +85,6 @@ test('los presets de límite son conservadores para escrituras anónimas', () =>
 test('las rutas /api/sync-* exigen CRON_SECRET o sesión de admin', async () => {
   for (const route of [
     'src/app/api/sync-clerk/route.ts',
-    'src/app/api/sync-resend/route.ts',
     'src/app/api/sync-registered-users-to-resend/route.ts',
   ]) {
     const value = await source(route);

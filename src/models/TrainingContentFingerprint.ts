@@ -1,6 +1,10 @@
 import mongoose, { Schema } from 'mongoose';
 
+/** 1: initial shape. Documents without the field are treated as 1. */
+export const TRAINING_FINGERPRINT_SCHEMA_VERSION = 1 as const;
+
 export interface ITrainingContentFingerprint {
+  schemaVersion: number;
   dedupeKey: string;
   canonicalizationVersion: string;
   dataset: string;
@@ -12,6 +16,7 @@ export interface ITrainingContentFingerprint {
 }
 
 const schema = new Schema<ITrainingContentFingerprint>({
+  schemaVersion: { type: Number, required: true, default: TRAINING_FINGERPRINT_SCHEMA_VERSION, min: 1 },
   dedupeKey: { type: String, required: true, unique: true, maxlength: 220 },
   canonicalizationVersion: { type: String, required: true, maxlength: 80 },
   dataset: { type: String, required: true, maxlength: 80, index: true },

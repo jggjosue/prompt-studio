@@ -41,8 +41,8 @@ export function buildGenerationDatasetExample(input: {
   parameters: Record<string, unknown>;
   assets: GenerationAssetRef[];
   quality: { version: string; score: number; threshold: number; passes: boolean };
-}): GenerationDatasetExampleV1 | null {
-  if (!input.quality.passes) return null;
+}, options: { applyQualityGate?: boolean } = {}): GenerationDatasetExampleV1 | null {
+  if (options.applyQualityGate !== false && !input.quality.passes) return null;
   const prompt = typeof input.payload.prompt === 'string'
     ? input.payload.prompt.trim()
     : typeof input.payload.finalPrompt === 'string' ? input.payload.finalPrompt.trim() : '';
