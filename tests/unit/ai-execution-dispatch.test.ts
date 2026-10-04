@@ -178,7 +178,7 @@ test('GCP access tokens come from metadata or workload identity, never JSON keys
 
 test('route selects before persisting, reserves before enqueue, and the worker enforces its pin', () => {
   const route = readFileSync('src/app/api/ai/jobs/route.ts', 'utf8');
-  const select = route.indexOf('selectExecutionBackend({ kind: raw.kind })');
+  const select = route.indexOf('selectExecutionBackend({ kind: raw.kind, routingKey: userId })');
   const create = route.indexOf('AIGenerationJob.create(');
   const reserve = route.indexOf('reserveGenerationCredits(job)');
   const enqueue = route.indexOf('dispatchGenerationExecution(job');
