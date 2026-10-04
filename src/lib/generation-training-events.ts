@@ -3,22 +3,9 @@ import { randomUUID } from 'node:crypto';
 import TrainingDataRecord from '@/models/TrainingDataRecord';
 import { trainingEligibilityFromConsent } from '@/lib/training-consent';
 
-export const GENERATION_TRAINING_EVENTS = [
-  'prompt_submitted',
-  'generation_started',
-  'generation_completed',
-  'generation_failed',
-  'output_viewed',
-  'output_saved',
-  'output_downloaded',
-  'regenerate_clicked',
-  'prompt_edited',
-  'feedback_positive',
-  'feedback_negative',
-  'added_to_queue',
-] as const;
+import type { GenerationTrainingEventName } from '@/lib/training/event-contract';
 
-export type GenerationTrainingEventName = (typeof GENERATION_TRAINING_EVENTS)[number];
+export { GENERATION_TRAINING_EVENTS, type GenerationTrainingEventName } from '@/lib/training/event-contract';
 
 type Consent = {
   training: boolean;
