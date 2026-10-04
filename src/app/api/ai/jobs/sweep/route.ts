@@ -4,6 +4,7 @@ import { requireCronOrAdmin } from '@/lib/api-auth';
 import { refundCredits } from '@/lib/ai-job-service';
 import { transitionGenerationJob } from '@/lib/generation-job-state-server';
 import { sweepStuckGenerationJobs, type SweepEvent } from '@/lib/generation-sweeper';
+import { runGenerationCloudRecovery } from '@/lib/generation-cloud-recovery-server';
 import { recordObservabilityEvent } from '@/lib/observability-server';
 import { cacheHeaders } from '@/lib/cache-policy';
 import AIGenerationJob, { type IAIGenerationJob } from '@/models/AIGenerationJob';
@@ -58,7 +59,13 @@ async function handle(request: Request) {
     metadata: { sweepId: summary.sweepId, attempts: summary.recovered },
   });
 
-  return NextResponse.json(summary, { headers });
+  // #838: re-deliver lost tasks of cloud-pinned jobs on their own backend and
+  // re-home never-started jobs off a killed backend (both no-ops while every
+  // cloud backend is off), then release reservations stranded on terminal jobs
+  // of any backend through the idempotent ledger.
+  const cloud = await runGenerationCloudRecovery();
+
+  return NextResponse.json({ ...summary, cloud }, { headers });
 }
 
 export const GET = handle;
