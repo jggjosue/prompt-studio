@@ -12,6 +12,7 @@ import { getAIModelConfig } from '@/lib/ai-credit-config';
 import { generationSubmissionKey } from '@/lib/generation-idempotency';
 import { recordGenerationFailed, recordGenerationStarted, recordImageGenerationCompleted } from '@/lib/generation-telemetry';
 import { assertPaidGenerationReserved } from '@/lib/generation-credit-boundary';
+import { isSitePlanJob, runSitePlanJob } from '@/lib/site-plan-job';
 
 export type ErrorCategory =
   | 'BAD_REQUEST'
@@ -217,6 +218,9 @@ export async function runAIJob(job: IAIGenerationJob): Promise<Record<string, un
   const instructions = typeof job.input.outputContractInstructions === 'string' ? job.input.outputContractInstructions.trim() : '';
   const prompt = instructions ? `${basePrompt}\n\n${instructions}` : basePrompt;
   if (!prompt) throw new Error(mapGeminiError(new Error('El trabajo no contiene un prompt válido')).userMessage);
+  // Page-composer website generation as a job (#834): PageSchema-validated,
+  // stored in R2. Checked before the generic Gemini text branch.
+  if (isSitePlanJob(job)) return runSitePlanJob(job);
   if (job.kind === 'project' && job.provider === 'google') {
     return createGeminiTextInteraction(prompt);
   }
