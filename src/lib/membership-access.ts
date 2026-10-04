@@ -1,16 +1,17 @@
-export type ContentMembership = 'free' | 'creator' | 'pro' | 'studio';
+export type ContentMembership = 'free' | 'premium' | 'creator' | 'pro' | 'studio';
 
 export function normalizeMembership(membership?: string): ContentMembership {
   const value = (membership ?? 'Free').trim().toLowerCase();
   if (value === 'studio' || value === 'developer') return 'studio';
-  if (value === 'creator' || value === 'premium') return 'creator';
+  if (value === 'premium') return 'premium';
+  if (value === 'creator') return 'creator';
   if (value === 'pro') return 'pro';
   return 'free';
 }
 
 export function membershipRequiresPayment(membership?: string): boolean {
   const tier = normalizeMembership(membership);
-  return tier === 'creator' || tier === 'pro' || tier === 'studio';
+  return tier === 'premium' || tier === 'creator' || tier === 'pro' || tier === 'studio';
 }
 
 export const SIGN_UP_PATH = '/sign-up';

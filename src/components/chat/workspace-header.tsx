@@ -97,7 +97,7 @@ export function WorkspaceHeader({ chat }: WorkspaceHeaderProps) {
       {/* Credit display */}
       {isLoaded && isSignedIn && (
         <Link
-          href="/prices"
+          href={lowCredits ? '/dashboard/credits' : '/prices'}
           className={cn(
             'flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
             lowCredits

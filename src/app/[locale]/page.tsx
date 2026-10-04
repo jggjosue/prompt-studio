@@ -108,6 +108,7 @@ export default function HomePage() {
       tags: page.tags,
       demoUrl: page.demoUrl,
       price: page.price,
+      membership: page.membership,
     }));
 
   return (

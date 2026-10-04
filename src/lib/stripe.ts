@@ -26,7 +26,7 @@ export const stripe = new Proxy({} as Stripe, {
 export type StripeUserMetadata = {
   stripeCustomerId: string;
   stripeSubscriptionId: string;
-  stripePlan: 'free' | 'creator' | 'pro' | 'studio';
+  stripePlan: 'free' | 'premium' | 'creator' | 'pro' | 'studio';
   stripeStatus: 'active' | 'canceled' | 'past_due' | 'trialing' | 'unpaid';
   stripeCurrentPeriodEnd: number;
   stripeBillingCycle: 'monthly' | 'annual';
@@ -37,7 +37,7 @@ type StripeSubCompat = Stripe.Subscription & { current_period_end: number };
 export function extractSubscriptionMeta(
   sub: Stripe.Subscription,
   customerId: string,
-  plan: 'free' | 'creator' | 'pro' | 'studio' = 'creator'
+  plan: 'free' | 'premium' | 'creator' | 'pro' | 'studio' = 'premium'
 ): StripeUserMetadata {
   const interval = sub.items.data[0]?.price?.recurring?.interval;
   return {
@@ -54,7 +54,21 @@ export function extractSubscriptionMeta(
  * Planes legacy mapeados a sus equivalentes actuales.
  * Se usa para migración de suscriptores existentes.
  */
-export const LEGACY_PLAN_MAP: Record<string, 'free' | 'creator' | 'pro' | 'studio'> = {
-  premium: 'creator',
+export const LEGACY_PLAN_MAP: Record<string, 'free' | 'premium' | 'creator' | 'pro' | 'studio'> = {
+  basic: 'premium',
   startup: 'studio',
 };
+
+export function resolveSubscriptionPlan(sub: Stripe.Subscription): 'premium' | 'creator' | 'pro' | 'studio' {
+  const raw = sub.metadata?.plan;
+  if (raw === 'premium' || raw === 'creator' || raw === 'pro' || raw === 'studio') return raw;
+
+  const unitAmount = sub.items.data[0]?.price?.unit_amount ?? 0;
+  const interval = sub.items.data[0]?.price?.recurring?.interval;
+  const amount = interval === 'year' ? unitAmount / 100 : unitAmount / 100;
+  if ((interval === 'year' && amount === 90) || (interval !== 'year' && amount === 9)) return 'premium';
+  if ((interval === 'year' && amount === 190) || (interval !== 'year' && amount === 19)) return 'creator';
+  if ((interval === 'year' && amount === 290) || (interval !== 'year' && amount === 29)) return 'pro';
+  if ((interval === 'year' && amount === 390) || (interval !== 'year' && amount === 39)) return 'studio';
+  return 'premium';
+}

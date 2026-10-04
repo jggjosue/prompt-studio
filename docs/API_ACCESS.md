@@ -170,8 +170,7 @@ None of them expose paid prompt data or private account records.
 | [`/api/subscription/portal`](../src/app/api/subscription/portal/route.ts) | POST | User session |
 | [`/api/subscription/status`](../src/app/api/subscription/status/route.ts) | GET | Subscription plan |
 | [`/api/sync-clerk`](../src/app/api/sync-clerk/route.ts) | GET | Cron or admin secret |
-| [`/api/sync-registered-users-to-resend`](../src/app/api/sync-registered-users-to-resend/route.ts) | GET | Cron or admin secret |
-| [`/api/sync-resend`](../src/app/api/sync-resend/route.ts) | GET | Cron or admin secret |
+| [`/api/sync-registered-users-to-resend`](../src/app/api/sync-registered-users-to-resend/route.ts) | GET, POST | Cron or admin secret |
 | [`/api/web-page-checkout`](../src/app/api/web-page-checkout/route.ts) | — | Public — Guest checkout initiation; Stripe validates payment session |
 | [`/api/web-pages/validate-demo-url`](../src/app/api/web-pages/validate-demo-url/route.ts) | GET | Public — URL format validation, side-effect free |
 | [`/api/webhooks/clerk`](../src/app/api/webhooks/clerk/route.ts) | POST | Webhook signature |

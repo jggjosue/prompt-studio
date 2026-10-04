@@ -15,8 +15,15 @@ export const RETIRED_GOOGLE_IMAGE_MODELS = new Set([
   'gemini-2.0-flash-preview-image-generation',
 ]);
 
+const GOOGLE_IMAGE_MODEL_ALIASES: Record<string, string> = {
+  'nano-banana-2-lite': 'gemini-3.1-flash-lite-image',
+  'nano-banana-2': 'gemini-3.1-flash-image',
+  'nano-banana-pro': 'gemini-3-pro-image',
+};
+
 export function googleImageModelFor(requestedModel?: string | null): string {
   const model = requestedModel?.trim();
   if (!model || RETIRED_GOOGLE_IMAGE_MODELS.has(model)) return GOOGLE_IMAGE_MODEL;
+  if (GOOGLE_IMAGE_MODEL_ALIASES[model]) return GOOGLE_IMAGE_MODEL_ALIASES[model];
   return model.startsWith('gemini-') ? model : GOOGLE_IMAGE_MODEL;
 }

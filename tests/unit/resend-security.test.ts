@@ -11,10 +11,7 @@ test('el cliente de Resend queda restringido al servidor', async () => {
 });
 
 test('las sincronizaciones no devuelven correos ni errores internos', async () => {
-  for (const route of [
-    'src/app/api/sync-resend/route.ts',
-    'src/app/api/sync-registered-users-to-resend/route.ts',
-  ]) {
+  for (const route of ['src/app/api/sync-registered-users-to-resend/route.ts']) {
     const code = await source(route);
     assert.ok(!code.includes('errors.push('), `${route} no debe acumular detalles sensibles`);
     assert.ok(!code.includes('error.message }, { status: 500'), `${route} no debe devolver errores internos`);

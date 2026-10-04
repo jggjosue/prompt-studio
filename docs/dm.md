@@ -133,7 +133,7 @@ Two fields of the schema are deliberately left `null` because the code cannot de
 >
 > - `UserProfile` declares `userId` **unique**. `RegisteredUser` and `NewUser` documents do not have `userId`, so they are indexed as `null`: **only one can exist**. The second insert crashes with a duplicate key.
 > - `RegisteredUser` declares `email` **unique**, and that index also applies to `UserProfile` documents.
-> - `NewUser.find({})` in `/api/sync-resend` returns **all** documents from `user_profiles`, including profiles, and sends their emails to Resend.
+> - `/api/sync-registered-users-to-resend` is the only HTTP reconciliation endpoint from MongoDB to Resend. It selects registered profiles and preserves consent, unsubscribe and suppression state.
 >
 > That it doesn't explode today depends on whether the indexes were successfully built against existing data; a failed build is logged but doesn't throw. It's a latent defect, not a design.
 
