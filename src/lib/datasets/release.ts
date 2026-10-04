@@ -108,7 +108,7 @@ async function loadProcessed(store: TrainingObjectStore, dataset: DatasetName) {
  * source records must still exist and be eligible, their owners must have
  * valid training consent now, and no revocation may name them or their owner.
  */
-async function eligibleSources(recordIds: string[]) {
+export async function eligibleSources(recordIds: string[]) {
   const records: Array<{ recordId: string; userId: string; consent?: { training?: boolean }; eligibility?: { status?: string } }> = [];
   for (let index = 0; index < recordIds.length; index += 500) {
     records.push(...await TrainingDataRecord.find({ entityType: 'output', recordId: { $in: recordIds.slice(index, index + 500) } })
