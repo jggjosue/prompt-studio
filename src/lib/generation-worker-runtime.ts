@@ -21,6 +21,7 @@ import { finalizeModelRegressionForJob } from '@/lib/model-regression-server';
 import { observeOperation, recordObservabilityEvent, reportOperationalError } from '@/lib/observability-server';
 import { validateAndRepairOutput } from '@/lib/output-contract';
 import { recordProjectFunnelEvent } from '@/lib/project-funnel-events';
+import { videoOperationAdapterFor } from '@/lib/video-operation-adapters';
 import OutputContract from '@/models/OutputContract';
 import type { IAIGenerationJob } from '@/models/AIGenerationJob';
 
@@ -60,6 +61,11 @@ async function scheduleGcpFollowUp(job: IAIGenerationJob, input: { scheduleAt: D
   if (!result.dispatched) throw new Error(`GCP_FOLLOW_UP_${(result.reason ?? 'publish_failed').toUpperCase()}`);
 }
 
+const seconds = (value: string | undefined, fallback: number, min: number, max: number) => {
+  const parsed = Number(value);
+  return (Number.isFinite(parsed) ? Math.min(max, Math.max(min, parsed)) : fallback) * 1000;
+};
+
 const deps: GenerationWorkerDeps = {
   claim: claimGenerationJob,
   claimExhausted: claimExhaustedGenerationJob,
@@ -78,6 +84,15 @@ const deps: GenerationWorkerDeps = {
   },
   finalizeRegression: finalizeModelRegressionForJob,
   scheduleFollowUp: (job, input) => scheduleGcpFollowUp(job, input),
+  // Video (#833): bounded polling per delivery; never one open request for the
+  // whole render. Read at call time so ops can tune without redeploying code.
+  longRunning: {
+    adapterFor: job => videoOperationAdapterFor(job),
+    get pollIntervalMs() { return seconds(process.env.AI_VIDEO_POLL_INTERVAL_SECONDS, 20, 5, 120); },
+    get pollBudgetMs() { return seconds(process.env.AI_VIDEO_POLL_BUDGET_SECONDS, 60, 0, 600); },
+    get maxOperationMs() { return seconds(process.env.AI_VIDEO_MAX_OPERATION_SECONDS, 20 * 60, 60, 2 * 60 * 60); },
+    sleep: ms => new Promise(resolve => setTimeout(resolve, ms)),
+  },
   observeClaim: (route, run) => observeOperation({ category: 'slow_query', name: 'ai_job_claim', route }, run),
   recordEvent: event => { void recordObservabilityEvent(event); },
   reportError: (event, error) => reportOperationalError(event, error),

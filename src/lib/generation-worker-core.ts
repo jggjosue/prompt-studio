@@ -57,6 +57,42 @@ type ObservedEvent = {
   metadata?: Record<string, unknown>;
 };
 
+/**
+ * Provider adapter for long-running generations (video, #833). The worker
+ * never keeps an HTTP request open until the provider finishes: it submits,
+ * persists the provider's operation id, polls for a bounded time, and if the
+ * work is still running it schedules a delayed delivery and lets go.
+ */
+export type LongRunningOperationAdapter = {
+  name: string;
+  /**
+   * true only if the provider honours our submission key (Idempotency-Key),
+   * so re-submitting after an ambiguous crash cannot create a second job.
+   */
+  idempotentSubmit: boolean;
+  submit(job: IAIGenerationJob, submissionKey: string): Promise<{ providerRequestId: string }>;
+  poll(job: IAIGenerationJob, providerRequestId: string): Promise<
+    | { state: 'pending' }
+    | { state: 'succeeded'; result: Record<string, unknown> }
+    | { state: 'failed'; error: Error }
+  >;
+};
+
+export type LongRunningConfig = {
+  adapterFor(job: IAIGenerationJob): LongRunningOperationAdapter | null;
+  pollIntervalMs: number;
+  /** Max time one delivery spends polling before handing back to the queue. */
+  pollBudgetMs: number;
+  /** Hard cap from submission; after it the job is closed and refunded. */
+  maxOperationMs: number;
+  sleep(ms: number): Promise<void>;
+};
+
+type ProviderOperation = NonNullable<IAIGenerationJob['providerOperation']>;
+
+export const VIDEO_SUBMISSION_AMBIGUOUS = 'VIDEO_SUBMISSION_AMBIGUOUS';
+export const VIDEO_OPERATION_EXPIRED = 'VIDEO_OPERATION_EXPIRED';
+
 export type GenerationWorkerDeps = {
   claim(input: WorkerClaimInput): Promise<Claimed | null>;
   claimExhausted(input: WorkerClaimInput): Promise<Claimed | null>;
@@ -79,6 +115,8 @@ export type GenerationWorkerDeps = {
    * (business retry). Legacy omits it: its processor/recovery picks the job up.
    */
   scheduleFollowUp?(job: IAIGenerationJob, input: { scheduleAt: Date; deliveryKey: string; reason: 'retry' | 'poll' }): Promise<void>;
+  /** Long-running (video) support. Only used on non-legacy backends. */
+  longRunning?: LongRunningConfig;
   observeClaim<T>(route: string, run: () => Promise<T>): Promise<T>;
   recordEvent(event: ObservedEvent): void;
   reportError(event: ObservedEvent, error: unknown): void;
@@ -104,6 +142,63 @@ export function classifyGenerationError(error: unknown): {
 
 export function createGenerationJobProcessor(deps: GenerationWorkerDeps) {
   const clock = deps.clock ?? { now: () => Date.now(), perf: () => performance.now() };
+
+  type LongRunningOutcome =
+    | { kind: 'result'; job: IAIGenerationJob; result: Record<string, unknown> }
+    | { kind: 'pending'; job: IAIGenerationJob; pollCount: number };
+
+  async function runLongRunning(initial: IAIGenerationJob, lockToken: string, adapter: LongRunningOperationAdapter, cfg: LongRunningConfig): Promise<LongRunningOutcome> {
+    let job = initial;
+    const jobId = String(job._id);
+    const at = () => new Date(clock.now());
+    let op: ProviderOperation | null = job.providerOperation ? { ...job.providerOperation } : null;
+
+    if (!op?.providerRequestId) {
+      // A previous delivery may have died between "provider accepted" and
+      // "id persisted". Without provider-side idempotency we cannot know, and
+      // re-submitting could generate (and pay for) a second video.
+      if (op?.status === 'submitting' && !adapter.idempotentSubmit) {
+        throw Object.assign(new Error('No se puede confirmar si el proveedor aceptó el video; requiere conciliación manual.'), { code: VIDEO_SUBMISSION_AMBIGUOUS });
+      }
+      const submissionKey = op?.submissionKey || job.generationIdempotencyKey || jobId;
+      op = { status: 'submitting', provider: job.provider, modelId: job.modelId ?? null, providerRequestId: null, submissionKey, attempt: job.attempts, pollCount: 0, submittingAt: at(), submittedAt: null, lastPolledAt: null, completedAt: null };
+      job = await deps.updateOwned(jobId, lockToken, { providerOperation: op });
+      let submitted: { providerRequestId: string };
+      try {
+        submitted = await adapter.submit(job, submissionKey);
+      } catch (error) {
+        // An HTTP answer means the provider did not take the job: safe to clear
+        // so a retry submits again. A transport error stays ambiguous.
+        if (providerHttpStatus(error) !== null) await deps.updateOwned(jobId, lockToken, { providerOperation: null });
+        throw error;
+      }
+      op = { ...op, status: 'submitted', providerRequestId: submitted.providerRequestId.slice(0, 300), submittedAt: at() };
+      job = await deps.updateOwned(jobId, lockToken, { providerOperation: op, providerRequestId: op.providerRequestId!.slice(0, 200) });
+    }
+
+    const startedAt = (op.submittedAt ?? op.submittingAt ?? at()).getTime();
+    const budgetEnd = clock.now() + cfg.pollBudgetMs;
+    for (;;) {
+      const polled = await adapter.poll(job, op.providerRequestId!);
+      op = { ...op, pollCount: op.pollCount + 1, lastPolledAt: at() };
+      if (polled.state === 'succeeded') {
+        op = { ...op, status: 'succeeded', completedAt: at() };
+        job = await deps.updateOwned(jobId, lockToken, { providerOperation: op });
+        return { kind: 'result', job, result: { ...polled.result, providerRequestId: op.providerRequestId } };
+      }
+      if (polled.state === 'failed') {
+        op = { ...op, status: 'failed', completedAt: at() };
+        job = await deps.updateOwned(jobId, lockToken, { providerOperation: op });
+        throw polled.error;
+      }
+      job = await deps.updateOwned(jobId, lockToken, { providerOperation: op });
+      if (clock.now() - startedAt >= cfg.maxOperationMs) {
+        throw Object.assign(new Error('La operación de video superó su duración máxima.'), { code: VIDEO_OPERATION_EXPIRED });
+      }
+      if (clock.now() + cfg.pollIntervalMs > budgetEnd) return { kind: 'pending', job, pollCount: op.pollCount };
+      await cfg.sleep(cfg.pollIntervalMs);
+    }
+  }
 
   return async function processGenerationJob(userId?: string, leaseMinutes = 5, jobId?: string, context: GenerationWorkerContext = {}): Promise<GenerationProcessResult> {
     const routeName = context.routeName || '/api/ai/jobs/process';
@@ -142,7 +237,34 @@ export function createGenerationJobProcessor(deps: GenerationWorkerDeps) {
     const meta = () => ({ kind: job.kind, provider: job.provider, modelId: job.modelId, attempts: job.attempts, jobId: String(job._id), correlationId: job.correlationId || String(job._id), executionBackend });
     try {
       job = await deps.updateOwned(String(job._id), lockToken, { progress: 35, progressMessage: 'Generando contenido' });
-      job.result = await deps.runProvider(job);
+      const adapter = executionBackend !== 'legacy' && deps.longRunning ? deps.longRunning.adapterFor(job) : null;
+      if (adapter && deps.longRunning) {
+        const outcome = await runLongRunning(job, lockToken, adapter, deps.longRunning);
+        job = outcome.job;
+        if (outcome.kind === 'pending') {
+          // Still rendering: release the worker, keep the reservation, and come
+          // back later. Polling does not consume provider attempts.
+          const nextPollAt = new Date(clock.now() + deps.longRunning.pollIntervalMs);
+          job = await deps.transition({
+            jobId: String(job._id),
+            from: currentState,
+            to: 'queued',
+            lockToken,
+            patch: { attempts: Math.max(0, job.attempts - 1), nextAttemptAt: nextPollAt, progressMessage: 'Generando video con el proveedor', lastError: null },
+          });
+          currentState = 'queued';
+          if (deps.scheduleFollowUp) {
+            await deps.scheduleFollowUp(job, { scheduleAt: nextPollAt, deliveryKey: `poll-${outcome.pollCount}`, reason: 'poll' }).catch(followUpError => {
+              deps.reportError({ category: 'ai_generation', name: 'generation_follow_up_enqueue_failed', route: routeName, userId: job.userId, productId: observedProductId, metadata: meta() }, followUpError);
+            });
+          }
+          deps.recordEvent({ category: 'ai_generation', name: 'generation_poll_scheduled', route: routeName, userId: job.userId, productId: observedProductId, status: 'queued', metadata: { ...meta(), providerRequestId: job.providerRequestId ?? null } });
+          return { id: String(job._id), status: currentState };
+        }
+        job.result = outcome.result;
+      } else {
+        job.result = await deps.runProvider(job);
+      }
       await deps.validateOutput(job);
       const quote = generationQuote(job.kind, job.provider);
       const resultMeta = job.result as Record<string, unknown>;

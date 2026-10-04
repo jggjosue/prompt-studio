@@ -53,6 +53,24 @@ export interface IAIGenerationJob extends Document {
     reason?: string | null;
     attempts?: number | null;
   } | null;
+  /**
+   * Long-running provider operation (#833, video). `providerRequestId` is
+   * persisted right after the provider accepts the work, BEFORE polling, so a
+   * restarted worker resumes the same operation instead of submitting again.
+   */
+  providerOperation?: {
+    status: 'submitting' | 'submitted' | 'succeeded' | 'failed';
+    provider: string;
+    modelId?: string | null;
+    providerRequestId?: string | null;
+    submissionKey: string;
+    attempt: number;
+    pollCount: number;
+    submittingAt?: Date | null;
+    submittedAt?: Date | null;
+    lastPolledAt?: Date | null;
+    completedAt?: Date | null;
+  } | null;
   failureMetadata?: { category: GenerationJobErrorCategory; code?: string | null; httpStatus?: number | null; retryable: boolean; attempt: number; occurredAt: Date } | null;
   progress: number;
   progressMessage: string;
@@ -132,6 +150,19 @@ const AIGenerationJobSchema = new Schema<IAIGenerationJob>({
     state: { type: String, enum: ['enqueued', 'skipped', 'failed', null], default: null },
     reason: { type: String, default: null, maxlength: 80 },
     attempts: { type: Number, default: 0, min: 0 },
+  }, { _id: false }), default: null },
+  providerOperation: { type: new Schema({
+    status: { type: String, enum: ['submitting', 'submitted', 'succeeded', 'failed'], required: true },
+    provider: { type: String, required: true, maxlength: 80 },
+    modelId: { type: String, default: null, maxlength: 120 },
+    providerRequestId: { type: String, default: null, maxlength: 300 },
+    submissionKey: { type: String, required: true, maxlength: 120 },
+    attempt: { type: Number, required: true, min: 0 },
+    pollCount: { type: Number, default: 0, min: 0 },
+    submittingAt: { type: Date, default: null },
+    submittedAt: { type: Date, default: null },
+    lastPolledAt: { type: Date, default: null },
+    completedAt: { type: Date, default: null },
   }, { _id: false }), default: null },
   failureMetadata: { type: new Schema({ category: { type: String, required: true }, code: { type: String, default: null, maxlength: 100 }, httpStatus: { type: Number, default: null }, retryable: { type: Boolean, required: true }, attempt: { type: Number, required: true, min: 0 }, occurredAt: { type: Date, required: true } }, { _id: false }), default: null },
   /**
