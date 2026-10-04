@@ -129,7 +129,12 @@ export function generationJobErrorCategory(input: {
   if (input.httpStatus === 401 || input.httpStatus === 403 || code.includes('AUTH') || code.includes('PERMISSION')) return 'auth_or_permission';
   if (input.httpStatus === 404 || code.includes('NOT_FOUND')) return 'model_not_found';
   if (input.httpStatus === 429 || code.includes('QUOTA') || code.includes('RESOURCE_EXHAUSTED')) return 'rate_limit_or_quota';
-  if ((input.httpStatus ?? 0) >= 500 || code.includes('UNAVAILABLE')) return 'provider_unavailable';
+  // Transient transport failures (no HTTP status) and eligible 5xx retry;
+  // other 5xx (501 Not Implemented, 505...) are permanent provider errors.
+  if (code.startsWith('NETWORK_') || code.includes('UNAVAILABLE')) return 'provider_unavailable';
+  const status = input.httpStatus ?? 0;
+  if (status === 500 || status === 502 || status === 503 || status === 504) return 'provider_unavailable';
+  if (status >= 500) return 'provider_error';
   if (input.httpStatus || code.includes('PROVIDER')) return 'provider_error';
   return 'unknown';
 }

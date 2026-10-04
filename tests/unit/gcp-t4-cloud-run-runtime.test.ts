@@ -7,9 +7,12 @@ test('Vercel process route delegates to shared generation runtime',()=>{
  assert.match(s,/processGenerationJob/); assert.doesNotMatch(s,/runAIJob/); assert.doesNotMatch(s,/captureGenerationCredits/);
 });
 test('shared runtime owns provider execution and credit reconciliation',()=>{
- const s=fs.readFileSync('src/lib/generation-worker-runtime.ts','utf8');
- for(const v of ['runAIJob','captureGenerationCredits','releaseGenerationCredits','claimGenerationJob','generationRetryDecision']) assert.match(s,new RegExp(v));
- assert.match(s,/cloud-run:/);
+ // Wiring (production deps) + backend-agnostic core (#836).
+ const runtime=fs.readFileSync('src/lib/generation-worker-runtime.ts','utf8');
+ const core=fs.readFileSync('src/lib/generation-worker-core.ts','utf8');
+ for(const v of ['runProvider: runAIJob','capture: captureGenerationCredits','release: releaseGenerationCredits','claim: claimGenerationJob']) assert.ok(runtime.includes(v),v);
+ assert.match(core,/generationRetryDecision\(/);
+ assert.match(runtime,/cloud-run:/);
 });
 test('Cloud Run entrypoint validates minimal task payload and exposes health',()=>{
  const s=fs.readFileSync('workers/generation/server.ts','utf8');
