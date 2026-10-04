@@ -2,6 +2,7 @@ import {
   canonicalGenerationState,
   canonicalGenerationType,
 } from '@/lib/generation-job-state';
+import { recommendedPollAfterMs } from '@/lib/generation-status-policy';
 import type { IAIGenerationJob } from '@/models/AIGenerationJob';
 
 function resultReference(result: Record<string, unknown> | null | undefined, keys: string[]): string | null {
@@ -67,6 +68,12 @@ export function serializeAIJob(job: IAIGenerationJob) {
     reprocessedAt: job.reprocessedAt ?? null,
     reprocessedJobId: job.reprocessedJobId ?? null,
     cancelledAt: job.cancelledAt ?? null,
+    /** Infrastructure that runs the job (#835); never the AI provider. */
+    executionBackend: job.executionBackend ?? 'legacy',
+    dispatch: job.dispatch ? { transport: job.dispatch.backend ?? null, state: job.dispatch.state ?? null, dispatchedAt: job.dispatch.dispatchedAt ?? null } : null,
+    providerOperation: job.providerOperation ? { status: job.providerOperation.status, pollCount: job.providerOperation.pollCount, submittedAt: job.providerOperation.submittedAt ?? null, lastPolledAt: job.providerOperation.lastPolledAt ?? null } : null,
+    /** Adaptive polling hint (#838); null once the job is terminal. */
+    pollAfterMs: recommendedPollAfterMs(job),
     timestamps: {
       createdAt: job.createdAt,
       updatedAt: job.updatedAt,

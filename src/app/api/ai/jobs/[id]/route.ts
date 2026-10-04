@@ -14,5 +14,8 @@ export async function GET(_: Request, context: { params: Promise<{ id: string }>
   await connectToDatabase();
   const job = await AIGenerationJob.findOne({ _id: id, userId });
   if (!job) return NextResponse.json({ error: 'Trabajo no encontrado.' }, { status: 404, headers });
-  return NextResponse.json({ job: serializeAIJob(job) }, { headers });
+  const serialized = serializeAIJob(job);
+  // Adaptive polling (#838): clients should wait this long before asking again.
+  if (serialized.pollAfterMs !== null) headers.set('Retry-After', String(Math.ceil(serialized.pollAfterMs / 1000)));
+  return NextResponse.json({ job: serialized }, { headers });
 }

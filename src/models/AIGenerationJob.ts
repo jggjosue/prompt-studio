@@ -52,6 +52,8 @@ export interface IAIGenerationJob extends Document {
     state?: 'enqueued' | 'skipped' | 'failed' | null;
     reason?: string | null;
     attempts?: number | null;
+    /** Last time the recovery watchdog re-enqueued this job (#838). */
+    lastRecoveryAt?: Date | null;
   } | null;
   /**
    * Long-running provider operation (#833, video). `providerRequestId` is
@@ -150,6 +152,7 @@ const AIGenerationJobSchema = new Schema<IAIGenerationJob>({
     state: { type: String, enum: ['enqueued', 'skipped', 'failed', null], default: null },
     reason: { type: String, default: null, maxlength: 80 },
     attempts: { type: Number, default: 0, min: 0 },
+    lastRecoveryAt: { type: Date, default: null },
   }, { _id: false }), default: null },
   providerOperation: { type: new Schema({
     status: { type: String, enum: ['submitting', 'submitted', 'succeeded', 'failed'], required: true },
