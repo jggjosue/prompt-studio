@@ -24,6 +24,29 @@ export function providerHttpStatus(error: unknown): number | null {
   return Number.isInteger(status) && status >= 100 && status <= 599 ? status : null;
 }
 
+const NETWORK_CODES = /^(ECONNRESET|ECONNREFUSED|ECONNABORTED|ENOTFOUND|EAI_AGAIN|EPIPE|EHOSTUNREACH|ENETUNREACH|ENETDOWN|UND_ERR_[A-Z_]+)$/;
+const NETWORK_MESSAGES = /fetch failed|socket hang up|network error|networkerror|getaddrinfo/i;
+
+/**
+ * Transport-level failure before any HTTP status was received (connection
+ * reset/refused, DNS, undici socket errors). Returns a stable code such as
+ * `NETWORK_ECONNRESET`, or null. Socket timeouts are left to the timeout path.
+ */
+export function networkErrorCode(error: unknown): string | null {
+  if (!error || typeof error !== 'object') return null;
+  const candidate = error as { code?: unknown; message?: unknown; cause?: { code?: unknown } | null };
+  for (const code of [candidate.code, candidate.cause?.code]) {
+    if (typeof code === 'string' && NETWORK_CODES.test(code)) return `NETWORK_${code}`;
+  }
+  if (typeof candidate.message === 'string' && NETWORK_MESSAGES.test(candidate.message)) return 'NETWORK_ERROR';
+  return null;
+}
+
+/** Server errors that are worth retrying; 501/505/511... are permanent. */
+export function isRetryableServerStatus(status: number | null | undefined): boolean {
+  return status === 500 || status === 502 || status === 503 || status === 504;
+}
+
 export function isRetryableProviderStatus(status: number | null): boolean {
   return status === null || status === 408 || status === 409 || status === 425 || status === 429 || status >= 500;
 }
