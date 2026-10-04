@@ -117,6 +117,14 @@ export type GenerationWorkerDeps = {
    * (business retry). Legacy omits it: its processor/recovery picks the job up.
    */
   scheduleFollowUp?(job: IAIGenerationJob, input: { scheduleAt: Date; deliveryKey: string; reason: 'retry' | 'poll' }): Promise<void>;
+  /** Structured execution record (#837); must never throw. */
+  logExecution?(input: {
+    job: IAIGenerationJob;
+    outcome: 'completed' | 'retry_scheduled' | 'poll_scheduled' | 'dead_letter' | 'failed' | 'ownership_lost';
+    executionBackend: ExecutionBackendName;
+    latencyMs: number | null;
+    error?: { category: string; code: string; httpStatus: number | null } | null;
+  }): void;
   /** Long-running (video) support. Only used on non-legacy backends. */
   longRunning?: LongRunningConfig;
   observeClaim<T>(route: string, run: () => Promise<T>): Promise<T>;
@@ -228,6 +236,7 @@ export function createGenerationJobProcessor(deps: GenerationWorkerDeps) {
       });
       await deps.notifyFinished(failed);
       await deps.persist(failed);
+      deps.logExecution?.({ job: failed, outcome: 'failed', executionBackend, latencyMs: null });
       return { id: String(failed._id), status: 'failed', recoveredExpiredLease: true };
     }
 
@@ -261,6 +270,7 @@ export function createGenerationJobProcessor(deps: GenerationWorkerDeps) {
               deps.reportError({ category: 'ai_generation', name: 'generation_follow_up_enqueue_failed', route: routeName, userId: job.userId, productId: observedProductId, metadata: meta() }, followUpError);
             });
           }
+          deps.logExecution?.({ job, outcome: 'poll_scheduled', executionBackend, latencyMs: Math.round(clock.perf() - generationStarted) });
           deps.recordEvent({ category: 'ai_generation', name: 'generation_poll_scheduled', route: routeName, userId: job.userId, productId: observedProductId, status: 'queued', metadata: { ...meta(), providerRequestId: job.providerRequestId ?? null } });
           return { id: String(job._id), status: currentState };
         }
@@ -316,10 +326,12 @@ export function createGenerationJobProcessor(deps: GenerationWorkerDeps) {
       await deps.persist(job);
       await deps.afterCompleted(job).catch(() => undefined);
       await deps.finalizeRegression(String(job._id)).catch(() => undefined);
+      deps.logExecution?.({ job, outcome: 'completed', executionBackend, latencyMs: job.actualDurationMs ?? null });
       deps.recordEvent({ category: 'ai_generation', name: 'generation_completed', route: routeName, userId: job.userId, productId: observedProductId, status: 'completed', durationMs: Math.round(clock.perf() - generationStarted), costUsd: job.estimatedCostUsd, value: job.creditCost, unit: 'credits', metadata: { operation: 'generate', ...meta() } });
     } catch (error) {
       const durationMs = Math.round(clock.perf() - generationStarted);
       if (deps.isOwnershipError(error)) {
+        deps.logExecution?.({ job, outcome: 'ownership_lost', executionBackend, latencyMs: durationMs });
         deps.reportError({ category: 'ai_generation', name: 'generation_ownership_lost', route: routeName, userId: job.userId, productId: observedProductId, durationMs, metadata: { operation: 'transition', ...meta() } }, error);
         return { id: String(job._id), status: currentState, ownershipLost: true };
       }
@@ -339,6 +351,7 @@ export function createGenerationJobProcessor(deps: GenerationWorkerDeps) {
           patch: { progressMessage: `Reintento ${job.attempts + 1} de ${job.maxAttempts}`, nextAttemptAt: retry.nextAttemptAt, lastError: failure.message, errorCategory: failure.category, retryable: true, failureMetadata },
         });
         currentState = 'queued';
+        deps.logExecution?.({ job, outcome: 'retry_scheduled', executionBackend, latencyMs: durationMs, error: failure });
         deps.reportError({ category: 'ai_generation', name: 'generation_retry_scheduled', route: routeName, userId: job.userId, productId: observedProductId, durationMs, costUsd: job.estimatedCostUsd, value: job.creditCost, unit: 'credits', metadata: { operation: 'generate', ...meta(), errorCategory: failure.category, httpStatus: failure.httpStatus } }, error);
         // Single retry loop: the next attempt is one delayed delivery on the
         // SAME backend. The transport saw a 2xx and will not retry on its own.
@@ -369,6 +382,7 @@ export function createGenerationJobProcessor(deps: GenerationWorkerDeps) {
         currentState = 'dead_letter';
         await deps.notifyFinished(job);
         await deps.persist(job);
+        deps.logExecution?.({ job, outcome: 'dead_letter', executionBackend, latencyMs: durationMs, error: failure });
         deps.reportError({ category: 'ai_generation', name: 'generation_dead_lettered', route: routeName, userId: job.userId, productId: observedProductId, durationMs, costUsd: job.estimatedCostUsd, value: job.creditCost, unit: 'credits', metadata: { operation: 'generate', ...meta(), errorCategory: failure.category, retryable: retry.retryable, httpStatus: failure.httpStatus } }, error);
       }
       if (currentState === 'dead_letter') await deps.finalizeRegression(String(job._id)).catch(() => undefined);

@@ -59,6 +59,7 @@ export function workerHarness(options: {
   const providerExecutions: string[] = [];
   const providerCalls: string[] = [];
   const followUps: Array<{ deliveryKey: string; scheduleAt: Date; reason: string }> = [];
+  const logs: Array<Parameters<NonNullable<GenerationWorkerDeps['logExecution']>>[0]> = [];
   const outcomes = [...(options.outcomes ?? [])];
   const job: HarnessJob = {
     _id: '65f0000000000000000000aa', userId: 'user-1', kind: options.kind ?? 'image', provider: options.provider ?? 'google', modelId: 'm', input: { prompt: 'synthetic' },
@@ -143,6 +144,7 @@ export function workerHarness(options: {
         sleep: async ms => { now += ms; },
       },
     } : {}),
+    logExecution: input => { logs.push(input); },
     observeClaim: (_route, run) => run(),
     recordEvent: () => undefined,
     reportError: () => undefined,
@@ -152,7 +154,7 @@ export function workerHarness(options: {
   const process = createGenerationJobProcessor(deps);
   const backend = options.executionBackend ?? 'gcp';
   return {
-    job, ledger, providerExecutions, providerCalls, followUps,
+    job, ledger, providerExecutions, providerCalls, followUps, logs,
     deliver: () => process(undefined, 5, job._id, { executionBackend: backend }),
     advance: control.advance,
     now: () => now,
