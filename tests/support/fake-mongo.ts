@@ -170,12 +170,17 @@ export class FakeCollection {
     return { matchedCount: modifiedCount, modifiedCount };
   }
 
-  async findOneAndUpdate(filter: Doc, update: Doc, options: { new?: boolean; returnDocument?: 'after' | 'before'; sort?: Doc } = {}) {
-    const doc = this.sorted(this.docs.filter((candidate) => matches(candidate, filter)), options.sort ?? null)[0];
-    if (!doc) return null;
-    const before = clone(doc);
-    applyUpdate(doc, update, false);
-    return options.new || options.returnDocument === 'after' ? clone(doc) : before;
+  findOneAndUpdate(filter: Doc, update: Doc, options: { new?: boolean; returnDocument?: 'after' | 'before'; sort?: Doc } = {}) {
+    // Mongoose returns a chainable query; the update runs once, when it is awaited or lean()ed.
+    let result: { value: Doc | null } | null = null;
+    return new Query(() => {
+      if (result) return result.value;
+      const doc = this.sorted(this.docs.filter((candidate) => matches(candidate, filter)), options.sort ?? null)[0];
+      if (!doc) return (result = { value: null }).value;
+      const before = clone(doc);
+      applyUpdate(doc, update, false);
+      return (result = { value: options.new || options.returnDocument === 'after' ? clone(doc) : before }).value;
+    });
   }
 
   async exists(filter: Doc) {

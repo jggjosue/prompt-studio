@@ -4,7 +4,7 @@ import { DATASET_SPLIT_SEED, DATASET_SPLIT_VERSION, DEFAULT_SPLIT_RATIOS } from 
 import { TRAINING_CANONICALIZATION_VERSION } from '@/lib/training-dedupe';
 import { TRAINING_QUALITY_VERSION } from '@/lib/training-quality';
 import { TRAINING_SANITIZER_VERSION } from '@/lib/training-sanitizer';
-import { TRAINING_PIPELINE_VERSION } from '@/lib/training-preprocessing';
+import { TRAINING_PIPELINE_VERSION } from '@/lib/training/versions';
 
 export const DATASET_MANIFEST_SCHEMA_VERSION = 1 as const;
 
